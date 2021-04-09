@@ -1,0 +1,152 @@
+{
+  "version": 1,
+  "cli": {
+    "defaultCollection": "@nrwl/angular",
+    "packageManager": "pnpm"
+  },
+  "defaultProject": "my-app",
+  "schematics": {
+    "@nrwl/angular": {
+      "application": {
+        "linter": "eslint"
+      },
+      "library": {
+        "linter": "eslint"
+      },
+      "storybook-configuration": {
+        "linter": "eslint"
+      }
+    },
+    "@nrwl/angular:application": {
+      "style": "scss",
+      "linter": "eslint",
+      "unitTestRunner": "jest",
+      "e2eTestRunner": "cypress",
+      "strict": true
+    },
+    "@nrwl/angular:library": {
+      "style": "scss",
+      "linter": "eslint",
+      "unitTestRunner": "jest"
+    },
+    "@nrwl/angular:component": {
+      "style": "scss"
+    }
+  },
+  "projects": {
+    "hrm-web": {
+      "projectType": "application",
+      "root": "apps/hrm-web",
+      "sourceRoot": "apps/hrm-web/src",
+      "prefix": "hrm",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/apps/hrm-web",
+            "index": "apps/hrm-web/src/index.html",
+            "main": "apps/hrm-web/src/main.ts",
+            "polyfills": "apps/hrm-web/src/polyfills.ts",
+            "tsConfig": "apps/hrm-web/tsconfig.app.json",
+            "aot": true,
+            "assets": [
+              "apps/hrm-web/src/favicon.ico",
+              "apps/hrm-web/src/assets"
+            ],
+            "styles": ["apps/hrm-web/src/styles.scss"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/hrm-web/src/environments/environment.ts",
+                  "with": "apps/hrm-web/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "hrm-web:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "hrm-web:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "hrm-web:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "apps/hrm-web/src/**/*.ts",
+              "apps/hrm-web/src/**/*.html"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/hrm-web"],
+          "options": {
+            "jestConfig": "apps/hrm-web/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "hrm-web-e2e": {
+      "root": "apps/hrm-web-e2e",
+      "sourceRoot": "apps/hrm-web-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/hrm-web-e2e/cypress.json",
+            "tsConfig": "apps/hrm-web-e2e/tsconfig.e2e.json",
+            "devServerTarget": "hrm-web:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "hrm-web:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/hrm-web-e2e/**/*.{js,ts}"]
+          }
+        }
+      }
+    }
+  }
+}
