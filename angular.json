@@ -4,7 +4,7 @@
     "defaultCollection": "@nrwl/angular",
     "packageManager": "pnpm"
   },
-  "defaultProject": "my-app",
+  "defaultProject": "hrm-web",
   "schematics": {
     "@nrwl/angular": {
       "application": {
@@ -22,15 +22,31 @@
       "linter": "eslint",
       "unitTestRunner": "jest",
       "e2eTestRunner": "cypress",
-      "strict": true
+      "strict": true,
+      "prefix": "hrm"
     },
     "@nrwl/angular:library": {
       "style": "scss",
       "linter": "eslint",
-      "unitTestRunner": "jest"
+      "unitTestRunner": "jest",
+      "publishable": true,
+      "prefix": "hrm",
+      "strict": true
     },
     "@nrwl/angular:component": {
-      "style": "scss"
+      "style": "scss",
+      "displayBlock": true,
+      "changeDetection": "OnPush"
+    },
+    "@schematics/angular:component": {
+      "style": "scss",
+      "displayBlock": true,
+      "changeDetection": "OnPush"
+    },
+    "@ngneat/scam:component": {
+      "style": "scss",
+      "displayBlock": true,
+      "changeDetection": "OnPush"
     }
   },
   "projects": {
@@ -51,9 +67,18 @@
             "aot": true,
             "assets": [
               "apps/hrm-web/src/favicon.ico",
-              "apps/hrm-web/src/assets"
+              "apps/hrm-web/src/assets",
+              {
+                "glob": "**/*",
+                "input": "node_modules/@taiga-ui/icons/src",
+                "output": "assets/taiga-ui/icons"
+              }
             ],
-            "styles": ["apps/hrm-web/src/styles.scss"],
+            "styles": [
+              "node_modules/@taiga-ui/core/styles/taiga-ui-global.less",
+              "node_modules/@taiga-ui/core/styles/taiga-ui-theme.less",
+              "apps/hrm-web/src/styles.scss"
+            ],
             "scripts": []
           },
           "configurations": {
