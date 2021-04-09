@@ -14,7 +14,20 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@nexthrm/core": ["libs/core/src/index.ts"],
+      "@nexthrm/auth": ["libs/auth/src/index.ts"],
+      "@nexthrm/my-time": ["libs/my-time/src/index.ts"],
+      "@nexthrm/help-desk": ["libs/help-desk/src/index.ts"],
+      "@nexthrm/payslip": ["libs/payslip/src/index.ts"],
+      "@nexthrm/report": ["libs/report/src/index.ts"],
+      "@nexthrm/human-resource": ["libs/human-resource/src/index.ts"],
+      "@nexthm/form": ["libs/form/src/index.ts"],
+      "@nexthrm/policy": ["libs/policy/src/index.ts"],
+      "@nexthrm/notifications": ["libs/notifications/src/index.ts"],
+      "@nexthrm/configurations": ["libs/configurations/src/index.ts"],
+      "@nexthrm/ui": ["libs/ui/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }

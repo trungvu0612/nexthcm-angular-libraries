@@ -1,32 +1,31 @@
 {
   "implicitDependencies": {
-    "package.json": {
-      "dependencies": "*",
-      "devDependencies": "*"
-    },
-    ".eslintrc.json": "*"
+    "package.json": { "dependencies": "*", "devDependencies": "*" },
+    ".eslintrc.json": "*",
+    ".stylelintrc.json": "*"
   },
-  "affected": {
-    "defaultBase": "master"
-  },
+  "affected": { "defaultBase": "master" },
   "npmScope": "next-hrm",
   "tasksRunnerOptions": {
     "default": {
       "runner": "@nrwl/workspace/tasks-runners/default",
-      "options": {
-        "cacheableOperations": [
-          "build",
-          "lint",
-          "test",
-          "e2e"
-        ]
-      }
+      "options": { "cacheableOperations": ["build", "lint", "test", "e2e", "stylelint"] }
     }
   },
   "projects": {
-    "hrm-web": {
-      "tags": []
-    },
-    "hrm-web-e2e": { "tags": [], "implicitDependencies": ["hrm-web"] }
+    "hrm-web": { "tags": [] },
+    "hrm-web-e2e": { "tags": [], "implicitDependencies": ["hrm-web"] },
+    "core": { "tags": [] },
+    "auth": { "tags": [] },
+    "my-time": { "tags": [] },
+    "help-desk": { "tags": [] },
+    "payslip": { "tags": [] },
+    "report": { "tags": [] },
+    "human-resource": { "tags": [] },
+    "form": { "tags": [] },
+    "policy": { "tags": [] },
+    "notifications": { "tags": [] },
+    "configurations": { "tags": [] },
+    "ui": { "tags": [] }
   }
 }
