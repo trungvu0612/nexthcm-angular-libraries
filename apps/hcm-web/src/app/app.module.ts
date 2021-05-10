@@ -1,18 +1,22 @@
 import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { AkitaNgDevtools } from '@datorama/akita-ngdevtools';
+import { FormlyModule } from '@ngx-formly/core';
 import { environment } from '../environments/environment';
-import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+
+const routes: Routes = [];
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
     BrowserModule,
-    RouterModule.forRoot([], { initialNavigation: 'enabled' }),
+    RouterModule.forRoot(routes, { initialNavigation: 'enabled' }),
     environment.production ? [] : AkitaNgDevtools.forRoot(),
-    AppRoutingModule,
+    ReactiveFormsModule,
+    FormlyModule.forRoot({ extras: { lazyRender: true, resetFieldOnHide: true } }),
   ],
   providers: [],
   bootstrap: [AppComponent],
