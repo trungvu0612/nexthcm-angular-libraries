@@ -1,10 +1,9 @@
 {
   "version": 1,
   "cli": {
-    "defaultCollection": "@nrwl/angular",
-    "packageManager": "pnpm"
+    "defaultCollection": "@nrwl/angular"
   },
-  "defaultProject": "hrm-web",
+  "defaultProject": "hcm-web",
   "schematics": {
     "@nrwl/angular": {
       "application": {
@@ -23,14 +22,14 @@
       "unitTestRunner": "jest",
       "e2eTestRunner": "cypress",
       "strict": true,
-      "prefix": "hrm"
+      "prefix": "hcm"
     },
     "@nrwl/angular:library": {
       "style": "scss",
       "linter": "eslint",
       "unitTestRunner": "jest",
       "publishable": true,
-      "prefix": "hrm",
+      "prefix": "hcm",
       "strict": true
     },
     "@nrwl/angular:component": {
@@ -50,24 +49,24 @@
     }
   },
   "projects": {
-    "hrm-web": {
+    "hcm-web": {
       "projectType": "application",
-      "root": "apps/hrm-web",
-      "sourceRoot": "apps/hrm-web/src",
-      "prefix": "hrm",
+      "root": "apps/hcm-web",
+      "sourceRoot": "apps/hcm-web/src",
+      "prefix": "hcm",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/apps/hrm-web",
-            "index": "apps/hrm-web/src/index.html",
-            "main": "apps/hrm-web/src/main.ts",
-            "polyfills": "apps/hrm-web/src/polyfills.ts",
-            "tsConfig": "apps/hrm-web/tsconfig.app.json",
+            "outputPath": "dist/apps/hcm-web",
+            "index": "apps/hcm-web/src/index.html",
+            "main": "apps/hcm-web/src/main.ts",
+            "polyfills": "apps/hcm-web/src/polyfills.ts",
+            "tsConfig": "apps/hcm-web/tsconfig.app.json",
             "aot": true,
             "assets": [
-              "apps/hrm-web/src/favicon.ico",
-              "apps/hrm-web/src/assets",
+              "apps/hcm-web/src/favicon.ico",
+              "apps/hcm-web/src/assets",
               {
                 "glob": "**/*",
                 "input": "node_modules/@taiga-ui/icons/src",
@@ -77,7 +76,7 @@
             "styles": [
               "node_modules/@taiga-ui/core/styles/taiga-ui-global.less",
               "node_modules/@taiga-ui/core/styles/taiga-ui-theme.less",
-              "apps/hrm-web/src/styles.scss"
+              "apps/hcm-web/src/styles.scss"
             ],
             "scripts": []
           },
@@ -85,8 +84,8 @@
             "production": {
               "fileReplacements": [
                 {
-                  "replace": "apps/hrm-web/src/environments/environment.ts",
-                  "with": "apps/hrm-web/src/environments/environment.prod.ts"
+                  "replace": "apps/hcm-web/src/environments/environment.ts",
+                  "with": "apps/hcm-web/src/environments/environment.prod.ts"
                 }
               ],
               "optimization": true,
@@ -114,65 +113,65 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "hrm-web:build"
+            "browserTarget": "hcm-web:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "hrm-web:build:production"
+              "browserTarget": "hcm-web:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "hrm-web:build"
+            "browserTarget": "hcm-web:build"
           }
         },
         "lint": {
           "builder": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": ["apps/hrm-web/src/**/*.ts", "apps/hrm-web/src/**/*.html"]
+            "lintFilePatterns": ["apps/hcm-web/src/**/*.ts", "apps/hcm-web/src/**/*.html"]
           }
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/apps/hrm-web"],
+          "outputs": ["coverage/apps/hcm-web"],
           "options": {
-            "jestConfig": "apps/hrm-web/jest.config.js",
+            "jestConfig": "apps/hcm-web/jest.config.js",
             "passWithNoTests": true
           }
         },
         "stylelint": {
           "builder": "nx-stylelint:lint",
           "options": {
-            "config": "apps/hrm-web/.stylelintrc.json",
-            "lintFilePatterns": ["apps/hrm-web/**/*.{css,scss,sass,less}"]
+            "config": "apps/hcm-web/.stylelintrc.json",
+            "lintFilePatterns": ["apps/hcm-web/**/*.{css,scss,sass,less}"]
           }
         }
       }
     },
-    "hrm-web-e2e": {
-      "root": "apps/hrm-web-e2e",
-      "sourceRoot": "apps/hrm-web-e2e/src",
+    "hcm-web-e2e": {
+      "root": "apps/hcm-web-e2e",
+      "sourceRoot": "apps/hcm-web-e2e/src",
       "projectType": "application",
       "architect": {
         "e2e": {
           "builder": "@nrwl/cypress:cypress",
           "options": {
-            "cypressConfig": "apps/hrm-web-e2e/cypress.json",
-            "tsConfig": "apps/hrm-web-e2e/tsconfig.e2e.json",
-            "devServerTarget": "hrm-web:serve"
+            "cypressConfig": "apps/hcm-web-e2e/cypress.json",
+            "tsConfig": "apps/hcm-web-e2e/tsconfig.e2e.json",
+            "devServerTarget": "hcm-web:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "hrm-web:serve:production"
+              "devServerTarget": "hcm-web:serve:production"
             }
           }
         },
         "lint": {
           "builder": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": ["apps/hrm-web-e2e/**/*.{js,ts}"]
+            "lintFilePatterns": ["apps/hcm-web-e2e/**/*.{js,ts}"]
           }
         }
       }
@@ -181,7 +180,7 @@
       "projectType": "library",
       "root": "libs/core",
       "sourceRoot": "libs/core/src",
-      "prefix": "hrm",
+      "prefix": "hcm",
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
@@ -215,7 +214,7 @@
       "projectType": "library",
       "root": "libs/auth",
       "sourceRoot": "libs/auth/src",
-      "prefix": "hrm",
+      "prefix": "hcm",
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
@@ -249,7 +248,7 @@
       "projectType": "library",
       "root": "libs/my-time",
       "sourceRoot": "libs/my-time/src",
-      "prefix": "hrm",
+      "prefix": "hcm",
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
@@ -283,7 +282,7 @@
       "projectType": "library",
       "root": "libs/help-desk",
       "sourceRoot": "libs/help-desk/src",
-      "prefix": "hrm",
+      "prefix": "hcm",
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
@@ -317,7 +316,7 @@
       "projectType": "library",
       "root": "libs/payslip",
       "sourceRoot": "libs/payslip/src",
-      "prefix": "hrm",
+      "prefix": "hcm",
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
@@ -351,7 +350,7 @@
       "projectType": "library",
       "root": "libs/report",
       "sourceRoot": "libs/report/src",
-      "prefix": "hrm",
+      "prefix": "hcm",
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
@@ -385,7 +384,7 @@
       "projectType": "library",
       "root": "libs/human-resource",
       "sourceRoot": "libs/human-resource/src",
-      "prefix": "hrm",
+      "prefix": "hcm",
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
@@ -419,7 +418,7 @@
       "projectType": "library",
       "root": "libs/form",
       "sourceRoot": "libs/form/src",
-      "prefix": "hrm",
+      "prefix": "hcm",
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
@@ -453,7 +452,7 @@
       "projectType": "library",
       "root": "libs/policy",
       "sourceRoot": "libs/policy/src",
-      "prefix": "hrm",
+      "prefix": "hcm",
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
@@ -487,7 +486,7 @@
       "projectType": "library",
       "root": "libs/notifications",
       "sourceRoot": "libs/notifications/src",
-      "prefix": "hrm",
+      "prefix": "hcm",
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
@@ -521,7 +520,7 @@
       "projectType": "library",
       "root": "libs/configurations",
       "sourceRoot": "libs/configurations/src",
-      "prefix": "hrm",
+      "prefix": "hcm",
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
@@ -555,7 +554,7 @@
       "projectType": "library",
       "root": "libs/ui",
       "sourceRoot": "libs/ui/src",
-      "prefix": "hrm",
+      "prefix": "hcm",
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",

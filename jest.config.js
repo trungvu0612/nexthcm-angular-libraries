@@ -1,6 +1,6 @@
 module.exports = {
   projects: [
-    '<rootDir>/apps/hrm-web',
+    '<rootDir>/apps/hcm-web',
     '<rootDir>/libs/core',
     '<rootDir>/libs/auth',
     '<rootDir>/libs/my-time',

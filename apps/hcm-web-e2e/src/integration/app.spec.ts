@@ -1,6 +1,6 @@
 import { getGreeting } from '../support/app.po';
 
-describe('hrm-web', () => {
+describe('hcm-web', () => {
   beforeEach(() => cy.visit('/'));
 
   it('should display welcome message', () => {
@@ -8,6 +8,6 @@ describe('hrm-web', () => {
     cy.login('my-email@something.com', 'myPassword');
 
     // Function helper example, see `../support/app.po.ts` file
-    getGreeting().contains('Welcome to hrm-web!');
+    getGreeting().contains('Welcome to hcm-web!');
   });
 });

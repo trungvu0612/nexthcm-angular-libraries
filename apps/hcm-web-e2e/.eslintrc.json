@@ -5,7 +5,7 @@
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
       "parserOptions": {
-        "project": "apps/hrm-web-e2e/tsconfig.*?.json"
+        "project": "apps/hcm-web-e2e/tsconfig.*?.json"
       },
       "rules": {}
     },

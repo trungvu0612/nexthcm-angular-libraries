@@ -1,5 +1,5 @@
 module.exports = {
-  displayName: 'hrm-web',
+  displayName: 'hcm-web',
   preset: '../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   globals: {
@@ -14,7 +14,7 @@ module.exports = {
       tsconfig: '<rootDir>/tsconfig.spec.json',
     },
   },
-  coverageDirectory: '../../coverage/apps/hrm-web',
+  coverageDirectory: '../../coverage/apps/hcm-web',
   snapshotSerializers: [
     'jest-preset-angular/build/serializers/no-ng-attributes',
     'jest-preset-angular/build/serializers/ng-snapshot',

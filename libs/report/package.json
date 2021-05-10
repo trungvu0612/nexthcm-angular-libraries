@@ -1,5 +1,5 @@
 {
-  "name": "@nexthrm/report",
+  "name": "@nexthcm/report",
   "version": "0.0.1",
   "peerDependencies": {
     "@angular/common": "^11.2.9",
