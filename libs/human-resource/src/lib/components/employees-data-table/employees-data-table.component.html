@@ -1,0 +1,33 @@
+<article>
+  <table [columns]="columns" class="tui-table" tuiTable>
+    <thead>
+      <tr tuiThGroup>
+        <th *tuiHead="'cif'" [sorter]="null" tuiTh>CIF</th>
+        <th *tuiHead="'fullName'" [sorter]="null" tuiTh>Full Name</th>
+        <th *tuiHead="'dateOfBirth'" [sorter]="null" tuiTh>Date of Birth</th>
+        <th *tuiHead="'gender'" [sorter]="null" tuiTh>Gender</th>
+        <th *tuiHead="'maritalStatus'" [sorter]="null" tuiTh>Marital Status</th>
+        <th *tuiHead="'phoneNumber'" [sorter]="null" tuiTh>Phone Number</th>
+        <th *tuiHead="'team'" [sorter]="null" class="center-custom" tuiTh>Team</th>
+        <th *tuiHead="'email'" [sorter]="null" tuiTh>Email</th>
+        <th *tuiHead="'skype'" [sorter]="null" tuiTh>Skype</th>
+        <th *tuiHead="'office'" [sorter]="null" class="center-custom" tuiTh>Office</th>
+      </tr>
+    </thead>
+    <tbody [data]="data" tuiTbody>
+      <tr *tuiRow="let item of data" tuiTr>
+        <td *tuiCell="'cif'" tuiTd>{{ item.cif }}</td>
+        <td *tuiCell="'fullName'" tuiTd>
+          <a [routerLink]="['.', item.cif]" class="custom-link underline">{{ item.fullName }}</a>
+        </td>
+        <td *tuiCell="'dateOfBirth'" tuiTd>{{ item.dateOfBirth }}</td>
+        <td *tuiCell="'maritalStatus'" tuiTd>{{ item.maritalStatus }}</td>
+        <td *tuiCell="'phoneNumber'" tuiTd>{{ item.phoneNumber }}</td>
+        <td *tuiCell="'team'" class="center-custom" tuiTd>{{ item.team }}</td>
+        <td *tuiCell="'email'" tuiTd>{{ item.email }}</td>
+        <td *tuiCell="'skype'" tuiTd>{{ item.skype }}</td>
+        <td *tuiCell="'office'" class="center-custom" tuiTd>{{ item.office }}</td>
+      </tr>
+    </tbody>
+  </table>
+</article>

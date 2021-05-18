@@ -1,4 +1,96 @@
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
-/* You can add global styles to this file, and also import other style files */
+@import "~@ng-select/ng-select/scss/default.theme";
+
+* {
+  font-family: 'Inter', sans-serif;
+}
+
+main.main-page {
+  min-height: calc(100vh - 60px);
+  //
+  margin-top: 60px;
+  margin-left: 255px;
+  //
+  background-color: #fafafb;
+  @apply px-14 py-9;
+
+  > header {
+    @apply flex justify-between items-center font-semibold h-12 mb-8;
+
+    h1 {
+      @apply text-4xl;
+    }
+  }
+}
+
+section.main-section {
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.06);
+  @apply bg-white rounded-xl;
+}
+
+.tui-table {
+  @apply w-full;
+
+  th,
+  td {
+    border-bottom: 1px solid #e4e4e4 !important;
+    font-family: 'Inter', sans-serif;
+    @apply text-sm border-none py-5;
+
+    &:not(td) {
+      color: #888c90;
+      @apply font-semibold;
+    }
+
+    &.center-custom {
+      max-width: 100px !important;
+      @apply text-center;
+    }
+  }
+}
+
+.detail-table {
+  @apply text-sm;
+
+  th,
+  td {
+    @apply border-none text-left py-2;
+
+    &:not(td) {
+      @apply align-baseline pr-10;
+    }
+  }
+}
+
+.tui-tag {
+  font-weight: 600 !important;
+}
+
+.waiting-tag {
+  background: #fa8231 !important;
+}
+
+.approved-tag {
+  background: #20bf6b !important;
+}
+
+.rejected-tag {
+  background: #eb3b5a !important;
+}
+
+.cancelled-tag {
+  background: #888c90 !important;
+}
+
+.blue-button {
+  background-color: #1b65e3;
+  box-shadow: 0 4px 10px rgba(16, 156, 241, 0.24);
+  @apply font-semibold text-base text-white rounded-xl px-7 py-3 h-12;
+}
+
+.custom-link {
+  color: #1b65e3;
+  @apply font-semibold;
+}

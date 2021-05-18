@@ -1,0 +1,41 @@
+<tui-combo-box
+  #comboBox
+  (searchChange)="onSearchChange($event)"
+  *tuiLet="items$ | async as items"
+  [formControl]="$any(formControl)"
+  [formlyAttributes]="field"
+  [stringify]="to.stringify"
+  [style.maxWidth]="to.maxWidth"
+  [tuiHintContent]="to.description || null"
+  [tuiTextfieldExampleText]="to.placeholder || ''"
+  [tuiTextfieldLabelOutside]="to.textfieldLabelOutside"
+  [tuiTextfieldSize]="to.textfieldSize"
+>
+  {{ to.textfieldLabelOutside ? '' : to.label }}
+  <ng-template tuiDataList>
+    <tui-data-list *ngIf="items; else loading">
+      <button *ngFor="let item of items" [disabled]="item.disabled || false" [value]="item" tuiOption>
+        <div class="flex items-center py-1">
+
+          <tui-avatar
+            [avatarUrl]="item[to.imageProp] ? to.imagePath + item[to.imageProp] : null"
+            [text]="item[to.labelProp]"
+            size="s"
+            style="border-radius: 50%"
+          ></tui-avatar>
+
+          <div class="col-span-2">
+            <div class="grid grid-cols-1 gap-0">
+              <span class="name text-sm font-semibold">&nbsp;{{ item[to.labelProp] }}</span>
+              <span class="name text-xs font-medium">&nbsp;{{ item[to.labelProp] }}</span>
+            </div>
+          </div>
+
+        </div>
+      </button>
+    </tui-data-list>
+    <ng-template #loading>
+      <tui-loader class="tui-space_vertical-4"></tui-loader>
+    </ng-template>
+  </ng-template>
+</tui-combo-box>

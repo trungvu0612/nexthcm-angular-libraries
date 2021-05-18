@@ -1,0 +1,18 @@
+<tui-radio-group
+  *tuiLet="to.options | selectOptions | async as items"
+  [attr.data-tui-host-orientation]="to.orientation"
+  [attr.data-tui-host-size]="to.size"
+  class="group"
+>
+  <tui-radio-labeled
+    *ngFor="let item of items; index as index"
+    [formControl]="$any(formControl)"
+    [formlyAttributes]="field"
+    [item]="to.valueProp ? item[to.valueProp] : item"
+    [readOnly]="!!to.readonly"
+    [size]="to.size"
+    class="item"
+  >
+    {{ items[index][to.labelProp] }}
+  </tui-radio-labeled>
+</tui-radio-group>

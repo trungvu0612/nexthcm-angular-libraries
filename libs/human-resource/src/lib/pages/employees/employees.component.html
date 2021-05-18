@@ -1,0 +1,11 @@
+<main class="main-page">
+  <header>
+    <h1>Employees</h1>
+    <tui-input [formControl]="inputSearch" icon="tuiIconSearch" iconAlign="left">
+      Search by CIF, Full Name, Team
+    </tui-input>
+  </header>
+  <section class="main-section px-8 py-10">
+    <hcm-employees-data-table [columns]="columns" [data]="data"></hcm-employees-data-table>
+  </section>
+</main>

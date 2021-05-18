@@ -1,0 +1,45 @@
+<tui-hosted-dropdown [(open)]="open" [canOpen]="!readOnly" [content]="dropdown" class="hosted-dropdown">
+  <div tuiGroup>
+    <tui-primitive-textfield
+      [disabled]="disabled"
+      [editable]="false"
+      [focusable]="focusable"
+      [iconContent]="arrow"
+      [pseudoFocused]="open || null"
+      [readOnly]="readOnly"
+      [tuiHintContent]="null"
+      [tuiTextfieldCustomContent]="countryValueContent"
+      [tuiTextfieldLabelOutside]="true"
+      class="country-select tui-group__auto-width-item"
+      tuiHostedDropdownHost
+    ></tui-primitive-textfield>
+    <tui-input-phone
+      [countryCode]="inputPhoneCountryCode"
+      [focusable]="focusable"
+      [formControl]="phoneControl"
+      [phoneMaskAfterCountryCode]="phoneMaskAfterCountryCode"
+      [pseudoFocused]="pseudoFocused"
+      [pseudoHovered]="pseudoHovered"
+      [pseudoInvalid]="pseudoInvalid"
+      [readOnly]="readOnly"
+      [tuiTextfieldLabelOutside]="true"
+      class="input-phone tui-group__auto-width-item"
+    >
+      {{ inputPhoneCountryCode }}
+    </tui-input-phone>
+  </div>
+</tui-hosted-dropdown>
+
+<ng-template #dropdown>
+  <tui-data-list>
+    <button (click)="onItemClick(item)" *ngFor="let item of countries" tuiOption>
+      <img [src]="getFlagPath(item)" alt="" class="country-item-flag" />
+      <span class="country-item-name">{{ getCountryName(item) }}</span>
+      <span class="country-item-code">{{ isoToCountryCode(item) }}</span>
+    </button>
+  </tui-data-list>
+</ng-template>
+
+<ng-template #countryValueContent>
+  <img [alt]="getCountryName(countryIsoCode)" [src]="countryFlagPath" class="flag" />
+</ng-template>
