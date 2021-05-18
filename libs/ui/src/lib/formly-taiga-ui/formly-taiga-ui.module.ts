@@ -2,19 +2,19 @@ import { NgModule } from '@angular/core';
 import { CheckboxModule } from './modules/checkbox/checkbox.module';
 import { ComboBoxModule } from './modules/combo-box/combo-box.module';
 import { FilesModule } from './modules/files/files.module';
+import { FormFieldModule } from './modules/form-field/form-field.module';
 import { InputsModule } from './modules/inputs/inputs.module';
-import { MultiSelectModule } from './modules/multi-select/multi-select.module';
 import { RadioModule } from './modules/radio/radio.module';
-import { SelectModule } from './modules/select/select.module';
+import { SelectsModule } from './modules/selects/selects.module';
 import { ToggleModule } from './modules/toggle/toggle.module';
 
 @NgModule({
   imports: [
+    FormFieldModule,
     InputsModule,
     CheckboxModule,
-    SelectModule,
+    SelectsModule,
     RadioModule,
-    MultiSelectModule,
     ToggleModule,
     FilesModule,
     ComboBoxModule,

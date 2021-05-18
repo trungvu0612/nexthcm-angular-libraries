@@ -7,7 +7,8 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MenuLeftComponent implements OnInit {
-  readonly mytimes = ['Leave History', 'Request Update Time', 'Request Working Outside', 'Working Hour'];
+  readonly myTimes = ['Leave History', 'Request Update Time', 'Request Working Outside', 'Working Hour'];
+
   constructor() { }
 
   ngOnInit(): void {

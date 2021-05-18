@@ -1,10 +1,12 @@
-@import 'mixins';
-
 :host {
   display: block;
-  @include input-background;
 
   ::ng-deep {
+    .content {
+      background-color: #f7f7f7;
+      @apply rounded-xl;
+    }
+
     .tui-zero-scrollbar {
       [tuiTab] {
         outline: none !important;

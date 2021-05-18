@@ -25,7 +25,10 @@
     "update": "nx migrate latest",
     "workspace-generator": "nx workspace-generator",
     "dep-graph": "nx dep-graph",
-    "help": "nx help"
+    "help": "nx help",
+    "publish:core": "cd dist/libs/core && yarn publish --non-interactive --ignore-scripts",
+    "publish:ui": "cd dist/libs/ui && yarn publish --non-interactive --ignore-scripts",
+    "publish:my-time": "cd dist/libs/my-time && yarn publish --non-interactive --ignore-scripts"
   },
   "private": true,
   "dependencies": {

@@ -9,7 +9,7 @@ import {
   TuiHostedDropdownModule,
   TuiLoaderModule,
   TuiSvgModule,
-  TuiTextfieldControllerModule,
+  TuiTextfieldControllerModule
 } from '@taiga-ui/core';
 import {
   TuiFilterModule,
@@ -17,9 +17,8 @@ import {
   TuiInputModule,
   TuiInputMonthModule,
   TuiTabsModule,
-  TuiTagModule,
+  TuiTagModule
 } from '@taiga-ui/kit';
-import { SelectSearchModule } from '../../../ui/src/lib/formly-taiga-ui/modules/select-search/select-search.module';
 import { LeaveDetailDialogComponent } from './components/leave-detail-dialog/leave-detail-dialog.component';
 import { RequestDataTableComponent } from './components/request-data-table/request-data-table.component';
 import { RequestDialogComponent } from './components/request-dialog/request-dialog.component';
@@ -61,8 +60,7 @@ import { MyRequestComponent } from './pages/my-request/my-request.component';
     TuiSvgModule,
     FormlyModule,
     FormlyTaigaUiModule,
-    SelectSearchModule,
-    TuiFilterModule
-  ]
+    TuiFilterModule,
+  ],
 })
 export class MyTimeModule {}
