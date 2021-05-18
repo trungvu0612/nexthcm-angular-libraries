@@ -54,3 +54,14 @@
     <button (click)="viewDetail()" class="blue-button">View Detail</button>
   </footer>
 </ng-template>
+
+<ng-template #template="polymorpheus" let-observer polymorpheus>
+  <h1 class="text-2xl font-semibold mb-2">Move Seats</h1>
+  <tui-input formControlName="seatNumber">
+    Enter number seat
+    <tui-data-list *tuiDataList>
+      <button [value]="" tuiOption></button>
+    </tui-data-list>
+  </tui-input>
+  <button (click)="observer.complete()" [disabled]="!seatNumber.value" class="blue-button mt-5 mx-auto">Submit</button>
+</ng-template>

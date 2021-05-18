@@ -6,6 +6,7 @@ import { AddSeatDialogComponent } from '../../components/add-seat-dialog/add-sea
 import { ViewDetailDialogComponent } from '../../components/view-detail-dialog/view-detail-dialog.component';
 import { CdkDragEnd, CdkDragStart } from '@angular/cdk/drag-drop';
 import { last, takeUntil } from 'rxjs/operators';
+import { SeatInfo } from '../../models/models';
 
 @Component({
   selector: 'hcm-seat-map',
@@ -16,47 +17,47 @@ import { last, takeUntil } from 'rxjs/operators';
 export class SeatMapComponent implements OnInit {
   dragging = false;
   inputSearch = new FormControl();
-  data: any[][] = [
+  data: SeatInfo[][] = [
     [
       {
         id: 1,
         name: 'Huy Pham',
-        role: 'IT',
+        team: 'IT',
         isBirthday: false,
         status: 'check-in',
       },
       {
         id: 2,
         name: 'Huy Pham',
-        role: 'IT',
+        team: 'IT',
         isBirthday: false,
         status: 'not-check-in-out',
       },
       {
         id: 3,
         name: 'Huy Pham',
-        role: 'IT',
+        team: 'IT',
         isBirthday: false,
         status: 'check-in-late',
       },
       {
         id: 4,
         name: 'Huy Pham',
-        role: 'IT',
+        team: 'IT',
         isBirthday: false,
         status: 'working-outside',
       },
       {
         id: 5,
         name: 'Huy Pham',
-        role: 'IT',
+        team: 'IT',
         isBirthday: true,
         status: 'leave',
       },
       {
         id: 6,
         name: 'Huy Pham',
-        role: 'IT',
+        team: 'IT',
         isBirthday: true,
         status: 'offline',
       },
@@ -72,35 +73,35 @@ export class SeatMapComponent implements OnInit {
       {
         id: 8,
         name: 'Huy Pham',
-        role: 'IT',
+        team: 'IT',
         isBirthday: true,
         status: 'check-in',
       },
       {
         id: 9,
         name: 'Huy Pham',
-        role: 'IT',
+        team: 'IT',
         isBirthday: true,
         status: 'check-in',
       },
       {
         id: 10,
         name: 'Huy Pham',
-        role: 'IT',
+        team: 'IT',
         isBirthday: true,
         status: 'check-in',
       },
       {
         id: 11,
         name: 'Huy Pham',
-        role: 'IT',
+        team: 'IT',
         isBirthday: true,
         status: 'check-in',
       },
       {
         id: 12,
         name: 'Huy Pham',
-        role: 'IT',
+        team: 'IT',
         isBirthday: true,
         status: 'check-in',
       },
@@ -136,21 +137,21 @@ export class SeatMapComponent implements OnInit {
         id: 1,
 
         name: 'Huy Pham',
-        role: 'IT',
+        team: 'IT',
         isBirthday: true,
         status: 'check-in',
       },
       {
         id: 2,
         name: 'Huy Pham',
-        role: 'IT',
+        team: 'IT',
         isBirthday: true,
         status: 'not-check',
       },
       {
         id: 3,
         name: 'Huy Pham',
-        role: 'IT',
+        team: 'IT',
         isBirthday: true,
         status: 'check-late',
       },
@@ -160,21 +161,21 @@ export class SeatMapComponent implements OnInit {
       {
         id: 4,
         name: 'Huy Pham',
-        role: 'IT',
+        team: 'IT',
         isBirthday: true,
         status: 'leave',
       },
       {
         id: 5,
         name: 'Huy Pham',
-        role: 'IT',
+        team: 'IT',
         isBirthday: true,
         status: 'offline',
       },
       {
         id: 6,
         name: 'Huy Pham',
-        role: 'IT',
+        team: 'IT',
         isBirthday: true,
         status: 'offline',
       },
@@ -187,14 +188,14 @@ export class SeatMapComponent implements OnInit {
       {
         id: 8,
         name: 'Huy Pham',
-        role: 'IT',
+        team: 'IT',
         isBirthday: true,
         status: 'check-in',
       },
       {
         id: 9,
         name: 'Huy Pham',
-        role: 'IT',
+        team: 'IT',
         isBirthday: true,
         status: 'check-in',
       },
@@ -204,21 +205,21 @@ export class SeatMapComponent implements OnInit {
       {
         id: 10,
         name: 'Huy Pham',
-        role: 'IT',
+        team: 'IT',
         isBirthday: true,
         status: 'check-in',
       },
       {
         id: 11,
         name: 'Huy Pham',
-        role: 'IT',
+        team: 'IT',
         isBirthday: true,
         status: 'check-in',
       },
       {
         id: 12,
         name: 'Huy Pham',
-        role: 'IT',
+        team: 'IT',
         isBirthday: true,
         status: 'check-in',
       },
@@ -262,21 +263,21 @@ export class SeatMapComponent implements OnInit {
       {
         id: 5,
         name: 'Huy Pham',
-        role: 'IT',
+        team: 'IT',
         isBirthday: true,
         status: 'leave',
       },
       {
         id: 6,
         name: 'Huy Pham',
-        role: 'IT',
+        team: 'IT',
         isBirthday: true,
         status: 'offline',
       },
       {
         id: 8,
         name: 'Huy Pham',
-        role: 'IT',
+        team: 'IT',
         isBirthday: true,
         status: 'check-in',
       },
@@ -287,14 +288,25 @@ export class SeatMapComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  handleClick(item?: any): void {
+  handleClick(item?: SeatInfo): void {
     if (!this.dragging) {
       if (item) {
         this.dialogService
           .open<boolean>(new PolymorpheusComponent(ViewDetailDialogComponent, this.injector), {
             size: 's',
             closeable: false,
-            data: item,
+            data: {
+              item: item,
+              seats: this.data.map((arr, y) =>
+                arr
+                  .filter((item) => item.status === 'none')
+                  .map((item, x) => ({
+                    id: item.id,
+                    x,
+                    y,
+                  }))
+              ),
+            },
           })
           .subscribe();
       } else {
@@ -329,10 +341,7 @@ export class SeatMapComponent implements OnInit {
         const xIndex = x + signX * Math.floor(distanceX / unit);
         const yIndex = y + signY * Math.floor(distanceY / unit);
         if (this.data[yIndex][xIndex].status === 'none') {
-          const { id: dragId, ...transferData } = this.data[y][x];
-          const { id: dropId, ...emptyData } = this.data[yIndex][xIndex];
-          this.data[y][x] = { id: dragId, ...emptyData };
-          this.data[yIndex][xIndex] = { id: dropId, ...transferData };
+          this.moveSeat(x, y, xIndex, yIndex);
         }
       }
     });
@@ -340,5 +349,12 @@ export class SeatMapComponent implements OnInit {
 
   handleDragEnded(event: CdkDragEnd): void {
     event.source._dragRef.reset();
+  }
+
+  moveSeat(x1: number, y1: number, x2: number, y2: number): void {
+    const { id: id1, ...data1 } = this.data[y1][x1];
+    const { id: id2, ...data2 } = this.data[y2][x2];
+    this.data[y1][x1] = { id: id1, ...data2 };
+    this.data[y2][x2] = { id: id2, ...data1 };
   }
 }

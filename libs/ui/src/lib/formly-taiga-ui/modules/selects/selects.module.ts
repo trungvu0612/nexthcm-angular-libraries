@@ -9,7 +9,7 @@ import {
   TuiHintControllerModule,
   TuiLoaderModule,
   TuiTextfieldControllerModule,
-  TuiTooltipModule
+  TuiTooltipModule,
 } from '@taiga-ui/core';
 import { TuiAvatarModule, TuiMultiSelectModule, TuiSelectModule } from '@taiga-ui/kit';
 import { PolymorpheusModule } from '@tinkoff/ng-polymorpheus';

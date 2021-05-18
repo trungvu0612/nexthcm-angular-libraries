@@ -1,7 +1,9 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
-import { TuiDialogContext } from '@taiga-ui/core';
+import { TuiDialogContext, TuiDialogService } from '@taiga-ui/core';
 import { Router } from '@angular/router';
+import { FormControl } from '@ngneat/reactive-forms';
+import { EmployeeInfo } from '@nexthcm/core';
 
 @Component({
   selector: 'hcm-view-detail-dialog',
@@ -11,7 +13,9 @@ import { Router } from '@angular/router';
 })
 export class ViewDetailDialogComponent implements OnInit {
   isAdmin = true;
-  detail = {
+  availableSeats: string[] = [];
+  seatNumber = new FormControl<string>();
+  detail: EmployeeInfo = {
     status: 'Leave',
     cif: '1203001',
     fullName: 'BUI QUI THAN',
@@ -34,26 +38,38 @@ export class ViewDetailDialogComponent implements OnInit {
   };
   status = this.detail.status.toLowerCase().replace('/', '-').split(' ').join('-');
 
-  constructor(@Inject(POLYMORPHEUS_CONTEXT) private context: TuiDialogContext, private router: Router) {}
+  constructor(
+    private dialogService: TuiDialogService,
+    @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<any, any>,
+    private router: Router
+  ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    if (this.context.data) {
+      this.availableSeats = this.context.data.seats.flat();
+    }
+  }
 
   close(): void {
-    this.context.completeWith();
+    this.context.completeWith('close');
   }
 
   delete(): void {
-    this.context.completeWith();
+    this.context.completeWith('delete');
     console.log('delete');
   }
 
   move(): void {
-    this.context.completeWith();
+    // this.dialogService
+    //   .open<boolean>()
+    this.context.completeWith('move');
     console.log('move');
   }
 
   viewDetail(): void {
-    this.context.completeWith();
+    this.context.completeWith('view');
     this.router.navigate(['/human-resource/employees', this.detail.cif]);
   }
+
+  submitSeatNumber(): void {}
 }

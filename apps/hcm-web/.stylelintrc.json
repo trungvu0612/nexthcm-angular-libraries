@@ -1,8 +1,5 @@
 {
   "extends": [
     "../../.stylelintrc.json"
-  ],
-  "rules": {
-    "no-descending-specificity": null
-  }
+  ]
 }

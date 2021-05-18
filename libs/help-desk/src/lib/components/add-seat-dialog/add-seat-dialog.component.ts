@@ -3,10 +3,13 @@ import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { FormGroup } from '@angular/forms';
+import { Observable, of } from 'rxjs';
 
 interface Person {
   cif: string;
   number: string;
+  fullName: string;
+  image: string;
 }
 
 @Component({
@@ -16,6 +19,28 @@ interface Person {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AddSeatDialogComponent implements OnInit {
+  data$: Observable<Partial<Person>[]> = of([
+    {
+      cif: '01240083',
+      fullName: 'Le Tuan Vu',
+      image: 'https://pbs.twimg.com/profile_images/1369877387949699074/tcvNQSr1.jpg',
+    },
+    {
+      cif: '01240083',
+      fullName: 'Le Tuan Vu',
+      image: 'https://pbs.twimg.com/profile_images/1369877387949699074/tcvNQSr1.jpg',
+    },
+    {
+      cif: '01240083',
+      fullName: 'Le Tuan Vu',
+      image: 'https://pbs.twimg.com/profile_images/1369877387949699074/tcvNQSr1.jpg',
+    },
+    {
+      cif: '01240083',
+      fullName: 'Le Tuan Vu',
+      image: 'https://pbs.twimg.com/profile_images/1369877387949699074/tcvNQSr1.jpg',
+    },
+  ]);
   form = new FormGroup({});
   model: { seats: Partial<Person>[] } = {
     seats: [{}],
@@ -31,10 +56,12 @@ export class AddSeatDialogComponent implements OnInit {
             type: 'input-autocomplete',
             templateOptions: {
               icon: 'assets/icons/search.svg',
-              title: 'Search by CIF, Full Name',
+              label: 'Search by CIF, Full Name',
+              labelProp: 'fullName',
+              idProp: 'cif',
               textfieldCleaner: true,
               textfieldLabelOutside: true,
-              labelProp: 'fullName',
+              options: this.data$,
             },
           },
           {

@@ -1,12 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FieldType } from '@ngx-formly/core';
-import { Observable, of } from 'rxjs';
-
-interface Person {
-  cif: string;
-  fullName: string;
-  image: string;
-}
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'hcm-input-autocomplete',
@@ -15,32 +9,10 @@ interface Person {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InputAutocompleteComponent extends FieldType {
-  data$: Observable<Person[]> = of([
-    {
-      cif: '01240083',
-      fullName: 'Le Tuan Vu',
-      image: 'https://pbs.twimg.com/profile_images/1369877387949699074/tcvNQSr1.jpg',
-    },
-    {
-      cif: '01240083',
-      fullName: 'Le Tuan Vu',
-      image: 'https://pbs.twimg.com/profile_images/1369877387949699074/tcvNQSr1.jpg',
-    },
-    {
-      cif: '01240083',
-      fullName: 'Le Tuan Vu',
-      image: 'https://pbs.twimg.com/profile_images/1369877387949699074/tcvNQSr1.jpg',
-    },
-    {
-      cif: '01240083',
-      fullName: 'Le Tuan Vu',
-      image: 'https://pbs.twimg.com/profile_images/1369877387949699074/tcvNQSr1.jpg',
-    },
-  ]);
-
+  items$: Observable<any[]> = this.to.options as Observable<any[]>;
   defaultOptions = {
     templateOptions: {
-      stringify: (item: any) => item.fullName,
+      stringify: (item: any) => item[this.to.labelProp],
     },
   };
 }
