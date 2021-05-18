@@ -8,9 +8,8 @@ describe('MenuLeftComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ MenuLeftComponent ]
-    })
-    .compileComponents();
+      declarations: [MenuLeftComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

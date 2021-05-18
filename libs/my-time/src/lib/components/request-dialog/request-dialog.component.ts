@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { MyRequestData } from '../../models/my-time';
@@ -9,18 +9,16 @@ import { MyRequestData } from '../../models/my-time';
   styleUrls: ['./request-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class RequestDialogComponent implements OnInit {
+export class RequestDialogComponent {
   item: MyRequestData | undefined = this.context.data;
 
-  constructor(@Inject(POLYMORPHEUS_CONTEXT) public context: TuiDialogContext<boolean>) {}
+  constructor(@Inject(POLYMORPHEUS_CONTEXT) private context: TuiDialogContext<boolean>) {}
 
-  ngOnInit(): void {}
-
-  cancel() {
+  cancel(): void {
     this.context.completeWith(true);
   }
 
-  close() {
+  close(): void {
     this.context.completeWith(false);
   }
 }

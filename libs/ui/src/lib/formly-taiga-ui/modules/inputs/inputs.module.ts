@@ -3,15 +3,16 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormlyModule } from '@ngx-formly/core';
 import { TuiCurrencyPipeModule } from '@taiga-ui/addon-commerce';
-import { TuiEditorModule } from '@taiga-ui/addon-editor';
 import {
+  TuiDataListModule,
   TuiErrorModule,
   TuiHintControllerModule,
   TuiLabelModule,
   TuiSvgModule,
-  TuiTextfieldControllerModule
+  TuiTextfieldControllerModule,
 } from '@taiga-ui/core';
 import {
+  TuiAvatarModule,
   TuiFieldErrorModule,
   TuiInputCountModule,
   TuiInputDateModule,
@@ -25,7 +26,7 @@ import {
   TuiInputPhoneModule,
   TuiInputTagModule,
   TuiInputTimeModule,
-  TuiTextAreaModule
+  TuiTextAreaModule,
 } from '@taiga-ui/kit';
 import { InputPhoneInternationalModule } from '../../shared/input-phone-international/input-phone-international.module';
 import { FormFieldModule } from '../form-field/form-field.module';
@@ -44,6 +45,10 @@ import { InputTagComponent } from './input-tag/input-tag.component';
 import { InputTimeComponent } from './input-time/input-time.component';
 import { InputComponent } from './input/input.component';
 import { TextAreaComponent } from './text-area/text-area.component';
+import { TuiEditorModule } from '@taiga-ui/addon-editor';
+import { InputAutocompleteComponent } from './input-autocomplete/input-autocomplete.component';
+import { TuiLetModule } from '@taiga-ui/cdk';
+import { CustomTuiComboBoxModule } from './custom-combo-box/custom-combo-box.module';
 
 @NgModule({
   declarations: [
@@ -62,6 +67,7 @@ import { TextAreaComponent } from './text-area/text-area.component';
     InputMonthComponent,
     InputMonthRangeComponent,
     EditorComponent,
+    InputAutocompleteComponent,
   ],
   imports: [
     CommonModule,
@@ -71,6 +77,7 @@ import { TextAreaComponent } from './text-area/text-area.component';
     FormlyModule.forChild({
       types: [
         { name: 'input', component: InputComponent, wrappers: ['form-field'] },
+        { name: 'input-autocomplete', component: InputAutocompleteComponent, wrappers: ['form-field'] },
         { name: 'input-date', component: InputDateComponent, wrappers: ['form-field'] },
         { name: 'input-month', component: InputMonthComponent, wrappers: ['form-field'] },
         { name: 'input-count', component: InputCountComponent, wrappers: ['form-field'] },
@@ -108,6 +115,10 @@ import { TextAreaComponent } from './text-area/text-area.component';
     TuiInputMonthRangeModule,
     TuiEditorModule,
     InputPhoneInternationalModule,
+    TuiDataListModule,
+    TuiLetModule,
+    TuiAvatarModule,
+    CustomTuiComboBoxModule,
   ],
 })
 export class InputsModule {}

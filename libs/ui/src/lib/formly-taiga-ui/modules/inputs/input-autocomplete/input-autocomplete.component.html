@@ -1,0 +1,26 @@
+<custom-tui-combo-box
+  *tuiLet="data$ | async as items"
+  [formControl]="$any(formControl)"
+  [icon]="to.icon || null"
+  [stringify]="to.stringify"
+  [tuiTextfieldCleaner]="to.textfieldCleaner"
+  [tuiTextfieldLabelOutside]="true"
+  [valueContent]="content"
+>
+  {{ to.title }}
+  <ng-template #content let-item>
+    <tui-avatar [avatarUrl]="item.image" class="avatar" size="m"></tui-avatar>
+    {{ item.fullName }}
+  </ng-template>
+  <ng-template tuiDataList>
+    <tui-data-list *ngIf="items?.length">
+      <button *ngFor="let item of items" [value]="item" tuiOption>
+        <tui-avatar [avatarUrl]="item.image || null" class="avatar" size="m"></tui-avatar>
+        <div>
+          <p class="text-base">{{ item.fullName }}</p>
+          <p class="text-xs font-normal">{{ item.cif }}</p>
+        </div>
+      </button>
+    </tui-data-list>
+  </ng-template>
+</custom-tui-combo-box>

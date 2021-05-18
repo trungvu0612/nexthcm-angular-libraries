@@ -7,7 +7,7 @@ import {
   TuiHintControllerModule,
   TuiHostedDropdownModule,
   TuiPrimitiveTextfieldModule,
-  TuiTextfieldControllerModule
+  TuiTextfieldControllerModule,
 } from '@taiga-ui/core';
 import { TuiInputPhoneModule } from '@taiga-ui/kit';
 import { InputPhoneInternationalComponent } from './input-phone-international.component';

@@ -1,6 +1,7 @@
 <ng-template #input>
   <tui-input
     [formControl]="$any(formControl)"
+    [formlyAttributes]="field"
     [icon]="to.icon || null"
     [readOnly]="!!to.readonly"
     [style.maxWidth]="to.maxWidth"
@@ -10,7 +11,6 @@
     [tuiTextfieldExampleText]="to.placeholder || ''"
     [tuiTextfieldLabelOutside]="to.textfieldLabelOutside"
     [tuiTextfieldSize]="to.textfieldSize"
-    [formlyAttributes]="field"
   >
     {{ to.textfieldLabelOutside ? to.placeholder : to.label }}
     <span *ngIf="to.required && !to.textfieldLabelOutside" class="tui-required"></span>

@@ -1,0 +1,28 @@
+@mixin value-field {
+  .avatar {
+    @apply p-1 mr-2;
+
+    img {
+      @apply rounded-full;
+    }
+  }
+}
+
+::ng-deep {
+  .content {
+    button[data-size='m'] {
+      @apply justify-start items-center;
+
+      @include value-field;
+
+      p:last-child {
+        color: #888c90;
+      }
+    }
+  }
+
+  .textfield .value {
+    @include value-field;
+    @apply font-semibold;
+  }
+}

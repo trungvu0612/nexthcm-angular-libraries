@@ -1,5 +1,8 @@
+@import 'mixins';
+
 :host {
   display: block;
+  @include input-background;
 
   ::ng-deep {
     .tui-zero-scrollbar {
@@ -14,11 +17,6 @@
           color: #1b65e3;
         }
       }
-    }
-
-    .content {
-      background-color: #f7f7f7;
-      @apply rounded-xl;
     }
   }
 }

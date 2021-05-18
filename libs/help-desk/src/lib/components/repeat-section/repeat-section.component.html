@@ -1,0 +1,9 @@
+<div *ngFor="let field of field.fieldGroup; let i = index" class="relative">
+  <formly-field [field]="field" class="w-full"></formly-field>
+  <img (click)="remove(i)" *ngIf="i" alt="" class="absolute bottom-0 right-0 cursor-pointer" src="assets/icons/x.svg" />
+</div>
+<div>
+  <button (click)="add()" class="add-button">
+    <img alt="" src="assets/icons/plus.svg" />
+  </button>
+</div>

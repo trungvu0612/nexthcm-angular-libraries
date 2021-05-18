@@ -9,7 +9,7 @@ import {
   TuiHostedDropdownModule,
   TuiLoaderModule,
   TuiSvgModule,
-  TuiTextfieldControllerModule
+  TuiTextfieldControllerModule,
 } from '@taiga-ui/core';
 import {
   TuiFilterModule,
@@ -17,7 +17,7 @@ import {
   TuiInputModule,
   TuiInputMonthModule,
   TuiTabsModule,
-  TuiTagModule
+  TuiTagModule,
 } from '@taiga-ui/kit';
 import { SelectSearchModule } from '../../../ui/src/lib/formly-taiga-ui/modules/select-search/select-search.module';
 import { LeaveDetailDialogComponent } from './components/leave-detail-dialog/leave-detail-dialog.component';

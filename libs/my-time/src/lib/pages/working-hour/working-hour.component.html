@@ -87,12 +87,12 @@
 
       <div>
         <div class="col-span-2 filter-search">
-          <button [class.actived]="!workingMeStatus" (click)="workingStatus('all')"
+          <button (click)="workingStatus('all')" [class.actived]="!workingMeStatus"
             class="focus:outline-none hover:bg-blue-500 hover:text-white hover:bg-blue-500 text-base rounded-lg pl-5 pr-5 pt-1 pb-1 inline mr-4"
           >
             Everyone
           </button>
-          <button [class.actived]="workingMeStatus" (click)="workingStatus('me')"
+          <button (click)="workingStatus('me')" [class.actived]="workingMeStatus"
             class="focus:outline-none hover:bg-blue-500 hover:text-white hover:bg-blue-500 text-base rounded-lg pl-5 pr-5 pt-1 pb-1 inline"
           >
             Only me
@@ -103,9 +103,9 @@
 
     <div class="my-3">
       <input
-        type="text"
-        placeholder="Search by CIF, Full Name, Office"
         class="searchbar px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white rounded text-sm border outline-none focus:outline-none focus:ring w-full"
+        placeholder="Search by CIF, Full Name, Office"
+        type="text"
       />
     </div>
 
@@ -116,26 +116,26 @@
             <table class="min-w-full divide-y divide-gray-200">
               <thead class="bg-gray-50">
               <tr>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider">CIF</th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider">
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider" scope="col">CIF</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider" scope="col">
                   Full Name
                 </th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider">
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider" scope="col">
                   Office
                 </th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider">Date</th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider">Day</th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider">
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider" scope="col">Date</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider" scope="col">Day</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider" scope="col">
                   Time In
                 </th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider">
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider" scope="col">
                   Time Out
                 </th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider">
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider" scope="col">
                   Total Working
                   <Time></Time>
                 </th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider">
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider" scope="col">
                   Working Day
                 </th>
               </tr>
