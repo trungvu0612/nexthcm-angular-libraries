@@ -1,32 +1,70 @@
 {
   "implicitDependencies": {
-    "package.json": { "dependencies": "*", "devDependencies": "*" },
+    "package.json": {
+      "dependencies": "*",
+      "devDependencies": "*"
+    },
     ".eslintrc.json": "*",
     ".stylelintrc.json": "*"
   },
-  "affected": { "defaultBase": "master" },
+  "affected": {
+    "defaultBase": "master"
+  },
   "npmScope": "next-hcm",
   "tasksRunnerOptions": {
     "default": {
       "runner": "@nrwl/workspace/tasks-runners/default",
-      "options": { "cacheableOperations": ["build", "lint", "test", "e2e", "stylelint"] }
+      "options": {
+        "cacheableOperations": ["build", "lint", "test", "e2e", "stylelint"]
+      }
     }
   },
   "projects": {
-    "hcm-web": { "tags": [] },
-    "hcm-web-e2e": { "tags": [], "implicitDependencies": ["hcm-web"] },
-    "core": { "tags": [] },
-    "auth": { "tags": [] },
-    "my-time": { "tags": [] },
-    "help-desk": { "tags": [] },
-    "payslip": { "tags": [] },
-    "report": { "tags": [] },
-    "human-resource": { "tags": [] },
-    "form": { "tags": [] },
-    "policy": { "tags": [] },
-    "notifications": { "tags": [] },
-    "configurations": { "tags": [] },
-    "ui": { "tags": [] },
-    "home": { "tags": [] }
+    "hcm-web": {
+      "tags": []
+    },
+    "hcm-web-e2e": {
+      "tags": [],
+      "implicitDependencies": ["hcm-web"]
+    },
+    "core": {
+      "tags": []
+    },
+    "auth": {
+      "tags": []
+    },
+    "my-time": {
+      "tags": []
+    },
+    "help-desk": {
+      "tags": []
+    },
+    "payslip": {
+      "tags": []
+    },
+    "report": {
+      "tags": []
+    },
+    "human-resource": {
+      "tags": []
+    },
+    "form": {
+      "tags": []
+    },
+    "policy": {
+      "tags": []
+    },
+    "notifications": {
+      "tags": []
+    },
+    "configurations": {
+      "tags": []
+    },
+    "ui": {
+      "tags": []
+    },
+    "home": {
+      "tags": []
+    }
   }
 }

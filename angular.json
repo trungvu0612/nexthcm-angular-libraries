@@ -1,7 +1,8 @@
 {
   "version": 1,
   "cli": {
-    "defaultCollection": "@nrwl/angular"
+    "defaultCollection": "@nrwl/angular",
+    "packageManager": "yarn"
   },
   "defaultProject": "hcm-web",
   "schematics": {
@@ -63,7 +64,6 @@
             "main": "apps/hcm-web/src/main.ts",
             "polyfills": "apps/hcm-web/src/polyfills.ts",
             "tsConfig": "apps/hcm-web/tsconfig.app.json",
-            "aot": true,
             "assets": [
               "apps/hcm-web/src/favicon.ico",
               "apps/hcm-web/src/assets",
@@ -82,12 +82,19 @@
               "node_modules/@taiga-ui/core/styles/taiga-ui-global.less",
               "node_modules/@taiga-ui/core/styles/taiga-ui-theme.less",
               "apps/hcm-web/src/styles.scss"
-            ],"stylePreprocessorOptions": {
+            ],
+            "stylePreprocessorOptions": {
               "includePaths": [
                 "libs/core/assets/styles"
               ]
             },
-            "scripts": []
+            "scripts": [],
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
           },
           "configurations": {
             "production": {
@@ -683,12 +690,17 @@
         "lint": {
           "builder": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": ["libs/home/src/**/*.ts", "libs/home/src/**/*.html"]
+            "lintFilePatterns": [
+              "libs/home/src/**/*.ts",
+              "libs/home/src/**/*.html"
+            ]
           }
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/home"],
+          "outputs": [
+            "coverage/libs/home"
+          ],
           "options": {
             "jestConfig": "libs/home/jest.config.js",
             "passWithNoTests": true
