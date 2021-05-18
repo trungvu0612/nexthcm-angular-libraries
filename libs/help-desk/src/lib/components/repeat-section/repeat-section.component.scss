@@ -1,11 +1,15 @@
-@import 'mixins';
-
 :host {
   display: block;
 
   > div {
-    @include input-background;
     @apply py-7;
+
+    ::ng-deep {
+      .content {
+        background-color: #f7f7f7;
+        @apply rounded-xl;
+      }
+    }
 
     &:not(:last-child) {
       padding-top: 8px;

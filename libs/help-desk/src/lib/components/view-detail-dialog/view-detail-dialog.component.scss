@@ -1,5 +1,3 @@
-@import 'mixins';
-
 :host {
   display: block;
 
@@ -26,6 +24,8 @@
   }
 
   .blue-button.delete {
-    @include color-button(#eb3b5a);
+    border: 2px solid #eb3b5a;
+    color: #eb3b5a;
+    @apply bg-white;
   }
 }
