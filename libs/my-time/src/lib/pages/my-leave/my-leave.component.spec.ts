@@ -8,9 +8,8 @@ describe('MyLeaveComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ MyLeaveComponent ]
-    })
-    .compileComponents();
+      declarations: [MyLeaveComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

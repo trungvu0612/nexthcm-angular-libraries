@@ -8,9 +8,8 @@ describe('SubmitLeaveRequestDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SubmitLeaveRequestDialogComponent ]
-    })
-    .compileComponents();
+      declarations: [SubmitLeaveRequestDialogComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

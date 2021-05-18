@@ -1,0 +1,31 @@
+@import 'mixins';
+
+:host {
+  display: block;
+
+  section {
+    @apply p-4;
+
+    &:first-child {
+      border-bottom: 1px solid #e5e5e5;
+      @apply font-semibold;
+
+      img {
+        @apply rounded-full w-40 h-40 mx-auto mb-7;
+      }
+
+      h1 {
+        @apply text-2xl mb-3;
+      }
+
+      p {
+        color: #888c90;
+        @apply text-lg mb-3;
+      }
+    }
+  }
+
+  .blue-button.delete {
+    @include color-button(#eb3b5a);
+  }
+}

@@ -1,0 +1,56 @@
+<section class="relative text-center text-base">
+  <button (click)="close()" class="absolute top-0 right-0">
+    <tui-svg src="tuiIconRemoveLarge"></tui-svg>
+  </button>
+  <img alt="" src="https://pbs.twimg.com/profile_images/1369877387949699074/tcvNQSr1.jpg" />
+  <h1>{{ detail.fullName }}</h1>
+  <p>{{ detail.dateOfBirth }}</p>
+</section>
+<section class="mb-4">
+  <table class="detail-table">
+    <tr>
+      <th>Status:</th>
+      <td>
+        <span [class]="status" class="border-2 rounded-xl p-1">{{ detail.status }}</span>
+      </td>
+    </tr>
+    <tr>
+      <th>Team:</th>
+      <td>
+        <a [routerLink]="['/human-resource/teams', 'team-id']" class="custom-link">{{ detail.team }}</a>
+      </td>
+    </tr>
+    <tr>
+      <th>Skype:</th>
+      <td>{{ detail.skype }}</td>
+    </tr>
+    <tr>
+      <th>Email:</th>
+      <td>{{ detail.email }}</td>
+    </tr>
+    <tr>
+      <th>Phone:</th>
+      <td>{{ detail.phoneNumber }}</td>
+    </tr>
+    <tr *ngIf="detail.facebook">
+      <th>Facebook:</th>
+      <td>{{ detail.facebook }}</td>
+    </tr>
+    <tr *ngIf="detail.instagram">
+      <th>Instagram:</th>
+      <td>{{ detail.instagram }}</td>
+    </tr>
+  </table>
+</section>
+<ng-container *ngIf="isAdmin; else notAdmin">
+  <div class="flex justify-between">
+    <button (click)="delete()" class="delete blue-button">Delete</button>
+    <button (click)="move()" class="blue-button">Move</button>
+    <button (click)="viewDetail()" class="blue-button">Detail</button>
+  </div>
+</ng-container>
+<ng-template #notAdmin>
+  <footer class="flex justify-center">
+    <button (click)="viewDetail()" class="blue-button">View Detail</button>
+  </footer>
+</ng-template>

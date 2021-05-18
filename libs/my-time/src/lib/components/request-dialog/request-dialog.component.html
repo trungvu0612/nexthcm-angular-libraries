@@ -1,5 +1,10 @@
 <article *ngIf="item">
-  <h1 class="text-2xl font-semibold mb-7">{{ item.title }}</h1>
+  <header class="flex justify-between items-center mb-7">
+    <h1 class="text-2xl font-semibold">{{ item.title }}</h1>
+    <button (click)="close()">
+      <tui-svg src="tuiIconRemoveLarge"></tui-svg>
+    </button>
+  </header>
   <table class="detail-table mb-6">
     <ng-container [ngSwitch]="item.group">
       <ng-container *ngSwitchCase="'updateTime'">
@@ -58,7 +63,9 @@
         <tr>
           <th>Sent to:</th>
           <td>
-            <a [routerLink]="['/human-resource/employees', 'cif-number']" class="custom-link underline">{{ item.sentTo }}</a>
+            <a [routerLink]="['/human-resource/employees', 'cif-number']" class="custom-link underline">{{
+              item.sentTo
+            }}</a>
           </td>
         </tr>
         <tr>
@@ -68,10 +75,10 @@
       </ng-container>
     </ng-container>
   </table>
-  <div class="flex justify-center">
+  <footer class="flex justify-center">
     <button (click)="cancel()" *ngIf="item.status === 'Waiting'" class="cancel blue-button mr-7">
       Cancel Leave Request
     </button>
     <button (click)="close()" class="blue-button">Close</button>
-  </div>
+  </footer>
 </article>

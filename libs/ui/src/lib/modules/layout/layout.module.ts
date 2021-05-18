@@ -4,10 +4,11 @@ import { MenuLeftComponent } from './menu-left/menu-left.component';
 import { LayoutComponent } from './layout.component';
 import { RouterModule } from '@angular/router';
 import {
-  TuiButtonModule, TuiDataListModule,
+  TuiButtonModule,
+  TuiDataListModule,
   TuiDropdownControllerModule,
   TuiDropdownModule,
-  TuiHostedDropdownModule
+  TuiHostedDropdownModule,
 } from '@taiga-ui/core';
 import { TuiActiveZoneModule } from '@taiga-ui/cdk';
 

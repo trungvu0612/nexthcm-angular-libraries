@@ -6,12 +6,12 @@
     tuiDataListDropdownManager
   >
     <button [routerLink]="'/'" class="overview" tuiOption>Overview</button>
-    <button class="mytime"
-            tuiOption
-            [tuiDropdown]="false"
-            tuiDropdownAlign="right"
-            [tuiDropdownContent]="mytimesTmp"
+    <button [tuiDropdownContent]="mytimesTmp"
             [tuiDropdownSided]="true"
+            [tuiDropdown]="false"
+            class="mytime"
+            tuiDropdownAlign="right"
+            tuiOption
     >
       My Time
     </button>
@@ -32,7 +32,7 @@
     <tui-data-list
       tuiDataListDropdownManager
     >
-      <button [routerLink]="'my-time/working-hour'"  class="focus:outline-none hover:text-blue-400" *ngFor="let mytime of mytimes"
+      <button *ngFor="let mytime of mytimes"  [routerLink]="'my-time/working-hour'" class="focus:outline-none hover:text-blue-400"
               tuiOption>{{mytime}}</button>
     </tui-data-list>
   </ng-template>

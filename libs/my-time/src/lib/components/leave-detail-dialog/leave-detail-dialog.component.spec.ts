@@ -8,9 +8,8 @@ describe('LeaveDetailDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ LeaveDetailDialogComponent ]
-    })
-    .compileComponents();
+      declarations: [LeaveDetailDialogComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {
