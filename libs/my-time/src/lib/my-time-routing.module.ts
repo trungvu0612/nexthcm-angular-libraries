@@ -3,14 +3,16 @@ import { RouterModule, Routes } from '@angular/router';
 import { MyTimeComponent } from './my-time.component';
 import { MyLeaveComponent } from './pages/my-leave/my-leave.component';
 import { MyRequestComponent } from './pages/my-request/my-request.component';
+import { WorkingHourComponent } from './pages/working-hour/working-hour.component';
 
 const routes: Routes = [
   {
     path: '',
     component: MyTimeComponent,
     children: [
-      { path: '', component: MyLeaveComponent },
-      { path: 'request', component: MyRequestComponent }
+      { path: 'request', component: MyRequestComponent },
+      { path: 'working-hour', component: WorkingHourComponent },
+      { path: '', pathMatch: 'full', redirectTo: 'leave' },
     ],
   },
 ];

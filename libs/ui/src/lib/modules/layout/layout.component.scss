@@ -1,0 +1,14 @@
+:host {
+  display: block;
+  background-color:#FAFAFB;
+
+  .left-column {
+    width: 255px;
+    border-right: solid 1px #E4E4E4;
+    display: inline-table;
+  }
+
+  .max-w-screen {
+    max-width: 1440px;
+  }
+}

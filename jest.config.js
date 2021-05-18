@@ -13,5 +13,6 @@ module.exports = {
     '<rootDir>/libs/notifications',
     '<rootDir>/libs/configurations',
     '<rootDir>/libs/ui',
+    '<rootDir>/libs/home',
   ],
 };
