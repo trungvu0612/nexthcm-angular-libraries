@@ -28,7 +28,10 @@
     "help": "nx help",
     "publish:core": "cd dist/libs/core && yarn publish --non-interactive --ignore-scripts",
     "publish:ui": "cd dist/libs/ui && yarn publish --non-interactive --ignore-scripts",
-    "publish:my-time": "cd dist/libs/my-time && yarn publish --non-interactive --ignore-scripts"
+    "publish:home": "cd dist/libs/home && yarn publish --non-interactive --ignore-scripts",
+    "publish:my-time": "cd dist/libs/my-time && yarn publish --non-interactive --ignore-scripts",
+    "publish:help-desk": "cd dist/libs/help-desk && yarn publish --non-interactive --ignore-scripts",
+    "publish:human-resource": "cd dist/libs/human-resource && yarn publish --non-interactive --ignore-scripts"
   },
   "private": true,
   "dependencies": {
