@@ -26,6 +26,7 @@
     "policy": { "tags": [] },
     "notifications": { "tags": [] },
     "configurations": { "tags": [] },
-    "ui": { "tags": [] }
+    "ui": { "tags": [] },
+    "home": { "tags": [] }
   }
 }

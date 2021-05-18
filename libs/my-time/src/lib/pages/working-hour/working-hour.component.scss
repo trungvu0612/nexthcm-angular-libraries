@@ -1,0 +1,65 @@
+:host {
+  display: block;
+
+  .page-container {
+    padding: 30px;
+  }
+
+  .heading-title {
+    font-weight: 600;
+    font-size: 22px;
+    line-height: 27px;
+    color: #111921;
+  }
+
+  .border-time {
+    border-left: solid 1px #7D6DEA;
+    margin-bottom: 10px;
+  }
+
+  .working-section {
+    border-radius: 9px;
+
+    .shadow-tmp {
+      width: 99%;
+      height: 100%;
+      position: absolute;
+      top: 0px;
+      left: 0;
+      box-shadow: 1px 18px 0 -6px #7074d9;
+      right: 0;
+      margin: auto;
+      border-radius: 9px;
+      z-index: 0;
+    }
+  }
+
+  .searchbar {
+    background-color: #F7F7F7;
+    background-image: url('/assets/images/search.png');
+    background-repeat: no-repeat;
+    background-position: left;
+    padding-left: 30px;
+  }
+
+  .year-filter, .month-filter, .week-filter {
+    background: #F7F7F7;
+    padding: 2px 50px 2px 10px;
+    border: solid 1px #E5E7EB;
+    text-align: left;
+    background-position: right;
+    background-repeat: no-repeat;
+    background-image: (url('/assets/images/calendar.png'));
+  }
+
+  .filter-search {
+    button {
+      border: solid 2px #41474D;
+    }
+
+    .actived {
+      background: #3B82F6;
+      color: #ffffff;
+    }
+  }
+}

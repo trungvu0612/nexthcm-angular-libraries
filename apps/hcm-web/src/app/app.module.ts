@@ -10,16 +10,28 @@ import { TuiDialogModule, TuiRootModule } from '@taiga-ui/core';
 import { NgDompurifySanitizer } from '@tinkoff/ng-dompurify';
 import { environment } from '../environments/environment';
 import { AppComponent } from './app.component';
+import { LayoutComponent } from '@nexthcm/ui';
 
 const routes: Routes = [
   {
-    path: 'my-time',
-    loadChildren: () => import('@nexthcm/my-time').then((m) => m.MyTimeModule),
+    path: '',
+    component: LayoutComponent,
+    children: [
+      {
+        path: '',
+        loadChildren: () => import('@nexthcm/home').then((m) => m.HomeModule)
+      },
+      {
+        path: 'my-time',
+        loadChildren: () => import('@nexthcm/my-time').then((m) => m.MyTimeModule),
+      },
+      {
+        path: 'human-resource',
+        loadChildren: () => import('@nexthcm/human-resource').then((m) => m.HumanResourceModule),
+      },
+    ]
   },
-  {
-    path: 'human-resource',
-    loadChildren: () => import('@nexthcm/human-resource').then((m) => m.HumanResourceModule),
-  },
+
 ];
 
 @NgModule({
