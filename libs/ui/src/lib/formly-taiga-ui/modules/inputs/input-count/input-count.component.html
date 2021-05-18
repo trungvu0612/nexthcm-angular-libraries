@@ -1,0 +1,24 @@
+<tui-input-count
+  [formControl]="$any(formControl)"
+  [formlyAttributes]="field"
+  [hideButtons]="to.hideButtons"
+  [max]="$any(to.max)"
+  [min]="$any(to.min)"
+  [postfix]="to.postfix"
+  [readOnly]="!!to.readonly"
+  [step]="$any(to.step)"
+  [style.maxWidth]="to.maxWidth"
+  [tuiHintContent]="to.description || null"
+  [tuiTextfieldCleaner]="to.textfieldCleaner"
+  [tuiTextfieldCustomContent]="to.checkMark && formControl.valid ? success : ''"
+  [tuiTextfieldExampleText]="to.placeholder || ''"
+  [tuiTextfieldLabelOutside]="to.textfieldLabelOutside"
+  [tuiTextfieldSize]="to.textfieldSize"
+>
+  {{ to.textfieldLabelOutside ? to.placeholder : to.label }}
+  <span *ngIf="to.required && !to.textfieldLabelOutside" class="tui-required"></span>
+</tui-input-count>
+
+<ng-template #success>
+  <tui-svg class="success tui-space_left-3" src="tuiIconCheckLarge"></tui-svg>
+</ng-template>

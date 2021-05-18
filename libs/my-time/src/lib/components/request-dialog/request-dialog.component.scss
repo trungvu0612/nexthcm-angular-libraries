@@ -1,0 +1,9 @@
+:host {
+  display: block;
+
+  .blue-button.cancel {
+    border: 2px solid #1b65e3;
+    color: #1b65e3;
+    @apply bg-white;
+  }
+}

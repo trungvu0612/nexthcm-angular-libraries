@@ -1,0 +1,57 @@
+:host {
+  display: block;
+
+  button {
+    @apply font-semibold;
+
+    &:not([tuiTab]) {
+      background-color: #1b65e3;
+      box-shadow: 0 4px 10px rgba(16, 156, 241, 0.24);
+      @apply text-base text-white rounded-xl px-7 py-3 h-12;
+    }
+  }
+
+  ::ng-deep {
+    .tui-zero-scrollbar {
+      [tuiTab] {
+        outline: none !important;
+
+        .highlight {
+          @apply pb-5;
+        }
+
+        &._active .highlight {
+          color: #1b65e3;
+        }
+      }
+    }
+
+    .content {
+      background-color: #f7f7f7;
+      @apply rounded-xl;
+    }
+  }
+
+  main {
+    //min-height: calc(100vh - 80px);
+    ////
+    //margin-top: 60px;
+    //margin-left: 255px;
+    ////
+    //background-color: #fafafb;
+    //@apply px-14 py-9;
+    //
+    //header {
+    //  @apply font-semibold;
+    //}
+
+    section {
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.06);
+      @apply rounded-xl;
+
+      .date-control {
+        @apply w-48;
+      }
+    }
+  }
+}

@@ -1,0 +1,14 @@
+<tui-editor
+  [exampleText]="to.placeholder || ''"
+  [formControl]="$any(formControl)"
+  [formlyAttributes]="field"
+  [readOnly]="!!to.readonly"
+  [style.maxWidth]="to.maxWidth"
+  [tools]="to.tools"
+  [tuiHintContent]="to.description || null"
+  [tuiTextfieldLabelOutside]="to.textfieldLabelOutside"
+  [tuiTextfieldSize]="to.textfieldSize"
+>
+  {{ to.textfieldLabelOutside ? to.placeholder : to.label }}
+  <span *ngIf="to.required && !to.textfieldLabelOutside" class="tui-required"></span>
+</tui-editor>

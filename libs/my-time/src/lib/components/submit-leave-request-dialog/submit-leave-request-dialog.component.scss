@@ -1,0 +1,14 @@
+:host {
+  display: block;
+
+  ::ng-deep {
+    span.label {
+      color: red;
+    }
+    tui-wrapper[data-appearance='whiteblock-active'] {
+      background: #1b65e3;
+      color: white;
+      border-color: #1b65e3;
+    }
+  }
+}

@@ -1,0 +1,24 @@
+:host {
+  display: block;
+
+  ::ng-deep {
+    .tui-zero-scrollbar {
+      [tuiTab] {
+        outline: none !important;
+
+        .highlight {
+          @apply pb-5;
+        }
+
+        &._active .highlight {
+          color: #1b65e3;
+        }
+      }
+    }
+
+    .content {
+      background-color: #f7f7f7;
+      @apply rounded-xl;
+    }
+  }
+}
