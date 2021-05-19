@@ -1,5 +1,5 @@
 <custom-tui-combo-box
-  *tuiLet="items$ | async as items"
+  *tuiLet="data$ | async as items"
   [formControl]="$any(formControl)"
   [icon]="to.icon || null"
   [stringify]="to.stringify"
@@ -7,17 +7,17 @@
   [tuiTextfieldLabelOutside]="true"
   [valueContent]="content"
 >
-  {{ to.label }}
+  {{ to.title }}
   <ng-template #content let-item>
     <tui-avatar [avatarUrl]="item.image" class="avatar" size="m"></tui-avatar>
-    {{ item[to.labelProp] }}
+    {{ item[to.nameProp] }}
   </ng-template>
   <ng-template tuiDataList>
     <tui-data-list *ngIf="items">
       <button *ngFor="let item of items" [value]="item" tuiOption>
         <tui-avatar [avatarUrl]="item.image || null" class="avatar" size="m"></tui-avatar>
         <div>
-          <p class="text-base">{{ item[to.labelProp] }}</p>
+          <p class="text-base">{{ item[to.nameProp] }}</p>
           <p class="text-xs font-normal">{{ item[to.idProp] }}</p>
         </div>
       </button>

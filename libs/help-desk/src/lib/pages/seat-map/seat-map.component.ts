@@ -288,23 +288,23 @@ export class SeatMapComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  handleClick(item?: SeatInfo): void {
+  handleClick(x?: number, y?: number): void {
     if (!this.dragging) {
-      if (item) {
+      let item;
+      let seatId = null;
+      if (x && y) {
+        seatId = this.data[y][x].id;
+        item = this.data[y][x];
+      }
+      if (item?.status !== 'none') {
         this.dialogService
           .open<boolean>(new PolymorpheusComponent(ViewDetailDialogComponent, this.injector), {
             size: 's',
             closeable: false,
             data: {
               item: item,
-              seats: this.data.map((arr, y) =>
-                arr
-                  .filter((item) => item.status === 'none')
-                  .map((item, x) => ({
-                    id: item.id,
-                    x,
-                    y,
-                  }))
+              seats: this.data.map((seats, y) =>
+                seats.filter((item) => item.status === 'none').map((item, x) => ({ id: item.id, x, y }))
               ),
             },
           })
@@ -314,7 +314,7 @@ export class SeatMapComponent implements OnInit {
           .open(new PolymorpheusComponent(AddSeatDialogComponent, this.injector), {
             size: 's',
             closeable: false,
-            data: item,
+            data: seatId,
           })
           .subscribe();
       }
