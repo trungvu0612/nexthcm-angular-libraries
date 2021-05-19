@@ -10,16 +10,19 @@ import { TuiDialogContext } from '@taiga-ui/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MoveSeatDialogComponent implements OnInit {
-  inputSeatNumber = new FormControl<string>();
-  availableSeats: any[] = this.context.data;
+  inputSeatNumber = new FormControl<{ id: number }>();
+  emptySeats: { id: number }[] = [];
 
-  constructor(@Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<any, any>) {}
+  constructor(@Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<number, any>) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    if (this.context.data) {
+      this.emptySeats = this.context.data.flat().map((id: number) => ({ id }));
+    }
+  }
 
   submit(): void {
-    this.context.completeWith('submit');
-    console.log('delete');
+    this.context.completeWith(this.inputSeatNumber.value.id);
   }
 
   stringify = (item: any) => String(item.id);

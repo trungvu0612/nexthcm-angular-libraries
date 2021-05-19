@@ -1,0 +1,36 @@
+@mixin radio-background($color) {
+  ::ng-deep {
+    .content {
+      background: $color;
+      @apply rounded-xl;
+    }
+  }
+}
+
+:host {
+  display: block;
+
+  .none-radio {
+    @include radio-background(#20BF6B);
+  }
+
+  .empty-radio {
+    @include radio-background(#fff);
+  }
+
+  .wall-radio {
+    @include radio-background(#e5e5e5);
+  }
+
+  .none {
+    background-color: #20BF6B;
+  }
+
+  .empty {
+    background-color: #fff;
+  }
+
+  .wall {
+    background-color: #e5e5e5;
+  }
+}

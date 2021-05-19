@@ -3,12 +3,12 @@ import { FieldType } from '@ngx-formly/core';
 import { Observable, of } from 'rxjs';
 
 @Component({
-  selector: 'hcm-input-autocomplete',
-  templateUrl: './input-autocomplete.component.html',
-  styleUrls: ['./input-autocomplete.component.scss'],
+  selector: 'hcm-add-seat-combo-box',
+  templateUrl: './add-seat-combo-box.component.html',
+  styleUrls: ['./add-seat-combo-box.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class InputAutocompleteComponent extends FieldType {
+export class AddSeatComboBoxComponent extends FieldType {
   data$: Observable<any[]> = of([
     {
       cif: '01240083',

@@ -2,11 +2,11 @@
   <header>
     <h1>Seat Map</h1>
     <div class="flex items-center text-base">
-      <button class="current-seat">
+      <button (click)="findMySeat()" class="current-seat">
         <tui-svg src="assets/icons/current-location.svg"></tui-svg>
         My seat
       </button>
-      <button (click)="handleClick()" class="blue-button mr-7">
+      <button (click)="createSeatMap()" class="blue-button mr-7">
         <tui-svg class="-ml-1 mr-2" src="tuiIconPlusLarge"></tui-svg>
         Add Seats
       </button>
@@ -26,24 +26,24 @@
         <p class="text-lg">Meeting Room</p>
       </section>
       <section class="seats-map">
-        <div *ngFor="let row of data; index as y" class="seats-row">
+        <div *ngFor="let row of data; index as y" [style]="'--columns: ' + row.length + ';'" class="seats-row">
           <ng-container *ngFor="let item of row; index as x">
             <ng-container [ngSwitch]="item.status">
               <div *ngSwitchCase="'wall'" [class]="item.status"></div>
               <div *ngSwitchCase="'empty'" [class]="item.status"></div>
-              <div (click)="handleClick(x,y)" *ngSwitchCase="'none'" [class]="item.status">
+              <div (click)="addSeat(item.id)" *ngSwitchCase="'none'" [class]="item.status">
                 <p>{{ item.id }}</p>
                 <p>Not Assigned</p>
                 <p>None</p>
               </div>
               <div
-                (cdkDragEnded)="handleDragEnded($event)"
-                (cdkDragStarted)="handleDragStarted($event, x, y)"
-                (click)="handleClick(x,y)"
-                *ngSwitchDefault
                 [class]="item.status"
+                (cdkDragEnded)="handleDragEnded($event)"
                 cdkDrag
                 cdkDragBoundary=".seats-map"
+                (cdkDragStarted)="handleDragStarted($event, x, y)"
+                (click)="viewDetail(item, x, y)"
+                *ngSwitchDefault
               >
                 <p>{{ item.id }}</p>
                 <p>{{ item.name }}</p>
@@ -52,6 +52,12 @@
                   <img alt="" class="absolute top-2 left-4 h-2/3" src="assets/icons/cake.svg" />
                   <img alt="" class="absolute bottom-0 right-4 h-2/3" src="assets/icons/firework.svg" />
                 </p>
+                <div
+                  #target
+                  *ngIf="item.id === mySeatNumber"
+                  [class.my-seat]="ping"
+                  class="absolute top-0 left-0 w-full h-full"
+                ></div>
               </div>
             </ng-container>
           </ng-container>

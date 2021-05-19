@@ -28,7 +28,10 @@
 
     .seats-map {
       .seats-row {
-        @apply grid grid-cols-7;
+        --columns: 0;
+
+        display: grid;
+        grid-template-columns: repeat(var(--columns), minmax(0, 1fr));
 
         > div {
           &::before {
@@ -82,5 +85,9 @@
         @apply border-2 rounded-md w-7 h-7 mr-3;
       }
     }
+  }
+
+  .my-seat {
+    @apply rounded-xl ring-8 ring-purple-700 animate-pulse;
   }
 }

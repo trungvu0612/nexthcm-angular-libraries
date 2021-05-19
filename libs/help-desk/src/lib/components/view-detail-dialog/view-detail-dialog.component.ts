@@ -13,7 +13,6 @@ import { MoveSeatDialogComponent } from '../move-seat-dialog/move-seat-dialog.co
 })
 export class ViewDetailDialogComponent implements OnInit {
   isAdmin = true;
-  availableSeats: any[] = [];
   detail: EmployeeInfo = {
     status: 'Leave',
     cif: '1203001',
@@ -44,32 +43,25 @@ export class ViewDetailDialogComponent implements OnInit {
     private router: Router
   ) {}
 
-  ngOnInit(): void {
-    if (this.context.data) {
-      this.availableSeats = this.context.data.seats.flat();
-    }
-  }
+  ngOnInit(): void {}
 
   close(): void {
     this.context.completeWith('close');
   }
 
   delete(): void {
-    this.context.completeWith('delete');
-    console.log('delete');
+    this.context.completeWith({ type: 'delete' });
   }
 
   move(): void {
     this.dialogService
-      .open(new PolymorpheusComponent(MoveSeatDialogComponent, this.injector), { size: 's', data: this.availableSeats })
-      .subscribe(() => {
-        console.log('input');
+      .open<number>(new PolymorpheusComponent(MoveSeatDialogComponent, this.injector), {
+        size: 's',
+        data: this.context.data.seats,
+      })
+      .subscribe((seatNumber) => {
+        this.context.completeWith({ type: 'move', payload: seatNumber });
       });
-    this.context.completeWith('move');
-    // console.log(
-    //   'move',
-    //   this.availableSeats.filter((seat) => seat.id === this.inputSeatNumber.value)
-    // );
   }
 
   viewDetail(): void {

@@ -1,4 +1,12 @@
-import { ChangeDetectionStrategy, Component, Injector, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  Injector,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { FormControl } from '@ngneat/reactive-forms';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { TuiDialogService } from '@taiga-ui/core';
@@ -7,6 +15,12 @@ import { ViewDetailDialogComponent } from '../../components/view-detail-dialog/v
 import { CdkDragEnd, CdkDragStart } from '@angular/cdk/drag-drop';
 import { last, takeUntil } from 'rxjs/operators';
 import { SeatInfo } from '../../models/models';
+import { CreateSeatMapComponent } from '../../components/create-seat-map/create-seat-map.component';
+
+interface Action {
+  type: string;
+  payload?: number;
+}
 
 @Component({
   selector: 'hcm-seat-map',
@@ -15,8 +29,12 @@ import { SeatInfo } from '../../models/models';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SeatMapComponent implements OnInit {
+  @ViewChild('target') mySeat!: ElementRef;
+  mySeatNumber = 16;
+  ping = false;
   dragging = false;
   inputSearch = new FormControl();
+  emptySeats!: (number | undefined)[][];
   data: SeatInfo[][] = [
     [
       {
@@ -134,7 +152,7 @@ export class SeatMapComponent implements OnInit {
     ],
     [
       {
-        id: 1,
+        id: 13,
 
         name: 'Huy Pham',
         team: 'IT',
@@ -142,14 +160,14 @@ export class SeatMapComponent implements OnInit {
         status: 'check-in',
       },
       {
-        id: 2,
+        id: 14,
         name: 'Huy Pham',
         team: 'IT',
         isBirthday: true,
         status: 'not-check',
       },
       {
-        id: 3,
+        id: 15,
         name: 'Huy Pham',
         team: 'IT',
         isBirthday: true,
@@ -159,21 +177,21 @@ export class SeatMapComponent implements OnInit {
         status: 'empty',
       },
       {
-        id: 4,
+        id: 16,
         name: 'Huy Pham',
         team: 'IT',
         isBirthday: true,
         status: 'leave',
       },
       {
-        id: 5,
+        id: 17,
         name: 'Huy Pham',
         team: 'IT',
         isBirthday: true,
         status: 'offline',
       },
       {
-        id: 6,
+        id: 18,
         name: 'Huy Pham',
         team: 'IT',
         isBirthday: true,
@@ -182,18 +200,18 @@ export class SeatMapComponent implements OnInit {
     ],
     [
       {
-        id: 7,
+        id: 19,
         status: 'none',
       },
       {
-        id: 8,
+        id: 20,
         name: 'Huy Pham',
         team: 'IT',
         isBirthday: true,
         status: 'check-in',
       },
       {
-        id: 9,
+        id: 21,
         name: 'Huy Pham',
         team: 'IT',
         isBirthday: true,
@@ -203,21 +221,21 @@ export class SeatMapComponent implements OnInit {
         status: 'empty',
       },
       {
-        id: 10,
+        id: 22,
         name: 'Huy Pham',
         team: 'IT',
         isBirthday: true,
         status: 'check-in',
       },
       {
-        id: 11,
+        id: 23,
         name: 'Huy Pham',
         team: 'IT',
         isBirthday: true,
         status: 'check-in',
       },
       {
-        id: 12,
+        id: 24,
         name: 'Huy Pham',
         team: 'IT',
         isBirthday: true,
@@ -261,21 +279,21 @@ export class SeatMapComponent implements OnInit {
         status: 'empty',
       },
       {
-        id: 5,
+        id: 25,
         name: 'Huy Pham',
         team: 'IT',
         isBirthday: true,
         status: 'leave',
       },
       {
-        id: 6,
+        id: 26,
         name: 'Huy Pham',
         team: 'IT',
         isBirthday: true,
         status: 'offline',
       },
       {
-        id: 8,
+        id: 27,
         name: 'Huy Pham',
         team: 'IT',
         isBirthday: true,
@@ -284,43 +302,23 @@ export class SeatMapComponent implements OnInit {
     ],
   ];
 
-  constructor(private dialogService: TuiDialogService, private injector: Injector) {}
+  constructor(
+    private dialogService: TuiDialogService,
+    private injector: Injector,
+    private changeDetector: ChangeDetectorRef
+  ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.getEmptySeats();
+  }
 
-  handleClick(x?: number, y?: number): void {
-    if (!this.dragging) {
-      let item;
-      let seatId = null;
-      if (x && y) {
-        seatId = this.data[y][x].id;
-        item = this.data[y][x];
-      }
-      if (item?.status !== 'none') {
-        this.dialogService
-          .open<boolean>(new PolymorpheusComponent(ViewDetailDialogComponent, this.injector), {
-            size: 's',
-            closeable: false,
-            data: {
-              item: item,
-              seats: this.data.map((seats, y) =>
-                seats.filter((item) => item.status === 'none').map((item, x) => ({ id: item.id, x, y }))
-              ),
-            },
-          })
-          .subscribe();
-      } else {
-        this.dialogService
-          .open(new PolymorpheusComponent(AddSeatDialogComponent, this.injector), {
-            size: 's',
-            closeable: false,
-            data: seatId,
-          })
-          .subscribe();
-      }
-    } else {
-      this.dragging = false;
-    }
+  findMySeat(): void {
+    this.ping = true;
+    this.mySeat.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
+    setTimeout(() => {
+      this.ping = false;
+      this.changeDetector.detectChanges();
+    }, 1200);
   }
 
   handleDragStarted(event: CdkDragStart, x: number, y: number): void {
@@ -341,7 +339,8 @@ export class SeatMapComponent implements OnInit {
         const xIndex = x + signX * Math.floor(distanceX / unit);
         const yIndex = y + signY * Math.floor(distanceY / unit);
         if (this.data[yIndex][xIndex].status === 'none') {
-          this.moveSeat(x, y, xIndex, yIndex);
+          this.dragging = false;
+          this.changeSeat([x, y, xIndex, yIndex]);
         }
       }
     });
@@ -351,10 +350,79 @@ export class SeatMapComponent implements OnInit {
     event.source._dragRef.reset();
   }
 
-  moveSeat(x1: number, y1: number, x2: number, y2: number): void {
-    const { id: id1, ...data1 } = this.data[y1][x1];
-    const { id: id2, ...data2 } = this.data[y2][x2];
-    this.data[y1][x1] = { id: id1, ...data2 };
-    this.data[y2][x2] = { id: id2, ...data1 };
+  createSeatMap(): void {
+    this.dialogService
+      .open<SeatInfo[][]>(new PolymorpheusComponent(CreateSeatMapComponent, this.injector), {
+        size: 'l',
+        closeable: false,
+      })
+      .subscribe((map) => {
+        this.data = map;
+        this.changeDetector.detectChanges();
+      });
+  }
+
+  viewDetail(item: SeatInfo, x: number, y: number): void {
+    if (this.dragging) {
+      this.dragging = false;
+    } else {
+      this.dialogService
+        .open<Action>(new PolymorpheusComponent(ViewDetailDialogComponent, this.injector), {
+          size: 's',
+          closeable: false,
+          data: {
+            item: item,
+            seats: this.emptySeats,
+          },
+        })
+        .subscribe((action) => {
+          if (action.type === 'move') {
+            this.changeSeat([x, y, ...this.getSeatFromId(action.payload)]);
+          } else if (action.type === 'delete') {
+            this.changeSeat([x, y]);
+          }
+        });
+    }
+  }
+
+  addSeat(id?: number): void {
+    this.dialogService
+      .open(new PolymorpheusComponent(AddSeatDialogComponent, this.injector), {
+        size: 's',
+        closeable: false,
+        data: id,
+      })
+      .subscribe();
+  }
+
+  getEmptySeats(): void {
+    this.emptySeats = this.data.map((seats) => seats.filter((item) => item.status === 'none').map((item) => item.id));
+  }
+
+  getSeatFromId(id: number | undefined): number[] {
+    let xIndex = 0;
+    let yIndex = 0;
+    this.data.some((seats, y) => {
+      yIndex = y;
+      return seats.some((item, x) => {
+        xIndex = x;
+        return item.id == id;
+      });
+    });
+    return [xIndex, yIndex];
+  }
+
+  changeSeat([x1, y1, x2, y2]: number[]): void {
+    if (x2 == undefined) {
+      this.data[y1][x1] = { status: 'none', id: this.data[y1][x1].id };
+    } else {
+      const { id: id1, ...data1 } = this.data[y1][x1];
+      const { id: id2, ...data2 } = this.data[y2][x2];
+      this.data[y1][x1] = { id: id1, ...data2 };
+      this.data[y2][x2] = { id: id2, ...data1 };
+    }
+
+    this.getEmptySeats();
+    this.changeDetector.detectChanges();
   }
 }
