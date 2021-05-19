@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormlyModule } from '@ngx-formly/core';
 import { TuiDataListModule, TuiSvgModule, TuiTextfieldControllerModule } from '@taiga-ui/core';
-import { TuiComboBoxModule, TuiInputModule } from '@taiga-ui/kit';
+import { TuiAvatarModule, TuiComboBoxModule, TuiInputModule, TuiRadioBlockModule } from '@taiga-ui/kit';
 import { PolymorpheusModule } from '@tinkoff/ng-polymorpheus';
 import { AddSeatDialogComponent } from './components/add-seat-dialog/add-seat-dialog.component';
 import { RepeatSectionComponent } from './components/repeat-section/repeat-section.component';
@@ -13,6 +13,10 @@ import { HelpDeskRoutingModule } from './help-desk-routing.module';
 import { HelpDeskComponent } from './help-desk.component';
 import { SeatMapComponent } from './pages/seat-map/seat-map.component';
 import { MoveSeatDialogComponent } from './components/move-seat-dialog/move-seat-dialog.component';
+import { AddSeatComboBoxComponent } from './components/add-seat-combo-box/add-seat-combo-box.component';
+import { CustomTuiComboBoxModule } from './components/custom-combo-box/custom-combo-box.module';
+import { TuiLetModule } from '@taiga-ui/cdk';
+import { CreateSeatMapComponent } from './components/create-seat-map/create-seat-map.component';
 
 @NgModule({
   declarations: [
@@ -22,13 +26,21 @@ import { MoveSeatDialogComponent } from './components/move-seat-dialog/move-seat
     AddSeatDialogComponent,
     RepeatSectionComponent,
     MoveSeatDialogComponent,
+    AddSeatComboBoxComponent,
+    CreateSeatMapComponent,
   ],
   imports: [
     CommonModule,
     HelpDeskRoutingModule,
     ReactiveFormsModule,
     FormlyModule.forChild({
-      types: [{ name: 'repeat', component: RepeatSectionComponent }],
+      types: [
+        { name: 'repeat', component: RepeatSectionComponent },
+        {
+          name: 'custom-combo-box',
+          component: AddSeatComboBoxComponent,
+        },
+      ],
     }),
     TuiInputModule,
     TuiSvgModule,
@@ -37,6 +49,10 @@ import { MoveSeatDialogComponent } from './components/move-seat-dialog/move-seat
     TuiTextfieldControllerModule,
     TuiDataListModule,
     TuiComboBoxModule,
+    CustomTuiComboBoxModule,
+    TuiAvatarModule,
+    TuiLetModule,
+    TuiRadioBlockModule,
   ],
 })
 export class HelpDeskModule {}

@@ -7,8 +7,6 @@ import { FormGroup } from '@angular/forms';
 interface Person {
   cif: string;
   number: string;
-  fullName: string;
-  image: string;
 }
 
 @Component({
@@ -30,7 +28,7 @@ export class AddSeatDialogComponent implements OnInit {
         fieldGroup: [
           {
             key: 'cif',
-            type: 'input-autocomplete',
+            type: 'custom-combo-box',
             templateOptions: {
               icon: 'assets/icons/search.svg',
               title: 'Search by CIF, Full Name',
@@ -59,7 +57,7 @@ export class AddSeatDialogComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.context.data) {
-
+      this.model.seats[0].number = this.context.data;
     }
   }
 

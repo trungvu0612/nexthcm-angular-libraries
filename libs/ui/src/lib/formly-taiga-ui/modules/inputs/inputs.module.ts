@@ -4,7 +4,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { FormlyModule } from '@ngx-formly/core';
 import { TuiCurrencyPipeModule } from '@taiga-ui/addon-commerce';
 import {
-  TuiDataListModule,
   TuiErrorModule,
   TuiHintControllerModule,
   TuiLabelModule,
@@ -12,7 +11,6 @@ import {
   TuiTextfieldControllerModule,
 } from '@taiga-ui/core';
 import {
-  TuiAvatarModule,
   TuiFieldErrorModule,
   TuiInputCountModule,
   TuiInputDateModule,
@@ -46,9 +44,6 @@ import { InputTimeComponent } from './input-time/input-time.component';
 import { InputComponent } from './input/input.component';
 import { TextAreaComponent } from './text-area/text-area.component';
 import { TuiEditorModule } from '@taiga-ui/addon-editor';
-import { InputAutocompleteComponent } from './input-autocomplete/input-autocomplete.component';
-import { TuiLetModule } from '@taiga-ui/cdk';
-import { CustomTuiComboBoxModule } from './custom-combo-box/custom-combo-box.module';
 
 @NgModule({
   declarations: [
@@ -67,7 +62,6 @@ import { CustomTuiComboBoxModule } from './custom-combo-box/custom-combo-box.mod
     InputMonthComponent,
     InputMonthRangeComponent,
     EditorComponent,
-    InputAutocompleteComponent,
   ],
   imports: [
     CommonModule,
@@ -77,7 +71,6 @@ import { CustomTuiComboBoxModule } from './custom-combo-box/custom-combo-box.mod
     FormlyModule.forChild({
       types: [
         { name: 'input', component: InputComponent, wrappers: ['form-field'] },
-        { name: 'input-autocomplete', component: InputAutocompleteComponent, wrappers: ['form-field'] },
         { name: 'input-date', component: InputDateComponent, wrappers: ['form-field'] },
         { name: 'input-month', component: InputMonthComponent, wrappers: ['form-field'] },
         { name: 'input-count', component: InputCountComponent, wrappers: ['form-field'] },
@@ -115,10 +108,6 @@ import { CustomTuiComboBoxModule } from './custom-combo-box/custom-combo-box.mod
     TuiInputMonthRangeModule,
     TuiEditorModule,
     InputPhoneInternationalModule,
-    TuiDataListModule,
-    TuiLetModule,
-    TuiAvatarModule,
-    CustomTuiComboBoxModule,
   ],
 })
 export class InputsModule {}
