@@ -31,7 +31,7 @@
             <ng-container [ngSwitch]="item.status">
               <div *ngSwitchCase="'wall'" [class]="item.status"></div>
               <div *ngSwitchCase="'empty'" [class]="item.status"></div>
-              <div (click)="handleClick()" *ngSwitchCase="'none'" [class]="item.status">
+              <div (click)="handleClick(x,y)" *ngSwitchCase="'none'" [class]="item.status">
                 <p>{{ item.id }}</p>
                 <p>Not Assigned</p>
                 <p>None</p>
@@ -39,7 +39,7 @@
               <div
                 (cdkDragEnded)="handleDragEnded($event)"
                 (cdkDragStarted)="handleDragStarted($event, x, y)"
-                (click)="handleClick(item)"
+                (click)="handleClick(x,y)"
                 *ngSwitchDefault
                 [class]="item.status"
                 cdkDrag

@@ -1,9 +1,9 @@
-import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
-import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
+import { ChangeDetectionStrategy, Component, Inject, Injector, OnInit } from '@angular/core';
+import { POLYMORPHEUS_CONTEXT, PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { TuiDialogContext, TuiDialogService } from '@taiga-ui/core';
 import { Router } from '@angular/router';
-import { FormControl } from '@ngneat/reactive-forms';
 import { EmployeeInfo } from '@nexthcm/core';
+import { MoveSeatDialogComponent } from '../move-seat-dialog/move-seat-dialog.component';
 
 @Component({
   selector: 'hcm-view-detail-dialog',
@@ -13,8 +13,7 @@ import { EmployeeInfo } from '@nexthcm/core';
 })
 export class ViewDetailDialogComponent implements OnInit {
   isAdmin = true;
-  availableSeats: string[] = [];
-  seatNumber = new FormControl<string>();
+  availableSeats: any[] = [];
   detail: EmployeeInfo = {
     status: 'Leave',
     cif: '1203001',
@@ -41,6 +40,7 @@ export class ViewDetailDialogComponent implements OnInit {
   constructor(
     private dialogService: TuiDialogService,
     @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<any, any>,
+    private injector: Injector,
     private router: Router
   ) {}
 
@@ -60,16 +60,20 @@ export class ViewDetailDialogComponent implements OnInit {
   }
 
   move(): void {
-    // this.dialogService
-    //   .open<boolean>()
+    this.dialogService
+      .open(new PolymorpheusComponent(MoveSeatDialogComponent, this.injector), { size: 's', data: this.availableSeats })
+      .subscribe(() => {
+        console.log('input');
+      });
     this.context.completeWith('move');
-    console.log('move');
+    // console.log(
+    //   'move',
+    //   this.availableSeats.filter((seat) => seat.id === this.inputSeatNumber.value)
+    // );
   }
 
   viewDetail(): void {
     this.context.completeWith('view');
     this.router.navigate(['/human-resource/employees', this.detail.cif]);
   }
-
-  submitSeatNumber(): void {}
 }

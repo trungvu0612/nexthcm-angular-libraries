@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
+import { MyRequestData } from '../../models/my-time';
 
 @Component({
   selector: 'hcm-request-dialog',
@@ -9,7 +10,7 @@ import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RequestDialogComponent {
-  // item: MyRequestData | undefined = this.context.data;
+  item: MyRequestData = this.context.data as unknown as MyRequestData;
 
   constructor(@Inject(POLYMORPHEUS_CONTEXT) private context: TuiDialogContext<boolean>) {}
 

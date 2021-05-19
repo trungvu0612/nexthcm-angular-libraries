@@ -1,0 +1,17 @@
+<h1 class="text-2xl font-semibold mb-5">Move</h1>
+<tui-combo-box [formControl]="inputSeatNumber" [stringify]="stringify" [valueContent]="value">
+  Move to
+  <ng-template #value let-seat>
+    <span class="font-normal">{{ seat.id }}</span>
+  </ng-template>
+  <ng-template tuiDataList>
+    <tui-data-list>
+      <button *ngFor="let seat of availableSeats" [value]="seat" tuiOption>
+        <span class="font-normal">{{ seat.id }}</span>
+      </button>
+    </tui-data-list>
+  </ng-template>
+</tui-combo-box>
+<button (click)="submit()" [disabled]="!inputSeatNumber.value" class="blue-button disabled:opacity-50 mt-5 mx-auto">
+  Submit
+</button>
