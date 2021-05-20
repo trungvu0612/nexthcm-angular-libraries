@@ -1,4 +1,6 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import {Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef} from '@angular/core';
+import {LeaveTypeService} from "../../../../services/leave-type.service";
+import {LeaveType} from "../../../../models/leave-type";
 
 interface User {
   readonly name: string;
@@ -15,64 +17,26 @@ interface User {
 })
 export class ListLeaveTypeComponent implements OnInit {
 
+  length = 0;
+  index = 0;
+  total = 0;
 
-  constructor() {
+  leaveTypes!: LeaveType[] ;
+  constructor(private leaveTypeService: LeaveTypeService,
+              private cdr: ChangeDetectorRef) {
   }
 
   ngOnInit(): void {
+    this.leaveTypeService.getLeaveTypes(this.index,10).subscribe(item => {
+      this.length = item.totalPage;
+      this.leaveTypes= item.items;
+      this.cdr.detectChanges();
+    })
   }
-  readonly columns = ['name', 'email', 'status', 'tags', 'actions'];
-
-  users: readonly User[] = [
-    {
-      name: 'Michael Palin',
-      email: 'm.palin@montypython.com',
-      status: 'alive',
-      tags: ['Funny'],
-    },
-    {
-      name: 'Eric Idle',
-      email: 'e.idle@montypython.com',
-      status: 'alive',
-      tags: ['Funny', 'Music'],
-    },
-    {
-      name: 'John Cleese',
-      email: 'j.cleese@montypython.com',
-      status: 'alive',
-      tags: ['Funny', 'Tall', 'Actor'],
-    },
-    {
-      name: 'Terry Jones',
-      email: '',
-      status: 'deceased',
-      tags: ['Funny', 'Director'],
-    },
-    {
-      name: 'Terry Gilliam',
-      email: 't.gilliam@montypython.com',
-      status: 'alive',
-      tags: ['Funny', 'Director'],
-    },
-    {
-      name: 'Graham Chapman',
-      email: '',
-      status: 'deceased',
-      tags: ['Funny', 'King Arthur'],
-    },
-  ];
-
-  remove(item: User) {
-    this.users = this.users.filter(user => user !== item);
-  }
-
-  length = 64;
-
-  index = 10;
+  readonly columns = ['name', 'action'];
 
   goToPage(index: number) {
     this.index = index;
-    console.log('New page:', index);
   }
 
 
