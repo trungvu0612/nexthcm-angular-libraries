@@ -3,7 +3,10 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
+  baseUrl: 'http://localhost:4200',
   production: false,
+  apiUrl: 'https://dev-nexthcm-api.banvien.com.vn',
+  authUrl: 'http://192.168.2.20:31125',
 };
 
 /*

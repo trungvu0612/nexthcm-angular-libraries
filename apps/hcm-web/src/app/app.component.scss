@@ -1,3 +1,8 @@
 :host {
   display: block;
+  height: 100%;
+
+  ::ng-deep tui-root {
+    height: 100%;
+  }
 }
