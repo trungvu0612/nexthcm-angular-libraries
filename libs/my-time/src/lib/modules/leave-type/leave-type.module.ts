@@ -5,8 +5,22 @@ import {RouterModule} from "@angular/router";
 import { ListLeaveTypeComponent } from './pages/list-leave-type/list-leave-type.component';
 import { UpsertLeaveTypeComponent } from './pages/upsert-leave-type/upsert-leave-type.component';
 import {TuiTableModule} from "@taiga-ui/addon-table";
-import {TuiMarkerIconModule, TuiPaginationModule, TuiTagModule} from "@taiga-ui/kit";
-import {TuiButtonModule, TuiButtonShape} from "@taiga-ui/core";
+import {
+  TuiFieldErrorModule,
+  TuiInputModule,
+  TuiMarkerIconModule,
+  TuiPaginationModule,
+  TuiTagModule
+} from "@taiga-ui/kit";
+import {
+  TuiButtonModule,
+  TuiButtonShape,
+  TuiErrorModule,
+  TuiPrimitiveTextfieldModule,
+  TuiTextfieldControllerModule
+} from "@taiga-ui/core";
+import {ReactiveFormsModule} from "@angular/forms";
+import {FormModule} from "@nexthm/form";
 
 
 
@@ -23,7 +37,12 @@ import {TuiButtonModule, TuiButtonShape} from "@taiga-ui/core";
     TuiPaginationModule,
     TuiButtonModule,
     TuiTagModule,
-    TuiMarkerIconModule
+    TuiInputModule,
+    TuiErrorModule,
+    TuiFieldErrorModule,
+    TuiMarkerIconModule,
+    FormModule,
+    ReactiveFormsModule
   ]
 })
 export class LeaveTypeModule { }

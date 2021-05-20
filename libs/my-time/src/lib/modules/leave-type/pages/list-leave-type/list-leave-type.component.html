@@ -1,47 +1,38 @@
 <div class="p-8">
   <div class="tui-container  tui-container_adaptive">
-    <div class="tui-text_h3">Leave Type</div>
+    <div class="flex">
+      <div class="tui-text_h3">Leave Type</div>
+      <button
+        tuiButton
+        type="button"
+        class="tui-space_right-3 tui-space_bottom-3 ml-auto"
+        icon="tuiIconPlusLarge"
+        routerLink="../add"
+      >
+        Add Leave Type
+      </button>
+    </div>
+
     <div class="tui-row tui-row_adaptive">
       <div class="tui-col_12">
         <table tuiTable [columns]="columns" style="width: 100%" class="my-8">
           <thead>
           <tr tuiThGroup>
             <th *tuiHead="'name'" tuiTh>Name</th>
-            <th *tuiHead="'email'" tuiTh>E-mail</th>
-            <th *tuiHead="'status'" tuiTh>Status</th>
-            <th *tuiHead="'tags'" tuiTh [sorter]="null">Tags</th>
-            <th *tuiHead="'actions'" tuiTh [sorter]="null"></th>
+            <th *tuiHead="'action'" tuiTh class="w-32">Action</th>
           </tr>
           </thead>
-          <tbody tuiTbody [data]="users">
-          <tr *tuiRow="let item of users; let index = index" tuiTr>
-            <td *tuiCell="'name'" tuiTd>{{index + 1}}. {{item.name}}</td>
-            <td *tuiCell="'email'" tuiTd>
-              <a *ngIf="item.email" tuiLink [href]="'mailto:' + item.email">
-                {{item.email}}
-              </a>
-            </td>
-            <td *tuiCell="'status'" tuiTd>
-              <div [class]="item.status">{{item.status}}</div>
-            </td>
-            <td *tuiCell="'tags'" tuiTd>
-              <tui-tag
-                *ngFor="let tag of item.tags"
-                class="tui-space_right-1"
-                [value]="tag"
-                [autoColor]="true"
-              ></tui-tag>
-            </td>
-            <td *tuiCell="'actions'" tuiTd>
+          <tbody tuiTbody [data]="leaveTypes">
+          <tr *tuiRow="let type of leaveTypes; let index = index" tuiTr>
+            <td *tuiCell="'name'" tuiTd>{{index + 1}}. {{type.name}}</td>
+            <td *tuiCell="'action'" tuiTd>
               <button
                 tuiIconButton
-                class="remove"
                 appearance="flat"
                 size="s"
-                icon="tuiIconTrash"
-                title="Remove"
                 [shape]="$any('rounded')"
-                (click)="remove(item)"
+                [icon]="'tuiIconEditLarge'"
+                [routerLink]="['../edit/' + type.id]"
               ></button>
             </td>
           </tr>
