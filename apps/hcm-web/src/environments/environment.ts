@@ -2,11 +2,13 @@
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
-export const environment = {
-  baseUrl: 'http://localhost:4200',
+import { Environment } from '@nexthcm/core';
+
+export const environment: Environment = {
   production: false,
+  baseUrl: 'http://localhost:4200',
   apiUrl: 'https://dev-nexthcm-api.banvien.com.vn',
-  authUrl: 'http://192.168.2.20:31125',
+  authUrl: 'http://192.168.2.20:31125'
 };
 
 /*
