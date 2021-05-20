@@ -44,10 +44,7 @@ const routes: Routes = [
     FullCalendarModule,
     HttpClientModule,
     FormlyTaigaUiModule,
-    CoreModule.forRoot({
-      apiUrl: environment.apiUrl,
-      production: environment.production,
-    }),
+    CoreModule.forRoot(environment),
     CookieModule.forRoot(),
   ],
   providers: [{ provide: TUI_SANITIZER, useClass: NgDompurifySanitizer }],

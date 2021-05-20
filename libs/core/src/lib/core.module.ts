@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
-import { ENVIRONMENT, Environment } from './core.config';
+import { ENVIRONMENT } from './core.config';
+import { Environment } from './constants';
 
 @NgModule({
   imports: [CommonModule]
