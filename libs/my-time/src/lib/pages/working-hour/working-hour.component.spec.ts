@@ -8,6 +8,9 @@ describe('WorkingHourComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      declarations: [ WorkingHourComponent ]
+    })
+    .compileComponents();
       declarations: [WorkingHourComponent],
     }).compileComponents();
   });

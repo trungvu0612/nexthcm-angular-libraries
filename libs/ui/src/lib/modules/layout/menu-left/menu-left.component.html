@@ -1,0 +1,55 @@
+<section class="menu-left pt-5">
+  <a [routerLink]="'/'">
+    <tui-svg class="mx-auto" src="assets/images/banvien.svg"></tui-svg>
+  </a>
+  <div class="text-md mt-5 text-gray-400">BV Tools</div>
+
+  <tui-data-list
+    tuiDataListDropdownManager
+  >
+    <button [routerLink]="'/'" class="overview" tuiOption>Overview</button>
+    <button class="mytime"
+            tuiOption
+            [tuiDropdown]="false"
+            tuiDropdownAlign="right"
+            [tuiDropdownContent]="mytimesTmp"
+            [tuiDropdownSided]="true"
+    >
+      My Time
+    </button>
+
+    <button [routerLink]="'help-desk/bv-calendar'" class="helpdesk" tuiOption>Help Desk</button>
+    <div class="relative">
+      <button class="payslip" tuiOption>Payslip</button>
+      <div class="menu-noti w-6 h-6 rounded-full flex justify-center items-center bg-yellow-500 text-white text-xs"><p>
+        4</p></div>
+    </div>
+    <button class="report" tuiOption>Report</button>
+    <button class="human" tuiOption>Human Resource</button>
+    <button class="form" tuiOption>Form</button>
+    <button class="policy" tuiOption>Policy</button>
+  </tui-data-list>
+
+  <ng-template #mytimesTmp>
+    <tui-data-list
+      tuiDataListDropdownManager
+    >
+      <button [routerLink]="'my-time/working-hour'"  class="focus:outline-none hover:text-blue-400" *ngFor="let mytime of mytimes"
+              tuiOption>{{mytime}}</button>
+    </tui-data-list>
+  </ng-template>
+
+  <div class="text-md text-gray-400 insight">Insights</div>
+  <tui-data-list
+    tuiDataListDropdownManager
+  >
+
+    <div class="relative">
+      <div class="menu-noti w-6 h-6 rounded-full flex justify-center items-center bg-yellow-500 text-white text-xs"><p>
+        12</p></div>
+      <button class="notifications" tuiOption>Notifications</button>
+    </div>
+
+    <button class="config" tuiOption>Configurations</button>
+  </tui-data-list>
+</section>

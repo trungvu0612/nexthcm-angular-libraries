@@ -1,8 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HelpDeskComponent } from './help-desk.component';
+
 import { LayoutComponent } from '@nexthcm/ui';
 import { SeatMapComponent } from './pages/seat-map/seat-map.component';
+import { BvCalendarComponent } from './pages/bv-calendar/bv-calendar.component';
 
 const routes: Routes = [
   {
@@ -12,10 +14,11 @@ const routes: Routes = [
       {
         path: '',
         component: HelpDeskComponent,
-        children: [{ path: 'seat-map', component: SeatMapComponent }],
-      },
-    ],
-  },
+        children: [{ path: 'seat-map', component: SeatMapComponent },
+          { path: 'bv-calendar', component: BvCalendarComponent }]
+      }
+    ]
+  }
 ];
 
 @NgModule({
@@ -23,3 +26,4 @@ const routes: Routes = [
   exports: [RouterModule],
 })
 export class HelpDeskRoutingModule {}
+

@@ -31,6 +31,7 @@
     "publish:home": "cd dist/libs/home && yarn publish --non-interactive --ignore-scripts",
     "publish:my-time": "cd dist/libs/my-time && yarn publish --non-interactive --ignore-scripts",
     "publish:help-desk": "cd dist/libs/help-desk && yarn publish --non-interactive --ignore-scripts",
+    "publish:auth": "cd dist/libs/auth && yarn publish --non-interactive --ignore-scripts",
     "publish:human-resource": "cd dist/libs/human-resource && yarn publish --non-interactive --ignore-scripts"
   },
   "private": true,
@@ -45,6 +46,8 @@
     "@angular/platform-browser-dynamic": "12.0.0",
     "@angular/router": "12.0.0",
     "@datorama/akita": "^6.1.3",
+    "@fullcalendar/angular": "^5.7.0",
+    "@fullcalendar/daygrid": "^5.7.0",
     "@ng-select/ng-select": "^6.1.0",
     "@ngneat/reactive-forms": "^1.7.2",
     "@ngx-formly/core": "^5.10.19",
