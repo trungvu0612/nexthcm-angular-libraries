@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'hcm-login',
@@ -16,7 +16,8 @@ export class LoginComponent implements OnInit {
     remember: new FormControl(false)
   });
 
-  constructor(private router: Router, private authService: AuthService) {
+  constructor(private router: Router,
+              private authService: AuthService) {
   }
 
   ngOnInit(): void {
@@ -28,8 +29,10 @@ export class LoginComponent implements OnInit {
       const userData = this.loginForm.value;
       this.authService.login(userData).subscribe((data) => {
         if (data?.access_token) {
-          this.router.navigateByUrl('/');
+          this.router.navigateByUrl('');
         }
+      }, () => {
+        console.log('Login error');
       });
     }
   }

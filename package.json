@@ -90,6 +90,8 @@
     "@types/node": "14.14.33",
     "@typescript-eslint/eslint-plugin": "4.19.0",
     "@typescript-eslint/parser": "4.19.0",
+    "@auth0/angular-jwt": "^5.0.2",
+    "ngx-cookie": "^5.0.2",
     "autoprefixer": "^10.2.5",
     "cypress": "^7.3.0",
     "dotenv": "8.2.0",
