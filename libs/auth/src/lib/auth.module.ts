@@ -6,6 +6,9 @@ import { TuiTableModule } from '@taiga-ui/addon-table';
 import { LoginComponent } from './pages/login/login.component';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CookieModule } from 'ngx-cookie';
+import { HttpClientModule } from '@angular/common/http';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [LoginComponent],
@@ -21,6 +24,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     TuiInputPasswordModule,
     TuiCheckboxModule,
     TuiCheckboxLabeledModule,
+    HttpClientModule,
+    RouterModule,
+    CookieModule.forRoot(),
   ],
 })
 export class AuthModule {}

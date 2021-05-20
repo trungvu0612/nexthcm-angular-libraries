@@ -1,27 +1,38 @@
-import { Injectable } from '@angular/core';
-import { User } from '../models/users/user.model';
+import { Inject, Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Environment, ENVIRONMENT } from '@nexthcm/core';
+import { AuthStore } from '../state/auth/auth-store';
+import { AuthInfo, LoginPayload } from '../models';
 import { Observable } from 'rxjs';
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { UsersStore } from '../state/users/users-store';
+import { tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   constructor(
-    private usersStore: UsersStore,
-    private httpClient: HttpClient
+    private httpClient: HttpClient,
+    private authStore: AuthStore,
+    @Inject(ENVIRONMENT) protected env: Environment
   ) {
   }
 
-  login(userData: User): Observable<any> {
-    const apiUrl = 'https://dev-nexthcm-api.banvien.com.vn';
-    return this.httpClient.post<User>(apiUrl + '/accountapp/v1.0/auth',
-      undefined,
-      {
-        params: new HttpParams()
-          .append('username', userData.username ? userData.username : '')
-          .append('password', userData.password ? userData.password : '')
-      });
+  login(payload: LoginPayload): Observable<AuthInfo> {
+    const params = new URLSearchParams();
+    params.append('username', payload.username);
+    params.append('password', payload.password);
+    const headers = {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    };
+
+    console.log(this.env);
+
+    return this.httpClient.post<AuthInfo>(this.env.apiUrl + '/accountapp/v1.0/auth', params.toString(), { headers }).pipe(
+      tap((res) => this.authStore.login(res))
+    );
+  }
+
+  logout(): void {
+    this.authStore.logout();
   }
 }
