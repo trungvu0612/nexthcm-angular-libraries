@@ -19,7 +19,7 @@ export class AuthStore extends Store<UserInfo> {
 
   login(authInfo: AuthInfo): void {
     this.update(createState(authInfo.access_token));
-    this.cookieService.put('access_token', authInfo.access_token, { path: '' });
+    this.cookieService.put('access_token', authInfo.access_token, { path: '/' });
   }
 
   logout(): void {

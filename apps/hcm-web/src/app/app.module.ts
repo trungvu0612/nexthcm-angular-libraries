@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterModule, Routes } from '@angular/router';
 import { AkitaNgDevtools } from '@datorama/akita-ngdevtools';
 import { FormlyTaigaUiModule } from '@nexthcm/ui';
 import { FormlyModule } from '@ngx-formly/core';
@@ -16,25 +15,15 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import { HttpClientModule } from '@angular/common/http';
 import { CoreModule } from '@nexthcm/core';
 import { CookieModule } from 'ngx-cookie';
+import { AppRoutingModule } from './app-routing.module';
 
 FullCalendarModule.registerPlugins([dayGridPlugin]);
-
-const routes: Routes = [
-  { path: '', loadChildren: () => import('@nexthcm/home').then((m) => m.HomeModule) },
-  { path: 'my-time', loadChildren: () => import('@nexthcm/my-time').then((m) => m.MyTimeModule) },
-  { path: 'help-desk', loadChildren: () => import('@nexthcm/help-desk').then((m) => m.HelpDeskModule) },
-  {
-    path: 'human-resource',
-    loadChildren: () => import('@nexthcm/human-resource').then((m) => m.HumanResourceModule),
-  },
-  { path: 'auth', loadChildren: () => import('@nexthcm/auth').then((m) => m.AuthModule) },
-];
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
     BrowserModule,
-    RouterModule.forRoot(routes, { initialNavigation: 'enabled' }),
+    AppRoutingModule,
     environment.production ? [] : AkitaNgDevtools.forRoot(),
     ReactiveFormsModule,
     FormlyModule.forRoot({ extras: { lazyRender: true, resetFieldOnHide: true } }),
@@ -45,9 +34,10 @@ const routes: Routes = [
     HttpClientModule,
     FormlyTaigaUiModule,
     CoreModule.forRoot(environment),
-    CookieModule.forRoot(),
+    CookieModule.forRoot()
   ],
   providers: [{ provide: TUI_SANITIZER, useClass: NgDompurifySanitizer }],
-  bootstrap: [AppComponent],
+  bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule {
+}
