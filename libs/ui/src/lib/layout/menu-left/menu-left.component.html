@@ -31,12 +31,12 @@
   <ng-template #myTimesTpl>
     <tui-data-list tuiDataListDropdownManager>
       <button
-        *ngFor="let mytime of myTimes"
-        [routerLink]="'my-time/working-hour'"
+        *ngFor="let mytime of myTimeMenus"
+        [routerLink]="mytime.uri"
         class="focus:outline-none hover:text-blue-400"
         tuiOption
       >
-        {{ mytime }}
+        {{ mytime.name }}
       </button>
     </tui-data-list>
   </ng-template>
