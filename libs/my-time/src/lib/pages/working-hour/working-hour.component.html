@@ -1,7 +1,7 @@
 <div class="page-container">
   <div class="heading-title">Working Hour</div>
   <div class="grid grid-cols-1 md:grid-cols-2 my-10 text-base gap-6">
-    <div *ngIf="workingMeStatus" class="working-section relative">
+    <div class="working-section relative">
       <div class="shadow-tmp"></div>
       <div class="grid md:grid-cols-2 text-white text-center bg-purple-700 pt-5 pl-5 pr-5 pb-2 rounded-t-lg">
         <div>
@@ -49,12 +49,18 @@
       </div>
       <div class="grid grid-cols-2 my-5 text-base">
         <div class="text-center">
-          <button class="rounded-lg bg-blue-500 hover:bg-blue-600 text-white pl-10 pr-10 pt-2 pb-2 text-sm">
+          <button
+            (click)="requestOT()"
+            class="rounded-lg bg-blue-500 hover:bg-blue-600 text-white pl-10 pr-10 pt-2 pb-2 text-sm"
+          >
             Request OT
           </button>
         </div>
         <div class="text-center">
-          <button class="rounded-lg bg-blue-500 hover:bg-blue-600 text-white pl-10 pr-10 pt-2 pb-2 text-sm">
+          <button
+            (click)="workingOutsite()"
+            class="rounded-lg bg-blue-500 hover:bg-blue-600 text-white pl-10 pr-10 pt-2 pb-2 text-sm"
+          >
             Request Working Outside
           </button>
         </div>

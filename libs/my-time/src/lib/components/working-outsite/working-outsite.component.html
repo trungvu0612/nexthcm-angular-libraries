@@ -1,0 +1,39 @@
+<div class="modal-title font-bold my-5">Request Working Outside</div>
+<div class="grid md:grid-cols-2 gap-6">
+  <div>
+    <div>From Date <span class="text-red-600">*</span></div>
+    <tui-input-date [formControl]="fromDate" class="my-2" tuiUnfinishedValidator="Finish filling the field">
+      Choose a date
+    </tui-input-date>
+  </div>
+  <div>
+    <div>To Date <span class="text-red-600">*</span></div>
+    <tui-input-date [formControl]="toDate" class="my-2" tuiUnfinishedValidator="Finish filling the field">
+      Choose a date
+    </tui-input-date>
+  </div>
+</div>
+
+<div class="grid md:grid-cols-2 gap-6">
+  <div>
+    <div class="mt-5 mb-3">Duration</div>
+    <div class="b-form">
+      <tui-select [formControl]="duration" [tuiTextfieldLabelOutside]="true" tuiTextfieldSize="m">
+        <tui-data-list-wrapper *tuiDataList [items]="sendItems"></tui-data-list-wrapper>
+      </tui-select>
+    </div>
+  </div>
+  <div>
+    <div class="mt-5 mb-3">Send To <span class="text-red-600">*</span></div>
+    <div class="b-form">
+      <tui-select [formControl]="sendTo" [tuiTextfieldLabelOutside]="true" tuiTextfieldSize="m">
+        <tui-data-list-wrapper *tuiDataList [items]="sendItems"></tui-data-list-wrapper>
+      </tui-select>
+    </div>
+  </div>
+</div>
+
+<div class="mt-5 mb-3">Reason <span class="text-red-600">*</span></div>
+<tui-text-area [formControl]="reason" [tuiTextfieldLabelOutside]="true" class="tui-space_bottom-4"></tui-text-area>
+
+<button (click)="submit()" class="blue-button mt-5 mx-auto">Submit</button>

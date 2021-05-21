@@ -1,5 +1,8 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { CalendarOptions } from '@fullcalendar/angular'; // useful for typechecking
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
+import { CalendarOptions } from '@fullcalendar/angular';
+import { TuiDialogService } from '@taiga-ui/core';
+import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
+import { CreateCalendarComponent } from '../../components/create-calendar/create-calendar.component'; // useful for typechecking
 
 @Component({
   selector: 'hcm-bv-calendar',
@@ -17,7 +20,22 @@ export class BvCalendarComponent implements OnInit {
     ],
   };
 
-  constructor() {}
+  constructor(
+    private dialogService: TuiDialogService,
+    private injector: Injector,
+    private changeDetector: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {}
+
+  createCalendar(): void {
+    this.dialogService
+      .open(new PolymorpheusComponent(CreateCalendarComponent, this.injector), {
+        size: 'l',
+        closeable: false,
+      })
+      .subscribe((map) => {
+        this.changeDetector.detectChanges();
+      });
+  }
 }

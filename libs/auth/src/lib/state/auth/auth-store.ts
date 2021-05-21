@@ -1,9 +1,9 @@
-import { JwtHelperService } from '@auth0/angular-jwt';
-import { AuthInfo, UserInfo } from '../../models';
-import { resetStores, Store, StoreConfig } from '@datorama/akita';
 import { Injectable } from '@angular/core';
-import { CookieService } from 'ngx-cookie';
 import { Router } from '@angular/router';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { resetStores, Store, StoreConfig } from '@datorama/akita';
+import { CookieService } from 'ngx-cookie';
+import { AuthInfo, UserInfo } from '../../models';
 
 export function createState(token: string): UserInfo {
   const helper = new JwtHelperService();
