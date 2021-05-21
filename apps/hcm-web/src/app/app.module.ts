@@ -3,19 +3,15 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AkitaNgDevtools } from '@datorama/akita-ngdevtools';
-import { FormlyTaigaUiModule } from '@nexthcm/ui';
-import { FormlyModule } from '@ngx-formly/core';
-import { TUI_SANITIZER } from '@taiga-ui/cdk';
-import { TuiDialogModule, TuiRootModule } from '@taiga-ui/core';
-import { NgDompurifySanitizer } from '@tinkoff/ng-dompurify';
-import { environment } from '../environments/environment';
-import { AppComponent } from './app.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid';
-import { HttpClientModule } from '@angular/common/http';
 import { CoreModule } from '@nexthcm/core';
-import { CookieModule } from 'ngx-cookie';
+import { FormlyTaigaUiModule } from '@nexthcm/ui';
+import { FormlyModule } from '@ngx-formly/core';
+import { TuiRootModule } from '@taiga-ui/core';
+import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
 
 FullCalendarModule.registerPlugins([dayGridPlugin]);
 
@@ -29,15 +25,11 @@ FullCalendarModule.registerPlugins([dayGridPlugin]);
     FormlyModule.forRoot({ extras: { lazyRender: true, resetFieldOnHide: true } }),
     BrowserAnimationsModule,
     TuiRootModule,
-    TuiDialogModule,
     FullCalendarModule,
-    HttpClientModule,
     FormlyTaigaUiModule,
     CoreModule.forRoot(environment),
-    CookieModule.forRoot()
   ],
-  providers: [{ provide: TUI_SANITIZER, useClass: NgDompurifySanitizer }],
-  bootstrap: [AppComponent]
+  providers: [],
+  bootstrap: [AppComponent],
 })
-export class AppModule {
-}
+export class AppModule {}
