@@ -1,0 +1,23 @@
+:host {
+  display: block;
+
+  header {
+    p {
+      @apply text-base font-semibold ml-3;
+    }
+  }
+
+  .main-section {
+    header {
+      img {
+        box-shadow: 8px 8px 0 0 #dcdcdc;
+        @apply relative -left-1 rounded-xl w-16 h-16 mr-4;
+      }
+
+      .time {
+        color: #888c90;
+        @apply flex items-center mt-2;
+      }
+    }
+  }
+}

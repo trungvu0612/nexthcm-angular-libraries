@@ -1,0 +1,8 @@
+:host {
+  display: block;
+
+  img {
+    box-shadow: 12px 12px 0 0 #dcdcdc;
+    @apply relative -left-1.5 -top-1.5 rounded-xl cursor-pointer;
+  }
+}

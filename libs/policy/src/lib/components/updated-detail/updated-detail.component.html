@@ -1,0 +1,15 @@
+<section *ngFor="let item of data" class="flex border-b text-base pb-5 mb-5">
+  <tui-avatar [avatarUrl]="item.image" [rounded]="true" class="cursor-pointer mr-6" size="l"></tui-avatar>
+  <div>
+    <h1 class="font-semibold">{{ item.title }}</h1>
+    <div class="time">
+      <tui-svg class="mr-2" src="tuiIconTimeLarge"></tui-svg>
+      {{ item.time }}
+    </div>
+    <p>{{ item.content.length > 300 ? item.content.substring(0, 297) + '...' : item.content }}</p>
+  </div>
+</section>
+<ng-container [ngSwitch]="more">
+  <button (click)="viewMore()" *ngSwitchCase="true" class="blue-button">View More</button>
+  <p *ngSwitchDefault class="no-more">No more items found</p>
+</ng-container>

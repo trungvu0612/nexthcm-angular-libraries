@@ -1,0 +1,22 @@
+<main class="main-page">
+  <header>
+    <div class="flex items-baseline">
+      <h1 class="custom-link cursor-pointer" routerLink="../">Policy</h1>
+      <p>/</p>
+      <p>{{ data.title }}</p>
+    </div>
+  </header>
+  <section class="main-section p-8">
+    <header class="flex px-1 pb-2 mb-5">
+      <img [src]="data.image" alt="" />
+      <div>
+        <h1 class="text-2xl font-semibold">{{ data.title }}</h1>
+        <div class="time">
+          <tui-svg class="mr-2" src="tuiIconTimeLarge"></tui-svg>
+          {{ data.time }}
+        </div>
+      </div>
+    </header>
+    <p *ngFor="let item of data.content; last as last" [class.mb-3]="!last" class="text-base">{{ item }}</p>
+  </section>
+</main>

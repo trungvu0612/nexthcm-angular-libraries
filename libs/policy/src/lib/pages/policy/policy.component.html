@@ -1,0 +1,15 @@
+<main class="main-page">
+  <header>
+    <h1>Policy</h1>
+  </header>
+  <section class="main-section px-8 py-10">
+    <div class="policies flex justify-center flex-wrap">
+      <div *ngFor="let item of data" class="p-8 pb-0">
+        <img [routerLink]="['.', item.id]" [src]="item.image" alt="" class="w-56 h-56" />
+        <p class="text-center text-lg font-semibold mt-5">{{ item.title }}</p>
+      </div>
+    </div>
+    <p class="text-2xl font-semibold mb-7">Updated</p>
+    <hcm-updated-detail></hcm-updated-detail>
+  </section>
+</main>
