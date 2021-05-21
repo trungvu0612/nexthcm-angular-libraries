@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { AuthStore } from './auth-store';
 import { Query, toBoolean } from '@datorama/akita';
 import { UserInfo } from '../../models';
+import { AuthStore } from './auth-store';
 
 @Injectable({ providedIn: 'root' })
 export class AuthQuery extends Query<UserInfo> {

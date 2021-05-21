@@ -1,6 +1,10 @@
 :host {
   display: block;
 
+  button:focus {
+    outline: none;
+  }
+
   .page-container {
     padding: 30px;
   }

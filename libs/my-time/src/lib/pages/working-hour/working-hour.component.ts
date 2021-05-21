@@ -1,4 +1,8 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
+import { TuiDialogService } from '@taiga-ui/core';
+import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
+import { RequestOtComponent } from '../../components/request-ot/request-ot.component';
+import { WorkingOutsiteComponent } from '../../components/working-outsite/working-outsite.component';
 
 @Component({
   selector: 'hcm-working-hour',
@@ -9,7 +13,11 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 export class WorkingHourComponent implements OnInit {
   workingMeStatus = true;
 
-  constructor() {}
+  constructor(
+    private dialogService: TuiDialogService,
+    private injector: Injector,
+    private changeDetector: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {}
 
@@ -20,5 +28,27 @@ export class WorkingHourComponent implements OnInit {
     if (type == 'all') {
       this.workingMeStatus = false;
     }
+  }
+
+  requestOT(): void {
+    this.dialogService
+      .open(new PolymorpheusComponent(RequestOtComponent, this.injector), {
+        size: 'm',
+        closeable: false,
+      })
+      .subscribe((map) => {
+        this.changeDetector.detectChanges();
+      });
+  }
+
+  workingOutsite(): void {
+    this.dialogService
+      .open(new PolymorpheusComponent(WorkingOutsiteComponent, this.injector), {
+        size: 'm',
+        closeable: false,
+      })
+      .subscribe((map) => {
+        this.changeDetector.detectChanges();
+      });
   }
 }
