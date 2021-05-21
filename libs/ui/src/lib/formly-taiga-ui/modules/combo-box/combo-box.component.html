@@ -16,7 +16,6 @@
     <tui-data-list *ngIf="items; else loading">
       <button *ngFor="let item of items" [disabled]="item.disabled || false" [value]="item" tuiOption>
         <div class="flex items-center py-1">
-
           <tui-avatar
             [avatarUrl]="item[to.imageProp] ? to.imagePath + item[to.imageProp] : null"
             [text]="item[to.labelProp]"
@@ -30,7 +29,6 @@
               <span class="name text-xs font-medium">&nbsp;{{ item[to.labelProp] }}</span>
             </div>
           </div>
-
         </div>
       </button>
     </tui-data-list>

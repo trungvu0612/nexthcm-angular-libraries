@@ -1,35 +1,22 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LeaveTypeComponent } from './leave-type.component';
-import {RouterModule} from "@angular/router";
-import { ListLeaveTypeComponent } from './pages/list-leave-type/list-leave-type.component';
-import { UpsertLeaveTypeComponent } from './pages/upsert-leave-type/upsert-leave-type.component';
-import {TuiTableModule} from "@taiga-ui/addon-table";
+import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
+import { TuiTableModule } from '@taiga-ui/addon-table';
+import { TuiButtonModule, TuiErrorModule } from '@taiga-ui/core';
 import {
   TuiFieldErrorModule,
   TuiInputModule,
   TuiMarkerIconModule,
   TuiPaginationModule,
   TuiTagModule
-} from "@taiga-ui/kit";
-import {
-  TuiButtonModule,
-  TuiButtonShape,
-  TuiErrorModule,
-  TuiPrimitiveTextfieldModule,
-  TuiTextfieldControllerModule
-} from "@taiga-ui/core";
-import {ReactiveFormsModule} from "@angular/forms";
-import {FormModule} from "@nexthm/form";
-
-
+} from '@taiga-ui/kit';
+import { LeaveTypeComponent } from './leave-type.component';
+import { ListLeaveTypeComponent } from './pages/list-leave-type/list-leave-type.component';
+import { UpsertLeaveTypeComponent } from './pages/upsert-leave-type/upsert-leave-type.component';
 
 @NgModule({
-  declarations: [
-    LeaveTypeComponent,
-    ListLeaveTypeComponent,
-    UpsertLeaveTypeComponent
-  ],
+  declarations: [LeaveTypeComponent, ListLeaveTypeComponent, UpsertLeaveTypeComponent],
   imports: [
     CommonModule,
     RouterModule,
@@ -41,8 +28,7 @@ import {FormModule} from "@nexthm/form";
     TuiErrorModule,
     TuiFieldErrorModule,
     TuiMarkerIconModule,
-    FormModule,
-    ReactiveFormsModule
-  ]
+    ReactiveFormsModule,
+  ],
 })
-export class LeaveTypeModule { }
+export class LeaveTypeModule {}

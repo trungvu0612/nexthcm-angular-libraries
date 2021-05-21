@@ -14,7 +14,7 @@ import { FormFieldComponent } from './form-field.component';
     TuiLabelModule,
     PolymorpheusModule,
     FormlyModule.forChild({ wrappers: [{ name: 'form-field', component: FormFieldComponent }] }),
-    TuiErrorModule
-  ]
+    TuiErrorModule,
+  ],
 })
 export class FormFieldModule {}

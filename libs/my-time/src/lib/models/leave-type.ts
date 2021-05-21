@@ -1,4 +1,4 @@
-export interface LeaveType{
+export interface LeaveType {
   id?: string;
   orgId: string;
   name: string;

@@ -1,5 +1,3 @@
 {
-  "extends": [
-    "../../.stylelintrc.json"
-  ]
+  "extends": ["../../.stylelintrc.json"]
 }

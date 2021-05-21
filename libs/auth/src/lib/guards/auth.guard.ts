@@ -3,11 +3,10 @@ import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from
 import { AuthQuery } from '../state/auth/auth.query';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthGuard implements CanActivate {
-  constructor(private router: Router, private authQuery: AuthQuery) {
-  }
+  constructor(private router: Router, private authQuery: AuthQuery) {}
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     if (this.authQuery.isLoggedIn()) {

@@ -1,5 +1,5 @@
 <div class="p-8">
-  <div class="container ">
+  <div class="container">
     <div class="flex">
       <div class="tui-text_h3">Leave Type</div>
       <button
@@ -17,34 +17,29 @@
       <div class="grid-cols-12">
         <table tuiTable [columns]="columns" class="my-8 w-full">
           <thead>
-          <tr tuiThGroup>
-            <th *tuiHead="'name'" tuiTh>Name</th>
-            <th *tuiHead="'action'" tuiTh class="w-32">Action</th>
-          </tr>
+            <tr tuiThGroup>
+              <th *tuiHead="'name'" tuiTh>Name</th>
+              <th *tuiHead="'action'" class="w-32" tuiTh>Action</th>
+            </tr>
           </thead>
           <tbody tuiTbody [data]="leaveTypes">
-          <tr *tuiRow="let type of leaveTypes; let index = index" tuiTr>
-            <td *tuiCell="'name'" tuiTd>{{index + 1}}. {{type.name}}</td>
-            <td *tuiCell="'action'" tuiTd>
-              <button
-                tuiIconButton
-                appearance="flat"
-                size="s"
-                [shape]="$any('rounded')"
-                [icon]="'tuiIconEditLarge'"
-                [routerLink]="['../edit/' + type.id]"
-              ></button>
-            </td>
-          </tr>
+            <tr *tuiRow="let type of leaveTypes; let index = index" tuiTr>
+              <td *tuiCell="'name'" tuiTd>{{ index + 1 }}. {{ type.name }}</td>
+              <td *tuiCell="'action'" tuiTd>
+                <button
+                  [icon]="'tuiIconEditLarge'"
+                  [routerLink]="['../edit/' + type.id]"
+                  [shape]="$any('rounded')"
+                  appearance="flat"
+                  size="s"
+                  tuiIconButton
+                ></button>
+              </td>
+            </tr>
           </tbody>
         </table>
-        <tui-pagination
-          [length]="length"
-          [index]="index"
-          (indexChange)="goToPage($event)"
-        ></tui-pagination>
+        <tui-pagination (indexChange)="goToPage($event)" [index]="index" [length]="length"></tui-pagination>
       </div>
     </div>
-
   </div>
 </div>

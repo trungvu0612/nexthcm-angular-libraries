@@ -8,10 +8,9 @@ import { LeaveDetailDialogComponent } from '../leave-detail-dialog/leave-detail-
   selector: 'hcm-time-data-table',
   templateUrl: './time-data-table.component.html',
   styleUrls: ['./time-data-table.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TimeDataTableComponent implements OnInit {
-
   @Input() columns!: string[];
   data: MyLeave[] = [
     {
@@ -74,8 +73,7 @@ export class TimeDataTableComponent implements OnInit {
 
   constructor(private dialogService: TuiDialogService, private injector: Injector) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   cancel(): void {
     console.log('cancel');

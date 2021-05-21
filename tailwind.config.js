@@ -6,17 +6,14 @@ module.exports = {
   prefix: '',
   mode: 'jit',
   purge: {
-    content: [
-      './apps/**/*.{html,ts,css,scss,sass,less,styl}',
-      './libs/**/*.{html,ts,css,scss,sass,less,styl}'
-    ]
+    content: ['./apps/**/*.{html,ts,css,scss,sass,less,styl}', './libs/**/*.{html,ts,css,scss,sass,less,styl}'],
   },
   darkMode: false, // or 'media' or 'class'
   theme: {
-    extend: {}
+    extend: {},
   },
   variants: {
-    extend: {}
+    extend: {},
   },
-  plugins: []
+  plugins: [],
 };

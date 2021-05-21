@@ -1,12 +1,12 @@
-<article *ngIf='item'>
-  <header class='flex justify-between items-center mb-7'>
-    <h1 class='text-2xl font-semibold'>{{ item.title }}</h1>
-    <button (click)='close()'>
-      <tui-svg src='tuiIconRemoveLarge'></tui-svg>
+<article *ngIf="item">
+  <header class="flex justify-between items-center mb-7">
+    <h1 class="text-2xl font-semibold">{{ item.title }}</h1>
+    <button (click)="close()">
+      <tui-svg src="tuiIconRemoveLarge"></tui-svg>
     </button>
   </header>
-  <table class='detail-table mb-6'>
-    <ng-container [ngSwitch]='item.group'>
+  <table class="detail-table mb-6">
+    <ng-container [ngSwitch]="item.group">
       <ng-container *ngSwitchCase="'updateTime'">
         <tr>
           <th>Date:</th>
@@ -34,7 +34,7 @@
           <th>Date:</th>
           <td>{{ item.fromDate | date: 'MM/dd/yyyy' }} - {{ item.fromDate | date: 'MM/dd/yyyy' }}</td>
         </tr>
-        <ng-container [ngSwitch]='item.group'>
+        <ng-container [ngSwitch]="item.group">
           <tr *ngSwitchCase="'overTime'">
             <th>Spent time:</th>
             <td>{{ item.spentTime || '--' }}</td>
@@ -49,10 +49,10 @@
     <tr>
       <th>Status:</th>
       <td>
-        <tui-tag [class]="['tui-tag', item.status.toLowerCase() + '-tag']" [value]='item.status'></tui-tag>
+        <tui-tag [class]="['tui-tag', item.status.toLowerCase() + '-tag']" [value]="item.status"></tui-tag>
       </td>
     </tr>
-    <ng-container [ngSwitch]='item.group'>
+    <ng-container [ngSwitch]="item.group">
       <ng-container *ngSwitchCase="'updateTime'">
         <tr>
           <th>Comment:</th>
@@ -63,9 +63,9 @@
         <tr>
           <th>Sent to:</th>
           <td>
-            <a [routerLink]="['/human-resource/employees', 'cif-number']" class='custom-link underline'>{{
+            <a [routerLink]="['/human-resource/employees', 'cif-number']" class="custom-link underline">{{
               item.sentTo
-              }}</a>
+            }}</a>
           </td>
         </tr>
         <tr>
@@ -75,10 +75,10 @@
       </ng-container>
     </ng-container>
   </table>
-  <footer class='flex justify-center'>
-    <button (click)='cancel()' *ngIf="item.status === 'Waiting'" class='cancel blue-button mr-7'>
+  <footer class="flex justify-center">
+    <button (click)="cancel()" *ngIf="item.status === 'Waiting'" class="cancel blue-button mr-7">
       Cancel Leave Request
     </button>
-    <button (click)='close()' class='blue-button'>Close</button>
+    <button (click)="close()" class="blue-button">Close</button>
   </footer>
 </article>

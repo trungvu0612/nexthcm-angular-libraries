@@ -3,15 +3,14 @@ import { Observable, of } from 'rxjs';
 import { SubmitLeave } from '../../models/submit-leave';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SubmitLeaveService {
-
-  constructor() { }
+  constructor() {}
 
   get(): Observable<SubmitLeave[]> {
     return of([
-      { id: 5012, image: "assets/icons/cake.svg", name: 'Dairy Omung' },
+      { id: 5012, image: 'assets/icons/cake.svg', name: 'Dairy Omung' },
       { id: 851, image: 'assets/icons/cake.svg', name: 'Dutch Lady' },
       { id: 2271, image: 'assets/icons/cake.svg', name: 'Frisian Flag' },
       { id: 919, image: 'assets/icons/cake.svg', name: 'Gummy Candy' },
@@ -33,6 +32,4 @@ export class SubmitLeaveService {
       { id: 3939, image: 'assets/icons/cake.svg', name: 'PEAK YOGHURT' },
     ]);
   }
-
-
 }

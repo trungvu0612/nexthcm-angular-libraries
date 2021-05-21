@@ -1,6 +1,6 @@
-import {Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef} from '@angular/core';
-import {LeaveTypeService} from "../../../../services/leave-type.service";
-import {LeaveType} from "../../../../models/leave-type";
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { LeaveType } from '../../../../models/leave-type';
+import { LeaveTypeService } from '../../../../services/leave-type.service';
 
 interface User {
   readonly name: string;
@@ -13,32 +13,26 @@ interface User {
   selector: 'hcm-list-leave-type',
   templateUrl: './list-leave-type.component.html',
   styleUrls: ['./list-leave-type.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ListLeaveTypeComponent implements OnInit {
-
   length = 0;
   index = 0;
   total = 0;
 
-  leaveTypes!: LeaveType[] ;
-  constructor(private leaveTypeService: LeaveTypeService,
-              private cdr: ChangeDetectorRef) {
-  }
+  leaveTypes!: LeaveType[];
+  constructor(private leaveTypeService: LeaveTypeService, private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
-    this.leaveTypeService.getLeaveTypes(this.index,10).subscribe(item => {
+    this.leaveTypeService.getLeaveTypes(this.index, 10).subscribe((item) => {
       this.length = item.totalPage;
-      this.leaveTypes= item.items;
+      this.leaveTypes = item.items;
       this.cdr.detectChanges();
-    })
+    });
   }
   readonly columns = ['name', 'action'];
 
   goToPage(index: number) {
     this.index = index;
   }
-
-
-
 }

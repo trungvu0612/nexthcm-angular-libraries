@@ -26,9 +26,7 @@ export class ComboBoxComponent extends FieldType {
   readonly items$: Observable<ReadonlyArray<any> | null> = this.search$.pipe(
     filter((search) => !!search),
     distinctUntilChanged(),
-    switchMap(
-      (search) => this.to.serverRequest(search).pipe(startWith(null)) as Observable<ReadonlyArray<any> | null>
-    ),
+    switchMap((search) => this.to.serverRequest(search).pipe(startWith(null)) as Observable<ReadonlyArray<any> | null>),
     takeUntil(this.destroy$),
     shareReplay(1)
   );

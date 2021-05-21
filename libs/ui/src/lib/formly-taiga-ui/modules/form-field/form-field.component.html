@@ -11,9 +11,7 @@
   <tui-error *ngIf="showError" [error]="error"></tui-error>
 </ng-template>
 
-<ng-template #label>
-  {{ to.label }}&nbsp;<span *ngIf="to.required" class="tui-required"></span>
-</ng-template>
+<ng-template #label> {{ to.label }}&nbsp;<span *ngIf="to.required" class="tui-required"></span> </ng-template>
 
 <ng-template #errorContent="polymorpheus" [polymorpheus]="context">
   <formly-validation-message [field]="field"></formly-validation-message>

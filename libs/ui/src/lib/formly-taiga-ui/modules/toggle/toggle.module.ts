@@ -15,7 +15,7 @@ import { ToggleComponent } from './toggle.component';
     FormlyModule.forChild({ types: [{ name: 'toggle', component: ToggleComponent, wrappers: ['form-field'] }] }),
     ReactiveFormsModule,
     TuiToggleModule,
-    TuiLabelModule
-  ]
+    TuiLabelModule,
+  ],
 })
 export class ToggleModule {}

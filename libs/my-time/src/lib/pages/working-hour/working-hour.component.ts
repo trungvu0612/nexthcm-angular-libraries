@@ -4,16 +4,14 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
   selector: 'hcm-working-hour',
   templateUrl: './working-hour.component.html',
   styleUrls: ['./working-hour.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WorkingHourComponent implements OnInit {
-  workingMeStatus: boolean = true;
+  workingMeStatus = true;
 
-  constructor() {
-  }
+  constructor() {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   workingStatus(type: string) {
     if (type == 'me') {

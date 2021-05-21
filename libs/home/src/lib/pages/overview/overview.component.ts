@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'hcm-overview',
@@ -13,6 +13,6 @@ export class OverviewComponent implements OnInit {
   ngOnInit(): void {}
 
   fingerStatus() {
-    this.fingerCheck  = !this.fingerCheck;
+    this.fingerCheck = !this.fingerCheck;
   }
 }

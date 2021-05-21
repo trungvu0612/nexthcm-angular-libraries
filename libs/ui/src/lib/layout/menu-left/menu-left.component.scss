@@ -2,12 +2,12 @@
   display: block;
 
   ::ng-deep ._with-dropdown {
-    background-color: #1B65E3 !important;
+    background-color: #1b65e3 !important;
     border-radius: 14px;
     color: #ffffff;
 
     &:focus {
-      background-color: #1B65E3;
+      background-color: #1b65e3;
       border-radius: 14px;
     }
   }
@@ -33,99 +33,98 @@
       }
 
       &:hover {
-        background-color: #1B65E3;
+        background-color: #1b65e3;
         border-radius: 14px;
         background-repeat: no-repeat;
         background-position: 10px;
         padding-left: 40px;
         color: #ffffff;
       }
-
     }
 
     .overview {
-      background-image: url("/assets/images/overview.png");
+      background-image: url('/assets/images/overview.png');
 
       &:hover {
-        background-image: url("/assets/images/overview-hover.png");
+        background-image: url('/assets/images/overview-hover.png');
       }
     }
 
     .mytime {
-      background-image: url("/assets/images/mytime.png");
+      background-image: url('/assets/images/mytime.png');
 
       &:hover {
-        background-image: url("/assets/images/mytime-hover.png");
+        background-image: url('/assets/images/mytime-hover.png');
       }
     }
 
     .helpdesk {
-      background-image: url("/assets/images/helpdesk.png");
+      background-image: url('/assets/images/helpdesk.png');
 
       &:hover {
-        background-image: url("/assets/images/helpdesk-hover.png");
+        background-image: url('/assets/images/helpdesk-hover.png');
       }
     }
 
     .payslip {
-      background-image: url("/assets/images/payslip.png");
+      background-image: url('/assets/images/payslip.png');
 
       &:hover {
-        background-image: url("/assets/images/payslip-hover.png");
+        background-image: url('/assets/images/payslip-hover.png');
       }
     }
 
     .report {
-      background-image: url("/assets/images/report.png");
+      background-image: url('/assets/images/report.png');
 
       &:hover {
-        background-image: url("/assets/images/report-hover.png");
+        background-image: url('/assets/images/report-hover.png');
       }
     }
 
     .human {
-      background-image: url("/assets/images/human.png");
+      background-image: url('/assets/images/human.png');
 
       &:hover {
-        background-image: url("/assets/images/human-hover.png");
+        background-image: url('/assets/images/human-hover.png');
       }
     }
 
     .form {
-      background-image: url("/assets/images/form.png");
+      background-image: url('/assets/images/form.png');
 
       &:hover {
-        background-image: url("/assets/images/form-hover.png");
+        background-image: url('/assets/images/form-hover.png');
       }
     }
 
     .policy {
-      background-image: url("/assets/images/policy.png");
+      background-image: url('/assets/images/policy.png');
 
       &:hover {
-        background-image: url("/assets/images/policy-hover.png");
+        background-image: url('/assets/images/policy-hover.png');
       }
     }
 
     .notifications {
-      background-image: url("/assets/images/notifications.png");
+      background-image: url('/assets/images/notifications.png');
 
       &:hover {
-        background-image: url("/assets/images/notifications-hover.png");
+        background-image: url('/assets/images/notifications-hover.png');
       }
     }
 
     .config {
-      background-image: url("/assets/images/config.png");
+      background-image: url('/assets/images/config.png');
 
       &:hover {
-        background-image: url("/assets/images/config-hover.png");
+        background-image: url('/assets/images/config-hover.png');
       }
     }
   }
 
   .insight {
-    border-top: solid 1px #E4E4E4;
+    border-top: solid 1px #e4e4e4;
     padding-top: 10px;
   }
 

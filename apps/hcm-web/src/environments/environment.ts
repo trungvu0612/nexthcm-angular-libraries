@@ -8,7 +8,7 @@ export const environment: Environment = {
   production: false,
   baseUrl: 'http://localhost:4200',
   apiUrl: 'https://dev-nexthcm-api.banvien.com.vn',
-  authUrl: 'http://192.168.2.20:31125'
+  authUrl: 'http://192.168.2.20:31125',
 };
 
 /*
