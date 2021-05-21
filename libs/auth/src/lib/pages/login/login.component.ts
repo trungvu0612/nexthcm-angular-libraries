@@ -7,33 +7,25 @@ import { AuthService } from '../../services/auth.service';
   selector: 'hcm-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginComponent implements OnInit {
   readonly loginForm = new FormGroup({
     username: new FormControl(''),
     password: new FormControl(''),
-    remember: new FormControl(false)
+    remember: new FormControl(false),
   });
 
-  constructor(private router: Router,
-              private authService: AuthService) {
-  }
+  constructor(private router: Router, private authService: AuthService) {}
 
-  ngOnInit(): void {
-
-  }
+  ngOnInit(): void {}
 
   onSubmit() {
     if (this.loginForm.valid) {
-      const userData = this.loginForm.value;
-      this.authService.login(userData).subscribe((data) => {
-        if (data?.access_token) {
-          this.router.navigateByUrl('');
-        }
-      }, () => {
-        console.log('Login error');
-      });
+      this.authService.login(this.loginForm.value).subscribe(
+        () => this.router.navigateByUrl('/'),
+        () => console.log('Login error')
+      );
     }
   }
 }

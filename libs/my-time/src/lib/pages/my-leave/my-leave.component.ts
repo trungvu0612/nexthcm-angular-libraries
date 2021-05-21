@@ -8,16 +8,15 @@ import { SubmitLeaveRequestDialogComponent } from '../../components/submit-leave
   selector: 'hcm-my-leave',
   templateUrl: './my-leave.component.html',
   styleUrls: ['./my-leave.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
-})export class MyLeaveComponent implements OnInit {
-
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class MyLeaveComponent implements OnInit {
   dateControl = new FormControl<Date>();
-  columns = ['date', 'leaveType', 'days', 'status','sendTo', 'action'];
+  columns = ['date', 'leaveType', 'days', 'status', 'sendTo', 'action'];
 
   constructor(private dialogService: TuiDialogService, private injector: Injector) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   showDialog() {
     this.dialogService
@@ -33,5 +32,4 @@ import { SubmitLeaveRequestDialogComponent } from '../../components/submit-leave
   cancel(): void {
     console.log('cancel');
   }
-
 }

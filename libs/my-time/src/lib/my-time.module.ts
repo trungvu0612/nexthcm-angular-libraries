@@ -27,7 +27,7 @@ import { TimeDataTableComponent } from './components/time-data-table/time-data-t
 import { MyTimeRoutingModule } from './my-time-routing.module';
 import { MyTimeComponent } from './my-time.component';
 import { MyLeaveComponent } from './pages/my-leave/my-leave.component';
-import {LeaveTypeModule} from "./modules/leave-type/leave-type.module";
+import { LeaveTypeModule } from './modules/leave-type/leave-type.module';
 import { MyRequestComponent } from './pages/my-request/my-request.component';
 
 @NgModule({

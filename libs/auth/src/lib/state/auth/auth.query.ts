@@ -12,7 +12,6 @@ export class AuthQuery extends Query<UserInfo> {
   }
 
   isLoggedIn(): boolean {
-    console.log('islogged');
-    return toBoolean(this.getValue().id);
+    return toBoolean(this.getValue().userId);
   }
 }
