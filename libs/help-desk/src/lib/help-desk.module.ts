@@ -17,13 +17,12 @@ import {
   TuiRadioBlockModule,
   TuiSelectModule,
   TuiSelectOptionModule,
-  TuiTextAreaModule
+  TuiTextAreaModule,
 } from '@taiga-ui/kit';
 import { PolymorpheusModule } from '@tinkoff/ng-polymorpheus';
 import { AddSeatComboBoxComponent } from './components/add-seat-combo-box/add-seat-combo-box.component';
 import { AddSeatDialogComponent } from './components/add-seat-dialog/add-seat-dialog.component';
 import { CreateCalendarComponent } from './components/create-calendar/create-calendar.component';
-import { CreateSeatMapComponent } from './components/create-seat-map/create-seat-map.component';
 import { CustomTuiComboBoxModule } from './components/custom-combo-box/custom-combo-box.module';
 import { MoveSeatDialogComponent } from './components/move-seat-dialog/move-seat-dialog.component';
 import { RepeatSectionComponent } from './components/repeat-section/repeat-section.component';
@@ -32,6 +31,8 @@ import { HelpDeskRoutingModule } from './help-desk-routing.module';
 import { HelpDeskComponent } from './help-desk.component';
 import { BvCalendarComponent } from './pages/bv-calendar/bv-calendar.component';
 import { SeatMapComponent } from './pages/seat-map/seat-map.component';
+import { LayoutModule } from '@nexthcm/ui';
+import { CreateSeatMapDialogComponent } from './components/create-seat-map-dialog/create-seat-map-dialog.component';
 
 FullCalendarModule.registerPlugins([dayGridPlugin]);
 
@@ -44,7 +45,7 @@ FullCalendarModule.registerPlugins([dayGridPlugin]);
     RepeatSectionComponent,
     MoveSeatDialogComponent,
     AddSeatComboBoxComponent,
-    CreateSeatMapComponent,
+    CreateSeatMapDialogComponent,
     BvCalendarComponent,
     CreateCalendarComponent,
   ],
@@ -76,6 +77,7 @@ FullCalendarModule.registerPlugins([dayGridPlugin]);
     TuiTextAreaModule,
     TuiInputFileModule,
     TuiSvgModule,
+    LayoutModule,
   ],
 })
 export class HelpDeskModule {}

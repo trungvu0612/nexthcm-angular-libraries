@@ -12,7 +12,7 @@ import { RequestDialogComponent } from '../request-dialog/request-dialog.compone
 })
 export class RequestDataTableComponent implements OnInit {
   @Input() columns!: string[];
-  @Input() data!: MyRequestData[];
+  @Input() data!: Partial<MyRequestData>[];
 
   constructor(private dialogService: TuiDialogService, private injector: Injector) {}
 
@@ -22,11 +22,25 @@ export class RequestDataTableComponent implements OnInit {
     console.log('cancel');
   }
 
-  showDialog(item: MyRequestData): void {
+  showDialog(item: Partial<MyRequestData>): void {
+    let title, group;
+    switch (this.columns[2]) {
+      case 'spentTime':
+        title = 'Overtime Detail';
+        group = 'overTime';
+        break;
+      case 'dayOfWeek':
+        title = 'Working Outside Detail';
+        group = 'updateTime';
+        break;
+      default:
+        title = 'Working Outside Detail';
+        group = 'workingOutside';
+    }
     this.dialogService
       .open<boolean>(new PolymorpheusComponent(RequestDialogComponent, this.injector), {
         closeable: false,
-        data: item,
+        data: { item, title, group },
       })
       .subscribe((cancel) => {
         if (cancel) this.cancel();

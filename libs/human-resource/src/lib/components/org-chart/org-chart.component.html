@@ -1,0 +1,58 @@
+<main class="flex flex-col items-center">
+
+  <div class="person">
+    <button *ngFor="let item of itemCEOs" class="h-16 hover:bg-gray-300 bg-white flex justify-between py-3 px-6">
+      <div class="mr-4">
+        <div class="text-sm text-left">
+          <strong>{{ item.name }}</strong>
+        </div>
+        <div class="text-blue-500 text-left">{{ item.job }}</div>
+      </div>
+      <tui-avatar
+        [autoColor]="true"
+        [avatarUrl]="item.img"
+        [rounded]="true"
+        [text]="item.name"
+      ></tui-avatar>
+    </button>
+  </div>
+
+  <div class="h-9 border-r-4 border"></div>
+
+  <div class="person">
+    <button *ngFor="let item of itemLeaders"
+            class=" hover:bg-gray-300 bg-white flex justify-between py-3 px-6">
+      <div class="mr-4">
+        <div class="text-sm text-left">
+          <strong>{{ item.name }}</strong>
+        </div>
+        <div class="text-blue-500 text-left">{{ item.job }}</div>
+      </div>
+      <tui-avatar
+        [autoColor]="true"
+        [avatarUrl]="item.img"
+        [rounded]="true"
+        [text]="item.name"
+      ></tui-avatar>
+    </button>
+  </div>
+
+  <div class="h-9 border-r-4 border"></div>
+
+  <div class=" border-t-4 border flex flex-wrap justify-center gap-4 py-9">
+    <button *ngFor="let item of items" class="h-16 hover:bg-gray-300 bg-white flex justify-between rounded-sm py-3 px-6">
+      <div class="mr-4">
+        <div class="text-gray-900 font-medium text-base text-left">
+          <strong>{{ item.name }}</strong>
+        </div>
+        <div class="text-gray-500 font-light text-sm text-blue-500 text-left">{{ item.job }}</div>
+      </div>
+      <tui-avatar
+        [autoColor]="true"
+        [avatarUrl]="item.img"
+        [rounded]="true"
+        [text]="item.name"
+      ></tui-avatar>
+    </button>
+  </div>
+</main>

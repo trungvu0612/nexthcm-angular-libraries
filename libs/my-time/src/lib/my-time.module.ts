@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { FormlyTaigaUiModule } from '@nexthcm/ui';
+import { FormlyTaigaUiModule, LayoutModule } from '@nexthcm/ui';
 import { FormlyModule } from '@ngx-formly/core';
 import { TuiReorderModule, TuiTableModule, TuiTablePaginationModule } from '@taiga-ui/addon-table';
 import {
@@ -9,7 +9,7 @@ import {
   TuiHostedDropdownModule,
   TuiLoaderModule,
   TuiSvgModule,
-  TuiTextfieldControllerModule
+  TuiTextfieldControllerModule,
 } from '@taiga-ui/core';
 import {
   TuiDataListWrapperModule,
@@ -23,7 +23,7 @@ import {
   TuiSelectModule,
   TuiTabsModule,
   TuiTagModule,
-  TuiTextAreaModule
+  TuiTextAreaModule,
 } from '@taiga-ui/kit';
 import { LeaveDetailDialogComponent } from './components/leave-detail-dialog/leave-detail-dialog.component';
 import { RequestDataTableComponent } from './components/request-data-table/request-data-table.component';
@@ -81,6 +81,7 @@ import { MyRequestComponent } from './pages/my-request/my-request.component';
     TuiTextAreaModule,
     TuiDataListWrapperModule,
     TuiSelectModule,
+    LayoutModule,
   ],
 })
 export class MyTimeModule {}

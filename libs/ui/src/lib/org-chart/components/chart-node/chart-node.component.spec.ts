@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CreateSeatMapComponent } from './create-seat-map.component';
+import { ChartNodeComponent } from './chart-node.component';
 
-describe('CreateSeatMapComponent', () => {
-  let component: CreateSeatMapComponent;
-  let fixture: ComponentFixture<CreateSeatMapComponent>;
+describe('ChartNodeComponent', () => {
+  let component: ChartNodeComponent;
+  let fixture: ComponentFixture<ChartNodeComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [CreateSeatMapComponent],
+      declarations: [ChartNodeComponent],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CreateSeatMapComponent);
+    fixture = TestBed.createComponent(ChartNodeComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -17,6 +17,7 @@ const routes: Routes = [
         path: '',
         component: HelpDeskComponent,
         children: [
+          { path: '', pathMatch: 'full', redirectTo: 'seat-map' },
           { path: 'seat-map', component: SeatMapComponent },
           { path: 'bv-calendar', component: BvCalendarComponent },
         ],

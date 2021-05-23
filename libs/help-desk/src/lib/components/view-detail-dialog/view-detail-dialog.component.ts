@@ -4,6 +4,7 @@ import { TuiDialogContext, TuiDialogService } from '@taiga-ui/core';
 import { Router } from '@angular/router';
 import { EmployeeInfo } from '@nexthcm/core';
 import { MoveSeatDialogComponent } from '../move-seat-dialog/move-seat-dialog.component';
+import { Dispatch } from '../../models/seat-map';
 
 @Component({
   selector: 'hcm-view-detail-dialog',
@@ -13,7 +14,7 @@ import { MoveSeatDialogComponent } from '../move-seat-dialog/move-seat-dialog.co
 })
 export class ViewDetailDialogComponent implements OnInit {
   isAdmin = true;
-  detail: EmployeeInfo = {
+  detail: Partial<EmployeeInfo> = {
     status: 'Leave',
     cif: '1203001',
     fullName: 'BUI QUI THAN',
@@ -34,11 +35,12 @@ export class ViewDetailDialogComponent implements OnInit {
     facebook: 'fb.com/pnhoanghai0307',
     instagram: 'ins.com/pnhoanghai0307',
   };
-  status = this.detail.status.toLowerCase().replace('/', '-').split(' ').join('-');
+  status = this.detail.status?.toLowerCase().replace('/', '-').split(' ').join('-');
 
   constructor(
     private dialogService: TuiDialogService,
-    @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<any, any>,
+    @Inject(POLYMORPHEUS_CONTEXT)
+    private readonly context: TuiDialogContext<Dispatch<number>, { id?: string; seats: unknown }>,
     private injector: Injector,
     private router: Router
   ) {}
@@ -46,7 +48,7 @@ export class ViewDetailDialogComponent implements OnInit {
   ngOnInit(): void {}
 
   close(): void {
-    this.context.completeWith('close');
+    this.context.completeWith({ type: 'close' });
   }
 
   delete(): void {
@@ -65,7 +67,7 @@ export class ViewDetailDialogComponent implements OnInit {
   }
 
   viewDetail(): void {
-    this.context.completeWith('view');
+    this.context.completeWith({ type: 'viewDetail' });
     this.router.navigate(['/human-resource/employees', this.detail.cif]);
   }
 }

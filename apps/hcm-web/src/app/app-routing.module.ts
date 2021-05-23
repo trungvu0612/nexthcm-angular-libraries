@@ -7,6 +7,7 @@ const routes: Routes = [
   { path: 'my-time', loadChildren: () => import('@nexthcm/my-time').then((m) => m.MyTimeModule) },
   { path: 'help-desk', loadChildren: () => import('@nexthcm/help-desk').then((m) => m.HelpDeskModule) },
   { path: 'human-resource', loadChildren: () => import('@nexthcm/human-resource').then((m) => m.HumanResourceModule) },
+  { path: 'policy', loadChildren: () => import('@nexthcm/policy').then((m) => m.PolicyModule) },
 ];
 
 @NgModule({
