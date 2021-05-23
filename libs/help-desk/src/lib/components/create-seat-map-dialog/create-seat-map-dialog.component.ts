@@ -6,7 +6,7 @@ import { FormlyFieldConfig } from '@ngx-formly/core';
 import { takeUntil } from 'rxjs/operators';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { BehaviorSubject } from 'rxjs';
-import { SeatInfo } from '../../models/models';
+import { SeatInfo } from '../../models/seat-map';
 
 @Component({
   selector: 'hcm-create-seat-map',
@@ -15,8 +15,8 @@ import { SeatInfo } from '../../models/models';
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [TuiDestroyService],
 })
-export class CreateSeatMapComponent implements OnInit {
-  map$ = new BehaviorSubject<SeatInfo[][]>([[{ status: 'none' }]]);
+export class CreateSeatMapDialogComponent implements OnInit {
+  map$ = new BehaviorSubject<Partial<SeatInfo>[][]>([[{ status: 'none' }]]);
   typeCell = new FormControl<string>('empty');
   form = new FormGroup<{ [key: string]: number }>({});
   model = { x: 1, y: 1 };
@@ -40,7 +40,7 @@ export class CreateSeatMapComponent implements OnInit {
   ];
 
   constructor(
-    @Inject(POLYMORPHEUS_CONTEXT) private context: TuiDialogContext<SeatInfo[][]>,
+    @Inject(POLYMORPHEUS_CONTEXT) private context: TuiDialogContext<Partial<SeatInfo>[][]>,
     private destroy$: TuiDestroyService
   ) {}
 

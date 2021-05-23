@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LayoutComponent } from '@nexthcm/ui';
-import { PolicyDetailComponent } from './pages/policy-detail/policy-detail.component';
-import { PolicyComponent } from './pages/policy/policy.component';
-import { UpdatedComponent } from './pages/updated/updated.component';
 import { PolicyLayoutComponent } from './policy-layout.component';
+import { PolicyComponent } from './pages/policy/policy.component';
+import { PolicyDetailComponent } from './pages/policy-detail/policy-detail.component';
+import { UpdatedComponent } from './pages/updated/updated.component';
 
 const routes: Routes = [
   {

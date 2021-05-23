@@ -47,7 +47,7 @@
       </section>
       <section *ngIf="!fingerCheck" class="working-preview">
         <div class="heading-title mt-4">Your working days this month</div>
-        <div class="finger-section" (click)="fingerStatus()">
+        <div (click)="fingerStatus()" class="finger-section">
           <span class="text-8xl text-blue-500 font-bold">11.5</span>
           <span class="text-3xl text-gray-400 font-bold">/12</span>
         </div>

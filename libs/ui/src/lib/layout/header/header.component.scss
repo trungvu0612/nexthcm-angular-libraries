@@ -1,0 +1,29 @@
+:host {
+  display: block;
+
+  ::ng-deep {
+    .tui-zero-scrollbar {
+      button {
+        outline: none !important;
+        @apply mx-0 px-6;
+
+        &._active .highlight {
+          color: #1b65e3;
+        }
+      }
+    }
+  }
+
+  .notification {
+    @apply relative cursor-pointer w-8 h-8 mx-8;
+
+    .bell {
+      @apply absolute bottom-0 left-0;
+    }
+
+    .badge {
+      background-color: #eb3b5a;
+      @apply flex justify-center items-center absolute top-0 right-0 text-xs text-white font-semibold rounded-full w-5 h-5;
+    }
+  }
+}

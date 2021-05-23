@@ -3,11 +3,7 @@ import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { FormGroup } from '@angular/forms';
-
-interface Person {
-  cif: string;
-  number: string;
-}
+import { Dispatch, SeatInfo } from '../../models/seat-map';
 
 @Component({
   selector: 'hcm-add-seat-dialog',
@@ -17,7 +13,7 @@ interface Person {
 })
 export class AddSeatDialogComponent implements OnInit {
   form = new FormGroup({});
-  model: { seats: Partial<Person>[] } = {
+  model: { seats: Partial<SeatInfo>[] } = {
     seats: [{}],
   };
   fields: FormlyFieldConfig[] = [
@@ -53,19 +49,19 @@ export class AddSeatDialogComponent implements OnInit {
     },
   ];
 
-  constructor(@Inject(POLYMORPHEUS_CONTEXT) private context: TuiDialogContext) {}
+  constructor(@Inject(POLYMORPHEUS_CONTEXT) private context: TuiDialogContext<Dispatch<Partial<SeatInfo>>, number>) {}
 
   ngOnInit(): void {
     if (this.context.data) {
-      this.model.seats[0].number = this.context.data;
+      this.model.seats[0].id = this.context.data;
     }
   }
 
   close(): void {
-    this.context.completeWith();
+    this.context.completeWith({ type: 'close' });
   }
 
-  submit(): void {
-    console.log('submit', this.form.value.seats);
+  addSeat(): void {
+    this.context.completeWith({ type: 'add', payload: this.form.value.seats });
   }
 }

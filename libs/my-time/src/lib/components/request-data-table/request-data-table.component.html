@@ -42,7 +42,7 @@
           {{ item.totalTime || '--' }}
         </td>
         <td *tuiCell="'status'" [ngSwitch]="item.status" class="center-custom" tuiTd>
-          <tui-tag [class]="['tui-tag', item.status.toLowerCase() + '-tag']" [value]="item.status"></tui-tag>
+          <tui-tag [class]="['tui-tag', item.status?.toLowerCase() + '-tag']" [value]="item.status || ''"></tui-tag>
         </td>
         <td (click)="showDialog(item)" *tuiCell="'reason'" class="underline cursor-pointer" tuiTd>
           {{ item.reason && item.reason.length > 33 ? item.reason.substring(0, 30) + '...' : item.reason }}

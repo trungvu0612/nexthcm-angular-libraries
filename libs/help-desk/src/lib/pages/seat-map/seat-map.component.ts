@@ -14,13 +14,8 @@ import { AddSeatDialogComponent } from '../../components/add-seat-dialog/add-sea
 import { ViewDetailDialogComponent } from '../../components/view-detail-dialog/view-detail-dialog.component';
 import { CdkDragEnd, CdkDragStart } from '@angular/cdk/drag-drop';
 import { last, takeUntil } from 'rxjs/operators';
-import { SeatInfo } from '../../models/models';
-import { CreateSeatMapComponent } from '../../components/create-seat-map/create-seat-map.component';
-
-interface Action {
-  type: string;
-  payload?: number;
-}
+import { Dispatch, SeatInfo } from '../../models/seat-map';
+import { CreateSeatMapDialogComponent } from '../../components/create-seat-map-dialog/create-seat-map-dialog.component';
 
 @Component({
   selector: 'hcm-seat-map',
@@ -35,7 +30,7 @@ export class SeatMapComponent implements OnInit {
   dragging = false;
   inputSearch = new FormControl();
   emptySeats!: (number | undefined)[][];
-  data: SeatInfo[][] = [
+  data: Partial<SeatInfo>[][] = [
     [
       {
         id: 1,
@@ -352,7 +347,7 @@ export class SeatMapComponent implements OnInit {
 
   createSeatMap(): void {
     this.dialogService
-      .open<SeatInfo[][]>(new PolymorpheusComponent(CreateSeatMapComponent, this.injector), {
+      .open<Partial<SeatInfo>[][]>(new PolymorpheusComponent(CreateSeatMapDialogComponent, this.injector), {
         size: 'l',
         closeable: false,
       })
@@ -362,16 +357,16 @@ export class SeatMapComponent implements OnInit {
       });
   }
 
-  viewDetail(item: SeatInfo, x: number, y: number): void {
+  viewDetail(item: Partial<SeatInfo>, x: number, y: number): void {
     if (this.dragging) {
       this.dragging = false;
     } else {
       this.dialogService
-        .open<Action>(new PolymorpheusComponent(ViewDetailDialogComponent, this.injector), {
+        .open<Dispatch<number>>(new PolymorpheusComponent(ViewDetailDialogComponent, this.injector), {
           size: 's',
           closeable: false,
           data: {
-            item: item,
+            id: item.cif,
             seats: this.emptySeats,
           },
         })
@@ -392,7 +387,9 @@ export class SeatMapComponent implements OnInit {
         closeable: false,
         data: id,
       })
-      .subscribe();
+      .subscribe((seats) => {
+        console.log('TODO add seats', seats);
+      });
   }
 
   getEmptySeats(): void {

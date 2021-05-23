@@ -1,0 +1,14 @@
+<header>
+  <tui-tabs [(activeItemIndex)]="activeItemIndex" class="flex justify-between items-center">
+    <div class="flex h-full ml-6">
+      <button (click)="onChangeTab(index)" *ngFor="let tab of tabs; index as index" tuiTab>{{ tab }}</button>
+    </div>
+    <div class="flex items-center border-l h-full">
+      <div class="notification">
+        <tui-svg class="bell" src="tuiIconBellLarge"></tui-svg>
+        <div *ngIf="notification" class="badge">{{ notification }}</div>
+      </div>
+      <tui-avatar [rounded]="true" avatarUrl="assets/icons/cake.svg" class="cursor-pointer mr-8" size="s"></tui-avatar>
+    </div>
+  </tui-tabs>
+</header>

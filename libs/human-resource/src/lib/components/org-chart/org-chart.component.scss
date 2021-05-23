@@ -1,0 +1,7 @@
+:host {
+  display: block;
+
+  .person {
+    @apply border-t-4 border-blue-600 flex flex-wrap justify-center gap-2;
+  }
+}

@@ -8,6 +8,7 @@ import { UpsertLeaveTypeComponent } from './modules/leave-type/pages/upsert-leav
 import { ListLeaveTypeComponent } from './modules/leave-type/pages/list-leave-type/list-leave-type.component';
 import { MyRequestComponent } from './pages/my-request/my-request.component';
 import { AuthGuard } from '@nexthcm/auth';
+import { MyLeaveComponent } from './pages/my-leave/my-leave.component';
 
 const routes: Routes = [
   {
@@ -19,9 +20,10 @@ const routes: Routes = [
         path: '',
         component: MyTimeComponent,
         children: [
-          { path: 'request', component: MyRequestComponent },
-          { path: 'working-hour', component: WorkingHourComponent },
           { path: '', pathMatch: 'full', redirectTo: 'leave' },
+          { path: 'leave', component: MyLeaveComponent },
+          { path: 'working-hour', component: WorkingHourComponent },
+          { path: 'request', component: MyRequestComponent },
         ],
       },
       {

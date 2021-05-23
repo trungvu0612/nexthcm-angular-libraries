@@ -13,11 +13,11 @@ export class MoveSeatDialogComponent implements OnInit {
   inputSeatNumber = new FormControl<{ id: number }>();
   emptySeats: { id: number }[] = [];
 
-  constructor(@Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<number, any>) {}
+  constructor(@Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<number, unknown>) {}
 
   ngOnInit(): void {
     if (this.context.data) {
-      this.emptySeats = this.context.data.flat().map((id: number) => ({ id }));
+      this.emptySeats = (this.context.data as any).flat().map((id: number) => ({ id }));
     }
   }
 

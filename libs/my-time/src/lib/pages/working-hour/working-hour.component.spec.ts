@@ -11,7 +11,7 @@ describe('WorkingHourComponent', () => {
       declarations: [ WorkingHourComponent ]
     })
     .compileComponents();
-      declarations: [WorkingHourComponent],
+      [WorkingHourComponent],
     }).compileComponents();
   });
 
@@ -24,4 +24,4 @@ describe('WorkingHourComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-});
+})

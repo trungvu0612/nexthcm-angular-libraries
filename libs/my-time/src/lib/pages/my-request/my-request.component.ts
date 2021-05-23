@@ -12,7 +12,7 @@ export class MyRequestComponent implements OnInit {
   activeItemIndex = 0;
   inputDate = new FormControl();
   columns = ['fromDate', 'toDate', 'spentTime', 'status', 'reason', 'sentTo', 'action'];
-  data: MyRequestData[] = [
+  data: Partial<MyRequestData>[] = [
     {
       office: 'Copac',
       date: new Date(2020, 9, 26),
@@ -116,34 +116,18 @@ export class MyRequestComponent implements OnInit {
 
   constructor() {}
 
-  ngOnInit(): void {
-    this.data.forEach((item) => {
-      item.title = 'Overtime Detail';
-    });
-  }
+  ngOnInit(): void {}
 
   onChangeTab(key: string): void {
     switch (key) {
       case 'overTime':
         this.columns = ['fromDate', 'toDate', 'spentTime', 'status', 'reason', 'sentTo', 'action'];
-        this.data.forEach((item) => {
-          item.title = 'Overtime Detail';
-          item.group = 'overTime';
-        });
         break;
       case 'updateTime':
         this.columns = ['office', 'date', 'dayOfWeek', 'timeIn', 'timeOut', 'totalTime', 'status', 'comment', 'action'];
-        this.data.forEach((item) => {
-          item.title = 'Working Outside Detail';
-          item.group = 'updateTime';
-        });
         break;
       default:
         this.columns = ['fromDate', 'toDate', 'day', 'status', 'reason', 'sentTo', 'action'];
-        this.data.forEach((item) => {
-          item.title = 'Working Outside Detail';
-          item.group = 'workingOutside';
-        });
     }
   }
 }

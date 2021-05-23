@@ -1,0 +1,53 @@
+<div class="flex">
+  <ng-select
+    (scroll)="onScroll($event)"
+    (scrollToEnd)="onScrollToEnd()"
+    [addTag]="to.addTag"
+    [bindLabel]="to.labelProp"
+    [bindValue]="to.valueProp"
+    [formControl]="$any(formControl)"
+    [hideSelected]="to.hideSelected"
+    [items]="items"
+    [loading]="isLoading"
+    [minTermLength]="to.minTermLength"
+    [multiple]="to.multiple"
+    [notFoundText]="to.notFoundText"
+    [placeholder]="to.placeholder || ''"
+    [readonly]="!!to.readonly"
+    [trackByFn]="to.trackByFn"
+    [typeToSearchText]="to.typeToSearchText || ''"
+    [typeahead]="search$"
+    [virtualScroll]="to.virtualScroll"
+    class="flex-1"
+  >
+    <ng-container *ngIf="to.useOptionTemplate">
+      <ng-template let-item="item" ng-option-tmp>
+        <ng-container [ngTemplateOutletContext]="{ $implicit: item }" [ngTemplateOutlet]="optionTpl"></ng-container>
+      </ng-template>
+    </ng-container>
+
+    <ng-container *ngIf="to.useLabelTemplate">
+      <ng-template let-item="item" ng-label-tmp>
+        <ng-container [ngTemplateOutletContext]="{ $implicit: item }" [ngTemplateOutlet]="optionTpl"></ng-container>
+      </ng-template>
+    </ng-container>
+  </ng-select>
+
+  <tui-tooltip *ngIf="to.description" [content]="tooltip" class="flex-initial self-center ml-2"></tui-tooltip>
+</div>
+
+<ng-template #tooltip="polymorpheus" [polymorpheus]="context">
+  {{ to.description }}
+</ng-template>
+
+<ng-template #optionTpl let-item>
+  <div class="flex items-center">
+    <tui-avatar
+      [avatarUrl]="item[to.imageProp] ? to.imagePath + item[to.imageProp] : null"
+      [text]="item[to.labelProp]"
+      class="flex-shrink-0 avatar"
+      size="l"
+    ></tui-avatar>
+    <div class="flex-shrink label">{{ item[to.labelProp] }}</div>
+  </div>
+</ng-template>

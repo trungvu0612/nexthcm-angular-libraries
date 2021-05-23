@@ -1,67 +1,61 @@
 :host {
   display: block;
 
-  main {
-    > header {
-      h1 {
-        color: #1b65e3;
-      }
+  header {
+    p {
+      @apply text-base font-semibold ml-3;
+    }
+  }
 
-      p {
-        @apply text-base font-semibold ml-3;
-      }
+  .main-section {
+    @apply p-8;
+
+    h1 {
+      @apply text-2xl font-semibold;
     }
 
+    .custom-link.social {
+      font-weight: normal !important;
+    }
+
+    ul {
+      margin-left: 1rem;
+      list-style-type: disc !important;
+    }
+  }
+
+  .left-panel {
     .main-section {
-      @apply p-8;
+      &:first-child {
+        padding-top: 40px;
+        padding-bottom: 25px;
+        border-bottom: 1px solid #e5e5e5;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
 
-      h1 {
-        @apply text-2xl font-semibold;
-      }
-
-      .custom-link.social {
-        font-weight: normal !important;
-      }
-
-      ul {
-        margin-left: 1rem;
-        list-style-type: disc !important;
-      }
-    }
-
-    .left-panel {
-      .main-section {
-        &:first-child {
-          padding-top: 40px;
-          padding-bottom: 25px;
-          border-bottom: 1px solid #e5e5e5;
-          border-bottom-left-radius: 0;
-          border-bottom-right-radius: 0;
-
-          > img {
-            box-shadow: 0 25px 6px -6px #c4c4c4;
-            @apply w-36 h-36 rounded-xl mx-auto mb-8;
-          }
-
-          p {
-            margin-top: 10px;
-            color: #888c90;
-          }
+        > img {
+          box-shadow: 0 25px 6px -6px #c4c4c4;
+          @apply w-36 h-36 rounded-xl mx-auto mb-8;
         }
 
-        &:last-child {
-          border-top-left-radius: 0;
-          border-top-right-radius: 0;
+        p {
+          margin-top: 10px;
+          color: #888c90;
+        }
+      }
 
-          .birthday {
-            color: #fa8231;
-            @apply font-semibold;
-          }
+      &:last-child {
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
 
-          th {
-            min-width: 120px !important;
-            padding-right: 1rem !important;
-          }
+        .birthday {
+          color: #fa8231;
+          @apply font-semibold;
+        }
+
+        th {
+          min-width: 120px !important;
+          padding-right: 1rem !important;
         }
       }
     }
