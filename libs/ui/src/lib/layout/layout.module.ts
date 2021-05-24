@@ -1,11 +1,18 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { TuiDataListModule, TuiDropdownModule, TuiSvgModule } from '@taiga-ui/core';
+import { TranslocoModule } from '@ngneat/transloco';
+import {
+  TuiButtonModule,
+  TuiDataListModule,
+  TuiDropdownModule,
+  TuiHostedDropdownModule,
+  TuiSvgModule,
+} from '@taiga-ui/core';
+import { TuiAvatarModule, TuiTabsModule } from '@taiga-ui/kit';
+import { HeaderComponent } from './header/header.component';
 import { LayoutComponent } from './layout.component';
 import { MenuLeftComponent } from './menu-left/menu-left.component';
-import { HeaderComponent } from './header/header.component';
-import { TuiAvatarModule, TuiTabsModule } from '@taiga-ui/kit';
 
 @NgModule({
   declarations: [MenuLeftComponent, LayoutComponent, HeaderComponent],
@@ -17,6 +24,9 @@ import { TuiAvatarModule, TuiTabsModule } from '@taiga-ui/kit';
     TuiTabsModule,
     TuiAvatarModule,
     TuiSvgModule,
+    TranslocoModule,
+    TuiHostedDropdownModule,
+    TuiButtonModule,
   ],
   exports: [LayoutComponent, HeaderComponent],
 })

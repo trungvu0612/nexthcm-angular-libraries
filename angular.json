@@ -1,6 +1,7 @@
 {
   "version": 1,
   "cli": {
+    "analytics": "2ddc86f8-7bd4-46ab-ad7d-e0bf0e76f969",
     "defaultCollection": "@nrwl/angular",
     "packageManager": "yarn"
   },

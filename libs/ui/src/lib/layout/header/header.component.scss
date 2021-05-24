@@ -1,3 +1,5 @@
+@import '~@taiga-ui/core/styles/taiga-ui-local';
+
 :host {
   display: block;
 
@@ -12,10 +14,24 @@
         }
       }
     }
+
+    div.wrapper {
+      button:focus {
+        outline: none !important;
+      }
+
+      .wrapper {
+        padding: 0 8px !important;
+      }
+    }
+
+    .langs button {
+      font-weight: 400 !important;
+    }
   }
 
   .notification {
-    @apply relative cursor-pointer w-8 h-8 mx-8;
+    @apply relative cursor-pointer w-8 h-8;
 
     .bell {
       @apply absolute bottom-0 left-0;
@@ -24,6 +40,14 @@
     .badge {
       background-color: #eb3b5a;
       @apply flex justify-center items-center absolute top-0 right-0 text-xs text-white font-semibold rounded-full w-5 h-5;
+    }
+  }
+
+  .icon {
+    @include transition(transform);
+
+    &_rotated {
+      transform: rotate(180deg);
     }
   }
 }

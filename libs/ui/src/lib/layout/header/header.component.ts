@@ -1,23 +1,18 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { TranslocoService } from '@ngneat/transloco';
+import { TuiHostedDropdownComponent } from '@taiga-ui/core';
 
-const PATHS: { [key: string]: { [key: string]: string[] } } = {
-  'my-time': {
-    keys: ['leave', 'working-hour', 'request'],
-    values: ['My Leave', 'Working Hour', 'My Request'],
-  },
-  'help-desk': {
-    keys: ['seat-map', 'bv-calendar'],
-    values: ['Seat Map', 'BV Calendar'],
-  },
-  'human-resource': {
-    keys: ['chart', 'teams', 'employees'],
-    values: ['Organization Chart', 'Teams', 'Employees'],
-  },
-  policy: {
-    keys: ['policies', 'updated'],
-    values: ['Policy', 'Updated'],
-  },
+const PATHS: { [key: string]: string[] } = {
+  'help-desk': ['seat-map', 'bv-calendar'],
+  'human-resource': ['chart', 'teams', 'employees'],
+  'my-time': ['leave', 'working-hour', 'request'],
+  policy: ['policies', 'updated'],
+};
+
+const LANGS: { [key: string]: string } = {
+  en: 'English',
+  vi: 'Tiếng Việt',
 };
 
 @Component({
@@ -27,20 +22,31 @@ const PATHS: { [key: string]: { [key: string]: string[] } } = {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeaderComponent implements OnInit {
+  @ViewChild(TuiHostedDropdownComponent) component?: TuiHostedDropdownComponent;
+  open = false;
+  langs = (this.translocoService.getAvailableLangs() as string[]).map((lang) => LANGS[lang]);
   urlSegments = this.router.url.split('/');
   activeItemIndex!: number;
   tabs!: string[];
   notification = 13;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private translocoService: TranslocoService) {}
 
   ngOnInit(): void {
-    this.tabs = PATHS[this.urlSegments[1]].values;
-    this.activeItemIndex = PATHS[this.urlSegments[1]].keys.indexOf(this.urlSegments[2]);
+    this.tabs = PATHS[this.urlSegments[1]];
+    this.activeItemIndex = PATHS[this.urlSegments[1]].indexOf(this.urlSegments[2]);
   }
 
-  onChangeTab(index: number): void {
-    this.urlSegments[2] = PATHS[this.urlSegments[1]].keys[index];
+  changeTab(index: number): void {
+    this.urlSegments[2] = PATHS[this.urlSegments[1]][index];
     this.router.navigate(this.urlSegments.slice(0, 3));
+  }
+
+  changeLanguage(lang: string) {
+    this.open = false;
+    if (this.component && this.component.nativeFocusableElement) {
+      this.component.nativeFocusableElement.focus();
+    }
+    this.translocoService.setActiveLang(Object.keys(LANGS).find((key) => LANGS[key] == lang) as string);
   }
 }
