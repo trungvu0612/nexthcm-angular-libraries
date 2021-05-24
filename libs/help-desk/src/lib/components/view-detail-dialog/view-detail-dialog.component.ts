@@ -1,10 +1,9 @@
 import { ChangeDetectionStrategy, Component, Inject, Injector, OnInit } from '@angular/core';
-import { POLYMORPHEUS_CONTEXT, PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
-import { TuiDialogContext, TuiDialogService } from '@taiga-ui/core';
 import { Router } from '@angular/router';
-import { EmployeeInfo } from '@nexthcm/core';
+import { TuiDialogContext, TuiDialogService } from '@taiga-ui/core';
+import { POLYMORPHEUS_CONTEXT, PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
+import { Dispatch, EmployeeInfo } from '../../models';
 import { MoveSeatDialogComponent } from '../move-seat-dialog/move-seat-dialog.component';
-import { Dispatch } from '../../models/seat-map';
 
 @Component({
   selector: 'hcm-view-detail-dialog',

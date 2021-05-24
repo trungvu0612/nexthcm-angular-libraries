@@ -7,6 +7,7 @@ import { NgDompurifySanitizer } from '@tinkoff/ng-dompurify';
 import { CookieModule } from 'ngx-cookie';
 import { ENVIRONMENT } from './core.config';
 import { Environment } from './models';
+import { TranslocoRootModule } from './transloco/transloco-root.module';
 
 @NgModule({
   imports: [
@@ -15,6 +16,7 @@ import { Environment } from './models';
     CookieModule.forRoot(),
     HttpClientModule,
     TuiDialogModule,
+    TranslocoRootModule,
   ],
   providers: [
     { provide: TUI_ICONS_PATH, useValue: iconsPathFactory('assets/taiga-ui/icons/') },
