@@ -63,6 +63,7 @@
     "@tinkoff/ng-dompurify": "^3.0.0",
     "@tinkoff/ng-event-plugins": "^2.2.0",
     "dompurify": "^2.2.8",
+    "inter-ui": "^3.18.1",
     "ngx-cookie": "^5.0.2",
     "rxjs": "~6.6.3",
     "tslib": "^2.0.0",

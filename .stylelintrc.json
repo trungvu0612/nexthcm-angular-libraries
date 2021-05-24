@@ -1,20 +1,18 @@
 {
-  "extends": ["stylelint-config-standard", "stylelint-config-idiomatic-order", "stylelint-config-prettier"],
-  "ignoreFiles": ["node_modules/**", "dist/**"],
+  "extends": [
+    "stylelint-config-standard",
+    "stylelint-config-idiomatic-order",
+    "stylelint-config-prettier"
+  ],
+  "ignoreFiles": [
+    "node_modules/**",
+    "dist/**"
+  ],
   "rules": {
     "order/properties-alphabetical-order": null,
-    "selector-pseudo-element-no-unknown": [
-      true,
-      {
-        "ignorePseudoElements": ["ng-deep"]
-      }
-    ],
+    "selector-pseudo-element-no-unknown": null,
     "no-descending-specificity": null,
-    "at-rule-no-unknown": [
-      true,
-      {
-        "ignoreAtRules": ["function", "if", "each", "include", "mixin"]
-      }
-    ]
+    "at-rule-no-unknown": null,
+    "selector-type-no-unknown": null
   }
 }

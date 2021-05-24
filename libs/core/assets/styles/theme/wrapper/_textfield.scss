@@ -1,0 +1,110 @@
+tui-wrapper[data-appearance='textfield'] {
+  background: var(--tui-base-01);
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+  color: var(--tui-text-01);
+  transition: 0.3s ease-in-out;
+  transition-property: box-shadow, background;
+
+  &[data-appearance='textfield']::after {
+    border-width: 1px;
+    color: var(--tui-base-03);
+    transition: color 0.3s ease-in-out;
+  }
+
+  &[data-state='hovered'] {
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.16);
+  }
+
+  &._focused {
+    box-shadow: none;
+
+    &::after {
+      border-width: 2px;
+      color: var(--tui-primary);
+    }
+  }
+
+  &[data-state='readonly'] {
+    box-shadow: none;
+
+    &::after {
+      color: var(--tui-base-04);
+    }
+  }
+
+  &[data-state='disabled'] {
+    box-shadow: none;
+    opacity: var(--tui-disabled-opacity);
+  }
+
+  &._invalid._focused::after {
+    color: var(--tui-error-fill);
+    opacity: var(--tui-disabled-opacity);
+  }
+}
+
+tui-wrapper[data-appearance='textfield'][data-mode='onDark'] {
+  background: var(--tui-clear-inverse);
+  color: var(--tui-text-01-night);
+
+  &[data-appearance='textfield']::after {
+    color: var(--tui-text-03-night);
+    opacity: var(--tui-disabled-opacity);
+  }
+
+  &[data-state='hovered'] {
+    background: var(--tui-clear-inverse-hover);
+
+    &::after {
+      color: var(--tui-text-02-night);
+    }
+  }
+
+  &[data-state='readonly'] {
+    background: transparent;
+  }
+
+  &._invalid._focused::after {
+    color: var(--tui-error-fill-night);
+  }
+
+  &._focused {
+    background: rgba(255, 255, 255, 0.08);
+
+    &::after {
+      color: var(--tui-primary);
+      opacity: 1;
+      transition: none;
+    }
+  }
+}
+
+tui-wrapper[data-appearance='textfield'][data-mode='onLight'] {
+  background: var(--tui-clear);
+
+  &[data-state='hovered'] {
+    background: var(--tui-clear-hover);
+  }
+
+  &[data-state='readonly'] {
+    background: transparent;
+  }
+
+  &._invalid {
+    &::after {
+      color: var(--tui-error-fill);
+    }
+
+    &._focused {
+      background: transparent;
+    }
+  }
+
+  &._focused {
+    background: transparent;
+
+    &::after {
+      color: var(--tui-text-01);
+    }
+  }
+}
