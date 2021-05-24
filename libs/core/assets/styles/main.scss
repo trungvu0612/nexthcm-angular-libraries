@@ -1,7 +1,8 @@
 button {
   font-weight: 600;
 
-  &:hover {
+  &:hover,
+  &:not(:hover) {
     outline: none;
   }
 }
