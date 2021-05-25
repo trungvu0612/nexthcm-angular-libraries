@@ -5,7 +5,7 @@
     @apply font-semibold;
 
     &:not([tuiTab]) {
-      background-color: #1b65e3;
+      background-color: var(--tui-primary);
       box-shadow: 0 4px 10px rgba(16, 156, 241, 0.24);
       @apply text-base text-white rounded-xl px-7 py-3 h-12;
     }
@@ -21,7 +21,7 @@
         }
 
         &._active .highlight {
-          color: #1b65e3;
+          color: var(--tui-primary);
         }
       }
     }

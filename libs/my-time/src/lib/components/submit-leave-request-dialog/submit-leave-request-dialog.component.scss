@@ -6,9 +6,9 @@
       color: red;
     }
     tui-wrapper[data-appearance='whiteblock-active'] {
-      background: #1b65e3;
+      border-color: var(--tui-primary);
+      background: var(--tui-primary);
       color: white;
-      border-color: #1b65e3;
     }
   }
 }

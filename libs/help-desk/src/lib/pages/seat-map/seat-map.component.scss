@@ -3,7 +3,7 @@
 
   header {
     .current-seat {
-      color: #1b65e3;
+      color: var(--tui-primary);
       @apply flex justify-between items-center mr-7;
     }
 

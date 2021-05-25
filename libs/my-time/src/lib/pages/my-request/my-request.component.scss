@@ -16,7 +16,7 @@
         }
 
         &._active .highlight {
-          color: #1b65e3;
+          color: var(--tui-primary);
         }
       }
     }

@@ -2,12 +2,12 @@
   display: block;
 
   ::ng-deep ._with-dropdown {
-    background-color: #1b65e3 !important;
+    background-color: var(--tui-primary) !important;
     border-radius: 14px;
     color: #ffffff;
 
     &:focus {
-      background-color: #1b65e3;
+      background-color: var(--tui-primary);
       border-radius: 14px;
     }
   }
@@ -33,7 +33,7 @@
       }
 
       &:hover {
-        background-color: #1b65e3;
+        background-color: var(--tui-primary);
         border-radius: 14px;
         background-repeat: no-repeat;
         background-position: 10px;
