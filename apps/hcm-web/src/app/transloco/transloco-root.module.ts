@@ -9,7 +9,7 @@ import {
   TranslocoModule,
 } from '@ngneat/transloco';
 import { Observable } from 'rxjs';
-import { environment } from '../../../../../apps/hcm-web/src/environments/environment';
+import { environment } from '../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class TranslocoHttpLoader implements TranslocoLoader {

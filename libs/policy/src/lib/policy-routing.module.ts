@@ -5,11 +5,13 @@ import { PolicyLayoutComponent } from './policy-layout.component';
 import { PolicyComponent } from './pages/policy/policy.component';
 import { PolicyDetailComponent } from './pages/policy-detail/policy-detail.component';
 import { UpdatedComponent } from './pages/updated/updated.component';
+import { AuthGuard } from '@nexthcm/auth';
 
 const routes: Routes = [
   {
     path: '',
     component: LayoutComponent,
+    canActivate: [AuthGuard],
     children: [
       {
         path: '',
