@@ -10,7 +10,7 @@
         @apply mx-0 px-6;
 
         &._active .highlight {
-          color: #1b65e3;
+          color: var(--tui-primary);
         }
       }
     }

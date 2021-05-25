@@ -2,8 +2,8 @@
   display: block;
 
   .blue-button.cancel {
-    border: 2px solid #1b65e3;
-    color: #1b65e3;
+    border: 2px solid var(--tui-primary);
+    color: var(--tui-primary);
     @apply bg-white;
   }
 }
