@@ -10,6 +10,7 @@ import { TuiRootModule } from '@taiga-ui/core';
 import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { TranslocoRootModule } from './transloco/transloco-root.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -23,6 +24,7 @@ import { AppComponent } from './app.component';
     TuiRootModule,
     FormlyTaigaUiModule,
     CoreModule.forRoot(environment),
+    TranslocoRootModule
   ],
   providers: [],
   bootstrap: [AppComponent],

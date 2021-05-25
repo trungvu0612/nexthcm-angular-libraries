@@ -1,26 +1,26 @@
 import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from '@nexthcm/auth';
 import { TranslocoService } from '@ngneat/transloco';
 import { TuiHostedDropdownComponent } from '@taiga-ui/core';
-import { AuthService } from '../../../../../auth/src/lib/services/auth.service';
 
 const PATHS: { [key: string]: string[] } = {
   'help-desk': ['seat-map', 'bv-calendar'],
   'human-resource': ['chart', 'teams', 'employees'],
   'my-time': ['leave', 'working-hour', 'request'],
-  policy: ['policies', 'updated']
+  policy: ['policies', 'updated'],
 };
 
 const LANGS: { [key: string]: string } = {
   en: 'English',
-  vi: 'Tiếng Việt'
+  vi: 'Tiếng Việt',
 };
 
 @Component({
   selector: 'hcm-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeaderComponent implements OnInit {
   @ViewChild(TuiHostedDropdownComponent) component?: TuiHostedDropdownComponent;
@@ -31,10 +31,7 @@ export class HeaderComponent implements OnInit {
   tabs!: string[];
   notification = 13;
 
-  constructor(private router: Router,
-              private translocoService: TranslocoService,
-              private authService: AuthService) {
-  }
+  constructor(private router: Router, private translocoService: TranslocoService, private authService: AuthService) {}
 
   ngOnInit(): void {
     this.tabs = PATHS[this.urlSegments[1]];
@@ -46,7 +43,7 @@ export class HeaderComponent implements OnInit {
     this.router.navigate(this.urlSegments.slice(0, 3));
   }
 
-  changeLanguage(lang: string) {
+  changeLang(lang: string) {
     this.open = false;
     if (this.component && this.component.nativeFocusableElement) {
       this.component.nativeFocusableElement.focus();
