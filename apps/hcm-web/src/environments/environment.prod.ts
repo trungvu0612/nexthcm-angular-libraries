@@ -1,6 +1,5 @@
-import { Environment } from '@nexthcm/core';
-
-export const environment: Environment = {
+export const environment = {
   production: true,
+  language: 'en',
   apiUrl: 'https://dev-nexthcm-api.banvien.com.vn',
 };

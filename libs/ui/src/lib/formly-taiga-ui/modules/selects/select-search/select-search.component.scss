@@ -1,4 +1,5 @@
-@import '../../../../../../../../node_modules/@taiga-ui/core/styles/taiga-ui-local';
+@import '~tailwindcss/utilities';
+@import '~@taiga-ui/core/styles/taiga-ui-local';
 
 :host {
   .avatar {

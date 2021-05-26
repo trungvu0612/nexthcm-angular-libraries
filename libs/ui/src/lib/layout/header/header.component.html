@@ -1,5 +1,5 @@
 <header *transloco="let t" class="flex justify-between">
-  <tui-tabs [(activeItemIndex)]="activeItemIndex" class="flex items-center h-full ml-6">
+  <tui-tabs [(activeItemIndex)]="activeItemIndex" class="flex items-center ml-6">
     <button (click)="changeTab(index)" *ngFor="let tab of tabs; index as index" tuiTab>{{ t(tab) }}</button>
   </tui-tabs>
   <div class="flex items-center border-l h-full">

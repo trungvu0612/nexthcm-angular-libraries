@@ -3,7 +3,7 @@
 
   .blue-button.cancel {
     border: 2px solid var(--tui-primary);
+    background-color: #fff;
     color: var(--tui-primary);
-    @apply bg-white;
   }
 }
