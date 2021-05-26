@@ -9,6 +9,7 @@
     "tslib": "^2.0.0",
     "@ngx-formly/core": "^5.10.19",
     "@tinkoff/ng-dompurify": "^3.0.0",
-    "ngx-cookie": "^5.0.2"
+    "ngx-cookie": "^5.0.2",
+    "inter-ui": "^3.18.1"
   }
 }
