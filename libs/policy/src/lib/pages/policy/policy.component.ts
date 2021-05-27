@@ -1,5 +1,8 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import SwiperCore, { Pagination } from 'swiper/core';
 import { Policy } from '../../models/policy';
+
+SwiperCore.use([Pagination]);
 
 @Component({
   selector: 'hcm-policy',
