@@ -7,7 +7,7 @@ import {
   TuiDataListModule,
   TuiDropdownModule,
   TuiHostedDropdownModule,
-  TuiSvgModule,
+  TuiSvgModule
 } from '@taiga-ui/core';
 import { TuiAvatarModule, TuiTabsModule } from '@taiga-ui/kit';
 import { HeaderComponent } from './header/header.component';

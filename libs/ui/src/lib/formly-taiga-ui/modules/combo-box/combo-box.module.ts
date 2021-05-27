@@ -8,7 +8,7 @@ import {
   TuiHintControllerModule,
   TuiLabelModule,
   TuiLoaderModule,
-  TuiTextfieldControllerModule,
+  TuiTextfieldControllerModule
 } from '@taiga-ui/core';
 import { TuiAvatarModule, TuiComboBoxModule } from '@taiga-ui/kit';
 import { PolymorpheusModule } from '@tinkoff/ng-polymorpheus';

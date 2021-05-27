@@ -16,12 +16,14 @@ import { MultiSelectComponent } from './multi-select.component';
     ReactiveFormsModule,
     TuiDataListModule,
     FormFieldModule,
-    FormlyModule.forChild({ types: [{ name: 'multi-select', component: MultiSelectComponent, wrappers: ['form-field'] }] }),
+    FormlyModule.forChild({
+      types: [{ name: 'multi-select', component: MultiSelectComponent, wrappers: ['form-field'] }],
+    }),
     TuiMultiSelectModule,
     TuiLabelModule,
     TuiTextfieldControllerModule,
     TuiLetModule,
-    SelectOptionsModule
-  ]
+    SelectOptionsModule,
+  ],
 })
 export class MultiSelectModule {}

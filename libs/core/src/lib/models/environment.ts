@@ -5,4 +5,5 @@ export interface Environment {
   baseUrl?: string;
   imageUrl?: string;
   authUrl?: string;
+  orgUrl?: string;
 }

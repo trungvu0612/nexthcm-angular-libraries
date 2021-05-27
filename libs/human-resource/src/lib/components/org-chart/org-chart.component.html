@@ -1,60 +1,140 @@
-<main class="flex flex-col items-center">
+<main *ngIf="data$ | async as data" class="flex flex-col items-center">
+  <ng-container *ngTemplateOutlet="recursive; context: { current: data }"></ng-container>
 
-  <div class="person">
-    <div *ngIf="itemCEOs">
-      <button *ngFor="let item of itemCEOs" class="h-16 hover:bg-gray-300 bg-white flex justify-between py-3 px-6">
-        <div class="mr-4">
-          <div class="text-sm text-left">
-            <strong>{{ item.name }}</strong>
+  <ng-template #recursive let-current="current">
+    <section *ngIf="current[0].descendants.length === 0; else target">
+      <div class="border-t-4 border mb-8"></div>
+      <div class="flex flex-wrap justify-center gap-4">
+        <div *ngFor="let item of current">
+          <tui-hosted-dropdown [content]="content" tuiDropdownHover>
+            <button class="w-56 h-16 hover:bg-gray-300 bg-white flex justify-between py-3 px-6">
+              <div class="mr-4">
+                <div class="text-sm text-left">
+                  <strong>{{ item.username }}</strong>
+                </div>
+                <div class="text-blue-500 text-left">{{ item.registerType }}</div>
+              </div>
+              <tui-avatar [autoColor]="true" [rounded]="true" [text]="item.username"></tui-avatar>
+            </button>
+          </tui-hosted-dropdown>
+        </div>
+      </div>
+    </section>
+
+    <ng-template #target>
+      <section class="grid grid-cols-1 justify-items-center">
+        <tui-hosted-dropdown [content]="content" tuiDropdownHover>
+          <button class="w-56 h-16 hover:bg-gray-300 bg-white flex justify-between py-3 px-6 gap-4">
+            <div class="mr-4">
+              <div class="text-sm text-left">
+                <strong>{{ current[0].username }}</strong>
+              </div>
+              <div class="text-blue-500 text-left">{{ current[0].registerType }}</div>
+            </div>
+            <tui-avatar [autoColor]="true" [rounded]="true" [text]="current[0].username"></tui-avatar>
+          </button>
+        </tui-hosted-dropdown>
+
+        <div class="border w-0 h-8 mx-auto"></div>
+
+        <ng-container *ngTemplateOutlet="recursive; context: { current: current[0].descendants }"></ng-container>
+      </section>
+    </ng-template>
+
+    <ng-template #content>
+      <main class="flex flex-col w-96 h-full p-4">
+        <section class="p-8 bg-white flex justify-start -m-2">
+          <tui-avatar [autoColor]="true" [rounded]="true" [text]="current[0].username" size="l"></tui-avatar>
+          <div class="ml-4">
+            <div class="text-sm text-left">
+              <strong>{{ current[0].username }}</strong>
+            </div>
+            <div class="text-blue-500 text-left">{{ current[0].registerType }}</div>
           </div>
-          <div class="text-blue-500 text-left">{{ item.job }}</div>
-        </div>
-        <tui-avatar
-          [autoColor]="true"
-          [avatarUrl]="item.img ? item.img : ''"
-          [rounded]="true"
-          [text]="item.name"
-        ></tui-avatar>
-      </button>
-    </div>
-  </div>
+        </section>
 
-  <div class="h-9 border-r-4 border"></div>
+        <section class="py-4 flex justify-start -m-2 border-b-1 gap-4">
+          <button>
+            <tui-svg class="success tui-space_left-3" src="tuiIconCameraLarge" style="color: #959595"></tui-svg>
+          </button>
 
-  <div class="person">
-    <button *ngFor="let item of arrayManagers"
-            class=" hover:bg-gray-300 bg-white flex justify-between py-3 px-6">
-      <div class="mr-4">
-        <div class="text-sm text-left">
-          <strong>{{ item.name }}</strong>
-        </div>
-        <div class="text-blue-500 text-left">{{ item.job }}</div>
-      </div>
-      <tui-avatar
-        [autoColor]="true"
-        [avatarUrl]="item.img ? item.img : ''"
-        [rounded]="true"
-        [text]="item.name"
-      ></tui-avatar>
-    </button>
-  </div>
+          <button>
+            <tui-svg class="success tui-space_left-3" src="tuiIconCameraLarge" style="color: #959595"></tui-svg>
+          </button>
 
-  <div class="h-9 border-r-4 border"></div>
+          <button>
+            <tui-svg class="success tui-space_left-3" src="tuiIconGeoLarge" style="color: #959595"></tui-svg>
+          </button>
 
-  <div class=" border-t-4 border flex flex-wrap justify-center gap-4 py-9">
-    <button *ngFor="let item of arrayEmployees" class="h-16 hover:bg-gray-300 bg-white flex justify-between rounded-sm py-3 px-6">
-      <div class="mr-4">
-        <div class="text-gray-900 font-medium text-base text-left">
-          <strong>{{ item.name }}</strong>
-        </div>
-        <div class="text-gray-500 font-light text-sm text-blue-500 text-left">{{ item.job }}</div>
-      </div>
-      <tui-avatar
-        [autoColor]="true"
-        [avatarUrl]="item.img ? item.img : ''"
-        [rounded]="true"
-        [text]="item.name"
-      ></tui-avatar>
-    </button>
-  </div>
+          <button>
+            <tui-svg class="success tui-space_left-3" src="tuiIconImgLarge" style="color: #959595"></tui-svg>
+          </button>
+        </section>
+
+        <section class="p-4 border-t-2">
+          <strong class="text-semibold text-left">Contact</strong>
+          <div class="pt-2 flex flex-row space-x-4">
+            <tui-svg class="success tui-space_left-3" src="tuiIconGeoLarge" style="color: #959595"></tui-svg>
+            <p>nhatnamduong688@gmail.com</p>
+          </div>
+          <div class="pt-2 flex flex-row space-x-4">
+            <tui-svg class="success tui-space_left-3" src="tuiIconGeoLarge" style="color: #959595"></tui-svg>
+            <p>nhatnamduong688@gmail.com</p>
+          </div>
+        </section>
+
+        <section class="p-4 border-t-2 flex flex-col space-y-4">
+          <strong class="text-semibold text-left">Report</strong>
+          <div class="flex flex-row space-x-4">
+              <tui-avatar [autoColor]="true" [rounded]="true" [text]="current[0].username" size="m"></tui-avatar>
+            <div class="flex flex-col">
+              <div class="text-sm text-left">
+                <strong>{{ current[0].username }}</strong>
+              </div>
+              <div class="text-blue-500 text-left">{{ current[0].registerType }}</div>
+            </div>
+          </div>
+        </section>
+
+      </main>
+    </ng-template>
+  </ng-template>
 </main>
+
+
+
+
+<tui-hosted-dropdown  #dropdown [content]="test">
+  <button
+    [pseudoHovered]="dropdown.open || null"
+    appearance="flat"
+    icon="tuiIconMoreVer"
+    tuiIconButton
+    type="button"
+  ></button>
+</tui-hosted-dropdown>
+<ng-template #test let-activeZone>
+  <tui-data-list
+    [tuiActiveZoneParent]="activeZone"
+    class="effected-dropdown"
+    tuiDataListDropdownManager
+  >
+    <button
+      [tuiDropdownContent]="test"
+      [tuiDropdownSided]="true"
+      [tuiDropdown]="true"
+      tuiDropdownAlign="right"
+      tuiOption
+    >
+      Burgers
+    </button>
+  </tui-data-list>
+  <ng-template #burgersTmp>
+    <tui-data-list
+      [tuiActiveZoneParent]="activeZone"
+      tuiDataListDropdownManager
+    >
+      <button *ngFor="let burger of burgerss" tuiOption>{{burger}}</button>
+    </tui-data-list>
+  </ng-template>
+</ng-template>

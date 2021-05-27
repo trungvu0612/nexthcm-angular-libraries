@@ -9,7 +9,6 @@ import { NodeSelectService } from '../../services/node-select.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ChartContainerComponent implements OnInit {
-
   @Input() datasource!: Node;
   @Input() nodeHeading = 'name';
   @Input() nodeContent = 'title';
@@ -147,5 +146,4 @@ export class ChartContainerComponent implements OnInit {
   onNodeClick(nodeData: any): void {
     this.nodeClick.emit(nodeData);
   }
-
 }

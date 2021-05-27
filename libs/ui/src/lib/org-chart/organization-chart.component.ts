@@ -4,10 +4,9 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
   selector: 'hcm-organization-chart',
   templateUrl: './organization-chart.component.html',
   styleUrls: ['./organization-chart.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OrganizationChartComponent implements OnInit {
-
   ds = {
     id: '1',
     name: 'Lao Lao',
@@ -55,5 +54,4 @@ export class OrganizationChartComponent implements OnInit {
   selectNode(nodeData: { name: string; title: string }) {
     alert(`Hi All. I'm ${nodeData.name}. I'm a ${nodeData.title}.`);
   }
-
 }
