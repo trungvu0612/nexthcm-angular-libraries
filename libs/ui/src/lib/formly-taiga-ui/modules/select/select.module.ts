@@ -8,7 +8,7 @@ import {
   TuiHintControllerModule,
   TuiLabelModule,
   TuiLoaderModule,
-  TuiTextfieldControllerModule,
+  TuiTextfieldControllerModule
 } from '@taiga-ui/core';
 import { TuiSelectModule } from '@taiga-ui/kit';
 import { SelectOptionsModule } from '../../shared/select-options/select-options.module';
@@ -29,7 +29,7 @@ import { SelectComponent } from './select.component';
     TuiLoaderModule,
     TuiLabelModule,
     SelectOptionsModule,
-    TuiHintControllerModule
-  ]
+    TuiHintControllerModule,
+  ],
 })
 export class SelectModule {}

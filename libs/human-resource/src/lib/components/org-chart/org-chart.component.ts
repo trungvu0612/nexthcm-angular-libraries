@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { Node } from '../../models/node';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { Observable, of } from 'rxjs';
+import { OrgRes } from '../../models/node';
 
 @Component({
   selector: 'hcm-org-chart',
@@ -8,114 +9,123 @@ import { Node } from '../../models/node';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OrgChartComponent implements OnInit {
-  jsonRes: Node[] = [
+  @Input() data$!: Observable<OrgRes[]>;
+  open = true;
+  index = 0;
+
+  readonly context!: { $implicit: OrgRes[] };
+  readonly burgers = ['Classic', 'Cheeseburger', 'Royal Cheeseburger'];
+
+  readonly drinks = ['Cola', 'Tea', 'Coffee', 'Slurm'];
+
+  a$ = of([
     {
-      id: 1,
-      name: 'Vien Nguyen',
-      job: 'general manager',
-      img: 'assets/images/noti.png',
-      children: [
+      createdDate: 1621544996921,
+      lastModifiedDate: 1621544996921,
+      optCounter: 0,
+      id: 'e08eb04d-a430-4e03-b017-e46f865e648d',
+      tenant: {
+        createdDate: 1621394663216,
+        createdBy: 'e202b659-743a-4bdb-97c7-be246194d07f',
+        lastModifiedDate: 1621394663216,
+        optCounter: 0,
+        id: '352d7794-f165-4f03-97f0-ff7f3d0242e8',
+        tenantCode: 'TNT-0000002',
+        tenantName: 'Hieu Nguyen Company',
+        state: 0,
+      },
+      username: 'vien.nguyen',
+      registerType: 'R',
+      descendants: [
         {
-          id: 2,
-          name: 'Son Nguyen',
-          job: 'department manager',
-          img: 'assets/images/noti.png',
-          children: [
-            { id: 3, name: 'Long Le Luoi', job: 'Linh danh thue', img: 'assets/images/noti.png' },
-            { id: 4, name: 'Tin Khoc Nhe', job: 'Linh danh thue', img: 'assets/images/noti.png' },
-            { id: 5, name: 'Luong Leo Cong Nha', job: 'Linh danh thue ', img: 'assets/images/noti.png' },
+          createdDate: 1621545019778,
+          lastModifiedDate: 1621545019778,
+          optCounter: 0,
+          id: '9d07f921-81c3-4c2c-a838-e279dc04a80f',
+          tenant: {
+            createdDate: 1621394663216,
+            createdBy: 'e202b659-743a-4bdb-97c7-be246194d07f',
+            lastModifiedDate: 1621394663216,
+            optCounter: 0,
+            id: '352d7794-f165-4f03-97f0-ff7f3d0242e8',
+            tenantCode: 'TNT-0000002',
+            tenantName: 'Hieu Nguyen Company',
+            state: 0,
+          },
+          username: 'son.nguyen',
+          registerType: 'R',
+          descendants: [
+            {
+              createdDate: 1621545019805,
+              lastModifiedDate: 1621545019805,
+              optCounter: 0,
+              id: '3452e624-ad89-411d-9118-da6aab92a176',
+              tenant: {
+                createdDate: 1621394663216,
+                createdBy: 'e202b659-743a-4bdb-97c7-be246194d07f',
+                lastModifiedDate: 1621394663216,
+                optCounter: 0,
+                id: '352d7794-f165-4f03-97f0-ff7f3d0242e8',
+                tenantCode: 'TNT-0000002',
+                tenantName: 'Hieu Nguyen Company',
+                state: 0,
+              },
+              username: 'long.nguyen',
+              registerType: 'R',
+              descendants: [],
+            },
+            {
+              createdDate: 1621545068749,
+              lastModifiedDate: 1621545068749,
+              optCounter: 0,
+              id: '06874799-0ea6-47a1-8a87-c08daeaa4bb6',
+              tenant: {
+                createdDate: 1621394663216,
+                createdBy: 'e202b659-743a-4bdb-97c7-be246194d07f',
+                lastModifiedDate: 1621394663216,
+                optCounter: 0,
+                id: '352d7794-f165-4f03-97f0-ff7f3d0242e8',
+                tenantCode: 'TNT-0000002',
+                tenantName: 'Hieu Nguyen Company',
+                state: 0,
+              },
+              username: 'nha.luong',
+              registerType: 'R',
+              descendants: [],
+            },
+            {
+              createdDate: 1621545068749,
+              lastModifiedDate: 1621545068749,
+              optCounter: 0,
+              id: 'b89293de-671f-403e-b2f8-3d67f84f9b77',
+              tenant: {
+                createdDate: 1621394663216,
+                createdBy: 'e202b659-743a-4bdb-97c7-be246194d07f',
+                lastModifiedDate: 1621394663216,
+                optCounter: 0,
+                id: '352d7794-f165-4f03-97f0-ff7f3d0242e8',
+                tenantCode: 'TNT-0000002',
+                tenantName: 'Hieu Nguyen Company',
+                state: 0,
+              },
+              username: 'tin.do',
+              registerType: 'R',
+              descendants: [],
+            },
           ],
         },
       ],
     },
-  ];
+  ]);
 
-  items: any[] = [
-    { id: 1, name: 'Vincent Nguyen', job: 'Chief Executive Officer (CEO)', img: '' },
-    { id: 2, name: 'Vincent Nguyen', job: 'Chief Executive Officer (CEO)', img: '' },
-    { id: 3, name: 'Le Hong Phuc', job: 'Chief Executive Officer (CEO)', img: '' },
-    { id: 4, name: 'Nam Nhat', job: 'Chief Executive Officer (CEO)', img: '' },
-    { id: 5, name: 'Vincent Nguyen', job: 'Chief Executive Officer (CEO)', img: '' },
-    { id: 6, name: 'Vincent Nguyen', job: 'Chief Executive Officer (CEO)', img: '' },
-    { id: 7, name: 'Vincent Nguyen', job: 'Chief Executive Officer (CEO)', img: '' },
-    { id: 8, name: 'Vincent Nguyen', job: 'Chief Executive Officer (CEO)', img: '' },
-
-    { id: 1, name: 'Vincent Nguyen', job: 'Chief Executive Officer (CEO)', img: 'assets/images/noti.png' },
-    { id: 2, name: 'Vincent Nguyen', job: 'Chief Executive Officer (CEO)', img: 'assets/images/noti.png' },
-    { id: 3, name: 'Vincent Nguyen', job: 'Chief Executive Officer (CEO)', img: 'assets/images/noti.png' },
-    { id: 4, name: 'Vincent Nguyen', job: 'Chief Executive Officer (CEO)', img: 'assets/images/noti.png' },
-    { id: 5, name: 'Vincent Nguyen', job: 'Chief Executive Officer (CEO)', img: 'assets/images/noti.png' },
-    { id: 6, name: 'Vincent Nguyen', job: 'Chief Executive Officer (CEO)', img: 'assets/images/noti.png' },
-    { id: 7, name: 'Vincent Nguyen', job: 'Chief Executive Officer (CEO)', img: 'assets/images/noti.png' },
-    { id: 8, name: 'Vincent Nguyen', job: 'Chief Executive Officer (CEO)', img: 'assets/images/noti.png' },
-
-    { id: 1, name: 'Vincent Nguyen', job: 'Chief Executive Officer (CEO)', img: 'assets/images/noti.png' },
-    { id: 2, name: 'Vincent Nguyen', job: 'Chief Executive Officer (CEO)', img: 'assets/images/noti.png' },
-    { id: 3, name: 'Vincent Nguyen', job: 'Chief Executive Officer (CEO)', img: 'assets/images/noti.png' },
-    { id: 4, name: 'Vincent Nguyen', job: 'Chief Executive Officer (CEO)', img: 'assets/images/noti.png' },
-    { id: 5, name: 'Vincent Nguyen', job: 'Chief Executive Officer (CEO)', img: 'assets/images/noti.png' },
-    { id: 6, name: 'Vincent Nguyen', job: 'Chief Executive Officer (CEO)', img: 'assets/images/noti.png' },
-    { id: 7, name: 'Vincent Nguyen', job: 'Chief Executive Officer (CEO)', img: 'assets/images/noti.png' },
-    { id: 8, name: 'Vincent Nguyen', job: 'Chief Executive Officer (CEO)', img: 'assets/images/noti.png' },
-
-    { id: 1, name: 'Vincent Nguyen', job: 'Chief Executive Officer (CEO)', img: 'assets/images/noti.png' },
-    { id: 2, name: 'Vincent Nguyen', job: 'Chief Executive Officer (CEO)', img: 'assets/images/noti.png' },
-    { id: 3, name: 'Vincent Nguyen', job: 'Chief Executive Officer (CEO)', img: 'assets/images/noti.png' },
-    { id: 4, name: 'Vincent Nguyen', job: 'Chief Executive Officer (CEO)', img: 'assets/images/noti.png' },
-    { id: 5, name: 'Vincent Nguyen', job: 'Chief Executive Officer (CEO)', img: 'assets/images/noti.png' },
-    { id: 6, name: 'Vincent Nguyen', job: 'Chief Executive Officer (CEO)', img: 'assets/images/noti.png' },
-    { id: 7, name: 'Vincent Nguyen', job: 'Chief Executive Officer (CEO)', img: 'assets/images/noti.png' },
-    { id: 8, name: 'Vincent Nguyen', job: 'Chief Executive Officer (CEO)', img: 'assets/images/noti.png' },
-
-    { id: 1, name: 'Vincent Nguyen', job: 'Chief Executive Officer (CEO)', img: 'assets/images/noti.png' },
-    { id: 2, name: 'Vincent Nguyen', job: 'Chief Executive Officer (CEO)', img: 'assets/images/noti.png' },
-    { id: 3, name: 'Vincent Nguyen', job: 'Chief Executive Officer (CEO)', img: 'assets/images/noti.png' },
-  ];
-
-  itemLeaders: any[] = [
-    { id: 1, name: 'Vincent Nguyen', job: 'Chief Executive Officer (CEO)', img: 'assets/images/noti.png' },
-  ];
-
-  itemCEOs: any[] = [
-    { id: 1, name: 'Vincent Nguyen', job: 'Chief Executive Officer (CEO)', img: 'assets/images/noti.png' },
-  ];
-
-  arrayCEOs: Node[] = [];
-  arrayManagers: Node[] = [];
-  arrayEmployees: Node[] = [];
+  readonly burgerss = ['Classic', 'Cheeseburger', 'Royal Cheeseburger'];
 
   constructor() {}
 
-  ngOnInit(): void {
-    this.getTest();
+  ngOnInit(): void {}
+
+  onClick() {
+    this.open = false;
+    this.index = 1;
   }
-
-  getTest(): void {
-    console.log('::::cap 0::::::::::::::::::', this.jsonRes.length);
-    this.arrayCEOs.push(this.jsonRes[0]);
-    console.log('::::Result cap 0::::::::::::::::::', this.arrayCEOs);
-    for (const a of this.jsonRes) {
-      console.log('::::cap 1::::::::::::::::::', a.children?.length);
-      if (a.children != null) {
-        this.arrayManagers.push(a.children[0]);
-      }
-      console.log('::::Result cap 1::::::::::::::::::', this.arrayManagers);
-      if (a.children?.length != undefined) {
-        for (const b of a.children) {
-          console.log('::::cap 2::::::::::::::::::', b.children?.length);
-          if (b.children != null) {
-            for (const c of b.children) {
-              this.arrayEmployees.push(c);
-            }
-            console.log('::::Result cap 2::::::::::::::::::', this.arrayEmployees);
-          }
-        }
-      }
-    }
-  }
-  //test 3 - leve linh danh thue
-
-  //test 2 - level a Son
-
-  //nhung cai con lai , hien tai chi co 2 cai tren thoi
 }

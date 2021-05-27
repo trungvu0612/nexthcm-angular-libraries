@@ -1,2 +1,2 @@
-export * from "./seat-map";
-export * from "./employee-info";
+export * from './seat-map';
+export * from './employee-info';

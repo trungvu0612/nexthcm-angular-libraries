@@ -6,7 +6,7 @@ import {
   TRANSLOCO_LOADER,
   translocoConfig,
   TranslocoLoader,
-  TranslocoModule,
+  TranslocoModule
 } from '@ngneat/transloco';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';

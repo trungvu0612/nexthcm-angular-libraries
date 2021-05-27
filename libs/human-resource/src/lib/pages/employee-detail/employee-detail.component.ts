@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { EmployeeData } from '../../models/employees';
 import { DomSanitizer } from '@angular/platform-browser';
+import { EmployeeData } from '../../models/employees';
 
 @Component({
   selector: 'hcm-employee-detail',

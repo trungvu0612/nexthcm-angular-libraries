@@ -1,3 +1,4 @@
+import { CdkDragEnd, CdkDragStart } from '@angular/cdk/drag-drop';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -5,17 +6,16 @@ import {
   ElementRef,
   Injector,
   OnInit,
-  ViewChild,
+  ViewChild
 } from '@angular/core';
 import { FormControl } from '@ngneat/reactive-forms';
-import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { TuiDialogService } from '@taiga-ui/core';
-import { AddSeatDialogComponent } from '../../components/add-seat-dialog/add-seat-dialog.component';
-import { ViewDetailDialogComponent } from '../../components/view-detail-dialog/view-detail-dialog.component';
-import { CdkDragEnd, CdkDragStart } from '@angular/cdk/drag-drop';
+import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { last, takeUntil } from 'rxjs/operators';
-import { Dispatch, SeatInfo } from '../../models/seat-map';
+import { AddSeatDialogComponent } from '../../components/add-seat-dialog/add-seat-dialog.component';
 import { CreateSeatMapDialogComponent } from '../../components/create-seat-map-dialog/create-seat-map-dialog.component';
+import { ViewDetailDialogComponent } from '../../components/view-detail-dialog/view-detail-dialog.component';
+import { Dispatch, SeatInfo } from '../../models/seat-map';
 
 @Component({
   selector: 'hcm-seat-map',

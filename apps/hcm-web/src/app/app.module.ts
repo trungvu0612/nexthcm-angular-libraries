@@ -24,7 +24,7 @@ import { TranslocoRootModule } from './transloco/transloco-root.module';
     TuiRootModule,
     FormlyTaigaUiModule,
     CoreModule.forRoot(environment),
-    TranslocoRootModule
+    TranslocoRootModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

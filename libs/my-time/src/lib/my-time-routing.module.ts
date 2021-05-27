@@ -1,20 +1,19 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { MyTimeComponent } from './my-time.component';
 import { LayoutComponent } from '@nexthcm/ui';
-import { WorkingHourComponent } from './pages/working-hour/working-hour.component';
 import { LeaveTypeComponent } from './modules/leave-type/leave-type.component';
-import { UpsertLeaveTypeComponent } from './modules/leave-type/pages/upsert-leave-type/upsert-leave-type.component';
 import { ListLeaveTypeComponent } from './modules/leave-type/pages/list-leave-type/list-leave-type.component';
-import { MyRequestComponent } from './pages/my-request/my-request.component';
-import { AuthGuard } from '@nexthcm/auth';
+import { UpsertLeaveTypeComponent } from './modules/leave-type/pages/upsert-leave-type/upsert-leave-type.component';
+import { MyTimeComponent } from './my-time.component';
 import { MyLeaveComponent } from './pages/my-leave/my-leave.component';
+import { MyRequestComponent } from './pages/my-request/my-request.component';
+import { WorkingHourComponent } from './pages/working-hour/working-hour.component';
 
 const routes: Routes = [
   {
     path: '',
     component: LayoutComponent,
-    canActivate: [AuthGuard],
+    // canActivate: [AuthGuard],
     children: [
       {
         path: '',

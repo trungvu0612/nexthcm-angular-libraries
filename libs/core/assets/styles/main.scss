@@ -126,3 +126,9 @@ section.main-section {
 .cdk-drag-dragging {
   z-index: 1 !important;
 }
+
+.effected-dropdown {
+  .arrow {
+    display: none;
+  }
+}

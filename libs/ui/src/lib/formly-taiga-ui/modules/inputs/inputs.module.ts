@@ -3,12 +3,13 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormlyModule } from '@ngx-formly/core';
 import { TuiCurrencyPipeModule } from '@taiga-ui/addon-commerce';
+import { TuiEditorModule } from '@taiga-ui/addon-editor';
 import {
   TuiErrorModule,
   TuiHintControllerModule,
   TuiLabelModule,
   TuiSvgModule,
-  TuiTextfieldControllerModule,
+  TuiTextfieldControllerModule
 } from '@taiga-ui/core';
 import {
   TuiFieldErrorModule,
@@ -24,7 +25,7 @@ import {
   TuiInputPhoneModule,
   TuiInputTagModule,
   TuiInputTimeModule,
-  TuiTextAreaModule,
+  TuiTextAreaModule
 } from '@taiga-ui/kit';
 import { InputPhoneInternationalModule } from '../../shared/input-phone-international/input-phone-international.module';
 import { FormFieldModule } from '../form-field/form-field.module';
@@ -43,7 +44,6 @@ import { InputTagComponent } from './input-tag/input-tag.component';
 import { InputTimeComponent } from './input-time/input-time.component';
 import { InputComponent } from './input/input.component';
 import { TextAreaComponent } from './text-area/text-area.component';
-import { TuiEditorModule } from '@taiga-ui/addon-editor';
 
 @NgModule({
   declarations: [

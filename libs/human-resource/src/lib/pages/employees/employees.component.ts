@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { EmployeeData } from '../../models/employees';
 import { FormControl } from '@ngneat/reactive-forms';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { debounceTime, takeUntil } from 'rxjs/operators';
+import { EmployeeData } from '../../models/employees';
 
 @Component({
   selector: 'hcm-employees',

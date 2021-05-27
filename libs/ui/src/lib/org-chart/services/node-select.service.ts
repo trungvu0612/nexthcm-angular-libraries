@@ -2,13 +2,12 @@ import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class NodeSelectService {
-
   private subject = new Subject<any>();
 
-  constructor() { }
+  constructor() {}
 
   sendSelect(id: string) {
     this.subject.next({ id });

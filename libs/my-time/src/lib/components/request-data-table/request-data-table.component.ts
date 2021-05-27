@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Injector, Input, OnInit } from '@angular/core';
-import { MyRequestData } from '../../models/my-time';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
+import { MyRequestData } from '../../models/my-time';
 import { RequestDialogComponent } from '../request-dialog/request-dialog.component';
 
 @Component({
