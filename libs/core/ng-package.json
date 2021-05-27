@@ -11,6 +11,7 @@
     "@ngx-formly/core",
     "@tinkoff/ng-dompurify",
     "ngx-cookie",
-    "inter-ui"
+    "inter-ui",
+    "swiper"
   ]
 }
