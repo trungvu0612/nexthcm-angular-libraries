@@ -1,11 +1,12 @@
-<main>
-  <header class="flex justify-between mb-8">
+<main class="main-page">
+  <header>
     <h1 class="text-4xl">My Leave</h1>
-    <div>
+    <div class="flex gap-4">
       <tui-input-month [formControl]="dateControl" class="date-control">Choose a month</tui-input-month>
-    </div>
-    <div>
-      <button (click)="showDialog()" class="mr-7">Submit Leave Request</button>
+      <button class="blue-button">
+        <tui-svg class="-ml-1 mr-2" src="tuiIconPlusLarge"></tui-svg>
+        Submit Leave Request
+      </button>
     </div>
   </header>
   <hcm-time-data-table [columns]="columns" class="bg-white px-8 py-10"></hcm-time-data-table>

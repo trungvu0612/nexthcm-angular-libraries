@@ -9,7 +9,7 @@ import {
   OnInit,
   Optional,
   Self,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 import { NgControl } from '@angular/forms';
 import { FormControl } from '@ngneat/reactive-forms';
@@ -20,14 +20,14 @@ import {
   tuiDefaultProp,
   TuiFocusableElementAccessor,
   tuiPure,
-  TuiStringHandler
+  TuiStringHandler,
 } from '@taiga-ui/cdk';
 import { TUI_DIGIT_REGEXP, TUI_ICONS_PATH, TuiPrimitiveTextfieldComponent } from '@taiga-ui/core';
 import {
   FIXED_DROPDOWN_CONTROLLER_PROVIDER,
   TUI_ARROW,
   TuiCountryIsoCode,
-  TuiInputPhoneComponent
+  TuiInputPhoneComponent,
 } from '@taiga-ui/kit';
 import { PolymorpheusContent } from '@tinkoff/ng-polymorpheus';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';

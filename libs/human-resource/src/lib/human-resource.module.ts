@@ -8,7 +8,7 @@ import {
   TuiDataListModule,
   TuiDropdownModule,
   TuiHostedDropdownModule,
-  TuiSvgModule
+  TuiSvgModule,
 } from '@taiga-ui/core';
 import { TuiAvatarModule, TuiDropdownHoverModule, TuiInputModule } from '@taiga-ui/kit';
 import { PolymorpheusModule } from '@tinkoff/ng-polymorpheus';

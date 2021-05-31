@@ -23,7 +23,7 @@ import {
   TuiRadioBlockModule, TuiRadioLabeledModule,
   TuiSelectModule,
   TuiSelectOptionModule,
-  TuiTextAreaModule
+  TuiTextAreaModule,
 } from '@taiga-ui/kit';
 import { PolymorpheusModule } from '@tinkoff/ng-polymorpheus';
 import { FormFieldModule } from '../../../ui/src/lib/formly-taiga-ui/modules/form-field/form-field.module';
