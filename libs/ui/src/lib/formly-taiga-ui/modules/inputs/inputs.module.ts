@@ -9,7 +9,7 @@ import {
   TuiHintControllerModule,
   TuiLabelModule,
   TuiSvgModule,
-  TuiTextfieldControllerModule
+  TuiTextfieldControllerModule,
 } from '@taiga-ui/core';
 import {
   TuiFieldErrorModule,
@@ -25,7 +25,7 @@ import {
   TuiInputPhoneModule,
   TuiInputTagModule,
   TuiInputTimeModule,
-  TuiTextAreaModule
+  TuiTextAreaModule,
 } from '@taiga-ui/kit';
 import { InputPhoneInternationalModule } from '../../shared/input-phone-international/input-phone-international.module';
 import { FormFieldModule } from '../form-field/form-field.module';

@@ -9,7 +9,7 @@ import {
   TuiInputModule,
   TuiMarkerIconModule,
   TuiPaginationModule,
-  TuiTagModule
+  TuiTagModule,
 } from '@taiga-ui/kit';
 import { LeaveTypeComponent } from './leave-type.component';
 import { ListLeaveTypeComponent } from './pages/list-leave-type/list-leave-type.component';

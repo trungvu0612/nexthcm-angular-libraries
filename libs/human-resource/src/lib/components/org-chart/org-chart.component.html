@@ -38,11 +38,13 @@
         <div class="border w-0 h-8 mx-auto"></div>
 
         <ng-container *ngTemplateOutlet="recursive; context: { current: current[0].descendants }"></ng-container>
+
       </section>
     </ng-template>
 
     <ng-template #content>
       <main class="flex flex-col w-96 h-full p-4">
+
         <section class="p-8 bg-white flex justify-start -m-2">
           <tui-avatar [autoColor]="true" [rounded]="true" [text]="current[0].username" size="l"></tui-avatar>
           <div class="ml-4">
@@ -86,7 +88,7 @@
         <section class="p-4 border-t-2 flex flex-col space-y-4">
           <strong class="text-semibold text-left">Report</strong>
           <div class="flex flex-row space-x-4">
-              <tui-avatar [autoColor]="true" [rounded]="true" [text]="current[0].username" size="m"></tui-avatar>
+            <tui-avatar [autoColor]="true" [rounded]="true" [text]="current[0].username" size="m"></tui-avatar>
             <div class="flex flex-col">
               <div class="text-sm text-left">
                 <strong>{{ current[0].username }}</strong>
@@ -95,46 +97,42 @@
             </div>
           </div>
         </section>
-
       </main>
     </ng-template>
   </ng-template>
 </main>
 
-
-
-
-<tui-hosted-dropdown  #dropdown [content]="test">
-  <button
-    [pseudoHovered]="dropdown.open || null"
-    appearance="flat"
-    icon="tuiIconMoreVer"
-    tuiIconButton
-    type="button"
-  ></button>
-</tui-hosted-dropdown>
-<ng-template #test let-activeZone>
-  <tui-data-list
-    [tuiActiveZoneParent]="activeZone"
-    class="effected-dropdown"
-    tuiDataListDropdownManager
-  >
-    <button
-      [tuiDropdownContent]="test"
-      [tuiDropdownSided]="true"
-      [tuiDropdown]="true"
-      tuiDropdownAlign="right"
-      tuiOption
-    >
-      Burgers
-    </button>
-  </tui-data-list>
-  <ng-template #burgersTmp>
-    <tui-data-list
-      [tuiActiveZoneParent]="activeZone"
-      tuiDataListDropdownManager
-    >
-      <button *ngFor="let burger of burgerss" tuiOption>{{burger}}</button>
-    </tui-data-list>
-  </ng-template>
-</ng-template>
+<!--<tui-hosted-dropdown  #dropdown [content]="test">-->
+<!--  <button-->
+<!--    [pseudoHovered]="dropdown.open || null"-->
+<!--    appearance="flat"-->
+<!--    icon="tuiIconMoreVer"-->
+<!--    tuiIconButton-->
+<!--    type="button"-->
+<!--  ></button>-->
+<!--</tui-hosted-dropdown>-->
+<!--<ng-template #test let-activeZone>-->
+<!--  <tui-data-list-->
+<!--    [tuiActiveZoneParent]="activeZone"-->
+<!--    class="effected-dropdown"-->
+<!--    tuiDataListDropdownManager-->
+<!--  >-->
+<!--    <button-->
+<!--      [tuiDropdownContent]="test"-->
+<!--      [tuiDropdownSided]="true"-->
+<!--      [tuiDropdown]="true"-->
+<!--      tuiDropdownAlign="right"-->
+<!--      tuiOption-->
+<!--    >-->
+<!--      Burgers-->
+<!--    </button>-->
+<!--  </tui-data-list>-->
+<!--  <ng-template #burgersTmp>-->
+<!--    <tui-data-list-->
+<!--      [tuiActiveZoneParent]="activeZone"-->
+<!--      tuiDataListDropdownManager-->
+<!--    >-->
+<!--      <button *ngFor="let burger of burgerss" tuiOption>{{burger}}</button>-->
+<!--    </tui-data-list>-->
+<!--  </ng-template>-->
+<!--</ng-template>-->

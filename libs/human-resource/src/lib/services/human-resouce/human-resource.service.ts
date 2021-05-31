@@ -13,7 +13,7 @@ export class HumanResourceService {
 
   getOrg(): Observable<OrgRes> {
     return this.httpClient
-      .get<OrgRes>(this.env.orgUrl + '/accountapp/v1.0/org-chart/', {})
+      .get<OrgRes>(this.env.orgUrl + '/accountapp/v1.0/org-chart', {})
       .pipe(map((res) => res as OrgRes));
   }
 

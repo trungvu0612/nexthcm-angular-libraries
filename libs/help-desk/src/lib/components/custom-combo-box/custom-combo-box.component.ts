@@ -11,7 +11,7 @@ import {
   Output,
   Self,
   TemplateRef,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 import { NgControl } from '@angular/forms';
 import {
@@ -28,7 +28,7 @@ import {
   TuiIdentityMatcher,
   tuiPure,
   TuiStringHandler,
-  TuiStringMatcher
+  TuiStringMatcher,
 } from '@taiga-ui/cdk';
 import {
   TUI_DATA_LIST_ACCESSOR,
@@ -40,7 +40,7 @@ import {
   TuiHorizontalDirection,
   TuiHostedDropdownComponent,
   TuiPrimitiveTextfieldComponent,
-  TuiValueContentContext
+  TuiValueContentContext,
 } from '@taiga-ui/core';
 import { TUI_SELECT_OPTION } from '@taiga-ui/kit/components/select-option';
 import { FIXED_DROPDOWN_CONTROLLER_PROVIDER } from '@taiga-ui/kit/providers';

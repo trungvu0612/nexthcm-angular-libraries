@@ -6,7 +6,7 @@ import {
   ElementRef,
   Injector,
   OnInit,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 import { FormControl } from '@ngneat/reactive-forms';
 import { TuiDialogService } from '@taiga-ui/core';

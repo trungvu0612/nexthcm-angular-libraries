@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
 import { FormlyModule } from '@ngx-formly/core';
 import { iconsPathFactory, TUI_ICONS_PATH, TUI_SANITIZER, TuiDialogModule } from '@taiga-ui/core';
@@ -7,6 +7,8 @@ import { NgDompurifySanitizer } from '@tinkoff/ng-dompurify';
 import { CookieModule } from 'ngx-cookie';
 import { ENVIRONMENT } from './core.config';
 import { Environment } from './models';
+import { ApiPrefixInterceptor } from './interceptors/api-prefix.interceptor';
+import { TokenInterceptor } from './interceptors/token.interceptor';
 
 @NgModule({
   imports: [
@@ -17,6 +19,8 @@ import { Environment } from './models';
     TuiDialogModule,
   ],
   providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: ApiPrefixInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
     { provide: TUI_ICONS_PATH, useValue: iconsPathFactory('assets/taiga-ui/icons/') },
     { provide: TUI_SANITIZER, useClass: NgDompurifySanitizer },
   ],
