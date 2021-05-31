@@ -3,8 +3,15 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormlyModule } from '@ngx-formly/core';
 import { TuiLetModule } from '@taiga-ui/cdk';
-import { TuiHintControllerModule, TuiLabelModule } from '@taiga-ui/core';
-import { TuiRadioGroupModule, TuiRadioLabeledModule, TuiRadioListModule } from '@taiga-ui/kit';
+import { TuiHintControllerModule, TuiLabelModule, TuiSvgModule, TuiTextfieldControllerModule } from '@taiga-ui/core';
+import {
+  TuiDataListWrapperModule,
+  TuiInputDateModule,
+  TuiRadioGroupModule,
+  TuiRadioLabeledModule,
+  TuiRadioListModule,
+  TuiSelectModule
+} from '@taiga-ui/kit';
 import { PolymorpheusModule } from '@tinkoff/ng-polymorpheus';
 import { SelectOptionsModule } from '../../shared/select-options/select-options.module';
 import { FormFieldModule } from '../form-field/form-field.module';
@@ -25,6 +32,13 @@ import { RadioComponent } from './radio.component';
     TuiRadioGroupModule,
     TuiLetModule,
     TuiRadioLabeledModule,
+    TuiSvgModule,
+    TuiInputDateModule,
+    TuiTextfieldControllerModule,
+    TuiInputDateModule,
+    TuiInputDateModule,
+    TuiSelectModule,
+    TuiDataListWrapperModule,
   ],
 })
 export class RadioModule {}

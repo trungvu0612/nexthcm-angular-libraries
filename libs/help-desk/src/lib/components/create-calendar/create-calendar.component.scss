@@ -1,3 +1,43 @@
 :host {
   display: block;
+
+  ::ng-deep {
+    .label {
+      margin-bottom: 5px;
+      font-size: 16px !important;
+      font-weight: bold !important;
+    }
+
+    .item:nth-child(n + 2) {
+      margin-left: 0 !important;
+    }
+
+    h5 {
+      font-weight: bold;
+    }
+
+    tui-input-date {
+      width: 50%;
+    }
+
+    .address-radio-wrapper {
+      svg {
+        width: 30px;
+        height: 32px;
+      }
+
+      .label {
+        margin-top: 20px;
+        margin-bottom: 10px;
+        font-size: 16px;
+        font-weight: bold;
+      }
+
+      .item {
+        .wrapper {
+          flex-flow: row-reverse;
+        }
+      }
+    }
+  }
 }

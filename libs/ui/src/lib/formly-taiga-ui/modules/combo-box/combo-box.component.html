@@ -19,14 +19,14 @@
           <tui-avatar
             [avatarUrl]="item[to.imageProp] ? to.imagePath + item[to.imageProp] : null"
             [text]="item[to.labelProp]"
-            size="s"
+            size="l"
             style="border-radius: 50%"
           ></tui-avatar>
 
           <div class="col-span-2">
             <div class="grid grid-cols-1 gap-0">
-              <span class="name text-sm font-semibold">&nbsp;{{ item[to.labelProp] }}</span>
-              <span class="name text-xs font-medium">&nbsp;{{ item[to.labelProp] }}</span>
+              <span class="name text-base font-semibold">&nbsp;{{ item[to.labelProp] }}</span>
+              <span class="name text-base font-medium">&nbsp;{{ item[to.sublabelProp] }}</span>
             </div>
           </div>
         </div>
