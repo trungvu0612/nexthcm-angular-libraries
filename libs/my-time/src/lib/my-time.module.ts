@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { FormlyTaigaUiModule, LayoutModule } from '@nexthcm/ui';
+import { LayoutModule } from '@nexthcm/ui';
 import { FormlyModule } from '@ngx-formly/core';
 import { TuiReorderModule, TuiTableModule, TuiTablePaginationModule } from '@taiga-ui/addon-table';
 import {
@@ -71,7 +71,6 @@ import { MyRequestComponent } from './pages/my-request/my-request.component';
     TuiTagModule,
     TuiSvgModule,
     FormlyModule,
-    FormlyTaigaUiModule,
     TuiFilterModule,
     TuiInputDateModule,
     TuiInputDateRangeModule,
