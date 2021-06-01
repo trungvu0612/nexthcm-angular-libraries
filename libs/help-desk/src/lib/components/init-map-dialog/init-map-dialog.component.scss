@@ -33,7 +33,7 @@
     @apply absolute rounded-full bg-blue-200;
 
     tui-svg {
-      @apply w-full h-full;
+      @apply absolute left-0 top-0 w-full h-full;
     }
   }
 }
