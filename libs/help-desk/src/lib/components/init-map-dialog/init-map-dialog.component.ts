@@ -31,7 +31,7 @@ export class InitMapDialogComponent implements AfterViewInit {
   dimension = [3, 4];
   columns: number[] = [50];
   rows: number[] = [50];
-  seatMap: SeatInfo[][] = [[{ top: 50, left: 50, isSeat: false }]];
+  seatMap: SeatInfo[][] = [[{ positionY: 50, positionX: 50, isSeat: false }]];
   form = new FormGroup({});
   model = { building: '', cols: 1, rows: 1, dimension: 3 };
   fields: FormlyFieldConfig[] = [
@@ -76,24 +76,24 @@ export class InitMapDialogComponent implements AfterViewInit {
     },
   ];
 
-  isClicked(type: string, index: number): boolean {
-    return this.current && this.current.type === type && this.current.index === index;
-  }
-
   constructor(
     private changeDetector: ChangeDetectorRef,
     @Inject(POLYMORPHEUS_CONTEXT) private context: TuiDialogContext<Partial<SeatMap>>,
     private destroy$: TuiDestroyService
   ) {}
 
+  isClicked(type: string, index: number): boolean {
+    return this.current && this.current.type === type && this.current.index === index;
+  }
+
   ngAfterViewInit(): void {
     this.form.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((value) => {
       this.columns = Array.from({ length: value.cols }, (_, index) => this.columns[index] || 50);
       this.rows = Array.from({ length: value.rows }, (_, index) => this.rows[index] || 50);
-      this.seatMap = this.rows.map((top, y) =>
-        this.columns.map((left, x) => ({
-          top,
-          left,
+      this.seatMap = this.rows.map((positionY, y) =>
+        this.columns.map((positionX, x) => ({
+          positionY,
+          positionX,
           isSeat: this.seatMap[y] && this.seatMap[y][x] ? this.seatMap[y][x].isSeat : false,
         }))
       );
@@ -136,7 +136,7 @@ export class InitMapDialogComponent implements AfterViewInit {
     }
   }
 
-  onClickOnLine(index: number): void {
+  onClickLine(index: number): void {
     this.current.index = index;
   }
 
@@ -150,10 +150,10 @@ export class InitMapDialogComponent implements AfterViewInit {
 
     if (typeLine === 'row') {
       updateMap(this.rows, 100 / this.zone.nativeElement.offsetHeight);
-      this.seatMap[index].forEach((seat) => (seat.top = this.rows[index]));
+      this.seatMap[index].forEach((seat) => (seat.positionY = this.rows[index]));
     } else {
       updateMap(this.columns, 100 / this.zone.nativeElement.offsetWidth);
-      this.seatMap.forEach((row) => (row[index].left = this.columns[index]));
+      this.seatMap.forEach((row) => (row[index].positionX = this.columns[index]));
     }
   }
 
@@ -175,13 +175,14 @@ export class InitMapDialogComponent implements AfterViewInit {
   submit(): void {
     this.context.completeWith({
       building: this.model.building,
-      dimension: this.dimension,
+      scaleX: this.dimension[0],
+      scaleY: this.dimension[1],
       seats: (this.seatMap as any)
         .flat()
         .filter((seat: SeatInfo) => seat.isSeat)
-        .map(({ left, top }: SeatInfo) => ({
-          left,
-          top,
+        .map(({ positionX, positionY }: SeatInfo) => ({
+          positionX,
+          positionY,
         })),
     });
   }

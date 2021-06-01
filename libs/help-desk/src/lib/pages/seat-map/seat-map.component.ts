@@ -4,6 +4,7 @@ import {
   ChangeDetectorRef,
   Component,
   Injector,
+  OnInit,
   QueryList,
   ViewChildren,
 } from '@angular/core';
@@ -15,6 +16,7 @@ import { AddSeatDialogComponent } from '../../components/add-seat-dialog/add-sea
 import { InitMapDialogComponent } from '../../components/init-map-dialog/init-map-dialog.component';
 import { SeatInfo, SeatMap } from '../../models';
 import { SeatComponent } from '../../components/seat/seat.component';
+import { SeatMapService } from '../../services/seat-map.service';
 
 @Component({
   selector: 'hcm-seat-map',
@@ -22,67 +24,36 @@ import { SeatComponent } from '../../components/seat/seat.component';
   styleUrls: ['./seat-map.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SeatMapComponent {
+export class SeatMapComponent implements OnInit {
   @ViewChildren(SeatComponent) seatRefs!: QueryList<SeatComponent>;
   myId = 4;
   ping: number | null = null;
   dragging = false;
   inputSearch = new FormControl();
-  seatMap: SeatMap = {
-    building: 'Copac',
-    dimension: [5, 9],
-    seats: [
-      {
-        name: 'ABC',
-        team: 'XYZ',
-        status: 'mnp',
-        id: 1,
-        image:
-          'https://cdna.artstation.com/p/assets/images/images/027/552/530/large/sterrrcore-art-commission-ilovegus-chibi-bust-final.jpg',
-        left: 25,
-        top: 25,
-      },
-      {
-        name: 'ABC',
-        team: 'XYZ',
-        status: 'mnp',
-        id: 2,
-        image:
-          'https://fiverr-res.cloudinary.com/images/t_main1,q_auto,f_auto,q_auto,f_auto/gigs/122225393/original/c27ea6bf48ea75188de749a1766c3a90df822adb/draw-chibi-icon-for-you.jpg',
-        left: 25,
-        top: 75,
-      },
-      {
-        name: 'ABC',
-        team: 'XYZ',
-        status: 'mnp',
-        id: 3,
-        image:
-          'https://fiverr-res.cloudinary.com/images/t_main1,q_auto,f_auto,q_auto,f_auto/gigs/122225393/original/c27ea6bf48ea75188de749a1766c3a90df822adb/draw-chibi-icon-for-you.jpg',
-        left: 75,
-        top: 25,
-      },
-      {
-        name: 'ABC',
-        team: 'XYZ',
-        status: 'mnp',
-        id: 4,
-        image: 'https://d9jhi50qo719s.cloudfront.net/dlf/samples/jew_800.png',
-        left: 75,
-        top: 75,
-      },
-      {
-        left: 50,
-        top: 50,
-      },
-    ],
-  };
+  seatMap!: SeatMap;
 
   constructor(
+    private seatMapService: SeatMapService,
     private dialogService: TuiDialogService,
     private injector: Injector,
     private changeDetector: ChangeDetectorRef
   ) {}
+
+  ngOnInit(): void {
+    this.seatMapService.getSeatMapData().subscribe((data) => (this.seatMap = data));
+  }
+
+  initMap(): void {
+    this.dialogService
+      .open<SeatMap>(new PolymorpheusComponent(InitMapDialogComponent, this.injector), {
+        size: 'fullscreen',
+        closeable: false,
+      })
+      .subscribe((map) => {
+        this.seatMap = map;
+        this.changeDetector.detectChanges();
+      });
+  }
 
   findMySeat(): void {
     const indexMySeat = this.seatMap.seats?.findIndex((item) => item.id === this.myId);
@@ -100,60 +71,50 @@ export class SeatMapComponent {
     }
   }
 
-  handleDragStarted(event: CdkDragStart, index: number): void {
+  handleDragEnded(event: CdkDragEnd): void {
+    event.source._dragRef.reset();
+  }
+
+  moveSeat(event: CdkDragStart, index: number): void {
     this.dragging = true;
     event.source.moved.pipe(takeUntil(event.source.released), last()).subscribe((data) => {
-      const halfWidth = this.seatMap.dimension[0] / 2;
-      const halfHeight = this.seatMap.dimension[1] / 2;
+      const halfWidth = this.seatMap.scaleX / 2;
+      const halfHeight = this.seatMap.scaleY / 2;
       const parent = data.source.element.nativeElement.parentElement as HTMLElement;
-      const leftDrop = this.seatMap.seats[index].left + (data.distance.x / parent.offsetWidth) * 100;
-      const topDrop = this.seatMap.seats[index].top + (data.distance.y / parent.offsetHeight) * 100;
+      const positionXDrop = this.seatMap.seats[index].positionX + (data.distance.x / parent.offsetWidth) * 100;
+      const positionYDrop = this.seatMap.seats[index].positionY + (data.distance.y / parent.offsetHeight) * 100;
 
       let indexDrop: number | undefined;
       this.seatMap.seats.some((seat, index) => {
         if (
-          leftDrop > seat.left - halfWidth &&
-          leftDrop < seat.left + halfWidth &&
-          topDrop > seat.top - halfHeight &&
-          topDrop < seat.top + halfHeight
+          positionXDrop > seat.positionX - halfWidth &&
+          positionXDrop < seat.positionX + halfWidth &&
+          positionYDrop > seat.positionY - halfHeight &&
+          positionYDrop < seat.positionY + halfHeight
         ) {
           indexDrop = index;
           return true;
         } else return false;
       });
+
       if (indexDrop !== undefined) {
         const drag = this.seatMap.seats[index];
         const drop = this.seatMap.seats[indexDrop];
-        [drag.left, drag.top, drag.seatNumber, drop.left, drop.top, drop.seatNumber] = [
-          drop.left,
-          drop.top,
+        [drag.positionX, drag.positionY, drag.seatNumber, drop.positionX, drop.positionY, drop.seatNumber] = [
+          drop.positionX,
+          drop.positionY,
           drop.seatNumber,
-          drag.left,
-          drag.top,
+          drag.positionX,
+          drag.positionY,
           drag.seatNumber,
         ];
+        this.seatMapService.postSeatMapData(this.seatMap);
         this.changeDetector.detectChanges();
       }
     });
   }
 
-  handleDragEnded(event: CdkDragEnd): void {
-    event.source._dragRef.reset();
-  }
-
-  initMap(): void {
-    this.dialogService
-      .open<SeatMap>(new PolymorpheusComponent(InitMapDialogComponent, this.injector), {
-        size: 'fullscreen',
-        closeable: false,
-      })
-      .subscribe((map) => {
-        this.seatMap = map;
-        this.changeDetector.detectChanges();
-      });
-  }
-
-  onClickSeat(index: number, id?: number): void {
+  addSeat(index: number, id?: number): void {
     if (this.dragging) {
       this.dragging = false;
     } else {
@@ -165,8 +126,9 @@ export class SeatMapComponent {
           })
           .subscribe((seat) => {
             if (seat) {
-              const { left, top } = this.seatMap.seats[index];
-              this.seatMap.seats[index] = { left, top, ...seat };
+              const { positionX, positionY } = this.seatMap.seats[index];
+              this.seatMap.seats[index] = { positionX, positionY, ...seat };
+              this.seatMapService.postSeatMapData(this.seatMap);
               this.changeDetector.detectChanges();
             }
           });
@@ -174,8 +136,9 @@ export class SeatMapComponent {
   }
 
   deleteSeat(index: number): void {
-    const { left, top, seatNumber } = this.seatMap.seats[index];
-    this.seatMap.seats[index] = { left, top, seatNumber };
+    const { positionX, positionY, seatNumber } = this.seatMap.seats[index];
+    this.seatMap.seats[index] = { positionX, positionY, seatNumber };
+    this.seatMapService.postSeatMapData(this.seatMap);
     this.changeDetector.detectChanges();
   }
 }

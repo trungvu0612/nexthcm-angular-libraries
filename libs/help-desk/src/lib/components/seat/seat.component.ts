@@ -5,9 +5,10 @@ import {
   EventEmitter,
   HostBinding,
   Input,
+  OnInit,
   Output,
 } from '@angular/core';
-import { EmployeeInfo, SeatInfo } from '../../models';
+import { SeatInfo } from '../../models';
 import { Router } from '@angular/router';
 
 @Component({
@@ -16,32 +17,21 @@ import { Router } from '@angular/router';
   styleUrls: ['./seat.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SeatComponent {
+export class SeatComponent implements OnInit {
   @Input() seat!: SeatInfo;
   @Input() dimension!: number[];
   @Output() delete = new EventEmitter();
-
   isAdmin = true;
-  detail: Partial<EmployeeInfo> = {
-    status: 'Leave',
-    fullName: 'BUI QUI THAN',
-    dateOfBirth: '6/12/2021',
-    phoneNumber: '0902693533',
-    team: 'RVC',
-    email: 'vien.nguyen@banvien.com',
-    skype: 'vien.nguyen@banvien.com',
-  };
-
-  status = this.detail.status?.toLowerCase().replace('/', '-').split(' ').join('-');
+  status!: string;
 
   constructor(public elementRef: ElementRef, private router: Router) {}
 
   @HostBinding('style.left') get left() {
-    return this.seat.left + '%';
+    return this.seat.positionX + '%';
   }
 
   @HostBinding('style.top') get top() {
-    return this.seat.top + '%';
+    return this.seat.positionY + '%';
   }
 
   @HostBinding('style.width') get width() {
@@ -52,11 +42,15 @@ export class SeatComponent {
     return this.dimension[1] + '%';
   }
 
+  ngOnInit(): void {
+    this.status = this.seat.status ? this.seat.status.toLowerCase().replace('/', '-').split(' ').join('-') : '';
+  }
+
   onDelete(): void {
     this.delete.emit();
   }
 
   viewDetail(): void {
-    this.router.navigate(['/human-resource/employees', this.detail.cif]);
+    this.router.navigate(['/human-resource/employees', this.seat.id]);
   }
 }
