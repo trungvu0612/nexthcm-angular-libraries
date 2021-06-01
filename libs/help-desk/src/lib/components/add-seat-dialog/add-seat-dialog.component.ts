@@ -1,19 +1,19 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { SeatInfo } from '../../models';
-import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'hcm-add-seat-dialog',
   templateUrl: './add-seat-dialog.component.html',
   styleUrls: ['./add-seat-dialog.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AddSeatDialogComponent {
   form = new FormGroup({});
-  model: { seat?: Partial<SeatInfo>; seatNumber?: number } = { };
+  model: { seat?: Partial<SeatInfo>; seatNumber?: number } = {};
   fields: FormlyFieldConfig[] = [
     {
       key: 'seat',
@@ -22,8 +22,8 @@ export class AddSeatDialogComponent {
         icon: 'assets/icons/search.svg',
         title: 'Search by CIF, Full Name',
         nameProp: 'name',
-        idProp: 'id'
-      }
+        idProp: 'id',
+      },
     },
     {
       key: 'seatNumber',
@@ -33,13 +33,12 @@ export class AddSeatDialogComponent {
         title: 'Seat number',
         required: true,
         textfieldCleaner: true,
-        textfieldLabelOutside: true
-      }
-    }
+        textfieldLabelOutside: true,
+      },
+    },
   ];
 
-  constructor(@Inject(POLYMORPHEUS_CONTEXT) private context: TuiDialogContext<Partial<SeatInfo> | null>) {
-  }
+  constructor(@Inject(POLYMORPHEUS_CONTEXT) private context: TuiDialogContext<Partial<SeatInfo> | null>) {}
 
   close(): void {
     this.context.completeWith(null);

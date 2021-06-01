@@ -54,22 +54,23 @@ import { PolymorpheusContent } from '@tinkoff/ng-polymorpheus';
   providers: [
     {
       provide: TUI_FOCUSABLE_ITEM_ACCESSOR,
-      useExisting: forwardRef(() => CustomTuiComboBoxComponent)
+      useExisting: forwardRef(() => CustomTuiComboBoxComponent),
     },
     {
       provide: TUI_DATA_LIST_HOST,
-      useExisting: forwardRef(() => CustomTuiComboBoxComponent)
+      useExisting: forwardRef(() => CustomTuiComboBoxComponent),
     },
     {
       provide: TUI_OPTION_CONTENT,
-      useValue: TUI_SELECT_OPTION
+      useValue: TUI_SELECT_OPTION,
     },
-    FIXED_DROPDOWN_CONTROLLER_PROVIDER
-  ]
+    FIXED_DROPDOWN_CONTROLLER_PROVIDER,
+  ],
 })
 export class CustomTuiComboBoxComponent<T>
   extends AbstractTuiNullableControl<T | string>
-  implements TuiFocusableElementAccessor, TuiDataListHost<T> {
+  implements TuiFocusableElementAccessor, TuiDataListHost<T>
+{
   @Input()
   @tuiDefaultProp()
   icon: string | null = null;
@@ -123,7 +124,7 @@ export class CustomTuiComboBoxComponent<T>
     @Optional()
     @Self()
     @Inject(NgControl)
-      control: NgControl | null,
+    control: NgControl | null,
     @Inject(ChangeDetectorRef) changeDetectorRef: ChangeDetectorRef
   ) {
     super(control, changeDetectorRef);
@@ -216,7 +217,7 @@ export class CustomTuiComboBoxComponent<T>
   computeContext($implicit: string | T | null, active: boolean): TuiValueContentContext<T> {
     return {
       $implicit: $implicit as T,
-      active
+      active,
     };
   }
 

@@ -21,6 +21,7 @@ export class ListLeaveTypeComponent implements OnInit {
   total = 0;
 
   leaveTypes!: LeaveType[];
+
   constructor(private leaveTypeService: LeaveTypeService, private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
@@ -30,6 +31,7 @@ export class ListLeaveTypeComponent implements OnInit {
       this.cdr.detectChanges();
     });
   }
+
   readonly columns = ['name', 'action'];
 
   goToPage(index: number) {
