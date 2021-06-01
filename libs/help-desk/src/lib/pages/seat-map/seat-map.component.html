@@ -6,10 +6,7 @@
         <tui-svg src="assets/icons/current-location.svg"></tui-svg>
         My seat
       </button>
-      <button (click)="createSeatMap()" class="blue-button mr-7">
-        <tui-svg class="-ml-1 mr-2" src="tuiIconPlusLarge"></tui-svg>
-        Add Seats
-      </button>
+      <button (click)="initMap()" class="blue-button mr-7">Init Map</button>
       <div class="building">
         Copac - Floor 2C
         <tui-svg src="assets/icons/office-building.svg"></tui-svg>
@@ -17,56 +14,24 @@
     </div>
   </header>
   <section class="main-section p-8">
-    <article>
-      <tui-input [formControl]="inputSearch" class="w-full mb-8" icon="tuiIconSearch" iconAlign="left">
-        Search by CIF, Full Name
-      </tui-input>
-      <section class="innovation">
-        <p class="text-4xl font-semibold mb-2">INNOVATION</p>
-        <p class="text-lg">Meeting Room</p>
-      </section>
-      <section class="seats-map">
-        <div *ngFor="let row of data; index as y" [style]="'--columns: ' + row.length + ';'" class="seats-row">
-          <ng-container *ngFor="let item of row; index as x">
-            <ng-container [ngSwitch]="item.status">
-              <div *ngSwitchCase="'wall'" [class]="item.status"></div>
-              <div *ngSwitchCase="'empty'" [class]="item.status"></div>
-              <div (click)="addSeat(item.id)" *ngSwitchCase="'none'" [class]="item.status">
-                <p>{{ item.id }}</p>
-                <p>Not Assigned</p>
-                <p>None</p>
-              </div>
-              <div
-                [class]="item.status"
-                (cdkDragEnded)="handleDragEnded($event)"
-                cdkDrag
-                cdkDragBoundary=".seats-map"
-                (cdkDragStarted)="handleDragStarted($event, x, y)"
-                (click)="viewDetail(item, x, y)"
-                *ngSwitchDefault
-              >
-                <p>{{ item.id }}</p>
-                <p>{{ item.name }}</p>
-                <p>{{ item.team }}</p>
-                <p *ngIf="item.isBirthday" class="absolute top-0 h-1/3 w-full">
-                  <img alt="" class="absolute top-2 left-4 h-2/3" src="../../../../../core/assets/icons/cake.svg" />
-                  <img
-                    alt=""
-                    class="absolute bottom-0 right-4 h-2/3"
-                    src="../../../../../core/assets/icons/firework.svg"
-                  />
-                </p>
-                <div
-                  #target
-                  *ngIf="item.id === mySeatNumber"
-                  [class.my-seat]="ping"
-                  class="absolute top-0 left-0 w-full h-full"
-                ></div>
-              </div>
-            </ng-container>
-          </ng-container>
-        </div>
-      </section>
+    <tui-input [formControl]="inputSearch" class="w-full mb-8" icon="tuiIconSearch" iconAlign="left">
+      Search by CIF, Full Name
+    </tui-input>
+    <article class="relative">
+      <hcm-seat
+        (cdkDragEnded)="handleDragEnded($event)"
+        (cdkDragStarted)="handleDragStarted($event, index)"
+        (click)="onClickSeat(index, seat.id)"
+        (delete)="deleteSeat(index)"
+        *ngFor="let seat of seatMap.seats; index as index"
+        [class.my-seat]="index === ping"
+        [dimension]="seatMap.dimension || []"
+        [seat]="seat"
+        [style]="{ transform: 'translate3d(-50%, -50%, 0)' }"
+        cdkDrag
+        cdkDragBoundary="article"
+      ></hcm-seat>
+      <img class="w-full" src="https://i.imgur.com/LgjOMhH.png" />
     </article>
   </section>
 </main>

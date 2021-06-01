@@ -8,9 +8,8 @@ describe('RepeatCalendarCustomComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ RepeatCalendarCustomComponent ]
-    })
-    .compileComponents();
+      declarations: [RepeatCalendarCustomComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

@@ -1,0 +1,10 @@
+@import '~tailwindcss/utilities';
+
+:host {
+  @apply block rounded-full absolute transform -translate-x-1/2 -translate-y-1/2 cursor-pointer;
+
+  * {
+    width: 100% !important;
+    height: 100% !important;
+  }
+}

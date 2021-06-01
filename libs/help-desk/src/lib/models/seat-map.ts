@@ -1,13 +1,18 @@
 export interface SeatInfo {
-  id: number;
-  name: string;
-  cif: string;
-  team: string;
-  isBirthday: boolean;
-  status: string;
+  id?: number;
+  name?: string;
+  team?: string;
+  isBirthday?: boolean;
+  image?: string;
+  status?: string;
+  seatNumber?: number;
+  left: number;
+  top: number;
+  isSeat?: boolean;
 }
 
-export interface Dispatch<T> {
-  type: string;
-  payload?: T;
+export interface SeatMap {
+  building: string;
+  dimension: number[];
+  seats: SeatInfo[];
 }

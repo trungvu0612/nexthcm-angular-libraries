@@ -5,12 +5,12 @@
     <div class="grid grid-cols-3 my-5 text-base gap-4">
       <div class="font-bold text-base">Repeat every:</div>
       <div>
-        <tui-select tuiTextfieldSize="m" [formControl]="weekNumber" [tuiTextfieldLabelOutside]="true">
+        <tui-select [formControl]="weekNumber" [tuiTextfieldLabelOutside]="true" tuiTextfieldSize="m">
           <tui-data-list-wrapper *tuiDataList [items]="weekNumberItems"></tui-data-list-wrapper>
         </tui-select>
       </div>
       <div>
-        <tui-select tuiTextfieldSize="m" [formControl]="weekType" [tuiTextfieldLabelOutside]="true">
+        <tui-select [formControl]="weekType" [tuiTextfieldLabelOutside]="true" tuiTextfieldSize="m">
           <tui-data-list-wrapper *tuiDataList [items]="weekTypeItems"></tui-data-list-wrapper>
         </tui-select>
       </div>

@@ -1,8 +1,8 @@
 <header class="flex justify-between items-center mb-2">
-  <h1 class="text-2xl font-semibold">Add Seats</h1>
+  <h1 class="text-2xl font-semibold">Add Seat</h1>
   <button (click)="close()">
     <tui-svg src="tuiIconRemoveLarge"></tui-svg>
   </button>
 </header>
 <formly-form [fields]="fields" [form]="form" [model]="model"></formly-form>
-<button (click)="addSeat()" class="blue-button mt-5 mx-auto">Submit</button>
+<button (click)="addSeat()" [disabled]="!form.valid" class="blue-button mt-5 mx-auto">Submit</button>

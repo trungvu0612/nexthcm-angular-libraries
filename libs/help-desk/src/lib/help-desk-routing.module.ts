@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AuthGuard } from '@nexthcm/auth';
 
 import { LayoutComponent } from '@nexthcm/ui';
 import { HelpDeskComponent } from './help-desk.component';
