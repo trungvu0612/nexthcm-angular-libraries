@@ -3,7 +3,7 @@ import { FormGroup } from '@angular/forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
-import { Dispatch, SeatInfo } from '../../models/seat-map';
+import { Dispatch, SeatInfo } from '../../models';
 
 @Component({
   selector: 'hcm-add-seat-dialog',
