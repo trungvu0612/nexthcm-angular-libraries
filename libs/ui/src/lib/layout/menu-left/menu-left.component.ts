@@ -9,40 +9,42 @@ export interface Menu {
   selector: 'hcm-menu-left',
   templateUrl: './menu-left.component.html',
   styleUrls: ['./menu-left.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MenuLeftComponent implements OnInit {
   readonly myTimeMenus: Menu[] = [
     {
       name: 'Leave History',
-      uri: '',
+      uri: ''
     },
     {
       name: 'Request Update Time',
-      uri: '',
+      uri: ''
     },
     {
       name: 'Request Working Outside',
-      uri: '',
+      uri: ''
     },
     {
       name: 'Working Hour',
-      uri: '/my-time/working-hour',
-    },
+      uri: '/my-time/working-hour'
+    }
   ];
 
   readonly adminMenus: Menu[] = [
     {
       name: 'Job Level',
-      uri: '/human-resource/job-level',
+      uri: '/human-resource/job-level'
     },
     {
       name: 'Leave Types',
-      uri: '/my-time/leave-type',
-    },
+      uri: '/my-time/leave-type'
+    }
   ];
 
-  constructor() {}
+  constructor() {
+  }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+  }
 }
