@@ -10,7 +10,7 @@ import {
   TuiRadioGroupModule,
   TuiRadioLabeledModule,
   TuiRadioListModule,
-  TuiSelectModule
+  TuiSelectModule,
 } from '@taiga-ui/kit';
 import { PolymorpheusModule } from '@tinkoff/ng-polymorpheus';
 import { SelectOptionsModule } from '../../shared/select-options/select-options.module';

@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RepeatSectionComponent } from './repeat-section.component';
+import { InitMapDialogComponent } from './init-map-dialog.component';
 
-describe('RepeatSectionComponent', () => {
-  let component: RepeatSectionComponent;
-  let fixture: ComponentFixture<RepeatSectionComponent>;
+describe('CreateSeatMapComponent', () => {
+  let component: InitMapDialogComponent;
+  let fixture: ComponentFixture<InitMapDialogComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [RepeatSectionComponent],
+      declarations: [InitMapDialogComponent],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(RepeatSectionComponent);
+    fixture = TestBed.createComponent(InitMapDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

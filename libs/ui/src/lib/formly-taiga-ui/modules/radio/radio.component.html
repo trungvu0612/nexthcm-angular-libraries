@@ -19,18 +19,18 @@
           <div> {{ item[to.labelProp] }}</div>
 
           <div *ngIf="item[to.labelProp]=='On'">
-            <tui-input-date class="input-date"
-              [formControl]="repeatOnDate"
-              tuiTextfieldSize="s"
-              [tuiTextfieldLabelOutside]="true">
+            <tui-input-date [formControl]="repeatOnDate"
+              [tuiTextfieldLabelOutside]="true"
+              class="input-date"
+              tuiTextfieldSize="s">
             </tui-input-date>
           </div>
 
           <div *ngIf="item[to.labelProp]=='After'">
             <tui-select
-              tuiTextfieldSize="m"
               [formControl]="afterRepeat"
               [tuiTextfieldLabelOutside]="true"
+              tuiTextfieldSize="m"
             >
               <tui-data-list-wrapper
                 *tuiDataList

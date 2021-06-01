@@ -9,6 +9,7 @@ import { TuiLetModule } from '@taiga-ui/cdk';
 import {
   TuiButtonModule,
   TuiDataListModule,
+  TuiDropdownControllerModule,
   TuiGroupModule,
   TuiHostedDropdownModule,
   TuiSvgModule,
@@ -19,6 +20,7 @@ import {
   TuiCheckboxBlockModule,
   TuiComboBoxModule,
   TuiDataListWrapperModule,
+  TuiDropdownHoverModule,
   TuiDropdownSelectionModule,
   TuiFilterModule,
   TuiInputDateModule,
@@ -31,20 +33,19 @@ import {
   TuiTextAreaModule,
 } from '@taiga-ui/kit';
 import { PolymorpheusModule } from '@tinkoff/ng-polymorpheus';
-import { FormFieldModule, LayoutModule } from '@nexthcm/ui';
+import { FormlyTaigaUiModule, LayoutModule } from '@nexthcm/ui';
 import { AddSeatComboBoxComponent } from './components/add-seat-combo-box/add-seat-combo-box.component';
 import { AddSeatDialogComponent } from './components/add-seat-dialog/add-seat-dialog.component';
 import { CreateCalendarComponent } from './components/create-calendar/create-calendar.component';
+import { InitMapDialogComponent } from './components/init-map-dialog/init-map-dialog.component';
 import { CustomTuiComboBoxModule } from './components/custom-combo-box/custom-combo-box.module';
 import { RepeatCalendarCustomComponent } from './components/formly-repeat-event-calendar/repeat-calendar-custom/repeat-calendar-custom.component';
 import { MoveSeatDialogComponent } from './components/move-seat-dialog/move-seat-dialog.component';
-import { RepeatSectionComponent } from './components/repeat-section/repeat-section.component';
-import { ViewDetailDialogComponent } from './components/view-detail-dialog/view-detail-dialog.component';
+import { SeatComponent } from './components/seat/seat.component';
 import { HelpDeskRoutingModule } from './help-desk-routing.module';
 import { HelpDeskComponent } from './help-desk.component';
 import { BvCalendarComponent } from './pages/bv-calendar/bv-calendar.component';
 import { SeatMapComponent } from './pages/seat-map/seat-map.component';
-import { CreateSeatMapDialogComponent } from './components/create-seat-map-dialog/create-seat-map-dialog.component';
 import { FormlyRepeatEventCalendarComponent } from './components/formly-repeat-event-calendar/formly-repeat-event-calendar.component';
 
 FullCalendarModule.registerPlugins([dayGridPlugin]);
@@ -53,14 +54,13 @@ FullCalendarModule.registerPlugins([dayGridPlugin]);
   declarations: [
     HelpDeskComponent,
     SeatMapComponent,
-    ViewDetailDialogComponent,
     AddSeatDialogComponent,
-    RepeatSectionComponent,
     MoveSeatDialogComponent,
     AddSeatComboBoxComponent,
-    CreateSeatMapDialogComponent,
+    InitMapDialogComponent,
     BvCalendarComponent,
     CreateCalendarComponent,
+    SeatComponent,
     FormlyRepeatEventCalendarComponent,
     RepeatCalendarCustomComponent,
   ],
@@ -68,13 +68,12 @@ FullCalendarModule.registerPlugins([dayGridPlugin]);
     CommonModule,
     HelpDeskRoutingModule,
     ReactiveFormsModule,
-    FormFieldModule,
+    FormlyTaigaUiModule,
     FormlyModule.forChild({
       types: [
-        { name: 'repeat', component: RepeatSectionComponent },
         { name: 'custom-combo-box', component: AddSeatComboBoxComponent },
-        { name: 'repeat-event-calendar', component: FormlyRepeatEventCalendarComponent, wrappers: ['form-field'] }
-      ]
+        { name: 'repeat-event-calendar', component: FormlyRepeatEventCalendarComponent, wrappers: ['form-field'] },
+      ],
     }),
     TuiInputModule,
     DragDropModule,
@@ -98,13 +97,15 @@ FullCalendarModule.registerPlugins([dayGridPlugin]);
     TuiInputDateModule,
     TuiFilterModule,
     TuiHostedDropdownModule,
+    TuiDropdownHoverModule,
+    TuiDropdownControllerModule,
     TuiButtonModule,
     TuiCheckboxBlockModule,
     TuiGroupModule,
     TuiRadioLabeledModule,
     TuiTextfieldControllerModule,
     TuiDataListModule,
-    FormlyModule
-  ]
+    FormlyModule,
+  ],
 })
 export class HelpDeskModule {}

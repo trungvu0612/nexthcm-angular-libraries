@@ -13,7 +13,13 @@ button {
 .blue-button {
   background-color: var(--tui-primary);
   box-shadow: 0 4px 10px rgba(16, 156, 241, 0.24);
-  @apply flex justify-center items-center text-base text-white rounded-xl px-7 py-3 h-12;
+  @apply flex justify-center items-center disabled:opacity-50 text-base text-white rounded-xl px-7 py-3 h-12;
+
+  &.delete {
+    border: 2px solid #eb3b5a;
+    color: #eb3b5a;
+    @apply bg-white;
+  }
 }
 
 .custom-link {

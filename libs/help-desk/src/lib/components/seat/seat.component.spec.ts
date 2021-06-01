@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ViewDetailDialogComponent } from './view-detail-dialog.component';
+import { SeatComponent } from './seat.component';
 
-describe('ViewDetailDialogComponent', () => {
-  let component: ViewDetailDialogComponent;
-  let fixture: ComponentFixture<ViewDetailDialogComponent>;
+describe('SeatComponent', () => {
+  let component: SeatComponent;
+  let fixture: ComponentFixture<SeatComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ViewDetailDialogComponent],
+      declarations: [SeatComponent],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ViewDetailDialogComponent);
+    fixture = TestBed.createComponent(SeatComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

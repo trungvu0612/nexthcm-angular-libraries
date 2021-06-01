@@ -3,19 +3,18 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  ElementRef,
   Injector,
-  OnInit,
-  ViewChild,
+  QueryList,
+  ViewChildren,
 } from '@angular/core';
 import { FormControl } from '@ngneat/reactive-forms';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { last, takeUntil } from 'rxjs/operators';
 import { AddSeatDialogComponent } from '../../components/add-seat-dialog/add-seat-dialog.component';
-import { CreateSeatMapDialogComponent } from '../../components/create-seat-map-dialog/create-seat-map-dialog.component';
-import { ViewDetailDialogComponent } from '../../components/view-detail-dialog/view-detail-dialog.component';
-import { Dispatch, SeatInfo } from '../../models/seat-map';
+import { InitMapDialogComponent } from '../../components/init-map-dialog/init-map-dialog.component';
+import { SeatInfo, SeatMap } from '../../models';
+import { SeatComponent } from '../../components/seat/seat.component';
 
 @Component({
   selector: 'hcm-seat-map',
@@ -23,279 +22,61 @@ import { Dispatch, SeatInfo } from '../../models/seat-map';
   styleUrls: ['./seat-map.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SeatMapComponent implements OnInit {
-  @ViewChild('target') mySeat!: ElementRef;
-  mySeatNumber = 16;
-  ping = false;
+export class SeatMapComponent {
+  @ViewChildren(SeatComponent) seatRefs!: QueryList<SeatComponent>;
+  myId = 4;
+  ping: number | null = null;
   dragging = false;
   inputSearch = new FormControl();
-  emptySeats!: (number | undefined)[][];
-  data: Partial<SeatInfo>[][] = [
-    [
+  seatMap: SeatMap = {
+    building: 'Copac',
+    dimension: [5, 9],
+    seats: [
       {
+        name: 'ABC',
+        team: 'XYZ',
+        status: 'mnp',
         id: 1,
-        name: 'Huy Pham',
-        team: 'IT',
-        isBirthday: false,
-        status: 'check-in',
+        image:
+          'https://cdna.artstation.com/p/assets/images/images/027/552/530/large/sterrrcore-art-commission-ilovegus-chibi-bust-final.jpg',
+        left: 25,
+        top: 25,
       },
       {
+        name: 'ABC',
+        team: 'XYZ',
+        status: 'mnp',
         id: 2,
-        name: 'Huy Pham',
-        team: 'IT',
-        isBirthday: false,
-        status: 'not-check-in-out',
+        image:
+          'https://fiverr-res.cloudinary.com/images/t_main1,q_auto,f_auto,q_auto,f_auto/gigs/122225393/original/c27ea6bf48ea75188de749a1766c3a90df822adb/draw-chibi-icon-for-you.jpg',
+        left: 25,
+        top: 75,
       },
       {
+        name: 'ABC',
+        team: 'XYZ',
+        status: 'mnp',
         id: 3,
-        name: 'Huy Pham',
-        team: 'IT',
-        isBirthday: false,
-        status: 'check-in-late',
+        image:
+          'https://fiverr-res.cloudinary.com/images/t_main1,q_auto,f_auto,q_auto,f_auto/gigs/122225393/original/c27ea6bf48ea75188de749a1766c3a90df822adb/draw-chibi-icon-for-you.jpg',
+        left: 75,
+        top: 25,
       },
       {
+        name: 'ABC',
+        team: 'XYZ',
+        status: 'mnp',
         id: 4,
-        name: 'Huy Pham',
-        team: 'IT',
-        isBirthday: false,
-        status: 'working-outside',
+        image: 'https://d9jhi50qo719s.cloudfront.net/dlf/samples/jew_800.png',
+        left: 75,
+        top: 75,
       },
       {
-        id: 5,
-        name: 'Huy Pham',
-        team: 'IT',
-        isBirthday: true,
-        status: 'leave',
-      },
-      {
-        id: 6,
-        name: 'Huy Pham',
-        team: 'IT',
-        isBirthday: true,
-        status: 'offline',
-      },
-      {
-        status: 'empty',
+        left: 50,
+        top: 50,
       },
     ],
-    [
-      {
-        id: 7,
-        status: 'none',
-      },
-      {
-        id: 8,
-        name: 'Huy Pham',
-        team: 'IT',
-        isBirthday: true,
-        status: 'check-in',
-      },
-      {
-        id: 9,
-        name: 'Huy Pham',
-        team: 'IT',
-        isBirthday: true,
-        status: 'check-in',
-      },
-      {
-        id: 10,
-        name: 'Huy Pham',
-        team: 'IT',
-        isBirthday: true,
-        status: 'check-in',
-      },
-      {
-        id: 11,
-        name: 'Huy Pham',
-        team: 'IT',
-        isBirthday: true,
-        status: 'check-in',
-      },
-      {
-        id: 12,
-        name: 'Huy Pham',
-        team: 'IT',
-        isBirthday: true,
-        status: 'check-in',
-      },
-      {
-        status: 'empty',
-      },
-    ],
-    [
-      {
-        status: 'empty',
-      },
-      {
-        status: 'empty',
-      },
-      {
-        status: 'empty',
-      },
-      {
-        status: 'empty',
-      },
-      {
-        status: 'empty',
-      },
-      {
-        status: 'empty',
-      },
-      {
-        status: 'empty',
-      },
-    ],
-    [
-      {
-        id: 13,
-
-        name: 'Huy Pham',
-        team: 'IT',
-        isBirthday: true,
-        status: 'check-in',
-      },
-      {
-        id: 14,
-        name: 'Huy Pham',
-        team: 'IT',
-        isBirthday: true,
-        status: 'not-check',
-      },
-      {
-        id: 15,
-        name: 'Huy Pham',
-        team: 'IT',
-        isBirthday: true,
-        status: 'check-late',
-      },
-      {
-        status: 'empty',
-      },
-      {
-        id: 16,
-        name: 'Huy Pham',
-        team: 'IT',
-        isBirthday: true,
-        status: 'leave',
-      },
-      {
-        id: 17,
-        name: 'Huy Pham',
-        team: 'IT',
-        isBirthday: true,
-        status: 'offline',
-      },
-      {
-        id: 18,
-        name: 'Huy Pham',
-        team: 'IT',
-        isBirthday: true,
-        status: 'offline',
-      },
-    ],
-    [
-      {
-        id: 19,
-        status: 'none',
-      },
-      {
-        id: 20,
-        name: 'Huy Pham',
-        team: 'IT',
-        isBirthday: true,
-        status: 'check-in',
-      },
-      {
-        id: 21,
-        name: 'Huy Pham',
-        team: 'IT',
-        isBirthday: true,
-        status: 'check-in',
-      },
-      {
-        status: 'empty',
-      },
-      {
-        id: 22,
-        name: 'Huy Pham',
-        team: 'IT',
-        isBirthday: true,
-        status: 'check-in',
-      },
-      {
-        id: 23,
-        name: 'Huy Pham',
-        team: 'IT',
-        isBirthday: true,
-        status: 'check-in',
-      },
-      {
-        id: 24,
-        name: 'Huy Pham',
-        team: 'IT',
-        isBirthday: true,
-        status: 'check-in',
-      },
-    ],
-    [
-      {
-        status: 'empty',
-      },
-      {
-        status: 'empty',
-      },
-      {
-        status: 'empty',
-      },
-      {
-        status: 'empty',
-      },
-      {
-        status: 'empty',
-      },
-      {
-        status: 'empty',
-      },
-      {
-        status: 'empty',
-      },
-    ],
-    [
-      {
-        status: 'wall',
-      },
-      {
-        status: 'wall',
-      },
-      {
-        status: 'wall',
-      },
-      {
-        status: 'empty',
-      },
-      {
-        id: 25,
-        name: 'Huy Pham',
-        team: 'IT',
-        isBirthday: true,
-        status: 'leave',
-      },
-      {
-        id: 26,
-        name: 'Huy Pham',
-        team: 'IT',
-        isBirthday: true,
-        status: 'offline',
-      },
-      {
-        id: 27,
-        name: 'Huy Pham',
-        team: 'IT',
-        isBirthday: true,
-        status: 'check-in',
-      },
-    ],
-  ];
+  };
 
   constructor(
     private dialogService: TuiDialogService,
@@ -303,40 +84,55 @@ export class SeatMapComponent implements OnInit {
     private changeDetector: ChangeDetectorRef
   ) {}
 
-  ngOnInit(): void {
-    this.getEmptySeats();
-  }
-
   findMySeat(): void {
-    this.ping = true;
-    this.mySeat.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
-    setTimeout(() => {
-      this.ping = false;
-      this.changeDetector.detectChanges();
-    }, 1200);
+    const indexMySeat = this.seatMap.seats?.findIndex((item) => item.id === this.myId);
+    if (indexMySeat !== undefined) {
+      this.ping = indexMySeat;
+      this.seatRefs.toArray()[indexMySeat].elementRef.nativeElement.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center',
+        inline: 'center',
+      });
+      setTimeout(() => {
+        this.ping = null;
+        this.changeDetector.detectChanges();
+      }, 1000);
+    }
   }
 
-  handleDragStarted(event: CdkDragStart, x: number, y: number): void {
+  handleDragStarted(event: CdkDragStart, index: number): void {
     this.dragging = true;
     event.source.moved.pipe(takeUntil(event.source.released), last()).subscribe((data) => {
+      const halfWidth = this.seatMap.dimension[0] / 2;
+      const halfHeight = this.seatMap.dimension[1] / 2;
       const parent = data.source.element.nativeElement.parentElement as HTMLElement;
-      const unit = parent.offsetWidth / parent.childElementCount;
+      const leftDrop = this.seatMap.seats[index].left + (data.distance.x / parent.offsetWidth) * 100;
+      const topDrop = this.seatMap.seats[index].top + (data.distance.y / parent.offsetHeight) * 100;
 
-      const signX = data.distance.x / Math.abs(data.distance.x);
-      const distanceX = Math.abs(data.distance.x) + unit / 2;
-      const remainderX = (distanceX % unit) / unit;
-
-      const signY = data.distance.y / Math.abs(data.distance.y);
-      const distanceY = Math.abs(data.distance.y) + unit / 2;
-      const remainderY = (distanceY % unit) / unit;
-
-      if (remainderX > 0.1 && remainderX < 0.9 && remainderY > 0.1 && remainderY < 0.9) {
-        const xIndex = x + signX * Math.floor(distanceX / unit);
-        const yIndex = y + signY * Math.floor(distanceY / unit);
-        if (this.data[yIndex][xIndex].status === 'none') {
-          this.dragging = false;
-          this.changeSeat([x, y, xIndex, yIndex]);
-        }
+      let indexDrop: number | undefined;
+      this.seatMap.seats.some((seat, index) => {
+        if (
+          leftDrop > seat.left - halfWidth &&
+          leftDrop < seat.left + halfWidth &&
+          topDrop > seat.top - halfHeight &&
+          topDrop < seat.top + halfHeight
+        ) {
+          indexDrop = index;
+          return true;
+        } else return false;
+      });
+      if (indexDrop !== undefined) {
+        const drag = this.seatMap.seats[index];
+        const drop = this.seatMap.seats[indexDrop];
+        [drag.left, drag.top, drag.seatNumber, drop.left, drop.top, drop.seatNumber] = [
+          drop.left,
+          drop.top,
+          drop.seatNumber,
+          drag.left,
+          drag.top,
+          drag.seatNumber,
+        ];
+        this.changeDetector.detectChanges();
       }
     });
   }
@@ -345,81 +141,41 @@ export class SeatMapComponent implements OnInit {
     event.source._dragRef.reset();
   }
 
-  createSeatMap(): void {
+  initMap(): void {
     this.dialogService
-      .open<Partial<SeatInfo>[][]>(new PolymorpheusComponent(CreateSeatMapDialogComponent, this.injector), {
-        size: 'l',
+      .open<SeatMap>(new PolymorpheusComponent(InitMapDialogComponent, this.injector), {
+        size: 'fullscreen',
         closeable: false,
       })
       .subscribe((map) => {
-        this.data = map;
+        this.seatMap = map;
         this.changeDetector.detectChanges();
       });
   }
 
-  viewDetail(item: Partial<SeatInfo>, x: number, y: number): void {
+  onClickSeat(index: number, id?: number): void {
     if (this.dragging) {
       this.dragging = false;
     } else {
-      this.dialogService
-        .open<Dispatch<number>>(new PolymorpheusComponent(ViewDetailDialogComponent, this.injector), {
-          size: 's',
-          closeable: false,
-          data: {
-            id: item.cif,
-            seats: this.emptySeats,
-          },
-        })
-        .subscribe((action) => {
-          if (action.type === 'move') {
-            this.changeSeat([x, y, ...this.getSeatFromId(action.payload)]);
-          } else if (action.type === 'delete') {
-            this.changeSeat([x, y]);
-          }
-        });
+      if (id === undefined)
+        this.dialogService
+          .open<Partial<SeatInfo> | null>(new PolymorpheusComponent(AddSeatDialogComponent, this.injector), {
+            size: 's',
+            closeable: false,
+          })
+          .subscribe((seat) => {
+            if (seat) {
+              const { left, top } = this.seatMap.seats[index];
+              this.seatMap.seats[index] = { left, top, ...seat };
+              this.changeDetector.detectChanges();
+            }
+          });
     }
   }
 
-  addSeat(id?: number): void {
-    this.dialogService
-      .open(new PolymorpheusComponent(AddSeatDialogComponent, this.injector), {
-        size: 's',
-        closeable: false,
-        data: id,
-      })
-      .subscribe((seats) => {
-        console.log('TODO add seats', seats);
-      });
-  }
-
-  getEmptySeats(): void {
-    this.emptySeats = this.data.map((seats) => seats.filter((item) => item.status === 'none').map((item) => item.id));
-  }
-
-  getSeatFromId(id: number | undefined): number[] {
-    let xIndex = 0;
-    let yIndex = 0;
-    this.data.some((seats, y) => {
-      yIndex = y;
-      return seats.some((item, x) => {
-        xIndex = x;
-        return item.id == id;
-      });
-    });
-    return [xIndex, yIndex];
-  }
-
-  changeSeat([x1, y1, x2, y2]: number[]): void {
-    if (x2 == undefined) {
-      this.data[y1][x1] = { status: 'none', id: this.data[y1][x1].id };
-    } else {
-      const { id: id1, ...data1 } = this.data[y1][x1];
-      const { id: id2, ...data2 } = this.data[y2][x2];
-      this.data[y1][x1] = { id: id1, ...data2 };
-      this.data[y2][x2] = { id: id2, ...data1 };
-    }
-
-    this.getEmptySeats();
+  deleteSeat(index: number): void {
+    const { left, top, seatNumber } = this.seatMap.seats[index];
+    this.seatMap.seats[index] = { left, top, seatNumber };
     this.changeDetector.detectChanges();
   }
 }

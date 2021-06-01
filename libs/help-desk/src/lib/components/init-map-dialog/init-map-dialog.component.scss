@@ -1,0 +1,39 @@
+@import '~tailwindcss/utilities';
+
+:host {
+  display: block;
+
+  h1 {
+    margin-top: 0 !important;
+  }
+
+  .line {
+    @apply flex justify-center items-center absolute cursor-pointer hover:ring-2;
+
+    &.columnLine {
+      @apply w-1 h-full;
+
+      div {
+        width: 1px;
+        @apply h-full bg-pink-600;
+      }
+    }
+
+    &.rowLine {
+      @apply h-1 w-full;
+
+      div {
+        height: 1px;
+        @apply w-full bg-yellow-600;
+      }
+    }
+  }
+
+  .seat {
+    @apply absolute rounded-full bg-blue-200;
+
+    tui-svg {
+      @apply w-full h-full;
+    }
+  }
+}
