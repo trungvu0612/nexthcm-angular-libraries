@@ -38,13 +38,11 @@
         <div class="border w-0 h-8 mx-auto"></div>
 
         <ng-container *ngTemplateOutlet="recursive; context: { current: current[0].descendants }"></ng-container>
-
       </section>
     </ng-template>
 
     <ng-template #content>
       <main class="flex flex-col w-96 h-full p-4">
-
         <section class="p-8 bg-white flex justify-start -m-2">
           <tui-avatar [autoColor]="true" [rounded]="true" [text]="current[0].username" size="l"></tui-avatar>
           <div class="ml-4">

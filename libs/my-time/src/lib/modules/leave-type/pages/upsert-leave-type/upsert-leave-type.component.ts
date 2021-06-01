@@ -42,6 +42,7 @@ export class UpsertLeaveTypeComponent implements OnInit {
       });
     }
   }
+
   getLeaveType(): void {
     this.leaveTypeService.getLeaveType(this.id).subscribe((item) => {
       this.leaveTypeForm.patchValue(item);
@@ -49,6 +50,7 @@ export class UpsertLeaveTypeComponent implements OnInit {
   }
 
   submit(): void {
+    this.leaveTypeForm.markAllAsTouched();
     if (this.leaveTypeForm.valid) {
       if (this.id) {
         this.leaveTypeService.editLeaveType(this.leaveTypeForm.value, this.id).subscribe((item) => {

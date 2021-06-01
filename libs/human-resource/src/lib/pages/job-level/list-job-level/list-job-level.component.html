@@ -1,7 +1,7 @@
 <div class="p-8">
   <div class="container">
     <div class="flex">
-      <div class="tui-text_h3">Leave Type</div>
+      <div class="tui-text_h3">Job Level</div>
       <button
         tuiButton
         class="tui-space_right-3 tui-space_bottom-3 ml-auto"
@@ -9,7 +9,7 @@
         routerLink="../add"
         type="button"
       >
-        Add Leave Type
+        Add Job Level
       </button>
     </div>
 
@@ -19,16 +19,18 @@
           <thead>
             <tr tuiThGroup>
               <th *tuiHead="'name'" tuiTh>Name</th>
+              <th *tuiHead="'description'" tuiTh>Description</th>
               <th *tuiHead="'action'" class="w-32" tuiTh>Action</th>
             </tr>
           </thead>
-          <tbody [data]="leaveTypes" tuiTbody>
-            <tr *tuiRow="let type of leaveTypes; let index = index" tuiTr>
-              <td *tuiCell="'name'" tuiTd>{{ index + 1 }}. {{ type.name }}</td>
+          <tbody [data]="levels" tuiTbody>
+            <tr *tuiRow="let level of levels; let index = index" tuiTr>
+              <td *tuiCell="'name'" tuiTd>{{ index + 1 }}. {{ level.name }}</td>
+              <td *tuiCell="'description'" tuiTd>{{ level.description }}</td>
               <td *tuiCell="'action'" tuiTd>
                 <button
                   [icon]="'tuiIconEditLarge'"
-                  [routerLink]="['../edit/' + type.id]"
+                  [routerLink]="['../edit/' + level.id]"
                   [shape]="$any('rounded')"
                   appearance="flat"
                   size="s"

@@ -51,5 +51,4 @@ export class RepeatCalendarCustomComponent implements OnInit {
   test(event: any): void {
     this.form.controls.filters.setValue([]);
   }
-
 }

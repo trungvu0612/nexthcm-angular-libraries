@@ -9,7 +9,7 @@ import { TuiOrientation } from '@taiga-ui/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RadioComponent extends FieldType {
-  repeatItems = ['1','2',];
+  repeatItems = ['1', '2'];
   defaultOptions: FormlyFieldConfig = {
     templateOptions: {
       size: 'l',
@@ -21,5 +21,4 @@ export class RadioComponent extends FieldType {
   };
   repeatOnDate: any;
   afterRepeat: any;
-
 }

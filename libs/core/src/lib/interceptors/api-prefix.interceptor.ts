@@ -8,7 +8,7 @@ import { Environment } from '../models';
   providedIn: 'root',
 })
 export class ApiPrefixInterceptor implements HttpInterceptor {
-  constructor(@Inject(ENVIRONMENT) protected config:Environment) {}
+  constructor(@Inject(ENVIRONMENT) protected config: Environment) {}
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     if (

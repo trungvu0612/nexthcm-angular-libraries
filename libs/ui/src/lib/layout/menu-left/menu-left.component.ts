@@ -29,6 +29,13 @@ export class MenuLeftComponent implements OnInit {
       name: 'Working Hour',
       uri: '/my-time/working-hour',
     },
+  ];
+
+  readonly adminMenus: Menu[] = [
+    {
+      name: 'Job Level',
+      uri: '/human-resource/job-level',
+    },
     {
       name: 'Leave Types',
       uri: '/my-time/leave-type',
