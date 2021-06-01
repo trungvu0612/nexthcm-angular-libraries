@@ -2,9 +2,8 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { LayoutModule } from '@nexthcm/ui';
-import { TuiSvgModule } from '@taiga-ui/core';
+import { TuiScrollbarModule, TuiSvgModule } from '@taiga-ui/core';
 import { TuiAvatarModule, TuiInputMonthModule } from '@taiga-ui/kit';
-import { SwiperModule } from 'swiper/angular';
 import { UpdatedDetailComponent } from './components/updated-detail/updated-detail.component';
 import { PolicyDetailComponent } from './pages/policy-detail/policy-detail.component';
 import { PolicyComponent } from './pages/policy/policy.component';
@@ -28,7 +27,7 @@ import { PolicyRoutingModule } from './policy-routing.module';
     TuiInputMonthModule,
     ReactiveFormsModule,
     TuiAvatarModule,
-    SwiperModule,
+    TuiScrollbarModule,
   ],
 })
 export class PolicyModule {}
