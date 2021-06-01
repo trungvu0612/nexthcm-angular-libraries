@@ -1,18 +1,24 @@
 export interface SeatInfo {
   id?: number;
-  name?: string;
-  team?: string;
-  isBirthday?: boolean;
   image?: string;
+  name?: string;
+  dateOfBirth?: number;
   status?: string;
-  seatNumber?: number;
-  left: number;
-  top: number;
+  team?: string;
+  phoneNumber?: string;
+  email?: string;
+  skype?: string;
   isSeat?: boolean;
+  seatNumber?: number;
+  positionX: number;
+  positionY: number;
 }
 
 export interface SeatMap {
   building: string;
-  dimension: number[];
+  dimensionX?: number;
+  dimensionY?: number;
+  scaleX: number;
+  scaleY: number;
   seats: SeatInfo[];
 }

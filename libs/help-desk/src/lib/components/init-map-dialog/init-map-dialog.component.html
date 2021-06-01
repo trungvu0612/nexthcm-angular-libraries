@@ -2,7 +2,7 @@
 <formly-form [fields]="fields" [form]="form" [model]="model" class="flex justify-center flex-wrap mb-4"></formly-form>
 <section #zone class="relative ring-4 ring-purple-700">
   <div
-    (click)="onClickOnLine(index)"
+    (click)="onClickLine(index)"
     (cdkDragEnded)="moveLine(index, $event.distance.y, 'row')"
     *ngFor="let top of rows; index as index"
     [style]="{ top: top + '%', transform: 'translate3d(0, -50%, 0)' }"
@@ -14,7 +14,7 @@
     <div></div>
   </div>
   <div
-    (click)="onClickOnLine(index)"
+    (click)="onClickLine(index)"
     (cdkDragEnded)="moveLine(index, $event.distance.x, 'column')"
     *ngFor="let left of columns; index as index"
     [style]="{ left: left + '%', transform: 'translate3d(-50%, 0, 0)' }"
@@ -32,8 +32,8 @@
         (cdkDragEnded)="moveSeat(x, y, $event)"
         (cdkDragStarted)="onDragStarted()"
         [style]="{
-          top: seat.top + '%',
-          left: seat.left + '%',
+          top: seat.positionY + '%',
+          left: seat.positionX + '%',
           width: dimension[0] + '%',
           height: dimension[1] + '%',
           transform: 'translate3d(-50%, -50%, 0)'

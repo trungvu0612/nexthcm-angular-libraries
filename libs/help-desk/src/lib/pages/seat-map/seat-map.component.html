@@ -20,12 +20,12 @@
     <article class="relative">
       <hcm-seat
         (cdkDragEnded)="handleDragEnded($event)"
-        (cdkDragStarted)="handleDragStarted($event, index)"
-        (click)="onClickSeat(index, seat.id)"
+        (cdkDragStarted)="moveSeat($event, index)"
+        (click)="addSeat(index, seat.id)"
         (delete)="deleteSeat(index)"
         *ngFor="let seat of seatMap.seats; index as index"
         [class.my-seat]="index === ping"
-        [dimension]="seatMap.dimension || []"
+        [dimension]="[seatMap.scaleX, seatMap.scaleY]"
         [seat]="seat"
         [style]="{ transform: 'translate3d(-50%, -50%, 0)' }"
         cdkDrag
