@@ -10,7 +10,6 @@
     "@ngx-formly/core": "^5.10.19",
     "@tinkoff/ng-dompurify": "^3.0.0",
     "ngx-cookie": "^5.0.2",
-    "inter-ui": "^3.18.1",
-    "swiper": "^6.6.2"
+    "inter-ui": "^3.18.1"
   }
 }

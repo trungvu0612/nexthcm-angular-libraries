@@ -5,5 +5,5 @@
     "entryFile": "src/index.ts"
   },
   "assets": ["assets"],
-  "allowedNonPeerDependencies": ["@ngx-formly/core", "@tinkoff/ng-dompurify", "ngx-cookie", "inter-ui", "swiper"]
+  "allowedNonPeerDependencies": ["@ngx-formly/core", "@tinkoff/ng-dompurify", "ngx-cookie", "inter-ui"]
 }
