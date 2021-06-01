@@ -18,8 +18,8 @@ import { MyTimeRoutingModule } from './human-resource-routing.module';
 import { HumanResourceComponent } from './human-resource.component';
 import { EmployeeDetailComponent } from './pages/employee-detail/employee-detail.component';
 import { EmployeesComponent } from './pages/employees/employees.component';
-import { JobLevelModule } from './pages/job-level/job-level.module';
 import { OrganizationChartComponent } from './pages/organization-chart/organization-chart.component';
+import { JobLevelModule } from './pages/job-level/job-level.module';
 
 @NgModule({
   declarations: [
