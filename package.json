@@ -26,7 +26,7 @@
     "workspace-generator": "nx workspace-generator",
     "dep-graph": "nx dep-graph",
     "help": "nx help",
-    "publish:auth": "cd dist/libs/auth && yarn publish --non-interactive --ignore-scripts",
+    "publish:auth": "cd dist/libs/auth) && yarn publish --non-interactive --ignore-scripts",
     "publish:configurations": "cd dist/libs/configurations && yarn publish --non-interactive --ignore-scripts",
     "publish:core": "cd dist/libs/core && yarn publish --non-interactive --ignore-scripts",
     "publish:form": "cd dist/libs/form && yarn publish --non-interactive --ignore-scripts",

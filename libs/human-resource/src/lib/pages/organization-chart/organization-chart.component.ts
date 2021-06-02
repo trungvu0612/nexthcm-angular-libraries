@@ -11,7 +11,7 @@ import { HumanResourceService } from '../../services/human-resouce/human-resourc
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OrganizationChartComponent implements OnInit {
-  data: Observable<OrgRes[]> = this.humanResourceService.getOrg().pipe(map((data) => [data]));
+  data: Observable<OrgRes[]> = this.humanResourceService.getOrg('').pipe(map((data) => [data]));
 
   constructor(private humanResourceService: HumanResourceService) {}
 
