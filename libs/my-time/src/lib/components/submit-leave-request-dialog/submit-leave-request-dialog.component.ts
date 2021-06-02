@@ -62,7 +62,7 @@ export class SubmitLeaveRequestDialogComponent {
       templateOptions: {
         label: '',
         placeholder: '',
-        serverRequest: this.submitLeaveService.get,
+        serverRequest: this.submitLeaveService.get.bind(this.submitLeaveService),
         imagePath: '/',
       },
     },

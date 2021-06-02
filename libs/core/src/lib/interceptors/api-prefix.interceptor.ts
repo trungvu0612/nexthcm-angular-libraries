@@ -1,5 +1,5 @@
-import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
+import { HTTP_INTERCEPTORS, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
+import { Inject, Injectable, Provider } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ENVIRONMENT } from '../core.config';
 import { Environment } from '../models';
@@ -21,3 +21,9 @@ export class ApiPrefixInterceptor implements HttpInterceptor {
     return next.handle(request);
   }
 }
+
+export const apiPrefixInterceptorProvider: Provider = {
+  provide: HTTP_INTERCEPTORS,
+  useClass: ApiPrefixInterceptor,
+  multi: true,
+};

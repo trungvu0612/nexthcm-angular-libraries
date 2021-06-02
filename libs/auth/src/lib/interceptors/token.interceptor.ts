@@ -1,9 +1,16 @@
-import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import {
+  HTTP_INTERCEPTORS,
+  HttpErrorResponse,
+  HttpEvent,
+  HttpHandler,
+  HttpInterceptor,
+  HttpRequest,
+} from '@angular/common/http';
+import { Injectable, Provider } from '@angular/core';
 import { CookieService } from 'ngx-cookie';
 import { Observable, Subject, throwError } from 'rxjs';
 import { catchError, throttleTime } from 'rxjs/operators';
-import { AuthService } from '@nexthcm/auth';
+import { AuthService } from '../services/auth.service';
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
@@ -27,3 +34,9 @@ export class TokenInterceptor implements HttpInterceptor {
     );
   }
 }
+
+export const tokenInterceptorProvider: Provider = {
+  provide: HTTP_INTERCEPTORS,
+  useClass: TokenInterceptor,
+  multi: true,
+};
