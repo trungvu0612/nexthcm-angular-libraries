@@ -11,7 +11,7 @@
     @apply flex justify-center items-center absolute cursor-pointer hover:ring-2;
 
     div {
-      @apply bg-red-600 opacity-40;
+      @apply bg-red-500;
     }
 
     &.columnLine {

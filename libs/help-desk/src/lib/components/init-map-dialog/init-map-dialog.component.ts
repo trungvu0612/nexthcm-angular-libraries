@@ -29,8 +29,8 @@ export class InitMapDialogComponent implements AfterViewInit {
   dragging = false;
   dimension!: number[];
   factor!: number[];
-  columns!: number[];
-  rows!: number[];
+  columns: number[] = [];
+  rows: number[] = [];
   seats: SeatInfo[] = [];
   seatMap!: SeatInfo[][];
   form = new FormGroup({});
