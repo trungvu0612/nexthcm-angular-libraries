@@ -10,12 +10,16 @@
   .line {
     @apply flex justify-center items-center absolute cursor-pointer hover:ring-2;
 
+    div {
+      @apply bg-red-600 opacity-40;
+    }
+
     &.columnLine {
       @apply w-1 h-full;
 
       div {
         width: 1px;
-        @apply h-full bg-pink-600;
+        @apply h-full;
       }
     }
 
@@ -24,13 +28,13 @@
 
       div {
         height: 1px;
-        @apply w-full bg-yellow-600;
+        @apply w-full;
       }
     }
   }
 
   .seat {
-    @apply absolute rounded-full bg-blue-200;
+    @apply absolute rounded-full;
 
     tui-svg {
       @apply absolute left-0 top-0 w-full h-full;
