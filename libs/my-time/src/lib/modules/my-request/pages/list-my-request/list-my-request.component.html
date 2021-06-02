@@ -1,12 +1,12 @@
 <div class="p-8">
   <div class="container">
     <div class="flex">
-      <div class="tui-text_h3">Leave Type</div>
+      <div class="tui-text_h3">My Request</div>
       <button
-        tuiButton
+        (click)="showDialog()"
         class="tui-space_right-3 tui-space_bottom-3 ml-auto"
         icon="tuiIconPlusLarge"
-        routerLink="../add"
+        tuiButton
         type="button"
       >
         Add Leave Type
@@ -14,11 +14,14 @@
     </div>
 
     <form (ngSubmit)="onSearch()" [formGroup]="$any(searchForm)" class="object-form-container">
-      <div class="grid grid-cols-5">
-        <div>
-          <tui-input formControlName="name"> Search By Name </tui-input>
+      <div class="grid grid-cols-2">
+        <div [collapsed]="true" class="group" tuiGroup>
+          <tui-radio-block [hideRadio]="true" formControlName="type" item="overtime"> Overtime </tui-radio-block>
+          <tui-radio-block [hideRadio]="true" formControlName="type" item="update-time"> Update Time </tui-radio-block>
+          <tui-radio-block [hideRadio]="true" formControlName="type" item="working-outside">
+            Working Outside
+          </tui-radio-block>
         </div>
-        <div></div>
         <div></div>
       </div>
       <div class="w-full text-center">
@@ -32,17 +35,23 @@
         <table [columns]="columns" class="my-8 w-full" tuiTable>
           <thead>
             <tr tuiThGroup>
-              <th *tuiHead="'name'" tuiTh>Name</th>
+              <th *tuiHead="'type'" tuiTh>Name</th>
+              <th *tuiHead="'fromDate'" tuiTh>fromDate</th>
+              <th *tuiHead="'toDate'" tuiTh>toDate</th>
+              <th *tuiHead="'reason'" tuiTh>reason</th>
               <th *tuiHead="'action'" class="w-32" tuiTh>Action</th>
             </tr>
           </thead>
           <tbody [data]="leaveTypes" tuiTbody>
-            <tr *tuiRow="let type of leaveTypes; let index = index" tuiTr>
-              <td *tuiCell="'name'" tuiTd>{{ index + 1 }}. {{ type.name }}</td>
+            <tr *tuiRow="let req of leaveTypes; let index = index" tuiTr>
+              <td *tuiCell="'type'" tuiTd>{{ index + 1 }}. {{ req.type }}</td>
+              <td *tuiCell="'fromDate'" tuiTd>{{ index + 1 }}. {{ req.fromDate }}</td>
+              <td *tuiCell="'toDate'" tuiTd>{{ index + 1 }}. {{ req.toDate }}</td>
+              <td *tuiCell="'reason'" tuiTd>{{ index + 1 }}. {{ req.reason }}</td>
               <td *tuiCell="'action'" tuiTd>
                 <button
                   [icon]="'tuiIconEditLarge'"
-                  [routerLink]="['../edit/' + type.id]"
+                  [routerLink]="['../edit/' + req.id]"
                   [shape]="$any('rounded')"
                   appearance="flat"
                   size="s"

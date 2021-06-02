@@ -37,6 +37,7 @@ import { MyTimeRoutingModule } from './my-time-routing.module';
 import { MyTimeComponent } from './my-time.component';
 import { MyLeaveComponent } from './pages/my-leave/my-leave.component';
 import { MyRequestComponent } from './pages/my-request/my-request.component';
+import { MyRequestsModule } from './modules/my-request/my-requests.module';
 
 @NgModule({
   declarations: [
@@ -55,6 +56,7 @@ import { MyRequestComponent } from './pages/my-request/my-request.component';
     CommonModule,
     MyTimeRoutingModule,
     LeaveTypeModule,
+    MyRequestsModule,
     TuiInputModule,
     TuiTextfieldControllerModule,
     FormsModule,

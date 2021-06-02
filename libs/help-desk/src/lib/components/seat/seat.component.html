@@ -11,7 +11,7 @@
         <tui-avatar [avatarUrl]="seat.image || null" [rounded]="true" [text]="seat.name || ''" size="xl"></tui-avatar>
         <div class="flex-auto font-semibold text-center px-4">
           <h1 class="text-2xl mt-3 mb-2">{{ seat.name }}</h1>
-          <p class="text-lg text-gray-400">{{ seat.dateOfBirth | date :'dd/MM/yyyy'}}</p>
+          <p class="text-lg text-gray-400">{{ seat.dateOfBirth | date: 'dd/MM/yyyy' }}</p>
         </div>
       </div>
       <table class="detail-table mt-2">

@@ -1,48 +1,46 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, Injector, OnInit } from '@angular/core';
 import { PaginationResponse, PaginatorPlugin } from '@datorama/akita';
 import { PagingResponse } from '@nexthcm/core';
 import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
+import { TuiDialogService } from '@taiga-ui/core';
+import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { BehaviorSubject, combineLatest } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
-import { LeaveType, SearchLeaveType } from '../../../../models/leave-type';
-import { LeaveTypeService } from '../../../../services/leave-type.service';
-import { LEAVE_TYPE_PAGINATOR } from '../../../../state/leave-type/leave-type.paginator';
-import { LeaveTypeState } from '../../../../state/leave-type/leave-type.store';
-
-interface User {
-  readonly name: string;
-  readonly email: string;
-  readonly status: 'alive' | 'deceased';
-  readonly tags: readonly string[];
-}
+import { Requests, SearchRequest } from '../../../../models/requests';
+import { MyRequestService } from '../../../../services/my-request.service';
+import { MY_REQUEST_PAGINATOR } from '../../../../state/my-request/my-request.paginator';
+import { MyRequestState } from '../../../../state/my-request/my-request.store';
+import { RequestsDialogComponent } from '../../components/requests-dialog/requests-dialog.component';
 
 @Component({
-  selector: 'hcm-list-leave-type',
-  templateUrl: './list-leave-type.component.html',
-  styleUrls: ['./list-leave-type.component.scss'],
+  selector: 'hcm-list-my-request',
+  templateUrl: './list-my-request.component.html',
+  styleUrls: ['./list-my-request.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ListLeaveTypeComponent implements OnInit {
-  leaveTypes!: LeaveType[];
-  readonly columns = ['name', 'action'];
+export class ListMyRequestComponent implements OnInit {
+  leaveTypes!: Requests[];
+  readonly columns = ['type', 'fromDate', 'toDate', 'reason', 'action'];
   page$ = new BehaviorSubject<number>(1);
   totalLength = 0;
   size$ = this.paginatorRef.metadata.get('perPage') || 10;
   perPageSubject = new BehaviorSubject<number>(this.size$);
   perPage$ = this.perPageSubject.asObservable();
-  searchSubject = new BehaviorSubject<SearchLeaveType>({ name: '' });
-  searchForm!: FormGroup<SearchLeaveType>;
+  searchSubject = new BehaviorSubject<SearchRequest>({ type: '' });
+  searchForm!: FormGroup<SearchRequest>;
 
   constructor(
-    @Inject(LEAVE_TYPE_PAGINATOR) public paginatorRef: PaginatorPlugin<LeaveTypeState>,
-    private leaveTypeService: LeaveTypeService,
+    @Inject(MY_REQUEST_PAGINATOR) public paginatorRef: PaginatorPlugin<MyRequestState>,
+    private myRequestService: MyRequestService,
     private formBuilder: FormBuilder,
+    private dialogService: TuiDialogService,
+    private injector: Injector,
     private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
-    this.searchForm = this.formBuilder.group<SearchLeaveType>({
-      name: '',
+    this.searchForm = this.formBuilder.group<SearchRequest>({
+      type: '',
     });
     combineLatest([
       combineLatest([this.searchSubject, this.perPage$]).pipe(
@@ -57,16 +55,16 @@ export class ListLeaveTypeComponent implements OnInit {
         switchMap(([[search, perPage], page]) => {
           this.paginatorRef.metadata.set('perPage', perPage);
           const requestFn = () =>
-            this.leaveTypeService.getLeaveTypes(page - 1, perPage, search).pipe(
+            this.myRequestService.getMyRequests(page - 1, perPage, search).pipe(
               map(
-                (res: PagingResponse<LeaveType>) =>
+                (res: PagingResponse<Requests>) =>
                   ({
                     perPage,
                     lastPage: res.totalPages,
                     total: res.totalElements,
                     currentPage: page,
                     data: res.items,
-                  } as PaginationResponse<LeaveType>)
+                  } as PaginationResponse<Requests>)
               )
             );
           return this.paginatorRef.getPage(requestFn);
@@ -90,5 +88,21 @@ export class ListLeaveTypeComponent implements OnInit {
 
   onSearch(): void {
     this.searchSubject.next(this.searchForm.getRawValue());
+  }
+
+  cancel(): void {
+    console.log('cancel');
+  }
+
+  showDialog(): void {
+    const title = 'Title';
+    this.dialogService
+      .open<boolean>(new PolymorpheusComponent(RequestsDialogComponent, this.injector), {
+        closeable: false,
+        data: { title },
+      })
+      .subscribe((cancel) => {
+        if (cancel) this.cancel();
+      });
   }
 }

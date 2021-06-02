@@ -8,3 +8,7 @@ export interface LeaveType {
   lastModifiedDate?: string;
   lastModifiedBy?: string;
 }
+
+export interface SearchLeaveType {
+  name: string;
+}
