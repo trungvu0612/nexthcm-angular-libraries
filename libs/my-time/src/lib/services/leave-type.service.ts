@@ -4,7 +4,7 @@ import { PaginatorPlugin } from '@datorama/akita';
 import { ENVIRONMENT, Environment } from '@nexthcm/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { LeaveType } from '../models/leave-type';
+import { LeaveType, SearchLeaveType } from '../models/leave-type';
 import { LEAVE_TYPE_PAGINATOR } from '../state/leave-type/leave-type.paginator';
 import { LeaveTypeState, LeaveTypeStore } from '../state/leave-type/leave-type.store';
 
@@ -21,9 +21,13 @@ export class LeaveTypeService {
     @Inject(LEAVE_TYPE_PAGINATOR) public paginatorRef: PaginatorPlugin<LeaveTypeState>
   ) {}
 
-  getLeaveTypes(pageIndex: number, pageSize: number): Observable<any> {
+  getLeaveTypes(pageIndex: number, pageSize: number, search: SearchLeaveType): Observable<any> {
+    let httpParams = new HttpParams();
+    Object.keys(search).forEach((key) => {
+      httpParams = httpParams.append(key, search[key as keyof SearchLeaveType]);
+    });
     return this.httpClient.get<any>(this.appVersion + '/leave-type', {
-      params: new HttpParams()
+      params: httpParams
         .set('page', pageIndex ? pageIndex.toString() : '')
         .set('size', pageSize ? pageSize.toString() : ''),
     });

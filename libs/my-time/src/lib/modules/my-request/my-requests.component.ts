@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'hcm-leave-type',
+  selector: 'hcm-my-requests',
   template: '<router-outlet></router-outlet>',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LeaveTypeComponent implements OnInit {
+export class MyRequestsComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {}

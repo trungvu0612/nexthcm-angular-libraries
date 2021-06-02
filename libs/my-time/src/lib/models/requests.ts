@@ -1,11 +1,11 @@
 export interface Requests {
-  id: string;
+  id?: string;
   type: string;
   userId: string;
-  fromDate: string;
-  toDate: string;
-  duration: Duration;
-  sendTo: Employee;
+  fromDate: number;
+  toDate: number;
+  duration?: Duration;
+  sendTo?: Employee;
   reason: string;
 }
 
@@ -15,4 +15,8 @@ export interface Duration {
 
 export interface Employee {
   id: string;
+}
+
+export interface SearchRequest {
+  type: string;
 }
