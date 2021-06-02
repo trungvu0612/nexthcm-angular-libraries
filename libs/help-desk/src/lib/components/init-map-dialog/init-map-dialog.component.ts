@@ -1,7 +1,6 @@
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   ElementRef,
   HostListener,
@@ -28,12 +27,14 @@ export class InitMapDialogComponent implements AfterViewInit {
   @ViewChild('zone') zone!: ElementRef;
   current!: { type?: string; index?: number };
   dragging = false;
-  dimension = [3, 4];
-  columns: number[] = [50];
-  rows: number[] = [50];
-  seatMap: SeatInfo[][] = [[{ positionY: 50, positionX: 50, isSeat: false }]];
+  dimension!: number[];
+  factor!: number[];
+  columns!: number[];
+  rows!: number[];
+  seats: SeatInfo[] = [];
+  seatMap!: SeatInfo[][];
   form = new FormGroup({});
-  model = { building: '', cols: 1, rows: 1, dimension: 3 };
+  model = { building: '', cols: 0, rows: 0, seats: 0, dimension: 3 };
   fields: FormlyFieldConfig[] = [
     {
       key: 'building',
@@ -50,7 +51,6 @@ export class InitMapDialogComponent implements AfterViewInit {
       type: 'input-count',
       templateOptions: {
         label: 'Columns',
-        min: 1,
         textfieldSize: 'm',
       },
     },
@@ -60,7 +60,15 @@ export class InitMapDialogComponent implements AfterViewInit {
       className: 'mx-8',
       templateOptions: {
         label: 'Rows',
-        min: 1,
+        textfieldSize: 'm',
+      },
+    },
+    {
+      key: 'seats',
+      type: 'input-count',
+      className: 'mr-8',
+      templateOptions: {
+        label: 'Seats',
         textfieldSize: 'm',
       },
     },
@@ -77,30 +85,41 @@ export class InitMapDialogComponent implements AfterViewInit {
   ];
 
   constructor(
-    private changeDetector: ChangeDetectorRef,
     @Inject(POLYMORPHEUS_CONTEXT) private context: TuiDialogContext<Partial<SeatMap>>,
     private destroy$: TuiDestroyService
   ) {}
 
-  isClicked(type: string, index: number): boolean {
-    return this.current && this.current.type === type && this.current.index === index;
-  }
-
   ngAfterViewInit(): void {
+    this.factor = [this.zone.nativeElement.offsetWidth / 100, this.zone.nativeElement.offsetHeight / 100];
+
     this.form.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((value) => {
       this.columns = Array.from({ length: value.cols }, (_, index) => this.columns[index] || 50);
       this.rows = Array.from({ length: value.rows }, (_, index) => this.rows[index] || 50);
       this.seatMap = this.rows.map((positionY, y) =>
         this.columns.map((positionX, x) => ({
-          positionY,
           positionX,
+          positionY,
           isSeat: this.seatMap[y] && this.seatMap[y][x] ? this.seatMap[y][x].isSeat : false,
         }))
       );
     });
 
     this.form.controls.dimension.valueChanges.pipe(startWith(3), takeUntil(this.destroy$)).subscribe((value) => {
-      this.dimension = [value, (value * this.zone.nativeElement.offsetWidth) / this.zone.nativeElement.offsetHeight];
+      this.dimension = [value, (value * this.factor[0]) / this.factor[1]];
+    });
+
+    this.form.controls.seats.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((value) => {
+      this.seats = this.seats.slice(0, value);
+      const remain = value - this.seats.length;
+      if (remain > 0) {
+        this.seats.push(
+          ...Array.from({ length: remain }, () => ({
+            positionX: 50,
+            positionY: 50,
+            isSeat: true,
+          }))
+        );
+      }
     });
   }
 
@@ -136,35 +155,54 @@ export class InitMapDialogComponent implements AfterViewInit {
     }
   }
 
+  isClicked(type: string, index: number): boolean {
+    return this.current && this.current.type === type && this.current.index === index;
+  }
+
   onClickLine(index: number): void {
     this.current.index = index;
   }
 
   moveLine(index: number, distance: number, typeLine: string): void {
-    const updateMap = (lines: number[], factor: number): void => {
-      const limit = (this.model.dimension * factor) / 2;
-      lines[index] += distance * factor;
+    const updateMap = (lines: number[], dimension: number, factor: number): void => {
+      const limit = dimension / 2;
+      lines[index] += distance / factor;
       if (lines[index] > 100 - limit) lines[index] = 100 - limit;
       if (lines[index] < limit) lines[index] = limit;
     };
 
     if (typeLine === 'row') {
-      updateMap(this.rows, 100 / this.zone.nativeElement.offsetHeight);
+      updateMap(this.rows, this.dimension[1], this.factor[1]);
       this.seatMap[index].forEach((seat) => (seat.positionY = this.rows[index]));
     } else {
-      updateMap(this.columns, 100 / this.zone.nativeElement.offsetWidth);
+      updateMap(this.columns, this.dimension[0], this.factor[0]);
       this.seatMap.forEach((row) => (row[index].positionX = this.columns[index]));
     }
   }
 
-  moveSeat(x: number, y: number, event: CdkDragEnd): void {
+  moveSeatWithLines(x: number, y: number, event: CdkDragEnd): void {
     this.moveLine(y, event.distance.y, 'row');
     this.moveLine(x, event.distance.x, 'column');
-    event.source._dragRef.reset();
+    this.onDragEnded(event);
+  }
+
+  moveSeat(index: number, event: CdkDragEnd): void {
+    const updateSeat = (key: 'positionX' | 'positionY', limit: number, distance: number, factor: number) => {
+      this.seats[index][key] += distance / factor;
+      if (this.seats[index][key] > 100 - limit) this.seats[index][key] = 100 - limit;
+      if (this.seats[index][key] < limit) this.seats[index][key] = limit;
+    };
+    updateSeat('positionX', this.dimension[0] / 2, event.distance.x, this.factor[0]);
+    updateSeat('positionY', this.dimension[1] / 2, event.distance.y, this.factor[1]);
+    this.onDragEnded(event);
   }
 
   onDragStarted(): void {
     this.dragging = true;
+  }
+
+  onDragEnded(event: CdkDragEnd): void {
+    event.source._dragRef.reset();
   }
 
   toggleSeat(seat: SeatInfo): void {
@@ -173,6 +211,7 @@ export class InitMapDialogComponent implements AfterViewInit {
   }
 
   submit(): void {
+    this.seatMap.push(this.seats);
     this.context.completeWith({
       building: this.model.building,
       scaleX: this.dimension[0],
