@@ -5,3 +5,7 @@ export interface Level {
   description: string;
   status: number;
 }
+
+export interface SearchLevel {
+  name: string;
+}
