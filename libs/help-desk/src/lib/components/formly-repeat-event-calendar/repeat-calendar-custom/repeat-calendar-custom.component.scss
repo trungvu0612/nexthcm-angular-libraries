@@ -8,6 +8,12 @@
     }
   }
 
+  ::ng-deep tui-radio {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+
   .content-wrapper {
     .content {
       width: fit-content;
@@ -19,6 +25,14 @@
   }
 
   ::ng-deep {
+    .formly-select {
+      tui-input-date,
+      tui-select {
+        margin-left: -15px;
+        margin-top: -5px;
+      }
+    }
+
     tui-filter {
       .content {
         padding: 0 !important;
@@ -32,11 +46,8 @@
         padding-top: 8px;
         margin-left: 5px;
         margin-right: 5px;
+        border: solid 1px #e4e4e4;
       }
-    }
-
-    tui-wrapper {
-      border: solid 1px #d2d6dd;
     }
   }
 
@@ -49,13 +60,47 @@
   ::ng-deep {
     tui-radio-labeled {
       .content {
-        min-width: 250px;
         margin-bottom: 10px;
+      }
+    }
+
+    tui-input-date {
+      tui-wrapper {
+        width: 235px;
       }
     }
   }
 
   ::ng-deep .wrapper {
     flex-flow: row-reverse !important;
+  }
+
+  .cancel-button {
+    width: 170px;
+    height: 50px;
+    border: 2px solid #888c90;
+    border-radius: 12px;
+    color: #888c90;
+    margin: auto;
+
+    &:hover {
+      color: #ffffff;
+      background: #1b65e3;
+      border: 0;
+    }
+  }
+
+  .submit-button {
+    width: 170px;
+    height: 50px;
+    border-radius: 12px;
+    color: #ffffff;
+    background: #1b65e3;
+    margin: auto;
+  }
+
+  .btn-block {
+    width: 400px;
+    margin: auto;
   }
 }

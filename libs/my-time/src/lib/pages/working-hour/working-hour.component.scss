@@ -1,6 +1,10 @@
 :host {
   display: block;
 
+  .working-time {
+    height: 278px;
+  }
+
   button:focus {
     outline: none;
   }

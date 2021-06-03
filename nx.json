@@ -65,6 +65,9 @@
     },
     "home": {
       "tags": []
+    },
+    "admin-employee": {
+      "tags": []
     }
   }
 }

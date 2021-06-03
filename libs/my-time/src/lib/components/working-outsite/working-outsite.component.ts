@@ -16,6 +16,7 @@ export class WorkingOutsiteComponent implements OnInit {
   duration = new FormControl();
 
   sendItems = ['son.nguyen-thanh@banvien.com.vn', 'vien.nguyen-hai@banvien.com.vn'];
+  durationItems = ['All day', 'Monday'];
 
   constructor() {}
 

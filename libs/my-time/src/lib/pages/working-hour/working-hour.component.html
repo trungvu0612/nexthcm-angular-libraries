@@ -1,7 +1,7 @@
 <div class="page-container">
   <div class="heading-title">Working Hour</div>
-  <div class="grid grid-cols-1 md:grid-cols-2 my-10 text-base gap-6">
-    <div class="working-section relative">
+  <div class="grid grid-cols-1 md:grid-cols-2 my-10 text-base gap-6 working-time">
+    <div *ngIf="workingMeStatus" class="working-section relative">
       <div class="shadow-tmp"></div>
       <div class="grid md:grid-cols-2 text-white text-center bg-purple-700 pt-5 pl-5 pr-5 pb-2 rounded-t-lg">
         <div>
