@@ -9,7 +9,7 @@ import { Requests } from '../../../../models/requests';
   selector: 'hcm-requests-dialog',
   templateUrl: './requests-dialog.component.html',
   styleUrls: ['./requests-dialog.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RequestsDialogComponent implements OnInit {
   title = 'Default Title';
@@ -28,10 +28,10 @@ export class RequestsDialogComponent implements OnInit {
             textfieldLabelOutside: true,
             required: true,
             placeholder: 'Send To',
-            options: [{ label: 'Manager', value: 'iron_man' }],
-          },
-        },
-      ],
+            options: [{ label: 'Manager', value: 'iron_man' }]
+          }
+        }
+      ]
     },
     {
       key: 'fromDate',
@@ -39,8 +39,8 @@ export class RequestsDialogComponent implements OnInit {
       templateOptions: {
         textfieldLabelOutside: true,
         required: true,
-        placeholder: 'From Date',
-      },
+        placeholder: 'From Date'
+      }
     },
     {
       key: 'toDate',
@@ -48,8 +48,8 @@ export class RequestsDialogComponent implements OnInit {
       templateOptions: {
         textfieldLabelOutside: true,
         required: true,
-        placeholder: 'To Date',
-      },
+        placeholder: 'To Date'
+      }
     },
     {
       key: 'reason',
@@ -57,9 +57,9 @@ export class RequestsDialogComponent implements OnInit {
       templateOptions: {
         required: true,
         textfieldLabelOutside: true,
-        placeholder: 'Reason',
-      },
-    },
+        placeholder: 'Reason'
+      }
+    }
   ];
 
   constructor(
@@ -71,11 +71,12 @@ export class RequestsDialogComponent implements OnInit {
       userId: '',
       fromDate: 0,
       toDate: 0,
-      reason: '',
+      reason: ''
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+  }
 
   submit(): void {
     this.context.completeWith(true);

@@ -27,7 +27,7 @@ export class MenuLeftComponent implements OnInit {
     },
     {
       name: 'My Request',
-      uri: '/my-time/my-request',
+      uri: '/my-time/my-request'
     },
     {
       name: 'Working Hour',

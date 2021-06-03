@@ -2,13 +2,12 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { TuiTableModule } from '@taiga-ui/addon-table';
+import { TuiTableModule, TuiTablePaginationModule } from '@taiga-ui/addon-table';
 import { TuiButtonModule, TuiErrorModule } from '@taiga-ui/core';
 import {
   TuiFieldErrorModule,
   TuiInputModule,
   TuiMarkerIconModule,
-  TuiPaginationModule,
   TuiTagModule,
   TuiTextAreaModule,
 } from '@taiga-ui/kit';
@@ -22,7 +21,7 @@ import { UpsertJobLevelComponent } from './upsert-job-level/upsert-job-level.com
     CommonModule,
     RouterModule,
     TuiTableModule,
-    TuiPaginationModule,
+    TuiTablePaginationModule,
     TuiButtonModule,
     TuiTagModule,
     TuiInputModule,
@@ -30,7 +29,7 @@ import { UpsertJobLevelComponent } from './upsert-job-level/upsert-job-level.com
     TuiErrorModule,
     TuiFieldErrorModule,
     TuiMarkerIconModule,
-    ReactiveFormsModule,
+    ReactiveFormsModule
   ],
 })
 export class JobLevelModule {}

@@ -12,7 +12,7 @@ import {
   TuiMarkerIconModule,
   TuiRadioBlockModule,
   TuiTagModule,
-  TuiTextAreaModule,
+  TuiTextAreaModule
 } from '@taiga-ui/kit';
 import { RequestsDialogComponent } from './components/requests-dialog/requests-dialog.component';
 import { MyRequestsComponent } from './my-requests.component';
@@ -27,17 +27,14 @@ import { ListMyRequestComponent } from './pages/list-my-request/list-my-request.
     TuiTablePaginationModule,
     TuiButtonModule,
     TuiRadioBlockModule,
-    TuiTagModule,
-    TuiInputModule,
-    TuiTextAreaModule,
-    TuiErrorModule,
     TuiFieldErrorModule,
     TuiMarkerIconModule,
     FormlyModule,
     FormlyTaigaUiModule,
     TuiGroupModule,
     TuiDialogModule,
-    ReactiveFormsModule,
-  ],
+    ReactiveFormsModule
+  ]
 })
-export class MyRequestsModule {}
+export class MyRequestsModule {
+}
