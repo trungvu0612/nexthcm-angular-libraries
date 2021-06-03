@@ -27,7 +27,8 @@
       "@nexthcm/notifications": ["libs/notifications/src/index.ts"],
       "@nexthcm/configurations": ["libs/configurations/src/index.ts"],
       "@nexthcm/ui": ["libs/ui/src/index.ts"],
-      "@nexthcm/home": ["libs/home/src/index.ts"]
+      "@nexthcm/home": ["libs/home/src/index.ts"],
+      "@nexthcm/admin-employee": ["libs/admin-employee/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

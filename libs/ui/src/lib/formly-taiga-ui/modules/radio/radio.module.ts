@@ -3,7 +3,14 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormlyModule } from '@ngx-formly/core';
 import { TuiLetModule } from '@taiga-ui/cdk';
-import { TuiHintControllerModule, TuiLabelModule, TuiSvgModule, TuiTextfieldControllerModule } from '@taiga-ui/core';
+import {
+  TuiDataListModule,
+  TuiHintControllerModule,
+  TuiHostedDropdownModule,
+  TuiLabelModule,
+  TuiSvgModule,
+  TuiTextfieldControllerModule
+} from '@taiga-ui/core';
 import {
   TuiDataListWrapperModule,
   TuiInputDateModule,
@@ -39,6 +46,8 @@ import { RadioComponent } from './radio.component';
     TuiInputDateModule,
     TuiSelectModule,
     TuiDataListWrapperModule,
+    TuiHostedDropdownModule,
+    TuiDataListModule,
   ],
 })
 export class RadioModule {}

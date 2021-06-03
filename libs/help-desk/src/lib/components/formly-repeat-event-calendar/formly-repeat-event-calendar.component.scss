@@ -6,17 +6,12 @@
       font-size: 17px;
       position: relative;
       top: 20px;
-      left: -10px;
+      left: 20px;
 
       &:hover {
         cursor: pointer;
       }
     }
-
-    ::ng-deep svg {
-      display: none !important;
-    }
-
     height: 56px;
     box-shadow: 0 2px 3px rgb(0 0 0 / 10%);
     transition: 0.3s ease-in-out;

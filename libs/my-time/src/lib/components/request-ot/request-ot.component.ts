@@ -13,12 +13,21 @@ export class RequestOtComponent implements OnInit {
   toDate = new FormControl();
   sendTo = new FormControl();
   reason = new FormControl();
-
-  sendItems = ['son.nguyen-thanh@banvien.com.vn', 'vien.nguyen-hai@banvien.com.vn'];
+  showDropdown = true;
+  open = false;
+  primary = "son.nguyen-thanh@banvien.com.vn";
+  readonly sendItems = [['son.nguyen-thanh@banvien.com.vn', 'vien.nguyen-hai@banvien.com.vn']];
 
   constructor() {}
 
   ngOnInit(): void {}
 
+  onClick(item: string) {
+    this.showDropdown = !this.showDropdown;
+    if (this.sendItems[0].indexOf(item) !== -1) {
+      this.primary = item;
+      return;
+    }
+  }
   submit() {}
 }

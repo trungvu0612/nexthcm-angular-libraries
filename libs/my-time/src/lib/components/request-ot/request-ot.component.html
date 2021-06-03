@@ -17,11 +17,30 @@
 <div class="mt-5 mb-3">Send To <span class="text-red-600">*</span></div>
 <div class="grid md:grid-cols-2 gap-6">
   <div>
-    <div class="b-form">
-      <tui-select [formControl]="sendTo" [tuiTextfieldLabelOutside]="true" tuiTextfieldSize="m">
-        <tui-data-list-wrapper *tuiDataList [items]="sendItems"></tui-data-list-wrapper>
-      </tui-select>
+
+    <div class="wrapper">
+      <tui-hosted-dropdown [content]="dropdown" [(open)]="open">
+        <a tuiLink class="link" tabindex="0">
+          {{ primary }}
+          <tui-svg class="arrow" [class.arrow_open]="open" src="tuiIconChevronDown"></tui-svg>
+        </a>
+      </tui-hosted-dropdown>
     </div>
+<!--      <tui-select [formControl]="sendTo" [tuiTextfieldLabelOutside]="true" tuiTextfieldSize="m">-->
+<!--        <tui-data-list-wrapper *tuiDataList [items]="sendItems"></tui-data-list-wrapper>-->
+<!--      </tui-select>-->
+
+      <ng-template #dropdown>
+        <tui-data-list>
+          <tui-opt-group *ngFor="let group of sendItems">
+            <button *ngFor="let item of group" tuiOption class="item" (click)="onClick(item)">
+              {{ item }}
+            </button>
+          </tui-opt-group>
+        </tui-data-list>
+      </ng-template>
+
+
   </div>
   <div>&nbsp;</div>
 </div>

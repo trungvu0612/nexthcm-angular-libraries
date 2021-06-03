@@ -4,12 +4,12 @@
   <div class="grid grid-cols-3 my-5 text-base gap-4">
     <div class="font-bold text-base">Repeat every:</div>
     <div>
-      <tui-select [formControl]="weekNumber" [tuiTextfieldLabelOutside]="true" tuiTextfieldSize="m">
+      <tui-select tuiTextfieldSize="s" [formControl]="weekNumber" [tuiTextfieldLabelOutside]="true">
         <tui-data-list-wrapper *tuiDataList [items]="weekNumberItems"></tui-data-list-wrapper>
       </tui-select>
     </div>
     <div>
-      <tui-select [formControl]="weekType" [tuiTextfieldLabelOutside]="true" tuiTextfieldSize="m">
+      <tui-select tuiTextfieldSize="s" [formControl]="weekType" [tuiTextfieldLabelOutside]="true">
         <tui-data-list-wrapper *tuiDataList [items]="weekTypeItems"></tui-data-list-wrapper>
       </tui-select>
     </div>
@@ -26,12 +26,16 @@
     ></tui-filter>
   </div>
 
-  <div class="font-bold text-base text-left mt-3">Ends:</div>
+  <div class="font-bold text-base text-left my-3">Ends:</div>
 
-  <formly-form [fields]="fields" [form]="form" [model]="model" [options]="options"></formly-form>
+  <div class="formly-select">
+    <formly-form [fields]="fields" [form]="form" [model]="model" [options]="options"></formly-form>
+  </div>
 
-  <div class="grid grid-cols-2 gap-4">
-    <button class="blue-button">Cancel</button>
-    <button class="blue-button">Apply</button>
+  <div class="btn-block">
+    <div class="grid grid-cols-2 mt-4">
+      <button class="cancel-button">Cancel</button>
+      <button class="submit-button">Apply</button>
+    </div>
   </div>
 </form>

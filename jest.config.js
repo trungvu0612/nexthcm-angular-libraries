@@ -14,5 +14,6 @@ module.exports = {
     '<rootDir>/libs/configurations',
     '<rootDir>/libs/ui',
     '<rootDir>/libs/home',
+    '<rootDir>/libs/admin-employee',
   ],
 };
