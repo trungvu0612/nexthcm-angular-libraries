@@ -12,6 +12,8 @@ export interface SeatInfo {
   seatNumber?: number;
   positionX: number;
   positionY: number;
+  scaleX?: number;
+  scaleY?: number;
 }
 
 export interface SeatMap {
@@ -20,5 +22,6 @@ export interface SeatMap {
   dimensionY?: number;
   scaleX: number;
   scaleY: number;
+  rounded?: number;
   seats: SeatInfo[];
 }

@@ -37,10 +37,9 @@ import { FormlyTaigaUiModule, LayoutModule } from '@nexthcm/ui';
 import { AddSeatComboBoxComponent } from './components/add-seat-combo-box/add-seat-combo-box.component';
 import { AddSeatDialogComponent } from './components/add-seat-dialog/add-seat-dialog.component';
 import { CreateCalendarComponent } from './components/create-calendar/create-calendar.component';
-import { InitMapDialogComponent } from './components/init-map-dialog/init-map-dialog.component';
+import { CreateMapDialogComponent } from './components/create-map-dialog/create-map-dialog.component';
 import { CustomTuiComboBoxModule } from './components/custom-combo-box/custom-combo-box.module';
 import { RepeatCalendarCustomComponent } from './components/formly-repeat-event-calendar/repeat-calendar-custom/repeat-calendar-custom.component';
-import { MoveSeatDialogComponent } from './components/move-seat-dialog/move-seat-dialog.component';
 import { SeatComponent } from './components/seat/seat.component';
 import { HelpDeskRoutingModule } from './help-desk-routing.module';
 import { HelpDeskComponent } from './help-desk.component';
@@ -55,9 +54,8 @@ FullCalendarModule.registerPlugins([dayGridPlugin]);
     HelpDeskComponent,
     SeatMapComponent,
     AddSeatDialogComponent,
-    MoveSeatDialogComponent,
     AddSeatComboBoxComponent,
-    InitMapDialogComponent,
+    CreateMapDialogComponent,
     BvCalendarComponent,
     CreateCalendarComponent,
     SeatComponent,

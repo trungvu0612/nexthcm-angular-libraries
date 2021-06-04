@@ -6,7 +6,7 @@
         <tui-svg src="assets/icons/current-location.svg"></tui-svg>
         My seat
       </button>
-      <button (click)="initMap()" class="blue-button mr-7">Init Map</button>
+      <button (click)="createMap()" class="blue-button mr-7">Create Map</button>
       <div class="building">
         Copac - Floor 2C
         <tui-svg src="assets/icons/office-building.svg"></tui-svg>
@@ -25,7 +25,8 @@
         (delete)="deleteSeat(index)"
         *ngFor="let seat of seatMap.seats; index as index"
         [class.my-seat]="index === ping"
-        [dimension]="[seatMap.scaleX, seatMap.scaleY]"
+        [dimension]="[seat.scaleX || seatMap.scaleX, seat.scaleY || seatMap.scaleY]"
+        [rounded]="seatMap.rounded || 0"
         [seat]="seat"
         [style]="{ transform: 'translate3d(-50%, -50%, 0)' }"
         cdkDrag

@@ -1,52 +1,56 @@
-<tui-hosted-dropdown
-  *ngIf="seat.id !== undefined; else icon"
-  [content]="content"
-  [tuiDropdownSided]="true"
-  tuiDropdownHover
->
-  <tui-avatar [avatarUrl]="seat.image || null" [rounded]="true" [text]="seat.name || ''"></tui-avatar>
-  <ng-template #content>
-    <article class="p-4">
-      <div class="flex items-center border-b border-gray-300 pb-3">
-        <tui-avatar [avatarUrl]="seat.image || null" [rounded]="true" [text]="seat.name || ''" size="xl"></tui-avatar>
-        <div class="flex-auto font-semibold text-center px-4">
-          <h1 class="text-2xl mt-3 mb-2">{{ seat.name }}</h1>
-          <p class="text-lg text-gray-400">{{ seat.dateOfBirth | date: 'dd/MM/yyyy' }}</p>
+<div [class]="status || 'none'" [style]="{ 'border-radius': rounded + '%' }" class="border-2 bg-white">
+  <tui-hosted-dropdown
+    *ngIf="seat.id !== undefined; else icon"
+    [content]="content"
+    [tuiDropdownSided]="true"
+    tuiDropdownHover
+  >
+    <div class="flex justify-center items-center text-center text-xs font-semibold">
+      {{ seat.name | titlecase }}
+    </div>
+    <ng-template #content>
+      <article class="p-4">
+        <div class="flex items-center border-b border-gray-300 pb-3">
+          <tui-avatar [avatarUrl]="seat.image || null" [rounded]="true" [text]="seat.name || ''" size="xl"></tui-avatar>
+          <div class="flex-auto font-semibold text-center px-4">
+            <h1 class="text-2xl mt-3 mb-2">{{ seat.name }}</h1>
+            <p class="text-lg text-gray-400">{{ seat.dateOfBirth | date: 'dd/MM/yyyy' }}</p>
+          </div>
         </div>
-      </div>
-      <table class="detail-table mt-2">
-        <tr>
-          <th>Status:</th>
-          <td>
-            <span *ngIf="seat.status" [class]="status" class="border-2 rounded-xl p-1">{{ seat.status }}</span>
-          </td>
-        </tr>
-        <tr>
-          <th>Team:</th>
-          <td>
-            <a [routerLink]="['/human-resource/teams', 'team-id']" class="custom-link">{{ seat.team }}</a>
-          </td>
-        </tr>
-        <tr>
-          <th>Phone:</th>
-          <td>{{ seat.phoneNumber }}</td>
-        </tr>
-        <tr>
-          <th>Skype:</th>
-          <td>{{ seat.skype }}</td>
-        </tr>
-        <tr>
-          <th>Email:</th>
-          <td>{{ seat.email }}</td>
-        </tr>
-      </table>
-      <div class="flex justify-evenly mt-3">
-        <button (click)="onDelete()" *ngIf="isAdmin" class="blue-button delete">Delete</button>
-        <button (click)="viewDetail()" class="blue-button">Detail</button>
-      </div>
-    </article>
+        <table class="detail-table mt-2">
+          <tr>
+            <th>Status:</th>
+            <td>
+              <span *ngIf="seat.status" [class]="status" class="border-2 rounded-xl p-1">{{ seat.status }}</span>
+            </td>
+          </tr>
+          <tr>
+            <th>Team:</th>
+            <td>
+              <a [routerLink]="['/human-resource/teams', 'team-id']" class="custom-link">{{ seat.team }}</a>
+            </td>
+          </tr>
+          <tr>
+            <th>Phone:</th>
+            <td>{{ seat.phoneNumber }}</td>
+          </tr>
+          <tr>
+            <th>Skype:</th>
+            <td>{{ seat.skype }}</td>
+          </tr>
+          <tr>
+            <th>Email:</th>
+            <td>{{ seat.email }}</td>
+          </tr>
+        </table>
+        <div class="flex justify-evenly mt-3">
+          <button (click)="onDelete()" *ngIf="isAdmin" class="blue-button delete">Delete</button>
+          <button (click)="viewDetail()" class="blue-button">Detail</button>
+        </div>
+      </article>
+    </ng-template>
+  </tui-hosted-dropdown>
+  <ng-template #icon>
+    <tui-svg src="tuiIconUser"></tui-svg>
   </ng-template>
-</tui-hosted-dropdown>
-<ng-template #icon>
-  <tui-svg class="bg-blue-100 rounded-full" src="tuiIconUser"></tui-svg>
-</ng-template>
+</div>

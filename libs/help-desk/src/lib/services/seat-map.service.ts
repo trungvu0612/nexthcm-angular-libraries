@@ -5,14 +5,15 @@ import { SeatMap } from '../models';
 
 const SEAT_MAP = {
   building: 'Copac',
-  scaleX: 5,
-  scaleY: 9,
+  scaleX: 10,
+  scaleY: 18,
+  rounded: 12,
   seats: [
     {
       id: 1,
       image:
         'https://cdna.artstation.com/p/assets/images/images/027/552/530/large/sterrrcore-art-commission-ilovegus-chibi-bust-final.jpg',
-      name: 'BUI QUI THAN',
+      name: 'BUI THAN',
       dateOfBirth: 1622537413000,
       status: 'Leave',
       team: 'RVC',
@@ -22,11 +23,13 @@ const SEAT_MAP = {
       seatNumber: 1,
       positionX: 25,
       positionY: 25,
+      scaleX: 5,
+      scaleY: 9,
     },
     {
-      name: 'BUI QUI THAN',
+      name: 'BUI THAN',
       dateOfBirth: 1622537413000,
-      status: 'Leave',
+      status: 'Working Outside',
       team: 'RVC',
       phoneNumber: '0902693533',
       email: 'vien.nguyen@banvien.com',
@@ -38,9 +41,9 @@ const SEAT_MAP = {
       positionY: 75,
     },
     {
-      name: 'BUI QUI THAN',
+      name: 'BUI THAN',
       dateOfBirth: 1622537413000,
-      status: 'Leave',
+      status: 'Checked In',
       team: 'RVC',
       phoneNumber: '0902693533',
       email: 'vien.nguyen@banvien.com',
@@ -52,7 +55,7 @@ const SEAT_MAP = {
       positionY: 25,
     },
     {
-      name: 'BUI QUI THAN',
+      name: 'BUI THAN',
       dateOfBirth: 1622537413000,
       status: 'Leave',
       team: 'RVC',
