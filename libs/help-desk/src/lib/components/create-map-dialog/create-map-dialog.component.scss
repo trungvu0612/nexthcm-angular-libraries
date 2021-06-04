@@ -1,7 +1,7 @@
 @import '~tailwindcss/utilities';
 
 :host {
-  display: block;
+  @apply block px-12 py-6;
 
   h1 {
     margin-top: 0 !important;
@@ -34,7 +34,7 @@
   }
 
   .seat {
-    @apply absolute rounded-full;
+    @apply absolute border-2 border-blue-800;
 
     tui-svg {
       @apply absolute left-0 top-0 w-full h-full;

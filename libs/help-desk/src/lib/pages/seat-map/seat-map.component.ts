@@ -13,7 +13,7 @@ import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { last, takeUntil } from 'rxjs/operators';
 import { AddSeatDialogComponent } from '../../components/add-seat-dialog/add-seat-dialog.component';
-import { InitMapDialogComponent } from '../../components/init-map-dialog/init-map-dialog.component';
+import { CreateMapDialogComponent } from '../../components/create-map-dialog/create-map-dialog.component';
 import { SeatInfo, SeatMap } from '../../models';
 import { SeatComponent } from '../../components/seat/seat.component';
 import { SeatMapService } from '../../services/seat-map.service';
@@ -43,11 +43,10 @@ export class SeatMapComponent implements OnInit {
     this.seatMapService.getSeatMapData().subscribe((data) => (this.seatMap = data));
   }
 
-  initMap(): void {
+  createMap(): void {
     this.dialogService
-      .open<SeatMap>(new PolymorpheusComponent(InitMapDialogComponent, this.injector), {
-        size: 'fullscreen',
-        closeable: false,
+      .open<SeatMap>(new PolymorpheusComponent(CreateMapDialogComponent, this.injector), {
+        size: 'page',
       })
       .subscribe((map) => {
         this.seatMap = map;

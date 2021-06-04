@@ -20,6 +20,7 @@ import { Router } from '@angular/router';
 export class SeatComponent implements OnInit {
   @Input() seat!: SeatInfo;
   @Input() dimension!: number[];
+  @Input() rounded!: number;
   @Output() delete = new EventEmitter();
   isAdmin = true;
   status!: string;

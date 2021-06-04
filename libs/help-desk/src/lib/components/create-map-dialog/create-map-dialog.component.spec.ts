@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MoveSeatDialogComponent } from './move-seat-dialog.component';
+import { CreateMapDialogComponent } from './create-map-dialog.component';
 
-describe('MoveSeatDialogComponent', () => {
-  let component: MoveSeatDialogComponent;
-  let fixture: ComponentFixture<MoveSeatDialogComponent>;
+describe('CreateSeatMapComponent', () => {
+  let component: CreateMapDialogComponent;
+  let fixture: ComponentFixture<CreateMapDialogComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [MoveSeatDialogComponent],
+      declarations: [CreateMapDialogComponent],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(MoveSeatDialogComponent);
+    fixture = TestBed.createComponent(CreateMapDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

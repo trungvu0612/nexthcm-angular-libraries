@@ -12,22 +12,22 @@ export class AddSeatComboBoxComponent extends FieldType {
   data$: Observable<any[]> = of([
     {
       id: 13,
-      name: 'Le Tuan Vu',
+      name: 'Le Vu',
       image: 'https://pbs.twimg.com/profile_images/1369877387949699074/tcvNQSr1.jpg',
     },
     {
       id: 13,
-      name: 'Le Tuan Vu',
+      name: 'Le Vu',
       image: 'https://pbs.twimg.com/profile_images/1369877387949699074/tcvNQSr1.jpg',
     },
     {
       id: 13,
-      name: 'Le Tuan Vu',
+      name: 'Le Vu',
       image: 'https://pbs.twimg.com/profile_images/1369877387949699074/tcvNQSr1.jpg',
     },
     {
       id: 13,
-      name: 'Le Tuan Vu',
+      name: 'Le Vu',
       image: 'https://pbs.twimg.com/profile_images/1369877387949699074/tcvNQSr1.jpg',
     },
   ]);
