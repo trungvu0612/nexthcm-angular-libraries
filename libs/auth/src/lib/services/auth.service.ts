@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { Environment, ENVIRONMENT } from '@nexthcm/core';
+import { APP_CONFIG, AppConfig } from '@nexthcm/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { AuthInfo, LoginPayload } from '../models';
@@ -11,7 +11,7 @@ import { AuthStore } from '../state/auth/auth-store';
 })
 export class AuthService {
   constructor(
-    @Inject(ENVIRONMENT) protected env: Environment,
+    @Inject(APP_CONFIG) protected env: AppConfig,
     private httpClient: HttpClient,
     private authStore: AuthStore
   ) {}

@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Injector, Input, OnInit } from '@angular/core';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
-import { MyLeave } from '../../models/myLeave';
+import { MyLeave } from '../../models/my-leave';
 import { LeaveDetailDialogComponent } from '../leave-detail-dialog/leave-detail-dialog.component';
 
 @Component({

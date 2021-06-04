@@ -3,7 +3,7 @@ import { FormGroup } from '@angular/forms';
 import { FormControl } from '@ngneat/reactive-forms';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { TuiBooleanHandler } from '@taiga-ui/cdk';
-import { SubmitLeaveService } from '../../services/submit-leave/submit-leave.service';
+import { SubmitLeaveService } from '../../services/submit-leave.service';
 
 @Component({
   selector: 'hcm-submit-leave-request-dialog',

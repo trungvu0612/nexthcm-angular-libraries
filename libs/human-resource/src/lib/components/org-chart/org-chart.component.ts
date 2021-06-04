@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { OrgRes } from '../../models/node';
 import { map } from 'rxjs/operators';
-import { HumanResourceService } from '../../services/human-resouce/human-resource.service';
+import { OrgRes } from '../../models/node';
+import { HumanResourceService } from '../../services/human-resource.service';
 
 @Component({
   selector: 'hcm-org-chart',

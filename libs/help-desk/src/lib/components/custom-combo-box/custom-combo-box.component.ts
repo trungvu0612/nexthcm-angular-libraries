@@ -48,8 +48,8 @@ import { PolymorpheusContent } from '@tinkoff/ng-polymorpheus';
 
 @Component({
   selector: 'custom-tui-combo-box',
-  templateUrl: './custom-combo-box.template.html',
-  styleUrls: ['./custom-combo-box.style.scss'],
+  templateUrl: './custom-combo-box.component.html',
+  styleUrls: ['./custom-combo-box.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     {

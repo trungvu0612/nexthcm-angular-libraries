@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-
 import { LayoutComponent } from '@nexthcm/ui';
 import { HelpDeskComponent } from './help-desk.component';
 import { BvCalendarComponent } from './pages/bv-calendar/bv-calendar.component';

@@ -1,16 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { Environment, ENVIRONMENT } from '@nexthcm/core';
+import { APP_CONFIG, AppConfig } from '@nexthcm/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { OrgRes } from '../../models/node';
+import { OrgRes } from '../models/node';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class HumanResourceService {
-  constructor(@Inject(ENVIRONMENT) protected env: Environment, public httpClient: HttpClient) {
-  }
+  constructor(@Inject(APP_CONFIG) protected env: AppConfig, private httpClient: HttpClient) {}
 
   getOrg(id: string): Observable<OrgRes> {
     if (id === undefined || id == '') {
@@ -105,6 +104,4 @@ export class HumanResourceService {
   //       }
   //     );
   // }
-
-
 }

@@ -9,4 +9,4 @@ import { OrganizationChartComponent } from './organization-chart.component';
   imports: [CommonModule],
   exports: [ChartContainerComponent],
 })
-export class OrgChartModule {}
+export class OrganizationChartModule {}

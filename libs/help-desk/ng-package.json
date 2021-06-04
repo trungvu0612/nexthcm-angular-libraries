@@ -3,5 +3,6 @@
   "dest": "../../dist/libs/help-desk",
   "lib": {
     "entryFile": "src/index.ts"
-  }
+  },
+  "allowedNonPeerDependencies": ["@fullcalendar/angular", "@fullcalendar/daygrid"]
 }

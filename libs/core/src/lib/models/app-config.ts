@@ -1,4 +1,4 @@
-export interface Environment {
+export interface AppConfig {
   production: boolean;
   language?: string;
   apiUrl: string;

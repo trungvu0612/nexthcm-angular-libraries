@@ -1,10 +1,8 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { PaginatorPlugin } from '@datorama/akita';
-import { Environment, ENVIRONMENT, PagingResponse } from '@nexthcm/core';
+import { APP_CONFIG, AppConfig, PagingResponse } from '@nexthcm/core';
 import { Observable } from 'rxjs';
 import { SearchWorkingHour, WorkingHour } from '../models/working-hour';
-import { MY_REQUEST_PAGINATOR } from '../state/my-request/my-request.paginator';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +10,7 @@ import { MY_REQUEST_PAGINATOR } from '../state/my-request/my-request.paginator';
 export class WorkingHourService {
   appVersion = this.env.apiUrl + '/mytimeapp/v1.0';
   constructor(
-    @Inject(ENVIRONMENT) protected env: Environment,
+    @Inject(APP_CONFIG) protected env: AppConfig,
     private httpClient: HttpClient,
   ) {}
 

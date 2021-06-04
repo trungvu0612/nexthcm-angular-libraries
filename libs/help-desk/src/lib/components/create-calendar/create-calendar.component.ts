@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { TuiBooleanHandler } from '@taiga-ui/cdk';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
+import { TuiBooleanHandler } from '@taiga-ui/cdk';
 import { HelpDeskService } from '../../services/help-desk.service';
 
 @Component({
@@ -110,7 +110,7 @@ export class CreateCalendarComponent implements OnInit {
     },
     {
       className: 'col-span-full',
-      key: 'extenalEmail',
+      key: 'externalEmail',
       type: 'combo-box',
       templateOptions: {
         label: 'External Email',

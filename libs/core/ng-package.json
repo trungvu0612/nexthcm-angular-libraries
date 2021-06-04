@@ -5,5 +5,11 @@
     "entryFile": "src/index.ts"
   },
   "assets": ["assets"],
-  "allowedNonPeerDependencies": ["@ngx-formly/core", "@tinkoff/ng-dompurify", "ngx-cookie", "inter-ui"]
+  "allowedNonPeerDependencies": [
+    "@ngx-formly/core",
+    "@tinkoff/ng-dompurify",
+    "ngx-cookie",
+    "inter-ui",
+    "@ngneat/transloco"
+  ]
 }

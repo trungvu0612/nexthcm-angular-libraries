@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { OrgRes } from '../../models/node';
-import { HumanResourceService } from '../../services/human-resouce/human-resource.service';
+import { HumanResourceService } from '../../services/human-resource.service';
 
 @Component({
   selector: 'hcm-organization-chart',

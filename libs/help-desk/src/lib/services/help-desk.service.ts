@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { CalendarBuilding, extenalEmail, PeopleInvite } from '../models/calendar-building';
+import { CalendarBuilding, ExternalEmail, PeopleInvite } from '../models/calendar-building';
 
 @Injectable({
   providedIn: 'root',
@@ -55,7 +55,7 @@ export class HelpDeskService {
     ]);
   }
 
-  getEmail(): Observable<extenalEmail[]> {
+  getEmail(): Observable<ExternalEmail[]> {
     return of([
       { id: 1, name: 'tran.ngo-nam@gmail.com' },
       { id: 2, name: 'nguyen.tran-thao@gmail.com' },

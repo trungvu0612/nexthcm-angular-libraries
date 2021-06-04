@@ -1,14 +1,14 @@
 import { HTTP_INTERCEPTORS, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Inject, Injectable, Provider } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ENVIRONMENT } from '../core.config';
-import { Environment } from '../models';
+import { APP_CONFIG } from '../app-config.token';
+import { AppConfig } from '../models';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ApiPrefixInterceptor implements HttpInterceptor {
-  constructor(@Inject(ENVIRONMENT) protected config: Environment) {}
+  constructor(@Inject(APP_CONFIG) protected config: AppConfig) {}
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     if (

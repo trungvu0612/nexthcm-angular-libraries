@@ -7,7 +7,8 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OverviewComponent implements OnInit {
-  fingerCheck: boolean = false;
+  fingerCheck = false;
+
   constructor() {}
 
   ngOnInit(): void {}

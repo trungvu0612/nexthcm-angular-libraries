@@ -7,9 +7,10 @@
   },
   "dependencies": {
     "tslib": "^2.0.0",
-    "@ngx-formly/core": "^5.10.19",
+    "@ngx-formly/core": "^5.10.21",
     "@tinkoff/ng-dompurify": "^3.0.0",
     "ngx-cookie": "^5.0.2",
-    "inter-ui": "^3.18.1"
+    "inter-ui": "^3.18.1",
+    "@ngneat/transloco": "^2.21.0"
   }
 }

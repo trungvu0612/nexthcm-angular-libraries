@@ -5,15 +5,8 @@ import { RouterModule } from '@angular/router';
 import { FormlyTaigaUiModule } from '@nexthcm/ui';
 import { FormlyModule } from '@ngx-formly/core';
 import { TuiTableModule, TuiTablePaginationModule } from '@taiga-ui/addon-table';
-import { TuiButtonModule, TuiDialogModule, TuiErrorModule, TuiGroupModule } from '@taiga-ui/core';
-import {
-  TuiFieldErrorModule,
-  TuiInputModule,
-  TuiMarkerIconModule,
-  TuiRadioBlockModule,
-  TuiTagModule,
-  TuiTextAreaModule
-} from '@taiga-ui/kit';
+import { TuiButtonModule, TuiDialogModule, TuiGroupModule } from '@taiga-ui/core';
+import { TuiFieldErrorModule, TuiMarkerIconModule, TuiRadioBlockModule } from '@taiga-ui/kit';
 import { RequestsDialogComponent } from './components/requests-dialog/requests-dialog.component';
 import { MyRequestsComponent } from './my-requests.component';
 import { ListMyRequestComponent } from './pages/list-my-request/list-my-request.component';
@@ -33,8 +26,7 @@ import { ListMyRequestComponent } from './pages/list-my-request/list-my-request.
     FormlyTaigaUiModule,
     TuiGroupModule,
     TuiDialogModule,
-    ReactiveFormsModule
-  ]
+    ReactiveFormsModule,
+  ],
 })
-export class MyRequestsModule {
-}
+export class MyRequestsModule {}

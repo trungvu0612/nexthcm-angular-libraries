@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit
 import { CalendarOptions } from '@fullcalendar/angular';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
-import { CreateCalendarComponent } from '../../components/create-calendar/create-calendar.component'; // useful for typechecking
+import { CreateCalendarComponent } from '../../components/create-calendar/create-calendar.component';
 
 @Component({
   selector: 'hcm-bv-calendar',

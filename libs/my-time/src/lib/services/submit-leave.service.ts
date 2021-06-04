@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { SubmitLeave } from '../../models/submit-leave';
+import { SubmitLeave } from '../models/submit-leave';
 
 @Injectable({
   providedIn: 'root',

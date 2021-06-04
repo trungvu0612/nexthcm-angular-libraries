@@ -81,13 +81,11 @@ export class SeatMapService {
   constructor(private http: HttpClient) {}
 
   getSeatMapData(): Observable<SeatMap> {
-    console.log('get SeatMap');
     // this.http.get('/v1.0/my-seats-map').subscribe();
     return of(SEAT_MAP);
   }
 
   postSeatMapData(body: SeatMap) {
-    console.log('post SeatMap');
     // this.http.post('/v1.0/seats-map', body).subscribe();
   }
 }

@@ -1,15 +1,16 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { LayoutModule } from '@nexthcm/ui';
+import { AdminLayoutModule, LayoutModule } from '@nexthcm/ui';
 import { FormlyModule } from '@ngx-formly/core';
 import { TuiReorderModule, TuiTableModule, TuiTablePaginationModule } from '@taiga-ui/addon-table';
 import {
-  TuiButtonModule, TuiDataListModule,
+  TuiButtonModule,
+  TuiDataListModule,
   TuiHostedDropdownModule,
   TuiLoaderModule,
   TuiSvgModule,
-  TuiTextfieldControllerModule
+  TuiTextfieldControllerModule,
 } from '@taiga-ui/core';
 import {
   TuiDataListWrapperModule,
@@ -25,7 +26,6 @@ import {
   TuiTagModule,
   TuiTextAreaModule,
 } from '@taiga-ui/kit';
-import { AdminLayoutModule } from '../../../ui/src/lib/admin-layout/admin-layout.module';
 import { LeaveDetailDialogComponent } from './components/leave-detail-dialog/leave-detail-dialog.component';
 import { RequestDataTableComponent } from './components/request-data-table/request-data-table.component';
 import { RequestDialogComponent } from './components/request-dialog/request-dialog.component';
@@ -34,12 +34,12 @@ import { SubmitLeaveRequestDialogComponent } from './components/submit-leave-req
 import { TimeDataTableComponent } from './components/time-data-table/time-data-table.component';
 import { WorkingOutsiteComponent } from './components/working-outsite/working-outsite.component';
 import { LeaveTypeModule } from './modules/leave-type/leave-type.module';
+import { MyRequestsModule } from './modules/my-request/my-requests.module';
 import { MyTimeRoutingModule } from './my-time-routing.module';
 import { MyTimeComponent } from './my-time.component';
 import { MyLeaveComponent } from './pages/my-leave/my-leave.component';
 import { MyRequestComponent } from './pages/my-request/my-request.component';
 import { WorkingHourComponent } from './pages/working-hour/working-hour.component';
-import { MyRequestsModule } from './modules/my-request/my-requests.module';
 
 @NgModule({
   declarations: [
@@ -53,7 +53,7 @@ import { MyRequestsModule } from './modules/my-request/my-requests.module';
     SubmitLeaveRequestDialogComponent,
     RequestOtComponent,
     WorkingOutsiteComponent,
-    WorkingHourComponent
+    WorkingHourComponent,
   ],
   imports: [
     CommonModule,

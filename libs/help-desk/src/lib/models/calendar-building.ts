@@ -12,7 +12,7 @@ export interface PeopleInvite {
   position: string;
 }
 
-export interface extenalEmail {
+export interface ExternalEmail {
   id: number;
   name: string;
 }
