@@ -31,6 +31,7 @@ import {
   TuiRadioLabeledModule,
   TuiSelectModule,
   TuiSelectOptionModule,
+  TuiSliderModule,
   TuiTextAreaModule,
 } from '@taiga-ui/kit';
 import { PolymorpheusModule } from '@tinkoff/ng-polymorpheus';
@@ -69,7 +70,7 @@ FullCalendarModule.registerPlugins([dayGridPlugin]);
     FormlyTaigaUiModule,
     FormlyModule.forChild({
       types: [
-        { name: 'custom-combo-box', component: AddSeatComboBoxComponent },
+        { name: 'add-seat-combo-box', component: AddSeatComboBoxComponent },
         { name: 'repeat-event-calendar', component: FormlyRepeatEventCalendarComponent, wrappers: ['form-field'] },
       ],
     }),
@@ -104,6 +105,7 @@ FullCalendarModule.registerPlugins([dayGridPlugin]);
     TuiTextfieldControllerModule,
     TuiDataListModule,
     FormlyModule,
+    TuiSliderModule,
   ],
 })
 export class HelpDeskModule {}

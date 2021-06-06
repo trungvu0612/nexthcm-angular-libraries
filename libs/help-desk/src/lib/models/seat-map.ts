@@ -25,3 +25,12 @@ export interface SeatMap {
   rounded?: number;
   seats: SeatInfo[];
 }
+
+export interface StyleSeat {
+  positionX: number;
+  positionY: number;
+  width?: number;
+  height?: number;
+  rounded?: number;
+  isSeat?: boolean;
+}
