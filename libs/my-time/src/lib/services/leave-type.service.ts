@@ -5,16 +5,12 @@ import { Observable } from 'rxjs';
 import { LeaveType, SearchLeaveType } from '../models/leave-type';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class LeaveTypeService {
   appVersion = this.env.apiUrl + '/mytimeapp/v1.0';
 
-  constructor(
-    @Inject(APP_CONFIG) protected env: AppConfig,
-    private httpClient: HttpClient
-  ) {
-  }
+  constructor(@Inject(APP_CONFIG) protected env: AppConfig, private httpClient: HttpClient) {}
 
   getLeaveTypes(pageIndex: number, pageSize: number, search: SearchLeaveType): Observable<PagingResponse<LeaveType>> {
     let httpParams = new HttpParams();
@@ -24,13 +20,12 @@ export class LeaveTypeService {
     return this.httpClient.get<PagingResponse<LeaveType>>(this.appVersion + '/leave-type', {
       params: httpParams
         .set('page', pageIndex ? pageIndex.toString() : '')
-        .set('size', pageSize ? pageSize.toString() : '')
+        .set('size', pageSize ? pageSize.toString() : ''),
     });
   }
 
   getLeaveType(id: string): Observable<LeaveType> {
-    return this.httpClient
-      .get<LeaveType>(this.appVersion + '/leave-type' + '/' + id);
+    return this.httpClient.get<LeaveType>(this.appVersion + '/leave-type' + '/' + id);
   }
 
   createLeaveType(dto: LeaveType): Observable<LeaveType> {

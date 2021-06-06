@@ -5,16 +5,17 @@ import { Observable } from 'rxjs';
 import { SearchWorkingHour, WorkingHour } from '../models/working-hour';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class WorkingHourService {
   appVersion = this.env.apiUrl + '/mytimeapp/v1.0';
-  constructor(
-    @Inject(APP_CONFIG) protected env: AppConfig,
-    private httpClient: HttpClient,
-  ) {}
+  constructor(@Inject(APP_CONFIG) protected env: AppConfig, private httpClient: HttpClient) {}
 
-  getWorkingHour(pageIndex: number, pageSize: number, search: SearchWorkingHour): Observable<PagingResponse<WorkingHour>> {
+  getWorkingHour(
+    pageIndex: number,
+    pageSize: number,
+    search: SearchWorkingHour
+  ): Observable<PagingResponse<WorkingHour>> {
     let httpParams = new HttpParams();
     Object.keys(search).forEach((key) => {
       httpParams = httpParams.append(key, search[key as keyof SearchWorkingHour]);

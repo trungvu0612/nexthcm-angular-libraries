@@ -3,6 +3,18 @@
 :host {
   @apply block px-12 py-6;
 
+  ::ng-deep {
+    tui-wrapper::after {
+      border: 2px solid yellowgreen !important;
+    }
+
+    .specific {
+      tui-wrapper::after {
+        border-color: dodgerblue !important;
+      }
+    }
+  }
+
   h1 {
     margin-top: 0 !important;
   }
@@ -34,7 +46,7 @@
   }
 
   .seat {
-    @apply absolute border-2 border-blue-800;
+    @apply absolute bg-blue-400 opacity-60;
 
     tui-svg {
       @apply absolute left-0 top-0 w-full h-full;

@@ -17,7 +17,7 @@ export class AddSeatDialogComponent {
   fields: FormlyFieldConfig[] = [
     {
       key: 'seat',
-      type: 'custom-combo-box',
+      type: 'add-seat-combo-box',
       templateOptions: {
         icon: 'assets/icons/search.svg',
         title: 'Search by CIF, Full Name',
