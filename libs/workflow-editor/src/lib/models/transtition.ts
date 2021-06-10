@@ -1,7 +1,6 @@
 export interface Transition {
-  transitionId: string;
-  action: string;
+  id: string;
   source: string;
   target: string;
-  nameAction: string;
+  label: string;
 }

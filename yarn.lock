@@ -1995,31 +1995,31 @@
     remark "^13.0.0"
     unist-util-find-all-after "^3.0.2"
 
-"@taiga-ui/addon-commerce@^2.10.1":
-  version "2.10.1"
-  resolved "https://registry.yarnpkg.com/@taiga-ui/addon-commerce/-/addon-commerce-2.10.1.tgz#0e24760bec38e3606caca2807eecdd621fa26043"
-  integrity sha512-Y8qpi+xLJboAXCANquYeM+KTgj5SKMJmR/SI3Wc9luWoi5q/rLLmckgT3L92v8/yt2w3/m2ijidci90wQxOdTA==
+"@taiga-ui/addon-commerce@^2.11.1":
+  version "2.11.2"
+  resolved "https://registry.yarnpkg.com/@taiga-ui/addon-commerce/-/addon-commerce-2.11.2.tgz#9b2c5d153a3b90671e551849662bc882a2362dde"
+  integrity sha512-ByevQv9uW4ebu/SMhDW+K/PIPA5g7nEQEAt3m/7IZ3sorXKzjHAO9SsSLQT6YdffNb4mn6pwECE3sQPGYXIOUw==
   dependencies:
     tslib "^1.10.0"
 
-"@taiga-ui/addon-editor@^2.10.1":
-  version "2.10.1"
-  resolved "https://registry.yarnpkg.com/@taiga-ui/addon-editor/-/addon-editor-2.10.1.tgz#1d9f0007ed8ad04183eb9ed6c07e5f6f8080b8db"
-  integrity sha512-IQmRuvIvyDXZKkl8RrbfQKtqfUKEs1YV7Ejnt65i/iz1IBiP16KgWIq0FMLXZMrRxBDmfNIR5zneA9wdMCP1XQ==
+"@taiga-ui/addon-editor@^2.11.1":
+  version "2.11.2"
+  resolved "https://registry.yarnpkg.com/@taiga-ui/addon-editor/-/addon-editor-2.11.2.tgz#192cfc9033a499bfe28c971757911f617e76b412"
+  integrity sha512-7BhcXGCZoCHhaKJ6sHBW7qSDLt5WwETXPXS2yrPj7/oelQ7lrND1R84ZLQ4T+6VVx9Q+w3R88OzqIUW07RSSvw==
   dependencies:
     tslib "^1.10.0"
 
-"@taiga-ui/addon-table@^2.10.1":
-  version "2.10.1"
-  resolved "https://registry.yarnpkg.com/@taiga-ui/addon-table/-/addon-table-2.10.1.tgz#b50c695a2da65a0e7b6c1987d6504ea70393f9b4"
-  integrity sha512-HA9y9XsOSLaz2i0EqmkVyt62wgymyj/bDJF8KlA7BHJcvYteWhJadnOoyVXFBOzk0rwiBEwNPmYjj46428M6GQ==
+"@taiga-ui/addon-table@^2.11.1":
+  version "2.11.2"
+  resolved "https://registry.yarnpkg.com/@taiga-ui/addon-table/-/addon-table-2.11.2.tgz#2f8577576559f226f018090ea607b7a68198d8a8"
+  integrity sha512-CVLK6gZTkL8m2TZ49mLd904ChYR511GNLRxqpF8B1hA6XgtHHGqSmwA7ERVSHaaUj4e759fUGLPKWUShBR4INg==
   dependencies:
     tslib "^1.10.0"
 
-"@taiga-ui/cdk@^2.10.1":
-  version "2.10.1"
-  resolved "https://registry.yarnpkg.com/@taiga-ui/cdk/-/cdk-2.10.1.tgz#f39b80b1871ec91c068dfc86000cb1820f1ebeef"
-  integrity sha512-RIzayKprdTs7f1HQwffvdp/PxcmASDH0voAyzGilhZ2fQ6e0fP/ilsjlNjp6IxezAkBbh5o8ruN0skr2xrJDEw==
+"@taiga-ui/cdk@^2.11.1":
+  version "2.11.2"
+  resolved "https://registry.yarnpkg.com/@taiga-ui/cdk/-/cdk-2.11.2.tgz#108e9f7b12b52566e5bded82d8e1295aa7555013"
+  integrity sha512-Rux5bw81eV3EBqlc7FmHFcB1z7Uw4olBCaHVnt81GV3iOaAnAQ80wZEG85CXSjgvkyawyBE9PyU22Kv9uSMI0Q==
   dependencies:
     "@ng-web-apis/common" "1.9.0"
     "@ng-web-apis/mutation-observer" "1.1.0"
@@ -2029,32 +2029,32 @@
     "@types/resize-observer-browser" "0.1.5"
     tslib "^1.10.0"
 
-"@taiga-ui/core@^2.10.1":
-  version "2.10.1"
-  resolved "https://registry.yarnpkg.com/@taiga-ui/core/-/core-2.10.1.tgz#72a0b17314158520bbb183bac7a5e8d96446906e"
-  integrity sha512-dN36bq2HTz/RI3+/mQ0SsKwF06pKOsB2BPBl3tbSwM95hkkyLPiBnei3O4rm1Os3yeGRJBL5+MbslPh00GuXtg==
+"@taiga-ui/core@^2.11.1":
+  version "2.11.2"
+  resolved "https://registry.yarnpkg.com/@taiga-ui/core/-/core-2.11.2.tgz#5e8c1743301559d892a38bf7900ecdf0add9d9e4"
+  integrity sha512-RFGW5N/OZVvoyu4fUEvx8Bd7ZkA7eV83x4SMZNUJ/0I1qnFe3JZCP5OGH/L+qfv5k8bauER+JnrpHznJhvSXdg==
   dependencies:
-    "@taiga-ui/i18n" "2.10.1"
+    "@taiga-ui/i18n" "2.11.2"
     tslib "^1.10.0"
 
-"@taiga-ui/i18n@2.10.1":
-  version "2.10.1"
-  resolved "https://registry.yarnpkg.com/@taiga-ui/i18n/-/i18n-2.10.1.tgz#f9837d9a8644e97104e31e16a3e7e740850c13fd"
-  integrity sha512-npIFSzr7Ktgs1xyxUGu5wJlWIaQcems+0u+D79NlDRcvq0GB+0ZhZlIHcky9a0aivSRP9/NhAZLA3Un6aV9D/w==
-  dependencies:
-    tslib "^1.10.0"
-
-"@taiga-ui/icons@^2.10.1":
-  version "2.10.1"
-  resolved "https://registry.yarnpkg.com/@taiga-ui/icons/-/icons-2.10.1.tgz#7d1a866a0c1a63bc734e7b24c1f3430f65947498"
-  integrity sha512-U9WIelo3QyWa2sA6Uu/A+0bc0B5bB4qEGjizQfW2Qbxg1Kllo97qWD4iDmRK4a9NGkL9aAgJBq4zxvBAfZlzmw==
+"@taiga-ui/i18n@2.11.2":
+  version "2.11.2"
+  resolved "https://registry.yarnpkg.com/@taiga-ui/i18n/-/i18n-2.11.2.tgz#5dedc77adfe6b237680427d216a089112d6cca06"
+  integrity sha512-xfEpTqAwlF3VDv/ZD5dFs6Q2tR2LceTO+IInBfUdZ6DFuvcfadEK8OqQPvH7umIlJeBhWAja27/eNI90AGEwgw==
   dependencies:
     tslib "^1.10.0"
 
-"@taiga-ui/kit@^2.10.1":
-  version "2.10.1"
-  resolved "https://registry.yarnpkg.com/@taiga-ui/kit/-/kit-2.10.1.tgz#beff68b964201f2e6850a208d9621c932788d97f"
-  integrity sha512-3Y3XeSo0zRH9eoDUAcIiJdLXalTIwGTCbarbRHSPyLrRc8RYwBZMTzWC6BnGXHBqhmSn9SYW2Dkc+MMwA2+zwQ==
+"@taiga-ui/icons@^2.11.1":
+  version "2.11.2"
+  resolved "https://registry.yarnpkg.com/@taiga-ui/icons/-/icons-2.11.2.tgz#35080e4bec474353ae0cf2a66ff4e170c4bf86eb"
+  integrity sha512-LIGYce/cbljCtHLL23lmrFLcjKnFHOcvJcVu/SkLoSwfwOo9hjrpglHO9FSUDWx89kHcW8ziDjDzycIanmTxzw==
+  dependencies:
+    tslib "^1.10.0"
+
+"@taiga-ui/kit@^2.11.1":
+  version "2.11.2"
+  resolved "https://registry.yarnpkg.com/@taiga-ui/kit/-/kit-2.11.2.tgz#c383d1577618c4b05e491f57531c261d0e25329e"
+  integrity sha512-VPS4x1qtJC8d8P0GGPRlTQ8KqK0YAxTdjDJpaIF3avVD+D3hdeg5LHlYXa2lGSi+co5vsSJwT0niT58xIIFrBQ==
   dependencies:
     "@ng-web-apis/intersection-observer" "2.0.1"
     angular2-text-mask "9.0.0"
@@ -2081,7 +2081,7 @@
   dependencies:
     tslib "^1.10.0"
 
-"@tinkoff/ng-polymorpheus@3.1.8":
+"@tinkoff/ng-polymorpheus@3.1.8", "@tinkoff/ng-polymorpheus@^3.1.8":
   version "3.1.8"
   resolved "https://registry.yarnpkg.com/@tinkoff/ng-polymorpheus/-/ng-polymorpheus-3.1.8.tgz#60de8e769436bad51315eddc70bcd0a2b0d29cad"
   integrity sha512-Uedg+nOlf6KmPBYMth/KB+ocNFwYf52QI8jLYxswm1aRQEhI7yH6QLyLplVCxWYcIcke/6PwLY02ce7wknz/fQ==
@@ -2317,6 +2317,11 @@
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/@types/unist/-/unist-2.0.3.tgz#9c088679876f374eb5983f150d4787aa6fb32d7e"
   integrity sha512-FvUupuM3rlRsRtCN+fDudtmytGO6iHJuuRKS1Ss0pG5z8oX0diNEw94UEL7hgDbpN94rgaK5R7sWm6RrSkZuAQ==
+
+"@types/uuid@^8.3.0":
+  version "8.3.0"
+  resolved "https://registry.yarnpkg.com/@types/uuid/-/uuid-8.3.0.tgz#215c231dff736d5ba92410e6d602050cce7e273f"
+  integrity sha512-eQ9qFW/fhfGJF8WKHGEHZEyVWfZxrT+6CLIJGBcZPfxUh/+BnEj+UCGYMlr9qZuX/2AltsvwrGqp0LhEW8D0zQ==
 
 "@types/webpack-sources@^0.1.5":
   version "0.1.8"
@@ -12099,7 +12104,7 @@ utils-merge@1.0.1:
   resolved "https://registry.yarnpkg.com/utils-merge/-/utils-merge-1.0.1.tgz#9f95710f50a267947b2ccc124741c1028427e713"
   integrity sha1-n5VxD1CiZ5R7LMwSR0HBAoQn5xM=
 
-uuid@8.3.2, uuid@^8.3.0:
+uuid@8.3.2, uuid@^8.3.0, uuid@^8.3.2:
   version "8.3.2"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-8.3.2.tgz#80d5b5ced271bb9af6c445f21a1a04c606cefbe2"
   integrity sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==

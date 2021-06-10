@@ -1,21 +1,36 @@
-import { ChangeDetectionStrategy, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
-import { mxCell, mxEditor, mxEventObject } from 'mxgraph';
-import { State, Transition } from './models';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
+import { mxCell, mxEditor, mxEventObject, mxGraphModel, mxGraphSelectionModel } from 'mxgraph';
+import { v4 as uuidv4 } from 'uuid';
+import { Status, Transition, WorkflowAPI, WorkflowAPIType, WorkflowEvent } from './models';
 import { createEditor } from './utils/create-editor';
 import mx from './utils/mxgraph';
 
 @Component({
   selector: 'hcm-workflow-editor',
   templateUrl: './workflow-editor.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrls: ['./workflow-editor.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class WorkflowEditorComponent implements OnInit {
   @ViewChild('splash', { static: true }) splash!: ElementRef<HTMLDivElement>;
   @Input() editMode = true;
   @Input() xmlContent = '';
+  @Output() readonly event = new EventEmitter<{ event: WorkflowEvent; value: mxCell }>();
 
   initial = true;
   editor!: mxEditor;
+  graphParent!: mxCell;
+  graphModel!: mxGraphModel;
+  graphSelectionModel!: mxGraphSelectionModel;
 
   constructor() {
     //
@@ -24,6 +39,9 @@ export class WorkflowEditorComponent implements OnInit {
   ngOnInit(): void {
     this.configGraph();
     this.editor = createEditor('config/workflow-editor.xml', this.splash.nativeElement);
+    this.graphParent = this.editor.graph.getDefaultParent();
+    this.graphModel = this.editor.graph.getModel();
+    this.graphSelectionModel = this.editor.graph.getSelectionModel();
     if (this.xmlContent) {
       this.decodeXMLToGraph(this.xmlContent);
     } else {
@@ -37,50 +55,20 @@ export class WorkflowEditorComponent implements OnInit {
       this.editor.graph.addListener(mx.mxEvent.CONNECT_CELL, (_, evt: mxEventObject) =>
         this.handleConnectCellEvent(evt)
       );
-      this.editor.graph.addListener(mx.mxEvent.CHANGE, (sender) => this.handleChangeEvent(sender));
-      this.editor.graph.addListener(mx.mxEvent.DOUBLE_CLICK, () => {
+      this.graphSelectionModel.addListener(mx.mxEvent.CHANGE, (sender) => this.handleSelectCell(sender));
+      this.editor.graph.addListener(mx.mxEvent.DOUBLE_CLICK, (evt) => {
+        console.log(evt);
         // this.onEditCell();
       });
     }
   }
 
-  getXMLGraph(): string {
-    const encoder = new mx.mxCodec();
-    const node = encoder.encode(this.editor.graph.getModel());
-    return mx.mxUtils.getXml(node);
+  getGraphXML(): string {
+    return mx.mxUtils.getXml(new mx.mxCodec().encode(this.graphModel));
   }
 
-  private drawState(state?: State): mxCell {
-    const parent = this.editor.graph.getDefaultParent();
-    const model = this.editor.graph.getModel();
-    let cell = model.cloneCell(this.editor.templates.symbol);
-    cell.setAttribute('label', '');
-    cell.setGeometry(new mx.mxGeometry(-100, 0, 32, 32));
-    console.log(cell);
-    if (state) {
-      cell = model.cloneCell(this.editor.templates.task);
-      cell.setId(state.id);
-      cell.setAttribute('label', state.name);
-      cell.setStyle(mx.mxUtils.setStyle(cell.style, mx.mxConstants.STYLE_FILLCOLOR, state.color));
-      cell.setStyle(mx.mxUtils.setStyle(cell.style, mx.mxConstants.STYLE_LABEL_BACKGROUNDCOLOR, state.color));
-      cell.setStyle(mx.mxUtils.setStyle(cell.style, mx.mxConstants.STYLE_FONTCOLOR, 'white'));
-      // if (!this.initial) {
-      //   this.workflowService.addedStates.push(state);
-      //   this.workflowService.workflowActions.push({ action: 'addState', state });
-      // }
-    }
-    model.beginUpdate();
-    try {
-      this.editor.graph.addCell(cell, parent);
-    } finally {
-      model.endUpdate();
-    }
-    if (!this.initial) {
-      this.editor.graph.getSelectionModel().setCell(cell);
-    } else {
-      this.initial = false;
-    }
-    return cell;
+  apiEvent(api: WorkflowAPIType): string | void {
+    return this.bindApi(api);
   }
 
   private configGraph(): void {
@@ -101,44 +89,72 @@ export class WorkflowEditorComponent implements OnInit {
   }
 
   private drawInitialState(): void {
-    const initialState = this.drawState();
+    const originState = this.drawStatus();
     this.initial = true;
-    // this.workflowService.addState$.pipe(untilDestroyed(this)).subscribe((state) => {
-    //   this.drawState(state);
-    // });
-    const model = this.editor.graph.getModel();
-    const parent = this.editor.graph.getDefaultParent();
-    const target = model.getCell('');
-    const edge = model.cloneCell(this.editor.templates.edge);
+    const initialState = this.drawStatus(new Status(uuidv4(), 'OPEN', '#42526e', '#42526e'));
+    initialState.setGeometry(new mx.mxGeometry(0, 70, 32, 32));
+    const edge = this.graphModel.cloneCell(this.editor.templates.edge);
     edge.setAttribute('label', 'Begin');
-    model.beginUpdate();
+    this.graphModel.beginUpdate();
     try {
-      // this.editor.graph.addEdge(edge, parent, initialState, target);
+      this.editor.graph.addEdge(edge, this.graphParent, originState, initialState);
     } finally {
-      model.endUpdate();
+      this.graphModel.endUpdate();
     }
-    initialState.setConnectable(false);
+    originState.setConnectable(false);
   }
 
-  private drawTransition(transition: Transition, options = { emitAction: true }): void {
+  private drawStatus(status?: Status): mxCell {
+    let cell: mxCell;
+    if (status) {
+      cell = this.graphModel.cloneCell(this.editor.templates.task);
+      cell.setId(status.id);
+      cell.setAttribute('label', status.label);
+      if (status.fillColor) {
+        cell.setStyle(mx.mxUtils.setStyle(cell.style, mx.mxConstants.STYLE_FILLCOLOR, status.fillColor));
+      }
+      if (status.labelBackgroundColor) {
+        cell.setStyle(
+          mx.mxUtils.setStyle(cell.style, mx.mxConstants.STYLE_LABEL_BACKGROUNDCOLOR, status.labelBackgroundColor)
+        );
+      }
+      if (status.fontColor) {
+        cell.setStyle(mx.mxUtils.setStyle(cell.style, mx.mxConstants.STYLE_FONTCOLOR, status.fontColor));
+      }
+    } else {
+      cell = this.graphModel.cloneCell(this.editor.templates.symbol);
+      cell.setAttribute('label', '');
+    }
+    cell.setGeometry(new mx.mxGeometry(0, 0, 32, 32));
+    this.graphModel.beginUpdate();
+    try {
+      this.editor.graph.addCell(cell, this.graphParent);
+    } finally {
+      this.graphModel.endUpdate();
+    }
+    if (this.initial) {
+      this.initial = false;
+    } else {
+      this.graphSelectionModel.setCell(cell);
+    }
+    return cell;
+  }
+
+  private drawTransition(transition: Transition): void {
     const model = this.editor.graph.getModel();
     const parent = this.editor.graph.getDefaultParent();
     const source = model.getCell(transition.source);
     const target = model.getCell(transition.target);
     const edge = model.cloneCell(this.editor.templates.edge);
-    edge.setId(transition.transitionId);
-    edge.setAttribute('label', transition.nameAction);
+    edge.setId(transition.id);
+    edge.setAttribute('label', transition.label);
     model.beginUpdate();
     try {
       this.editor.graph.addEdge(edge, parent, source, target);
     } finally {
       model.endUpdate();
     }
-    // if (options.emitAction) {
-    //   this.workflowService.workflowActions.push(transition);
-    // }
-    // this.workflowService.addedTransitions.push(transition);
-    this.editor.graph.getSelectionModel().setCell(edge);
+    this.graphSelectionModel.setCell(edge);
   }
 
   // Decodes the given XML node.
@@ -167,31 +183,37 @@ export class WorkflowEditorComponent implements OnInit {
       return;
     }
     const edge: mxCell = event.getProperty('edge');
-    const model = this.editor.graph.getModel();
     const label = edge.getAttribute('label', '');
     // this.upsertTransition(model, 'updateTransition', edge, edge.source, edge.target, label);
   }
 
-  private handleChangeEvent(sender: any): void {
+  private handleSelectCell(sender: any): void {
     console.log(sender);
-    const selectedCell = sender.cells[0] as mxCell;
-    if (!selectedCell) {
-      // unselect cell
-      // this.selectedCell = {};
-    } else if (selectedCell.isEdge()) {
-      // if the cell is a transition
-      // const selectedTransition = this.workflowService.addedTransitions.find(
-      //   (transition) => transition.transitionId === selectedCell.getId()
-      // );
-      // if (selectedTransition) {
-      //   this.selectedCell = { title: selectedTransition.nameAction, value: selectedTransition, cell: selectedCell };
-      // }
-    } else {
-      // if the cell is a task
-      // const selectedState = this.workflowService.addedStates.find((state) => state.id === selectedCell.getId());
-      // if (selectedState) {
-      //   this.selectedCell = { title: selectedState.name, value: selectedState, cell: selectedCell };
-      // }
+    const selectedCell: mxCell = sender.cells[0];
+    if (selectedCell) {
+      this.emitEvent(
+        selectedCell.isEdge() ? WorkflowEvent.onSelectTransition : WorkflowEvent.onSelectStatus,
+        selectedCell
+      );
+    }
+  }
+
+  private emitEvent(event: WorkflowEvent, value: mxCell): void {
+    this.event.emit({ event, value });
+  }
+
+  private bindApi(api: WorkflowAPIType): string | void {
+    switch (api.type) {
+      case WorkflowAPI.drawStatus:
+        this.drawStatus(api.value);
+        break;
+      case WorkflowAPI.drawTransition:
+        this.drawTransition(api.value);
+        break;
+      case WorkflowAPI.getXML:
+        return this.getGraphXML();
+      default:
+        break;
     }
   }
 }

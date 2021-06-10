@@ -72,14 +72,14 @@
     "workflow-editor": {
       "tags": []
     },
-    "hcm-workflows": {
+    "hcm-processes": {
       "tags": []
     },
-    "hcm-workflows-e2e": {
+    "hcm-processes-e2e": {
       "tags": [],
-      "implicitDependencies": ["hcm-workflows"]
+      "implicitDependencies": ["hcm-processes"]
     },
-    "admin-workflows": {
+    "admin-processes": {
       "tags": []
     }
   }
