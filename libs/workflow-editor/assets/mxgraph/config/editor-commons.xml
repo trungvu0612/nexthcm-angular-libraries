@@ -1,0 +1,6 @@
+<mxEditor>
+  <ui>
+    <resource basename="resources/app"/>
+  </ui>
+  <include name="config/keyhandler-commons.xml"/>
+</mxEditor>

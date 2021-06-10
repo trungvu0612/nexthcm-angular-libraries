@@ -68,6 +68,19 @@
     },
     "admin-employee": {
       "tags": []
+    },
+    "workflow-editor": {
+      "tags": []
+    },
+    "hcm-workflows": {
+      "tags": []
+    },
+    "hcm-workflows-e2e": {
+      "tags": [],
+      "implicitDependencies": ["hcm-workflows"]
+    },
+    "admin-workflows": {
+      "tags": []
     }
   }
 }

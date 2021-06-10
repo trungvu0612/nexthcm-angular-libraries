@@ -28,7 +28,9 @@
       "@nexthcm/configurations": ["libs/configurations/src/index.ts"],
       "@nexthcm/ui": ["libs/ui/src/index.ts"],
       "@nexthcm/home": ["libs/home/src/index.ts"],
-      "@nexthcm/admin-employee": ["libs/admin-employee/src/index.ts"]
+      "@nexthcm/admin-employee": ["libs/admin-employee/src/index.ts"],
+      "@nexthcm/workflow-editor": ["libs/workflow-editor/src/index.ts"],
+      "@nexthcm/admin-workflows": ["libs/admin/workflows/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

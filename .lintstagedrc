@@ -1,0 +1,5 @@
+{
+  "apps/**/*.{js,ts,json,scss,md}": [
+    "prettier --write"
+  ]
+}

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AdminLayoutComponent } from '../../../ui/src/lib/admin-layout/admin-layout.component';
+import { AdminLayoutComponent } from '@nexthcm/ui';
 import { EmployeeListComponent } from './pages/employee-list/employee-list.component';
 
 const routes: Routes = [
