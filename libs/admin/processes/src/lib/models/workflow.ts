@@ -6,7 +6,7 @@ export interface Process {
 
 export interface State {
   stateValueId: string;
-  name?: string;
+  name: string;
   description?: string;
   previousStates?: string[];
   nextStates?: string[];
@@ -37,12 +37,12 @@ export interface Action {
 export interface Transition {
   transitionValueId: string;
   name: string;
-  fromStateId: string;
+  fromStateId?: string;
   toStateId: string;
-  activities: Activity[];
-  conditions: Condition[];
-  actions: Action[];
-  description: string;
+  activities?: Activity[];
+  conditions?: Condition[];
+  actions?: Action[];
+  description?: string;
 }
 
 export interface Workflow {

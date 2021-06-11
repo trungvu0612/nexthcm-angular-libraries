@@ -1,4 +1,4 @@
-export class Status {
+export class WorkflowStatus {
   fontColor: string;
 
   constructor(

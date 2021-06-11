@@ -9,14 +9,22 @@ import { TuiIslandModule } from '@taiga-ui/kit';
 import { AdminProcessesComponent } from './admin-processes.component';
 import { UpsertStatusDialogComponent } from './components/upsert-status-dialog/upsert-status-dialog.component';
 import { UpsertProcessComponent } from './pages/upsert-process/upsert-process.component';
+import { UpsertTransitionDialogComponent } from './components/upsert-transition-dialog/upsert-transition-dialog.component';
+import { LayoutComponent, LayoutModule } from '@nexthcm/ui';
 
 export const adminProcessesRoutes: Routes = [
   {
     path: '',
-    component: AdminProcessesComponent,
+    component: LayoutComponent,
     children: [
-      { path: 'add', component: UpsertProcessComponent },
-      { path: ':workflowId/edit', component: UpsertProcessComponent },
+      {
+        path: '',
+        component: AdminProcessesComponent,
+        children: [
+          { path: 'add', component: UpsertProcessComponent },
+          { path: ':workflowId/edit', component: UpsertProcessComponent },
+        ],
+      },
     ],
   },
 ];
@@ -30,7 +38,13 @@ export const adminProcessesRoutes: Routes = [
     TuiIslandModule,
     ReactiveFormsModule,
     FormlyModule,
+    LayoutModule,
   ],
-  declarations: [AdminProcessesComponent, UpsertProcessComponent, UpsertStatusDialogComponent],
+  declarations: [
+    AdminProcessesComponent,
+    UpsertProcessComponent,
+    UpsertStatusDialogComponent,
+    UpsertTransitionDialogComponent,
+  ],
 })
 export class AdminProcessesModule {}

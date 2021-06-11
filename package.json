@@ -38,7 +38,9 @@
     "publish:notifications": "cd dist/libs/notifications && yarn publish --non-interactive --ignore-scripts",
     "publish:payslip": "cd dist/libs/payslip && yarn publish --non-interactive --ignore-scripts",
     "publish:policy": "cd dist/libs/policy && yarn publish --non-interactive --ignore-scripts",
-    "publish:ui": "cd dist/libs/ui && yarn publish --non-interactive --ignore-scripts"
+    "publish:ui": "cd dist/libs/ui && yarn publish --non-interactive --ignore-scripts",
+    "publish:workflow-editor": "cd dist/libs/workflow-editor && yarn publish --non-interactive --ignore-scripts",
+    "publish:admin-processes": "cd dist/libs/admin/processes && yarn publish --non-interactive --ignore-scripts"
   },
   "private": true,
   "dependencies": {

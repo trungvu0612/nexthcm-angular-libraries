@@ -9,8 +9,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { mxCell, mxEditor, mxEventObject, mxGraphModel, mxGraphSelectionModel } from 'mxgraph';
-import { v4 as uuidv4 } from 'uuid';
-import { Status, Transition, WorkflowAPI, WorkflowAPIType, WorkflowEvent } from './models';
+import { WorkflowAPI, WorkflowAPIType, WorkflowEvent, WorkflowStatus, WorkflowTransition } from './models';
 import { createEditor } from './utils/create-editor';
 import mx from './utils/mxgraph';
 
@@ -18,23 +17,20 @@ import mx from './utils/mxgraph';
   selector: 'hcm-workflow-editor',
   templateUrl: './workflow-editor.component.html',
   styleUrls: ['./workflow-editor.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WorkflowEditorComponent implements OnInit {
   @ViewChild('splash', { static: true }) splash!: ElementRef<HTMLDivElement>;
   @Input() editMode = true;
   @Input() xmlContent = '';
-  @Output() readonly event = new EventEmitter<{ event: WorkflowEvent; value: mxCell }>();
+  @Output() readonly event = new EventEmitter<{ event: WorkflowEvent; value: any }>();
 
-  initial = true;
+  originStatus!: mxCell;
   editor!: mxEditor;
   graphParent!: mxCell;
   graphModel!: mxGraphModel;
   graphSelectionModel!: mxGraphSelectionModel;
-
-  constructor() {
-    //
-  }
+  private initial = true;
 
   ngOnInit(): void {
     this.configGraph();
@@ -45,19 +41,18 @@ export class WorkflowEditorComponent implements OnInit {
     if (this.xmlContent) {
       this.decodeXMLToGraph(this.xmlContent);
     } else {
-      this.drawInitialState();
+      this.originStatus = this.drawStatus();
     }
     this.editor.graph.center();
     if (this.editMode) {
       this.editor.graph.setEnabled(true);
-      this.editor.graph.setConnectable(true);
+      // this.editor.graph.setConnectable(true);
       this.editor.graph.connectionHandler.addListener(mx.mxEvent.CONNECT, (_, evt) => this.handleConnectEvent(evt));
       this.editor.graph.addListener(mx.mxEvent.CONNECT_CELL, (_, evt: mxEventObject) =>
         this.handleConnectCellEvent(evt)
       );
       this.graphSelectionModel.addListener(mx.mxEvent.CHANGE, (sender) => this.handleSelectCell(sender));
       this.editor.graph.addListener(mx.mxEvent.DOUBLE_CLICK, (evt) => {
-        console.log(evt);
         // this.onEditCell();
       });
     }
@@ -88,23 +83,7 @@ export class WorkflowEditorComponent implements OnInit {
     mx.mxTooltipHandler.prototype.setHideOnHover(true);
   }
 
-  private drawInitialState(): void {
-    const originState = this.drawStatus();
-    this.initial = true;
-    const initialState = this.drawStatus(new Status(uuidv4(), 'OPEN', '#42526e', '#42526e'));
-    initialState.setGeometry(new mx.mxGeometry(0, 70, 32, 32));
-    const edge = this.graphModel.cloneCell(this.editor.templates.edge);
-    edge.setAttribute('label', 'Begin');
-    this.graphModel.beginUpdate();
-    try {
-      this.editor.graph.addEdge(edge, this.graphParent, originState, initialState);
-    } finally {
-      this.graphModel.endUpdate();
-    }
-    originState.setConnectable(false);
-  }
-
-  private drawStatus(status?: Status): mxCell {
+  private drawStatus(status?: WorkflowStatus): mxCell {
     let cell: mxCell;
     if (status) {
       cell = this.graphModel.cloneCell(this.editor.templates.task);
@@ -121,11 +100,13 @@ export class WorkflowEditorComponent implements OnInit {
       if (status.fontColor) {
         cell.setStyle(mx.mxUtils.setStyle(cell.style, mx.mxConstants.STYLE_FONTCOLOR, status.fontColor));
       }
+      cell.setGeometry(new mx.mxGeometry(0, 0, 40, 40));
     } else {
+      // origin status
       cell = this.graphModel.cloneCell(this.editor.templates.symbol);
       cell.setAttribute('label', '');
+      cell.setGeometry(new mx.mxGeometry(0, -80, 40, 32));
     }
-    cell.setGeometry(new mx.mxGeometry(0, 0, 32, 32));
     this.graphModel.beginUpdate();
     try {
       this.editor.graph.addCell(cell, this.graphParent);
@@ -140,40 +121,42 @@ export class WorkflowEditorComponent implements OnInit {
     return cell;
   }
 
-  private drawTransition(transition: Transition): void {
-    const model = this.editor.graph.getModel();
-    const parent = this.editor.graph.getDefaultParent();
-    const source = model.getCell(transition.source);
-    const target = model.getCell(transition.target);
-    const edge = model.cloneCell(this.editor.templates.edge);
+  private drawTransition(transition: WorkflowTransition): void {
+    const source = transition.sourceId ? this.graphModel.getCell(transition.sourceId) : this.originStatus;
+    const target = this.graphModel.getCell(transition.targetId);
+    const edge = this.graphModel.cloneCell(this.editor.templates.edge);
     edge.setId(transition.id);
     edge.setAttribute('label', transition.label);
-    model.beginUpdate();
+    this.graphModel.beginUpdate();
     try {
-      this.editor.graph.addEdge(edge, parent, source, target);
+      this.editor.graph.addEdge(edge, this.graphParent, source, target);
     } finally {
-      model.endUpdate();
+      this.graphModel.endUpdate();
     }
-    this.graphSelectionModel.setCell(edge);
+    if (transition.sourceId) {
+      this.graphSelectionModel.setCell(edge);
+    } else {
+      // Initial status
+      this.originStatus.setConnectable(false);
+    }
   }
 
   // Decodes the given XML node.
   private decodeXMLToGraph(xml: string): void {
-    this.editor.graph.removeCells(this.editor.graph.getChildVertices(this.editor.graph.getDefaultParent()), true);
+    this.editor.graph.removeCells(this.editor.graph.getChildVertices(this.graphParent), true);
     const xmlDocument = mx.mxUtils.parseXml(xml);
     const decoder = new mx.mxCodec(xmlDocument);
     const node = xmlDocument.documentElement;
     if (node?.nodeName === 'mxGraphModel') {
-      decoder.decode(node, this.editor?.graph.getModel());
+      decoder.decode(node, this.graphModel);
       this.editor.graph.center();
     }
   }
 
   private handleConnectEvent(event: mxEventObject): void {
     const edge: mxCell = event.getProperty('cell');
-    const model = this.editor.graph.getModel();
-    const source = model.getTerminal(edge, true);
-    const target = model.getTerminal(edge, false);
+    const source = this.graphModel.getTerminal(edge, true);
+    const target = this.graphModel.getTerminal(edge, false);
     const label = edge.getAttribute('label', '');
     // this.upsertTransition(model, 'addNewTransition', edge, source, target, label);
   }
@@ -188,17 +171,18 @@ export class WorkflowEditorComponent implements OnInit {
   }
 
   private handleSelectCell(sender: any): void {
-    console.log(sender);
     const selectedCell: mxCell = sender.cells[0];
     if (selectedCell) {
       this.emitEvent(
         selectedCell.isEdge() ? WorkflowEvent.onSelectTransition : WorkflowEvent.onSelectStatus,
-        selectedCell
+        selectedCell.getId()
       );
+    } else {
+      this.emitEvent(WorkflowEvent.onUnSelectCell);
     }
   }
 
-  private emitEvent(event: WorkflowEvent, value: mxCell): void {
+  private emitEvent(event: WorkflowEvent, value?: string): void {
     this.event.emit({ event, value });
   }
 
@@ -212,6 +196,14 @@ export class WorkflowEditorComponent implements OnInit {
         break;
       case WorkflowAPI.getXML:
         return this.getGraphXML();
+      case WorkflowAPI.setInitial:
+        this.initial = true;
+        break;
+      case WorkflowAPI.removeCell:
+        if (api.value) {
+          this.graphModel.remove(this.graphModel.getCell(api.value));
+        }
+        break;
       default:
         break;
     }

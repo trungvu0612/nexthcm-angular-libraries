@@ -1,28 +1,41 @@
-<main class="min-h-screen p-5">
+<main class="p-5 min-h-screen">
   <header class="mb-4">
     <h2 class="tui-text_h4">workflow</h2>
   </header>
 
-  <section class="border flex flex-col workflow-editor-container">
+  <section class="flex flex-col border workflow-editor-container">
     <div class="flex items-center p-3 bg-gray-100 border-b">
       <button (click)="onUpsertStatus()" appearance="flat" class="mr-3" icon="tuiIconPlus" size="s" tuiButton>
         Add status
       </button>
-      <button appearance="flat" icon="tuiIconPlus" size="s" tuiButton>Add transition</button>
+      <button (click)="onUpsertTransition()" appearance="flat" icon="tuiIconPlus" size="s" tuiButton>
+        Add transition
+      </button>
     </div>
 
     <div class="relative flex-1">
-      <tui-island *ngIf="selectedCell" class="absolute top-3 right-3">
-        <h3 class="tui-island__title">{{ selectedCell.name }}</h3>
-        <p *ngIf="selectedCell.description" class="tui-island__paragraph">
-          {{ selectedCell.description }}
-        </p>
-        <p class="tui-island__paragraph tui-island__paragraph_link">
-          <button appearance="secondary" class="mr-3" icon="tuiIconEdit" size="s" tuiButton>Edit</button>
-          <button appearance="flat" icon="tuiIconCloseLarge" size="s" tuiButton>Remove</button>
-        </p>
-      </tui-island>
-      <hcm-workflow-editor class="h-full"></hcm-workflow-editor>
+      <div class="absolute top-3 right-3 z-50">
+        <tui-island *ngIf="selectedCell" [hoverable]="true">
+          <h3 class="tui-island__title">{{ selectedCell.name }}</h3>
+          <p *ngIf="selectedCell.description" class="tui-island__paragraph">
+            {{ selectedCell.description }}
+          </p>
+          <p class="tui-island__paragraph tui-island__paragraph_link">
+            <button
+              (click)="onEditCell()"
+              appearance="secondary"
+              class="mr-3"
+              icon="tuiIconEdit"
+              size="s"
+              tuiButton
+            >
+              Edit
+            </button>
+            <button (click)="onRemoveCell()" appearance="flat" icon="tuiIconTrash" size="s" tuiButton>Remove</button>
+          </p>
+        </tui-island>
+      </div>
+      <hcm-workflow-editor #workflowEditor (event)="onWorkflowEditorEvent($event)" class="h-full"></hcm-workflow-editor>
     </div>
   </section>
 </main>

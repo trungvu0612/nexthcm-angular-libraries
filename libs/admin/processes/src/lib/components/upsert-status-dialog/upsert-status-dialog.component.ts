@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDialogContext } from '@taiga-ui/core';
@@ -12,25 +12,27 @@ import { State } from '../../models/workflow';
   styleUrls: ['./upsert-status-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class UpsertStatusDialogComponent {
+export class UpsertStatusDialogComponent implements OnInit {
   form: FormGroup<State> = this.fb.group({} as State);
   fields: FormlyFieldConfig[] = [
     { key: 'stateValueId' },
     {
+      className: 'tui-form__row block',
       key: 'name',
       type: 'input',
       templateOptions: {
         required: true,
         translate: true,
-        label: 'PROCESS.name',
+        label: 'Name',
       },
     },
     {
+      className: 'tui-form__row block',
       key: 'description',
       type: 'text-area',
       templateOptions: {
         translate: true,
-        label: 'PROCESS.description',
+        label: 'Description',
       },
     },
     {
@@ -39,6 +41,7 @@ export class UpsertStatusDialogComponent {
   ];
   model: State = {
     stateValueId: uuidv4(),
+    name: '',
   };
 
   constructor(
@@ -48,6 +51,12 @@ export class UpsertStatusDialogComponent {
 
   get data(): State {
     return this.context.data;
+  }
+
+  ngOnInit(): void {
+    if (this.data) {
+      this.model = { ...this.model, ...this.data };
+    }
   }
 
   onCancel(): void {
