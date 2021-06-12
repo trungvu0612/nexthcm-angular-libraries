@@ -1,5 +1,13 @@
 export interface PagingResponse<T> {
-  items: T[];
-  totalPages: number;
-  totalElements: number;
+  code: string;
+  data: {
+    items: T[];
+    page: number;
+    size: number;
+    totalItems: number;
+    totalPages: number;
+    totalElements: number;
+    hasNext: boolean;
+    hasPrevious: boolean;
+  }
 }

@@ -1,0 +1,14 @@
+{
+  "name": "@nexthcm/admin-branches",
+  "version": "0.0.1",
+  "peerDependencies": {
+    "@angular/common": "^12.0.3",
+    "@angular/core": "^12.0.3",
+    "@nexthcm/core": "^0.0.1",
+    "@nexthcm/auth": "^0.0.1",
+    "@nexthcm/ui": "^0.0.1"
+  },
+  "dependencies": {
+    "tslib": "^2.1.0"
+  }
+}

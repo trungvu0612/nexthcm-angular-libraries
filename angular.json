@@ -885,6 +885,44 @@
           }
         }
       }
+    },
+    "admin-branches": {
+      "projectType": "library",
+      "root": "libs/admin/branches",
+      "sourceRoot": "libs/admin/branches/src",
+      "prefix": "hcm",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/angular:package",
+          "outputs": ["dist/libs/admin/branches"],
+          "options": {
+            "project": "libs/admin/branches/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "libs/admin/branches/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "libs/admin/branches/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/admin/branches"],
+          "options": {
+            "jestConfig": "libs/admin/branches/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/admin/branches/src/**/*.ts", "libs/admin/branches/src/**/*.html"]
+          }
+        }
+      }
     }
   }
 }
