@@ -18,5 +18,6 @@ module.exports = {
     '<rootDir>/libs/workflow-editor',
     '<rootDir>/apps/hcm-processes',
     '<rootDir>/libs/admin/processes',
+    '<rootDir>/libs/admin/branches',
   ],
 };
