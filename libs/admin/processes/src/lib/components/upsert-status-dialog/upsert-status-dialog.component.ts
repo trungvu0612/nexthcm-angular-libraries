@@ -24,6 +24,7 @@ export class UpsertStatusDialogComponent implements OnInit {
         required: true,
         translate: true,
         label: 'Name',
+        textfieldLabelOutside: true,
       },
     },
     {
@@ -33,10 +34,14 @@ export class UpsertStatusDialogComponent implements OnInit {
       templateOptions: {
         translate: true,
         label: 'Description',
+        textfieldLabelOutside: true,
       },
     },
     {
       key: 'stateTypeId',
+      templateOptions: {
+        options: [],
+      },
     },
   ];
   model: State = {

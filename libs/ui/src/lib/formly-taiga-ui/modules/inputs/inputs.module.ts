@@ -5,6 +5,7 @@ import { FormlyModule } from '@ngx-formly/core';
 import { TuiCurrencyPipeModule } from '@taiga-ui/addon-commerce';
 import { TuiEditorModule } from '@taiga-ui/addon-editor';
 import {
+  TuiButtonModule,
   TuiErrorModule,
   TuiHintControllerModule,
   TuiLabelModule,
@@ -17,6 +18,7 @@ import {
   TuiInputDateModule,
   TuiInputDateRangeModule,
   TuiInputDateTimeModule,
+  TuiInputInlineModule,
   TuiInputModule,
   TuiInputMonthModule,
   TuiInputMonthRangeModule,
@@ -44,6 +46,8 @@ import { InputTagComponent } from './input-tag/input-tag.component';
 import { InputTimeComponent } from './input-time/input-time.component';
 import { InputComponent } from './input/input.component';
 import { TextAreaComponent } from './text-area/text-area.component';
+import { InputInlineComponent } from './input-inline/input-inline.component';
+import { TuiAutoFocusModule } from '@taiga-ui/cdk';
 
 @NgModule({
   declarations: [
@@ -62,6 +66,7 @@ import { TextAreaComponent } from './text-area/text-area.component';
     InputMonthComponent,
     InputMonthRangeComponent,
     EditorComponent,
+    InputInlineComponent,
   ],
   imports: [
     CommonModule,
@@ -85,6 +90,7 @@ import { TextAreaComponent } from './text-area/text-area.component';
         { name: 'input-phone-international', component: InputPhoneInternationalComponent, wrappers: ['form-field'] },
         { name: 'text-area', component: TextAreaComponent, wrappers: ['form-field'] },
         { name: 'editor', component: EditorComponent, wrappers: ['form-field'] },
+        { name: 'input-inline', component: InputInlineComponent },
       ],
     }),
     TuiTextfieldControllerModule,
@@ -108,6 +114,9 @@ import { TextAreaComponent } from './text-area/text-area.component';
     TuiInputMonthRangeModule,
     TuiEditorModule,
     InputPhoneInternationalModule,
+    TuiInputInlineModule,
+    TuiAutoFocusModule,
+    TuiButtonModule,
   ],
 })
 export class InputsModule {}

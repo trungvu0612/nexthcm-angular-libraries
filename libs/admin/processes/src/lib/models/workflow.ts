@@ -46,7 +46,7 @@ export interface Transition {
 }
 
 export interface Workflow {
-  process: Process;
-  states: State[];
-  transitions: Transition[];
+  process?: Process;
+  states?: State[];
+  transitions?: Transition[];
 }

@@ -1,41 +1,44 @@
-<main class="p-5 min-h-screen">
-  <header class="mb-4">
-    <h2 class="tui-text_h4">workflow</h2>
-  </header>
-
-  <section class="flex flex-col border workflow-editor-container">
-    <div class="flex items-center p-3 bg-gray-100 border-b">
-      <button (click)="onUpsertStatus()" appearance="flat" class="mr-3" icon="tuiIconPlus" size="s" tuiButton>
-        Add status
+<section>
+  <form (ngSubmit)="onSubmit()" [formGroup]="$any(form)">
+    <formly-form [fields]="fields" [form]="$any(form)" [model]="model"></formly-form>
+    <div class="my-4 flex justify-end">
+      <button appearance="flat" class="tui-form__button" routerLink="../.." size="m" tuiButton type="button">
+        Cancel
       </button>
-      <button (click)="onUpsertTransition()" appearance="flat" icon="tuiIconPlus" size="s" tuiButton>
-        Add transition
-      </button>
+      <button class="tui-form__button" size="m" tuiButton>Publish</button>
     </div>
 
-    <div class="relative flex-1">
-      <div class="absolute top-3 right-3 z-50">
-        <tui-island *ngIf="selectedCell" [hoverable]="true">
-          <h3 class="tui-island__title">{{ selectedCell.name }}</h3>
-          <p *ngIf="selectedCell.description" class="tui-island__paragraph">
-            {{ selectedCell.description }}
-          </p>
-          <p class="tui-island__paragraph tui-island__paragraph_link">
-            <button
-              (click)="onEditCell()"
-              appearance="secondary"
-              class="mr-3"
-              icon="tuiIconEdit"
-              size="s"
-              tuiButton
-            >
-              Edit
-            </button>
-            <button (click)="onRemoveCell()" appearance="flat" icon="tuiIconTrash" size="s" tuiButton>Remove</button>
-          </p>
-        </tui-island>
+    <section class="flex flex-col border workflow-editor-container">
+      <div class="flex items-center p-3 bg-gray-100 border-b">
+        <button (click)="onUpsertStatus()" appearance="flat" class="mr-3" icon="tuiIconPlus" size="s" tuiButton>
+          Add status
+        </button>
+        <button (click)="onUpsertTransition()" appearance="flat" icon="tuiIconPlus" size="s" tuiButton>
+          Add transition
+        </button>
       </div>
-      <hcm-workflow-editor #workflowEditor (event)="onWorkflowEditorEvent($event)" class="h-full"></hcm-workflow-editor>
-    </div>
-  </section>
-</main>
+
+      <div class="relative flex-1">
+        <div class="absolute top-3 right-3 z-50">
+          <tui-island *ngIf="selectedCell" [hoverable]="true">
+            <h3 class="tui-island__title">{{ selectedCell.name }}</h3>
+            <p *ngIf="selectedCell.description" class="tui-island__paragraph">
+              {{ selectedCell.description }}
+            </p>
+            <p class="tui-island__paragraph tui-island__paragraph_link">
+              <button (click)="onEditCell()" appearance="secondary" class="mr-3" icon="tuiIconEdit" size="s" tuiButton>
+                Edit
+              </button>
+              <button (click)="onRemoveCell()" appearance="flat" icon="tuiIconTrash" size="s" tuiButton>Remove</button>
+            </p>
+          </tui-island>
+        </div>
+        <hcm-workflow-editor
+          #workflowEditor
+          (event)="onWorkflowEditorEvent($event)"
+          class="h-full"
+        ></hcm-workflow-editor>
+      </div>
+    </section>
+  </form>
+</section>

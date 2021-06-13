@@ -1,6 +1,6 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, Injector, ViewChild } from '@angular/core';
 import { TuiDialogService } from '@taiga-ui/core';
-import { State, Transition } from '../../models/workflow';
+import { State, Transition, Workflow } from '../../models/workflow';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { UpsertStatusDialogComponent } from '../../components/upsert-status-dialog/upsert-status-dialog.component';
 import {
@@ -12,6 +12,8 @@ import {
 } from '@nexthcm/workflow-editor';
 import { UpsertTransitionDialogComponent } from '../../components/upsert-transition-dialog/upsert-transition-dialog.component';
 import { v4 as uuidv4 } from 'uuid';
+import { FormGroup } from '@ngneat/reactive-forms';
+import { FormlyFieldConfig } from '@ngx-formly/core';
 
 @Component({
   selector: 'hcm-upsert-process',
@@ -22,6 +24,24 @@ import { v4 as uuidv4 } from 'uuid';
 export class UpsertProcessComponent implements AfterViewInit {
   @ViewChild('workflowEditor') workflowEditor!: WorkflowAPIDefinition;
 
+  form = new FormGroup<Workflow>({});
+  fields: FormlyFieldConfig[] = [
+    {
+      className: 'tui-text_h3 tui-form__header tui-form__header_margin-top_none block',
+      key: 'name',
+      type: 'input-inline',
+    },
+    {
+      className: 'mt-5 block',
+      key: 'description',
+      type: 'text-area',
+      templateOptions: {
+        translate: true,
+        label: 'Description',
+      },
+    },
+  ];
+  model: Workflow = {};
   addedStates: State[] = [];
   addedTransitions: Transition[] = [];
   selectedCell?: State | Transition;
@@ -134,5 +154,11 @@ export class UpsertProcessComponent implements AfterViewInit {
         initialTransition.toStateId
       ),
     });
+  }
+
+  onSubmit(): void {
+    if (this.form.valid) {
+      const workflowModel = this.form.value;
+    }
   }
 }

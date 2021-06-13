@@ -8328,6 +8328,19 @@ ngx-cookie@^5.0.2:
   dependencies:
     tslib "^2.0.0"
 
+ngx-easy-table@^15.0.0:
+  version "15.0.0"
+  resolved "https://registry.yarnpkg.com/ngx-easy-table/-/ngx-easy-table-15.0.0.tgz#602640effeb1d65ded92cb43c399a89b8d40c0be"
+  integrity sha512-h2xQBvrtVy1cGJTXTA8tIlS8qlsWv6d5+bZKN4NVoJYNXBx+najfO90oIg3xwJW2tyFyHYFfoqQyBLcL9ifUbw==
+  dependencies:
+    ngx-pagination "^5.0.0"
+    tslib "^2.0.0"
+
+ngx-pagination@^5.0.0:
+  version "5.1.1"
+  resolved "https://registry.yarnpkg.com/ngx-pagination/-/ngx-pagination-5.1.1.tgz#f8494da1e5eb0665382349a4d926c13a491bed21"
+  integrity sha512-KxHES+Dn6pbetytO9ng2GAdclmo4UcwzFmQyVPWh2xRPbAlv5/ezL2xnDVBFMqCoJQaZagvdQ+ZZFbqGWqAvCQ==
+
 nice-try@^1.0.4:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/nice-try/-/nice-try-1.0.5.tgz#a3378a7696ce7d223e88fc9b764bd7ef1089e366"

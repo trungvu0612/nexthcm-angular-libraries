@@ -11,6 +11,10 @@ import { UpsertStatusDialogComponent } from './components/upsert-status-dialog/u
 import { UpsertProcessComponent } from './pages/upsert-process/upsert-process.component';
 import { UpsertTransitionDialogComponent } from './components/upsert-transition-dialog/upsert-transition-dialog.component';
 import { LayoutComponent, LayoutModule } from '@nexthcm/ui';
+import { ProcessesManagementComponent } from './pages/processes-management/processes-management.component';
+import { TableModule } from 'ngx-easy-table';
+import { TuiTablePaginationModule } from '@taiga-ui/addon-table';
+import { CreateProcessDialogComponent } from './components/create-process-dialog/create-process-dialog.component';
 
 export const adminProcessesRoutes: Routes = [
   {
@@ -21,7 +25,7 @@ export const adminProcessesRoutes: Routes = [
         path: '',
         component: AdminProcessesComponent,
         children: [
-          { path: 'add', component: UpsertProcessComponent },
+          { path: '', component: ProcessesManagementComponent },
           { path: ':workflowId/edit', component: UpsertProcessComponent },
         ],
       },
@@ -39,12 +43,16 @@ export const adminProcessesRoutes: Routes = [
     ReactiveFormsModule,
     FormlyModule,
     LayoutModule,
+    TableModule,
+    TuiTablePaginationModule,
   ],
   declarations: [
     AdminProcessesComponent,
     UpsertProcessComponent,
     UpsertStatusDialogComponent,
     UpsertTransitionDialogComponent,
+    ProcessesManagementComponent,
+    CreateProcessDialogComponent,
   ],
 })
 export class AdminProcessesModule {}
