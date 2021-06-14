@@ -1,0 +1,51 @@
+<form (ngSubmit)="onSearch()" [formGroup]="$any(searchForm)" class="object-form-container">
+  <div class="mt-8 ">
+    <formly-form
+      [fields]="fields"
+      [form]="$any(searchForm)"
+      [model]="model"
+      class="grid grid-cols-4 border-start border-end"
+    ></formly-form>
+  </div>
+  <div class="w-full text-center">
+    <button class="tui-space_right-3 tui-space_bottom-3 mt-5" icon="tuiIconSearchLarge" tuiButton type="submit">
+      Search
+    </button>
+  </div>
+</form>
+<table [columns]="columns" class="my-8 w-full" tuiTable>
+  <thead>
+  <tr tuiThGroup>
+    <th *tuiHead="'type'" tuiTh>Name</th>
+    <th *tuiHead="'fromDate'" tuiTh>fromDate</th>
+    <th *tuiHead="'toDate'" tuiTh>toDate</th>
+    <th *tuiHead="'reason'" tuiTh>reason</th>
+    <th *tuiHead="'action'" class="w-32" tuiTh>Action</th>
+  </tr>
+  </thead>
+  <tbody [data]="requests" tuiTbody>
+  <tr *tuiRow="let req of requests; let index = index" tuiTr>
+    <td *tuiCell="'type'" tuiTd>{{ index + 1 }}. {{ req.type }}</td>
+    <td *tuiCell="'fromDate'" tuiTd>{{ index + 1 }}. {{ req.fromDate }}</td>
+    <td *tuiCell="'toDate'" tuiTd>{{ index + 1 }}. {{ req.toDate }}</td>
+    <td *tuiCell="'reason'" tuiTd>{{ index + 1 }}. {{ req.reason }}</td>
+    <td *tuiCell="'action'" tuiTd>
+      <button
+        [icon]="'tuiIconEditLarge'"
+        [routerLink]="['../edit/' + req.id]"
+        [shape]="$any('rounded')"
+        appearance="flat"
+        size="s"
+        tuiIconButton
+      ></button>
+    </td>
+  </tr>
+  </tbody>
+</table>
+<tui-table-pagination
+  (pageChange)="onPage($event)"
+  (sizeChange)="onSize($event)"
+  [size]="size$"
+  [total]="totalLength"
+></tui-table-pagination>
+<p>Current page: {{ page$ | async }}</p>

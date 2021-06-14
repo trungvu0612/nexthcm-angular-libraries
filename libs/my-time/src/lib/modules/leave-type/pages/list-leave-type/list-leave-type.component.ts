@@ -43,8 +43,8 @@ export class ListLeaveTypeComponent implements OnInit {
         takeUntil(this.destroy$)
       )
       .subscribe((item) => {
-        this.leaveTypes = item.items;
-        this.totalLength = item.totalElements;
+        this.leaveTypes = item.data.items;
+        this.totalLength = item.data.totalElements;
         this.cdr.detectChanges();
       });
   }

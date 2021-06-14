@@ -9,6 +9,7 @@ import { SearchWorkingHour, WorkingHour } from '../models/working-hour';
 })
 export class WorkingHourService {
   appVersion = this.env.apiUrl + '/mytimeapp/v1.0';
+
   constructor(@Inject(APP_CONFIG) protected env: AppConfig, private httpClient: HttpClient) {}
 
   getWorkingHour(

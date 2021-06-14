@@ -1,40 +1,40 @@
 <article>
   <table [columns]="columns" class="w-full time-table" tuiTable>
     <thead>
-      <tr tuiThGroup>
-        <th *tuiHead="'date'" [sorter]="null" tuiTh>date</th>
-        <th *tuiHead="'leaveType'" [sorter]="null" tuiTh>leaveType</th>
-        <th *tuiHead="'days'" [sorter]="null" tuiTh>days</th>
-        <th *tuiHead="'status'" [sorter]="null" tuiTh>status</th>
-        <th *tuiHead="'sendTo'" [sorter]="null" tuiTh>sendTo</th>
-        <th *tuiHead="'action'" [sorter]="null" tuiTh="class">Action</th>
-      </tr>
+    <tr tuiThGroup>
+      <th *tuiHead="'date'" [sorter]="null" tuiTh>date</th>
+      <th *tuiHead="'leaveType'" [sorter]="null" tuiTh>leaveType</th>
+      <th *tuiHead="'days'" [sorter]="null" tuiTh>days</th>
+      <th *tuiHead="'status'" [sorter]="null" tuiTh>status</th>
+      <th *tuiHead="'sendTo'" [sorter]="null" tuiTh>sendTo</th>
+      <th *tuiHead="'action'" [sorter]="null" tuiTh="class">Action</th>
+    </tr>
     </thead>
     <tbody [data]="data" tuiTbody>
-      <tr *tuiRow="let item of data" tuiTr>
-        <td (click)="showDialog(item)" *tuiCell="'date'" class="underline" tuiTd>
-          {{ item.date.toString().length > 33 ? item.date.toString().substring(0, 33) + '...' : item.date.toString() }}
-        </td>
+    <tr *tuiRow="let item of data" tuiTr>
+      <td (click)="showDialog(item)" *tuiCell="'date'" class="underline" tuiTd>
+        {{ item.date.toString().length > 33 ? item.date.toString().substring(0, 33) + '...' : item.date.toString() }}
+      </td>
 
-        <td *tuiCell="'leaveType'" style="font-weight: 700" tuiTd>{{ item.leaveType }}</td>
+      <td *tuiCell="'leaveType'" style="font-weight: 700" tuiTd>{{ item.leaveType }}</td>
 
-        <td *tuiCell="'days'" tuiTd>{{ item.days }}</td>
+      <td *tuiCell="'days'" tuiTd>{{ item.days }}</td>
 
-        <td *tuiCell="'status'" [ngSwitch]="item.status" class="center-custom" tuiTd>
-          <tui-tag [class]="['tag', item.status.toLowerCase()]" [value]="item.status"></tui-tag>
-        </td>
+      <td *tuiCell="'status'" [ngSwitch]="item.status" class="center-custom" tuiTd>
+        <tui-tag [class]="['tag', item.status.toLowerCase()]" [value]="item.status"></tui-tag>
+      </td>
 
-        <td *tuiCell="'sendTo'" class="center-custom" tuiTd>
-          {{ item.sendTo }}
-        </td>
+      <td *tuiCell="'sendTo'" class="center-custom" tuiTd>
+        {{ item.sendTo }}
+      </td>
 
-        <td *tuiCell="'action'" class="center-custom" tuiTd>
-          <ng-container *ngIf="item.status !== 'Waiting'; else button">None</ng-container>
-          <ng-template #button>
-            <button (click)="cancel()" class="cancel-button">Cancel</button>
-          </ng-template>
-        </td>
-      </tr>
+      <td *tuiCell="'action'" class="center-custom" tuiTd>
+        <ng-container *ngIf="item.status !== 'Waiting'; else button">None</ng-container>
+        <ng-template #button>
+          <button (click)="cancel()" class="cancel-button">Cancel</button>
+        </ng-template>
+      </td>
+    </tr>
     </tbody>
   </table>
 </article>

@@ -1,7 +1,11 @@
+import { TuiDay } from '@taiga-ui/cdk';
+
 export interface Requests {
   id?: string;
   type: string;
   userId: string;
+  state: number;
+  assignedName: string;
   fromDate: number;
   toDate: number;
   duration?: Duration;
@@ -18,5 +22,6 @@ export interface Employee {
 }
 
 export interface SearchRequest {
-  type: string;
+  fromDate?: number | null | TuiDay | string;
+  toDate?: number | null | TuiDay | string;
 }

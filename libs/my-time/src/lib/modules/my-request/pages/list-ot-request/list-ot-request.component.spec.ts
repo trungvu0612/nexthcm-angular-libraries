@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ListMyRequestComponent } from './list-my-request.component';
+import { ListOtRequestComponent } from './list-ot-request.component';
 
-describe('ListMyRequestComponent', () => {
-  let component: ListMyRequestComponent;
-  let fixture: ComponentFixture<ListMyRequestComponent>;
+describe('ListOtRequestComponent', () => {
+  let component: ListOtRequestComponent;
+  let fixture: ComponentFixture<ListOtRequestComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ListMyRequestComponent],
+      declarations: [ListOtRequestComponent],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ListMyRequestComponent);
+    fixture = TestBed.createComponent(ListOtRequestComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
