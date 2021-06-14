@@ -61,6 +61,7 @@
     "@ngneat/transloco": "^2.21.0",
     "@ngx-formly/core": "^5.10.21",
     "@nrwl/angular": "12.3.6",
+    "@rx-angular/state": "^1.4.3",
     "@taiga-ui/addon-commerce": "^2.11.1",
     "@taiga-ui/addon-editor": "^2.11.1",
     "@taiga-ui/addon-table": "^2.11.1",

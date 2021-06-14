@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
-import { Transition } from '../../models/workflow';
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import { v4 as uuidv4 } from 'uuid';
-import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { TuiDialogContext } from '@taiga-ui/core';
+import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
+import { v4 as uuidv4 } from 'uuid';
+import { Transition } from '../../models/workflow';
 
 @Component({
   selector: 'hcm-upsert-transition-dialog',
@@ -21,7 +21,6 @@ export class UpsertTransitionDialogComponent implements OnInit {
       type: 'select',
       templateOptions: {
         translate: true,
-        required: true,
         label: 'From status',
         options: this.data.states,
         labelProp: 'name',
@@ -59,12 +58,6 @@ export class UpsertTransitionDialogComponent implements OnInit {
         translate: true,
         label: 'Description',
         textfieldLabelOutside: true,
-      },
-    },
-    {
-      key: 'stateTypeId',
-      templateOptions: {
-        options: [],
       },
     },
   ];

@@ -1,10 +1,12 @@
 import { ChangeDetectionStrategy, Component, Injector, OnInit } from '@angular/core';
-import { Columns, Config, DefaultConfig } from 'ngx-easy-table';
-import { Workflow } from '../../models/workflow';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
+import { Columns, Config, DefaultConfig } from 'ngx-easy-table';
+import { switchMap } from 'rxjs/operators';
 import { CreateProcessDialogComponent } from '../../components/create-process-dialog/create-process-dialog.component';
-import { Router } from '@angular/router';
+import { Workflow } from '../../models/workflow';
+import { ProcessesService } from '../../services/processes.service';
 
 @Component({
   selector: 'hcm-processes-management',
@@ -32,7 +34,9 @@ export class ProcessesManagementComponent implements OnInit {
   constructor(
     private readonly dialogService: TuiDialogService,
     private readonly injector: Injector,
-    private router: Router
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private processesService: ProcessesService
   ) {}
 
   ngOnInit(): void {}
@@ -42,8 +46,9 @@ export class ProcessesManagementComponent implements OnInit {
       .open<Workflow>(new PolymorpheusComponent(CreateProcessDialogComponent, this.injector), {
         label: 'Create new process',
       })
+      .pipe(switchMap((data) => this.processesService.createProcess(data)))
       .subscribe((data) => {
-        this.router.navigate([1, 'edit']);
+        this.router.navigate([1, 'edit'], { relativeTo: this.activatedRoute });
       });
   }
 }

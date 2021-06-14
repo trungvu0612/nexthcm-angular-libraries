@@ -1,9 +1,12 @@
-import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
-import { Workflow } from '../../models/workflow';
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
+import { RxState } from '@rx-angular/state';
 import { TuiDialogContext } from '@taiga-ui/core';
+import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
+import { Workflow } from '../../models/workflow';
+import { ProcessesService } from '../../services/processes.service';
+import { GLOBAL_STATUS_TYPES_RX_STATE, GlobalStatusTypesState } from '../../state/status-types';
 
 @Component({
   selector: 'hcm-create-process-dialog',
@@ -11,7 +14,8 @@ import { TuiDialogContext } from '@taiga-ui/core';
   styleUrls: ['./create-process-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CreateProcessDialogComponent implements OnInit {
+export class CreateProcessDialogComponent {
+  readonly statusTypes$ = this.globalStatusTypesState.select('statusTypes');
   form: FormGroup<Workflow> = this.fb.group({});
   fields: FormlyFieldConfig[] = [
     {
@@ -28,7 +32,7 @@ export class CreateProcessDialogComponent implements OnInit {
     {
       className: 'tui-form__row block',
       key: 'process.description',
-      type: 'text-area',
+      type: 'input',
       templateOptions: {
         translate: true,
         label: 'Description',
@@ -49,7 +53,7 @@ export class CreateProcessDialogComponent implements OnInit {
     {
       className: 'tui-form__row block',
       key: 'state[0].description',
-      type: 'text-area',
+      type: 'input',
       templateOptions: {
         translate: true,
         label: 'Initial Status Description',
@@ -63,8 +67,10 @@ export class CreateProcessDialogComponent implements OnInit {
       templateOptions: {
         translate: true,
         required: true,
-        options: [],
+        options: this.statusTypes$,
         label: 'State Type',
+        valueProp: 'id',
+        labelProp: 'name',
       },
     },
   ];
@@ -72,10 +78,10 @@ export class CreateProcessDialogComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<unknown, Workflow>
+    @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<unknown, Workflow>,
+    private processesService: ProcessesService,
+    @Inject(GLOBAL_STATUS_TYPES_RX_STATE) private globalStatusTypesState: RxState<GlobalStatusTypesState>
   ) {}
-
-  ngOnInit(): void {}
 
   onCancel(): void {
     this.context.$implicit.complete();
