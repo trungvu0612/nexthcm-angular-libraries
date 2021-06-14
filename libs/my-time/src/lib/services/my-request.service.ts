@@ -12,13 +12,23 @@ export class MyRequestService {
 
   constructor(@Inject(APP_CONFIG) protected env: AppConfig, private httpClient: HttpClient) {}
 
-  getMyRequests(pageIndex: number, pageSize: number, search: SearchRequest): Observable<PagingResponse<Requests>> {
-    let httpParams = new HttpParams();
-    Object.keys(search).forEach((key) => {
-      httpParams = httpParams.append(key, search[key as keyof SearchRequest]);
+  getMyOtRequests(pageIndex: number, pageSize: number, search: SearchRequest): Observable<PagingResponse<Requests>> {
+    return this.httpClient.get<PagingResponse<Requests>>(this.appVersion + '/ot-requests', {
+      params: new HttpParams()
+        .set('page', pageIndex ? pageIndex.toString() : '')
+        .set('size', pageSize ? pageSize.toString() : '')
+        .set('fromDate', search.fromDate ? search.fromDate : ('' as any))
+        .set('toDate', search.toDate ? search.toDate : ('' as any)),
     });
-    return this.httpClient.get<PagingResponse<Requests>>(this.appVersion + '/requests', {
-      params: httpParams
+  }
+
+  geWorkingOutsideRequests(
+    pageIndex: number,
+    pageSize: number,
+    search: SearchRequest
+  ): Observable<PagingResponse<Requests>> {
+    return this.httpClient.get<PagingResponse<Requests>>(this.appVersion + '/outside-requests', {
+      params: new HttpParams()
         .set('page', pageIndex ? pageIndex.toString() : '')
         .set('size', pageSize ? pageSize.toString() : ''),
     });

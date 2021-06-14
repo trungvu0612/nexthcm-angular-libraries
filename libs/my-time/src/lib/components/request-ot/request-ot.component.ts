@@ -15,7 +15,7 @@ export class RequestOtComponent implements OnInit {
   reason = new FormControl();
   showDropdown = true;
   open = false;
-  primary = "son.nguyen-thanh@banvien.com.vn";
+  primary = 'son.nguyen-thanh@banvien.com.vn';
   readonly sendItems = [['son.nguyen-thanh@banvien.com.vn', 'vien.nguyen-hai@banvien.com.vn']];
 
   constructor() {}
@@ -29,5 +29,6 @@ export class RequestOtComponent implements OnInit {
       return;
     }
   }
+
   submit() {}
 }

@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { WorkingHourComponent } from './working-hour.component';
+import {WorkingHourComponent} from './working-hour.component';
 
 describe('WorkingHourComponent', () => {
   let component: WorkingHourComponent;
@@ -8,20 +8,20 @@ describe('WorkingHourComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ WorkingHourComponent ]
+      declarations: [WorkingHourComponent]
     })
-    .compileComponents();
-      [WorkingHourComponent],
-    }).compileComponents();
-  });
+      .compileComponents();
+    [WorkingHourComponent],
+  }).compileComponents();
+});
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(WorkingHourComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+beforeEach(() => {
+  fixture = TestBed.createComponent(WorkingHourComponent);
+  component = fixture.componentInstance;
+  fixture.detectChanges();
+});
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+it('should create', () => {
+  expect(component).toBeTruthy();
+});
 })

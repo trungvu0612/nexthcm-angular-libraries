@@ -1,0 +1,66 @@
+<form (ngSubmit)="onSearch()" [formGroup]="$any(searchForm)" class="object-form-container">
+  <div class="mt-8 ">
+    <formly-form
+      [fields]="fields"
+      [form]="$any(searchForm)"
+      [model]="model"
+      class="grid grid-cols-4 border-start border-end"
+    ></formly-form>
+  </div>
+  <div class="w-full text-center">
+    <button class="tui-space_right-3 tui-space_bottom-3 mt-5" icon="tuiIconSearchLarge" tuiButton type="submit">
+      Search
+    </button>
+  </div>
+</form>
+<table [columns]="columns" class="my-8 w-full" tuiTable>
+  <thead>
+  <tr tuiThGroup>
+    <th *tuiHead="'fromDate'" tuiTh>From Date</th>
+    <th *tuiHead="'toDate'" tuiTh>To Date</th>
+    <th *tuiHead="'state'" tuiTh>Status</th>
+    <th *tuiHead="'assignedName'" tuiTh>Assignee</th>
+    <th *tuiHead="'reason'" tuiTh>Reason</th>
+    <th *tuiHead="'action'" class="w-32" tuiTh>Action</th>
+  </tr>
+  </thead>
+  <tbody [data]="requests" tuiTbody>
+  <tr *tuiRow="let req of requests; let index = index" tuiTr>
+    <td *tuiCell="'fromDate'" tuiTd> {{ req.fromDate | date : 'dd/MM/yyyy' }}</td>
+    <td *tuiCell="'toDate'" tuiTd> {{ req.toDate | date : 'dd/MM/yyyy'}}</td>
+    <td *tuiCell="'reason'" tuiTd>{{ req.reason }}</td>
+    <td *tuiCell="'assignedName'" tuiTd>{{ req.assignedName }}</td>
+    <td *tuiCell="'state'" tuiTd>
+      <ng-container [ngSwitch]=" req.state">
+        <ng-container *ngSwitchCase="0">
+          <span class="text-red-600">Rejected</span>
+        </ng-container>
+        <ng-container *ngSwitchCase="1">
+          <span class="text-yellow-400">Pending</span>
+        </ng-container>
+        <ng-container *ngSwitchCase="2">
+          <span class="text-blue-500">Approved</span>
+        </ng-container>
+      </ng-container>
+
+
+    </td>
+    <td *tuiCell="'action'" tuiTd>
+      <button
+        [icon]="'tuiIconCloseCircleLarge'"
+        [shape]="$any('rounded')"
+        appearance="flat"
+        size="s"
+        tuiIconButton
+      ></button>
+    </td>
+  </tr>
+  </tbody>
+</table>
+<tui-table-pagination
+  (pageChange)="onPage($event)"
+  (sizeChange)="onSize($event)"
+  [size]="size$"
+  [total]="totalLength"
+></tui-table-pagination>
+<p>Current page: {{ page$ | async }}</p>
