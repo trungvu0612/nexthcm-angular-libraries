@@ -5,7 +5,7 @@ import { tuiPure } from '@taiga-ui/cdk';
 import { TuiFileLike } from '@taiga-ui/kit';
 import { Observable, of } from 'rxjs';
 import { map, share, startWith, switchMap, tap } from 'rxjs/operators';
-import { convertRejected, RejectedFile } from '../../../models/files/file';
+import { convertRejected, RejectedFile } from '../../../models';
 
 @Component({
   selector: 'formly-upload-file',

@@ -36,7 +36,7 @@
           (cdkDragStarted)="onDragStarted()"
           (click)="onToggleSeat(x, y, seat)"
           [class.bg-white]="seat.isSeat"
-          [class.seat-focus]="isFocus('seat', x, y)"
+          [class.opacity]="isFocus('seat', x, y)"
           [style]="{
             top: seat.positionY + '%',
             left: seat.positionX + '%',
@@ -57,7 +57,7 @@
       (cdkDragEnded)="moveSeat(index, $event.distance, $event)"
       (click)="onFocus('seat', index)"
       *ngFor="let seat of seats; index as index"
-      [class.seat-focus]="isFocus('seat', index)"
+      [class.opacity]="isFocus('seat', index)"
       [style]="{
         top: seat.positionY + '%',
         left: seat.positionX + '%',

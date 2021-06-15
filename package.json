@@ -28,6 +28,7 @@
     "help": "nx help",
     "prepare": "husky install",
     "publish:auth": "cd dist/libs/auth && yarn publish --non-interactive --ignore-scripts",
+    "publish:admin-offices": "cd dist/libs/admin-offices && yarn publish --non-interactive --ignore-scripts",
     "publish:configurations": "cd dist/libs/configurations && yarn publish --non-interactive --ignore-scripts",
     "publish:core": "cd dist/libs/core && yarn publish --non-interactive --ignore-scripts",
     "publish:form": "cd dist/libs/form && yarn publish --non-interactive --ignore-scripts",

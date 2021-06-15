@@ -1,0 +1,60 @@
+:host {
+  display: block;
+
+  ::ng-deep {
+    tui-stepper {
+      button {
+        font-size: 0.875rem;
+
+        .marker {
+          @apply w-12 h-12;
+        }
+
+        &._active {
+          .marker_index {
+            background-color: var(--blue-primary) !important;
+          }
+        }
+      }
+    }
+
+    formly-field {
+      formly-form-field {
+        > label {
+          @apply flex-row justify-start mb-4;
+
+          > span:first-child {
+            @apply text-right font-semibold w-24 mr-4;
+          }
+
+          > span:last-child {
+            width: 50%;
+          }
+        }
+      }
+
+      &:last-child {
+        span:last-child {
+          flex: auto;
+        }
+      }
+    }
+  }
+
+  th,
+  td {
+    @apply border px-5 py-3;
+
+    &:first-child {
+      @apply text-left w-2/5;
+
+      &:not(td) {
+        @apply bg-gradient-to-b from-gray-100 to-gray-200;
+      }
+    }
+
+    &:last-child {
+      @apply border-gray-50 bg-gradient-to-b from-gray-200 to-gray-300;
+    }
+  }
+}

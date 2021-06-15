@@ -1,0 +1,53 @@
+<main *transloco="let t" class="px-8">
+  <h1 class="text-center text-2xl font-semibold my-5">{{ t(title) }}</h1>
+  <form [formGroup]="form" class="max-w-4xl">
+    <formly-form
+      [fields]="fields"
+      [form]="form"
+      [model]="model"
+      class="grid grid-flow-col grid-rows-3 gap-x-10 gap-y-2"
+    ></formly-form>
+  </form>
+  <tui-input-file [formControl]="imageControl" accept="image/*" link="Choose an image"></tui-input-file>
+  <article #zone class="relative ring-4 ring-purple-700">
+    <button
+      (cdkDragEnded)="moveSeat(index, $event.distance, $event)"
+      (click)="onFocus(index)"
+      *ngFor="let seat of seats; index as index"
+      [class.opacity]="current === index"
+      [style]="{
+        top: seat.positionY + '%',
+        left: seat.positionX + '%',
+        width: (seat.width || dimension.width) + '%',
+        height: (seat.height || dimension.height) + '%',
+        'border-radius': getRounded(seat.rounded) + '%',
+        transform: 'translate3d(-50%, -50%, 0)'
+      }"
+      cdkDrag
+      cdkDragBoundary="article"
+      class="seat"
+    >
+      <img src="assets/icons/marker.svg" />
+    </button>
+    <img (load)="updateFactor()" [src]="model.image" class="w-full" />
+  </article>
+  <form *ngIf="current !== -1" class="flex items-center fixed bottom-3 w-3/4 max-w-4xl">
+    <formly-form
+      [fields]="seatFields"
+      [form]="seatForm"
+      [model]="seatModel"
+      class="grid grid-cols-3 gap-x-6 flex-auto"
+    ></formly-form>
+    <button
+      (click)="onReset()"
+      [disabled]="seats[current].width === undefined"
+      class="bg-white border border-red-600 rounded text-red-600 h-6 ml-4 px-2"
+    >
+      Reset
+    </button>
+  </form>
+  <div class="flex justify-center">
+    <button (click)="cancel()" class="blue-button btn-custom btn-primary">{{ t('cancel') }}</button>
+    <button (click)="save()" [disabled]="!form.valid" class="blue-button ml-8">{{ t('save') }}</button>
+  </div>
+</main>

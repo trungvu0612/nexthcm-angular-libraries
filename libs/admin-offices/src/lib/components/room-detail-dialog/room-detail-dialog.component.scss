@@ -1,0 +1,46 @@
+:host {
+  @apply block min-h-screen;
+
+  main {
+    > *:not(:first-child) {
+      margin: 1rem 0;
+    }
+
+    h1 {
+      color: var(--tui-primary);
+    }
+
+    ::ng-deep {
+      formly-form-field {
+        > label {
+          @apply flex flex-row items-center h-full;
+
+          > span:first-child {
+            @apply text-base font-semibold w-32;
+          }
+
+          > span:last-child {
+            flex: auto;
+          }
+        }
+
+        tui-input-count {
+          width: 50%;
+        }
+
+        tui-input-slider {
+          height: 3rem;
+        }
+      }
+    }
+
+    .seat {
+      @apply flex items-end absolute bg-blue-400 opacity-60;
+
+      img {
+        height: 90%;
+        @apply object-contain w-full;
+      }
+    }
+  }
+}

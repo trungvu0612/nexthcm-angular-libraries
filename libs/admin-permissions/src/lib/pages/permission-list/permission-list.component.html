@@ -1,0 +1,55 @@
+<main class="main-page px-8 pt-20">
+  <div class="flex justify-end mb-10">
+    <a class="bg-blue-primary rounded-md text-white font-semibold px-6 py-2" routerLink="./create"> Add Policy </a>
+  </div>
+  <section class="main-section p-6">
+    <tui-hosted-dropdown [(open)]="open" [content]="dropdown">
+      <span class="text-gray-500 font-medium mr-1">Channel:</span>
+      <span class="text-blue-400 font-semibold"> {{ items[indexItem] }} </span>
+      <tui-svg
+        [class.icon_rotated]="open"
+        class="text-gray-400 cursor-pointer"
+        src="tuiIconSortDown"
+        tuiHostedDropdownHost
+      ></tui-svg>
+    </tui-hosted-dropdown>
+    <ng-template #dropdown>
+      <tui-data-list>
+        <button (click)="onClick(index)" *ngFor="let item of items; index as index" tuiOption>
+          {{ item }}
+        </button>
+      </tui-data-list>
+    </ng-template>
+    <table [columns]="columns" class="w-full mt-2" tuiTable>
+      <thead>
+        <tr tuiThGroup>
+          <th *tuiHead="'name'" [sorter]="null" tuiTh>Permission Name</th>
+          <th *tuiHead="'description'" [sorter]="null" tuiTh>Description</th>
+          <th *tuiHead="'service'" [sorter]="null" tuiTh>Service</th>
+          <th *tuiHead="'action'" [sorter]="null" tuiTh>Action</th>
+        </tr>
+      </thead>
+      <tbody [data]="permissions" tuiTbody>
+        <tr *tuiRow="let item of permissions" tuiTr>
+          <td *tuiCell="'name'" tuiTd>
+            {{ item.name }}
+          </td>
+          <td *tuiCell="'description'" tuiTd>
+            {{ item.description }}
+          </td>
+          <td *tuiCell="'service'" tuiTd>{{ item.services.length }} in {{ servicesInfo.length }} services</td>
+          <td *tuiCell="'action'" tuiTd>
+            <div class="flex justify-center text-black">
+              <button [routerLink]="['./update', item.id]" class="mr-2">
+                <tui-svg src="tuiIconEditLarge"></tui-svg>
+              </button>
+              <button>
+                <tui-svg src="tuiIconTrashLarge"></tui-svg>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+</main>

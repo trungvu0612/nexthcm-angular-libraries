@@ -29,6 +29,19 @@ import { AppComponent } from './app.component';
           path: 'admin/employees',
           loadChildren: () => import('@nexthcm/admin-employee').then((m) => m.AdminEmployeeModule),
         },
+        {
+          path: 'admin',
+          children: [
+            {
+              path: 'offices',
+              loadChildren: () => import('@nexthcm/admin-offices').then((m) => m.AdminOfficesModule),
+            },
+            {
+              path: 'permissions',
+              loadChildren: () => import('@nexthcm/admin-permissions').then((m) => m.AdminPermissionsModule),
+            },
+          ],
+        },
       ],
       { initialNavigation: 'enabled' }
     ),

@@ -1,0 +1,22 @@
+<div class="mb-3">
+  <button (click)="toggleExpanded(0)" *ngIf="model.service" type="button">
+    <tui-svg [class.rotated]="!expanded[0]" src="tuiIconSortDown"></tui-svg>
+  </button>
+  <span [class.ml-6]="!model.service" class="font-semibold mr-4">Actions</span>
+  <span *ngIf="!model.service" class="text-gray-400">Choose a service before defining actions</span>
+</div>
+<tui-expand *ngIf="model.service" [expanded]="expanded[0]" class="ml-10">
+  <div *ngFor="let action of actions; index as index" class="mb-3">
+    <div class="flex items-center">
+      <button (click)="toggleExpanded(index,true)" type="button">
+        <tui-svg [class.rotated]="!expandedActions[index]" src="tuiIconSortDown"></tui-svg>
+      </button>
+      <tui-checkbox-labeled [formControl]="actionControls[index]">
+        <div class="capitalize">{{ actions[index] }}</div>
+      </tui-checkbox-labeled>
+    </div>
+    <tui-expand [expanded]="expandedActions[index]" class="ml-10">
+      <tui-filter [formControl]="$any(actionForm.at(index))" [items]="resources" class="mt-2" size="s"></tui-filter>
+    </tui-expand>
+  </div>
+</tui-expand>
