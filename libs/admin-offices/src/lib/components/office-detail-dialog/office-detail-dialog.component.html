@@ -1,0 +1,10 @@
+<section *transloco="let t" class="admin-dialog">
+  <h1 class="text-center font-semibold">{{ t(title) }}</h1>
+  <form class="my-8">
+    <formly-form [fields]="fields" [form]="form" [model]="model"></formly-form>
+  </form>
+  <div class="flex justify-center">
+    <button (click)="cancel()" class="blue-button btn-custom btn-primary">{{ t('cancel') }}</button>
+    <button (click)="save()" [disabled]="!form.valid" class="blue-button ml-8">{{ t('save') }}</button>
+  </div>
+</section>

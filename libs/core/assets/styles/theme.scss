@@ -2,7 +2,17 @@
 @import 'theme/variables';
 @import 'theme/wrapper';
 
-* {
+:root {
   font-family: 'Inter', -apple-system, 'BlinkMacSystemFont', system-ui, 'Roboto', 'Segoe UI', 'Helvetica Neue',
     sans-serif;
+
+  .bg-blue-primary {
+    background-color: #109cf1;
+  }
+
+  .text-blue-primary {
+    color: #109cf1;
+  }
+
+  --blue-primary: #109cf1;
 }

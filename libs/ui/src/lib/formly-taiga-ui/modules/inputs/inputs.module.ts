@@ -18,6 +18,7 @@ import {
   TuiInputDateModule,
   TuiInputDateRangeModule,
   TuiInputDateTimeModule,
+  TuiInputFileModule,
   TuiInputInlineModule,
   TuiInputModule,
   TuiInputMonthModule,
@@ -25,6 +26,7 @@ import {
   TuiInputNumberModule,
   TuiInputPasswordModule,
   TuiInputPhoneModule,
+  TuiInputSliderModule,
   TuiInputTagModule,
   TuiInputTimeModule,
   TuiTextAreaModule,
@@ -48,6 +50,8 @@ import { InputComponent } from './input/input.component';
 import { TextAreaComponent } from './text-area/text-area.component';
 import { InputInlineComponent } from './input-inline/input-inline.component';
 import { TuiAutoFocusModule } from '@taiga-ui/cdk';
+import { InputFileComponent } from './input-file/input-file.component';
+import { InputSliderComponent } from './input-slider/input-slider.component';
 
 @NgModule({
   declarations: [
@@ -67,6 +71,8 @@ import { TuiAutoFocusModule } from '@taiga-ui/cdk';
     InputMonthRangeComponent,
     EditorComponent,
     InputInlineComponent,
+    InputFileComponent,
+    InputSliderComponent,
   ],
   imports: [
     CommonModule,
@@ -80,6 +86,8 @@ import { TuiAutoFocusModule } from '@taiga-ui/cdk';
         { name: 'input-month', component: InputMonthComponent, wrappers: ['form-field'] },
         { name: 'input-count', component: InputCountComponent, wrappers: ['form-field'] },
         { name: 'input-date-time', component: InputDateTimeComponent, wrappers: ['form-field'] },
+        { name: 'input-file', component: InputFileComponent, wrappers: ['form-field'] },
+        { name: 'input-slider', component: InputSliderComponent, wrappers: ['form-field'] },
         { name: 'input-number', component: InputNumberComponent, wrappers: ['form-field'] },
         { name: 'input-password', component: InputPasswordComponent, wrappers: ['form-field'] },
         { name: 'input-phone', component: InputPhoneComponent, wrappers: ['form-field'] },
@@ -117,6 +125,8 @@ import { TuiAutoFocusModule } from '@taiga-ui/cdk';
     TuiInputInlineModule,
     TuiAutoFocusModule,
     TuiButtonModule,
+    TuiInputFileModule,
+    TuiInputSliderModule,
   ],
 })
 export class InputsModule {}

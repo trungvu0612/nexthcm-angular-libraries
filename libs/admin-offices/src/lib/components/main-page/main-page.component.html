@@ -1,0 +1,74 @@
+<main *transloco="let t" class="main-page px-8 pt-20">
+  <div class="flex justify-end mb-10">
+    <button (click)="add.emit()" class="bg-blue-primary rounded-md text-white px-6 py-2">
+      {{ t('add' + title[0].toUpperCase() + title.slice(1)) }}
+    </button>
+  </div>
+  <section class="main-section py-6">
+    <h1 class="text-2xl font-normal capitalize mx-6 mt-0">{{ t(title + 'List') }}</h1>
+    <table [columns]="columns" class="w-full" tuiTable>
+      <thead>
+        <tr tuiThGroup>
+          <th *tuiHead="'name'" tuiTh>{{ t('name') }}</th>
+          <th *tuiHead="'adder'" tuiTh>{{ t('adder') }}</th>
+          <th *tuiHead="'description'" tuiTh>{{ t('description') }}</th>
+          <ng-container *ngIf="columns.includes('address')">
+            <th *tuiHead="'address'" tuiTh>{{ t('address') }}</th>
+          </ng-container>
+          <ng-container *ngIf="columns.includes('numberOfRoom')">
+            <th *tuiHead="'numberOfRoom'" tuiTh>{{ t('numberOfRoom') }}</th>
+          </ng-container>
+          <ng-container *ngIf="columns.includes('office')">
+            <th *tuiHead="'office'" tuiTh>{{ t('office') }}</th>
+          </ng-container>
+          <th *tuiHead="'action'" [sorter]="null" tuiTh>{{ t('action') }}</th>
+        </tr>
+      </thead>
+      <tbody [data]="dataPerPage" tuiTbody>
+        <tr *tuiRow="let item of dataPerPage; index as index" tuiTr>
+          <td *tuiCell="'name'" tuiTd>
+            {{ item.name }}
+          </td>
+          <td *tuiCell="'adder'" tuiTd>
+            {{ item.adder }}
+          </td>
+          <td *tuiCell="'description'" tuiTd>
+            {{ item.description }}
+          </td>
+          <ng-container *ngIf="columns.includes('address')">
+            <td *tuiCell="'address'" tuiTd>
+              {{ item.address }}
+            </td>
+          </ng-container>
+          <ng-container *ngIf="columns.includes('numberOfRoom')">
+            <td *tuiCell="'numberOfRoom'" tuiTd>
+              {{ item.numberOfRoom }}
+            </td>
+          </ng-container>
+          <ng-container *ngIf="columns.includes('office')">
+            <td *tuiCell="'office'" tuiTd>
+              {{ item.office?.name }}
+            </td>
+          </ng-container>
+          <td *tuiCell="'action'" tuiTd>
+            <div class="flex text-gray-400">
+              <button (click)="edit.emit(index + page * size)">
+                <tui-svg src="tuiIconEdit"></tui-svg>
+              </button>
+              <button (click)="remove.emit(index + page * size)">
+                <tui-svg src="tuiIconTrash"></tui-svg>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td [colSpan]="columns.length" class="px-5 py-3">
+            <tui-table-pagination [(page)]="page" [(size)]="size" [total]="data.length"></tui-table-pagination>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+  </section>
+</main>

@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
-import { TranslocoModule } from '@ngneat/transloco';
-import { FormlyModule } from '@ngx-formly/core';
+import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
+import { FORMLY_CONFIG, FormlyModule } from '@ngx-formly/core';
 import { iconsPathFactory, TUI_ICONS_PATH, TUI_SANITIZER, TuiDialogModule } from '@taiga-ui/core';
 import { NgDompurifySanitizer } from '@tinkoff/ng-dompurify';
 import { CookieModule } from 'ngx-cookie';
@@ -11,6 +11,7 @@ import { apiPrefixInterceptorProvider } from './interceptors';
 import { AppConfig } from './models';
 import { httpLoader } from './transloco/http-loader';
 import { translocoConfigProvider } from './transloco/transloco-config';
+import { registerTranslateExtension } from './extensions/formly-register-translate-extension';
 
 @NgModule({
   imports: [
@@ -27,6 +28,7 @@ import { translocoConfigProvider } from './transloco/transloco-config';
     apiPrefixInterceptorProvider,
     { provide: TUI_ICONS_PATH, useValue: iconsPathFactory('assets/taiga-ui/icons/') },
     { provide: TUI_SANITIZER, useClass: NgDompurifySanitizer },
+    { provide: FORMLY_CONFIG, multi: true, useFactory: registerTranslateExtension, deps: [TranslocoService] },
   ],
 })
 export class CoreModule {

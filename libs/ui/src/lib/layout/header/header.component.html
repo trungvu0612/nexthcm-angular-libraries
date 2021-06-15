@@ -1,35 +1,37 @@
-<header *transloco="let t" class="flex justify-between">
-  <tui-tabs [(activeItemIndex)]="activeItemIndex" class="flex items-center ml-6">
-    <button (click)="changeTab(index)" *ngFor="let tab of tabs; index as index" tuiTab>{{ t(tab) }}</button>
-  </tui-tabs>
-  <div class="flex items-center border-l h-full">
-    <tui-hosted-dropdown [(open)]="open" [content]="langsDropdown" class="mx-6">
-      <button [iconRight]="icon" appearance="flat" tuiButton type="button">
-        <tui-svg src="assets/icons/languages.svg"></tui-svg>
-      </button>
-    </tui-hosted-dropdown>
-    <div class="notification">
-      <tui-svg class="bell" src="tuiIconBellLarge"></tui-svg>
-      <div *ngIf="notification" class="badge">{{ notification }}</div>
+<ng-container *transloco="let t">
+  <header class="flex justify-between">
+    <tui-tabs [(activeItemIndex)]="activeItemIndex" class="flex items-center ml-6">
+      <button (click)="changeTab(index)" *ngFor="let tab of tabs; index as index" tuiTab>{{ t(tab) }}</button>
+    </tui-tabs>
+    <div class="flex items-center border-l h-full">
+      <tui-hosted-dropdown [(open)]="open" [content]="langsDropdown" class="mx-6">
+        <button [iconRight]="icon" appearance="flat" tuiButton type="button">
+          <tui-svg src="assets/icons/languages.svg"></tui-svg>
+        </button>
+      </tui-hosted-dropdown>
+      <div class="notification">
+        <tui-svg class="bell" src="tuiIconBellLarge"></tui-svg>
+        <div *ngIf="notification" class="badge">{{ notification }}</div>
+      </div>
+      <tui-hosted-dropdown [content]="avatarDropdown" class="mx-8">
+        <tui-avatar [rounded]="true" avatarUrl="assets/icons/cake.svg" class="cursor-pointer" size="s"></tui-avatar>
+      </tui-hosted-dropdown>
     </div>
-    <tui-hosted-dropdown [content]="avatarDropdown" class="mx-8">
-      <tui-avatar [rounded]="true" avatarUrl="assets/icons/cake.svg" class="cursor-pointer" size="s"></tui-avatar>
-    </tui-hosted-dropdown>
-  </div>
-</header>
+  </header>
 
-<ng-template #icon>
-  <tui-svg [class.icon_rotated]="open" class="icon" src="tuiIconChevronDown"></tui-svg>
-</ng-template>
-<ng-template #langsDropdown>
-  <tui-data-list>
-    <button (click)="changeLang(lang)" *ngFor="let lang of langs" class="font-normal" tuiOption>
-      {{ lang }}
-    </button>
-  </tui-data-list>
-</ng-template>
-<ng-template #avatarDropdown>
-  <tui-data-list>
-    <button (click)="logout()" class="font-normal" tuiOption>Sign out</button>
-  </tui-data-list>
-</ng-template>
+  <ng-template #icon>
+    <tui-svg [class.icon_rotated]="open" class="icon" src="tuiIconChevronDown"></tui-svg>
+  </ng-template>
+  <ng-template #langsDropdown>
+    <tui-data-list>
+      <button (click)="changeLang(lang)" *ngFor="let lang of langs" class="font-normal" tuiOption>
+        {{ lang }}
+      </button>
+    </tui-data-list>
+  </ng-template>
+  <ng-template #avatarDropdown>
+    <tui-data-list>
+      <button (click)="logout()" class="font-normal" tuiOption>{{ t('signOut') }}</button>
+    </tui-data-list>
+  </ng-template>
+</ng-container>

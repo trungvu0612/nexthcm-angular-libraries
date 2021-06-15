@@ -15,7 +15,13 @@
     "default": {
       "runner": "@nrwl/workspace/tasks-runners/default",
       "options": {
-        "cacheableOperations": ["build", "lint", "test", "e2e", "stylelint"]
+        "cacheableOperations": [
+          "build",
+          "lint",
+          "test",
+          "e2e",
+          "stylelint"
+        ]
       }
     }
   },
@@ -25,7 +31,9 @@
     },
     "hcm-web-e2e": {
       "tags": [],
-      "implicitDependencies": ["hcm-web"]
+      "implicitDependencies": [
+        "hcm-web"
+      ]
     },
     "core": {
       "tags": []
@@ -77,12 +85,20 @@
     },
     "hcm-processes-e2e": {
       "tags": [],
-      "implicitDependencies": ["hcm-processes"]
+      "implicitDependencies": [
+        "hcm-processes"
+      ]
     },
     "admin-processes": {
       "tags": []
     },
     "admin-branches": {
+      "tags": []
+    },
+    "admin-offices": {
+      "tags": []
+    },
+    "admin-permissions": {
       "tags": []
     }
   }

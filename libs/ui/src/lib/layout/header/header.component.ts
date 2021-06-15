@@ -5,9 +5,9 @@ import { TranslocoService } from '@ngneat/transloco';
 import { TuiHostedDropdownComponent } from '@taiga-ui/core';
 
 const PATHS: { [key: string]: string[] } = {
-  'help-desk': ['seat-map', 'bv-calendar'],
+  'help-desk': ['seatMap', 'bvCalendar'],
   'human-resource': ['chart', 'teams', 'employees'],
-  'my-time': ['leave', 'working-hour', 'request'],
+  'my-time': ['leave', 'workingHour', 'request'],
   policy: ['policies', 'updated'],
 };
 
@@ -39,7 +39,7 @@ export class HeaderComponent implements OnInit {
   }
 
   changeTab(index: number): void {
-    this.urlSegments[2] = PATHS[this.urlSegments[1]][index];
+    this.urlSegments[2] = PATHS[this.urlSegments[1]][index].replace(/[A-Z]/, (m) => '-' + m.toLowerCase());
     this.router.navigate(this.urlSegments.slice(0, 3));
   }
 

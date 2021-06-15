@@ -147,9 +147,23 @@ export class CreateMapDialogComponent implements AfterViewInit {
     } else return { positionX: 0, positionY: 0 };
   }
 
+  updateFactor(): void {
+    this.factor = {
+      width: this.zone.nativeElement.offsetWidth / 100,
+      height: this.zone.nativeElement.offsetHeight / 100,
+      rounded: 1,
+    };
+  }
+
   ngAfterViewInit(): void {
     this.updateFactor();
-    this.zoomControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe(() => (this.keepFocus = true));
+    this.zoomControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe(() => {
+      this.keepFocus = true;
+      this.updateFactor();
+      keys.forEach((key) => {
+        this.form.controls[key].patchValue(this.dimension[key] * this.factor[key], { emitEvent: false });
+      });
+    });
 
     this.form.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((value) => {
       this.columns = Array.from({ length: value.columns }, (_, index) => this.columns[index] || 50);
@@ -269,14 +283,6 @@ export class CreateMapDialogComponent implements AfterViewInit {
     }
   }
 
-  updateFactor(): void {
-    this.factor = {
-      width: this.zone.nativeElement.offsetWidth / 100,
-      height: this.zone.nativeElement.offsetHeight / 100,
-      rounded: 1,
-    };
-  }
-
   getRounded(rounded: number | undefined): number {
     if (rounded === undefined) return this.dimension.rounded;
     else return rounded;
@@ -315,7 +321,6 @@ export class CreateMapDialogComponent implements AfterViewInit {
       const height = (this.currentSeat.height || this.dimension.height) * this.factor.height;
       const rounded = this.currentSeat.rounded !== undefined ? this.currentSeat.rounded : this.model.rounded;
       this.seatModel = { width, height, rounded };
-      this.seatForm.setValue(this.seatModel, { emitEvent: false });
     }
   }
 
@@ -354,28 +359,6 @@ export class CreateMapDialogComponent implements AfterViewInit {
   }
 
   submit(): void {
-    this.seatMap.push(this.seats);
-    console.log(this.dimension, this.model.rounded, (this.seatMap as any).flat());
-    // this.context.completeWith({
-    //   width: this.dimension.width,
-    //   height: this.dimension.height,
-    //   rounded: this.model.rounded,
-    //   seats: (this.seatMap as any)
-    //     .flat()
-    //     .filter((seat: StyleSeat) => seat.isSeat)
-    //     .map(({ positionX, positionY, width, height }: StyleSeat) =>
-    //       !width || !height || (width === this.dimension.width && height === this.dimension.height)
-    //         ? {
-    //             positionX,
-    //             positionY,
-    //           }
-    //         : {
-    //             positionX,
-    //             positionY,
-    //             width,
-    //             height,
-    //           }
-    //     ),
-    // });
+    console.log();
   }
 }
