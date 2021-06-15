@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Injector, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Injector } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
@@ -14,7 +14,7 @@ import { ProcessesService } from '../../services/processes.service';
   styleUrls: ['./processes-management.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProcessesManagementComponent implements OnInit {
+export class ProcessesManagementComponent {
   configuration: Config = {
     ...DefaultConfig,
     checkboxes: true,
@@ -39,16 +39,14 @@ export class ProcessesManagementComponent implements OnInit {
     private processesService: ProcessesService
   ) {}
 
-  ngOnInit(): void {}
-
   onCreateProcess(): void {
     this.dialogService
       .open<Workflow>(new PolymorpheusComponent(CreateProcessDialogComponent, this.injector), {
         label: 'Create new process',
       })
-      .pipe(switchMap((data) => this.processesService.createProcess(data)))
-      .subscribe((data) => {
-        this.router.navigate([1, 'edit'], { relativeTo: this.activatedRoute });
+      .pipe(switchMap((data) => this.processesService.initProcess(data)))
+      .subscribe((res) => {
+        this.router.navigate([res.data.processId, 'edit'], { relativeTo: this.activatedRoute });
       });
   }
 }

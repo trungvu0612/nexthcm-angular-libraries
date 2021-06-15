@@ -1,12 +1,10 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import { RxState } from '@rx-angular/state';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { Workflow } from '../../models/workflow';
 import { ProcessesService } from '../../services/processes.service';
-import { GLOBAL_STATUS_TYPES_RX_STATE, GlobalStatusTypesState } from '../../state/status-types';
 
 @Component({
   selector: 'hcm-create-process-dialog',
@@ -15,12 +13,12 @@ import { GLOBAL_STATUS_TYPES_RX_STATE, GlobalStatusTypesState } from '../../stat
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CreateProcessDialogComponent {
-  readonly statusTypes$ = this.globalStatusTypesState.select('statusTypes');
+  readonly statusTypes$ = this.processesService.select('statusTypes');
   form: FormGroup<Workflow> = this.fb.group({});
   fields: FormlyFieldConfig[] = [
     {
       className: 'tui-form__row block',
-      key: 'process.name',
+      key: 'processName',
       type: 'input',
       templateOptions: {
         required: true,
@@ -31,7 +29,7 @@ export class CreateProcessDialogComponent {
     },
     {
       className: 'tui-form__row block',
-      key: 'process.description',
+      key: 'processDescription',
       type: 'input',
       templateOptions: {
         translate: true,
@@ -41,7 +39,7 @@ export class CreateProcessDialogComponent {
     },
     {
       className: 'tui-form__row block',
-      key: 'state[0].name',
+      key: 'stateName',
       type: 'input',
       templateOptions: {
         translate: true,
@@ -52,7 +50,7 @@ export class CreateProcessDialogComponent {
     },
     {
       className: 'tui-form__row block',
-      key: 'state[0].description',
+      key: 'stateDescription',
       type: 'input',
       templateOptions: {
         translate: true,
@@ -62,7 +60,7 @@ export class CreateProcessDialogComponent {
     },
     {
       className: 'tui-form__row block',
-      key: 'state[0].stateTypeId',
+      key: 'stateTypeId',
       type: 'select',
       templateOptions: {
         translate: true,
@@ -79,8 +77,7 @@ export class CreateProcessDialogComponent {
   constructor(
     private fb: FormBuilder,
     @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<unknown, Workflow>,
-    private processesService: ProcessesService,
-    @Inject(GLOBAL_STATUS_TYPES_RX_STATE) private globalStatusTypesState: RxState<GlobalStatusTypesState>
+    private processesService: ProcessesService
   ) {}
 
   onCancel(): void {

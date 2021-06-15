@@ -5,7 +5,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { LayoutComponent, LayoutModule } from '@nexthcm/ui';
 import { WorkflowEditorModule } from '@nexthcm/workflow-editor';
 import { FormlyModule } from '@ngx-formly/core';
-import { RxState } from '@rx-angular/state';
 import { TuiTablePaginationModule } from '@taiga-ui/addon-table';
 import { TuiButtonModule } from '@taiga-ui/core';
 import { TuiIslandModule } from '@taiga-ui/kit';
@@ -16,7 +15,7 @@ import { UpsertStatusDialogComponent } from './components/upsert-status-dialog/u
 import { UpsertTransitionDialogComponent } from './components/upsert-transition-dialog/upsert-transition-dialog.component';
 import { ProcessesManagementComponent } from './pages/processes-management/processes-management.component';
 import { UpsertProcessComponent } from './pages/upsert-process/upsert-process.component';
-import { GLOBAL_STATUS_TYPES_RX_STATE, GlobalStatusTypesState } from './state/status-types';
+import { ProcessesService } from './services/processes.service';
 
 export const adminProcessesRoutes: Routes = [
   {
@@ -56,6 +55,6 @@ export const adminProcessesRoutes: Routes = [
     ProcessesManagementComponent,
     CreateProcessDialogComponent,
   ],
-  providers: [{ provide: GLOBAL_STATUS_TYPES_RX_STATE, useFactory: () => new RxState<GlobalStatusTypesState>() }],
+  providers: [ProcessesService],
 })
 export class AdminProcessesModule {}

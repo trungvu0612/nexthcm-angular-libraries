@@ -7,7 +7,6 @@ import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { v4 as uuidv4 } from 'uuid';
 import { State } from '../../models/workflow';
 import { ProcessesService } from '../../services/processes.service';
-import { GLOBAL_STATUS_TYPES_RX_STATE, GlobalStatusTypesState } from '../../state/status-types';
 
 @Component({
   selector: 'hcm-upsert-status-dialog',
@@ -16,7 +15,7 @@ import { GLOBAL_STATUS_TYPES_RX_STATE, GlobalStatusTypesState } from '../../stat
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UpsertStatusDialogComponent implements OnInit {
-  readonly statusTypes$ = this.globalStatusTypesState.select('statusTypes');
+  readonly statusTypes$ = this.processesService.select('statusTypes');
   form: FormGroup<State> = this.fb.group({} as State);
   fields: FormlyFieldConfig[] = [
     { key: 'stateValueId' },
@@ -63,7 +62,6 @@ export class UpsertStatusDialogComponent implements OnInit {
     private fb: FormBuilder,
     @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<State, State>,
     private processesService: ProcessesService,
-    @Inject(GLOBAL_STATUS_TYPES_RX_STATE) private globalStatusTypesState: RxState<GlobalStatusTypesState>
   ) {}
 
   get data(): State {
