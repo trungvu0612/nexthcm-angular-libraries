@@ -1,3 +1,28 @@
 :host {
   display: block;
+
+  ::ng-deep {
+    .header_open {
+      font-weight: bold!important;
+    }
+    tui-accordion {
+      width: 250px !important;
+      margin-right: 20px;
+      margin-top: 10px;
+
+      .title {
+        font-style: normal;
+        font-size: 15px;
+        line-height: 18px;
+        color: #333333;
+      }
+    }
+
+    .sub-menu {
+      li {
+        margin-bottom: 10px;
+      }
+    }
+  }
+
 }

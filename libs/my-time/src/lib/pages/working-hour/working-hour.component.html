@@ -1,102 +1,103 @@
 <div class="page-container">
   <div class="heading-title">Working Hour</div>
-  <div class="grid grid-cols-1 md:grid-cols-2 my-10 text-base gap-6 working-time">
-    <div *ngIf="workingMeStatus" class="working-section relative">
-      <div class="shadow-tmp"></div>
-      <div class="grid md:grid-cols-2 text-white text-center bg-purple-700 pt-5 pl-5 pr-5 pb-2 rounded-t-lg">
-        <div>
-          <img class="mx-auto" src="assets/images/finger-white.png"/>
+  <form (ngSubmit)="onSearch()" [formGroup]="$any(searchForm)" class="object-form-container">
+    <div class="grid grid-cols-1 md:grid-cols-2 my-10 text-base gap-6 working-time">
+      <div *ngIf="workingMeStatus" class="working-section relative">
+        <div class="shadow-tmp"></div>
+        <div class="grid md:grid-cols-2 text-white text-center bg-purple-700 pt-5 pl-5 pr-5 pb-2 rounded-t-lg">
+          <div>
+            <img class="mx-auto" src="assets/images/finger-white.png"/>
+          </div>
+          <div>
+            <div class="font-bold text-xl mb-5">Worked time yesterday</div>
+            <div class="mb-3 font-bold text-3xl">05:00</div>
+            <div class="mb-5 text-base"><img class="inline mr-1" src="assets/images/map-pin.png"/>Copac Square</div>
+          </div>
         </div>
-        <div>
-          <div class="font-bold text-xl mb-5">Worked time yesterday</div>
-          <div class="mb-3 font-bold text-3xl">05:00</div>
-          <div class="mb-5 text-base"><img class="inline mr-1" src="assets/images/map-pin.png"/>Copac Square</div>
+        <div class="grid md:grid-cols-2 text-white text-center bg-purple-700 pt-5 pl-5 pr-5 pb-2 rounded-b-lg">
+          <div class="text-base">
+            <div>Time in</div>
+            <div class="my-3">07:13</div>
+          </div>
+          <div class="border-time text-base">
+            <div>Time out</div>
+            <div class="my-3">09:13</div>
+          </div>
         </div>
       </div>
-      <div class="grid md:grid-cols-2 text-white text-center bg-purple-700 pt-5 pl-5 pr-5 pb-2 rounded-b-lg">
-        <div class="text-base">
-          <div>Time in</div>
-          <div class="my-3">07:13</div>
+      <div *ngIf="!workingMeStatus" class="working-section bg-purple-700 relative">
+        <div class="text-center font-bold text-xl text-white mt-2 mb-2">Worked time yesterday</div>
+        <div class="shadow-tmp"></div>
+        <div class="grid md:grid-cols-2 text-white text-center pt-5 pl-5 pr-5 rounded-t-lg">
+          <div>
+            <div class="mb-3 font-bold text-3xl">02:00</div>
+            <div class="mb-5 text-base"><img class="inline mr-1" src="assets/images/map-pin.png"/>RVC</div>
+            <div class="my-3">07:13 - 09:00</div>
+          </div>
+          <div class="border-time">
+            <div class="mb-3 font-bold text-3xl">05:00</div>
+            <div class="mb-5 text-base"><img class="inline mr-1" src="assets/images/map-pin.png"/>Copac Square</div>
+            <div class="my-3">09:30 - 17:00</div>
+          </div>
         </div>
-        <div class="border-time text-base">
-          <div>Time out</div>
-          <div class="my-3">09:13</div>
+        <div class="text-center text-yellow-500 text-6xl mb-2">07:13</div>
+      </div>
+      <div class="text-center shadow-md bg-white rounded-lg grid">
+        <div class="heading-title mt-4">Your working days this month</div>
+        <div class="finger-section">
+          <span class="text-8xl text-blue-500 font-bold">11.5</span>
+          <span class="text-3xl text-gray-400 font-bold">/12</span>
+        </div>
+        <div class="grid grid-cols-2 my-5 text-base">
+          <div class="text-center">
+            <button
+              (click)="requestOT()"
+              class="rounded-lg bg-blue-500 hover:bg-blue-600 text-white pl-10 pr-10 pt-2 pb-2 text-sm"
+            >
+              Request OT
+            </button>
+          </div>
+          <div class="text-center">
+            <button
+              (click)="workingOutsite()"
+              class="rounded-lg bg-blue-500 hover:bg-blue-600 text-white pl-10 pr-10 pt-2 pb-2 text-sm"
+            >
+              Request Working Outside
+            </button>
+          </div>
         </div>
       </div>
     </div>
-    <div *ngIf="!workingMeStatus" class="working-section bg-purple-700 relative">
-      <div class="text-center font-bold text-xl text-white mt-2 mb-2">Worked time yesterday</div>
-      <div class="shadow-tmp"></div>
-      <div class="grid md:grid-cols-2 text-white text-center pt-5 pl-5 pr-5 rounded-t-lg">
-        <div>
-          <div class="mb-3 font-bold text-3xl">02:00</div>
-          <div class="mb-5 text-base"><img class="inline mr-1" src="assets/images/map-pin.png"/>RVC</div>
-          <div class="my-3">07:13 - 09:00</div>
-        </div>
-        <div class="border-time">
-          <div class="mb-3 font-bold text-3xl">05:00</div>
-          <div class="mb-5 text-base"><img class="inline mr-1" src="assets/images/map-pin.png"/>Copac Square</div>
-          <div class="my-3">09:30 - 17:00</div>
-        </div>
-      </div>
-      <div class="text-center text-yellow-500 text-6xl mb-2">07:13</div>
-    </div>
-    <div class="text-center shadow-md bg-white rounded-lg grid">
-      <div class="heading-title mt-4">Your working days this month</div>
-      <div class="finger-section">
-        <span class="text-8xl text-blue-500 font-bold">11.5</span>
-        <span class="text-3xl text-gray-400 font-bold">/12</span>
-      </div>
-      <div class="grid grid-cols-2 my-5 text-base">
-        <div class="text-center">
-          <button
-            (click)="requestOT()"
-            class="rounded-lg bg-blue-500 hover:bg-blue-600 text-white pl-10 pr-10 pt-2 pb-2 text-sm"
-          >
-            Request OT
-          </button>
-        </div>
-        <div class="text-center">
-          <button
-            (click)="workingOutsite()"
-            class="rounded-lg bg-blue-500 hover:bg-blue-600 text-white pl-10 pr-10 pt-2 pb-2 text-sm"
-          >
-            Request Working Outside
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
 
-  <div class="working-data">
-    <div class="grid grid-cols-2 text-base gap-1">
-      <div>
-        <div class="text-left inline mr-10">
-          <select class="year-filter appearance-none">
-            <option>2021</option>
-            <option>2021</option>
-          </select>
+    <div class="working-data">
+      <div class="grid grid-cols-2 text-base gap-1">
+        <div>
+          <div class="text-left inline mr-10">
+            <select class="year-filter appearance-none">
+              <option>2021</option>
+              <option>2021</option>
+            </select>
+          </div>
+          <div class="text-left inline mr-10">
+            <select class="month-filter appearance-none">
+              <option>November</option>
+              <option>September</option>
+            </select>
+          </div>
+          <div class="text-left inline mr-10">
+            <select class="week-filter appearance-none">
+              <option>Week 1</option>
+              <option>Week 2</option>
+            </select>
+          </div>
         </div>
-        <div class="text-left inline mr-10">
-          <select class="month-filter appearance-none">
-            <option>November</option>
-            <option>September</option>
-          </select>
-        </div>
-        <div class="text-left inline mr-10">
-          <select class="week-filter appearance-none">
-            <option>Week 1</option>
-            <option>Week 2</option>
-          </select>
-        </div>
-      </div>
 
-      <div>
-        <div class="col-span-2 filter-search">
-          <button
-            (click)="workingStatus('all')"
-            [class.actived]="!workingMeStatus"
-            class="
+        <div>
+          <div class="col-span-2 filter-search">
+            <button
+              (click)="workingStatus('all')"
+              [class.actived]="!workingMeStatus"
+              class="
               focus:outline-none
               hover:bg-blue-500
               hover:text-white
@@ -110,13 +111,13 @@
               inline
               mr-4
             "
-          >
-            Everyone
-          </button>
-          <button
-            (click)="workingStatus('me')"
-            [class.actived]="workingMeStatus"
-            class="
+            >
+              Everyone
+            </button>
+            <button
+              (click)="workingStatus('me')"
+              [class.actived]="workingMeStatus"
+              class="
               focus:outline-none
               hover:bg-blue-500
               hover:text-white
@@ -129,18 +130,18 @@
               pb-1
               inline
             "
-          >
-            Only me
-          </button>
+            >
+              Only me
+            </button>
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="my-3">
-      <input
-        type="text"
-        placeholder="Search by CIF, Full Name, Office"
-        class="
+      <div class="my-3">
+        <input
+          type="text"
+          placeholder="Search by CIF, Full Name, Office"
+          class="
           searchbar
           px-3
           py-3
@@ -156,82 +157,121 @@
           focus:ring
           w-full
         "
-      />
-    </div>
+        />
+      </div>
 
-    <div class="flex flex-col shadow-md bg-white">
-      <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-        <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-          <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-            <table class="min-w-full divide-y divide-gray-200">
-              <thead class="bg-gray-50">
-              <tr>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider" scope="col">CIF</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider" scope="col">
-                  Full Name
-                </th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider" scope="col">
-                  Office
-                </th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider" scope="col">Date</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider" scope="col">Day</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider" scope="col">
-                  Time In
-                </th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider" scope="col">
-                  Time Out
-                </th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider" scope="col">
-                  Total Working
-                  <Time></Time>
-                </th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider" scope="col">
-                  Working Day
-                </th>
-              </tr>
-              </thead>
-              <tbody class="bg-white divide-y divide-gray-200">
-              <tr>
-                <td class="px-6 py-4 whitespace-nowrap">1203001</td>
-                <td class="px-6 py-4 whitespace-nowrap font-medium">NGUYEN VU HOANG CUONG</td>
-                <td class="px-6 py-4 whitespace-nowrap">RVC</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">10/26/2020</td>
-                <td class="px-6 py-4 whitespace-nowrap text-right text-sm">Monday</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">07:13</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">19:00</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">11:00</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">1</td>
-              </tr>
+      <div class="flex flex-col shadow-md bg-white">
+        <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+          <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+            <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
 
-              <tr>
-                <td class="px-6 py-4 whitespace-nowrap">1203001</td>
-                <td class="px-6 py-4 whitespace-nowrap font-medium">NGUYEN VU HOANG CUONG</td>
-                <td class="px-6 py-4 whitespace-nowrap">RVC</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">10/26/2020</td>
-                <td class="px-6 py-4 whitespace-nowrap text-right text-sm">Monday</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">07:13</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">19:00</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">11:00</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">1</td>
-              </tr>
+              <div *ngIf="workingMeStatus" class="grid-rows-1">
+                <div class="grid-cols-12">
+                  <table [columns]="onlyme_columns" class="my-8 w-full" tuiTable>
+                    <thead>
+                    <tr tuiThGroup>
+                      <th *tuiHead="'office'" tuiTh>Office</th>
+                      <th *tuiHead="'date'" tuiTh>Date</th>
+                      <th *tuiHead="'day'" tuiTh>Day</th>
+                      <th *tuiHead="'timeIn'" tuiTh>Time In</th>
+                      <th *tuiHead="'timeOut'" tuiTh>Time Out</th>
+                      <th *tuiHead="'totalWorkingTime'" tuiTh>Total Working Time (h)</th>
+                      <th *tuiHead="'workingDay'" tuiTh>Working Day</th>
+                      <th *tuiHead="'ot'" tuiTh>OT</th>
+                      <th *tuiHead="'onsiteDay'" tuiTh>Onsite Day</th>
+                      <th *tuiHead="'leave'" tuiTh>Leave</th>
+                      <th *tuiHead="'action'" class="w-32" tuiTh>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody [data]="WorkingHourDataOnlyMe" tuiTbody>
+                    <tr *tuiRow="let req of WorkingHourDataOnlyMe; let index = index" tuiTr>
+                      <td *tuiCell="'office'" tuiTd>{{ req.office }}</td>
+                      <td *tuiCell="'date'" tuiTd>{{ req.date }}</td>
+                      <td *tuiCell="'day'" tuiTd>{{ req.day }}</td>
+                      <td *tuiCell="'timeIn'" tuiTd>{{ req.timeIn }}</td>
+                      <td *tuiCell="'timeOut'" tuiTd>{{ req.timeOut }}</td>
+                      <td *tuiCell="'totalWorkingTime'" tuiTd>{{ req.totalWorkingTime }}</td>
+                      <td *tuiCell="'workingDay'" tuiTd>{{ req.workingDay }}</td>
+                      <td *tuiCell="'ot'" tuiTd>{{ req.ot }}</td>
+                      <td *tuiCell="'onsiteDay'" tuiTd>{{ req.onsiteDay }}</td>
+                      <td *tuiCell="'leave'" tuiTd>{{ req.leave }}</td>
+                      <td *tuiCell="'action'" tuiTd>
+                        <button
+                          [icon]="'tuiIconEditLarge'"
+                          [routerLink]="['../edit/' + req.id]"
+                          [shape]="$any('rounded')"
+                          appearance="flat"
+                          size="s"
+                          tuiIconButton
+                        ></button>
+                      </td>
+                    </tr>
+                    </tbody>
+                  </table>
+                  <tui-table-pagination
+                    (pageChange)="onPage($event)"
+                    (sizeChange)="onSize($event)"
+                    [size]="size$"
+                    [total]="totalLength"
+                  ></tui-table-pagination>
+                  <p>Current page: {{ page$ | async }}</p>
+                </div>
+              </div>
 
-              <tr>
-                <td class="px-6 py-4 whitespace-nowrap">1203001</td>
-                <td class="px-6 py-4 whitespace-nowrap font-medium">NGUYEN VU HOANG CUONG</td>
-                <td class="px-6 py-4 whitespace-nowrap">RVC</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">10/26/2020</td>
-                <td class="px-6 py-4 whitespace-nowrap text-right text-sm">Monday</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">07:13</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">19:00</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">11:00</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">1</td>
-              </tr>
-              <!-- More people... -->
-              </tbody>
-            </table>
+              <div *ngIf="!workingMeStatus" class="grid-rows-1">
+                <div class="grid-cols-12">
+                  <table [columns]="everyone_columns" class="my-8 w-full" tuiTable>
+                    <thead>
+                    <tr tuiThGroup>
+                      <th *tuiHead="'cif'" tuiTh>CIF</th>
+                      <th *tuiHead="'fullName'" tuiTh>Full Name</th>
+                      <th *tuiHead="'office'" tuiTh>Office</th>
+                      <th *tuiHead="'date'" tuiTh>Date</th>
+                      <th *tuiHead="'day'" tuiTh>Day</th>
+                      <th *tuiHead="'timeIn'" tuiTh>Time In</th>
+                      <th *tuiHead="'timeOut'" tuiTh>Time Out</th>
+                      <th *tuiHead="'totalWorkingTime'" tuiTh>Total Working Time</th>
+                      <th *tuiHead="'workingDay'" tuiTh>Total Working Day</th>
+                      <th *tuiHead="'action'" class="w-32" tuiTh>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody [data]="WorkingHourData" tuiTbody>
+                    <tr *tuiRow="let req of WorkingHourData; let index = index" tuiTr>
+                      <td *tuiCell="'cif'" tuiTd>{{ req.cif }}</td>
+                      <td *tuiCell="'fullName'" tuiTd>{{ req?.fullName }}</td>
+                      <td *tuiCell="'office'" tuiTd>{{ req.office }}</td>
+                      <td *tuiCell="'date'" tuiTd>{{ req.date }}</td>
+                      <td *tuiCell="'day'" tuiTd>{{ req.day }}</td>
+                      <td *tuiCell="'timeIn'" tuiTd>{{ req.timeIn }}</td>
+                      <td *tuiCell="'timeOut'" tuiTd>{{ req.timeOut }}</td>
+                      <td *tuiCell="'totalWorkingTime'" tuiTd>{{ req.totalWorkingTime }}</td>
+                      <td *tuiCell="'workingDay'" tuiTd>{{ req.workingDay }}</td>
+                      <td *tuiCell="'action'" tuiTd>
+                        <button
+                          [icon]="'tuiIconEditLarge'"
+                          [routerLink]="['../edit/' + req.id]"
+                          [shape]="$any('rounded')"
+                          appearance="flat"
+                          size="s"
+                          tuiIconButton
+                        ></button>
+                      </td>
+                    </tr>
+                    </tbody>
+                  </table>
+                  <tui-table-pagination
+                    (pageChange)="onPage($event)"
+                    (sizeChange)="onSize($event)"
+                    [size]="size$"
+                    [total]="totalLength"
+                  ></tui-table-pagination>
+                  <p>Current page: {{ page$ | async }}</p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
+  </form>
 </div>

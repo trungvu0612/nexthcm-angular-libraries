@@ -20,6 +20,8 @@ module.exports = {
     '<rootDir>/apps/hcm-processes',
     '<rootDir>/libs/admin/processes',
     '<rootDir>/libs/admin/branches',
+    '<rootDir>/libs/tenant',
+    '<rootDir>/libs/admin/tenant',
     '<rootDir>/libs/admin/offices',
     '<rootDir>/libs/admin-permissions',
   ],
