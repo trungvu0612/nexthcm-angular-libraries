@@ -6,8 +6,8 @@ import { LayoutComponent, LayoutModule } from '@nexthcm/ui';
 import { WorkflowEditorModule } from '@nexthcm/workflow-editor';
 import { FormlyModule } from '@ngx-formly/core';
 import { TuiTablePaginationModule } from '@taiga-ui/addon-table';
-import { TuiButtonModule } from '@taiga-ui/core';
-import { TuiIslandModule } from '@taiga-ui/kit';
+import { TuiButtonModule, TuiLoaderModule } from '@taiga-ui/core';
+import { TuiCheckboxModule, TuiIslandModule } from '@taiga-ui/kit';
 import { TableModule } from 'ngx-easy-table';
 import { AdminProcessesComponent } from './admin-processes.component';
 import { CreateProcessDialogComponent } from './components/create-process-dialog/create-process-dialog.component';
@@ -16,6 +16,7 @@ import { UpsertTransitionDialogComponent } from './components/upsert-transition-
 import { ProcessesManagementComponent } from './pages/processes-management/processes-management.component';
 import { UpsertProcessComponent } from './pages/upsert-process/upsert-process.component';
 import { ProcessesService } from './services/processes.service';
+import { TuiLetModule } from '@taiga-ui/cdk';
 
 export const adminProcessesRoutes: Routes = [
   {
@@ -46,6 +47,9 @@ export const adminProcessesRoutes: Routes = [
     LayoutModule,
     TableModule,
     TuiTablePaginationModule,
+    TuiLetModule,
+    TuiLoaderModule,
+    TuiCheckboxModule,
   ],
   declarations: [
     AdminProcessesComponent,

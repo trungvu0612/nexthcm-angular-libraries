@@ -4,7 +4,81 @@
     Create a process
   </button>
 </section>
-<section>
-  <ngx-table [columns]="columns" [configuration]="configuration" [data]="data"></ngx-table>
-</section>
-<tui-table-pagination></tui-table-pagination>
+<tui-loader [overlay]="true" [showLoader]="!!(loading$ | async)">
+  <ngx-table
+    *tuiLet="data$ | async as data"
+    [columns]="columns"
+    [configuration]="configuration"
+    [data]="data || []"
+  >
+    <ng-template let-row>
+      <td>
+        <tui-checkbox
+          (ngModelChange)="rowSelected(row, $event)"
+          [ngModel]="selected.has(process(row).id)"
+          size="l"
+        ></tui-checkbox>
+      </td>
+      <td>{{ process(row).name }}</td>
+      <td>{{ program(row).programName }}</td>
+      <td>{{ program(row).startdate }}</td>
+      <td>{{ program(row).enddate }}</td>
+      <td>
+        <tui-tag
+          [class.active]="program(row).status"
+          [status]="customStatus"
+          [value]="(program(row).status ? 'PROMOTION.active' : 'PROMOTION.inactive') | transloco"
+          class="text-white status-tag"
+          size="l"
+        ></tui-tag>
+      </td>
+      <td>
+        <div class="flex items-center justify-center">
+          <button
+            *ngIf="!program(row).isAdmin && program(row).startDate >= now"
+            appearance="flat"
+            class="tui-space_right-3"
+            icon="tuiIconEditLarge"
+            routerLink="{{ '/promotions' + (isAdmin ? '/admin' : '') + '/edit/' + program(row).id }}"
+            size="m"
+            tuiIconButton
+            type="button"
+          ></button>
+          <button
+            appearance="flat"
+            class="tui-space_right-3"
+            icon="tuiIconShowLarge"
+            routerLink="{{ '/promotions' + (isAdmin ? '/admin' : '') + '/view/' + program(row).id }}"
+            size="m"
+            tuiIconButton
+            type="button"
+          ></button>
+          <button
+            (click)="showCopyDialog(program(row))"
+            appearance="flat"
+            class="tui-space_right-3"
+            icon="tuiIconCopyLarge"
+            size="m"
+            tuiIconButton
+            type="button"
+          ></button>
+          <button
+            (click)="onDeletePromotion(program(row).id)"
+            appearance="flat"
+            icon="tuiIconTrashLarge"
+            size="m"
+            tuiIconButton
+            type="button"
+          ></button>
+        </div>
+      </td>
+    </ng-template>
+
+  </ngx-table>
+</tui-loader>
+<tui-table-pagination
+  (pageChange)="onPage($event)"
+  (sizeChange)="onSize($event)"
+  [total]="(total$ | async) || 0"
+  class="tui-space_top-2"
+></tui-table-pagination>

@@ -46,6 +46,7 @@ export interface Transition {
 }
 
 export interface Workflow {
+  id?: string;
   process?: Process;
   states?: State[];
   transitions?: Transition[];
