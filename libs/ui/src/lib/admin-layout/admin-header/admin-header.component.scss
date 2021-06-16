@@ -1,3 +1,22 @@
 :host {
   display: block;
+  ::ng-deep tui-svg{
+    width: 5px;
+    margin-left:8px;
+  }
+  .notification {
+    top:-10px;
+    @apply relative cursor-pointer w-8 h-8;
+
+    .bell {
+      @apply absolute bottom-0 left-0;
+    }
+
+    .badge {
+      top: -16px;
+      right: -10px;
+      background-color: #eb3b5a;
+      @apply flex justify-center items-center absolute text-xs text-white font-semibold rounded-full w-5 h-5;
+    }
+  }
 }

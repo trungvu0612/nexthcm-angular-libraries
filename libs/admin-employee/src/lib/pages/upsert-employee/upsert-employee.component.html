@@ -1,0 +1,13 @@
+<ng-container *ngIf="!this.userId"><div class="text-xl font-bold text-blue-500 mb-5">Thêm mới nhân viên</div></ng-container>
+<ng-container *ngIf="this.userId"><div class="text-xl font-bold text-blue-500 mb-5">Cập nhật nhân viên</div></ng-container>
+
+  <formly-form
+    [fields]="fields"
+    [form]="form"
+    [model]="model"
+    [options]="options"
+    class="grid grid-cols-3 gap-4"
+  ></formly-form>
+<div class="my-10">
+  <button (click)="saveEmployee()" [disabled]="!form.valid" class="blue-button mt-5 mx-auto">Submit</button>
+</div>

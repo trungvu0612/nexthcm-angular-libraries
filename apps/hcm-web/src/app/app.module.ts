@@ -42,6 +42,10 @@ import { AppComponent } from './app.component';
             },
           ],
         },
+        {
+          path: 'admin/tenant',
+          loadChildren: () => import('@nexthcm/admin-tenant').then((m) => m.AdminTenantModule),
+        },
       ],
       { initialNavigation: 'enabled' }
     ),

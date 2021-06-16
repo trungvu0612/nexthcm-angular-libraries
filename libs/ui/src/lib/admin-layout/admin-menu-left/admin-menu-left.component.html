@@ -1,2 +1,69 @@
-<tui-svg class="mr-2" src="assets/images/menu-admin.svg"></tui-svg>
-<span class="text-base">Admin</span>
+<div class="mt-5 ml-5">
+  <tui-svg class="mr-2" src="assets/images/menu-admin.svg"></tui-svg>
+  <span class="text-base">Admin</span>
+  <tui-accordion class="container">
+    <tui-accordion-item>
+      Quản lý nhân viên
+      <ng-template tuiAccordionItemContent>
+        <ul class="sub-menu">
+          <li><a [routerLink]="''">Danh sách nhân viên</a></li>
+          <li><a [routerLink]="''">Thêm nhân viên</a></li>
+        </ul>
+      </ng-template>
+    </tui-accordion-item>
+    <tui-accordion-item>
+      Quản lý vai trò
+      <ng-template tuiAccordionItemContent>
+        <ul class="sub-menu">
+          <li><a [routerLink]="''">Danh sách vai trò</a></li>
+          <li><a [routerLink]="''">Thêm vai trò</a></li>
+        </ul>
+      </ng-template>
+    </tui-accordion-item>
+    <tui-accordion-item>
+      Quản lý quyền
+      <ng-template tuiAccordionItemContent>
+        <ul class="sub-menu">
+          <li><a [routerLink]="''">Danh sách quyền</a></li>
+          <li><a [routerLink]="''">Thêm quyền</a></li>
+        </ul>
+      </ng-template>
+    </tui-accordion-item>
+    <tui-accordion-item>
+      Quản lý chính sách
+      <ng-template tuiAccordionItemContent>
+        <ul class="sub-menu">
+          <li><a [routerLink]="''">Danh sách chính sách</a></li>
+          <li><a [routerLink]="''">Thêm chính sách</a></li>
+        </ul>
+      </ng-template>
+    </tui-accordion-item>
+    <tui-accordion-item>
+      Đơn nghỉ
+      <ng-template tuiAccordionItemContent>
+        <ul class="sub-menu">
+          <li><a [routerLink]="''">Quản lý đơn nghỉ</a></li>
+          <li><a [routerLink]="''">Quản lý loại đơn nghỉ</a></li>
+          <li><a [routerLink]="''">Quản lý quy trình nghỉ</a></li>
+        </ul>
+      </ng-template>
+    </tui-accordion-item>
+    <tui-accordion-item>
+      Quản lý thời gian làm việc
+      <ng-template tuiAccordionItemContent>
+        <ul class="sub-menu">
+          <li><a [routerLink]="''">Thời gian làm việc</a></li>
+        </ul>
+      </ng-template>
+    </tui-accordion-item>
+    <tui-accordion-item>
+      Quản lý chức vụ
+      <ng-template tuiAccordionItemContent>
+        <ul class="sub-menu">
+          <li><a [routerLink]="''">Danh sách chức vụ</a></li>
+          <li><a [routerLink]="''">Thêm chức vụ</a></li>
+        </ul>
+      </ng-template>
+    </tui-accordion-item>
+  </tui-accordion>
+</div>

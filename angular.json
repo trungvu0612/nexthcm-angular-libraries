@@ -1125,6 +1125,82 @@
           }
         }
       }
+    },
+    "tenant": {
+      "projectType": "library",
+      "root": "libs/tenant",
+      "sourceRoot": "libs/tenant/src",
+      "prefix": "hcm",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/angular:package",
+          "outputs": ["dist/libs/tenant"],
+          "options": {
+            "project": "libs/tenant/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "libs/tenant/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "libs/tenant/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/tenant"],
+          "options": {
+            "jestConfig": "libs/tenant/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/tenant/src/**/*.ts", "libs/tenant/src/**/*.html"]
+          }
+        }
+      }
+    },
+    "admin-tenant": {
+      "projectType": "library",
+      "root": "libs/admin/tenant",
+      "sourceRoot": "libs/admin/tenant/src",
+      "prefix": "hcm",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/angular:package",
+          "outputs": ["dist/libs/admin/tenant"],
+          "options": {
+            "project": "libs/admin/tenant/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "libs/admin/tenant/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "libs/admin/tenant/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/admin/tenant"],
+          "options": {
+            "jestConfig": "libs/admin/tenant/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/admin/tenant/src/**/*.ts", "libs/admin/tenant/src/**/*.html"]
+          }
+        }
+      }
     }
   }
 }
