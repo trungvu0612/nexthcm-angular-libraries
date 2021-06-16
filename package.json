@@ -41,7 +41,9 @@
     "publish:policy": "cd dist/libs/policy && yarn publish --non-interactive --ignore-scripts",
     "publish:ui": "cd dist/libs/ui && yarn publish --non-interactive --ignore-scripts",
     "publish:workflow-editor": "cd dist/libs/workflow-editor && yarn publish --non-interactive --ignore-scripts",
-    "publish:admin-processes": "cd dist/libs/admin/processes && yarn publish --non-interactive --ignore-scripts"
+    "publish:admin-processes": "cd dist/libs/admin/processes && yarn publish --non-interactive --ignore-scripts",
+    "publish:admin-employee": "cd dist/libs/admin-employee && yarn publish --non-interactive --ignore-scripts",
+    "publish:admin-tenant": "cd dist/libs/admin/tenant && yarn publish --non-interactive --ignore-scripts"
   },
   "private": true,
   "dependencies": {
