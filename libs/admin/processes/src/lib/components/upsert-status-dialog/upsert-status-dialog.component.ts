@@ -1,11 +1,10 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import { RxState } from '@rx-angular/state';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { v4 as uuidv4 } from 'uuid';
-import { State } from '../../models/workflow';
+import { State } from '../../models/process';
 import { ProcessesService } from '../../services/processes.service';
 
 @Component({

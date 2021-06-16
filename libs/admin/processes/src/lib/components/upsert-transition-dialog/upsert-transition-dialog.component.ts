@@ -4,7 +4,7 @@ import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { v4 as uuidv4 } from 'uuid';
-import { Transition } from '../../models/workflow';
+import { Transition } from '../../models/process';
 
 @Component({
   selector: 'hcm-upsert-transition-dialog',

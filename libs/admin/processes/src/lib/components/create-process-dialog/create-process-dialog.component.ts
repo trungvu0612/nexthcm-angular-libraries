@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
-import { Workflow } from '../../models/workflow';
+import { Process } from '../../models/process';
 import { ProcessesService } from '../../services/processes.service';
 
 @Component({
@@ -14,7 +14,7 @@ import { ProcessesService } from '../../services/processes.service';
 })
 export class CreateProcessDialogComponent {
   readonly statusTypes$ = this.processesService.select('statusTypes');
-  form: FormGroup<Workflow> = this.fb.group({});
+  form: FormGroup<Process> = this.fb.group({});
   fields: FormlyFieldConfig[] = [
     {
       className: 'tui-form__row block',
@@ -72,11 +72,11 @@ export class CreateProcessDialogComponent {
       },
     },
   ];
-  model: Workflow = {};
+  model: Process = {};
 
   constructor(
     private fb: FormBuilder,
-    @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<unknown, Workflow>,
+    @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<unknown, Process>,
     private processesService: ProcessesService
   ) {}
 

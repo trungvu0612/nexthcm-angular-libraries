@@ -1,9 +1,3 @@
-export interface Process {
-  name: string;
-  description: string;
-  template: string;
-}
-
 export interface State {
   stateValueId: string;
   name: string;
@@ -45,9 +39,11 @@ export interface Transition {
   description?: string;
 }
 
-export interface Workflow {
+export interface Process {
   id?: string;
-  process?: Process;
+  name?: string;
+  description?: string;
+  template?: string;
   states?: State[];
   transitions?: Transition[];
 }

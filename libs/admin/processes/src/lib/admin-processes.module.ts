@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { LayoutComponent, LayoutModule } from '@nexthcm/ui';
 import { WorkflowEditorModule } from '@nexthcm/workflow-editor';
@@ -50,6 +50,7 @@ export const adminProcessesRoutes: Routes = [
     TuiLetModule,
     TuiLoaderModule,
     TuiCheckboxModule,
+    FormsModule,
   ],
   declarations: [
     AdminProcessesComponent,

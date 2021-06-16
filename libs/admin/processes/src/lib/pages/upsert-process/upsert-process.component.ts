@@ -1,6 +1,6 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, Injector, ViewChild } from '@angular/core';
 import { TuiDialogService } from '@taiga-ui/core';
-import { State, Transition, Workflow } from '../../models/workflow';
+import { Process, State, Transition } from '../../models/process';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { UpsertStatusDialogComponent } from '../../components/upsert-status-dialog/upsert-status-dialog.component';
 import {
@@ -24,7 +24,7 @@ import { FormlyFieldConfig } from '@ngx-formly/core';
 export class UpsertProcessComponent implements AfterViewInit {
   @ViewChild('workflowEditor') workflowEditor!: WorkflowAPIDefinition;
 
-  form = new FormGroup<Workflow>({});
+  form = new FormGroup<Process>({});
   fields: FormlyFieldConfig[] = [
     {
       className: 'tui-text_h3 tui-form__header tui-form__header_margin-top_none block',
@@ -34,14 +34,14 @@ export class UpsertProcessComponent implements AfterViewInit {
     {
       className: 'mt-5 block',
       key: 'description',
-      type: 'text-area',
+      type: 'input',
       templateOptions: {
         translate: true,
         label: 'Description',
       },
     },
   ];
-  model: Workflow = {};
+  model: Process = {};
   addedStates: State[] = [];
   addedTransitions: Transition[] = [];
   selectedCell?: State | Transition;
