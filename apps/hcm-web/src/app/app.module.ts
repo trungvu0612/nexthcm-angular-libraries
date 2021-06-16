@@ -26,25 +26,20 @@ import { AppComponent } from './app.component';
         },
         { path: 'policy', loadChildren: () => import('@nexthcm/policy').then((m) => m.PolicyModule) },
         {
-          path: 'admin/employees',
-          loadChildren: () => import('@nexthcm/admin-employee').then((m) => m.AdminEmployeeModule),
-        },
-        {
           path: 'admin',
           children: [
-            {
-              path: 'offices',
-              loadChildren: () => import('@nexthcm/admin-offices').then((m) => m.AdminOfficesModule),
-            },
+            { path: '', loadChildren: () => import('@nexthcm/admin-tenant').then((m) => m.AdminTenantModule) },
+            { path: 'offices', loadChildren: () => import('@nexthcm/admin-offices').then((m) => m.AdminOfficesModule) },
             {
               path: 'permissions',
               loadChildren: () => import('@nexthcm/admin-permissions').then((m) => m.AdminPermissionsModule),
             },
+            {
+              path: 'employees',
+              loadChildren: () => import('@nexthcm/admin-employee').then((m) => m.AdminEmployeeModule),
+            },
+            { path: 'tenant', loadChildren: () => import('@nexthcm/admin-tenant').then((m) => m.AdminTenantModule) },
           ],
-        },
-        {
-          path: 'admin/tenant',
-          loadChildren: () => import('@nexthcm/admin-tenant').then((m) => m.AdminTenantModule),
         },
       ],
       { initialNavigation: 'enabled' }

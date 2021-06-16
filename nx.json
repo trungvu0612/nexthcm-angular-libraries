@@ -101,9 +101,6 @@
     "admin-permissions": {
       "tags": []
     },
-    "tenant": {
-      "tags": []
-    },
     "admin-tenant": {
       "tags": []
     }

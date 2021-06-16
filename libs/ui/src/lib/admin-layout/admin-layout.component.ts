@@ -6,11 +6,8 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
   styleUrls: ['./admin-layout.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AdminLayoutComponent implements OnInit {
+export class AdminLayoutComponent {
 
   constructor() { }
-
-  ngOnInit(): void {
-  }
 
 }
