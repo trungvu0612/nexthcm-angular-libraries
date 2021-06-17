@@ -1,0 +1,13 @@
+:host {
+  display: block;
+
+  ::ng-deep {
+    tui-select-option {
+      justify-content: space-between;
+
+      tui-svg {
+        margin-left: 0;
+      }
+    }
+  }
+}

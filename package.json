@@ -27,8 +27,12 @@
     "dep-graph": "nx dep-graph",
     "help": "nx help",
     "prepare": "husky install",
+    "publish:admin-employee": "cd dist/libs/admin-employee && yarn publish --non-interactive --ignore-scripts",
+    "publish:admin-offices": "cd dist/libs/admin/offices && yarn publish --non-interactive --ignore-scripts",
+    "publish:admin-permissions": "cd dist/libs/admin/permissions && yarn publish --non-interactive --ignore-scripts",
+    "publish:admin-processes": "cd dist/libs/admin/processes && yarn publish --non-interactive --ignore-scripts",
+    "publish:admin-tenant": "cd dist/libs/admin/tenant && yarn publish --non-interactive --ignore-scripts",
     "publish:auth": "cd dist/libs/auth && yarn publish --non-interactive --ignore-scripts",
-    "publish:admin-offices": "cd dist/libs/admin-offices && yarn publish --non-interactive --ignore-scripts",
     "publish:configurations": "cd dist/libs/configurations && yarn publish --non-interactive --ignore-scripts",
     "publish:core": "cd dist/libs/core && yarn publish --non-interactive --ignore-scripts",
     "publish:form": "cd dist/libs/form && yarn publish --non-interactive --ignore-scripts",
@@ -40,10 +44,7 @@
     "publish:payslip": "cd dist/libs/payslip && yarn publish --non-interactive --ignore-scripts",
     "publish:policy": "cd dist/libs/policy && yarn publish --non-interactive --ignore-scripts",
     "publish:ui": "cd dist/libs/ui && yarn publish --non-interactive --ignore-scripts",
-    "publish:workflow-editor": "cd dist/libs/workflow-editor && yarn publish --non-interactive --ignore-scripts",
-    "publish:admin-processes": "cd dist/libs/admin/processes && yarn publish --non-interactive --ignore-scripts",
-    "publish:admin-employee": "cd dist/libs/admin-employee && yarn publish --non-interactive --ignore-scripts",
-    "publish:admin-tenant": "cd dist/libs/admin/tenant && yarn publish --non-interactive --ignore-scripts"
+    "publish:workflow-editor": "cd dist/libs/workflow-editor && yarn publish --non-interactive --ignore-scripts"
   },
   "private": true,
   "dependencies": {

@@ -15,7 +15,6 @@ module.exports = {
     '<rootDir>/libs/ui',
     '<rootDir>/libs/home',
     '<rootDir>/libs/admin-employee',
-    '<rootDir>/libs/admin-offices',
     '<rootDir>/libs/workflow-editor',
     '<rootDir>/apps/hcm-processes',
     '<rootDir>/libs/admin/processes',
@@ -23,6 +22,6 @@ module.exports = {
     '<rootDir>/libs/tenant',
     '<rootDir>/libs/admin/tenant',
     '<rootDir>/libs/admin/offices',
-    '<rootDir>/libs/admin-permissions',
+    '<rootDir>/libs/admin/permissions',
   ],
 };

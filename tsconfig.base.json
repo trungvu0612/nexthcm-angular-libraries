@@ -29,13 +29,12 @@
       "@nexthcm/ui": ["libs/ui/src/index.ts"],
       "@nexthcm/home": ["libs/home/src/index.ts"],
       "@nexthcm/admin-employee": ["libs/admin-employee/src/index.ts"],
-      "@nexthcm/admin-offices": ["libs/admin-offices/src/index.ts"],
       "@nexthcm/workflow-editor": ["libs/workflow-editor/src/index.ts"],
       "@nexthcm/admin-processes": ["libs/admin/processes/src/index.ts"],
       "@nexthcm/admin-branches": ["libs/admin/branches/src/index.ts"],
       "@nexthcm/admin-tenant": ["libs/admin/tenant/src/index.ts"],
-      "@nexthcm/admin/offices": ["libs/admin-offices/src/index.ts"],
-      "@nexthcm/admin-permissions": ["libs/admin-permissions/src/index.ts"]
+      "@nexthcm/admin-offices": ["libs/admin/offices/src/index.ts"],
+      "@nexthcm/admin-permissions": ["libs/admin/permissions/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
