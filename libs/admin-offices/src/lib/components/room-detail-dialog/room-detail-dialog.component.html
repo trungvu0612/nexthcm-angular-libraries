@@ -20,8 +20,7 @@
         left: seat.positionX + '%',
         width: (seat.width || dimension.width) + '%',
         height: (seat.height || dimension.height) + '%',
-        'border-radius': getRounded(seat.rounded) + '%',
-        transform: 'translate3d(-50%, -50%, 0)'
+        'border-radius': getRounded(seat.rounded) + '%'
       }"
       cdkDrag
       cdkDragBoundary="article"
@@ -29,16 +28,27 @@
     >
       <img src="assets/icons/marker.svg" />
     </button>
-    <img (load)="updateFactor()" [src]="model.image" class="w-full" />
+    <img (load)="onImageLoad($event)" [src]="model.imageUrl | getFile | async" class="w-full" />
   </article>
   <form *ngIf="current !== -1" class="flex items-center fixed bottom-3 w-3/4 max-w-4xl">
     <formly-form
       [fields]="seatFields"
       [form]="seatForm"
       [model]="seatModel"
-      class="grid grid-cols-3 gap-x-6 flex-auto"
+      class="
+        bg-gradient-to-r
+        from-blue-300
+        via-green-300
+        to-purple-300
+        grid grid-cols-3
+        gap-x-6
+        flex-auto
+        rounded-xl
+        p-3
+      "
     ></formly-form>
     <button
+      type="button"
       (click)="onReset()"
       [disabled]="seats[current].width === undefined"
       class="bg-white border border-red-600 rounded text-red-600 h-6 ml-4 px-2"
@@ -46,8 +56,10 @@
       Reset
     </button>
   </form>
-  <div class="flex justify-center">
+  <div class="flex justify-end">
     <button (click)="cancel()" class="blue-button btn-custom btn-primary">{{ t('cancel') }}</button>
-    <button (click)="save()" [disabled]="!form.valid" class="blue-button ml-8">{{ t('save') }}</button>
+    <button (click)="save()" [disabled]="!form.valid || !model.imageUrl" class="blue-button ml-8">
+      {{ t('save') }}
+    </button>
   </div>
 </main>

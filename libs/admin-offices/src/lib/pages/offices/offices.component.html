@@ -2,7 +2,7 @@
   (add)="onAdd()"
   (edit)="onEdit($event)"
   (remove)="onRemove($event)"
-  [columns]="columns"
-  [data]="officesRequest"
-  [title]="'office'"
+  [columns]="['name', 'adder', 'description', 'address', 'numberOfRoom', 'action']"
+  [refresh$]="refresh$"
+  [type]="'office'"
 ></hcm-main-page>

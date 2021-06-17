@@ -1,10 +1,9 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@ngneat/reactive-forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import { TuiStepState } from '@taiga-ui/kit/enums/step-state';
 import { Permission, Service, ServiceInfo } from '../../models/permission';
 import { AdminPermissionsService } from '../../services/admin-permissions.service';
-import { validatorText } from '../../utils/validatiors';
+import { validatorTextPermission } from '../../utils/validatiors';
 
 @Component({
   selector: 'hcm-create-permission',
@@ -15,8 +14,6 @@ import { validatorText } from '../../utils/validatiors';
 export class CreatePermissionComponent implements OnInit {
   stepperIndex = 0;
   servicesInfo!: ServiceInfo[];
-  passTuiStepState = TuiStepState.Pass;
-  normalTuiStepState = TuiStepState.Normal;
   searchControl = new FormControl<string>('');
 
   servicesForm = new FormGroup<Partial<Permission>>({});
@@ -31,11 +28,12 @@ export class CreatePermissionComponent implements OnInit {
       key: 'name',
       templateOptions: {
         label: 'Name',
+        required: true,
         textfieldLabelOutside: true,
         textfieldSize: 'm',
       },
       validators: {
-        validation: [validatorText(128)],
+        validation: [validatorTextPermission(128)],
       },
     },
     {
@@ -49,7 +47,7 @@ export class CreatePermissionComponent implements OnInit {
         rows: 15,
       },
       validators: {
-        validation: [validatorText(1000)],
+        validation: [validatorTextPermission(1000)],
       },
     },
   ];

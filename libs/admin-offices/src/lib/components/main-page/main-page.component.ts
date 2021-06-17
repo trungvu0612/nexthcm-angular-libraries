@@ -1,5 +1,9 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
-import { SeatZone } from '../../models/offices';
+import { HttpParams } from '@angular/common/http';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { BehaviorSubject, merge, Observable, Subject } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
+import { Zone, ZoneData, ZoneType } from '../../models/offices';
+import { AdminOfficesService } from '../../services/admin-offices.service';
 
 @Component({
   selector: 'hcm-main-page',
@@ -7,17 +11,25 @@ import { SeatZone } from '../../models/offices';
   styleUrls: ['./main-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MainPageComponent {
-  @Input() title!: string;
+export class MainPageComponent implements OnInit {
   @Input() columns!: string[];
-  @Input() data!: Partial<SeatZone>[];
+  @Input() type!: ZoneType;
+  @Input() refresh$!: Subject<unknown>;
   @Output() add = new EventEmitter();
-  @Output() edit = new EventEmitter();
-  @Output() remove = new EventEmitter();
-  page = 0;
-  size = 10;
+  @Output() edit = new EventEmitter<Partial<Zone>>();
+  @Output() remove = new EventEmitter<Partial<Zone>>();
+  params$ = new BehaviorSubject<HttpParams>(new HttpParams().set('page', 0).set('size', 10));
+  data$!: Observable<Partial<ZoneData>>;
 
-  get dataPerPage(): Partial<SeatZone>[] {
-    return this.data.slice(this.page * this.size, (this.page + 1) * this.size);
+  constructor(private adminOfficesService: AdminOfficesService) {}
+
+  ngOnInit(): void {
+    this.data$ = merge(this.refresh$, this.params$).pipe(
+      switchMap(() => this.adminOfficesService.getZoneData(this.type, this.params$.value))
+    );
+  }
+
+  onChange(key: 'page' | 'size', value: number): void {
+    this.params$.next(this.params$.value.set(key, value));
   }
 }

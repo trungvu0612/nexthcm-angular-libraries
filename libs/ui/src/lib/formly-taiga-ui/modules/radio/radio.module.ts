@@ -9,7 +9,7 @@ import {
   TuiHostedDropdownModule,
   TuiLabelModule,
   TuiSvgModule,
-  TuiTextfieldControllerModule
+  TuiTextfieldControllerModule,
 } from '@taiga-ui/core';
 import {
   TuiDataListWrapperModule,
@@ -20,7 +20,7 @@ import {
   TuiSelectModule,
 } from '@taiga-ui/kit';
 import { PolymorpheusModule } from '@tinkoff/ng-polymorpheus';
-import { SelectOptionsModule } from '../../shared/select-options/select-options.module';
+import { SelectOptionsModule } from '../../../pipes/select-options/select-options.module';
 import { FormFieldModule } from '../form-field/form-field.module';
 import { RadioComponent } from './radio.component';
 

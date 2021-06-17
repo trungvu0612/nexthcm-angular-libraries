@@ -1,12 +1,12 @@
 <main *transloco="let t" class="main-page px-8 pt-20">
   <div class="flex justify-end mb-10">
     <button (click)="add.emit()" class="bg-blue-primary rounded-md text-white px-6 py-2">
-      {{ t('add' + title[0].toUpperCase() + title.slice(1)) }}
+      {{ t('add' + (type | titlecase)) }}
     </button>
   </div>
   <section class="main-section py-6">
-    <h1 class="text-2xl font-normal capitalize mx-6 mt-0">{{ t(title + 'List') }}</h1>
-    <table [columns]="columns" class="w-full" tuiTable>
+    <h1 class="text-2xl font-normal capitalize mx-6 mt-0">{{ t(type + 'List') }}</h1>
+    <table *tuiLet="data$ | async as data" [columns]="columns" class="w-full" tuiTable>
       <thead>
         <tr tuiThGroup>
           <th *tuiHead="'name'" tuiTh>{{ t('name') }}</th>
@@ -24,8 +24,8 @@
           <th *tuiHead="'action'" [sorter]="null" tuiTh>{{ t('action') }}</th>
         </tr>
       </thead>
-      <tbody [data]="dataPerPage" tuiTbody>
-        <tr *tuiRow="let item of dataPerPage; index as index" tuiTr>
+      <tbody [data]="data?.items || []" tuiTbody>
+        <tr *tuiRow="let item of data?.items || []; index as index" tuiTr>
           <td *tuiCell="'name'" tuiTd>
             {{ item.name }}
           </td>
@@ -52,10 +52,10 @@
           </ng-container>
           <td *tuiCell="'action'" tuiTd>
             <div class="flex text-gray-400">
-              <button (click)="edit.emit(index + page * size)">
+              <button (click)="edit.emit(item)">
                 <tui-svg src="tuiIconEdit"></tui-svg>
               </button>
-              <button (click)="remove.emit(index + page * size)">
+              <button (click)="remove.emit(item)">
                 <tui-svg src="tuiIconTrash"></tui-svg>
               </button>
             </div>
@@ -65,7 +65,11 @@
       <tfoot>
         <tr>
           <td [colSpan]="columns.length" class="px-5 py-3">
-            <tui-table-pagination [(page)]="page" [(size)]="size" [total]="data.length"></tui-table-pagination>
+            <tui-table-pagination
+              (pageChange)="onChange('page', $event)"
+              (sizeChange)="onChange('size', $event)"
+              [total]="data?.totalElements || 0"
+            ></tui-table-pagination>
           </td>
         </tr>
       </tfoot>

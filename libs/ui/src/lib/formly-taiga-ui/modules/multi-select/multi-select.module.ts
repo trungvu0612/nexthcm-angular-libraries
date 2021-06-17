@@ -5,7 +5,7 @@ import { FormlyModule } from '@ngx-formly/core';
 import { TuiLetModule } from '@taiga-ui/cdk';
 import { TuiDataListModule, TuiLabelModule, TuiTextfieldControllerModule } from '@taiga-ui/core';
 import { TuiMultiSelectModule } from '@taiga-ui/kit';
-import { SelectOptionsModule } from '../../shared/select-options/select-options.module';
+import { SelectOptionsModule } from '../../../pipes/select-options/select-options.module';
 import { FormFieldModule } from '../form-field/form-field.module';
 import { MultiSelectComponent } from './multi-select.component';
 

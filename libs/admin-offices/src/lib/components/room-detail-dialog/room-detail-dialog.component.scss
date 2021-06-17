@@ -1,8 +1,8 @@
 :host {
-  @apply block min-h-screen;
+  display: block;
 
   main {
-    > *:not(:first-child) {
+    > *:not(:first-child):not(form) {
       margin: 1rem 0;
     }
 
