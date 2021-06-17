@@ -1,0 +1,21 @@
+<tui-combo-box
+  (searchChange)="search$.next($event || '')"
+  *tuiLet="items$ | async as items"
+  [formControl]="$any(formControl)"
+  [stringify]="to.stringify"
+  [tuiTextfieldCleaner]="to.textfieldCleaner"
+  [tuiTextfieldLabelOutside]="to.textfieldLabelOutside"
+  [valueContent]="value"
+  tuiTextfieldSize="m"
+>
+  <ng-template #value let-item>
+    <span class="name"> {{ item.name }} </span>
+  </ng-template>
+  <ng-template tuiDataList>
+    <tui-data-list>
+      <button *ngFor="let item of items" [value]="item" tuiOption>
+        <span class="name"> {{ item.name }} </span>
+      </button>
+    </tui-data-list>
+  </ng-template>
+</tui-combo-box>

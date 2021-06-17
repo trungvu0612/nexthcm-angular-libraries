@@ -1049,31 +1049,31 @@
     },
     "admin-offices": {
       "projectType": "library",
-      "root": "libs/admin-offices",
-      "sourceRoot": "libs/admin-offices/src",
+      "root": "libs/admin/offices",
+      "sourceRoot": "libs/admin/offices/src",
       "prefix": "hcm",
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": ["dist/libs/admin-offices"],
+          "outputs": ["dist/libs/admin/offices"],
           "options": {
-            "project": "libs/admin-offices/ng-package.json"
+            "project": "libs/admin/offices/ng-package.json"
           },
           "configurations": {
             "production": {
-              "tsConfig": "libs/admin-offices/tsconfig.lib.prod.json"
+              "tsConfig": "libs/admin/offices/tsconfig.lib.prod.json"
             },
             "development": {
-              "tsConfig": "libs/admin-offices/tsconfig.lib.json"
+              "tsConfig": "libs/admin/offices/tsconfig.lib.json"
             }
           },
           "defaultConfiguration": "production"
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/admin-offices"],
+          "outputs": ["coverage/libs/admin/offices"],
           "options": {
-            "jestConfig": "libs/admin-offices/jest.config.js",
+            "jestConfig": "libs/admin/offices/jest.config.js",
             "passWithNoTests": true
           }
         },
@@ -1081,8 +1081,8 @@
           "builder": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": [
-              "libs/admin-offices/src/**/*.ts",
-              "libs/admin-offices/src/**/*.html"
+              "libs/admin/offices/src/**/*.ts",
+              "libs/admin/offices/src/**/*.html"
             ]
           }
         }
@@ -1090,38 +1090,38 @@
     },
     "admin-permissions": {
       "projectType": "library",
-      "root": "libs/admin-permissions",
-      "sourceRoot": "libs/admin-permissions/src",
+      "root": "libs/admin/permissions",
+      "sourceRoot": "libs/admin/permissions/src",
       "prefix": "hcm",
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": ["dist/libs/admin-permissions"],
+          "outputs": ["dist/libs/admin/permissions"],
           "options": {
-            "project": "libs/admin-permissions/ng-package.json"
+            "project": "libs/admin/permissions/ng-package.json"
           },
           "configurations": {
             "production": {
-              "tsConfig": "libs/admin-permissions/tsconfig.lib.prod.json"
+              "tsConfig": "libs/admin/permissions/tsconfig.lib.prod.json"
             },
             "development": {
-              "tsConfig": "libs/admin-permissions/tsconfig.lib.json"
+              "tsConfig": "libs/admin/permissions/tsconfig.lib.json"
             }
           },
           "defaultConfiguration": "production"
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/admin-permissions"],
+          "outputs": ["coverage/libs/admin/permissions"],
           "options": {
-            "jestConfig": "libs/admin-permissions/jest.config.js",
+            "jestConfig": "libs/admin/permissions/jest.config.js",
             "passWithNoTests": true
           }
         },
         "lint": {
           "builder": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": ["libs/admin-permissions/src/**/*.ts", "libs/admin-permissions/src/**/*.html"]
+            "lintFilePatterns": ["libs/admin/permissions/src/**/*.ts", "libs/admin/permissions/src/**/*.html"]
           }
         }
       }
