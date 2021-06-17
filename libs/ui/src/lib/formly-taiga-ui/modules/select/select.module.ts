@@ -11,7 +11,7 @@ import {
   TuiTextfieldControllerModule,
 } from '@taiga-ui/core';
 import { TuiSelectModule } from '@taiga-ui/kit';
-import { SelectOptionsModule } from '../../shared/select-options/select-options.module';
+import { SelectOptionsModule } from '../../../pipes/select-options/select-options.module';
 import { FormFieldModule } from '../form-field/form-field.module';
 import { SelectComponent } from './select.component';
 

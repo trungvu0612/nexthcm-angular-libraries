@@ -20,6 +20,7 @@ import {
   TuiInputModule,
   TuiStepperModule,
 } from '@taiga-ui/kit';
+import { of } from 'rxjs';
 import { AdminPermissionsRoutingModule } from './admin-permissions-routing.module';
 import { AdminPermissionsComponent } from './admin-permissions.component';
 import { InputActionsComponent } from './components/input-actions/input-actions.type';
@@ -59,6 +60,14 @@ import { UpdatePermissionComponent } from './pages/update-permission/update-perm
         {
           name: 'input-actions',
           component: InputActionsComponent,
+        },
+      ],
+      validationMessages: [
+        { name: 'required', message: 'This field is required' },
+        {
+          name: 'textPermission',
+          message: (maxCharacters: number) =>
+            of("Use alphanumeric and '+=,.@-_' characters. Maximum " + maxCharacters + ' characters.'),
         },
       ],
     }),

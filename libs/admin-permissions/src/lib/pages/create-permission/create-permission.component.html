@@ -2,12 +2,8 @@
   <section class="main-section max-w-screen-xl mx-auto p-6">
     <h1 class="text-indigo-800 font-medium">Create Permission</h1>
     <tui-stepper [(activeItemIndex)]="stepperIndex" class="flex justify-center my-14">
-      <button [state]="servicesForm.valid ? passTuiStepState : normalTuiStepState" tuiStep>Service & Resource</button>
-      <button
-        [disabled]="!servicesForm.valid"
-        [state]="permissionForm.valid ? passTuiStepState : normalTuiStepState"
-        tuiStep
-      >
+      <button [state]="servicesForm.valid ? 'pass' : 'normal'" tuiStep>Service & Resource</button>
+      <button [disabled]="!servicesForm.valid" [state]="permissionForm.valid ? 'pass' : 'normal'" tuiStep>
         Review Policy
       </button>
       <button [disabled]="!permissionForm.valid" tuiStep>Create & Finish</button>

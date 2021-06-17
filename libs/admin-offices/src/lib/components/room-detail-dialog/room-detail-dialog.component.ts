@@ -1,3 +1,4 @@
+import { CdkDragEnd } from '@angular/cdk/drag-drop';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -8,14 +9,14 @@ import {
   Inject,
   ViewChild,
 } from '@angular/core';
+import { UploadFileService } from '@nexthcm/ui';
 import { FormBuilder, FormControl, FormGroup } from '@ngneat/reactive-forms';
-import { Dimension, SeatMapForm, SeatZone, StyleSeat } from '../../models/offices';
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
-import { TuiDialogContext } from '@taiga-ui/core';
 import { TuiDestroyService } from '@taiga-ui/cdk';
+import { TuiDialogContext } from '@taiga-ui/core';
+import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { startWith, takeUntil } from 'rxjs/operators';
-import { CdkDragEnd } from '@angular/cdk/drag-drop';
+import { Dimension, SeatMapForm, StyleSeat, Zone } from '../../models/offices';
 
 const keys: ('width' | 'height' | 'rounded')[] = ['width', 'height', 'rounded'];
 
@@ -32,12 +33,23 @@ export class RoomDetailDialogComponent implements AfterViewInit {
   imageControl = new FormControl<File>();
   keepFocus = false;
   current = -1;
+  first = true;
   factor = { width: 0, height: 0, rounded: 1 };
   dimension = { width: 0, height: 0, rounded: 0 };
   seats: StyleSeat[] = [];
 
   form: FormGroup<SeatMapForm>;
-  model: SeatMapForm = { office: '', name: '', image: '', seats: 0, width: 40, height: 40, rounded: 0 };
+  model: SeatMapForm = {
+    office: '',
+    name: '',
+    imageUrl: '',
+    dimensionX: 0,
+    dimensionY: 0,
+    seats: 0,
+    width: 40,
+    height: 40,
+    rounded: 0,
+  };
   fields: FormlyFieldConfig[] = [
     {
       key: 'office',
@@ -67,12 +79,11 @@ export class RoomDetailDialogComponent implements AfterViewInit {
       templateOptions: {
         label: 'numberOfSeat',
         translate: true,
-        required: true,
         textfieldSize: 'm',
         textfieldLabelOutside: true,
       },
       expressionProperties: {
-        'templateOptions.disabled': '!model.image',
+        'templateOptions.disabled': '!model.imageUrl',
       },
     },
     {
@@ -113,7 +124,7 @@ export class RoomDetailDialogComponent implements AfterViewInit {
   ];
 
   seatForm: FormGroup<Dimension>;
-  seatModel!: Dimension;
+  seatModel: Dimension = { width: 40, height: 40, rounded: 0 };
   seatFields: FormlyFieldConfig[] = [
     {
       key: 'width',
@@ -145,34 +156,33 @@ export class RoomDetailDialogComponent implements AfterViewInit {
 
   constructor(
     @Inject(POLYMORPHEUS_CONTEXT)
-    private context: TuiDialogContext<Partial<SeatZone> | undefined, Partial<SeatZone> | undefined>,
+    private context: TuiDialogContext<Partial<Zone> | undefined, Partial<Zone> | undefined>,
     private fb: FormBuilder,
     private changeDetector: ChangeDetectorRef,
+    private uploadFileSystem: UploadFileService,
     private destroy$: TuiDestroyService
   ) {
-    this.form = fb.group({ office: '', name: '', image: '', seats: 0, width: 40, height: 40, rounded: 0 });
-    this.seatForm = fb.group({ width: 40, height: 40, rounded: 0 });
+    this.form = fb.group(this.model);
+    this.seatForm = fb.group(this.seatModel);
   }
 
   ngAfterViewInit(): void {
     if (this.context.data) {
       const { name, imageUrl } = this.context.data;
-      this.form.patchValue({ name });
-      if (imageUrl) this.model.image = imageUrl;
+      if (name) this.form.patchValue({ name });
+      if (imageUrl) this.model.imageUrl = imageUrl;
       this.title = 'editRoom';
     } else this.title = 'addRoom';
 
     this.imageControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((file) => {
       if (file) {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = () => {
-          this.model.image = reader.result as string;
+        this.uploadFileSystem.uploadFile(file, 'seats-map').subscribe((imageUrl) => {
+          this.model.imageUrl = imageUrl;
           this.changeDetector.detectChanges();
-        };
+        });
       } else {
         this.form.controls.seats.setValue(0);
-        this.model.image = '';
+        this.model.imageUrl = '';
       }
     });
 
@@ -181,8 +191,8 @@ export class RoomDetailDialogComponent implements AfterViewInit {
         { length: value },
         (_, index) =>
           this.seats[index] || {
-            positionX: Math.floor(Math.random() * (90 - 10) + 10),
-            positionY: Math.floor(Math.random() * (90 - 10) + 10),
+            positionX: Math.floor(Math.random() * (75 - 25) + 25),
+            positionY: Math.floor(Math.random() * (75 - 25) + 25),
           }
       );
       if (!value) this.current = -1;
@@ -248,8 +258,22 @@ export class RoomDetailDialogComponent implements AfterViewInit {
     }
   }
 
+  onImageLoad(event: any): void {
+    this.model.dimensionX = event.path[0].naturalWidth;
+    this.model.dimensionY = event.path[0].naturalHeight;
+    this.updateFactor();
+    if (this.first && this.context.data) {
+      this.first = false;
+      const seats = this.context.data.seats;
+      if (seats) {
+        this.seats = seats.map((seat) => JSON.parse(seat.style || ''));
+        this.form.patchValue({ seats: seats.length });
+      }
+    }
+    if (!this.seats.length) this.form.patchValue({ seats: 1 });
+  }
+
   updateFactor(): void {
-    if (!this.model.seats) this.form.patchValue({ seats: 1 });
     this.factor = {
       width: this.zone.nativeElement.offsetWidth / 100,
       height: this.zone.nativeElement.offsetHeight / 100,
@@ -289,13 +313,20 @@ export class RoomDetailDialogComponent implements AfterViewInit {
 
   moveSeat(index: number, distance: { x: number; y: number }, event?: CdkDragEnd): void {
     event && event.source._dragRef.reset();
-    const updateSeat = (key: 'positionX' | 'positionY', limit: number, distance: number, factor: number) => {
-      this.seats[index][key] += distance / factor;
-      if (this.seats[index][key] > 100 - limit) this.seats[index][key] = 100 - limit;
-      if (this.seats[index][key] < limit) this.seats[index][key] = limit;
+    const updateSeat = (
+      key: 'positionX' | 'positionY',
+      limitKey: 'width' | 'height',
+      distance: number,
+      factor: number
+    ) => {
+      const seat = this.seats[index];
+      const limit = seat[limitKey] || this.dimension[limitKey];
+      seat[key] += distance / factor;
+      if (seat[key] > 100 - limit) seat[key] = 100 - limit;
+      if (seat[key] < 0) seat[key] = 0;
     };
-    updateSeat('positionX', this.dimension.width / 2, distance.x, this.factor.width);
-    updateSeat('positionY', this.dimension.height / 2, distance.y, this.factor.height);
+    updateSeat('positionX', 'width', distance.x, this.factor.width);
+    updateSeat('positionY', 'height', distance.y, this.factor.height);
   }
 
   cancel(): void {
@@ -303,11 +334,20 @@ export class RoomDetailDialogComponent implements AfterViewInit {
   }
 
   save(): void {
+    const { name, imageUrl, dimensionX, dimensionY } = this.model;
     this.context.completeWith({
-      name: this.model.name,
-      office: { id: this.model.office },
-      imageUrl: this.model.image,
-      seats: this.seats.map((seat) => ({ style: JSON.stringify(seat) })),
+      name,
+      imageUrl,
+      dimensionX,
+      dimensionY,
+      type: 'UNSET',
+      office: { id: '99063801-f386-4335-b7ed-18ca542b0e9d' },
+      seats: this.seats.map((seat) => {
+        keys.forEach((key) => {
+          if (seat[key] === undefined) seat[key] = this.dimension[key];
+        });
+        return { style: JSON.stringify(seat) };
+      }),
     });
   }
 }

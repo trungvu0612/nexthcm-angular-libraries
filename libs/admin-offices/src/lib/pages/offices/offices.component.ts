@@ -1,10 +1,10 @@
-import { ChangeDetectionStrategy, Component, Injector, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Injector } from '@angular/core';
+import { TuiDialogService } from '@taiga-ui/core';
+import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
+import { Observable, Subject } from 'rxjs';
+import { OfficeDetailDialogComponent } from '../../components/office-detail-dialog/office-detail-dialog.component';
 import { OfficeDetail, Zone } from '../../models/offices';
 import { AdminOfficesService } from '../../services/admin-offices.service';
-import { TuiDialogService } from '@taiga-ui/core';
-import { OfficeDetailDialogComponent } from '../../components/office-detail-dialog/office-detail-dialog.component';
-import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'hcm-offices',
@@ -12,23 +12,14 @@ import { Observable } from 'rxjs';
   styleUrls: ['./offices.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class OfficesComponent implements OnInit {
-  officesRequest!: Zone[];
-  columns = ['name', 'adder', 'description', 'address', 'numberOfRoom', 'action'];
+export class OfficesComponent {
+  refresh$ = new Subject();
 
   constructor(
     private adminOfficesService: AdminOfficesService,
     private dialogService: TuiDialogService,
     private injector: Injector
   ) {}
-
-  ngOnInit(): void {
-    this.getOfficeList();
-  }
-
-  getOfficeList(): void {
-    this.adminOfficesService.getOfficeList().subscribe((data) => (this.officesRequest = data));
-  }
 
   showDialog(data?: Partial<OfficeDetail>): Observable<Partial<OfficeDetail>> {
     return this.dialogService.open<Partial<OfficeDetail>>(
@@ -42,21 +33,15 @@ export class OfficesComponent implements OnInit {
 
   onAdd(): void {
     this.showDialog().subscribe((detail) => {
-      if (detail) this.adminOfficesService.addOffice(detail).subscribe(() => this.getOfficeList());
+      if (detail) this.adminOfficesService.addOffice(detail).subscribe(() => this.refresh$.next());
     });
   }
 
-  onEdit(index: number): void {
-    const { name, description, address } = this.officesRequest[index];
-    this.showDialog({ name, description, address }).subscribe((detail) => {
-      if (detail)
-        this.adminOfficesService
-          .editOffice(Object.assign(this.officesRequest[index], detail))
-          .subscribe(() => this.getOfficeList());
-    });
+  onEdit(item: Partial<Zone>): void {
+    this.showDialog(item).subscribe();
   }
 
-  onRemove(index: number): void {
-    console.log(index);
+  onRemove(item: Partial<Zone>): void {
+    console.log(item);
   }
 }

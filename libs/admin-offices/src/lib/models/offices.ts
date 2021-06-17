@@ -5,6 +5,11 @@ export interface OfficeDetail {
   description: string;
 }
 
+export interface Seat {
+  id: string;
+  style: string;
+}
+
 export interface Zone {
   id: string;
   name: string;
@@ -12,24 +17,31 @@ export interface Zone {
   description: string;
   address: string;
   numberOfRoom: number;
+  type: string;
   office: Partial<OfficeDetail>;
-}
-
-export interface Seat {
-  id: string;
-  style: string;
-}
-
-export interface SeatZone extends Zone {
   imageUrl: string;
+  dimensionX: number;
+  dimensionY: number;
   seats: Partial<Seat>[];
 }
 
-export interface SeatZoneResponse {
-  items: Partial<SeatZone>[];
-  totalElements: number;
+export interface ZoneData {
+  items: Partial<Zone>[];
+  page: number;
+  size: number;
+  totalItems: number;
   totalPages: number;
+  totalElements: number;
+  hasNext: boolean;
+  hasPrevious: boolean;
 }
+
+export interface ZoneResponse {
+  code: string;
+  data: ZoneData;
+}
+
+export type ZoneType = 'office' | 'room';
 
 export interface StyleSeat {
   positionX: number;
@@ -48,6 +60,8 @@ export interface Dimension {
 export interface SeatMapForm extends Dimension {
   office: string;
   name: string;
-  image: string;
+  imageUrl: string;
+  dimensionX: number;
+  dimensionY: number;
   seats: number;
 }
