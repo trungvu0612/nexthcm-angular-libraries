@@ -1,10 +1,12 @@
+import { StatusType } from './status-type';
+
 export interface State {
-  stateValueId: string;
+  id: string;
   name: string;
   description?: string;
   previousStates?: string[];
   nextStates?: string[];
-  stateTypeId?: string;
+  stateType?: StatusType;
 }
 
 export interface Activity {

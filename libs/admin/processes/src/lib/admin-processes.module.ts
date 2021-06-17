@@ -17,6 +17,7 @@ import { ProcessesManagementComponent } from './pages/processes-management/proce
 import { UpsertProcessComponent } from './pages/upsert-process/upsert-process.component';
 import { ProcessesService } from './services/processes.service';
 import { TuiLetModule } from '@taiga-ui/cdk';
+import { LetModule } from '@rx-angular/template';
 
 export const adminProcessesRoutes: Routes = [
   {
@@ -28,7 +29,7 @@ export const adminProcessesRoutes: Routes = [
         component: AdminProcessesComponent,
         children: [
           { path: '', component: ProcessesManagementComponent },
-          { path: ':workflowId/edit', component: UpsertProcessComponent },
+          { path: ':processId/edit', component: UpsertProcessComponent },
         ],
       },
     ],
@@ -51,6 +52,7 @@ export const adminProcessesRoutes: Routes = [
     TuiLoaderModule,
     TuiCheckboxModule,
     FormsModule,
+    LetModule,
   ],
   declarations: [
     AdminProcessesComponent,

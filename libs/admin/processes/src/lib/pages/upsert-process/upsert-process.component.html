@@ -1,6 +1,6 @@
-<section>
+<tui-loader [overlay]="true" [showLoader]="(loading$ | async) === true">
   <form (ngSubmit)="onSubmit()" [formGroup]="$any(form)">
-    <formly-form [fields]="fields" [form]="$any(form)" [model]="model"></formly-form>
+    <formly-form *rxLet="state$" [fields]="fields" [form]="$any(form)" [model]="model"></formly-form>
     <div class="my-4 flex justify-end">
       <button appearance="flat" class="tui-form__button" routerLink="../.." size="m" tuiButton type="button">
         Cancel
@@ -35,10 +35,11 @@
         </div>
         <hcm-workflow-editor
           #workflowEditor
-          (event)="onWorkflowEditorEvent($event)"
+          (event)="onWorkflowEvent($event)"
+          [xmlContent]="template$ | async"
           class="h-full"
         ></hcm-workflow-editor>
       </div>
     </section>
   </form>
-</section>
+</tui-loader>

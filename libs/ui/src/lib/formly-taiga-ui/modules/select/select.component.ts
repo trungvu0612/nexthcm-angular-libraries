@@ -1,6 +1,12 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FieldType } from '@ngx-formly/core';
-import { TuiContextWithImplicit, tuiPure, TuiStringHandler } from '@taiga-ui/cdk';
+import {
+  TUI_DEFAULT_IDENTITY_MATCHER,
+  TuiContextWithImplicit,
+  TuiIdentityMatcher,
+  tuiPure,
+  TuiStringHandler,
+} from '@taiga-ui/cdk';
 
 @Component({
   selector: 'formly-select',
@@ -17,6 +23,12 @@ export class SelectComponent extends FieldType {
       textfieldLabelOutside: true,
     },
   };
+
+  get identityMatcher(): TuiIdentityMatcher<any> {
+    return this.to.valueProp
+      ? (item1, item2) => item1[this.to.valueProp] === item2[this.to.valueProp]
+      : TUI_DEFAULT_IDENTITY_MATCHER;
+  }
 
   @tuiPure
   stringify(items: ReadonlyArray<any>): TuiStringHandler<TuiContextWithImplicit<any>> {

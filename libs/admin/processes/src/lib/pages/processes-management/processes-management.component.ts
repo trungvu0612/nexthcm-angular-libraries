@@ -76,7 +76,7 @@ export class ProcessesManagementComponent {
       })
       .pipe(switchMap((data) => this.processesService.initProcess(data)))
       .subscribe((res) => {
-        this.router.navigate([res.data.processId, 'edit'], { relativeTo: this.activatedRoute });
+        this.router.navigate([res.data.id, 'edit'], { relativeTo: this.activatedRoute });
       });
   }
 

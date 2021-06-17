@@ -24,7 +24,7 @@ export class UpsertTransitionDialogComponent implements OnInit {
         label: 'From status',
         options: this.data.states,
         labelProp: 'name',
-        valueProp: 'stateValueId',
+        valueProp: 'id',
       },
     },
     {
@@ -36,7 +36,7 @@ export class UpsertTransitionDialogComponent implements OnInit {
         label: 'To status',
         options: this.data.states,
         labelProp: 'name',
-        valueProp: 'stateValueId',
+        valueProp: 'id',
       },
     },
     {

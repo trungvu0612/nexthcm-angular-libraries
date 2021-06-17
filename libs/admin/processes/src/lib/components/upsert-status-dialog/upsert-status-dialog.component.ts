@@ -6,6 +6,7 @@ import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { v4 as uuidv4 } from 'uuid';
 import { State } from '../../models/process';
 import { ProcessesService } from '../../services/processes.service';
+import { StatusType } from '../../models/status-type';
 
 @Component({
   selector: 'hcm-upsert-status-dialog',
@@ -17,7 +18,7 @@ export class UpsertStatusDialogComponent implements OnInit {
   readonly statusTypes$ = this.processesService.select('statusTypes');
   form: FormGroup<State> = this.fb.group({} as State);
   fields: FormlyFieldConfig[] = [
-    { key: 'stateValueId' },
+    { key: 'id' },
     {
       className: 'tui-form__row block',
       key: 'name',
@@ -40,27 +41,27 @@ export class UpsertStatusDialogComponent implements OnInit {
       },
     },
     {
-      key: 'stateTypeId',
+      key: 'stateType',
       type: 'select',
       templateOptions: {
         translate: true,
         required: true,
+        identityMatcher: (item1: StatusType, item2: StatusType) => item1.id === item2.id,
         options: this.statusTypes$,
         label: 'State Type',
-        valueProp: 'id',
         labelProp: 'name',
       },
     },
   ];
   model: State = {
-    stateValueId: uuidv4(),
+    id: uuidv4(),
     name: '',
   };
 
   constructor(
     private fb: FormBuilder,
     @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<State, State>,
-    private processesService: ProcessesService,
+    private processesService: ProcessesService
   ) {}
 
   get data(): State {

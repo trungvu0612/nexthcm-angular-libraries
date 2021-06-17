@@ -4,7 +4,7 @@
     Create a process
   </button>
 </section>
-<tui-loader [overlay]="true" [showLoader]="(loading$ | async) || false">
+<tui-loader [overlay]="true" [showLoader]="(loading$ | async) === true">
   <ngx-table
     #table
     *tuiLet="data$ | async as data"

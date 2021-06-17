@@ -15,84 +15,15 @@
     "default": {
       "runner": "@nrwl/workspace/tasks-runners/default",
       "options": {
-        "cacheableOperations": [
-          "build",
-          "lint",
-          "test",
-          "e2e",
-          "stylelint"
-        ]
+        "cacheableOperations": ["build", "lint", "test", "e2e", "stylelint"]
       }
     }
   },
   "projects": {
-    "hcm-web": {
-      "tags": []
-    },
-    "hcm-web-e2e": {
-      "tags": [],
-      "implicitDependencies": [
-        "hcm-web"
-      ]
-    },
-    "core": {
-      "tags": []
-    },
-    "auth": {
-      "tags": []
-    },
-    "my-time": {
-      "tags": []
-    },
-    "help-desk": {
-      "tags": []
-    },
-    "payslip": {
-      "tags": []
-    },
-    "report": {
-      "tags": []
-    },
-    "human-resource": {
-      "tags": []
-    },
-    "form": {
-      "tags": []
-    },
-    "policy": {
-      "tags": []
-    },
-    "notifications": {
-      "tags": []
-    },
-    "configurations": {
-      "tags": []
-    },
-    "ui": {
-      "tags": []
-    },
-    "home": {
+    "admin-branches": {
       "tags": []
     },
     "admin-employee": {
-      "tags": []
-    },
-    "workflow-editor": {
-      "tags": []
-    },
-    "hcm-processes": {
-      "tags": []
-    },
-    "hcm-processes-e2e": {
-      "tags": [],
-      "implicitDependencies": [
-        "hcm-processes"
-      ]
-    },
-    "admin-processes": {
-      "tags": []
-    },
-    "admin-branches": {
       "tags": []
     },
     "admin-offices": {
@@ -101,7 +32,66 @@
     "admin-permissions": {
       "tags": []
     },
+    "admin-processes": {
+      "tags": []
+    },
     "admin-tenant": {
+      "tags": []
+    },
+    "auth": {
+      "tags": []
+    },
+    "configurations": {
+      "tags": []
+    },
+    "core": {
+      "tags": []
+    },
+    "form": {
+      "tags": []
+    },
+    "hcm-processes": {
+      "tags": []
+    },
+    "hcm-processes-e2e": {
+      "tags": [],
+      "implicitDependencies": ["hcm-processes"]
+    },
+    "hcm-web": {
+      "tags": []
+    },
+    "hcm-web-e2e": {
+      "tags": [],
+      "implicitDependencies": ["hcm-web"]
+    },
+    "help-desk": {
+      "tags": []
+    },
+    "home": {
+      "tags": []
+    },
+    "human-resource": {
+      "tags": []
+    },
+    "my-time": {
+      "tags": []
+    },
+    "notifications": {
+      "tags": []
+    },
+    "payslip": {
+      "tags": []
+    },
+    "policy": {
+      "tags": []
+    },
+    "report": {
+      "tags": []
+    },
+    "ui": {
+      "tags": []
+    },
+    "workflow-editor": {
       "tags": []
     }
   }

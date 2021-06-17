@@ -32,11 +32,11 @@ export class ProcessesService extends RxState<ProcessesState> {
     return this.http.get<PagingResponse<Process>>(`/${WORKFLOWS_PATH}/process`, { params });
   }
 
-  createProcess(payload: Process): Observable<BaseResponse<any>> {
-    return this.http.post<BaseResponse<any>>(`/${WORKFLOWS_PATH}/processes`, payload);
+  createProcess(payload: Process): Observable<BaseResponse<Process>> {
+    return this.http.post<BaseResponse<Process>>(`/${WORKFLOWS_PATH}/processes`, payload);
   }
 
-  initProcess(payload: Process): Observable<BaseResponse<any>> {
-    return this.http.post<BaseResponse<any>>(`/${WORKFLOWS_PATH}/process/init`, payload);
+  initProcess(payload: Process): Observable<BaseResponse<Process>> {
+    return this.http.post<BaseResponse<Process>>(`/${WORKFLOWS_PATH}/process/init`, payload);
   }
 }

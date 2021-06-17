@@ -4,8 +4,8 @@ export class WorkflowStatus {
   constructor(
     public id: string,
     public label: string,
-    public fillColor: string,
-    public labelBackgroundColor: string,
+    public fillColor?: string,
+    public labelBackgroundColor?: string,
     fontColor?: string
   ) {
     this.fontColor = fontColor || 'white';

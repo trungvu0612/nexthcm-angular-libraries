@@ -7,10 +7,12 @@ export enum WorkflowAPI {
   getXML = 'getXML',
   setInitial = 'setInitial',
   removeCell = 'removeCell',
+  updateStatus = 'updateStatus',
 }
 
 export type WorkflowAPIType =
   | { type: WorkflowAPI.drawStatus; value: WorkflowStatus }
+  | { type: WorkflowAPI.updateStatus; value: WorkflowStatus }
   | { type: WorkflowAPI.drawTransition; value: WorkflowTransition }
   | { type: WorkflowAPI.removeCell; value: string }
   | { type: WorkflowAPI.getXML }
