@@ -1,55 +1,63 @@
-<div class="p-8">
-  <div class="container">
-    <div class="flex">
-      <div class="tui-text_h3">My Request</div>
+<main class="main-page">
+  <header>
+    <h1 class="text-4xl">My Request</h1>
+    <div class="flex gap-4">
+      <!--      <tui-input-month [formControl]="dateControl" class="date-control">Choose a month</tui-input-month>-->
       <button
-        (click)="showDialog()"
-        class="tui-space_right-3 tui-space_bottom-3 ml-auto"
+        (click)="showDialog('ot')"
+        class="tui-space_right-3 tui-space_bottom-3 mr-3"
         icon="tuiIconPlusLarge"
         tuiButton
         type="button"
       >
         Add OT Request
       </button>
+      <button
+        (click)="showDialog('word-outside')"
+        class="tui-space_right-3 tui-space_bottom-3"
+        icon="tuiIconPlusLarge"
+        tuiButton
+        type="button"
+      >
+        Add Working Outside Request
+      </button>
     </div>
-    <div class="grid-rows-1 mt-8">
-      <div class="grid-cols-12">
-        <div class="bg-white rounded-lg">
-          <div class="p-8">
-            <tui-tabs [(activeItemIndex)]="activeItemIndex">
-              <button
-                tuiRipple="var(--tui-text-01)"
-                tuiTab
-              >
-                Overtime
-              </button>
-              <button
-                tuiRipple="var(--tui-text-01)"
-                tuiTab
-              >
-                Update Time
-              </button>
-              <button
-                tuiRipple="var(--tui-text-01)"
-                tuiTab
-              >
-                Working Outside
-              </button>
-            </tui-tabs>
-            <ng-container [ngSwitch]="activeItemIndex">
-              <ng-container *ngSwitchCase="0">
-                <hcm-list-ot-request></hcm-list-ot-request>
-              </ng-container>
-              <ng-container *ngSwitchCase="1">
-                <hcm-list-timesheet-update></hcm-list-timesheet-update>
-              </ng-container>
-              <ng-container *ngSwitchCase="2">
-                <hcm-list-working-outside></hcm-list-working-outside>
-              </ng-container>
-            </ng-container>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+  </header>
+
+  <section class="main-section px-8 py-10">
+    <article>
+      <tui-tabs [(activeItemIndex)]="activeItemIndex">
+        <button
+          tuiRipple="var(--tui-text-01)"
+          tuiTab
+        >
+          Overtime
+        </button>
+        <button
+          tuiRipple="var(--tui-text-01)"
+          tuiTab
+        >
+          Update Time
+        </button>
+        <button
+          tuiRipple="var(--tui-text-01)"
+          tuiTab
+        >
+          Working Outside
+        </button>
+      </tui-tabs>
+      <ng-container [ngSwitch]="activeItemIndex">
+        <ng-container *ngSwitchCase="0">
+          <hcm-list-ot-request></hcm-list-ot-request>
+        </ng-container>
+        <ng-container *ngSwitchCase="1">
+          <hcm-list-timesheet-update></hcm-list-timesheet-update>
+        </ng-container>
+        <ng-container *ngSwitchCase="2">
+          <hcm-list-working-outside></hcm-list-working-outside>
+        </ng-container>
+      </ng-container>
+    </article>
+  </section>
+
+</main>

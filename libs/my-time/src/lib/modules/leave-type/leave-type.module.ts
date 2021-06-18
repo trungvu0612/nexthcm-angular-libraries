@@ -9,7 +9,7 @@ import {
   TuiInputModule,
   TuiMarkerIconModule,
   TuiTagModule,
-  TuiTextAreaModule,
+  TuiTextAreaModule
 } from '@taiga-ui/kit';
 import { LeaveTypeComponent } from './leave-type.component';
 import { ListLeaveTypeComponent } from './pages/list-leave-type/list-leave-type.component';
@@ -29,7 +29,8 @@ import { UpsertLeaveTypeComponent } from './pages/upsert-leave-type/upsert-leave
     TuiErrorModule,
     TuiFieldErrorModule,
     TuiMarkerIconModule,
-    ReactiveFormsModule,
-  ],
+    ReactiveFormsModule
+  ]
 })
-export class LeaveTypeModule {}
+export class LeaveTypeModule {
+}

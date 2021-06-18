@@ -8,7 +8,7 @@ import { MyRequestService } from '../../../../services/my-request.service';
   selector: 'hcm-list-my-request',
   templateUrl: './list-my-request.component.html',
   styleUrls: ['./list-my-request.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ListMyRequestComponent implements OnInit {
   activeItemIndex = 0;
@@ -18,23 +18,28 @@ export class ListMyRequestComponent implements OnInit {
     private dialogService: TuiDialogService,
     private injector: Injector,
     private cdr: ChangeDetectorRef
-  ) {}
+  ) {
+  }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+  }
 
   cancel(): void {
     console.log('cancel');
   }
 
-  showDialog(): void {
-    const title = 'Title';
+  showDialog(type: string): void {
     this.dialogService
       .open<boolean>(new PolymorpheusComponent(RequestsDialogComponent, this.injector), {
         closeable: false,
-        data: { title },
+        data: { type: type }
       })
       .subscribe((cancel) => {
-        if (cancel) this.cancel();
+        if (cancel) {
+          this.cancel();
+        } else {
+          this.activeItemIndex = type === 'ot' ? 0 : 2;
+        }
       });
   }
 }

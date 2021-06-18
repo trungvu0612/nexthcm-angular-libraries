@@ -78,6 +78,7 @@
     "@tinkoff/ng-dompurify": "^3.0.0",
     "@tinkoff/ng-event-plugins": "^2.2.0",
     "@tinkoff/ng-polymorpheus": "^3.1.8",
+    "date-fns": "^2.22.1",
     "dompurify": "^2.2.9",
     "inter-ui": "^3.18.1",
     "mxgraph": "^4.2.2",

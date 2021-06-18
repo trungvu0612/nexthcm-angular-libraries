@@ -2,15 +2,34 @@ import { TuiDay } from '@taiga-ui/cdk';
 
 export interface Requests {
   id?: string;
-  type: string;
-  userId: string;
-  state: number;
-  assignedName: string;
-  fromDate: number;
-  toDate: number;
+  type?: string;
+  userId?: string;
+  state?: number;
+  assignedName?: string;
+  fromDate?: number | Date | TuiDay;
+  toDate?: number | Date | TuiDay;
+  lastModifiedDate?: Date;
   duration?: Duration;
   sendTo?: Employee;
-  reason: string;
+  comments?: string;
+  reason?: string;
+}
+
+export interface TimeSheetUpdateReq extends Requests {
+  newInTime: number | string;
+  newOutTime: number | string;
+  oldInTime: number | string;
+  oldOutTime: number | string;
+  updateTotalTime: number;
+  timeSheetTracking: TimeSheetTracking;
+  emailCc: string;
+}
+
+export interface TimeSheetTracking {
+  id: string;
+  trackingDate: number;
+  inTime: number | string;
+  outTime: number | string;
 }
 
 export interface Duration {
@@ -22,6 +41,6 @@ export interface Employee {
 }
 
 export interface SearchRequest {
-  fromDate?: number | null | TuiDay | string;
-  toDate?: number | null | TuiDay | string;
+  fromDate?: number | Date | TuiDay | string;
+  toDate?: number | Date | TuiDay | string;
 }

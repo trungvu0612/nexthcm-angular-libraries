@@ -1,0 +1,75 @@
+<article>
+  <header class="flex justify-between items-center mb-3">
+    <h1 class="text-2xl font-semibold">{{title}}</h1>
+    <button (click)="close()"
+            [icon]="'tuiIconRemoveLarge'"
+            [shape]="$any('rounded')" appearance="flat" size="s" tuiIconButton></button>
+  </header>
+  <table *ngIf="req">
+    <tbody>
+    <tr *ngIf="req.lastModifiedDate" class="my-8">
+      <td class="py-2 font-bold	 pr-10">Date modified:</td>
+      <td>{{req.lastModifiedDate | date : 'EEEE, dd/MM/yyyy'}}</td>
+    </tr>
+    <tr *ngIf="req.timeSheetTracking?.trackingDate" class="my-8">
+      <td class="py-2 font-bold	">Date</td>
+      <td>{{req.timeSheetTracking?.trackingDate | date : 'EEEE, dd/MM/yyyy'}}</td>
+    </tr>
+    <tr *ngIf="req.fromDate" class="my-8">
+      <td class="py-2 font-bold	">From date:</td>
+      <td>{{$any(req.fromDate)  | date : 'EEEE, dd/MM/yyyy'}}</td>
+    </tr>
+    <tr *ngIf="req.toDate" class="my-8">
+      <td class="py-2 font-bold	">To date:</td>
+      <td>{{$any(req.toDate)  | date : 'EEEE, dd/MM/yyyy'}}</td>
+    </tr>
+    <tr *ngIf="req.timeSheetTracking?.inTime" class="my-8">
+      <td class="py-2 font-bold	">Time in:</td>
+      <td>{{req.timeSheetTracking?.inTime}}
+        <ng-container *ngIf="req.newInTime">
+          -> <span class="font-bold">{{req.newInTime}}</span>
+        </ng-container>
+      </td>
+    </tr>
+    <tr *ngIf="req.timeSheetTracking?.outTime" class="my-8">
+      <td class="py-2 font-bold	">Time out:</td>
+      <td>{{req.timeSheetTracking?.outTime}}
+        <ng-container *ngIf="req.newOutTime">
+          -> <span class="font-bold">{{req.newOutTime}}</span>
+        </ng-container>
+      </td>
+    </tr>
+    <tr *ngIf="req.assignedName" class="my-8">
+      <td class="py-2 font-bold	">Send to:</td>
+      <td>{{req.assignedName}}</td>
+    </tr>
+    <tr class="my-8">
+      <td class="py-2 font-bold	">Status:</td>
+      <td>
+        <ng-container [ngSwitch]=" req.state">
+          <ng-container *ngSwitchCase="-1">
+            <span class="text-red-600">Cancel</span>
+          </ng-container>
+          <ng-container *ngSwitchCase="0">
+            <span class="text-yellow-400">Pending</span>
+          </ng-container>
+          <ng-container *ngSwitchCase="1">
+            <span class="text-blue-500">Approved</span>
+          </ng-container>
+        </ng-container>
+      </td>
+    </tr>
+    <tr *ngIf="req.comments" class="my-8">
+      <td class="py-2 font-bold	">Comment:</td>
+      <td>{{req.comments}}</td>
+    </tr>
+    <tr *ngIf="req.reason" class="my-8">
+      <td class="py-2 font-bold	">Reason:</td>
+      <td>{{req.reason}}</td>
+    </tr>
+    </tbody>
+  </table>
+  <footer class="flex justify-center mt-8">
+    <button (click)="close()" class="cancel blue-button mr-7">Cancel</button>
+  </footer>
+</article>
