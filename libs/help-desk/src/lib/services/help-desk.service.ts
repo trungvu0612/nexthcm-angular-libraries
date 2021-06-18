@@ -1,12 +1,18 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Zone } from '@nexthcm/ui';
 import { Observable, of } from 'rxjs';
-import { CalendarBuilding, ExternalEmail, PeopleInvite } from '../models/calendar-building';
+import { CalendarBuilding, ExternalEmail, PeopleInvite } from '../models';
 
 @Injectable({
   providedIn: 'root',
 })
 export class HelpDeskService {
-  constructor() {}
+  constructor(private http: HttpClient) {}
+
+  getMySeatMap(): Observable<Partial<Zone>> {
+    return this.http.get<Partial<Zone>>('/mytimeapp/v1.0/my-seats-map');
+  }
 
   get(): Observable<CalendarBuilding[]> {
     return of([

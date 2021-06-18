@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid';
-import { FormlyTaigaUiModule, LayoutModule } from '@nexthcm/ui';
+import { FormlyTaigaUiModule, GetFileModule, LayoutModule } from '@nexthcm/ui';
 import { FormlyModule } from '@ngx-formly/core';
 import { TuiLetModule } from '@taiga-ui/cdk';
 import {
@@ -106,6 +106,7 @@ FullCalendarModule.registerPlugins([dayGridPlugin]);
     TuiDataListModule,
     FormlyModule,
     TuiSliderModule,
+    GetFileModule,
   ],
 })
 export class HelpDeskModule {}

@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Zone, ZoneData, ZoneResponse } from '@nexthcm/ui';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Zone, ZoneData, ZoneResponse, ZoneType } from '../models/offices';
+import { ZoneType } from '../models/offices';
 
 @Injectable({
   providedIn: 'root',

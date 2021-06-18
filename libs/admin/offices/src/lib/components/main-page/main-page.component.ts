@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Zone, ZoneData } from '@nexthcm/ui';
 import { BehaviorSubject, merge, Observable, Subject } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-import { Zone, ZoneData, ZoneType } from '../../models/offices';
+import { ZoneType } from '../../models/offices';
 import { AdminOfficesService } from '../../services/admin-offices.service';
 
 @Component({

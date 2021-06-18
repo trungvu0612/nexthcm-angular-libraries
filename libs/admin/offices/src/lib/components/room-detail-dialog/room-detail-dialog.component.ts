@@ -9,14 +9,14 @@ import {
   Inject,
   ViewChild,
 } from '@angular/core';
-import { UploadFileService } from '@nexthcm/ui';
+import { Dimension, StyleSeat, UploadFileService, Zone } from '@nexthcm/ui';
 import { FormBuilder, FormControl, FormGroup } from '@ngneat/reactive-forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { startWith, takeUntil } from 'rxjs/operators';
-import { Dimension, SeatMapForm, StyleSeat, Zone } from '../../models/offices';
+import { SeatMapForm } from '../../models/offices';
 
 const keys: ('width' | 'height' | 'rounded')[] = ['width', 'height', 'rounded'];
 

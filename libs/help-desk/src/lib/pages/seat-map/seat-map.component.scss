@@ -1,25 +1,15 @@
-@import '~tailwindcss/utilities';
-
 :host {
-  display: block;
-
-  header {
-    .current-seat {
-      color: var(--tui-primary);
-      @apply flex justify-between items-center mr-7;
-    }
-
-    .building {
-      @apply flex justify-between items-center font-semibold rounded-xl bg-white w-72 h-12 p-4;
-    }
-  }
+  @apply flex flex-col h-full;
 
   .main-section {
     ::ng-deep {
       .content {
-        background-color: #f7f7f7;
-        @apply rounded-xl;
+        @apply bg-gray-50 rounded-xl;
       }
+    }
+
+    .current-seat {
+      color: var(--tui-primary);
     }
 
     .my-seat {
@@ -29,7 +19,6 @@
 
   footer {
     box-shadow: 0 -1px 16px rgba(0, 0, 0, 0.1);
-    @apply flex justify-evenly items-center bg-white h-16 mt-8;
 
     div {
       @apply flex items-center text-sm;

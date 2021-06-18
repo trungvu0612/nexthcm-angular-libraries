@@ -1,7 +1,7 @@
 <ng-container *transloco="let t">
   <header class="flex justify-between">
-    <tui-tabs [(activeItemIndex)]="activeItemIndex" class="flex items-center ml-6">
-      <button (click)="changeTab(index)" *ngFor="let tab of tabs; index as index" tuiTab>{{ t(tab) }}</button>
+    <tui-tabs [activeItemIndex]="(activeItemIndex$ | async) || 0" class="flex items-center ml-6">
+      <button (click)="changeTab(index)" *ngFor="let tab of tabs$ | async; index as index" tuiTab>{{ t(tab) }}</button>
     </tui-tabs>
     <div class="flex items-center border-l h-full">
       <tui-hosted-dropdown [(open)]="open" [content]="langsDropdown" class="mx-6">

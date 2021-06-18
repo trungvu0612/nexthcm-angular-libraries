@@ -1,9 +1,3 @@
 :host {
   display: block;
-  min-width: 1024px;
-  height: 100%;
-
-  ::ng-deep tui-root {
-    height: 100%;
-  }
 }
