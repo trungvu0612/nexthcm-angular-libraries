@@ -8,7 +8,7 @@ describe('RequestsDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [RequestsDialogComponent],
+      declarations: [RequestsDialogComponent]
     }).compileComponents();
   });
 

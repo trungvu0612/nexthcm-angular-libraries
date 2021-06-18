@@ -8,7 +8,7 @@ describe('ListMyRequestComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ListMyRequestComponent],
+      declarations: [ListMyRequestComponent]
     }).compileComponents();
   });
 

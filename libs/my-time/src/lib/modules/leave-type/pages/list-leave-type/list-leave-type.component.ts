@@ -11,7 +11,7 @@ import { LeaveTypeService } from '../../../../services/leave-type.service';
   templateUrl: './list-leave-type.component.html',
   styleUrls: ['./list-leave-type.component.scss'],
   providers: [TuiDestroyService],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ListLeaveTypeComponent implements OnInit {
   leaveTypes!: LeaveType[];
@@ -28,11 +28,12 @@ export class ListLeaveTypeComponent implements OnInit {
     private formBuilder: FormBuilder,
     private destroy$: TuiDestroyService,
     private cdr: ChangeDetectorRef
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
     this.searchForm = this.formBuilder.group<SearchLeaveType>({
-      name: '',
+      name: ''
     });
     const request$ = combineLatest([this.page$, this.perPageSubject, this.searchSubject])
       .pipe(

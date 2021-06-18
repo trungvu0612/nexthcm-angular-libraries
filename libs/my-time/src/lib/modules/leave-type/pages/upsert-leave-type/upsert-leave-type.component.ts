@@ -9,7 +9,7 @@ import { LeaveTypeService } from '../../../../services/leave-type.service';
   selector: 'hcm-upsert-leave-type',
   templateUrl: './upsert-leave-type.component.html',
   styleUrls: ['./upsert-leave-type.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UpsertLeaveTypeComponent implements OnInit {
   id!: string;
@@ -25,7 +25,7 @@ export class UpsertLeaveTypeComponent implements OnInit {
     this.leaveTypeForm = this.formBuilder.group<LeaveType>({
       orgId: '3ca97c73-7312-4191-b54d-3a8e0cc9e4dd',
       name: ['', Validators.required],
-      deleted: [0],
+      deleted: [0]
     });
   }
 

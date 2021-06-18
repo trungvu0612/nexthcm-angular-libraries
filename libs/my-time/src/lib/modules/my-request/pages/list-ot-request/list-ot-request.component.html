@@ -1,4 +1,4 @@
-<form (ngSubmit)="onSearch()" [formGroup]="$any(searchForm)" class="object-form-container">
+<div class="object-form-container">
   <div class="mt-8 ">
     <formly-form
       [fields]="fields"
@@ -8,12 +8,15 @@
     ></formly-form>
   </div>
   <div class="w-full text-center">
-    <button class="tui-space_right-3 tui-space_bottom-3 mt-5" icon="tuiIconSearchLarge" tuiButton type="submit">
+    <button (click)="onClick()"
+            class="blue-button"
+            icon="tuiIconSearchLarge" tuiButton type="submit">
       Search
     </button>
   </div>
-</form>
-<table [columns]="columns" class="my-8 w-full" tuiTable>
+</div>
+
+<table [columns]="columns" class="hcm-tui-table" tuiTable>
   <thead>
   <tr tuiThGroup>
     <th *tuiHead="'fromDate'" tuiTh>From Date</th>
@@ -25,34 +28,30 @@
   </tr>
   </thead>
   <tbody [data]="requests" tuiTbody>
-  <tr *tuiRow="let req of requests; let index = index" tuiTr>
-    <td *tuiCell="'fromDate'" tuiTd> {{ req.fromDate | date : 'dd/MM/yyyy' }}</td>
-    <td *tuiCell="'toDate'" tuiTd> {{ req.toDate | date : 'dd/MM/yyyy'}}</td>
+  <tr *tuiRow="let req of requests" tuiTr>
+    <td *tuiCell="'fromDate'" tuiTd> {{  $any(req.fromDate) | date : 'dd/MM/yyyy' }}</td>
+    <td *tuiCell="'toDate'" tuiTd> {{  $any(req.toDate) | date : 'dd/MM/yyyy'}}</td>
     <td *tuiCell="'reason'" tuiTd>{{ req.reason }}</td>
     <td *tuiCell="'assignedName'" tuiTd>{{ req.assignedName }}</td>
     <td *tuiCell="'state'" tuiTd>
-      <ng-container [ngSwitch]=" req.state">
-        <ng-container *ngSwitchCase="0">
-          <span class="text-red-600">Rejected</span>
-        </ng-container>
-        <ng-container *ngSwitchCase="1">
-          <span class="text-yellow-400">Pending</span>
-        </ng-container>
-        <ng-container *ngSwitchCase="2">
-          <span class="text-blue-500">Approved</span>
-        </ng-container>
-      </ng-container>
-
-
+      <tui-tag
+        [class]="STATUS[req.state + ''] + '-tag'"
+        [value]="STATUS[req.state + ''] | titlecase"
+        class="font-semibold"
+      ></tui-tag>
     </td>
     <td *tuiCell="'action'" tuiTd>
-      <button
-        [icon]="'tuiIconCloseCircleLarge'"
-        [shape]="$any('rounded')"
-        appearance="flat"
-        size="s"
-        tuiIconButton
-      ></button>
+      <button (click)="cancelReq(req)"
+              [icon]="'tuiIconRemoveLarge'"
+              [shape]="$any('rounded')" appearance="flat" size="s" tuiIconButton></button>
+      <button (click)="showDetail(req)"
+              [icon]="'tuiIconShowLarge'"
+              [shape]="$any('rounded')"
+              appearance="flat" class="ml-1" size="s" tuiIconButton></button>
+      <button (click)="approveReq(req)"
+              [icon]="'tuiIconCheckLarge'"
+              [shape]="$any('rounded')"
+              appearance="flat" class="ml-1" size="s" tuiIconButton></button>
     </td>
   </tr>
   </tbody>
@@ -62,5 +61,7 @@
   (sizeChange)="onSize($event)"
   [size]="size$"
   [total]="totalLength"
+  [total]="totalLength"
 ></tui-table-pagination>
 <p>Current page: {{ page$ | async }}</p>
+

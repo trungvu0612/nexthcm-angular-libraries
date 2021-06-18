@@ -1,4 +1,4 @@
-<form (ngSubmit)="onSearch()" [formGroup]="$any(searchForm)" class="object-form-container">
+<div class="object-form-container">
   <div class="mt-8 ">
     <formly-form
       [fields]="fields"
@@ -8,36 +8,46 @@
     ></formly-form>
   </div>
   <div class="w-full text-center">
-    <button class="tui-space_right-3 tui-space_bottom-3 mt-5" icon="tuiIconSearchLarge" tuiButton type="submit">
+    <button (click)="onClick()"
+            class="blue-button"
+            icon="tuiIconSearchLarge" tuiButton type="submit">
       Search
     </button>
   </div>
-</form>
-<table [columns]="columns" class="my-8 w-full" tuiTable>
+</div>
+
+<table [columns]="columns" class="hcm-tui-table" tuiTable>
   <thead>
   <tr tuiThGroup>
-    <th *tuiHead="'type'" tuiTh>Name</th>
-    <th *tuiHead="'fromDate'" tuiTh>fromDate</th>
-    <th *tuiHead="'toDate'" tuiTh>toDate</th>
-    <th *tuiHead="'reason'" tuiTh>reason</th>
+    <th *tuiHead="'fromDate'" tuiTh>From Date</th>
+    <th *tuiHead="'toDate'" tuiTh>To Date</th>
+    <th *tuiHead="'state'" tuiTh>Status</th>
+    <th *tuiHead="'assignedName'" tuiTh>Assignee</th>
+    <th *tuiHead="'reason'" tuiTh>Reason</th>
     <th *tuiHead="'action'" class="w-32" tuiTh>Action</th>
   </tr>
   </thead>
   <tbody [data]="requests" tuiTbody>
-  <tr *tuiRow="let req of requests; let index = index" tuiTr>
-    <td *tuiCell="'type'" tuiTd>{{ index + 1 }}. {{ req.type }}</td>
-    <td *tuiCell="'fromDate'" tuiTd>{{ index + 1 }}. {{ req.fromDate }}</td>
-    <td *tuiCell="'toDate'" tuiTd>{{ index + 1 }}. {{ req.toDate }}</td>
-    <td *tuiCell="'reason'" tuiTd>{{ index + 1 }}. {{ req.reason }}</td>
+  <tr *tuiRow="let req of requests" tuiTr>
+    <td *tuiCell="'fromDate'" tuiTd> {{  $any(req.fromDate) | date : 'dd/MM/yyyy' }}</td>
+    <td *tuiCell="'toDate'" tuiTd> {{  $any(req.toDate) | date : 'dd/MM/yyyy'}}</td>
+    <td *tuiCell="'reason'" tuiTd>{{ req.reason }}</td>
+    <td *tuiCell="'assignedName'" tuiTd>{{ req.assignedName }}</td>
+    <td *tuiCell="'state'" tuiTd>
+
+    </td>
     <td *tuiCell="'action'" tuiTd>
-      <button
-        [icon]="'tuiIconEditLarge'"
-        [routerLink]="['../edit/' + req.id]"
-        [shape]="$any('rounded')"
-        appearance="flat"
-        size="s"
-        tuiIconButton
-      ></button>
+      <button (click)="cancelReq(req)"
+              [icon]="'tuiIconRemoveLarge'"
+              [shape]="$any('rounded')" appearance="flat" size="s" tuiIconButton></button>
+      <button (click)="showDetail(req)"
+              [icon]="'tuiIconShowLarge'"
+              [shape]="$any('rounded')"
+              appearance="flat" class="ml-1" size="s" tuiIconButton></button>
+      <button (click)="approveReq(req)"
+              [icon]="'tuiIconCheckLarge'"
+              [shape]="$any('rounded')"
+              appearance="flat" class="ml-1" size="s" tuiIconButton></button>
     </td>
   </tr>
   </tbody>
@@ -47,5 +57,7 @@
   (sizeChange)="onSize($event)"
   [size]="size$"
   [total]="totalLength"
+  [total]="totalLength"
 ></tui-table-pagination>
 <p>Current page: {{ page$ | async }}</p>
+

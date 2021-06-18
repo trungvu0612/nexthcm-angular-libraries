@@ -1,7 +1,7 @@
-<div class="p-8">
-  <div class="container">
-    <div class="flex">
-      <div class="tui-text_h3">Leave Type</div>
+<main class="main-page">
+  <header>
+    <h1 class="text-4xl">My Leave</h1>
+    <div class="flex gap-4">
       <button
         class="tui-space_right-3 tui-space_bottom-3 ml-auto"
         icon="tuiIconPlusLarge"
@@ -12,7 +12,8 @@
         Add Leave Type
       </button>
     </div>
-
+  </header>
+  <section class="main-section px-8 py-10">
     <form (ngSubmit)="onSearch()" [formGroup]="$any(searchForm)" class="object-form-container">
       <div class="grid grid-cols-5">
         <div>
@@ -27,39 +28,42 @@
         </button>
       </div>
     </form>
-    <div class="grid-rows-1">
-      <div class="grid-cols-12">
-        <table [columns]="columns" class="my-8 w-full" tuiTable>
-          <thead>
-          <tr tuiThGroup>
-            <th *tuiHead="'name'" tuiTh>Name</th>
-            <th *tuiHead="'action'" class="w-32" tuiTh>Action</th>
-          </tr>
-          </thead>
-          <tbody [data]="leaveTypes" tuiTbody>
-          <tr *tuiRow="let type of leaveTypes; let index = index" tuiTr>
-            <td *tuiCell="'name'" tuiTd>{{ index + 1 }}. {{ type.name }}</td>
-            <td *tuiCell="'action'" tuiTd>
-              <button
-                [icon]="'tuiIconEditLarge'"
-                [routerLink]="['../edit/' + type.id]"
-                [shape]="$any('rounded')"
-                appearance="flat"
-                size="s"
-                tuiIconButton
-              ></button>
-            </td>
-          </tr>
-          </tbody>
-        </table>
-        <tui-table-pagination
-          (pageChange)="onPage($event)"
-          (sizeChange)="onSize($event)"
-          [size]="size$"
-          [total]="totalLength"
-        ></tui-table-pagination>
-        <p>Current page: {{ page$ | async }}</p>
-      </div>
-    </div>
-  </div>
-</div>
+    <article>
+      <table [columns]="columns" class="my-8 w-full" tuiTable>
+        <thead>
+        <tr tuiThGroup>
+          <th *tuiHead="'name'" tuiTh>Name</th>
+          <th *tuiHead="'action'" class="w-32" tuiTh>Action</th>
+        </tr>
+        </thead>
+        <tbody [data]="leaveTypes" tuiTbody>
+        <tr *tuiRow="let type of leaveTypes; let index = index" tuiTr>
+          <td *tuiCell="'name'" tuiTd>{{ index + 1 }}. {{ type.name }}</td>
+          <td *tuiCell="'action'" tuiTd>
+            <button
+              [icon]="'tuiIconEditLarge'"
+              [routerLink]="['../edit/' + type.id]"
+              [shape]="$any('rounded')"
+              appearance="flat"
+              size="s"
+              tuiIconButton
+            ></button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+      <tui-table-pagination
+        (pageChange)="onPage($event)"
+        (sizeChange)="onSize($event)"
+        [size]="size$"
+        [total]="totalLength"
+      ></tui-table-pagination>
+      <p>Current page: {{ page$ | async }}</p>
+    </article>
+  </section>
+</main>
+
+
+
+
+

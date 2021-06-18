@@ -8,7 +8,7 @@ describe('ListTimesheetUpdateComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ListTimesheetUpdateComponent],
+      declarations: [ListTimesheetUpdateComponent]
     }).compileComponents();
   });
 
