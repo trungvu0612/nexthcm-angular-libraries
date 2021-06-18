@@ -16,21 +16,26 @@ main.main-page {
 
 section.main-section {
   box-shadow: 0 4px 18px rgba(0, 0, 0, 0.06);
-  @apply bg-white rounded-xl;
+  @apply bg-white rounded-xl p-8;
 }
 
 .hcm-tui-table {
-  @apply w-full;
+  width: 100%;
+
+  button.sort {
+    font-weight: 600;
+
+    .arrow {
+      opacity: 1;
+    }
+  }
 
   th,
   td {
-    border-bottom: 1px solid #e4e4e4 !important;
-    font-family: 'Inter', sans-serif;
-    @apply text-sm border-none py-5;
+    @apply border-0 border-b text-sm py-5;
 
     &:not(td) {
-      color: #888c90;
-      @apply font-semibold;
+      @apply text-gray-500 font-semibold;
     }
 
 
@@ -39,6 +44,16 @@ section.main-section {
       max-width: 100px !important;
       @apply text-center;
     }
+  }
+
+  tbody {
+    tr:nth-child(odd) td {
+      @apply bg-gray-50;
+    }
+  }
+
+  tfoot td {
+    border: none;
   }
 }
 
@@ -54,7 +69,7 @@ button {
 .blue-button {
   background-color: var(--tui-primary);
   box-shadow: 0 4px 10px rgba(16, 156, 241, 0.24);
-  @apply flex justify-center items-center text-base text-white rounded-xl px-7 py-3 h-12;
+  @apply flex justify-center items-center text-base text-white rounded-xl px-7 py-3;
 
   &.btn-custom {
     @apply border-2 bg-white;
@@ -70,24 +85,8 @@ button {
   }
 }
 
-.admin-buttons {
-  @apply flex justify-end;
-
-  button {
-    @apply rounded-md text-white px-4 py-2 mx-3;
-
-    &.back {
-      margin: 0;
-    }
-
-    &.prev {
-      @apply bg-blue-900;
-    }
-
-    &.next {
-      @apply bg-blue-500;
-    }
-  }
+.admin-buttons > button {
+  @apply border rounded-lg text-sm px-6 py-2;
 }
 
 .custom-link {

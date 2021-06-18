@@ -4,15 +4,17 @@
   ::ng-deep {
     tui-stepper {
       button {
+        color: var(--tui-primary);
         font-size: 0.875rem;
 
         .marker {
+          color: var(--tui-primary);
           @apply w-12 h-12;
         }
 
         &._active {
           .marker_index {
-            background-color: var(--blue-primary) !important;
+            background-color: var(--tui-primary) !important;
           }
         }
       }

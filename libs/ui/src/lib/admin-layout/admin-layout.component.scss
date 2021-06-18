@@ -1,14 +1,22 @@
 :host {
   display: block;
-  min-width: 1024px;
-  background-color: #fafafb;
+  min-width: 1280px;
 
   .left-column {
     width: 255px;
-    border-right: solid 1px #e4e4e4;
   }
 
   .right-column {
     width: calc(100% - 255px);
+
+    ::ng-deep {
+      > *:not(router-outlet):not(hcm-admin-header) {
+        flex: auto;
+
+        > *:not(router-outlet) {
+          @apply bg-gray-100 h-full;
+        }
+      }
+    }
   }
 }

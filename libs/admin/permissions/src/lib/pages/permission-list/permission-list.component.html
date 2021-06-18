@@ -1,8 +1,9 @@
-<main class="main-page px-8 pt-20">
-  <div class="flex justify-end mb-10">
-    <a class="bg-blue-primary rounded-md text-white font-semibold px-6 py-2" routerLink="./create"> Add Policy </a>
-  </div>
-  <section class="main-section p-6">
+<main class="main-page">
+  <header>
+    <h1>Permission</h1>
+    <button class="blue-button" routerLink="./create">Create Permission</button>
+  </header>
+  <section class="main-section">
     <tui-hosted-dropdown [(open)]="open" [content]="dropdown">
       <span class="text-gray-500 font-medium mr-1">Channel:</span>
       <span class="text-blue-400 font-semibold"> {{ items[indexItem] }} </span>
@@ -20,7 +21,7 @@
         </button>
       </tui-data-list>
     </ng-template>
-    <table [columns]="columns" class="w-full mt-2" tuiTable>
+    <table [columns]="columns" class="hcm-tui-table mt-2" tuiTable>
       <thead>
         <tr tuiThGroup>
           <th *tuiHead="'name'" [sorter]="null" tuiTh>Permission Name</th>

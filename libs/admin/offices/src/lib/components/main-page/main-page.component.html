@@ -1,12 +1,12 @@
-<main *transloco="let t" class="main-page px-8 pt-20">
-  <div class="flex justify-end mb-10">
-    <button (click)="add.emit()" class="bg-blue-primary rounded-md text-white px-6 py-2">
+<main *transloco="let t" class="main-page">
+  <header>
+    <h1>{{ t(type + 'List') }}</h1>
+    <button (click)="add.emit()" class="blue-button">
       {{ t('add' + (type | titlecase)) }}
     </button>
-  </div>
-  <section class="main-section py-6">
-    <h1 class="text-2xl font-normal capitalize mx-6 mt-0">{{ t(type + 'List') }}</h1>
-    <table *tuiLet="data$ | async as data" [columns]="columns" class="w-full" tuiTable>
+  </header>
+  <section class="main-section">
+    <table *tuiLet="data$ | async as data" [columns]="columns" class="hcm-tui-table" tuiTable>
       <thead>
         <tr tuiThGroup>
           <th *tuiHead="'name'" tuiTh>{{ t('name') }}</th>
@@ -64,7 +64,7 @@
       </tbody>
       <tfoot>
         <tr>
-          <td [colSpan]="columns.length" class="px-5 py-3">
+          <td [colSpan]="columns.length">
             <tui-table-pagination
               (pageChange)="onChange('page', $event)"
               (sizeChange)="onChange('size', $event)"

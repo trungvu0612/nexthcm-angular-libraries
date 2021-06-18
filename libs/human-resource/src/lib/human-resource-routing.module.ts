@@ -20,6 +20,7 @@ const routes: Routes = [
         path: '',
         component: HumanResourceComponent,
         children: [
+          { path: '', pathMatch: 'full', redirectTo: 'organization-chart' },
           { path: 'organization-chart', component: OrganizationChartComponent },
           { path: 'employees', component: EmployeesComponent },
           {

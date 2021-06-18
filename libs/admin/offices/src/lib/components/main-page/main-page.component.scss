@@ -1,36 +1,8 @@
 :host {
   display: block;
 
-  main {
-    table {
-      tui-checkbox {
-        margin: 0 auto;
-      }
-
-      th,
-      td {
-        border: none;
-      }
-
-      thead th {
-        ::ng-deep {
-          @apply text-gray-400 uppercase font-normal;
-
-          button.sort {
-            @apply flex justify-between uppercase font-normal w-full;
-
-            .arrow {
-              opacity: 1;
-            }
-          }
-        }
-      }
-
-      tbody {
-        tr:nth-child(odd) td {
-          @apply bg-gray-50;
-        }
-      }
-    }
+  th,
+  td {
+    padding: 0.75rem;
   }
 }
