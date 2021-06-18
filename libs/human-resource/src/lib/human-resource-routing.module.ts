@@ -20,7 +20,7 @@ const routes: Routes = [
         path: '',
         component: HumanResourceComponent,
         children: [
-          { path: '', component: OrganizationChartComponent },
+          { path: 'organization-chart', component: OrganizationChartComponent },
           { path: 'employees', component: EmployeesComponent },
           {
             path: 'employees/:id',

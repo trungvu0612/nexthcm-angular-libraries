@@ -8,8 +8,8 @@ import { filter, map, startWith } from 'rxjs/operators';
 
 const PATHS: { [key: string]: string[] } = {
   'help-desk': ['seatMap', 'bvCalendar'],
-  'human-resource': ['chart', 'teams', 'employees'],
-  'my-time': ['leave', 'workingHour', 'request'],
+  'human-resource': ['organizationChart', 'teams', 'employees'],
+  'my-time': ['myLeave', 'workingHour', 'myRequest'],
   policy: ['policies', 'updated'],
 };
 

@@ -166,8 +166,9 @@ export class RoomDetailDialogComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     if (this.context.data) {
-      const { name, imageUrl } = this.context.data;
+      const { name, imageUrl, office } = this.context.data;
       if (name) this.form.patchValue({ name });
+      if (office) this.form.patchValue({ office });
       if (imageUrl) this.model.imageUrl = imageUrl;
       this.title = 'editRoom';
     } else this.title = 'addRoom';
