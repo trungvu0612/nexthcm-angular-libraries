@@ -10,6 +10,7 @@
     "@tinkoff/ng-dompurify",
     "ngx-cookie",
     "inter-ui",
-    "@ngneat/transloco"
+    "@ngneat/transloco",
+    "date-fns"
   ]
 }
