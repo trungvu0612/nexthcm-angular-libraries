@@ -7,7 +7,7 @@ import { ServiceInfo } from '../../models/permission';
 @Component({
   selector: 'formly-input-service',
   templateUrl: './input-service.type.html',
-  styles: [':host {padding-left: 20% !important; @apply flex border-b p-7;}'],
+  styles: [':host {display: flex; padding: 1.75rem 1.75rem 1.75rem 20%; border-bottom: 1px solid black;}'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [TuiDestroyService],
 })

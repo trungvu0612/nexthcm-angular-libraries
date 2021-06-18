@@ -7,7 +7,7 @@ import { takeUntil } from 'rxjs/operators';
 @Component({
   selector: 'formly-input-actions',
   templateUrl: './input-actions.type.html',
-  styles: [':host {padding-left: 20% !important; @apply block p-7;}'],
+  styles: [':host {display: block; padding: 1.75rem 1.75rem 1.75rem 20%;}'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [TuiDestroyService],
 })
