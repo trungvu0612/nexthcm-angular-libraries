@@ -1,7 +1,9 @@
 <main class="main-page">
-  <section class="main-section max-w-screen-xl mx-auto p-6">
-    <h1 class="text-indigo-800 font-medium">Create Permission</h1>
-    <tui-stepper [(activeItemIndex)]="stepperIndex" class="flex justify-center my-14">
+  <header>
+    <h1>Create Permission</h1>
+  </header>
+  <section class="main-section">
+    <tui-stepper [(activeItemIndex)]="stepperIndex" class="flex justify-center mb-8">
       <button [state]="servicesForm.valid ? 'pass' : 'normal'" tuiStep>Service & Resource</button>
       <button [disabled]="!servicesForm.valid" [state]="permissionForm.valid ? 'pass' : 'normal'" tuiStep>
         Review Policy
@@ -43,13 +45,15 @@
         Allow ({{ servicesModel.services?.length }} of {{ servicesInfo.length }} services)
       </p>
     </form>
-    <div class="admin-buttons mt-5">
-      <button *ngIf="stepperIndex < 2" class="back text-blue-primary px-4" routerLink="../">Cancel</button>
-      <button (click)="nextStep(1)" *ngIf="stepperIndex === 0" [disabled]="!servicesForm.valid" class="next">
+    <div class="admin-buttons flex justify-end gap-4 mt-5">
+      <button *ngIf="stepperIndex < 2" class="blue-button btn-custom btn-red" routerLink="../">Cancel</button>
+      <button (click)="nextStep(1)" *ngIf="stepperIndex === 0" [disabled]="!servicesForm.valid" class="blue-button">
         Next
       </button>
-      <button (click)="nextStep(-1)" *ngIf="stepperIndex === 1" class="prev">Previous</button>
-      <button (click)="nextStep(1)" *ngIf="stepperIndex === 1" [disabled]="!permissionForm.valid" class="next">
+      <button (click)="nextStep(-1)" *ngIf="stepperIndex === 1" class="blue-button btn-custom btn-primary">
+        Previous
+      </button>
+      <button (click)="nextStep(1)" *ngIf="stepperIndex === 1" [disabled]="!permissionForm.valid" class="blue-button">
         Create Policy
       </button>
     </div>

@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AdminLayoutComponent } from '@nexthcm/ui';
 import { AdminPermissionsComponent } from './admin-permissions.component';
 import { CreatePermissionComponent } from './pages/create-permission/create-permission.component';
 import { PermissionListComponent } from './pages/permission-list/permission-list.component';
@@ -8,19 +9,25 @@ import { UpdatePermissionComponent } from './pages/update-permission/update-perm
 const routes: Routes = [
   {
     path: '',
-    component: AdminPermissionsComponent,
+    component: AdminLayoutComponent,
     children: [
       {
         path: '',
-        component: PermissionListComponent,
-      },
-      {
-        path: 'create',
-        component: CreatePermissionComponent,
-      },
-      {
-        path: 'update/:id',
-        component: UpdatePermissionComponent,
+        component: AdminPermissionsComponent,
+        children: [
+          {
+            path: '',
+            component: PermissionListComponent,
+          },
+          {
+            path: 'create',
+            component: CreatePermissionComponent,
+          },
+          {
+            path: 'update/:id',
+            component: UpdatePermissionComponent,
+          },
+        ],
       },
     ],
   },

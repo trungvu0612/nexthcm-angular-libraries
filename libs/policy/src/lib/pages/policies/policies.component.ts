@@ -3,11 +3,11 @@ import { Policy } from '../../models/policy';
 
 @Component({
   selector: 'hcm-policy',
-  templateUrl: './policy.component.html',
-  styleUrls: ['./policy.component.scss'],
+  templateUrl: './policies.component.html',
+  styleUrls: ['./policies.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PolicyComponent {
+export class PoliciesComponent {
   data: Policy[] = [
     {
       id: '123',

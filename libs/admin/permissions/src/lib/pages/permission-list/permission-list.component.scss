@@ -1,16 +1,7 @@
 :host {
   display: block;
 
-  th,
-  td {
-    @apply border-l-0 border-r-0 text-gray-400 text-center font-medium py-4;
-  }
-
-  th {
-    border-top: none;
-  }
-
-  td:first-child {
-    @apply text-base text-black;
+  th:last-child {
+    text-align: center;
   }
 }

@@ -11,7 +11,11 @@
 
     ::ng-deep {
       > *:not(router-outlet):not(hcm-header) {
-        @apply flex-auto bg-gray-100;
+        flex: auto;
+
+        > *:not(router-outlet) {
+          @apply bg-gray-100 h-full;
+        }
       }
     }
   }

@@ -1,11 +1,9 @@
-<main class="main-page px-8 pt-20">
-  <div class="flex justify-end mb-10">
-    <button class="bg-blue-primary rounded-md text-white px-6 py-2" routerLink="./add" tuiButton>Add Branch</button>
-  </div>
-
-  <section class="main-section py-6">
-    <h1 class="text-2xl font-normal capitalize mx-6 mt-0">List</h1>
-
+<main class="main-page">
+  <header>
+    <h1>List</h1>
+    <button class="blue-button" routerLink="./add" tuiButton>Add Branch</button>
+  </header>
+  <section class="main-section">
     <table *tuiLet="dataTest$ | async as data" [columns]="columns" class="w-full" tuiTable>
       <thead>
         <tr tuiThGroup>

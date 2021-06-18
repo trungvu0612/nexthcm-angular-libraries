@@ -1,27 +1,28 @@
-  <div class="grid grid-cols-2">
-  <div class="">
-    <ng-container *ngFor="let item of items let last = last">
-      <div class="inline mr-2">
-        <a *ngIf="!last" [routerLink]="'/'">{{ item.caption }}</a>
-        <span *ngIf="last" [routerLink]="'/'">{{ item.caption }}</span>
-        <span *ngIf="!last"><tui-svg src="assets/icons/arrow.svg"></tui-svg></span>
-      </div>
-    </ng-container>
-  </div>
-
-  <div class="text-right mr-10">
-    <div class="notification inline">
-      <img class="inline" src="assets/icons/bell.svg"/>
-      <div *ngIf="notification" class="badge">{{ notification }}</div>
-    </div>
-    <tui-hosted-dropdown [content]="avatarDropdown" class="mx-5">
-      <tui-avatar [rounded]="true" avatarUrl="assets/icons/cake.svg" class="cursor-pointer" size="s"></tui-avatar>
-    </tui-hosted-dropdown>
+<div class="flex items-center text-base">
+  <div *ngFor="let item of items; let last = last">
+    <a *ngIf="!last" [routerLink]="'/'">{{ item.caption }}</a>
+    <span *ngIf="last" [routerLink]="'/'">{{ item.caption }}</span>
+    <tui-svg *ngIf="!last" class="mx-2" src="assets/icons/arrow.svg"></tui-svg>
   </div>
 </div>
 
-  <ng-template #avatarDropdown>
-    <tui-data-list>
-      <button (click)="logout()" class="font-normal" tuiOption>Sign out</button>
-    </tui-data-list>
-  </ng-template>
+<div class="flex items-center gap-6">
+  <div class="relative cursor-pointer">
+    <img src="assets/icons/bell.svg" />
+    <div
+      *ngIf="notification"
+      class="badge"
+    >
+      {{ notification }}
+    </div>
+  </div>
+  <tui-hosted-dropdown [content]="avatarDropdown">
+    <tui-avatar [rounded]="true" avatarUrl="assets/icons/cake.svg" class="cursor-pointer" size="s"></tui-avatar>
+  </tui-hosted-dropdown>
+</div>
+
+<ng-template #avatarDropdown>
+  <tui-data-list>
+    <button (click)="logout()" class="font-normal" tuiOption>Sign out</button>
+  </tui-data-list>
+</ng-template>

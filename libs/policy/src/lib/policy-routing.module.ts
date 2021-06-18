@@ -2,10 +2,10 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from '@nexthcm/auth';
 import { LayoutComponent } from '@nexthcm/ui';
+import { PoliciesComponent } from './pages/policies/policies.component';
 import { PolicyDetailComponent } from './pages/policy-detail/policy-detail.component';
-import { PolicyComponent } from './pages/policy/policy.component';
 import { UpdatedComponent } from './pages/updated/updated.component';
-import { PolicyLayoutComponent } from './policy-layout.component';
+import { PolicyComponent } from './policy.component';
 
 const routes: Routes = [
   {
@@ -15,10 +15,10 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: PolicyLayoutComponent,
+        component: PolicyComponent,
         children: [
           { path: '', pathMatch: 'full', redirectTo: 'policies' },
-          { path: 'policies', component: PolicyComponent },
+          { path: 'policies', component: PoliciesComponent },
           { path: 'policies/:id', component: PolicyDetailComponent },
           { path: 'updated', component: UpdatedComponent },
         ],
