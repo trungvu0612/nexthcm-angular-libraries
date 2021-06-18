@@ -11,6 +11,7 @@
     "@tinkoff/ng-dompurify": "^3.0.0",
     "ngx-cookie": "^5.0.2",
     "inter-ui": "^3.18.1",
-    "@ngneat/transloco": "^2.21.0"
+    "@ngneat/transloco": "^2.21.0",
+    "date-fns": "^2.22.1"
   }
 }
