@@ -1,0 +1,13 @@
+<tui-filter
+  *tuiLet="to.options | selectOptions | async as items"
+  [formControl]="$any(formControl)"
+  [size]="to.size"
+  [disabledItemHandler]="to.disabledItemHandler"
+  [identityMatcher]="to.identityMatcher"
+  [items]="items"
+  [badgeHandler]="to.badgeHandler"
+  [content]="content"
+  (toggledItem)="onToggledItem()"
+></tui-filter>
+
+<ng-template #content let-item>{{ item[to.labelProp] }}</ng-template>

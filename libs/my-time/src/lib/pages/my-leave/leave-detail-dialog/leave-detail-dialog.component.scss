@@ -1,0 +1,32 @@
+:host {
+  display: block;
+
+  .rejected-tag {
+    background: #eb3b5a !important;
+  }
+
+  .approved-tag {
+    background: #20bf6b !important;
+  }
+
+  .cancelled-tag {
+    background: grey !important;
+  }
+
+  .scheduled-tag {
+    background: pink !important;
+  }
+
+  .taken-tag {
+    background: red !important;
+  }
+
+  .weekend-tag {
+    background: purple !important;
+  }
+
+  .holiday-tag {
+    background: blue !important;
+  }
+
+}

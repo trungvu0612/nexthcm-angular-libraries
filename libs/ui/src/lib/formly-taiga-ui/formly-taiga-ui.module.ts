@@ -7,6 +7,7 @@ import { InputsModule } from './modules/inputs/inputs.module';
 import { RadioModule } from './modules/radio/radio.module';
 import { SelectsModule } from './modules/selects/selects.module';
 import { ToggleModule } from './modules/toggle/toggle.module';
+import { FilterModule } from './modules/filter/filter.module';
 
 @NgModule({
   imports: [
@@ -18,6 +19,7 @@ import { ToggleModule } from './modules/toggle/toggle.module';
     ToggleModule,
     FilesModule,
     ComboBoxModule,
+    FilterModule,
   ],
 })
 export class FormlyTaigaUiModule {}
