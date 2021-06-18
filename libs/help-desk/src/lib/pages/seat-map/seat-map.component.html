@@ -1,14 +1,13 @@
-<main class="main-page">
+<main class="main-page flex-auto">
   <header>
     <h1>Seat Map</h1>
     <div class="flex items-center text-base">
-      <button (click)="findMySeat()" class="current-seat">
+      <button (click)="findMySeat()" class="current-seat flex justify-between items-center mr-7">
         <tui-svg src="assets/icons/current-location.svg"></tui-svg>
         My seat
       </button>
-      <button (click)="createMap()" class="blue-button mr-7">Create Map</button>
-      <div class="building">
-        Copac - Floor 2C
+      <div class="flex justify-between items-center font-semibold rounded-xl bg-white w-72 h-12 p-4">
+        Building
         <tui-svg src="assets/icons/office-building.svg"></tui-svg>
       </div>
     </div>
@@ -17,7 +16,7 @@
     <tui-input [formControl]="inputSearch" class="w-full mb-8" icon="tuiIconSearch" iconAlign="left">
       Search by CIF, Full Name
     </tui-input>
-    <article class="relative">
+    <article *ngIf="seatMap$ | async as seatMap" class="relative">
       <hcm-seat
         (cdkDragEnded)="handleDragEnded($event)"
         (cdkDragStarted)="moveSeat($event, index)"
@@ -25,18 +24,15 @@
         (delete)="deleteSeat(index)"
         *ngFor="let seat of seatMap.seats; index as index"
         [class.my-seat]="index === ping"
-        [dimension]="[seat.scaleX || seatMap.scaleX, seat.scaleY || seatMap.scaleY]"
-        [rounded]="seatMap.rounded || 0"
         [seat]="seat"
-        [style]="{ transform: 'translate3d(-50%, -50%, 0)' }"
         cdkDrag
         cdkDragBoundary="article"
       ></hcm-seat>
-      <img class="w-full" src="https://i.imgur.com/LgjOMhH.png" />
+      <img [src]="seatMap.imageUrl || '' | getFile | async" class="w-full" />
     </article>
   </section>
 </main>
-<footer>
+<footer class="flex justify-evenly items-center bg-white h-16">
   <div>
     <div class="checked-in"></div>
     Checked in

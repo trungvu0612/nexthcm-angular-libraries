@@ -24,9 +24,9 @@
       }"
       cdkDrag
       cdkDragBoundary="article"
-      class="seat"
+      class="absolute bg-blue-400 opacity-60"
     >
-      <img src="assets/icons/marker.svg" />
+      <img class="object-contain w-full h-full" src="assets/icons/marker.svg" />
     </button>
     <img (load)="onImageLoad($event)" [src]="model.imageUrl | getFile | async" class="w-full" />
   </article>
@@ -48,10 +48,10 @@
       "
     ></formly-form>
     <button
-      type="button"
       (click)="onReset()"
       [disabled]="seats[current].width === undefined"
       class="bg-white border border-red-600 rounded text-red-600 h-6 ml-4 px-2"
+      type="button"
     >
       Reset
     </button>

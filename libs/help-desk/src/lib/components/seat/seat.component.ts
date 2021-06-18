@@ -8,8 +8,8 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { SeatInfo } from '../../models';
 import { Router } from '@angular/router';
+import { Seat } from '@nexthcm/ui';
 
 @Component({
   selector: 'hcm-seat',
@@ -18,12 +18,10 @@ import { Router } from '@angular/router';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SeatComponent implements OnInit {
-  @Input() seat!: SeatInfo;
-  @Input() dimension!: number[];
-  @Input() rounded!: number;
+  @Input() seat!: Partial<Seat>;
   @Output() delete = new EventEmitter();
   isAdmin = true;
-  status!: string;
+  @HostBinding('class') status!: string;
 
   constructor(public elementRef: ElementRef, private router: Router) {}
 
@@ -36,15 +34,20 @@ export class SeatComponent implements OnInit {
   }
 
   @HostBinding('style.width') get width() {
-    return this.dimension[0] + '%';
+    return this.seat.width + '%';
   }
 
   @HostBinding('style.height') get height() {
-    return this.dimension[1] + '%';
+    return this.seat.height + '%';
+  }
+
+  @HostBinding('style.border-radius') get rounded() {
+    return this.seat.rounded + '%';
   }
 
   ngOnInit(): void {
-    this.status = this.seat.status ? this.seat.status.toLowerCase().replace('/', '-').split(' ').join('-') : '';
+    this.status = 'leave';
+    // this.status = this.seat.status ? this.seat.status.toLowerCase().replace('/', '-').split(' ').join('-') : '';
   }
 
   onDelete(): void {

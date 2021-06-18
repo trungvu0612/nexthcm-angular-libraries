@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, Injector } from '@angular/core';
+import { Zone } from '@nexthcm/ui';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { Observable, Subject } from 'rxjs';
 import { OfficeDetailDialogComponent } from '../../components/office-detail-dialog/office-detail-dialog.component';
-import { Zone } from '../../models/offices';
 import { AdminOfficesService } from '../../services/admin-offices.service';
 
 @Component({

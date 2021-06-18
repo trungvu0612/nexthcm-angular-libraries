@@ -3,7 +3,7 @@
 @import 'other/tag.scss';
 
 main.main-page {
-  @apply bg-gray-100 min-h-screen px-14 py-9;
+  @apply px-14 py-9;
 
   > header {
     @apply flex justify-between items-center font-semibold h-12 mb-8;

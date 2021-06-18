@@ -1,9 +1,9 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { Zone } from '@nexthcm/ui';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
-import { Zone } from '../../models/offices';
 
 @Component({
   selector: 'hcm-office-detail',

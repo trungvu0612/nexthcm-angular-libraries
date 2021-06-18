@@ -33,14 +33,5 @@
         }
       }
     }
-
-    .seat {
-      @apply flex items-end absolute bg-blue-400 opacity-60;
-
-      img {
-        height: 90%;
-        @apply object-contain w-full;
-      }
-    }
   }
 }
