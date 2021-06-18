@@ -5,6 +5,8 @@ import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { Observable, of } from 'rxjs';
 import { AdminEmployeeService } from '../../services/admin-employee.service';
 import { map } from 'rxjs/operators';
+import { GENDER_NAME, MARITAL_STATUS } from '../../models/employee-enum';
+import { TuiDay } from '@taiga-ui/cdk';
 
 @Component({
   selector: 'hcm-upsert-employee',
@@ -13,7 +15,18 @@ import { map } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UpsertEmployeeComponent implements OnInit {
-  dataTest$?: Observable<any> = this.AdminEmployeeService.getUserRoles().pipe(map((res) => res.data.items));
+  dataRoles$?: Observable<any> = this.AdminEmployeeService.getUserRoles().pipe(map((res) => res.data.items));
+  dataPermission$?: Observable<any> = this.AdminEmployeeService.getPermissions().pipe(map((res) => res.data.items));
+  dataCountries$?: Observable<any> = this.AdminEmployeeService.getCountries().pipe(map((res) => res.items));
+  dataLanguage$?: Observable<any> = this.AdminEmployeeService.getCountries().pipe(map((res) => res.items));
+  dataUserGroups$?: Observable<any> = this.AdminEmployeeService.getUserGroups().pipe(map((res) => res.items));
+  dataUsersReport$?: Observable<any> = this.AdminEmployeeService.getAllUsers().pipe(map((res) => res.data.items));
+  dataJobTitle$?: Observable<any> = this.AdminEmployeeService.getJobTitle().pipe(map((res) => res.data.items));
+
+  dataGender$ = GENDER_NAME;
+  dataMarital$ = MARITAL_STATUS;
+
+  UserElement: any;
   titleId!: string | undefined;
   userId!: string | undefined;
   contactId!: string | undefined;
@@ -36,23 +49,23 @@ export class UpsertEmployeeComponent implements OnInit {
       },
     },
     {
-      key: 'jobTitle',
-      type: 'input',
+      key: 'title.id',
+      type: 'select',
       templateOptions: {
-        label: 'Job Title:',
+        options: this.dataJobTitle$,
+        labelProp: 'name',
+        valueProp: 'id',
+        placeholder: 'Job Title:',
       },
     },
     {
-      key: 'permission',
-      type: 'select',
+      key: 'policies',
+      type: 'multi-select',
       templateOptions: {
-        options: [
-          { id: 1, name: 'permission 1' },
-          { id: 2, name: 'permission 2' },
-        ],
+        options: this.dataPermission$,
         labelProp: 'name',
-        valueProp: 'id',
-        placeholder: 'Start Time:',
+        valueProp: 'policyId',
+        placeholder: 'Permission:',
       },
     },
     {
@@ -75,7 +88,7 @@ export class UpsertEmployeeComponent implements OnInit {
       key: 'roles',
       type: 'multi-select',
       templateOptions: {
-        options: this.dataTest$,
+        options: this.dataRoles$,
         labelProp: 'name',
         valueProp: 'id',
         placeholder: 'Role Name',
@@ -99,13 +112,10 @@ export class UpsertEmployeeComponent implements OnInit {
       },
     },
     {
-      key: 'userGroup',
+      key: 'userGroups.id',
       type: 'select',
       templateOptions: {
-        options: [
-          { id: 1, name: 'group 1' },
-          { id: 2, name: 'group 2' },
-        ],
+        options: this.dataUserGroups$,
         labelProp: 'name',
         valueProp: 'id',
         placeholder: 'User Group:',
@@ -113,7 +123,7 @@ export class UpsertEmployeeComponent implements OnInit {
     },
     {
       className: 'status',
-      key: 'status',
+      key: 'state',
       type: 'toggle',
       templateOptions: { textfieldLabelOutside: true },
       expressionProperties: {
@@ -122,7 +132,7 @@ export class UpsertEmployeeComponent implements OnInit {
       },
     },
     {
-      key: 'joinDate',
+      key: 'registration',
       type: 'input-date',
       templateOptions: {
         label: 'Join date:',
@@ -133,7 +143,7 @@ export class UpsertEmployeeComponent implements OnInit {
       type: '',
     },
     {
-      key: 'dateBirth',
+      key: 'profile.birthDay',
       type: 'input-date',
       templateOptions: {
         label: 'DOB:',
@@ -152,20 +162,17 @@ export class UpsertEmployeeComponent implements OnInit {
       type: '',
     },
     {
-      key: 'gender',
+      key: 'profile.gender',
       type: 'select',
       templateOptions: {
-        options: [
-          { id: 1, name: 'Male' },
-          { id: 2, name: 'Female' },
-        ],
+        options: this.dataGender$,
         labelProp: 'name',
         valueProp: 'id',
         placeholder: 'Gender:',
       },
     },
     {
-      key: 'skype',
+      key: 'contact.skype',
       type: 'input',
       templateOptions: {
         label: 'Skype:',
@@ -176,20 +183,17 @@ export class UpsertEmployeeComponent implements OnInit {
       type: '',
     },
     {
-      key: 'marital',
+      key: 'profile.maritalStatus',
       type: 'select',
       templateOptions: {
-        options: [
-          { id: 1, name: 'Single' },
-          { id: 2, name: 'Married' },
-        ],
+        options: this.dataMarital$,
         labelProp: 'name',
-        valueProp: 'id',
+        valueProp: 'value',
         placeholder: 'Marital Status:',
       },
     },
     {
-      key: 'major',
+      key: 'profile.major',
       type: 'text-area',
       templateOptions: {
         label: 'Major/Specialization:',
@@ -203,20 +207,17 @@ export class UpsertEmployeeComponent implements OnInit {
       type: '',
     },
     {
-      key: 'nationality',
+      key: 'address.countryId',
       type: 'select',
       templateOptions: {
-        options: [
-          { id: 1, name: 'Vietnam' },
-          { id: 2, name: 'Thailand' },
-        ],
+        options: this.dataCountries$,
         labelProp: 'name',
         valueProp: 'id',
         placeholder: 'Nationality:',
       },
     },
     {
-      key: 'institute:',
+      key: 'profile.institute:',
       type: 'input',
       templateOptions: {
         label: 'Institute:',
@@ -227,20 +228,17 @@ export class UpsertEmployeeComponent implements OnInit {
       type: '',
     },
     {
-      key: 'languague',
+      key: 'languagueId',
       type: 'select',
       templateOptions: {
-        options: [
-          { id: 1, name: 'Vietnam' },
-          { id: 2, name: 'Thailand' },
-        ],
+        options: this.dataLanguage$,
         labelProp: 'name',
         valueProp: 'id',
         placeholder: 'Languages:',
       },
     },
     {
-      key: 'facebook',
+      key: 'contact.facebook',
       type: 'input',
       templateOptions: {
         label: 'Facebook:',
@@ -251,20 +249,17 @@ export class UpsertEmployeeComponent implements OnInit {
       type: '',
     },
     {
-      key: 'joblevel',
+      key: 'level.id',
       type: 'select',
       templateOptions: {
-        options: [
-          { id: 1, name: 'Senior' },
-          { id: 2, name: 'Junior' },
-        ],
+        options: [],
         labelProp: 'name',
         valueProp: 'id',
         placeholder: 'Job Level:',
       },
     },
     {
-      key: 'instagram',
+      key: 'contact.instagram',
       type: 'input',
       templateOptions: {
         label: 'Instagram:',
@@ -275,20 +270,17 @@ export class UpsertEmployeeComponent implements OnInit {
       type: '',
     },
     {
-      key: 'directreport',
+      key: 'reportTo.id',
       type: 'select',
       templateOptions: {
-        options: [
-          { id: 1, name: 'Senior' },
-          { id: 2, name: 'Junior' },
-        ],
-        labelProp: 'name',
+        options: this.dataUsersReport$,
+        labelProp: 'username',
         valueProp: 'id',
         placeholder: 'Direct Report:',
       },
     },
     {
-      key: 'salary',
+      key: 'profile.salary',
       type: 'input',
       templateOptions: {
         label: 'Salary:',
@@ -328,45 +320,78 @@ export class UpsertEmployeeComponent implements OnInit {
   ngOnInit(): void {
     if (this.userId) {
       this.AdminEmployeeService.getUserById(this.userId).subscribe((item) => {
+        console.log(item.roles);
         this.titleId = item?.title?.id;
         this.contactId = item?.contact?.id;
         this.contactType = item?.contact?.contactType;
         this.address2 = item?.address?.address2;
+
         this.form.patchValue(item);
       });
     }
   }
 
   saveEmployee() {
-    console.log(this.form.value.roles);
+    const formModel = this.form.value;
     const rolesData: any[] = [];
-    this.form.value.roles.forEach(function (item: any) {
-      rolesData.push({ id: item });
+
+    formModel?.roles.forEach(function (item: any) {
+      if (item?.id) {
+        rolesData.push({ id: item.id });
+      } else {
+        rolesData.push({ id: item });
+      }
     });
 
-    const UserElement = {
-      title: {
-        id: this.titleId,
-      },
-      id: '',
+    const permissionData: any[] = [];
+    formModel?.policies.forEach(function (item: any) {
+      if (item?.policyId) {
+        permissionData.push({ policyId: item.policyId });
+      } else {
+        permissionData.push({ policyId: item });
+      }
+    });
+
+    this.UserElement = {
       state: 1,
       registerType: 'R',
       roles: rolesData,
+      policies: permissionData,
       reportTo: {
         id: '9d07f921-81c3-4c2c-a838-e279dc04a80f',
       },
     };
 
     if (this.userId) {
-      UserElement.id = this.userId;
-      this.form.value.contact.id = this.contactId;
-      this.form.value.contact.contactType = this.contactType;
-      this.form.value.address.address2 = this.address2;
-      this.form.value.profile.userId = this.userId;
+      this.UserElement.id = this.userId;
+
+      if (this.titleId) {
+        this.UserElement.title = {
+          id: this.titleId,
+        };
+      }
+      formModel.contact.id = this.contactId;
+      formModel.contact.contactType = this.contactType;
+      formModel.address.address2 = this.address2;
+      formModel.profile.userId = this.userId;
+    }
+    if (formModel.state == 'true') {
+      formModel.state = 1;
+    } else {
+      formModel.state = -1;
     }
 
-    delete this.form.value.roles;
-    const formData = Object.assign(UserElement, this.form.value);
+    if (formModel.profile.birthDay) {
+      formModel.profile.birthDay = (formModel.profile.birthDay as TuiDay).toLocalNativeDate().valueOf();
+    }
+    if (formModel.profile.registration) {
+      formModel.registration = (formModel.registration as TuiDay).toLocalNativeDate().valueOf();
+    }
+
+    delete formModel.policies;
+    delete formModel.roles;
+    const formData = Object.assign(this.UserElement, formModel);
+    console.log(formData);
 
     if (this.form.valid) {
       if (this.userId) {
