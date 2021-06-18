@@ -1,23 +1,18 @@
 <div class="flex">
   <ng-select
-    (scroll)="onScroll($event)"
-    (scrollToEnd)="onScrollToEnd()"
+    *tuiLet="to.options | selectOptions | async as items"
     [addTag]="to.addTag"
     [bindLabel]="to.labelProp"
     [bindValue]="to.valueProp"
     [formControl]="$any(formControl)"
-    [hideSelected]="to.hideSelected"
+    [compareWith]="to.compareWith"
     [items]="items"
-    [loading]="isLoading"
-    [minTermLength]="to.minTermLength"
     [multiple]="to.multiple"
-    [notFoundText]="to.notFoundText"
     [placeholder]="to.placeholder || ''"
     [readonly]="!!to.readonly"
     [trackByFn]="to.trackByFn"
-    [typeToSearchText]="to.typeToSearchText || ''"
-    [typeahead]="search$"
-    [virtualScroll]="to.virtualScroll"
+    [hideSelected]="!!to.hideSelected"
+    [searchable]="to.searchable"
     class="flex-1"
   >
     <ng-container *ngIf="to.useOptionTemplate">

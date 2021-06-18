@@ -31,7 +31,7 @@ export interface Action {
 }
 
 export interface Transition {
-  transitionValueId: string;
+  id: string;
   name: string;
   fromStateId?: string;
   toStateId: string;
@@ -48,4 +48,12 @@ export interface Process {
   template?: string;
   states?: State[];
   transitions?: Transition[];
+}
+
+export interface ProcessInit {
+  processName: string;
+  processDescription: string;
+  stateName: string;
+  stateDescription: string;
+  stateType: StatusType;
 }

@@ -3,7 +3,8 @@ import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
-import { Process } from '../../models/process';
+import { ProcessInit } from '../../models/process';
+import { StatusType } from '../../models/status-type';
 import { ProcessesService } from '../../services/processes.service';
 
 @Component({
@@ -14,7 +15,7 @@ import { ProcessesService } from '../../services/processes.service';
 })
 export class CreateProcessDialogComponent {
   readonly statusTypes$ = this.processesService.select('statusTypes');
-  form: FormGroup<Process> = this.fb.group({});
+  form: FormGroup<ProcessInit> = this.fb.group({} as ProcessInit);
   fields: FormlyFieldConfig[] = [
     {
       className: 'tui-form__row block',
@@ -60,23 +61,23 @@ export class CreateProcessDialogComponent {
     },
     {
       className: 'tui-form__row block',
-      key: 'stateTypeId',
-      type: 'select',
+      key: 'stateType',
+      type: 'object-select',
       templateOptions: {
         translate: true,
         required: true,
         options: this.statusTypes$,
         label: 'State Type',
-        valueProp: 'id',
         labelProp: 'name',
+        compareWith: (item1: StatusType, item2: StatusType) => item1.id === item2.id,
       },
     },
   ];
-  model: Process = {};
+  model = {} as ProcessInit;
 
   constructor(
     private fb: FormBuilder,
-    @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<unknown, Process>,
+    @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<unknown, ProcessInit>,
     private processesService: ProcessesService
   ) {}
 

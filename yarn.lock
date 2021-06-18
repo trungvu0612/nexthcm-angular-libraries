@@ -260,10 +260,10 @@
   dependencies:
     tslib "^2.1.0"
 
-"@angular/core@^12.0.0":
-  version "12.0.3"
-  resolved "https://registry.yarnpkg.com/@angular/core/-/core-12.0.3.tgz#349b58c4c635bdcfbf62e8b085e8700966ac3aff"
-  integrity sha512-wGsu7wMeBQNN5ShJsLpzkCfBk6h089ZIf9bUMytNWAvLd+MGqP7f6D1ua9+ul62VNyBFtWgQLK/38E6J+9OPYg==
+"@angular/core@12.0.5":
+  version "12.0.5"
+  resolved "https://registry.yarnpkg.com/@angular/core/-/core-12.0.5.tgz#a91751a13f575fd893abbdee257f60d0747038e7"
+  integrity sha512-uVYsZa1VqVw8vNcjUYgfjXBc1M3WaxLXoLnCsDvutJiln4csa8Yw8p7RqQSrZ6AgQ8o2LHD2JJ5kus3EDMwfcA==
   dependencies:
     tslib "^2.1.0"
 
@@ -1568,10 +1568,10 @@
     merge-source-map "^1.1.0"
     schema-utils "^2.7.0"
 
-"@ng-select/ng-select@^6.1.0":
-  version "6.1.0"
-  resolved "https://registry.yarnpkg.com/@ng-select/ng-select/-/ng-select-6.1.0.tgz#c0575d963a1871dcf72d38186598c7c71d26dd49"
-  integrity sha512-uro/zIjL+TRWzbrzNN9IjIusOeLfhCn9cIr5Bq3AsJyxyU7Gdj9kOD5wVrrQ0NVkaQ1BJMcWmUvmYGBXLI6cnA==
+"@ng-select/ng-select@^7.0.0":
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/@ng-select/ng-select/-/ng-select-7.0.0.tgz#f4c62f1803216ac98a9175362317302c09d90f5b"
+  integrity sha512-YKQcohssQzLZgItCsEb0vbJR6xGRTIVq4FRp+5M7fkaX7wWM+o2o1R4LxsiWhz0CKajslkoR0VDytyiumf8QiQ==
   dependencies:
     tslib "^2.0.0"
 
@@ -1940,6 +1940,13 @@
     "@types/estree" "0.0.39"
     estree-walker "^1.0.1"
     picomatch "^2.2.2"
+
+"@rxweb/reactive-form-validators@^2.1.3":
+  version "2.1.3"
+  resolved "https://registry.yarnpkg.com/@rxweb/reactive-form-validators/-/reactive-form-validators-2.1.3.tgz#fbf2d74305a250011a33dfae54deab74adef87da"
+  integrity sha512-7zEIQwFnOkvaxTzEhdiVu8aumLixmV24VDiING57SAnhOdXEaIp+0hhLQPmjeHOaszih/U1K8BLGsxG76sVJpQ==
+  dependencies:
+    tslib "2.2.0"
 
 "@samverschueren/stream-to-observable@^0.3.0":
   version "0.3.1"

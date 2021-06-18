@@ -10,10 +10,18 @@
 
     <section class="flex flex-col border workflow-editor-container">
       <div class="flex items-center p-3 bg-gray-100 border-b">
-        <button (click)="onUpsertStatus()" appearance="flat" class="mr-3" icon="tuiIconPlus" size="s" tuiButton>
+        <button
+          (click)="onUpsertStatus()"
+          appearance="flat"
+          class="mr-3"
+          icon="tuiIconPlus"
+          size="s"
+          tuiButton
+          type="button"
+        >
           Add status
         </button>
-        <button (click)="onUpsertTransition()" appearance="flat" icon="tuiIconPlus" size="s" tuiButton>
+        <button (click)="onUpsertTransition()" appearance="flat" icon="tuiIconPlus" size="s" tuiButton type="button">
           Add transition
         </button>
       </div>
@@ -26,19 +34,24 @@
               {{ selectedCell.description }}
             </p>
             <p class="tui-island__paragraph tui-island__paragraph_link">
-              <button (click)="onEditCell()" appearance="secondary" class="mr-3" icon="tuiIconEdit" size="s" tuiButton>
+              <button
+                (click)="onEditCell()"
+                appearance="secondary"
+                class="mr-3"
+                icon="tuiIconEdit"
+                size="s"
+                tuiButton
+                type="button"
+              >
                 Edit
               </button>
-              <button (click)="onRemoveCell()" appearance="flat" icon="tuiIconTrash" size="s" tuiButton>Remove</button>
+              <button (click)="onRemoveCell()" appearance="flat" icon="tuiIconTrash" size="s" tuiButton type="button">
+                Remove
+              </button>
             </p>
           </tui-island>
         </div>
-        <hcm-workflow-editor
-          #workflowEditor
-          (event)="onWorkflowEvent($event)"
-          [xmlContent]="template$ | async"
-          class="h-full"
-        ></hcm-workflow-editor>
+        <hcm-workflow-editor #workflowEditor (event)="onWorkflowEvent($event)" class="h-full"></hcm-workflow-editor>
       </div>
     </section>
   </form>

@@ -1,8 +1,5 @@
 import { ChangeDetectionStrategy, Component, Injector, ViewChild } from '@angular/core';
-import { TuiDialogService } from '@taiga-ui/core';
-import { Process, State, Transition } from '../../models/process';
-import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
-import { UpsertStatusDialogComponent } from '../../components/upsert-status-dialog/upsert-status-dialog.component';
+import { ActivatedRoute } from '@angular/router';
 import {
   WorkflowAPI,
   WorkflowAPIDefinition,
@@ -10,28 +7,34 @@ import {
   WorkflowStatus,
   WorkflowTransition,
 } from '@nexthcm/workflow-editor';
-import { UpsertTransitionDialogComponent } from '../../components/upsert-transition-dialog/upsert-transition-dialog.component';
-import { v4 as uuidv4 } from 'uuid';
 import { FormGroup } from '@ngneat/reactive-forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import { ActivatedRoute } from '@angular/router';
 import { RxState } from '@rx-angular/state';
+import { TuiDestroyService } from '@taiga-ui/cdk';
+import { TuiDialogService } from '@taiga-ui/core';
+import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { Subject } from 'rxjs';
+import { map, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { v4 as uuidv4 } from 'uuid';
+import { UpsertStatusDialogComponent } from '../../components/upsert-status-dialog/upsert-status-dialog.component';
+import { UpsertTransitionDialogComponent } from '../../components/upsert-transition-dialog/upsert-transition-dialog.component';
+import { Process, State, Transition } from '../../models/process';
 import { ProcessesService } from '../../services/processes.service';
-import { map, switchMap, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'hcm-upsert-process',
   templateUrl: './upsert-process.component.html',
   styleUrls: ['./upsert-process.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [RxState],
+  providers: [RxState, TuiDestroyService],
 })
 export class UpsertProcessComponent {
   @ViewChild('workflowEditor', { static: true }) workflowEditor!: WorkflowAPIDefinition;
 
+  processId = this.activatedRoute.snapshot.params.processId;
   form = new FormGroup<Process>({});
   fields: FormlyFieldConfig[] = [
+    { key: 'id' },
     {
       className: 'tui-text_h3 tui-form__header tui-form__header_margin-top_none block',
       key: 'name',
@@ -52,20 +55,26 @@ export class UpsertProcessComponent {
       },
     },
   ];
-  model: Process = {};
+  model: Process = { id: this.processId };
   addedStates: State[] = [];
   addedTransitions: Transition[] = [];
   selectedCell?: State | Transition;
   readonly state$ = this.state.select();
-  readonly template$ = this.state.select('template');
-  readonly loading$ = this.state$.pipe(map((value) => !value));
+  readonly loading$ = this.state$.pipe(
+    startWith(undefined),
+    map((value) => !value)
+  );
   readonly init$ = new Subject<string>();
   readonly initHandler$ = this.init$.pipe(
     switchMap((id) => this.processesService.getProcess(id)),
     map((res) => res.data),
     tap((data) => {
       this.model = { ...this.model, ...data };
-      if (!data.template && data.states?.length) {
+      this.addedStates = data.states || [];
+      this.addedTransitions = data.transitions || [];
+      if (data.template) {
+        this.workflowEditor.apiEvent({ type: WorkflowAPI.decodeXML, value: data.template });
+      } else if (data.states?.length) {
         this.drawInitialState(data.states[0]);
       }
     })
@@ -76,13 +85,14 @@ export class UpsertProcessComponent {
     private readonly injector: Injector,
     private activatedRoute: ActivatedRoute,
     private processesService: ProcessesService,
-    private state: RxState<Process>
+    private state: RxState<Process>,
+    private destroy$: TuiDestroyService
   ) {
     this.state.connect(this.initHandler$);
-    this.init$.next(this.activatedRoute.snapshot.params.processId);
+    this.init$.next(this.processId);
   }
 
-  onUpsertStatus(state?: State, isNew = false): void {
+  onUpsertStatus(state?: State, isNew = true): void {
     this.dialogService
       .open<State>(new PolymorpheusComponent(UpsertStatusDialogComponent, this.injector), {
         label: isNew ? 'Create New Status' : 'Edit Status',
@@ -100,6 +110,7 @@ export class UpsertProcessComponent {
           const index = this.addedStates.findIndex((addedState) => addedState.id === state.id);
           if (index !== -1) {
             this.addedStates[index] = state;
+            this.selectedCell = state;
             this.workflowEditor.apiEvent({
               type: WorkflowAPI.updateStatus,
               value: workflowStatus,
@@ -109,23 +120,36 @@ export class UpsertProcessComponent {
       });
   }
 
-  onUpsertTransition(transition?: Transition, isNew = false): void {
+  onUpsertTransition(transition?: Transition, isNew = true): void {
     this.dialogService
       .open<Transition>(new PolymorpheusComponent(UpsertTransitionDialogComponent, this.injector), {
         label: isNew ? 'Add Transition' : 'Edit Transition',
-        data: { states: this.addedStates, transition },
+        data: { states: this.addedStates, transition, isNew },
       })
       .subscribe((transition) => {
-        this.addedTransitions.push(transition);
-        this.workflowEditor.apiEvent({
-          type: WorkflowAPI.drawTransition,
-          value: new WorkflowTransition(
-            transition.transitionValueId,
-            transition.name,
-            transition.toStateId,
-            transition.fromStateId
-          ),
-        });
+        const workflowTransition = new WorkflowTransition(
+          transition.id,
+          transition.name,
+          transition.toStateId,
+          transition.fromStateId
+        );
+        if (isNew) {
+          this.addedTransitions.push(transition);
+          this.workflowEditor.apiEvent({
+            type: WorkflowAPI.drawTransition,
+            value: workflowTransition,
+          });
+        } else {
+          const index = this.addedTransitions.findIndex((addedTransition) => addedTransition.id === transition.id);
+          if (index !== -1) {
+            this.addedTransitions[index] = transition;
+            this.selectedCell = transition;
+            this.workflowEditor.apiEvent({
+              type: WorkflowAPI.updateTransition,
+              value: workflowTransition,
+            });
+          }
+        }
       });
   }
 
@@ -135,7 +159,7 @@ export class UpsertProcessComponent {
         this.selectedCell = this.addedStates.find((state) => state.id === $event.value);
         break;
       case WorkflowEvent.onSelectTransition:
-        this.selectedCell = this.addedTransitions.find((state) => state.transitionValueId === $event.value);
+        this.selectedCell = this.addedTransitions.find((state) => state.id === $event.value);
         break;
       case WorkflowEvent.onUnSelectCell:
         this.selectedCell = undefined;
@@ -143,7 +167,7 @@ export class UpsertProcessComponent {
       case WorkflowEvent.onAddTransition:
         this.onUpsertTransition(
           {
-            transitionValueId: uuidv4(),
+            id: uuidv4(),
             name: '',
             fromStateId: $event.value.sourceId,
             toStateId: $event.value.targetId,
@@ -158,11 +182,10 @@ export class UpsertProcessComponent {
 
   onEditCell(): void {
     if (this.selectedCell) {
-      if ('id' in this.selectedCell) {
-        this.onUpsertStatus(this.selectedCell);
-      }
-      if ('transitionValueId' in this.selectedCell) {
-        this.onUpsertTransition(this.selectedCell);
+      if ('toStateId' in this.selectedCell) {
+        this.onUpsertTransition(this.selectedCell, false);
+      } else {
+        this.onUpsertStatus(this.selectedCell, false);
       }
     }
   }
@@ -170,13 +193,12 @@ export class UpsertProcessComponent {
   onRemoveCell(): void {
     if (this.selectedCell) {
       let cellId = '';
-      if ('id' in this.selectedCell) {
+      if ('toStateId' in this.selectedCell) {
+        cellId = (this.selectedCell as Transition).id;
+        this.addedTransitions = this.addedTransitions.filter((transition) => transition.id === cellId);
+      } else {
         cellId = (this.selectedCell as State).id;
         this.addedStates = this.addedStates.filter((state) => state.id === cellId);
-      }
-      if ('transitionValueId' in this.selectedCell) {
-        cellId = (this.selectedCell as Transition).transitionValueId;
-        this.addedTransitions = this.addedTransitions.filter((transition) => transition.transitionValueId === cellId);
       }
       this.workflowEditor.apiEvent({
         type: WorkflowAPI.removeCell,
@@ -185,13 +207,22 @@ export class UpsertProcessComponent {
     }
   }
 
+  onSubmit(): void {
+    if (this.form.valid) {
+      const processModel = this.form.value;
+      processModel.states = this.addedStates;
+      processModel.transitions = this.addedTransitions;
+      processModel.template = this.workflowEditor.apiEvent({ type: WorkflowAPI.getXML });
+      this.processesService.upsertProcess(this.processId, processModel).pipe(takeUntil(this.destroy$)).subscribe();
+    }
+  }
+
   private drawInitialState(initialState: State): void {
     const initialTransition: Transition = {
-      transitionValueId: uuidv4(),
+      id: uuidv4(),
       name: '',
       toStateId: initialState.id,
     };
-    this.addedStates.push(initialState);
     this.workflowEditor.apiEvent({ type: WorkflowAPI.setInitial });
     this.workflowEditor.apiEvent({
       type: WorkflowAPI.drawStatus,
@@ -200,17 +231,7 @@ export class UpsertProcessComponent {
     this.addedTransitions.push(initialTransition);
     this.workflowEditor.apiEvent({
       type: WorkflowAPI.drawTransition,
-      value: new WorkflowTransition(
-        initialTransition.transitionValueId,
-        initialTransition.name,
-        initialTransition.toStateId
-      ),
+      value: new WorkflowTransition(initialTransition.id, initialTransition.name, initialTransition.toStateId),
     });
-  }
-
-  onSubmit(): void {
-    if (this.form.valid) {
-      const workflowModel = this.form.value;
-    }
   }
 }

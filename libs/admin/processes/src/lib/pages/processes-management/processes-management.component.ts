@@ -1,15 +1,15 @@
+import { HttpParams } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, Injector, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { isPresent } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { BaseComponent, Columns, Config, DefaultConfig } from 'ngx-easy-table';
+import { BehaviorSubject, combineLatest, Subject } from 'rxjs';
 import { filter, map, share, startWith, switchMap } from 'rxjs/operators';
 import { CreateProcessDialogComponent } from '../../components/create-process-dialog/create-process-dialog.component';
-import { Process } from '../../models/process';
+import { Process, ProcessInit } from '../../models/process';
 import { ProcessesService } from '../../services/processes.service';
-import { isPresent } from '@taiga-ui/cdk';
-import { BehaviorSubject, combineLatest, Subject } from 'rxjs';
-import { HttpParams } from '@angular/common/http';
 
 @Component({
   selector: 'hcm-processes-management',
@@ -71,7 +71,7 @@ export class ProcessesManagementComponent {
 
   onCreateProcess(): void {
     this.dialogService
-      .open<Process>(new PolymorpheusComponent(CreateProcessDialogComponent, this.injector), {
+      .open<ProcessInit>(new PolymorpheusComponent(CreateProcessDialogComponent, this.injector), {
         label: 'Create new process',
       })
       .pipe(switchMap((data) => this.processesService.initProcess(data)))

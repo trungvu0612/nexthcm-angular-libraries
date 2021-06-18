@@ -6,7 +6,6 @@ import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { v4 as uuidv4 } from 'uuid';
 import { State } from '../../models/process';
 import { ProcessesService } from '../../services/processes.service';
-import { StatusType } from '../../models/status-type';
 
 @Component({
   selector: 'hcm-upsert-status-dialog',
@@ -41,12 +40,12 @@ export class UpsertStatusDialogComponent implements OnInit {
       },
     },
     {
+      className: 'tui-form__row block',
       key: 'stateType',
-      type: 'select',
+      type: 'object-select',
       templateOptions: {
         translate: true,
         required: true,
-        identityMatcher: (item1: StatusType, item2: StatusType) => item1.id === item2.id,
         options: this.statusTypes$,
         label: 'State Type',
         labelProp: 'name',

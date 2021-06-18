@@ -1,5 +1,5 @@
 <form (ngSubmit)="onSubmit()" [formGroup]="$any(form)">
-  <formly-form [fields]="fields" [form]="$any(form)" [model]="model"></formly-form>
+  <formly-form [fields]="fields" [form]="$any(form)" [model]="model" [options]="options"></formly-form>
   <div class="tui-form__buttons">
     <button class="tui-form__button" size="m" tuiButton>Save</button>
     <button (click)="onCancel()" appearance="flat" class="tui-form__button" size="m" tuiButton type="button">

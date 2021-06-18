@@ -3,9 +3,9 @@ import { Injectable } from '@angular/core';
 import { BaseResponse, PagingResponse } from '@nexthcm/core';
 import { RxState } from '@rx-angular/state';
 import { Observable } from 'rxjs';
-import { StatusType } from '../models/status-type';
-import { Process } from '../models/process';
 import { map } from 'rxjs/operators';
+import { Process, ProcessInit } from '../models/process';
+import { StatusType } from '../models/status-type';
 
 const WORKFLOWS_PATH = 'workflowapp/v1.0';
 
@@ -32,11 +32,11 @@ export class ProcessesService extends RxState<ProcessesState> {
     return this.http.get<PagingResponse<Process>>(`/${WORKFLOWS_PATH}/process`, { params });
   }
 
-  createProcess(payload: Process): Observable<BaseResponse<Process>> {
-    return this.http.post<BaseResponse<Process>>(`/${WORKFLOWS_PATH}/processes`, payload);
+  upsertProcess(processId: string, payload: Process): Observable<BaseResponse<Process>> {
+    return this.http.put<BaseResponse<Process>>(`/${WORKFLOWS_PATH}/process/${processId}`, payload);
   }
 
-  initProcess(payload: Process): Observable<BaseResponse<Process>> {
+  initProcess(payload: ProcessInit): Observable<BaseResponse<Process>> {
     return this.http.post<BaseResponse<Process>>(`/${WORKFLOWS_PATH}/process/init`, payload);
   }
 }

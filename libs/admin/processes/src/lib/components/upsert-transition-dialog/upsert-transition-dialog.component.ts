@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
-import { FormlyFieldConfig } from '@ngx-formly/core';
+import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
+import { RxwebValidators } from '@rxweb/reactive-form-validators';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { v4 as uuidv4 } from 'uuid';
@@ -14,9 +15,20 @@ import { Transition } from '../../models/process';
 })
 export class UpsertTransitionDialogComponent implements OnInit {
   form: FormGroup<Transition> = this.fb.group({} as Transition);
+  options: FormlyFormOptions = {
+    formState: {
+      isNew: true,
+    },
+  };
+  model: Transition = {
+    id: uuidv4(),
+    name: '',
+    toStateId: '',
+  };
   fields: FormlyFieldConfig[] = [
-    { key: 'transitionValueId' },
+    { key: 'id' },
     {
+      className: 'tui-form__row block',
       key: 'fromStateId',
       type: 'select',
       templateOptions: {
@@ -26,8 +38,10 @@ export class UpsertTransitionDialogComponent implements OnInit {
         labelProp: 'name',
         valueProp: 'id',
       },
+      hideExpression: '!formState.isNew',
     },
     {
+      className: 'tui-form__row block',
       key: 'toStateId',
       type: 'select',
       templateOptions: {
@@ -37,6 +51,10 @@ export class UpsertTransitionDialogComponent implements OnInit {
         options: this.data.states,
         labelProp: 'name',
         valueProp: 'id',
+      },
+      hideExpression: '!formState.isNew',
+      validators: {
+        validation: [RxwebValidators.different({ fieldName: 'fromStateId' })],
       },
     },
     {
@@ -61,11 +79,6 @@ export class UpsertTransitionDialogComponent implements OnInit {
       },
     },
   ];
-  model: Transition = {
-    transitionValueId: uuidv4(),
-    name: '',
-    toStateId: '',
-  };
 
   constructor(
     private fb: FormBuilder,
