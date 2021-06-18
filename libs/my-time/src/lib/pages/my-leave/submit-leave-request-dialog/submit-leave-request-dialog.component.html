@@ -1,0 +1,45 @@
+<h2 class="text-2xl font-semibold mb-7">Submit Leave Request</h2>
+
+<!--<p *ngIf='data$ | async as data'> {{data.comments}}</p>-->
+
+<!--<form [formGroup]="form">-->
+<!--  <tui-filter-->
+<!--    (toggledItem)="test($event)"-->
+<!--    [content]="content"-->
+<!--    [disabledItemHandler]="disabledItemHandler"-->
+<!--    [items]="data$ | async"-->
+<!--    formControlName="leaveType"-->
+<!--    size="s"-->
+<!--  ></tui-filter>-->
+<!--</form>-->
+<!--<ng-template #content let-item> {{item.name}} </ng-template>-->
+
+<!--<div class="my-8">-->
+<!--  <div style="border: 1px solid #e4e4e4"></div>-->
+<!--</div>-->
+
+<!--<div>-->
+<!--  <h3 class="text-xl font-semibold">Paid Leave</h3>-->
+<!--  <p>-->
+<!--    Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam, purus sit amet luctus venenatis, lectus magna-->
+<!--    fringilla urna, porttitor-->
+<!--  </p>-->
+<!--</div>-->
+
+<div class="my-8">
+  <form [formGroup]="form">
+    <formly-form
+      [fields]="fields"
+      [form]="form"
+      [model]="model"
+      [options]="options"
+      class="grid grid-cols-2 gap-4"
+    ></formly-form>
+  </form>
+</div>
+
+<div class="flex justify-center">
+  <button (click)='submit()' class="blue-button" [disabled]="!form.valid">Submit</button>
+</div>
+
+<!--<pre>Form value: {{ form.value | json }}</pre>-->

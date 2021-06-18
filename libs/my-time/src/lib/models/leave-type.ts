@@ -1,7 +1,7 @@
 export interface LeaveType {
   id?: string;
   orgId: string;
-  name: string;
+  name?: string | undefined;
   deleted: number;
   createdDate?: string;
   createBy?: string;

@@ -1,14 +1,32 @@
 :host {
   display: block;
 
-  button {
-    @apply font-semibold;
+  .rejected-tag {
+    background: #eb3b5a !important;
+  }
 
-    &:not([tuiTab]) {
-      background-color: var(--tui-primary);
-      box-shadow: 0 4px 10px rgba(16, 156, 241, 0.24);
-      @apply text-base text-white rounded-xl px-7 py-3 h-12;
-    }
+  .approved-tag {
+    background: #20bf6b !important;
+  }
+
+  .cancelled-tag {
+    background: grey !important;
+  }
+
+  .scheduled-tag {
+    background: pink !important;
+  }
+
+  .taken-tag {
+    background: red !important;
+  }
+
+  .weekend-tag {
+    background: purple !important;
+  }
+
+  .holiday-tag {
+    background: blue !important;
   }
 
   ::ng-deep {
@@ -33,17 +51,6 @@
   }
 
   main {
-    //min-height: calc(100vh - 80px);
-    ////
-    //margin-top: 60px;
-    //margin-left: 255px;
-    ////
-    //background-color: #fafafb;
-    //@apply px-14 py-9;
-    //
-    //header {
-    //  @apply font-semibold;
-    //}
 
     section {
       box-shadow: 0 4px 18px rgba(0, 0, 0, 0.06);
@@ -53,5 +60,49 @@
         @apply w-48;
       }
     }
+
+    td,
+    th {
+      border-bottom: 1px solid #e4e4e4 !important;
+      font-family: 'Inter', sans-serif;
+      @apply text-sm border-none py-5;
+
+      &:not(td) {
+        color: #888c90;
+        @apply font-semibold;
+      }
+
+      &.center-custom {
+        max-width: 100px;
+        @apply text-left;
+      }
+    }
+
+    .tag {
+      @apply font-semibold;
+    }
+
+    .waiting {
+      background: #fa8231 !important;
+    }
+
+    .approved {
+      background: #20bf6b !important;
+    }
+
+    .rejected {
+      background: #eb3b5a !important;
+    }
+
+    .cancelled {
+      background: #888c90 !important;
+    }
+
+    .cancel-button {
+      border: 2px solid var(--tui-primary);
+      color: var(--tui-primary);
+      @apply font-semibold rounded-xl px-2 py-1;
+    }
+
   }
 }

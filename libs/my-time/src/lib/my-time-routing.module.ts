@@ -22,10 +22,18 @@ const routes: Routes = [
         path: '',
         component: MyTimeComponent,
         children: [
-          { path: '', pathMatch: 'full', redirectTo: 'leave' },
-          { path: 'leave', component: MyLeaveComponent },
+          { path: '', pathMatch: 'full', redirectTo: 'my-leave' },
+          { path: 'my-leave', component: MyLeaveComponent },
           { path: 'working-hour', component: WorkingHourComponent },
-          { path: 'request', component: MyRequestComponent },
+          {
+            path: 'my-request', component: MyRequestsComponent,
+            children: [
+              { path: '', pathMatch: 'full', redirectTo: 'list' },
+              { path: 'list', component: ListMyRequestComponent },
+              { path: 'add', component: UpsertLeaveTypeComponent },
+              { path: 'edit/:id', component: UpsertLeaveTypeComponent }
+            ]
+          }
         ],
       },
       {
@@ -37,17 +45,7 @@ const routes: Routes = [
           { path: 'add', component: UpsertLeaveTypeComponent },
           { path: 'edit/:id', component: UpsertLeaveTypeComponent },
         ],
-      },
-      {
-        path: 'my-request',
-        component: MyRequestsComponent,
-        children: [
-          { path: '', pathMatch: 'full', redirectTo: 'list' },
-          { path: 'list', component: ListMyRequestComponent },
-          { path: 'add', component: UpsertLeaveTypeComponent },
-          { path: 'edit/:id', component: UpsertLeaveTypeComponent },
-        ],
-      },
+      }
     ],
   },
 ];

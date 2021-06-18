@@ -1,0 +1,69 @@
+<!--<div *ngIf='data$ | async as data' >{{data.comments}} </div>-->
+
+<article *ngIf="data$ | async as data">
+  <header class="flex justify-between items-center mb-7">
+    <h1 class="text-2xl font-semibold">Leave Detail</h1>
+    <button (click)="close()">
+      <tui-svg src="tuiIconRemoveLarge"></tui-svg>
+    </button>
+  </header>
+
+  <table class="detail-table mb-6">
+    <tr>
+      <th>Date modified:</th>
+      <td>
+        <p>{{ data.lastModifiedDate | date: 'MM/dd/yyyy' }}</p>
+      </td>
+    </tr>
+
+    <tr>
+      <th>Date:</th>
+      <td>
+        <p>{{ data.startTime }}</p>
+      </td>
+    </tr>
+
+    <tr>
+      <th>Leave Type:</th>
+      <td>
+        <p class="font-semibold">{{ data.leaveType?.name }}</p>
+      </td>
+    </tr>
+
+    <tr>
+      <th>Days:</th>
+      <td>
+        <p>1.0</p>
+      </td>
+    </tr>
+
+    <tr>
+      <th>Status:</th>
+      <td>
+        <tui-tag [class]="STATUS[data.status + ''] + '-tag'" [value]="STATUS[data.status + ''] | titlecase"></tui-tag>
+      </td>
+    </tr>
+
+    <tr>
+      <th>Sent to:</th>
+      <td>
+        <p class="underline text-blue-500">Nguyen Hai Vien</p>
+      </td>
+    </tr>
+
+    <tr>
+      <th>Comment:</th>
+      <td>
+        <p>{{ data.comments }}</p>
+      </td>
+    </tr>
+  </table>
+
+  <footer class="flex justify-center">
+    <button *ngIf="data.status !== 1 && data.status !== 0" (click)="edit(data.id)" class="cancel blue-button mr-7">
+      Cancel Leave Request
+    </button>
+    <button (click)="cancel()" class="blue-button">Close</button>
+  </footer>
+
+</article>

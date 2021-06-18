@@ -1,20 +1,30 @@
-<main *ngIf='data$ | async as data' class='flex flex-col items-center'>
-  <ng-container *ngTemplateOutlet='recursive; context: { current: data }'></ng-container>
+<main *ngIf="data$ | async as data" class="flex flex-col items-center">
+  <ng-container *ngTemplateOutlet="recursive; context: { current: data }"></ng-container>
 
-  <ng-template #recursive let-current='current'>
-    <section *ngIf='current[0].descendants.length === 0; else target'>
-      <div class='border-t-4 border mb-8'></div>
-      <div class='flex flex-wrap justify-center gap-4'>
-        <div *ngFor='let item of current'>
-          <tui-hosted-dropdown [content]='content' tuiDropdownHover>
-            <button class='w-56 h-16 hover:bg-gray-300 bg-white flex justify-between py-3 px-6' (click)='changeInfo(item.id)'>
-              <div class='mr-4'>
-                <div class='text-sm text-left'>
-                  <strong>{{ item.username }}</strong>
+  <ng-template #recursive let-current="current">
+    <section *ngIf="current[0].descendants.length === 0; else target">
+      <div class="border-t-4 border mb-8"></div>
+      <div class="flex flex-wrap justify-center gap-4">
+        <div *ngFor="let item of current">
+          <tui-hosted-dropdown [content]="content" tuiDropdownHover>
+            <button
+              [class.hoverInfo]="item.id === idEmployee ? true : false"
+              class="w-56 h-16 hover:bg-gray-300 bg-white flex justify-between py-3 px-6"
+              (click)="changeInfo(item.id)"
+            >
+              <div class="mr-4">
+                <div class="text-sm text-left">
+                  <p class="font-bold">
+                    {{
+                      item.username && item.username.length > 11
+                        ? item.username.substring(0, 11) + '...'
+                        : item.username
+                    }}
+                  </p>
                 </div>
-                <div class='text-blue-500 text-left'>{{ item.registerType }}</div>
+                <div class="text-blue-500 text-left">{{ item.registerType }}</div>
               </div>
-              <tui-avatar [autoColor]='true' [rounded]='true' [text]='item.username'></tui-avatar>
+              <tui-avatar [autoColor]="true" [rounded]="true" [text]="item.username"></tui-avatar>
             </button>
           </tui-hosted-dropdown>
         </div>
@@ -22,101 +32,123 @@
     </section>
 
     <ng-template #target>
-      <section class='grid grid-cols-1 justify-items-center'>
-
-        <div *ngIf='current[0].id !== idTemp; else checkFalse'>
-          <tui-hosted-dropdown [content]='content' tuiDropdownHover>
-            <button class='w-56 h-16 hover:bg-gray-300 bg-white flex justify-between py-3 px-6 gap-4' (click)='changeInfoCss(current[0].id)'>
-              <div class='mr-4'>
-                <div class='text-sm text-left'>
+      <section class="grid grid-cols-1 justify-items-center">
+        <div *ngIf="current[0].id !== idLeader; else checkFalse">
+          <tui-hosted-dropdown [content]="content" tuiDropdownHover>
+            <button
+              class="w-56 h-16 hover:bg-gray-300 bg-white flex justify-between py-3 px-6 gap-4"
+              (click)="changeInfoCss(current[0].id)"
+            >
+              <div class="mr-4">
+                <div class="text-sm text-left">
                   <strong>{{ current[0].username }}</strong>
                 </div>
-                <div class='text-blue-500 text-left'>{{ current[0].registerType }}</div>
+                <div class="text-blue-500 text-left">{{ current[0].registerType }}</div>
               </div>
-              <tui-avatar [autoColor]='true' [rounded]='true' [text]='current[0].username'></tui-avatar>
+              <tui-avatar [autoColor]="true" [rounded]="true" [text]="current[0].username"></tui-avatar>
             </button>
           </tui-hosted-dropdown>
         </div>
 
         <!--big info-->
         <ng-template #checkFalse>
-          <button class='w-72 h-40 hover:bg-gray-300 bg-white py-3 px-6' (click)='changeInfoCss(current[0].id)'>
-            <div class='grid grid-cols-3 grid-flow-col gap-4'>
-              <div class='row-start-1 row-end-4 col-span-2 flex justify-center items-center'>
-                <div class='flex flex-wrap content-start'>
-                  <p>{{ current[0].username }}</p>
-                  <p>Engineering Manager</p>
-                  <p>Software Development</p>
-                  <p>0938789900</p>
+          <button class="w-72 h-40 hover:bg-gray-300 bg-white py-3 px-6" (click)="changeInfoCss(current[0].id)">
+            <div class="grid grid-cols-3 grid-flow-col gap-4">
+              <div class="row-start-1 row-end-4 col-span-2 flex justify-center items-center">
+                <div class="flex flex-wrap content-start">
+                  <div class="font-bold text-2xl">{{ current[0].username }}</div>
+                  <div class="font-normal text-xs">Engineering Manager</div>
+                  <div class="font-normal text-xs">Software Development</div>
+                  <div class="font-normal text-xs">0938789900</div>
                 </div>
               </div>
-              <div class='row-start-1 row-end-4 col-span-2 flex justify-center items-center'>
-                <tui-avatar class='ml-auto' [autoColor]='true' [rounded]='true'
-                            [text]='current[0].username'></tui-avatar>
+              <div class="row-start-1 row-end-4 col-span-2 flex justify-center items-center">
+                <tui-avatar
+                  class="ml-auto"
+                  [autoColor]="true"
+                  [rounded]="true"
+                  [text]="current[0].username"
+                ></tui-avatar>
               </div>
             </div>
 
+            <div class="flex justify-start border-t-2 pt-2">
+              <button>
+                <tui-svg class="success" src="tuiIconCameraLarge" style="color: #959595"></tui-svg>
+              </button>
+
+              <button>
+                <tui-svg class="success tui-space_left-3" src="tuiIconCameraLarge" style="color: #959595"></tui-svg>
+              </button>
+
+              <button>
+                <tui-svg class="success tui-space_left-3" src="tuiIconGeoLarge" style="color: #959595"></tui-svg>
+              </button>
+
+              <button>
+                <tui-svg class="success tui-space_left-3" src="tuiIconImgLarge" style="color: #959595"></tui-svg>
+              </button>
+            </div>
           </button>
         </ng-template>
 
-        <div class='border w-0 h-8 mx-auto'></div>
+        <div class="border w-0 h-8 mx-auto"></div>
 
-        <ng-container *ngTemplateOutlet='recursive; context: { current: current[0].descendants }'></ng-container>
-
+        <ng-container *ngTemplateOutlet="recursive; context: { current: current[0].descendants }"></ng-container>
       </section>
     </ng-template>
 
     <ng-template #content>
-      <main class='flex flex-col w-96 h-full p-4'>
-        <section class='p-8 bg-white flex justify-start -m-2'>
-          <tui-avatar [autoColor]='true' [rounded]='true' [text]='current[0].username' size='l'></tui-avatar>
-          <div class='ml-4'>
-            <div class='text-sm text-left'>
+      <main class="flex flex-col w-96 h-full p-4">
+        <section class="p-8 bg-white flex justify-start -m-2">
+          <tui-avatar [autoColor]="true" [rounded]="true" [text]="current[0].username" size="l"></tui-avatar>
+          <div class="ml-4">
+            <div class="text-sm text-left">
               <strong>{{ current[0].username }}</strong>
             </div>
-            <div class='text-blue-500 text-left'>{{ current[0].registerType }}</div>
+            <div class="text-blue-500 text-left">{{ current[0].registerType }}</div>
           </div>
         </section>
 
-        <section class='py-4 flex justify-start -m-2 border-b-1 gap-4'>
+        <section class="py-4 flex justify-start -m-2 border-b-1 gap-4">
           <button>
-            <tui-svg class='success tui-space_left-3' src='tuiIconCameraLarge' style='color: #959595'></tui-svg>
+            <tui-svg class="success tui-space_left-3" src="tuiIconCameraLarge" style="color: #959595"></tui-svg>
           </button>
 
           <button>
-            <tui-svg class='success tui-space_left-3' src='tuiIconCameraLarge' style='color: #959595'></tui-svg>
+            <tui-svg class="success tui-space_left-3" src="tuiIconCameraLarge" style="color: #959595"></tui-svg>
           </button>
 
           <button>
-            <tui-svg class='success tui-space_left-3' src='tuiIconGeoLarge' style='color: #959595'></tui-svg>
+            <tui-svg class="success tui-space_left-3" src="tuiIconGeoLarge" style="color: #959595"></tui-svg>
           </button>
 
           <button>
-            <tui-svg class='success tui-space_left-3' src='tuiIconImgLarge' style='color: #959595'></tui-svg>
+            <tui-svg class="success tui-space_left-3" src="tuiIconImgLarge" style="color: #959595"></tui-svg>
           </button>
         </section>
 
-        <section class='p-4 border-t-2'>
-          <strong class='text-semibold text-left'>Contact</strong>
-          <div class='pt-2 flex flex-row space-x-4'>
-            <tui-svg class='success tui-space_left-3' src='tuiIconGeoLarge' style='color: #959595'></tui-svg>
+        <section class="p-4 border-t-2">
+          <strong class="text-semibold text-left">Contact</strong>
+          <div class="pt-2 flex flex-row space-x-4">
+            <tui-svg class="success tui-space_left-3" src="tuiIconGeoLarge" style="color: #959595"></tui-svg>
             <p>nhatnamduong688@gmail.com</p>
           </div>
-          <div class='pt-2 flex flex-row space-x-4'>
-            <tui-svg class='success tui-space_left-3' src='tuiIconGeoLarge' style='color: #959595'></tui-svg>
+          <div class="pt-2 flex flex-row space-x-4">
+            <tui-svg class="success tui-space_left-3" src="tuiIconGeoLarge" style="color: #959595"></tui-svg>
             <p>nhatnamduong688@gmail.com</p>
           </div>
         </section>
 
-        <section class='p-4 border-t-2 flex flex-col space-y-4'>
-          <strong class='text-semibold text-left'>Report</strong>
-          <div class='flex flex-row space-x-4'>
-            <tui-avatar [autoColor]='true' [rounded]='true' [text]='current[0].username' size='m'></tui-avatar>
-            <div class='flex flex-col'>
-              <div class='text-sm text-left'>
+        <section class="p-4 border-t-2 flex flex-col space-y-4">
+          <strong class="text-semibold text-left">Report</strong>
+          <div class="flex flex-row space-x-4">
+            <tui-avatar [autoColor]="true" [rounded]="true" [text]="current[0].username" size="m"></tui-avatar>
+            <div class="flex flex-col">
+              <div class="text-sm text-left">
                 <strong>{{ current[0].username }}</strong>
               </div>
-              <div class='text-blue-500 text-left'>{{ current[0].registerType }}</div>
+              <div class="text-blue-500 text-left">{{ current[0].registerType }}</div>
             </div>
           </div>
         </section>
@@ -124,7 +156,6 @@
     </ng-template>
   </ng-template>
 </main>
-
 
 <!--<div class="flex justify-center -m-2">-->
 <!--  <tui-hosted-dropdown #dropdown [content]='content1'>-->
@@ -162,5 +193,3 @@
 <!--    </ng-template>-->
 <!--  </ng-template>-->
 <!--</div>-->
-
-
