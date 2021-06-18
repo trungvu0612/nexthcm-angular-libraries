@@ -1,7 +1,14 @@
 :host {
   display: block;
+  min-width: 1024px;
+  background-color: #fafafb;
+
+  .left-column {
+    width: 255px;
+    border-right: solid 1px #e4e4e4;
+  }
 
   .right-column {
-    width: 100%;
+    width: calc(100% - 255px);
   }
 }

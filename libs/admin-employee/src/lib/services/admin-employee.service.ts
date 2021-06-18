@@ -63,6 +63,11 @@ export class AdminEmployeeService {
   getJobTitle(): Observable<any> {
     return this.httpClient.get(this.appVersion + `/titles`, {});
   }
+
+  getJobLevels(): Observable<any> {
+    return this.httpClient.get(this.appVersion + `/levels`, {});
+  }
+
   deleteEmployee(userId: string | undefined): Observable<any> {
     return this.httpClient.delete(this.appVersion + `/users/${userId}`, {});
   }

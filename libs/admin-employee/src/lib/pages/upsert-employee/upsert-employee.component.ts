@@ -19,9 +19,10 @@ export class UpsertEmployeeComponent implements OnInit {
   dataPermission$?: Observable<any> = this.AdminEmployeeService.getPermissions().pipe(map((res) => res.data.items));
   dataCountries$?: Observable<any> = this.AdminEmployeeService.getCountries().pipe(map((res) => res.items));
   dataLanguage$?: Observable<any> = this.AdminEmployeeService.getCountries().pipe(map((res) => res.items));
-  dataUserGroups$?: Observable<any> = this.AdminEmployeeService.getUserGroups().pipe(map((res) => res.items));
+  dataUserGroups$?: Observable<any> = this.AdminEmployeeService.getUserGroups().pipe(map((res) => res.data.items));
   dataUsersReport$?: Observable<any> = this.AdminEmployeeService.getAllUsers().pipe(map((res) => res.data.items));
   dataJobTitle$?: Observable<any> = this.AdminEmployeeService.getJobTitle().pipe(map((res) => res.data.items));
+  dataJobLevel$?: Observable<any> = this.AdminEmployeeService.getJobLevels().pipe(map((res) => res.items));
 
   dataGender$ = GENDER_NAME;
   dataMarital$ = MARITAL_STATUS;
@@ -65,7 +66,8 @@ export class UpsertEmployeeComponent implements OnInit {
         options: this.dataPermission$,
         labelProp: 'name',
         valueProp: 'policyId',
-        placeholder: 'Permission:',
+        placeholder: 'Permission(*):',
+        required: true
       },
     },
     {
@@ -91,7 +93,7 @@ export class UpsertEmployeeComponent implements OnInit {
         options: this.dataRoles$,
         labelProp: 'name',
         valueProp: 'id',
-        placeholder: 'Role Name',
+        placeholder: 'Role Name(*):',
         required: true,
       },
     },
@@ -112,13 +114,14 @@ export class UpsertEmployeeComponent implements OnInit {
       },
     },
     {
-      key: 'userGroups.id',
-      type: 'select',
+      key: 'userGroups',
+      type: 'multi-select',
       templateOptions: {
         options: this.dataUserGroups$,
-        labelProp: 'name',
+        labelProp: 'groupName',
         valueProp: 'id',
-        placeholder: 'User Group:',
+        placeholder: 'User Group(*):',
+        required: true
       },
     },
     {
@@ -252,10 +255,10 @@ export class UpsertEmployeeComponent implements OnInit {
       key: 'level.id',
       type: 'select',
       templateOptions: {
-        options: [],
+        options: this.dataJobLevel$,
         labelProp: 'name',
         valueProp: 'id',
-        placeholder: 'Job Level:',
+        placeholder: 'Job Level(*):',
       },
     },
     {
@@ -276,7 +279,8 @@ export class UpsertEmployeeComponent implements OnInit {
         options: this.dataUsersReport$,
         labelProp: 'username',
         valueProp: 'id',
-        placeholder: 'Direct Report:',
+        placeholder: 'Direct Report(*):',
+        required: true
       },
     },
     {
@@ -320,7 +324,7 @@ export class UpsertEmployeeComponent implements OnInit {
   ngOnInit(): void {
     if (this.userId) {
       this.AdminEmployeeService.getUserById(this.userId).subscribe((item) => {
-        console.log(item.roles);
+        // console.log(item.roles);
         this.titleId = item?.title?.id;
         this.contactId = item?.contact?.id;
         this.contactType = item?.contact?.contactType;
@@ -335,20 +339,29 @@ export class UpsertEmployeeComponent implements OnInit {
     const formModel = this.form.value;
     const rolesData: any[] = [];
 
-    formModel?.roles.forEach(function (item: any) {
-      if (item?.id) {
-        rolesData.push({ id: item.id });
+    formModel.roles.forEach(function (res: any) {
+      if (res?.id) {
+        rolesData.push({ id: res.id });
       } else {
-        rolesData.push({ id: item });
+        rolesData.push({ id: res });
       }
     });
 
     const permissionData: any[] = [];
-    formModel?.policies.forEach(function (item: any) {
-      if (item?.policyId) {
-        permissionData.push({ policyId: item.policyId });
+    formModel.policies.forEach(function (res: any) {
+      if (res?.policyId) {
+        permissionData.push({ policyId: res.policyId });
       } else {
-        permissionData.push({ policyId: item });
+        permissionData.push({ policyId: res });
+      }
+    });
+
+    const userGroupData: any[] = [];
+    formModel.userGroups.forEach(function (res: any) {
+      if (res?.id) {
+        userGroupData.push({ id: res.id });
+      } else {
+        userGroupData.push({ id: res });
       }
     });
 
@@ -357,6 +370,7 @@ export class UpsertEmployeeComponent implements OnInit {
       registerType: 'R',
       roles: rolesData,
       policies: permissionData,
+      userGroups: userGroupData,
       reportTo: {
         id: '9d07f921-81c3-4c2c-a838-e279dc04a80f',
       },
@@ -390,6 +404,7 @@ export class UpsertEmployeeComponent implements OnInit {
 
     delete formModel.policies;
     delete formModel.roles;
+    delete formModel.userGroups;
     const formData = Object.assign(this.UserElement, formModel);
     console.log(formData);
 

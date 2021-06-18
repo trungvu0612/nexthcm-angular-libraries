@@ -1,28 +1,55 @@
 :host {
   display: block;
 
-  ::ng-deep {
-    .header_open {
-      font-weight: bold!important;
-    }
-    tui-accordion {
-      width: 250px !important;
-      margin-right: 20px;
-      margin-top: 10px;
+  ::ng-deep ._with-dropdown {
+    background-color: var(--tui-primary) !important;
+    border-radius: 14px;
+    color: #ffffff;
 
-      .title {
-        font-style: normal;
-        font-size: 15px;
-        line-height: 18px;
-        color: #333333;
+    &:hover {
+      background-color: var(--tui-primary);
+      border-radius: 14px;
+    }
+  }
+
+  .menu-left {
+    button {
+      background-image: url('/assets/images/policy.png');
+      padding-left:40px;
+      text-align: left;
+      font-size: 14px;
+      min-height: 55px;
+      background-repeat: no-repeat;
+      background-position: 10px;
+      margin-bottom: 5px;
+
+      ::ng-deep.arrow {
+        display: none;
       }
-    }
 
-    .sub-menu {
-      li {
-        margin-bottom: 10px;
+      &:focus {
+        outline: none;
+      }
+
+      &:hover {
+        background-image: url('/assets/images/policy-hover.png');
+        background-color: var(--tui-primary);
+        border-radius: 14px;
+        background-repeat: no-repeat;
+        background-position: 10px;
+        color: #ffffff;
       }
     }
   }
 
+  .insight {
+    border-top: solid 1px #e4e4e4;
+    padding-top: 10px;
+  }
+
+  .menu-noti {
+    position: absolute;
+    right: 30px;
+    top: 8px;
+  }
 }
