@@ -23,12 +23,12 @@ import mx from './utils/mxgraph';
 import { setCellStyle } from './utils/set-cell-style';
 
 @Component({
-  selector: 'hcm-workflow-editor',
-  templateUrl: './workflow-editor.component.html',
-  styleUrls: ['./workflow-editor.component.scss'],
+  selector: 'hcm-workflow-designer',
+  templateUrl: './workflow-designer.component.html',
+  styleUrls: ['./workflow-designer.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class WorkflowEditorComponent implements OnInit {
+export class WorkflowDesignerComponent implements OnInit {
   @ViewChild('splash', { static: true }) splash!: ElementRef<HTMLDivElement>;
   @Input() editMode = true;
   @Output() readonly event = new EventEmitter<WorkflowEventType>();
@@ -47,7 +47,7 @@ export class WorkflowEditorComponent implements OnInit {
 
   ngOnInit(): void {
     this.configGraph();
-    this.editor = createEditor('config/workflow-editor.xml', this.splash.nativeElement);
+    this.editor = createEditor('config/workflow-designer.xml', this.splash.nativeElement);
     this.graphParent = this.editor.graph.getDefaultParent();
     this.graphModel = this.editor.graph.getModel();
     this.graphSelectionModel = this.editor.graph.getSelectionModel();
@@ -89,7 +89,7 @@ export class WorkflowEditorComponent implements OnInit {
     mx.mxGraph.prototype.setCellsEditable(false);
     mx.mxConnectionHandler.prototype.connectImage = new mx.mxImage('/images/connector.gif', 16, 16);
     mx.mxGraphSelectionModel.prototype.setSingleSelection(true);
-    mx.mxTooltipHandler.prototype.setHideOnHover(true);
+    mx.mxTooltipHandler.prototype.setHideOnHover(false);
   }
 
   private drawStatus(status?: WorkflowStatus): mxCell {
@@ -179,8 +179,16 @@ export class WorkflowEditorComponent implements OnInit {
       return;
     }
     const edge: mxCell = event.getProperty('edge');
-    const label = edge.getAttribute('label', '');
-    // this.upsertTransition(model, 'updateTransition', edge, edge.source, edge.target, label);
+    const previous: mxCell = event.getProperty('previous');
+    this.event.emit({
+      event: WorkflowEvent.onChangeTransition,
+      value: {
+        transitionId: edge.getId(),
+        sourceId: edge.source.getId(),
+        targetId: edge.target.getId(),
+        previousId: previous.getId(),
+      },
+    });
   }
 
   private handleSelectCell(sender: any): void {

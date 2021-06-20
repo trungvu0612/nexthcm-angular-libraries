@@ -1,18 +1,14 @@
 import { ChangeDetectionStrategy, Component, Injector, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import {
-  WorkflowAPI,
-  WorkflowAPIDefinition,
-  WorkflowEvent,
-  WorkflowStatus,
-  WorkflowTransition,
-} from '@nexthcm/workflow-editor';
+import { PromptService } from '@nexthcm/ui';
+import { WorkflowAPI, WorkflowAPIDefinition, WorkflowEvent, WorkflowStatus } from '@nexthcm/workflow-designer';
 import { FormGroup } from '@ngneat/reactive-forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { RxState } from '@rx-angular/state';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
+import * as clone_ from 'rfdc';
 import { Subject } from 'rxjs';
 import { map, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { v4 as uuidv4 } from 'uuid';
@@ -20,6 +16,9 @@ import { UpsertStatusDialogComponent } from '../../components/upsert-status-dial
 import { UpsertTransitionDialogComponent } from '../../components/upsert-transition-dialog/upsert-transition-dialog.component';
 import { Process, State, Transition } from '../../models/process';
 import { ProcessesService } from '../../services/processes.service';
+import { convertTransition } from '../../utils/convert-transition';
+
+const clone = clone_;
 
 @Component({
   selector: 'hcm-upsert-process',
@@ -29,7 +28,7 @@ import { ProcessesService } from '../../services/processes.service';
   providers: [RxState, TuiDestroyService],
 })
 export class UpsertProcessComponent {
-  @ViewChild('workflowEditor', { static: true }) workflowEditor!: WorkflowAPIDefinition;
+  @ViewChild('workflowDesigner', { static: true }) workflowDesigner!: WorkflowAPIDefinition;
 
   processId = this.activatedRoute.snapshot.params.processId;
   form = new FormGroup<Process>({});
@@ -73,7 +72,7 @@ export class UpsertProcessComponent {
       this.addedStates = data.states || [];
       this.addedTransitions = data.transitions || [];
       if (data.template) {
-        this.workflowEditor.apiEvent({ type: WorkflowAPI.decodeXML, value: data.template });
+        this.workflowDesigner.apiEvent({ type: WorkflowAPI.decodeXML, value: data.template });
       } else if (data.states?.length) {
         this.drawInitialState(data.states[0]);
       }
@@ -86,7 +85,8 @@ export class UpsertProcessComponent {
     private activatedRoute: ActivatedRoute,
     private processesService: ProcessesService,
     private state: RxState<Process>,
-    private destroy$: TuiDestroyService
+    private destroy$: TuiDestroyService,
+    private promptService: PromptService
   ) {
     this.state.connect(this.initHandler$);
     this.init$.next(this.processId);
@@ -102,7 +102,7 @@ export class UpsertProcessComponent {
         const workflowStatus = new WorkflowStatus(state.id, state.name, state.stateType?.color, state.stateType?.color);
         if (isNew) {
           this.addedStates.push(state);
-          this.workflowEditor.apiEvent({
+          this.workflowDesigner.apiEvent({
             type: WorkflowAPI.drawStatus,
             value: workflowStatus,
           });
@@ -111,10 +111,7 @@ export class UpsertProcessComponent {
           if (index !== -1) {
             this.addedStates[index] = state;
             this.selectedCell = state;
-            this.workflowEditor.apiEvent({
-              type: WorkflowAPI.updateStatus,
-              value: workflowStatus,
-            });
+            this.workflowDesigner.apiEvent({ type: WorkflowAPI.updateStatus, value: workflowStatus });
           }
         }
       });
@@ -127,27 +124,16 @@ export class UpsertProcessComponent {
         data: { states: this.addedStates, transition, isNew },
       })
       .subscribe((transition) => {
-        const workflowTransition = new WorkflowTransition(
-          transition.id,
-          transition.name,
-          transition.toStateId,
-          transition.fromStateId
-        );
+        const workflowTransition = convertTransition(transition);
         if (isNew) {
           this.addedTransitions.push(transition);
-          this.workflowEditor.apiEvent({
-            type: WorkflowAPI.drawTransition,
-            value: workflowTransition,
-          });
+          this.workflowDesigner.apiEvent({ type: WorkflowAPI.drawTransition, value: workflowTransition });
         } else {
           const index = this.addedTransitions.findIndex((addedTransition) => addedTransition.id === transition.id);
           if (index !== -1) {
             this.addedTransitions[index] = transition;
             this.selectedCell = transition;
-            this.workflowEditor.apiEvent({
-              type: WorkflowAPI.updateTransition,
-              value: workflowTransition,
-            });
+            this.workflowDesigner.apiEvent({ type: WorkflowAPI.updateTransition, value: workflowTransition });
           }
         }
       });
@@ -175,6 +161,9 @@ export class UpsertProcessComponent {
           true
         );
         break;
+      case WorkflowEvent.onChangeTransition:
+        this.onChangeTransition($event.value);
+        break;
       default:
         break;
     }
@@ -200,10 +189,7 @@ export class UpsertProcessComponent {
         cellId = (this.selectedCell as State).id;
         this.addedStates = this.addedStates.filter((state) => state.id === cellId);
       }
-      this.workflowEditor.apiEvent({
-        type: WorkflowAPI.removeCell,
-        value: cellId,
-      });
+      this.workflowDesigner.apiEvent({ type: WorkflowAPI.removeCell, value: cellId });
     }
   }
 
@@ -212,26 +198,67 @@ export class UpsertProcessComponent {
       const processModel = this.form.value;
       processModel.states = this.addedStates;
       processModel.transitions = this.addedTransitions;
-      processModel.template = this.workflowEditor.apiEvent({ type: WorkflowAPI.getXML });
+      processModel.template = this.workflowDesigner.apiEvent({ type: WorkflowAPI.getXML });
       this.processesService.upsertProcess(this.processId, processModel).pipe(takeUntil(this.destroy$)).subscribe();
     }
   }
 
   private drawInitialState(initialState: State): void {
-    const initialTransition: Transition = {
-      id: uuidv4(),
-      name: '',
-      toStateId: initialState.id,
-    };
-    this.workflowEditor.apiEvent({ type: WorkflowAPI.setInitial });
-    this.workflowEditor.apiEvent({
+    const initialTransition: Transition = { id: uuidv4(), name: 'Create', toStateId: initialState.id };
+    this.workflowDesigner.apiEvent({ type: WorkflowAPI.setInitial });
+    this.workflowDesigner.apiEvent({
       type: WorkflowAPI.drawStatus,
       value: new WorkflowStatus(initialState.id, initialState.name, '#42526e', '#42526e'),
     });
     this.addedTransitions.push(initialTransition);
-    this.workflowEditor.apiEvent({
+    this.workflowDesigner.apiEvent({
       type: WorkflowAPI.drawTransition,
-      value: new WorkflowTransition(initialTransition.id, initialTransition.name, initialTransition.toStateId),
+      value: convertTransition(initialTransition),
     });
+  }
+
+  private onChangeTransition(value: {
+    transitionId: string;
+    sourceId: string;
+    targetId: string;
+    previousId: string;
+  }): void {
+    const currentTransitionIndex = this.addedTransitions.findIndex(
+      (transition) => transition.id === value.transitionId
+    );
+    if (currentTransitionIndex !== -1) {
+      let direction = '';
+      const newTransition = clone({ proto: true })(this.addedTransitions[currentTransitionIndex]);
+      let newStateId = '';
+      if (newTransition.fromStateId === value.previousId) {
+        // change the source
+        direction = 'source';
+        newTransition.fromStateId = value.sourceId;
+        newStateId = value.sourceId;
+      } else if (newTransition.toStateId === value.previousId) {
+        // change the destination
+        direction = 'destination';
+        newTransition.toStateId = value.targetId;
+        newStateId = value.targetId;
+      }
+      const newState = this.addedStates.find((state) => state.id === newStateId);
+      if (newState) {
+        this.promptService
+          .open<boolean>(
+            `Are you sure you want to change the ${direction} of '${newTransition.name}' to '${newState.name}'?`
+          )
+          .subscribe((confirmed) => {
+            if (confirmed) {
+              this.addedTransitions[currentTransitionIndex] = newTransition;
+            } else {
+              this.workflowDesigner.apiEvent({ type: WorkflowAPI.removeCell, value: value.transitionId });
+              this.workflowDesigner.apiEvent({
+                type: WorkflowAPI.drawTransition,
+                value: convertTransition(this.addedTransitions[currentTransitionIndex]),
+              });
+            }
+          });
+      }
+    }
   }
 }

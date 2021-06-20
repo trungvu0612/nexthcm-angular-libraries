@@ -4,3 +4,4 @@ export * from './lib/models';
 export * from './lib/admin-layout';
 export * from './lib/pipes';
 export * from './lib/services';
+export * from './lib/components/prompt/prompt.component';

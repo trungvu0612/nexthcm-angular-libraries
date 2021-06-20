@@ -1,5 +1,5 @@
 module.exports = {
-  displayName: 'workflow-editor',
+  displayName: 'workflow-designer',
   preset: '../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   globals: {
@@ -8,7 +8,7 @@ module.exports = {
       stringifyContentPathRegex: '\\.(html|svg)$',
     },
   },
-  coverageDirectory: '../../coverage/libs/workflow-editor',
+  coverageDirectory: '../../coverage/libs/workflow-designer',
   snapshotSerializers: [
     'jest-preset-angular/build/serializers/no-ng-attributes',
     'jest-preset-angular/build/serializers/ng-snapshot',

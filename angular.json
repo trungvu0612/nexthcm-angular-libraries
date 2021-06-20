@@ -45,6 +45,11 @@
       "style": "scss",
       "displayBlock": true,
       "changeDetection": "OnPush"
+    },
+    "@ngneat/scam:component": {
+      "style": "scss",
+      "displayBlock": true,
+      "changeDetection": "OnPush"
     }
   },
   "projects": {
@@ -759,26 +764,26 @@
         }
       }
     },
-    "workflow-editor": {
+    "workflow-designer": {
       "projectType": "library",
-      "root": "libs/workflow-editor",
-      "sourceRoot": "libs/workflow-editor/src",
+      "root": "libs/workflow-designer",
+      "sourceRoot": "libs/workflow-designer/src",
       "prefix": "hcm",
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
           "outputs": [
-            "dist/libs/workflow-editor"
+            "dist/libs/workflow-designer"
           ],
           "options": {
-            "project": "libs/workflow-editor/ng-package.json"
+            "project": "libs/workflow-designer/ng-package.json"
           },
           "configurations": {
             "production": {
-              "tsConfig": "libs/workflow-editor/tsconfig.lib.prod.json"
+              "tsConfig": "libs/workflow-designer/tsconfig.lib.prod.json"
             },
             "development": {
-              "tsConfig": "libs/workflow-editor/tsconfig.lib.json"
+              "tsConfig": "libs/workflow-designer/tsconfig.lib.json"
             }
           },
           "defaultConfiguration": "production"
@@ -786,10 +791,10 @@
         "test": {
           "builder": "@nrwl/jest:jest",
           "outputs": [
-            "coverage/libs/workflow-editor"
+            "coverage/libs/workflow-designer"
           ],
           "options": {
-            "jestConfig": "libs/workflow-editor/jest.config.js",
+            "jestConfig": "libs/workflow-designer/jest.config.js",
             "passWithNoTests": true
           }
         },
@@ -797,8 +802,8 @@
           "builder": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": [
-              "libs/workflow-editor/src/**/*.ts",
-              "libs/workflow-editor/src/**/*.html"
+              "libs/workflow-designer/src/**/*.ts",
+              "libs/workflow-designer/src/**/*.html"
             ]
           }
         }
@@ -842,7 +847,7 @@
               },
               {
                 "glob": "**/*",
-                "input": "libs/workflow-editor/assets/mxgraph",
+                "input": "libs/workflow-designer/assets/mxgraph",
                 "output": "."
               }
             ],

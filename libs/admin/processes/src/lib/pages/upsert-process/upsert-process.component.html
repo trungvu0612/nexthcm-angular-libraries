@@ -8,7 +8,7 @@
       <button class="tui-form__button" size="m" tuiButton>Publish</button>
     </div>
 
-    <section class="flex flex-col border workflow-editor-container">
+    <section class="flex flex-col border workflow-designer-container">
       <div class="flex items-center p-3 bg-gray-100 border-b">
         <button
           (click)="onUpsertStatus()"
@@ -51,7 +51,7 @@
             </p>
           </tui-island>
         </div>
-        <hcm-workflow-editor #workflowEditor (event)="onWorkflowEvent($event)" class="h-full"></hcm-workflow-editor>
+        <hcm-workflow-designer #workflowDesigner (event)="onWorkflowEvent($event)" class="h-full"></hcm-workflow-designer>
       </div>
     </section>
   </form>

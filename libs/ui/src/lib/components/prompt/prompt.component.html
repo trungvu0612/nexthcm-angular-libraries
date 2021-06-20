@@ -1,0 +1,12 @@
+<ng-container *transloco="let t">
+  <h2 *ngIf="context.heading" [id]="context.id">{{ t(context.heading, { param: context.headingParam }) }}</h2>
+  <section [content]="context.content" [context]="context" polymorpheus-outlet></section>
+  <p class="buttons">
+    <button (click)="onClick(true)" class="tui-space_right-3" tuiButton>
+      {{ t(context.buttons[0]) }}
+    </button>
+    <button (click)="onClick(false)" appearance="secondary" tuiButton>
+      {{ t(context.buttons[1]) }}
+    </button>
+  </p>
+</ng-container>

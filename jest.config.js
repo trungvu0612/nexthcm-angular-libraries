@@ -15,7 +15,7 @@ module.exports = {
     '<rootDir>/libs/ui',
     '<rootDir>/libs/home',
     '<rootDir>/libs/admin-employee',
-    '<rootDir>/libs/workflow-editor',
+    '<rootDir>/libs/workflow-designer',
     '<rootDir>/apps/hcm-processes',
     '<rootDir>/libs/admin/processes',
     '<rootDir>/libs/admin/branches',

@@ -3,9 +3,11 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { LayoutComponent, LayoutModule } from '@nexthcm/ui';
-import { WorkflowEditorModule } from '@nexthcm/workflow-editor';
+import { WorkflowDesignerModule } from '@nexthcm/workflow-designer';
 import { FormlyModule } from '@ngx-formly/core';
+import { LetModule } from '@rx-angular/template';
 import { TuiTablePaginationModule } from '@taiga-ui/addon-table';
+import { TuiLetModule } from '@taiga-ui/cdk';
 import { TuiButtonModule, TuiLoaderModule } from '@taiga-ui/core';
 import { TuiCheckboxModule, TuiIslandModule } from '@taiga-ui/kit';
 import { TableModule } from 'ngx-easy-table';
@@ -16,8 +18,6 @@ import { UpsertTransitionDialogComponent } from './components/upsert-transition-
 import { ProcessesManagementComponent } from './pages/processes-management/processes-management.component';
 import { UpsertProcessComponent } from './pages/upsert-process/upsert-process.component';
 import { ProcessesService } from './services/processes.service';
-import { TuiLetModule } from '@taiga-ui/cdk';
-import { LetModule } from '@rx-angular/template';
 
 export const adminProcessesRoutes: Routes = [
   {
@@ -40,7 +40,7 @@ export const adminProcessesRoutes: Routes = [
   imports: [
     CommonModule,
     RouterModule.forChild(adminProcessesRoutes),
-    WorkflowEditorModule,
+    WorkflowDesignerModule,
     TuiButtonModule,
     TuiIslandModule,
     ReactiveFormsModule,

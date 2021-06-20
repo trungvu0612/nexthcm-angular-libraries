@@ -33,7 +33,7 @@
       "@nexthcm/policy": ["libs/policy/src/index.ts"],
       "@nexthcm/report": ["libs/report/src/index.ts"],
       "@nexthcm/ui": ["libs/ui/src/index.ts"],
-      "@nexthcm/workflow-editor": ["libs/workflow-editor/src/index.ts"],
+      "@nexthcm/workflow-designer": ["libs/workflow-designer/src/index.ts"],
       "@nexthcm/form": ["libs/form/src/index.ts"]
     }
   },
