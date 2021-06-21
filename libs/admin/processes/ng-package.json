@@ -3,5 +3,6 @@
   "dest": "../../../dist/libs/admin/processes",
   "lib": {
     "entryFile": "src/index.ts"
-  }
+  },
+  "allowedNonPeerDependencies": ["rfdc"]
 }

@@ -16,7 +16,7 @@ import { UpsertStatusDialogComponent } from '../../components/upsert-status-dial
 import { UpsertTransitionDialogComponent } from '../../components/upsert-transition-dialog/upsert-transition-dialog.component';
 import { Process, State, Transition } from '../../models/process';
 import { ProcessesService } from '../../services/processes.service';
-import { convertTransition } from '../../utils/convert-transition';
+import { createWorkflowTransition } from '../../utils/create-workflow-transition';
 
 const clone = clone_;
 
@@ -124,7 +124,7 @@ export class UpsertProcessComponent {
         data: { states: this.addedStates, transition, isNew },
       })
       .subscribe((transition) => {
-        const workflowTransition = convertTransition(transition);
+        const workflowTransition = createWorkflowTransition(transition);
         if (isNew) {
           this.addedTransitions.push(transition);
           this.workflowDesigner.apiEvent({ type: WorkflowAPI.drawTransition, value: workflowTransition });
@@ -213,7 +213,7 @@ export class UpsertProcessComponent {
     this.addedTransitions.push(initialTransition);
     this.workflowDesigner.apiEvent({
       type: WorkflowAPI.drawTransition,
-      value: convertTransition(initialTransition),
+      value: createWorkflowTransition(initialTransition),
     });
   }
 
@@ -254,7 +254,7 @@ export class UpsertProcessComponent {
               this.workflowDesigner.apiEvent({ type: WorkflowAPI.removeCell, value: value.transitionId });
               this.workflowDesigner.apiEvent({
                 type: WorkflowAPI.drawTransition,
-                value: convertTransition(this.addedTransitions[currentTransitionIndex]),
+                value: createWorkflowTransition(this.addedTransitions[currentTransitionIndex]),
               });
             }
           });

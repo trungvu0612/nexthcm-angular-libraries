@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TuiTableModule } from '@taiga-ui/addon-table';
 import { TuiSvgModule, TuiTextfieldControllerModule } from '@taiga-ui/core';
 import { TuiCheckboxLabeledModule, TuiCheckboxModule, TuiInputModule, TuiInputPasswordModule } from '@taiga-ui/kit';
+import { CookieModule } from 'ngx-cookie';
 import { tokenInterceptorProvider } from './interceptors';
 import { LoginComponent } from './pages';
 
@@ -20,6 +21,7 @@ import { LoginComponent } from './pages';
     TuiInputPasswordModule,
     TuiCheckboxModule,
     TuiCheckboxLabeledModule,
+    CookieModule.forRoot(),
   ],
   providers: [tokenInterceptorProvider],
 })

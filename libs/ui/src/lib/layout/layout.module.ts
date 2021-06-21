@@ -10,6 +10,7 @@ import {
   TuiSvgModule,
 } from '@taiga-ui/core';
 import { TuiAvatarModule, TuiTabsModule } from '@taiga-ui/kit';
+import { PromptComponentModule } from '../components/prompt/prompt.component';
 import { HeaderComponent } from './header/header.component';
 import { LayoutComponent } from './layout.component';
 import { MenuLeftComponent } from './menu-left/menu-left.component';
@@ -27,6 +28,7 @@ import { MenuLeftComponent } from './menu-left/menu-left.component';
     TranslocoModule,
     TuiHostedDropdownModule,
     TuiButtonModule,
+    PromptComponentModule,
   ],
   exports: [LayoutComponent],
 })

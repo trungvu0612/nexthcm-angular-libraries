@@ -11,6 +11,12 @@
     "ngx-cookie",
     "inter-ui",
     "@ngneat/transloco",
-    "date-fns"
+    "date-fns",
+    "@rx-angular/cdk",
+    "@rx-angular/state",
+    "@rx-angular/template",
+    "@rxweb/reactive-form-validators",
+    "@ngneat/reactive-forms",
+    "ngx-easy-table"
   ]
 }

@@ -1,9 +1,11 @@
-<div class="flex min-h-screen">
-  <div class="left-column px-5">
+<section class="flex min-h-screen">
+  <section class="left-column px-5">
     <hcm-admin-menu-left></hcm-admin-menu-left>
-  </div>
-  <div class="right-column">
+  </section>
+  <section class="right-column">
     <hcm-admin-header></hcm-admin-header>
-    <router-outlet></router-outlet>
-  </div>
-</div>
+    <main class="p-5">
+      <router-outlet></router-outlet>
+    </main>
+  </section>
+</section>

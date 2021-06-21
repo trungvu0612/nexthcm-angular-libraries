@@ -10,6 +10,7 @@
     "@nexthcm/workflow-designer": "^0.0.1"
   },
   "dependencies": {
-    "tslib": "^2.1.0"
+    "tslib": "^2.1.0",
+    "rfdc": "^1.3.0"
   }
 }

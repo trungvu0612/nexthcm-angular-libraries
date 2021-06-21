@@ -1,12 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
-import { PromptComponentModule } from '@nexthcm/ui';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { FORMLY_CONFIG, FormlyModule } from '@ngx-formly/core';
 import { iconsPathFactory, TUI_ICONS_PATH, TUI_SANITIZER, TuiDialogModule } from '@taiga-ui/core';
 import { NgDompurifySanitizer } from '@tinkoff/ng-dompurify';
-import { CookieModule } from 'ngx-cookie';
 import { APP_CONFIG } from './app-config.token';
 import { registerTranslateExtension } from './extensions/formly-register-translate-extension';
 import { apiPrefixInterceptorProvider } from './interceptors';
@@ -20,9 +18,7 @@ import { translocoConfigProvider } from './transloco/transloco-config';
     HttpClientModule,
     TranslocoModule,
     FormlyModule.forRoot({ extras: { lazyRender: true, resetFieldOnHide: true } }),
-    CookieModule.forRoot(),
     TuiDialogModule,
-    PromptComponentModule,
   ],
   providers: [
     httpLoader,

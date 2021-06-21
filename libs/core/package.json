@@ -12,6 +12,12 @@
     "ngx-cookie": "^5.0.2",
     "inter-ui": "^3.18.1",
     "@ngneat/transloco": "^2.21.0",
-    "date-fns": "^2.22.1"
+    "date-fns": "^2.22.1",
+    "@rx-angular/cdk": "^1.0.0-alpha.8",
+    "@rx-angular/state": "^1.4.3",
+    "@rx-angular/template": "^1.0.0-beta.25",
+    "@rxweb/reactive-form-validators": "^2.1.3",
+    "@ngneat/reactive-forms": "^1.7.3",
+    "ngx-easy-table": "^15.0.0"
   }
 }

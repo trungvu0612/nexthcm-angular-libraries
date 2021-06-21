@@ -5,7 +5,7 @@ import { isPresent } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { BaseComponent, Columns, Config, DefaultConfig } from 'ngx-easy-table';
-import { BehaviorSubject, combineLatest, Subject } from 'rxjs';
+import { BehaviorSubject, merge, Subject } from 'rxjs';
 import { filter, map, share, startWith, switchMap } from 'rxjs/operators';
 import { CreateProcessDialogComponent } from '../../components/create-process-dialog/create-process-dialog.component';
 import { Process, ProcessInit } from '../../models/process';
@@ -36,10 +36,10 @@ export class ProcessesManagementComponent {
   allSelected: boolean | null = false;
   readonly selected = new Set<string>();
   private readonly queryParams$ = new BehaviorSubject(new HttpParams().set('page', '0').set('size', 10));
-  private readonly refresh$ = new Subject();
-  private readonly request$ = combineLatest([this.queryParams$, this.refresh$]).pipe(
-    startWith([]),
-    switchMap(([queryParams]) => this.processesService.getProcesses(queryParams)),
+  private readonly refresh$ = new Subject<any>();
+  private readonly request$ = merge(this.queryParams$, this.refresh$).pipe(
+    startWith({}),
+    switchMap(() => this.processesService.getProcesses(this.queryParams$.value)),
     map((res) => res.data),
     share()
   );
@@ -105,6 +105,8 @@ export class ProcessesManagementComponent {
   }
 
   onRemoveProcess(id?: string): void {
-    //
+    if (id) {
+      this.processesService.deleteProcess(id).subscribe(() => this.refresh$.next());
+    }
   }
 }

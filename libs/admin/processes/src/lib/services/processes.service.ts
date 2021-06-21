@@ -39,4 +39,8 @@ export class ProcessesService extends RxState<ProcessesState> {
   initProcess(payload: ProcessInit): Observable<BaseResponse<Process>> {
     return this.http.post<BaseResponse<Process>>(`/${WORKFLOWS_PATH}/process/init`, payload);
   }
+
+  deleteProcess(processId: string): Observable<unknown> {
+    return this.http.delete<unknown>(`/process/${processId}`);
+  }
 }
