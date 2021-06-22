@@ -42,6 +42,5 @@ import { InputObjectComponent } from './input-object/input-object.type';
     PolymorpheusModule,
     FormFieldModule,
   ],
-  exports: [ComboBoxComponent],
 })
 export class ComboBoxModule {}
