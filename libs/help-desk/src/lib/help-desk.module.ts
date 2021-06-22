@@ -38,7 +38,6 @@ import { PolymorpheusModule } from '@tinkoff/ng-polymorpheus';
 import { AddSeatComboBoxComponent } from './components/add-seat-combo-box/add-seat-combo-box.component';
 import { AddSeatDialogComponent } from './components/add-seat-dialog/add-seat-dialog.component';
 import { CreateCalendarComponent } from './components/create-calendar/create-calendar.component';
-import { CreateMapDialogComponent } from './components/create-map-dialog/create-map-dialog.component';
 import { CustomTuiComboBoxModule } from './components/custom-combo-box/custom-combo-box.module';
 import { FormlyRepeatEventCalendarComponent } from './components/formly-repeat-event-calendar/formly-repeat-event-calendar.component';
 import { RepeatCalendarCustomComponent } from './components/formly-repeat-event-calendar/repeat-calendar-custom/repeat-calendar-custom.component';
@@ -56,7 +55,6 @@ FullCalendarModule.registerPlugins([dayGridPlugin]);
     SeatMapComponent,
     AddSeatDialogComponent,
     AddSeatComboBoxComponent,
-    CreateMapDialogComponent,
     BvCalendarComponent,
     CreateCalendarComponent,
     SeatComponent,
