@@ -1,6 +1,5 @@
-import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
-import { TuiHostedDropdownComponent } from '@taiga-ui/core';
-import { Permission, ServiceInfo } from '../../models/permission';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { map } from 'rxjs/operators';
 import { AdminPermissionsService } from '../../services/admin-permissions.service';
 
 @Component({
@@ -9,25 +8,10 @@ import { AdminPermissionsService } from '../../services/admin-permissions.servic
   styleUrls: ['./permission-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PermissionListComponent implements OnInit {
-  @ViewChild(TuiHostedDropdownComponent) component?: TuiHostedDropdownComponent;
-  open = false;
-  items = ['All', 'One', 'Two'];
-  indexItem = 0;
+export class PermissionListComponent {
   columns = ['name', 'description', 'service', 'action'];
-  servicesInfo!: ServiceInfo[];
-  permissions!: Permission[];
+  servicesLength$ = this.adminPermissions.getServices().pipe(map((items) => items.length));
+  policies$ = this.adminPermissions.getPolicies();
 
   constructor(private adminPermissions: AdminPermissionsService) {}
-
-  onClick(index: number) {
-    this.open = false;
-    this.indexItem = index;
-    if (this.component && this.component.nativeFocusableElement) this.component.nativeFocusableElement.focus();
-  }
-
-  ngOnInit(): void {
-    this.adminPermissions.getPermissions().subscribe((data) => (this.permissions = data));
-    this.adminPermissions.getServicesInfo().subscribe((data) => (this.servicesInfo = data));
-  }
 }

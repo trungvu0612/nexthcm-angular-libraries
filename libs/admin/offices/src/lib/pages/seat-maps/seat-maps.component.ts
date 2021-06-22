@@ -3,16 +3,16 @@ import { Zone } from '@nexthcm/ui';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { Observable, Subject } from 'rxjs';
-import { RoomDetailDialogComponent } from '../../components/room-detail-dialog/room-detail-dialog.component';
+import { SeatMapDialogComponent } from '../../components/seat-map-dialog/seat-map-dialog.component';
 import { AdminOfficesService } from '../../services/admin-offices.service';
 
 @Component({
-  selector: 'hcm-rooms',
-  templateUrl: './rooms.component.html',
-  styleUrls: ['./rooms.component.scss'],
+  selector: 'hcm-seat-maps',
+  templateUrl: './seat-maps.component.html',
+  styleUrls: ['./seat-maps.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class RoomsComponent {
+export class SeatMapsComponent {
   refresh$ = new Subject();
 
   constructor(
@@ -22,7 +22,7 @@ export class RoomsComponent {
   ) {}
 
   showDialog(data?: Partial<Zone>): Observable<Partial<Zone>> {
-    return this.dialogService.open<Partial<Zone>>(new PolymorpheusComponent(RoomDetailDialogComponent, this.injector), {
+    return this.dialogService.open<Partial<Zone>>(new PolymorpheusComponent(SeatMapDialogComponent, this.injector), {
       size: 'page',
       data: data,
     });
@@ -35,7 +35,9 @@ export class RoomsComponent {
   }
 
   onEdit(item: Partial<Zone>): void {
-    this.showDialog(item).subscribe();
+    this.showDialog(item).subscribe((seatZone) => {
+      if (seatZone) this.adminOfficesService.editSeatZone(seatZone).subscribe(() => this.refresh$.next());
+    });
   }
 
   onRemove(item: Partial<Zone>): void {

@@ -9,25 +9,26 @@ import {
   Inject,
   ViewChild,
 } from '@angular/core';
-import { Dimension, StyleSeat, UploadFileService, Zone } from '@nexthcm/ui';
+import { Dimension, Seat, UploadFileService, Zone } from '@nexthcm/ui';
 import { FormBuilder, FormControl, FormGroup } from '@ngneat/reactive-forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
-import { startWith, takeUntil } from 'rxjs/operators';
+import { map, startWith, takeUntil } from 'rxjs/operators';
 import { SeatMapForm } from '../../models/offices';
+import { AdminOfficesService } from '../../services/admin-offices.service';
 
 const keys: ('width' | 'height' | 'rounded')[] = ['width', 'height', 'rounded'];
 
 @Component({
-  selector: 'hcm-room-detail',
-  templateUrl: './room-detail-dialog.component.html',
-  styleUrls: ['./room-detail-dialog.component.scss'],
+  selector: 'hcm-seat-map-dialog',
+  templateUrl: './seat-map-dialog.component.html',
+  styleUrls: ['./seat-map-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [TuiDestroyService],
 })
-export class RoomDetailDialogComponent implements AfterViewInit {
+export class SeatMapDialogComponent implements AfterViewInit {
   @ViewChild('zone') zone!: ElementRef;
   title!: string;
   imageControl = new FormControl<File>();
@@ -36,7 +37,7 @@ export class RoomDetailDialogComponent implements AfterViewInit {
   first = true;
   factor = { width: 0, height: 0, rounded: 1 };
   dimension = { width: 0, height: 0, rounded: 0 };
-  seats: StyleSeat[] = [];
+  seats: Seat[] = [];
 
   form: FormGroup<SeatMapForm>;
   model: SeatMapForm = {
@@ -53,18 +54,19 @@ export class RoomDetailDialogComponent implements AfterViewInit {
   fields: FormlyFieldConfig[] = [
     {
       key: 'office',
-      type: 'input-office',
+      type: 'input-object',
       templateOptions: {
         label: 'office',
         translate: true,
         required: true,
+        options: this.adminOfficesService.getZoneData('office', { size: 999 }).pipe(map((data) => data.items)),
       },
     },
     {
       key: 'name',
       type: 'input',
       templateOptions: {
-        label: 'room',
+        label: 'seatMap',
         translate: true,
         required: true,
         textfieldSize: 'm',
@@ -155,9 +157,10 @@ export class RoomDetailDialogComponent implements AfterViewInit {
   constructor(
     @Inject(POLYMORPHEUS_CONTEXT)
     private context: TuiDialogContext<Partial<Zone> | undefined, Partial<Zone> | undefined>,
+    private adminOfficesService: AdminOfficesService,
+    private uploadFileService: UploadFileService,
     private fb: FormBuilder,
     private changeDetector: ChangeDetectorRef,
-    private uploadFileSystem: UploadFileService,
     private destroy$: TuiDestroyService
   ) {
     this.form = fb.group(this.model);
@@ -170,12 +173,12 @@ export class RoomDetailDialogComponent implements AfterViewInit {
       if (name) this.form.patchValue({ name });
       if (office) this.form.patchValue({ office });
       if (imageUrl) this.model.imageUrl = imageUrl;
-      this.title = 'editRoom';
-    } else this.title = 'addRoom';
+      this.title = 'editSeatMap';
+    } else this.title = 'addSeatMap';
 
     this.imageControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((file) => {
       if (file) {
-        this.uploadFileSystem.uploadFile(file, 'seats-map').subscribe((imageUrl) => {
+        this.uploadFileService.uploadFile(file, 'seats-map').subscribe((imageUrl) => {
           this.model.imageUrl = imageUrl;
           this.changeDetector.detectChanges();
         });
@@ -190,8 +193,8 @@ export class RoomDetailDialogComponent implements AfterViewInit {
         { length: value },
         (_, index) =>
           this.seats[index] || {
-            positionX: Math.floor(Math.random() * (75 - 25) + 25),
-            positionY: Math.floor(Math.random() * (75 - 25) + 25),
+            positionX: Math.floor(Math.random() * (55 - 45) + 45),
+            positionY: Math.floor(Math.random() * (55 - 45) + 45),
           }
       );
       if (!value) this.current = -1;
@@ -263,10 +266,11 @@ export class RoomDetailDialogComponent implements AfterViewInit {
     this.updateFactor();
     if (this.first && this.context.data) {
       this.first = false;
-      const seats = this.context.data.seats;
-      if (seats) {
-        this.seats = seats.map((seat) => JSON.parse(seat.style || ''));
-        this.form.patchValue({ seats: seats.length });
+      if (this.context.data.seats) {
+        this.seats = this.context.data.seats.map((seat) => {
+          return Object.assign(seat, JSON.parse(seat.style || '{}'));
+        });
+        this.form.patchValue({ seats: this.seats.length });
       }
     }
     if (!this.seats.length) this.form.patchValue({ seats: 1 });
@@ -333,20 +337,23 @@ export class RoomDetailDialogComponent implements AfterViewInit {
   }
 
   save(): void {
+    const seatMap: Partial<Zone> = this.context.data || {};
+    if (!seatMap.type) seatMap.type = 'UNSET';
     const { name, imageUrl, dimensionX, dimensionY, office } = this.model;
-    this.context.completeWith({
-      name,
-      imageUrl,
-      dimensionX,
-      dimensionY,
-      type: 'UNSET',
-      office,
-      seats: this.seats.map((seat) => {
-        keys.forEach((key) => {
-          if (seat[key] === undefined) seat[key] = this.dimension[key];
-        });
-        return { style: JSON.stringify(seat) };
-      }),
+    const seats: Partial<Seat>[] = this.seats;
+    seats.forEach((seat) => {
+      keys.forEach((key) => {
+        if (seat[key] === undefined) seat[key] = this.dimension[key];
+      });
+      const { positionX, positionY, width, height, rounded } = seat;
+      seat.style = JSON.stringify({ positionX, positionY, width, height, rounded });
+      delete seat.positionX;
+      delete seat.positionY;
+      delete seat.width;
+      delete seat.height;
+      delete seat.rounded;
     });
+    Object.assign(seatMap, { office, name, imageUrl, dimensionX, dimensionY, seats });
+    this.context.completeWith(seatMap);
   }
 }

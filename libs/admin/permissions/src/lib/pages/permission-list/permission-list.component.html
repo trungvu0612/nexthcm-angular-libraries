@@ -4,24 +4,7 @@
     <button class="blue-button" routerLink="./create">Create Permission</button>
   </header>
   <section class="main-section">
-    <tui-hosted-dropdown [(open)]="open" [content]="dropdown">
-      <span class="text-gray-500 font-medium mr-1">Channel:</span>
-      <span class="text-blue-400 font-semibold"> {{ items[indexItem] }} </span>
-      <tui-svg
-        [class.icon_rotated]="open"
-        class="text-gray-400 cursor-pointer"
-        src="tuiIconSortDown"
-        tuiHostedDropdownHost
-      ></tui-svg>
-    </tui-hosted-dropdown>
-    <ng-template #dropdown>
-      <tui-data-list>
-        <button (click)="onClick(index)" *ngFor="let item of items; index as index" tuiOption>
-          {{ item }}
-        </button>
-      </tui-data-list>
-    </ng-template>
-    <table [columns]="columns" class="hcm-tui-table mt-2" tuiTable>
+    <table *ngIf="policies$ | async as policies" [columns]="columns" class="hcm-tui-table mt-2" tuiTable>
       <thead>
         <tr tuiThGroup>
           <th *tuiHead="'name'" [sorter]="null" tuiTh>Permission Name</th>
@@ -30,18 +13,18 @@
           <th *tuiHead="'action'" [sorter]="null" tuiTh>Action</th>
         </tr>
       </thead>
-      <tbody [data]="permissions" tuiTbody>
-        <tr *tuiRow="let item of permissions" tuiTr>
+      <tbody [data]="policies" tuiTbody>
+        <tr *tuiRow="let item of policies" tuiTr>
           <td *tuiCell="'name'" tuiTd>
             {{ item.name }}
           </td>
           <td *tuiCell="'description'" tuiTd>
             {{ item.description }}
           </td>
-          <td *tuiCell="'service'" tuiTd>{{ item.services.length }} in {{ servicesInfo.length }} services</td>
+          <td *tuiCell="'service'" tuiTd>{{ item.policyItems?.length }} in {{ servicesLength$ | async }} services</td>
           <td *tuiCell="'action'" tuiTd>
             <div class="flex justify-center text-black">
-              <button [routerLink]="['./update', item.id]" class="mr-2">
+              <button [routerLink]="['./update', item.policyId]" class="mr-2">
                 <tui-svg src="tuiIconEditLarge"></tui-svg>
               </button>
               <button>

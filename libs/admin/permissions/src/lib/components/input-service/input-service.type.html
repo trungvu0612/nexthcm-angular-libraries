@@ -22,7 +22,7 @@
         tuiTextfieldSize="m"
         >Find a service
       </tui-input>
-      <div class="grid grid-cols-2 gap-6 mt-6">
+      <div *ngIf="services$ | async as services" class="grid grid-cols-2 gap-6 mt-6">
         <div *ngFor="let service of services">
           <button (click)="chooseService(service)" class="text-blue-primary font-normal" type="button">
             {{ service.name }}

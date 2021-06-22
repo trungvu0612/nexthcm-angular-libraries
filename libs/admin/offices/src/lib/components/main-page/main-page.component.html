@@ -2,11 +2,11 @@
   <header>
     <h1>{{ t(type + 'List') }}</h1>
     <button (click)="add.emit()" class="blue-button">
-      {{ t('add' + (type | titlecase)) }}
+      {{ t('add' + type[0].toUpperCase() + type.slice(1)) }}
     </button>
   </header>
   <section class="main-section">
-    <table *tuiLet="data$ | async as data" [columns]="columns" class="hcm-tui-table" tuiTable>
+    <table *ngIf="data$ | async as data" [columns]="columns" class="hcm-tui-table" tuiTable>
       <thead>
         <tr tuiThGroup>
           <th *tuiHead="'name'" tuiTh>{{ t('name') }}</th>
@@ -24,8 +24,8 @@
           <th *tuiHead="'action'" [sorter]="null" tuiTh>{{ t('action') }}</th>
         </tr>
       </thead>
-      <tbody [data]="data?.items || []" tuiTbody>
-        <tr *tuiRow="let item of data?.items || []; index as index" tuiTr>
+      <tbody [data]="data.items" tuiTbody>
+        <tr *tuiRow="let item of data.items; index as index" tuiTr>
           <td *tuiCell="'name'" tuiTd>
             {{ item.name }}
           </td>
@@ -68,7 +68,7 @@
             <tui-table-pagination
               (pageChange)="onChange('page', $event)"
               (sizeChange)="onChange('size', $event)"
-              [total]="data?.totalElements || 0"
+              [total]="data.totalElements"
             ></tui-table-pagination>
           </td>
         </tr>

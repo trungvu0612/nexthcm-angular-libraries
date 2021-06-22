@@ -1,7 +1,8 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@ngneat/reactive-forms';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { FormGroup } from '@ngneat/reactive-forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import { Permission, Service, ServiceInfo } from '../../models/permission';
+import { map } from 'rxjs/operators';
+import { Policy } from '../../models/policy';
 import { AdminPermissionsService } from '../../services/admin-permissions.service';
 import { validatorTextPermission } from '../../utils/validatiors';
 
@@ -11,18 +12,39 @@ import { validatorTextPermission } from '../../utils/validatiors';
   styleUrls: ['./create-permission.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CreatePermissionComponent implements OnInit {
+export class CreatePermissionComponent {
   stepperIndex = 0;
-  servicesInfo!: ServiceInfo[];
-  searchControl = new FormControl<string>('');
+  servicesLength$ = this.adminPermissions.getServices().pipe(map((items) => items.length));
 
-  servicesForm = new FormGroup<Partial<Permission>>({});
-  servicesModel: Partial<Permission> = { services: [{} as Service] };
-  servicesFields!: FormlyFieldConfig[];
+  servicesForm = new FormGroup<Partial<Policy>>({});
+  servicesModel: Partial<Policy> = {};
+  servicesFields: FormlyFieldConfig[] = [
+    {
+      type: 'repeat-service',
+      key: 'policyItems',
+      defaultValue: [{}],
+      fieldArray: {
+        fieldGroup: [
+          {
+            type: 'input-service',
+            key: 'service',
+            templateOptions: {
+              options: [],
+              required: true,
+            },
+          },
+          {
+            type: 'input-actions',
+            key: 'actions',
+          },
+        ],
+      },
+    },
+  ];
 
-  permissionForm = new FormGroup<Partial<Permission>>({});
-  permissionModel: Partial<Permission> = {};
-  permissionFields: FormlyFieldConfig[] = [
+  policyForm = new FormGroup<Partial<Policy>>({});
+  policyModel!: Partial<Policy>;
+  policyFields: FormlyFieldConfig[] = [
     {
       type: 'input',
       key: 'name',
@@ -52,41 +74,7 @@ export class CreatePermissionComponent implements OnInit {
     },
   ];
 
-  constructor(private adminPermissionsService: AdminPermissionsService) {}
-
-  get services(): Service[] {
-    return (
-      this.servicesModel.services?.filter(
-        (item) => item.service?.name.toLowerCase().indexOf(this.searchControl.value.toLowerCase()) > -1
-      ) || []
-    );
-  }
-
-  ngOnInit(): void {
-    this.adminPermissionsService.getServicesInfo().subscribe((data) => (this.servicesInfo = data));
-    this.servicesFields = [
-      {
-        type: 'repeat-service',
-        key: 'services',
-        fieldArray: {
-          fieldGroup: [
-            {
-              type: 'input-service',
-              key: 'service',
-              templateOptions: {
-                options: this.servicesInfo,
-                required: true,
-              },
-            },
-            {
-              type: 'input-actions',
-              key: 'actions',
-            },
-          ],
-        },
-      },
-    ];
-  }
+  constructor(private adminPermissions: AdminPermissionsService) {}
 
   nextStep(step: number): void {
     this.stepperIndex += step;

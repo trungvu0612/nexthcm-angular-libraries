@@ -2,30 +2,26 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormControl } from '@ngneat/reactive-forms';
 import { FieldType } from '@ngx-formly/core';
 import { TuiDestroyService } from '@taiga-ui/cdk';
-import { ServiceInfo } from '../../models/permission';
+import { Service } from '../../models/policy';
+import { AdminPermissionsService } from '../../services/admin-permissions.service';
 
 @Component({
   selector: 'formly-input-service',
   templateUrl: './input-service.type.html',
-  styles: [':host {display: flex; padding: 1.75rem 1.75rem 1.75rem 20%; border-bottom: 1px solid black;}'],
+  styles: [':host {display: flex; padding: 1.75rem 1.75rem 0 20%;}'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [TuiDestroyService],
 })
 export class InputServiceComponent extends FieldType {
   expanded = false;
   searchControl = new FormControl<string>('');
+  services$ = this.adminPermissions.getServices();
 
-  constructor() {
+  constructor(private adminPermissions: AdminPermissionsService) {
     super();
   }
 
-  get services(): ServiceInfo[] {
-    return (this.to.options as ServiceInfo[]).filter(
-      (service) => service.name.toLowerCase().indexOf(this.searchControl.value.toLowerCase()) > -1
-    );
-  }
-
-  chooseService(service: ServiceInfo): void {
+  chooseService(service: Partial<Service>): void {
     this.formControl.patchValue(service);
     this.toggleExpanded();
   }
