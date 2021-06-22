@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AdminLayoutComponent } from '@nexthcm/ui';
 import { AdminOfficesComponent } from './admin-offices.component';
 import { OfficesComponent } from './pages/offices/offices.component';
-import { RoomsComponent } from './pages/rooms/rooms.component';
+import { SeatMapsComponent } from './pages/seat-maps/seat-maps.component';
 
 const routes: Routes = [
   {
@@ -15,7 +15,7 @@ const routes: Routes = [
         component: AdminOfficesComponent,
         children: [
           { path: '', component: OfficesComponent },
-          { path: 'rooms', component: RoomsComponent },
+          { path: 'rooms', component: SeatMapsComponent },
         ],
       },
     ],

@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RoomDetailDialogComponent } from './room-detail-dialog.component';
+import { SeatMapsComponent } from './seat-maps.component';
 
-describe('AddFloorComponent', () => {
-  let component: RoomDetailDialogComponent;
-  let fixture: ComponentFixture<RoomDetailDialogComponent>;
+describe('FloorsComponent', () => {
+  let component: SeatMapsComponent;
+  let fixture: ComponentFixture<SeatMapsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [RoomDetailDialogComponent],
+      declarations: [SeatMapsComponent],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(RoomDetailDialogComponent);
+    fixture = TestBed.createComponent(SeatMapsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

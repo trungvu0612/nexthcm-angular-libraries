@@ -1,15 +1,13 @@
-export interface AssignedUser {
-  user: {
-    id: string;
-    username: string;
-    image: string;
-    dateOfBirth: string;
-    status: string;
-    team: string;
-    phoneNumber: string;
-    skype: string;
-    email: string;
-  };
+export interface User {
+  id: string;
+  username: string;
+  image: string;
+  dateOfBirth: string;
+  status: string;
+  team: string;
+  phoneNumber: string;
+  skype: string;
+  email: string;
 }
 
 export interface Dimension {
@@ -25,7 +23,7 @@ export interface StyleSeat extends Partial<Dimension> {
 
 export interface Seat extends StyleSeat {
   id: string;
-  assignedUser: AssignedUser;
+  assignedUser: User;
   style: string;
 }
 
@@ -42,20 +40,4 @@ export interface Zone {
   dimensionX: number;
   dimensionY: number;
   seats: Partial<Seat>[];
-}
-
-export interface ZoneData {
-  items: Partial<Zone>[];
-  page: number;
-  size: number;
-  totalItems: number;
-  totalPages: number;
-  totalElements: number;
-  hasNext: boolean;
-  hasPrevious: boolean;
-}
-
-export interface ZoneResponse {
-  code: string;
-  data: ZoneData;
 }

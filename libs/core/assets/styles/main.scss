@@ -20,42 +20,6 @@ section.main-section {
   @apply bg-white rounded-xl p-8;
 }
 
-.hcm-tui-table {
-  width: 100%;
-
-  button.sort {
-    font-weight: 600;
-
-    .arrow {
-      opacity: 1;
-    }
-  }
-
-  th,
-  td {
-    @apply border-0 border-b text-sm py-5;
-
-    &:not(td) {
-      @apply text-gray-500 font-semibold;
-    }
-
-    &.center-custom {
-      max-width: 100px !important;
-      @apply text-center;
-    }
-  }
-
-  tbody {
-    tr:nth-child(odd) td {
-      @apply bg-gray-50;
-    }
-  }
-
-  tfoot td {
-    border: none;
-  }
-}
-
 button {
   @apply font-semibold disabled:opacity-50;
 
@@ -91,6 +55,42 @@ button {
 .custom-link {
   color: var(--tui-primary);
   @apply font-semibold;
+}
+
+.hcm-tui-table {
+  width: 100%;
+
+  button.sort {
+    font-weight: 600;
+
+    .arrow {
+      opacity: 1;
+    }
+  }
+
+  th,
+  td {
+    @apply border-0 border-b text-sm py-4;
+
+    &:not(td) {
+      @apply text-gray-500 font-semibold;
+    }
+
+    &.center-custom {
+      max-width: 100px !important;
+      @apply text-center;
+    }
+  }
+
+  tbody {
+    tr:nth-child(odd) td {
+      @apply bg-gray-50;
+    }
+  }
+
+  tfoot td {
+    border: none;
+  }
 }
 
 .detail-table {

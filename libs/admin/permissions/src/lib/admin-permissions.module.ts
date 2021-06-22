@@ -5,8 +5,6 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { FormlyModule } from '@ngx-formly/core';
 import { TuiTableModule } from '@taiga-ui/addon-table';
 import {
-  TuiButtonModule,
-  TuiDataListModule,
   TuiDropdownControllerModule,
   TuiExpandModule,
   TuiHostedDropdownModule,
@@ -46,9 +44,6 @@ import { UpdatePermissionComponent } from './pages/update-permission/update-perm
     TranslocoModule,
     TuiTableModule,
     TuiSvgModule,
-    TuiHostedDropdownModule,
-    TuiDataListModule,
-    TuiButtonModule,
     TuiStepperModule,
     FormlyModule.forChild({
       types: [
@@ -75,8 +70,9 @@ import { UpdatePermissionComponent } from './pages/update-permission/update-perm
     TuiExpandModule,
     TuiInputModule,
     TuiTextfieldControllerModule,
-    TuiDropdownHoverModule,
+    TuiHostedDropdownModule,
     TuiDropdownControllerModule,
+    TuiDropdownHoverModule,
     TuiCheckboxLabeledModule,
     TuiFilterModule,
   ],
