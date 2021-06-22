@@ -4,7 +4,7 @@
   margin: auto;
   animation: tuiReveal var(--tui-duration), tuiFadeIn var(--tui-duration);
   background: var(--tui-base-01);
-  border-radius: 0 0 12px 12px;
+  border-radius: 16px;
 
   .buttons {
     display: flex;

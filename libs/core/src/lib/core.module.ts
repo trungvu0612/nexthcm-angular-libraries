@@ -3,6 +3,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { FORMLY_CONFIG, FormlyModule } from '@ngx-formly/core';
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { iconsPathFactory, TUI_ICONS_PATH, TUI_SANITIZER, TuiDialogModule } from '@taiga-ui/core';
 import { NgDompurifySanitizer } from '@tinkoff/ng-dompurify';
 import { APP_CONFIG } from './app-config.token';
@@ -19,6 +20,7 @@ import { translocoConfigProvider } from './transloco/transloco-config';
     TranslocoModule,
     FormlyModule.forRoot({ extras: { lazyRender: true, resetFieldOnHide: true } }),
     TuiDialogModule,
+    SweetAlert2Module.forRoot(),
   ],
   providers: [
     httpLoader,

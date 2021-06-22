@@ -28,7 +28,7 @@
 
       <div class="relative flex-1">
         <div class="absolute top-3 right-3 z-50">
-          <tui-island *ngIf="selectedCell" [hoverable]="true">
+          <tui-island *ngIf="selectedCell$ | async as selectedCell" [hoverable]="true">
             <h3 class="tui-island__title">{{ selectedCell.name }}</h3>
             <p *ngIf="selectedCell.description" class="tui-island__paragraph">
               {{ selectedCell.description }}
@@ -51,8 +51,14 @@
             </p>
           </tui-island>
         </div>
-        <hcm-workflow-designer #workflowDesigner (event)="onWorkflowEvent($event)" class="h-full"></hcm-workflow-designer>
+        <hcm-workflow-designer
+          #workflowDesigner
+          (event)="onWorkflowEvent($event)"
+          class="h-full"
+        ></hcm-workflow-designer>
       </div>
     </section>
   </form>
 </tui-loader>
+
+<hcm-prompt #prompt></hcm-prompt>

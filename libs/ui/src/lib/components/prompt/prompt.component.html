@@ -1,12 +1,23 @@
-<ng-container *transloco="let t">
-  <h2 *ngIf="context.heading" [id]="context.id">{{ t(context.heading, { param: context.headingParam }) }}</h2>
-  <section [content]="context.content" [context]="context" class="tui-text_body-m" polymorpheus-outlet></section>
-  <p class="buttons">
-    <button (click)="onClick(true)" class="tui-space_right-3" size="m" tuiButton>
-      {{ t(context.buttons[0]) }}
+<swal #swal *transloco="let t" [swalOptions]="swalOptions">
+  <div *swalPortal="targets.actions">
+    <button
+      (click)="swal.close({ isConfirmed: true, isDenied: false, isDismissed: false })"
+      *ngIf="swal.showConfirmButton"
+      class="mx-1"
+      size="m"
+      tuiButton
+    >
+      {{ t(swal.confirmButtonText) }}
     </button>
-    <button (click)="onClick(false)" appearance="secondary" size="m" tuiButton>
-      {{ t(context.buttons[1]) }}
+    <button
+      (click)="swal.close({ isConfirmed: false, isDenied: false, isDismissed: true })"
+      *ngIf="swal.showCancelButton"
+      appearance="secondary"
+      class="mx-1"
+      size="m"
+      tuiButton
+    >
+      {{ t(swal.cancelButtonText) }}
     </button>
-  </p>
-</ng-container>
+  </div>
+</swal>

@@ -1,15 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Inject, Injectable, NgModule } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, NgModule, ViewChild } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
-import { AbstractTuiDialogService, TUI_DIALOGS, TuiDialog } from '@taiga-ui/cdk';
+import { SwalComponent, SwalPortalTargets, SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { TuiButtonModule } from '@taiga-ui/core';
-import { POLYMORPHEUS_CONTEXT, PolymorpheusComponent, PolymorpheusModule } from '@tinkoff/ng-polymorpheus';
-
-interface PromptOptions {
-  readonly heading: string;
-  readonly headingParam?: string;
-  readonly buttons: readonly [string, string];
-}
+import { SweetAlertOptions, SweetAlertResult } from 'sweetalert2';
 
 @Component({
   selector: 'hcm-prompt',
@@ -18,28 +12,26 @@ interface PromptOptions {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PromptComponent {
-  constructor(@Inject(POLYMORPHEUS_CONTEXT) readonly context: TuiDialog<PromptOptions, boolean>) {}
+  @ViewChild('swal') swal!: SwalComponent;
+  swalOptions: SweetAlertOptions = {
+    showCancelButton: false,
+    showConfirmButton: true,
+    confirmButtonText: 'OK',
+    cancelButtonText: 'Cancel',
+  };
 
-  onClick(response: boolean): void {
-    this.context.completeWith(response);
+  constructor(public readonly targets: SwalPortalTargets, private cdr: ChangeDetectorRef) {}
+
+  open(options?: SweetAlertOptions): Promise<SweetAlertResult> {
+    this.swalOptions = { ...this.swalOptions, ...options };
+    this.cdr.detectChanges();
+    return this.swal.fire();
   }
-}
-
-@Injectable({
-  providedIn: 'root',
-})
-export class PromptService extends AbstractTuiDialogService<PromptOptions> {
-  readonly defaultOptions = {
-    heading: '',
-    buttons: ['Yes', 'No'],
-  } as const;
-  readonly component = new PolymorpheusComponent(PromptComponent);
 }
 
 @NgModule({
   declarations: [PromptComponent],
-  imports: [CommonModule, TranslocoModule, PolymorpheusModule, TuiButtonModule],
+  imports: [CommonModule, TranslocoModule, TuiButtonModule, SweetAlert2Module],
   exports: [PromptComponent],
-  providers: [{ provide: TUI_DIALOGS, useExisting: PromptService, multi: true }],
 })
 export class PromptComponentModule {}

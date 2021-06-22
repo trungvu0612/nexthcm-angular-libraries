@@ -1,24 +1,32 @@
 import { ChangeDetectionStrategy, Component, Injector, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { PromptService } from '@nexthcm/ui';
+import { ActivatedRoute, Router } from '@angular/router';
+import { PromptComponent } from '@nexthcm/ui';
 import { WorkflowAPI, WorkflowAPIDefinition, WorkflowEvent, WorkflowStatus } from '@nexthcm/workflow-designer';
-import { FormGroup } from '@ngneat/reactive-forms';
+import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import { RxState } from '@rx-angular/state';
-import { TuiDestroyService } from '@taiga-ui/cdk';
+import { deleteProp, dictionaryToArray, patch, RxState, setProp, stateful, toDictionary } from '@rx-angular/state';
+import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import * as clone_ from 'rfdc';
-import { Subject } from 'rxjs';
-import { map, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { of, Subject } from 'rxjs';
+import { catchError, filter, map, mapTo, startWith, switchMap, takeUntil } from 'rxjs/operators';
+import { SweetAlertOptions } from 'sweetalert2';
 import { v4 as uuidv4 } from 'uuid';
 import { UpsertStatusDialogComponent } from '../../components/upsert-status-dialog/upsert-status-dialog.component';
 import { UpsertTransitionDialogComponent } from '../../components/upsert-transition-dialog/upsert-transition-dialog.component';
 import { Process, State, Transition } from '../../models/process';
 import { ProcessesService } from '../../services/processes.service';
 import { createWorkflowTransition } from '../../utils/create-workflow-transition';
+import { slice } from '../../utils/slice';
 
 const clone = clone_;
+
+interface ProcessState {
+  addedStates: { [p: string]: State };
+  addedTransitions: { [p: string]: Transition };
+  selectedCell: State | Transition | null;
+}
 
 @Component({
   selector: 'hcm-upsert-process',
@@ -29,9 +37,10 @@ const clone = clone_;
 })
 export class UpsertProcessComponent {
   @ViewChild('workflowDesigner', { static: true }) workflowDesigner!: WorkflowAPIDefinition;
+  @ViewChild('prompt') prompt!: PromptComponent;
 
   processId = this.activatedRoute.snapshot.params.processId;
-  form = new FormGroup<Process>({});
+  form: FormGroup<Process> = this.fb.group({ removingStates: [], removingTransitions: [] });
   fields: FormlyFieldConfig[] = [
     { key: 'id' },
     {
@@ -55,40 +64,85 @@ export class UpsertProcessComponent {
     },
   ];
   model: Process = { id: this.processId };
-  addedStates: State[] = [];
-  addedTransitions: Transition[] = [];
-  selectedCell?: State | Transition;
+  readonly selectCell$ = new Subject<State | Transition | null>();
+  readonly init$ = new Subject<string>();
+  readonly upsertStatus$ = new Subject<State>();
+  readonly upsertTransition$ = new Subject<Transition>();
+  readonly deleteStatus$ = new Subject<string>();
+  readonly deleteTransitions$ = new Subject<string[]>();
+  readonly initHandler$ = this.init$.pipe(
+    stateful(
+      switchMap((id) => this.processesService.getProcess(id)),
+      map((res) => res.data)
+    )
+  );
   readonly state$ = this.state.select();
   readonly loading$ = this.state$.pipe(
     startWith(undefined),
     map((value) => !value)
   );
-  readonly init$ = new Subject<string>();
-  readonly initHandler$ = this.init$.pipe(
-    switchMap((id) => this.processesService.getProcess(id)),
-    map((res) => res.data),
-    tap((data) => {
+  readonly selectedCell$ = this.state.select('selectedCell');
+
+  constructor(
+    private fb: FormBuilder,
+    private readonly dialogService: TuiDialogService,
+    private readonly injector: Injector,
+    private activatedRoute: ActivatedRoute,
+    private processesService: ProcessesService,
+    private state: RxState<ProcessState>,
+    private destroy$: TuiDestroyService,
+    private router: Router
+  ) {
+    state.connect(
+      'addedStates',
+      this.initHandler$.pipe(
+        map((data) => data.states),
+        filter(isPresent)
+      ),
+      (_, states) => toDictionary(states, 'id')
+    );
+    state.connect(
+      'addedTransitions',
+      this.initHandler$.pipe(
+        map((data) => data.transitions),
+        filter(isPresent)
+      ),
+      (_, transitions) => toDictionary(transitions, 'id')
+    );
+    state.connect('selectedCell', this.selectCell$);
+    state.connect(this.upsertStatus$, (state, status) =>
+      setProp(state, 'addedStates', patch(state.addedStates, { [status.id]: status }))
+    );
+    state.connect(this.upsertTransition$, (state, transition) =>
+      setProp(state, 'addedTransitions', patch(state.addedTransitions, { [transition.id]: transition }))
+    );
+    state.connect(this.deleteStatus$, (state, status) =>
+      setProp(state, 'addedStates', deleteProp(state.addedStates, status))
+    );
+    state.connect(this.deleteTransitions$, (state, transitions) =>
+      setProp(
+        state,
+        'addedTransitions',
+        slice(
+          state.addedTransitions,
+          Object.keys(state.addedTransitions).filter((key) => !transitions.includes(key))
+        )
+      )
+    );
+    state.hold(this.initHandler$, (data) => {
       this.model = { ...this.model, ...data };
-      this.addedStates = data.states || [];
-      this.addedTransitions = data.transitions || [];
       if (data.template) {
         this.workflowDesigner.apiEvent({ type: WorkflowAPI.decodeXML, value: data.template });
       } else if (data.states?.length) {
         this.drawInitialState(data.states[0]);
       }
-    })
-  );
-
-  constructor(
-    private readonly dialogService: TuiDialogService,
-    private readonly injector: Injector,
-    private activatedRoute: ActivatedRoute,
-    private processesService: ProcessesService,
-    private state: RxState<Process>,
-    private destroy$: TuiDestroyService,
-    private promptService: PromptService
-  ) {
-    this.state.connect(this.initHandler$);
+    });
+    state.hold(this.deleteStatus$, (status) =>
+      this.form.controls.removingStates?.setValue((this.form.value.removingStates || []).concat(status))
+    );
+    state.hold(this.deleteTransitions$, (transitions) =>
+      this.form.controls.removingTransitions?.setValue((this.form.value.removingTransitions || []).concat(transitions))
+    );
     this.init$.next(this.processId);
   }
 
@@ -101,19 +155,12 @@ export class UpsertProcessComponent {
       .subscribe((state) => {
         const workflowStatus = new WorkflowStatus(state.id, state.name, state.stateType?.color, state.stateType?.color);
         if (isNew) {
-          this.addedStates.push(state);
-          this.workflowDesigner.apiEvent({
-            type: WorkflowAPI.drawStatus,
-            value: workflowStatus,
-          });
+          this.workflowDesigner.apiEvent({ type: WorkflowAPI.drawStatus, value: workflowStatus });
         } else {
-          const index = this.addedStates.findIndex((addedState) => addedState.id === state.id);
-          if (index !== -1) {
-            this.addedStates[index] = state;
-            this.selectedCell = state;
-            this.workflowDesigner.apiEvent({ type: WorkflowAPI.updateStatus, value: workflowStatus });
-          }
+          this.selectCell$.next(state);
+          this.workflowDesigner.apiEvent({ type: WorkflowAPI.updateStatus, value: workflowStatus });
         }
+        this.upsertStatus$.next(state);
       });
   }
 
@@ -121,34 +168,30 @@ export class UpsertProcessComponent {
     this.dialogService
       .open<Transition>(new PolymorpheusComponent(UpsertTransitionDialogComponent, this.injector), {
         label: isNew ? 'Add Transition' : 'Edit Transition',
-        data: { states: this.addedStates, transition, isNew },
+        data: { states: dictionaryToArray(this.state.get('addedStates')), transition, isNew },
       })
       .subscribe((transition) => {
         const workflowTransition = createWorkflowTransition(transition);
         if (isNew) {
-          this.addedTransitions.push(transition);
           this.workflowDesigner.apiEvent({ type: WorkflowAPI.drawTransition, value: workflowTransition });
         } else {
-          const index = this.addedTransitions.findIndex((addedTransition) => addedTransition.id === transition.id);
-          if (index !== -1) {
-            this.addedTransitions[index] = transition;
-            this.selectedCell = transition;
-            this.workflowDesigner.apiEvent({ type: WorkflowAPI.updateTransition, value: workflowTransition });
-          }
+          this.selectCell$.next(transition);
+          this.workflowDesigner.apiEvent({ type: WorkflowAPI.updateTransition, value: workflowTransition });
         }
+        this.upsertTransition$.next(transition);
       });
   }
 
   onWorkflowEvent($event: { event: WorkflowEvent; value?: any }): void {
     switch ($event.event) {
       case WorkflowEvent.onSelectStatus:
-        this.selectedCell = this.addedStates.find((state) => state.id === $event.value);
+        this.selectCell$.next(this.state.get('addedStates')[$event.value]);
         break;
       case WorkflowEvent.onSelectTransition:
-        this.selectedCell = this.addedTransitions.find((state) => state.id === $event.value);
+        this.selectCell$.next(this.state.get('addedTransitions')[$event.value]);
         break;
       case WorkflowEvent.onUnSelectCell:
-        this.selectedCell = undefined;
+        this.selectCell$.next(null);
         break;
       case WorkflowEvent.onAddTransition:
         this.onUpsertTransition(
@@ -164,30 +207,39 @@ export class UpsertProcessComponent {
       case WorkflowEvent.onChangeTransition:
         this.onChangeTransition($event.value);
         break;
+      case WorkflowEvent.onEditCell:
+        this.onEditCell();
+        break;
       default:
         break;
     }
   }
 
   onEditCell(): void {
-    if (this.selectedCell) {
-      if ('toStateId' in this.selectedCell) {
-        this.onUpsertTransition(this.selectedCell, false);
+    const selectedCell = this.state.get('selectedCell');
+    if (selectedCell) {
+      if ('toStateId' in selectedCell) {
+        this.onUpsertTransition(selectedCell, false);
       } else {
-        this.onUpsertStatus(this.selectedCell, false);
+        this.onUpsertStatus(selectedCell, false);
       }
     }
   }
 
   onRemoveCell(): void {
-    if (this.selectedCell) {
-      let cellId = '';
-      if ('toStateId' in this.selectedCell) {
-        cellId = (this.selectedCell as Transition).id;
-        this.addedTransitions = this.addedTransitions.filter((transition) => transition.id === cellId);
+    const selectedCell = this.state.get('selectedCell');
+    if (selectedCell) {
+      let cellId: string;
+      if ('toStateId' in selectedCell) {
+        cellId = (selectedCell as Transition).id;
+        this.deleteTransitions$.next([cellId]);
       } else {
-        cellId = (this.selectedCell as State).id;
-        this.addedStates = this.addedStates.filter((state) => state.id === cellId);
+        cellId = (selectedCell as State).id;
+        const relatedTransitions = Object.entries(this.state.get('addedTransitions'))
+          .filter(([_, value]) => value.fromStateId === cellId || value.toStateId === cellId)
+          .map(([key, _]) => key);
+        this.deleteStatus$.next(cellId);
+        this.deleteTransitions$.next(relatedTransitions);
       }
       this.workflowDesigner.apiEvent({ type: WorkflowAPI.removeCell, value: cellId });
     }
@@ -196,10 +248,27 @@ export class UpsertProcessComponent {
   onSubmit(): void {
     if (this.form.valid) {
       const processModel = this.form.value;
-      processModel.states = this.addedStates;
-      processModel.transitions = this.addedTransitions;
+      processModel.states = dictionaryToArray(this.state.get('addedStates'));
+      processModel.transitions = dictionaryToArray(this.state.get('addedTransitions'));
       processModel.template = this.workflowDesigner.apiEvent({ type: WorkflowAPI.getXML });
-      this.processesService.upsertProcess(this.processId, processModel).pipe(takeUntil(this.destroy$)).subscribe();
+      this.processesService
+        .upsertProcess(this.processId, processModel)
+        .pipe(
+          mapTo({ icon: 'success', text: 'Updating this process successfully!' } as SweetAlertOptions),
+          takeUntil(this.destroy$),
+          catchError((err) =>
+            of({
+              icon: 'error',
+              text: err.error.message,
+              showCancelButton: true,
+              showConfirmButton: false,
+            } as SweetAlertOptions)
+          ),
+          switchMap((options) => this.prompt.open(options)),
+          filter((result) => result.isConfirmed),
+          takeUntil(this.destroy$)
+        )
+        .subscribe(() => this.router.navigate(['../..'], { relativeTo: this.activatedRoute }));
     }
   }
 
@@ -210,7 +279,7 @@ export class UpsertProcessComponent {
       type: WorkflowAPI.drawStatus,
       value: new WorkflowStatus(initialState.id, initialState.name, '#42526e', '#42526e'),
     });
-    this.addedTransitions.push(initialTransition);
+    this.upsertTransition$.next(initialTransition);
     this.workflowDesigner.apiEvent({
       type: WorkflowAPI.drawTransition,
       value: createWorkflowTransition(initialTransition),
@@ -223,42 +292,39 @@ export class UpsertProcessComponent {
     targetId: string;
     previousId: string;
   }): void {
-    const currentTransitionIndex = this.addedTransitions.findIndex(
-      (transition) => transition.id === value.transitionId
-    );
-    if (currentTransitionIndex !== -1) {
-      let direction = '';
-      const newTransition = clone({ proto: true })(this.addedTransitions[currentTransitionIndex]);
-      let newStateId = '';
-      if (newTransition.fromStateId === value.previousId) {
-        // change the source
-        direction = 'source';
-        newTransition.fromStateId = value.sourceId;
-        newStateId = value.sourceId;
-      } else if (newTransition.toStateId === value.previousId) {
-        // change the destination
-        direction = 'destination';
-        newTransition.toStateId = value.targetId;
-        newStateId = value.targetId;
-      }
-      const newState = this.addedStates.find((state) => state.id === newStateId);
-      if (newState) {
-        this.promptService
-          .open<boolean>(
-            `Are you sure you want to change the ${direction} of '${newTransition.name}' to '${newState.name}'?`
-          )
-          .subscribe((confirmed) => {
-            if (confirmed) {
-              this.addedTransitions[currentTransitionIndex] = newTransition;
-            } else {
-              this.workflowDesigner.apiEvent({ type: WorkflowAPI.removeCell, value: value.transitionId });
-              this.workflowDesigner.apiEvent({
-                type: WorkflowAPI.drawTransition,
-                value: createWorkflowTransition(this.addedTransitions[currentTransitionIndex]),
-              });
-            }
-          });
-      }
+    let direction = '';
+    const newTransition = clone({ proto: true })(this.state.get('addedTransitions')[value.transitionId]);
+    let newStateId = '';
+    if (newTransition.fromStateId === value.previousId) {
+      // change the source
+      direction = 'source';
+      newTransition.fromStateId = value.sourceId;
+      newStateId = value.sourceId;
+    } else if (newTransition.toStateId === value.previousId) {
+      // change the destination
+      direction = 'destination';
+      newTransition.toStateId = value.targetId;
+      newStateId = value.targetId;
+    }
+    const nextState = this.state.get('addedStates')[newStateId];
+    if (nextState) {
+      this.prompt
+        .open({
+          icon: 'warning',
+          text: `Are you sure you want to change the ${direction} of '${newTransition.name}' to '${nextState.name}'?`,
+          showCancelButton: true,
+        })
+        .then((result) => {
+          if (result.isConfirmed) {
+            this.upsertTransition$.next(newTransition);
+          } else {
+            this.workflowDesigner.apiEvent({ type: WorkflowAPI.removeCell, value: value.transitionId });
+            this.workflowDesigner.apiEvent({
+              type: WorkflowAPI.drawTransition,
+              value: createWorkflowTransition(this.state.get('addedTransitions')[value.transitionId]),
+            });
+          }
+        });
     }
   }
 }

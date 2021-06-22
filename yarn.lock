@@ -2333,6 +2333,13 @@
     remark "^13.0.0"
     unist-util-find-all-after "^3.0.2"
 
+"@sweetalert2/ngx-sweetalert2@^10.0.0":
+  version "10.0.0"
+  resolved "https://registry.yarnpkg.com/@sweetalert2/ngx-sweetalert2/-/ngx-sweetalert2-10.0.0.tgz#b04f41305e28c1ed150dffd3781b1dcff214ced3"
+  integrity sha512-PyqrlgWioN+mVd9FtZDM0cMKMV7jfD1T5Klic0F+znQN0OZypYsx5F4KRh+P+eDr+eLAR4m2LOgS5CpAgdlWEQ==
+  dependencies:
+    tslib "^2.0.0"
+
 "@taiga-ui/addon-commerce@^2.11.2":
   version "2.11.2"
   resolved "https://registry.yarnpkg.com/@taiga-ui/addon-commerce/-/addon-commerce-2.11.2.tgz#9b2c5d153a3b90671e551849662bc882a2362dde"
@@ -11950,6 +11957,11 @@ svgo@^2.3.0:
     css-tree "^1.1.2"
     csso "^4.2.0"
     stable "^0.1.8"
+
+sweetalert2@^11.0.18:
+  version "11.0.18"
+  resolved "https://registry.yarnpkg.com/sweetalert2/-/sweetalert2-11.0.18.tgz#9547859cc1a79815d5d02a6e0d1a3d44da3f8dc1"
+  integrity sha512-sF6huRQqqRGz7p9F8XFKSICl5hOiXjjpmnwAO8vlyJKAyMNZb2fvdok11JIGQjqcqVMIag/VLNWF4eEsIKQKGw==
 
 symbol-observable@4.0.0:
   version "4.0.0"

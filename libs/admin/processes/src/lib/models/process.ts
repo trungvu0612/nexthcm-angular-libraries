@@ -48,6 +48,8 @@ export interface Process {
   template?: string;
   states?: State[];
   transitions?: Transition[];
+  removingStates?: string[];
+  removingTransitions?: string[];
 }
 
 export interface ProcessInit {

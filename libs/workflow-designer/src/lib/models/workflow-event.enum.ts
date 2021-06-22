@@ -6,6 +6,7 @@ export enum WorkflowEvent {
   onUnSelectCell = 'onUnSelectCell',
   onAddTransition = 'onAddTransition',
   onChangeTransition = 'onChangeTransition',
+  onEditCell = 'onEditCell',
 }
 
 export type WorkflowEventType =
@@ -18,4 +19,5 @@ export type WorkflowEventType =
   | {
       event: WorkflowEvent.onChangeTransition;
       value: { transitionId: string; sourceId: string; targetId: string; previousId: string };
-    };
+    }
+  | { event: WorkflowEvent.onEditCell };

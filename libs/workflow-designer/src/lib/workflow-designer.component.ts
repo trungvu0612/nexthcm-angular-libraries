@@ -61,9 +61,7 @@ export class WorkflowDesignerComponent implements OnInit {
         this.handleConnectCellEvent(evt)
       );
       this.graphSelectionModel.addListener(mx.mxEvent.CHANGE, (sender) => this.handleSelectCell(sender));
-      this.editor.graph.addListener(mx.mxEvent.DOUBLE_CLICK, (evt) => {
-        // this.onEditCell();
-      });
+      this.editor.graph.addListener(mx.mxEvent.DOUBLE_CLICK, () => this.handleEditCell());
     }
   }
 
@@ -89,7 +87,7 @@ export class WorkflowDesignerComponent implements OnInit {
     mx.mxGraph.prototype.setCellsEditable(false);
     mx.mxConnectionHandler.prototype.connectImage = new mx.mxImage('/images/connector.gif', 16, 16);
     mx.mxGraphSelectionModel.prototype.setSingleSelection(true);
-    mx.mxTooltipHandler.prototype.setHideOnHover(false);
+    mx.mxTooltipHandler.prototype.setHideOnHover(true);
   }
 
   private drawStatus(status?: WorkflowStatus): mxCell {
@@ -231,5 +229,9 @@ export class WorkflowDesignerComponent implements OnInit {
       default:
         break;
     }
+  }
+
+  private handleEditCell(): void {
+    this.event.emit({ event: WorkflowEvent.onEditCell });
   }
 }

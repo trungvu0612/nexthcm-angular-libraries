@@ -64,6 +64,8 @@
   class="tui-space_top-2"
 ></tui-table-pagination>
 
+<hcm-prompt #prompt></hcm-prompt>
+
 <ng-template #selectAllTemplate let-changeEvent>
   <tui-checkbox (ngModelChange)="changeEvent()" [(ngModel)]="allSelected" size="l"></tui-checkbox>
 </ng-template>

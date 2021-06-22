@@ -1,12 +1,13 @@
 import { HttpParams } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, Injector, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { isPresent } from '@taiga-ui/cdk';
+import { PromptComponent } from '@nexthcm/ui';
+import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { BaseComponent, Columns, Config, DefaultConfig } from 'ngx-easy-table';
-import { BehaviorSubject, merge, Subject } from 'rxjs';
-import { filter, map, share, startWith, switchMap } from 'rxjs/operators';
+import { BehaviorSubject, from, merge, Subject } from 'rxjs';
+import { filter, map, share, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { CreateProcessDialogComponent } from '../../components/create-process-dialog/create-process-dialog.component';
 import { Process, ProcessInit } from '../../models/process';
 import { ProcessesService } from '../../services/processes.service';
@@ -16,9 +17,11 @@ import { ProcessesService } from '../../services/processes.service';
   templateUrl: './processes-management.component.html',
   styleUrls: ['./processes-management.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [TuiDestroyService],
 })
 export class ProcessesManagementComponent {
   @ViewChild('table') table!: BaseComponent;
+  @ViewChild('prompt') prompt!: PromptComponent;
 
   configuration: Config = {
     ...DefaultConfig,
@@ -56,7 +59,8 @@ export class ProcessesManagementComponent {
     private readonly injector: Injector,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private processesService: ProcessesService
+    private processesService: ProcessesService,
+    private destroy$: TuiDestroyService
   ) {}
 
   readonly process = (item: Process) => item;
@@ -106,7 +110,14 @@ export class ProcessesManagementComponent {
 
   onRemoveProcess(id?: string): void {
     if (id) {
-      this.processesService.deleteProcess(id).subscribe(() => this.refresh$.next());
+      from(this.prompt.open({ icon: 'question', text: 'Are you sure you want to delete this process?' }))
+        .pipe(
+          filter((result) => result.isConfirmed),
+          switchMap(() => this.processesService.deleteProcess(id)),
+          tap(() => this.refresh$.next()),
+          takeUntil(this.destroy$)
+        )
+        .subscribe();
     }
   }
 }
