@@ -1,7 +1,13 @@
 import { ChangeDetectionStrategy, Component, Injector, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PromptComponent } from '@nexthcm/ui';
-import { WorkflowAPI, WorkflowAPIDefinition, WorkflowEvent, WorkflowStatus } from '@nexthcm/workflow-designer';
+import {
+  WorkflowAPI,
+  WorkflowAPIDefinition,
+  WorkflowEvent,
+  WorkflowEventType,
+  WorkflowStatus,
+} from '@nexthcm/workflow-designer';
 import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { deleteProp, dictionaryToArray, patch, RxState, setProp, stateful, toDictionary } from '@rx-angular/state';
@@ -182,7 +188,7 @@ export class UpsertProcessComponent {
       });
   }
 
-  onWorkflowEvent($event: { event: WorkflowEvent; value?: any }): void {
+  onWorkflowEvent($event: WorkflowEventType): void {
     switch ($event.event) {
       case WorkflowEvent.onSelectStatus:
         this.selectCell$.next(this.state.get('addedStates')[$event.value]);
@@ -236,8 +242,8 @@ export class UpsertProcessComponent {
       } else {
         cellId = (selectedCell as State).id;
         const relatedTransitions = Object.entries(this.state.get('addedTransitions'))
-          .filter(([_, value]) => value.fromStateId === cellId || value.toStateId === cellId)
-          .map(([key, _]) => key);
+          .filter(([, value]) => value.fromStateId === cellId || value.toStateId === cellId)
+          .map(([key]) => key);
         this.deleteStatus$.next(cellId);
         this.deleteTransitions$.next(relatedTransitions);
       }

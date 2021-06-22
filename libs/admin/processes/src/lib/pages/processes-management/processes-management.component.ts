@@ -1,13 +1,15 @@
 import { HttpParams } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, Injector, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Pagination } from '@nexthcm/core';
 import { PromptComponent } from '@nexthcm/ui';
-import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
+import { RxState } from '@rx-angular/state';
+import { TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { BaseComponent, Columns, Config, DefaultConfig } from 'ngx-easy-table';
-import { BehaviorSubject, from, merge, Subject } from 'rxjs';
-import { filter, map, share, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { BehaviorSubject, from } from 'rxjs';
+import { filter, map, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { CreateProcessDialogComponent } from '../../components/create-process-dialog/create-process-dialog.component';
 import { Process, ProcessInit } from '../../models/process';
 import { ProcessesService } from '../../services/processes.service';
@@ -17,7 +19,7 @@ import { ProcessesService } from '../../services/processes.service';
   templateUrl: './processes-management.component.html',
   styleUrls: ['./processes-management.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [TuiDestroyService],
+  providers: [RxState, TuiDestroyService],
 })
 export class ProcessesManagementComponent {
   @ViewChild('table') table!: BaseComponent;
@@ -39,19 +41,12 @@ export class ProcessesManagementComponent {
   allSelected: boolean | null = false;
   readonly selected = new Set<string>();
   private readonly queryParams$ = new BehaviorSubject(new HttpParams().set('page', '0').set('size', 10));
-  private readonly refresh$ = new Subject<any>();
-  private readonly request$ = merge(this.queryParams$, this.refresh$).pipe(
-    startWith({}),
+  readonly loading$ = this.state.$.pipe(map((value) => !value));
+  readonly data$ = this.state.select('items');
+  readonly total$ = this.state.select('totalElements');
+  private readonly request$ = this.queryParams$.pipe(
     switchMap(() => this.processesService.getProcesses(this.queryParams$.value)),
-    map((res) => res.data),
-    share()
-  );
-  readonly data$ = this.request$.pipe(map((data) => data.items));
-  readonly loading$ = this.request$.pipe(map((value) => !value));
-  readonly total$ = this.request$.pipe(
-    filter(isPresent),
-    map(({ totalElements }) => totalElements),
-    startWith(1)
+    map((res) => res.data)
   );
 
   constructor(
@@ -60,8 +55,11 @@ export class ProcessesManagementComponent {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private processesService: ProcessesService,
-    private destroy$: TuiDestroyService
-  ) {}
+    private destroy$: TuiDestroyService,
+    private state: RxState<Pagination<Process>>
+  ) {
+    state.connect(this.request$);
+  }
 
   readonly process = (item: Process) => item;
 
@@ -114,7 +112,7 @@ export class ProcessesManagementComponent {
         .pipe(
           filter((result) => result.isConfirmed),
           switchMap(() => this.processesService.deleteProcess(id)),
-          tap(() => this.refresh$.next()),
+          tap(() => this.queryParams$.next(this.queryParams$.value)),
           takeUntil(this.destroy$)
         )
         .subscribe();
