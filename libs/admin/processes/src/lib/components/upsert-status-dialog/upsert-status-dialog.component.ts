@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
+import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
@@ -25,8 +26,13 @@ export class UpsertStatusDialogComponent implements OnInit {
       templateOptions: {
         required: true,
         translate: true,
-        label: 'Name',
+        label: 'ADMIN_PROCESSES.name',
         textfieldLabelOutside: true,
+      },
+      validation: {
+        messages: {
+          required: () => this.translocoService.selectTranslate('VALIDATION.required'),
+        },
       },
     },
     {
@@ -35,7 +41,7 @@ export class UpsertStatusDialogComponent implements OnInit {
       type: 'text-area',
       templateOptions: {
         translate: true,
-        label: 'Description',
+        label: 'description',
         textfieldLabelOutside: true,
       },
     },
@@ -47,8 +53,13 @@ export class UpsertStatusDialogComponent implements OnInit {
         translate: true,
         required: true,
         options: this.statusTypes$,
-        label: 'State Type',
+        label: 'ADMIN_PROCESSES.stateType',
         labelProp: 'name',
+      },
+      validation: {
+        messages: {
+          required: () => this.translocoService.selectTranslate('VALIDATION.required'),
+        },
       },
     },
   ];
@@ -60,7 +71,8 @@ export class UpsertStatusDialogComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<State, State>,
-    private processesService: ProcessesService
+    private processesService: ProcessesService,
+    private translocoService: TranslocoService
   ) {}
 
   get data(): State {

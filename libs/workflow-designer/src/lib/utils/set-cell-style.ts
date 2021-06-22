@@ -4,6 +4,7 @@ import mx from './mxgraph';
 
 export function setCellStyle(cell: mxCell, status: WorkflowStatus): string {
   let style = cell.getStyle();
+  style = mx.mxUtils.setStyle(style, mx.mxConstants.STYLE_FONTSIZE, status.fontSize);
   if (status.fillColor) {
     style = mx.mxUtils.setStyle(style, mx.mxConstants.STYLE_FILLCOLOR, status.fillColor);
   }

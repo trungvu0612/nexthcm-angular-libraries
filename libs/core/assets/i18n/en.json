@@ -27,5 +27,45 @@
   "signOut": "Sign Out",
   "teams": "Teams",
   "updated": "Updated",
-  "workingHour": "Working Hour"
+  "workingHour": "Working Hour",
+  "publish": "Publish",
+  "edit": "Edit",
+  "remove": "Remove",
+  "PROMPT": {
+    "OK": "OK"
+  },
+  "VALIDATION": {
+    "required": "This field should not be blank.",
+    "differentSource": "The target and the source should not be the same.",
+    "differentTarget": "The source and the target should not be the same."
+  },
+  "ADMIN_PROCESSES": {
+    "name": "Name",
+    "initStatus": "Initial status",
+    "initStatusDescription": "Initial status description",
+    "stateType": "State type",
+    "fromStatus": "From status",
+    "toStatus": "To status",
+    "createNewProcess": "Create new process",
+    "addStatus": "Add status",
+    "addTransition": "Add a transition",
+    "editName": "Edit name",
+    "processesManagement": "Processes Management",
+    "createNewStatus": "Create new status",
+    "editStatus": "Edit status",
+    "createNewTransition": "Create new transition",
+    "editTransition": "Edit transition",
+    "PROCESSES_MANAGEMENT_COLUMNS": {
+      "name": "Process name",
+      "description": "Description",
+      "createdBy": "Create by",
+      "operations": "Operators"
+    },
+    "MESSAGES": {
+      "deleteProcess": "Are you sure you want to delete this process?",
+      "successfulUpdateProcess": "Updating this process successfully!",
+      "changeSourceOfTransition": "Are you sure you want to change the source of '{{transition}}' to '{{status}}'?",
+      "changeTargetOfTransition": "Are you sure you want to change the destination of '{{transition}}' to '{{status}}'?"
+    }
+  }
 }

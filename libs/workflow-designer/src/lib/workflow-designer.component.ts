@@ -97,12 +97,12 @@ export class WorkflowDesignerComponent implements OnInit {
       cell.setId(status.id);
       cell.setAttribute('label', status.label);
       cell.setStyle(setCellStyle(cell, status));
-      cell.setGeometry(new mx.mxGeometry(0, 0, 40, 40));
+      cell.setGeometry(new mx.mxGeometry(-30, 100, 100, 40));
     } else {
       // origin status
       cell = this.graphModel.cloneCell(this.editor.templates.symbol);
       cell.setAttribute('label', '');
-      cell.setGeometry(new mx.mxGeometry(0, -80, 40, 32));
+      cell.setGeometry(new mx.mxGeometry(0, 0, 40, 40));
     }
     this.graphModel.beginUpdate();
     try {

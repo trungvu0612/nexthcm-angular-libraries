@@ -1,15 +1,15 @@
 <tui-loader [overlay]="true" [showLoader]="(loading$ | async) === true">
   <form (ngSubmit)="onSubmit()" [formGroup]="$any(form)">
     <formly-form *rxLet="state$" [fields]="fields" [form]="$any(form)" [model]="model"></formly-form>
-    <div class="my-4 flex justify-end">
+    <div *transloco="let t" class="my-4 flex justify-end">
       <button appearance="flat" class="tui-form__button" routerLink="../.." size="m" tuiButton type="button">
-        Cancel
+        {{ t('cancel') }}
       </button>
-      <button class="tui-form__button" size="m" tuiButton>Publish</button>
+      <button class="tui-form__button" size="m" tuiButton>{{ t('publish') }}</button>
     </div>
 
     <section class="flex flex-col border workflow-designer-container">
-      <div class="flex items-center p-3 bg-gray-100 border-b">
+      <div *transloco="let t" class="flex items-center p-3 bg-gray-100 border-b">
         <button
           (click)="onUpsertStatus()"
           appearance="flat"
@@ -19,10 +19,10 @@
           tuiButton
           type="button"
         >
-          Add status
+          {{ t('ADMIN_PROCESSES.addStatus') }}
         </button>
         <button (click)="onUpsertTransition()" appearance="flat" icon="tuiIconPlus" size="s" tuiButton type="button">
-          Add transition
+          {{ t('ADMIN_PROCESSES.addTransition') }}
         </button>
       </div>
 
@@ -33,7 +33,7 @@
             <p *ngIf="selectedCell.description" class="tui-island__paragraph">
               {{ selectedCell.description }}
             </p>
-            <p class="tui-island__paragraph tui-island__paragraph_link">
+            <p *transloco="let t" class="tui-island__paragraph tui-island__paragraph_link">
               <button
                 (click)="onEditCell()"
                 appearance="secondary"
@@ -43,10 +43,10 @@
                 tuiButton
                 type="button"
               >
-                Edit
+                {{ t('edit') }}
               </button>
               <button (click)="onRemoveCell()" appearance="flat" icon="tuiIconTrash" size="s" tuiButton type="button">
-                Remove
+                {{ t('remove') }}
               </button>
             </p>
           </tui-island>

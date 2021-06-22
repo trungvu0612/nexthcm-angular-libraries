@@ -3,13 +3,14 @@ import { ChangeDetectionStrategy, Component, Injector, ViewChild } from '@angula
 import { ActivatedRoute, Router } from '@angular/router';
 import { Pagination } from '@nexthcm/core';
 import { PromptComponent } from '@nexthcm/ui';
+import { TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { BaseComponent, Columns, Config, DefaultConfig } from 'ngx-easy-table';
-import { BehaviorSubject, from } from 'rxjs';
-import { filter, map, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { BehaviorSubject, from, Observable } from 'rxjs';
+import { catchError, filter, map, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { CreateProcessDialogComponent } from '../../components/create-process-dialog/create-process-dialog.component';
 import { Process, ProcessInit } from '../../models/process';
 import { ProcessesService } from '../../services/processes.service';
@@ -32,12 +33,16 @@ export class ProcessesManagementComponent {
     paginationRangeEnabled: false,
     fixedColumnWidth: false,
   };
-  columns: Columns[] = [
-    { key: 'name', title: 'Process name' },
-    { key: 'description', title: 'Description' },
-    { key: 'createdBy', title: 'Created By' },
-    { key: 'operators', title: 'Operators' },
-  ];
+  columns$: Observable<Columns[]> = this.translocoService
+    .selectTranslateObject('ADMIN_PROCESSES.PROCESSES_MANAGEMENT_COLUMNS')
+    .pipe(
+      map((result) => [
+        { key: 'name', title: result.name },
+        { key: 'description', title: result.description },
+        { key: 'createdBy', title: result.createdBy },
+        { key: 'operations', title: result.operations },
+      ])
+    );
   allSelected: boolean | null = false;
   readonly selected = new Set<string>();
   private readonly queryParams$ = new BehaviorSubject(new HttpParams().set('page', '0').set('size', 10));
@@ -56,7 +61,8 @@ export class ProcessesManagementComponent {
     private activatedRoute: ActivatedRoute,
     private processesService: ProcessesService,
     private destroy$: TuiDestroyService,
-    private state: RxState<Pagination<Process>>
+    private state: RxState<Pagination<Process>>,
+    private translocoService: TranslocoService
   ) {
     state.connect(this.request$);
   }
@@ -108,11 +114,19 @@ export class ProcessesManagementComponent {
 
   onRemoveProcess(id?: string): void {
     if (id) {
-      from(this.prompt.open({ icon: 'question', text: 'Are you sure you want to delete this process?' }))
+      from(
+        this.prompt.open({
+          icon: 'question',
+          text: this.translocoService.translate('ADMIN_PROCESSES.MESSAGES.deleteProcess'),
+          showCancelButton: true,
+        })
+      )
         .pipe(
           filter((result) => result.isConfirmed),
-          switchMap(() => this.processesService.deleteProcess(id)),
-          tap(() => this.queryParams$.next(this.queryParams$.value)),
+          switchMap(() =>
+            this.processesService.deleteProcess(id).pipe(tap(() => this.queryParams$.next(this.queryParams$.value)))
+          ),
+          catchError((err) => this.prompt.open({ icon: 'error', text: err.error.message })),
           takeUntil(this.destroy$)
         )
         .subscribe();

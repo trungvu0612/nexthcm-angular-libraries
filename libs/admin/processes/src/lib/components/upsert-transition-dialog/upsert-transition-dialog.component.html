@@ -1,9 +1,9 @@
-<form (ngSubmit)="onSubmit()" [formGroup]="$any(form)">
+<form (ngSubmit)="onSubmit()" *transloco="let t" [formGroup]="$any(form)">
   <formly-form [fields]="fields" [form]="$any(form)" [model]="model" [options]="options"></formly-form>
   <div class="tui-form__buttons">
-    <button class="tui-form__button" size="m" tuiButton>Save</button>
+    <button class="tui-form__button" size="m" tuiButton>{{ t('save') }}</button>
     <button (click)="onCancel()" appearance="flat" class="tui-form__button" size="m" tuiButton type="button">
-      Cancel
+      {{ t('cancel') }}
     </button>
   </div>
 </form>

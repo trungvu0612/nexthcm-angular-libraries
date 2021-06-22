@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
+import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
@@ -24,8 +25,13 @@ export class CreateProcessDialogComponent {
       templateOptions: {
         required: true,
         translate: true,
-        label: 'Name',
+        label: 'ADMIN_PROCESSES.name',
         textfieldLabelOutside: true,
+      },
+      validation: {
+        messages: {
+          required: () => this.translocoService.selectTranslate('VALIDATION.required'),
+        },
       },
     },
     {
@@ -34,7 +40,7 @@ export class CreateProcessDialogComponent {
       type: 'input',
       templateOptions: {
         translate: true,
-        label: 'Description',
+        label: 'description',
         textfieldLabelOutside: true,
       },
     },
@@ -45,8 +51,13 @@ export class CreateProcessDialogComponent {
       templateOptions: {
         translate: true,
         required: true,
-        label: 'Initial Status',
+        label: 'ADMIN_PROCESSES.initStatus',
         textfieldLabelOutside: true,
+      },
+      validation: {
+        messages: {
+          required: () => this.translocoService.selectTranslate('VALIDATION.required'),
+        },
       },
     },
     {
@@ -55,7 +66,7 @@ export class CreateProcessDialogComponent {
       type: 'input',
       templateOptions: {
         translate: true,
-        label: 'Initial Status Description',
+        label: 'ADMIN_PROCESSES.initStatusDescription',
         textfieldLabelOutside: true,
       },
     },
@@ -67,9 +78,14 @@ export class CreateProcessDialogComponent {
         translate: true,
         required: true,
         options: this.statusTypes$,
-        label: 'State Type',
+        label: 'ADMIN_PROCESSES.stateType',
         labelProp: 'name',
         compareWith: (item1: StatusType, item2: StatusType) => item1.id === item2.id,
+      },
+      validation: {
+        messages: {
+          required: () => this.translocoService.selectTranslate('VALIDATION.required'),
+        },
       },
     },
   ];
@@ -78,7 +94,8 @@ export class CreateProcessDialogComponent {
   constructor(
     private fb: FormBuilder,
     @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<unknown, ProcessInit>,
-    private processesService: ProcessesService
+    private processesService: ProcessesService,
+    private translocoService: TranslocoService
   ) {}
 
   onCancel(): void {

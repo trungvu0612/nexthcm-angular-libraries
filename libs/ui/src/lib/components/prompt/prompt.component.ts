@@ -17,7 +17,7 @@ export class PromptComponent {
     showCancelButton: false,
     showConfirmButton: true,
     confirmButtonText: 'OK',
-    cancelButtonText: 'Cancel',
+    cancelButtonText: 'cancel',
   };
 
   constructor(public readonly targets: SwalPortalTargets, private cdr: ChangeDetectorRef) {}

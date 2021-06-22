@@ -1,16 +1,17 @@
-<h2 class="tui-text_h3">Processes Management</h2>
-<section class="flex justify-end">
-  <button (click)="onCreateProcess()" class="tui-space_right-3 tui-space_bottom-3" size="m" tuiButton>
-    Create a process
-  </button>
-</section>
+<ng-container *transloco="let t">
+  <h2 class="tui-text_h3">{{ t('ADMIN_PROCESSES.processesManagement') }}</h2>
+  <section class="flex justify-end">
+    <button (click)="onCreateProcess()" class="tui-space_right-3 tui-space_bottom-3" size="m" tuiButton>
+      {{ t('ADMIN_PROCESSES.createNewProcess') }}
+    </button>
+  </section>
+</ng-container>
 <tui-loader [overlay]="true" [showLoader]="(loading$ | async) === true">
   <ngx-table
     #table
-    *tuiLet="data$ | async as data"
-    [columns]="columns"
+    [columns]="(columns$ | async) || []"
     [configuration]="configuration"
-    [data]="data || []"
+    [data]="(data$ | async) || []"
     [selectAllTemplate]="selectAllTemplate"
   >
     <ng-template let-row>

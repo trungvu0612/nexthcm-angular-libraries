@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { AdminLayoutComponent, AdminLayoutModule, PromptComponentModule } from '@nexthcm/ui';
 import { WorkflowDesignerModule } from '@nexthcm/workflow-designer';
+import { TranslocoModule } from '@ngneat/transloco';
 import { FormlyModule } from '@ngx-formly/core';
 import { LetModule } from '@rx-angular/template';
 import { TuiTablePaginationModule } from '@taiga-ui/addon-table';
@@ -54,6 +55,7 @@ export const adminProcessesRoutes: Routes = [
     FormsModule,
     LetModule,
     PromptComponentModule,
+    TranslocoModule,
   ],
   declarations: [
     AdminProcessesComponent,

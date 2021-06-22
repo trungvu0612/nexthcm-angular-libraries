@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
+import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { RxwebValidators } from '@rxweb/reactive-form-validators';
 import { TuiDialogContext } from '@taiga-ui/core';
@@ -33,12 +34,20 @@ export class UpsertTransitionDialogComponent implements OnInit {
       type: 'select',
       templateOptions: {
         translate: true,
-        label: 'From status',
+        label: 'ADMIN_PROCESSES.fromStatus',
         options: this.data.states,
         labelProp: 'name',
         valueProp: 'id',
       },
       hideExpression: '!formState.isNew',
+      validators: {
+        validation: [RxwebValidators.different({ fieldName: 'toStateId' })],
+      },
+      validation: {
+        messages: {
+          different: () => this.translocoService.selectTranslate('VALIDATION.differentSource'),
+        },
+      },
     },
     {
       className: 'tui-form__row block',
@@ -47,7 +56,7 @@ export class UpsertTransitionDialogComponent implements OnInit {
       templateOptions: {
         translate: true,
         required: true,
-        label: 'To status',
+        label: 'ADMIN_PROCESSES.toStatus',
         options: this.data.states,
         labelProp: 'name',
         valueProp: 'id',
@@ -55,6 +64,12 @@ export class UpsertTransitionDialogComponent implements OnInit {
       hideExpression: '!formState.isNew',
       validators: {
         validation: [RxwebValidators.different({ fieldName: 'fromStateId' })],
+      },
+      validation: {
+        messages: {
+          required: () => this.translocoService.selectTranslate('VALIDATION.required'),
+          different: () => this.translocoService.selectTranslate('VALIDATION.differentTarget'),
+        },
       },
     },
     {
@@ -64,8 +79,13 @@ export class UpsertTransitionDialogComponent implements OnInit {
       templateOptions: {
         required: true,
         translate: true,
-        label: 'Name',
+        label: 'ADMIN_PROCESSES.name',
         textfieldLabelOutside: true,
+      },
+      validation: {
+        messages: {
+          required: () => this.translocoService.selectTranslate('VALIDATION.required'),
+        },
       },
     },
     {
@@ -74,7 +94,7 @@ export class UpsertTransitionDialogComponent implements OnInit {
       type: 'text-area',
       templateOptions: {
         translate: true,
-        label: 'Description',
+        label: 'description',
         textfieldLabelOutside: true,
       },
     },
@@ -82,7 +102,8 @@ export class UpsertTransitionDialogComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<any, Transition>
+    @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<any, Transition>,
+    private translocoService: TranslocoService
   ) {}
 
   get data(): any {

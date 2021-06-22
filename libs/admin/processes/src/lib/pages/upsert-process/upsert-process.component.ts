@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Injector, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, Injector, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PromptComponent } from '@nexthcm/ui';
 import {
@@ -9,6 +9,7 @@ import {
   WorkflowStatus,
 } from '@nexthcm/workflow-designer';
 import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
+import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { deleteProp, dictionaryToArray, patch, RxState, setProp, stateful, toDictionary } from '@rx-angular/state';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
@@ -41,8 +42,8 @@ interface ProcessState {
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [RxState, TuiDestroyService],
 })
-export class UpsertProcessComponent {
-  @ViewChild('workflowDesigner', { static: true }) workflowDesigner!: WorkflowAPIDefinition;
+export class UpsertProcessComponent implements AfterViewInit {
+  @ViewChild('workflowDesigner') workflowDesigner!: WorkflowAPIDefinition;
   @ViewChild('prompt') prompt!: PromptComponent;
 
   processId = this.activatedRoute.snapshot.params.processId;
@@ -56,7 +57,14 @@ export class UpsertProcessComponent {
       templateOptions: {
         translate: true,
         required: true,
-        iconTitle: 'Edit name',
+      },
+      expressionProperties: {
+        'templateOptions.iconTitle': this.translocoService.selectTranslate('ADMIN_PROCESSES.editName'),
+      },
+      validation: {
+        messages: {
+          required: () => this.translocoService.selectTranslate('VALIDATION.required'),
+        },
       },
     },
     {
@@ -65,7 +73,7 @@ export class UpsertProcessComponent {
       type: 'input',
       templateOptions: {
         translate: true,
-        label: 'Description',
+        label: 'description',
       },
     },
   ];
@@ -83,7 +91,7 @@ export class UpsertProcessComponent {
     )
   );
   readonly state$ = this.state.select();
-  readonly loading$ = this.state$.pipe(
+  readonly loading$ = this.state.$.pipe(
     startWith(undefined),
     map((value) => !value)
   );
@@ -97,7 +105,8 @@ export class UpsertProcessComponent {
     private processesService: ProcessesService,
     private state: RxState<ProcessState>,
     private destroy$: TuiDestroyService,
-    private router: Router
+    private router: Router,
+    private translocoService: TranslocoService
   ) {
     state.connect(
       'addedStates',
@@ -149,13 +158,18 @@ export class UpsertProcessComponent {
     state.hold(this.deleteTransitions$, (transitions) =>
       this.form.controls.removingTransitions?.setValue((this.form.value.removingTransitions || []).concat(transitions))
     );
+  }
+
+  ngAfterViewInit(): void {
     this.init$.next(this.processId);
   }
 
   onUpsertStatus(state?: State, isNew = true): void {
     this.dialogService
       .open<State>(new PolymorpheusComponent(UpsertStatusDialogComponent, this.injector), {
-        label: isNew ? 'Create New Status' : 'Edit Status',
+        label: this.translocoService.translate(
+          isNew ? 'ADMIN_PROCESSES.createNewStatus' : 'ADMIN_PROCESSES.editStatus'
+        ),
         data: state,
       })
       .subscribe((state) => {
@@ -173,7 +187,9 @@ export class UpsertProcessComponent {
   onUpsertTransition(transition?: Transition, isNew = true): void {
     this.dialogService
       .open<Transition>(new PolymorpheusComponent(UpsertTransitionDialogComponent, this.injector), {
-        label: isNew ? 'Add Transition' : 'Edit Transition',
+        label: this.translocoService.translate(
+          isNew ? 'ADMIN_PROCESSES.createNewTransition' : 'ADMIN_PROCESSES.editTransition'
+        ),
         data: { states: dictionaryToArray(this.state.get('addedStates')), transition, isNew },
       })
       .subscribe((transition) => {
@@ -300,24 +316,22 @@ export class UpsertProcessComponent {
   }): void {
     let direction = '';
     const newTransition = clone({ proto: true })(this.state.get('addedTransitions')[value.transitionId]);
-    let newStateId = '';
+    let newStatusId = '';
     if (newTransition.fromStateId === value.previousId) {
-      // change the source
-      direction = 'source';
+      direction = 'ADMIN_PROCESSES.MESSAGES.changeSourceOfTransition';
       newTransition.fromStateId = value.sourceId;
-      newStateId = value.sourceId;
+      newStatusId = value.sourceId;
     } else if (newTransition.toStateId === value.previousId) {
-      // change the destination
-      direction = 'destination';
+      direction = 'ADMIN_PROCESSES.MESSAGES.changeTargetOfTransition';
       newTransition.toStateId = value.targetId;
-      newStateId = value.targetId;
+      newStatusId = value.targetId;
     }
-    const nextState = this.state.get('addedStates')[newStateId];
-    if (nextState) {
+    const nextStatus = this.state.get('addedStates')[newStatusId];
+    if (nextStatus) {
       this.prompt
         .open({
           icon: 'warning',
-          text: `Are you sure you want to change the ${direction} of '${newTransition.name}' to '${nextState.name}'?`,
+          text: this.translocoService.translate(direction, { transition: newTransition.name, status: nextStatus.name }),
           showCancelButton: true,
         })
         .then((result) => {

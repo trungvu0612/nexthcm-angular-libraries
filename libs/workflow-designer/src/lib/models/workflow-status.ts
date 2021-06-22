@@ -1,5 +1,6 @@
 export class WorkflowStatus {
   fontColor: string;
+  fontSize: number
 
   constructor(
     public id: string,
@@ -9,5 +10,6 @@ export class WorkflowStatus {
     fontColor?: string
   ) {
     this.fontColor = fontColor || 'white';
+    this.fontSize = 14;
   }
 }
