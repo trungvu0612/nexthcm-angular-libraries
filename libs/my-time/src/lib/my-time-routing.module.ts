@@ -9,8 +9,9 @@ import { MyRequestsComponent } from './modules/my-request/my-requests.component'
 import { ListMyRequestComponent } from './modules/my-request/pages/list-my-request/list-my-request.component';
 import { MyTimeComponent } from './my-time.component';
 import { MyLeaveComponent } from './pages/my-leave/my-leave.component';
-import { MyRequestComponent } from './pages/my-request/my-request.component';
 import { WorkingHourComponent } from './pages/working-hour/working-hour.component';
+import { RequestManagementComponent } from './modules/request-management/request-management.component';
+import { ListRequestManagementComponent } from './modules/request-management/pages/list-request-management/list-request-management.component';
 
 const routes: Routes = [
   {
@@ -33,6 +34,15 @@ const routes: Routes = [
               { path: 'add', component: UpsertLeaveTypeComponent },
               { path: 'edit/:id', component: UpsertLeaveTypeComponent }
             ]
+          },
+          {
+            path: 'request-management', component: RequestManagementComponent,
+            children: [
+              { path: '', pathMatch: 'full', redirectTo: 'list' },
+              { path: 'list', component: ListRequestManagementComponent },
+              // { path: 'add', component: UpsertLeaveTypeComponent },
+              // { path: 'edit/:id', component: UpsertLeaveTypeComponent }
+            ]
           }
         ],
       },
@@ -45,7 +55,7 @@ const routes: Routes = [
           { path: 'add', component: UpsertLeaveTypeComponent },
           { path: 'edit/:id', component: UpsertLeaveTypeComponent },
         ],
-      }
+      },
     ],
   },
 ];

@@ -1,14 +1,13 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
-import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
-import { TuiBooleanHandler, TuiDay } from '@taiga-ui/cdk';
+import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
-import { format } from 'date-fns';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { Duration, LeaveSubmit } from '../../../models/submit-leave';
+import { distinctUntilChanged, map, tap } from 'rxjs/operators';
+import { BaseOption } from '@nexthcm/ui';
+import { LeaveSubmit } from '../../../models/submit-leave';
 import { MyLeaveService } from '../../../services/my-leave/my-leave.service';
 import { SubmitLeaveService } from '../../../services/submit-leave.service';
 
@@ -26,8 +25,14 @@ export class SubmitLeaveRequestDialogComponent implements OnInit {
   dataDuration$: Observable<any> = this.myLeaveService.getdurations().pipe(map((data) => data.data.items));
   dataSendTo$: Observable<any> = this.myLeaveService.getSendTo().pipe(map((data) => data.data.items));
 
-  form = new FormGroup({});
-  options: FormlyFormOptions = {};
+  durationHide = false;
+  specialTimeHide = false;
+
+  partialDays$: Observable<any[]> = this.myLeaveService.getPartialDays().pipe(map((data) => data));
+  durationValues: Observable<any[]> = this.myLeaveService.getdurationValues().pipe(map((data) => data));
+
+  form = new FormGroup<LeaveSubmit | any>({});
+  model: LeaveSubmit = {};
   fields: FormlyFieldConfig[] = [
     {
       className: 'col-span-full',
@@ -77,15 +82,123 @@ export class SubmitLeaveRequestDialogComponent implements OnInit {
     },
 
     {
-      key: 'duration',
+      key: 'partialDays',
       type: 'select',
       templateOptions: {
-        options: this.dataDuration$,
+        options: this.partialDays$,
         labelProp: 'name',
         valueProp: 'id',
-        placeholder: 'Duration',
+        placeholder: 'Partial Days All',
+      },
+      hideExpression: '!(model.startTime?.toLocalNativeDate() < model.endTime?.toLocalNativeDate())',
+      expressionProperties: {
+        className: '!(model.startTime?.toLocalNativeDate() < model.endTime?.toLocalNativeDate())  ?  "hidden" : ""',
       },
     },
+
+    {
+      key: 'durationHold',
+      type: 'select',
+      templateOptions: {
+        options: [],
+        placeholder: 'Duration Hold',
+      },
+      hideExpression: 'model.partialDays === 0',
+      expressionProperties: {
+        className: 'model.partialDays === 0  ?  "hidden" : ""',
+      },
+      hooks: {
+        onInit: (field) => {
+          const options: { [p: number]: BaseOption<number>[] } = {
+            1: [
+              { value: 1, label: 'Half Day' },
+              { value: 2, label: 'Special Time' },
+            ],
+            2: [
+              { value: 1, label: 'Half Day' },
+              { value: 2, label: 'Special Time' },
+            ],
+            3: [
+              { value: 1, label: 'Half Day' },
+              { value: 2, label: 'Special Time' },
+            ],
+            4: [
+              { value: 1, label: 'Half Day' },
+              { value: 2, label: 'Special Time' },
+            ],
+          };
+          const defaultOption: BaseOption<number>[] = [
+            { value: 0, label: 'Full Day' },
+            { value: 1, label: 'Half Day' },
+            { value: 2, label: 'Special Time' },
+          ];
+
+          field!.templateOptions!.options = this.form.valueChanges.pipe(
+            map((formValue) => formValue.partialDays),
+            distinctUntilChanged(),
+            map((value) => (value ? options[value] : defaultOption)),
+            tap(() => field?.formControl?.setValue(null, { emitEvent: false }))
+          );
+        },
+      },
+    },
+
+    {
+      key: 'morning',
+      type: 'select',
+      templateOptions: {
+        options: ['Morning', 'Affternoon'],
+        labelProp: 'name',
+        // valueProp: 'id',
+        placeholder: 'Morning or Afternoon',
+      },
+      hideExpression: 'model.durationHold !== 1',
+      expressionProperties: {
+        className: 'model.durationHold !== 1  ?  "hidden" : ""',
+      },
+    },
+
+    {
+      key: 'specialTimeFrom',
+      type: 'select',
+      templateOptions: {
+        options: [],
+        labelProp: 'name',
+        valueProp: 'id',
+        placeholder: 'Special time from',
+      },
+      hideExpression: 'model.durationHold !== 2',
+      expressionProperties: {
+        className: 'model.durationHold !== 2  ?  "hidden" : ""',
+      },
+    },
+
+    {
+      key: 'specialTimeTo',
+      type: 'select',
+      templateOptions: {
+        options: this.durationValues,
+        labelProp: 'name',
+        valueProp: 'id',
+        placeholder: 'Special time to',
+      },
+      hideExpression: 'model.durationHold !== 2',
+      expressionProperties: {
+        className: 'model.durationHold !== 2  ?  "hidden" : ""',
+      },
+    },
+
+    //
+    // {
+    //   key: 'duration',
+    //   type: 'select',
+    //   templateOptions: {
+    //     options: this.dataDuration$,
+    //     labelProp: 'name',
+    //     valueProp: 'id',
+    //     placeholder: 'Duration',
+    //   },
+    // },
 
     {
       key: 'sendTo',
@@ -109,7 +222,14 @@ export class SubmitLeaveRequestDialogComponent implements OnInit {
       },
     },
   ];
-  model: LeaveSubmit = {};
+
+  get check(): string {
+    return this.model.startTime &&
+      this.model.endTime &&
+      this.model.startTime.toLocalNativeDate() < this.model.endTime.toLocalNativeDate()
+      ? ''
+      : 'hidden';
+  }
 
   constructor(
     @Inject(POLYMORPHEUS_CONTEXT) public context: TuiDialogContext<unknown, LeaveSubmit>,
@@ -119,19 +239,28 @@ export class SubmitLeaveRequestDialogComponent implements OnInit {
     private fb: FormBuilder
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    // this.form.valueChanges.subscribe((value) => console.log(this.model, this.form.value));
+  }
 
   submit() {
-    if (this.form.valid) {
-      const leaveRequestModel = this.form.value;
-      leaveRequestModel.leaveType = leaveRequestModel.leaveType[0];
-      leaveRequestModel.startTime = format((leaveRequestModel.startTime as TuiDay).toLocalNativeDate(), 'MM-dd-yyyy');
-      leaveRequestModel.endTime = format((leaveRequestModel.endTime as TuiDay).toLocalNativeDate(), 'MM-dd-yyyy');
-      const obj: Duration = {
-        id: leaveRequestModel.duration,
-      };
-      leaveRequestModel.duration = obj;
-      this.context.completeWith(leaveRequestModel);
-    }
+    // if (this.form.valid) {
+    //   const leaveRequestModel = this.form.value;
+    //   leaveRequestModel.leaveType = leaveRequestModel.leaveType[0];
+    //   leaveRequestModel.startTime = format(
+    //     (leaveRequestModel.startTime as TuiDay).toLocalNativeDate(),
+    //     'yyyy-MM-dd hh:mm:ss'
+    //   );
+    //   leaveRequestModel.endTime = format(
+    //     (leaveRequestModel.endTime as TuiDay).toLocalNativeDate(),
+    //     'yyyy-MM-dd hh:mm:ss'
+    //   );
+    //   const obj: Duration = {
+    //     id: leaveRequestModel.duration,
+    //   };
+    //   leaveRequestModel.duration = obj;
+    //   this.context.completeWith(leaveRequestModel);
+    //   console.log('leaveRequestModel', leaveRequestModel);
+    // }
   }
 }

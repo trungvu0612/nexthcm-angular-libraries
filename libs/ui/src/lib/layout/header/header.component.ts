@@ -1,15 +1,15 @@
 import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { AuthService } from '@nexthcm/auth';
 import { TranslocoService } from '@ngneat/transloco';
 import { TuiHostedDropdownComponent } from '@taiga-ui/core';
 import { BehaviorSubject } from 'rxjs';
 import { filter, map, startWith } from 'rxjs/operators';
+import { AuthService } from '@nexthcm/auth';
 
 const PATHS: { [key: string]: string[] } = {
   'help-desk': ['seatMap', 'bvCalendar'],
   'human-resource': ['organizationChart', 'teams', 'employees'],
-  'my-time': ['myLeave', 'workingHour', 'myRequest'],
+  'my-time': ['myLeave', 'workingHour', 'myRequest', 'requestManagement'],
   policy: ['policies', 'updated'],
 };
 
