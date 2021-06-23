@@ -28,6 +28,7 @@
     "help": "nx help",
     "prepare": "husky install",
     "publish:admin-employee": "cd dist/libs/admin-employee && yarn publish --non-interactive --ignore-scripts",
+    "publish:admin-job-level": "cd dist/libs/admin/job-level && yarn publish --non-interactive --ignore-scripts",
     "publish:admin-offices": "cd dist/libs/admin/offices && yarn publish --non-interactive --ignore-scripts",
     "publish:admin-permissions": "cd dist/libs/admin/permissions && yarn publish --non-interactive --ignore-scripts",
     "publish:admin-processes": "cd dist/libs/admin/processes && yarn publish --non-interactive --ignore-scripts",

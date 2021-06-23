@@ -26,13 +26,22 @@
     "admin-employee": {
       "tags": []
     },
+    "admin-job-level": {
+      "tags": []
+    },
     "admin-offices": {
       "tags": []
     },
     "admin-permissions": {
       "tags": []
     },
+    "admin-policies": {
+      "tags": []
+    },
     "admin-processes": {
+      "tags": []
+    },
+    "admin-team-building-allowance": {
       "tags": []
     },
     "admin-tenant": {

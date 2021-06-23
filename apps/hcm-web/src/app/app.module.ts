@@ -9,6 +9,7 @@ import { FormlyTaigaUiModule } from '@nexthcm/ui';
 import { TuiRootModule } from '@taiga-ui/core';
 import { environment } from '../environments/environment';
 import { AppComponent } from './app.component';
+import { AdminPoliciesModule } from '@nexthcm/admin-policies';
 
 @NgModule({
   declarations: [AppComponent],
@@ -39,6 +40,14 @@ import { AppComponent } from './app.component';
               loadChildren: () => import('@nexthcm/admin-employee').then((m) => m.AdminEmployeeModule),
             },
             { path: 'tenant', loadChildren: () => import('@nexthcm/admin-tenant').then((m) => m.AdminTenantModule) },
+            {
+              path: 'job-level',
+              loadChildren: () => import('@nexthcm/admin-job-level').then((m) => m.AdminJobLevelModule),
+            },
+            {
+              path: 'policies',
+              loadChildren: () => import('@nexthcm/admin-policies').then((m) => m.AdminPoliciesModule),
+            },
           ],
         },
       ],
