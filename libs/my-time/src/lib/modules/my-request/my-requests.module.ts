@@ -31,6 +31,11 @@ import { RequestDetailsComponent } from './components/request-details/request-de
     ListWorkingOutsideComponent,
     RequestDetailsComponent
   ],
+  exports: [
+    ListTimesheetUpdateComponent,
+    ListOtRequestComponent,
+    ListWorkingOutsideComponent
+  ],
   imports: [
     CommonModule,
     RouterModule,

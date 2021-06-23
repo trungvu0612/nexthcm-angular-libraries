@@ -40,6 +40,7 @@ import { MyLeaveComponent } from './pages/my-leave/my-leave.component';
 import { MyRequestComponent } from './pages/my-request/my-request.component';
 import { WorkingHourComponent } from './pages/working-hour/working-hour.component';
 import { CancelDialogLeaveComponent } from './pages/my-leave/cancel-dialog-leave/cancel-dialog-leave.component';
+import { RequestManagementModule } from './modules/request-management/request-management.module';
 
 @NgModule({
   declarations: [
@@ -58,6 +59,7 @@ import { CancelDialogLeaveComponent } from './pages/my-leave/cancel-dialog-leave
   imports: [
     CommonModule,
     MyTimeRoutingModule,
+    RequestManagementModule,
     LeaveTypeModule,
     MyRequestsModule,
     TuiInputModule,

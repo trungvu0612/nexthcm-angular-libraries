@@ -1,0 +1,44 @@
+<main class="main-page">
+  <header>
+    <h1 class="text-4xl">Request Managements</h1>
+    <div class="flex gap-4">
+    </div>
+  </header>
+
+  <section class="main-section">
+    <article>
+      <tui-tabs [(activeItemIndex)]="activeItemIndex">
+        <button
+          tuiRipple="var(--tui-text-01)"
+          tuiTab
+        >
+          Leave Request
+        </button>
+<!--        <button-->
+<!--          tuiRipple="var(&#45;&#45;tui-text-01)"-->
+<!--          tuiTab-->
+<!--        >-->
+<!--          Update Time-->
+<!--        </button>-->
+<!--        <button-->
+<!--          tuiRipple="var(&#45;&#45;tui-text-01)"-->
+<!--          tuiTab-->
+<!--        >-->
+<!--          Working Outside-->
+<!--        </button>-->
+      </tui-tabs>
+      <ng-container [ngSwitch]="activeItemIndex">
+        <ng-container *ngSwitchCase="0">
+          <hcm-list-ot-request></hcm-list-ot-request>
+        </ng-container>
+        <ng-container *ngSwitchCase="1">
+          <hcm-list-timesheet-update></hcm-list-timesheet-update>
+        </ng-container>
+        <ng-container *ngSwitchCase="2">
+          <hcm-list-working-outside></hcm-list-working-outside>
+        </ng-container>
+      </ng-container>
+    </article>
+  </section>
+
+</main>

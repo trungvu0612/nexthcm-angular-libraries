@@ -12,8 +12,9 @@ export interface LeaveSubmit{
   leaveType?: LeaveType,
   sendTo?: string,
   duration?: Duration,
-  startTime?: string | TuiDay,
-  endTime?: string | TuiDay,
+  startTime?:  TuiDay,
+  endTime?:  TuiDay,
+  partialDays?: number | undefined,
 }
 
 export interface Duration {
@@ -23,3 +24,17 @@ export interface Duration {
 export interface LeaveType {
   id?: string;
 }
+
+export interface PartialDays {
+  id?: number;
+  name?: string;
+
+}
+
+export interface durationValues {
+  id?: number;
+  name?: string;
+  idPartial?: string;
+}
+
+

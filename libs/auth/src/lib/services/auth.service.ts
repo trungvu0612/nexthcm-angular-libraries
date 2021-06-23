@@ -1,10 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { APP_CONFIG, AppConfig } from '@nexthcm/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { AuthInfo, LoginPayload } from '../models';
 import { AuthStore } from '../state/auth/auth-store';
+import { APP_CONFIG, AppConfig } from '@nexthcm/core';
 
 @Injectable({
   providedIn: 'root',
