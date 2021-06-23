@@ -2,8 +2,9 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
-import { Level } from '../../../models/level';
-import { JobLevelService } from '../../../services/job-level.service';
+import { Level } from '../models/level';
+import { JobLevelService } from '../job-level.service';
+import { FormlyFieldConfig } from '@ngx-formly/core';
 
 @Component({
   selector: 'hcm-upsert-job-level',
@@ -13,7 +14,32 @@ import { JobLevelService } from '../../../services/job-level.service';
 })
 export class UpsertJobLevelComponent implements OnInit {
   id!: string;
-  levelForm!: FormGroup<Level>;
+  form!: FormGroup<Level>;
+  model!: Level;
+  fields: FormlyFieldConfig[] = [
+    {
+      fieldGroupClassName: 'grid md:grid-cols-2 gap-6 mb-4',
+      fieldGroup: [{
+        key: 'name',
+        type: 'input',
+        templateOptions: {
+          textfieldLabelOutside: true,
+          required: true,
+          placeholder: 'Topic'
+        }
+      }
+      ]
+    },
+    {
+      key: 'description',
+      type: 'text-area',
+      templateOptions: {
+        required: true,
+        textfieldLabelOutside: true,
+        placeholder: 'Reason'
+      }
+    }
+  ];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -22,7 +48,7 @@ export class UpsertJobLevelComponent implements OnInit {
     private levelService: JobLevelService
   ) {
     this.id = this.activatedRoute.snapshot.params.id;
-    this.levelForm = this.formBuilder.group<Level>({
+    this.form = this.formBuilder.group<Level>({
       orgId: 'd6e6eec4-bd8c-4a34-bf3f-f2d3a11716aa',
       name: ['', Validators.required],
       description: ['', Validators.required],
@@ -38,19 +64,19 @@ export class UpsertJobLevelComponent implements OnInit {
 
   getLevel(): void {
     this.levelService.getLevel(this.id).subscribe((item) => {
-      this.levelForm.patchValue(item);
+      this.form.patchValue(item);
     });
   }
 
   submit(): void {
-    this.levelForm.markAllAsTouched();
-    if (this.levelForm.valid) {
+    this.form.markAllAsTouched();
+    if (this.form.valid) {
       if (this.id) {
-        this.levelService.editLevel(this.levelForm.value, this.id).subscribe((item) => {
+        this.levelService.editLevel(this.form.value, this.id).subscribe((item) => {
           this.router.navigateByUrl('/human-resource/job-level');
         });
       } else {
-        this.levelService.createLevel(this.levelForm.value).subscribe((item) => {
+        this.levelService.createLevel(this.form.value).subscribe((item) => {
           this.router.navigateByUrl('/human-resource/job-level');
         });
       }

@@ -19,7 +19,6 @@ import { HumanResourceComponent } from './human-resource.component';
 import { EmployeeDetailComponent } from './pages/employee-detail/employee-detail.component';
 import { EmployeesComponent } from './pages/employees/employees.component';
 import { OrganizationChartComponent } from './pages/organization-chart/organization-chart.component';
-import { JobLevelModule } from './pages/job-level/job-level.module';
 
 @NgModule({
   declarations: [
@@ -32,7 +31,6 @@ import { JobLevelModule } from './pages/job-level/job-level.module';
   ],
   imports: [
     CommonModule,
-    JobLevelModule,
     MyTimeRoutingModule,
     ReactiveFormsModule,
     TuiInputModule,

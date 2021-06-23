@@ -10,32 +10,87 @@
     "importHelpers": true,
     "target": "es2015",
     "module": "esnext",
-    "lib": ["es2017", "dom"],
+    "lib": [
+      "es2017",
+      "dom"
+    ],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@nexthcm/admin-branches": ["libs/admin/branches/src/index.ts"],
-      "@nexthcm/admin-employee": ["libs/admin-employee/src/index.ts"],
-      "@nexthcm/admin-offices": ["libs/admin/offices/src/index.ts"],
-      "@nexthcm/admin-permissions": ["libs/admin/permissions/src/index.ts"],
-      "@nexthcm/admin-processes": ["libs/admin/processes/src/index.ts"],
-      "@nexthcm/admin-tenant": ["libs/admin/tenant/src/index.ts"],
-      "@nexthcm/auth": ["libs/auth/src/index.ts"],
-      "@nexthcm/configurations": ["libs/configurations/src/index.ts"],
-      "@nexthcm/core": ["libs/core/src/index.ts"],
-      "@nexthcm/help-desk": ["libs/help-desk/src/index.ts"],
-      "@nexthcm/home": ["libs/home/src/index.ts"],
-      "@nexthcm/human-resource": ["libs/human-resource/src/index.ts"],
-      "@nexthcm/my-time": ["libs/my-time/src/index.ts"],
-      "@nexthcm/notifications": ["libs/notifications/src/index.ts"],
-      "@nexthcm/payslip": ["libs/payslip/src/index.ts"],
-      "@nexthcm/policy": ["libs/policy/src/index.ts"],
-      "@nexthcm/report": ["libs/report/src/index.ts"],
-      "@nexthcm/ui": ["libs/ui/src/index.ts"],
-      "@nexthcm/workflow-designer": ["libs/workflow-designer/src/index.ts"],
-      "@nexthcm/form": ["libs/form/src/index.ts"]
+      "@nexthcm/admin-branches": [
+        "libs/admin/branches/src/index.ts"
+      ],
+      "@nexthcm/admin-employee": [
+        "libs/admin-employee/src/index.ts"
+      ],
+      "@nexthcm/admin-job-level": [
+        "libs/admin/job-level/src/index.ts"
+      ],
+      "@nexthcm/admin-offices": [
+        "libs/admin/offices/src/index.ts"
+      ],
+      "@nexthcm/admin-permissions": [
+        "libs/admin/permissions/src/index.ts"
+      ],
+      "@nexthcm/admin-policies": [
+        "libs/admin/policies/src/index.ts"
+      ],
+      "@nexthcm/admin-processes": [
+        "libs/admin/processes/src/index.ts"
+      ],
+      "@nexthcm/admin-team-building-allowance": [
+        "libs/admin/team-building-allowance/src/index.ts"
+      ],
+      "@nexthcm/admin-tenant": [
+        "libs/admin/tenant/src/index.ts"
+      ],
+      "@nexthcm/auth": [
+        "libs/auth/src/index.ts"
+      ],
+      "@nexthcm/configurations": [
+        "libs/configurations/src/index.ts"
+      ],
+      "@nexthcm/core": [
+        "libs/core/src/index.ts"
+      ],
+      "@nexthcm/form": [
+        "libs/form/src/index.ts"
+      ],
+      "@nexthcm/help-desk": [
+        "libs/help-desk/src/index.ts"
+      ],
+      "@nexthcm/home": [
+        "libs/home/src/index.ts"
+      ],
+      "@nexthcm/human-resource": [
+        "libs/human-resource/src/index.ts"
+      ],
+      "@nexthcm/my-time": [
+        "libs/my-time/src/index.ts"
+      ],
+      "@nexthcm/notifications": [
+        "libs/notifications/src/index.ts"
+      ],
+      "@nexthcm/payslip": [
+        "libs/payslip/src/index.ts"
+      ],
+      "@nexthcm/policy": [
+        "libs/policy/src/index.ts"
+      ],
+      "@nexthcm/report": [
+        "libs/report/src/index.ts"
+      ],
+      "@nexthcm/ui": [
+        "libs/ui/src/index.ts"
+      ],
+      "@nexthcm/workflow-designer": [
+        "libs/workflow-designer/src/index.ts"
+      ]
     }
   },
-  "exclude": ["node_modules", "tmp"]
+  "exclude": [
+    "node_modules",
+    "tmp"
+  ]
 }

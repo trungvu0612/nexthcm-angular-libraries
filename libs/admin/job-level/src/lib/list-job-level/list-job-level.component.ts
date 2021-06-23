@@ -1,10 +1,11 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { Level, SearchLevel } from '../../../models/level';
-import { JobLevelService } from '../../../services/job-level.service';
+import { Level, SearchLevel } from '../models/level';
+import { JobLevelService } from '../job-level.service';
 import { BehaviorSubject, combineLatest } from 'rxjs';
 import { debounceTime, switchMap, takeUntil } from 'rxjs/operators';
 import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 import { TuiDestroyService } from '@taiga-ui/cdk';
+import { FormlyFieldConfig } from '@ngx-formly/core';
 
 @Component({
   selector: 'hcm-list-job-level',
@@ -19,9 +20,21 @@ export class ListJobLevelComponent implements OnInit {
   readonly columns = ['name', 'description', 'action'];
   size$ = 10;
   perPageSubject = new BehaviorSubject<number>(this.size$);
-  searchSubject = new BehaviorSubject<SearchLevel>({ name: '' });
+  searchSubject = new BehaviorSubject<SearchLevel>({});
   searchForm!: FormGroup<SearchLevel>;
-  levels!: Level[];
+  levels: Level[] = [];
+  model!: SearchLevel;
+  fields: FormlyFieldConfig[] = [
+    {
+      key: 'name',
+      type: 'input',
+      defaultValue: '',
+      templateOptions: {
+        textfieldLabelOutside: true,
+        placeholder: 'Search By Name'
+      }
+    }
+  ];
 
   constructor(private jobLevelService: JobLevelService,
               private formBuilder: FormBuilder,
@@ -30,19 +43,21 @@ export class ListJobLevelComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.searchForm = this.formBuilder.group<SearchLevel>({
-      name: ''
-    });
+    this.searchForm = this.formBuilder.group<SearchLevel>({});
     combineLatest([this.page$, this.perPageSubject, this.searchSubject]).pipe(
-      debounceTime(0),
+      debounceTime(300),
       switchMap(([page, perpage, search]) => {
         return this.jobLevelService.getLevels(page - 1, perpage, search);
       }), takeUntil(this.destroy$))
       .subscribe(item => {
-        this.levels = item.items;
-        this.totalLength = item.totalElements;
-        this.cdr.detectChanges();
+        this.levels = item.data.items;
+        this.totalLength = item.data.totalElements;
+        this.cdr.markForCheck();
       });
+    this.searchForm.controls.name?.valueChanges.subscribe(value => {
+      console.log(value);
+      this.onSearch({ name: value });
+    });
   }
 
   onPage(page: number) {
@@ -53,7 +68,7 @@ export class ListJobLevelComponent implements OnInit {
     this.perPageSubject.next(size);
   }
 
-  onSearch(): void {
-    this.searchSubject.next(this.searchForm.getRawValue());
+  onSearch(search: SearchLevel): void {
+    this.searchSubject.next(search);
   }
 }

@@ -1,0 +1,71 @@
+<main class="main-page">
+  <header>
+    <h1 class="text-4xl">Policies</h1>
+    <div class="flex gap-4">
+      <button
+        class="tui-space_right-3 tui-space_bottom-3 ml-auto"
+        icon="tuiIconPlusLarge"
+        routerLink="../add"
+        tuiButton
+        type="button"
+      >
+        Add Policies
+      </button>
+    </div>
+  </header>
+  <section class="main-section">
+    <form (ngSubmit)="onSearch()" [formGroup]="$any(searchForm)" class="object-form-container">
+      <div class="grid grid-cols-5">
+        <div>
+          <tui-input formControlName="name"> Search By Name</tui-input>
+        </div>
+        <div></div>
+        <div></div>
+      </div>
+      <div class="w-full text-center">
+        <button class="tui-space_right-3 tui-space_bottom-3 mt-5" icon="tuiIconSearchLarge" tuiButton type="submit">
+          Search
+        </button>
+      </div>
+    </form>
+    <article>
+      <table [columns]="columns" class="hcm-tui-table" tuiTable>
+        <thead>
+        <tr tuiThGroup>
+          <th *tuiHead="'topic'" tuiTh>Topic</th>
+          <th *tuiHead="'shortDescription'" tuiTh>Description</th>
+          <th *tuiHead="'createdDate'" tuiTh>Created Date</th>
+          <th *tuiHead="'action'" class="w-32" tuiTh>Action</th>
+        </tr>
+        </thead>
+        <tbody [data]="data" tuiTbody>
+        <tr *tuiRow="let level of data; let index = index" tuiTr>
+          <td *tuiCell="'topic'" tuiTd>{{ level.topic }}</td>
+          <td *tuiCell="'shortDescription'" tuiTd>{{ level.shortDescription }}</td>
+          <td *tuiCell="'createdDate'" tuiTd>{{ level.createdDate | date : 'dd/MM/yyyy' }}</td>
+          <td *tuiCell="'action'" tuiTd>
+            <button
+              [icon]="'tuiIconEditLarge'"
+              [routerLink]="['../edit/' + level.id]"
+              [shape]="$any('rounded')"
+              appearance="flat"
+              size="s"
+              tuiIconButton
+            ></button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+      <tui-table-pagination
+        (pageChange)="onPage($event)"
+        (sizeChange)="onSize($event)"
+        [size]="size$"
+        [total]="totalLength"
+      ></tui-table-pagination>
+      <p>Current page: {{ page$ | async }}</p>
+    </article>
+  </section>
+</main>
+
+
+

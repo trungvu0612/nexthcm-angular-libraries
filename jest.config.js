@@ -23,5 +23,8 @@ module.exports = {
     '<rootDir>/libs/admin/tenant',
     '<rootDir>/libs/admin/offices',
     '<rootDir>/libs/admin/permissions',
+    '<rootDir>/libs/admin/job-level',
+    '<rootDir>/libs/admin/team-building-allowance',
+    '<rootDir>/libs/admin/policies'
   ],
 };
