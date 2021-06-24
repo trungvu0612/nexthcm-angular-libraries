@@ -1,0 +1,16 @@
+<div *ngIf="action$ | async as action" class="capitalize">{{ action.name }}</div>
+<tui-multi-select
+  (searchChange)="search$.next($event || '')"
+  [formControl]="$any(formControl$ | async)"
+  [stringify]="stringify"
+  [tuiTextfieldLabelOutside]="true"
+>
+  Select resources
+  <tui-data-list-wrapper
+    *tuiDataList
+    [itemContent]="content"
+    [items]="resources$ | async"
+    tuiMultiSelectGroup
+  ></tui-data-list-wrapper>
+</tui-multi-select>
+<ng-template #content let-resource> {{ resource.name }} </ng-template>

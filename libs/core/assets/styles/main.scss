@@ -45,11 +45,17 @@ button {
     &.btn-red {
       @apply border-red-600 text-red-600;
     }
+
+    &.btn-white {
+      border: none;
+      box-shadow: none;
+      color: var(--tui-primary);
+    }
   }
 }
 
-.admin-buttons > button {
-  @apply border rounded-lg text-sm px-6 py-2;
+.medium-buttons > button {
+  @apply rounded-lg text-sm px-6 py-2;
 }
 
 .custom-link {
@@ -157,4 +163,12 @@ button {
 
 .ng-dropdown-panel .ng-dropdown-panel-items .ng-option {
   @apply px-4;
+}
+
+tui-select-option {
+  justify-content: space-between;
+
+  .checkmark {
+    margin: 0 !important;
+  }
 }

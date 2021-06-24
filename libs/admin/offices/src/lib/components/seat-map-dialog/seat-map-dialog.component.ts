@@ -9,13 +9,14 @@ import {
   Inject,
   ViewChild,
 } from '@angular/core';
-import { Dimension, Seat, UploadFileService, Zone } from '@nexthcm/ui';
+import { Dimension, filterBySearch, Seat, UploadFileService, Zone } from '@nexthcm/ui';
 import { FormBuilder, FormControl, FormGroup } from '@ngneat/reactive-forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
-import { map, startWith, takeUntil } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { map, shareReplay, startWith, takeUntil } from 'rxjs/operators';
 import { SeatMapForm } from '../../models/offices';
 import { AdminOfficesService } from '../../services/admin-offices.service';
 
@@ -38,10 +39,11 @@ export class SeatMapDialogComponent implements AfterViewInit {
   factor = { width: 0, height: 0, rounded: 1 };
   dimension = { width: 0, height: 0, rounded: 0 };
   seats: Seat[] = [];
+  offices$ = this.adminOfficesService.getZoneData('office', { size: 999 }).pipe(shareReplay(1));
 
   form: FormGroup<SeatMapForm>;
   model: SeatMapForm = {
-    office: {},
+    office: null,
     name: '',
     imageUrl: '',
     dimensionX: 0,
@@ -54,12 +56,14 @@ export class SeatMapDialogComponent implements AfterViewInit {
   fields: FormlyFieldConfig[] = [
     {
       key: 'office',
-      type: 'input-object',
+      type: 'combo-box',
       templateOptions: {
         label: 'office',
         translate: true,
         required: true,
-        options: this.adminOfficesService.getZoneData('office', { size: 999 }).pipe(map((data) => data.items)),
+        textfieldSize: 'm',
+        serverRequest: (search: string): Observable<Partial<Zone>[]> =>
+          this.offices$.pipe(map((data) => filterBySearch(data.items, search))),
       },
     },
     {
@@ -165,6 +169,7 @@ export class SeatMapDialogComponent implements AfterViewInit {
   ) {
     this.form = fb.group(this.model);
     this.seatForm = fb.group(this.seatModel);
+    this.offices$.subscribe();
   }
 
   ngAfterViewInit(): void {
@@ -198,7 +203,7 @@ export class SeatMapDialogComponent implements AfterViewInit {
           }
       );
       if (!value) this.current = -1;
-      else this.onFocus(value - 1);
+      else this.focusSeat(value - 1);
     });
 
     keys.forEach((key) => {
@@ -284,22 +289,28 @@ export class SeatMapDialogComponent implements AfterViewInit {
     };
   }
 
-  getRounded(rounded: number | undefined): number {
-    if (rounded === undefined) return this.dimension.rounded;
-    else return rounded;
+  getRounded(rounded?: number): number {
+    return typeof rounded === 'number' ? rounded : this.dimension.rounded;
   }
 
-  onFocus(index: number): void {
+  focusSeat(index: number): void {
     this.current = index;
     this.updateSeatForm();
   }
 
-  onReset(): void {
+  resetSeat(): void {
     this.keepFocus = true;
     keys.forEach((key) => {
       delete this.seats[this.current][key];
     });
     this.updateSeatForm();
+  }
+
+  deleteSeat(): void {
+    this.keepFocus = true;
+    this.seats.splice(this.current, 1);
+    this.form.patchValue({ seats: this.seats.length }, { emitEvent: false });
+    this.current = -1;
   }
 
   updateSeatForm(): void {
@@ -345,6 +356,7 @@ export class SeatMapDialogComponent implements AfterViewInit {
       keys.forEach((key) => {
         if (seat[key] === undefined) seat[key] = this.dimension[key];
       });
+      if (!seat.label) seat.label = '';
       const { positionX, positionY, width, height, rounded } = seat;
       seat.style = JSON.stringify({ positionX, positionY, width, height, rounded });
       delete seat.positionX;

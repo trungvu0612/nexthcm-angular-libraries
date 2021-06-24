@@ -14,10 +14,9 @@ import { TuiAvatarModule, TuiComboBoxModule } from '@taiga-ui/kit';
 import { PolymorpheusModule } from '@tinkoff/ng-polymorpheus';
 import { FormFieldModule } from '../form-field/form-field.module';
 import { ComboBoxComponent } from './combo-box/combo-box.component';
-import { InputObjectComponent } from './input-object/input-object.type';
 
 @NgModule({
-  declarations: [ComboBoxComponent, InputObjectComponent],
+  declarations: [ComboBoxComponent],
   imports: [
     CommonModule,
     TuiComboBoxModule,
@@ -30,14 +29,7 @@ import { InputObjectComponent } from './input-object/input-object.type';
     TuiLoaderModule,
     TuiLabelModule,
     FormlyModule.forChild({
-      types: [
-        { name: 'combo-box', component: ComboBoxComponent, wrappers: ['form-field'] },
-        {
-          name: 'input-object',
-          component: InputObjectComponent,
-          wrappers: ['form-field'],
-        },
-      ],
+      types: [{ name: 'combo-box', component: ComboBoxComponent, wrappers: ['form-field'] }],
     }),
     PolymorpheusModule,
     FormFieldModule,

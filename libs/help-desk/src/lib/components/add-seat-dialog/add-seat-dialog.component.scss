@@ -2,8 +2,8 @@
   display: block;
 
   ::ng-deep {
-    custom-tui-combo-box {
-      @apply mb-5;
+    span.label {
+      display: none;
     }
   }
 }

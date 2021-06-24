@@ -1,35 +1,39 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Response } from '@nexthcm/ui';
+import { ResponseResult } from '@nexthcm/ui';
+import { RxState } from '@rx-angular/state';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Action, Policy, Resource, Service } from '../models/policy';
 
-@Injectable({
-  providedIn: 'root',
-})
-export class AdminPermissionsService {
-  constructor(private http: HttpClient) {}
+interface StatePermissions {
+  services: Partial<Service>[];
+  actions: Partial<Action>[];
+}
 
-  getPolicies(): Observable<Partial<Policy>[]> {
-    return this.http.get<Response<Policy>>('/accountapp/v1.0/permissions').pipe(map((response) => response.data.items));
+@Injectable()
+export class AdminPermissionsService extends RxState<StatePermissions> {
+  constructor(private http: HttpClient) {
+    super();
+    this.connect('services', this.getServicesOrActions('services'));
+    this.connect('actions', this.getServicesOrActions('actions'));
   }
 
-  getServices(): Observable<Partial<Service>[]> {
+  getServicesOrActions(type: 'services' | 'actions'): Observable<Partial<Service | Action>[]> {
     return this.http
-      .get<Response<Service>>('/accountapp/v1.0/services', { params: { size: 999 } })
+      .get<ResponseResult<Service | Action>>('/accountapp/v1.0/' + type, { params: { size: 999 } })
       .pipe(map((response) => response.data.items));
   }
 
-  getActions(): Observable<Partial<Action>[]> {
+  getPolicies(): Observable<Partial<Policy>[]> {
     return this.http
-      .get<Response<Action>>('/accountapp/v1.0/actions', { params: { size: 999 } })
+      .get<ResponseResult<Policy>>('/accountapp/v1.0/permissions')
       .pipe(map((response) => response.data.items));
   }
 
   getResourcesByAction(actionId = 'd84d8917-5fd3-4663-8105-66beaf7f2637'): Observable<Partial<Resource>[]> {
     return this.http
-      .get<Response<Resource>>('/accountapp/v1.0/resources', { params: { actionId, size: 999 } })
+      .get<ResponseResult<Resource>>('/accountapp/v1.0/resources', { params: { actionId, size: 999 } })
       .pipe(map((response) => response.data.items));
   }
 }

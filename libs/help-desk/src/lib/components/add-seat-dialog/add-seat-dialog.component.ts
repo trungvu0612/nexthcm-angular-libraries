@@ -1,9 +1,12 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { filterBySearch, User } from '@nexthcm/ui';
+import { FormGroup } from '@ngneat/reactive-forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
-import { SeatInfo } from '../../models';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { HelpDeskService } from '../../services/help-desk.service';
 
 @Component({
   selector: 'hcm-add-seat-dialog',
@@ -13,38 +16,34 @@ import { SeatInfo } from '../../models';
 })
 export class AddSeatDialogComponent {
   form = new FormGroup({});
-  model: { seat?: Partial<SeatInfo>; seatNumber?: number } = {};
+  model: { user?: Partial<User> } = {};
   fields: FormlyFieldConfig[] = [
     {
-      key: 'seat',
-      type: 'add-seat-combo-box',
+      key: 'user',
+      type: 'combo-box',
       templateOptions: {
-        icon: 'assets/icons/search.svg',
-        title: 'Search by CIF, Full Name',
-        nameProp: 'name',
-        idProp: 'id',
-      },
-    },
-    {
-      key: 'seatNumber',
-      type: 'input',
-      templateOptions: {
-        icon: 'assets/icons/seat-position.svg',
-        title: 'Seat number',
         required: true,
-        textfieldCleaner: true,
-        textfieldLabelOutside: true,
+        label: 'Search by CIF, Full Name',
+        labelProp: 'username',
+        subLabelProp: 'id',
+        textfieldLabelOutside: false,
+        stringify: (item: User) => item.username,
+        serverRequest: (search: string): Observable<Partial<User>[]> =>
+          this.helpDeskService.select('users').pipe(map((users) => filterBySearch(users, search, 'username'))),
       },
     },
   ];
 
-  constructor(@Inject(POLYMORPHEUS_CONTEXT) private context: TuiDialogContext<Partial<SeatInfo> | null>) {}
+  constructor(
+    @Inject(POLYMORPHEUS_CONTEXT) private context: TuiDialogContext<Partial<User> | null>,
+    private helpDeskService: HelpDeskService
+  ) {}
 
   close(): void {
     this.context.completeWith(null);
   }
 
   addSeat(): void {
-    this.context.completeWith(Object.assign(this.model.seat, { seatNumber: this.model.seatNumber }));
+    this.context.completeWith(this.model.user || null);
   }
 }

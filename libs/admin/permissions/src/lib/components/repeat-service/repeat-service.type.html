@@ -1,5 +1,5 @@
 <section *ngFor="let field of field.fieldGroup; index as index" class="border mb-2">
-  <div class="flex justify-between bg-gradient-to-b from-gray-300 via-gray-200 to-gray-300 p-3">
+  <div class="flex justify-between p-3">
     <button (click)="toggleExpandable(index)">
       <tui-svg [class.rotated]="!expandedList[index]" src="tuiIconSortDown"></tui-svg>
       Select a service

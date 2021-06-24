@@ -14,7 +14,7 @@ import { validatorTextPermission } from '../../utils/validatiors';
 })
 export class CreatePermissionComponent {
   stepperIndex = 0;
-  servicesLength$ = this.adminPermissions.getServices().pipe(map((items) => items.length));
+  totalServices$ = this.adminPermissions.select('services').pipe(map((services) => services.length));
 
   servicesForm = new FormGroup<Partial<Policy>>({});
   servicesModel: Partial<Policy> = {};
@@ -35,7 +35,7 @@ export class CreatePermissionComponent {
           },
           {
             type: 'input-actions',
-            key: 'actions',
+            key: 'permissions',
           },
         ],
       },

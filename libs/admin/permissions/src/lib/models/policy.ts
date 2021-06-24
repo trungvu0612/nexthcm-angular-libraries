@@ -1,3 +1,5 @@
+import { AbstractControl } from '@ngneat/reactive-forms';
+
 export interface Item {
   code: string;
   name: string;
@@ -33,4 +35,10 @@ export interface PolicyItem {
 export interface Policy extends Item {
   policyId: string;
   policyItems: PolicyItem[];
+}
+
+export interface PermissionForm {
+  action: Partial<Action>;
+  resources: Partial<Resource>[];
+  resourcesForm: AbstractControl<Partial<Resource>[]>;
 }

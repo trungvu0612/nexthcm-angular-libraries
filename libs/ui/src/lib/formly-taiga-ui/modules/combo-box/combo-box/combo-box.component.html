@@ -1,39 +1,38 @@
 <tui-combo-box
-  #comboBox
-  (searchChange)="onSearchChange($event)"
-  *tuiLet="items$ | async as items"
+  (searchChange)="search$.next($event || '')"
   [formControl]="$any(formControl)"
   [formlyAttributes]="field"
   [stringify]="to.stringify"
   [style.maxWidth]="to.maxWidth"
+  [identityMatcher]="to.identityMatcher"
   [tuiHintContent]="to.description || null"
+  [tuiTextfieldCustomContent]="to.icon || null"
   [tuiTextfieldExampleText]="to.placeholder || ''"
   [tuiTextfieldLabelOutside]="to.textfieldLabelOutside"
   [tuiTextfieldSize]="to.textfieldSize"
+  [valueContent]="content"
 >
   {{ to.textfieldLabelOutside ? '' : to.label }}
+  <ng-template #content let-item> {{ item[to.labelProp] }} </ng-template>
   <ng-template tuiDataList>
-    <tui-data-list *ngIf="items; else loading">
-      <button *ngFor="let item of items" [disabled]="item.disabled || false" [value]="item" tuiOption>
-        <div class="flex items-center py-1">
+    <tui-data-list *ngIf="items$ | async as items; else loading">
+      <button *ngFor="let item of items" [disabled]="!!item.disabled" [value]="item" tuiOption>
+        <div class="flex items-center gap-2 my-1">
           <tui-avatar
+            *ngIf="to.showImage"
             [avatarUrl]="item[to.imageProp] ? to.imagePath + item[to.imageProp] : null"
             [text]="item[to.labelProp]"
-            size="l"
-            style="border-radius: 50%"
+            class="rounded-full my-1"
           ></tui-avatar>
-
-          <div class="col-span-2">
-            <div class="grid grid-cols-1 gap-0">
-              <span class="name text-base font-semibold">&nbsp;{{ item[to.labelProp] }}</span>
-              <span class="name text-base font-medium">&nbsp;{{ item[to.sublabelProp] }}</span>
-            </div>
+          <div>
+            <p [class.font-semibold]="to.subLabelProp" class="text-base">{{ item[to.labelProp] }}</p>
+            <p class="text-sm font-normal">{{ item[to.subLabelProp] }}</p>
           </div>
         </div>
       </button>
     </tui-data-list>
-    <ng-template #loading>
-      <tui-loader class="tui-space_vertical-4"></tui-loader>
-    </ng-template>
+  </ng-template>
+  <ng-template #loading>
+    <tui-loader class="tui-space_vertical-4"></tui-loader>
   </ng-template>
 </tui-combo-box>

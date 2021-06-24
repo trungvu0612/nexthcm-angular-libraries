@@ -64,7 +64,7 @@ export class CreateCalendarComponent implements OnInit {
       type: 'radio',
       templateOptions: {
         label: 'Choose Building',
-        options: this.helpDeskService.get(),
+        options: this.helpDeskService.getBuildings(),
         size: 'm',
         customTemplate: true,
         labelProp: 'name',
@@ -105,7 +105,8 @@ export class CreateCalendarComponent implements OnInit {
         serverRequest: this.helpDeskService.getPeople,
         imageProp: 'image',
         imagePath: '/',
-        sublabelProp: 'position',
+        subLabelProp: 'position',
+        showImage: true,
       },
     },
     {
@@ -116,6 +117,7 @@ export class CreateCalendarComponent implements OnInit {
         label: 'External Email',
         placeholder: 'Or External email',
         serverRequest: this.helpDeskService.getEmail,
+        showImage: true,
       },
     },
     {

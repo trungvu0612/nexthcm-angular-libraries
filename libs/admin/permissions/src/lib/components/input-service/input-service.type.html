@@ -1,28 +1,28 @@
-<div class="mr-4">
+<div>
   <button (click)="toggleExpanded()" type="button">
     <tui-svg [class.rotated]="!expanded" src="tuiIconSortDown"></tui-svg>
   </button>
   <span class="font-semibold">Service</span>
 </div>
-<div class="flex-auto max-w-screen-sm">
+<div class="flex-auto">
   <p *ngIf="expanded; else choose" class="font-semibold">Select a service below</p>
   <ng-template #choose>
     <button (click)="toggleExpanded()" *ngIf="!formControl.value; else service" class="text-blue-primary">
       Choose a service
     </button>
-    <ng-template #service><span>{{ formControl.value.name}}</span></ng-template>
+    <ng-template #service>{{ formControl.value.name}}</ng-template>
   </ng-template>
   <tui-expand [expanded]="expanded" class="mt-3">
     <ng-template tuiExpandContent>
       <tui-input
         [formControl]="searchControl"
         [tuiTextfieldLabelOutside]="true"
-        class="w-1/2"
+        class="w-1/2 max-w-xs"
         icon="tuiIconSearch"
         tuiTextfieldSize="m"
         >Find a service
       </tui-input>
-      <div *ngIf="services$ | async as services" class="grid grid-cols-2 gap-6 mt-6">
+      <div *ngIf="servicesFiltered$ | async as services" class="grid grid-cols-3 gap-6 mt-6">
         <div *ngFor="let service of services">
           <button (click)="chooseService(service)" class="text-blue-primary font-normal" type="button">
             {{ service.name }}

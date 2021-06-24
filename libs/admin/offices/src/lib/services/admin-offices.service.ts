@@ -1,9 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Response, ResponseData, Zone } from '@nexthcm/ui';
+import { ResponseData, ResponseResult, Zone } from '@nexthcm/ui';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ZoneType } from '../models/offices';
+
+const MY_TIME_PATH = '/mytimeapp/v1.0';
 
 @Injectable({
   providedIn: 'root',
@@ -17,15 +19,20 @@ export class AdminOfficesService {
   }
 
   getZoneData(type: ZoneType, params: { page?: number; size?: number }): Observable<ResponseData<Zone>> {
-    const key = type === 'office' ? 'offices' : 'seats-map';
-    return this.http.get<Response<Zone>>('/mytimeapp/v1.0/' + key, { params }).pipe(map((response) => response.data));
+    return type === 'office'
+      ? this.http
+          .get<ResponseResult<Zone>>('/accountapp/v1.0/offices', { params })
+          .pipe(map((response) => response.data))
+      : this.http
+          .get<ResponseResult<Zone>>(MY_TIME_PATH + '/seats-map', { params })
+          .pipe(map((response) => response.data));
   }
 
   addSeatZone(body: Partial<Zone>): Observable<any> {
-    return this.http.post('/mytimeapp/v1.0/seats-map', body);
+    return this.http.post(MY_TIME_PATH + '/seats-map', body);
   }
 
   editSeatZone(body: Partial<Zone>): Observable<any> {
-    return this.http.put('/mytimeapp/v1.0/seats-map/' + body.id, body);
+    return this.http.put(MY_TIME_PATH + '/seats-map/' + body.id, body);
   }
 }

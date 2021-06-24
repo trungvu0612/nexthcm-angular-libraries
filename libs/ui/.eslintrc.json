@@ -18,7 +18,7 @@
           "error",
           {
             "type": "element",
-            "prefix": ["hcm", "formly"],
+            "prefix": ["hcm", "formly", "custom"],
             "style": "kebab-case"
           }
         ]

@@ -1,34 +1,29 @@
 <main class="main-page flex-auto">
   <header>
     <h1>Seat Map</h1>
-    <div class="flex items-center text-base">
-      <button (click)="findMySeat()" class="current-seat flex justify-between items-center mr-7">
+    <div class="flex items-center gap-6 text-base">
+      <button (click)="findMySeat()" class="text-blue-primary flex justify-between items-center">
         <tui-svg src="assets/icons/current-location.svg"></tui-svg>
         My seat
       </button>
-      <div class="flex justify-between items-center font-semibold rounded-xl bg-white w-72 h-12 p-4">
-        Building
-        <tui-svg src="assets/icons/office-building.svg"></tui-svg>
-      </div>
+      <form [formGroup]="form" class="w-60">
+        <formly-form [fields]="fields" [form]="form" [model]="model"></formly-form>
+      </form>
     </div>
   </header>
   <section class="main-section">
-    <tui-input [formControl]="inputSearch" class="w-full mb-8" icon="tuiIconSearch" iconAlign="left">
-      Search by CIF, Full Name
-    </tui-input>
-    <article *ngIf="seatMap$ | async as seatMap" class="relative">
+    <article *ngIf="seatMap$ | async as seatMap" [class.hidden]="hidden$ | async" class="relative">
       <hcm-seat
-        (cdkDragEnded)="handleDragEnded($event)"
+        (cdkDragEnded)="$event.source._dragRef.reset()"
         (cdkDragStarted)="moveSeat($event, index)"
-        (click)="addSeat(index, seat.id)"
-        (delete)="deleteSeat(index)"
         *ngFor="let seat of seatMap.seats; index as index"
-        [class.my-seat]="index === ping"
+        [class.ping]="index === (ping$ | async)"
+        [dragging]="dragging$"
+        [refresh$]="refresh$"
         [seat]="seat"
         cdkDrag
-        cdkDragBoundary="article"
       ></hcm-seat>
-      <img [src]="seatMap.imageUrl || '' | getFile | async" class="w-full" />
+      <img (load)="hidden$.next(false)" [src]="seatMap.imageUrl || '' | getFile | async" class="w-full" />
     </article>
   </section>
 </main>

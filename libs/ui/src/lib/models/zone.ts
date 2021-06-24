@@ -1,14 +1,4 @@
-export interface User {
-  id: string;
-  username: string;
-  image: string;
-  dateOfBirth: string;
-  status: string;
-  team: string;
-  phoneNumber: string;
-  skype: string;
-  email: string;
-}
+import { User } from './user';
 
 export interface Dimension {
   width: number;
@@ -23,7 +13,8 @@ export interface StyleSeat extends Partial<Dimension> {
 
 export interface Seat extends StyleSeat {
   id: string;
-  assignedUser: User;
+  label: string;
+  assignedUser: Partial<User>;
   style: string;
 }
 

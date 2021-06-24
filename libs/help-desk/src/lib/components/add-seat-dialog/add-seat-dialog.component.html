@@ -1,8 +1,8 @@
-<header class="flex justify-between items-center mb-4">
-  <h1 class="text-2xl font-semibold">Add Seat</h1>
-  <button (click)="close()">
-    <tui-svg src="tuiIconRemoveLarge"></tui-svg>
-  </button>
+<header class="flex justify-between items-center">
+  <h1 class="text-2xl font-semibold">Assign User</h1>
+  <tui-svg (click)="close()" class="cursor-pointer" src="tuiIconRemoveLarge"></tui-svg>
 </header>
-<formly-form [fields]="fields" [form]="form" [model]="model"></formly-form>
-<button (click)="addSeat()" [disabled]="!form.valid" class="blue-button mt-5 mx-auto">Submit</button>
+<form [formGroup]="form" class="mt-6 mb-10">
+  <formly-form [fields]="fields" [form]="form" [model]="model"></formly-form>
+</form>
+<button (click)="addSeat()" [disabled]="!form.valid" class="blue-button mx-auto">Submit</button>
