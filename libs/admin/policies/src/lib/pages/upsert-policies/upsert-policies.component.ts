@@ -18,7 +18,7 @@ export class UpsertPoliciesComponent implements OnInit {
   model!: Policy;
   fields: FormlyFieldConfig[] = [
     {
-      fieldGroupClassName: 'grid md:grid-cols-2 gap-6 mb-4',
+      fieldGroupClassName: 'grid md:grid-cols-1 gap-6 mb-4',
       fieldGroup: [{
         key: 'topic',
         type: 'input',
@@ -43,22 +43,31 @@ export class UpsertPoliciesComponent implements OnInit {
       ]
     },
     {
-      key: 'shortDescription',
-      type: 'text-area',
-      templateOptions: {
-        required: true,
-        textfieldLabelOutside: true,
-        placeholder: 'Reason'
-      }
+      fieldGroupClassName: 'grid md:grid-cols-1 gap-6 mb-4',
+      fieldGroup: [
+        {
+          key: 'shortDescription',
+          type: 'text-area',
+          templateOptions: {
+            required: true,
+            textfieldLabelOutside: true,
+            placeholder: 'Short Description'
+          }
+        }
+      ]
     },
     {
-      key: 'longDescription',
-      type: 'text-area',
-      templateOptions: {
-        required: true,
-        textfieldLabelOutside: true,
-        placeholder: 'Reason'
-      }
+      fieldGroupClassName: 'grid md:grid-cols-1 gap-6',
+      fieldGroup: [
+        {
+          key: 'longDescription',
+          type: 'editor',
+          templateOptions: {
+            required: true,
+            textfieldLabelOutside: true
+          }
+        }
+      ]
     }
   ];
 
@@ -89,7 +98,6 @@ export class UpsertPoliciesComponent implements OnInit {
     if (this.form.valid) {
       this.form?.controls?.status?.patchValue(this.form.value.status ? 1 : 0);
       if (this.id) {
-        console.log(this.form.value, this.id);
         this.policiesService.editPolicies(this.form.value, this.id).subscribe((item) => {
           this.router.navigateByUrl('/admin/policies');
         });

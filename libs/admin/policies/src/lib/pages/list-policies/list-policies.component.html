@@ -14,20 +14,18 @@
     </div>
   </header>
   <section class="main-section">
-    <form (ngSubmit)="onSearch()" [formGroup]="$any(searchForm)" class="object-form-container">
-      <div class="grid grid-cols-5">
-        <div>
-          <tui-input formControlName="name"> Search By Name</tui-input>
-        </div>
-        <div></div>
-        <div></div>
-      </div>
-      <div class="w-full text-center">
-        <button class="tui-space_right-3 tui-space_bottom-3 mt-5" icon="tuiIconSearchLarge" tuiButton type="submit">
-          Search
-        </button>
-      </div>
-    </form>
+    <formly-form
+      (submit)="onSearch()"
+      [fields]="fields"
+      [form]="$any(searchForm)"
+      [model]="model"
+      class="col-6 border-start border-end"
+    >
+      <button (click)="onSearch()" class="tui-space_right-3 tui-space_bottom-3" icon="tuiIconSearchLarge" tuiButton>
+        Search
+      </button>
+    </formly-form>
+
     <article>
       <table [columns]="columns" class="hcm-tui-table" tuiTable>
         <thead>

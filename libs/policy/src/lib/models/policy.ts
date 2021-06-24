@@ -1,7 +1,10 @@
 export interface Policy {
-  id: string;
-  title: string;
-  image: string;
+  id?: string;
+  thumbnail?: string;
+  createdDate?: number | Date;
+  topic?: string;
+  shortDescription?: string;
+  longDescription?: string;
 }
 
 export interface PolicyDetail {

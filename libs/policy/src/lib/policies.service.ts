@@ -2,7 +2,8 @@ import { Inject, Injectable } from '@angular/core';
 import { APP_CONFIG, AppConfig, PagingResponse } from '@nexthcm/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Policy } from './policies';
+import { Policy } from './models/policy';
+
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,6 @@ export class PoliciesService {
   getPolicies(pageIndex: number, pageSize: number, search: Policy): Observable<PagingResponse<Policy>> {
     return this.httpClient.get<PagingResponse<Policy>>(this.appVersion + '/policies', {
       params: new HttpParams()
-        .set('topic', search.topic ? search.topic : '')
         .set('page', pageIndex ? pageIndex.toString() : '')
         .set('size', pageSize ? pageSize.toString() : '')
     });

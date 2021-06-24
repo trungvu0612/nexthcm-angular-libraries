@@ -6,8 +6,8 @@
     <tui-scrollbar class="h-max w-full">
       <div class="flex w-max">
         <div *ngFor="let item of data; last as last" [class.mr-8]="!last" class="flex flex-col items-center p-4">
-          <img [routerLink]="['.', item.id]" [src]="item.image" class="w-48 h-48" />
-          <p class="text-center text-lg font-semibold mt-5">{{ item.title }}</p>
+          <!--          <img [routerLink]="['.', item.id]" [src]="item.image" class="w-48 h-48" />-->
+          <p class="text-center text-lg font-semibold mt-5">{{ item.topic }}</p>
         </div>
       </div>
     </tui-scrollbar>
