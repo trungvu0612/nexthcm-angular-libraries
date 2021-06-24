@@ -1,10 +1,12 @@
-import { CdkDragEnd, CdkDragStart } from '@angular/cdk/drag-drop';
-import { ChangeDetectionStrategy, Component, Injector, QueryList, ViewChildren } from '@angular/core';
-import { Zone } from '@nexthcm/ui';
-import { FormControl } from '@ngneat/reactive-forms';
-import { TuiDialogService } from '@taiga-ui/core';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { CdkDragStart } from '@angular/cdk/drag-drop';
+import { ChangeDetectionStrategy, Component, QueryList, ViewChildren } from '@angular/core';
+import { AuthQuery } from '@nexthcm/auth';
+import { filterBySearch, Zone } from '@nexthcm/ui';
+import { FormGroup } from '@ngneat/reactive-forms';
+import { FormlyFieldConfig } from '@ngx-formly/core';
+import { RxState } from '@rx-angular/state';
+import { BehaviorSubject, merge, Observable, Subject, timer } from 'rxjs';
+import { filter, last, map, shareReplay, startWith, switchMap, take, takeWhile, tap } from 'rxjs/operators';
 import { SeatComponent } from '../../components/seat/seat.component';
 import { HelpDeskService } from '../../services/help-desk.service';
 
@@ -13,49 +15,82 @@ import { HelpDeskService } from '../../services/help-desk.service';
   templateUrl: './seat-map.component.html',
   styleUrls: ['./seat-map.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [RxState],
 })
 export class SeatMapComponent {
   @ViewChildren(SeatComponent) seatRefs!: QueryList<SeatComponent>;
-  myId = 'e08eb04d-a430-4e03-b017-e46f865e648d';
-  ping = -1;
-  dragging = false;
-  inputSearch = new FormControl();
-  seatMap$: Observable<Partial<Zone>> = this.helpDeskService.getMySeatMap().pipe(
-    map((zone) => {
-      const seatMap = zone;
-      seatMap.seats = seatMap.seats?.map((seat) => Object.assign(seat, JSON.parse(seat.style || '')));
-      return seatMap;
-    })
-  );
+  myId = this.authQuery.getValue().userId;
+  ping$ = new BehaviorSubject(-1);
+  hidden$ = new BehaviorSubject(true);
+  refresh$ = new Subject();
+  seatMap$ = this.state.select('seatMap');
+  dragging$ = new Subject<boolean>();
+  seatMaps$ = this.helpDeskService.getSeatMaps().pipe(shareReplay(1));
+  form = new FormGroup({});
+  model: { seatMap?: Partial<Zone> } = {};
+  fields: FormlyFieldConfig[] = [
+    {
+      key: 'seatMap',
+      type: 'combo-box',
+      templateOptions: {
+        label: 'Seat Map List',
+        textfieldSize: 'm',
+        textfieldLabelOutside: false,
+        icon: 'assets/icons/office-building.svg',
+        identityMatcher: (i1: Partial<Zone>, i2: Partial<Zone>) => i1.id === i2.id,
+        serverRequest: (search: string): Observable<Partial<Zone>[]> =>
+          this.seatMaps$.pipe(map((maps) => filterBySearch(maps, search))),
+      },
+    },
+  ];
 
   constructor(
-    private dialogService: TuiDialogService,
-    private injector: Injector,
-    private helpDeskService: HelpDeskService
-  ) {}
-
-  findMySeat(): void {
-    // const indexMySeat = this.seatMap$.seats?.findIndex((item) => item.id === this.myId);
-    // if (indexMySeat !== undefined) {
-    //   this.ping = indexMySeat;
-    //   this.seatRefs.toArray()[indexMySeat].elementRef.nativeElement.scrollIntoView({
-    //     behavior: 'smooth',
-    //     block: 'center',
-    //     inline: 'center',
-    //   });
-    //   setTimeout(() => {
-    //     this.ping = -1;
-    //     this.changeDetector.detectChanges();
-    //   }, 1000);
-    // }
+    private helpDeskService: HelpDeskService,
+    private authQuery: AuthQuery,
+    private state: RxState<{ seatMap: Partial<Zone> }>
+  ) {
+    this.state.connect(
+      'seatMap',
+      merge(this.refresh$, this.form.valueChanges.pipe(filter((value) => value.seatMap))).pipe(
+        startWith(null),
+        switchMap(() => this.helpDeskService.getSeatMap(this.model.seatMap?.id || '')),
+        tap((zone) => {
+          if (!this.model.seatMap?.id) this.model = { seatMap: zone };
+          zone.seats?.forEach((seat) => Object.assign(seat, JSON.parse(seat.style || '')));
+          if (zone.imageUrl !== this.state.get('seatMap')?.imageUrl) this.hidden$.next(true);
+        })
+      )
+    );
   }
 
-  handleDragEnded(event: CdkDragEnd): void {
-    event.source._dragRef.reset();
+  findMySeat(): void {
+    const mySeatIndex = this.state.get('seatMap').seats?.findIndex((seat) => seat.assignedUser?.id === this.myId);
+    if (mySeatIndex !== undefined && mySeatIndex > -1) {
+      this.ping$.next(mySeatIndex);
+      this.seatRefs.toArray()[mySeatIndex].elementRef.nativeElement.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center',
+        inline: 'center',
+      });
+      this.state.hold(timer(1000), () => this.ping$.next(-1));
+    } else {
+      this.model = { seatMap: undefined };
+      this.refresh$.next();
+      this.state.hold(
+        this.state.select().pipe(
+          take(3),
+          last(),
+          switchMap(() => this.hidden$),
+          takeWhile((hidden) => hidden, true),
+          last()
+        ),
+        () => this.findMySeat()
+      );
+    }
   }
 
   moveSeat(event: CdkDragStart, index: number): void {
-    // this.dragging = true;
+    this.dragging$.next(true);
     // event.source.moved.pipe(takeUntil(event.source.released), last()).subscribe((data) => {
     //   const halfWidth = this.seatMap$.scaleX / 2;
     //   const halfHeight = this.seatMap$.scaleY / 2;
@@ -89,29 +124,5 @@ export class SeatMapComponent {
     //     ];
     //   }
     // });
-  }
-
-  addSeat(index: number, id?: string): void {
-    // if (this.dragging) {
-    //   this.dragging = false;
-    // } else {
-    //   if (id === undefined)
-    //     this.dialogService
-    //       .open<Partial<Seat> | null>(new PolymorpheusComponent(AddSeatDialogComponent, this.injector), {
-    //         size: 's',
-    //         closeable: false,
-    //       })
-    //       .subscribe((seat) => {
-    //         if (seat) {
-    //           const { positionX, positionY } = this.seatMap$.seats[index];
-    //           this.seatMap$.seats[index] = { positionX, positionY, ...seat };
-    //         }
-    //       });
-    // }
-  }
-
-  deleteSeat(index: number): void {
-    // const { positionX, positionY, seatNumber } = this.seatMap$.seats[index];
-    // this.seatMap$.seats[index] = { positionX, positionY, seatNumber };
   }
 }

@@ -15,6 +15,7 @@ import { OfficeDetailDialogComponent } from './components/office-detail-dialog/o
 import { SeatMapDialogComponent } from './components/seat-map-dialog/seat-map-dialog.component';
 import { OfficesComponent } from './pages/offices/offices.component';
 import { SeatMapsComponent } from './pages/seat-maps/seat-maps.component';
+import { AdminOfficesService } from './services/admin-offices.service';
 
 @NgModule({
   declarations: [
@@ -40,5 +41,6 @@ import { SeatMapsComponent } from './pages/seat-maps/seat-maps.component';
     GetFileModule,
     ComboBoxModule,
   ],
+  providers: [AdminOfficesService],
 })
 export class AdminOfficesModule {}

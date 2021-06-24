@@ -1,6 +1,6 @@
-<main *transloco="let t" class="px-8">
-  <h1 class="text-center text-2xl font-semibold my-5">{{ t(title) }}</h1>
-  <form [formGroup]="form" class="max-w-4xl">
+<main *transloco="let t" class="min-h-screen px-8">
+  <h1 class="text-center text-2xl font-semibold py-5">{{ t(title) }}</h1>
+  <form [formGroup]="form" class="max-w-4xl mb-4">
     <formly-form
       [fields]="fields"
       [form]="form"
@@ -9,10 +9,10 @@
     ></formly-form>
   </form>
   <tui-input-file [formControl]="imageControl" accept="image/*" link="Choose an image"></tui-input-file>
-  <article #zone class="relative ring-4 ring-purple-700">
+  <article #zone class="relative ring-4 ring-purple-700 my-4">
     <button
       (cdkDragEnded)="moveSeat(index, $event.distance, $event)"
-      (click)="onFocus(index)"
+      (click)="focusSeat(index)"
       *ngFor="let seat of seats; index as index"
       [class.opacity]="current === index"
       [style]="{
@@ -30,30 +30,23 @@
     </button>
     <img (load)="onImageLoad($event)" [src]="model.imageUrl | getFile | async" class="w-full" />
   </article>
-  <form *ngIf="current !== -1" class="flex items-center fixed bottom-3 w-3/4 max-w-4xl">
+  <form *ngIf="current !== -1" class="bg-gradient medium-buttons flex items-center gap-6 fixed bottom-3">
     <formly-form
       [fields]="seatFields"
       [form]="seatForm"
       [model]="seatModel"
-      class="
-        bg-gradient-to-r
-        from-blue-300
-        via-green-300
-        to-purple-300
-        grid grid-cols-3
-        gap-x-6
-        flex-auto
-        rounded-xl
-        p-3
-      "
+      class="grid grid-cols-3 gap-x-6 flex-auto"
     ></formly-form>
     <button
-      (click)="onReset()"
+      (click)="resetSeat()"
       [disabled]="seats[current].width === undefined"
-      class="bg-white border border-red-600 rounded text-red-600 h-6 ml-4 px-2"
+      class="blue-button btn-custom btn-primary"
       type="button"
     >
       Reset
+    </button>
+    <button (click)="deleteSeat()" class="blue-button btn-custom btn-red" type="button">
+      <tui-svg src="tuiIconTrashLarge"></tui-svg>
     </button>
   </form>
   <div class="flex justify-end">

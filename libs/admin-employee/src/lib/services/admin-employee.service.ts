@@ -1,24 +1,25 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
-import { APP_CONFIG, AppConfig, PagingResponse } from '@nexthcm/core';
+import { Injectable } from '@angular/core';
+import { PagingResponse } from '@nexthcm/core';
 import { Observable } from 'rxjs';
-import { SearchEmployee, EmployeeData } from '../models/employee';
+import { EmployeeData, SearchEmployee } from '../models/employee';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AdminEmployeeService {
-  appVersion = this.env.apiUrl + '/accountapp/v1.0';
+  appVersion = '/accountapp/v1.0';
 
-  constructor(@Inject(APP_CONFIG) protected env: AppConfig, private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient) {}
 
   getEmployee(pageIndex: number, pageSize: number, search: SearchEmployee): Observable<PagingResponse<EmployeeData>> {
     let httpParams = new HttpParams();
     Object.keys(search).forEach((key) => {
       httpParams = httpParams.append(key, search[key as keyof SearchEmployee]);
     });
-    return this.httpClient.get<PagingResponse<EmployeeData>>(this.appVersion + '/users?assigned=true', {
+    return this.httpClient.get<PagingResponse<EmployeeData>>(this.appVersion + '/users', {
       params: httpParams
+        .set('assigned', 'true')
         .set('page', pageIndex ? pageIndex.toString() : '')
         .set('size', pageSize ? pageSize.toString() : ''),
     });

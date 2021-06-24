@@ -5,8 +5,6 @@ import { AuthStore } from './auth-store';
 
 @Injectable({ providedIn: 'root' })
 export class AuthQuery extends Query<UserInfo> {
-  isLoggedIn$ = this.select((state) => !!state.id);
-
   constructor(protected store: AuthStore) {
     super(store);
   }

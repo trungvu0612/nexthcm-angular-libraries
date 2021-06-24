@@ -9,7 +9,7 @@ export interface ResponseData<T> {
   hasPrevious: boolean;
 }
 
-export interface Response<T> {
+export interface ResponseResult<T> {
   code: string;
   data: ResponseData<T>;
 }

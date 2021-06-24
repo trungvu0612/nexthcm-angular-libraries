@@ -1,20 +1,46 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Zone } from '@nexthcm/ui';
+import { ResponseResult, User, Zone } from '@nexthcm/ui';
+import { RxState } from '@rx-angular/state';
 import { Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { CalendarBuilding, ExternalEmail, PeopleInvite } from '../models';
 
-@Injectable({
-  providedIn: 'root',
-})
-export class HelpDeskService {
-  constructor(private http: HttpClient) {}
+interface HelpDesk {
+  users: Partial<User>[];
+  seatMaps: Partial<Zone>[];
+}
 
-  getMySeatMap(): Observable<Partial<Zone>> {
-    return this.http.get<Partial<Zone>>('/mytimeapp/v1.0/my-seats-map');
+@Injectable()
+export class HelpDeskService extends RxState<HelpDesk> {
+  constructor(private http: HttpClient) {
+    super();
+    this.connect('users', this.getUsers());
+    this.connect('seatMaps', this.getSeatMaps());
   }
 
-  get(): Observable<CalendarBuilding[]> {
+  getUsers(): Observable<Partial<User>[]> {
+    return this.http
+      .get<ResponseResult<User>>('/accountapp/v1.0/users', { params: { size: 999 } })
+      .pipe(map((response) => response.data.items));
+  }
+
+  getSeatMaps(): Observable<Partial<Zone>[]> {
+    return this.http
+      .get<ResponseResult<Zone>>('/mytimeapp/v1.0/seats-map', { params: { size: 999 } })
+      .pipe(map((response) => response.data.items));
+  }
+
+  getSeatMap(id?: string): Observable<Partial<Zone>> {
+    const path = id ? '/seats-map/' + id : '/my-seats-map';
+    return this.http.get<Partial<Zone>>('/mytimeapp/v1.0' + path);
+  }
+
+  updateAssignedUser(seatId: string, body: any): Observable<any> {
+    return this.http.put('/mytimeapp/v1.0/seats-map/assign-seat/' + seatId, body);
+  }
+
+  getBuildings(): Observable<CalendarBuilding[]> {
     return of([
       {
         id: 1,

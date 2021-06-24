@@ -1,24 +1,31 @@
 :host {
   @apply flex flex-col;
 
-  .main-section {
-    ::ng-deep {
-      .content {
-        @apply bg-gray-50 rounded-xl;
-      }
+  @keyframes zoom {
+    0% {
+      transform: scale(1, 1);
     }
-
-    .current-seat {
-      color: var(--tui-primary);
+    50% {
+      transform: scale(1.5, 1.5);
     }
+    100% {
+      transform: scale(1, 1);
+    }
+  }
 
-    .my-seat {
-      @apply ring-4 ring-purple-600;
+  .ping {
+    z-index: 1000;
+    animation: zoom 500ms ease infinite;
+  }
+
+  ::ng-deep {
+    span.label {
+      display: none;
     }
   }
 
   footer {
-    box-shadow: 0 -1px 16px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 16px rgba(0, 0, 0, 0.1);
 
     div {
       @apply flex items-center text-sm;

@@ -10,7 +10,7 @@ import { AdminPermissionsService } from '../../services/admin-permissions.servic
 })
 export class PermissionListComponent {
   columns = ['name', 'description', 'service', 'action'];
-  servicesLength$ = this.adminPermissions.getServices().pipe(map((items) => items.length));
+  totalServices$ = this.adminPermissions.select('services').pipe(map((services) => services.length));
   policies$ = this.adminPermissions.getPolicies();
 
   constructor(private adminPermissions: AdminPermissionsService) {}

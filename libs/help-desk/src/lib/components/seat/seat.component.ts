@@ -1,29 +1,38 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  EventEmitter,
-  HostBinding,
-  Input,
-  OnInit,
-  Output,
-} from '@angular/core';
-import { Router } from '@angular/router';
-import { Seat } from '@nexthcm/ui';
+import { ChangeDetectionStrategy, Component, ElementRef, HostBinding, Injector, Input, OnInit } from '@angular/core';
+import { Seat, User } from '@nexthcm/ui';
+import { RxState } from '@rx-angular/state';
+import { TuiDialogService } from '@taiga-ui/core';
+import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
+import { Subject } from 'rxjs';
+import { HelpDeskService } from '../../services/help-desk.service';
+import { AddSeatDialogComponent } from '../add-seat-dialog/add-seat-dialog.component';
 
 @Component({
   selector: 'hcm-seat',
   templateUrl: './seat.component.html',
   styleUrls: ['./seat.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [RxState],
 })
 export class SeatComponent implements OnInit {
   @Input() seat!: Partial<Seat>;
-  @Output() delete = new EventEmitter();
+  @Input() refresh$!: Subject<unknown>;
   isAdmin = true;
-  @HostBinding('class') status!: string;
+  seatStatus = 'none';
+  openDropdown = false;
+  dragging$ = this.state.select('dragging');
 
-  constructor(public elementRef: ElementRef, private router: Router) {}
+  constructor(
+    private helpDeskService: HelpDeskService,
+    private dialogService: TuiDialogService,
+    private injector: Injector,
+    private state: RxState<{ dragging: boolean }>,
+    public elementRef: ElementRef
+  ) {}
+
+  @Input() set dragging(dragging$: Subject<boolean>) {
+    this.state.connect('dragging', dragging$);
+  }
 
   @HostBinding('style.left') get left() {
     return this.seat.positionX + '%';
@@ -46,15 +55,36 @@ export class SeatComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.status = 'leave';
-    // this.status = this.seat.status ? this.seat.status.toLowerCase().replace('/', '-').split(' ').join('-') : '';
+    if (this.seat.assignedUser) this.seatStatus = 'leave';
   }
 
-  onDelete(): void {
-    this.delete.emit();
+  onClick(type: string): void {
+    if (this.state.get('dragging')) {
+      this.state.set({ dragging: false });
+    } else if (type === 'add') this.addSeat();
   }
 
-  viewDetail(): void {
-    this.router.navigate(['/human-resource/employees', this.seat.id]);
+  addSeat(): void {
+    this.dialogService
+      .open<Partial<User> | null>(new PolymorpheusComponent(AddSeatDialogComponent, this.injector), {
+        size: 's',
+        closeable: false,
+      })
+      .subscribe((user) => {
+        if (user?.id && this.seat.id) {
+          this.helpDeskService
+            .updateAssignedUser(this.seat.id, { assignedUser: { id: user.id } })
+            .subscribe(() => this.refresh$.next());
+        }
+      });
+  }
+
+  deleteSeat(): void {
+    this.openDropdown = false;
+    if (this.seat.id) {
+      this.helpDeskService
+        .updateAssignedUser(this.seat.id, { assignedUser: null })
+        .subscribe(() => this.refresh$.next());
+    }
   }
 }

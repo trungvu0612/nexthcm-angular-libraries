@@ -5,6 +5,7 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { FormlyModule } from '@ngx-formly/core';
 import { TuiTableModule } from '@taiga-ui/addon-table';
 import {
+  TuiDataListModule,
   TuiDropdownControllerModule,
   TuiExpandModule,
   TuiHostedDropdownModule,
@@ -12,10 +13,10 @@ import {
   TuiTextfieldControllerModule,
 } from '@taiga-ui/core';
 import {
-  TuiCheckboxLabeledModule,
+  TuiDataListWrapperModule,
   TuiDropdownHoverModule,
-  TuiFilterModule,
   TuiInputModule,
+  TuiMultiSelectModule,
   TuiStepperModule,
 } from '@taiga-ui/kit';
 import { of } from 'rxjs';
@@ -24,9 +25,11 @@ import { AdminPermissionsComponent } from './admin-permissions.component';
 import { InputActionsComponent } from './components/input-actions/input-actions.type';
 import { InputServiceComponent } from './components/input-service/input-service.type';
 import { RepeatServiceComponent } from './components/repeat-service/repeat-service.type';
+import { SelectResourcesComponent } from './components/select-resources/select-resources.component';
 import { CreatePermissionComponent } from './pages/create-permission/create-permission.component';
 import { PermissionListComponent } from './pages/permission-list/permission-list.component';
 import { UpdatePermissionComponent } from './pages/update-permission/update-permission.component';
+import { AdminPermissionsService } from './services/admin-permissions.service';
 
 @NgModule({
   declarations: [
@@ -37,6 +40,7 @@ import { UpdatePermissionComponent } from './pages/update-permission/update-perm
     InputServiceComponent,
     InputActionsComponent,
     UpdatePermissionComponent,
+    SelectResourcesComponent,
   ],
   imports: [
     CommonModule,
@@ -73,8 +77,10 @@ import { UpdatePermissionComponent } from './pages/update-permission/update-perm
     TuiHostedDropdownModule,
     TuiDropdownControllerModule,
     TuiDropdownHoverModule,
-    TuiCheckboxLabeledModule,
-    TuiFilterModule,
+    TuiMultiSelectModule,
+    TuiDataListWrapperModule,
+    TuiDataListModule,
   ],
+  providers: [AdminPermissionsService],
 })
 export class AdminPermissionsModule {}

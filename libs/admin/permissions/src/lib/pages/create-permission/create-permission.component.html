@@ -3,12 +3,9 @@
     <h1>Create Permission</h1>
   </header>
   <section class="main-section">
-    <tui-stepper [(activeItemIndex)]="stepperIndex" class="flex justify-center mb-8">
-      <button [state]="servicesForm.valid ? 'pass' : 'normal'" tuiStep>Service & Resource</button>
-      <button [disabled]="!servicesForm.valid" [state]="policyForm.valid ? 'pass' : 'normal'" tuiStep>
-        Review Policy
-      </button>
-      <button [disabled]="!policyForm.valid" tuiStep>Create & Finish</button>
+    <tui-stepper [(activeItemIndex)]="stepperIndex" class="flex justify-center py-8 mb-8">
+      <button state="pass" tuiStep>Service & Resource</button>
+      <button [disabled]="!servicesForm.valid" tuiStep>Review Policy</button>
     </tui-stepper>
     <form [class.hidden]="stepperIndex !== 0" [formGroup]="$any(servicesForm)">
       <formly-form [fields]="servicesFields" [form]="$any(servicesForm)" [model]="servicesModel"></formly-form>
@@ -34,11 +31,11 @@
         </table>
       </div>
       <p class="font-semibold mt-4 ml-28">
-        Allow ({{ servicesModel.policyItems?.length }} of {{ servicesLength$ | async }} services)
+        Allow ({{ servicesModel.policyItems?.length }} of {{ totalServices$ | async }} services)
       </p>
     </form>
-    <div class="admin-buttons flex justify-end gap-4 mt-5">
-      <button *ngIf="stepperIndex < 2" class="blue-button btn-custom btn-red" routerLink="../">Cancel</button>
+    <div class="medium-buttons flex justify-end gap-4 mt-5">
+      <button *ngIf="stepperIndex < 2" class="blue-button btn-custom btn-white" routerLink="../">Cancel</button>
       <button (click)="nextStep(1)" *ngIf="stepperIndex === 0" [disabled]="!servicesForm.valid" class="blue-button">
         Next
       </button>
@@ -49,5 +46,6 @@
         Create Policy
       </button>
     </div>
+    <pre>{{ servicesModel | json }} </pre>
   </section>
 </main>

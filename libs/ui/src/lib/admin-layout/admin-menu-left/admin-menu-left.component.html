@@ -5,12 +5,12 @@
   <tui-data-list tuiDataListDropdownManager>
     <button routerLink="/admin/tenant">Quản lý công ty</button>
     <button routerLink="/admin/employees">Quản lý nhân viên</button>
-    <button routerLink="/">Quản lý vai trò</button>
+    <button>Quản lý vai trò</button>
     <button routerLink="/admin/permissions">Quản lý quyền</button>
     <button routerLink="/admin/offices">Quản lý văn phòng</button>
+    <button routerLink="/admin/offices/seat-maps">Quản lý sơ đồ chỗ ngồi</button>
     <button routerLink="/admin/policies">Quản lý chính sách</button>
     <button routerLink="/admin/job-level">Quản lý cấp bậc</button>
-    <button routerLink="/admin/offices/rooms">Quản lý sơ đồ chỗ ngồi</button>
     <button
       [tuiDropdownContent]="policyTpl"
       [tuiDropdownSided]="true"

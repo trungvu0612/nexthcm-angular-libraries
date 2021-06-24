@@ -15,7 +15,7 @@ const routes: Routes = [
         component: AdminOfficesComponent,
         children: [
           { path: '', component: OfficesComponent },
-          { path: 'rooms', component: SeatMapsComponent },
+          { path: 'seat-maps', component: SeatMapsComponent },
         ],
       },
     ],

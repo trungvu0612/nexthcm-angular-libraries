@@ -5,7 +5,7 @@
     tui-stepper {
       button {
         color: var(--tui-primary);
-        font-size: 0.875rem;
+        @apply font-medium text-base;
 
         .marker {
           color: var(--tui-primary);
@@ -49,14 +49,6 @@
 
     &:first-child {
       @apply text-left w-2/5;
-
-      &:not(td) {
-        @apply bg-gradient-to-b from-gray-100 to-gray-200;
-      }
-    }
-
-    &:last-child {
-      @apply border-gray-50 bg-gradient-to-b from-gray-200 to-gray-300;
     }
   }
 }
