@@ -20,15 +20,16 @@ const routes: Routes = [
           { path: '', pathMatch: 'full', redirectTo: 'policies' },
           { path: 'policies', component: PoliciesComponent },
           { path: 'policies/:id', component: PolicyDetailComponent },
-          { path: 'updated', component: UpdatedComponent },
-        ],
-      },
-    ],
-  },
+          { path: 'updated', component: UpdatedComponent }
+        ]
+      }
+    ]
+  }
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
+  exports: [RouterModule]
 })
-export class PolicyRoutingModule {}
+export class PolicyRoutingModule {
+}

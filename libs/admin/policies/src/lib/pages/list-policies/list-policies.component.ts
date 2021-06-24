@@ -5,6 +5,7 @@ import { TuiDestroyService } from '@taiga-ui/cdk';
 import { debounceTime, switchMap, takeUntil } from 'rxjs/operators';
 import { PoliciesService } from '../../policies.service';
 import { Policy } from '../../policies';
+import { FormlyFieldConfig } from '@ngx-formly/core';
 
 @Component({
   selector: 'hcm-list-policies',
@@ -22,7 +23,23 @@ export class ListPoliciesComponent implements OnInit {
   perPageSubject = new BehaviorSubject<number>(this.size$);
   searchSubject = new BehaviorSubject<Policy>({});
   searchForm!: FormGroup<Policy>;
-  data!: Policy[];
+  data: Policy[] = [];
+  model!: Policy;
+  fields: FormlyFieldConfig[] = [
+    {
+      fieldGroupClassName: 'grid md:grid-cols-3 gap-6 mb-4',
+      fieldGroup: [{
+        key: 'topic',
+        type: 'input',
+        templateOptions: {
+          textfieldLabelOutside: true,
+          required: true,
+          placeholder: 'Topic'
+        }
+      }
+      ]
+    }
+  ];
 
   constructor(private policiesService: PoliciesService,
               private formBuilder: FormBuilder,

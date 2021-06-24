@@ -17,7 +17,7 @@ import { PolicyComponent } from './policy.component';
     PoliciesComponent,
     PolicyDetailComponent,
     UpdatedComponent,
-    UpdatedDetailComponent,
+    UpdatedDetailComponent
   ],
   imports: [
     CommonModule,
@@ -27,7 +27,8 @@ import { PolicyComponent } from './policy.component';
     TuiInputMonthModule,
     ReactiveFormsModule,
     TuiAvatarModule,
-    TuiScrollbarModule,
-  ],
+    TuiScrollbarModule
+  ]
 })
-export class PolicyModule {}
+export class PolicyModule {
+}
