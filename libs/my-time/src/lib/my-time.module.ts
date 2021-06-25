@@ -26,21 +26,21 @@ import {
   TuiTagModule,
   TuiTextAreaModule,
 } from '@taiga-ui/kit';
-import { LeaveDetailDialogComponent } from './pages/my-leave/leave-detail-dialog/leave-detail-dialog.component';
 import { RequestDataTableComponent } from './components/request-data-table/request-data-table.component';
 import { RequestDialogComponent } from './components/request-dialog/request-dialog.component';
 import { RequestOtComponent } from './components/request-ot/request-ot.component';
-import { SubmitLeaveRequestDialogComponent } from './pages/my-leave/submit-leave-request-dialog/submit-leave-request-dialog.component';
 import { WorkingOutsiteComponent } from './components/working-outsite/working-outsite.component';
 import { LeaveTypeModule } from './modules/leave-type/leave-type.module';
 import { MyRequestsModule } from './modules/my-request/my-requests.module';
+import { RequestManagementModule } from './modules/request-management/request-management.module';
 import { MyTimeRoutingModule } from './my-time-routing.module';
 import { MyTimeComponent } from './my-time.component';
+import { CancelDialogLeaveComponent } from './pages/my-leave/cancel-dialog-leave/cancel-dialog-leave.component';
+import { LeaveDetailDialogComponent } from './pages/my-leave/leave-detail-dialog/leave-detail-dialog.component';
 import { MyLeaveComponent } from './pages/my-leave/my-leave.component';
+import { SubmitLeaveRequestDialogComponent } from './pages/my-leave/submit-leave-request-dialog/submit-leave-request-dialog.component';
 import { MyRequestComponent } from './pages/my-request/my-request.component';
 import { WorkingHourComponent } from './pages/working-hour/working-hour.component';
-import { CancelDialogLeaveComponent } from './pages/my-leave/cancel-dialog-leave/cancel-dialog-leave.component';
-import { RequestManagementModule } from './modules/request-management/request-management.module';
 
 @NgModule({
   declarations: [

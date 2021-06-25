@@ -143,7 +143,7 @@ export class CreateCalendarComponent implements OnInit {
       },
     },
     {
-      key: 'note',
+      key: 'tab',
       type: 'text-area',
       templateOptions: {
         label: 'Notes',

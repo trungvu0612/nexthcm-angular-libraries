@@ -14,28 +14,37 @@
         >
           Leave Request
         </button>
-<!--        <button-->
-<!--          tuiRipple="var(&#45;&#45;tui-text-01)"-->
-<!--          tuiTab-->
-<!--        >-->
-<!--          Update Time-->
-<!--        </button>-->
-<!--        <button-->
-<!--          tuiRipple="var(&#45;&#45;tui-text-01)"-->
-<!--          tuiTab-->
-<!--        >-->
-<!--          Working Outside-->
-<!--        </button>-->
+        <button
+          tuiRipple="var(--tui-text-01)"
+          tuiTab
+        >
+          Overtime
+        </button>
+        <button
+          tuiRipple="var(--tui-text-01)"
+          tuiTab
+        >
+          Update time
+        </button>
+        <button
+          tuiRipple="var(--tui-text-01)"
+          tuiTab
+        >
+          Working outside
+        </button>
       </tui-tabs>
       <ng-container [ngSwitch]="activeItemIndex">
         <ng-container *ngSwitchCase="0">
-          <hcm-list-ot-request></hcm-list-ot-request>
+          <hcm-leave-request></hcm-leave-request>
         </ng-container>
         <ng-container *ngSwitchCase="1">
-          <hcm-list-timesheet-update></hcm-list-timesheet-update>
+          <hcm-overtime></hcm-overtime>
         </ng-container>
         <ng-container *ngSwitchCase="2">
-          <hcm-list-working-outside></hcm-list-working-outside>
+          <hcm-update-time></hcm-update-time>
+        </ng-container>
+        <ng-container *ngSwitchCase="3">
+          <hcm-working-outside></hcm-working-outside>
         </ng-container>
       </ng-container>
     </article>
