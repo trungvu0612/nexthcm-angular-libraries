@@ -25,7 +25,7 @@ export class AddSeatDialogComponent {
         required: true,
         label: 'Search by CIF, Full Name',
         labelProp: 'username',
-        subLabelProp: 'id',
+        subLabelProp: 'code',
         textfieldLabelOutside: false,
         stringify: (item: User) => item.username,
         serverRequest: (search: string): Observable<Partial<User>[]> =>

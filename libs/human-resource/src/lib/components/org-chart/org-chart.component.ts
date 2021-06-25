@@ -12,6 +12,7 @@ import { HumanResourceService } from '../../services/human-resource.service';
 })
 export class OrgChartComponent implements OnInit {
 
+
   @Input() data$!: Observable<OrgRes[]>;
   isHover?: boolean = false;
 
@@ -140,5 +141,6 @@ export class OrgChartComponent implements OnInit {
       this.idLeader = id;
     }
   }
+
 
 }
