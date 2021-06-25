@@ -1,9 +1,5 @@
 :host {
   display: block;
-  ::ng-deep .hcm-tui-table th.center-custom, ::ng-deep .hcm-tui-table td.center-custom {
-    text-align: left;
-  }
-
   .status-open {
     background: #27ae60;
     color: #ffffff;

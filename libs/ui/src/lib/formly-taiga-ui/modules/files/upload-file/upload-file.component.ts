@@ -33,7 +33,7 @@ export class UploadFileComponent extends FieldType {
   get loading$(): Observable<ReadonlyArray<File>> {
     return this.requests$.pipe(
       tap((file) => {
-        if (typeof file === 'string' || file instanceof File || file === null) {
+        if (typeof file === 'string') {
           this.formControl.setValue(file);
         }
       }),

@@ -1,38 +1,46 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 import { AdminEmployeeService } from '../../services/admin-employee.service';
 import { map } from 'rxjs/operators';
 import { GENDER_NAME, MARITAL_STATUS } from '../../models/employee-enum';
-import { TuiDay } from '@taiga-ui/cdk';
+import { TuiDay, TuiDestroyService } from '@taiga-ui/cdk';
+import { UserRole } from '../../models/user-role';
+import { Permission } from '../../models/permission';
+import { UserGroup } from '../../models/user-group';
+import { UploadFileService } from '@nexthcm/ui';
+import { APP_CONFIG, AppConfig } from '@nexthcm/core';
 
 @Component({
   selector: 'hcm-upsert-employee',
   templateUrl: './upsert-employee.component.html',
   styleUrls: ['./upsert-employee.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [TuiDestroyService],
 })
-export class UpsertEmployeeComponent implements OnInit {
-  dataRoles$?: Observable<any> = this.AdminEmployeeService.getUserRoles().pipe(map((res) => res.data.items));
-  dataPermission$?: Observable<any> = this.AdminEmployeeService.getPermissions().pipe(map((res) => res.data.items));
-  dataCountries$?: Observable<any> = this.AdminEmployeeService.getCountries().pipe(map((res) => res.items));
-  dataLanguage$?: Observable<any> = this.AdminEmployeeService.getCountries().pipe(map((res) => res.items));
-  dataUserGroups$?: Observable<any> = this.AdminEmployeeService.getUserGroups().pipe(map((res) => res.data.items));
-  dataUsersReport$?: Observable<any> = this.AdminEmployeeService.getAllUsers().pipe(map((res) => res.data.items));
-  dataJobTitle$?: Observable<any> = this.AdminEmployeeService.getJobTitle().pipe(map((res) => res.data.items));
-  dataJobLevel$?: Observable<any> = this.AdminEmployeeService.getJobLevels().pipe(map((res) => res.items));
+export class UpsertEmployeeComponent implements AfterViewInit {
+  dataRoles$ = this.adminEmployeeService.getUserRoles().pipe(map((res) => res.data.items));
+  dataPermission$ = this.adminEmployeeService.getPermissions().pipe(map((res) => res.data.items));
+  dataCountries$ = this.adminEmployeeService.getCountries().pipe(map((res) => res.data.items));
+  dataLanguage$ = this.adminEmployeeService.getLanguages().pipe(map((res) => res.data.items));
+  dataUserGroups$ = this.adminEmployeeService.getUserGroups().pipe(map((res) => res.data.items));
+  dataUsersReport$ = this.adminEmployeeService.getAllUsers().pipe(map((res) => res.data.items));
+  dataJobTitle$ = this.adminEmployeeService.getJobTitle().pipe(map((res) => res.data.items));
+  dataJobLevel$ = this.adminEmployeeService.getJobLevels().pipe(map((res) => res.data.items));
+  dataOrg$ = this.adminEmployeeService.getOrg().pipe(map((res) => res.data.items));
 
   dataGender$ = GENDER_NAME;
   dataMarital$ = MARITAL_STATUS;
-
-  UserElement: any;
-  titleId!: string | undefined;
-  userId!: string | undefined;
-  contactId!: string | undefined;
-  contactType!: string | undefined;
-  address2!: string | undefined;
+  userElement: any;
+  SelectElement: any;
+  titleId?: string;
+  userId?: string;
+  contactId?: string;
+  contactType?: string;
+  address2?: string;
+  addressId?: string;
 
   readonly form = new FormGroup({
     filters: new FormControl([]),
@@ -61,13 +69,16 @@ export class UpsertEmployeeComponent implements OnInit {
     },
     {
       key: 'policies',
-      type: 'multi-select',
+      type: 'object-select',
       templateOptions: {
         options: this.dataPermission$,
         labelProp: 'name',
         valueProp: 'policyId',
         placeholder: 'Permission(*):',
-        required: true
+        required: true,
+        multiple: true,
+        translate: true,
+        compareWith: (item1: Permission, item2: Permission) => item1.policyId === item2.policyId,
       },
     },
     {
@@ -80,30 +91,37 @@ export class UpsertEmployeeComponent implements OnInit {
       },
     },
     {
-      key: 'department',
-      type: 'input',
+      key: 'org.id',
+      type: 'select',
       templateOptions: {
-        label: 'Department:',
+        options: this.dataOrg$,
+        labelProp: 'orgName',
+        valueProp: 'id',
+        placeholder: 'Department:',
       },
     },
     {
       key: 'roles',
-      type: 'multi-select',
+      type: 'object-select',
       templateOptions: {
+        translate: true,
         options: this.dataRoles$,
         labelProp: 'name',
-        valueProp: 'id',
         placeholder: 'Role Name(*):',
         required: true,
+        multiple: true,
+        compareWith: (item1: UserRole, item2: UserRole) => item1.id === item2.id,
       },
     },
     {
       className: 'attachFile',
-      key: 'attachFile',
+      key: 'profile.image',
       type: 'upload-file',
       templateOptions: {
         label: 'Image:',
         textfieldSize: 's',
+        previewImage: true,
+        serverRequest: this.uploadFileService.uploadFile.bind(this.uploadFileService, 'employee'),
       },
     },
     {
@@ -115,13 +133,16 @@ export class UpsertEmployeeComponent implements OnInit {
     },
     {
       key: 'userGroups',
-      type: 'multi-select',
+      type: 'object-select',
       templateOptions: {
         options: this.dataUserGroups$,
         labelProp: 'groupName',
         valueProp: 'id',
         placeholder: 'User Group(*):',
-        required: true
+        required: true,
+        translate: true,
+        multiple: true,
+        compareWith: (item1: UserGroup, item2: UserGroup) => item1.id === item2.id,
       },
     },
     {
@@ -220,7 +241,7 @@ export class UpsertEmployeeComponent implements OnInit {
       },
     },
     {
-      key: 'profile.institute:',
+      key: 'profile.institute',
       type: 'input',
       templateOptions: {
         label: 'Institute:',
@@ -231,7 +252,7 @@ export class UpsertEmployeeComponent implements OnInit {
       type: '',
     },
     {
-      key: 'languagueId',
+      key: 'languageId',
       type: 'select',
       templateOptions: {
         options: this.dataLanguage$,
@@ -280,7 +301,7 @@ export class UpsertEmployeeComponent implements OnInit {
         labelProp: 'username',
         valueProp: 'id',
         placeholder: 'Direct Report(*):',
-        required: true
+        required: true,
       },
     },
     {
@@ -313,24 +334,32 @@ export class UpsertEmployeeComponent implements OnInit {
   ];
 
   constructor(
-    private AdminEmployeeService: AdminEmployeeService,
+    private adminEmployeeService: AdminEmployeeService,
     private activatedRouter: ActivatedRoute,
     private router: Router,
-    private cdr: ChangeDetectorRef
+    private uploadFileService: UploadFileService,
+    private destroy$: TuiDestroyService,
+    @Inject(APP_CONFIG) private appConfig: AppConfig
   ) {
     this.userId = this.activatedRouter.snapshot.params.id;
   }
 
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
     if (this.userId) {
-      this.AdminEmployeeService.getUserById(this.userId).subscribe((item) => {
-        // console.log(item.roles);
+      this.adminEmployeeService.getUserById(this.userId).subscribe((item) => {
         this.titleId = item?.title?.id;
         this.contactId = item?.contact?.id;
         this.contactType = item?.contact?.contactType;
         this.address2 = item?.address?.address2;
-
-        this.form.patchValue(item);
+        this.addressId = item?.address?.id;
+        if (item.state == -1) {
+          item.state = false;
+        }
+        item.profile.birthDay = TuiDay.fromLocalNativeDate(new Date(item.profile?.birthDay));
+        item.registration = TuiDay.fromLocalNativeDate(new Date(item?.registration));
+        console.log(item.profile.birthDay);
+        console.log(item.registration);
+        this.model = { ...this.model, ...item };
       });
     }
   }
@@ -339,7 +368,7 @@ export class UpsertEmployeeComponent implements OnInit {
     const formModel = this.form.value;
     const rolesData: any[] = [];
 
-    formModel.roles.forEach(function (res: any) {
+    formModel?.roles.forEach(function (res: any) {
       if (res?.id) {
         rolesData.push({ id: res.id });
       } else {
@@ -365,7 +394,7 @@ export class UpsertEmployeeComponent implements OnInit {
       }
     });
 
-    this.UserElement = {
+    this.userElement = {
       state: 1,
       registerType: 'R',
       roles: rolesData,
@@ -377,19 +406,22 @@ export class UpsertEmployeeComponent implements OnInit {
     };
 
     if (this.userId) {
-      this.UserElement.id = this.userId;
+      this.userElement.id = this.userId;
 
       if (this.titleId) {
-        this.UserElement.title = {
+        this.userElement.title = {
           id: this.titleId,
         };
+      } else {
+        delete formModel.title;
       }
       formModel.contact.id = this.contactId;
       formModel.contact.contactType = this.contactType;
       formModel.address.address2 = this.address2;
+      formModel.address.id = this.addressId;
       formModel.profile.userId = this.userId;
     }
-    if (formModel.state == 'true') {
+    if (formModel.state == true) {
       formModel.state = 1;
     } else {
       formModel.state = -1;
@@ -398,23 +430,23 @@ export class UpsertEmployeeComponent implements OnInit {
     if (formModel.profile.birthDay) {
       formModel.profile.birthDay = (formModel.profile.birthDay as TuiDay).toLocalNativeDate().valueOf();
     }
-    if (formModel.profile.registration) {
+    if (formModel.registration) {
       formModel.registration = (formModel.registration as TuiDay).toLocalNativeDate().valueOf();
     }
 
     delete formModel.policies;
     delete formModel.roles;
     delete formModel.userGroups;
-    const formData = Object.assign(this.UserElement, formModel);
-    console.log(formData);
+    const formData = Object.assign(this.userElement, formModel);
+    // console.log(formData);
 
     if (this.form.valid) {
       if (this.userId) {
-        this.AdminEmployeeService.editEmployee(formData, this.userId).subscribe((item) => {
+        this.adminEmployeeService.editEmployee(formData, this.userId).subscribe((item) => {
           this.router.navigateByUrl('/admin/employees');
         });
       } else {
-        this.AdminEmployeeService.createEmployee(formData).subscribe((item) => {
+        this.adminEmployeeService.createEmployee(formData).subscribe((item) => {
           this.router.navigateByUrl('/admin/employees');
         });
       }

@@ -1,9 +1,20 @@
-export interface TenantData {
+export interface Tenant {
+  createdDate: number;
+  lastModifiedDate: number;
+  optCounter: number;
   id: string;
-  code?: string;
-  company?: string;
-  email?: string;
-  fullName?: string;
-  phone?: string;
+  tenantCode: string;
+  tenantName: string;
+  state: number;
+}
+
+export interface SearchTenant {
+  name: string;
+}
+
+export interface DomainTenantData {
+  id: string;
+  logo?: string;
+  title?: string;
   status?: string;
 }

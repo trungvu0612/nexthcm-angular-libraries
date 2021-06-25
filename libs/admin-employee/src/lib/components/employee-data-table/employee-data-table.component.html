@@ -18,7 +18,7 @@
       <td *tuiCell="'fullName'" tuiTd>{{ item?.profile?.lastName }} {{ item?.profile?.firstName }}</td>
       <td *tuiCell="'phone'" tuiTd>{{ item?.contact?.phone }}</td>
       <td *tuiCell="'workingTime'" tuiTd>{{ item?.registration  | date: 'dd/MM/yyyy'}}</td>
-      <td *tuiCell="'address'" tuiTd>{{ item?.address }}</td>
+      <td *tuiCell="'address'" tuiTd>{{ item?.address?.address1 }}</td>
       <td *tuiCell="'salary'" tuiTd>
         <ng-container *ngIf="item?.profile?.salary">{{ item?.profile?.salary }}$</ng-container>
       </td>

@@ -4,8 +4,8 @@ import { FormBuilder } from '@ngneat/reactive-forms';
 import { TuiDay, TuiDestroyService } from '@taiga-ui/cdk';
 import { BehaviorSubject, combineLatest } from 'rxjs';
 import { debounceTime, switchMap, takeUntil } from 'rxjs/operators';
-import { EmployeeData, SearchEmployee } from '../../models/employee';
 import { AdminEmployeeService } from '../../services/admin-employee.service';
+import {SearchEmployee, User} from "../../models/user";
 
 @Component({
   selector: 'hcm-employee-list',
@@ -27,7 +27,7 @@ export class EmployeeListComponent implements OnInit {
     searchEmployee: new FormControl(),
   });
   columns = ['id', 'fullName', 'phone', 'workingTime', 'address', 'salary', 'status', 'action'];
-  data: Partial<EmployeeData>[] = [];
+  data: Partial<User>[] = [];
   constructor(
     private AdminEmployeeService: AdminEmployeeService,
     private formBuilder: FormBuilder,

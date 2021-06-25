@@ -1,8 +1,8 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input, Injector, ChangeDetectorRef } from '@angular/core';
 import { TuiDialogService } from '@taiga-ui/core';
-import { EmployeeData } from '../../models/employee';
 import { AdminEmployeeService } from '../../services/admin-employee.service';
 import { Router } from '@angular/router';
+import {User} from "../../models/user";
 
 @Component({
   selector: 'hcm-employee-data-table',
@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 })
 export class EmployeeDataTableComponent implements OnInit {
   @Input() columns!: string[];
-  @Input() data!: Partial<EmployeeData>[];
+  @Input() data!: Partial<User>[];
 
   constructor(
     private dialogService: TuiDialogService,

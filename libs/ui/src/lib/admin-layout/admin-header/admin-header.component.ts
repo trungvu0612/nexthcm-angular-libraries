@@ -1,7 +1,13 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '@nexthcm/auth';
 import { TranslocoService } from '@ngneat/transloco';
+import { TuiHostedDropdownComponent } from '@taiga-ui/core';
+
+const LANGS: { [key: string]: string } = {
+  en: 'English',
+  vi: 'Tiếng Việt',
+};
 
 @Component({
   selector: 'hcm-admin-header',
@@ -10,6 +16,9 @@ import { TranslocoService } from '@ngneat/transloco';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdminHeaderComponent implements OnInit {
+  @ViewChild(TuiHostedDropdownComponent) component?: TuiHostedDropdownComponent;
+  open = false;
+  langs = (this.translocoService.getAvailableLangs() as string[]).map((lang) => LANGS[lang]);
   items = [
     {
       caption: 'Trang chủ',
@@ -29,5 +38,13 @@ export class AdminHeaderComponent implements OnInit {
 
   logout(): void {
     this.authService.logout();
+  }
+
+  changeLang(lang: string) {
+    this.open = false;
+    if (this.component && this.component.nativeFocusableElement) {
+      this.component.nativeFocusableElement.focus();
+    }
+    this.translocoService.setActiveLang(Object.keys(LANGS).find((key) => LANGS[key] == lang) as string);
   }
 }
