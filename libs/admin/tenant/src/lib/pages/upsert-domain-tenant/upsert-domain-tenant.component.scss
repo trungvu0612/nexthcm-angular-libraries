@@ -1,0 +1,18 @@
+:host {
+  display: block;
+
+  ::ng-deep .btn-custom {
+    color: #109cf1;
+    border: solid 1px #109cf1;
+
+    &:hover {
+      background: #109cf1;
+      color: #ffffff;
+    }
+  }
+
+  ::ng-deep.attachFile .label {
+    font-size: 15px !important;
+    margin-bottom: 10px;
+  }
+}

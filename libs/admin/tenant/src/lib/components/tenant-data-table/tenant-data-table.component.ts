@@ -1,5 +1,5 @@
 import {Component, OnInit, ChangeDetectionStrategy, Input} from '@angular/core';
-import {TenantData} from "../../models/tenant";
+import {Tenant} from "../../models/tenant";
 
 @Component({
   selector: 'hcm-tenant-data-table',
@@ -9,7 +9,7 @@ import {TenantData} from "../../models/tenant";
 })
 export class TenantDataTableComponent implements OnInit {
   @Input() columns!: string[];
-  @Input() data!: Partial<TenantData>[];
+  @Input() data!: Partial<Tenant>[];
   constructor() { }
 
   ngOnInit(): void {

@@ -18,6 +18,10 @@
   <tui-tooltip *ngIf="to.description" [content]="tooltip" class="flex-initial self-center ml-2"></tui-tooltip>
 </div>
 
+<ng-container *ngIf="formControl.valueChanges | async as formValue">
+  <img *ngIf="formValue && to.previewImage" [src]="formValue | getFile | async" alt="" class="mt-4 w-24 h-24" />
+</ng-container>
+
 <ng-template #tooltip="polymorpheus" [polymorpheus]="context">
   {{ to.description }}
 </ng-template>

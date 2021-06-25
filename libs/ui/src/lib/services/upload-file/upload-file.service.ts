@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 export class UploadFileService {
   constructor(private http: HttpClient) {}
 
-  uploadFile(file: File, subPath: string, keepName = true): Observable<string> {
+  uploadFile(subPath: string, file: File, keepName = true): Observable<string> {
     const formData = new FormData();
     formData.append('file', file);
     formData.append('subPath', subPath);

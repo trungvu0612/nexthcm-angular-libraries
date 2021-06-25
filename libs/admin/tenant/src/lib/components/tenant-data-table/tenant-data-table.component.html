@@ -2,25 +2,20 @@
   <table [columns]="columns" class="hcm-tui-table" tuiTable>
     <thead>
       <tr tuiThGroup>
-        <th *tuiHead="'id'" [sorter]="null" tuiTh>STT</th>
         <th *tuiHead="'code'" [sorter]="null" tuiTh>Mã công ty</th>
-        <th *tuiHead="'company'" [sorter]="null" tuiTh>Công ty</th>
-        <th *tuiHead="'email'" [sorter]="null" tuiTh>Email</th>
         <th *tuiHead="'fullName'" [sorter]="null" class="center-custom" tuiTh>Tên liên hệ</th>
-        <th *tuiHead="'phone'" [sorter]="null" class="center-custom" tuiTh>Số điện thoại</th>
         <th *tuiHead="'status'" [sorter]="null" class="center-custom" tuiTh>Trạng thái</th>
         <th *tuiHead="'action'" [sorter]="null" class="center-custom" tuiTh>Hành động</th>
       </tr>
     </thead>
     <tbody [data]="data" tuiTbody>
       <tr *tuiRow="let item of data" tuiTr>
-        <td class="text-center" *tuiCell="'id'" tuiTd>{{ item?.id }}</td>
-        <td class="text-center" *tuiCell="'code'" tuiTd>{{ item?.code }}</td>
-        <td class="text-center" *tuiCell="'company'" tuiTd>{{ item?.company }}</td>
-        <td class="text-center" *tuiCell="'email'" tuiTd>{{ item?.email }}</td>
-        <td class="text-center" *tuiCell="'fullname'" tuiTd>{{ item?.fullName }}</td>
-        <td class="text-center" *tuiCell="'phone'" tuiTd>{{ item?.phone }}</td>
-        <td class="text-center" *tuiCell="'status'" tuiTd>{{ item?.status }}</td>
+        <td class="text-center" *tuiCell="'code'" tuiTd>{{ item?.tenantCode }}</td>
+        <td class="text-center" *tuiCell="'fullName'" tuiTd>{{ item.tenantName }}</td>
+        <td class="text-center" *tuiCell="'status'" tuiTd>
+          <ng-container *ngIf="item?.state == 1"><span class="status-open">Hoạt động</span></ng-container>
+          <ng-container *ngIf="item?.state == 0"><span class="status-close">Không hoạt động</span></ng-container>
+        </td>
         <td class="text-center" *tuiCell="'action'" tuiTd>
           <a [routerLink]="['']">
             <tui-svg class="mx-1" src="assets/icons/edit.svg"></tui-svg>

@@ -6,9 +6,15 @@
   </div>
 </div>
 
-<div class="flex items-center gap-6">
+<div class="flex items-center gap-4">
+  <tui-hosted-dropdown [(open)]="open" [content]="langsDropdown">
+    <button [iconRight]="icon" appearance="flat" tuiButton type="button">
+      <tui-svg src="assets/icons/languages.svg"></tui-svg>
+    </button>
+  </tui-hosted-dropdown>
+
   <div class="relative cursor-pointer">
-    <img src="assets/icons/bell.svg" />
+    <img src="assets/icons/bell.svg"/>
     <div
       *ngIf="notification"
       class="badge"
@@ -24,5 +30,16 @@
 <ng-template #avatarDropdown>
   <tui-data-list>
     <button (click)="logout()" class="font-normal" tuiOption>Sign out</button>
+  </tui-data-list>
+</ng-template>
+
+<ng-template #icon>
+  <tui-svg [class.icon_rotated]="open" class="icon" src="tuiIconChevronDown"></tui-svg>
+</ng-template>
+<ng-template #langsDropdown>
+  <tui-data-list>
+    <button (click)="changeLang(lang)" *ngFor="let lang of langs" class="font-normal" tuiOption>
+      {{ lang }}
+    </button>
   </tui-data-list>
 </ng-template>
