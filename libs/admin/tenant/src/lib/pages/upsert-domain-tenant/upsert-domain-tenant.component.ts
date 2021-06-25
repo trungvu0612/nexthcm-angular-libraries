@@ -1,13 +1,13 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import {FormControl, FormGroup} from "@angular/forms";
-import {FormlyFieldConfig, FormlyFormOptions} from "@ngx-formly/core";
-import {Router} from "@angular/router";
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
+import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 
 @Component({
   selector: 'hcm-upsert-domain-tenant',
   templateUrl: './upsert-domain-tenant.component.html',
   styleUrls: ['./upsert-domain-tenant.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UpsertDomainTenantComponent implements OnInit {
   readonly form = new FormGroup({
@@ -43,16 +43,13 @@ export class UpsertDomainTenantComponent implements OnInit {
         size: 's',
       },
     },
-    ];
+  ];
 
-  constructor( private router: Router) { }
+  constructor(private router: Router) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
-  saveDomain() {
-
-  }
+  saveDomain() {}
 
   cancel() {
     this.router.navigateByUrl('/admin/tenant/add');

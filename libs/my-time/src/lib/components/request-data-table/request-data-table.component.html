@@ -1,63 +1,63 @@
 <article>
   <table [columns]="columns" class="hcm-tui-table" tuiTable>
     <thead>
-    <tr tuiThGroup>
-      <th *tuiHead="'office'" [sorter]="null" tuiTh>Office</th>
-      <th *tuiHead="'date'" [sorter]="null" tuiTh>Date</th>
-      <th *tuiHead="'dayOfWeek'" [sorter]="null" tuiTh>Day</th>
-      <th *tuiHead="'fromDate'" [sorter]="null" tuiTh>Form Date</th>
-      <th *tuiHead="'toDate'" [sorter]="null" tuiTh>To Date</th>
-      <th *tuiHead="'spentTime'" [sorter]="null" class="center-custom" tuiTh>Spent time</th>
-      <th *tuiHead="'day'" [sorter]="null" class="center-custom" tuiTh>Day</th>
-      <th *tuiHead="'timeIn'" [sorter]="null" class="center-custom" tuiTh>Updated Time In</th>
-      <th *tuiHead="'timeOut'" [sorter]="null" class="center-custom" tuiTh>Updated Time Out</th>
-      <th *tuiHead="'totalTime'" [sorter]="null" class="center-custom" tuiTh>Updated Total Working Time</th>
-      <th *tuiHead="'status'" [sorter]="null" class="center-custom" tuiTh>Status</th>
-      <th *tuiHead="'reason'" [sorter]="null" tuiTh>Reason</th>
-      <th *tuiHead="'comment'" [sorter]="null" tuiTh>Comment</th>
-      <th *tuiHead="'sentTo'" [sorter]="null" tuiTh>Sent to</th>
-      <th *tuiHead="'action'" [sorter]="null" class="center-custom" tuiTh>Action</th>
-    </tr>
+      <tr tuiThGroup>
+        <th *tuiHead="'office'" [sorter]="null" tuiTh>Office</th>
+        <th *tuiHead="'date'" [sorter]="null" tuiTh>Date</th>
+        <th *tuiHead="'dayOfWeek'" [sorter]="null" tuiTh>Day</th>
+        <th *tuiHead="'fromDate'" [sorter]="null" tuiTh>Form Date</th>
+        <th *tuiHead="'toDate'" [sorter]="null" tuiTh>To Date</th>
+        <th *tuiHead="'spentTime'" [sorter]="null" class="center-custom" tuiTh>Spent time</th>
+        <th *tuiHead="'day'" [sorter]="null" class="center-custom" tuiTh>Day</th>
+        <th *tuiHead="'timeIn'" [sorter]="null" class="center-custom" tuiTh>Updated Time In</th>
+        <th *tuiHead="'timeOut'" [sorter]="null" class="center-custom" tuiTh>Updated Time Out</th>
+        <th *tuiHead="'totalTime'" [sorter]="null" class="center-custom" tuiTh>Updated Total Working Time</th>
+        <th *tuiHead="'status'" [sorter]="null" class="center-custom" tuiTh>Status</th>
+        <th *tuiHead="'reason'" [sorter]="null" tuiTh>Reason</th>
+        <th *tuiHead="'comment'" [sorter]="null" tuiTh>Comment</th>
+        <th *tuiHead="'sentTo'" [sorter]="null" tuiTh>Sent to</th>
+        <th *tuiHead="'action'" [sorter]="null" class="center-custom" tuiTh>Action</th>
+      </tr>
     </thead>
     <tbody [data]="data" tuiTbody>
-    <tr *tuiRow="let item of data" tuiTr>
-      <td *tuiCell="'office'" tuiTd>{{ item.office }}</td>
-      <td *tuiCell="'date'" tuiTd>{{ item.date | date: 'MM/dd/yyyy' }}</td>
-      <td *tuiCell="'dayOfWeek'" tuiTd>{{ item.date | date: 'EEEE' }}</td>
-      <td *tuiCell="'fromDate'" tuiTd>{{ item.fromDate | date: 'MM/dd/yyyy' }}</td>
-      <td *tuiCell="'toDate'" tuiTd>{{ item.toDate | date: 'MM/dd/yyyy' }}</td>
-      <td *tuiCell="'spentTime'" class="center-custom" tuiTd>
-        {{ item.spentTime || '--' }}
-      </td>
-      <td *tuiCell="'day'" class="center-custom" tuiTd>
-        {{ item.day }}
-      </td>
-      <td *tuiCell="'timeIn'" class="center-custom" tuiTd>
-        {{ item.timeIn || '--' }}
-      </td>
-      <td *tuiCell="'timeOut'" class="center-custom" tuiTd>
-        {{ item.timeOut || '--' }}
-      </td>
-      <td *tuiCell="'totalTime'" class="center-custom" tuiTd>
-        {{ item.totalTime || '--' }}
-      </td>
-      <td *tuiCell="'status'" [ngSwitch]="item.status" class="center-custom" tuiTd>
-        <tui-tag [class]="['tui-tag', item.status?.toLowerCase() + '-tag']" [value]="item.status || ''"></tui-tag>
-      </td>
-      <td (click)="showDialog(item)" *tuiCell="'reason'" class="underline cursor-pointer" tuiTd>
-        {{ item.reason && item.reason.length > 33 ? item.reason.substring(0, 30) + '...' : item.reason }}
-      </td>
-      <td (click)="showDialog(item)" *tuiCell="'comment'" class="underline cursor-pointer" tuiTd>
-        {{ item.comment && item.comment.length > 33 ? item.comment.substring(0, 30) + '...' : item.comment }}
-      </td>
-      <td *tuiCell="'sentTo'" tuiTd>{{ item.sentTo }}</td>
-      <td *tuiCell="'action'" class="center-custom" tuiTd>
-        <ng-container *ngIf="item.status !== 'Waiting'; else button">None</ng-container>
-        <ng-template #button>
-          <button (click)="cancel()" class="cancel-button">Cancel</button>
-        </ng-template>
-      </td>
-    </tr>
+      <tr *tuiRow="let item of data" tuiTr>
+        <td *tuiCell="'office'" tuiTd>{{ item.office }}</td>
+        <td *tuiCell="'date'" tuiTd>{{ item.date | date: 'MM/dd/yyyy' }}</td>
+        <td *tuiCell="'dayOfWeek'" tuiTd>{{ item.date | date: 'EEEE' }}</td>
+        <td *tuiCell="'fromDate'" tuiTd>{{ item.fromDate | date: 'MM/dd/yyyy' }}</td>
+        <td *tuiCell="'toDate'" tuiTd>{{ item.toDate | date: 'MM/dd/yyyy' }}</td>
+        <td *tuiCell="'spentTime'" class="center-custom" tuiTd>
+          {{ item.spentTime || '--' }}
+        </td>
+        <td *tuiCell="'day'" class="center-custom" tuiTd>
+          {{ item.day }}
+        </td>
+        <td *tuiCell="'timeIn'" class="center-custom" tuiTd>
+          {{ item.timeIn || '--' }}
+        </td>
+        <td *tuiCell="'timeOut'" class="center-custom" tuiTd>
+          {{ item.timeOut || '--' }}
+        </td>
+        <td *tuiCell="'totalTime'" class="center-custom" tuiTd>
+          {{ item.totalTime || '--' }}
+        </td>
+        <td *tuiCell="'status'" [ngSwitch]="item.status" class="center-custom" tuiTd>
+          <tui-tag [class]="['tui-tag', item.status?.toLowerCase() + '-tag']" [value]="item.status || ''"></tui-tag>
+        </td>
+        <td (click)="showDialog(item)" *tuiCell="'reason'" class="underline cursor-pointer" tuiTd>
+          {{ item.reason && item.reason.length > 33 ? item.reason.substring(0, 30) + '...' : item.reason }}
+        </td>
+        <td (click)="showDialog(item)" *tuiCell="'comment'" class="underline cursor-pointer" tuiTd>
+          {{ item.comment && item.comment.length > 33 ? item.comment.substring(0, 30) + '...' : item.comment }}
+        </td>
+        <td *tuiCell="'sentTo'" tuiTd>{{ item.sentTo }}</td>
+        <td *tuiCell="'action'" class="center-custom" tuiTd>
+          <ng-container *ngIf="item.status !== 'Waiting'; else button">None</ng-container>
+          <ng-template #button>
+            <button (click)="cancel()" class="cancel-button">Cancel</button>
+          </ng-template>
+        </td>
+      </tr>
     </tbody>
   </table>
 </article>

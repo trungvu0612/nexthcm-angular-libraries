@@ -31,25 +31,25 @@
     <article>
       <table [columns]="columns" class="my-8 w-full" tuiTable>
         <thead>
-        <tr tuiThGroup>
-          <th *tuiHead="'name'" tuiTh>Name</th>
-          <th *tuiHead="'action'" class="w-32" tuiTh>Action</th>
-        </tr>
+          <tr tuiThGroup>
+            <th *tuiHead="'name'" tuiTh>Name</th>
+            <th *tuiHead="'action'" class="w-32" tuiTh>Action</th>
+          </tr>
         </thead>
         <tbody [data]="leaveTypes" tuiTbody>
-        <tr *tuiRow="let type of leaveTypes; let index = index" tuiTr>
-          <td *tuiCell="'name'" tuiTd>{{ index + 1 }}. {{ type.name }}</td>
-          <td *tuiCell="'action'" tuiTd>
-            <button
-              [icon]="'tuiIconEditLarge'"
-              [routerLink]="['../edit/' + type.id]"
-              [shape]="$any('rounded')"
-              appearance="flat"
-              size="s"
-              tuiIconButton
-            ></button>
-          </td>
-        </tr>
+          <tr *tuiRow="let type of leaveTypes; let index = index" tuiTr>
+            <td *tuiCell="'name'" tuiTd>{{ index + 1 }}. {{ type.name }}</td>
+            <td *tuiCell="'action'" tuiTd>
+              <button
+                [icon]="'tuiIconEditLarge'"
+                [routerLink]="['../edit/' + type.id]"
+                [shape]="$any('rounded')"
+                appearance="flat"
+                size="s"
+                tuiIconButton
+              ></button>
+            </td>
+          </tr>
         </tbody>
       </table>
       <tui-table-pagination
@@ -62,8 +62,3 @@
     </article>
   </section>
 </main>
-
-
-
-
-

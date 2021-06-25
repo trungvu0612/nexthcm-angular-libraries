@@ -1,1 +1,1 @@
-export * from "./filter-by-search";
+export * from './filter-by-search';

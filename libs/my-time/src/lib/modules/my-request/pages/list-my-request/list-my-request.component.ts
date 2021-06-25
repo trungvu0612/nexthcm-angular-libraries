@@ -1,14 +1,14 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
-import { RequestsDialogComponent } from '../../components/requests-dialog/requests-dialog.component';
 import { MyRequestService } from '../../../../services/my-request.service';
+import { RequestsDialogComponent } from '../../components/requests-dialog/requests-dialog.component';
 
 @Component({
   selector: 'hcm-list-my-request',
   templateUrl: './list-my-request.component.html',
   styleUrls: ['./list-my-request.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ListMyRequestComponent implements OnInit {
   activeItemIndex = 0;
@@ -18,11 +18,9 @@ export class ListMyRequestComponent implements OnInit {
     private dialogService: TuiDialogService,
     private injector: Injector,
     private cdr: ChangeDetectorRef
-  ) {
-  }
+  ) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   cancel(): void {
     console.log('cancel');
@@ -32,7 +30,7 @@ export class ListMyRequestComponent implements OnInit {
     this.dialogService
       .open<boolean>(new PolymorpheusComponent(RequestsDialogComponent, this.injector), {
         closeable: false,
-        data: { type: type }
+        data: { type: type },
       })
       .subscribe((cancel) => {
         if (cancel) {

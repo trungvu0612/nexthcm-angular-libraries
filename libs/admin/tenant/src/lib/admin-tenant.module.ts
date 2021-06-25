@@ -1,19 +1,18 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule, Route } from '@angular/router';
-import { TenantListComponent } from './pages/tenant-list/tenant-list.component';
-import {AdminLayoutComponent} from "@nexthcm/ui";
-import {AuthGuard} from "@nexthcm/auth";
-import {TuiInputDateTimeModule, TuiInputModule, TuiTabsModule} from "@taiga-ui/kit";
-import {TenantDataTableComponent} from "./components/tenant-data-table/tenant-data-table.component";
-import {TuiSvgModule} from "@taiga-ui/core";
-import {TuiTableModule, TuiTablePaginationModule} from "@taiga-ui/addon-table";
-import { UpsertTenantComponent } from './pages/upsert-tenant/upsert-tenant.component';
-import {ReactiveFormsModule} from "@angular/forms";
-import {FormlyModule} from "@ngx-formly/core";
+import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
+import { Route, RouterModule } from '@angular/router';
+import { AuthGuard } from '@nexthcm/auth';
+import { AdminLayoutComponent } from '@nexthcm/ui';
+import { FormlyModule } from '@ngx-formly/core';
+import { TuiTableModule, TuiTablePaginationModule } from '@taiga-ui/addon-table';
+import { TuiSvgModule } from '@taiga-ui/core';
+import { TuiInputDateTimeModule, TuiInputModule, TuiTabsModule } from '@taiga-ui/kit';
 import { DomainTenantDataTableComponent } from './components/domain-tenant-data-table/domain-tenant-data-table.component';
+import { TenantDataTableComponent } from './components/tenant-data-table/tenant-data-table.component';
+import { TenantListComponent } from './pages/tenant-list/tenant-list.component';
 import { UpsertDomainTenantComponent } from './pages/upsert-domain-tenant/upsert-domain-tenant.component';
-
+import { UpsertTenantComponent } from './pages/upsert-tenant/upsert-tenant.component';
 
 export const adminTenantRoutes: Route[] = [
   {
@@ -23,7 +22,7 @@ export const adminTenantRoutes: Route[] = [
     children: [
       { path: '', component: TenantListComponent },
       { path: 'add', component: UpsertTenantComponent },
-      { path: 'domain/add', component: UpsertDomainTenantComponent }
+      { path: 'domain/add', component: UpsertDomainTenantComponent },
     ],
   },
 ];
@@ -45,6 +44,12 @@ export const adminTenantRoutes: Route[] = [
     TuiTablePaginationModule,
     TuiTabsModule,
   ],
-  declarations: [TenantListComponent, TenantDataTableComponent, UpsertTenantComponent, DomainTenantDataTableComponent, UpsertDomainTenantComponent],
+  declarations: [
+    TenantListComponent,
+    TenantDataTableComponent,
+    UpsertTenantComponent,
+    DomainTenantDataTableComponent,
+    UpsertDomainTenantComponent,
+  ],
 })
 export class AdminTenantModule {}

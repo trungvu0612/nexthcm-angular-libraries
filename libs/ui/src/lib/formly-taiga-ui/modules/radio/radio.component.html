@@ -4,7 +4,7 @@
   [attr.data-tui-host-size]="to.size"
   class="group"
 >
-  <div [ngClass]="{'grid md:grid-cols-2 gap-4': to?.orientation!='verticle'}">
+  <div [ngClass]="{ 'grid md:grid-cols-2 gap-4': to?.orientation != 'verticle' }">
     <tui-radio-labeled
       *ngFor="let item of items"
       [formControl]="$any(formControl)"
@@ -16,33 +16,27 @@
     >
       <ng-container *ngIf="!to.customTemplate">
         <div class="grid md:grid-cols-2 gap-4">
-          <div> {{ item[to.labelProp] }}</div>
+          <div>{{ item[to.labelProp] }}</div>
 
-          <div *ngIf="item[to.labelProp]=='On'">
-            <tui-input-date class="input-date"
+          <div *ngIf="item[to.labelProp] == 'On'">
+            <tui-input-date
+              class="input-date"
               [formControl]="repeatOnDate"
               tuiTextfieldSize="s"
-              [tuiTextfieldLabelOutside]="true">
+              [tuiTextfieldLabelOutside]="true"
+            >
             </tui-input-date>
           </div>
 
-          <div *ngIf="item[to.labelProp]=='After'">
+          <div *ngIf="item[to.labelProp] == 'After'">
             <div class="grid grid-cols-2">
               <div>
-                <tui-select
-                  tuiTextfieldSize="s"
-                  [formControl]="afterRepeat"
-                  [tuiTextfieldLabelOutside]="true"
-                >
-                  <tui-data-list-wrapper
-                    *tuiDataList
-                    [items]="repeatItems"
-                  ></tui-data-list-wrapper>
+                <tui-select tuiTextfieldSize="s" [formControl]="afterRepeat" [tuiTextfieldLabelOutside]="true">
+                  <tui-data-list-wrapper *tuiDataList [items]="repeatItems"></tui-data-list-wrapper>
                 </tui-select>
               </div>
               <div class="text-base mx-2">occurrences</div>
             </div>
-
           </div>
         </div>
       </ng-container>

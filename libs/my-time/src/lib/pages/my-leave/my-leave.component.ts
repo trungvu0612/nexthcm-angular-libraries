@@ -107,7 +107,7 @@ export class MyLeaveComponent implements OnInit {
       .open<boolean>(new PolymorpheusComponent(CancelDialogLeaveComponent, this.injector), {
         closeable: false,
         data: id,
-        size: 's'
+        size: 's',
       })
       .subscribe((data) => {
         this.myLeaveService.deleteLeave(id).subscribe((data) => {

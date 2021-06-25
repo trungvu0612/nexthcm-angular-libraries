@@ -183,7 +183,7 @@ export class SeatMapDialogComponent implements AfterViewInit {
 
     this.imageControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((file) => {
       if (file) {
-        this.uploadFileService.uploadFile( 'seats-map', file).subscribe((imageUrl) => {
+        this.uploadFileService.uploadFile('seats-map', file).subscribe((imageUrl) => {
           this.model.imageUrl = imageUrl;
           this.changeDetector.detectChanges();
         });

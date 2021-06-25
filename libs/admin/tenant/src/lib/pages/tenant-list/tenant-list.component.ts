@@ -1,17 +1,17 @@
-import { Component, OnInit, ChangeDetectionStrategy, Input, ChangeDetectorRef } from '@angular/core';
-import { SearchTenant, Tenant } from '../../models/tenant';
-import { BehaviorSubject, combineLatest } from 'rxjs';
-import { debounceTime, switchMap, takeUntil } from 'rxjs/operators';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@ngneat/reactive-forms';
 import { TuiDestroyService } from '@taiga-ui/cdk';
-import {TenantService} from '../../services/tenant.service';
+import { BehaviorSubject, combineLatest } from 'rxjs';
+import { debounceTime, switchMap, takeUntil } from 'rxjs/operators';
+import { SearchTenant, Tenant } from '../../models/tenant';
+import { TenantService } from '../../services/tenant.service';
 
 @Component({
   selector: 'hcm-tenant-list',
   templateUrl: './tenant-list.component.html',
   styleUrls: ['./tenant-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [TuiDestroyService]
+  providers: [TuiDestroyService],
 })
 export class TenantListComponent implements OnInit {
   searchTenant = new BehaviorSubject<SearchTenant>({ name: '' });

@@ -17,7 +17,7 @@ import { RequestDetailsComponent } from '../../components/request-details/reques
   templateUrl: './list-timesheet-update.component.html',
   styleUrls: ['./list-timesheet-update.component.scss'],
   providers: [TuiDestroyService],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ListTimesheetUpdateComponent implements OnInit {
   today: Date = new Date();
@@ -38,7 +38,7 @@ export class ListTimesheetUpdateComponent implements OnInit {
     '2': 'waiting',
     '3': 'taken',
     '4': 'weekend',
-    '5': 'holiday'
+    '5': 'holiday',
   };
   fields: FormlyFieldConfig[] = [
     {
@@ -49,9 +49,9 @@ export class ListTimesheetUpdateComponent implements OnInit {
         required: true,
         textfieldLabelOutside: true,
         tuiTextfieldInputMode: 'numeric',
-        placeholder: 'Select Month'
-      }
-    }
+        placeholder: 'Select Month',
+      },
+    },
   ];
 
   constructor(
@@ -63,14 +63,14 @@ export class ListTimesheetUpdateComponent implements OnInit {
     private cdr: ChangeDetectorRef
   ) {
     this.searchForm = new FormGroup<{ month: TuiMonth }>({
-      month: new FormControl<TuiMonth>(new TuiMonth(this.today.getFullYear(), this.today.getMonth()))
+      month: new FormControl<TuiMonth>(new TuiMonth(this.today.getFullYear(), this.today.getMonth())),
     });
   }
 
   ngOnInit(): void {
     this.searchSubject.next({
       fromDate: startOfMonth(this.today).toISOString(),
-      toDate: endOfMonth(this.today).toISOString()
+      toDate: endOfMonth(this.today).toISOString(),
     });
     combineLatest([this.page$, this.perPageSubject, this.searchSubject])
       .pipe(
@@ -82,7 +82,7 @@ export class ListTimesheetUpdateComponent implements OnInit {
       )
       .subscribe((item) => {
         this.requests = item.data.items;
-        this.requests.map(req => {
+        this.requests.map((req) => {
           const newInTime = req.newInTime as number;
           const newOutTime = req.newOutTime as number;
           const inTime = req.timeSheetTracking?.inTime as number;
@@ -103,7 +103,7 @@ export class ListTimesheetUpdateComponent implements OnInit {
       const date = new Date(this.searchForm.value.month?.year, this.searchForm.value.month?.month);
       this.searchSubject.next({
         fromDate: startOfMonth(date).toISOString(),
-        toDate: endOfMonth(date).toISOString()
+        toDate: endOfMonth(date).toISOString(),
       });
     }
   }
@@ -118,14 +118,14 @@ export class ListTimesheetUpdateComponent implements OnInit {
 
   cancelReq(req: TimeSheetUpdateReq): void {
     req.state = -1;
-    this.myRequestService.editTimeSheetUpdateReqs(req, req.id as string).subscribe(item => {
+    this.myRequestService.editTimeSheetUpdateReqs(req, req.id as string).subscribe((item) => {
       console.log(item);
     });
   }
 
   approveReq(req: TimeSheetUpdateReq): void {
     req.state = 1;
-    this.myRequestService.editTimeSheetUpdateReqs(req, req.id as string).subscribe(item => {
+    this.myRequestService.editTimeSheetUpdateReqs(req, req.id as string).subscribe((item) => {
       console.log(item);
     });
   }
@@ -134,7 +134,7 @@ export class ListTimesheetUpdateComponent implements OnInit {
     this.dialogService
       .open<boolean>(new PolymorpheusComponent(RequestDetailsComponent, this.injector), {
         closeable: false,
-        data: { type: 'timesheet', req: req }
+        data: { type: 'timesheet', req: req },
       })
       .subscribe((cancel) => {
         console.log(cancel);

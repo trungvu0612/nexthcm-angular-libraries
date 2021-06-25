@@ -1,2 +1,2 @@
-export * from './get-file'
-export * from './select-options'
+export * from './get-file';
+export * from './select-options';

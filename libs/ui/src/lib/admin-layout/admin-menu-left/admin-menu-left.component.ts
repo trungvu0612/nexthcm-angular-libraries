@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+
 export interface Menu {
   name: string;
   uri: string;
@@ -10,7 +11,6 @@ export interface Menu {
   styleUrls: ['./admin-menu-left.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-
 export class AdminMenuLeftComponent implements OnInit {
   readonly policyMenu: Menu[] = [
     {
@@ -20,7 +20,7 @@ export class AdminMenuLeftComponent implements OnInit {
     {
       name: 'Thêm chính sách',
       uri: '/admin/employees/add',
-    }
+    },
   ];
   constructor() {}
 

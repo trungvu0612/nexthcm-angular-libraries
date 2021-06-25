@@ -5,20 +5,18 @@ import { Observable } from 'rxjs';
 import { Level, SearchLevel } from './models/level';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class JobLevelService {
   appVersion = this.env.apiUrl + '/accountapp/v1.0';
 
-  constructor(@Inject(APP_CONFIG) protected env: AppConfig, private httpClient: HttpClient) {
-  }
+  constructor(@Inject(APP_CONFIG) protected env: AppConfig, private httpClient: HttpClient) {}
 
   getLevels(pageIndex: number, pageSize: number, search: SearchLevel): Observable<PagingResponse<Level>> {
-
     return this.httpClient.get<PagingResponse<Level>>(this.appVersion + '/levels', {
       params: new HttpParams()
         .set('page', pageIndex ? pageIndex.toString() : '')
-        .set('size', pageSize ? pageSize.toString() : '')
+        .set('size', pageSize ? pageSize.toString() : ''),
     });
   }
 

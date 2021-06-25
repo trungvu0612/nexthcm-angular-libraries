@@ -8,7 +8,7 @@ describe('ListWorkingOutsideComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ListWorkingOutsideComponent]
+      declarations: [ListWorkingOutsideComponent],
     }).compileComponents();
   });
 

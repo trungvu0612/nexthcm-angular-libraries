@@ -5,5 +5,5 @@ export enum LeaveStatus {
   waiting,
   taken,
   weekend,
-  holiday
+  holiday,
 }

@@ -18,7 +18,7 @@ import { RequestDetailsComponent } from '../../components/request-details/reques
   templateUrl: './list-working-outside.component.html',
   styleUrls: ['./list-working-outside.component.scss'],
   providers: [TuiDestroyService],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ListWorkingOutsideComponent implements OnInit {
   today: Date = new Date();
@@ -39,7 +39,7 @@ export class ListWorkingOutsideComponent implements OnInit {
     '2': 'waiting',
     '3': 'taken',
     '4': 'weekend',
-    '5': 'holiday'
+    '5': 'holiday',
   };
   fields: FormlyFieldConfig[] = [
     {
@@ -53,9 +53,9 @@ export class ListWorkingOutsideComponent implements OnInit {
         placeholder: 'Select Month',
         fieldChange: (field: FormlyFieldConfigCache) => {
           console.log(field);
-        }
-      }
-    }
+        },
+      },
+    },
   ];
 
   constructor(
@@ -67,14 +67,14 @@ export class ListWorkingOutsideComponent implements OnInit {
     private cdr: ChangeDetectorRef
   ) {
     this.searchForm = new FormGroup<{ month: TuiMonth }>({
-      month: new FormControl<TuiMonth>(new TuiMonth(this.today.getFullYear(), this.today.getMonth()))
+      month: new FormControl<TuiMonth>(new TuiMonth(this.today.getFullYear(), this.today.getMonth())),
     });
   }
 
   ngOnInit(): void {
     this.searchSubject.next({
       fromDate: startOfMonth(this.today).toISOString(),
-      toDate: endOfMonth(this.today).toISOString()
+      toDate: endOfMonth(this.today).toISOString(),
     });
 
     combineLatest([this.page$, this.perPageSubject, this.searchSubject])
@@ -97,10 +97,9 @@ export class ListWorkingOutsideComponent implements OnInit {
       const date = new Date(this.searchForm.value.month?.year, this.searchForm.value.month?.month);
       this.searchSubject.next({
         fromDate: startOfMonth(date).toISOString(),
-        toDate: endOfMonth(date).toISOString()
+        toDate: endOfMonth(date).toISOString(),
       });
     }
-
   }
 
   onPage(page: number) {
@@ -113,14 +112,14 @@ export class ListWorkingOutsideComponent implements OnInit {
 
   cancelReq(req: Requests): void {
     req.state = -1;
-    this.myRequestService.editWorkingOutsideRequest(req, req.id as string).subscribe(item => {
+    this.myRequestService.editWorkingOutsideRequest(req, req.id as string).subscribe((item) => {
       console.log(item);
     });
   }
 
   approveReq(req: Requests): void {
     req.state = 1;
-    this.myRequestService.editOTRequest(req, req.id as string).subscribe(item => {
+    this.myRequestService.editOTRequest(req, req.id as string).subscribe((item) => {
       console.log(item);
     });
   }
@@ -129,7 +128,7 @@ export class ListWorkingOutsideComponent implements OnInit {
     this.dialogService
       .open<boolean>(new PolymorpheusComponent(RequestDetailsComponent, this.injector), {
         closeable: false,
-        data: { type: 'timesheet', req: req }
+        data: { type: 'timesheet', req: req },
       })
       .subscribe((cancel) => {
         console.log(cancel);

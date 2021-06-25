@@ -1,5 +1,5 @@
 <div class="object-form-container">
-  <div class="mt-8 ">
+  <div class="mt-8">
     <formly-form
       [fields]="fields"
       [form]="$any(searchForm)"
@@ -8,48 +8,57 @@
     ></formly-form>
   </div>
   <div class="w-full text-center">
-    <button (click)="onClick()"
-            class="blue-button"
-            icon="tuiIconSearchLarge" tuiButton type="submit">
-      Search
-    </button>
+    <button (click)="onClick()" class="blue-button" icon="tuiIconSearchLarge" tuiButton type="submit">Search</button>
   </div>
 </div>
 
 <table [columns]="columns" class="hcm-tui-table" tuiTable>
   <thead>
-  <tr tuiThGroup>
-    <th *tuiHead="'fromDate'" tuiTh>From Date</th>
-    <th *tuiHead="'toDate'" tuiTh>To Date</th>
-    <th *tuiHead="'state'" tuiTh>Status</th>
-    <th *tuiHead="'assignedName'" tuiTh>Assignee</th>
-    <th *tuiHead="'reason'" tuiTh>Reason</th>
-    <th *tuiHead="'action'" class="w-32" tuiTh>Action</th>
-  </tr>
+    <tr tuiThGroup>
+      <th *tuiHead="'fromDate'" tuiTh>From Date</th>
+      <th *tuiHead="'toDate'" tuiTh>To Date</th>
+      <th *tuiHead="'state'" tuiTh>Status</th>
+      <th *tuiHead="'assignedName'" tuiTh>Assignee</th>
+      <th *tuiHead="'reason'" tuiTh>Reason</th>
+      <th *tuiHead="'action'" class="w-32" tuiTh>Action</th>
+    </tr>
   </thead>
   <tbody [data]="requests" tuiTbody>
-  <tr *tuiRow="let req of requests" tuiTr>
-    <td *tuiCell="'fromDate'" tuiTd> {{  $any(req.fromDate) | date : 'dd/MM/yyyy' }}</td>
-    <td *tuiCell="'toDate'" tuiTd> {{  $any(req.toDate) | date : 'dd/MM/yyyy'}}</td>
-    <td *tuiCell="'reason'" tuiTd>{{ req.reason }}</td>
-    <td *tuiCell="'assignedName'" tuiTd>{{ req.assignedName }}</td>
-    <td *tuiCell="'state'" tuiTd>
-
-    </td>
-    <td *tuiCell="'action'" tuiTd>
-      <button (click)="cancelReq(req)"
-              [icon]="'tuiIconRemoveLarge'"
-              [shape]="$any('rounded')" appearance="flat" size="s" tuiIconButton></button>
-      <button (click)="showDetail(req)"
-              [icon]="'tuiIconShowLarge'"
-              [shape]="$any('rounded')"
-              appearance="flat" class="ml-1" size="s" tuiIconButton></button>
-      <button (click)="approveReq(req)"
-              [icon]="'tuiIconCheckLarge'"
-              [shape]="$any('rounded')"
-              appearance="flat" class="ml-1" size="s" tuiIconButton></button>
-    </td>
-  </tr>
+    <tr *tuiRow="let req of requests" tuiTr>
+      <td *tuiCell="'fromDate'" tuiTd>{{ $any(req.fromDate) | date: 'dd/MM/yyyy' }}</td>
+      <td *tuiCell="'toDate'" tuiTd>{{ $any(req.toDate) | date: 'dd/MM/yyyy' }}</td>
+      <td *tuiCell="'reason'" tuiTd>{{ req.reason }}</td>
+      <td *tuiCell="'assignedName'" tuiTd>{{ req.assignedName }}</td>
+      <td *tuiCell="'state'" tuiTd></td>
+      <td *tuiCell="'action'" tuiTd>
+        <button
+          (click)="cancelReq(req)"
+          [icon]="'tuiIconRemoveLarge'"
+          [shape]="$any('rounded')"
+          appearance="flat"
+          size="s"
+          tuiIconButton
+        ></button>
+        <button
+          (click)="showDetail(req)"
+          [icon]="'tuiIconShowLarge'"
+          [shape]="$any('rounded')"
+          appearance="flat"
+          class="ml-1"
+          size="s"
+          tuiIconButton
+        ></button>
+        <button
+          (click)="approveReq(req)"
+          [icon]="'tuiIconCheckLarge'"
+          [shape]="$any('rounded')"
+          appearance="flat"
+          class="ml-1"
+          size="s"
+          tuiIconButton
+        ></button>
+      </td>
+    </tr>
   </tbody>
 </table>
 <tui-table-pagination
@@ -60,4 +69,3 @@
   [total]="totalLength"
 ></tui-table-pagination>
 <p>Current page: {{ page$ | async }}</p>
-

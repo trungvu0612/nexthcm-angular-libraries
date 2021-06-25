@@ -23,5 +23,4 @@ export class RadioComponent extends FieldType {
   };
   repeatOnDate: any;
   afterRepeat: any;
-
 }

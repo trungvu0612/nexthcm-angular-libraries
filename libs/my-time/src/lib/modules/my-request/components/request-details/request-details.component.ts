@@ -1,26 +1,24 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder } from '@ngneat/reactive-forms';
-import { TimeSheetUpdateReq } from '../../../../models/requests';
-import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { TuiDialogContext } from '@taiga-ui/core';
+import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
+import { TimeSheetUpdateReq } from '../../../../models/requests';
 
 @Component({
   selector: 'hcm-request-details',
   templateUrl: './request-details.component.html',
   styleUrls: ['./request-details.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RequestDetailsComponent implements OnInit {
-
   req!: TimeSheetUpdateReq;
   type!: string;
   title!: string;
 
   constructor(
     private formbuilder: FormBuilder,
-    @Inject(POLYMORPHEUS_CONTEXT) private context: TuiDialogContext<boolean, { type: string, req: TimeSheetUpdateReq }>
-  ) {
-  }
+    @Inject(POLYMORPHEUS_CONTEXT) private context: TuiDialogContext<boolean, { type: string; req: TimeSheetUpdateReq }>
+  ) {}
 
   ngOnInit(): void {
     this.type = this.context.data.type;
@@ -35,5 +33,4 @@ export class RequestDetailsComponent implements OnInit {
   close(): void {
     this.context.completeWith(true);
   }
-
 }

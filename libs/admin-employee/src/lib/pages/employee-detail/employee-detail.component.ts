@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AdminEmployeeService } from '../../services/admin-employee.service';
 
@@ -10,15 +10,18 @@ import { AdminEmployeeService } from '../../services/admin-employee.service';
 })
 export class EmployeeDetailComponent implements OnInit {
   userId!: string;
-  userInfo : any;
-  constructor(private AdminEmployeeService: AdminEmployeeService,
-              private activatedRouter: ActivatedRoute,
-              private cdr: ChangeDetectorRef) {
+  userInfo: any;
+
+  constructor(
+    private AdminEmployeeService: AdminEmployeeService,
+    private activatedRouter: ActivatedRoute,
+    private cdr: ChangeDetectorRef
+  ) {
     this.userId = this.activatedRouter.snapshot.params.id;
   }
 
   ngOnInit(): void {
-    if(this?.userId) {
+    if (this?.userId) {
       this.AdminEmployeeService.getUserById(this.userId).subscribe((userData) => {
         this.userInfo = userData;
         console.log(this.userInfo);

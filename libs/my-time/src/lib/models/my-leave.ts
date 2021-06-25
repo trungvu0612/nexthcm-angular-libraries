@@ -24,4 +24,3 @@ export interface LeaveRes {
   duration?: any;
   leaveRequest?: any;
 }
-

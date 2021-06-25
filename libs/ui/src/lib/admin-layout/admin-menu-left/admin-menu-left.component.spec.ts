@@ -8,9 +8,8 @@ describe('AdminMenuLeftComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AdminMenuLeftComponent ]
-    })
-    .compileComponents();
+      declarations: [AdminMenuLeftComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

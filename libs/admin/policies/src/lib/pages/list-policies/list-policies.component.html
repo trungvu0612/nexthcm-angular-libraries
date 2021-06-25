@@ -29,29 +29,29 @@
     <article>
       <table [columns]="columns" class="hcm-tui-table" tuiTable>
         <thead>
-        <tr tuiThGroup>
-          <th *tuiHead="'topic'" tuiTh>Topic</th>
-          <th *tuiHead="'shortDescription'" tuiTh>Description</th>
-          <th *tuiHead="'createdDate'" tuiTh>Created Date</th>
-          <th *tuiHead="'action'" class="w-32" tuiTh>Action</th>
-        </tr>
+          <tr tuiThGroup>
+            <th *tuiHead="'topic'" tuiTh>Topic</th>
+            <th *tuiHead="'shortDescription'" tuiTh>Description</th>
+            <th *tuiHead="'createdDate'" tuiTh>Created Date</th>
+            <th *tuiHead="'action'" class="w-32" tuiTh>Action</th>
+          </tr>
         </thead>
         <tbody [data]="data" tuiTbody>
-        <tr *tuiRow="let level of data; let index = index" tuiTr>
-          <td *tuiCell="'topic'" tuiTd>{{ level.topic }}</td>
-          <td *tuiCell="'shortDescription'" tuiTd>{{ level.shortDescription }}</td>
-          <td *tuiCell="'createdDate'" tuiTd>{{ level.createdDate | date : 'dd/MM/yyyy' }}</td>
-          <td *tuiCell="'action'" tuiTd>
-            <button
-              [icon]="'tuiIconEditLarge'"
-              [routerLink]="['../edit/' + level.id]"
-              [shape]="$any('rounded')"
-              appearance="flat"
-              size="s"
-              tuiIconButton
-            ></button>
-          </td>
-        </tr>
+          <tr *tuiRow="let level of data; let index = index" tuiTr>
+            <td *tuiCell="'topic'" tuiTd>{{ level.topic }}</td>
+            <td *tuiCell="'shortDescription'" tuiTd>{{ level.shortDescription }}</td>
+            <td *tuiCell="'createdDate'" tuiTd>{{ level.createdDate | date: 'dd/MM/yyyy' }}</td>
+            <td *tuiCell="'action'" tuiTd>
+              <button
+                [icon]="'tuiIconEditLarge'"
+                [routerLink]="['../edit/' + level.id]"
+                [shape]="$any('rounded')"
+                appearance="flat"
+                size="s"
+                tuiIconButton
+              ></button>
+            </td>
+          </tr>
         </tbody>
       </table>
       <tui-table-pagination
@@ -64,6 +64,3 @@
     </article>
   </section>
 </main>
-
-
-

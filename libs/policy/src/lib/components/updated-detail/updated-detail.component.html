@@ -1,11 +1,15 @@
 <section *ngFor="let item of data" class="flex border-b text-base pb-5 mb-5">
-  <tui-avatar [avatarUrl]="'https://i.imgur.com/IOpoVH4.jpg'" [rounded]="true" class="cursor-pointer mr-6"
-              size="l"></tui-avatar>
+  <tui-avatar
+    [avatarUrl]="'https://i.imgur.com/IOpoVH4.jpg'"
+    [rounded]="true"
+    class="cursor-pointer mr-6"
+    size="l"
+  ></tui-avatar>
   <div *ngIf="item">
     <h1 [routerLink]="['/policy/policies/' + item.id]" class="font-semibold cursor-pointer">{{ item.topic }}</h1>
     <div class="time">
       <tui-svg class="mr-2" src="tuiIconTimeLarge"></tui-svg>
-      {{ item.createdDate | date : 'dd/MM/yyyy' }}
+      {{ item.createdDate | date: 'dd/MM/yyyy' }}
     </div>
     <p>{{ item.shortDescription }}</p>
   </div>

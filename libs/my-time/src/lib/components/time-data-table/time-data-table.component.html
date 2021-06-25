@@ -22,7 +22,7 @@
         <td *tuiCell="'days'" tuiTd>11</td>
 
         <td *tuiCell="'status'" [ngSwitch]="item.status" class="center-custom" tuiTd>
-<!--          <tui-tag [value]="item.status"></tui-tag>-->
+          <!--          <tui-tag [value]="item.status"></tui-tag>-->
           <tui-tag [class]="['tag', item.status.toLowerCase()]" [value]="item.status"></tui-tag>
         </td>
 

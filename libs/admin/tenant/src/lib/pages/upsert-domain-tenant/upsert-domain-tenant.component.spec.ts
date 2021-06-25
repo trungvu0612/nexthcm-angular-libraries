@@ -8,9 +8,8 @@ describe('UpsertDomainTenantComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ UpsertDomainTenantComponent ]
-    })
-    .compileComponents();
+      declarations: [UpsertDomainTenantComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

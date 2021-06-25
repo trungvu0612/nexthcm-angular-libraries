@@ -1,34 +1,34 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
+import { FormlyFieldConfig } from '@ngx-formly/core';
 import { Policy } from '../../policies';
 import { PoliciesService } from '../../policies.service';
-import { FormlyFieldConfig } from '@ngx-formly/core';
 
 @Component({
   selector: 'hcm-upsert-policies',
   templateUrl: './upsert-policies.component.html',
   styleUrls: ['./upsert-policies.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UpsertPoliciesComponent implements OnInit {
-
   id!: string;
   form!: FormGroup<Policy>;
   model!: Policy;
   fields: FormlyFieldConfig[] = [
     {
       fieldGroupClassName: 'grid md:grid-cols-1 gap-6 mb-4',
-      fieldGroup: [{
-        key: 'topic',
-        type: 'input',
-        templateOptions: {
-          textfieldLabelOutside: true,
-          required: true,
-          placeholder: 'Topic'
-        }
-      }
-      ]
+      fieldGroup: [
+        {
+          key: 'topic',
+          type: 'input',
+          templateOptions: {
+            textfieldLabelOutside: true,
+            required: true,
+            placeholder: 'Topic',
+          },
+        },
+      ],
     },
     {
       fieldGroupClassName: 'grid md:grid-cols-2 gap-6 mb-4',
@@ -37,10 +37,10 @@ export class UpsertPoliciesComponent implements OnInit {
           key: 'status',
           type: 'toggle',
           templateOptions: {
-            required: true
-          }
-        }
-      ]
+            required: true,
+          },
+        },
+      ],
     },
     {
       fieldGroupClassName: 'grid md:grid-cols-1 gap-6 mb-4',
@@ -51,10 +51,10 @@ export class UpsertPoliciesComponent implements OnInit {
           templateOptions: {
             required: true,
             textfieldLabelOutside: true,
-            placeholder: 'Short Description'
-          }
-        }
-      ]
+            placeholder: 'Short Description',
+          },
+        },
+      ],
     },
     {
       fieldGroupClassName: 'grid md:grid-cols-1 gap-6',
@@ -64,11 +64,11 @@ export class UpsertPoliciesComponent implements OnInit {
           type: 'editor',
           templateOptions: {
             required: true,
-            textfieldLabelOutside: true
-          }
-        }
-      ]
-    }
+            textfieldLabelOutside: true,
+          },
+        },
+      ],
+    },
   ];
 
   constructor(
@@ -108,5 +108,4 @@ export class UpsertPoliciesComponent implements OnInit {
       }
     }
   }
-
 }

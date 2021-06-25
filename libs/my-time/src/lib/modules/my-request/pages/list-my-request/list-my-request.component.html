@@ -27,24 +27,9 @@
   <section class="main-section">
     <article>
       <tui-tabs [(activeItemIndex)]="activeItemIndex">
-        <button
-          tuiRipple="var(--tui-text-01)"
-          tuiTab
-        >
-          Overtime
-        </button>
-        <button
-          tuiRipple="var(--tui-text-01)"
-          tuiTab
-        >
-          Update Time
-        </button>
-        <button
-          tuiRipple="var(--tui-text-01)"
-          tuiTab
-        >
-          Working Outside
-        </button>
+        <button tuiRipple="var(--tui-text-01)" tuiTab>Overtime</button>
+        <button tuiRipple="var(--tui-text-01)" tuiTab>Update Time</button>
+        <button tuiRipple="var(--tui-text-01)" tuiTab>Working Outside</button>
       </tui-tabs>
       <ng-container [ngSwitch]="activeItemIndex">
         <ng-container *ngSwitchCase="0">
@@ -59,5 +44,4 @@
       </ng-container>
     </article>
   </section>
-
 </main>

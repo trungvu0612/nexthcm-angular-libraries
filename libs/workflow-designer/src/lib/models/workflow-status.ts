@@ -1,6 +1,6 @@
 export class WorkflowStatus {
   fontColor: string;
-  fontSize: number
+  fontSize: number;
 
   constructor(
     public id: string,

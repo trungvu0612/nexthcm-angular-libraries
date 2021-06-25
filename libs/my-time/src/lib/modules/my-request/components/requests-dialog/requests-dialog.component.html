@@ -1,9 +1,14 @@
 <article>
   <header class="flex justify-between items-center mb-7">
-    <h1 class="text-2xl font-semibold">{{type === 'ot' ? 'OT request' : 'Working outside request' }}</h1>
-    <button (click)="close()"
-            [icon]="'tuiIconRemoveLarge'"
-            [shape]="$any('rounded')" appearance="flat" size="s" tuiIconButton></button>
+    <h1 class="text-2xl font-semibold">{{ type === 'ot' ? 'OT request' : 'Working outside request' }}</h1>
+    <button
+      (click)="close()"
+      [icon]="'tuiIconRemoveLarge'"
+      [shape]="$any('rounded')"
+      appearance="flat"
+      size="s"
+      tuiIconButton
+    ></button>
   </header>
   <formly-form
     [fields]="fields"

@@ -6,16 +6,16 @@ import { TuiDay } from '@taiga-ui/cdk';
 //   name: string;
 // }
 
-export interface LeaveSubmit{
+export interface LeaveSubmit {
   durationHold?: number;
-  status? : number,
-  comments?: string,
-  leaveType?: LeaveType,
-  sendTo?: string,
-  duration?: Duration,
-  startTime?:  TuiDay,
-  endTime?:  TuiDay,
-  partialDays?: number | undefined,
+  status?: number;
+  comments?: string;
+  leaveType?: LeaveType;
+  sendTo?: string;
+  duration?: Duration;
+  startTime?: TuiDay;
+  endTime?: TuiDay;
+  partialDays?: number | undefined;
 }
 
 export interface Duration {
@@ -29,7 +29,6 @@ export interface LeaveType {
 export interface PartialDays {
   value?: number;
   label?: string;
-
 }
 
 export interface durationValues {
@@ -37,5 +36,3 @@ export interface durationValues {
   label?: string;
   idPartial?: string;
 }
-
-

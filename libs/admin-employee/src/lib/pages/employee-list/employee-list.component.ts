@@ -1,11 +1,11 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { FormBuilder } from '@ngneat/reactive-forms';
 import { TuiDay, TuiDestroyService } from '@taiga-ui/cdk';
 import { BehaviorSubject, combineLatest } from 'rxjs';
 import { debounceTime, switchMap, takeUntil } from 'rxjs/operators';
+import { SearchEmployee, User } from '../../models/user';
 import { AdminEmployeeService } from '../../services/admin-employee.service';
-import {SearchEmployee, User} from "../../models/user";
 
 @Component({
   selector: 'hcm-employee-list',

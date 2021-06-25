@@ -13,7 +13,6 @@ import { MyLeaveService } from '../../../services/my-leave/my-leave.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LeaveDetailDialogComponent implements OnInit {
-
   STATUS: { [key: string]: string } = {
     '-1': 'rejected',
     '1': 'approved',

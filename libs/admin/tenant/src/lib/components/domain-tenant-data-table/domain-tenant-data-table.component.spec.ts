@@ -8,9 +8,8 @@ describe('DomainTenantDataTableComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DomainTenantDataTableComponent ]
-    })
-    .compileComponents();
+      declarations: [DomainTenantDataTableComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

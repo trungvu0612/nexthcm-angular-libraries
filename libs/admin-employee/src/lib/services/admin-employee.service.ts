@@ -1,16 +1,16 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
-import { APP_CONFIG, AppConfig, PagingResponse } from '@nexthcm/core';
+import { Injectable } from '@angular/core';
+import { PagingResponse } from '@nexthcm/core';
 import { Observable } from 'rxjs';
-import {UserRole} from "../models/user-role";
-import {Permission} from "../models/permission";
-import {Country} from "../models/country";
-import {Language} from "../models/language";
-import {UserGroup} from "../models/user-group";
-import {JobTitle} from "../models/job-title";
-import {SearchEmployee, User} from "../models/user";
-import {JobLevel} from "../models/job-level";
-import {Org} from "../models/org";
+import { Country } from '../models/country';
+import { JobLevel } from '../models/job-level';
+import { JobTitle } from '../models/job-title';
+import { Language } from '../models/language';
+import { Org } from '../models/org';
+import { Permission } from '../models/permission';
+import { SearchEmployee, User } from '../models/user';
+import { UserGroup } from '../models/user-group';
+import { UserRole } from '../models/user-role';
 
 @Injectable({
   providedIn: 'root',

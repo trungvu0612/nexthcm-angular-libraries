@@ -23,7 +23,7 @@ const routes: Routes = [
           {
             path: 'employees/:id',
             component: EmployeeDetailComponent,
-          }
+          },
         ],
       },
     ],

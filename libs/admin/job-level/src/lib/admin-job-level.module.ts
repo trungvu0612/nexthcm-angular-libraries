@@ -1,15 +1,15 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import { Route, RouterModule } from '@angular/router';
-import { JobLevelComponent } from './job-level.component';
-import { ListJobLevelComponent } from './list-job-level/list-job-level.component';
-import { UpsertJobLevelComponent } from './upsert-job-level/upsert-job-level.component';
+import { AdminLayoutComponent, FormlyTaigaUiModule } from '@nexthcm/ui';
+import { FormlyModule } from '@ngx-formly/core';
 import { TuiTableModule, TuiTablePaginationModule } from '@taiga-ui/addon-table';
 import { TuiButtonModule } from '@taiga-ui/core';
 import { TuiMarkerIconModule, TuiTagModule } from '@taiga-ui/kit';
-import { ReactiveFormsModule } from '@angular/forms';
-import { AdminLayoutComponent, FormlyTaigaUiModule } from '@nexthcm/ui';
-import { FormlyModule } from '@ngx-formly/core';
+import { JobLevelComponent } from './job-level.component';
+import { ListJobLevelComponent } from './list-job-level/list-job-level.component';
+import { UpsertJobLevelComponent } from './upsert-job-level/upsert-job-level.component';
 
 export const adminJobLevelRoutes: Route[] = [
   {
@@ -23,11 +23,11 @@ export const adminJobLevelRoutes: Route[] = [
           { path: '', pathMatch: 'full', redirectTo: 'list' },
           { path: 'list', component: ListJobLevelComponent },
           { path: 'add', component: UpsertJobLevelComponent },
-          { path: 'edit/:id', component: UpsertJobLevelComponent }
-        ]
-      }
-    ]
-  }
+          { path: 'edit/:id', component: UpsertJobLevelComponent },
+        ],
+      },
+    ],
+  },
 ];
 
 @NgModule({
@@ -43,8 +43,7 @@ export const adminJobLevelRoutes: Route[] = [
     TuiMarkerIconModule,
     ReactiveFormsModule,
     RouterModule.forChild(adminJobLevelRoutes),
-    RouterModule
-  ]
+    RouterModule,
+  ],
 })
-export class AdminJobLevelModule {
-}
+export class AdminJobLevelModule {}

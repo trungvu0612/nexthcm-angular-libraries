@@ -19,7 +19,7 @@ export type WorkflowAPIType =
   | { type: WorkflowAPI.updateTransition; value: WorkflowTransition }
   | { type: WorkflowAPI.removeCell; value: string }
   | { type: WorkflowAPI.getXML }
-  | { type: WorkflowAPI.decodeXML, value: string }
+  | { type: WorkflowAPI.decodeXML; value: string }
   | { type: WorkflowAPI.setInitial };
 
 export interface WorkflowAPIDefinition {

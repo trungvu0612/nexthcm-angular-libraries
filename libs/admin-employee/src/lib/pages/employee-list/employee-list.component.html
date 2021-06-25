@@ -1,20 +1,19 @@
 <form class="b-form" [formGroup]="testForm">
   <div class="grid grid-cols-5 gap-4">
     <div>
-      <tui-input-date-time formControlName="dateCreated">
-        Từ ngày - Đến ngày
-      </tui-input-date-time>
+      <tui-input-date-time formControlName="dateCreated"> Từ ngày - Đến ngày </tui-input-date-time>
     </div>
     <div>
-      <tui-input class="b-form" formControlName="searchEmployee">
-        Tìm mã NV, tên NV, số điện thoại
-      </tui-input>
+      <tui-input class="b-form" formControlName="searchEmployee"> Tìm mã NV, tên NV, số điện thoại </tui-input>
     </div>
     <div></div>
     <div></div>
     <div>
-      <button [routerLink]="['/admin/employees/add']"
-              class="rounded-lg bg-blue-500 hover:bg-blue-600 text-white pl-10 pr-10 pt-2 pb-2 text-sm">Thêm nhân viên
+      <button
+        [routerLink]="['/admin/employees/add']"
+        class="rounded-lg bg-blue-500 hover:bg-blue-600 text-white pl-10 pr-10 pt-2 pb-2 text-sm"
+      >
+        Thêm nhân viên
       </button>
     </div>
   </div>

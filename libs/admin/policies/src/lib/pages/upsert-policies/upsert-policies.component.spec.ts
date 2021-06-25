@@ -8,9 +8,8 @@ describe('UpsertPoliciesComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [UpsertPoliciesComponent]
-    })
-      .compileComponents();
+      declarations: [UpsertPoliciesComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

@@ -4,7 +4,7 @@ import { AdminPoliciesModule } from './admin-policies.module';
 describe('AdminPoliciesModule', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [AdminPoliciesModule]
+      imports: [AdminPoliciesModule],
     }).compileComponents();
   }));
 

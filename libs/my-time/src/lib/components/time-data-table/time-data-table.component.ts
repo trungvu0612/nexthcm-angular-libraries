@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, Input, OnInit } from '@angular/core';
+import { TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
-import { MyLeave } from '../../models/my-leave';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
-import { LeaveDetailDialogComponent } from '../../pages/my-leave/leave-detail-dialog/leave-detail-dialog.component';
 import { BehaviorSubject, combineLatest } from 'rxjs';
 import { debounceTime, switchMap, takeUntil } from 'rxjs/operators';
+import { MyLeave } from '../../models/my-leave';
+import { LeaveDetailDialogComponent } from '../../pages/my-leave/leave-detail-dialog/leave-detail-dialog.component';
 import { MyLeaveService } from '../../services/my-leave/my-leave.service';
-import { TuiDestroyService } from '@taiga-ui/cdk';
 
 @Component({
   selector: 'hcm-time-data-table',
@@ -114,7 +114,6 @@ export class TimeDataTableComponent implements OnInit {
   }
 
   showDialog(id: string): void {
-
     console.log('Len popupppppp');
 
     this.dialogService
@@ -125,6 +124,5 @@ export class TimeDataTableComponent implements OnInit {
       .subscribe((cancel) => {
         if (cancel) this.cancel();
       });
-
   }
 }

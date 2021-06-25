@@ -8,7 +8,6 @@ import { SweetAlertOptions, SweetAlertResult } from 'sweetalert2';
 @Component({
   selector: 'hcm-prompt',
   templateUrl: './prompt.component.html',
-  styleUrls: ['./prompt.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PromptComponent {

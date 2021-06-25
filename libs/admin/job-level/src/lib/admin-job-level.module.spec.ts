@@ -4,7 +4,7 @@ import { AdminJobLevelModule } from './admin-job-level.module';
 describe('AdminJobLevelModule', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [AdminJobLevelModule]
+      imports: [AdminJobLevelModule],
     }).compileComponents();
   }));
 

@@ -1,8 +1,8 @@
-import { Component, OnInit, ChangeDetectionStrategy, Input, Injector, ChangeDetectorRef } from '@angular/core';
-import { TuiDialogService } from '@taiga-ui/core';
-import { AdminEmployeeService } from '../../services/admin-employee.service';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import {User} from "../../models/user";
+import { TuiDialogService } from '@taiga-ui/core';
+import { User } from '../../models/user';
+import { AdminEmployeeService } from '../../services/admin-employee.service';
 
 @Component({
   selector: 'hcm-employee-data-table',

@@ -16,7 +16,7 @@ import { AdminProcessesComponent } from './admin-processes.component';
 import { CreateProcessDialogComponent } from './components/create-process-dialog/create-process-dialog.component';
 import { UpsertStatusDialogComponent } from './components/upsert-status-dialog/upsert-status-dialog.component';
 import { UpsertTransitionDialogComponent } from './components/upsert-transition-dialog/upsert-transition-dialog.component';
-import { ProcessesManagementComponent } from './pages/processes-management/processes-management.component';
+import { ProcessManagementComponent } from './pages/processes-management/process-management.component';
 import { UpsertProcessComponent } from './pages/upsert-process/upsert-process.component';
 import { ProcessesService } from './services/processes.service';
 
@@ -29,7 +29,7 @@ export const adminProcessesRoutes: Routes = [
         path: '',
         component: AdminProcessesComponent,
         children: [
-          { path: '', component: ProcessesManagementComponent },
+          { path: '', component: ProcessManagementComponent },
           { path: ':processId/edit', component: UpsertProcessComponent },
         ],
       },
@@ -62,7 +62,7 @@ export const adminProcessesRoutes: Routes = [
     UpsertProcessComponent,
     UpsertStatusDialogComponent,
     UpsertTransitionDialogComponent,
-    ProcessesManagementComponent,
+    ProcessManagementComponent,
     CreateProcessDialogComponent,
   ],
   providers: [ProcessesService],

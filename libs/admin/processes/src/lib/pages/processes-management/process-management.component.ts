@@ -16,13 +16,13 @@ import { Process, ProcessInit } from '../../models/process';
 import { ProcessesService } from '../../services/processes.service';
 
 @Component({
-  selector: 'hcm-processes-management',
-  templateUrl: './processes-management.component.html',
-  styleUrls: ['./processes-management.component.scss'],
+  selector: 'hcm-process-management',
+  templateUrl: './process-management.component.html',
+  styleUrls: ['./process-management.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [RxState, TuiDestroyService],
 })
-export class ProcessesManagementComponent {
+export class ProcessManagementComponent {
   @ViewChild('table') table!: BaseComponent;
   @ViewChild('prompt') prompt!: PromptComponent;
 

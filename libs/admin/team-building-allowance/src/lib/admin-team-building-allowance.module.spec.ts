@@ -4,7 +4,7 @@ import { AdminTeamBuildingAllowanceModule } from './admin-team-building-allowanc
 describe('AdminTeamBuildingAllowanceModule', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [AdminTeamBuildingAllowanceModule]
+      imports: [AdminTeamBuildingAllowanceModule],
     }).compileComponents();
   }));
 

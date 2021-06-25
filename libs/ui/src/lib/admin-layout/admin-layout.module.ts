@@ -2,11 +2,11 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
-    TuiButtonModule,
-    TuiDataListModule,
-    TuiDropdownModule,
-    TuiHostedDropdownModule,
-    TuiSvgModule
+  TuiButtonModule,
+  TuiDataListModule,
+  TuiDropdownModule,
+  TuiHostedDropdownModule,
+  TuiSvgModule,
 } from '@taiga-ui/core';
 import { TuiAccordionModule, TuiAvatarModule, TuiBreadcrumbsModule } from '@taiga-ui/kit';
 import { AdminHeaderComponent } from './admin-header/admin-header.component';

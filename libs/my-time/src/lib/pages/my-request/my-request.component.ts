@@ -6,7 +6,7 @@ import { MyRequestData } from '../../models/my-time';
   selector: 'hcm-my-request',
   templateUrl: './my-request.component.html',
   styleUrls: ['./my-request.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MyRequestComponent implements OnInit {
   activeItemIndex = 0;
@@ -25,7 +25,7 @@ export class MyRequestComponent implements OnInit {
       status: 'Waiting',
       reason: 'Em xin nghỉ phép đi chơi...',
       comment: 'Em xin nghỉ phép đi chơi...',
-      sentTo: 'Nguyen Hai Vien'
+      sentTo: 'Nguyen Hai Vien',
     },
     {
       office: 'Copac',
@@ -39,7 +39,7 @@ export class MyRequestComponent implements OnInit {
       status: 'Approved',
       reason: 'Em xin nghỉ 1 ngày phép',
       comment: 'Em xin nghỉ 1 ngày phép',
-      sentTo: 'Nguyen Vu Hoang Cuong'
+      sentTo: 'Nguyen Vu Hoang Cuong',
     },
     {
       office: 'Copac',
@@ -52,7 +52,7 @@ export class MyRequestComponent implements OnInit {
       status: 'Rejected',
       reason: 'Em xin nghỉ phép để làm đám cứ...',
       comment: 'Em xin nghỉ phép để làm đám cứ...',
-      sentTo: 'Vu Thinh'
+      sentTo: 'Vu Thinh',
     },
     {
       office: 'Copac',
@@ -66,7 +66,7 @@ export class MyRequestComponent implements OnInit {
       status: 'Cancelled',
       reason: 'Em xin nghỉ phép đi chơi...',
       comment: 'Em xin nghỉ phép đi chơi...',
-      sentTo: 'Nguyen Hai Vien'
+      sentTo: 'Nguyen Hai Vien',
     },
     {
       office: 'Copac',
@@ -82,7 +82,7 @@ export class MyRequestComponent implements OnInit {
         'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ex iusto laboriosam magnam maiores, molestias quasi quos totam voluptates! Dolore facere natus nostrum quam sunt tempore. Delectus deleniti id ipsa quo!',
       comment:
         'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ex iusto laboriosam magnam maiores, molestias quasi quos totam voluptates! Dolore facere natus nostrum quam sunt tempore. Delectus deleniti id ipsa quo!',
-      sentTo: 'Nguyen Hai Vien'
+      sentTo: 'Nguyen Hai Vien',
     },
     {
       office: 'Copac',
@@ -96,7 +96,7 @@ export class MyRequestComponent implements OnInit {
       status: 'Waiting',
       reason: 'Em xin nghỉ phép đi chơi...',
       comment: 'Em xin nghỉ phép đi chơi...',
-      sentTo: 'Nguyen Hai Vien'
+      sentTo: 'Nguyen Hai Vien',
     },
     {
       office: 'Copac',
@@ -110,15 +110,13 @@ export class MyRequestComponent implements OnInit {
       status: 'Waiting',
       reason: 'Em xin nghỉ phép đi chơi...',
       comment: 'Em xin nghỉ phép đi chơi...',
-      sentTo: 'Nguyen Hai Vien'
-    }
+      sentTo: 'Nguyen Hai Vien',
+    },
   ];
 
-  constructor() {
-  }
+  constructor() {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   onChangeTab(key: string): void {
     switch (key) {

@@ -5,7 +5,7 @@ import { Policy } from '../../models/policy';
   selector: 'hcm-policy',
   templateUrl: './policies.component.html',
   styleUrls: ['./policies.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PoliciesComponent {
   data: Policy[] = [];

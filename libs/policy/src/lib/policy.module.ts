@@ -12,13 +12,7 @@ import { PolicyRoutingModule } from './policy-routing.module';
 import { PolicyComponent } from './policy.component';
 
 @NgModule({
-  declarations: [
-    PolicyComponent,
-    PoliciesComponent,
-    PolicyDetailComponent,
-    UpdatedComponent,
-    UpdatedDetailComponent
-  ],
+  declarations: [PolicyComponent, PoliciesComponent, PolicyDetailComponent, UpdatedComponent, UpdatedDetailComponent],
   imports: [
     CommonModule,
     PolicyRoutingModule,
@@ -27,8 +21,7 @@ import { PolicyComponent } from './policy.component';
     TuiInputMonthModule,
     ReactiveFormsModule,
     TuiAvatarModule,
-    TuiScrollbarModule
-  ]
+    TuiScrollbarModule,
+  ],
 })
-export class PolicyModule {
-}
+export class PolicyModule {}

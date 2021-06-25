@@ -52,15 +52,15 @@ export interface User {
 }
 
 export interface BranchRes {
-  createdDate: number,
-  createdBy: string,
-  lastModifiedDate: number,
-  lastModifiedBy: string,
-  optCounter: number,
-  id: string,
-  state: number,
-  orgType: string,
-  orgName: string,
-  code: string,
-  description: string,
+  createdDate: number;
+  createdBy: string;
+  lastModifiedDate: number;
+  lastModifiedBy: string;
+  optCounter: number;
+  id: string;
+  state: number;
+  orgType: string;
+  orgName: string;
+  code: string;
+  description: string;
 }

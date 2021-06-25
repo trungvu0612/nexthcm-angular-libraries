@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { UpsertEmployeeComponent } from './upsert-employee.component';
+import { ProcessManagementComponent } from './process-management.component';
 
-describe('UpsertEmployeeComponent', () => {
-  let component: UpsertEmployeeComponent;
-  let fixture: ComponentFixture<UpsertEmployeeComponent>;
+describe('ProcessManagementComponent', () => {
+  let component: ProcessManagementComponent;
+  let fixture: ComponentFixture<ProcessManagementComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [UpsertEmployeeComponent],
+      declarations: [ProcessManagementComponent],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(UpsertEmployeeComponent);
+    fixture = TestBed.createComponent(ProcessManagementComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
