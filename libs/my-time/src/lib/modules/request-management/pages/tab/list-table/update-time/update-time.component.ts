@@ -8,18 +8,18 @@ import endOfMonth from 'date-fns/endOfMonth';
 import startOfMonth from 'date-fns/startOfMonth';
 import { BehaviorSubject, combineLatest } from 'rxjs';
 import { debounceTime, switchMap, takeUntil } from 'rxjs/operators';
-import { SearchRequest, TimeSheetUpdateReq } from '../../../../models/requests';
-import { MyRequestService } from '../../../../services/my-request.service';
-import { RequestDetailsComponent } from '../../components/request-details/request-details.component';
+import { SearchRequest, TimeSheetUpdateReq } from '../../../../../../models/requests';
+import { MyRequestService } from '../../../../../../services/my-request.service';
+import { LeaveManagementDetailDialogComponent } from '../../diaglog/leave-management-detail-dialog/leave-management-detail-dialog.component';
 
 @Component({
-  selector: 'hcm-list-timesheet-update',
-  templateUrl: './list-timesheet-update.component.html',
-  styleUrls: ['./list-timesheet-update.component.scss'],
+  selector: 'hcm-update-time',
+  templateUrl: './update-time.component.html',
+  styleUrls: ['./update-time.component.scss'],
   providers: [TuiDestroyService],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ListTimesheetUpdateComponent implements OnInit {
+export class UpdateTimeComponent implements OnInit {
   today: Date = new Date();
   requests: TimeSheetUpdateReq[] = [];
   readonly columns = ['trackingDate', 'newInTime', 'newOutTime', 'updateTotalTime', 'state', 'assignedName', 'action'];
@@ -38,7 +38,7 @@ export class ListTimesheetUpdateComponent implements OnInit {
     '2': 'waiting',
     '3': 'taken',
     '4': 'weekend',
-    '5': 'holiday'
+    '5': 'holiday',
   };
   fields: FormlyFieldConfig[] = [
     {
@@ -49,9 +49,9 @@ export class ListTimesheetUpdateComponent implements OnInit {
         required: true,
         textfieldLabelOutside: true,
         tuiTextfieldInputMode: 'numeric',
-        placeholder: 'Select Month'
-      }
-    }
+        placeholder: 'Select Month',
+      },
+    },
   ];
 
   constructor(
@@ -63,14 +63,14 @@ export class ListTimesheetUpdateComponent implements OnInit {
     private cdr: ChangeDetectorRef
   ) {
     this.searchForm = new FormGroup<{ month: TuiMonth }>({
-      month: new FormControl<TuiMonth>(new TuiMonth(this.today.getFullYear(), this.today.getMonth()))
+      month: new FormControl<TuiMonth>(new TuiMonth(this.today.getFullYear(), this.today.getMonth())),
     });
   }
 
   ngOnInit(): void {
     this.searchSubject.next({
       fromDate: startOfMonth(this.today).toISOString(),
-      toDate: endOfMonth(this.today).toISOString()
+      toDate: endOfMonth(this.today).toISOString(),
     });
     combineLatest([this.page$, this.perPageSubject, this.searchSubject])
       .pipe(
@@ -82,7 +82,7 @@ export class ListTimesheetUpdateComponent implements OnInit {
       )
       .subscribe((item) => {
         this.requests = item.data.items;
-        this.requests.map(req => {
+        this.requests.map((req) => {
           const newInTime = req.newInTime as number;
           const newOutTime = req.newOutTime as number;
           const inTime = req.timeSheetTracking?.inTime as number;
@@ -103,7 +103,7 @@ export class ListTimesheetUpdateComponent implements OnInit {
       const date = new Date(this.searchForm.value.month?.year, this.searchForm.value.month?.month);
       this.searchSubject.next({
         fromDate: startOfMonth(date).toISOString(),
-        toDate: endOfMonth(date).toISOString()
+        toDate: endOfMonth(date).toISOString(),
       });
     }
   }
@@ -118,23 +118,23 @@ export class ListTimesheetUpdateComponent implements OnInit {
 
   cancelReq(req: TimeSheetUpdateReq): void {
     req.state = -1;
-    this.myRequestService.editTimeSheetUpdateReqs(req, req.id as string).subscribe(item => {
+    this.myRequestService.editTimeSheetUpdateReqs(req, req.id as string).subscribe((item) => {
       console.log(item);
     });
   }
 
   approveReq(req: TimeSheetUpdateReq): void {
     req.state = 1;
-    this.myRequestService.editTimeSheetUpdateReqs(req, req.id as string).subscribe(item => {
+    this.myRequestService.editTimeSheetUpdateReqs(req, req.id as string).subscribe((item) => {
       console.log(item);
     });
   }
 
   showDetail(req: TimeSheetUpdateReq): void {
     this.dialogService
-      .open<boolean>(new PolymorpheusComponent(RequestDetailsComponent, this.injector), {
+      .open<boolean>(new PolymorpheusComponent(LeaveManagementDetailDialogComponent, this.injector), {
         closeable: false,
-        data: { type: 'timesheet', req: req }
+        data: { type: 'timesheet', req: req },
       })
       .subscribe((cancel) => {
         console.log(cancel);

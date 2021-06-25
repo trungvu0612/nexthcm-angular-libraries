@@ -1,12 +1,14 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
+import { BaseOption } from '@nexthcm/ui';
 import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
+import { TuiDay } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
+import { format } from 'date-fns';
 import { Observable } from 'rxjs';
 import { distinctUntilChanged, map, tap } from 'rxjs/operators';
-import { BaseOption } from '@nexthcm/ui';
 import { LeaveSubmit } from '../../../models/submit-leave';
 import { MyLeaveService } from '../../../services/my-leave/my-leave.service';
 import { SubmitLeaveService } from '../../../services/submit-leave.service';
@@ -30,6 +32,8 @@ export class SubmitLeaveRequestDialogComponent implements OnInit {
 
   partialDays$: Observable<any[]> = this.myLeaveService.getPartialDays().pipe(map((data) => data));
   durationValues: Observable<any[]> = this.myLeaveService.getdurationValues().pipe(map((data) => data));
+  timeValues$: Observable<any[]> = this.myLeaveService.getTimeValues().pipe(map((data) => data));
+  halfTimeValues$: Observable<any[]> = this.myLeaveService.getHalfTime().pipe(map((data) => data));
 
   form = new FormGroup<LeaveSubmit | any>({});
   model: LeaveSubmit = {};
@@ -86,8 +90,6 @@ export class SubmitLeaveRequestDialogComponent implements OnInit {
       type: 'select',
       templateOptions: {
         options: this.partialDays$,
-        labelProp: 'name',
-        valueProp: 'id',
         placeholder: 'Partial Days All',
       },
       hideExpression: '!(model.startTime?.toLocalNativeDate() < model.endTime?.toLocalNativeDate())',
@@ -101,7 +103,7 @@ export class SubmitLeaveRequestDialogComponent implements OnInit {
       type: 'select',
       templateOptions: {
         options: [],
-        placeholder: 'Duration Hold',
+        placeholder: 'Duration Start',
       },
       hideExpression: 'model.partialDays === 0',
       expressionProperties: {
@@ -147,9 +149,7 @@ export class SubmitLeaveRequestDialogComponent implements OnInit {
       key: 'morning',
       type: 'select',
       templateOptions: {
-        options: ['Morning', 'Affternoon'],
-        labelProp: 'name',
-        // valueProp: 'id',
+        options: this.halfTimeValues$,
         placeholder: 'Morning or Afternoon',
       },
       hideExpression: 'model.durationHold !== 1',
@@ -162,9 +162,9 @@ export class SubmitLeaveRequestDialogComponent implements OnInit {
       key: 'specialTimeFrom',
       type: 'select',
       templateOptions: {
-        options: [],
-        labelProp: 'name',
-        valueProp: 'id',
+        options: this.timeValues$,
+        labelProp: 'label',
+        valueProp: 'label',
         placeholder: 'Special time from',
       },
       hideExpression: 'model.durationHold !== 2',
@@ -177,14 +177,112 @@ export class SubmitLeaveRequestDialogComponent implements OnInit {
       key: 'specialTimeTo',
       type: 'select',
       templateOptions: {
-        options: this.durationValues,
-        labelProp: 'name',
-        valueProp: 'id',
+        options: this.timeValues$,
+        labelProp: 'label',
+        valueProp: 'label',
         placeholder: 'Special time to',
       },
       hideExpression: 'model.durationHold !== 2',
       expressionProperties: {
         className: 'model.durationHold !== 2  ?  "hidden" : ""',
+      },
+    },
+
+    // special duraton when click special time
+    {
+      key: 'durationEnd',
+      type: 'select',
+      templateOptions: {
+        options: [],
+        placeholder: 'Duration End',
+      },
+      // hideExpression: 'model.partialDays === 0',
+      // expressionProperties: {
+      //   className: 'model.partialDays === 0  ?  "hidden" : ""',
+      // },
+      hideExpression:
+        ' (model.partialDays !== 4 || !(model.startTime?.toLocalNativeDate() < model.endTime?.toLocalNativeDate()))',
+      expressionProperties: {
+        className:
+          ' (model.partialDays !== 4 || !(model.startTime?.toLocalNativeDate() < model.endTime?.toLocalNativeDate()))  ?  "hidden" : ""',
+      },
+      hooks: {
+        onInit: (field) => {
+          const options: { [p: number]: BaseOption<number>[] } = {
+            1: [
+              { value: 1, label: 'Half Day' },
+              { value: 2, label: 'Special Time' },
+            ],
+            2: [
+              { value: 1, label: 'Half Day' },
+              { value: 2, label: 'Special Time' },
+            ],
+            3: [
+              { value: 1, label: 'Half Day' },
+              { value: 2, label: 'Special Time' },
+            ],
+            4: [
+              { value: 1, label: 'Half Day' },
+              { value: 2, label: 'Special Time' },
+            ],
+          };
+          const defaultOption: BaseOption<number>[] = [
+            { value: 0, label: 'Full Day' },
+            { value: 1, label: 'Half Day' },
+            { value: 2, label: 'Special Time' },
+          ];
+          field!.templateOptions!.options = this.form.valueChanges.pipe(
+            map((formValue) => formValue.partialDays),
+            distinctUntilChanged(),
+            map((value) => (value ? options[value] : defaultOption)),
+            tap(() => field?.formControl?.setValue(null, { emitEvent: false }))
+          );
+        },
+      },
+    },
+    //end
+
+    {
+      key: 'morning2',
+      type: 'select',
+      templateOptions: {
+        options: this.halfTimeValues$,
+        // labelProp: 'name',
+        // valueProp: 'id',
+        placeholder: 'Morning or Afternoon 2',
+      },
+      hideExpression: 'model.durationEnd !== 1',
+      expressionProperties: {
+        className: 'model.durationEnd !== 1  ?  "hidden" : ""',
+      },
+    },
+
+    //Start day 1: half day, special day
+
+    //
+    {
+      key: 'specialTimeFrom2',
+      type: 'select',
+      templateOptions: {
+        options: this.timeValues$,
+        placeholder: 'Special time from2',
+      },
+      hideExpression: 'model.durationEnd !== 2 || model.partialDays !== 4',
+      expressionProperties: {
+        className: 'model.durationEnd !== 2 || model.partialDays !== 4 ?  "hidden" : ""',
+      },
+    },
+
+    {
+      key: 'specialTimeTo2',
+      type: 'select',
+      templateOptions: {
+        options: this.timeValues$,
+        placeholder: 'Special time to2',
+      },
+      hideExpression: 'model.durationEnd !== 2 || model.partialDays !== 4',
+      expressionProperties: {
+        className: 'model.durationEnd !== 2 || model.partialDays !== 4 ?  "hidden" : ""',
       },
     },
 
@@ -244,23 +342,30 @@ export class SubmitLeaveRequestDialogComponent implements OnInit {
   }
 
   submit() {
-    // if (this.form.valid) {
-    //   const leaveRequestModel = this.form.value;
-    //   leaveRequestModel.leaveType = leaveRequestModel.leaveType[0];
-    //   leaveRequestModel.startTime = format(
-    //     (leaveRequestModel.startTime as TuiDay).toLocalNativeDate(),
-    //     'yyyy-MM-dd hh:mm:ss'
-    //   );
-    //   leaveRequestModel.endTime = format(
-    //     (leaveRequestModel.endTime as TuiDay).toLocalNativeDate(),
-    //     'yyyy-MM-dd hh:mm:ss'
-    //   );
-    //   const obj: Duration = {
-    //     id: leaveRequestModel.duration,
-    //   };
-    //   leaveRequestModel.duration = obj;
-    //   this.context.completeWith(leaveRequestModel);
-    //   console.log('leaveRequestModel', leaveRequestModel);
-    // }
+    if (this.form.valid) {
+      const leaveRequestModel = this.form.value;
+
+      leaveRequestModel.startTime = format((leaveRequestModel.startTime as TuiDay).toLocalNativeDate(), 'yyyy-MM-dd');
+      leaveRequestModel.endTime = format((leaveRequestModel.endTime as TuiDay).toLocalNativeDate(), 'yyyy-MM-dd');
+
+      const converTimeFrom = leaveRequestModel.specialTimeFrom;
+      leaveRequestModel.startTime = leaveRequestModel.startTime + ' ' + converTimeFrom.replace(/\s/g, '');
+
+      const converTimeTo = leaveRequestModel.specialTimeTo;
+      leaveRequestModel.startTime = leaveRequestModel.startTime + ' ' + converTimeTo.replace(/\s/g, '');
+
+      leaveRequestModel.leaveType = leaveRequestModel.leaveType[0];
+
+      const body = {
+        leaveType: leaveRequestModel.leaveType,
+        comments: leaveRequestModel.comments,
+        sendTo: leaveRequestModel.sendTo,
+        fromDate1: [leaveRequestModel.startTime],
+        toDate1: [leaveRequestModel.startTime],
+        duration1: [2.5],
+      };
+      this.context.completeWith(body);
+      console.log('body postttttt', body);
+    }
   }
 }

@@ -1,16 +1,16 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
-import { Requests, SearchRequest } from '../../../../models/requests';
-import { BehaviorSubject, combineLatest } from 'rxjs';
 import { FormBuilder, FormControl, FormGroup } from '@ngneat/reactive-forms';
-import { MyRequestService } from '../../../../services/my-request.service';
-import { TuiDialogService } from '@taiga-ui/core';
-import { debounceTime, switchMap, takeUntil } from 'rxjs/operators';
-import { TuiDestroyService, TuiMonth } from '@taiga-ui/cdk';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { FormlyFieldConfigCache } from '@ngx-formly/core/lib/components/formly.field.config';
-import startOfMonth from 'date-fns/startOfMonth';
-import endOfMonth from 'date-fns/endOfMonth';
+import { TuiDestroyService, TuiMonth } from '@taiga-ui/cdk';
+import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
+import endOfMonth from 'date-fns/endOfMonth';
+import startOfMonth from 'date-fns/startOfMonth';
+import { BehaviorSubject, combineLatest } from 'rxjs';
+import { debounceTime, switchMap, takeUntil } from 'rxjs/operators';
+import { Requests, SearchRequest } from '../../../../models/requests';
+import { MyRequestService } from '../../../../services/my-request.service';
 import { RequestDetailsComponent } from '../../components/request-details/request-details.component';
 
 @Component({
@@ -36,7 +36,7 @@ export class ListOtRequestComponent implements OnInit {
     '-1': 'rejected',
     '0': 'pending',
     '1': 'approved',
-    '2': 'scheduled',
+    '2': 'waiting',
     '3': 'taken',
     '4': 'weekend',
     '5': 'holiday'

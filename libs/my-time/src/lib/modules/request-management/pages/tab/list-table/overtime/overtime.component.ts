@@ -5,21 +5,20 @@ import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { BehaviorSubject, combineLatest } from 'rxjs';
 import { debounceTime, switchMap, takeUntil } from 'rxjs/operators';
-import { LeaveStatus } from '../../enums/status';
-import { MyLeave } from '../../models/my-leave';
-import { MyLeaveService } from '../../services/my-leave/my-leave.service';
-import { CancelDialogLeaveComponent } from './cancel-dialog-leave/cancel-dialog-leave.component';
-import { LeaveDetailDialogComponent } from './leave-detail-dialog/leave-detail-dialog.component';
-import { SubmitLeaveRequestDialogComponent } from './submit-leave-request-dialog/submit-leave-request-dialog.component';
+import { LeaveStatus } from '../../../../../../enums/status';
+import { MyLeave } from '../../../../../../models/my-leave';
+import { CancelDialogLeaveComponent } from '../../../../../../pages/my-leave/cancel-dialog-leave/cancel-dialog-leave.component';
+import { MyLeaveService } from '../../../../../../services/my-leave/my-leave.service';
+import { LeaveManagementDetailDialogComponent } from '../../diaglog/leave-management-detail-dialog/leave-management-detail-dialog.component';
 
 @Component({
-  selector: 'hcm-my-leave',
-  templateUrl: './my-leave.component.html',
-  styleUrls: ['./my-leave.component.scss'],
+  selector: 'hcm-overtime',
+  templateUrl: './overtime.component.html',
+  styleUrls: ['./overtime.component.scss'],
   providers: [TuiDestroyService],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MyLeaveComponent implements OnInit {
+export class OvertimeComponent implements OnInit {
   readonly LeaveStatus = LeaveStatus;
 
   dateControl = new FormControl<Date>();
@@ -65,9 +64,10 @@ export class MyLeaveComponent implements OnInit {
 
   showDialog(id: string): void {
     this.dialogService
-      .open<boolean>(new PolymorpheusComponent(LeaveDetailDialogComponent, this.injector), {
+      .open<boolean>(new PolymorpheusComponent(LeaveManagementDetailDialogComponent, this.injector), {
         closeable: false,
         data: id,
+        size: 'l',
       })
       .subscribe((data) => {
         const body = {
@@ -80,16 +80,16 @@ export class MyLeaveComponent implements OnInit {
   }
 
   showDialogSubmit() {
-    this.dialogService
-      .open<boolean>(new PolymorpheusComponent(SubmitLeaveRequestDialogComponent, this.injector), {
-        closeable: false,
-      })
-      .subscribe((data) => {
-        console.log('check data outside dialog', data);
-        this.myLeaveService.createLeave(data).subscribe((data) => {
-          console.log('susscess post');
-        });
-      });
+    // this.dialogService
+    //   .open<boolean>(new PolymorpheusComponent(SubmitLeaveRequestDialogComponent, this.injector), {
+    //     closeable: false,
+    //   })
+    //   .subscribe((data) => {
+    //     console.log('check data outside dialog', data);
+    //     this.myLeaveService.createLeave(data).subscribe((data) => {
+    //       console.log('susscess post');
+    //     });
+    //   });
   }
 
   onPage($event: number) {
@@ -107,7 +107,7 @@ export class MyLeaveComponent implements OnInit {
       .open<boolean>(new PolymorpheusComponent(CancelDialogLeaveComponent, this.injector), {
         closeable: false,
         data: id,
-        size: 's'
+        size: 's',
       })
       .subscribe((data) => {
         this.myLeaveService.deleteLeave(id).subscribe((data) => {

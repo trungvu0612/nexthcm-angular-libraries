@@ -1,12 +1,13 @@
 import { TuiDay } from '@taiga-ui/cdk';
 
-export interface SubmitLeave {
-  id: number;
-  image: string;
-  name: string;
-}
+// export interface SubmitLeave {
+//   id: number;
+//   image: string;
+//   name: string;
+// }
 
 export interface LeaveSubmit{
+  durationHold?: number;
   status? : number,
   comments?: string,
   leaveType?: LeaveType,
@@ -26,14 +27,14 @@ export interface LeaveType {
 }
 
 export interface PartialDays {
-  id?: number;
-  name?: string;
+  value?: number;
+  label?: string;
 
 }
 
 export interface durationValues {
-  id?: number;
-  name?: string;
+  value?: number;
+  label?: string;
   idPartial?: string;
 }
 

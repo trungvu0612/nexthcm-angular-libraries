@@ -18,7 +18,7 @@ export class LeaveDetailDialogComponent implements OnInit {
     '-1': 'rejected',
     '1': 'approved',
     '0': 'cancelled',
-    '2': 'scheduled',
+    '2': 'waiting',
     '3': 'taken',
     '4': 'weekend',
     '5': 'holiday',

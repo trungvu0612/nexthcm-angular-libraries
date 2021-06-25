@@ -2,7 +2,7 @@ export enum LeaveStatus {
   reject = -1,
   cancelled,
   approved,
-  scheduled,
+  waiting,
   taken,
   weekend,
   holiday
