@@ -9,7 +9,8 @@ import {
   Inject,
   ViewChild,
 } from '@angular/core';
-import { Dimension, filterBySearch, Seat, UploadFileService, Zone } from '@nexthcm/ui';
+import { filterBySearch, UploadFileService } from '@nexthcm/ui';
+import { Dimension, Seat, Zone } from '@nexthcm/core';
 import { FormBuilder, FormControl, FormGroup } from '@ngneat/reactive-forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDestroyService } from '@taiga-ui/cdk';

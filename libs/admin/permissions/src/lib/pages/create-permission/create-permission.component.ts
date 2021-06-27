@@ -1,10 +1,12 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
+import { PromptComponent } from '@nexthcm/ui';
 import { FormGroup } from '@ngneat/reactive-forms';
-import { FormlyFieldConfig } from '@ngx-formly/core';
-import { map } from 'rxjs/operators';
+import { switchMap } from 'rxjs/operators';
+import { SweetAlertOptions } from 'sweetalert2';
 import { Policy } from '../../models/policy';
 import { AdminPermissionsService } from '../../services/admin-permissions.service';
-import { validatorTextPermission } from '../../utils/validatiors';
+import { PermissionDetailComponent } from '../../components/permission-detail/permission-detail.component';
 
 @Component({
   selector: 'hcm-create-permission',
@@ -13,70 +15,26 @@ import { validatorTextPermission } from '../../utils/validatiors';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CreatePermissionComponent {
+  @ViewChild('prompt') prompt!: PromptComponent;
+  @ViewChild('permission') permission!: PermissionDetailComponent;
   stepperIndex = 0;
-  totalServices$ = this.adminPermissions.select('services').pipe(map((services) => services.length));
-
   servicesForm = new FormGroup<Partial<Policy>>({});
-  servicesModel: Partial<Policy> = {};
-  servicesFields: FormlyFieldConfig[] = [
-    {
-      type: 'repeat-service',
-      key: 'policyItems',
-      defaultValue: [{}],
-      fieldArray: {
-        fieldGroup: [
-          {
-            type: 'input-service',
-            key: 'service',
-            templateOptions: {
-              options: [],
-              required: true,
-            },
-          },
-          {
-            type: 'input-actions',
-            key: 'permissions',
-          },
-        ],
-      },
-    },
-  ];
-
+  servicesModel = { policyItems: [{}] } as Partial<Policy>;
   policyForm = new FormGroup<Partial<Policy>>({});
-  policyModel!: Partial<Policy>;
-  policyFields: FormlyFieldConfig[] = [
-    {
-      type: 'input',
-      key: 'name',
-      templateOptions: {
-        label: 'Name',
-        required: true,
-        textfieldLabelOutside: true,
-        textfieldSize: 'm',
-      },
-      validators: {
-        validation: [validatorTextPermission(128)],
-      },
-    },
-    {
-      type: 'text-area',
-      key: 'description',
-      templateOptions: {
-        label: 'Description',
-        textfieldLabelOutside: true,
-        textfieldSize: 'm',
-        expandable: true,
-        rows: 15,
-      },
-      validators: {
-        validation: [validatorTextPermission(1000)],
-      },
-    },
-  ];
+  policyModel = {} as Partial<Policy>;
 
-  constructor(private adminPermissions: AdminPermissionsService) {}
+  constructor(private adminPermissions: AdminPermissionsService, private router: Router) {}
 
-  nextStep(step: number): void {
-    this.stepperIndex += step;
+  submitServices() {
+    this.permission.updateDataTable();
+    this.permission.updatePolicyItems();
+    this.stepperIndex = 1;
+  }
+
+  createPolicy(): void {
+    this.adminPermissions
+      .postPolicy(this.policyModel)
+      .pipe(switchMap(() => this.prompt.open({ icon: 'success', text: 'Created successfully!' } as SweetAlertOptions)))
+      .subscribe(() => this.router.navigate(['admin/permissions']));
   }
 }

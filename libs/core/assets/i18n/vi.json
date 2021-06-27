@@ -32,7 +32,6 @@
   "publish": "Xuất bản",
   "edit": "Sửa",
   "remove": "Xóa",
-  "OK": "OK",
   "VALIDATION": {
     "required": "Trường này không được để trống.",
     "differentSource": "Điểm đích và điểm nguồn không được giống nhau.",
@@ -66,5 +65,8 @@
       "changeSourceOfTransition": "Bạn có chắc chắn muốn thay đổi nguồn của '{{transition}}' thành '{{status}}'?",
       "changeTargetOfTransition": "Bạn có chắc chắn muốn thay đổi đích của '{{transition}}' thành '{{status}}'?"
     }
+  },
+  "PROMPT": {
+    "OK": "OK"
   }
 }

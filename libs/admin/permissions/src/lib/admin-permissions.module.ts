@@ -1,9 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
+import { PromptComponentModule } from '@nexthcm/ui';
 import { TranslocoModule } from '@ngneat/transloco';
 import { FormlyModule } from '@ngx-formly/core';
 import { TuiTableModule } from '@taiga-ui/addon-table';
+import { TuiLetModule } from '@taiga-ui/cdk';
 import {
   TuiDataListModule,
   TuiDropdownControllerModule,
@@ -15,6 +17,7 @@ import {
 import {
   TuiDataListWrapperModule,
   TuiDropdownHoverModule,
+  TuiFilterModule,
   TuiInputModule,
   TuiMultiSelectModule,
   TuiStepperModule,
@@ -30,6 +33,8 @@ import { CreatePermissionComponent } from './pages/create-permission/create-perm
 import { PermissionListComponent } from './pages/permission-list/permission-list.component';
 import { UpdatePermissionComponent } from './pages/update-permission/update-permission.component';
 import { AdminPermissionsService } from './services/admin-permissions.service';
+import { TableModule } from 'ngx-easy-table';
+import { PermissionDetailComponent } from './components/permission-detail/permission-detail.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +46,7 @@ import { AdminPermissionsService } from './services/admin-permissions.service';
     InputActionsComponent,
     UpdatePermissionComponent,
     SelectResourcesComponent,
+    PermissionDetailComponent,
   ],
   imports: [
     CommonModule,
@@ -66,7 +72,7 @@ import { AdminPermissionsService } from './services/admin-permissions.service';
         {
           name: 'textPermission',
           message: (maxCharacters: number) =>
-            of("Use alphanumeric and '+=,.@-_' characters. Maximum " + maxCharacters + ' characters.'),
+            of("Use alphanumeric, space and '+=,.@-_' characters. Maximum " + maxCharacters + ' characters.'),
         },
       ],
     }),
@@ -80,6 +86,10 @@ import { AdminPermissionsService } from './services/admin-permissions.service';
     TuiMultiSelectModule,
     TuiDataListWrapperModule,
     TuiDataListModule,
+    PromptComponentModule,
+    TuiFilterModule,
+    TuiLetModule,
+    TableModule,
   ],
   providers: [AdminPermissionsService],
 })

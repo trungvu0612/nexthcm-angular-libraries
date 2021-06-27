@@ -1,10 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ResponseResult } from '@nexthcm/ui';
 import { RxState } from '@rx-angular/state';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Action, Policy, Resource, Service } from '../models/policy';
+import { PagingResponse } from '@nexthcm/core';
 
 interface StatePermissions {
   services: Partial<Service>[];
@@ -21,19 +21,31 @@ export class AdminPermissionsService extends RxState<StatePermissions> {
 
   getServicesOrActions(type: 'services' | 'actions'): Observable<Partial<Service | Action>[]> {
     return this.http
-      .get<ResponseResult<Service | Action>>('/accountapp/v1.0/' + type, { params: { size: 999 } })
+      .get<PagingResponse<Service | Action>>('/accountapp/v1.0/' + type, { params: { size: 999 } })
+      .pipe(map((response) => response.data.items));
+  }
+
+  getResourcesByAction(actionId: string): Observable<Partial<Resource>[]> {
+    return this.http
+      .get<PagingResponse<Resource>>('/accountapp/v1.0/resources', { params: { actionId, size: 999 } })
       .pipe(map((response) => response.data.items));
   }
 
   getPolicies(): Observable<Partial<Policy>[]> {
     return this.http
-      .get<ResponseResult<Policy>>('/accountapp/v1.0/permissions')
+      .get<PagingResponse<Policy>>('/accountapp/v1.0/permissions')
       .pipe(map((response) => response.data.items));
   }
 
-  getResourcesByAction(actionId = 'd84d8917-5fd3-4663-8105-66beaf7f2637'): Observable<Partial<Resource>[]> {
-    return this.http
-      .get<ResponseResult<Resource>>('/accountapp/v1.0/resources', { params: { actionId, size: 999 } })
-      .pipe(map((response) => response.data.items));
+  postPolicy(body: Partial<Policy>): Observable<Partial<Policy>> {
+    return this.http.post<Partial<Policy>>('/accountapp/v1.0/permissions', body);
+  }
+
+  getPolicy(policyId: string): Observable<Partial<Policy>> {
+    return this.http.get<Partial<Policy>>('/accountapp/v1.0/permissions/' + policyId);
+  }
+
+  putPolicy(policyId: string, body: Partial<Policy>): Observable<Partial<Policy>> {
+    return this.http.put<Partial<Policy>>('/accountapp/v1.0/permissions/' + policyId, body);
   }
 }

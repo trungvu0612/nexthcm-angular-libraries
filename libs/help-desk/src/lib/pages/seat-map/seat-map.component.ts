@@ -1,7 +1,8 @@
 import { CdkDragStart } from '@angular/cdk/drag-drop';
 import { ChangeDetectionStrategy, Component, QueryList, ViewChildren } from '@angular/core';
 import { AuthQuery } from '@nexthcm/auth';
-import { filterBySearch, Zone } from '@nexthcm/ui';
+import { filterBySearch } from '@nexthcm/ui';
+import { Zone } from '@nexthcm/core';
 import { FormGroup } from '@ngneat/reactive-forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { RxState } from '@rx-angular/state';

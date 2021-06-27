@@ -32,9 +32,6 @@
   "publish": "Publish",
   "edit": "Edit",
   "remove": "Remove",
-  "PROMPT": {
-    "OK": "OK"
-  },
   "VALIDATION": {
     "required": "This field should not be blank.",
     "differentSource": "The target and the source should not be the same.",
@@ -68,5 +65,8 @@
       "changeSourceOfTransition": "Are you sure you want to change the source of '{{transition}}' to '{{status}}'?",
       "changeTargetOfTransition": "Are you sure you want to change the destination of '{{transition}}' to '{{status}}'?"
     }
+  },
+  "PROMPT": {
+    "OK": "OK"
   }
 }

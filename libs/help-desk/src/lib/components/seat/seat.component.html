@@ -52,7 +52,7 @@
         </tr>
       </table>
       <div class="medium-buttons flex justify-evenly mt-3">
-        <button (click)="deleteSeat()" *ngIf="isAdmin" class="blue-button btn-custom btn-red">Delete</button>
+        <button (click)="deleteSeat()" *ngIf="isAdmin" class="btn-red">Delete</button>
         <button [routerLink]="['/human-resource/employees', user.id]" class="blue-button">Detail</button>
       </div>
     </article>

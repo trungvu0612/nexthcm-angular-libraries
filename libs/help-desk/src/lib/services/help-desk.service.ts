@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ResponseResult, User, Zone } from '@nexthcm/ui';
+import { PagingResponse, Seat, User, Zone } from '@nexthcm/core';
 import { RxState } from '@rx-angular/state';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -21,13 +21,13 @@ export class HelpDeskService extends RxState<HelpDesk> {
 
   getUsers(): Observable<Partial<User>[]> {
     return this.http
-      .get<ResponseResult<User>>('/accountapp/v1.0/users', { params: { size: 999 } })
+      .get<PagingResponse<User>>('/accountapp/v1.0/users', { params: { size: 999 } })
       .pipe(map((response) => response.data.items));
   }
 
   getSeatMaps(): Observable<Partial<Zone>[]> {
     return this.http
-      .get<ResponseResult<Zone>>('/mytimeapp/v1.0/seats-map', { params: { size: 999 } })
+      .get<PagingResponse<Zone>>('/mytimeapp/v1.0/seats-map', { params: { size: 999 } })
       .pipe(map((response) => response.data.items));
   }
 
@@ -36,7 +36,7 @@ export class HelpDeskService extends RxState<HelpDesk> {
     return this.http.get<Partial<Zone>>('/mytimeapp/v1.0' + path);
   }
 
-  updateAssignedUser(seatId: string, body: any): Observable<any> {
+  updateAssignedUser(seatId: string, body: Partial<Seat>): Observable<Partial<Seat>> {
     return this.http.put('/mytimeapp/v1.0/seats-map/assign-seat/' + seatId, body);
   }
 

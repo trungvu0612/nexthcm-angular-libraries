@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, ElementRef, HostBinding, Injector, Input, OnInit } from '@angular/core';
-import { Seat, User } from '@nexthcm/ui';
+import { Seat, User } from '@nexthcm/core';
 import { RxState } from '@rx-angular/state';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';

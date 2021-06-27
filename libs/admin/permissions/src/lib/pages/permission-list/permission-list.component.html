@@ -24,7 +24,7 @@
           <td *tuiCell="'service'" tuiTd>{{ item.policyItems?.length }} in {{ totalServices$ | async }} services</td>
           <td *tuiCell="'action'" tuiTd>
             <div class="flex justify-center text-black">
-              <button [routerLink]="['./update', item.policyId]" class="mr-2">
+              <button [queryParams]="{ policyId: item.policyId }" class="mr-2" routerLink="./update">
                 <tui-svg src="tuiIconEditLarge"></tui-svg>
               </button>
               <button>

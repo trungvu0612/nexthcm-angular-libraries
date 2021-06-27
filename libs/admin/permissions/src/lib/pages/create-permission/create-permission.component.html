@@ -3,49 +3,28 @@
     <h1>Create Permission</h1>
   </header>
   <section class="main-section">
-    <tui-stepper [(activeItemIndex)]="stepperIndex" class="flex justify-center py-8 mb-8">
+    <tui-stepper [(activeItemIndex)]="stepperIndex" class="flex justify-center py-6 mb-8">
       <button state="pass" tuiStep>Service & Resource</button>
-      <button [disabled]="!servicesForm.valid" tuiStep>Review Policy</button>
+      <button (click)="submitServices()" [disabled]="!servicesForm.valid" tuiStep>Review Policy</button>
     </tui-stepper>
-    <form [class.hidden]="stepperIndex !== 0" [formGroup]="$any(servicesForm)">
-      <formly-form [fields]="servicesFields" [form]="$any(servicesForm)" [model]="servicesModel"></formly-form>
-    </form>
-    <form [class.hidden]="stepperIndex !== 1" [formGroup]="$any(policyForm)">
-      <p class="font-semibold text-xl mb-4">Review Permission</p>
-      <formly-form [fields]="policyFields" [form]="$any(policyForm)" [model]="policyModel"></formly-form>
-      <div class="flex">
-        <span class="text-right font-semibold w-24 mr-4">Summary</span>
-        <table class="flex-auto">
-          <tr>
-            <th>Service</th>
-            <th>Resource & Actions</th>
-          </tr>
-          <!--                <tr *ngFor="let item of servicesModel.policyItems">-->
-          <!--                  <td class="text-blue-primary">{{ item.service?.name }}</td>-->
-          <!--                  <td>-->
-          <!--                    <p *ngFor="let action of item.actions | keyvalue" class="capitalize">-->
-          <!--                      {{ action.key }}: {{ action.value.join(', ') }}-->
-          <!--                    </p>-->
-          <!--                  </td>-->
-          <!--                </tr>-->
-        </table>
-      </div>
-      <p class="font-semibold mt-4 ml-28">
-        Allow ({{ servicesModel.policyItems?.length }} of {{ totalServices$ | async }} services)
-      </p>
-    </form>
+    <hcm-permission-detail
+      #permission
+      [hidden]="!!stepperIndex"
+      [policyModel]="policyModel"
+      [servicesForm]="servicesForm"
+      [policyForm]="policyForm"
+      [servicesModel]="servicesModel"
+    ></hcm-permission-detail>
     <div class="medium-buttons flex justify-end gap-4 mt-5">
-      <button *ngIf="stepperIndex < 2" class="blue-button btn-custom btn-white" routerLink="../">Cancel</button>
-      <button (click)="nextStep(1)" *ngIf="stepperIndex === 0" [disabled]="!servicesForm.valid" class="blue-button">
+      <button class="btn-white" routerLink="../">Cancel</button>
+      <button (click)="submitServices()" *ngIf="!stepperIndex" [disabled]="!servicesForm.valid" class="blue-button">
         Next
       </button>
-      <button (click)="nextStep(-1)" *ngIf="stepperIndex === 1" class="blue-button btn-custom btn-primary">
-        Previous
-      </button>
-      <button (click)="nextStep(1)" *ngIf="stepperIndex === 1" [disabled]="!policyForm.valid" class="blue-button">
+      <button (click)="stepperIndex = 0" *ngIf="stepperIndex" class="btn-blue">Previous</button>
+      <button (click)="createPolicy()" *ngIf="stepperIndex" [disabled]="!policyForm.valid" class="blue-button">
         Create Policy
       </button>
     </div>
-    <pre>{{ servicesModel | json }} </pre>
   </section>
 </main>
+<hcm-prompt #prompt></hcm-prompt>

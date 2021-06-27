@@ -1,12 +1,13 @@
-<div class="mb-3">
-  <button *ngIf="model.service" type="button">
-    <tui-svg src="tuiIconSortDown"></tui-svg>
-  </button>
-  <span [class.ml-6]="!model.service" class="font-semibold mr-4">Actions</span>
-  <span *ngIf="!model.service" class="text-gray-400">Choose a service before defining actions</span>
-</div>
-<div *ngIf="permissionsForm$ | async as form">
-  <div *ngFor="let control of form.controls">
-    <hcm-select-resources [control]="$any(control)"></hcm-select-resources>
-  </div>
-</div>
+<fieldset *tuiLet="expanded$ | async as expanded" class="bg-blue-50 border rounded">
+  <legend (click)="toggleExpanded()" class="cursor-pointer text-base font-semibold">
+    Actions
+    <tui-svg [class.rotated]="expanded" class="transition-all" src="tuiIconChevronRightLarge"></tui-svg>
+  </legend>
+  <tui-expand [expanded]="!!expanded">
+    <ng-template tuiExpandContent>
+      <div *ngIf="permissionsForm.controls as controls " class="grid grid-cols-2 gap-4 p-4 pt-2">
+        <hcm-select-resources *ngFor="let control of controls" [control]="$any(control)"></hcm-select-resources>
+      </div>
+    </ng-template>
+  </tui-expand>
+</fieldset>
