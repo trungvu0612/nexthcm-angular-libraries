@@ -4,51 +4,12 @@
   ::ng-deep {
     tui-stepper {
       button {
-        color: var(--tui-primary);
         @apply font-medium text-base;
 
         .marker {
-          color: var(--tui-primary);
           @apply w-12 h-12;
         }
-
-        &._active {
-          .marker_index {
-            background-color: var(--tui-primary) !important;
-          }
-        }
       }
-    }
-
-    formly-field {
-      formly-form-field {
-        > label {
-          @apply flex-row justify-start mb-4;
-
-          > span:first-child {
-            @apply text-right font-semibold w-24 mr-4;
-          }
-
-          > span:last-child {
-            width: 50%;
-          }
-        }
-      }
-
-      &:last-child {
-        span:last-child {
-          flex: auto;
-        }
-      }
-    }
-  }
-
-  th,
-  td {
-    @apply border px-5 py-3;
-
-    &:first-child {
-      @apply text-left w-2/5;
     }
   }
 }

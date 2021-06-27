@@ -40,17 +40,17 @@
     <button
       (click)="resetSeat()"
       [disabled]="seats[current].width === undefined"
-      class="blue-button btn-custom btn-primary"
+      class="btn-blue"
       type="button"
     >
       Reset
     </button>
-    <button (click)="deleteSeat()" class="blue-button btn-custom btn-red" type="button">
+    <button (click)="deleteSeat()" class="btn-red" type="button">
       <tui-svg src="tuiIconTrashLarge"></tui-svg>
     </button>
   </form>
   <div class="flex justify-end">
-    <button (click)="cancel()" class="blue-button btn-custom btn-primary">{{ t('cancel') }}</button>
+    <button (click)="cancel()" class="btn-blue">{{ t('cancel') }}</button>
     <button (click)="save()" [disabled]="!form.valid || !model.imageUrl" class="blue-button ml-8">
       {{ t('save') }}
     </button>

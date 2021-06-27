@@ -14,7 +14,7 @@ export interface StyleSeat extends Partial<Dimension> {
 export interface Seat extends StyleSeat {
   id: string;
   label: string;
-  assignedUser: Partial<User>;
+  assignedUser: Partial<User> | null;
   style: string;
 }
 

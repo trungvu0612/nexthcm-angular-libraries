@@ -1,0 +1,13 @@
+:host {
+  display: block;
+
+  tui-filter {
+    display: grid;
+
+    ::ng-deep {
+      div.label div.content {
+        display: block;
+      }
+    }
+  }
+}

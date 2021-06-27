@@ -1,50 +1,32 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { filterBySearch } from '@nexthcm/ui';
-import { FormControl } from '@ngneat/reactive-forms';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { FieldType } from '@ngx-formly/core';
-import { RxState } from '@rx-angular/state';
-import { TuiDestroyService } from '@taiga-ui/cdk';
-import { map, startWith, switchMap } from 'rxjs/operators';
 import { Service } from '../../models/policy';
-import { AdminPermissionsService } from '../../services/admin-permissions.service';
+import { TuiIdentityMatcher } from '@taiga-ui/cdk';
 
 @Component({
   selector: 'formly-input-service',
   templateUrl: './input-service.type.html',
-  // styles: [':host {display: flex; padding: 1.75rem;}'],
+  styleUrls: ['./input-service.type.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [RxState, TuiDestroyService],
 })
-export class InputServiceComponent extends FieldType {
-  expanded = false;
-  searchControl = new FormControl<string>('');
-  servicesFiltered$ = this.state.select('services');
+export class InputServiceComponent extends FieldType implements OnInit {
+  expanded = true;
+  filterControl = new FormControl();
+  matcher: TuiIdentityMatcher<Service> = (item1, item2) => item1.serviceId === item2.serviceId;
 
-  constructor(
-    private adminPermissions: AdminPermissionsService,
-    private state: RxState<{ services: Partial<Service>[] }>
-  ) {
-    super();
-    this.state.connect(
-      'services',
-      this.searchControl.valueChanges.pipe(
-        startWith(''),
-        switchMap((search) =>
-          this.adminPermissions.select('services').pipe(
-            map((services) => Array(12).fill(services[0])),
-            map((services) => filterBySearch(services, search))
-          )
-        )
-      )
-    );
-  }
-
-  chooseService(service: Partial<Service>): void {
-    this.formControl.patchValue(service);
-    this.toggleExpanded();
+  ngOnInit(): void {
+    this.formControl.value && this.filterControl.setValue([this.formControl.value]);
   }
 
   toggleExpanded(): void {
     this.expanded = !this.expanded;
+  }
+
+  selectService(service: Partial<Service>): void {
+    const value = this.formControl.value?.serviceId === service.serviceId ? null : service;
+    this.formControl.setValue(value);
+    this.filterControl.setValue([]);
+    if (value) this.toggleExpanded();
   }
 }

@@ -4,7 +4,7 @@
     <formly-form [fields]="fields" [form]="form" [model]="model"></formly-form>
   </form>
   <div class="flex justify-center">
-    <button (click)="cancel()" class="blue-button btn-custom btn-primary">{{ t('cancel') }}</button>
+    <button (click)="cancel()" class="btn-blue">{{ t('cancel') }}</button>
     <button (click)="save()" [disabled]="!form.valid" class="blue-button ml-8">{{ t('save') }}</button>
   </div>
 </section>

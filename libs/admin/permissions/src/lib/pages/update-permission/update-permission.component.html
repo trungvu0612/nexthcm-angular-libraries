@@ -2,5 +2,36 @@
   <header>
     <h1>Update Permission</h1>
   </header>
-  <section class="main-section"></section>
+  <section class="main-section">
+    <tui-stepper [(activeItemIndex)]="stepperIndex" class="flex justify-center py-6 mb-8">
+      <button [disabled]="stepperIndex" state="pass" tuiStep>Policy Detail</button>
+      <button [state]="stepperIndex ? 'pass' : 'normal'" tuiStep>Service & Resource</button>
+      <button (click)="submitServices()" [disabled]="!servicesForm.valid" tuiStep>Review Policy</button>
+    </tui-stepper>
+    <hcm-permission-detail
+      #permission
+      *ngIf="refresh$ | async"
+      [hidden]="stepperIndex !== 1"
+      [policyForm]="policyForm"
+      [policyModel]="policyModel"
+      [servicesForm]="servicesForm"
+      [servicesModel]="servicesModel"
+    ></hcm-permission-detail>
+    <div class="medium-buttons flex justify-end gap-4 mt-5">
+      <button class="btn-white" routerLink="../">Cancel</button>
+      <button
+        (click)="next()"
+        *ngIf="stepperIndex !== 2"
+        [disabled]="stepperIndex && !servicesForm.valid"
+        class="blue-button"
+      >
+        Next
+      </button>
+      <button (click)="stepperIndex = 1" *ngIf="stepperIndex === 2" class="btn-blue">Previous</button>
+      <button (click)="updatePolicy()" *ngIf="stepperIndex === 2" [disabled]="!policyForm.valid" class="blue-button">
+        Update Policy
+      </button>
+    </div>
+  </section>
 </main>
+<hcm-prompt #prompt></hcm-prompt>

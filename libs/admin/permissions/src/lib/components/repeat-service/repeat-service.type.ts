@@ -4,6 +4,7 @@ import { FieldArrayType } from '@ngx-formly/core';
 @Component({
   selector: 'formly-repeat-service',
   templateUrl: './repeat-service.type.html',
+  styleUrls: ['./repeat-service.type.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RepeatServiceComponent extends FieldArrayType {

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { ResponseData, Zone } from '@nexthcm/ui';
+import { Pagination, Zone } from '@nexthcm/core';
 import { BehaviorSubject, merge, Observable, Subject } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { ZoneType } from '../../models/offices';
@@ -19,7 +19,7 @@ export class MainPageComponent implements OnInit {
   @Output() edit = new EventEmitter<Partial<Zone>>();
   @Output() remove = new EventEmitter<Partial<Zone>>();
   params$ = new BehaviorSubject<{ page?: number; size?: number }>({ size: 10 });
-  data$!: Observable<ResponseData<Zone>>;
+  data$!: Observable<Pagination<Zone>>;
 
   constructor(private adminOfficesService: AdminOfficesService) {}
 

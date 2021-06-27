@@ -34,11 +34,5 @@
     .bg-gradient {
       @apply bg-gradient-to-r from-blue-300 via-green-300 to-purple-300 rounded-xl w-3/4 max-w-4xl p-3;
     }
-
-    .medium-buttons {
-      button {
-        @apply h-10 py-0;
-      }
-    }
   }
 }

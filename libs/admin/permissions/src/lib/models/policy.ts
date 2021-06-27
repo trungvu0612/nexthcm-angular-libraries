@@ -18,7 +18,7 @@ export interface Action extends Item {
 
 export interface Permission {
   permissionId: string;
-  resource: Resource;
+  resource: Resource | Resource[];
   action: Action;
 }
 
@@ -39,6 +39,6 @@ export interface Policy extends Item {
 
 export interface PermissionForm {
   action: Partial<Action>;
-  resources: Partial<Resource>[];
-  resourcesForm: AbstractControl<Partial<Resource>[]>;
+  resource: Partial<Resource>[];
+  resourcesForm?: AbstractControl<Partial<Resource>[]>;
 }

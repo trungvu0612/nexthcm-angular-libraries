@@ -1,4 +1,4 @@
-import { Dimension, Zone } from '@nexthcm/ui';
+import { Dimension, Zone } from '@nexthcm/core';
 
 export type ZoneType = 'office' | 'seatMap';
 
