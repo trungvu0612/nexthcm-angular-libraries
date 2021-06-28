@@ -25,9 +25,8 @@ export class AdminEmployeeService {
     Object.keys(search).forEach((key) => {
       httpParams = httpParams.append(key, search[key as keyof SearchEmployee]);
     });
-    return this.httpClient.get<PagingResponse<User>>(this.appVersion + '/users?assigned=true', {
+    return this.httpClient.get<PagingResponse<User>>(this.appVersion + '/users', {
       params: httpParams
-        .set('assigned', 'true')
         .set('page', pageIndex ? pageIndex.toString() : '')
         .set('size', pageSize ? pageSize.toString() : ''),
     });
@@ -66,7 +65,7 @@ export class AdminEmployeeService {
   }
 
   getAllUsers(): Observable<PagingResponse<User>> {
-    return this.httpClient.get<PagingResponse<User>>(this.appVersion + `/users?assigned=true`, {});
+    return this.httpClient.get<PagingResponse<User>>(this.appVersion + `/users`, {});
   }
 
   getJobTitle(): Observable<PagingResponse<JobTitle>> {
