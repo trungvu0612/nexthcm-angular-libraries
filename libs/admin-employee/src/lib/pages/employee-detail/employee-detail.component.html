@@ -1,83 +1,89 @@
-<div class="grid grid-cols-3 gap-4">
-  <div class="mt-10 mx-auto">
-    <div class="text-center">
-      <img class="mx-auto" src="/assets/images/employee.png" />
-      <div class="text-xl font-bold my-4">{{ userInfo?.profile?.lastName }} {{ userInfo?.profile?.firstName }}</div>
-      <div class="text-base text-gray-500">CIF-{{ userInfo?.code }}</div>
-    </div>
-    <div class="grid grid-cols-2 my-5 gap-3">
-      <div class="font-bold">DOB:</div>
-      <div class="font-bold">{{ userInfo?.profile?.birthDay | date: 'dd/MM/yyyy' }}</div>
-      <!--      <div class="text-yellow-500 font-bold">Happy Birthday</div>-->
-      <div class="font-bold">Gender:</div>
-      <div>{{ userInfo?.profile?.gender }}</div>
-      <div class="font-bold">Marital Status:</div>
-      <div></div>
-      <div class="font-bold">Nationality:</div>
-      <div></div>
-      <div class="font-bold">Languages:</div>
-      <div></div>
-      <div class="font-bold">Status:</div>
-      <div></div>
-      <div class="font-bold">Role:</div>
-      <div>
-        <div *ngFor="let roleList of userInfo?.roles">{{ roleList?.name }}</div>
+<main class="main-page">
+  <div class="grid grid-cols-3 gap-4">
+    <div class="mt-10 mx-auto">
+      <div class="text-center">
+        <img class="mx-auto" src="/assets/images/employee.png"/>
+        <div class="text-xl font-bold my-4">{{userInfo?.profile?.lastName}} {{userInfo?.profile?.firstName}}</div>
+        <div class="text-base text-gray-500">CIF-{{userInfo?.code}}</div>
+      </div>
+      <div class="grid grid-cols-2 my-5 gap-3">
+        <div class="font-bold">DOB:</div>
+        <div class="font-bold">{{userInfo?.profile?.birthDay | date: 'dd/MM/yyyy'}}</div>
+        <!--      <div class="text-yellow-500 font-bold">Happy Birthday</div>-->
+        <div class="font-bold">Gender:</div>
+        <div>{{userInfo?.profile?.gender}}</div>
+        <div class="font-bold">Marital Status:</div>
+        <div>{{userInfo?.profile?.maritalStatus}}</div>
+        <div class="font-bold">Nationality:</div>
+        <div>{{userInfo?.address.countryId}}</div>
+        <div class="font-bold">Languages:</div>
+        <div>{{userInfo?.languageId}}</div>
+        <div class="font-bold">Status:</div>
+        <div>
+          <ng-container *ngIf="userInfo?.state == 1"><span class="status-open">Hoạt động</span></ng-container>
+          <ng-container *ngIf="userInfo?.state !=1"><span class="status-close">Ngừng hoạt động</span></ng-container>
+        </div>
+        <div class="font-bold">Role:</div>
+        <div>
+          <div *ngFor="let roleList of userInfo?.roles">{{roleList?.name}}</div>
+        </div>
       </div>
     </div>
-  </div>
-  <div>
-    <div class="text-xl font-bold text-blue-500 mb-5">Thông tin nhân viên</div>
-    <div class="text-xl font-bold">Personal Information</div>
-    <div class="grid grid-cols-2 my-5 gap-3">
-      <div class="font-bold">Job Title</div>
-      <div class="font-bold text-blue-500"></div>
-      <div class="font-bold">Department:</div>
-      <div class="font-bold text-blue-500"></div>
-      <div class="font-bold">Office:</div>
-      <div></div>
-      <div class="font-bold">Join Date:</div>
-      <div></div>
-      <div class="font-bold">Phone:</div>
-      <div>{{ userInfo?.contact?.phone }}</div>
-      <div class="font-bold">Skype:</div>
-      <div class="font-bold text-blue-500"></div>
-      <div class="font-bold">Major/Specialization:</div>
-      <div>{{ userInfo?.profile?.major }}</div>
-      <div class="font-bold">Institute:</div>
-      <div>{{ userInfo?.profile?.institute }}</div>
-      <div class="font-bold">Facebook:</div>
-      <div class="font-bold text-blue-500"></div>
-      <div class="font-bold">Instagram:</div>
-      <div class="font-bold text-blue-500"></div>
-      <div class="font-bold">Salary:</div>
-      <div class="font-bold text-blue-500">{{ userInfo?.profile?.salary }}$</div>
-      <div class="font-bold">Address:</div>
-      <div class="font-bold text-blue-500">{{ userInfo?.address?.address1 }}</div>
-    </div>
-  </div>
-  <div class="mt-10 timeline">
-    <div class="mr-10">
-      <div class="work-info relative">
-        <tui-svg src="assets/icons/clipboard.svg"></tui-svg>
-        <div></div>
-        <div class="font-bold text-base">Ngày bắt đầu công việc</div>
+    <div>
+      <div class="text-xl font-bold text-blue-500 mb-5">Thông tin nhân viên</div>
+      <div class="text-xl font-bold">Personal Information</div>
+      <div class="grid grid-cols-2 my-5 gap-3">
+        <div class="font-bold">Job Title</div>
+        <div class="font-bold text-blue-500">{{userInfo?.title?.name}}</div>
+        <div class="font-bold">Department:</div>
+        <div class="font-bold text-blue-500"></div>
+        <div class="font-bold">Office:</div>
+        <div>{{userInfo?.office?.name}}</div>
+        <div class="font-bold">Join Date:</div>
+        <div>{{userInfo?.registration | date: 'dd/MM/yyyy' }}</div>
+        <div class="font-bold">Phone:</div>
+        <div>{{userInfo?.contact?.phone}}</div>
+        <div class="font-bold">Skype:</div>
+        <div class="font-bold text-blue-500">{{userInfo?.contact?.skype}}</div>
+        <div class="font-bold">Major/Specialization:</div>
+        <div>{{userInfo?.profile?.major}}</div>
+        <div class="font-bold">Institute:</div>
+        <div>{{userInfo?.profile?.institute}}</div>
+        <div class="font-bold">Facebook:</div>
+        <div class="font-bold text-blue-500">{{userInfo?.contact?.facebook}}</div>
+        <div class="font-bold">Instagram:</div>
+        <div class="font-bold text-blue-500">{{userInfo?.contact?.instagram}}</div>
+        <div class="font-bold">Salary:</div>
+        <div class="font-bold text-blue-500">{{userInfo?.profile?.salary}} <span
+          *ngIf="userInfo?.profile?.salary">$</span></div>
+        <div class="font-bold">Address:</div>
+        <div class="font-bold text-blue-500">{{userInfo?.address?.address1}}</div>
       </div>
     </div>
+    <div class="mt-10 timeline">
+      <div class="mr-10">
+        <div class="work-info relative">
+          <tui-svg src="assets/icons/clipboard.svg"></tui-svg>
+          <div>{{userInfo?.profile?.birthDay | date: 'dd/MM/yyyy'}}</div>
+          <div class="font-bold text-base">Ngày bắt đầu công việc</div>
+        </div>
+      </div>
 
-    <div class="mr-10">
-      <div class="work-info relative">
-        <tui-svg src="assets/icons/dashboard.svg"></tui-svg>
-        <div></div>
-        <div class="font-bold text-base">Hợp đồng thử việc</div>
+      <div class="mr-10">
+        <div class="work-info relative">
+          <tui-svg src="assets/icons/dashboard.svg"></tui-svg>
+          <div></div>
+          <div class="font-bold text-base">Hợp đồng thử việc</div>
+        </div>
       </div>
-    </div>
 
-    <div class="mr-10">
-      <div class="work-info relative">
-        <tui-svg src="assets/icons/account.svg"></tui-svg>
-        <div></div>
-        <div class="font-bold text-base">Hợp đồng chính thức</div>
+      <div class="mr-10">
+        <div class="work-info relative">
+          <tui-svg src="assets/icons/account.svg"></tui-svg>
+          <div></div>
+          <div class="font-bold text-base">Hợp đồng chính thức</div>
+        </div>
       </div>
     </div>
   </div>
-</div>
+</main>
