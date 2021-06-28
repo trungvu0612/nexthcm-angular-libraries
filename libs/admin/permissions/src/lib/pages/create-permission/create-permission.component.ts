@@ -4,9 +4,9 @@ import { PromptComponent } from '@nexthcm/ui';
 import { FormGroup } from '@ngneat/reactive-forms';
 import { switchMap } from 'rxjs/operators';
 import { SweetAlertOptions } from 'sweetalert2';
+import { PermissionDetailComponent } from '../../components/permission-detail/permission-detail.component';
 import { Policy } from '../../models/policy';
 import { AdminPermissionsService } from '../../services/admin-permissions.service';
-import { PermissionDetailComponent } from '../../components/permission-detail/permission-detail.component';
 
 @Component({
   selector: 'hcm-create-permission',
@@ -33,7 +33,7 @@ export class CreatePermissionComponent {
 
   createPolicy(): void {
     this.adminPermissions
-      .postPolicy(this.policyModel)
+      .addPermission(this.policyModel)
       .pipe(switchMap(() => this.prompt.open({ icon: 'success', text: 'Created successfully!' } as SweetAlertOptions)))
       .subscribe(() => this.router.navigate(['admin/permissions']));
   }

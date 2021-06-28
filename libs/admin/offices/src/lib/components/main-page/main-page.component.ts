@@ -29,7 +29,7 @@ export class MainPageComponent implements OnInit {
     );
   }
 
-  onChange(key: 'page' | 'size', value: number): void {
+  changePagination(key: 'page' | 'size', value: number): void {
     this.params$.next({ ...this.params$.value, [key]: value });
   }
 }

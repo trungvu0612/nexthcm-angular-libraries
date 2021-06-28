@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, Inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Zone } from '@nexthcm/core';
 import { FormlyFieldConfig } from '@ngx-formly/core';
@@ -11,10 +11,10 @@ import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
   styleUrls: ['./office-detail-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class OfficeDetailDialogComponent implements AfterViewInit {
-  title!: string;
+export class OfficeDetailDialogComponent {
+  title = this.context.data ? 'editOffice' : 'addOffice';
   form = new FormGroup({});
-  model!: Zone;
+  model: Partial<Zone> = this.context.data || {};
   fields: FormlyFieldConfig[] = [
     {
       key: 'name',
@@ -50,20 +50,17 @@ export class OfficeDetailDialogComponent implements AfterViewInit {
     },
   ];
 
-  constructor(@Inject(POLYMORPHEUS_CONTEXT) private context: TuiDialogContext<Zone | undefined, Zone | undefined>) {}
+  constructor(
+    @Inject(POLYMORPHEUS_CONTEXT)
+    private context: TuiDialogContext<Partial<Zone> | null, Partial<Zone> | null>
+  ) {}
 
-  ngAfterViewInit(): void {
-    if (this.context.data) {
-      this.form.patchValue(this.context.data);
-      this.title = 'editOffice';
-    } else this.title = 'addOffice';
+  save(): void {
+    const { status = 0, longitude = 0, latitude = 0 } = this.model;
+    this.context.completeWith(Object.assign(this.model, { status, longitude, latitude }));
   }
 
   cancel(): void {
-    this.context.completeWith(undefined);
-  }
-
-  save(): void {
-    this.context.completeWith(this.model);
+    this.context.completeWith(null);
   }
 }

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ElementRef, HostBinding, Injector, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, HostBinding, Injector, Input } from '@angular/core';
 import { Seat, User } from '@nexthcm/core';
 import { RxState } from '@rx-angular/state';
 import { TuiDialogService } from '@taiga-ui/core';
@@ -7,6 +7,16 @@ import { Subject } from 'rxjs';
 import { HelpDeskService } from '../../services/help-desk.service';
 import { AddSeatDialogComponent } from '../add-seat-dialog/add-seat-dialog.component';
 
+enum USER_STATE {
+  'checked-in',
+  'not-check-in-out',
+  'check-in-late',
+  'working-outside',
+  'leave',
+  'offline',
+  'none',
+}
+
 @Component({
   selector: 'hcm-seat',
   templateUrl: './seat.component.html',
@@ -14,11 +24,11 @@ import { AddSeatDialogComponent } from '../add-seat-dialog/add-seat-dialog.compo
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [RxState],
 })
-export class SeatComponent implements OnInit {
+export class SeatComponent {
   @Input() seat!: Partial<Seat>;
   @Input() refresh$!: Subject<unknown>;
   isAdmin = true;
-  seatStatus = 'none';
+  random = Math.round(Math.random() * 6);
   openDropdown = false;
   dragging$ = this.state.select('dragging');
 
@@ -54,8 +64,17 @@ export class SeatComponent implements OnInit {
     return this.seat.rounded + '%';
   }
 
-  ngOnInit(): void {
-    if (this.seat.assignedUser) this.seatStatus = 'leave';
+  get status(): string {
+    return this.seat.assignedUser ? USER_STATE[this.random] : '';
+  }
+
+  get convertedStatus(): string {
+    return this.status === 'none'
+      ? 'NA'
+      : this.status
+          .replace('in-out', 'in/out')
+          .replace(/-/g, ' ')
+          .replace(/^./, (m) => m.toUpperCase());
   }
 
   onClick(type: string): void {

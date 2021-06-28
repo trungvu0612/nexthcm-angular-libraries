@@ -18,7 +18,10 @@ import { translocoConfigProvider } from './transloco/transloco-config';
     CommonModule,
     HttpClientModule,
     TranslocoModule,
-    FormlyModule.forRoot({ extras: { lazyRender: true, resetFieldOnHide: true } }),
+    FormlyModule.forRoot({
+      validationMessages: [{ name: 'required', message: 'This field is required' }],
+      extras: { lazyRender: true, resetFieldOnHide: true },
+    }),
     TuiDialogModule,
     SweetAlert2Module.forRoot(),
   ],

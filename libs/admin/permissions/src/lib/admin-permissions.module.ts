@@ -4,7 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { PromptComponentModule } from '@nexthcm/ui';
 import { TranslocoModule } from '@ngneat/transloco';
 import { FormlyModule } from '@ngx-formly/core';
-import { TuiTableModule } from '@taiga-ui/addon-table';
+import { TuiTableModule, TuiTablePaginationModule } from '@taiga-ui/addon-table';
 import { TuiLetModule } from '@taiga-ui/cdk';
 import {
   TuiDataListModule,
@@ -22,19 +22,19 @@ import {
   TuiMultiSelectModule,
   TuiStepperModule,
 } from '@taiga-ui/kit';
+import { TableModule } from 'ngx-easy-table';
 import { of } from 'rxjs';
 import { AdminPermissionsRoutingModule } from './admin-permissions-routing.module';
 import { AdminPermissionsComponent } from './admin-permissions.component';
 import { InputActionsComponent } from './components/input-actions/input-actions.type';
 import { InputServiceComponent } from './components/input-service/input-service.type';
+import { PermissionDetailComponent } from './components/permission-detail/permission-detail.component';
 import { RepeatServiceComponent } from './components/repeat-service/repeat-service.type';
 import { SelectResourcesComponent } from './components/select-resources/select-resources.component';
 import { CreatePermissionComponent } from './pages/create-permission/create-permission.component';
 import { PermissionListComponent } from './pages/permission-list/permission-list.component';
 import { UpdatePermissionComponent } from './pages/update-permission/update-permission.component';
 import { AdminPermissionsService } from './services/admin-permissions.service';
-import { TableModule } from 'ngx-easy-table';
-import { PermissionDetailComponent } from './components/permission-detail/permission-detail.component';
 
 @NgModule({
   declarations: [
@@ -68,7 +68,6 @@ import { PermissionDetailComponent } from './components/permission-detail/permis
         },
       ],
       validationMessages: [
-        { name: 'required', message: 'This field is required' },
         {
           name: 'textPermission',
           message: (maxCharacters: number) =>
@@ -90,6 +89,7 @@ import { PermissionDetailComponent } from './components/permission-detail/permis
     TuiFilterModule,
     TuiLetModule,
     TableModule,
+    TuiTablePaginationModule,
   ],
   providers: [AdminPermissionsService],
 })

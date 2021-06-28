@@ -66,8 +66,8 @@
         <tr>
           <td [colSpan]="columns.length">
             <tui-table-pagination
-              (pageChange)="onChange('page', $event)"
-              (sizeChange)="onChange('size', $event)"
+              (pageChange)="changePagination('page', $event)"
+              (sizeChange)="changePagination('size', $event)"
               [total]="data.totalElements"
             ></tui-table-pagination>
           </td>

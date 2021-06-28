@@ -1,0 +1,112 @@
+main.main-page {
+  @apply px-14 py-9;
+
+  > header {
+    @apply flex justify-between items-center font-semibold h-12 mb-8;
+
+    h1 {
+      @apply text-4xl;
+    }
+  }
+}
+
+section.main-section {
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.06);
+  @apply bg-white rounded-xl p-8;
+}
+
+button {
+  @apply font-semibold disabled:opacity-50;
+
+  &:hover,
+  &:not(:hover) {
+    outline: none;
+  }
+}
+
+@mixin button {
+  box-shadow: 0 4px 10px rgba(16, 156, 241, 0.24);
+  @apply flex justify-center items-center text-base rounded-xl px-7 h-11;
+}
+
+.blue-button {
+  background-color: var(--tui-primary);
+  color: white;
+  @include button;
+}
+
+.btn-blue {
+  border-color: var(--tui-primary);
+  color: var(--tui-primary);
+  @apply bg-white border-2;
+  @include button;
+}
+
+.btn-red {
+  @apply bg-white border-2 border-red-600 text-red-600;
+  @include button;
+}
+
+.btn-white {
+  color: var(--tui-primary);
+  @apply bg-white px-0;
+  @include button;
+}
+
+.medium-buttons > button {
+  @apply rounded-lg text-sm px-5 h-9;
+}
+
+.custom-link {
+  color: var(--tui-primary);
+  @apply font-semibold;
+}
+
+.hcm-tui-table {
+  width: 100%;
+
+  button.sort {
+    font-weight: 600;
+
+    .arrow {
+      opacity: 1;
+    }
+  }
+
+  th,
+  td {
+    @apply border-0 border-b text-sm py-4;
+
+    &:not(td) {
+      @apply text-gray-500 font-semibold;
+    }
+
+    &.center-custom {
+      max-width: 100px !important;
+      @apply text-center;
+    }
+  }
+
+  tbody {
+    tr:nth-child(odd) td {
+      @apply bg-gray-50;
+    }
+  }
+
+  tfoot td {
+    border: none;
+  }
+}
+
+.detail-table {
+  @apply text-sm;
+
+  th,
+  td {
+    @apply border-none text-left py-2;
+
+    &:not(td) {
+      @apply align-baseline pr-10;
+    }
+  }
+}

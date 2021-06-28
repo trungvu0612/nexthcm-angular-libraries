@@ -3,7 +3,7 @@
   *ngIf="seat.assignedUser as user; else icon"
   [(open)]="openDropdown"
   [canOpen]="(dragging$ | async) !== true"
-  [class]="seatStatus"
+  [class]="status"
   [content]="content"
   [tuiDropdownSided]="true"
   class="border-2 bg-white"
@@ -15,40 +15,46 @@
     <article class="p-4">
       <div class="flex items-center border-b border-gray-300 pb-3">
         <tui-avatar
-          [avatarUrl]="user.image || null"
+          [avatarUrl]="user.profile?.image || '' | getFile | async"
           [rounded]="true"
           [text]="user.username || ''"
           size="xl"
         ></tui-avatar>
         <div class="flex-auto font-semibold text-center px-4">
           <h1 class="text-2xl mt-3 mb-2">{{ user.username }}</h1>
-          <p class="text-lg text-gray-400">{{ user.dateOfBirth | date: 'dd/MM/yyyy' }}</p>
+          <p class="text-lg text-gray-400">{{ user.code }}</p>
         </div>
       </div>
       <table class="detail-table mt-2">
         <tr>
           <th>Status:</th>
           <td>
-            <span *ngIf="user.status" [class]="seatStatus" class="border-2 rounded-xl p-1">{{ user.status }}</span>
+            <span [class]="status" class="border-2 rounded-xl px-2 py-1">{{ convertedStatus }}</span>
           </td>
         </tr>
-        <tr>
-          <th>Team:</th>
-          <td>
-            <a [routerLink]="['/human-resource/teams', 'team-id']" class="custom-link">{{ user.team }}</a>
-          </td>
+        <tr *ngIf="user.profile?.birthDay">
+          <th>Birth Day:</th>
+          <td>{{ user.profile?.birthDay | date: 'dd/MM/yyyy' }}</td>
         </tr>
-        <tr>
+        <tr *ngIf="user.contact?.phone">
           <th>Phone:</th>
-          <td>{{ user.phoneNumber }}</td>
+          <td>{{ user.contact?.phone }}</td>
         </tr>
-        <tr>
-          <th>Skype:</th>
-          <td>{{ user.skype }}</td>
-        </tr>
-        <tr>
+        <tr *ngIf="user.contact?.email">
           <th>Email:</th>
-          <td>{{ user.email }}</td>
+          <td>{{ user.contact?.email }}</td>
+        </tr>
+        <tr *ngIf="user.contact?.skype">
+          <th>Skype:</th>
+          <td>{{ user.contact?.skype }}</td>
+        </tr>
+        <tr *ngIf="user.contact?.facebook">
+          <th>Facebook:</th>
+          <td>{{ user.contact?.facebook }}</td>
+        </tr>
+        <tr *ngIf="user.contact?.instagram">
+          <th>Instagram:</th>
+          <td>{{ user.contact?.instagram }}</td>
         </tr>
       </table>
       <div class="medium-buttons flex justify-evenly mt-3">

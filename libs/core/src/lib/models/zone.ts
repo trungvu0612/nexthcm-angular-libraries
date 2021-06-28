@@ -21,6 +21,9 @@ export interface Seat extends StyleSeat {
 export interface Zone {
   id: string;
   name: string;
+  status: number;
+  longitude: number;
+  latitude: number;
   adder: string;
   description: string;
   address: string;

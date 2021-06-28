@@ -4,7 +4,7 @@
     <button class="blue-button" routerLink="./create">Create Permission</button>
   </header>
   <section class="main-section">
-    <table *ngIf="policies$ | async as policies" [columns]="columns" class="hcm-tui-table mt-2" tuiTable>
+    <table *ngIf="permissions$ | async as permissions" [columns]="columns" class="hcm-tui-table mt-2" tuiTable>
       <thead>
         <tr tuiThGroup>
           <th *tuiHead="'name'" [sorter]="null" tuiTh>Permission Name</th>
@@ -13,8 +13,8 @@
           <th *tuiHead="'action'" [sorter]="null" tuiTh>Action</th>
         </tr>
       </thead>
-      <tbody [data]="policies" tuiTbody>
-        <tr *tuiRow="let item of policies" tuiTr>
+      <tbody [data]="permissions.items" tuiTbody>
+        <tr *tuiRow="let item of permissions.items" tuiTr>
           <td *tuiCell="'name'" tuiTd>
             {{ item.name }}
           </td>
@@ -23,17 +23,28 @@
           </td>
           <td *tuiCell="'service'" tuiTd>{{ item.policyItems?.length }} in {{ totalServices$ | async }} services</td>
           <td *tuiCell="'action'" tuiTd>
-            <div class="flex justify-center text-black">
-              <button [queryParams]="{ policyId: item.policyId }" class="mr-2" routerLink="./update">
-                <tui-svg src="tuiIconEditLarge"></tui-svg>
+            <div class="flex text-gray-400">
+              <button [queryParams]="{ policyId: item.policyId }" routerLink="./update">
+                <tui-svg src="tuiIconEdit"></tui-svg>
               </button>
               <button>
-                <tui-svg src="tuiIconTrashLarge"></tui-svg>
+                <tui-svg src="tuiIconTrash"></tui-svg>
               </button>
             </div>
           </td>
         </tr>
       </tbody>
+      <tfoot>
+        <tr>
+          <td [colSpan]="columns.length">
+            <tui-table-pagination
+              (pageChange)="changePagination('page', $event)"
+              (sizeChange)="changePagination('size', $event)"
+              [total]="permissions.totalElements"
+            ></tui-table-pagination>
+          </td>
+        </tr>
+      </tfoot>
     </table>
   </section>
 </main>
