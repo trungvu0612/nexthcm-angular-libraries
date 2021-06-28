@@ -1,31 +1,51 @@
 <main class="main-page bg-white">
   <tui-loader [overlay]="true" [showLoader]="(loading$ | async) === true">
     <form (ngSubmit)="onSubmit()" [formGroup]="$any(form)">
-      <formly-form *rxLet="state$" [fields]="fields" [form]="$any(form)" [model]="model"></formly-form>
+      <ng-container *rxLet="state$">
+        <formly-form
+          *ngIf="editMode; else headerView"
+          [fields]="fields"
+          [form]="$any(form)"
+          [model]="model"
+        ></formly-form>
+        <ng-template #headerView>
+          <h2 class="tui-text_h3 tui-form__header tui-form__header_margin-top_none">{{ model.name }}</h2>
+          <label label="{{ 'description' | transloco }}" tuiLabel>{{ model.description }}</label>
+        </ng-template>
+      </ng-container>
       <div *transloco="let t" class="my-4 flex justify-end">
-        <button appearance="flat" class="tui-form__button" routerLink="../.." size="m" tuiButton type="button">
+        <button appearance="secondary" class="tui-form__button" routerLink="../.." size="m" tuiButton type="button">
           {{ t('cancel') }}
         </button>
-        <button class="tui-form__button" size="m" tuiButton>{{ t('publish') }}</button>
+        <button *ngIf="editMode" class="tui-form__button" size="m" tuiButton>{{ t('publish') }}</button>
       </div>
 
       <section class="bg-white flex flex-col border workflow-designer-container">
-        <div *transloco="let t" class="flex items-center p-3 bg-gray-100 border-b">
-          <button
-            (click)="onUpsertStatus()"
-            appearance="flat"
-            class="mr-3"
-            icon="tuiIconPlus"
-            size="s"
-            tuiButton
-            type="button"
-          >
-            {{ t('ADMIN_PROCESSES.addStatus') }}
-          </button>
-          <button (click)="onUpsertTransition()" appearance="flat" icon="tuiIconPlus" size="s" tuiButton type="button">
-            {{ t('ADMIN_PROCESSES.addTransition') }}
-          </button>
-        </div>
+        <ng-container *ngIf="editMode">
+          <div *transloco="let t" class="flex items-center p-3 bg-gray-100 border-b">
+            <button
+              (click)="onUpsertStatus()"
+              appearance="flat"
+              class="mr-3"
+              icon="tuiIconPlus"
+              size="s"
+              tuiButton
+              type="button"
+            >
+              {{ t('ADMIN_PROCESSES.addStatus') }}
+            </button>
+            <button
+              (click)="onUpsertTransition()"
+              appearance="flat"
+              icon="tuiIconPlus"
+              size="s"
+              tuiButton
+              type="button"
+            >
+              {{ t('ADMIN_PROCESSES.addTransition') }}
+            </button>
+          </div>
+        </ng-container>
 
         <div class="relative flex-1">
           <div class="absolute top-3 right-3 z-50">
@@ -34,27 +54,37 @@
               <p *ngIf="selectedCell.description" class="tui-island__paragraph">
                 {{ selectedCell.description }}
               </p>
-              <p *transloco="let t" class="tui-island__paragraph tui-island__paragraph_link">
-                <button
-                  (click)="onEditCell()"
-                  appearance="secondary"
-                  class="mr-3"
-                  icon="tuiIconEdit"
-                  size="s"
-                  tuiButton
-                  type="button"
-                >
-                  {{ t('edit') }}
-                </button>
-                <button (click)="onRemoveCell()" appearance="flat" icon="tuiIconTrash" size="s" tuiButton type="button">
-                  {{ t('remove') }}
-                </button>
-              </p>
+              <ng-container *ngIf="editMode">
+                <p *transloco="let t" class="tui-island__paragraph tui-island__paragraph_link">
+                  <button
+                    (click)="onEditCell()"
+                    appearance="secondary"
+                    class="mr-3"
+                    icon="tuiIconEdit"
+                    size="s"
+                    tuiButton
+                    type="button"
+                  >
+                    {{ t('edit') }}
+                  </button>
+                  <button
+                    (click)="onRemoveCell()"
+                    appearance="flat"
+                    icon="tuiIconTrash"
+                    size="s"
+                    tuiButton
+                    type="button"
+                  >
+                    {{ t('remove') }}
+                  </button>
+                </p>
+              </ng-container>
             </tui-island>
           </div>
           <hcm-workflow-designer
             #workflowDesigner
             (event)="onWorkflowEvent($event)"
+            [editMode]="editMode"
             class="h-full"
           ></hcm-workflow-designer>
         </div>

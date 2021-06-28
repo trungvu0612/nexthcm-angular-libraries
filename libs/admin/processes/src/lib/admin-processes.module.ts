@@ -9,7 +9,7 @@ import { FormlyModule } from '@ngx-formly/core';
 import { LetModule } from '@rx-angular/template';
 import { TuiTablePaginationModule } from '@taiga-ui/addon-table';
 import { TuiLetModule } from '@taiga-ui/cdk';
-import { TuiButtonModule, TuiLoaderModule } from '@taiga-ui/core';
+import { TuiButtonModule, TuiLabelModule, TuiLoaderModule } from '@taiga-ui/core';
 import { TuiCheckboxModule, TuiIslandModule } from '@taiga-ui/kit';
 import { TableModule } from 'ngx-easy-table';
 import { AdminProcessesComponent } from './admin-processes.component';
@@ -30,7 +30,8 @@ export const adminProcessesRoutes: Routes = [
         component: AdminProcessesComponent,
         children: [
           { path: '', component: ProcessManagementComponent },
-          { path: ':processId/edit', component: UpsertProcessComponent },
+          { path: ':processId/view', component: UpsertProcessComponent },
+          { path: ':processId/edit', component: UpsertProcessComponent, data: { edit: true } },
         ],
       },
     ],
@@ -56,6 +57,7 @@ export const adminProcessesRoutes: Routes = [
     LetModule,
     PromptComponentModule,
     TranslocoModule,
+    TuiLabelModule,
   ],
   declarations: [
     AdminProcessesComponent,

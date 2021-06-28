@@ -30,7 +30,7 @@ import { setCellStyle } from './utils/set-cell-style';
 })
 export class WorkflowDesignerComponent implements OnInit {
   @ViewChild('splash', { static: true }) splash!: ElementRef<HTMLDivElement>;
-  @Input() editMode = true;
+  @Input() editMode = false;
   @Output() readonly event = new EventEmitter<WorkflowEventType>();
 
   originStatus!: mxCell;
@@ -53,6 +53,7 @@ export class WorkflowDesignerComponent implements OnInit {
     this.graphSelectionModel = this.editor.graph.getSelectionModel();
     this.originStatus = this.drawStatus();
     this.editor.graph.center();
+    this.graphSelectionModel.addListener(mx.mxEvent.CHANGE, (sender) => this.handleSelectCell(sender));
     if (this.editMode) {
       this.editor.graph.setEnabled(true);
       this.editor.graph.setConnectable(true);
@@ -60,7 +61,6 @@ export class WorkflowDesignerComponent implements OnInit {
       this.editor.graph.addListener(mx.mxEvent.CONNECT_CELL, (_, evt: mxEventObject) =>
         this.handleConnectCellEvent(evt)
       );
-      this.graphSelectionModel.addListener(mx.mxEvent.CHANGE, (sender) => this.handleSelectCell(sender));
       this.editor.graph.addListener(mx.mxEvent.DOUBLE_CLICK, () => this.handleEditCell());
     }
   }

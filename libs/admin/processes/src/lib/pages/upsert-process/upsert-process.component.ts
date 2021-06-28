@@ -46,7 +46,8 @@ export class UpsertProcessComponent implements AfterViewInit {
   @ViewChild('workflowDesigner') workflowDesigner!: WorkflowAPIDefinition;
   @ViewChild('prompt') prompt!: PromptComponent;
 
-  processId = this.activatedRoute.snapshot.params.processId;
+  processId: string = this.activatedRoute.snapshot.params.processId;
+  editMode: boolean = this.activatedRoute.snapshot.data.edit;
   form: FormGroup<Process> = this.fb.group({ removingStates: [], removingTransitions: [] });
   fields: FormlyFieldConfig[] = [
     { key: 'id' },
@@ -57,6 +58,7 @@ export class UpsertProcessComponent implements AfterViewInit {
       templateOptions: {
         translate: true,
         required: true,
+        disabled: !this.editMode,
       },
       expressionProperties: {
         'templateOptions.iconTitle': this.translocoService.selectTranslate('ADMIN_PROCESSES.editName'),
@@ -74,6 +76,7 @@ export class UpsertProcessComponent implements AfterViewInit {
       templateOptions: {
         translate: true,
         label: 'description',
+        disabled: !this.editMode,
       },
     },
   ];
