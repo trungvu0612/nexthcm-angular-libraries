@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
-import { Pipe, PipeTransform } from '@angular/core';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { Pipe, PipeTransform, SecurityContext } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -10,9 +10,13 @@ import { map } from 'rxjs/operators';
 export class GetFilePipe implements PipeTransform {
   constructor(private http: HttpClient, private sanitizer: DomSanitizer) {}
 
-  transform(value: string): Observable<SafeUrl> {
+  transform(value: string): Observable<string | null> {
     return this.http
       .get('/fileapp/store/file/get', { params: { subPath: value }, responseType: 'blob' })
-      .pipe(map((blob) => this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob))));
+      .pipe(
+        map((blob) =>
+          this.sanitizer.sanitize(SecurityContext.URL, this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob)))
+        )
+      );
   }
 }

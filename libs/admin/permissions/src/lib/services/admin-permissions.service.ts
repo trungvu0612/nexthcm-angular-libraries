@@ -1,10 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Pagination, PagingResponse } from '@nexthcm/core';
 import { RxState } from '@rx-angular/state';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Action, Policy, Resource, Service } from '../models/policy';
-import { PagingResponse } from '@nexthcm/core';
 
 interface StatePermissions {
   services: Partial<Service>[];
@@ -31,21 +31,21 @@ export class AdminPermissionsService extends RxState<StatePermissions> {
       .pipe(map((response) => response.data.items));
   }
 
-  getPolicies(): Observable<Partial<Policy>[]> {
+  getPermissions(params: { page?: number; size?: number }): Observable<Pagination<Policy>> {
     return this.http
-      .get<PagingResponse<Policy>>('/accountapp/v1.0/permissions')
-      .pipe(map((response) => response.data.items));
+      .get<PagingResponse<Policy>>('/accountapp/v1.0/permissions', { params })
+      .pipe(map((response) => response.data));
   }
 
-  postPolicy(body: Partial<Policy>): Observable<Partial<Policy>> {
-    return this.http.post<Partial<Policy>>('/accountapp/v1.0/permissions', body);
-  }
-
-  getPolicy(policyId: string): Observable<Partial<Policy>> {
+  getPermission(policyId: string): Observable<Partial<Policy>> {
     return this.http.get<Partial<Policy>>('/accountapp/v1.0/permissions/' + policyId);
   }
 
-  putPolicy(policyId: string, body: Partial<Policy>): Observable<Partial<Policy>> {
+  addPermission(body: Partial<Policy>): Observable<Partial<Policy>> {
+    return this.http.post<Partial<Policy>>('/accountapp/v1.0/permissions', body);
+  }
+
+  editPermission(policyId: string, body: Partial<Policy>): Observable<Partial<Policy>> {
     return this.http.put<Partial<Policy>>('/accountapp/v1.0/permissions/' + policyId, body);
   }
 }

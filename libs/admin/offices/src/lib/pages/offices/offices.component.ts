@@ -32,16 +32,18 @@ export class OfficesComponent {
   }
 
   onAdd(): void {
-    this.showDialog().subscribe((detail) => {
-      if (detail) this.adminOfficesService.addOffice(detail).subscribe(() => this.refresh$.next());
+    this.showDialog().subscribe((office) => {
+      if (office) this.adminOfficesService.addOffice(office).subscribe(() => this.refresh$.next());
     });
   }
 
-  onEdit(item: Partial<Zone>): void {
-    this.showDialog(item).subscribe();
+  onEdit(office: Partial<Zone>): void {
+    this.showDialog(office).subscribe((office) => {
+      if (office) this.adminOfficesService.editOffice(office).subscribe(() => this.refresh$.next());
+    });
   }
 
   onRemove(item: Partial<Zone>): void {
-    console.log(item);
+    console.log('delete', item);
   }
 }

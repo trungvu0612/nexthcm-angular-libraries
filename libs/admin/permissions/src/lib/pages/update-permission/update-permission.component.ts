@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AdminPermissionsService } from '../../services/admin-permissions.service';
-import { FormGroup } from '@ngneat/reactive-forms';
-import { Permission, Policy, PolicyItem, Resource } from '../../models/policy';
 import { PromptComponent } from '@nexthcm/ui';
-import { PermissionDetailComponent } from '../../components/permission-detail/permission-detail.component';
+import { FormGroup } from '@ngneat/reactive-forms';
 import { map, switchMap } from 'rxjs/operators';
 import { SweetAlertOptions } from 'sweetalert2';
+import { PermissionDetailComponent } from '../../components/permission-detail/permission-detail.component';
+import { Permission, Policy, PolicyItem, Resource } from '../../models/policy';
+import { AdminPermissionsService } from '../../services/admin-permissions.service';
 
 @Component({
   selector: 'hcm-update-permission',
@@ -22,7 +22,7 @@ export class UpdatePermissionComponent {
   servicesModel!: Partial<Policy>;
   policyForm = new FormGroup<Partial<Policy>>({});
   policyModel!: Partial<Policy>;
-  refresh$ = this.adminPermissions.getPolicy(this.route.snapshot.queryParams.policyId).pipe(
+  refresh$ = this.adminPermissions.getPermission(this.route.snapshot.queryParams.policyId).pipe(
     map((policy) => {
       const policyItems: PolicyItem[] = JSON.parse(JSON.stringify(policy.policyItems));
       policyItems.forEach((policyItem) => {
@@ -63,7 +63,7 @@ export class UpdatePermissionComponent {
 
   updatePolicy(): void {
     this.adminPermissions
-      .putPolicy(this.route.snapshot.queryParams.policyId, this.policyModel)
+      .editPermission(this.route.snapshot.queryParams.policyId, this.policyModel)
       .pipe(switchMap(() => this.prompt.open({ icon: 'success', text: 'Updated successfully!' } as SweetAlertOptions)))
       .subscribe(() => this.router.navigate(['admin/permissions']));
   }
