@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { of } from 'rxjs';
 import { AdminEmployeeService } from '../../services/admin-employee.service';
-import { map } from 'rxjs/operators';
+import { map, startWith, tap } from 'rxjs/operators';
 import { GENDER_NAME, MARITAL_STATUS } from '../../models/employee-enum';
 import { TuiDay, TuiDestroyService } from '@taiga-ui/cdk';
 import { UserRole } from '../../models/user-role';
@@ -30,6 +30,7 @@ export class UpsertEmployeeComponent implements AfterViewInit {
   dataJobTitle$ = this.adminEmployeeService.getJobTitle().pipe(map((res) => res.data.items));
   dataJobLevel$ = this.adminEmployeeService.getJobLevels().pipe(map((res) => res.data.items));
   dataOrg$ = this.adminEmployeeService.getOrg().pipe(map((res) => res.data.items));
+  dataOffices$ = this.adminEmployeeService.getOffices().pipe(map((res) => res.data.items));
 
   dataGender$ = GENDER_NAME;
   dataMarital$ = MARITAL_STATUS;
@@ -125,10 +126,13 @@ export class UpsertEmployeeComponent implements AfterViewInit {
       },
     },
     {
-      key: 'office',
-      type: 'input',
+      key: 'office.id',
+      type: 'select',
       templateOptions: {
-        label: 'Office:',
+        options: this.dataOffices$,
+        labelProp: 'name',
+        valueProp: 'id',
+        placeholder: 'Office:',
       },
     },
     {
@@ -279,7 +283,7 @@ export class UpsertEmployeeComponent implements AfterViewInit {
         options: this.dataJobLevel$,
         labelProp: 'name',
         valueProp: 'id',
-        placeholder: 'Job Level(*):',
+        placeholder: 'Job Level:',
       },
     },
     {

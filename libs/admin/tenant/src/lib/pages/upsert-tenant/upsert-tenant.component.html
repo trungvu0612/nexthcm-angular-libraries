@@ -1,28 +1,30 @@
-<article>
-  <tui-tabs [(activeItemIndex)]="activeItemIndex">
-    <button class="btn-tab text-xl font-bold" tuiTab>Thông tin cơ bản</button>
-    <button class="btn-tab text-xl font-bold" tuiTab>Domain</button>
-  </tui-tabs>
+<main class="main-page">
+  <article>
+    <tui-tabs [(activeItemIndex)]="activeItemIndex">
+      <button class="btn-tab text-xl font-bold" tuiTab>Thông tin cơ bản</button>
+      <button class="btn-tab text-xl font-bold" tuiTab>Domain</button>
+    </tui-tabs>
 
-  <ng-container [ngSwitch]="activeItemIndex">
-    <ng-container *ngSwitchCase="0">
-      <div class="text-xl font-bold my-5 text-blue-900 my-10">Thêm Tenant</div>
-      <div class="max-w-7xl">
-        <formly-form
-          [fields]="fields"
-          [form]="form"
-          [model]="model"
-          [options]="options"
-          class="grid grid-cols-3 gap-6"
-        ></formly-form>
-        <div class="my-10 text-right">
-          <button (click)="saveTenant()" [disabled]="!form.valid" class="blue-button mt-5 mx-auto">Lưu</button>
+    <ng-container [ngSwitch]="activeItemIndex">
+      <ng-container *ngSwitchCase="0">
+        <div class="text-xl font-bold my-5 text-blue-900 my-10">Thêm Tenant</div>
+        <div class="max-w-7xl">
+          <formly-form
+            [fields]="fields"
+            [form]="form"
+            [model]="model"
+            [options]="options"
+            class="grid grid-cols-3 gap-6"
+          ></formly-form>
+          <div class="my-10 text-right">
+            <button (click)="saveTenant()" [disabled]="!form.valid" class="blue-button mt-5 mx-auto">Lưu</button>
+          </div>
         </div>
-      </div>
+      </ng-container>
+      <ng-container *ngSwitchCase="1">
+        <div class="text-xl font-bold my-5 text-blue-900 my-10">Quản lý Domain</div>
+        <hcm-domain-tenant-data-table [columns]="columns" [data]="data"></hcm-domain-tenant-data-table>
+      </ng-container>
     </ng-container>
-    <ng-container *ngSwitchCase="1">
-      <div class="text-xl font-bold my-5 text-blue-900 my-10">Quản lý Domain</div>
-      <hcm-domain-tenant-data-table [columns]="columns" [data]="data"></hcm-domain-tenant-data-table>
-    </ng-container>
-  </ng-container>
-</article>
+  </article>
+</main>

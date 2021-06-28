@@ -1,31 +1,33 @@
-<div class="grid grid-cols-2">
-  <div class="text-xl font-bold my-5 text-blue-900">Quản lý Tenant</div>
-  <div class="text-right mr-10 mt-5">
-    <button
-      [routerLink]="['add']"
-      class="rounded-lg bg-blue-500 hover:bg-blue-600 text-white pl-10 pr-10 pt-2 pb-2 text-sm"
-    >
-      Thêm Tenant
-    </button>
-  </div>
-</div>
-
-<div class="max-w-4xl">
-  <div class="grid grid-cols-3 gap-4">
-    <div class="text-xl font-bold">
-      Hoạt động
-      <div class="text-blue-700 font-bold text-3xl">809</div>
-    </div>
-    <div class="text-xl font-bold">
-      Chờ duyệt
-      <div class="text-yellow-700 font-bold text-3xl">27</div>
-    </div>
-    <div class="text-xl font-bold">
-      Không hoạt động
-      <div class="text-red-700 font-bold text-3xl">1,254</div>
+<main class="main-page">
+  <div class="grid grid-cols-2">
+    <div class="text-xl font-bold my-5 text-blue-900">Quản lý Tenant</div>
+    <div class="text-right mr-10 mt-5">
+      <button
+        [routerLink]="['add']"
+        class="rounded-lg bg-blue-500 hover:bg-blue-600 text-white pl-10 pr-10 pt-2 pb-2 text-sm"
+      >
+        Thêm Tenant
+      </button>
     </div>
   </div>
-  <tui-input class="b-form mt-5 search-form mb-5"> Tìm bằng ID, Tên, Email... </tui-input>
-</div>
 
-<hcm-tenant-data-table [columns]="columns" [data]="data"></hcm-tenant-data-table>
+  <div class="max-w-4xl">
+    <div class="grid grid-cols-3 gap-4">
+      <div class="text-xl font-bold">
+        Hoạt động
+        <div class="text-blue-700 font-bold text-3xl">809</div>
+      </div>
+      <div class="text-xl font-bold">
+        Chờ duyệt
+        <div class="text-yellow-700 font-bold text-3xl">27</div>
+      </div>
+      <div class="text-xl font-bold">
+        Không hoạt động
+        <div class="text-red-700 font-bold text-3xl">1,254</div>
+      </div>
+    </div>
+    <tui-input class="b-form mt-5 search-form mb-5"> Tìm bằng ID, Tên, Email...</tui-input>
+  </div>
+
+  <hcm-tenant-data-table [columns]="columns" [data]="data"></hcm-tenant-data-table>
+</main>
