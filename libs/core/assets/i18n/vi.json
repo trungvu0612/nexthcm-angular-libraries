@@ -7,21 +7,25 @@
   "bvCalendar": "Lịch BV",
   "cancel": "Hủy bỏ",
   "description": "Mô tả",
+  "edit": "Sửa",
   "editOffice": "Chỉnh sửa văn phòng",
   "editSeatMap": "Chỉnh sửa sơ đồ chỗ ngồi",
   "employees": "Nhân sự",
   "myLeave": "Danh sách nghỉ phép",
   "myRequest": "Danh sách yêu cầu",
-  "requestManagement": "Quản lý yêu cầu",
   "name": "Tên",
   "numberOfRoom": "Số phòng",
   "numberOfSeat": "Số chỗ ngồi",
   "office": "Văn phòng",
   "officeList": "Danh sách văn phòng",
   "officeName": "Tên văn phòng",
+  "OK": "OK",
   "organizationChart": "Sơ đồ tổ chức",
   "permission": "Quyền hạn",
   "policies": "Chính sách",
+  "publish": "Xuất bản",
+  "remove": "Xóa",
+  "requestManagement": "Quản lý yêu cầu",
   "save": "Lưu",
   "seatMap": "Sơ đồ chỗ ngồi",
   "seatMapList": "Danh sách sơ đồ chỗ ngồi",
@@ -29,9 +33,6 @@
   "teams": "Nhóm",
   "updated": "Cập nhật",
   "workingHour": "Thời gian làm việc",
-  "publish": "Xuất bản",
-  "edit": "Sửa",
-  "remove": "Xóa",
   "VALIDATION": {
     "required": "Trường này không được để trống.",
     "differentSource": "Điểm đích và điểm nguồn không được giống nhau.",
@@ -65,8 +66,5 @@
       "changeSourceOfTransition": "Bạn có chắc chắn muốn thay đổi nguồn của '{{transition}}' thành '{{status}}'?",
       "changeTargetOfTransition": "Bạn có chắc chắn muốn thay đổi đích của '{{transition}}' thành '{{status}}'?"
     }
-  },
-  "PROMPT": {
-    "OK": "OK"
   }
 }
