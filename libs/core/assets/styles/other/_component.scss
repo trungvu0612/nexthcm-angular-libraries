@@ -11,8 +11,7 @@ main.main-page {
 }
 
 section.main-section {
-  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.06);
-  @apply bg-white rounded-xl p-8;
+  @apply shadow-xl bg-white rounded-xl p-8;
 }
 
 button {
@@ -25,8 +24,7 @@ button {
 }
 
 @mixin button {
-  box-shadow: 0 4px 10px rgba(16, 156, 241, 0.24);
-  @apply flex justify-center items-center text-base rounded-xl px-7 h-11;
+  @apply flex justify-center items-center shadow-md text-base rounded-xl px-8 h-14;
 }
 
 .blue-button {

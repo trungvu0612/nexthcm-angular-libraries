@@ -2,9 +2,9 @@
   (searchChange)="search$.next($event || '')"
   [formControl]="$any(formControl)"
   [formlyAttributes]="field"
+  [identityMatcher]="to.identityMatcher"
   [stringify]="to.stringify"
   [style.maxWidth]="to.maxWidth"
-  [identityMatcher]="to.identityMatcher"
   [tuiHintContent]="to.description || null"
   [tuiTextfieldCustomContent]="to.icon || null"
   [tuiTextfieldExampleText]="to.placeholder || ''"
@@ -26,7 +26,7 @@
           ></tui-avatar>
           <div>
             <p [class.font-semibold]="to.subLabelProp" class="text-base">{{ item[to.labelProp] }}</p>
-            <p class="text-sm font-normal">{{ item[to.subLabelProp] }}</p>
+            <p class="text-sm font-normal">{{ getSubLabel(item) }}</p>
           </div>
         </div>
       </button>

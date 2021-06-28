@@ -7,21 +7,25 @@
   "bvCalendar": "BV Calendar",
   "cancel": "Cancel",
   "description": "Description",
+  "edit": "Edit",
   "editOffice": "Edit Office",
   "editSeatMap": "Edit Seat Map",
   "employees": "Employees",
   "myLeave": "My Leave",
   "myRequest": "My Request",
-  "requestManagement": "Request Management",
   "name": "Name",
   "numberOfRoom": "Number Of Room",
   "numberOfSeat": "Number Of Seat",
   "office": "Office",
   "officeList": "Office List",
   "officeName": "Office Name",
+  "OK": "OK",
   "organizationChart": "Organization Chart",
   "permission": "Permission",
   "policies": "Policy",
+  "publish": "Publish",
+  "remove": "Remove",
+  "requestManagement": "Request Management",
   "save": "Save",
   "seatMap": "Seat Map",
   "seatMapList": "Seat Map List",
@@ -29,9 +33,6 @@
   "teams": "Teams",
   "updated": "Updated",
   "workingHour": "Working Hour",
-  "publish": "Publish",
-  "edit": "Edit",
-  "remove": "Remove",
   "VALIDATION": {
     "required": "This field should not be blank.",
     "differentSource": "The target and the source should not be the same.",
@@ -65,8 +66,5 @@
       "changeSourceOfTransition": "Are you sure you want to change the source of '{{transition}}' to '{{status}}'?",
       "changeTargetOfTransition": "Are you sure you want to change the destination of '{{transition}}' to '{{status}}'?"
     }
-  },
-  "PROMPT": {
-    "OK": "OK"
   }
 }

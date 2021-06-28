@@ -1,8 +1,8 @@
 import { CdkDragStart } from '@angular/cdk/drag-drop';
 import { ChangeDetectionStrategy, Component, QueryList, ViewChildren } from '@angular/core';
 import { AuthQuery } from '@nexthcm/auth';
-import { filterBySearch } from '@nexthcm/ui';
 import { Zone } from '@nexthcm/core';
+import { filterBySearch } from '@nexthcm/ui';
 import { FormGroup } from '@ngneat/reactive-forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { RxState } from '@rx-angular/state';
@@ -38,6 +38,7 @@ export class SeatMapComponent {
         textfieldSize: 'm',
         textfieldLabelOutside: false,
         icon: 'assets/icons/office-building.svg',
+        subLabelProp: 'office.name',
         identityMatcher: (i1: Partial<Zone>, i2: Partial<Zone>) => i1.id === i2.id,
         serverRequest: (search: string): Observable<Partial<Zone>[]> =>
           this.seatMaps$.pipe(map((maps) => filterBySearch(maps, search))),

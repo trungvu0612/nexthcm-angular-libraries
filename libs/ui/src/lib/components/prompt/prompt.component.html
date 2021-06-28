@@ -1,4 +1,4 @@
-<swal #swal *transloco="let t; read: 'PROMPT'" [swalOptions]="swalOptions">
+<swal #swal *transloco="let t" [swalOptions]="swalOptions">
   <div *swalPortal="targets.actions">
     <button
       (click)="swal.close({ isConfirmed: true, isDenied: false, isDismissed: false })"

@@ -9,7 +9,6 @@ import { FormlyTaigaUiModule } from '@nexthcm/ui';
 import { TuiRootModule } from '@taiga-ui/core';
 import { environment } from '../environments/environment';
 import { AppComponent } from './app.component';
-import { AdminPoliciesModule } from '@nexthcm/admin-policies';
 
 @NgModule({
   declarations: [AppComponent],

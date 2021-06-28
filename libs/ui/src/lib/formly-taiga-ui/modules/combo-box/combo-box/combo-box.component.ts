@@ -40,4 +40,11 @@ export class ComboBoxComponent extends FieldType implements OnInit {
       if (value) this.to.textfieldLabelOutside = true;
     });
   }
+
+  getSubLabel(item: any): string | undefined {
+    return (
+      this.to.subLabelProp &&
+      this.to.subLabelProp.split('.').reduce((acc: any, cur: any) => (acc && acc[cur]) || null, item)
+    );
+  }
 }
