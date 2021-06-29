@@ -9,9 +9,10 @@ import {
   Inject,
   ViewChild,
 } from '@angular/core';
-import { filterBySearch, UploadFileService } from '@nexthcm/ui';
 import { Dimension, Seat, Zone } from '@nexthcm/core';
+import { filterBySearch, UploadFileService } from '@nexthcm/ui';
 import { FormBuilder, FormControl, FormGroup } from '@ngneat/reactive-forms';
+import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
@@ -66,6 +67,11 @@ export class SeatMapDialogComponent implements AfterViewInit {
         serverRequest: (search: string): Observable<Partial<Zone>[]> =>
           this.offices$.pipe(map((data) => filterBySearch(data.items, search))),
       },
+      validation: {
+        messages: {
+          required: () => this.translocoService.selectTranslate('VALIDATION.required'),
+        },
+      },
     },
     {
       key: 'name',
@@ -76,6 +82,11 @@ export class SeatMapDialogComponent implements AfterViewInit {
         required: true,
         textfieldSize: 'm',
         textfieldLabelOutside: true,
+      },
+      validation: {
+        messages: {
+          required: () => this.translocoService.selectTranslate('VALIDATION.required'),
+        },
       },
     },
     {
@@ -164,6 +175,7 @@ export class SeatMapDialogComponent implements AfterViewInit {
     private context: TuiDialogContext<Partial<Zone> | undefined, Partial<Zone> | undefined>,
     private adminOfficesService: AdminOfficesService,
     private uploadFileService: UploadFileService,
+    private translocoService: TranslocoService,
     private fb: FormBuilder,
     private changeDetector: ChangeDetectorRef,
     private destroy$: TuiDestroyService
