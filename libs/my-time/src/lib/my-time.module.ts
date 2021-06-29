@@ -36,11 +36,13 @@ import { RequestManagementModule } from './modules/request-management/request-ma
 import { MyTimeRoutingModule } from './my-time-routing.module';
 import { MyTimeComponent } from './my-time.component';
 import { CancelDialogLeaveComponent } from './pages/my-leave/cancel-dialog-leave/cancel-dialog-leave.component';
+import { DurationConfirmDialogComponent } from './pages/my-leave/duaration-comfirm-dialog/duration-confirm-dialog.component';
 import { LeaveDetailDialogComponent } from './pages/my-leave/leave-detail-dialog/leave-detail-dialog.component';
 import { MyLeaveComponent } from './pages/my-leave/my-leave.component';
 import { SubmitLeaveRequestDialogComponent } from './pages/my-leave/submit-leave-request-dialog/submit-leave-request-dialog.component';
 import { MyRequestComponent } from './pages/my-request/my-request.component';
 import { WorkingHourComponent } from './pages/working-hour/working-hour.component';
+import { MyLeaveService } from './services/my-leave/my-leave.service';
 
 @NgModule({
   declarations: [
@@ -55,6 +57,7 @@ import { WorkingHourComponent } from './pages/working-hour/working-hour.componen
     WorkingOutsiteComponent,
     WorkingHourComponent,
     CancelDialogLeaveComponent,
+    DurationConfirmDialogComponent,
   ],
   imports: [
     CommonModule,
@@ -91,5 +94,6 @@ import { WorkingHourComponent } from './pages/working-hour/working-hour.componen
     AdminLayoutModule,
     TuiDataListModule,
   ],
+  providers: [MyLeaveService],
 })
 export class MyTimeModule {}

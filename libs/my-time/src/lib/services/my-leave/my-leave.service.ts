@@ -1,20 +1,30 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { APP_CONFIG, AppConfig, PagingResponse } from '@nexthcm/core';
+import { RxState } from '@rx-angular/state';
 import { TuiTime } from '@taiga-ui/cdk';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { LeaveType } from '../../models/leave-type';
 import { MyLeave } from '../../models/my-leave';
+import { SentToUser } from '../../models/send-to-user';
 import { durationValues, PartialDays } from '../../models/submit-leave';
 
 const MY_TIME_PATH = '/mytimeapp/v1.0';
 const MY_ACCOUNT_PATH = '/accountapp/v1.0';
 
-@Injectable({
-  providedIn: 'root',
-})
-export class MyLeaveService {
-  constructor(@Inject(APP_CONFIG) protected env: AppConfig, private httpClient: HttpClient) {}
+interface MyLeaveState {
+  leaveTypes: LeaveType[];
+  sendToUsers: SentToUser[];
+}
+
+@Injectable()
+export class MyLeaveService extends RxState<MyLeaveState> {
+  constructor(@Inject(APP_CONFIG) protected env: AppConfig, private http: HttpClient) {
+    super();
+    this.connect('leaveTypes', this.getLeaveTypes());
+    this.connect('sendToUsers', this.getSendToUsers().pipe(map((res) => res.data.items)));
+  }
 
   partialDays: PartialDays[] = [
     {
@@ -65,22 +75,6 @@ export class MyLeaveService {
     },
   ];
 
-  timeValue = [
-    { value: 0, label: '08 : 00 : 00' },
-    { value: 1, label: '08 : 05 : 00' },
-    { value: 2, label: '08 : 10 : 00' },
-    { value: 3, label: '08 : 15 : 00' },
-    { value: 4, label: '08 : 20 : 00' },
-    { value: 5, label: '08 : 25 : 00' },
-    { value: 6, label: '08 : 30 : 00' },
-    { value: 7, label: '08 : 35 : 00' },
-    { value: 8, label: '08 : 40 : 00' },
-    { value: 9, label: '08 : 45 : 00' },
-    { value: 10, label: '08 : 50 : 00' },
-    { value: 11, label: '08 : 55 : 00' },
-    { value: 12, label: '09 : 00 : 00' },
-  ];
-
   halfTime = [
     { value: 0, label: 'Morning' },
     { value: 1, label: 'Afternoon' },
@@ -100,12 +94,22 @@ export class MyLeaveService {
       if (time.minutes == 45) {
         objCaculateHours.hours++;
         time = new TuiTime(objCaculateHours.hours, 0, 0);
-        arrayTime.push({ value: i, label: time.toString('HH:MM:SS') });
+        arrayTime.push({
+          value: i,
+          label:
+            time.toString('HH:MM:SS') > '12' ? time.toString('HH:MM:SS') + ' PM' : time.toString('HH:MM:SS') + ' AM',
+          time: time,
+        });
         console.log('objCaculateHours', time.toString('HH:MM:SS'));
       } else {
         const increasedTime = time.shift({ hours: 0, minutes: objCaculateHours.addMinute, seconds: 0 });
         time = increasedTime;
-        arrayTime.push({ value: i, label: time.toString('HH:MM:SS') });
+        arrayTime.push({
+          value: i,
+          label:
+            time.toString('HH:MM:SS') > '12' ? time.toString('HH:MM:SS') + ' PM' : time.toString('HH:MM:SS') + ' AM',
+          time: time,
+        });
         console.log('objCaculateHours', time.toString('HH:MM:SS'));
       }
     }
@@ -114,7 +118,7 @@ export class MyLeaveService {
 
   getMyLeaves(pageIndex: number, pageSize: number): Observable<PagingResponse<MyLeave>> {
     const httpParams = new HttpParams();
-    return this.httpClient.get<PagingResponse<MyLeave>>(`${MY_TIME_PATH}/leaves-all`, {
+    return this.http.get<PagingResponse<MyLeave>>(`${MY_TIME_PATH}/leaves-all`, {
       params: httpParams
         .set('page', pageIndex ? pageIndex.toString() : '')
         .set('size', pageSize ? pageSize.toString() : ''),
@@ -123,40 +127,32 @@ export class MyLeaveService {
 
   getLeave(id: string): Observable<any> {
     if (id === undefined || id == '') {
-      return this.httpClient
-        .get<MyLeave>(this.env.apiUrl + `${MY_TIME_PATH}/leaves/`, {})
-        .pipe(map((res) => res as any));
+      return this.http.get<MyLeave>(this.env.apiUrl + `${MY_TIME_PATH}/leaves/`, {}).pipe(map((res) => res as any));
     } else {
-      return this.httpClient
+      return this.http
         .get<MyLeave>(this.env.apiUrl + `${MY_TIME_PATH}/leaves/${id}`, {})
         .pipe(map((res) => res as any));
     }
   }
 
-  getLeaveType(): Observable<any> {
-    return this.httpClient
-      .get<any>(this.env.apiUrl + `${MY_TIME_PATH}/leave-type?name=`, {})
-      .pipe(map((res) => res as any));
+  getLeaveTypes(): Observable<LeaveType[]> {
+    return this.http.get<any>(`${MY_TIME_PATH}/leave-type?name=`).pipe(map((res) => res.items as LeaveType[]));
   }
 
-  getdurations(): Observable<any> {
-    return this.httpClient.get<any>(`${MY_TIME_PATH}/durations`, {}).pipe(map((res) => res as any));
-  }
-
-  getSendTo(): Observable<any> {
-    return this.httpClient.get<any>(`${MY_ACCOUNT_PATH}/users`, {}).pipe(map((res) => res as any));
+  getSendToUsers(): Observable<PagingResponse<SentToUser>> {
+    return this.http.get<PagingResponse<SentToUser>>(`${MY_ACCOUNT_PATH}/users`);
   }
 
   createLeave(body: any): Observable<any> {
-    return this.httpClient.post<any>(`${MY_TIME_PATH}/leaves`, body);
+    return this.http.post<any>(`${MY_TIME_PATH}/leaves`, body);
   }
 
   editLeave(id: string | undefined, body: any): Observable<any> {
-    return this.httpClient.put<any>(`${MY_TIME_PATH}/leaves/${id}`, body);
+    return this.http.put<any>(`${MY_TIME_PATH}/leaves/${id}`, body);
   }
 
   deleteLeave(id: string): Observable<any> {
-    return this.httpClient.delete<any>(`${MY_TIME_PATH}/leaves/${id}`);
+    return this.http.delete<any>(`${MY_TIME_PATH}/leaves/${id}`);
   }
 
   getPartialDays(): Observable<any[]> {

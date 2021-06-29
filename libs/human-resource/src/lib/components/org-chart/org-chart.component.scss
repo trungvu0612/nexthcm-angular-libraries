@@ -4,4 +4,8 @@
   .person {
     @apply flex flex-wrap justify-center gap-2;
   }
+
+  .user-info {
+    min-width: 200px;
+  }
 }
