@@ -1,11 +1,12 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { FormGroup } from '@ngneat/reactive-forms';
-import { Permission, PermissionForm, Policy, Resource } from '../../models/policy';
-import { FormlyFieldConfig } from '@ngx-formly/core';
 import { FormControl } from '@angular/forms';
-import { validatorTextPermission } from '../../utils/validatiors';
+import { FormGroup } from '@ngneat/reactive-forms';
+import { TranslocoService } from '@ngneat/transloco';
+import { FormlyFieldConfig } from '@ngx-formly/core';
 import { Columns, DefaultConfig } from 'ngx-easy-table';
+import { Permission, PermissionForm, Policy, Resource } from '../../models/policy';
 import { AdminPermissionsService } from '../../services/admin-permissions.service';
+import { validatorTextPermission } from '../../utils/validatiors';
 
 @Component({
   selector: 'hcm-permission-detail',
@@ -32,6 +33,11 @@ export class PermissionDetailComponent implements OnInit {
             templateOptions: {
               options: this.service$,
               required: true,
+            },
+            validation: {
+              messages: {
+                required: () => this.translocoService.selectTranslate('VALIDATION.required'),
+              },
             },
           },
           {
@@ -61,6 +67,11 @@ export class PermissionDetailComponent implements OnInit {
       validators: {
         validation: [validatorTextPermission(128)],
       },
+      validation: {
+        messages: {
+          required: () => this.translocoService.selectTranslate('VALIDATION.required'),
+        },
+      },
     },
     {
       type: 'text-area',
@@ -84,7 +95,7 @@ export class PermissionDetailComponent implements OnInit {
   ];
   data!: { [key: string]: string }[];
 
-  constructor(private adminPermissions: AdminPermissionsService) {}
+  constructor(private adminPermissions: AdminPermissionsService, private translocoService: TranslocoService) {}
 
   ngOnInit(): void {
     this.policyModel.policyId && this.updateDataTable();

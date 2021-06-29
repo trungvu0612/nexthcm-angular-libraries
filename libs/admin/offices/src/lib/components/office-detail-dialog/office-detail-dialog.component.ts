@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Zone } from '@nexthcm/core';
+import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
@@ -24,6 +25,11 @@ export class OfficeDetailDialogComponent {
         translate: true,
         required: true,
         textfieldLabelOutside: true,
+      },
+      validation: {
+        messages: {
+          required: () => this.translocoService.selectTranslate('VALIDATION.required'),
+        },
       },
     },
     {
@@ -52,7 +58,8 @@ export class OfficeDetailDialogComponent {
 
   constructor(
     @Inject(POLYMORPHEUS_CONTEXT)
-    private context: TuiDialogContext<Partial<Zone> | null, Partial<Zone> | null>
+    private context: TuiDialogContext<Partial<Zone> | null, Partial<Zone> | null>,
+    private translocoService: TranslocoService
   ) {}
 
   save(): void {

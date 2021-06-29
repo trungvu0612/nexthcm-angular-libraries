@@ -81,8 +81,5 @@
     "MESSAGES": {
       "deleteProcess": "Bạn có chắc chắn muốn xóa chính sách này không?"
     }
-  },
-  "PROMPT": {
-    "OK": "OK"
   }
 }
