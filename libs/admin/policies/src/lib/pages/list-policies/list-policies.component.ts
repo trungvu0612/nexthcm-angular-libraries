@@ -1,79 +1,103 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
-import { FormlyFieldConfig } from '@ngx-formly/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder } from '@ngneat/reactive-forms';
 import { TuiDestroyService } from '@taiga-ui/cdk';
-import { BehaviorSubject, combineLatest } from 'rxjs';
-import { debounceTime, switchMap, takeUntil } from 'rxjs/operators';
+import { BehaviorSubject, from, Observable } from 'rxjs';
+import { catchError, filter, map, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { Policy } from '../../policies';
 import { PoliciesService } from '../../policies.service';
+import { PromptComponent } from '@nexthcm/ui';
+import { TranslocoService } from '@ngneat/transloco';
+import { BaseComponent, Columns, Config, DefaultConfig } from 'ngx-easy-table';
+import { HttpParams } from '@angular/common/http';
+import { RxState } from '@rx-angular/state';
+import { Pagination } from '@nexthcm/core';
 
 @Component({
   selector: 'hcm-list-policies',
   templateUrl: './list-policies.component.html',
   styleUrls: ['./list-policies.component.scss'],
-  providers: [TuiDestroyService],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [RxState, TuiDestroyService],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ListPoliciesComponent implements OnInit {
-  page$ = new BehaviorSubject<number>(1);
-  totalLength = 0;
-  readonly columns = ['topic', 'shortDescription', 'createdDate', 'action'];
-  size$ = 10;
-  perPageSubject = new BehaviorSubject<number>(this.size$);
-  searchSubject = new BehaviorSubject<Policy>({});
-  searchForm!: FormGroup<Policy>;
-  data: Policy[] = [];
-  model!: Policy;
-  fields: FormlyFieldConfig[] = [
-    {
-      fieldGroupClassName: 'grid md:grid-cols-3 gap-6 mb-4',
-      fieldGroup: [
-        {
-          key: 'topic',
-          type: 'input',
-          templateOptions: {
-            textfieldLabelOutside: true,
-            required: true,
-            placeholder: 'Topic',
-          },
-        },
-      ],
-    },
-  ];
+  @ViewChild('table') table!: BaseComponent;
+  @ViewChild('prompt') prompt!: PromptComponent;
+  readonly loading$ = this.state.$.pipe(map((value) => !value));
+  readonly data$ = this.state.select('items');
+  readonly total$ = this.state.select('totalElements');
+  configuration: Config = {
+    ...DefaultConfig,
+    checkboxes: false,
+    paginationEnabled: false,
+    paginationRangeEnabled: false,
+    fixedColumnWidth: false
+  };
+  columns$: Observable<Columns[]> = this.translocoService
+    .selectTranslateObject('ADMIN_POLICIES.POLICIES_MANAGEMENT_COLUMNS')
+    .pipe(
+      map((result) => [
+        { key: 'topic', title: result.topic },
+        { key: 'shortDescription', title: result.shortDescription },
+        { key: 'createdDate', title: result.createdDate },
+        { key: 'operations', title: result.operations }
+      ])
+    );
+  private readonly queryParams$ = new BehaviorSubject(new HttpParams().set('page', 0).set('size', 10));
+  private readonly request$ = this.queryParams$.pipe(
+    switchMap(() => this.policiesService.getPolicies(this.queryParams$.value)),
+    map((res) => res.data)
+  );
+
 
   constructor(
     private policiesService: PoliciesService,
     private formBuilder: FormBuilder,
+    private state: RxState<Pagination<Policy>>,
     private destroy$: TuiDestroyService,
+    private translocoService: TranslocoService,
     private cdr: ChangeDetectorRef
-  ) {}
+  ) {
+    state.connect(this.request$);
+  }
 
   ngOnInit(): void {
-    this.searchForm = this.formBuilder.group<Policy>({});
-    combineLatest([this.page$, this.perPageSubject, this.searchSubject])
-      .pipe(
-        debounceTime(0),
-        switchMap(([page, perpage, search]) => {
-          return this.policiesService.getPolicies(page - 1, perpage, search);
-        }),
-        takeUntil(this.destroy$)
+  }
+
+  readonly getOne = (item: Policy) => item;
+
+  tableEventEmitted(tableEvent: { event: string; value: any }): void {
+    if (tableEvent.event === 'onOrder') {
+      this.queryParams$.next(this.queryParams$.value.set('sort', `${tableEvent.value.key},${tableEvent.value.order}`));
+    }
+  }
+
+  onSize(size: number): void {
+    this.queryParams$.next(this.queryParams$.value.set('size', size.toString()));
+  }
+
+  onPage(page: number): void {
+    this.queryParams$.next(this.queryParams$.value.set('page', page.toString()));
+  }
+
+  delete(id: string) {
+    if (id) {
+      from(
+        this.prompt.open({
+          icon: 'question',
+          text: this.translocoService.translate('ADMIN_PROCESSES.MESSAGES.deleteProcess'),
+          showCancelButton: true
+        })
       )
-      .subscribe((item) => {
-        this.data = item.data.items;
-        this.totalLength = item.data.totalElements;
-        this.cdr.markForCheck();
-      });
-  }
-
-  onPage(page: number) {
-    this.page$.next(page + 1);
-  }
-
-  onSize(size: number) {
-    this.perPageSubject.next(size);
-  }
-
-  onSearch(): void {
-    this.searchSubject.next(this.searchForm.getRawValue());
+        .pipe(
+          filter((result) => result.isConfirmed),
+          switchMap(() =>
+            this.policiesService.delete(id).pipe(tap(() => this.queryParams$.next(this.queryParams$.value)))
+          ),
+          catchError((err) => this.prompt.open({ icon: 'error', text: err.error.message })),
+          takeUntil(this.destroy$)
+        )
+        .subscribe();
+    }
   }
 }
+

@@ -5,12 +5,14 @@ import { FormControl } from '@ngneat/reactive-forms';
   selector: 'hcm-updated',
   templateUrl: './updated.component.html',
   styleUrls: ['./updated.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UpdatedComponent implements OnInit {
   inputDate = new FormControl();
 
-  constructor() {}
+  constructor() {
+  }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+  }
 }

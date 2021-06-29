@@ -2,14 +2,16 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Route, RouterModule } from '@angular/router';
-import { AdminLayoutComponent, FormlyTaigaUiModule } from '@nexthcm/ui';
+import { AdminLayoutComponent, FormlyTaigaUiModule, PromptComponentModule } from '@nexthcm/ui';
 import { FormlyModule } from '@ngx-formly/core';
 import { TuiTableModule, TuiTablePaginationModule } from '@taiga-ui/addon-table';
-import { TuiButtonModule } from '@taiga-ui/core';
+import { TuiButtonModule, TuiLoaderModule } from '@taiga-ui/core';
 import { TuiMarkerIconModule, TuiTagModule } from '@taiga-ui/kit';
 import { AdminPoliciesComponent } from './admin-policies.component';
 import { ListPoliciesComponent } from './pages/list-policies/list-policies.component';
 import { UpsertPoliciesComponent } from './pages/upsert-policies/upsert-policies.component';
+import { TableModule } from 'ngx-easy-table';
+import { TranslocoModule } from '@ngneat/transloco';
 
 export const adminPoliciesRoutes: Route[] = [
   {
@@ -38,11 +40,16 @@ export const adminPoliciesRoutes: Route[] = [
     TuiButtonModule,
     TuiTagModule,
     FormlyModule,
+    PromptComponentModule,
+    TableModule,
+    TuiTablePaginationModule,
+    TuiLoaderModule,
     FormlyTaigaUiModule,
     TuiMarkerIconModule,
     ReactiveFormsModule,
+    TranslocoModule,
     RouterModule.forChild(adminPoliciesRoutes),
-    RouterModule,
+    RouterModule
   ],
   declarations: [AdminPoliciesComponent, ListPoliciesComponent, UpsertPoliciesComponent],
 })

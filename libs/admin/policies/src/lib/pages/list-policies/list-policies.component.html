@@ -1,66 +1,70 @@
-<main class="main-page">
-  <header>
-    <h1 class="text-4xl">Policies</h1>
-    <div class="flex gap-4">
+<main class="main-page bg-white">
+  <ng-container *transloco="let t">
+    <h2 class="tui-text_h3">{{ t('ADMIN_POLICIES.policiesManagement') }}</h2>
+    <section class="flex justify-end">
       <button
-        class="tui-space_right-3 tui-space_bottom-3 ml-auto"
+        class="tui-space_right-3 tui-space_bottom-3" size="m"
         icon="tuiIconPlusLarge"
         routerLink="../add"
         tuiButton
-        type="button"
       >
         Add Policies
       </button>
-    </div>
-  </header>
+    </section>
+  </ng-container>
   <section class="main-section">
-    <formly-form
-      (submit)="onSearch()"
-      [fields]="fields"
-      [form]="$any(searchForm)"
-      [model]="model"
-      class="col-6 border-start border-end"
-    >
-      <button (click)="onSearch()" class="tui-space_right-3 tui-space_bottom-3" icon="tuiIconSearchLarge" tuiButton>
-        Search
-      </button>
-    </formly-form>
-
-    <article>
-      <table [columns]="columns" class="hcm-tui-table" tuiTable>
-        <thead>
-          <tr tuiThGroup>
-            <th *tuiHead="'topic'" tuiTh>Topic</th>
-            <th *tuiHead="'shortDescription'" tuiTh>Description</th>
-            <th *tuiHead="'createdDate'" tuiTh>Created Date</th>
-            <th *tuiHead="'action'" class="w-32" tuiTh>Action</th>
-          </tr>
-        </thead>
-        <tbody [data]="data" tuiTbody>
-          <tr *tuiRow="let level of data; let index = index" tuiTr>
-            <td *tuiCell="'topic'" tuiTd>{{ level.topic }}</td>
-            <td *tuiCell="'shortDescription'" tuiTd>{{ level.shortDescription }}</td>
-            <td *tuiCell="'createdDate'" tuiTd>{{ level.createdDate | date: 'dd/MM/yyyy' }}</td>
-            <td *tuiCell="'action'" tuiTd>
+    <tui-loader [overlay]="true" [showLoader]="(loading$ | async) === true">
+      <ngx-table
+        #table
+        [columns]="(columns$ | async) || []"
+        [configuration]="configuration"
+        [data]="(data$ | async) || []"
+      >
+        <ng-template let-row>
+          <td>{{ getOne(row).topic }}</td>
+          <td>{{ getOne(row).shortDescription }}</td>
+          <td>{{ getOne(row).createdDate | date : 'dd/MM/yyyy'}}</td>
+          <td>
+            <div class="flex items-center">
               <button
-                [icon]="'tuiIconEditLarge'"
-                [routerLink]="['../edit/' + level.id]"
-                [shape]="$any('rounded')"
                 appearance="flat"
-                size="s"
+                class="tui-space_right-3"
+                icon="tuiIconEditLarge"
+                [routerLink]="[getOne(row).id, 'edit']"
+                size="m"
                 tuiIconButton
+                type="button"
               ></button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <tui-table-pagination
-        (pageChange)="onPage($event)"
-        (sizeChange)="onSize($event)"
-        [size]="size$"
-        [total]="totalLength"
-      ></tui-table-pagination>
-      <p>Current page: {{ page$ | async }}</p>
-    </article>
+              <button
+                appearance="flat"
+                class="tui-space_right-3"
+                icon="tuiIconShowLarge"
+                routerLink=""
+                size="m"
+                tuiIconButton
+                type="button"
+              ></button>
+              <button
+                (click)="delete($any(getOne(row).id))"
+                appearance="flat"
+                icon="tuiIconTrashLarge"
+                size="m"
+                tuiIconButton
+                type="button"
+              ></button>
+            </div>
+          </td>
+        </ng-template>
+      </ngx-table>
+    </tui-loader>
+    <tui-table-pagination
+      (pageChange)="onPage($event)"
+      (sizeChange)="onSize($event)"
+      [total]="(total$ | async) || 0"
+      class="tui-space_top-2"
+    ></tui-table-pagination>
   </section>
 </main>
+
+<hcm-prompt #prompt></hcm-prompt>
+
