@@ -1,8 +1,8 @@
 <h2 class="text-2xl font-semibold mb-7">Submit Leave Request</h2>
 
 <div class="my-8">
-  <form [formGroup]="form">
-    <formly-form [fields]="fields" [form]="form" [model]="model" class="grid grid-cols-2 gap-4"></formly-form>
+  <form [formGroup]="$any(form)">
+    <formly-form [fields]="fields" [form]="$any(form)" [model]="model"></formly-form>
   </form>
 </div>
 
@@ -10,4 +10,8 @@
   <button (click)="submit()" class="blue-button" [disabled]="!form.valid">Submit</button>
 </div>
 
-<!--<pre>Form value: {{ model | json }}</pre>-->
+<!--<p>So ngay nghi: {{ dayMinus | json }}</p>-->
+<!--<p>Hourse: {{ minusHours | json }}</p>-->
+<!--<p>Minutes: {{ minusMinutes | json }}</p>-->
+
+<pre>Form value: {{ model | json }}</pre>

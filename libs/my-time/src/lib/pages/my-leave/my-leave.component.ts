@@ -70,12 +70,14 @@ export class MyLeaveComponent implements OnInit {
         data: id,
       })
       .subscribe((data) => {
-        const body = {
-          status: 0,
-        };
-        this.myLeaveService.editLeave(id, body).subscribe((data) => {
-          console.log('susscess edit', id);
-        });
+        if (data) {
+          const body = {
+            status: 0,
+          };
+          this.myLeaveService.editLeave(id, body).subscribe((data) => {
+            console.log('susscess edit', id);
+          });
+        }
       });
   }
 

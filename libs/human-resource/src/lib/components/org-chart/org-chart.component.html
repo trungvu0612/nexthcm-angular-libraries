@@ -16,9 +16,9 @@
                 <div class="text-sm text-left">
                   <p class="font-bold">
                     {{
-                      item.username && item.username.length > 11
-                        ? item.username.substring(0, 11) + '...'
-                        : item.username
+                    item.username && item.username.length > 11
+                      ? item.username.substring(0, 11) + '...'
+                      : item.username
                     }}
                   </p>
                 </div>
@@ -43,7 +43,7 @@
                 <div class="text-sm text-left">
                   <strong>{{ current[0].username }}</strong>
                 </div>
-                <div class="text-blue-500 text-left">{{ current[0].registerType }}</div>
+                <div class="text-blue-500 text-left">CEO</div>
               </div>
               <tui-avatar [autoColor]="true" [rounded]="true" [text]="current[0].username"></tui-avatar>
             </button>
@@ -52,27 +52,23 @@
 
         <!--big info-->
         <ng-template #checkFalse>
-          <button class="w-72 h-40 hover:bg-gray-300 bg-white py-3 px-6" (click)="changeInfoCss(current[0].id)">
-            <div class="grid grid-cols-3 grid-flow-col gap-4">
-              <div class="row-start-1 row-end-4 col-span-2 flex justify-center items-center">
-                <div class="flex flex-wrap content-start">
-                  <div class="font-bold text-2xl">{{ current[0].username }}</div>
-                  <div class="font-normal text-xs">Engineering Manager</div>
-                  <div class="font-normal text-xs">Software Development</div>
-                  <div class="font-normal text-xs">0938789900</div>
-                </div>
+          <button (click)="changeInfoCss(current[0].id)" class="hover:bg-gray-300 bg-white px-8 py-3">
+            <div class="flex items-center gap-4">
+              <div class="user-info text-left text-xs">
+                <h2 class="text-xl mb-2">{{ current[0].username }}</h2>
+                <p class="font-normal mt-1">Engineering Manager</p>
+                <p class="font-normal mt-1">Software Development</p>
+                <p class="font-normal mt-1">0938789900</p>
               </div>
-              <div class="row-start-1 row-end-4 col-span-2 flex justify-center items-center">
-                <tui-avatar
-                  class="ml-auto"
-                  [autoColor]="true"
-                  [rounded]="true"
-                  [text]="current[0].username"
-                ></tui-avatar>
-              </div>
+              <tui-avatar
+                [autoColor]="true"
+                [rounded]="true"
+                [text]="current[0].username"
+                class="ml-auto"
+              ></tui-avatar>
             </div>
 
-            <div class="flex justify-start border-t-2 pt-2">
+            <div class="flex justify-start border-t-2 pt-3 mt-3">
               <button>
                 <tui-svg class="success" src="tuiIconCameraLarge" style="color: #959595"></tui-svg>
               </button>

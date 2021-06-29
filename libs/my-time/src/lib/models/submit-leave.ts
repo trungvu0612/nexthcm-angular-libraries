@@ -7,14 +7,15 @@ import { TuiDay } from '@taiga-ui/cdk';
 // }
 
 export interface LeaveSubmit {
+  leaveTypes?: LeaveType[]; // for form
   durationHold?: number;
   status?: number;
   comments?: string;
   leaveType?: LeaveType;
   sendTo?: string;
   duration?: Duration;
-  startTime?: TuiDay;
-  endTime?: TuiDay;
+  startTime?: TuiDay | string;
+  endTime?: TuiDay | string;
   partialDays?: number | undefined;
 }
 
@@ -36,3 +37,5 @@ export interface durationValues {
   label?: string;
   idPartial?: string;
 }
+
+

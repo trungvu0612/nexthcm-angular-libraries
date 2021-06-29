@@ -14,7 +14,7 @@
   }
 
   .waiting-tag {
-    background: #ea801f !important;
+    background: #EA801F !important;
   }
 
   .taken-tag {
@@ -51,6 +51,7 @@
   }
 
   main {
+
     section {
       box-shadow: 0 4px 18px rgba(0, 0, 0, 0.06);
       @apply rounded-xl;
@@ -102,5 +103,6 @@
       color: var(--tui-primary);
       @apply font-semibold rounded-xl px-2 py-1;
     }
+
   }
 }
