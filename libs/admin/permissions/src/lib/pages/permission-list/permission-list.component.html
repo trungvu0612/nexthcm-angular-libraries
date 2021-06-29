@@ -7,9 +7,10 @@
     <table *ngIf="permissions$ | async as permissions" [columns]="columns" class="hcm-tui-table mt-2" tuiTable>
       <thead>
         <tr tuiThGroup>
-          <th *tuiHead="'name'" [sorter]="null" tuiTh>Permission Name</th>
-          <th *tuiHead="'description'" [sorter]="null" tuiTh>Description</th>
-          <th *tuiHead="'service'" [sorter]="null" tuiTh>Service</th>
+          <th *tuiHead="'name'" tuiTh>Permission Name</th>
+          <th *tuiHead="'code'" tuiTh>Code</th>
+          <th *tuiHead="'description'" tuiTh>Description</th>
+          <th *tuiHead="'lastModifiedDate'" tuiTh>Last Modified Date</th>
           <th *tuiHead="'action'" [sorter]="null" tuiTh>Action</th>
         </tr>
       </thead>
@@ -18,10 +19,13 @@
           <td *tuiCell="'name'" tuiTd>
             {{ item.name }}
           </td>
+          <td *tuiCell="'code'" tuiTd>
+            {{ item.code }}
+          </td>
           <td *tuiCell="'description'" tuiTd>
             {{ item.description }}
           </td>
-          <td *tuiCell="'service'" tuiTd>{{ item.policyItems?.length }} in {{ totalServices$ | async }} services</td>
+          <td *tuiCell="'lastModifiedDate'" tuiTd>{{ item.lastModifiedDate | date:'dd/MM/yyyy' }}</td>
           <td *tuiCell="'action'" tuiTd>
             <div class="flex text-gray-400">
               <button [queryParams]="{ policyId: item.policyId }" routerLink="./update">
