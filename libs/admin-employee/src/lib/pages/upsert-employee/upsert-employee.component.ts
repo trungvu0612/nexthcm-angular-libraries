@@ -12,6 +12,7 @@ import { Permission } from '../../models/permission';
 import { UserGroup } from '../../models/user-group';
 import { UploadFileService } from '@nexthcm/ui';
 import { APP_CONFIG, AppConfig } from '@nexthcm/core';
+import { JobTitle } from '../../models/job-title';
 
 @Component({
   selector: 'hcm-upsert-employee',
@@ -59,13 +60,14 @@ export class UpsertEmployeeComponent implements AfterViewInit {
       },
     },
     {
-      key: 'title.id',
-      type: 'select',
+      key: 'title',
+      type: 'object-select',
       templateOptions: {
         options: this.dataJobTitle$,
         labelProp: 'name',
-        valueProp: 'id',
         placeholder: 'Job Title:',
+        translate: true,
+        compareWith: (item1: JobTitle, item2: JobTitle) => item1.id === item2.id,
       },
     },
     {
@@ -195,7 +197,7 @@ export class UpsertEmployeeComponent implements AfterViewInit {
       templateOptions: {
         options: this.dataGender$,
         labelProp: 'name',
-        valueProp: 'id',
+        valueProp: 'value',
         placeholder: 'Gender:',
       },
     },
@@ -283,7 +285,10 @@ export class UpsertEmployeeComponent implements AfterViewInit {
         options: this.dataJobLevel$,
         labelProp: 'name',
         valueProp: 'id',
-        placeholder: 'Job Level:',
+        placeholder: 'Job Level(*):',
+      },
+      expressionProperties: {
+        'templateOptions.disabled': '!model.title?.hasLevel',
       },
     },
     {

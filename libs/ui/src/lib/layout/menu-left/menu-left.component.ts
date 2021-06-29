@@ -37,12 +37,40 @@ export class MenuLeftComponent implements OnInit {
 
   readonly adminMenus: Menu[] = [
     {
-      name: 'Job Level',
-      uri: '/human-resource/job-level',
+      name: 'Quản lý công ty',
+      uri: '/admin/tenant',
     },
     {
-      name: 'Leave Types',
-      uri: '/my-time/leave-type',
+      name: 'Quản lý nhân viên',
+      uri: '/admin/employees',
+    },
+    {
+      name: 'Quản lý vai trò',
+      uri: '/admin',
+    },
+    {
+      name: 'Quản lý quyền',
+      uri: '/admin/permissions',
+    },
+    {
+      name: 'Quản lý văn phòng',
+      uri: '/admin/offices',
+    },
+    {
+      name: 'Quản lý sơ đồ chỗ ngồi',
+      uri: '/admin/seat-maps',
+    },
+    {
+      name: 'Quản lý chính sách',
+      uri: '/admin/policies',
+    },
+    {
+      name: 'Quản lý cấp bậc',
+      uri: '/admin/job-level',
+    },
+    {
+      name: 'Quản lý quy trình',
+      uri: '/admin/processes',
     },
   ];
 

@@ -124,5 +124,5 @@ export interface User {
 }
 
 export interface SearchEmployee {
-  name: string;
+  filter: string;
 }

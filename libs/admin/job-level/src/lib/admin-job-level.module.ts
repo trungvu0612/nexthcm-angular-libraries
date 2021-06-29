@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Route, RouterModule } from '@angular/router';
-import { AdminLayoutComponent, FormlyTaigaUiModule } from '@nexthcm/ui';
+import { LayoutComponent, FormlyTaigaUiModule } from '@nexthcm/ui';
 import { FormlyModule } from '@ngx-formly/core';
 import { TuiTableModule, TuiTablePaginationModule } from '@taiga-ui/addon-table';
 import { TuiButtonModule } from '@taiga-ui/core';
@@ -14,7 +14,7 @@ import { UpsertJobLevelComponent } from './upsert-job-level/upsert-job-level.com
 export const adminJobLevelRoutes: Route[] = [
   {
     path: '',
-    component: AdminLayoutComponent,
+    component: LayoutComponent,
     children: [
       {
         path: '',

@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Route, RouterModule } from '@angular/router';
-import { AdminLayoutComponent, FormlyTaigaUiModule, PromptComponentModule } from '@nexthcm/ui';
+import { FormlyTaigaUiModule, LayoutComponent, PromptComponentModule } from '@nexthcm/ui';
 import { FormlyModule } from '@ngx-formly/core';
 import { TuiTableModule, TuiTablePaginationModule } from '@taiga-ui/addon-table';
 import { TuiButtonModule, TuiLoaderModule } from '@taiga-ui/core';
@@ -16,7 +16,7 @@ import { TranslocoModule } from '@ngneat/transloco';
 export const adminPoliciesRoutes: Route[] = [
   {
     path: '',
-    component: AdminLayoutComponent,
+    component: LayoutComponent,
     children: [
       {
         path: '',
@@ -48,7 +48,6 @@ export const adminPoliciesRoutes: Route[] = [
     ReactiveFormsModule,
     TranslocoModule,
     RouterModule.forChild(adminPoliciesRoutes),
-    RouterModule
   ],
   declarations: [AdminPoliciesComponent, ListPoliciesComponent, UpsertPoliciesComponent],
 })

@@ -12,14 +12,37 @@ export interface Menu {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdminMenuLeftComponent implements OnInit {
-  readonly policyMenu: Menu[] = [
+  readonly myTimeMenus: Menu[] = [
     {
-      name: 'Danh sách chính sách',
-      uri: '/admin/employees',
+      name: 'Leave History',
+      uri: '',
     },
     {
-      name: 'Thêm chính sách',
-      uri: '/admin/employees/add',
+      name: 'Request Update Time',
+      uri: '',
+    },
+    {
+      name: 'Request Working Outside',
+      uri: '',
+    },
+    {
+      name: 'My Request',
+      uri: '/my-time/my-request',
+    },
+    {
+      name: 'Working Hour',
+      uri: '/my-time/working-hour',
+    },
+  ];
+
+  readonly adminMenus: Menu[] = [
+    {
+      name: 'Job Level',
+      uri: '/human-resource/job-level',
+    },
+    {
+      name: 'Leave Types',
+      uri: '/my-time/leave-type',
     },
   ];
   constructor() {}

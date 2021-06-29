@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Route, RouterModule } from '@angular/router';
 import { AuthGuard } from '@nexthcm/auth';
-import { AdminLayoutComponent } from '@nexthcm/ui';
+import { LayoutComponent } from '@nexthcm/ui';
 import { FormlyModule } from '@ngx-formly/core';
 import { TuiTableModule, TuiTablePaginationModule } from '@taiga-ui/addon-table';
 import { TuiSvgModule } from '@taiga-ui/core';
@@ -17,7 +17,7 @@ import { UpsertTenantComponent } from './pages/upsert-tenant/upsert-tenant.compo
 export const adminTenantRoutes: Route[] = [
   {
     path: '',
-    component: AdminLayoutComponent,
+    component: LayoutComponent,
     canActivate: [AuthGuard],
     children: [
       { path: '', component: TenantListComponent },
