@@ -72,12 +72,12 @@
     "policyManagement": "Policy Management",
     "POLICIES_MANAGEMENT_COLUMNS": {
       "topic": "Topic",
-      "shortDescription": "Short escription",
+      "shortDescription": "Short Description",
       "status": "Status",
       "thumbnail": "Thumbnail",
-      "longDescription": "Long escription",
+      "longDescription": "Long Description",
       "createdDate": "Created Date",
-      "operations": "Operators",
+      "operations": "Operators"
     },
     "MESSAGES": {
       "deleteProcess": "Are you sure you want to delete this policy?"

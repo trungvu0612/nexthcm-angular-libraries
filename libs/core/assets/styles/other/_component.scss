@@ -24,7 +24,7 @@ button {
 }
 
 @mixin button {
-  @apply flex justify-center items-center shadow-md text-base rounded-xl px-8 h-14;
+  @apply flex justify-center items-center shadow-md text-base rounded-xl px-8 h-12;
 }
 
 .blue-button {
