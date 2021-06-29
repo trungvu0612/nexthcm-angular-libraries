@@ -1,6 +1,6 @@
 export const GENDER_NAME = [
-  { id: 'ma', name: 'Male' },
-  { id: 'fe', name: 'Female' },
+  { value: 'Male', name: 'Male' },
+  { value: 'Female', name: 'Female' },
 ];
 
 export const MARITAL_STATUS = [

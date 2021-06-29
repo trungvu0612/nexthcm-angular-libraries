@@ -1,11 +1,11 @@
 <main class="main-page">
-  <form class="b-form" [formGroup]="testForm">
+  <form class="b-form" [formGroup]="userForm">
     <div class="grid grid-cols-5 gap-4">
       <div>
         <tui-input-date-time formControlName="dateCreated"> Từ ngày - Đến ngày</tui-input-date-time>
       </div>
       <div>
-        <tui-input class="b-form" formControlName="searchEmployee"> Tìm mã NV, tên NV, số điện thoại</tui-input>
+        <tui-input (ngModelChange)="onModelChange()" class="b-form" formControlName="searchEmployee"> Tìm mã NV, tên NV, số điện thoại</tui-input>
       </div>
       <div></div>
       <div></div>

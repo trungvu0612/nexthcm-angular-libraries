@@ -12,6 +12,7 @@ import { TuiAccordionModule, TuiAvatarModule, TuiBreadcrumbsModule } from '@taig
 import { AdminHeaderComponent } from './admin-header/admin-header.component';
 import { AdminLayoutComponent } from './admin-layout.component';
 import { AdminMenuLeftComponent } from './admin-menu-left/admin-menu-left.component';
+import {LayoutModule} from "../layout";
 
 @NgModule({
   declarations: [AdminLayoutComponent, AdminMenuLeftComponent, AdminHeaderComponent],
@@ -26,6 +27,7 @@ import { AdminMenuLeftComponent } from './admin-menu-left/admin-menu-left.compon
     TuiDataListModule,
     TuiDropdownModule,
     TuiButtonModule,
+    LayoutModule,
   ],
   exports: [AdminLayoutComponent],
 })

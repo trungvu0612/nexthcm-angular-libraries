@@ -15,19 +15,20 @@ import { AdminEmployeeService } from '../../services/admin-employee.service';
   providers: [TuiDestroyService],
 })
 export class EmployeeListComponent implements OnInit {
-  searchEmployee = new BehaviorSubject<SearchEmployee>({ name: '' });
+  searchEmployee = new BehaviorSubject<SearchEmployee>({ filter: '' });
   page$ = new BehaviorSubject<number>(1);
   totalLength = 0;
   size$ = 10;
   perPageSubject = new BehaviorSubject<number>(this.size$);
 
-  readonly testForm = new FormGroup({
+  readonly userForm = new FormGroup({
     testValue: new FormControl([new TuiDay(2011, 6, 4), null]),
     dateCreated: new FormControl(),
     searchEmployee: new FormControl(),
   });
   columns = ['id', 'fullName', 'phone', 'workingTime', 'address', 'salary', 'status', 'action'];
   data: Partial<User>[] = [];
+
   constructor(
     private AdminEmployeeService: AdminEmployeeService,
     private formBuilder: FormBuilder,
@@ -36,6 +37,23 @@ export class EmployeeListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.getEmployee('');
+  }
+
+  onPage(page: number) {
+    this.page$.next(page + 1);
+  }
+
+  onSize(size: number) {
+    this.perPageSubject.next(size);
+  }
+
+  getEmployee(keyword: string) {
+    if (keyword) {
+      this.searchEmployee = new BehaviorSubject<SearchEmployee>({
+        filter: keyword,
+      });
+    }
     const request$ = combineLatest([this.page$, this.perPageSubject, this.searchEmployee])
       .pipe(
         debounceTime(0),
@@ -52,11 +70,7 @@ export class EmployeeListComponent implements OnInit {
       });
   }
 
-  onPage(page: number) {
-    this.page$.next(page + 1);
-  }
-
-  onSize(size: number) {
-    this.perPageSubject.next(size);
+  onModelChange() {
+    this.getEmployee(this.userForm.controls['searchEmployee'].value);
   }
 }

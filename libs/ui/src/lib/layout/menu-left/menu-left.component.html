@@ -27,17 +27,17 @@
     <button class="human" routerLink="/human-resource" tuiOption>Human Resource</button>
     <button class="form" tuiOption>Form</button>
     <button class="policy" routerLink="/policy" tuiOption>Policy</button>
-    <button class="policy" routerLink="/admin" tuiOption>Admin</button>
-    <!--    <button-->
-    <!--      [tuiDropdownContent]="adminTpl"-->
-    <!--      [tuiDropdownSided]="true"-->
-    <!--      [tuiDropdown]="false"-->
-    <!--      class="mytime"-->
-    <!--      tuiDropdownAlign="right"-->
-    <!--      tuiOption-->
-    <!--    >-->
-    <!--      Admin-->
-    <!--    </button>-->
+    <button
+      [tuiDropdownContent]="adminTpl"
+      [tuiDropdownSided]="true"
+      [tuiDropdown]="false"
+      routerLink="/admin"
+      class="policy"
+      tuiDropdownAlign="right"
+      tuiOption
+    >
+      Admin
+    </button>
   </tui-data-list>
 
   <ng-template #myTimesTpl>
@@ -52,18 +52,19 @@
       </button>
     </tui-data-list>
   </ng-template>
-  <!--  <ng-template #adminTpl>-->
-  <!--    <tui-data-list tuiDataListDropdownManager>-->
-  <!--      <button-->
-  <!--        *ngFor='let menu of adminMenus'-->
-  <!--        [routerLink]='menu.uri'-->
-  <!--        class='focus:outline-none hover:text-blue-400'-->
-  <!--        tuiOption-->
-  <!--      >-->
-  <!--        {{ menu.name }}-->
-  <!--      </button>-->
-  <!--    </tui-data-list>-->
-  <!--  </ng-template>-->
+
+  <ng-template #adminTpl>
+    <tui-data-list tuiDataListDropdownManager>
+      <button
+        *ngFor="let admin of adminMenus"
+        [routerLink]="admin.uri"
+        class="focus:outline-none hover:text-blue-400"
+        tuiOption
+      >
+        {{ admin.name }}
+      </button>
+    </tui-data-list>
+  </ng-template>
 
   <div class="text-md text-gray-400 insight">Insights</div>
   <tui-data-list tuiDataListDropdownManager>

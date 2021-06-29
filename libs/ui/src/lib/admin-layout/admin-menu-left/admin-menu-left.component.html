@@ -1,39 +1,57 @@
 <section class="menu-left pt-5">
-  <a [routerLink]="'/'"><img class="mx-auto" src="assets/images/banvien.png" /></a>
+  <a [routerLink]="'/'"><img class="mx-auto" src="assets/images/banvien.png"/></a>
   <div class="text-md mt-5 text-gray-400">BV Tools</div>
 
   <tui-data-list tuiDataListDropdownManager>
-    <button routerLink="/admin/tenant">Quản lý công ty</button>
-    <button routerLink="/admin/employees">Quản lý nhân viên</button>
-    <button routerLink="/">Quản lý vai trò</button>
-    <button routerLink="/admin/permissions">Quản lý quyền</button>
-    <button routerLink="/admin/offices">Quản lý văn phòng</button>
-    <button routerLink="/admin/offices/seat-maps">Quản lý sơ đồ chỗ ngồi</button>
-    <button routerLink="/admin/policies">Quản lý chính sách</button>
-    <button routerLink="/admin/job-level">Quản lý cấp bậc</button>
-    <button routerLink="/admin/processes">Quản lý quy trình</button>
+    <button class="overview" routerLink="/" tuiOption>Overview</button>
     <button
-      [tuiDropdownContent]="policyTpl"
+      [tuiDropdownContent]="myTimesTpl"
       [tuiDropdownSided]="true"
       [tuiDropdown]="false"
-      routerLink="/admin/employees"
+      routerLink="/my-time"
+      class="mytime"
       tuiDropdownAlign="right"
       tuiOption
     >
-      Quản lý chính sách
+      My Time
     </button>
+
+    <button class="helpdesk" routerLink="/help-desk" tuiOption>Help Desk</button>
+    <div class="relative">
+      <button class="payslip" tuiOption>Payslip</button>
+      <div class="menu-noti w-6 h-6 rounded-full flex justify-center items-center bg-yellow-500 text-white text-xs">
+        <p>4</p>
+      </div>
+    </div>
+    <button class="report" tuiOption>Report</button>
+    <button class="human" routerLink="/human-resource" tuiOption>Human Resource</button>
+    <button class="form" tuiOption>Form</button>
+    <button class="policy" routerLink="/policy" tuiOption>Policy</button>
+    <button class="policy" routerLink="/admin" tuiOption>Admin</button>
   </tui-data-list>
 
-  <ng-template #policyTpl>
+  <ng-template #myTimesTpl>
     <tui-data-list tuiDataListDropdownManager>
       <button
-        *ngFor="let policy of policyMenu"
-        [routerLink]="policy.uri"
+        *ngFor="let mytime of myTimeMenus"
+        [routerLink]="mytime.uri"
         class="focus:outline-none hover:text-blue-400"
         tuiOption
       >
-        {{ policy.name }}
+        {{ mytime.name }}
       </button>
     </tui-data-list>
   </ng-template>
+
+  <div class="text-md text-gray-400 insight">Insights</div>
+  <tui-data-list tuiDataListDropdownManager>
+    <div class="relative">
+      <div class="menu-noti w-6 h-6 rounded-full flex justify-center items-center bg-yellow-500 text-white text-xs">
+        <p>12</p>
+      </div>
+      <button class="notifications" tuiOption>Notifications</button>
+    </div>
+
+    <button class="config" tuiOption>Configurations</button>
+  </tui-data-list>
 </section>

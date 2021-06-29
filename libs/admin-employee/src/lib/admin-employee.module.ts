@@ -11,6 +11,7 @@ import { EmployeeDataTableComponent } from './components/employee-data-table/emp
 import { EmployeeDetailComponent } from './pages/employee-detail/employee-detail.component';
 import { EmployeeListComponent } from './pages/employee-list/employee-list.component';
 import { UpsertEmployeeComponent } from './pages/upsert-employee/upsert-employee.component';
+import {GetFileModule} from "@nexthcm/ui";
 
 export const adminEmployeeRoutes: Route[] = [];
 
@@ -26,6 +27,7 @@ export const adminEmployeeRoutes: Route[] = [];
     TuiSvgModule,
     FormlyModule,
     TuiTablePaginationModule,
+    GetFileModule
   ],
   declarations: [EmployeeListComponent, EmployeeDataTableComponent, EmployeeDetailComponent, UpsertEmployeeComponent],
 })
