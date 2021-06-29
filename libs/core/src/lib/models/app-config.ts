@@ -6,4 +6,5 @@ export interface AppConfig {
   imageUrl?: string;
   authUrl?: string;
   orgUrl?: string;
+  graphqlUrl?: string;
 }

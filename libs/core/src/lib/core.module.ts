@@ -12,15 +12,19 @@ import { apiPrefixInterceptorProvider } from './interceptors';
 import { AppConfig } from './models';
 import { httpLoader } from './transloco/http-loader';
 import { translocoConfigProvider } from './transloco/transloco-config';
+import { GraphqlModule } from './graphql/graphql.module';
 
 @NgModule({
   imports: [
     CommonModule,
     HttpClientModule,
     TranslocoModule,
-    FormlyModule.forRoot({ extras: { lazyRender: true, resetFieldOnHide: true } }),
+    FormlyModule.forRoot({
+      extras: { lazyRender: true, resetFieldOnHide: true },
+    }),
     TuiDialogModule,
     SweetAlert2Module.forRoot(),
+    GraphqlModule,
   ],
   providers: [
     httpLoader,
