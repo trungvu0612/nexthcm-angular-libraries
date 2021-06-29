@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  language: 'en',
+  language: 'vi',
   baseUrl: 'https://dev-nexthcm-api.banvien.com.vn',
   apiUrl: 'https://dev-nexthcm-api.banvien.com.vn',
   orgUrl: 'https://dev-nexthcm-api.banvien.com.vn',

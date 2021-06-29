@@ -9,7 +9,7 @@
     ></formly-form>
   </form>
   <tui-input-file [formControl]="imageControl" accept="image/*" link="Choose an image"></tui-input-file>
-  <article #zone class="relative ring-4 ring-purple-700 my-4">
+  <article #zone *ngIf="model.imageUrl" class="relative ring-4 ring-purple-700 my-4">
     <button
       (cdkDragEnded)="moveSeat(index, $event.distance, $event)"
       (click)="focusSeat(index)"
@@ -37,19 +37,14 @@
       [model]="seatModel"
       class="grid grid-cols-3 gap-x-6 flex-auto"
     ></formly-form>
-    <button
-      (click)="resetSeat()"
-      [disabled]="seats[current].width === undefined"
-      class="btn-blue"
-      type="button"
-    >
+    <button (click)="resetSeat()" [disabled]="seats[current].width === undefined" class="btn-blue" type="button">
       Reset
     </button>
     <button (click)="deleteSeat()" class="btn-red" type="button">
       <tui-svg src="tuiIconTrashLarge"></tui-svg>
     </button>
   </form>
-  <div class="flex justify-end">
+  <div class="flex justify-end mt-4">
     <button (click)="cancel()" class="btn-blue">{{ t('cancel') }}</button>
     <button (click)="save()" [disabled]="!form.valid || !model.imageUrl" class="blue-button ml-8">
       {{ t('save') }}

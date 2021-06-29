@@ -4,10 +4,9 @@
 
 export const environment = {
   production: false,
-  language: 'en',
+  language: 'vi',
   baseUrl: 'http://localhost:4200',
   apiUrl: 'https://dev-nexthcm-api.banvien.com.vn',
-  // apiUrl: 'http://localhost:8080',
   authUrl: 'http://192.168.2.20:31125',
   orgUrl: 'https://dev-nexthcm-api.banvien.com.vn',
   graphqlUrl: 'https://dev-nexthcm-api.banvien.com.vn/v1/graphql',
