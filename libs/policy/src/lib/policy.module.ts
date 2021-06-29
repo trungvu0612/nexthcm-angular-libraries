@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { LayoutModule } from '@nexthcm/ui';
+import { GetFileModule, LayoutModule } from '@nexthcm/ui';
 import { TuiScrollbarModule, TuiSvgModule } from '@taiga-ui/core';
 import { TuiAvatarModule, TuiInputMonthModule } from '@taiga-ui/kit';
 import { UpdatedDetailComponent } from './components/updated-detail/updated-detail.component';
@@ -17,11 +17,12 @@ import { PolicyComponent } from './policy.component';
     CommonModule,
     PolicyRoutingModule,
     LayoutModule,
+    GetFileModule,
     TuiSvgModule,
     TuiInputMonthModule,
     ReactiveFormsModule,
     TuiAvatarModule,
-    TuiScrollbarModule,
+    TuiScrollbarModule
   ],
 })
 export class PolicyModule {}

@@ -1,6 +1,6 @@
 <section *ngFor="let item of data" class="flex border-b text-base pb-5 mb-5">
   <tui-avatar
-    [avatarUrl]="'https://i.imgur.com/IOpoVH4.jpg'"
+    [avatarUrl]="$any(item.thumbnail || '' | getFile | async)"
     [rounded]="true"
     class="cursor-pointer mr-6"
     size="l"

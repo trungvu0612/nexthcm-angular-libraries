@@ -66,5 +66,23 @@
       "changeSourceOfTransition": "Bạn có chắc chắn muốn thay đổi nguồn của '{{transition}}' thành '{{status}}'?",
       "changeTargetOfTransition": "Bạn có chắc chắn muốn thay đổi đích của '{{transition}}' thành '{{status}}'?"
     }
+  },
+  "ADMIN_POLICIES": {
+    "name": "Tên",
+    "POLICIES_MANAGEMENT_COLUMNS": {
+      "topic": "Chủ đề",
+      "shortDescription": "Mô tả ngắn",
+      "status": "Tình trạng",
+      "thumbnail": "Hình",
+      "longDescription": "Mô tả dài",
+      "createdDate": "Ngày tạo",
+      "operations": "Hoạt động"
+    },
+    "MESSAGES": {
+      "deleteProcess": "Bạn có chắc chắn muốn xóa chính sách này không?"
+    }
+  },
+  "PROMPT": {
+    "OK": "OK"
   }
 }

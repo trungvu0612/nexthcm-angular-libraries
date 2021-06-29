@@ -8,7 +8,7 @@
   </header>
   <section class="main-section">
     <header class="flex px-1 pb-2 mb-5">
-      <img [src]="'https://i.imgur.com/IOpoVH4.jpg'" alt="" />
+      <img [src]="data.thumbnail || '' | getFile | async" alt="" />
       <div>
         <h1 class="text-2xl font-semibold cursor-pointer">{{ data.topic }}</h1>
         <div class="time">
