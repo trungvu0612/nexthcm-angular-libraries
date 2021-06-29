@@ -22,10 +22,9 @@ export const adminPoliciesRoutes: Route[] = [
         path: '',
         component: AdminPoliciesComponent,
         children: [
-          { path: '', pathMatch: 'full', redirectTo: 'list' },
-          { path: 'list', component: ListPoliciesComponent },
+          { path: '', component: ListPoliciesComponent },
           { path: 'add', component: UpsertPoliciesComponent },
-          { path: 'edit/:id', component: UpsertPoliciesComponent },
+          { path: ':id/edit', component: UpsertPoliciesComponent },
         ],
       },
     ],

@@ -65,12 +65,12 @@ export class WorkflowDesignerComponent implements OnInit {
     }
   }
 
-  private getGraphXML(): string {
-    return mx.mxUtils.getXml(new mx.mxCodec().encode(this.graphModel));
-  }
-
   apiEvent(api: WorkflowAPIType): string | void {
     return this.bindApi(api);
+  }
+
+  private getGraphXML(): string {
+    return mx.mxUtils.getXml(new mx.mxCodec().encode(this.graphModel));
   }
 
   private configGraph(): void {

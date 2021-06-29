@@ -17,7 +17,7 @@ import { Pagination } from '@nexthcm/core';
   templateUrl: './list-policies.component.html',
   styleUrls: ['./list-policies.component.scss'],
   providers: [RxState, TuiDestroyService],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ListPoliciesComponent implements OnInit {
   @ViewChild('table') table!: BaseComponent;
@@ -30,7 +30,7 @@ export class ListPoliciesComponent implements OnInit {
     checkboxes: false,
     paginationEnabled: false,
     paginationRangeEnabled: false,
-    fixedColumnWidth: false
+    fixedColumnWidth: false,
   };
   columns$: Observable<Columns[]> = this.translocoService
     .selectTranslateObject('ADMIN_POLICIES.POLICIES_MANAGEMENT_COLUMNS')
@@ -39,7 +39,7 @@ export class ListPoliciesComponent implements OnInit {
         { key: 'topic', title: result.topic },
         { key: 'shortDescription', title: result.shortDescription },
         { key: 'createdDate', title: result.createdDate },
-        { key: 'operations', title: result.operations }
+        { key: 'operations', title: result.operations },
       ])
     );
   private readonly queryParams$ = new BehaviorSubject(new HttpParams().set('page', 0).set('size', 10));
@@ -47,7 +47,6 @@ export class ListPoliciesComponent implements OnInit {
     switchMap(() => this.policiesService.getPolicies(this.queryParams$.value)),
     map((res) => res.data)
   );
-
 
   constructor(
     private policiesService: PoliciesService,
@@ -60,10 +59,9 @@ export class ListPoliciesComponent implements OnInit {
     state.connect(this.request$);
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
-  readonly getOne = (item: Policy) => item;
+  readonly policy = (item: Policy) => item;
 
   tableEventEmitted(tableEvent: { event: string; value: any }): void {
     if (tableEvent.event === 'onOrder') {
@@ -85,7 +83,7 @@ export class ListPoliciesComponent implements OnInit {
         this.prompt.open({
           icon: 'question',
           text: this.translocoService.translate('ADMIN_PROCESSES.MESSAGES.deleteProcess'),
-          showCancelButton: true
+          showCancelButton: true,
         })
       )
         .pipe(

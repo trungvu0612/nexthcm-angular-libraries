@@ -26,7 +26,6 @@
   "policies": "Chính sách",
   "publish": "Xuất bản",
   "remove": "Xóa",
-  "requestManagement": "Quản lý yêu cầu",
   "save": "Lưu",
   "seatMap": "Sơ đồ chỗ ngồi",
   "seatMapList": "Danh sách sơ đồ chỗ ngồi",
@@ -70,6 +69,7 @@
   },
   "ADMIN_POLICIES": {
     "name": "Tên",
+    "policyManagement": "Quản lý chính sách",
     "POLICIES_MANAGEMENT_COLUMNS": {
       "topic": "Chủ đề",
       "shortDescription": "Mô tả ngắn",
