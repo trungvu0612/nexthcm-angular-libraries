@@ -1,48 +1,17 @@
-<section class="bg-login relative">
-  <div class="login-modal bg-white p-10">
-    <tui-svg src="assets/images/banvien.svg"></tui-svg>
+<main class="bg-login relative">
+  <section class="login-modal bg-white p-10">
+    <header class="mb-10">
+      <tui-svg src="assets/images/banvien.svg"></tui-svg>
+    </header>
 
-    <form class="b-form" [formGroup]="loginForm">
-      <div class="mt-10">
-        <p class="form-title my-2">Username</p>
-        <p>
-          <tui-input tuiTextfieldSize="m" [tuiTextfieldLabelOutside]="true" formControlName="username"
-            >Enter username</tui-input
-          >
-        </p>
+    <form (ngSubmit)="onSubmit()" *transloco="let t" [formGroup]="$any(loginForm)" class="b-form">
+      <formly-form [fields]="fields" [form]="$any(loginForm)" [model]="model"></formly-form>
 
-        <p class="form-title mt-5 mb-2">Password</p>
-        <p>
-          <tui-input-password
-            class="tui-space_top-2"
-            formControlName="password"
-            tuiTextfieldSize="m"
-            [tuiTextfieldLabelOutside]="true"
-          >
-            Enter password
-          </tui-input-password>
-        </p>
+      <div [innerHTML]="t('AUTH.cantLoginInform', { url: '' })"  class="mt-2"></div>
 
-        <div class="space-x-2 my-5">
-          <div class="inline-block">
-            <tui-checkbox formControlName="remember"> </tui-checkbox>
-          </div>
-          <div class="inline-block">
-            <span class="inline form-title remember">Remember my login on this computer</span>
-          </div>
-        </div>
-
-        <div class="my-5">Can't access your account? Please contact your <a href="#">administrators</a>.</div>
-
-        <div class="text-center">
-          <button
-            (click)="onSubmit()"
-            class="login-btn rounded-lg bg-blue-500 hover:bg-blue-600 text-white pl-10 pr-10 pt-2 pb-2 text-sm"
-          >
-            Login
-          </button>
-        </div>
+      <div class="text-center mt-6">
+        <button tuiButton><span class="px-16">{{ t('AUTH.login') }}</span></button>
       </div>
     </form>
-  </div>
-</section>
+  </section>
+</main>

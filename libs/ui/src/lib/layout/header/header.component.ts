@@ -4,7 +4,6 @@ import { TranslocoService } from '@ngneat/transloco';
 import { TuiHostedDropdownComponent } from '@taiga-ui/core';
 import { BehaviorSubject } from 'rxjs';
 import { filter, map, startWith } from 'rxjs/operators';
-import { AuthService } from '@nexthcm/auth';
 
 const PATHS: { [key: string]: string[] } = {
   'help-desk': ['seatMap', 'bvCalendar'],
@@ -35,7 +34,7 @@ export class HeaderComponent implements OnInit {
   );
   notification = 13;
 
-  constructor(private router: Router, private translocoService: TranslocoService, private authService: AuthService) {}
+  constructor(private router: Router, private translocoService: TranslocoService) {}
 
   ngOnInit(): void {
     this.router.events
@@ -62,9 +61,5 @@ export class HeaderComponent implements OnInit {
       this.component.nativeFocusableElement.focus();
     }
     this.translocoService.setActiveLang(Object.keys(LANGS).find((key) => LANGS[key] == lang) as string);
-  }
-
-  logout(): void {
-    this.authService.logout();
   }
 }
