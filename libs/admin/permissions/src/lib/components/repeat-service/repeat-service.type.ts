@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FieldArrayType } from '@ngx-formly/core';
 
 @Component({
@@ -7,8 +7,12 @@ import { FieldArrayType } from '@ngx-formly/core';
   styleUrls: ['./repeat-service.type.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class RepeatServiceComponent extends FieldArrayType {
-  expandedList = [true];
+export class RepeatServiceComponent extends FieldArrayType implements OnInit {
+  expandedList!: boolean[];
+
+  ngOnInit(): void {
+    this.expandedList = this.field.fieldGroup?.map((item, index) => !index) || [true];
+  }
 
   add(): void {
     super.add();

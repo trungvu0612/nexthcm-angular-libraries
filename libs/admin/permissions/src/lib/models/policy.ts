@@ -34,6 +34,8 @@ export interface PolicyItem {
 
 export interface Policy extends Item {
   policyId: string;
+  code: string;
+  lastModifiedDate: number;
   policyItems: PolicyItem[];
 }
 

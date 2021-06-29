@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { switchMap } from 'rxjs/operators';
 import { AdminPermissionsService } from '../../services/admin-permissions.service';
 
 @Component({
@@ -10,8 +10,7 @@ import { AdminPermissionsService } from '../../services/admin-permissions.servic
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PermissionListComponent {
-  columns = ['name', 'description', 'service', 'action'];
-  totalServices$ = this.adminPermissionsService.select('services').pipe(map((services) => services.length));
+  columns = ['name', 'code', 'description', 'lastModifiedDate', 'action'];
   params$ = new BehaviorSubject<{ page?: number; size?: number }>({ size: 10 });
   permissions$ = this.params$.pipe(switchMap(() => this.adminPermissionsService.getPermissions(this.params$.value)));
 
