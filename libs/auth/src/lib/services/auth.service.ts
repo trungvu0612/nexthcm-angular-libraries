@@ -49,11 +49,7 @@ export class AuthService extends RxState<AuthState> {
   }
 
   private login(payload: LoginPayload): Observable<AuthInfo> {
-    const headers = {
-      'Content-Type': 'application/x-www-form-urlencoded',
-    };
-
-    return this.http.post<AuthInfo>(`${this.env.apiUrl}/accountapp/v1.0/auth`, payload, { headers }).pipe(
+    return this.http.post<AuthInfo>(`${this.env.apiUrl}/accountapp/v1.0/auth`, payload).pipe(
       tap((authInfo) => {
         this.cookieService.put('access_token', authInfo.access_token, {
           path: '/',
