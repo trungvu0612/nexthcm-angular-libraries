@@ -6,25 +6,25 @@ import { FORMLY_CONFIG, FormlyModule } from '@ngx-formly/core';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { iconsPathFactory, TUI_ICONS_PATH, TUI_SANITIZER, TuiDialogModule } from '@taiga-ui/core';
 import { NgDompurifySanitizer } from '@tinkoff/ng-dompurify';
+import { NgxPermissionsModule } from 'ngx-permissions';
 import { APP_CONFIG } from './app-config.token';
 import { registerTranslateExtension } from './extensions/formly-register-translate-extension';
+import { GraphqlModule } from './graphql/graphql.module';
 import { apiPrefixInterceptorProvider } from './interceptors';
 import { AppConfig } from './models';
 import { httpLoader } from './transloco/http-loader';
 import { translocoConfigProvider } from './transloco/transloco-config';
-import { GraphqlModule } from './graphql/graphql.module';
 
 @NgModule({
   imports: [
     CommonModule,
     HttpClientModule,
     TranslocoModule,
-    FormlyModule.forRoot({
-      extras: { lazyRender: true, resetFieldOnHide: true },
-    }),
+    FormlyModule.forRoot({ extras: { lazyRender: true, resetFieldOnHide: true } }),
     TuiDialogModule,
     SweetAlert2Module.forRoot(),
     GraphqlModule,
+    NgxPermissionsModule.forRoot(),
   ],
   providers: [
     httpLoader,

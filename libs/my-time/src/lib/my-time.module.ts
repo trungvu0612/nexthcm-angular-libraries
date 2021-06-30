@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { AdminLayoutModule, LayoutModule } from '@nexthcm/ui';
+import { LayoutModule } from '@nexthcm/ui';
 import { FormlyModule } from '@ngx-formly/core';
 import { TuiReorderModule, TuiTableModule, TuiTablePaginationModule } from '@taiga-ui/addon-table';
 import {
@@ -91,7 +91,6 @@ import { MyLeaveService } from './services/my-leave/my-leave.service';
     TuiDataListWrapperModule,
     TuiSelectModule,
     LayoutModule,
-    AdminLayoutModule,
     TuiDataListModule,
   ],
   providers: [MyLeaveService],

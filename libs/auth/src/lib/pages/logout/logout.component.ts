@@ -7,7 +7,7 @@ import { AuthService } from '../../services/auth.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LogoutComponent {
-  constructor(private authService: AuthService) {
+  constructor(authService: AuthService) {
     authService.logout();
   }
 }

@@ -17,6 +17,8 @@
     "@rx-angular/template",
     "@rxweb/reactive-form-validators",
     "@ngneat/reactive-forms",
-    "ngx-easy-table"
+    "ngx-easy-table",
+    "@apollo/client",
+    "apollo-angular"
   ]
 }

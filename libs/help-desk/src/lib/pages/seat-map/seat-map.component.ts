@@ -1,6 +1,6 @@
 import { CdkDragStart } from '@angular/cdk/drag-drop';
 import { ChangeDetectionStrategy, Component, QueryList, ViewChildren } from '@angular/core';
-import { AuthQuery } from '@nexthcm/auth';
+import { AuthService } from '@nexthcm/auth';
 import { Zone } from '@nexthcm/core';
 import { filterBySearch } from '@nexthcm/ui';
 import { FormGroup } from '@ngneat/reactive-forms';
@@ -20,7 +20,7 @@ import { HelpDeskService } from '../../services/help-desk.service';
 })
 export class SeatMapComponent {
   @ViewChildren(SeatComponent) seatRefs!: QueryList<SeatComponent>;
-  myId = this.authQuery.getValue().userId;
+  myId = this.authService.get('userInfo').userId;
   ping$ = new BehaviorSubject(-1);
   hidden$ = new BehaviorSubject(true);
   refresh$ = new Subject();
@@ -48,7 +48,7 @@ export class SeatMapComponent {
 
   constructor(
     private helpDeskService: HelpDeskService,
-    private authQuery: AuthQuery,
+    private authService: AuthService,
     private state: RxState<{ seatMap: Partial<Zone> }>
   ) {
     this.state.connect(

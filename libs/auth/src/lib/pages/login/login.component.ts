@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Router } from '@angular/router';
 import { FormBuilder } from '@ngneat/reactive-forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { LoginPayload } from '../../models';
@@ -51,11 +50,11 @@ export class LoginComponent {
     },
   ];
 
-  constructor(private fb: FormBuilder, private router: Router, private authService: AuthService) {}
+  constructor(private fb: FormBuilder, private authService: AuthService) {}
 
   onSubmit(): void {
     if (this.loginForm.valid) {
-      this.authService.login(this.loginForm.value).subscribe(() => this.router.navigateByUrl('/'));
+      this.authService.loginPayload$.next(this.loginForm.value);
     }
   }
 }

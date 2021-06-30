@@ -28,6 +28,6 @@ import { MenuLeftComponent } from './menu-left/menu-left.component';
     TuiHostedDropdownModule,
     TuiButtonModule,
   ],
-  exports: [LayoutComponent, MenuLeftComponent],
+  exports: [LayoutComponent],
 })
 export class LayoutModule {}

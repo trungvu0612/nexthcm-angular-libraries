@@ -1,4 +1,3 @@
-export * from './lib/admin-layout';
 export * from './lib/components';
 export * from './lib/formly-taiga-ui';
 export * from './lib/layout';
