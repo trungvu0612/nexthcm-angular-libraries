@@ -1,11 +1,17 @@
 <ng-container *ngIf="state$ | async as state">
   <ng-container *ngIf="state.resource?.length">
-    <div class="mb-1">{{ state.action.name }}</div>
+    <div class="flex justify-between mb-1">
+      <p class="font-semibold">{{ state.action.name }}</p>
+      <div>
+        <button (click)="update()" class="text-blue-700 font-normal mr-3">Select All</button>
+        <button (click)="update(false)" class="text-red-700 font-normal">Remove All</button>
+      </div>
+    </div>
     <tui-multi-select
       (searchChange)="search$.next($event || '')"
       [formControl]="$any(formControl$ | async)"
-      [stringify]="stringify"
       [identityMatcher]="matcher"
+      [stringify]="stringify"
       [tuiTextfieldLabelOutside]="true"
     >
       Select resources
