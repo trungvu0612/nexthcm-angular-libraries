@@ -16,10 +16,6 @@ import { AdminPermissionsService } from '../../services/admin-permissions.servic
   providers: [RxState],
 })
 export class SelectResourcesComponent {
-  @Input() set control(control: FormGroup<PermissionForm>) {
-    this.state.set({ action: control.value.action, resourcesForm: control.controls.resource });
-  }
-
   @HostBinding('style.display') display = 'block';
   search$ = new BehaviorSubject('');
   state$ = this.state.select();
@@ -27,8 +23,6 @@ export class SelectResourcesComponent {
     map(([resources, search]) => filterBySearch(resources, search))
   );
   formControl$ = this.state.select('resourcesForm');
-  stringify: TuiStringHandler<Resource> = (item) => item.name;
-  matcher: TuiIdentityMatcher<Resource> = (item1, item2) => item1.resourceId === item2.resourceId;
 
   constructor(private adminPermissions: AdminPermissionsService, private state: RxState<PermissionForm>) {
     this.state.connect(
@@ -38,5 +32,17 @@ export class SelectResourcesComponent {
         tap((resource) => (this.display = !resource?.length ? 'none' : 'block'))
       )
     );
+  }
+
+  @Input() set control(control: FormGroup<PermissionForm>) {
+    this.state.set({ action: control.value.action, resourcesForm: control.controls.resource });
+  }
+
+  stringify: TuiStringHandler<Resource> = (item) => item.name;
+
+  matcher: TuiIdentityMatcher<Resource> = (item1, item2) => item1.resourceId === item2.resourceId;
+
+  update(isSelect = true): void {
+    this.state.get('resourcesForm')?.setValue(isSelect ? this.state.get('resource') : []);
   }
 }

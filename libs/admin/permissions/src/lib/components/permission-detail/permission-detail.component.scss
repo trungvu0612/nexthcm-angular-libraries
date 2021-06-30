@@ -28,16 +28,10 @@
         &:first-child {
           width: 30% !important;
         }
-
-        white-space: pre-wrap;
       }
 
       th {
         padding-top: 0;
-      }
-
-      td:first-child {
-        color: var(--tui-primary);
       }
 
       .ngx-table__header-search {

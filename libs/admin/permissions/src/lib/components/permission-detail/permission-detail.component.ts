@@ -93,7 +93,7 @@ export class PermissionDetailComponent implements OnInit {
     { key: 'service', title: 'Service' },
     { key: 'detail', title: 'Actions & Resources' },
   ];
-  data!: { [key: string]: string }[];
+  data!: any[];
 
   constructor(private adminPermissions: AdminPermissionsService, private translocoService: TranslocoService) {}
 
@@ -121,17 +121,13 @@ export class PermissionDetailComponent implements OnInit {
     this.data =
       this.servicesModel.policyItems?.map((policy) => {
         const service = policy.service.name;
-        const detail = policy.permissions
-          .filter((permission) => permission.resource)
-          .map((permission) => {
-            return (
-              permission.action.name +
-              ': ' +
-              (permission.resource as Resource[]).map((resource) => resource.name).join(', ')
-            );
-          })
-          .join('\n');
-        return { service, detail };
+        const permissions = policy.permissions
+          .filter((permission) => (permission.resource as Resource[])?.length)
+          .map((permission) => ({
+            action: permission.action.name,
+            resource: (permission.resource as Resource[]).map((resource) => resource.name).join(', '),
+          }));
+        return { service, permissions };
       }) || [];
   }
 }
