@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { AdminLayoutModule, LayoutModule } from '@nexthcm/ui';
+import { LayoutModule } from '@nexthcm/ui';
 import { FormlyModule } from '@ngx-formly/core';
 import { TuiReorderModule, TuiTableModule, TuiTablePaginationModule } from '@taiga-ui/addon-table';
 import {
@@ -10,7 +10,7 @@ import {
   TuiHostedDropdownModule,
   TuiLoaderModule,
   TuiSvgModule,
-  TuiTextfieldControllerModule,
+  TuiTextfieldControllerModule
 } from '@taiga-ui/core';
 import {
   TuiDataListWrapperModule,
@@ -24,7 +24,7 @@ import {
   TuiSelectModule,
   TuiTabsModule,
   TuiTagModule,
-  TuiTextAreaModule,
+  TuiTextAreaModule
 } from '@taiga-ui/kit';
 import { RequestDataTableComponent } from './components/request-data-table/request-data-table.component';
 import { RequestDialogComponent } from './components/request-dialog/request-dialog.component';
@@ -91,7 +91,6 @@ import { MyLeaveService } from './services/my-leave/my-leave.service';
     TuiDataListWrapperModule,
     TuiSelectModule,
     LayoutModule,
-    AdminLayoutModule,
     TuiDataListModule,
   ],
   providers: [MyLeaveService],
