@@ -1,16 +1,17 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, Injector, ChangeDetectorRef } from '@angular/core';
+import { MyRequestService } from '../../../../services/my-request.service';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
-import { MyRequestService } from '../../../../services/my-request.service';
 import { RequestsDialogComponent } from '../../../my-request/components/requests-dialog/requests-dialog.component';
 
 @Component({
   selector: 'hcm-list-request-management',
   templateUrl: './list-request-management.component.html',
   styleUrls: ['./list-request-management.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ListRequestManagementComponent implements OnInit {
+
   activeItemIndex = 0;
 
   constructor(
@@ -18,9 +19,11 @@ export class ListRequestManagementComponent implements OnInit {
     private dialogService: TuiDialogService,
     private injector: Injector,
     private cdr: ChangeDetectorRef
-  ) {}
+  ) {
+  }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+  }
 
   cancel(): void {
     console.log('cancel');
@@ -30,7 +33,7 @@ export class ListRequestManagementComponent implements OnInit {
     this.dialogService
       .open<boolean>(new PolymorpheusComponent(RequestsDialogComponent, this.injector), {
         closeable: false,
-        data: { type: type },
+        data: { type: type }
       })
       .subscribe((cancel) => {
         if (cancel) {
@@ -40,4 +43,5 @@ export class ListRequestManagementComponent implements OnInit {
         }
       });
   }
+
 }

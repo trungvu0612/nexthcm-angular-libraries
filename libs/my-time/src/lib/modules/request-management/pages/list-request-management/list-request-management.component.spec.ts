@@ -8,8 +8,9 @@ describe('ListRequestManagementComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ListRequestManagementComponent],
-    }).compileComponents();
+      declarations: [ ListRequestManagementComponent ]
+    })
+    .compileComponents();
   });
 
   beforeEach(() => {

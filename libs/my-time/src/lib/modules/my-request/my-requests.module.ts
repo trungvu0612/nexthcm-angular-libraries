@@ -11,15 +11,15 @@ import {
   TuiMarkerIconModule,
   TuiRadioBlockModule,
   TuiTabsModule,
-  TuiTagModule,
+  TuiTagModule
 } from '@taiga-ui/kit';
-import { RequestDetailsComponent } from './components/request-details/request-details.component';
 import { RequestsDialogComponent } from './components/requests-dialog/requests-dialog.component';
 import { MyRequestsComponent } from './my-requests.component';
 import { ListMyRequestComponent } from './pages/list-my-request/list-my-request.component';
 import { ListOtRequestComponent } from './pages/list-ot-request/list-ot-request.component';
 import { ListTimesheetUpdateComponent } from './pages/list-timesheet-update/list-timesheet-update.component';
 import { ListWorkingOutsideComponent } from './pages/list-working-outside/list-working-outside.component';
+import { RequestDetailsComponent } from './components/request-details/request-details.component';
 
 @NgModule({
   declarations: [
@@ -29,9 +29,13 @@ import { ListWorkingOutsideComponent } from './pages/list-working-outside/list-w
     ListOtRequestComponent,
     ListTimesheetUpdateComponent,
     ListWorkingOutsideComponent,
-    RequestDetailsComponent,
+    RequestDetailsComponent
   ],
-  exports: [ListTimesheetUpdateComponent, ListOtRequestComponent, ListWorkingOutsideComponent],
+  exports: [
+    ListTimesheetUpdateComponent,
+    ListOtRequestComponent,
+    ListWorkingOutsideComponent
+  ],
   imports: [
     CommonModule,
     RouterModule,
@@ -49,7 +53,8 @@ import { ListWorkingOutsideComponent } from './pages/list-working-outside/list-w
     TuiTabsModule,
     TuiDialogModule,
     ReactiveFormsModule,
-    TuiColorModule,
-  ],
+    TuiColorModule
+  ]
 })
-export class MyRequestsModule {}
+export class MyRequestsModule {
+}

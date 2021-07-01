@@ -4,6 +4,7 @@ import { TranslocoService } from '@ngneat/transloco';
 import { TuiHostedDropdownComponent } from '@taiga-ui/core';
 import { BehaviorSubject } from 'rxjs';
 import { filter, map, startWith } from 'rxjs/operators';
+import { AuthService } from '@nexthcm/auth';
 
 const PATHS: { [key: string]: string[] } = {
   'help-desk': ['seatMap', 'bvCalendar'],
