@@ -6,12 +6,13 @@
   </form>
 </div>
 
+<!--[disabled]="!form.valid"-->
 <div class="flex justify-center">
-  <button (click)="submit()" class="blue-button" [disabled]="!form.valid">Submit</button>
+  <button (click)="submit()" class="blue-button" >Submit</button>
 </div>
 
 <!--<p>So ngay nghi: {{ dayMinus | json }}</p>-->
 <!--<p>Hourse: {{ minusHours | json }}</p>-->
 <!--<p>Minutes: {{ minusMinutes | json }}</p>-->
 
-<pre>Form value: {{ model | json }}</pre>
+<!--<pre>Form value: {{ model | json }}</pre>-->

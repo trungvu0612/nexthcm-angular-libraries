@@ -1,4 +1,4 @@
-import { TuiDay } from '@taiga-ui/cdk';
+import { TuiDay, TuiTime } from '@taiga-ui/cdk';
 
 // export interface SubmitLeave {
 //   id: number;
@@ -7,17 +7,57 @@ import { TuiDay } from '@taiga-ui/cdk';
 // }
 
 export interface LeaveSubmit {
+
   leaveTypes?: LeaveType[]; // for form
   durationHold?: number;
+  durationEnd?: number;
   status?: number;
   comments?: string;
   leaveType?: LeaveType;
   sendTo?: string;
   duration?: Duration;
-  startTime?: TuiDay | string;
-  endTime?: TuiDay | string;
+
+  startTime?: TuiDay;
+  endTime?: TuiDay;
+
+  //
+  specialTimeTo?: TuiTime;
+  specialTimeFrom?: TuiTime;
+  specialTimeTo2?: TuiTime;
+  specialTimeFrom2?: TuiTime;
+
+  //for convert
+  coSpecialTimeTo?: number;
+  coSpecialTimeFrom?: number;
+  coSpecialTimeTo2?: number;
+  coSpecialTimeFrom2?: number;
+
+  halfDay?: number;
+  halfDay2?: number;
   partialDays?: number | undefined;
 }
+
+export interface Body {
+  leaveTypeId?: string,
+  partialDayTypeId?: string,
+  comment?: string,
+  fromDate?: number,
+  toDate?: number,
+  sendTo?: string,
+  leaveItems?: DurationType[]
+  resultDays?: number;
+}
+
+export interface DurationType {
+  durationTypeId?: string,
+  fromTime?: number,
+  toTime?: number,
+  fullDay?: boolean,
+  morning?: boolean,
+  afternoon?: boolean,
+  resultTime: number;
+}
+
 
 export interface Duration {
   id?: string;

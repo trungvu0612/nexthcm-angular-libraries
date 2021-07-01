@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Route, RouterModule } from '@angular/router';
 import { AdminBranchesComponent } from './admin-branches.component';
-import { LayoutComponent } from '@nexthcm/ui';
+import { AdminLayoutComponent, LayoutComponent } from '@nexthcm/ui';
 import { AuthGuard } from '@nexthcm/auth';
 import { BranchListComponent } from './pages/branch-list/branch-list.component';
 import { UpsertBranchComponent } from './pages/upsert-branch/upsert-branch.component';
@@ -16,7 +16,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 export const adminBranchRoutes: Route[] = [
   {
     path: '',
-    component: LayoutComponent,
+    component: AdminLayoutComponent,
     canActivate: [AuthGuard],
     children: [
       { path: '', component: BranchListComponent },
