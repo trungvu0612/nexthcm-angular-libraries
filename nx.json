@@ -29,6 +29,9 @@
     "admin-job-level": {
       "tags": []
     },
+    "admin-leave-types": {
+      "tags": []
+    },
     "admin-offices": {
       "tags": []
     },

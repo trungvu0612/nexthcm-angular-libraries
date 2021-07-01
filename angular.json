@@ -166,6 +166,44 @@
         }
       }
     },
+    "admin-leave-types": {
+      "projectType": "library",
+      "root": "libs/admin/leave-types",
+      "sourceRoot": "libs/admin/leave-types/src",
+      "prefix": "hcm",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/angular:package",
+          "outputs": ["dist/libs/admin/leave-types"],
+          "options": {
+            "project": "libs/admin/leave-types/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "libs/admin/leave-types/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "libs/admin/leave-types/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/admin/leave-types"],
+          "options": {
+            "jestConfig": "libs/admin/leave-types/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/admin/leave-types/src/**/*.ts", "libs/admin/leave-types/src/**/*.html"]
+          }
+        }
+      }
+    },
     "admin-offices": {
       "projectType": "library",
       "root": "libs/admin/offices",

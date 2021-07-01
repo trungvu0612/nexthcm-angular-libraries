@@ -54,6 +54,10 @@ import { AppComponent } from './app.component';
               path: 'policies',
               loadChildren: () => import('@nexthcm/admin-policies').then((m) => m.AdminPoliciesModule),
             },
+            {
+              path: 'leave-types',
+              loadChildren: () => import('@nexthcm/admin-leave-types').then((m) => m.AdminLeaveTypesModule),
+            },
           ],
         },
       ],

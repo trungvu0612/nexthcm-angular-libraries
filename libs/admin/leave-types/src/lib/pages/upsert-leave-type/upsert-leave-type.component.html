@@ -1,0 +1,13 @@
+<main class="main-page bg-white">
+  <div class="max-w-4xl mx-auto">
+    <formly-form
+      [fields]="fields"
+      [form]="$any(form)"
+      [model]="model"
+      class="col-6 border-start border-end"
+    ></formly-form>
+    <button (click)="submit()" class="cancel blue-button mt-5">Submit</button>
+  </div>
+</main>
+
+<hcm-prompt #prompt></hcm-prompt>

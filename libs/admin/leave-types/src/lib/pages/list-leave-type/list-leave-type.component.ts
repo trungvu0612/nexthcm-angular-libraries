@@ -1,25 +1,25 @@
 import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder } from '@ngneat/reactive-forms';
 import { TuiDestroyService } from '@taiga-ui/cdk';
-import { BehaviorSubject, from, Observable } from 'rxjs';
-import { catchError, filter, map, switchMap, takeUntil, tap } from 'rxjs/operators';
-import { Policy } from '../../policies';
-import { PoliciesService } from '../../policies.service';
-import { PromptComponent } from '@nexthcm/ui';
-import { TranslocoService } from '@ngneat/transloco';
-import { BaseComponent, Columns, Config, DefaultConfig } from 'ngx-easy-table';
-import { HttpParams } from '@angular/common/http';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
+import { LeaveType } from '../../model/leave-type';
+import { LeaveTypesService } from '../../leave-types.service';
 import { RxState } from '@rx-angular/state';
 import { Pagination } from '@nexthcm/core';
+import { TranslocoService } from '@ngneat/transloco';
+import { BaseComponent, Columns, Config, DefaultConfig } from 'ngx-easy-table';
+import { PromptComponent } from '@nexthcm/ui';
+import { HttpParams } from '@angular/common/http';
 
 @Component({
-  selector: 'hcm-list-policies',
-  templateUrl: './list-policies.component.html',
-  styleUrls: ['./list-policies.component.scss'],
+  selector: 'hcm-list-leave-type',
+  templateUrl: './list-leave-type.component.html',
+  styleUrls: ['./list-leave-type.component.scss'],
   providers: [RxState, TuiDestroyService],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ListPoliciesComponent implements OnInit {
+export class ListLeaveTypeComponent implements OnInit {
   @ViewChild('table') table!: BaseComponent;
   @ViewChild('prompt') prompt!: PromptComponent;
   readonly loading$ = this.state.$.pipe(map((value) => !value));
@@ -36,22 +36,22 @@ export class ListPoliciesComponent implements OnInit {
     .selectTranslateObject('ADMIN_POLICIES.POLICIES_MANAGEMENT_COLUMNS')
     .pipe(
       map((result) => [
-        { key: 'topic', title: result.topic },
-        { key: 'shortDescription', title: result.shortDescription },
+        { key: 'name', title: result.topic },
         { key: 'createdDate', title: result.createdDate },
         { key: 'operations', title: result.operations },
       ])
     );
+  leaveTypes!: LeaveType[];
   private readonly queryParams$ = new BehaviorSubject(new HttpParams().set('page', 0).set('size', 10));
   private readonly request$ = this.queryParams$.pipe(
-    switchMap(() => this.policiesService.getPolicies(this.queryParams$.value)),
+    switchMap(() => this.leaveTypeService.getLeaveTypes(this.queryParams$.value)),
     map((res) => res.data)
   );
 
   constructor(
-    private policiesService: PoliciesService,
+    private leaveTypeService: LeaveTypesService,
     private formBuilder: FormBuilder,
-    private state: RxState<Pagination<Policy>>,
+    private state: RxState<Pagination<LeaveType>>,
     private destroy$: TuiDestroyService,
     private translocoService: TranslocoService
   ) {
@@ -60,7 +60,7 @@ export class ListPoliciesComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  readonly policy = (item: Policy) => item;
+  readonly item = (item: LeaveType) => item;
 
   tableEventEmitted(tableEvent: { event: string; value: any }): void {
     if (tableEvent.event === 'onOrder') {
@@ -77,23 +77,23 @@ export class ListPoliciesComponent implements OnInit {
   }
 
   delete(id: string) {
-    if (id) {
-      from(
-        this.prompt.open({
-          icon: 'question',
-          text: this.translocoService.translate('ADMIN_PROCESSES.MESSAGES.deleteProcess'),
-          showCancelButton: true,
-        })
-      )
-        .pipe(
-          filter((result) => result.isConfirmed),
-          switchMap(() =>
-            this.policiesService.delete(id).pipe(tap(() => this.queryParams$.next(this.queryParams$.value)))
-          ),
-          catchError((err) => this.prompt.open({ icon: 'error', text: err.error.message })),
-          takeUntil(this.destroy$)
-        )
-        .subscribe();
-    }
+    // if (id) {
+    //   from(
+    //     this.prompt.open({
+    //       icon: 'question',
+    //       text: this.translocoService.translate('ADMIN_PROCESSES.MESSAGES.deleteProcess'),
+    //       showCancelButton: true,
+    //     })
+    //   )
+    //     .pipe(
+    //       filter((result) => result.isConfirmed),
+    //       switchMap(() =>
+    //         this.policiesService.delete(id).pipe(tap(() => this.queryParams$.next(this.queryParams$.value)))
+    //       ),
+    //       catchError((err) => this.prompt.open({ icon: 'error', text: err.error.message })),
+    //       takeUntil(this.destroy$)
+    //     )
+    //     .subscribe();
+    // }
   }
 }

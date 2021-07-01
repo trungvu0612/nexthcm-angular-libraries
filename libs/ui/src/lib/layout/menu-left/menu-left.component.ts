@@ -72,6 +72,10 @@ export class MenuLeftComponent implements OnInit {
       name: 'Quản lý quy trình',
       uri: '/admin/processes',
     },
+    {
+      name: 'Quản lý loại ngày nghỉ',
+      uri: '/admin/leave-types',
+    },
   ];
 
   constructor() {}
