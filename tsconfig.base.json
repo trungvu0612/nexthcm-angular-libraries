@@ -18,6 +18,7 @@
       "@nexthcm/admin-branches": ["libs/admin/branches/src/index.ts"],
       "@nexthcm/admin-employee": ["libs/admin-employee/src/index.ts"],
       "@nexthcm/admin-job-level": ["libs/admin/job-level/src/index.ts"],
+      "@nexthcm/admin-leave-types": ["libs/admin/leave-types/src/index.ts"],
       "@nexthcm/admin-offices": ["libs/admin/offices/src/index.ts"],
       "@nexthcm/admin-permissions": ["libs/admin/permissions/src/index.ts"],
       "@nexthcm/admin-policies": ["libs/admin/policies/src/index.ts"],

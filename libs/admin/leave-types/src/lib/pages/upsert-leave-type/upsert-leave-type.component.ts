@@ -1,0 +1,137 @@
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
+import { LeaveType, Process } from '../../model/leave-type';
+import { LeaveTypesService } from '../../leave-types.service';
+import { FormlyFieldConfig } from '@ngx-formly/core';
+import { TranslocoService } from '@ngneat/transloco';
+import { map } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs';
+import { HttpParams } from '@angular/common/http';
+
+@Component({
+  selector: 'hcm-upsert-leave-type',
+  templateUrl: './upsert-leave-type.component.html',
+  styleUrls: ['./upsert-leave-type.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class UpsertLeaveTypeComponent implements OnInit {
+  private readonly queryParams$ = new BehaviorSubject(new HttpParams().set('page', 0).set('size', 666));
+  dataProcesses$ = this.leaveTypeService.getProcesses(this.queryParams$.value).pipe(map((res) => res.data.items));
+  id!: string;
+  form!: FormGroup<LeaveType>;
+  model!: LeaveType;
+  fields: FormlyFieldConfig[] = [
+    {
+      fieldGroupClassName: 'grid md:grid-cols-1 gap-6 mb-4',
+      fieldGroup: [
+        {
+          key: 'name',
+          type: 'input',
+          templateOptions: {
+            required: true,
+            translate: true,
+            label: 'ADMIN_LEAVE_TYPES.LEAVE_TYPES_COLUMNS.name',
+          },
+          validation: {
+            messages: {
+              required: () => this.translocoService.selectTranslate('VALIDATION.required'),
+            },
+          },
+        },
+      ],
+    },
+    {
+      fieldGroupClassName: 'grid md:grid-cols-1 gap-6 mb-4',
+      fieldGroup: [
+        {
+          key: 'process',
+          type: 'object-select',
+          templateOptions: {
+            options: this.dataProcesses$,
+            labelProp: 'name',
+            valueProp: 'id',
+            label: 'ADMIN_LEAVE_TYPES.LEAVE_TYPES_COLUMNS.process',
+            required: true,
+            translate: true,
+            multiple: true,
+            compareWith: (item1: Process, item2: Process) => item1.id === item2.id,
+          },
+        },
+      ],
+    },
+    {
+      fieldGroupClassName: 'grid md:grid-cols-2 gap-6 mb-4',
+      fieldGroup: [
+        {
+          key: 'status',
+          type: 'toggle',
+          templateOptions: {
+            required: true,
+            translate: true,
+            description: 'ADMIN_LEAVE_TYPES.LEAVE_TYPES_COLUMNS.status',
+          },
+        },
+      ],
+    },
+    {
+      fieldGroupClassName: 'grid md:grid-cols-1 gap-6 mb-4',
+      fieldGroup: [
+        {
+          key: 'description',
+          type: 'text-area',
+          templateOptions: {
+            required: true,
+            translate: true,
+            label: 'ADMIN_LEAVE_TYPES.LEAVE_TYPES_COLUMNS.description',
+            placeholder: 'Short Description',
+          },
+        },
+      ],
+    },
+  ];
+
+  constructor(
+    private formBuilder: FormBuilder,
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
+    private translocoService: TranslocoService,
+    private leaveTypeService: LeaveTypesService
+  ) {
+    this.id = this.activatedRoute.snapshot.params.id;
+    this.form = this.formBuilder.group<LeaveType>({
+      orgId: '3ca97c73-7312-4191-b54d-3a8e0cc9e4dd',
+      name: ['', Validators.required],
+      deleted: [0],
+    });
+  }
+
+  ngOnInit(): void {
+    if (this.id) {
+      this.getLeaveType();
+    }
+  }
+
+  getLeaveType(): void {
+    this.leaveTypeService.getLeaveType(this.id).subscribe((item) => {
+      this.form.patchValue(item.data);
+    });
+  }
+
+  submit(): void {
+    this.form.markAllAsTouched();
+    this.form?.controls?.status?.patchValue(this.form.value.status ? 1 : 0);
+    if (this.form.valid) {
+      if (this.id) {
+        this.leaveTypeService.editLeaveType(this.form.value, this.id).subscribe((item) => {
+          this.router.navigateByUrl('/admin/leave-types');
+        });
+      } else {
+        this.leaveTypeService.createLeaveType(this.form.value).subscribe((item) => {
+          this.router.navigateByUrl('/admin/leave-types');
+        });
+      }
+    }
+  }
+}

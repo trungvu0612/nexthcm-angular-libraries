@@ -2,7 +2,7 @@
   <ng-container *transloco="let t">
     <h2 class="tui-text_h3">{{ t('ADMIN_POLICIES.policyManagement') }}</h2>
     <section class="flex justify-end">
-      <button class="tui-space_right-3 tui-space_bottom-3" size="m" icon="tuiIconPlusLarge" routerLink="add" tuiButton>
+      <button class="tui-space_right-3 tui-space_bottom-3" icon="tuiIconPlusLarge" routerLink="add" size="m" tuiButton>
         Add Policies
       </button>
     </section>
@@ -16,22 +16,21 @@
         [data]="(data$ | async) || []"
       >
         <ng-template let-row>
-          <td>{{ policy(row).topic }}</td>
-          <td>{{ policy(row).shortDescription }}</td>
-          <td>{{ policy(row).createdDate | date: 'dd/MM/yyyy' }}</td>
+          <td>{{ item(row).name }}</td>
+          <td>{{ item(row).createdDate | date: 'dd/MM/yyyy' }}</td>
           <td>
             <div class="flex items-center">
               <button
+                [routerLink]="[item(row).id, 'edit']"
                 appearance="flat"
                 class="tui-space_right-3"
                 icon="tuiIconEditLarge"
-                [routerLink]="[policy(row).id, 'edit']"
                 size="m"
                 tuiIconButton
                 type="button"
               ></button>
               <button
-                (click)="delete($any(policy(row).id))"
+                (click)="delete($any(item(row).id))"
                 appearance="flat"
                 icon="tuiIconTrashLarge"
                 size="m"

@@ -83,6 +83,19 @@
       "deleteProcess": "Bạn có chắc chắn muốn xóa chính sách này không?"
     }
   },
+  "ADMIN_LEAVE_TYPES": {
+    "leaveTypesManagement": "Quản lý loại ngày nghỉ",
+    "LEAVE_TYPES_COLUMNS": {
+      "name": "Tên",
+      "description": "Mô tả",
+      "status": "Tình trạng",
+      "process": "Quy trình",
+      "operations": "Hoạt động"
+    },
+    "MESSAGES": {
+      "deleteProcess": "Bạn có chắc chắn muốn xóa loại ngày nghỉ này không?"
+    }
+  },
   "AUTH": {
     "username": "Tên người dùng",
     "password": "Mật khẩu",

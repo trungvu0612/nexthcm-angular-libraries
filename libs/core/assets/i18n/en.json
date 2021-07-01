@@ -83,6 +83,19 @@
       "deleteProcess": "Are you sure you want to delete this policy?"
     }
   },
+  "ADMIN_LEAVE_TYPES": {
+    "leaveTypesManagement": "Leave type management",
+    "LEAVE_TYPES_COLUMNS": {
+      "name": "Name",
+      "description": "Description",
+      "status": "Status",
+      "process": "Process",
+      "operations": "Operators"
+    },
+    "MESSAGES": {
+      "deleteProcess": "Bạn có chắc chắn muốn xóa loại ngày nghỉ này không?"
+    }
+  },
   "AUTH": {
     "username": "Username",
     "password": "Password",
