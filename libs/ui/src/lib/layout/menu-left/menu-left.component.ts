@@ -58,7 +58,7 @@ export class MenuLeftComponent implements OnInit {
     },
     {
       name: 'Quản lý sơ đồ chỗ ngồi',
-      uri: '/admin/seat-maps',
+      uri: '/admin/offices/seat-maps',
     },
     {
       name: 'Quản lý chính sách',
