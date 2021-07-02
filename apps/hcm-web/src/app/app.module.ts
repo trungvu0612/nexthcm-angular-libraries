@@ -32,6 +32,7 @@ import { AppComponent } from './app.component';
           loadChildren: () => import('@nexthcm/human-resource').then((m) => m.HumanResourceModule),
         },
         { path: 'policy', loadChildren: () => import('@nexthcm/policy').then((m) => m.PolicyModule) },
+        { path: 'chat', loadChildren: () => import('@nexthcm/chat').then((m) => m.ChatModule) },
         {
           path: 'admin',
           children: [

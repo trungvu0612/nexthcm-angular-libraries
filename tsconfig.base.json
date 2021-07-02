@@ -26,6 +26,7 @@
       "@nexthcm/admin-team-building-allowance": ["libs/admin/team-building-allowance/src/index.ts"],
       "@nexthcm/admin-tenant": ["libs/admin/tenant/src/index.ts"],
       "@nexthcm/auth": ["libs/auth/src/index.ts"],
+      "@nexthcm/chat": ["libs/chat/src/index.ts"],
       "@nexthcm/configurations": ["libs/configurations/src/index.ts"],
       "@nexthcm/core": ["libs/core/src/index.ts"],
       "@nexthcm/form": ["libs/form/src/index.ts"],

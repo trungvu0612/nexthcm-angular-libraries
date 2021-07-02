@@ -470,6 +470,54 @@
         }
       }
     },
+    "chat": {
+      "projectType": "library",
+      "root": "libs/chat",
+      "sourceRoot": "libs/chat/src",
+      "prefix": "hcm",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/angular:package",
+          "outputs": ["dist/libs/chat"],
+          "options": {
+            "project": "libs/chat/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "libs/chat/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "libs/chat/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/chat"],
+          "options": {
+            "jestConfig": "libs/chat/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/chat/src/**/*.ts", "libs/chat/src/**/*.html"]
+          }
+        },
+        "generate": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "npx graphql-codegen --config libs/chat/src/codegen.yml"
+              }
+            ]
+          }
+        }
+      }
+    },
     "configurations": {
       "projectType": "library",
       "root": "libs/configurations",

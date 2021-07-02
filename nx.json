@@ -53,6 +53,9 @@
     "auth": {
       "tags": []
     },
+    "chat": {
+      "tags": []
+    },
     "configurations": {
       "tags": []
     },
