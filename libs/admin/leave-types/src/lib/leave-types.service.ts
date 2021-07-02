@@ -2,7 +2,8 @@ import { Inject, Injectable } from '@angular/core';
 import { APP_CONFIG, AppConfig, BaseResponse, PagingResponse } from '@nexthcm/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { LeaveType, Process } from './model/leave-type';
+import { LeaveType } from './model/leave-type';
+import { Process } from './model/process';
 
 const WORKFLOWS_PATH = 'workflowapp/v1.0';
 
@@ -36,5 +37,9 @@ export class LeaveTypesService {
 
   getProcesses(params: HttpParams): Observable<PagingResponse<Process>> {
     return this.httpClient.get<PagingResponse<Process>>(`/${WORKFLOWS_PATH}/process`, { params });
+  }
+
+  getProcess(processId: string): Observable<BaseResponse<Process>> {
+    return this.httpClient.get<BaseResponse<Process>>(`/${WORKFLOWS_PATH}/process/${processId}`);
   }
 }

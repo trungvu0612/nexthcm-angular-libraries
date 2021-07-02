@@ -1,4 +1,4 @@
-import { State, Transition } from '../../../../processes/src/lib/models/process';
+import { Process } from './process';
 
 export interface LeaveType {
   id?: string;
@@ -10,19 +10,10 @@ export interface LeaveType {
   createBy?: string;
   lastModifiedDate?: string;
   lastModifiedBy?: string;
+  processId?: string;
+  process?: Process;
 }
 
 export interface SearchLeaveType {
   name: string;
-}
-
-export interface Process {
-  id?: string;
-  name?: string;
-  description?: string;
-  template?: string;
-  states?: State[];
-  transitions?: Transition[];
-  removingStates?: string[];
-  removingTransitions?: string[];
 }

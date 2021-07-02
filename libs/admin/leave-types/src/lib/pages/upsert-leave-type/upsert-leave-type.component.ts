@@ -2,13 +2,14 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
-import { LeaveType, Process } from '../../model/leave-type';
+import { LeaveType } from '../../model/leave-type';
 import { LeaveTypesService } from '../../leave-types.service';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TranslocoService } from '@ngneat/transloco';
 import { map } from 'rxjs/operators';
 import { BehaviorSubject } from 'rxjs';
 import { HttpParams } from '@angular/common/http';
+import { Process } from '../../model/process';
 
 @Component({
   selector: 'hcm-upsert-leave-type',
@@ -114,9 +115,20 @@ export class UpsertLeaveTypeComponent implements OnInit {
   }
 
   getLeaveType(): void {
-    this.leaveTypeService.getLeaveType(this.id).subscribe((item) => {
-      this.form.patchValue(item.data);
-    });
+    this.leaveTypeService
+      .getLeaveType(this.id)
+      .pipe(
+        map((type) => {
+          const leaveType: LeaveType = { ...type.data };
+          this.leaveTypeService.getProcess(type?.data?.processId || '').subscribe((res) => {
+            leaveType.process = res.data;
+          });
+          return leaveType;
+        })
+      )
+      .subscribe((item) => {
+        this.form.patchValue(item);
+      });
   }
 
   submit(): void {
