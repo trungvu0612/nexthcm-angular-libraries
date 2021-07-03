@@ -4,7 +4,8 @@ import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { FORMLY_CONFIG, FormlyModule } from '@ngx-formly/core';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
-import { iconsPathFactory, TUI_ICONS_PATH, TUI_SANITIZER, TuiDialogModule } from '@taiga-ui/core';
+import { TUI_TABLE_PAGINATION_TEXTS } from '@taiga-ui/addon-table';
+import { iconsPathFactory, TUI_ICONS_PATH, TUI_SANITIZER, TUI_SPIN_TEXTS, TuiDialogModule } from '@taiga-ui/core';
 import { NgDompurifySanitizer } from '@tinkoff/ng-dompurify';
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { APP_CONFIG } from './app-config.token';
@@ -14,6 +15,7 @@ import { apiPrefixInterceptorProvider } from './interceptors';
 import { AppConfig } from './models';
 import { httpLoader } from './transloco/http-loader';
 import { translocoConfigProvider } from './transloco/transloco-config';
+import { translateSpinTexts, translateTuiTablePaginationTexts } from './utils/translate-tui-texts';
 
 @NgModule({
   imports: [
@@ -33,6 +35,8 @@ import { translocoConfigProvider } from './transloco/transloco-config';
     { provide: TUI_ICONS_PATH, useValue: iconsPathFactory('assets/taiga-ui/icons/') },
     { provide: TUI_SANITIZER, useClass: NgDompurifySanitizer },
     { provide: FORMLY_CONFIG, multi: true, useFactory: registerTranslateExtension, deps: [TranslocoService] },
+    { provide: TUI_TABLE_PAGINATION_TEXTS, useFactory: translateTuiTablePaginationTexts, deps: [TranslocoService] },
+    { provide: TUI_SPIN_TEXTS, useFactory: translateSpinTexts, deps: [TranslocoService] },
   ],
 })
 export class CoreModule {
