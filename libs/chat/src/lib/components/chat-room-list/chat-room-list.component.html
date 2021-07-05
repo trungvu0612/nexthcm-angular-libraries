@@ -7,12 +7,12 @@
     <a
       *ngFor="let chatRoom of chatRooms"
       [routerLink]="['/chat', chatRoom.roomId]"
-      class="rounded-lg flex items-center chat-room unseen hover:bg-gray-200"
+      class="flex items-center rounded-lg chat-room unseen hover:bg-gray-100"
       routerLinkActive="active"
     >
       <div class="my-2 mx-3">
         <tui-svg
-          class="avatar rounded-full border-2"
+          class="rounded-full border border-gray-300 avatar"
           src="https://ng-web-apis.github.io/dist/assets/images/web-api.svg"
         ></tui-svg>
       </div>
@@ -20,7 +20,7 @@
         <div class="text-base">{{ chatRoom.title }}</div>
         <div class="text-xs text-gray-500 truncate">{{ chatRoom.chatMessages[0].content }}</div>
       </div>
-      <div class="my-2 mx-3"><span class="rounded-full w-3 h-3 bg-blue-500 inline-block"></span></div>
+      <div class="my-2 mx-3"><span class="inline-block w-3 h-3 bg-blue-500 rounded-full"></span></div>
     </a>
   </div>
 </section>

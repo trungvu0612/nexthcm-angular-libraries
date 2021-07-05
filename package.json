@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "nx",
+    "preinstall": "npx only-allow yarn",
     "postinstall": "patch-package && ngcc --properties es2015 browser module main",
     "nx": "nx",
     "start": "node --max_old_space_size=4096 node_modules/@nrwl/cli/bin/nx.js serve",
