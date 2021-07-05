@@ -30,6 +30,6 @@ export interface UserInfo {
   email?: string;
   tenantId?: string;
   orgId?: string;
-  userId?: string;
+  userId: string;
   orgType: string;
 }

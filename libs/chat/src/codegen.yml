@@ -15,3 +15,7 @@ generates:
       pureMagicComment: true
       querySuffix: 'QueryService'
       mutationSuffix: 'MutationService'
+      scalars:
+        uuid: string
+        smallint: number
+        timestamp: string

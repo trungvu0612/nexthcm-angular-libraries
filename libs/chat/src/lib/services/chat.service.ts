@@ -13,9 +13,9 @@ export interface Scalars {
   Boolean: boolean;
   Int: number;
   Float: number;
-  smallint: any;
-  timestamp: any;
-  uuid: any;
+  smallint: number;
+  timestamp: string;
+  uuid: string;
 }
 
 /** expression to compare columns of type Boolean. All fields are combined with logical 'AND'. */
