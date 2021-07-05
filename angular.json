@@ -511,7 +511,7 @@
           "options": {
             "commands": [
               {
-                "command": "npx graphql-codegen --config libs/chat/src/codegen.yml"
+                "command": "npx graphql-codegen --config libs/chat/src/codegen.yml && npx prettier --write libs/chat/src/lib/services/chat.service.ts"
               }
             ]
           }

@@ -18,8 +18,6 @@ export interface Scalars {
   uuid: any;
 }
 
-
-
 /** expression to compare columns of type Boolean. All fields are combined with logical 'AND'. */
 export interface BooleanComparisonExp {
   _eq?: Maybe<Scalars['Boolean']>;
@@ -67,7 +65,6 @@ export interface StringComparisonExp {
 
 /** columns and relationships of "chatapp.chat_attachment" */
 export interface ChatappChatAttachment {
-  __typename?: 'chatapp_chat_attachment';
   chat_attachment_id: Scalars['uuid'];
   file_url?: Maybe<Scalars['String']>;
   message_id: Scalars['uuid'];
@@ -76,19 +73,16 @@ export interface ChatappChatAttachment {
 
 /** aggregated selection of "chatapp.chat_attachment" */
 export interface ChatappChatAttachmentAggregate {
-  __typename?: 'chatapp_chat_attachment_aggregate';
   aggregate?: Maybe<ChatappChatAttachmentAggregateFields>;
   nodes: Array<ChatappChatAttachment>;
 }
 
 /** aggregate fields of "chatapp.chat_attachment" */
 export interface ChatappChatAttachmentAggregateFields {
-  __typename?: 'chatapp_chat_attachment_aggregate_fields';
   count?: Maybe<Scalars['Int']>;
   max?: Maybe<ChatappChatAttachmentMaxFields>;
   min?: Maybe<ChatappChatAttachmentMinFields>;
 }
-
 
 /** aggregate fields of "chatapp.chat_attachment" */
 export interface ChatappChatAttachmentAggregateFieldsCountArgs {
@@ -123,7 +117,7 @@ export interface ChatappChatAttachmentBoolExp {
 /** unique or primary key constraints on table "chatapp.chat_attachment" */
 export enum ChatappChatAttachmentConstraint {
   /** unique or primary key constraint */
-  ChatAttachmentPkey = 'chat_attachment_pkey'
+  ChatAttachmentPkey = 'chat_attachment_pkey',
 }
 
 /** input type for inserting data into table "chatapp.chat_attachment" */
@@ -136,7 +130,6 @@ export interface ChatappChatAttachmentInsertInput {
 
 /** aggregate max on columns */
 export interface ChatappChatAttachmentMaxFields {
-  __typename?: 'chatapp_chat_attachment_max_fields';
   chat_attachment_id?: Maybe<Scalars['uuid']>;
   file_url?: Maybe<Scalars['String']>;
   message_id?: Maybe<Scalars['uuid']>;
@@ -153,7 +146,6 @@ export interface ChatappChatAttachmentMaxOrderBy {
 
 /** aggregate min on columns */
 export interface ChatappChatAttachmentMinFields {
-  __typename?: 'chatapp_chat_attachment_min_fields';
   chat_attachment_id?: Maybe<Scalars['uuid']>;
   file_url?: Maybe<Scalars['String']>;
   message_id?: Maybe<Scalars['uuid']>;
@@ -170,7 +162,6 @@ export interface ChatappChatAttachmentMinOrderBy {
 
 /** response of any mutation on the table "chatapp.chat_attachment" */
 export interface ChatappChatAttachmentMutationResponse {
-  __typename?: 'chatapp_chat_attachment_mutation_response';
   /** number of affected rows by the mutation */
   affected_rows: Scalars['Int'];
   /** data of the affected rows by the mutation */
@@ -212,7 +203,7 @@ export enum ChatappChatAttachmentSelectColumn {
   /** column name */
   MessageId = 'message_id',
   /** column name */
-  ThumbUrl = 'thumb_url'
+  ThumbUrl = 'thumb_url',
 }
 
 /** input type for updating data in table "chatapp.chat_attachment" */
@@ -232,12 +223,11 @@ export enum ChatappChatAttachmentUpdateColumn {
   /** column name */
   MessageId = 'message_id',
   /** column name */
-  ThumbUrl = 'thumb_url'
+  ThumbUrl = 'thumb_url',
 }
 
 /** columns and relationships of "chatapp.chat_message" */
 export interface ChatappChatMessage {
-  __typename?: 'chatapp_chat_message';
   chat_message_id: Scalars['uuid'];
   /** An array relationship */
   chat_message_visibilities: Array<ChatappChatMessageVisibility>;
@@ -256,7 +246,6 @@ export interface ChatappChatMessage {
   user_id: Scalars['uuid'];
 }
 
-
 /** columns and relationships of "chatapp.chat_message" */
 export interface ChatappChatMessageChatMessageVisibilitiesArgs {
   distinct_on?: Maybe<Array<ChatappChatMessageVisibilitySelectColumn>>;
@@ -265,7 +254,6 @@ export interface ChatappChatMessageChatMessageVisibilitiesArgs {
   order_by?: Maybe<Array<ChatappChatMessageVisibilityOrderBy>>;
   where?: Maybe<ChatappChatMessageVisibilityBoolExp>;
 }
-
 
 /** columns and relationships of "chatapp.chat_message" */
 export interface ChatappChatMessageChatMessageVisibilitiesAggregateArgs {
@@ -278,14 +266,12 @@ export interface ChatappChatMessageChatMessageVisibilitiesAggregateArgs {
 
 /** aggregated selection of "chatapp.chat_message" */
 export interface ChatappChatMessageAggregate {
-  __typename?: 'chatapp_chat_message_aggregate';
   aggregate?: Maybe<ChatappChatMessageAggregateFields>;
   nodes: Array<ChatappChatMessage>;
 }
 
 /** aggregate fields of "chatapp.chat_message" */
 export interface ChatappChatMessageAggregateFields {
-  __typename?: 'chatapp_chat_message_aggregate_fields';
   avg?: Maybe<ChatappChatMessageAvgFields>;
   count?: Maybe<Scalars['Int']>;
   max?: Maybe<ChatappChatMessageMaxFields>;
@@ -298,7 +284,6 @@ export interface ChatappChatMessageAggregateFields {
   var_samp?: Maybe<ChatappChatMessageVarSampFields>;
   variance?: Maybe<ChatappChatMessageVarianceFields>;
 }
-
 
 /** aggregate fields of "chatapp.chat_message" */
 export interface ChatappChatMessageAggregateFieldsCountArgs {
@@ -329,7 +314,6 @@ export interface ChatappChatMessageArrRelInsertInput {
 
 /** aggregate avg on columns */
 export interface ChatappChatMessageAvgFields {
-  __typename?: 'chatapp_chat_message_avg_fields';
   status?: Maybe<Scalars['Float']>;
 }
 
@@ -359,7 +343,7 @@ export interface ChatappChatMessageBoolExp {
 /** unique or primary key constraints on table "chatapp.chat_message" */
 export enum ChatappChatMessageConstraint {
   /** unique or primary key constraint */
-  ChatMessagePkey = 'chat_message_pkey'
+  ChatMessagePkey = 'chat_message_pkey',
 }
 
 /** input type for incrementing integer column in table "chatapp.chat_message" */
@@ -384,7 +368,6 @@ export interface ChatappChatMessageInsertInput {
 
 /** aggregate max on columns */
 export interface ChatappChatMessageMaxFields {
-  __typename?: 'chatapp_chat_message_max_fields';
   chat_message_id?: Maybe<Scalars['uuid']>;
   content?: Maybe<Scalars['String']>;
   created_date?: Maybe<Scalars['timestamp']>;
@@ -409,7 +392,6 @@ export interface ChatappChatMessageMaxOrderBy {
 
 /** aggregate min on columns */
 export interface ChatappChatMessageMinFields {
-  __typename?: 'chatapp_chat_message_min_fields';
   chat_message_id?: Maybe<Scalars['uuid']>;
   content?: Maybe<Scalars['String']>;
   created_date?: Maybe<Scalars['timestamp']>;
@@ -434,7 +416,6 @@ export interface ChatappChatMessageMinOrderBy {
 
 /** response of any mutation on the table "chatapp.chat_message" */
 export interface ChatappChatMessageMutationResponse {
-  __typename?: 'chatapp_chat_message_mutation_response';
   /** number of affected rows by the mutation */
   affected_rows: Scalars['Int'];
   /** data of the affected rows by the mutation */
@@ -491,7 +472,7 @@ export enum ChatappChatMessageSelectColumn {
   /** column name */
   Type = 'type',
   /** column name */
-  UserId = 'user_id'
+  UserId = 'user_id',
 }
 
 /** input type for updating data in table "chatapp.chat_message" */
@@ -508,7 +489,6 @@ export interface ChatappChatMessageSetInput {
 
 /** aggregate stddev on columns */
 export interface ChatappChatMessageStddevFields {
-  __typename?: 'chatapp_chat_message_stddev_fields';
   status?: Maybe<Scalars['Float']>;
 }
 
@@ -519,7 +499,6 @@ export interface ChatappChatMessageStddevOrderBy {
 
 /** aggregate stddev_pop on columns */
 export interface ChatappChatMessageStddevPopFields {
-  __typename?: 'chatapp_chat_message_stddev_pop_fields';
   status?: Maybe<Scalars['Float']>;
 }
 
@@ -530,7 +509,6 @@ export interface ChatappChatMessageStddevPopOrderBy {
 
 /** aggregate stddev_samp on columns */
 export interface ChatappChatMessageStddevSampFields {
-  __typename?: 'chatapp_chat_message_stddev_samp_fields';
   status?: Maybe<Scalars['Float']>;
 }
 
@@ -541,7 +519,6 @@ export interface ChatappChatMessageStddevSampOrderBy {
 
 /** aggregate sum on columns */
 export interface ChatappChatMessageSumFields {
-  __typename?: 'chatapp_chat_message_sum_fields';
   status?: Maybe<Scalars['Int']>;
 }
 
@@ -567,12 +544,11 @@ export enum ChatappChatMessageUpdateColumn {
   /** column name */
   Type = 'type',
   /** column name */
-  UserId = 'user_id'
+  UserId = 'user_id',
 }
 
 /** aggregate var_pop on columns */
 export interface ChatappChatMessageVarPopFields {
-  __typename?: 'chatapp_chat_message_var_pop_fields';
   status?: Maybe<Scalars['Float']>;
 }
 
@@ -583,7 +559,6 @@ export interface ChatappChatMessageVarPopOrderBy {
 
 /** aggregate var_samp on columns */
 export interface ChatappChatMessageVarSampFields {
-  __typename?: 'chatapp_chat_message_var_samp_fields';
   status?: Maybe<Scalars['Float']>;
 }
 
@@ -594,7 +569,6 @@ export interface ChatappChatMessageVarSampOrderBy {
 
 /** aggregate variance on columns */
 export interface ChatappChatMessageVarianceFields {
-  __typename?: 'chatapp_chat_message_variance_fields';
   status?: Maybe<Scalars['Float']>;
 }
 
@@ -605,7 +579,6 @@ export interface ChatappChatMessageVarianceOrderBy {
 
 /** columns and relationships of "chatapp.chat_message_visibility" */
 export interface ChatappChatMessageVisibility {
-  __typename?: 'chatapp_chat_message_visibility';
   /** An object relationship */
   chat_message: ChatappChatMessage;
   chat_message_visibility_id: Scalars['uuid'];
@@ -619,14 +592,12 @@ export interface ChatappChatMessageVisibility {
 
 /** aggregated selection of "chatapp.chat_message_visibility" */
 export interface ChatappChatMessageVisibilityAggregate {
-  __typename?: 'chatapp_chat_message_visibility_aggregate';
   aggregate?: Maybe<ChatappChatMessageVisibilityAggregateFields>;
   nodes: Array<ChatappChatMessageVisibility>;
 }
 
 /** aggregate fields of "chatapp.chat_message_visibility" */
 export interface ChatappChatMessageVisibilityAggregateFields {
-  __typename?: 'chatapp_chat_message_visibility_aggregate_fields';
   avg?: Maybe<ChatappChatMessageVisibilityAvgFields>;
   count?: Maybe<Scalars['Int']>;
   max?: Maybe<ChatappChatMessageVisibilityMaxFields>;
@@ -639,7 +610,6 @@ export interface ChatappChatMessageVisibilityAggregateFields {
   var_samp?: Maybe<ChatappChatMessageVisibilityVarSampFields>;
   variance?: Maybe<ChatappChatMessageVisibilityVarianceFields>;
 }
-
 
 /** aggregate fields of "chatapp.chat_message_visibility" */
 export interface ChatappChatMessageVisibilityAggregateFieldsCountArgs {
@@ -670,7 +640,6 @@ export interface ChatappChatMessageVisibilityArrRelInsertInput {
 
 /** aggregate avg on columns */
 export interface ChatappChatMessageVisibilityAvgFields {
-  __typename?: 'chatapp_chat_message_visibility_avg_fields';
   status?: Maybe<Scalars['Float']>;
 }
 
@@ -696,7 +665,7 @@ export interface ChatappChatMessageVisibilityBoolExp {
 /** unique or primary key constraints on table "chatapp.chat_message_visibility" */
 export enum ChatappChatMessageVisibilityConstraint {
   /** unique or primary key constraint */
-  ChatMessageVisibilityPkey = 'chat_message_visibility_pkey'
+  ChatMessageVisibilityPkey = 'chat_message_visibility_pkey',
 }
 
 /** input type for incrementing integer column in table "chatapp.chat_message_visibility" */
@@ -717,7 +686,6 @@ export interface ChatappChatMessageVisibilityInsertInput {
 
 /** aggregate max on columns */
 export interface ChatappChatMessageVisibilityMaxFields {
-  __typename?: 'chatapp_chat_message_visibility_max_fields';
   chat_message_visibility_id?: Maybe<Scalars['uuid']>;
   created_date?: Maybe<Scalars['timestamp']>;
   message_id?: Maybe<Scalars['uuid']>;
@@ -736,7 +704,6 @@ export interface ChatappChatMessageVisibilityMaxOrderBy {
 
 /** aggregate min on columns */
 export interface ChatappChatMessageVisibilityMinFields {
-  __typename?: 'chatapp_chat_message_visibility_min_fields';
   chat_message_visibility_id?: Maybe<Scalars['uuid']>;
   created_date?: Maybe<Scalars['timestamp']>;
   message_id?: Maybe<Scalars['uuid']>;
@@ -755,7 +722,6 @@ export interface ChatappChatMessageVisibilityMinOrderBy {
 
 /** response of any mutation on the table "chatapp.chat_message_visibility" */
 export interface ChatappChatMessageVisibilityMutationResponse {
-  __typename?: 'chatapp_chat_message_visibility_mutation_response';
   /** number of affected rows by the mutation */
   affected_rows: Scalars['Int'];
   /** data of the affected rows by the mutation */
@@ -802,7 +768,7 @@ export enum ChatappChatMessageVisibilitySelectColumn {
   /** column name */
   Status = 'status',
   /** column name */
-  UserId = 'user_id'
+  UserId = 'user_id',
 }
 
 /** input type for updating data in table "chatapp.chat_message_visibility" */
@@ -816,7 +782,6 @@ export interface ChatappChatMessageVisibilitySetInput {
 
 /** aggregate stddev on columns */
 export interface ChatappChatMessageVisibilityStddevFields {
-  __typename?: 'chatapp_chat_message_visibility_stddev_fields';
   status?: Maybe<Scalars['Float']>;
 }
 
@@ -827,7 +792,6 @@ export interface ChatappChatMessageVisibilityStddevOrderBy {
 
 /** aggregate stddev_pop on columns */
 export interface ChatappChatMessageVisibilityStddevPopFields {
-  __typename?: 'chatapp_chat_message_visibility_stddev_pop_fields';
   status?: Maybe<Scalars['Float']>;
 }
 
@@ -838,7 +802,6 @@ export interface ChatappChatMessageVisibilityStddevPopOrderBy {
 
 /** aggregate stddev_samp on columns */
 export interface ChatappChatMessageVisibilityStddevSampFields {
-  __typename?: 'chatapp_chat_message_visibility_stddev_samp_fields';
   status?: Maybe<Scalars['Float']>;
 }
 
@@ -849,7 +812,6 @@ export interface ChatappChatMessageVisibilityStddevSampOrderBy {
 
 /** aggregate sum on columns */
 export interface ChatappChatMessageVisibilitySumFields {
-  __typename?: 'chatapp_chat_message_visibility_sum_fields';
   status?: Maybe<Scalars['smallint']>;
 }
 
@@ -869,12 +831,11 @@ export enum ChatappChatMessageVisibilityUpdateColumn {
   /** column name */
   Status = 'status',
   /** column name */
-  UserId = 'user_id'
+  UserId = 'user_id',
 }
 
 /** aggregate var_pop on columns */
 export interface ChatappChatMessageVisibilityVarPopFields {
-  __typename?: 'chatapp_chat_message_visibility_var_pop_fields';
   status?: Maybe<Scalars['Float']>;
 }
 
@@ -885,7 +846,6 @@ export interface ChatappChatMessageVisibilityVarPopOrderBy {
 
 /** aggregate var_samp on columns */
 export interface ChatappChatMessageVisibilityVarSampFields {
-  __typename?: 'chatapp_chat_message_visibility_var_samp_fields';
   status?: Maybe<Scalars['Float']>;
 }
 
@@ -896,7 +856,6 @@ export interface ChatappChatMessageVisibilityVarSampOrderBy {
 
 /** aggregate variance on columns */
 export interface ChatappChatMessageVisibilityVarianceFields {
-  __typename?: 'chatapp_chat_message_visibility_variance_fields';
   status?: Maybe<Scalars['Float']>;
 }
 
@@ -907,7 +866,6 @@ export interface ChatappChatMessageVisibilityVarianceOrderBy {
 
 /** columns and relationships of "chatapp.chat_participant" */
 export interface ChatappChatParticipant {
-  __typename?: 'chatapp_chat_participant';
   chat_participant_id: Scalars['uuid'];
   /** An object relationship */
   chat_room?: Maybe<ChatappChatRoom>;
@@ -925,19 +883,16 @@ export interface ChatappChatParticipant {
 
 /** aggregated selection of "chatapp.chat_participant" */
 export interface ChatappChatParticipantAggregate {
-  __typename?: 'chatapp_chat_participant_aggregate';
   aggregate?: Maybe<ChatappChatParticipantAggregateFields>;
   nodes: Array<ChatappChatParticipant>;
 }
 
 /** aggregate fields of "chatapp.chat_participant" */
 export interface ChatappChatParticipantAggregateFields {
-  __typename?: 'chatapp_chat_participant_aggregate_fields';
   count?: Maybe<Scalars['Int']>;
   max?: Maybe<ChatappChatParticipantMaxFields>;
   min?: Maybe<ChatappChatParticipantMinFields>;
 }
-
 
 /** aggregate fields of "chatapp.chat_participant" */
 export interface ChatappChatParticipantAggregateFieldsCountArgs {
@@ -979,7 +934,7 @@ export interface ChatappChatParticipantBoolExp {
 /** unique or primary key constraints on table "chatapp.chat_participant" */
 export enum ChatappChatParticipantConstraint {
   /** unique or primary key constraint */
-  ChatParticipantPkey = 'chat_participant_pkey'
+  ChatParticipantPkey = 'chat_participant_pkey',
 }
 
 /** input type for inserting data into table "chatapp.chat_participant" */
@@ -999,7 +954,6 @@ export interface ChatappChatParticipantInsertInput {
 
 /** aggregate max on columns */
 export interface ChatappChatParticipantMaxFields {
-  __typename?: 'chatapp_chat_participant_max_fields';
   chat_participant_id?: Maybe<Scalars['uuid']>;
   last_read?: Maybe<Scalars['timestamp']>;
   last_type?: Maybe<Scalars['timestamp']>;
@@ -1020,7 +974,6 @@ export interface ChatappChatParticipantMaxOrderBy {
 
 /** aggregate min on columns */
 export interface ChatappChatParticipantMinFields {
-  __typename?: 'chatapp_chat_participant_min_fields';
   chat_participant_id?: Maybe<Scalars['uuid']>;
   last_read?: Maybe<Scalars['timestamp']>;
   last_type?: Maybe<Scalars['timestamp']>;
@@ -1041,7 +994,6 @@ export interface ChatappChatParticipantMinOrderBy {
 
 /** response of any mutation on the table "chatapp.chat_participant" */
 export interface ChatappChatParticipantMutationResponse {
-  __typename?: 'chatapp_chat_participant_mutation_response';
   /** number of affected rows by the mutation */
   affected_rows: Scalars['Int'];
   /** data of the affected rows by the mutation */
@@ -1100,7 +1052,7 @@ export enum ChatappChatParticipantSelectColumn {
   /** column name */
   Status = 'status',
   /** column name */
-  UserId = 'user_id'
+  UserId = 'user_id',
 }
 
 /** input type for updating data in table "chatapp.chat_participant" */
@@ -1135,12 +1087,11 @@ export enum ChatappChatParticipantUpdateColumn {
   /** column name */
   Status = 'status',
   /** column name */
-  UserId = 'user_id'
+  UserId = 'user_id',
 }
 
 /** columns and relationships of "chatapp.chat_rel" */
 export interface ChatappChatRel {
-  __typename?: 'chatapp_chat_rel';
   chat_rel_id: Scalars['uuid'];
   /** An object relationship */
   chat_user: ChatappChatUser;
@@ -1152,14 +1103,12 @@ export interface ChatappChatRel {
 
 /** aggregated selection of "chatapp.chat_rel" */
 export interface ChatappChatRelAggregate {
-  __typename?: 'chatapp_chat_rel_aggregate';
   aggregate?: Maybe<ChatappChatRelAggregateFields>;
   nodes: Array<ChatappChatRel>;
 }
 
 /** aggregate fields of "chatapp.chat_rel" */
 export interface ChatappChatRelAggregateFields {
-  __typename?: 'chatapp_chat_rel_aggregate_fields';
   avg?: Maybe<ChatappChatRelAvgFields>;
   count?: Maybe<Scalars['Int']>;
   max?: Maybe<ChatappChatRelMaxFields>;
@@ -1172,7 +1121,6 @@ export interface ChatappChatRelAggregateFields {
   var_samp?: Maybe<ChatappChatRelVarSampFields>;
   variance?: Maybe<ChatappChatRelVarianceFields>;
 }
-
 
 /** aggregate fields of "chatapp.chat_rel" */
 export interface ChatappChatRelAggregateFieldsCountArgs {
@@ -1203,7 +1151,6 @@ export interface ChatappChatRelArrRelInsertInput {
 
 /** aggregate avg on columns */
 export interface ChatappChatRelAvgFields {
-  __typename?: 'chatapp_chat_rel_avg_fields';
   status?: Maybe<Scalars['Float']>;
 }
 
@@ -1228,7 +1175,7 @@ export interface ChatappChatRelBoolExp {
 /** unique or primary key constraints on table "chatapp.chat_rel" */
 export enum ChatappChatRelConstraint {
   /** unique or primary key constraint */
-  ChatRelPkey = 'chat_rel_pkey'
+  ChatRelPkey = 'chat_rel_pkey',
 }
 
 /** input type for incrementing integer column in table "chatapp.chat_rel" */
@@ -1248,7 +1195,6 @@ export interface ChatappChatRelInsertInput {
 
 /** aggregate max on columns */
 export interface ChatappChatRelMaxFields {
-  __typename?: 'chatapp_chat_rel_max_fields';
   chat_rel_id?: Maybe<Scalars['uuid']>;
   created_date?: Maybe<Scalars['timestamp']>;
   host_user_id?: Maybe<Scalars['uuid']>;
@@ -1267,7 +1213,6 @@ export interface ChatappChatRelMaxOrderBy {
 
 /** aggregate min on columns */
 export interface ChatappChatRelMinFields {
-  __typename?: 'chatapp_chat_rel_min_fields';
   chat_rel_id?: Maybe<Scalars['uuid']>;
   created_date?: Maybe<Scalars['timestamp']>;
   host_user_id?: Maybe<Scalars['uuid']>;
@@ -1286,7 +1231,6 @@ export interface ChatappChatRelMinOrderBy {
 
 /** response of any mutation on the table "chatapp.chat_rel" */
 export interface ChatappChatRelMutationResponse {
-  __typename?: 'chatapp_chat_rel_mutation_response';
   /** number of affected rows by the mutation */
   affected_rows: Scalars['Int'];
   /** data of the affected rows by the mutation */
@@ -1332,7 +1276,7 @@ export enum ChatappChatRelSelectColumn {
   /** column name */
   RelateUserId = 'relate_user_id',
   /** column name */
-  Status = 'status'
+  Status = 'status',
 }
 
 /** input type for updating data in table "chatapp.chat_rel" */
@@ -1346,7 +1290,6 @@ export interface ChatappChatRelSetInput {
 
 /** aggregate stddev on columns */
 export interface ChatappChatRelStddevFields {
-  __typename?: 'chatapp_chat_rel_stddev_fields';
   status?: Maybe<Scalars['Float']>;
 }
 
@@ -1357,7 +1300,6 @@ export interface ChatappChatRelStddevOrderBy {
 
 /** aggregate stddev_pop on columns */
 export interface ChatappChatRelStddevPopFields {
-  __typename?: 'chatapp_chat_rel_stddev_pop_fields';
   status?: Maybe<Scalars['Float']>;
 }
 
@@ -1368,7 +1310,6 @@ export interface ChatappChatRelStddevPopOrderBy {
 
 /** aggregate stddev_samp on columns */
 export interface ChatappChatRelStddevSampFields {
-  __typename?: 'chatapp_chat_rel_stddev_samp_fields';
   status?: Maybe<Scalars['Float']>;
 }
 
@@ -1379,7 +1320,6 @@ export interface ChatappChatRelStddevSampOrderBy {
 
 /** aggregate sum on columns */
 export interface ChatappChatRelSumFields {
-  __typename?: 'chatapp_chat_rel_sum_fields';
   status?: Maybe<Scalars['Int']>;
 }
 
@@ -1399,12 +1339,11 @@ export enum ChatappChatRelUpdateColumn {
   /** column name */
   RelateUserId = 'relate_user_id',
   /** column name */
-  Status = 'status'
+  Status = 'status',
 }
 
 /** aggregate var_pop on columns */
 export interface ChatappChatRelVarPopFields {
-  __typename?: 'chatapp_chat_rel_var_pop_fields';
   status?: Maybe<Scalars['Float']>;
 }
 
@@ -1415,7 +1354,6 @@ export interface ChatappChatRelVarPopOrderBy {
 
 /** aggregate var_samp on columns */
 export interface ChatappChatRelVarSampFields {
-  __typename?: 'chatapp_chat_rel_var_samp_fields';
   status?: Maybe<Scalars['Float']>;
 }
 
@@ -1426,7 +1364,6 @@ export interface ChatappChatRelVarSampOrderBy {
 
 /** aggregate variance on columns */
 export interface ChatappChatRelVarianceFields {
-  __typename?: 'chatapp_chat_rel_variance_fields';
   status?: Maybe<Scalars['Float']>;
 }
 
@@ -1437,7 +1374,6 @@ export interface ChatappChatRelVarianceOrderBy {
 
 /** columns and relationships of "chatapp.chat_room" */
 export interface ChatappChatRoom {
-  __typename?: 'chatapp_chat_room';
   avatar?: Maybe<Scalars['String']>;
   /** An array relationship */
   chat_messages: Array<ChatappChatMessage>;
@@ -1456,7 +1392,6 @@ export interface ChatappChatRoom {
   type?: Maybe<Scalars['String']>;
 }
 
-
 /** columns and relationships of "chatapp.chat_room" */
 export interface ChatappChatRoomChatMessagesArgs {
   distinct_on?: Maybe<Array<ChatappChatMessageSelectColumn>>;
@@ -1465,7 +1400,6 @@ export interface ChatappChatRoomChatMessagesArgs {
   order_by?: Maybe<Array<ChatappChatMessageOrderBy>>;
   where?: Maybe<ChatappChatMessageBoolExp>;
 }
-
 
 /** columns and relationships of "chatapp.chat_room" */
 export interface ChatappChatRoomChatMessagesAggregateArgs {
@@ -1476,7 +1410,6 @@ export interface ChatappChatRoomChatMessagesAggregateArgs {
   where?: Maybe<ChatappChatMessageBoolExp>;
 }
 
-
 /** columns and relationships of "chatapp.chat_room" */
 export interface ChatappChatRoomChatParticipantsArgs {
   distinct_on?: Maybe<Array<ChatappChatParticipantSelectColumn>>;
@@ -1485,7 +1418,6 @@ export interface ChatappChatRoomChatParticipantsArgs {
   order_by?: Maybe<Array<ChatappChatParticipantOrderBy>>;
   where?: Maybe<ChatappChatParticipantBoolExp>;
 }
-
 
 /** columns and relationships of "chatapp.chat_room" */
 export interface ChatappChatRoomChatParticipantsAggregateArgs {
@@ -1498,14 +1430,12 @@ export interface ChatappChatRoomChatParticipantsAggregateArgs {
 
 /** aggregated selection of "chatapp.chat_room" */
 export interface ChatappChatRoomAggregate {
-  __typename?: 'chatapp_chat_room_aggregate';
   aggregate?: Maybe<ChatappChatRoomAggregateFields>;
   nodes: Array<ChatappChatRoom>;
 }
 
 /** aggregate fields of "chatapp.chat_room" */
 export interface ChatappChatRoomAggregateFields {
-  __typename?: 'chatapp_chat_room_aggregate_fields';
   avg?: Maybe<ChatappChatRoomAvgFields>;
   count?: Maybe<Scalars['Int']>;
   max?: Maybe<ChatappChatRoomMaxFields>;
@@ -1518,7 +1448,6 @@ export interface ChatappChatRoomAggregateFields {
   var_samp?: Maybe<ChatappChatRoomVarSampFields>;
   variance?: Maybe<ChatappChatRoomVarianceFields>;
 }
-
 
 /** aggregate fields of "chatapp.chat_room" */
 export interface ChatappChatRoomAggregateFieldsCountArgs {
@@ -1549,7 +1478,6 @@ export interface ChatappChatRoomArrRelInsertInput {
 
 /** aggregate avg on columns */
 export interface ChatappChatRoomAvgFields {
-  __typename?: 'chatapp_chat_room_avg_fields';
   status?: Maybe<Scalars['Float']>;
 }
 
@@ -1578,7 +1506,7 @@ export interface ChatappChatRoomBoolExp {
 /** unique or primary key constraints on table "chatapp.chat_room" */
 export enum ChatappChatRoomConstraint {
   /** unique or primary key constraint */
-  ChatRoomPkey = 'chat_room_pkey'
+  ChatRoomPkey = 'chat_room_pkey',
 }
 
 /** input type for incrementing integer column in table "chatapp.chat_room" */
@@ -1602,7 +1530,6 @@ export interface ChatappChatRoomInsertInput {
 
 /** aggregate max on columns */
 export interface ChatappChatRoomMaxFields {
-  __typename?: 'chatapp_chat_room_max_fields';
   avatar?: Maybe<Scalars['String']>;
   created_by?: Maybe<Scalars['uuid']>;
   created_date?: Maybe<Scalars['timestamp']>;
@@ -1627,7 +1554,6 @@ export interface ChatappChatRoomMaxOrderBy {
 
 /** aggregate min on columns */
 export interface ChatappChatRoomMinFields {
-  __typename?: 'chatapp_chat_room_min_fields';
   avatar?: Maybe<Scalars['String']>;
   created_by?: Maybe<Scalars['uuid']>;
   created_date?: Maybe<Scalars['timestamp']>;
@@ -1652,7 +1578,6 @@ export interface ChatappChatRoomMinOrderBy {
 
 /** response of any mutation on the table "chatapp.chat_room" */
 export interface ChatappChatRoomMutationResponse {
-  __typename?: 'chatapp_chat_room_mutation_response';
   /** number of affected rows by the mutation */
   affected_rows: Scalars['Int'];
   /** data of the affected rows by the mutation */
@@ -1708,7 +1633,7 @@ export enum ChatappChatRoomSelectColumn {
   /** column name */
   Title = 'title',
   /** column name */
-  Type = 'type'
+  Type = 'type',
 }
 
 /** input type for updating data in table "chatapp.chat_room" */
@@ -1725,7 +1650,6 @@ export interface ChatappChatRoomSetInput {
 
 /** aggregate stddev on columns */
 export interface ChatappChatRoomStddevFields {
-  __typename?: 'chatapp_chat_room_stddev_fields';
   status?: Maybe<Scalars['Float']>;
 }
 
@@ -1736,7 +1660,6 @@ export interface ChatappChatRoomStddevOrderBy {
 
 /** aggregate stddev_pop on columns */
 export interface ChatappChatRoomStddevPopFields {
-  __typename?: 'chatapp_chat_room_stddev_pop_fields';
   status?: Maybe<Scalars['Float']>;
 }
 
@@ -1747,7 +1670,6 @@ export interface ChatappChatRoomStddevPopOrderBy {
 
 /** aggregate stddev_samp on columns */
 export interface ChatappChatRoomStddevSampFields {
-  __typename?: 'chatapp_chat_room_stddev_samp_fields';
   status?: Maybe<Scalars['Float']>;
 }
 
@@ -1758,7 +1680,6 @@ export interface ChatappChatRoomStddevSampOrderBy {
 
 /** aggregate sum on columns */
 export interface ChatappChatRoomSumFields {
-  __typename?: 'chatapp_chat_room_sum_fields';
   status?: Maybe<Scalars['Int']>;
 }
 
@@ -1784,12 +1705,11 @@ export enum ChatappChatRoomUpdateColumn {
   /** column name */
   Title = 'title',
   /** column name */
-  Type = 'type'
+  Type = 'type',
 }
 
 /** aggregate var_pop on columns */
 export interface ChatappChatRoomVarPopFields {
-  __typename?: 'chatapp_chat_room_var_pop_fields';
   status?: Maybe<Scalars['Float']>;
 }
 
@@ -1800,7 +1720,6 @@ export interface ChatappChatRoomVarPopOrderBy {
 
 /** aggregate var_samp on columns */
 export interface ChatappChatRoomVarSampFields {
-  __typename?: 'chatapp_chat_room_var_samp_fields';
   status?: Maybe<Scalars['Float']>;
 }
 
@@ -1811,7 +1730,6 @@ export interface ChatappChatRoomVarSampOrderBy {
 
 /** aggregate variance on columns */
 export interface ChatappChatRoomVarianceFields {
-  __typename?: 'chatapp_chat_room_variance_fields';
   status?: Maybe<Scalars['Float']>;
 }
 
@@ -1822,7 +1740,6 @@ export interface ChatappChatRoomVarianceOrderBy {
 
 /** columns and relationships of "chatapp.chat_user" */
 export interface ChatappChatUser {
-  __typename?: 'chatapp_chat_user';
   avatar?: Maybe<Scalars['String']>;
   call_key?: Maybe<Scalars['String']>;
   /** An array relationship */
@@ -1838,7 +1755,6 @@ export interface ChatappChatUser {
   push_key?: Maybe<Scalars['String']>;
 }
 
-
 /** columns and relationships of "chatapp.chat_user" */
 export interface ChatappChatUserChatParticipantsArgs {
   distinct_on?: Maybe<Array<ChatappChatParticipantSelectColumn>>;
@@ -1847,7 +1763,6 @@ export interface ChatappChatUserChatParticipantsArgs {
   order_by?: Maybe<Array<ChatappChatParticipantOrderBy>>;
   where?: Maybe<ChatappChatParticipantBoolExp>;
 }
-
 
 /** columns and relationships of "chatapp.chat_user" */
 export interface ChatappChatUserChatParticipantsAggregateArgs {
@@ -1860,19 +1775,16 @@ export interface ChatappChatUserChatParticipantsAggregateArgs {
 
 /** aggregated selection of "chatapp.chat_user" */
 export interface ChatappChatUserAggregate {
-  __typename?: 'chatapp_chat_user_aggregate';
   aggregate?: Maybe<ChatappChatUserAggregateFields>;
   nodes: Array<ChatappChatUser>;
 }
 
 /** aggregate fields of "chatapp.chat_user" */
 export interface ChatappChatUserAggregateFields {
-  __typename?: 'chatapp_chat_user_aggregate_fields';
   count?: Maybe<Scalars['Int']>;
   max?: Maybe<ChatappChatUserMaxFields>;
   min?: Maybe<ChatappChatUserMinFields>;
 }
-
 
 /** aggregate fields of "chatapp.chat_user" */
 export interface ChatappChatUserAggregateFieldsCountArgs {
@@ -1913,7 +1825,7 @@ export interface ChatappChatUserBoolExp {
 /** unique or primary key constraints on table "chatapp.chat_user" */
 export enum ChatappChatUserConstraint {
   /** unique or primary key constraint */
-  ChatUserPkey = 'chat_user_pkey'
+  ChatUserPkey = 'chat_user_pkey',
 }
 
 /** input type for inserting data into table "chatapp.chat_user" */
@@ -1932,7 +1844,6 @@ export interface ChatappChatUserInsertInput {
 
 /** aggregate max on columns */
 export interface ChatappChatUserMaxFields {
-  __typename?: 'chatapp_chat_user_max_fields';
   avatar?: Maybe<Scalars['String']>;
   call_key?: Maybe<Scalars['String']>;
   chat_user_id?: Maybe<Scalars['uuid']>;
@@ -1959,7 +1870,6 @@ export interface ChatappChatUserMaxOrderBy {
 
 /** aggregate min on columns */
 export interface ChatappChatUserMinFields {
-  __typename?: 'chatapp_chat_user_min_fields';
   avatar?: Maybe<Scalars['String']>;
   call_key?: Maybe<Scalars['String']>;
   chat_user_id?: Maybe<Scalars['uuid']>;
@@ -1986,7 +1896,6 @@ export interface ChatappChatUserMinOrderBy {
 
 /** response of any mutation on the table "chatapp.chat_user" */
 export interface ChatappChatUserMutationResponse {
-  __typename?: 'chatapp_chat_user_mutation_response';
   /** number of affected rows by the mutation */
   affected_rows: Scalars['Int'];
   /** data of the affected rows by the mutation */
@@ -2044,7 +1953,7 @@ export enum ChatappChatUserSelectColumn {
   /** column name */
   LastTyped = 'last_typed',
   /** column name */
-  PushKey = 'push_key'
+  PushKey = 'push_key',
 }
 
 /** input type for updating data in table "chatapp.chat_user" */
@@ -2079,12 +1988,11 @@ export enum ChatappChatUserUpdateColumn {
   /** column name */
   LastTyped = 'last_typed',
   /** column name */
-  PushKey = 'push_key'
+  PushKey = 'push_key',
 }
 
 /** mutation root */
 export interface MutationRoot {
-  __typename?: 'mutation_root';
   /** delete data from the table: "chatapp.chat_attachment" */
   delete_chatapp_chat_attachment?: Maybe<ChatappChatAttachmentMutationResponse>;
   /** delete single row from the table: "chatapp.chat_attachment" */
@@ -2171,90 +2079,75 @@ export interface MutationRoot {
   update_chatapp_chat_user_by_pk?: Maybe<ChatappChatUser>;
 }
 
-
 /** mutation root */
 export interface MutationRootDeleteChatappChatAttachmentArgs {
   where: ChatappChatAttachmentBoolExp;
 }
-
 
 /** mutation root */
 export interface MutationRootDeleteChatappChatAttachmentByPkArgs {
   chat_attachment_id: Scalars['uuid'];
 }
 
-
 /** mutation root */
 export interface MutationRootDeleteChatappChatMessageArgs {
   where: ChatappChatMessageBoolExp;
 }
-
 
 /** mutation root */
 export interface MutationRootDeleteChatappChatMessageByPkArgs {
   chat_message_id: Scalars['uuid'];
 }
 
-
 /** mutation root */
 export interface MutationRootDeleteChatappChatMessageVisibilityArgs {
   where: ChatappChatMessageVisibilityBoolExp;
 }
-
 
 /** mutation root */
 export interface MutationRootDeleteChatappChatMessageVisibilityByPkArgs {
   chat_message_visibility_id: Scalars['uuid'];
 }
 
-
 /** mutation root */
 export interface MutationRootDeleteChatappChatParticipantArgs {
   where: ChatappChatParticipantBoolExp;
 }
-
 
 /** mutation root */
 export interface MutationRootDeleteChatappChatParticipantByPkArgs {
   chat_participant_id: Scalars['uuid'];
 }
 
-
 /** mutation root */
 export interface MutationRootDeleteChatappChatRelArgs {
   where: ChatappChatRelBoolExp;
 }
-
 
 /** mutation root */
 export interface MutationRootDeleteChatappChatRelByPkArgs {
   chat_rel_id: Scalars['uuid'];
 }
 
-
 /** mutation root */
 export interface MutationRootDeleteChatappChatRoomArgs {
   where: ChatappChatRoomBoolExp;
 }
-
 
 /** mutation root */
 export interface MutationRootDeleteChatappChatRoomByPkArgs {
   room_id: Scalars['uuid'];
 }
 
-
 /** mutation root */
 export interface MutationRootDeleteChatappChatUserArgs {
   where: ChatappChatUserBoolExp;
 }
 
-
 /** mutation root */
 export interface MutationRootDeleteChatappChatUserByPkArgs {
   chat_user_id: Scalars['uuid'];
 }
-
 
 /** mutation root */
 export interface MutationRootInsertChatappChatAttachmentArgs {
@@ -2262,13 +2155,11 @@ export interface MutationRootInsertChatappChatAttachmentArgs {
   on_conflict?: Maybe<ChatappChatAttachmentOnConflict>;
 }
 
-
 /** mutation root */
 export interface MutationRootInsertChatappChatAttachmentOneArgs {
   object: ChatappChatAttachmentInsertInput;
   on_conflict?: Maybe<ChatappChatAttachmentOnConflict>;
 }
-
 
 /** mutation root */
 export interface MutationRootInsertChatappChatMessageArgs {
@@ -2276,13 +2167,11 @@ export interface MutationRootInsertChatappChatMessageArgs {
   on_conflict?: Maybe<ChatappChatMessageOnConflict>;
 }
 
-
 /** mutation root */
 export interface MutationRootInsertChatappChatMessageOneArgs {
   object: ChatappChatMessageInsertInput;
   on_conflict?: Maybe<ChatappChatMessageOnConflict>;
 }
-
 
 /** mutation root */
 export interface MutationRootInsertChatappChatMessageVisibilityArgs {
@@ -2290,13 +2179,11 @@ export interface MutationRootInsertChatappChatMessageVisibilityArgs {
   on_conflict?: Maybe<ChatappChatMessageVisibilityOnConflict>;
 }
 
-
 /** mutation root */
 export interface MutationRootInsertChatappChatMessageVisibilityOneArgs {
   object: ChatappChatMessageVisibilityInsertInput;
   on_conflict?: Maybe<ChatappChatMessageVisibilityOnConflict>;
 }
-
 
 /** mutation root */
 export interface MutationRootInsertChatappChatParticipantArgs {
@@ -2304,13 +2191,11 @@ export interface MutationRootInsertChatappChatParticipantArgs {
   on_conflict?: Maybe<ChatappChatParticipantOnConflict>;
 }
 
-
 /** mutation root */
 export interface MutationRootInsertChatappChatParticipantOneArgs {
   object: ChatappChatParticipantInsertInput;
   on_conflict?: Maybe<ChatappChatParticipantOnConflict>;
 }
-
 
 /** mutation root */
 export interface MutationRootInsertChatappChatRelArgs {
@@ -2318,13 +2203,11 @@ export interface MutationRootInsertChatappChatRelArgs {
   on_conflict?: Maybe<ChatappChatRelOnConflict>;
 }
 
-
 /** mutation root */
 export interface MutationRootInsertChatappChatRelOneArgs {
   object: ChatappChatRelInsertInput;
   on_conflict?: Maybe<ChatappChatRelOnConflict>;
 }
-
 
 /** mutation root */
 export interface MutationRootInsertChatappChatRoomArgs {
@@ -2332,13 +2215,11 @@ export interface MutationRootInsertChatappChatRoomArgs {
   on_conflict?: Maybe<ChatappChatRoomOnConflict>;
 }
 
-
 /** mutation root */
 export interface MutationRootInsertChatappChatRoomOneArgs {
   object: ChatappChatRoomInsertInput;
   on_conflict?: Maybe<ChatappChatRoomOnConflict>;
 }
-
 
 /** mutation root */
 export interface MutationRootInsertChatappChatUserArgs {
@@ -2346,13 +2227,11 @@ export interface MutationRootInsertChatappChatUserArgs {
   on_conflict?: Maybe<ChatappChatUserOnConflict>;
 }
 
-
 /** mutation root */
 export interface MutationRootInsertChatappChatUserOneArgs {
   object: ChatappChatUserInsertInput;
   on_conflict?: Maybe<ChatappChatUserOnConflict>;
 }
-
 
 /** mutation root */
 export interface MutationRootUpdateChatappChatAttachmentArgs {
@@ -2360,13 +2239,11 @@ export interface MutationRootUpdateChatappChatAttachmentArgs {
   where: ChatappChatAttachmentBoolExp;
 }
 
-
 /** mutation root */
 export interface MutationRootUpdateChatappChatAttachmentByPkArgs {
   _set?: Maybe<ChatappChatAttachmentSetInput>;
   pk_columns: ChatappChatAttachmentPkColumnsInput;
 }
-
 
 /** mutation root */
 export interface MutationRootUpdateChatappChatMessageArgs {
@@ -2375,14 +2252,12 @@ export interface MutationRootUpdateChatappChatMessageArgs {
   where: ChatappChatMessageBoolExp;
 }
 
-
 /** mutation root */
 export interface MutationRootUpdateChatappChatMessageByPkArgs {
   _inc?: Maybe<ChatappChatMessageIncInput>;
   _set?: Maybe<ChatappChatMessageSetInput>;
   pk_columns: ChatappChatMessagePkColumnsInput;
 }
-
 
 /** mutation root */
 export interface MutationRootUpdateChatappChatMessageVisibilityArgs {
@@ -2391,7 +2266,6 @@ export interface MutationRootUpdateChatappChatMessageVisibilityArgs {
   where: ChatappChatMessageVisibilityBoolExp;
 }
 
-
 /** mutation root */
 export interface MutationRootUpdateChatappChatMessageVisibilityByPkArgs {
   _inc?: Maybe<ChatappChatMessageVisibilityIncInput>;
@@ -2399,20 +2273,17 @@ export interface MutationRootUpdateChatappChatMessageVisibilityByPkArgs {
   pk_columns: ChatappChatMessageVisibilityPkColumnsInput;
 }
 
-
 /** mutation root */
 export interface MutationRootUpdateChatappChatParticipantArgs {
   _set?: Maybe<ChatappChatParticipantSetInput>;
   where: ChatappChatParticipantBoolExp;
 }
 
-
 /** mutation root */
 export interface MutationRootUpdateChatappChatParticipantByPkArgs {
   _set?: Maybe<ChatappChatParticipantSetInput>;
   pk_columns: ChatappChatParticipantPkColumnsInput;
 }
-
 
 /** mutation root */
 export interface MutationRootUpdateChatappChatRelArgs {
@@ -2421,14 +2292,12 @@ export interface MutationRootUpdateChatappChatRelArgs {
   where: ChatappChatRelBoolExp;
 }
 
-
 /** mutation root */
 export interface MutationRootUpdateChatappChatRelByPkArgs {
   _inc?: Maybe<ChatappChatRelIncInput>;
   _set?: Maybe<ChatappChatRelSetInput>;
   pk_columns: ChatappChatRelPkColumnsInput;
 }
-
 
 /** mutation root */
 export interface MutationRootUpdateChatappChatRoomArgs {
@@ -2437,7 +2306,6 @@ export interface MutationRootUpdateChatappChatRoomArgs {
   where: ChatappChatRoomBoolExp;
 }
 
-
 /** mutation root */
 export interface MutationRootUpdateChatappChatRoomByPkArgs {
   _inc?: Maybe<ChatappChatRoomIncInput>;
@@ -2445,13 +2313,11 @@ export interface MutationRootUpdateChatappChatRoomByPkArgs {
   pk_columns: ChatappChatRoomPkColumnsInput;
 }
 
-
 /** mutation root */
 export interface MutationRootUpdateChatappChatUserArgs {
   _set?: Maybe<ChatappChatUserSetInput>;
   where: ChatappChatUserBoolExp;
 }
-
 
 /** mutation root */
 export interface MutationRootUpdateChatappChatUserByPkArgs {
@@ -2472,12 +2338,11 @@ export enum OrderBy {
   /** in the descending order, nulls first */
   DescNullsFirst = 'desc_nulls_first',
   /** in the descending order, nulls last */
-  DescNullsLast = 'desc_nulls_last'
+  DescNullsLast = 'desc_nulls_last',
 }
 
 /** query root */
 export interface QueryRoot {
-  __typename?: 'query_root';
   /** fetch data from the table: "chatapp.chat_attachment" */
   chatapp_chat_attachment: Array<ChatappChatAttachment>;
   /** fetch aggregated fields from the table: "chatapp.chat_attachment" */
@@ -2522,7 +2387,6 @@ export interface QueryRoot {
   chatapp_chat_user_by_pk?: Maybe<ChatappChatUser>;
 }
 
-
 /** query root */
 export interface QueryRootChatappChatAttachmentArgs {
   distinct_on?: Maybe<Array<ChatappChatAttachmentSelectColumn>>;
@@ -2531,7 +2395,6 @@ export interface QueryRootChatappChatAttachmentArgs {
   order_by?: Maybe<Array<ChatappChatAttachmentOrderBy>>;
   where?: Maybe<ChatappChatAttachmentBoolExp>;
 }
-
 
 /** query root */
 export interface QueryRootChatappChatAttachmentAggregateArgs {
@@ -2542,12 +2405,10 @@ export interface QueryRootChatappChatAttachmentAggregateArgs {
   where?: Maybe<ChatappChatAttachmentBoolExp>;
 }
 
-
 /** query root */
 export interface QueryRootChatappChatAttachmentByPkArgs {
   chat_attachment_id: Scalars['uuid'];
 }
-
 
 /** query root */
 export interface QueryRootChatappChatMessageArgs {
@@ -2558,7 +2419,6 @@ export interface QueryRootChatappChatMessageArgs {
   where?: Maybe<ChatappChatMessageBoolExp>;
 }
 
-
 /** query root */
 export interface QueryRootChatappChatMessageAggregateArgs {
   distinct_on?: Maybe<Array<ChatappChatMessageSelectColumn>>;
@@ -2568,12 +2428,10 @@ export interface QueryRootChatappChatMessageAggregateArgs {
   where?: Maybe<ChatappChatMessageBoolExp>;
 }
 
-
 /** query root */
 export interface QueryRootChatappChatMessageByPkArgs {
   chat_message_id: Scalars['uuid'];
 }
-
 
 /** query root */
 export interface QueryRootChatappChatMessageVisibilityArgs {
@@ -2584,7 +2442,6 @@ export interface QueryRootChatappChatMessageVisibilityArgs {
   where?: Maybe<ChatappChatMessageVisibilityBoolExp>;
 }
 
-
 /** query root */
 export interface QueryRootChatappChatMessageVisibilityAggregateArgs {
   distinct_on?: Maybe<Array<ChatappChatMessageVisibilitySelectColumn>>;
@@ -2594,12 +2451,10 @@ export interface QueryRootChatappChatMessageVisibilityAggregateArgs {
   where?: Maybe<ChatappChatMessageVisibilityBoolExp>;
 }
 
-
 /** query root */
 export interface QueryRootChatappChatMessageVisibilityByPkArgs {
   chat_message_visibility_id: Scalars['uuid'];
 }
-
 
 /** query root */
 export interface QueryRootChatappChatParticipantArgs {
@@ -2610,7 +2465,6 @@ export interface QueryRootChatappChatParticipantArgs {
   where?: Maybe<ChatappChatParticipantBoolExp>;
 }
 
-
 /** query root */
 export interface QueryRootChatappChatParticipantAggregateArgs {
   distinct_on?: Maybe<Array<ChatappChatParticipantSelectColumn>>;
@@ -2620,12 +2474,10 @@ export interface QueryRootChatappChatParticipantAggregateArgs {
   where?: Maybe<ChatappChatParticipantBoolExp>;
 }
 
-
 /** query root */
 export interface QueryRootChatappChatParticipantByPkArgs {
   chat_participant_id: Scalars['uuid'];
 }
-
 
 /** query root */
 export interface QueryRootChatappChatRelArgs {
@@ -2636,7 +2488,6 @@ export interface QueryRootChatappChatRelArgs {
   where?: Maybe<ChatappChatRelBoolExp>;
 }
 
-
 /** query root */
 export interface QueryRootChatappChatRelAggregateArgs {
   distinct_on?: Maybe<Array<ChatappChatRelSelectColumn>>;
@@ -2646,12 +2497,10 @@ export interface QueryRootChatappChatRelAggregateArgs {
   where?: Maybe<ChatappChatRelBoolExp>;
 }
 
-
 /** query root */
 export interface QueryRootChatappChatRelByPkArgs {
   chat_rel_id: Scalars['uuid'];
 }
-
 
 /** query root */
 export interface QueryRootChatappChatRoomArgs {
@@ -2662,7 +2511,6 @@ export interface QueryRootChatappChatRoomArgs {
   where?: Maybe<ChatappChatRoomBoolExp>;
 }
 
-
 /** query root */
 export interface QueryRootChatappChatRoomAggregateArgs {
   distinct_on?: Maybe<Array<ChatappChatRoomSelectColumn>>;
@@ -2672,12 +2520,10 @@ export interface QueryRootChatappChatRoomAggregateArgs {
   where?: Maybe<ChatappChatRoomBoolExp>;
 }
 
-
 /** query root */
 export interface QueryRootChatappChatRoomByPkArgs {
   room_id: Scalars['uuid'];
 }
-
 
 /** query root */
 export interface QueryRootChatappChatUserArgs {
@@ -2688,7 +2534,6 @@ export interface QueryRootChatappChatUserArgs {
   where?: Maybe<ChatappChatUserBoolExp>;
 }
 
-
 /** query root */
 export interface QueryRootChatappChatUserAggregateArgs {
   distinct_on?: Maybe<Array<ChatappChatUserSelectColumn>>;
@@ -2698,12 +2543,10 @@ export interface QueryRootChatappChatUserAggregateArgs {
   where?: Maybe<ChatappChatUserBoolExp>;
 }
 
-
 /** query root */
 export interface QueryRootChatappChatUserByPkArgs {
   chat_user_id: Scalars['uuid'];
 }
-
 
 /** expression to compare columns of type smallint. All fields are combined with logical 'AND'. */
 export interface SmallintComparisonExp {
@@ -2720,7 +2563,6 @@ export interface SmallintComparisonExp {
 
 /** subscription root */
 export interface SubscriptionRoot {
-  __typename?: 'subscription_root';
   /** fetch data from the table: "chatapp.chat_attachment" */
   chatapp_chat_attachment: Array<ChatappChatAttachment>;
   /** fetch aggregated fields from the table: "chatapp.chat_attachment" */
@@ -2765,7 +2607,6 @@ export interface SubscriptionRoot {
   chatapp_chat_user_by_pk?: Maybe<ChatappChatUser>;
 }
 
-
 /** subscription root */
 export interface SubscriptionRootChatappChatAttachmentArgs {
   distinct_on?: Maybe<Array<ChatappChatAttachmentSelectColumn>>;
@@ -2774,7 +2615,6 @@ export interface SubscriptionRootChatappChatAttachmentArgs {
   order_by?: Maybe<Array<ChatappChatAttachmentOrderBy>>;
   where?: Maybe<ChatappChatAttachmentBoolExp>;
 }
-
 
 /** subscription root */
 export interface SubscriptionRootChatappChatAttachmentAggregateArgs {
@@ -2785,12 +2625,10 @@ export interface SubscriptionRootChatappChatAttachmentAggregateArgs {
   where?: Maybe<ChatappChatAttachmentBoolExp>;
 }
 
-
 /** subscription root */
 export interface SubscriptionRootChatappChatAttachmentByPkArgs {
   chat_attachment_id: Scalars['uuid'];
 }
-
 
 /** subscription root */
 export interface SubscriptionRootChatappChatMessageArgs {
@@ -2801,7 +2639,6 @@ export interface SubscriptionRootChatappChatMessageArgs {
   where?: Maybe<ChatappChatMessageBoolExp>;
 }
 
-
 /** subscription root */
 export interface SubscriptionRootChatappChatMessageAggregateArgs {
   distinct_on?: Maybe<Array<ChatappChatMessageSelectColumn>>;
@@ -2811,12 +2648,10 @@ export interface SubscriptionRootChatappChatMessageAggregateArgs {
   where?: Maybe<ChatappChatMessageBoolExp>;
 }
 
-
 /** subscription root */
 export interface SubscriptionRootChatappChatMessageByPkArgs {
   chat_message_id: Scalars['uuid'];
 }
-
 
 /** subscription root */
 export interface SubscriptionRootChatappChatMessageVisibilityArgs {
@@ -2827,7 +2662,6 @@ export interface SubscriptionRootChatappChatMessageVisibilityArgs {
   where?: Maybe<ChatappChatMessageVisibilityBoolExp>;
 }
 
-
 /** subscription root */
 export interface SubscriptionRootChatappChatMessageVisibilityAggregateArgs {
   distinct_on?: Maybe<Array<ChatappChatMessageVisibilitySelectColumn>>;
@@ -2837,12 +2671,10 @@ export interface SubscriptionRootChatappChatMessageVisibilityAggregateArgs {
   where?: Maybe<ChatappChatMessageVisibilityBoolExp>;
 }
 
-
 /** subscription root */
 export interface SubscriptionRootChatappChatMessageVisibilityByPkArgs {
   chat_message_visibility_id: Scalars['uuid'];
 }
-
 
 /** subscription root */
 export interface SubscriptionRootChatappChatParticipantArgs {
@@ -2853,7 +2685,6 @@ export interface SubscriptionRootChatappChatParticipantArgs {
   where?: Maybe<ChatappChatParticipantBoolExp>;
 }
 
-
 /** subscription root */
 export interface SubscriptionRootChatappChatParticipantAggregateArgs {
   distinct_on?: Maybe<Array<ChatappChatParticipantSelectColumn>>;
@@ -2863,12 +2694,10 @@ export interface SubscriptionRootChatappChatParticipantAggregateArgs {
   where?: Maybe<ChatappChatParticipantBoolExp>;
 }
 
-
 /** subscription root */
 export interface SubscriptionRootChatappChatParticipantByPkArgs {
   chat_participant_id: Scalars['uuid'];
 }
-
 
 /** subscription root */
 export interface SubscriptionRootChatappChatRelArgs {
@@ -2879,7 +2708,6 @@ export interface SubscriptionRootChatappChatRelArgs {
   where?: Maybe<ChatappChatRelBoolExp>;
 }
 
-
 /** subscription root */
 export interface SubscriptionRootChatappChatRelAggregateArgs {
   distinct_on?: Maybe<Array<ChatappChatRelSelectColumn>>;
@@ -2889,12 +2717,10 @@ export interface SubscriptionRootChatappChatRelAggregateArgs {
   where?: Maybe<ChatappChatRelBoolExp>;
 }
 
-
 /** subscription root */
 export interface SubscriptionRootChatappChatRelByPkArgs {
   chat_rel_id: Scalars['uuid'];
 }
-
 
 /** subscription root */
 export interface SubscriptionRootChatappChatRoomArgs {
@@ -2905,7 +2731,6 @@ export interface SubscriptionRootChatappChatRoomArgs {
   where?: Maybe<ChatappChatRoomBoolExp>;
 }
 
-
 /** subscription root */
 export interface SubscriptionRootChatappChatRoomAggregateArgs {
   distinct_on?: Maybe<Array<ChatappChatRoomSelectColumn>>;
@@ -2915,12 +2740,10 @@ export interface SubscriptionRootChatappChatRoomAggregateArgs {
   where?: Maybe<ChatappChatRoomBoolExp>;
 }
 
-
 /** subscription root */
 export interface SubscriptionRootChatappChatRoomByPkArgs {
   room_id: Scalars['uuid'];
 }
-
 
 /** subscription root */
 export interface SubscriptionRootChatappChatUserArgs {
@@ -2931,7 +2754,6 @@ export interface SubscriptionRootChatappChatUserArgs {
   where?: Maybe<ChatappChatUserBoolExp>;
 }
 
-
 /** subscription root */
 export interface SubscriptionRootChatappChatUserAggregateArgs {
   distinct_on?: Maybe<Array<ChatappChatUserSelectColumn>>;
@@ -2941,12 +2763,10 @@ export interface SubscriptionRootChatappChatUserAggregateArgs {
   where?: Maybe<ChatappChatUserBoolExp>;
 }
 
-
 /** subscription root */
 export interface SubscriptionRootChatappChatUserByPkArgs {
   chat_user_id: Scalars['uuid'];
 }
-
 
 /** expression to compare columns of type timestamp. All fields are combined with logical 'AND'. */
 export interface TimestampComparisonExp {
@@ -2960,7 +2780,6 @@ export interface TimestampComparisonExp {
   _neq?: Maybe<Scalars['timestamp']>;
   _nin?: Maybe<Array<Scalars['timestamp']>>;
 }
-
 
 /** expression to compare columns of type uuid. All fields are combined with logical 'AND'. */
 export interface UuidComparisonExp {
@@ -2979,65 +2798,53 @@ export type GetRoomListQueryVariables = Exact<{
   userId: Scalars['uuid'];
 }>;
 
-
-export type GetRoomListQuery = (
-  { __typename?: 'query_root' }
-  & { chatRooms: Array<(
-    { __typename?: 'chatapp_chat_room' }
-    & Pick<ChatappChatRoom, 'avatar' | 'title' | 'type'>
-    & { lastMessage: ChatappChatRoom['last_message'] }
-    & { currentUser: Array<(
-      { __typename?: 'chatapp_chat_participant' }
-      & { lastRead: ChatappChatParticipant['last_read'] }
-    )>, chatParticipants: Array<(
-      { __typename?: 'chatapp_chat_participant' }
-      & { chatUser?: Maybe<(
-        { __typename?: 'chatapp_chat_user' }
-        & Pick<ChatappChatUser, 'avatar'>
-      )> }
-    )>, chatMessages: Array<(
-      { __typename?: 'chatapp_chat_message' }
-      & Pick<ChatappChatMessage, 'content' | 'type'>
-      & { createdDate: ChatappChatMessage['created_date'] }
-    )> }
-  )> }
-);
-
-export const GetRoomListDocument = gql`
-    query getRoomList($userId: uuid!) {
-  chatRooms: chatapp_chat_room {
-    avatar
-    lastMessage: last_message
-    title
-    type
-    currentUser: chat_participants(
-      where: {chat_user: {chat_user_id: {_eq: $userId}}}
-    ) {
-      lastRead: last_read
+export type GetRoomListQuery = {
+  chatRooms: Array<
+    Pick<ChatappChatRoom, 'avatar' | 'title' | 'type'> & {
+      roomId: ChatappChatRoom['room_id'];
+      lastMessageTime: ChatappChatRoom['last_message'];
+    } & {
+      currentUser: Array<{ lastRead: ChatappChatParticipant['last_read'] }>;
+      chatParticipants: Array<{ chatUser?: Maybe<Pick<ChatappChatUser, 'avatar'>> }>;
+      chatMessages: Array<
+        Pick<ChatappChatMessage, 'content' | 'type'> & { createdDate: ChatappChatMessage['created_date'] }
+      >;
     }
-    chatParticipants: chat_participants(
-      where: {chat_user: {chat_user_id: {_neq: $userId}}}
-    ) {
-      chatUser: chat_user {
-        avatar
+  >;
+};
+
+export const GetRoomListDocument = /*#__PURE__*/ gql`
+  query getRoomList($userId: uuid!) {
+    chatRooms: chatapp_chat_room {
+      roomId: room_id
+      avatar
+      lastMessageTime: last_message
+      title
+      type
+      currentUser: chat_participants(where: { chat_user: { chat_user_id: { _eq: $userId } } }) {
+        lastRead: last_read
+      }
+      chatParticipants: chat_participants(where: { chat_user: { chat_user_id: { _neq: $userId } } }) {
+        chatUser: chat_user {
+          avatar
+        }
+      }
+      chatMessages: chat_messages(limit: 1) {
+        content
+        type
+        createdDate: created_date
       }
     }
-    chatMessages: chat_messages(limit: 1) {
-      content
-      type
-      createdDate: created_date
-    }
+  }
+`;
+
+@Injectable({
+  providedIn: 'root',
+})
+export class GetRoomListQueryService extends Apollo.Query<GetRoomListQuery, GetRoomListQueryVariables> {
+  document = GetRoomListDocument;
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
   }
 }
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class GetRoomListGQL extends Apollo.Query<GetRoomListQuery, GetRoomListQueryVariables> {
-    document = GetRoomListDocument;
-
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }

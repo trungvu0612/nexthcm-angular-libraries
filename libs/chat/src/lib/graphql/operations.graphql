@@ -1,7 +1,8 @@
 query getRoomList($userId: uuid!) {
   chatRooms: chatapp_chat_room {
+    roomId: room_id
     avatar
-    lastMessage: last_message
+    lastMessageTime: last_message
     title
     type
     currentUser: chat_participants(where: {chat_user: {chat_user_id: {_eq: $userId}}}) {

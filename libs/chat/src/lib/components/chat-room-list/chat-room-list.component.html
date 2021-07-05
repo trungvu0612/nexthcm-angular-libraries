@@ -1,11 +1,26 @@
-<section>
-  <header class="flex justify-between">
+<section class="p-4">
+  <header class="flex justify-between items-center">
     <h1 class="tui-text_h5">Chat</h1>
-    <button appearance="flat" icon="tuiIconEditLarge" tuiIconButton></button>
+    <button appearance="flat" icon="tuiIconEditLarge" size="m" tuiIconButton></button>
   </header>
-  <div>
-    <div>
-
-    </div>
+  <div *rxLet="chatRooms$; let chatRooms">
+    <a
+      *ngFor="let chatRoom of chatRooms"
+      [routerLink]="['/chat', chatRoom.roomId]"
+      class="rounded-lg flex items-center chat-room unseen hover:bg-gray-200"
+      routerLinkActive="active"
+    >
+      <div class="my-2 mr-3">
+        <tui-svg
+          class="avatar rounded-full border-2"
+          src="https://ng-web-apis.github.io/dist/assets/images/web-api.svg"
+        ></tui-svg>
+      </div>
+      <div class="flex-1">
+        <div class="text-base">{{ chatRoom.title }}</div>
+        <div class="text-xs text-gray-500 truncate">{{ chatRoom.chatMessages[0].content }}</div>
+      </div>
+      <div class="my-2 ml-3"><span class="rounded-full w-3 h-3 bg-blue-400 inline-block"></span></div>
+    </a>
   </div>
 </section>

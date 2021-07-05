@@ -1,3 +1,17 @@
 :host {
   display: block;
+
+  .chat-room {
+    &.unseen {
+      @apply font-bold;
+    }
+
+    &.active {
+      @apply bg-gray-200;
+    }
+
+    .avatar {
+      @apply w-14 h-14;
+    }
+  }
 }

@@ -1,13 +1,17 @@
 overwrite: true
-schema: "https://dev-nexthcm-api.banvien.com.vn/v1/graphql"
+schema: 'https://dev-nexthcm-api.banvien.com.vn/v1/graphql'
 generates:
-  libs/chat/src/lib/generated/generated.ts:
-    documents: "libs/chat/src/lib/graphql/**/*.graphql"
+  libs/chat/src/lib/services/chat.service.ts:
+    documents: 'libs/chat/src/lib/graphql/**/*.graphql'
     plugins:
-      - "typescript"
-      - "typescript-operations"
-      - "typescript-apollo-angular"
+      - 'typescript'
+      - 'typescript-operations'
+      - 'typescript-apollo-angular'
     config:
-      declarationKind: "interface"
+      declarationKind: 'interface'
       namingConvention:
         transformUnderscore: true
+      skipTypename: true
+      pureMagicComment: true
+      querySuffix: 'QueryService'
+      mutationSuffix: 'MutationService'
