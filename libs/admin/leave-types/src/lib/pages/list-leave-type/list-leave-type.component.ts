@@ -33,10 +33,10 @@ export class ListLeaveTypeComponent implements OnInit {
     fixedColumnWidth: false,
   };
   columns$: Observable<Columns[]> = this.translocoService
-    .selectTranslateObject('ADMIN_POLICIES.POLICIES_MANAGEMENT_COLUMNS')
+    .selectTranslateObject('ADMIN_LEAVE_TYPES.LEAVE_TYPES_COLUMNS')
     .pipe(
       map((result) => [
-        { key: 'name', title: result.topic },
+        { key: 'name', title: result.name },
         { key: 'createdDate', title: result.createdDate },
         { key: 'operations', title: result.operations },
       ])

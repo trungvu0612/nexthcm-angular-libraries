@@ -85,6 +85,7 @@
   },
   "ADMIN_LEAVE_TYPES": {
     "leaveTypesManagement": "Quản lý loại ngày nghỉ",
+    "addLeaveType": "Thêm loại ngày nghỉ",
     "LEAVE_TYPES_COLUMNS": {
       "name": "Tên",
       "description": "Mô tả",
