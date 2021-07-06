@@ -4,6 +4,10 @@
   .chat-room {
     &.unseen {
       @apply font-bold;
+
+      .dot {
+        @apply inline-block;
+      }
     }
 
     &.active {

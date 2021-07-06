@@ -2813,6 +2813,10 @@ export type GetRoomListQuery = {
   >;
 };
 
+export type GetFirstRoomQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetFirstRoomQuery = { chatRooms: Array<{ roomId: ChatappChatRoom['room_id'] }> };
+
 export const GetRoomListDocument = /*#__PURE__*/ gql`
   query getRoomList($userId: uuid!) {
     chatRooms: chatapp_chat_room {
@@ -2843,6 +2847,24 @@ export const GetRoomListDocument = /*#__PURE__*/ gql`
 })
 export class GetRoomListQueryService extends Apollo.Query<GetRoomListQuery, GetRoomListQueryVariables> {
   document = GetRoomListDocument;
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
+  }
+}
+export const GetFirstRoomDocument = /*#__PURE__*/ gql`
+  query getFirstRoom {
+    chatRooms: chatapp_chat_room(limit: 1) {
+      roomId: room_id
+    }
+  }
+`;
+
+@Injectable({
+  providedIn: 'root',
+})
+export class GetFirstRoomQueryService extends Apollo.Query<GetFirstRoomQuery, GetFirstRoomQueryVariables> {
+  document = GetFirstRoomDocument;
 
   constructor(apollo: Apollo.Apollo) {
     super(apollo);

@@ -20,3 +20,9 @@ query getRoomList($userId: uuid!) {
     }
   }
 }
+
+query getFirstRoom {
+  chatRooms: chatapp_chat_room(limit: 1) {
+    roomId: room_id
+  }
+}
