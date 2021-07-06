@@ -1,16 +1,16 @@
-import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
+import { HttpParams } from '@angular/common/http';
+import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
+import { Pagination } from '@nexthcm/core';
+import { PromptComponent } from '@nexthcm/ui';
 import { FormBuilder } from '@ngneat/reactive-forms';
+import { TranslocoService } from '@ngneat/transloco';
+import { RxState } from '@rx-angular/state';
 import { TuiDestroyService } from '@taiga-ui/cdk';
+import { BaseComponent, Columns, Config, DefaultConfig } from 'ngx-easy-table';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { LeaveType } from '../../model/leave-type';
 import { LeaveTypesService } from '../../leave-types.service';
-import { RxState } from '@rx-angular/state';
-import { Pagination } from '@nexthcm/core';
-import { TranslocoService } from '@ngneat/transloco';
-import { BaseComponent, Columns, Config, DefaultConfig } from 'ngx-easy-table';
-import { PromptComponent } from '@nexthcm/ui';
-import { HttpParams } from '@angular/common/http';
+import { LeaveType } from '../../models/leave-type';
 
 @Component({
   selector: 'hcm-list-leave-type',
@@ -19,7 +19,7 @@ import { HttpParams } from '@angular/common/http';
   providers: [RxState, TuiDestroyService],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ListLeaveTypeComponent implements OnInit {
+export class ListLeaveTypeComponent {
   @ViewChild('table') table!: BaseComponent;
   @ViewChild('prompt') prompt!: PromptComponent;
   readonly loading$ = this.state.$.pipe(map((value) => !value));
@@ -58,8 +58,6 @@ export class ListLeaveTypeComponent implements OnInit {
     state.connect(this.request$);
   }
 
-  ngOnInit(): void {}
-
   readonly item = (item: LeaveType) => item;
 
   tableEventEmitted(tableEvent: { event: string; value: any }): void {
@@ -76,7 +74,7 @@ export class ListLeaveTypeComponent implements OnInit {
     this.queryParams$.next(this.queryParams$.value.set('page', page.toString()));
   }
 
-  delete(id: string) {
+  delete(id: string): void {
     // if (id) {
     //   from(
     //     this.prompt.open({

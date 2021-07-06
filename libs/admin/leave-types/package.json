@@ -1,5 +1,5 @@
 {
-  "name": "admin-leave-types",
+  "name": "@nexthcm/admin-leave-types",
   "version": "0.0.1",
   "peerDependencies": {
     "@angular/common": "^12.0.3",

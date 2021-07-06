@@ -2,7 +2,7 @@
   <div class="grid grid-cols-3 gap-4">
     <div class="mt-10 mx-auto">
       <div class="text-center">
-        <img class="mx-auto" [src]="userInfo?.profile?.image | getFile | async" alt="" />
+        <img [src]="userInfo?.profile?.image | getFile | async" alt="" class="mx-auto" />
         <div class="text-xl font-bold my-4">{{ userInfo?.profile?.lastName }} {{ userInfo?.profile?.firstName }}</div>
         <div class="text-base text-gray-500">CIF-{{ userInfo?.code }}</div>
       </div>
@@ -14,7 +14,7 @@
         <div>{{ userInfo?.profile?.gender }}</div>
         <div class="font-bold">Marital Status:</div>
         <div>
-          <span>{{ dataMarital$[userInfo?.profile?.maritalStatus]?.name }}</span>
+          <span>{{ dataMarital[userInfo?.profile?.maritalStatus]?.name }}</span>
         </div>
         <div class="font-bold">Nationality:</div>
         <div>{{ userInfo?.address.countryId }}</div>

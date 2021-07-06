@@ -1,6 +1,6 @@
 module.exports = {
   displayName: 'admin-employee',
-  preset: '../../jest.preset.js',
+  preset: '../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   globals: {
     'ts-jest': {
@@ -8,11 +8,13 @@ module.exports = {
       stringifyContentPathRegex: '\\.(html|svg)$',
     },
   },
-  coverageDirectory: '../../coverage/libs/admin-employee',
+  coverageDirectory: '../../../coverage/libs/admin/employee',
+  transform: {
+    '^.+\\.(ts|js|html)$': 'jest-preset-angular',
+  },
   snapshotSerializers: [
     'jest-preset-angular/build/serializers/no-ng-attributes',
     'jest-preset-angular/build/serializers/ng-snapshot',
     'jest-preset-angular/build/serializers/html-comment',
   ],
-  transform: { '^.+\\.(ts|js|html)$': 'jest-preset-angular' },
 };

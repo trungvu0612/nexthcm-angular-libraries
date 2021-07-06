@@ -1,15 +1,15 @@
+import { HttpParams } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
-import { LeaveType } from '../../model/leave-type';
-import { LeaveTypesService } from '../../leave-types.service';
-import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TranslocoService } from '@ngneat/transloco';
-import { map } from 'rxjs/operators';
+import { FormlyFieldConfig } from '@ngx-formly/core';
 import { BehaviorSubject } from 'rxjs';
-import { HttpParams } from '@angular/common/http';
-import { Process } from '../../model/process';
+import { map } from 'rxjs/operators';
+import { LeaveTypesService } from '../../leave-types.service';
+import { LeaveType } from '../../models/leave-type';
+import { Process } from '../../models/process';
 
 @Component({
   selector: 'hcm-upsert-leave-type',

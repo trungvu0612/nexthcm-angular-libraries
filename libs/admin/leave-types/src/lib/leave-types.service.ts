@@ -1,9 +1,9 @@
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { APP_CONFIG, AppConfig, BaseResponse, PagingResponse } from '@nexthcm/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { LeaveType } from './model/leave-type';
-import { Process } from './model/process';
+import { LeaveType } from './models/leave-type';
+import { Process } from './models/process';
 
 const WORKFLOWS_PATH = 'workflowapp/v1.0';
 

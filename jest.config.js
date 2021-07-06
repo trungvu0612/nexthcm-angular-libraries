@@ -28,5 +28,6 @@ module.exports = {
     '<rootDir>/libs/admin/policies',
     '<rootDir>/libs/chat',
     '<rootDir>/libs/admin/leave-types',
+    '<rootDir>/libs/admin/employee',
   ],
 };

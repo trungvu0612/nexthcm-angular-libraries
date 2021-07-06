@@ -18,8 +18,8 @@ export class EmployeeListComponent implements OnInit {
   searchEmployee = new BehaviorSubject<SearchEmployee>({ filter: '' });
   page$ = new BehaviorSubject<number>(1);
   totalLength = 0;
-  size$ = 10;
-  perPageSubject = new BehaviorSubject<number>(this.size$);
+  size = 10;
+  perPageSubject = new BehaviorSubject<number>(this.size);
 
   readonly userForm = new FormGroup({
     testValue: new FormControl([new TuiDay(2011, 6, 4), null]),
@@ -30,7 +30,7 @@ export class EmployeeListComponent implements OnInit {
   data: Partial<User>[] = [];
 
   constructor(
-    private AdminEmployeeService: AdminEmployeeService,
+    private adminEmployeeService: AdminEmployeeService,
     private formBuilder: FormBuilder,
     private cdr: ChangeDetectorRef,
     private destroy$: TuiDestroyService
@@ -40,37 +40,34 @@ export class EmployeeListComponent implements OnInit {
     this.getEmployee('');
   }
 
-  onPage(page: number) {
+  onPage(page: number): void {
     this.page$.next(page + 1);
   }
 
-  onSize(size: number) {
+  onSize(size: number): void {
     this.perPageSubject.next(size);
   }
 
-  getEmployee(keyword: string) {
+  getEmployee(keyword: string): void {
     if (keyword) {
       this.searchEmployee = new BehaviorSubject<SearchEmployee>({
         filter: keyword,
       });
     }
-    const request$ = combineLatest([this.page$, this.perPageSubject, this.searchEmployee])
+    combineLatest([this.page$, this.perPageSubject, this.searchEmployee])
       .pipe(
         debounceTime(0),
-        switchMap(([page, perpage, search]) => {
-          return this.AdminEmployeeService.getEmployee(page - 1, perpage, search);
-        }),
+        switchMap(([page, perpage, search]) => this.adminEmployeeService.getEmployee(page - 1, perpage, search)),
         takeUntil(this.destroy$)
       )
       .subscribe((item) => {
-        console.log(item.data.items);
         this.data = item.data.items;
         this.totalLength = item.data.totalElements;
         this.cdr.detectChanges();
       });
   }
 
-  onModelChange() {
-    this.getEmployee(this.userForm.controls['searchEmployee'].value);
+  onModelChange(): void {
+    this.getEmployee(this.userForm.controls.searchEmployee.value);
   }
 }

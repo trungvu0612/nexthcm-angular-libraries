@@ -1,25 +1,34 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { Route, RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
+import { GetFileModule, LayoutComponent } from '@nexthcm/ui';
 import { FormlyModule } from '@ngx-formly/core';
 import { TuiTableModule, TuiTablePaginationModule } from '@taiga-ui/addon-table';
 import { TuiSvgModule } from '@taiga-ui/core';
 import { TuiInputDateTimeModule, TuiInputModule } from '@taiga-ui/kit';
-import { AdminEmployeeRoutingModule } from './admin-employee-routing.module';
 import { EmployeeDataTableComponent } from './components/employee-data-table/employee-data-table.component';
 import { EmployeeDetailComponent } from './pages/employee-detail/employee-detail.component';
 import { EmployeeListComponent } from './pages/employee-list/employee-list.component';
 import { UpsertEmployeeComponent } from './pages/upsert-employee/upsert-employee.component';
-import {GetFileModule} from "@nexthcm/ui";
 
-export const adminEmployeeRoutes: Route[] = [];
+export const adminEmployeeRoutes: Routes = [
+  {
+    path: '',
+    component: LayoutComponent,
+    children: [
+      { path: '', component: EmployeeListComponent },
+      { path: 'detail/:id', component: EmployeeDetailComponent },
+      { path: 'add', component: UpsertEmployeeComponent },
+      { path: 'edit/:id', component: UpsertEmployeeComponent },
+    ],
+  },
+];
 
 @NgModule({
   imports: [
     CommonModule,
-    RouterModule,
-    AdminEmployeeRoutingModule,
+    RouterModule.forChild(adminEmployeeRoutes),
     TuiInputDateTimeModule,
     ReactiveFormsModule,
     TuiInputModule,
@@ -27,7 +36,7 @@ export const adminEmployeeRoutes: Route[] = [];
     TuiSvgModule,
     FormlyModule,
     TuiTablePaginationModule,
-    GetFileModule
+    GetFileModule,
   ],
   declarations: [EmployeeListComponent, EmployeeDataTableComponent, EmployeeDetailComponent, UpsertEmployeeComponent],
 })

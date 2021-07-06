@@ -1,18 +1,18 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { APP_CONFIG, AppConfig } from '@nexthcm/core';
+import { UploadFileService } from '@nexthcm/ui';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
-import { of } from 'rxjs';
-import { AdminEmployeeService } from '../../services/admin-employee.service';
-import { map, startWith, tap } from 'rxjs/operators';
-import { GENDER_NAME, MARITAL_STATUS } from '../../models/employee-enum';
 import { TuiDay, TuiDestroyService } from '@taiga-ui/cdk';
-import { UserRole } from '../../models/user-role';
+import { of } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { GENDER_NAME, MARITAL_STATUS } from '../../models/employee-constants';
+import { JobTitle } from '../../models/job-title';
 import { Permission } from '../../models/permission';
 import { UserGroup } from '../../models/user-group';
-import { UploadFileService } from '@nexthcm/ui';
-import { APP_CONFIG, AppConfig } from '@nexthcm/core';
-import { JobTitle } from '../../models/job-title';
+import { UserRole } from '../../models/user-role';
+import { AdminEmployeeService } from '../../services/admin-employee.service';
 
 @Component({
   selector: 'hcm-upsert-employee',
@@ -366,8 +366,6 @@ export class UpsertEmployeeComponent implements AfterViewInit {
         }
         item.profile.birthDay = TuiDay.fromLocalNativeDate(new Date(item.profile?.birthDay));
         item.registration = TuiDay.fromLocalNativeDate(new Date(item?.registration));
-        console.log(item.profile.birthDay);
-        console.log(item.registration);
         this.model = { ...this.model, ...item };
       });
     }
@@ -430,11 +428,7 @@ export class UpsertEmployeeComponent implements AfterViewInit {
       formModel.address.id = this.addressId;
       formModel.profile.userId = this.userId;
     }
-    if (formModel.state == true) {
-      formModel.state = 1;
-    } else {
-      formModel.state = -1;
-    }
+    formModel.state = formModel.state == true ? 1 : -1;
 
     if (formModel.profile.birthDay) {
       formModel.profile.birthDay = (formModel.profile.birthDay as TuiDay).toLocalNativeDate().valueOf();

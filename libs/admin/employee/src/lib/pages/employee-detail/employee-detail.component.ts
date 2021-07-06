@@ -1,8 +1,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { GENDER_NAME, MARITAL_STATUS } from '../../models/employee-constants';
 import { AdminEmployeeService } from '../../services/admin-employee.service';
-import {GENDER_NAME, MARITAL_STATUS} from "../../models/employee-enum";
-import {UploadFileService} from "@nexthcm/ui";
 
 @Component({
   selector: 'hcm-employee-detail',
@@ -13,23 +12,21 @@ import {UploadFileService} from "@nexthcm/ui";
 export class EmployeeDetailComponent implements OnInit {
   userId!: string;
   userInfo: any;
-  dataMarital$ = MARITAL_STATUS;
-  dataGender$ = GENDER_NAME;
+  dataMarital = MARITAL_STATUS;
+  dataGender = GENDER_NAME;
+
   constructor(
-    private AdminEmployeeService: AdminEmployeeService,
+    private adminEmployeeService: AdminEmployeeService,
     private activatedRouter: ActivatedRoute,
-    private cdr: ChangeDetectorRef,
-    private uploadFileService: UploadFileService
+    private cdr: ChangeDetectorRef
   ) {
     this.userId = this.activatedRouter.snapshot.params.id;
   }
 
   ngOnInit(): void {
-    if (this?.userId) {
-
-      this.AdminEmployeeService.getUserById(this.userId).subscribe((userData) => {
+    if (this.userId) {
+      this.adminEmployeeService.getUserById(this.userId).subscribe((userData) => {
         this.userInfo = userData;
-        console.log(this.userInfo);
         this.cdr.markForCheck();
       });
     }

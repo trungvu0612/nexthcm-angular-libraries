@@ -93,37 +93,38 @@
     },
     "admin-employee": {
       "projectType": "library",
-      "root": "libs/admin-employee",
-      "sourceRoot": "libs/admin-employee/src",
+      "root": "libs/admin/employee",
+      "sourceRoot": "libs/admin/employee/src",
       "prefix": "hcm",
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
+          "outputs": ["dist/libs/admin/employee"],
           "options": {
-            "project": "libs/admin-employee/ng-package.json"
+            "project": "libs/admin/employee/ng-package.json"
           },
           "configurations": {
             "production": {
-              "tsConfig": "libs/admin-employee/tsconfig.lib.prod.json"
+              "tsConfig": "libs/admin/employee/tsconfig.lib.prod.json"
             },
             "development": {
-              "tsConfig": "libs/admin-employee/tsconfig.lib.json"
+              "tsConfig": "libs/admin/employee/tsconfig.lib.json"
             }
           },
           "defaultConfiguration": "production"
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/admin-employee"],
+          "outputs": ["coverage/libs/admin/employee"],
           "options": {
-            "jestConfig": "libs/admin-employee/jest.config.js",
+            "jestConfig": "libs/admin/employee/jest.config.js",
             "passWithNoTests": true
           }
         },
         "lint": {
           "builder": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": ["libs/admin-employee/src/**/*.ts", "libs/admin-employee/src/**/*.html"]
+            "lintFilePatterns": ["libs/admin/employee/src/**/*.ts", "libs/admin/employee/src/**/*.html"]
           }
         }
       }
