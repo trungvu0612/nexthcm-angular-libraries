@@ -1,3 +1,7 @@
 :host {
   display: block;
+
+  .avatar {
+    @apply w-10 h-10;
+  }
 }

@@ -2817,6 +2817,26 @@ export type GetFirstRoomQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GetFirstRoomQuery = { chatRooms: Array<{ roomId: ChatappChatRoom['room_id'] }> };
 
+export type GetChatRoomDetailQueryVariables = Exact<{
+  roomId: Scalars['uuid'];
+  limit: Scalars['Int'];
+}>;
+
+export type GetChatRoomDetailQuery = {
+  chatRoomDetail?: Maybe<
+    Pick<ChatappChatRoom, 'avatar' | 'title' | 'type'> & {
+      messages: Array<
+        Pick<ChatappChatMessage, 'content' | 'created_date' | 'type'> & { userId: ChatappChatMessage['user_id'] } & {
+          chat_user: Pick<ChatappChatUser, 'avatar'> & {
+            fullName: ChatappChatUser['full_name'];
+            lastSeen: ChatappChatUser['last_seen'];
+          };
+        }
+      >;
+    }
+  >;
+};
+
 export const GetRoomListDocument = /*#__PURE__*/ gql`
   query getRoomList($userId: uuid!) {
     chatRooms: chatapp_chat_room {
@@ -2865,6 +2885,40 @@ export const GetFirstRoomDocument = /*#__PURE__*/ gql`
 })
 export class GetFirstRoomQueryService extends Apollo.Query<GetFirstRoomQuery, GetFirstRoomQueryVariables> {
   document = GetFirstRoomDocument;
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo);
+  }
+}
+export const GetChatRoomDetailDocument = /*#__PURE__*/ gql`
+  query getChatRoomDetail($roomId: uuid!, $limit: Int!) {
+    chatRoomDetail: chatapp_chat_room_by_pk(room_id: $roomId) {
+      avatar
+      title
+      type
+      messages: chat_messages(limit: $limit) {
+        content
+        created_date
+        type
+        userId: user_id
+        chat_user {
+          avatar
+          fullName: full_name
+          lastSeen: last_seen
+        }
+      }
+    }
+  }
+`;
+
+@Injectable({
+  providedIn: 'root',
+})
+export class GetChatRoomDetailQueryService extends Apollo.Query<
+  GetChatRoomDetailQuery,
+  GetChatRoomDetailQueryVariables
+> {
+  document = GetChatRoomDetailDocument;
 
   constructor(apollo: Apollo.Apollo) {
     super(apollo);

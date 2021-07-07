@@ -1,1 +1,9 @@
-<p>chat-room works!</p>
+<section *rxLet="data$; let data" class="flex flex-col w-full">
+  <div class="flex items-center p-3 w-full border-b">
+    <tui-svg
+      class="rounded-full border border-gray-300 avatar"
+      src="https://ng-web-apis.github.io/dist/assets/images/web-api.svg"
+    ></tui-svg>
+    <span class="text-base font-bold ml-3">{{ data?.title }}</span>
+  </div>
+</section>

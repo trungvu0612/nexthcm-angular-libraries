@@ -26,3 +26,22 @@ query getFirstRoom {
     roomId: room_id
   }
 }
+
+query getChatRoomDetail($roomId: uuid!, $limit: Int!) {
+  chatRoomDetail: chatapp_chat_room_by_pk(room_id: $roomId) {
+    avatar
+    title
+    type
+    messages: chat_messages(limit: $limit) {
+      content
+      created_date
+      type
+      userId: user_id
+      chat_user {
+        avatar
+        fullName: full_name
+        lastSeen: last_seen
+      }
+    }
+  }
+}

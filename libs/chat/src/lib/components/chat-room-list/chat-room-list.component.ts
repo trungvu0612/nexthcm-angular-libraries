@@ -21,8 +21,8 @@ export class ChatRoomListComponent {
   readonly getChatRooms$ = this.userId$.pipe(
     switchMap((userId) =>
       this.getRoomListQueryService.watch({ userId }, { fetchPolicy: 'no-cache' }).valueChanges.pipe(
-        map((res) =>
-          res.data.chatRooms.map((room: ChatRoom) => {
+        map(({ data }) =>
+          data.chatRooms.map((room: ChatRoom) => {
             room.seen =
               room.currentUser[0]?.lastRead && room.lastMessageTime
                 ? new Date(room.currentUser[0]?.lastRead) >= new Date(room.lastMessageTime)
