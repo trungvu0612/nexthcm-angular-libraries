@@ -1,4 +1,4 @@
-<fieldset *tuiLet="expanded$ | async as expanded" class="bg-blue-50 border rounded">
+<fieldset *tuiLet="expanded$ | async as expanded" class="shadow-inner bg-white border rounded">
   <legend (click)="toggleExpanded()" class="cursor-pointer text-base font-semibold">
     Actions
     <tui-svg [class.rotated]="expanded" class="transition-all" src="tuiIconChevronRightLarge"></tui-svg>

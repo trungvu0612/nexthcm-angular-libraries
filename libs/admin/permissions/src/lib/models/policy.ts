@@ -1,6 +1,7 @@
 import { AbstractControl } from '@ngneat/reactive-forms';
 
 export interface Item {
+  id: string;
   code: string;
   name: string;
   description: string;
@@ -8,16 +9,14 @@ export interface Item {
 
 export interface Resource extends Item {
   resourceId: string;
-  actionId: string;
 }
 
 export interface Action extends Item {
-  actionId: string;
   resources: Resource[];
 }
 
 export interface Permission {
-  permissionId: string;
+  id: string;
   resource: Resource | Resource[];
   action: Action;
 }
@@ -27,13 +26,12 @@ export interface Service extends Item {
 }
 
 export interface PolicyItem {
-  policyItemId: string;
+  id: string;
   service: Service;
   permissions: Permission[];
 }
 
 export interface Policy extends Item {
-  policyId: string;
   code: string;
   lastModifiedDate: number;
   policyItems: PolicyItem[];

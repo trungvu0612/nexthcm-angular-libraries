@@ -1,20 +1,21 @@
-<section *ngFor="let field of field.fieldGroup; index as index" class="rounded mb-6">
-  <div
-    *tuiLet="formControl.at(index).get('service') as service"
-    [class.justify-between]="index !== 0"
-    class="grid grid-cols-3 p-2"
-  >
+<section *ngFor="let field of field.fieldGroup; index as index" class="shadow-md bg-gray-100 rounded-lg mb-6">
+  <div [class.justify-between]="index !== 0" class="grid grid-cols-3 p-2">
     <button
       (click)="toggleExpandable(index)"
-      [disabled]="!service?.valid"
+      [disabled]="!formControl.valid"
       class="col-start-1 justify-self-start text-blue-primary"
     >
       <tui-svg [src]="expandedList[index] ? 'tuiIconCollapse' : 'tuiIconExpand'"></tui-svg>
       {{ expandedList[index] ? 'Collapse' : 'Expand' }}
     </button>
-    <div *tuiLet="service?.value?.name as name" class="col-start-2 justify-self-center font-semibold py-1">
-      <p *ngIf="name" class="text-blue-primary text-lg">{{ name }}</p>
-      <p *ngIf="!name" class="text-gray-600">Choose a service</p>
+    <div class="col-start-2 justify-self-center font-semibold py-1">
+      <p
+        *ngIf="formControl.at(index).get('service')?.value?.name as name; else choose"
+        class="text-blue-primary text-lg"
+      >
+        {{ name }}
+      </p>
+      <ng-template #choose><p class="text-gray-600">Choose a service</p></ng-template>
     </div>
     <button (click)="remove(index)" *ngIf="index !== 0" class="col-start-3 justify-self-end text-red-600">
       <tui-svg src="tuiIconCloseCircleLarge"></tui-svg>
