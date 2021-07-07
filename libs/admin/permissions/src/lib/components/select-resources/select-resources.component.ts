@@ -28,7 +28,7 @@ export class SelectResourcesComponent {
     this.state.connect(
       'resource',
       this.state.select('action').pipe(
-        switchMap((action) => this.adminPermissions.getResourcesByAction(action.actionId || '')),
+        switchMap((action) => this.adminPermissions.getResourcesByAction(action.id as string)),
         tap((resource) => (this.display = !resource?.length ? 'none' : 'block'))
       )
     );
@@ -40,7 +40,7 @@ export class SelectResourcesComponent {
 
   stringify: TuiStringHandler<Resource> = (item) => item.name;
 
-  matcher: TuiIdentityMatcher<Resource> = (item1, item2) => item1.resourceId === item2.resourceId;
+  matcher: TuiIdentityMatcher<Resource> = (item1, item2) => item1.id === item2.id;
 
   update(isSelect = true): void {
     this.state.get('resourcesForm')?.setValue(isSelect ? this.state.get('resource') : []);

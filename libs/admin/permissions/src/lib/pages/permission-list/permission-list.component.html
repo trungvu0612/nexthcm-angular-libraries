@@ -28,7 +28,7 @@
           <td *tuiCell="'lastModifiedDate'" tuiTd>{{ item.lastModifiedDate | date:'dd/MM/yyyy' }}</td>
           <td *tuiCell="'action'" tuiTd>
             <div class="flex text-gray-400">
-              <button [queryParams]="{ policyId: item.policyId }" routerLink="./update">
+              <button [queryParams]="{ policyId: item.id }" routerLink="./update">
                 <tui-svg src="tuiIconEdit"></tui-svg>
               </button>
               <button>

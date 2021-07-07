@@ -26,10 +26,10 @@ export class UpdatePermissionComponent {
     map((policy) => {
       const policyItems: PolicyItem[] = JSON.parse(JSON.stringify(policy.policyItems));
       policyItems.forEach((policyItem) => {
-        const actionsId = Array.from(new Set(policyItem.permissions.map((permission) => permission.action.actionId)));
+        const actionsId = Array.from(new Set(policyItem.permissions.map((permission) => permission.action.id)));
         const permissions: Permission[] = [];
         policyItem.permissions.forEach((permission) => {
-          const index = actionsId.indexOf(permission.action.actionId);
+          const index = actionsId.indexOf(permission.action.id);
           const resource = JSON.parse(JSON.stringify(permission.resource));
           if (!permissions[index]) {
             permission.resource = [resource];

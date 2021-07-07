@@ -93,12 +93,12 @@ export class PermissionDetailComponent implements OnInit {
     { key: 'service', title: 'Service' },
     { key: 'detail', title: 'Actions & Resources' },
   ];
-  data!: any[];
+  data!: { service: string; permissions: { action: string; resource: string }[] }[];
 
   constructor(private adminPermissions: AdminPermissionsService, private translocoService: TranslocoService) {}
 
   ngOnInit(): void {
-    this.policyModel.policyId && this.updateDataTable();
+    this.policyModel.id && this.updateDataTable();
   }
 
   updatePolicyItems(): void {

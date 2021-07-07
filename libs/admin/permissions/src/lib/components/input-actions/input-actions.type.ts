@@ -3,8 +3,8 @@ import { FormArray, FormBuilder } from '@ngneat/reactive-forms';
 import { FieldType } from '@ngx-formly/core';
 import { AdminPermissionsService } from '../../services/admin-permissions.service';
 import { TuiDestroyService } from '@taiga-ui/cdk';
-import { BehaviorSubject, Observable, of } from 'rxjs';
-import { map, takeUntil } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { FormControl, FormGroup } from '@angular/forms';
 import { PermissionForm } from '../../models/policy';
 
@@ -28,21 +28,17 @@ export class InputActionsComponent extends FieldType implements OnInit {
   }
 
   ngOnInit(): void {
-    const source$: Observable<PermissionForm[]> = this.formControl.value
-      ? of(this.formControl.value)
-      : this.adminPermissions
-          .select('actions')
-          .pipe(map((actions) => actions.map((action) => ({ action, resource: null }))));
-
-    source$.subscribe((sources) => {
+    this.adminPermissions.select('actions').subscribe((sources) => {
       this.permissionsForm = this.formBuilder.array(
-        sources.map(
-          (value) =>
-            new FormGroup({
-              action: new FormControl(value.action),
-              resource: new FormControl(value.resource),
-            })
-        )
+        sources.map((action) => {
+          const permission = (this.formControl.value as PermissionForm[])?.filter(
+            (permission) => permission.action.id === action.id
+          )[0];
+          return new FormGroup({
+            action: new FormControl(action),
+            resource: new FormControl(permission?.resource || []),
+          });
+        })
       );
 
       this.permissionsForm.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((permissions) => {

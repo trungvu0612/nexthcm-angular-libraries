@@ -13,7 +13,7 @@ import { TuiIdentityMatcher } from '@taiga-ui/cdk';
 export class InputServiceComponent extends FieldType implements OnInit {
   expanded = true;
   filterControl = new FormControl();
-  matcher: TuiIdentityMatcher<Service> = (item1, item2) => item1.serviceId === item2.serviceId;
+  matcher: TuiIdentityMatcher<Service> = (item1, item2) => item1.id === item2.id;
 
   ngOnInit(): void {
     this.formControl.value && this.filterControl.setValue([this.formControl.value]);
@@ -24,7 +24,7 @@ export class InputServiceComponent extends FieldType implements OnInit {
   }
 
   selectService(service: Partial<Service>): void {
-    const value = this.formControl.value?.serviceId === service.serviceId ? null : service;
+    const value = this.formControl.value?.id === service.id ? null : service;
     this.formControl.setValue(value);
     this.filterControl.setValue([]);
     if (value) this.toggleExpanded();
