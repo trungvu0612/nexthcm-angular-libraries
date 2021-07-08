@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { AuthService } from '@nexthcm/auth';
 import { RxState } from '@rx-angular/state';
-import { map, switchMap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { ChatRoom } from '../../models/chat-room';
 import { GetRoomListQueryService } from '../../services/chat.service';
 
@@ -17,22 +17,20 @@ interface ComponentState {
   providers: [RxState],
 })
 export class ChatRoomListComponent {
-  readonly userId$ = this.authService.select('userInfo', 'userId');
-  readonly getChatRooms$ = this.userId$.pipe(
-    switchMap((userId) =>
-      this.getRoomListQueryService.watch({ userId }, { fetchPolicy: 'no-cache' }).valueChanges.pipe(
-        map(({ data }) =>
-          data.chatRooms.map((room: ChatRoom) => {
-            room.seen =
-              room.currentUser[0]?.lastRead && room.lastMessageTime
-                ? new Date(room.currentUser[0]?.lastRead) >= new Date(room.lastMessageTime)
-                : false;
-            return room;
-          })
-        )
+  readonly loggedInUserId = this.authService.get('userInfo', 'userId');
+  readonly getChatRooms$ = this.getRoomListQueryService
+    .watch({ userId: this.loggedInUserId }, { fetchPolicy: 'no-cache' })
+    .valueChanges.pipe(
+      map(({ data }) =>
+        data.chatRooms.map((room: ChatRoom) => {
+          room.seen =
+            room.currentUser[0]?.lastRead && room.lastMessageTime
+              ? new Date(room.currentUser[0]?.lastRead) >= new Date(room.lastMessageTime)
+              : false;
+          return room;
+        })
       )
-    )
-  );
+    );
   readonly chatRooms$ = this.state.select('chatRooms');
 
   constructor(

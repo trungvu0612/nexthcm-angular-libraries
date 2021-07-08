@@ -2896,7 +2896,7 @@ export const GetChatRoomDetailDocument = /*#__PURE__*/ gql`
       avatar
       title
       type
-      messages: chat_messages(limit: $limit) {
+      messages: chat_messages(limit: $limit, order_by: { created_date: asc }) {
         content
         created_date
         type

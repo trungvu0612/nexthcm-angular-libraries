@@ -1,7 +1,42 @@
 :host {
   display: block;
+  @apply h-full;
 
   .avatar {
     @apply w-10 h-10;
+  }
+
+  .message-avatar-wrapper {
+    width: 28px;
+    min-width: 28px;
+    height: 28px;
+    .message-avatar {
+      @apply w-full h-full;
+    }
+  }
+
+  .message-status {
+    width: 24px;
+    min-width: 24px;
+  }
+
+  .sent-message-container {
+    @apply flex-row-reverse ml-40;
+
+    .message-avatar-wrapper {
+      @apply hidden;
+    }
+
+    .message-content {
+      @apply bg-blue-200;
+    }
+  }
+
+  .received-message-container {
+    @apply mr-40;
+
+    .message-content {
+      @apply bg-gray-200;
+    }
   }
 }
