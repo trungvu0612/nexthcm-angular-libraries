@@ -23,10 +23,19 @@
     "admin-branches": {
       "tags": []
     },
+    "admin-departments": {
+      "tags": []
+    },
     "admin-employee": {
       "tags": []
     },
+    "admin-entitlement": {
+      "tags": []
+    },
     "admin-job-level": {
+      "tags": []
+    },
+    "admin-job-titles": {
       "tags": []
     },
     "admin-leave-types": {
@@ -48,6 +57,9 @@
       "tags": []
     },
     "admin-tenant": {
+      "tags": []
+    },
+    "admin-user-roles": {
       "tags": []
     },
     "auth": {
@@ -86,6 +98,9 @@
       "tags": []
     },
     "human-resource": {
+      "tags": []
+    },
+    "leave-entitlement": {
       "tags": []
     },
     "my-time": {

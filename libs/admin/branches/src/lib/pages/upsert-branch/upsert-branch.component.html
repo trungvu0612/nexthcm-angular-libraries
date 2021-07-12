@@ -1,14 +1,12 @@
-<div class="p-12">
-  <div class="tui-container">
-    <form (ngSubmit)="submit()" [formGroup]="$any(branchForm)">
-      <div class="tui-row tui-row_sme">
-        <div class="tui-col_7">
-          <h3 class="tui-form__header tui-form__header_margin-top_none">Add new branch</h3>
-          <formly-form [fields]="fields" [form]="$any(branchForm)" [model]="model"></formly-form>
-          <button class="tui-space_right-3 tui-space_bottom-3 mt-6" tuiButton>Submit</button>
-        </div>
-      </div>
-    </form>
-    {{ branchForm.value | json }}
-  </div>
-</div>
+<!--<section *transloco='let t' class='admin-dialog'>-->
+  <form [formGroup]='$any(branchForm)' class='my-8'>
+    <h1 class='text-center font-semibold text-blue-700'>Add Branches</h1>
+    <formly-form [fields]='fields' [fields]='fields' [form]='$any(branchForm)'></formly-form>
+    <div class='flex justify-center gap-4'>
+      <button (click)='submit()' class='blue-button ml-8'>Save</button>
+      <button (click)='cancel()' class='btn-red'>Cancel</button>
+    </div>
+  </form>
+  {{ branchForm.value | json }}
+<!--</section>-->
+

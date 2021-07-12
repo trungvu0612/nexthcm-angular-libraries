@@ -94,7 +94,7 @@ export class OvertimeComponent implements OnInit {
 
   onPage($event: number) {
     this.page$.next($event);
-    // console.log(this.page$.getValue());
+    // console.log(this.pages$.getValue());
   }
 
   onSize($event: number) {

@@ -46,7 +46,7 @@ export class MenuLeftComponent implements OnInit {
     },
     {
       name: 'Quản lý vai trò',
-      uri: '/admin',
+      uri: '/admin/user-roles',
     },
     {
       name: 'Quản lý quyền',
@@ -71,6 +71,26 @@ export class MenuLeftComponent implements OnInit {
     {
       name: 'Quản lý quy trình',
       uri: '/admin/processes',
+    },
+    {
+      name: 'Quản lý chi nhánh',
+      uri: '/admin/branches',
+    },
+    {
+      name: 'Quản lý căn hộ',
+      uri: '/admin/departments',
+    },
+    {
+      name: 'Quản lý chức vụ',
+      uri: '/admin/job-titles',
+    },
+    {
+      name: 'Phụ cấp',
+      uri: '/admin/entitlements',
+    },
+    {
+      name: 'Quản lý loại ngày nghỉ',
+      uri: '/admin/leave-types',
     },
     {
       name: 'Quản lý loại ngày nghỉ',

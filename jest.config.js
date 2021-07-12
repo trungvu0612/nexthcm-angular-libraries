@@ -26,8 +26,13 @@ module.exports = {
     '<rootDir>/libs/admin/job-level',
     '<rootDir>/libs/admin/team-building-allowance',
     '<rootDir>/libs/admin/policies',
+    '<rootDir>/libs/leave-entitlement',
+    '<rootDir>/libs/admin/entitlement',
+    '<rootDir>/libs/admin/job-titles',
     '<rootDir>/libs/chat',
     '<rootDir>/libs/admin/leave-types',
     '<rootDir>/libs/admin/employee',
+    '<rootDir>/libs/admin/departments',
+    '<rootDir>/libs/admin/user-roles',
   ],
 };

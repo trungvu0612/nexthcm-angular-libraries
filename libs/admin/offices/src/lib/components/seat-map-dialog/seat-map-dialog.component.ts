@@ -7,7 +7,7 @@ import {
   ElementRef,
   HostListener,
   Inject,
-  ViewChild,
+  ViewChild
 } from '@angular/core';
 import { Dimension, Seat, Zone } from '@nexthcm/core';
 import { filterBySearch, UploadFileService } from '@nexthcm/ui';
@@ -41,7 +41,7 @@ export class SeatMapDialogComponent implements AfterViewInit {
   factor = { width: 0, height: 0, rounded: 1 };
   dimension = { width: 0, height: 0, rounded: 0 };
   seats: Seat[] = [];
-  offices$ = this.adminOfficesService.getZoneData('office', { size: 999 }).pipe(shareReplay(1));
+  offices$ = this.adminOfficesService.getZoneData('office', { size: 9999 }).pipe(shareReplay(1));
 
   form: FormGroup<SeatMapForm>;
   model: SeatMapForm = {

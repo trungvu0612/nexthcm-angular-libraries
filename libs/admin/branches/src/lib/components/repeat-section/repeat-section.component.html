@@ -1,8 +1,8 @@
 <div *ngFor="let field of field.fieldGroup; let i = index" class="mt-8 grid grid-cols-3 gap-4">
   <formly-field [field]="field" class="col-span-2"></formly-field>
-  <button (click)="remove(i)" class="waiting-tag py-2 px-4 bg-red-500 hover:bg-red-700" tuiButton>Remove</button>
+  <button (click)="remove(i)" class="btn-red">Remove</button>
 </div>
 
 <div class="my-8">
-  <button (click)="add()" class="btn-blue" tuiButton>{{ to.addText }}</button>
+  <button (click)="add()" class="btn-blue">{{ to.addText }}</button>
 </div>

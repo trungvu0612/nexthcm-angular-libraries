@@ -1,66 +1,39 @@
-export interface BranchData {
-  checked?: boolean;
-  orgId: string;
-  orgType: string;
-  name: string;
-  creator: string;
-  description: string;
-  address: string;
-  edit?: boolean;
-  delete?: boolean;
+import { Zone } from '@nexthcm/core';
+
+export interface BranchPost {
+  orgType: string,
+  orgName: string,
+  description: string,
+  user: Member,
+  offices: Partial<Zone>[] | null;
 }
 
-export interface Branch {
-  createdDate?: number;
-  id: string;
-  lastModifiedDate?: number;
-  member?: Member;
-  optCounter?: number;
-  orgName: string;
-  orgType: string;
-  state?: number;
-  tenant: Tenant;
-  mbrList: [];
+
+export interface BranchList {
+  createdDate: number,
+  lastModifiedDate: number,
+  optCounter: number,
+  id: string,
+  state: number,
+  member: Member,
+  orgType: string,
+  orgName: string,
+  code: string,
+  tenant: Tenant,
 }
 
 export interface Member {
-  id: string;
-  type: string;
-  state: number;
+    id: string,
+    type: string,
+    state: number
 }
 
 export interface Tenant {
-  createdDate: number;
-  id: string;
-  lastModifiedDate: number;
-  optCounter: number;
-  state: number;
-  tenantCode: string;
-  tenantName: string;
-}
-
-export interface BranchList {
-  orgId?: string;
-  orgName: string;
-  orgType: string;
-  description?: string;
-  user: User;
-}
-
-export interface User {
-  id: string;
-}
-
-export interface BranchRes {
-  createdDate: number;
-  createdBy: string;
-  lastModifiedDate: number;
-  lastModifiedBy: string;
-  optCounter: number;
-  id: string;
-  state: number;
-  orgType: string;
-  orgName: string;
-  code: string;
-  description: string;
+  createdDate: number,
+  lastModifiedDate: number,
+  optCounter: number,
+  id: string,
+  tenantCode: string,
+  tenantName: string,
+  state: number
 }

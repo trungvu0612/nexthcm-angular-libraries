@@ -3,15 +3,19 @@ import {
   ChangeDetectorRef,
   Component,
   EventEmitter,
+  Injector,
   Input,
   OnInit,
-  Output,
+  Output
 } from '@angular/core';
-import { BranchRes } from '../../models/branch';
-import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
-import { debounceTime, map, switchMap, takeUntil } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest } from 'rxjs';
+import { debounceTime, shareReplay, switchMap, takeUntil } from 'rxjs/operators';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { BranchesService } from '../../services/branches.service';
+import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
+import { TuiDialogService } from '@taiga-ui/core';
+import { UpsertBranchComponent } from '../upsert-branch/upsert-branch.component';
+import { BranchList } from '../../models/branch';
 
 @Component({
   selector: 'hcm-branch-list',
@@ -21,18 +25,19 @@ import { BranchesService } from '../../services/branches.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BranchListComponent implements OnInit {
-  @Input() request!: BranchRes[];
+  @Input() request!: BranchList[];
   @Output() add = new EventEmitter();
   @Output() edit = new EventEmitter();
   @Output() remove = new EventEmitter();
   page = 0;
   size = 10;
 
-  dataTest$?: Observable<any> = this.branchesService.getBranchDatas(0, 10).pipe(map((data) => data.data.items));
+  // data$!: Observable<Pagination<BranchList>>;
+  dataTest$ = this.branchesService.getBranchData({ size: 999}).pipe(shareReplay(1));
 
   columns = ['orgType', 'orgName', 'description', 'description', 'action'];
 
-  branchRes!: BranchRes[];
+  branchRes!: BranchList[];
   page$ = new BehaviorSubject<number>(1);
   size$ = 10;
   totalLength = 0;
@@ -40,16 +45,18 @@ export class BranchListComponent implements OnInit {
 
   constructor(
     private branchesService: BranchesService,
+    private dialogService: TuiDialogService,
+    private injector: Injector,
     private destroy$: TuiDestroyService,
     private cdr: ChangeDetectorRef
   ) {}
 
-  get requestOnPage(): BranchRes[] {
+  get requestOnPage(): BranchList[] {
     return this.request.slice(this.page * this.size, (this.page + 1) * this.size);
   }
 
   ngOnInit(): void {
-    // console.log(this.dataTest$.subscribe((data) => console.log('res', data)));
+    console.log(this.dataTest$.subscribe((data) => console.log('resssssss', data)));
 
     combineLatest([this.page$, this.perPageSubject])
       .pipe(
@@ -73,6 +80,23 @@ export class BranchListComponent implements OnInit {
 
   onSize(size: number) {
     this.perPageSubject.next(size);
+  }
+
+  showDialog(): void {
+    this.dialogService
+      .open<boolean>(new PolymorpheusComponent(UpsertBranchComponent, this.injector), {
+        // data: id,
+      })
+      .subscribe((data) => {
+        // if (data) {
+        //   const body = {
+        //     status: 0,
+        //   };
+        //   // this.myLeaveService.editLeave(id, body).subscribe((data) => {
+        //   //   console.log('susscess edit', id);
+        //   // });
+        // }
+      });
   }
 
   cancel(): void {

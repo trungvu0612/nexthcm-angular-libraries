@@ -1,9 +1,9 @@
-import { BranchRes } from '../models/branch';
+import { BranchList } from '../models/branch';
 import { Inject, Injectable } from '@angular/core';
-import { EMPTY, Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { APP_CONFIG, AppConfig, PagingResponse } from '@nexthcm/core';
-import { catchError, map } from 'rxjs/operators';
+import { APP_CONFIG, AppConfig, Pagination, PagingResponse } from '@nexthcm/core';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +11,14 @@ import { catchError, map } from 'rxjs/operators';
 export class BranchesService {
   appVersion = this.env.apiUrl + '/accountapp/v1.0';
 
-  constructor(@Inject(APP_CONFIG) protected env: AppConfig, private httpClient: HttpClient) {}
+  constructor(@Inject(APP_CONFIG) protected env: AppConfig,
+              private httpClient: HttpClient) {}
+
+  getBranchData(params: { page?: number; size?: number }):  Observable<Pagination<BranchList>> {
+    return this.httpClient
+      .get<PagingResponse<BranchList>>(this.appVersion + '/orgs', { params })
+      .pipe(map(response => response.data));
+  }
 
   getBranchDatas(pageIndex: number, pageSize: number): Observable<any> {
     return this.httpClient.get<any>(this.appVersion + '/orgs', {
@@ -34,21 +41,21 @@ export class BranchesService {
   //   return this.httpClient.put<LeaveType>(this.appVersion + `/leave-type/${id}`, dto);
   // }
 
-  getListTests(params: HttpParams): Observable<PagingResponse<BranchRes>> {
-    return this.httpClient
-      .post<PagingResponse<BranchRes>>(`/promotion/admin/list`, null, { params })
-      .pipe(catchError(() => EMPTY));
-  }
+  // getListTests(params: HttpParams): Observable<PagingResponse<BranchRes>> {
+  //   return this.httpClient
+  //     .post<PagingResponse<BranchRes>>(`/promotion/admin/list`, null, { params })
+  //     .pipe(catchError(() => EMPTY));
+  // }
 
-  formlyEdit(): Observable<any> {
-    return of({
-      id: 1,
-      image: 'assets/icons/bulding.svg',
-      name: 'Copac Square',
-      address: '12 Ton Dan St., Dist 4., HCMC, Vietnam',
-      obj: {
-        nameObj: 'dfsdf',
-      },
-    });
-  }
+  // formlyEdit(): Observable<any> {
+  //   return of({
+  //     id: 1,
+  //     image: 'assets/icons/bulding.svg',
+  //     name: 'Copac Square',
+  //     address: '12 Ton Dan St., Dist 4., HCMC, Vietnam',
+  //     obj: {
+  //       nameObj: 'dfsdf',
+  //     },
+  //   });
+  // }
 }
