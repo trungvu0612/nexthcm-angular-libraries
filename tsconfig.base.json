@@ -17,9 +17,8 @@
     "paths": {
       "@nexthcm/admin-branches": ["libs/admin/branches/src/index.ts"],
       "@nexthcm/admin-departments": ["libs/admin/departments/src/index.ts"],
-      "@nexthcm/admin-employee": ["libs/admin-employee/src/index.ts"],
-      "@nexthcm/admin-entitlement": ["libs/admin/entitlement/src/index.ts"],
       "@nexthcm/admin-employee": ["libs/admin/employee/src/index.ts"],
+      "@nexthcm/admin-entitlement": ["libs/admin/entitlement/src/index.ts"],
       "@nexthcm/admin-job-level": ["libs/admin/job-level/src/index.ts"],
       "@nexthcm/admin-job-titles": ["libs/admin/job-titles/src/index.ts"],
       "@nexthcm/admin-leave-types": ["libs/admin/leave-types/src/index.ts"],

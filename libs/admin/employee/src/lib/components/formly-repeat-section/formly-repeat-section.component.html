@@ -1,0 +1,17 @@
+<div>
+  <p class="font-semibold">{{ to.label }}</p>
+  <div *ngFor="let fields of field.fieldGroup; index as index" class="flex items-end mt-5">
+    <div class="flex-1">
+      <formly-field [field]="fields"></formly-field>
+    </div>
+    <button
+      (click)="remove(index)"
+      class="ml-4 mb-3"
+      icon="tuiIconRemoveLarge"
+      size="s"
+      tuiIconButton
+      type="button"
+    ></button>
+  </div>
+  <button (click)="add()" class="mt-4" icon="tuiIconPlusLarge" size="s" tuiIconButton type="button"></button>
+</div>

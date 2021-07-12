@@ -1,0 +1,20 @@
+<tui-stepper #stepper [activeItemIndex]="to.activeItemIndex" [orientation]="to.orientation">
+  <button *ngFor="let step of field.fieldGroup" [state]="isValid(step) ? 'pass' : 'error'" tuiStep>
+    {{ step.templateOptions?.label }}
+  </button>
+</tui-stepper>
+<section class="mt-4">
+  <div
+    *ngFor="let step of field.fieldGroup; index as index; first as isFirst; last as isLast"
+    [class.invisible]="stepper.activeItemIndex !== index"
+  >
+    <formly-field [field]="step"></formly-field>
+    <div class="tui-form__buttons">
+      <button *ngIf="!isFirst" appearance="flat" class="tui-form__button" size="l" tuiButton type="button">
+        {{ to.previousText }}
+      </button>
+      <button *ngIf="!isLast" class="tui-form__button" size="l" tuiButton type="button">{{ to.nextText }}</button>
+      <button *ngIf="isLast" class="tui-form__button" size="l" tuiButton type="submit">{{ to.submitText }}</button>
+    </div>
+  </div>
+</section>

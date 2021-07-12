@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
-import { FieldWrapper } from '@ngx-formly/core';
+import { FieldWrapper, FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiValidationError } from '@taiga-ui/cdk';
 import { PolymorpheusTemplate } from '@tinkoff/ng-polymorpheus';
 
@@ -9,6 +9,11 @@ import { PolymorpheusTemplate } from '@tinkoff/ng-polymorpheus';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FormFieldComponent extends FieldWrapper implements OnInit {
+  defaultOptions: FormlyFieldConfig = {
+    templateOptions: {
+      labelClassName: 'font-semibold',
+    },
+  };
   @ViewChild('errorContent', { static: true }) errorContent?: PolymorpheusTemplate<{}>;
 
   error: TuiValidationError | null = null;

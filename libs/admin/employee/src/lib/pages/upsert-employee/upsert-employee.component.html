@@ -1,20 +1,22 @@
-<main class="main-page">
-  <ng-container *ngIf="!this.userId">
-    <div class="text-xl font-bold text-blue-500 mb-5">Thêm mới nhân viên</div>
-  </ng-container>
-  <ng-container *ngIf="this.userId">
-    <div class="text-xl font-bold text-blue-500 mb-5">Cập nhật nhân viên</div>
-  </ng-container>
+<main *transloco="let t" class="main-page">
+  <header>
+    <h1 class="text-4xl">{{ t('editEmployee') }}</h1>
+  </header>
 
-  <formly-form
-    [fields]="fields"
-    [form]="form"
-    [model]="model"
-    [options]="options"
-    class="grid grid-cols-3 gap-4"
-  ></formly-form>
-
-  <div class="my-10">
-    <button (click)="saveEmployee()" [disabled]="!form.valid" class="blue-button mt-5 mx-auto">Submit</button>
-  </div>
+  <section class="main-section">
+    <tui-tabs [(activeItemIndex)]="activeItemIndex">
+      <button tuiTab>{{ t('generalInformation') }}</button>
+      <button tuiTab>{{ t('individual') }}</button>
+      <button tuiTab>{{ t('duration') }}</button>
+      <button tuiTab>{{ t('education') }}</button>
+      <button tuiTab>SHUI</button>
+    </tui-tabs>
+    <div [ngSwitch]="activeItemIndex" class="mt-4">
+      <hcm-general-information-form *ngSwitchCase="0"></hcm-general-information-form>
+      <hcm-individual-form *ngSwitchCase="1"></hcm-individual-form>
+      <hcm-duration-form *ngSwitchCase="2"></hcm-duration-form>
+      <hcm-education-form *ngSwitchCase="3"></hcm-education-form>
+      <hcm-shui-form *ngSwitchCase="4"></hcm-shui-form>
+    </div>
+  </section>
 </main>

@@ -42,10 +42,10 @@ import { AppComponent } from './app.component';
               path: 'permissions',
               loadChildren: () => import('@nexthcm/admin-permissions').then((m) => m.AdminPermissionsModule),
             },
-            // {
-            //   path: 'employees',
-            //   loadChildren: () => import('@nexthcm/admin-employee').then((m) => m.AdminEmployeeModule),
-            // },
+            {
+              path: 'employees',
+              loadChildren: () => import('@nexthcm/admin-employee').then((m) => m.AdminEmployeeModule),
+            },
             { path: 'tenant', loadChildren: () => import('@nexthcm/admin-tenant').then((m) => m.AdminTenantModule) },
             {
               path: 'job-level',

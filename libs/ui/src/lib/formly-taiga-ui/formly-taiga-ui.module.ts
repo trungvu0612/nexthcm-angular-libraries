@@ -8,6 +8,7 @@ import { FormFieldModule } from './modules/form-field/form-field.module';
 import { InputsModule } from './modules/inputs/inputs.module';
 import { RadioModule } from './modules/radio/radio.module';
 import { SelectsModule } from './modules/selects/selects.module';
+import { StepperComponentModule } from './modules/stepper/stepper.component';
 import { ToggleModule } from './modules/toggle/toggle.module';
 
 @NgModule({
@@ -22,6 +23,7 @@ import { ToggleModule } from './modules/toggle/toggle.module';
     ComboBoxModule,
     FilterModule,
     CheckboxLabeledComponentModule,
+    StepperComponentModule,
   ],
 })
 export class FormlyTaigaUiModule {}

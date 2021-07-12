@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EmployeeDataTableComponent } from './employee-data-table.component';
+import { StepperComponent } from './stepper.component';
 
-describe('EmployeeDataTableComponent', () => {
-  let component: EmployeeDataTableComponent;
-  let fixture: ComponentFixture<EmployeeDataTableComponent>;
+describe('FormlyStepperComponent', () => {
+  let component: StepperComponent;
+  let fixture: ComponentFixture<StepperComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [EmployeeDataTableComponent],
+      declarations: [StepperComponent],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(EmployeeDataTableComponent);
+    fixture = TestBed.createComponent(StepperComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
