@@ -13,7 +13,7 @@ import { HelpDeskService } from '../../services/help-desk.service';
 
 @Component({
   selector: 'hcm-seat-map',
-  templateUrl: './seat-map.component.html',
+    templateUrl: './seat-map.component.html',
   styleUrls: ['./seat-map.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [RxState],

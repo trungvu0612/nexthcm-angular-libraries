@@ -1,0 +1,15 @@
+<h1 class="text-2xl font-semibold mb-7 text-blue-500">Submit Leave Request</h1>
+
+<div class="my-8">
+  <form [formGroup]="$any(form)">
+    <formly-form [fields]="fields" [form]="$any(form)" [model]="model"></formly-form>
+  </form>
+</div>
+
+<!--[disabled]="!form.valid"-->
+<div class="flex justify-center">
+  <button (click)="cancel()" class="btn-blue">Cancel</button>
+  <button (click)="submit()" [disabled]="!form.valid" class="blue-button ml-8">Save</button>
+</div>
+
+{{ model | json}}

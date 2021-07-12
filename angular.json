@@ -91,6 +91,44 @@
         }
       }
     },
+    "admin-departments": {
+      "projectType": "library",
+      "root": "libs/admin/departments",
+      "sourceRoot": "libs/admin/departments/src",
+      "prefix": "hcm",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/angular:package",
+          "outputs": ["dist/libs/admin/departments"],
+          "options": {
+            "project": "libs/admin/departments/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "libs/admin/departments/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "libs/admin/departments/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/admin/departments"],
+          "options": {
+            "jestConfig": "libs/admin/departments/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/admin/departments/src/**/*.ts", "libs/admin/departments/src/**/*.html"]
+          }
+        }
+      }
+    },
     "admin-employee": {
       "projectType": "library",
       "root": "libs/admin/employee",
@@ -129,6 +167,44 @@
         }
       }
     },
+    "admin-entitlement": {
+      "projectType": "library",
+      "root": "libs/admin/entitlement",
+      "sourceRoot": "libs/admin/entitlement/src",
+      "prefix": "hcm",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/angular:package",
+          "outputs": ["dist/libs/admin/entitlement"],
+          "options": {
+            "project": "libs/admin/entitlement/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "libs/admin/entitlement/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "libs/admin/entitlement/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/admin/entitlement"],
+          "options": {
+            "jestConfig": "libs/admin/entitlement/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/admin/entitlement/src/**/*.ts", "libs/admin/entitlement/src/**/*.html"]
+          }
+        }
+      }
+    },
     "admin-job-level": {
       "projectType": "library",
       "root": "libs/admin/job-level",
@@ -163,6 +239,44 @@
           "builder": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": ["libs/admin/job-level/src/**/*.ts", "libs/admin/job-level/src/**/*.html"]
+          }
+        }
+      }
+    },
+    "admin-job-titles": {
+      "projectType": "library",
+      "root": "libs/admin/job-titles",
+      "sourceRoot": "libs/admin/job-titles/src",
+      "prefix": "hcm",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/angular:package",
+          "outputs": ["dist/libs/admin/job-titles"],
+          "options": {
+            "project": "libs/admin/job-titles/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "libs/admin/job-titles/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "libs/admin/job-titles/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/admin/job-titles"],
+          "options": {
+            "jestConfig": "libs/admin/job-titles/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/admin/job-titles/src/**/*.ts", "libs/admin/job-titles/src/**/*.html"]
           }
         }
       }
@@ -432,6 +546,44 @@
           "builder": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": ["libs/admin/tenant/src/**/*.ts", "libs/admin/tenant/src/**/*.html"]
+          }
+        }
+      }
+    },
+    "admin-user-roles": {
+      "projectType": "library",
+      "root": "libs/admin/user-roles",
+      "sourceRoot": "libs/admin/user-roles/src",
+      "prefix": "hcm",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/angular:package",
+          "outputs": ["dist/libs/admin/user-roles"],
+          "options": {
+            "project": "libs/admin/user-roles/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "libs/admin/user-roles/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "libs/admin/user-roles/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/admin/user-roles"],
+          "options": {
+            "jestConfig": "libs/admin/user-roles/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/admin/user-roles/src/**/*.ts", "libs/admin/user-roles/src/**/*.html"]
           }
         }
       }
@@ -997,6 +1149,44 @@
           "options": {
             "jestConfig": "libs/human-resource/jest.config.js",
             "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "leave-entitlement": {
+      "projectType": "library",
+      "root": "libs/leave-entitlement",
+      "sourceRoot": "libs/leave-entitlement/src",
+      "prefix": "hcm",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/angular:package",
+          "outputs": ["dist/libs/leave-entitlement"],
+          "options": {
+            "project": "libs/leave-entitlement/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "libs/leave-entitlement/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "libs/leave-entitlement/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/leave-entitlement"],
+          "options": {
+            "jestConfig": "libs/leave-entitlement/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/leave-entitlement/src/**/*.ts", "libs/leave-entitlement/src/**/*.html"]
           }
         }
       }

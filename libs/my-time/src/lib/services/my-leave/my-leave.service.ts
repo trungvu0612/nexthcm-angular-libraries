@@ -29,55 +29,55 @@ export class MyLeaveService extends RxState<MyLeaveState> {
   partialDays: PartialDays[] = [
     {
       value: 0,
-      label: 'NONE',
+      label: 'NONE'
     },
     {
       value: 1,
-      label: 'All Days',
+      label: 'All Days'
     },
     {
       value: 2,
-      label: 'Start Day Only',
+      label: 'Start Day Only'
     },
     {
       value: 3,
-      label: 'End Day Only',
+      label: 'End Day Only'
     },
     {
       value: 4,
-      label: 'Start and End Day',
-    },
+      label: 'Start and End Day'
+    }
   ];
 
   durationValues: durationValues[] = [
     {
       value: 0,
-      label: 'Full Day',
+      label: 'Full Day'
     },
     {
       value: 1,
-      label: 'Half Day',
+      label: 'Half Day'
     },
     {
       value: 2,
-      label: 'Special Time',
-    },
+      label: 'Special Time'
+    }
   ];
 
   durationFromPartial = [
     {
       value: 1,
-      label: 'Half Day',
+      label: 'Half Day'
     },
     {
       value: 2,
-      label: 'Special Time',
-    },
+      label: 'Special Time'
+    }
   ];
 
   halfTime = [
     { value: 0, label: 'Morning' },
-    { value: 1, label: 'Afternoon' },
+    { value: 1, label: 'Afternoon' }
   ];
 
   shiftTimeHours(): any[] {
@@ -86,7 +86,7 @@ export class MyLeaveService extends RxState<MyLeaveState> {
       hours: 7,
       minutes: 45,
       seconds: 0,
-      addMinute: 15,
+      addMinute: 15
     };
 
     let time = new TuiTime(objCaculateHours.hours, objCaculateHours.minutes, objCaculateHours.seconds);
@@ -98,7 +98,7 @@ export class MyLeaveService extends RxState<MyLeaveState> {
           value: i,
           label:
             time.toString('HH:MM:SS') > '12' ? time.toString('HH:MM:SS') + ' PM' : time.toString('HH:MM:SS') + ' AM',
-          time: time,
+          time: time
         });
         console.log('objCaculateHours', time.toString('HH:MM:SS'));
       } else {
@@ -108,7 +108,7 @@ export class MyLeaveService extends RxState<MyLeaveState> {
           value: i,
           label:
             time.toString('HH:MM:SS') > '12' ? time.toString('HH:MM:SS') + ' PM' : time.toString('HH:MM:SS') + ' AM',
-          time: time,
+          time: time
         });
         console.log('objCaculateHours', time.toString('HH:MM:SS'));
       }
@@ -121,7 +121,7 @@ export class MyLeaveService extends RxState<MyLeaveState> {
     return this.http.get<PagingResponse<MyLeave>>(`${MY_TIME_PATH}/leaves-all`, {
       params: httpParams
         .set('page', pageIndex ? pageIndex.toString() : '')
-        .set('size', pageSize ? pageSize.toString() : ''),
+        .set('size', pageSize ? pageSize.toString() : '')
     });
   }
 

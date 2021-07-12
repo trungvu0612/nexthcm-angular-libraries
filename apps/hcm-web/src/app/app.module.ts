@@ -42,10 +42,10 @@ import { AppComponent } from './app.component';
               path: 'permissions',
               loadChildren: () => import('@nexthcm/admin-permissions').then((m) => m.AdminPermissionsModule),
             },
-            {
-              path: 'employees',
-              loadChildren: () => import('@nexthcm/admin-employee').then((m) => m.AdminEmployeeModule),
-            },
+            // {
+            //   path: 'employees',
+            //   loadChildren: () => import('@nexthcm/admin-employee').then((m) => m.AdminEmployeeModule),
+            // },
             { path: 'tenant', loadChildren: () => import('@nexthcm/admin-tenant').then((m) => m.AdminTenantModule) },
             {
               path: 'job-level',
@@ -56,8 +56,28 @@ import { AppComponent } from './app.component';
               loadChildren: () => import('@nexthcm/admin-policies').then((m) => m.AdminPoliciesModule),
             },
             {
+              path: 'branches',
+              loadChildren: () => import('@nexthcm/admin-branches').then((m) => m.AdminBranchesModule),
+            },
+            {
+              path: 'entitlements',
+              loadChildren: () => import('@nexthcm/admin-entitlement').then((m) => m.AdminEntitlementModule),
+            },
+            {
+              path: 'job-titles',
+              loadChildren: () => import('@nexthcm/admin-job-titles').then((m) => m.AdminJobTitlesModule),
+            },
+            {
               path: 'leave-types',
               loadChildren: () => import('@nexthcm/admin-leave-types').then((m) => m.AdminLeaveTypesModule),
+            },
+            {
+              path: 'departments',
+              loadChildren: () => import('@nexthcm/admin-departments').then((m) => m.AdminDepartmentsModule),
+            },
+            {
+              path: 'user-roles',
+              loadChildren: () => import('@nexthcm/admin-user-roles').then((m) => m.AdminUserRolesModule),
             },
           ],
         },

@@ -1,9 +1,11 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormGroup } from '@ngneat/reactive-forms';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
-import { Observable } from 'rxjs';
 import { BranchesService } from '../../services/branches.service';
+import { BranchPost } from '../../models/branch';
+import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
+import { TuiDialogContext } from '@taiga-ui/core';
 
 @Component({
   selector: 'hcm-upsert-branch',
@@ -12,19 +14,15 @@ import { BranchesService } from '../../services/branches.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UpsertBranchComponent implements OnInit {
+
   id!: string;
-
   idBranch!: string;
-
   // dataTest$: Observable<any> = this.branchesService.getBranchDatas(0, 10).pipe(map(data => data.data.items));
 
-  dataTest$: Observable<any> = this.branchesService.formlyEdit();
+  // dataTest$: Observable<any> = this.branchesService.formlyEdit();
 
-  readonly branchForm = new FormGroup({
-    // filters: new FormControl([]),
-  });
-
-  model: any = {};
+  readonly branchForm = new FormGroup({});
+  model: Partial<BranchPost> = this.context.data || {};
   options: FormlyFormOptions = {};
   fields: FormlyFieldConfig[] = [
     {
@@ -64,7 +62,7 @@ export class UpsertBranchComponent implements OnInit {
       key: 'obj.nameObj',
       type: 'select',
       templateOptions: {
-        options: this.dataTest$,
+        options: [],
         labelProp: 'obj.nameObj',
         valueProp: 'obj.nameObj',
         placeholder: 'Admin Name',
@@ -97,12 +95,17 @@ export class UpsertBranchComponent implements OnInit {
         ],
       },
     },
+
   ];
 
-  constructor(private branchesService: BranchesService, private activatedRoute: ActivatedRoute) {}
+  constructor(
+    @Inject(POLYMORPHEUS_CONTEXT) public context: TuiDialogContext<boolean>,
+    private branchesService: BranchesService,
+    private activatedRoute: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
-    this.idBranch = this.activatedRoute.snapshot.paramMap.get('id') as string;
+    // this.idBranch = this.activatedRoute.snapshot.paramMap.get('id') as string;
 
     // this.branchesService.get(this.idBranch).subscribe((data) => {
     //   console.log('dataaaaaaaa', data)
@@ -110,17 +113,23 @@ export class UpsertBranchComponent implements OnInit {
     //   console.log('modelllllll', this.model)
     // })
 
-    this.branchesService.formlyEdit().subscribe((data) => {
-      console.log('dataaaaaaaa', data);
-      this.model = { ...this.model, ...data };
-      console.log('modelllllll', this.model);
-    });
+    // this.branchesService.formlyEdit().subscribe((data) => {
+    //   this.model = { ...this.model, ...data };
+    // });
   }
 
   getBranch(): void {}
 
   submit() {
-    alert(JSON.stringify(this.model));
+    // alert(JSON.stringify(this.model));
     console.log(this.branchForm.value);
+  }
+
+  cancel() {
+
+  }
+
+  save() {
+
   }
 }

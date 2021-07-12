@@ -1,0 +1,12 @@
+<!--<section *transloco='let t' class='admin-dialog'>-->
+<form [formGroup]='$any(branchForm)' class='my-8'>
+  <h1 class='text-center font-semibold text-blue-700'>Add Departments</h1>
+  <formly-form [fields]='fields' [form]='$any(branchForm)' [model]='model'></formly-form>
+  <div class='flex justify-center gap-4 mt-4'>
+    <button (click)='submit()' class='blue-button ml-8'>Save</button>
+    <button (click)='cancel()' class='btn-red'>Cancel</button>
+  </div>
+</form>
+{{ branchForm.value | json }}
+<!--</section>-->
+
