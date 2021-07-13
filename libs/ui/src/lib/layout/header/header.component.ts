@@ -1,17 +1,9 @@
-import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { TranslocoService } from '@ngneat/transloco';
-import { TuiHostedDropdownComponent } from '@taiga-ui/core';
+import { filter } from 'rxjs/operators';
 import { BehaviorSubject } from 'rxjs';
-import { filter, map, startWith } from 'rxjs/operators';
-import { AuthService } from '@nexthcm/auth';
-
-const PATHS: { [key: string]: string[] } = {
-  'help-desk': ['seatMap', 'bvCalendar'],
-  'human-resource': ['organizationChart', 'teams', 'employees'],
-  'my-time': ['myLeave', 'workingHour', 'myRequest', 'requestManagement'],
-  policy: ['policies', 'updated'],
-};
+import { HeaderService } from '../../services';
 
 const LANGS: { [key: string]: string } = {
   en: 'English',
@@ -24,43 +16,37 @@ const LANGS: { [key: string]: string } = {
   styleUrls: ['./header.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HeaderComponent implements OnInit {
-  @ViewChild(TuiHostedDropdownComponent) component?: TuiHostedDropdownComponent;
+export class HeaderComponent {
   open = false;
-  langs = (this.translocoService.getAvailableLangs() as string[]).map((lang) => LANGS[lang]);
-  urlSegments$ = new BehaviorSubject<string[]>([]);
-  tabs$ = this.urlSegments$.pipe(map((urls) => PATHS[urls[1]]));
-  activeItemIndex$ = this.urlSegments$.pipe(
-    map((urls) => PATHS[urls[1]]?.map((item) => item.replace(/[A-Z]/, (m) => '-' + m.toLowerCase())).indexOf(urls[2]))
-  );
+  languages = (this.translocoService.getAvailableLangs() as string[]).map((lang) => LANGS[lang]);
   notification = 13;
+  index$ = new BehaviorSubject(0);
+  tabs$ = this.headerService.select();
 
-  constructor(private router: Router, private translocoService: TranslocoService) {}
-
-  ngOnInit(): void {
-    this.router.events
-      .pipe(
-        filter((e: any) => e instanceof NavigationEnd),
-        map((event: NavigationEnd) => event.urlAfterRedirects),
-        startWith(this.router.url),
-        map((url) => url.split('/'))
-      )
-      .subscribe(this.urlSegments$);
-  }
-
-  changeTab(index: number): void {
-    this.urlSegments$.value[2] = PATHS[this.urlSegments$.value[1]][index].replace(
-      /[A-Z]/,
-      (m) => '-' + m.toLowerCase()
+  constructor(
+    private headerService: HeaderService,
+    private translocoService: TranslocoService,
+    private router: Router
+  ) {
+    this.headerService.hold(
+      this.router.events.pipe(filter((e: any) => e instanceof NavigationEnd)),
+      (event: NavigationEnd) => {
+        const url = event.urlAfterRedirects;
+        const headerTab = this.headerService.get();
+        if (headerTab.root && url.includes(headerTab.root)) {
+          for (let index = headerTab.tabs.length - 1; index >= 0; index--) {
+            if (url.includes(headerTab.root + headerTab.tabs[index].path)) {
+              this.index$.next(index);
+              break;
+            }
+          }
+        } else this.headerService.initState();
+      }
     );
-    this.router.navigate(this.urlSegments$.value.slice(0, 3));
   }
 
   changeLang(lang: string) {
     this.open = false;
-    if (this.component && this.component.nativeFocusableElement) {
-      this.component.nativeFocusableElement.focus();
-    }
     this.translocoService.setActiveLang(Object.keys(LANGS).find((key) => LANGS[key] == lang) as string);
   }
 }

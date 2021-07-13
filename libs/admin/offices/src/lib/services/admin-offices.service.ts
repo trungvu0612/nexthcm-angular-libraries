@@ -14,7 +14,7 @@ const ACCOUNT_APP_PATH = '/accountapp/v1.0';
 export class AdminOfficesService {
   constructor(private http: HttpClient) {}
 
-  getZoneData(type: ZoneType, params: { page?: number; size?: number }): Observable<Pagination<Zone>> {
+  getZoneData(type: ZoneType, params: { [key: string]: number }): Observable<Pagination<Zone>> {
     return type === 'office'
       ? this.http
           .get<PagingResponse<Zone>>(ACCOUNT_APP_PATH + '/offices', { params })

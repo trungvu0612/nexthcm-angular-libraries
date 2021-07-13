@@ -1,5 +1,5 @@
 <main *transloco="let t" class="min-h-screen px-8">
-  <h1 class="text-center text-2xl font-semibold py-5">{{ t(title) }}</h1>
+  <h1 class="text-center font-semibold text-primary pb-2">{{ t(title) }}</h1>
   <form [formGroup]="form" class="max-w-4xl mb-4">
     <formly-form
       [fields]="fields"
@@ -8,7 +8,12 @@
       class="grid grid-flow-col grid-rows-3 gap-x-10 gap-y-2"
     ></formly-form>
   </form>
-  <tui-input-file [formControl]="imageControl" accept="image/*" link="Choose an image"></tui-input-file>
+  <tui-input-file
+    [formControl]="imageControl"
+    accept="image/*"
+    label="{{ t('orDropItHere') }}"
+    link="{{ t('chooseAnImage') }}"
+  ></tui-input-file>
   <article #zone *ngIf="model.imageUrl" class="relative ring-4 ring-purple-700 my-4">
     <button
       (cdkDragEnded)="moveSeat(index, $event.distance, $event)"

@@ -1,33 +1,78 @@
-<main class="main-page">
-  <div class="grid grid-cols-2">
-    <div class="text-xl font-bold my-5 text-blue-900">Quản lý Tenant</div>
-    <div class="text-right mr-10 mt-5">
-      <button
-        [routerLink]="['add']"
-        class="rounded-lg bg-blue-500 hover:bg-blue-600 text-white pl-10 pr-10 pt-2 pb-2 text-sm"
-      >
-        Thêm Tenant
-      </button>
-    </div>
+<main *transloco="let t" class="main-page">
+  <header>
+    <h1>{{ t('tenantManagement') }}</h1>
+    <button routerLink="./add" tuiButton>
+      {{ t('addTenant') }}
+    </button>
+  </header>
+  <div *ngIf="statistic$ | async as statistic" class="flex gap-8 mb-8">
+    <tui-island [hoverable]="true">
+      <h3 class="tui-island__title">{{ t('active') }}</h3>
+      <p class="tui-island__paragraph text-approved">{{ statistic.active }}</p>
+    </tui-island>
+    <tui-island [hoverable]="true">
+      <h3 class="tui-island__title">{{ t('pending') }}</h3>
+      <p class="tui-island__paragraph text-waiting">{{ statistic.pending }}</p>
+    </tui-island>
+    <tui-island [hoverable]="true">
+      <h3 class="tui-island__title">{{ t('deactivate') }}</h3>
+      <p class="tui-island__paragraph text-rejected">{{ statistic.deactivate }}</p>
+    </tui-island>
   </div>
-
-  <div class="max-w-4xl">
-    <div class="grid grid-cols-3 gap-4">
-      <div class="text-xl font-bold">
-        Hoạt động
-        <div class="text-blue-700 font-bold text-3xl">809</div>
-      </div>
-      <div class="text-xl font-bold">
-        Chờ duyệt
-        <div class="text-yellow-700 font-bold text-3xl">27</div>
-      </div>
-      <div class="text-xl font-bold">
-        Không hoạt động
-        <div class="text-red-700 font-bold text-3xl">1,254</div>
-      </div>
-    </div>
-    <tui-input class="b-form mt-5 search-form mb-5"> Tìm bằng ID, Tên, Email...</tui-input>
-  </div>
-
-  <hcm-tenant-data-table [columns]="columns" [data]="data"></hcm-tenant-data-table>
+  <section class="main-section">
+    <tui-input [formControl]="searchControl" [tuiTextfieldLabelOutside]="true" class="w-80 mb-4" icon="tuiIconSearch">
+      {{ t('searchBy', { value: t('companyCode') + ', ' + t('companyName') }) }}
+    </tui-input>
+    <table *ngIf="data$ | async as data" [columns]="columns" class="hcm-tui-table" tuiTable>
+      <thead>
+        <tr tuiThGroup>
+          <th *tuiHead="'ordinalNumber'" [sorter]="null" tuiTh>
+            <p class="text-center">{{ t('ordinalNumber') }}</p>
+          </th>
+          <th *tuiHead="'tenantCode'" tuiTh>{{ t('companyCode') }}</th>
+          <th *tuiHead="'tenantName'" tuiTh>{{ t('companyName') }}</th>
+          <th *tuiHead="'status'" tuiTh>{{ t('status') }}</th>
+          <th *tuiHead="'action'" [sorter]="null" tuiTh>{{ t('action') }}</th>
+        </tr>
+      </thead>
+      <tbody [data]="data.items" tuiTbody>
+        <tr *tuiRow="let item of data.items; index as index" tuiTr>
+          <td *tuiCell="'ordinalNumber'" tuiTd>
+            <p class="text-center">{{ index + 1 }}</p>
+          </td>
+          <td *tuiCell="'tenantCode'" tuiTd>
+            {{ item.tenantCode }}
+          </td>
+          <td *tuiCell="'tenantName'" tuiTd>
+            {{ item.tenantName }}
+          </td>
+          <td *tuiCell="'status'" tuiTd>
+            <tui-tag
+              [class]="{
+                'rejected-tag': item.state === -1,
+                'waiting-tag': item.state === 0,
+                'approved-tag': item.state === 1
+              }"
+              [hoverable]="true"
+              [value]="t(item.state | getStatus)"
+            ></tui-tag>
+          </td>
+          <td *tuiCell="'action'" tuiTd>
+            <tui-svg class="cursor-pointer text-gray-500" src="tuiIconEdit"></tui-svg>
+          </td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td [colSpan]="columns.length">
+            <tui-table-pagination
+              (pageChange)="changePagination('page', $event)"
+              (sizeChange)="changePagination('size', $event)"
+              [total]="data.totalElements"
+            ></tui-table-pagination>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+  </section>
 </main>

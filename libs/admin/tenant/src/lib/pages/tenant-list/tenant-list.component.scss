@@ -1,7 +1,11 @@
 :host {
   display: block;
 
-  .search-form {
-    width: 300px;
+  tui-island {
+    width: 200px;
+
+    p {
+      @apply text-4xl font-semibold;
+    }
   }
 }

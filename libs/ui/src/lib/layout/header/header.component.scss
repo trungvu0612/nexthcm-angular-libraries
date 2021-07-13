@@ -1,13 +1,11 @@
-@import '~@taiga-ui/core/styles/taiga-ui-local';
-
 :host {
   display: block;
 
   ::ng-deep {
-    .tui-zero-scrollbar {
+    tui-tabs {
       button {
-        outline: none !important;
-        @apply mx-0 px-6;
+        padding: 0 12px;
+        margin: 0 !important;
 
         &._active .highlight {
           color: var(--tui-primary);
@@ -15,35 +13,12 @@
       }
     }
 
-    div.wrapper {
-      button:focus {
-        outline: none !important;
-      }
-
-      .wrapper {
-        padding: 0 8px !important;
-      }
+    button tui-wrapper {
+      padding: 0 12px !important;
     }
   }
 
-  .notification {
-    @apply relative cursor-pointer w-8 h-8;
-
-    .bell {
-      @apply absolute bottom-0 left-0;
-    }
-
-    .badge {
-      background-color: #eb3b5a;
-      @apply flex justify-center items-center absolute top-0 right-0 text-xs text-white font-semibold rounded-full w-5 h-5;
-    }
-  }
-
-  .icon {
-    @include transition(transform);
-
-    &_rotated {
-      transform: rotate(180deg);
-    }
+  .badge {
+    @apply flex justify-center items-center absolute top-0 right-0 bg-red-500 text-xs text-white font-semibold rounded-full w-5 h-5;
   }
 }

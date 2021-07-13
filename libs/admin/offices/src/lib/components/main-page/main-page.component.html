@@ -15,9 +15,6 @@
           <ng-container *ngIf="columns.includes('address')">
             <th *tuiHead="'address'" tuiTh>{{ t('address') }}</th>
           </ng-container>
-          <ng-container *ngIf="columns.includes('numberOfRoom')">
-            <th *tuiHead="'numberOfRoom'" tuiTh>{{ t('numberOfRoom') }}</th>
-          </ng-container>
           <ng-container *ngIf="columns.includes('office')">
             <th *tuiHead="'office'" tuiTh>{{ t('office') }}</th>
           </ng-container>
@@ -40,24 +37,15 @@
               {{ item.address }}
             </td>
           </ng-container>
-          <ng-container *ngIf="columns.includes('numberOfRoom')">
-            <td *tuiCell="'numberOfRoom'" tuiTd>
-              {{ item.numberOfRoom }}
-            </td>
-          </ng-container>
           <ng-container *ngIf="columns.includes('office')">
             <td *tuiCell="'office'" tuiTd>
               {{ item.office?.name }}
             </td>
           </ng-container>
           <td *tuiCell="'action'" tuiTd>
-            <div class="flex text-gray-400">
-              <button (click)="edit.emit(item)">
-                <tui-svg src="tuiIconEdit"></tui-svg>
-              </button>
-              <button (click)="remove.emit(item)">
-                <tui-svg src="tuiIconTrash"></tui-svg>
-              </button>
+            <div class="flex gap-1 text-gray-500">
+              <tui-svg (click)="edit.emit(item)" class="cursor-pointer" src="tuiIconEdit"></tui-svg>
+              <tui-svg (click)="remove.emit(item)" class="cursor-pointer" src="tuiIconTrash"></tui-svg>
             </div>
           </td>
         </tr>

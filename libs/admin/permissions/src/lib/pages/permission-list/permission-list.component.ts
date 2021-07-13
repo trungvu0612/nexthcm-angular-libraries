@@ -11,7 +11,7 @@ import { AdminPermissionsService } from '../../services/admin-permissions.servic
 })
 export class PermissionListComponent {
   columns = ['name', 'code', 'description', 'lastModifiedDate', 'action'];
-  params$ = new BehaviorSubject<{ page?: number; size?: number }>({ size: 10 });
+  params$ = new BehaviorSubject<{ [key: string]: number }>({ size: 10 });
   permissions$ = this.params$.pipe(switchMap(() => this.adminPermissionsService.getPermissions(this.params$.value)));
 
   constructor(private adminPermissionsService: AdminPermissionsService) {}

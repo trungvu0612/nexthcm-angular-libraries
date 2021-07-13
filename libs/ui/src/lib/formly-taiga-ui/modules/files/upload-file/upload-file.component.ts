@@ -1,15 +1,16 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { FormControl } from '@angular/forms';
 import { FieldType, FormlyFieldConfig } from '@ngx-formly/core';
 import { tuiPure } from '@taiga-ui/cdk';
 import { TuiFileLike } from '@taiga-ui/kit';
 import { Observable, of } from 'rxjs';
 import { map, share, startWith, switchMap, tap } from 'rxjs/operators';
 import { convertRejected, RejectedFile } from '../../../models';
+import { FormControl } from '@ngneat/reactive-forms';
 
 @Component({
   selector: 'formly-upload-file',
   templateUrl: './upload-file.component.html',
+  styleUrls: ['./upload-file.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UploadFileComponent extends FieldType {
@@ -22,12 +23,10 @@ export class UploadFileComponent extends FieldType {
       multiple: false,
       showSize: true,
       size: 'm',
-      textfieldLabelOutside: true,
       serverRequest: (file: File) => of(file),
     },
   };
-  readonly control = new FormControl();
-  context!: { $implicit: any };
+  readonly control = new FormControl<File | null>();
 
   @tuiPure
   get loading$(): Observable<ReadonlyArray<File>> {

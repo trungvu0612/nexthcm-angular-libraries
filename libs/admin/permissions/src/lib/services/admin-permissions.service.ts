@@ -31,7 +31,7 @@ export class AdminPermissionsService extends RxState<StatePermissions> {
       .pipe(map((response) => response.data.items));
   }
 
-  getPermissions(params: { page?: number; size?: number }): Observable<Pagination<Policy>> {
+  getPermissions(params: { [key: string]: number }): Observable<Pagination<Policy>> {
     return this.http
       .get<PagingResponse<Policy>>('/accountapp/v1.0/permissions', { params })
       .pipe(map((response) => response.data));

@@ -12,10 +12,9 @@
 </ng-template>
 
 <ng-template #label>
-  <ng-container *ngIf="to.label">
-    <span [class]="to.labelClassName">{{ to.label }}</span
-    >&nbsp;<span *ngIf="to.required" class="tui-required"></span>
-  </ng-container>
+  <p *ngIf="to.label" [class]="to.labelClassName" class="mb-1">
+    <span>{{ to.label }}</span> <span *ngIf="to.required" class="tui-required"></span>
+  </p>
 </ng-template>
 
 <ng-template #errorContent="polymorpheus" [polymorpheus]="context">

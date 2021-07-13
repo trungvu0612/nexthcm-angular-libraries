@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Pipe, PipeTransform } from '@angular/core';
+import { NgModule, Pipe, PipeTransform } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -16,3 +16,9 @@ export class GetFilePipe implements PipeTransform {
       .pipe(map((blob) => this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob)) as string));
   }
 }
+
+@NgModule({
+  declarations: [GetFilePipe],
+  exports: [GetFilePipe],
+})
+export class GetFileModule {}

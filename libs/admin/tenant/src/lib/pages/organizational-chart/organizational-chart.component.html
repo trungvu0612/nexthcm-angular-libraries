@@ -1,0 +1,77 @@
+<main *transloco="let t" class="main-page">
+  <header>
+    <h1>{{ t('organizationalChart') }}</h1>
+    <button (click)="showDialog(content)" appearance="primary" tuiButton>{{ t('addOrganizationalUnit') }}</button>
+  </header>
+  <section #scrollbar (mouseenter)="canZoom = true" (mouseleave)="canZoom = false" class="main-section">
+    <p class="text-right font-semibold pt-4 pr-4">
+      {{ (zoom$ | async | number: '1.0-0') + '%' }}
+      <tui-svg src="assets/icons/zoom.svg"></tui-svg>
+    </p>
+    <tui-scrollbar class="w-full">
+      <div
+        *ngIf="dimension$ | async as dim"
+        [style]="{
+          '--wrap': dim.wrap,
+          '--unit': dim.unit,
+          '--image': dim.image,
+          '--icon': dim.icon,
+          '--one': dim.one,
+          '--three-quarter': dim['three-quarter'],
+          '--half': dim.half,
+          '--bar': dim.bar
+        }"
+        class="chart p-8 pt-2"
+      >
+        <ng-template [ngTemplateOutletContext]="{ $implicit: root }" [ngTemplateOutlet]="level"></ng-template>
+        <ng-template #level let-unit>
+          <ng-container *tuiLet="unit.children?.length as length">
+            <div
+              (mouseenter)="hovering = unit"
+              (mouseleave)="hovering = null"
+              *tuiLet="hovering === unit as hover"
+              [class.ring]="hover"
+              class="unit flex relative border mx-auto"
+            >
+              <img
+                class="image object-contain"
+                src="https://pbs.twimg.com/profile_images/1369877387949699074/tcvNQSr1.jpg"
+              />
+              <div>
+                <p class="name font-semibold">Company Name</p>
+                <p class="sub-name text-gray-500">Address</p>
+              </div>
+              <div *ngIf="hover" class="icons flex absolute">
+                <hero-icon (click)="editUnit(unit)" name="pencil-alt" type="solid"></hero-icon>
+                <hero-icon (click)="deleteUnit(unit)" *ngIf="!length" name="trash" type="solid"></hero-icon>
+              </div>
+            </div>
+            <ng-container *ngIf="length > 1">
+              <div class="bar-vertical bg-black mx-auto"></div>
+              <div
+                [style]="{ height: dim.bar, width: ((length - 1) / length) * 100 + '%' }"
+                class="bg-black mx-auto"
+              ></div>
+            </ng-container>
+            <div *ngIf="length" [class]="'grid-cols-' + length" class="grid">
+              <div *ngFor="let i of [].constructor(length)" class="bar-vertical bg-black justify-self-center"></div>
+              <div *ngFor="let child of unit.children">
+                <ng-template [ngTemplateOutletContext]="{ $implicit: child }" [ngTemplateOutlet]="level"></ng-template>
+              </div>
+            </div>
+          </ng-container>
+        </ng-template>
+      </div>
+    </tui-scrollbar>
+  </section>
+  <ng-template #content let-observer>
+    <h1 class="font-semibold text-primary">{{ t(isAdd ? 'addOrganizationalUnit' : 'editOrganizationalUnit') }}</h1>
+    <formly-form [fields]="fields" [form]="$any(form)" [model]="model" class="formly-gap"></formly-form>
+    <div class="flex justify-center gap-6 mt-8">
+      <button (click)="observer.complete()" appearance="outline" tuiButton>{{ t('cancel') }}</button>
+      <button (click)="save(observer)" [disabled]="!form.valid" appearance="primary" tuiButton>
+        {{ t('save') }}
+      </button>
+    </div>
+  </ng-template>
+</main>

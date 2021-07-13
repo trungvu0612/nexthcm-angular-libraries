@@ -9823,6 +9823,13 @@ network-information-types@^0.1.0:
   resolved "https://registry.yarnpkg.com/network-information-types/-/network-information-types-0.1.0.tgz#5c880bebc2a9e6b25eb00ed23854d13ff3a7fe3a"
   integrity sha512-cRUCYZoRHTMjYcgk5MbwqM0h0Za34panRxAJKY8n+mQ+NLMuRIw7aKzmaZqkC/cte7bnRcdfTwFA27GgN62EtQ==
 
+ng-heroicon@^0.4.5:
+  version "0.4.5"
+  resolved "https://registry.yarnpkg.com/ng-heroicon/-/ng-heroicon-0.4.5.tgz#6a5b0cc4efef20b37e5cb8c98fc71c8a911c89c3"
+  integrity sha512-WA0+VCmwI4PpHciixUcFKULFcNwqaAWdLOEk8Bg5FTLq+Y8+mex6LdA0F8Xro0g8JvHihVzH0wVjNBQfaV4GdA==
+  dependencies:
+    tslib "^2.0.0"
+
 ng-packagr@12.0.0:
   version "12.0.0"
   resolved "https://registry.yarnpkg.com/ng-packagr/-/ng-packagr-12.0.0.tgz#f7fbe5d2d7cb891252e2d5ea9da7e6db4be4e448"

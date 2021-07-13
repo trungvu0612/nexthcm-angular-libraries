@@ -27,14 +27,14 @@ export class CreatePermissionComponent {
 
   submitServices() {
     this.permission.updateDataTable();
-    this.permission.updatePolicyItems();
     this.stepperIndex = 1;
   }
 
   createPolicy(): void {
+    this.permission.updatePolicyItems();
     this.adminPermissions
       .addPermission(this.policyModel)
       .pipe(switchMap(() => this.prompt.open({ icon: 'success', text: 'Created successfully!' } as SweetAlertOptions)))
-      .subscribe(() => this.router.navigate(['admin/permissions']));
+      .subscribe(() => this.router.navigateByUrl('admin/permissions'));
   }
 }

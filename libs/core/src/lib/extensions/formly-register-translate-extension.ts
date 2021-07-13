@@ -13,9 +13,11 @@ export class TranslateExtension {
     to._translated = true;
     field.expressionProperties = {
       ...(field.expressionProperties || {}),
-      'templateOptions.label': this.translate.selectTranslate(to.label || ''),
+      'templateOptions.label': this.translate.selectTranslate(to.label || '', to.labelParams),
       'templateOptions.placeholder': this.translate.selectTranslate(to.placeholder || ''),
       'templateOptions.description': this.translate.selectTranslate(to.description || ''),
+      'templateOptions.labelText': this.translate.selectTranslate(to.labelText || ''),
+      'templateOptions.linkText': this.translate.selectTranslate(to.linkText || ''),
     };
   }
 }

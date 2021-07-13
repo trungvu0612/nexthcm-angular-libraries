@@ -42,7 +42,6 @@ export class UpdatedDetailComponent implements OnInit {
         this.data = item.data.items;
         this.totalLength = item.data.totalElements;
         this.cdr.markForCheck();
-        console.log(item);
       });
   }
 

@@ -1,55 +1,54 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { Route, RouterModule } from '@angular/router';
-import { AuthGuard } from '@nexthcm/auth';
-import { LayoutComponent } from '@nexthcm/ui';
+import { GetStatusPipeModule } from '@nexthcm/ui';
 import { FormlyModule } from '@ngx-formly/core';
 import { TuiTableModule, TuiTablePaginationModule } from '@taiga-ui/addon-table';
-import { TuiSvgModule } from '@taiga-ui/core';
-import { TuiInputDateTimeModule, TuiInputModule, TuiTabsModule } from '@taiga-ui/kit';
-import { DomainTenantDataTableComponent } from './components/domain-tenant-data-table/domain-tenant-data-table.component';
-import { TenantDataTableComponent } from './components/tenant-data-table/tenant-data-table.component';
+import { TuiButtonModule, TuiScrollbarModule, TuiSvgModule, TuiTextfieldControllerModule } from '@taiga-ui/core';
+import { TuiAvatarModule, TuiInputModule, TuiIslandModule, TuiTagModule } from '@taiga-ui/kit';
 import { TenantListComponent } from './pages/tenant-list/tenant-list.component';
-import { UpsertDomainTenantComponent } from './pages/upsert-domain-tenant/upsert-domain-tenant.component';
+import { TranslocoModule } from '@ngneat/transloco';
 import { UpsertTenantComponent } from './pages/upsert-tenant/upsert-tenant.component';
-
-export const adminTenantRoutes: Route[] = [
-  {
-    path: '',
-    component: LayoutComponent,
-    canActivate: [AuthGuard],
-    children: [
-      { path: '', component: TenantListComponent },
-      { path: 'add', component: UpsertTenantComponent },
-      { path: 'domain/add', component: UpsertDomainTenantComponent },
-    ],
-  },
-];
+import { DomainListComponent } from './pages/domain-list/domain-list.component';
+import { AdminTenantRoutingModule } from './admin-tenant-routing.module';
+import { AdminTenantComponent } from './admin-tenant.component';
+import { AdminTenantService } from './services/admin-tenant.service';
+import { OrganizationalStructureComponent } from './pages/organizational-structure/organizational-structure.component';
+import { TableModule } from 'ngx-easy-table';
+import { OrganizationalChartComponent } from './pages/organizational-chart/organizational-chart.component';
+import { TuiLetModule } from '@taiga-ui/cdk';
+import { HeroIconModule, pencilAlt, trash } from 'ng-heroicon';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule,
-    RouterModule.forChild(adminTenantRoutes),
-    TuiInputModule,
-    TuiSvgModule,
-    TuiTableModule,
-    TuiInputDateTimeModule,
-    ReactiveFormsModule,
-    TuiInputModule,
-    TuiTableModule,
-    TuiSvgModule,
-    FormlyModule,
-    TuiTablePaginationModule,
-    TuiTabsModule,
-  ],
   declarations: [
     TenantListComponent,
-    TenantDataTableComponent,
+    AdminTenantComponent,
     UpsertTenantComponent,
-    DomainTenantDataTableComponent,
-    UpsertDomainTenantComponent,
+    DomainListComponent,
+    OrganizationalStructureComponent,
+    OrganizationalChartComponent,
   ],
+  imports: [
+    CommonModule,
+    AdminTenantRoutingModule,
+    ReactiveFormsModule,
+    FormlyModule,
+    TranslocoModule,
+    TuiTableModule,
+    TuiTablePaginationModule,
+    TuiInputModule,
+    TuiSvgModule,
+    GetStatusPipeModule,
+    TuiTagModule,
+    TuiTextfieldControllerModule,
+    TuiIslandModule,
+    TuiButtonModule,
+    TuiAvatarModule,
+    TableModule,
+    TuiScrollbarModule,
+    TuiLetModule,
+    HeroIconModule.withIcons({ pencilAlt, trash }),
+  ],
+  providers: [AdminTenantService],
 })
 export class AdminTenantModule {}

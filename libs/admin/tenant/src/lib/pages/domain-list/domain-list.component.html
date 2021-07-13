@@ -1,0 +1,42 @@
+<main *transloco="let t" class="main-page">
+  <header>
+    <h1>{{ t('domain') }}</h1>
+    <div class="flex items-center gap-4">
+      <tui-input [formControl]="searchControl" [tuiTextfieldLabelOutside]="true" class="w-64" icon="tuiIconSearch">
+        {{ t('searchBy', { value: t('domain') }) }}
+      </tui-input>
+      <button (click)="showDialog(content)" appearance="primary" tuiButton>{{ t('addDomain') }}</button>
+    </div>
+  </header>
+  <section class="main-section">
+    <div *ngFor="let domain of domains$ | async" class="flex justify-between items-center border-b p-4">
+      <div class="flex gap-4">
+        <tui-avatar
+          [autoColor]="true"
+          [avatarUrl]="domain.image || null"
+          [text]="domain.tenant.tenantName || ''"
+          size="l"
+        ></tui-avatar>
+        <div>
+          <p class="text-base font-semibold mb-2">{{ domain.tenant.tenantName }}</p>
+          <tui-tag [hoverable]="true" [value]="t(1 | getStatus)" class="approved-tag" size="s"></tui-tag>
+        </div>
+      </div>
+      <tui-svg
+        (click)="showDialog(content, domain)"
+        class="cursor-pointer text-gray-500"
+        src="tuiIconEditLarge"
+      ></tui-svg>
+    </div>
+  </section>
+  <ng-template #content let-observer>
+    <h1 class="font-semibold text-primary">{{ t(isAdd ? 'addDomain' : 'editDomain') }}</h1>
+    <formly-form [fields]="fields" [form]="$any(form)" [model]="model" class="formly-gap"></formly-form>
+    <div class="flex justify-center gap-6 mt-8">
+      <button (click)="observer.complete()" appearance="outline" tuiButton>{{ t('cancel') }}</button>
+      <button (click)="save(observer)" [disabled]="!form.valid" appearance="primary" tuiButton>
+        {{ t('save') }}
+      </button>
+    </div>
+  </ng-template>
+</main>

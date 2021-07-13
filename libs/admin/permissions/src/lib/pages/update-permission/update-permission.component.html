@@ -6,7 +6,7 @@
     <tui-stepper [(activeItemIndex)]="stepperIndex" class="flex justify-center py-6 mb-8">
       <button [disabled]="stepperIndex" state="pass" tuiStep>Policy Detail</button>
       <button [state]="stepperIndex ? 'pass' : 'normal'" tuiStep>Service & Resource</button>
-      <button (click)="submitServices()" [disabled]="!servicesForm.valid" tuiStep>Review Policy</button>
+      <button (click)="permission.updateDataTable()" [disabled]="!servicesForm.valid" tuiStep>Review Policy</button>
     </tui-stepper>
     <hcm-permission-detail
       #permission

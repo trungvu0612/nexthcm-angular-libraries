@@ -17,10 +17,9 @@ const routes: Routes = [
         path: '',
         component: PolicyComponent,
         children: [
-          { path: '', pathMatch: 'full', redirectTo: 'policies' },
-          { path: 'policies', component: PoliciesComponent },
-          { path: 'policies/:id', component: PolicyDetailComponent },
+          { path: '', component: PoliciesComponent },
           { path: 'updated', component: UpdatedComponent },
+          { path: ':id', component: PolicyDetailComponent },
         ],
       },
     ],

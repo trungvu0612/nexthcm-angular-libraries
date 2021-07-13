@@ -29,6 +29,7 @@ export interface PolicyItem {
   id: string;
   service: Service;
   permissions: Permission[];
+  permissionRemoves: Permission[];
 }
 
 export interface Policy extends Item {

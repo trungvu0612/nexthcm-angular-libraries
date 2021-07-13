@@ -18,7 +18,7 @@ export class MainPageComponent implements OnInit {
   @Output() add = new EventEmitter();
   @Output() edit = new EventEmitter<Partial<Zone>>();
   @Output() remove = new EventEmitter<Partial<Zone>>();
-  params$ = new BehaviorSubject<{ page?: number; size?: number }>({ size: 10 });
+  params$ = new BehaviorSubject<{ [key: string]: number }>({ size: 10 });
   data$!: Observable<Pagination<Zone>>;
 
   constructor(private adminOfficesService: AdminOfficesService) {}

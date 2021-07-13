@@ -20,7 +20,7 @@ export class SelectResourcesComponent {
   search$ = new BehaviorSubject('');
   state$ = this.state.select();
   resources$ = combineLatest([this.state.select('resource'), this.search$]).pipe(
-    map(([resources, search]) => filterBySearch(resources, search))
+    map(([resources, search]) => filterBySearch<Resource>(resources, search))
   );
   formControl$ = this.state.select('resourcesForm');
 

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 export interface Menu {
   name: string;
@@ -11,7 +11,7 @@ export interface Menu {
   styleUrls: ['./menu-left.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MenuLeftComponent implements OnInit {
+export class MenuLeftComponent {
   readonly myTimeMenus: Menu[] = [
     {
       name: 'Leave History',
@@ -97,8 +97,4 @@ export class MenuLeftComponent implements OnInit {
       uri: '/admin/leave-types',
     },
   ];
-
-  constructor() {}
-
-  ngOnInit(): void {}
 }

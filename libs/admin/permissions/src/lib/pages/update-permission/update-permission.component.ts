@@ -40,7 +40,6 @@ export class UpdatePermissionComponent {
       });
       this.servicesModel = { policyItems };
       this.policyModel = policy;
-
       return true;
     })
   );
@@ -52,19 +51,15 @@ export class UpdatePermissionComponent {
   ) {}
 
   next(): void {
-    if (this.stepperIndex === 1) this.submitServices();
+    if (this.stepperIndex === 1) this.permission.updateDataTable();
     this.stepperIndex += 1;
   }
 
-  submitServices() {
-    this.permission.updateDataTable();
-    this.permission.updatePolicyItems();
-  }
-
   updatePolicy(): void {
+    this.permission.updatePolicyItems();
     this.adminPermissions
       .editPermission(this.route.snapshot.queryParams.policyId, this.policyModel)
       .pipe(switchMap(() => this.prompt.open({ icon: 'success', text: 'Updated successfully!' } as SweetAlertOptions)))
-      .subscribe(() => this.router.navigate(['admin/permissions']));
+      .subscribe(() => this.router.navigateByUrl('admin/permissions'));
   }
 }

@@ -2,10 +2,10 @@ main.main-page {
   @apply px-14 py-9;
 
   > header {
-    @apply flex justify-between items-center font-semibold h-12 mb-8;
+    @apply flex justify-between items-center font-semibold mb-8;
 
     h1 {
-      @apply text-4xl;
+      @apply text-4xl m-0;
     }
   }
 }
@@ -76,7 +76,7 @@ button {
     @apply border-0 border-b text-sm py-4;
 
     &:not(td) {
-      @apply text-gray-500 font-semibold;
+      font-weight: 600;
     }
 
     &.center-custom {
@@ -107,4 +107,18 @@ button {
       @apply align-baseline pr-10;
     }
   }
+}
+
+.formly-gap {
+  formly-field {
+    @apply block mb-4;
+
+    p span:first-child {
+      font-weight: 600;
+    }
+  }
+}
+
+button.language {
+  width: 110px !important;
 }

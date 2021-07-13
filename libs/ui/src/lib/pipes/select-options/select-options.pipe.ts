@@ -1,4 +1,4 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import { NgModule, Pipe, PipeTransform } from '@angular/core';
 import { Observable, of } from 'rxjs';
 
 @Pipe({
@@ -12,3 +12,9 @@ export class SelectOptionsPipe implements PipeTransform {
     return options as Observable<any>;
   }
 }
+
+@NgModule({
+  declarations: [SelectOptionsPipe],
+  exports: [SelectOptionsPipe],
+})
+export class SelectOptionsModule {}
