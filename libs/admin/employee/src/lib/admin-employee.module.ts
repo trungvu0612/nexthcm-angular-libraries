@@ -5,7 +5,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { LayoutComponent } from '@nexthcm/ui';
 import { TranslocoModule } from '@ngneat/transloco';
 import { FormlyModule } from '@ngx-formly/core';
-import { TuiButtonModule, TuiLabelModule } from '@taiga-ui/core';
+import { TuiButtonModule, TuiLabelModule, TuiSvgModule } from '@taiga-ui/core';
 import { TuiTabsModule } from '@taiga-ui/kit';
 import { DurationFormComponent } from './components/duration-form/duration-form.component';
 import { EducationFormComponent } from './components/education-form/education-form.component';
@@ -33,6 +33,7 @@ export const adminEmployeeRoutes: Routes = [
     TranslocoModule,
     TuiButtonModule,
     TuiLabelModule,
+    TuiSvgModule,
   ],
   declarations: [
     UpsertEmployeeComponent,

@@ -3,7 +3,6 @@ import { UploadFileService } from '@nexthcm/ui';
 import { FormBuilder } from '@ngneat/reactive-forms';
 import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import { of } from 'rxjs';
 import { distinctUntilChanged, map, startWith, switchMap } from 'rxjs/operators';
 import { EmployeeGeneralInformation } from '../../models/employee';
 
@@ -48,7 +47,7 @@ export class GeneralInformationFormComponent {
                 required: true,
                 textfieldLabelOutside: true,
                 labelClassName: 'font-semibold',
-                placeholder: 'inputName',
+                placeholder: 'enterName',
               },
               validation: {
                 messages: { required: () => this.translocoService.selectTranslate('VALIDATION.required') },
@@ -98,9 +97,7 @@ export class GeneralInformationFormComponent {
                   startWith(null),
                   map((value) => value?.status),
                   distinctUntilChanged(),
-                  switchMap((status) =>
-                    this.translocoService.selectTranslate(`STATUS.${status ? 'active' : 'inactive'}`)
-                  )
+                  switchMap((status) => this.translocoService.selectTranslate(`${status ? 'active' : 'inactive'}`))
                 ),
               },
             },
@@ -111,25 +108,17 @@ export class GeneralInformationFormComponent {
             {
               key: 'organization',
               className: 'tui-form__row block',
-              type: 'select-search',
+              type: 'select',
               templateOptions: {
                 translate: true,
                 label: 'organization',
                 labelClassName: 'font-semibold',
-                placeholder: 'selectOrganization',
-                serverRequest: () => of([]),
-                labelProp: 'name',
-                virtualScroll: true,
-                textfieldLabelOutside: true,
-                useOptionTemplate: true,
-                useLabelTemplate: true,
+                placeholder: 'chooseOrganization',
                 required: true,
+                options: [],
               },
               validation: {
                 messages: { required: () => this.translocoService.selectTranslate('VALIDATION.required') },
-              },
-              expressionProperties: {
-                'templateOptions.typeToSearchText': this.translocoService.selectTranslate('typeToSearchOrganizations'),
               },
             },
             {
@@ -141,7 +130,7 @@ export class GeneralInformationFormComponent {
                 required: true,
                 label: 'roles',
                 labelClassName: 'font-semibold',
-                placeholder: 'selectRoles',
+                placeholder: 'chooseRoles',
                 options: [],
               },
               validation: {
@@ -157,7 +146,7 @@ export class GeneralInformationFormComponent {
                 required: true,
                 label: 'jobTitle',
                 labelClassName: 'font-semibold',
-                placeholder: 'selectJobTitle',
+                placeholder: 'chooseJobTitle',
                 options: [],
               },
               validation: {
@@ -172,7 +161,7 @@ export class GeneralInformationFormComponent {
                 translate: true,
                 label: 'jobLevel',
                 labelClassName: 'font-semibold',
-                placeholder: 'selectJobLevel',
+                placeholder: 'chooseJobLevel',
                 options: [],
               },
             },
@@ -185,7 +174,7 @@ export class GeneralInformationFormComponent {
                 required: true,
                 label: 'directReport',
                 labelClassName: 'font-semibold',
-                placeholder: 'selectDirectReport',
+                placeholder: 'chooseDirectReport',
                 options: [],
               },
               validation: {

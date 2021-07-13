@@ -11,7 +11,7 @@ import { EmployeeSHUI } from '../../models/employee';
 })
 export class ShuiFormComponent {
   form = this.fb.group<EmployeeSHUI>({});
-  model: EmployeeSHUI = { healthCareNumbers: [{}] };
+  model: EmployeeSHUI = { healthCareInsurances: [{}] };
   fields: FormlyFieldConfig[] = [
     {
       fieldGroupClassName: 'grid grid-cols-2 gap-4',
@@ -55,12 +55,12 @@ export class ShuiFormComponent {
               },
             },
             {
-              key: 'healthCareNumbers',
+              key: 'healthCareInsurances',
               className: 'tui-form__row block',
               type: 'repeat',
               templateOptions: {
                 translate: true,
-                label: 'healthCareNumbers',
+                label: 'healthCareInsuranceList',
               },
               fieldArray: {
                 fieldGroupClassName: 'grid grid-cols-2 gap-4',
@@ -71,17 +71,17 @@ export class ShuiFormComponent {
                     templateOptions: {
                       translate: true,
                       label: 'healthCareCompany',
-                      placeholder: 'enterHealthCareCompany',
+                      placeholder: 'chooseHealthCareCompany',
                       options: [],
                     },
                   },
                   {
-                    key: 'number',
+                    key: 'healthCareNumber',
                     type: 'input-number',
                     templateOptions: {
                       translate: true,
-                      label: 'number',
-                      placeholder: 'enterNumber',
+                      label: 'healthCareNumber',
+                      placeholder: 'enterHealthCareNumber',
                       textfieldLabelOutside: true,
                     },
                   },

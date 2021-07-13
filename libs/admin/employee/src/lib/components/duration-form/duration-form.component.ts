@@ -31,14 +31,14 @@ export class DurationFormComponent {
               },
             },
             {
-              key: 'probationDate',
+              key: 'probationDates',
               className: 'tui-form__row block',
-              type: 'input-date',
+              type: 'input-date-range',
               templateOptions: {
                 translate: true,
-                label: 'probationDate',
+                label: 'probationDates',
                 labelClassName: 'font-semibold',
-                placeholder: 'enterProbationDate',
+                placeholder: 'enterProbationDates',
                 textfieldLabelOutside: true,
               },
             },
@@ -72,18 +72,18 @@ export class DurationFormComponent {
               type: 'repeat',
               templateOptions: {
                 translate: true,
-                label: 'emergencyContacts',
+                label: 'emergencyContactList',
               },
               fieldArray: {
                 fieldGroupClassName: 'grid grid-cols-2 gap-4',
                 fieldGroup: [
                   {
-                    key: 'phone',
+                    key: 'phoneNumber',
                     type: 'input-number',
                     templateOptions: {
                       translate: true,
-                      label: 'phone',
-                      placeholder: 'enterPhone',
+                      label: 'phoneNumber',
+                      placeholder: 'enterPhoneNumber',
                       textfieldLabelOutside: true,
                     },
                   },
@@ -107,7 +107,7 @@ export class DurationFormComponent {
             {
               key: 'labourContractNumber',
               className: 'tui-form__row block',
-              type: 'input-number',
+              type: 'input',
               templateOptions: {
                 translate: true,
                 label: 'labourContractNumber',

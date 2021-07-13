@@ -51,6 +51,7 @@ export class IndividualFormComponent {
               className: 'tui-form__row block',
               type: 'input',
               templateOptions: {
+                translate: true,
                 label: 'DOB',
                 labelClassName: 'font-semibold',
                 textfieldLabelOutside: true,
@@ -99,7 +100,7 @@ export class IndividualFormComponent {
               type: 'select',
               templateOptions: {
                 translate: true,
-                label: 'permanentAddress',
+                label: 'currentStatus',
                 labelClassName: 'font-semibold',
                 placeholder: 'chooseCurrentStatus',
                 options: this.translocoService.selectTranslateObject<{ [p: string]: string }>('INDIVIDUAL_STATUS').pipe(
@@ -109,7 +110,8 @@ export class IndividualFormComponent {
                         { value: 0, label: result.working },
                         { value: 1, label: result.onsite },
                         { value: 2, label: result.probation },
-                        { value: 3, label: result.wfh },
+                        { value: 3, label: result.maternity },
+                        { value: 4, label: result.wfh },
                       ] as BaseOption<number>[]
                   )
                 ),
@@ -123,7 +125,7 @@ export class IndividualFormComponent {
                 translate: true,
                 label: 'officeOnsite',
                 labelClassName: 'font-semibold',
-                placeholder: 'chooseOffice',
+                placeholder: 'chooseOfficeOnsite',
                 options: [],
               },
               hideExpression: 'model.currentStatus !== 1',
@@ -192,7 +194,7 @@ export class IndividualFormComponent {
               type: 'repeat',
               templateOptions: {
                 translate: true,
-                label: 'bankAccounts',
+                label: 'bankAccountList',
               },
               fieldArray: {
                 fieldGroupClassName: 'grid grid-cols-2 gap-4',
@@ -203,19 +205,17 @@ export class IndividualFormComponent {
                     templateOptions: {
                       translate: true,
                       label: 'bank',
-                      labelClassName: 'font-semibold',
                       options: [],
-                      placeholder: 'enterBank',
+                      placeholder: 'selectBank',
                     },
                   },
                   {
-                    key: 'bankNumber',
+                    key: 'accountNumber',
                     type: 'input-number',
                     templateOptions: {
                       translate: true,
-                      label: 'bankNumber',
-                      labelClassName: 'font-semibold',
-                      placeholder: 'enterBankNumber',
+                      label: 'accountNumber',
+                      placeholder: 'enterAccountNumber',
                       textfieldLabelOutside: true,
                     },
                   },
