@@ -1,37 +1,16 @@
 <main class="main-page">
   <header>
     <h1 class="text-4xl">Request Managements</h1>
-    <div class="flex gap-4">
-    </div>
+    <div class="flex gap-4"></div>
   </header>
 
   <section class="main-section">
     <article>
       <tui-tabs [(activeItemIndex)]="activeItemIndex">
-        <button
-          tuiRipple="var(--tui-text-01)"
-          tuiTab
-        >
-          Leave Request
-        </button>
-        <button
-          tuiRipple="var(--tui-text-01)"
-          tuiTab
-        >
-          Overtime
-        </button>
-        <button
-          tuiRipple="var(--tui-text-01)"
-          tuiTab
-        >
-          Update time
-        </button>
-        <button
-          tuiRipple="var(--tui-text-01)"
-          tuiTab
-        >
-          Working outside
-        </button>
+        <button tuiRipple="var(--tui-text-01)" tuiTab>Leave Request</button>
+        <button tuiRipple="var(--tui-text-01)" tuiTab>Overtime</button>
+        <button tuiRipple="var(--tui-text-01)" tuiTab>Update time</button>
+        <button tuiRipple="var(--tui-text-01)" tuiTab>Working outside</button>
       </tui-tabs>
       <ng-container [ngSwitch]="activeItemIndex">
         <ng-container *ngSwitchCase="0">
@@ -49,5 +28,4 @@
       </ng-container>
     </article>
   </section>
-
 </main>

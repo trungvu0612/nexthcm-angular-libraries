@@ -408,16 +408,16 @@ export class SubmitLeaveRequestDialogComponent {
             if (leaveRequestModel.durationHold == 0) {
               /*Full time*/
               leaveItem.fullDay = true;
-              leaveItem.resultTime = 8.0
+              leaveItem.resultTime = 8.0;
             } else if (leaveRequestModel.durationHold == 1) {
               /*Half day*/
               if (leaveRequestModel.halfDay == 0) {
                 leaveItem.morning = true;
-                leaveItem.resultTime = 4.0
+                leaveItem.resultTime = 4.0;
                 body.resultDays = leaveItem.resultTime;
               } else if (leaveRequestModel.halfDay == 1) {
                 leaveItem.morning = false;
-                leaveItem.resultTime = 4.0
+                leaveItem.resultTime = 4.0;
                 body.resultDays = leaveItem.resultTime;
               }
             } else if (leaveRequestModel.durationHold == 2) {
@@ -425,7 +425,7 @@ export class SubmitLeaveRequestDialogComponent {
               if (leaveRequestModel.specialTimeFrom && leaveRequestModel.specialTimeTo) {
                 leaveItem.fromTime = leaveRequestModel.specialTimeFrom.toAbsoluteMilliseconds();
                 leaveItem.toTime = leaveRequestModel.specialTimeTo.toAbsoluteMilliseconds();
-                leaveItem.resultTime = ((leaveItem.toTime - leaveItem.fromTime)/3600000)
+                leaveItem.resultTime = (leaveItem.toTime - leaveItem.fromTime) / 3600000;
                 body.resultDays = leaveItem.resultTime;
               }
             }
@@ -453,12 +453,12 @@ export class SubmitLeaveRequestDialogComponent {
                 if (leaveRequestModel.halfDay == 0) {
                   leaveItem.morning = true;
                   leaveItem.afternoon = false;
-                  leaveItem.resultTime = 4.0
+                  leaveItem.resultTime = 4.0;
                   body.resultDays = leaveItem.resultTime;
                 } else if (leaveRequestModel.halfDay == 1) {
                   leaveItem.morning = false;
                   leaveItem.afternoon = true;
-                  leaveItem.resultTime = 4.0
+                  leaveItem.resultTime = 4.0;
                   body.resultDays = leaveItem.resultTime;
                 }
               } else if (leaveRequestModel.durationHold == 2) {
@@ -466,7 +466,7 @@ export class SubmitLeaveRequestDialogComponent {
                 if (leaveRequestModel.specialTimeFrom && leaveRequestModel.specialTimeTo) {
                   leaveItem.fromTime = leaveRequestModel.specialTimeFrom.toAbsoluteMilliseconds();
                   leaveItem.toTime = leaveRequestModel.specialTimeTo.toAbsoluteMilliseconds();
-                  leaveItem.resultTime = ((leaveItem.toTime - leaveItem.fromTime)/3600000)
+                  leaveItem.resultTime = (leaveItem.toTime - leaveItem.fromTime) / 3600000;
                   body.resultDays = leaveItem.resultTime;
                 }
               }
@@ -482,12 +482,12 @@ export class SubmitLeaveRequestDialogComponent {
                 if (leaveRequestModel.halfDay == 0) {
                   leaveItem.morning = true;
                   leaveItem.afternoon = false;
-                  leaveItem.resultTime = 4.0
+                  leaveItem.resultTime = 4.0;
                   body.resultDays = leaveItem.resultTime;
                 } else if (leaveRequestModel.halfDay == 1) {
                   leaveItem.morning = false;
                   leaveItem.afternoon = true;
-                  leaveItem.resultTime = 4.0
+                  leaveItem.resultTime = 4.0;
                   body.resultDays = leaveItem.resultTime;
                 }
               } else if (leaveRequestModel.durationHold == 2) {
@@ -495,7 +495,7 @@ export class SubmitLeaveRequestDialogComponent {
                 if (leaveRequestModel.specialTimeFrom && leaveRequestModel.specialTimeTo) {
                   leaveItem.fromTime = leaveRequestModel.specialTimeFrom.toAbsoluteMilliseconds();
                   leaveItem.toTime = leaveRequestModel.specialTimeTo.toAbsoluteMilliseconds();
-                  leaveItem.resultTime = ((leaveItem.toTime - leaveItem.fromTime)/3600000)
+                  leaveItem.resultTime = (leaveItem.toTime - leaveItem.fromTime) / 3600000;
                   body.resultDays = leaveItem.resultTime;
                 }
               }
@@ -511,12 +511,12 @@ export class SubmitLeaveRequestDialogComponent {
                 if (leaveRequestModel.halfDay == 0) {
                   leaveItem.morning = true;
                   leaveItem.afternoon = false;
-                  leaveItem.resultTime = 4.0
+                  leaveItem.resultTime = 4.0;
                   body.resultDays = leaveItem.resultTime;
                 } else if (leaveRequestModel.halfDay == 1) {
                   leaveItem.morning = false;
                   leaveItem.afternoon = true;
-                  leaveItem.resultTime = 4.0
+                  leaveItem.resultTime = 4.0;
                   body.resultDays = leaveItem.resultTime;
                 }
               } else if (leaveRequestModel.durationHold == 2) {
@@ -524,7 +524,7 @@ export class SubmitLeaveRequestDialogComponent {
                 if (leaveRequestModel.specialTimeFrom && leaveRequestModel.specialTimeTo) {
                   leaveItem.fromTime = leaveRequestModel.specialTimeFrom.toAbsoluteMilliseconds();
                   leaveItem.toTime = leaveRequestModel.specialTimeTo.toAbsoluteMilliseconds();
-                  leaveItem.resultTime = ((leaveItem.toTime - leaveItem.fromTime)/3600000)
+                  leaveItem.resultTime = (leaveItem.toTime - leaveItem.fromTime) / 3600000;
                   body.resultDays = leaveItem.resultTime;
                 }
               }
@@ -542,13 +542,13 @@ export class SubmitLeaveRequestDialogComponent {
                   leaveItem1.durationTypeId = '';
                   leaveItem1.morning = true;
                   leaveItem1.afternoon = false;
-                  leaveItem1.resultTime = 4.0
+                  leaveItem1.resultTime = 4.0;
                   body.resultDays = leaveItem.resultTime;
                 } else if (leaveRequestModel.halfDay == 1) {
                   leaveItem1.durationTypeId = '';
                   leaveItem1.morning = false;
                   leaveItem1.afternoon = true;
-                  leaveItem1.resultTime = 4.0
+                  leaveItem1.resultTime = 4.0;
                   body.resultDays = leaveItem.resultTime;
                 }
               } else if (leaveRequestModel.durationHold == 2) {
@@ -556,7 +556,7 @@ export class SubmitLeaveRequestDialogComponent {
                   leaveItem1.durationTypeId = '';
                   leaveItem1.fromTime = leaveRequestModel.specialTimeFrom.toAbsoluteMilliseconds();
                   leaveItem1.toTime = leaveRequestModel.specialTimeTo.toAbsoluteMilliseconds();
-                  leaveItem1.resultTime = ((leaveItem1.toTime - leaveItem1.fromTime)/3600000)
+                  leaveItem1.resultTime = (leaveItem1.toTime - leaveItem1.fromTime) / 3600000;
                 }
               }
               if (Object.keys(leaveItem1).length !== 0) {
@@ -567,23 +567,23 @@ export class SubmitLeaveRequestDialogComponent {
 
               if (leaveRequestModel.durationEnd == 1) {
                 if (leaveRequestModel.halfDay2 == 0) {
-                  leaveItem2.durationTypeId = ''
+                  leaveItem2.durationTypeId = '';
                   leaveItem2.morning = true;
-                  leaveItem2.afternoon = false
-                  leaveItem2.resultTime = 4.0
+                  leaveItem2.afternoon = false;
+                  leaveItem2.resultTime = 4.0;
                   body.resultDays = leaveItem.resultTime;
                 } else if (leaveRequestModel.halfDay2 == 1) {
-                  leaveItem2.durationTypeId = ''
+                  leaveItem2.durationTypeId = '';
                   leaveItem2.morning = false;
-                  leaveItem2.afternoon = true
-                  leaveItem2.resultTime = 4.0
+                  leaveItem2.afternoon = true;
+                  leaveItem2.resultTime = 4.0;
                 }
               } else if (leaveRequestModel.durationEnd == 2) {
                 if (leaveRequestModel.specialTimeFrom2 && leaveRequestModel.specialTimeTo2) {
                   leaveItem2.durationTypeId = '';
-                  leaveItem2.fromTime = leaveRequestModel.specialTimeFrom2.toAbsoluteMilliseconds()
-                  leaveItem2.toTime = leaveRequestModel.specialTimeTo2.toAbsoluteMilliseconds()
-                  leaveItem2.resultTime = ((leaveItem2.toTime - leaveItem2.fromTime)/3600000)
+                  leaveItem2.fromTime = leaveRequestModel.specialTimeFrom2.toAbsoluteMilliseconds();
+                  leaveItem2.toTime = leaveRequestModel.specialTimeTo2.toAbsoluteMilliseconds();
+                  leaveItem2.resultTime = (leaveItem2.toTime - leaveItem2.fromTime) / 3600000;
                 }
               }
               if (Object.keys(leaveItem2).length !== 0) {
@@ -592,18 +592,18 @@ export class SubmitLeaveRequestDialogComponent {
               console.log('leaveItem[]]]]]]]', leaveItems);
               body.leaveItems = leaveItems;
 
-              if (leaveItems.length != 0){
-                if (leaveItems.length == 1){
+              if (leaveItems.length != 0) {
+                if (leaveItems.length == 1) {
                   body.resultDays = leaveItems[0].resultTime;
-                } else if (leaveItems.length == 2){
-                  if (leaveItems[1].resultTime && leaveItems[0].resultTime){
-                    const minusDays = TuiDay.lengthBetween(leaveRequestModel.startTime, leaveRequestModel.endTime)
-                    const plusDays = leaveItems[0].resultTime + leaveItems[1].resultTime
-                    const result = this.checkDays(minusDays, plusDays)
-                    if (minusDays == 1){
-                      body.resultDays = result.plusDays
-                    } else if (minusDays >= 2){
-                      body.resultDays = result.minusDays - 1 + result.plusDays
+                } else if (leaveItems.length == 2) {
+                  if (leaveItems[1].resultTime && leaveItems[0].resultTime) {
+                    const minusDays = TuiDay.lengthBetween(leaveRequestModel.startTime, leaveRequestModel.endTime);
+                    const plusDays = leaveItems[0].resultTime + leaveItems[1].resultTime;
+                    const result = this.checkDays(minusDays, plusDays);
+                    if (minusDays == 1) {
+                      body.resultDays = result.plusDays;
+                    } else if (minusDays >= 2) {
+                      body.resultDays = result.minusDays - 1 + result.plusDays;
                     }
                   }
                 }
@@ -615,22 +615,22 @@ export class SubmitLeaveRequestDialogComponent {
             console.log('Oke khac ngay');
           }
         }
-        this.showDialogConfirmDuration(body.resultDays ? body.resultDays : 0)
+        this.showDialogConfirmDuration(body.resultDays ? body.resultDays : 0);
       }
     }
   }
 
-  checkDays (minusDays: number, plusDays: number): any {
+  checkDays(minusDays: number, plusDays: number): any {
     const result = {
       minusDays: minusDays,
       plusDays: plusDays,
+    };
+    if (plusDays > 8) {
+      minusDays++;
+      plusDays = plusDays - 8;
     }
-    if (plusDays > 8){
-      minusDays++
-      plusDays = plusDays - 8
-    }
-    result.minusDays = minusDays
-    result.plusDays = plusDays
+    result.minusDays = minusDays;
+    result.plusDays = plusDays;
     return result;
   }
 

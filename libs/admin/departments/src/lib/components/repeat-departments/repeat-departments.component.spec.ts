@@ -8,9 +8,8 @@ describe('RepeatDepartmentsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ RepeatDepartmentsComponent ]
-    })
-    .compileComponents();
+      declarations: [RepeatDepartmentsComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

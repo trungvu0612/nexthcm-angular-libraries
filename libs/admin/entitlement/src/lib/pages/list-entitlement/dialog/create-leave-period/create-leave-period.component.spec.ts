@@ -8,9 +8,8 @@ describe('CreateLeavePeriodComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CreateLeavePeriodComponent ]
-    })
-    .compileComponents();
+      declarations: [CreateLeavePeriodComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

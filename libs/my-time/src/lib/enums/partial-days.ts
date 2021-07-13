@@ -3,5 +3,5 @@ export enum PartialDaysEnum {
   AllDays,
   StartDayOnly,
   EndDayOnly,
-  StartEndDay
+  StartEndDay,
 }

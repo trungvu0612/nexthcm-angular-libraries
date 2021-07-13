@@ -22,7 +22,7 @@ import { PolicyComponent } from './policy.component';
     TuiInputMonthModule,
     ReactiveFormsModule,
     TuiAvatarModule,
-    TuiScrollbarModule
+    TuiScrollbarModule,
   ],
 })
 export class PolicyModule {}

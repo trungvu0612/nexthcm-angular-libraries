@@ -1,17 +1,17 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import { Route, RouterModule } from '@angular/router';
+import { AuthGuard } from '@nexthcm/auth';
+import { LayoutComponent } from '@nexthcm/ui';
+import { FormlyModule } from '@ngx-formly/core';
+import { TuiTableModule, TuiTablePaginationModule } from '@taiga-ui/addon-table';
+import { TuiLetModule } from '@taiga-ui/cdk';
+import { TuiButtonModule, TuiSvgModule } from '@taiga-ui/core';
 import { AdminDepartmentsComponent } from './admin-departments.component';
+import { RepeatDepartmentsComponent } from './components/repeat-departments/repeat-departments.component';
 import { ListDepartmentComponent } from './pages/list-department/list-department.component';
 import { UpsertDepartmentComponent } from './pages/upsert-department/upsert-department.component';
-import { LayoutComponent } from '@nexthcm/ui';
-import { AuthGuard } from '@nexthcm/auth';
-import { TuiButtonModule, TuiSvgModule } from '@taiga-ui/core';
-import { TuiTableModule, TuiTablePaginationModule } from '@taiga-ui/addon-table';
-import { FormlyModule } from '@ngx-formly/core';
-import { RepeatDepartmentsComponent } from './components/repeat-departments/repeat-departments.component';
-import { TuiLetModule } from '@taiga-ui/cdk';
-import { ReactiveFormsModule } from '@angular/forms';
 
 export const adminDepartmentsRoutes: Route[] = [
   {
@@ -44,7 +44,7 @@ export const adminDepartmentsRoutes: Route[] = [
     AdminDepartmentsComponent,
     ListDepartmentComponent,
     UpsertDepartmentComponent,
-    RepeatDepartmentsComponent
+    RepeatDepartmentsComponent,
   ],
 })
 export class AdminDepartmentsModule {}

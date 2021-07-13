@@ -1,11 +1,10 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { FormControl } from '@ngneat/reactive-forms';
 import { FieldType } from '@ngx-formly/core';
 import { TuiContextWithImplicit, TuiIdentityMatcher, TuiStringHandler } from '@taiga-ui/cdk';
-import { switchMap } from 'rxjs/operators';
 import { BehaviorSubject } from 'rxjs';
-import { FormControl } from '@ngneat/reactive-forms';
-// import { AdminPermissionsService } from '../../../../../permissions/src/lib/services/admin-permissions.service';
 
+// import { AdminPermissionsService } from '../../../../../permissions/src/lib/services/admin-permissions.service';
 
 interface Hero {
   readonly id: number;
@@ -18,23 +17,19 @@ interface Hero {
   styleUrls: ['./formly-select-permissions.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-
 export class FormlySelectPermissionsComponent extends FieldType {
-
-
   readonly items: ReadonlyArray<Hero> = [
-    {id: 1, name: 'Luke Skywalker'},
-    {id: 2, name: 'Leia Organa Solo'},
-    {id: 3, name: 'Darth Vader'},
-    {id: 4, name: 'Han Solo'},
-    {id: 5, name: 'Obi-Wan Kenobi'},
-    {id: 6, name: 'Yoda'},
+    { id: 1, name: 'Luke Skywalker' },
+    { id: 2, name: 'Leia Organa Solo' },
+    { id: 3, name: 'Darth Vader' },
+    { id: 4, name: 'Han Solo' },
+    { id: 5, name: 'Obi-Wan Kenobi' },
+    { id: 6, name: 'Yoda' },
   ];
 
   columns = ['name', 'code', 'description', 'lastModifiedDate', 'action'];
   params$ = new BehaviorSubject<{ page?: number; size?: number }>({ size: 10 });
   // permissions$ = this.params$.pipe(switchMap(() => this.adminPermissionsService.getPermissions(this.params$.value)));
-
 
   readonly control = new FormControl([
     {

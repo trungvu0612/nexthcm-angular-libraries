@@ -7,10 +7,12 @@
     <form (ngSubmit)="onSubmit()" *transloco="let t" [formGroup]="$any(loginForm)" class="b-form">
       <formly-form [fields]="fields" [form]="$any(loginForm)" [model]="model"></formly-form>
 
-      <div [innerHTML]="t('AUTH.cantLoginInform', { url: '' })"  class="mt-2"></div>
+      <div [innerHTML]="t('AUTH.cantLoginInform', { url: '' })" class="mt-2"></div>
 
       <div class="text-center mt-6">
-        <button tuiButton><span class="px-16">{{ t('AUTH.login') }}</span></button>
+        <button tuiButton>
+          <span class="px-16">{{ t('AUTH.login') }}</span>
+        </button>
       </div>
     </form>
   </section>

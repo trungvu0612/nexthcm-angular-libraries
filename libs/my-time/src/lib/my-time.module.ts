@@ -10,7 +10,7 @@ import {
   TuiHostedDropdownModule,
   TuiLoaderModule,
   TuiSvgModule,
-  TuiTextfieldControllerModule
+  TuiTextfieldControllerModule,
 } from '@taiga-ui/core';
 import {
   TuiDataListWrapperModule,
@@ -24,7 +24,7 @@ import {
   TuiSelectModule,
   TuiTabsModule,
   TuiTagModule,
-  TuiTextAreaModule
+  TuiTextAreaModule,
 } from '@taiga-ui/kit';
 import { RequestDataTableComponent } from './components/request-data-table/request-data-table.component';
 import { RequestDialogComponent } from './components/request-dialog/request-dialog.component';

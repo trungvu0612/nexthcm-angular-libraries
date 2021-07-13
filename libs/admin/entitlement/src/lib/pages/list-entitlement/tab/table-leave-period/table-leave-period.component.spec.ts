@@ -8,9 +8,8 @@ describe('TableLeavePeriodComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ TableLeavePeriodComponent ]
-    })
-    .compileComponents();
+      declarations: [TableLeavePeriodComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

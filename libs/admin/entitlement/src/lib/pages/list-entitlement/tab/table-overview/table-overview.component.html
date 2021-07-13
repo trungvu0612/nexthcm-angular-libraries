@@ -1,77 +1,83 @@
-<header class='mt-8'>
-  <div class='flex justify-end gap-4'>
+<header class="mt-8">
+  <div class="flex justify-end gap-4">
     <!--            <tui-input-month [formControl]="dateControl" class="date-control">Choose a month</tui-input-month>-->
-    <button (click)='showDialogSubmit()' class='blue-button'>
-      <tui-svg (click)='showDialogSubmit()' class='-ml-1 mr-2' src='tuiIconPlusLarge'></tui-svg>
+    <button (click)="showDialogSubmit()" class="blue-button">
+      <tui-svg (click)="showDialogSubmit()" class="-ml-1 mr-2" src="tuiIconPlusLarge"></tui-svg>
       Create leave entitlement
     </button>
   </div>
 </header>
 
-<div class='flex justify-start items-center mb-7'>
+<div class="flex justify-start items-center mb-7">
   <!--      <tui-input-month [formControl]='dateControl' class='w-48 mr-7'>Choose a month</tui-input-month>-->
   <!--      <button class='blue-button'>Search</button>-->
 </div>
 
 <article>
-  <table [columns]='columns' class='hcm-tui-table' tuiTable>
+  <table [columns]="columns" class="hcm-tui-table" tuiTable>
     <thead>
-    <tr tuiThGroup>
-      <th *tuiHead="'date'" [sorter]='null' class='center-custom' tuiTh>Date</th>
-      <th *tuiHead="'leaveType'" [sorter]='null' class='center-custom' tuiTh>Leave Type</th>
-      <th *tuiHead="'days'" [sorter]='null' class='center-custom' tuiTh>Days</th>
-      <th *tuiHead="'status'" [sorter]='null' class='center-custom' tuiTh>Status</th>
-      <th *tuiHead="'sendTo'" [sorter]='null' class='center-custom' tuiTh>Send To</th>
-      <th *tuiHead="'action'" [sorter]='null' style='text-align: center' tuiTh>Action</th>
-    </tr>
+      <tr tuiThGroup>
+        <th *tuiHead="'date'" [sorter]="null" class="center-custom" tuiTh>Date</th>
+        <th *tuiHead="'leaveType'" [sorter]="null" class="center-custom" tuiTh>Leave Type</th>
+        <th *tuiHead="'days'" [sorter]="null" class="center-custom" tuiTh>Days</th>
+        <th *tuiHead="'status'" [sorter]="null" class="center-custom" tuiTh>Status</th>
+        <th *tuiHead="'sendTo'" [sorter]="null" class="center-custom" tuiTh>Send To</th>
+        <th *tuiHead="'action'" [sorter]="null" style="text-align: center" tuiTh>Action</th>
+      </tr>
     </thead>
-    <tbody [data]='data' tuiTbody>
-    <tr *tuiRow='let item of data' tuiTr>
-      <td *tuiCell="'date'" class='underline' tuiTd>
-        <p>{{ item.startTime }}</p>
-      </td>
+    <tbody [data]="data" tuiTbody>
+      <tr *tuiRow="let item of data" tuiTr>
+        <td *tuiCell="'date'" class="underline" tuiTd>
+          <p>{{ item.startTime }}</p>
+        </td>
 
-      <td *tuiCell="'leaveType'" tuiTd><strong>{{ item.leaveType?.name }}</strong></td>
+        <td *tuiCell="'leaveType'" tuiTd>
+          <strong>{{ item.leaveType?.name }}</strong>
+        </td>
 
-      <td *tuiCell="'days'" class='center-custom font-semibold' tuiTd>1.0</td>
+        <td *tuiCell="'days'" class="center-custom font-semibold" tuiTd>1.0</td>
 
-      <td *tuiCell="'status'" class='center-custom' tuiTd>
-        <tui-tag
-          [class]="LeaveStatus[item.status] + '-tag'"
-          [value]='LeaveStatus[item.status] | titlecase'
-          class='font-bold'
-        ></tui-tag>
-      </td>
+        <td *tuiCell="'status'" class="center-custom" tuiTd>
+          <tui-tag
+            [class]="LeaveStatus[item.status] + '-tag'"
+            [value]="LeaveStatus[item.status] | titlecase"
+            class="font-bold"
+          ></tui-tag>
+        </td>
 
-      <td *tuiCell="'sendTo'" class='center-custom font-semibold' tuiTd><strong>Nguyen Hai Vien</strong></td>
+        <td *tuiCell="'sendTo'" class="center-custom font-semibold" tuiTd><strong>Nguyen Hai Vien</strong></td>
 
-      <td *tuiCell="'action'" class='center-custom' tuiTd>
-        <div class='flex justify-center -m-2 gap-4'>
-          <button
-            *ngIf='item.status !== 1'
-            [icon]="'tuiIconTrashLarge'"
-            [shape]="$any('rounded')"
-            appearance='flat' class='text-blue-500 center-custom' size='s' tuiIconButton
-
-          ></button>
-          <button
-            [icon]="'tuiIconShowLarge'"
-            [shape]="$any('rounded')"
-            appearance='flat' class='text-blue-500 center-custom' size='s' tuiIconButton
-
-          ></button>
-        </div>
-      </td>
-    </tr>
+        <td *tuiCell="'action'" class="center-custom" tuiTd>
+          <div class="flex justify-center -m-2 gap-4">
+            <button
+              *ngIf="item.status !== 1"
+              [icon]="'tuiIconTrashLarge'"
+              [shape]="$any('rounded')"
+              appearance="flat"
+              class="text-blue-500 center-custom"
+              size="s"
+              tuiIconButton
+            ></button>
+            <button
+              [icon]="'tuiIconShowLarge'"
+              [shape]="$any('rounded')"
+              appearance="flat"
+              class="text-blue-500 center-custom"
+              size="s"
+              tuiIconButton
+            ></button>
+          </div>
+        </td>
+      </tr>
     </tbody>
   </table>
 </article>
 <tui-table-pagination
-  (pageChange)='onPage($event)'
-  (sizeChange)='onSize($event)'
-  [(page)]='page'
-  [(size)]='size'
-  [total]='totalLength'
+  (pageChange)="onPage($event)"
+  (sizeChange)="onSize($event)"
+  [(page)]="page"
+  [(size)]="size"
+  [total]="totalLength"
 ></tui-table-pagination>
 <!--<p>Current pages: {{ pages + 1 }}</p>-->
 <!--<p>Items per pages: {{ size }}</p>-->

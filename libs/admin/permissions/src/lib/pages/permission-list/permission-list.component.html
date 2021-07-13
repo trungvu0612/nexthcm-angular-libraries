@@ -15,7 +15,7 @@
         </tr>
       </thead>
       <tbody [data]="permissions.items" tuiTbody>
-      <tr *tuiRow="let item of permissions.items" tuiTr>
+        <tr *tuiRow="let item of permissions.items" tuiTr>
           <td *tuiCell="'name'" tuiTd>
             {{ item.name }}
           </td>
@@ -25,7 +25,7 @@
           <td *tuiCell="'description'" tuiTd>
             {{ item.description }}
           </td>
-          <td *tuiCell="'lastModifiedDate'" tuiTd>{{ item.lastModifiedDate | date:'dd/MM/yyyy' }}</td>
+          <td *tuiCell="'lastModifiedDate'" tuiTd>{{ item.lastModifiedDate | date: 'dd/MM/yyyy' }}</td>
           <td *tuiCell="'action'" tuiTd>
             <div class="flex text-gray-400">
               <button [queryParams]="{ policyId: item.id }" routerLink="./update">

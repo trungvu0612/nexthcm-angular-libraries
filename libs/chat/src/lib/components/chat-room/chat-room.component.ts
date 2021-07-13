@@ -27,7 +27,7 @@ export class ChatRoomComponent {
   limit$ = new BehaviorSubject<number>(30);
   readonly getChatRoomDetail$ = combineLatest([this.roomId$, this.limit$]).pipe(
     switchMap(([roomId, limit]) => this.getChatRoomDetailQueryService.watch({ roomId, limit }).valueChanges),
-    map(({ data }) => data.chatRoomDetail),
+    map(({ data }) => data.chatRoomDetail)
   );
   data$ = this.state.select('detail');
 

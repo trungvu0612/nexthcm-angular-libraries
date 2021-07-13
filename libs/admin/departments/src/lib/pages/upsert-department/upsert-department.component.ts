@@ -1,91 +1,90 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { FormGroup } from '@ngneat/reactive-forms';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
-import { BranchesService } from '../../../../../branches/src/lib/services/branches.service';
-import { ActivatedRoute } from '@angular/router';
 import { TuiDestroyService } from '@taiga-ui/cdk';
+import { BranchesService } from '../../../../../branches/src/lib/services/branches.service';
 
 @Component({
   selector: 'hcm-upsert-department',
   templateUrl: './upsert-department.component.html',
   styleUrls: ['./upsert-department.component.scss'],
   providers: [TuiDestroyService],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class UpsertDepartmentComponent  {
-
+export class UpsertDepartmentComponent {
   readonly branchForm = new FormGroup({});
-  model: Partial<any> =  {};
+  model: Partial<any> = {};
   options: FormlyFormOptions = {};
   fields: FormlyFieldConfig[] = [
-    { /*Ten chi nhánh*/
-      fieldGroupClassName: 'mt-4 grid grid-cols-4 gap-4',
+    {
+      /*Ten chi nhánh*/ fieldGroupClassName: 'mt-4 grid grid-cols-4 gap-4',
       fieldGroup: [
         {
           className: 'flex items-center ',
           template: `
         <p class='font-bold'>Tên chi nhánh</p>
-        `
+        `,
         },
         {
           className: 'col-span-2',
           key: 'name',
           type: 'input',
           templateOptions: {
-            required: true
+            required: true,
           },
-        }
-      ]
+        },
+      ],
     },
 
-    { /*Mô tả*/
-      fieldGroupClassName: 'mt-4 grid grid-cols-3 gap-4',
+    {
+      /*Mô tả*/ fieldGroupClassName: 'mt-4 grid grid-cols-3 gap-4',
       fieldGroup: [
         {
           className: 'flex items-center ',
           template: `
         <p class='font-bold'>Mô tả</p>
-        `
+        `,
         },
         {
           className: 'col-span-2',
           key: 'name2',
           type: 'text-area',
           templateOptions: {
-            required: true
+            required: true,
           },
-        }
-      ]
+        },
+      ],
     },
 
-    { /*Địa chỉ*/
-      fieldGroupClassName: 'mt-4 grid grid-cols-3 gap-4',
+    {
+      /*Địa chỉ*/ fieldGroupClassName: 'mt-4 grid grid-cols-3 gap-4',
       fieldGroup: [
         {
           className: 'flex items-center ',
           template: `
         <p class='font-bold'>Địa chỉ</p>
-        `
+        `,
         },
         {
           className: 'col-span-2',
           key: 'name3',
           type: 'text-area',
           templateOptions: {
-            required: true
+            required: true,
           },
-        }
-      ]
+        },
+      ],
     },
 
-    { /*Branch*/
-      fieldGroupClassName: 'mt-4 grid grid-cols-3 gap-4',
+    {
+      /*Branch*/ fieldGroupClassName: 'mt-4 grid grid-cols-3 gap-4',
       fieldGroup: [
         {
           className: 'flex items-center ',
           template: `
         <p class='font-bold'>Admin</p>
-        `
+        `,
         },
         {
           className: 'col-span-2',
@@ -95,20 +94,20 @@ export class UpsertDepartmentComponent  {
             options: [],
             labelProp: 'username',
             valueProp: 'id',
-            placeholder: 'Send to'
-          }
-        }
-      ]
+            placeholder: 'Send to',
+          },
+        },
+      ],
     },
 
-    { /*Branch*/
-      fieldGroupClassName: 'mt-4 grid grid-cols-3 gap-4',
+    {
+      /*Branch*/ fieldGroupClassName: 'mt-4 grid grid-cols-3 gap-4',
       fieldGroup: [
         {
           className: 'flex items-center ',
           template: `
         <p class='font-bold'>Văn Phòng</p>
-        `
+        `,
         },
         {
           key: 'office',
@@ -117,9 +116,8 @@ export class UpsertDepartmentComponent  {
             placeholder: 'Office Name',
           },
         },
-      ]
+      ],
     },
-
 
     {
       className: 'flex',
@@ -134,7 +132,7 @@ export class UpsertDepartmentComponent  {
             className: '',
             template: `
                       <p class='font-bold'>Văn Phòng</p>
-                        `
+                        `,
           },
           {
             className: '',
@@ -147,11 +145,6 @@ export class UpsertDepartmentComponent  {
         ],
       },
     },
-
-
-
-
-
 
     // {
     //   key: 'officeArray',
@@ -171,24 +164,15 @@ export class UpsertDepartmentComponent  {
     //     ],
     //   },
     // },
-
   ];
 
-  constructor(
-    private branchesService: BranchesService,
-    private activatedRoute: ActivatedRoute
-  ) {}
+  constructor(private branchesService: BranchesService, private activatedRoute: ActivatedRoute) {}
 
   submit() {
     console.log(this.branchForm.value);
   }
 
-  cancel() {
+  cancel() {}
 
-  }
-
-  save() {
-
-  }
-
+  save() {}
 }

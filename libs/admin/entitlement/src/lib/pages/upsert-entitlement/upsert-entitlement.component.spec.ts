@@ -8,9 +8,8 @@ describe('UpsertEntitlementComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ UpsertEntitlementComponent ]
-    })
-    .compileComponents();
+      declarations: [UpsertEntitlementComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

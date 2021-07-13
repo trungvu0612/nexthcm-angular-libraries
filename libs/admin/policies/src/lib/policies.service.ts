@@ -5,13 +5,12 @@ import { Observable } from 'rxjs';
 import { Policy } from './policies';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class PoliciesService {
   appVersion = this.env.apiUrl + '/mytimeapp/v1.0';
 
-  constructor(@Inject(APP_CONFIG) protected env: AppConfig, private httpClient: HttpClient) {
-  }
+  constructor(@Inject(APP_CONFIG) protected env: AppConfig, private httpClient: HttpClient) {}
 
   getPolicies(params: HttpParams): Observable<PagingResponse<Policy>> {
     return this.httpClient.get<PagingResponse<Policy>>(this.appVersion + '/policies', { params });

@@ -8,9 +8,8 @@ describe('CreateLeaveEntitlementComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CreateLeaveEntitlementComponent ]
-    })
-    .compileComponents();
+      declarations: [CreateLeaveEntitlementComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

@@ -1,9 +1,9 @@
-import { BranchList } from '../models/branch';
-import { Inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
+import { Inject, Injectable } from '@angular/core';
 import { APP_CONFIG, AppConfig, Pagination, PagingResponse } from '@nexthcm/core';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { BranchList } from '../models/branch';
 
 @Injectable({
   providedIn: 'root',
@@ -11,13 +11,12 @@ import { map } from 'rxjs/operators';
 export class BranchesService {
   appVersion = this.env.apiUrl + '/accountapp/v1.0';
 
-  constructor(@Inject(APP_CONFIG) protected env: AppConfig,
-              private httpClient: HttpClient) {}
+  constructor(@Inject(APP_CONFIG) protected env: AppConfig, private httpClient: HttpClient) {}
 
-  getBranchData(params: { page?: number; size?: number }):  Observable<Pagination<BranchList>> {
+  getBranchData(params: { page?: number; size?: number }): Observable<Pagination<BranchList>> {
     return this.httpClient
       .get<PagingResponse<BranchList>>(this.appVersion + '/orgs', { params })
-      .pipe(map(response => response.data));
+      .pipe(map((response) => response.data));
   }
 
   getBranchDatas(pageIndex: number, pageSize: number): Observable<any> {

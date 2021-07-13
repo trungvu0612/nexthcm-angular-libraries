@@ -7,7 +7,6 @@ import { TuiDay, TuiTime } from '@taiga-ui/cdk';
 // }
 
 export interface LeaveSubmit {
-
   leaveTypes?: LeaveType[]; // for form
   durationHold?: number;
   durationEnd?: number;
@@ -38,26 +37,25 @@ export interface LeaveSubmit {
 }
 
 export interface Body {
-  leaveTypeId?: string,
-  partialDayTypeId?: string,
-  comment?: string,
-  fromDate?: number,
-  toDate?: number,
-  sendTo?: string,
-  leaveItems?: DurationType[]
+  leaveTypeId?: string;
+  partialDayTypeId?: string;
+  comment?: string;
+  fromDate?: number;
+  toDate?: number;
+  sendTo?: string;
+  leaveItems?: DurationType[];
   resultDays?: number;
 }
 
 export interface DurationType {
-  durationTypeId?: string,
-  fromTime?: number,
-  toTime?: number,
-  fullDay?: boolean,
-  morning?: boolean,
-  afternoon?: boolean,
+  durationTypeId?: string;
+  fromTime?: number;
+  toTime?: number;
+  fullDay?: boolean;
+  morning?: boolean;
+  afternoon?: boolean;
   resultTime: number;
 }
-
 
 export interface Duration {
   id?: string;
@@ -77,5 +75,3 @@ export interface durationValues {
   label?: string;
   idPartial?: string;
 }
-
-

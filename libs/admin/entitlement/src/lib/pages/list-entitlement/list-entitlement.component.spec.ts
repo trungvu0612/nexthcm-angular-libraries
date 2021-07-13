@@ -8,9 +8,8 @@ describe('ListEntitlementComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ListEntitlementComponent ]
-    })
-    .compileComponents();
+      declarations: [ListEntitlementComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

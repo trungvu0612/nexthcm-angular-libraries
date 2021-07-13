@@ -2,10 +2,10 @@ import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/cor
 import { ActivatedRoute } from '@angular/router';
 import { FormGroup } from '@ngneat/reactive-forms';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
-import { BranchesService } from '../../services/branches.service';
-import { BranchPost } from '../../models/branch';
-import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { TuiDialogContext } from '@taiga-ui/core';
+import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
+import { BranchPost } from '../../models/branch';
+import { BranchesService } from '../../services/branches.service';
 
 @Component({
   selector: 'hcm-upsert-branch',
@@ -14,7 +14,6 @@ import { TuiDialogContext } from '@taiga-ui/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UpsertBranchComponent implements OnInit {
-
   id!: string;
   idBranch!: string;
   // dataTest$: Observable<any> = this.branchesService.getBranchDatas(0, 10).pipe(map(data => data.data.items));
@@ -95,7 +94,6 @@ export class UpsertBranchComponent implements OnInit {
         ],
       },
     },
-
   ];
 
   constructor(
@@ -106,13 +104,11 @@ export class UpsertBranchComponent implements OnInit {
 
   ngOnInit(): void {
     // this.idBranch = this.activatedRoute.snapshot.paramMap.get('id') as string;
-
     // this.branchesService.get(this.idBranch).subscribe((data) => {
     //   console.log('dataaaaaaaa', data)
     //   this.model = {...this.model, ...data}
     //   console.log('modelllllll', this.model)
     // })
-
     // this.branchesService.formlyEdit().subscribe((data) => {
     //   this.model = { ...this.model, ...data };
     // });
@@ -125,11 +121,7 @@ export class UpsertBranchComponent implements OnInit {
     console.log(this.branchForm.value);
   }
 
-  cancel() {
+  cancel() {}
 
-  }
-
-  save() {
-
-  }
+  save() {}
 }

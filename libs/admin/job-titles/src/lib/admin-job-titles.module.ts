@@ -1,16 +1,16 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { Route, RouterModule } from '@angular/router';
-import { JobTitlesComponent } from './job-titles.component';
-import { ListJobTitleComponent } from './pages/list-job-title/list-job-title.component';
-import { UpsertJobTitleComponent } from './pages/upsert-job-title/upsert-job-title.component';
-import { LayoutComponent } from '@nexthcm/ui';
 import { AuthGuard } from '@nexthcm/auth';
+import { LayoutComponent } from '@nexthcm/ui';
 import { FormlyModule } from '@ngx-formly/core';
 import { RxReactiveFormsModule } from '@rxweb/reactive-form-validators';
 import { TuiTableModule, TuiTablePaginationModule } from '@taiga-ui/addon-table';
 import { TuiButtonModule, TuiSvgModule } from '@taiga-ui/core';
 import { TuiTagModule } from '@taiga-ui/kit';
+import { JobTitlesComponent } from './job-titles.component';
+import { ListJobTitleComponent } from './pages/list-job-title/list-job-title.component';
+import { UpsertJobTitleComponent } from './pages/upsert-job-title/upsert-job-title.component';
 
 export const adminJobTitlesRoutes: Route[] = [
   {
@@ -36,12 +36,8 @@ export const adminJobTitlesRoutes: Route[] = [
     TuiTableModule,
     TuiSvgModule,
     TuiTagModule,
-    TuiButtonModule
+    TuiButtonModule,
   ],
-  declarations: [
-    JobTitlesComponent,
-    ListJobTitleComponent,
-    UpsertJobTitleComponent
-  ],
+  declarations: [JobTitlesComponent, ListJobTitleComponent, UpsertJobTitleComponent],
 })
 export class AdminJobTitlesModule {}

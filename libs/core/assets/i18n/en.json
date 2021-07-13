@@ -36,7 +36,8 @@
   "VALIDATION": {
     "required": "This field should not be blank.",
     "differentSource": "The target and the source should not be the same.",
-    "differentTarget": "The source and the target should not be the same."
+    "differentTarget": "The source and the target should not be the same.",
+    "email": "Please enter a valid email"
   },
   "ADMIN_PROCESSES": {
     "name": "Name",

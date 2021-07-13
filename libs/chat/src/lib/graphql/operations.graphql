@@ -5,10 +5,10 @@ query getRoomList($userId: uuid!) {
     lastMessageTime: last_message
     title
     type
-    currentUser: chat_participants(where: {chat_user: {chat_user_id: {_eq: $userId}}}) {
+    currentUser: chat_participants(where: { chat_user: { chat_user_id: { _eq: $userId } } }) {
       lastRead: last_read
     }
-    chatParticipants: chat_participants(where: {chat_user: {chat_user_id: {_neq: $userId}}}) {
+    chatParticipants: chat_participants(where: { chat_user: { chat_user_id: { _neq: $userId } } }) {
       chatUser: chat_user {
         avatar
       }
@@ -32,7 +32,7 @@ query getChatRoomDetail($roomId: uuid!, $limit: Int!) {
     avatar
     title
     type
-    messages: chat_messages(limit: $limit, order_by: {created_date: asc}) {
+    messages: chat_messages(limit: $limit, order_by: { created_date: asc }) {
       content
       created_date
       type

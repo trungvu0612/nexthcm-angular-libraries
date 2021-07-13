@@ -6,16 +6,16 @@ import {
   Injector,
   Input,
   OnInit,
-  Output
+  Output,
 } from '@angular/core';
+import { TuiDestroyService } from '@taiga-ui/cdk';
+import { TuiDialogService } from '@taiga-ui/core';
+import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { BehaviorSubject, combineLatest } from 'rxjs';
 import { debounceTime, shareReplay, switchMap, takeUntil } from 'rxjs/operators';
-import { TuiDestroyService } from '@taiga-ui/cdk';
-import { BranchesService } from '../../services/branches.service';
-import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
-import { TuiDialogService } from '@taiga-ui/core';
-import { UpsertBranchComponent } from '../upsert-branch/upsert-branch.component';
 import { BranchList } from '../../models/branch';
+import { BranchesService } from '../../services/branches.service';
+import { UpsertBranchComponent } from '../upsert-branch/upsert-branch.component';
 
 @Component({
   selector: 'hcm-branch-list',
@@ -33,7 +33,7 @@ export class BranchListComponent implements OnInit {
   size = 10;
 
   // data$!: Observable<Pagination<BranchList>>;
-  dataTest$ = this.branchesService.getBranchData({ size: 999}).pipe(shareReplay(1));
+  dataTest$ = this.branchesService.getBranchData({ size: 999 }).pipe(shareReplay(1));
 
   columns = ['orgType', 'orgName', 'description', 'description', 'action'];
 

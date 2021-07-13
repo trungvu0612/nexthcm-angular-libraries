@@ -4,13 +4,10 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
   selector: 'hcm-upsert-entitlement',
   templateUrl: './upsert-entitlement.component.html',
   styleUrls: ['./upsert-entitlement.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UpsertEntitlementComponent implements OnInit {
+  constructor() {}
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

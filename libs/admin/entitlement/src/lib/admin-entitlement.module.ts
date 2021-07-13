@@ -1,20 +1,20 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { Route, RouterModule } from '@angular/router';
-import { EntitlementsComponent } from './entitlements.component';
-import { ListEntitlementComponent } from './pages/list-entitlement/list-entitlement.component';
-import { UpsertEntitlementComponent } from './pages/upsert-entitlement/upsert-entitlement.component';
-import { LayoutComponent } from '@nexthcm/ui';
 import { AuthGuard } from '@nexthcm/auth';
+import { LayoutComponent } from '@nexthcm/ui';
+import { FormlyModule } from '@ngx-formly/core';
+import { RxReactiveFormsModule } from '@rxweb/reactive-form-validators';
 import { TuiTableModule, TuiTablePaginationModule } from '@taiga-ui/addon-table';
 import { TuiButtonModule, TuiSvgModule } from '@taiga-ui/core';
 import { TuiInputMonthModule, TuiTabsModule, TuiTagModule } from '@taiga-ui/kit';
-import { TableOverviewComponent } from './pages/list-entitlement/tab/table-overview/table-overview.component';
-import { TableLeavePeriodComponent } from './pages/list-entitlement/tab/table-leave-period/table-leave-period.component';
-import { RxReactiveFormsModule } from '@rxweb/reactive-form-validators';
+import { EntitlementsComponent } from './entitlements.component';
 import { CreateLeaveEntitlementComponent } from './pages/list-entitlement/dialog/create-leave-entitlement/create-leave-entitlement.component';
 import { CreateLeavePeriodComponent } from './pages/list-entitlement/dialog/create-leave-period/create-leave-period.component';
-import { FormlyModule } from '@ngx-formly/core';
+import { ListEntitlementComponent } from './pages/list-entitlement/list-entitlement.component';
+import { TableLeavePeriodComponent } from './pages/list-entitlement/tab/table-leave-period/table-leave-period.component';
+import { TableOverviewComponent } from './pages/list-entitlement/tab/table-overview/table-overview.component';
+import { UpsertEntitlementComponent } from './pages/upsert-entitlement/upsert-entitlement.component';
 
 export const adminEntitlementRoutes: Route[] = [
   {
@@ -42,7 +42,7 @@ export const adminEntitlementRoutes: Route[] = [
     TuiTagModule,
     TuiButtonModule,
     RxReactiveFormsModule,
-    FormlyModule
+    FormlyModule,
   ],
   declarations: [
     EntitlementsComponent,
@@ -51,7 +51,7 @@ export const adminEntitlementRoutes: Route[] = [
     TableOverviewComponent,
     TableLeavePeriodComponent,
     CreateLeaveEntitlementComponent,
-    CreateLeavePeriodComponent
+    CreateLeavePeriodComponent,
   ],
 })
 export class AdminEntitlementModule {}

@@ -1,19 +1,19 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { UploadFileService } from '@nexthcm/ui';
 import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
+import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
+import { TuiDestroyService } from '@taiga-ui/cdk';
 import { Policy } from '../../policies';
 import { PoliciesService } from '../../policies.service';
-import { TuiDestroyService } from '@taiga-ui/cdk';
-import { UploadFileService } from '@nexthcm/ui';
-import { TranslocoService } from '@ngneat/transloco';
 
 @Component({
   selector: 'hcm-upsert-policies',
   templateUrl: './upsert-policies.component.html',
   styleUrls: ['./upsert-policies.component.scss'],
   providers: [TuiDestroyService],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UpsertPoliciesComponent implements OnInit {
   id!: string;
@@ -29,15 +29,15 @@ export class UpsertPoliciesComponent implements OnInit {
           templateOptions: {
             required: true,
             translate: true,
-            label: 'ADMIN_POLICIES.POLICIES_MANAGEMENT_COLUMNS.topic'
+            label: 'ADMIN_POLICIES.POLICIES_MANAGEMENT_COLUMNS.topic',
           },
           validation: {
             messages: {
-              required: () => this.translocoService.selectTranslate('VALIDATION.required')
-            }
-          }
-        }
-      ]
+              required: () => this.translocoService.selectTranslate('VALIDATION.required'),
+            },
+          },
+        },
+      ],
     },
     {
       fieldGroupClassName: 'grid md:grid-cols-2 gap-6 mb-4',
@@ -48,8 +48,8 @@ export class UpsertPoliciesComponent implements OnInit {
           templateOptions: {
             required: true,
             translate: true,
-            description: 'ADMIN_POLICIES.POLICIES_MANAGEMENT_COLUMNS.status'
-          }
+            description: 'ADMIN_POLICIES.POLICIES_MANAGEMENT_COLUMNS.status',
+          },
         },
         {
           className: 'attachFile',
@@ -61,10 +61,10 @@ export class UpsertPoliciesComponent implements OnInit {
             translate: true,
             label: 'ADMIN_POLICIES.POLICIES_MANAGEMENT_COLUMNS.thumbnail',
             previewImage: true,
-            serverRequest: this.uploadFileService.uploadFile.bind(this.uploadFileService, 'policy')
-          }
-        }
-      ]
+            serverRequest: this.uploadFileService.uploadFile.bind(this.uploadFileService, 'policy'),
+          },
+        },
+      ],
     },
     {
       fieldGroupClassName: 'grid md:grid-cols-1 gap-6 mb-4',
@@ -76,10 +76,10 @@ export class UpsertPoliciesComponent implements OnInit {
             required: true,
             translate: true,
             label: 'ADMIN_POLICIES.POLICIES_MANAGEMENT_COLUMNS.shortDescription',
-            placeholder: 'Short Description'
-          }
-        }
-      ]
+            placeholder: 'Short Description',
+          },
+        },
+      ],
     },
     {
       fieldGroupClassName: 'grid md:grid-cols-1 gap-6',
@@ -90,14 +90,14 @@ export class UpsertPoliciesComponent implements OnInit {
           templateOptions: {
             required: true,
             translate: true,
-            label: 'ADMIN_POLICIES.POLICIES_MANAGEMENT_COLUMNS.longDescription'
-          }
-        }
-      ]
+            label: 'ADMIN_POLICIES.POLICIES_MANAGEMENT_COLUMNS.longDescription',
+          },
+        },
+      ],
     },
     {
-      key: 'mobileThumbnail'
-    }
+      key: 'mobileThumbnail',
+    },
   ];
 
   constructor(

@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component, Injector, OnInit } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import { TuiDialogService } from '@taiga-ui/core';
-import { TuiDestroyService } from '@taiga-ui/cdk';
 import { FormControl } from '@ngneat/reactive-forms';
+import { TuiDestroyService } from '@taiga-ui/cdk';
+import { TuiDialogService } from '@taiga-ui/core';
+import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
+import { BehaviorSubject } from 'rxjs';
 import { MyLeave } from '../../../../../../../../my-time/src/lib/models/my-leave';
 import { LeaveStatus } from '../../../../enums/status';
-import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { CreateLeavePeriodComponent } from '../../dialog/create-leave-period/create-leave-period.component';
 
 @Component({
@@ -13,10 +13,9 @@ import { CreateLeavePeriodComponent } from '../../dialog/create-leave-period/cre
   templateUrl: './table-leave-period.component.html',
   styleUrls: ['./table-leave-period.component.scss'],
   providers: [TuiDestroyService],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TableLeavePeriodComponent implements OnInit {
-
   readonly LeaveStatus = LeaveStatus;
 
   dateControl = new FormControl<Date>();
@@ -32,15 +31,9 @@ export class TableLeavePeriodComponent implements OnInit {
   page = 0;
   size = 10;
 
-  constructor(
-    private dialogService: TuiDialogService,
-    private injector: Injector,
-  ) {
-  }
+  constructor(private dialogService: TuiDialogService, private injector: Injector) {}
 
-  ngOnInit(): void {
-
-  }
+  ngOnInit(): void {}
 
   cancel(): void {
     console.log('cancel');
@@ -59,7 +52,7 @@ export class TableLeavePeriodComponent implements OnInit {
   showDialogSubmit() {
     this.dialogService
       .open<boolean>(new PolymorpheusComponent(CreateLeavePeriodComponent, this.injector), {
-        closeable: false
+        closeable: false,
       })
       .subscribe((data) => {
         // console.log('check data outside dialog', data);
@@ -68,5 +61,4 @@ export class TableLeavePeriodComponent implements OnInit {
         // });
       });
   }
-
 }

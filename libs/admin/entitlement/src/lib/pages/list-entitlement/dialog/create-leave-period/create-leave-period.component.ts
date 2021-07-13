@@ -1,16 +1,15 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormGroup } from '@ngneat/reactive-forms';
-import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { TranslocoService } from '@ngneat/transloco';
+import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 
 @Component({
   selector: 'hcm-create-leave-period',
   templateUrl: './create-leave-period.component.html',
   styleUrls: ['./create-leave-period.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CreateLeavePeriodComponent implements OnInit {
-
   form = new FormGroup({});
   model: any = {};
   options: FormlyFormOptions = {};
@@ -51,21 +50,13 @@ export class CreateLeavePeriodComponent implements OnInit {
         },
       ],
     },
-
   ];
 
-  constructor(
-    private translocoService: TranslocoService
-  ) {}
+  constructor(private translocoService: TranslocoService) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
-  submit() {
+  submit() {}
 
-  }
-
-  cancel() {
-
-  }
+  cancel() {}
 }

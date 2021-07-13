@@ -1,8 +1,8 @@
-<form [formGroup]='$any(branchForm)' class='my-8'>
-  <h1 class='text-center font-semibold text-blue-700'>Add Roles</h1>
-  <formly-form [fields]='fields' [fields]='fields' [form]='$any(branchForm)'></formly-form>
-  <div class='flex justify-center gap-4'>
-    <button (click)='submit()' class='blue-button ml-8'>Save</button>
-    <button (click)='cancel()' class='btn-red'>Cancel</button>
+<form [formGroup]="$any(branchForm)" class="my-8">
+  <h1 class="text-center font-semibold text-blue-700">Add Roles</h1>
+  <formly-form [fields]="fields" [fields]="fields" [form]="$any(branchForm)"></formly-form>
+  <div class="flex justify-center gap-4">
+    <button (click)="submit()" class="blue-button ml-8">Save</button>
+    <button (click)="cancel()" class="btn-red">Cancel</button>
   </div>
 </form>

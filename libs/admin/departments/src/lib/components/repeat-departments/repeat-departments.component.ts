@@ -5,7 +5,6 @@ import { FieldArrayType } from '@ngx-formly/core';
   selector: 'hcm-repeat-departments',
   templateUrl: './repeat-departments.component.html',
   styleUrls: ['./repeat-departments.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RepeatDepartmentsComponent extends FieldArrayType {}
-

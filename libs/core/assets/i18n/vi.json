@@ -36,7 +36,8 @@
   "VALIDATION": {
     "required": "Trường này không được để trống.",
     "differentSource": "Điểm đích và điểm nguồn không được giống nhau.",
-    "differentTarget": "Điểm nguồn và điểm đích không được giống nhau."
+    "differentTarget": "Điểm nguồn và điểm đích không được giống nhau.",
+    "email": "Vui lòng điền 1 địa chỉ email hợp lệ"
   },
   "ADMIN_PROCESSES": {
     "name": "Tên",

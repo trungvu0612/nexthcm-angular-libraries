@@ -1,49 +1,48 @@
-<main class='main-page'>
+<main class="main-page">
   <header>
     <h1>List Departments</h1>
-    <button (click)='showDialog()' class='blue-button' tuiButton>Add Departments</button>
+    <button (click)="showDialog()" class="blue-button" tuiButton>Add Departments</button>
   </header>
-  <section class='main-section'>
-    <table *ngIf="dataTest$ | async as data" [columns]='columns' class='hcm-tui-table' tuiTable>
+  <section class="main-section">
+    <table *ngIf="dataTest$ | async as data" [columns]="columns" class="hcm-tui-table" tuiTable>
       <thead>
-      <tr tuiThGroup>
-        <th *tuiHead="'orgType'" class='center-custom' tuiTh>Tên</th>
-        <th *tuiHead="'orgName'" class='center-custom' tuiTh>Người Tạo</th>
-        <th *tuiHead="'address'" class='center-custom' tuiTh>Địa Chỉ</th>
-        <th *tuiHead="'action'" class='center-custom' tuiTh>Thao Tác</th>
-      </tr>
+        <tr tuiThGroup>
+          <th *tuiHead="'orgType'" class="center-custom" tuiTh>Tên</th>
+          <th *tuiHead="'orgName'" class="center-custom" tuiTh>Người Tạo</th>
+          <th *tuiHead="'address'" class="center-custom" tuiTh>Địa Chỉ</th>
+          <th *tuiHead="'action'" class="center-custom" tuiTh>Thao Tác</th>
+        </tr>
       </thead>
 
-      <tbody [data]='data.items' tuiTbody>
-      <tr *tuiRow='let item of data.items' tuiTr>
+      <tbody [data]="data.items" tuiTbody>
+        <tr *tuiRow="let item of data.items" tuiTr>
+          <td *tuiCell="'orgType'" class="center-custom" tuiTd>
+            {{ item.orgName }}
+          </td>
 
-        <td *tuiCell="'orgType'" class='center-custom' tuiTd>
-          {{ item.orgName }}
-        </td>
+          <td *tuiCell="'orgName'" class="center-custom" tuiTd>
+            {{ item.orgType }}
+          </td>
 
-        <td *tuiCell="'orgName'" class='center-custom' tuiTd>
-          {{ item.orgType }}
-        </td>
-
-        <td *tuiCell="'action'" class='center-custom' tuiTd>
-          <div class='flex text-gray-400'>
-            <button [routerLink]="['edit', item.id]">
-              <tui-svg src='tuiIconEdit'></tui-svg>
-            </button>
-            <button (click)='cancel()'>
-              <tui-svg src='tuiIconTrash'></tui-svg>
-            </button>
-          </div>
-        </td>
-      </tr>
+          <td *tuiCell="'action'" class="center-custom" tuiTd>
+            <div class="flex text-gray-400">
+              <button [routerLink]="['edit', item.id]">
+                <tui-svg src="tuiIconEdit"></tui-svg>
+              </button>
+              <button (click)="cancel()">
+                <tui-svg src="tuiIconTrash"></tui-svg>
+              </button>
+            </div>
+          </td>
+        </tr>
       </tbody>
 
       <tfoot>
-      <tr>
-        <td [colSpan]='columns.length' class='px-5 py-3'>
-          <tui-table-pagination [(page)]='page' [(size)]='size' [total]='10'></tui-table-pagination>
-        </td>
-      </tr>
+        <tr>
+          <td [colSpan]="columns.length" class="px-5 py-3">
+            <tui-table-pagination [(page)]="page" [(size)]="size" [total]="10"></tui-table-pagination>
+          </td>
+        </tr>
       </tfoot>
     </table>
   </section>

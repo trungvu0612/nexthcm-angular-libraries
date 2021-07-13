@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component, Injector, OnInit } from '@angular/core';
-import { MyLeave } from '../../../../../../../../my-time/src/lib/models/my-leave';
-import { BehaviorSubject } from 'rxjs';
-import { TuiDialogService } from '@taiga-ui/core';
-import { TuiDestroyService } from '@taiga-ui/cdk';
-import { LeaveStatus } from '../../../../enums/status';
 import { FormControl } from '@ngneat/reactive-forms';
+import { TuiDestroyService } from '@taiga-ui/cdk';
+import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
+import { BehaviorSubject } from 'rxjs';
+import { MyLeave } from '../../../../../../../../my-time/src/lib/models/my-leave';
+import { LeaveStatus } from '../../../../enums/status';
 import { CreateLeaveEntitlementComponent } from '../../dialog/create-leave-entitlement/create-leave-entitlement.component';
 
 @Component({
@@ -13,10 +13,9 @@ import { CreateLeaveEntitlementComponent } from '../../dialog/create-leave-entit
   templateUrl: './table-overview.component.html',
   styleUrls: ['./table-overview.component.scss'],
   providers: [TuiDestroyService],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TableOverviewComponent implements OnInit {
-
   readonly LeaveStatus = LeaveStatus;
 
   dateControl = new FormControl<Date>();
@@ -32,15 +31,9 @@ export class TableOverviewComponent implements OnInit {
   page = 0;
   size = 10;
 
-  constructor(
-    private dialogService: TuiDialogService,
-    private injector: Injector,
-  ) {
-  }
+  constructor(private dialogService: TuiDialogService, private injector: Injector) {}
 
-  ngOnInit(): void {
-
-  }
+  ngOnInit(): void {}
 
   cancel(): void {
     console.log('cancel');
@@ -59,7 +52,7 @@ export class TableOverviewComponent implements OnInit {
   showDialogSubmit() {
     this.dialogService
       .open<boolean>(new PolymorpheusComponent(CreateLeaveEntitlementComponent, this.injector), {
-        closeable: false
+        closeable: false,
       })
       .subscribe((data) => {
         // console.log('check data outside dialog', data);

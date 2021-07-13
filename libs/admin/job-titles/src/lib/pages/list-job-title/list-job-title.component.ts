@@ -1,26 +1,23 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, Injector, OnInit } from '@angular/core';
-import { BehaviorSubject, combineLatest } from 'rxjs';
-import { TuiDialogContext, TuiDialogService } from '@taiga-ui/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
 import { TuiDestroyService } from '@taiga-ui/cdk';
-import { POLYMORPHEUS_CONTEXT, PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
-import { UpsertJobTitleComponent } from '../upsert-job-title/upsert-job-title.component';
+import { TuiDialogService } from '@taiga-ui/core';
+import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
+import { BehaviorSubject, combineLatest } from 'rxjs';
 import { debounceTime, switchMap, takeUntil } from 'rxjs/operators';
 import { AdminJobTitlesService } from '../../services/admin-job-titles.service';
-import { JobTitle } from '../../models/job-title';
+import { UpsertJobTitleComponent } from '../upsert-job-title/upsert-job-title.component';
 
 @Component({
   selector: 'hcm-list-job-title',
   templateUrl: './list-job-title.component.html',
   styleUrls: ['./list-job-title.component.scss'],
   providers: [TuiDestroyService],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ListJobTitleComponent implements OnInit {
-
-
   readonly columns = ['name', 'createdBy', 'description', 'createdDate', 'lastModifiedDate', 'state', 'action'];
-  id!: string
-  data: any = []
+  id!: string;
+  data: any = [];
 
   page$ = new BehaviorSubject<number>(1);
   size$ = 10;
@@ -36,8 +33,7 @@ export class ListJobTitleComponent implements OnInit {
     private injector: Injector,
     private destroy$: TuiDestroyService,
     private cdr: ChangeDetectorRef
-  ) {
-  }
+  ) {}
 
   ngOnInit(): void {
     // console.log(this.dataTest$.subscribe((data) => console.log('resssssss', data)));
@@ -74,7 +70,7 @@ export class ListJobTitleComponent implements OnInit {
   }
 
   showDialogEdit(id: string): void {
-    this.id = id
+    this.id = id;
     this.dialogService
       .open<boolean>(new PolymorpheusComponent(UpsertJobTitleComponent, this.injector), {
         data: this.id,

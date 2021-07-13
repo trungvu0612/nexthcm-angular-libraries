@@ -16,13 +16,7 @@ export const chatRoutes: Routes = [
 ];
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule.forChild(chatRoutes),
-    TuiButtonModule,
-    LetModule,
-    TuiSvgModule,
-  ],
+  imports: [CommonModule, RouterModule.forChild(chatRoutes), TuiButtonModule, LetModule, TuiSvgModule],
   declarations: [ChatComponent, ChatRoomListComponent, ChatRoomComponent],
 })
 export class ChatModule {}

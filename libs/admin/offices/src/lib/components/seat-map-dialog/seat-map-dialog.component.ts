@@ -7,7 +7,7 @@ import {
   ElementRef,
   HostListener,
   Inject,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 import { Dimension, Seat, Zone } from '@nexthcm/core';
 import { filterBySearch, UploadFileService } from '@nexthcm/ui';
