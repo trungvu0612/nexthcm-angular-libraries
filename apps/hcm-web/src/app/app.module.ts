@@ -36,7 +36,6 @@ import { AppComponent } from './app.component';
         {
           path: 'admin',
           children: [
-            { path: '', loadChildren: () => import('@nexthcm/admin-tenant').then((m) => m.AdminTenantModule) },
             { path: 'offices', loadChildren: () => import('@nexthcm/admin-offices').then((m) => m.AdminOfficesModule) },
             {
               path: 'permissions',

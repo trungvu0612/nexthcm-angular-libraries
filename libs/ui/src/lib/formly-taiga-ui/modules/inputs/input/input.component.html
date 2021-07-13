@@ -11,7 +11,9 @@
   [tuiTextfieldLabelOutside]="to.textfieldLabelOutside"
   [tuiTextfieldSize]="to.textfieldSize"
 >
-  {{ to.title || (to.textfieldLabelOutside ? to.placeholder : to.label) }}
+  <ng-container *ngIf="!to.textfieldLabelOutside">
+    {{ to.label }}<span *ngIf="to.required" class="tui-required"></span>
+  </ng-container>
 </tui-input>
 
 <ng-template #success>

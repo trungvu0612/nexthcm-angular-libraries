@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TenantDataTableComponent } from './tenant-data-table.component';
+import { DomainListComponent } from './domain-list.component';
 
-describe('TenantDataTableComponent', () => {
-  let component: TenantDataTableComponent;
-  let fixture: ComponentFixture<TenantDataTableComponent>;
+describe('DomainListComponent', () => {
+  let component: DomainListComponent;
+  let fixture: ComponentFixture<DomainListComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [TenantDataTableComponent],
+      declarations: [DomainListComponent],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TenantDataTableComponent);
+    fixture = TestBed.createComponent(DomainListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

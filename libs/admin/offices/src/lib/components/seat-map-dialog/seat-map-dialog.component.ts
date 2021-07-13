@@ -65,7 +65,7 @@ export class SeatMapDialogComponent implements AfterViewInit {
         required: true,
         textfieldSize: 'm',
         serverRequest: (search: string): Observable<Partial<Zone>[]> =>
-          this.offices$.pipe(map((data) => filterBySearch(data.items, search))),
+          this.offices$.pipe(map((data) => filterBySearch<Zone>(data.items, search))),
       },
       validation: {
         messages: {

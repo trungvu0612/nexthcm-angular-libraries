@@ -41,7 +41,7 @@ export class SeatMapComponent {
         subLabelProp: 'office.name',
         identityMatcher: (i1: Partial<Zone>, i2: Partial<Zone>) => i1.id === i2.id,
         serverRequest: (search: string): Observable<Partial<Zone>[]> =>
-          this.seatMaps$.pipe(map((maps) => filterBySearch(maps, search))),
+          this.seatMaps$.pipe(map((maps) => filterBySearch<Zone>(maps, search))),
       },
     },
   ];

@@ -30,7 +30,7 @@ export class AddSeatDialogComponent {
         textfieldLabelOutside: false,
         stringify: (item: User) => item.username,
         serverRequest: (search: string): Observable<Partial<User>[]> =>
-          this.helpDeskService.select('users').pipe(map((users) => filterBySearch(users, search, 'username'))),
+          this.helpDeskService.select('users').pipe(map((users) => filterBySearch<User>(users, search, 'username'))),
       },
     },
   ];

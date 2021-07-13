@@ -1,27 +1,23 @@
-<div class="flex">
-  <tui-input-file
-    [accept]="to.accept"
-    [formControl]="control"
-    [formlyAttributes]="field"
-    [label]="to.labelText"
-    [link]="to.linkText"
-    [loadingFiles]="$any(loading$ | async)"
-    [maxFileSize]="to.maxFileSize"
-    [readOnly]="!!to.readonly"
-    [rejectedFiles]="$any(rejected$ | async)"
-    [showSize]="to.showSize"
-    [size]="to.size"
-    [style.maxWidth]="to.maxWidth"
-    class="flex-1"
-  ></tui-input-file>
-
-  <tui-tooltip *ngIf="to.description" [content]="tooltip" class="flex-initial self-center ml-2"></tui-tooltip>
-</div>
-
-<ng-container *ngIf="formControl.valueChanges | async as formValue">
-  <img *ngIf="formValue && to.previewImage" [src]="formValue | getFile | async" alt="" class="mt-4 w-24 h-24" />
-</ng-container>
-
-<ng-template #tooltip="polymorpheus" [polymorpheus]="context">
-  {{ to.description }}
-</ng-template>
+<p *ngIf="to.label" [class]="to.labelClassName" class="mb-1">
+  <span>{{ to.label }}</span> <span *ngIf="to.required" class="tui-required"></span>
+</p>
+<tui-input-file
+  *ngIf="!to.disabled"
+  [accept]="to.accept"
+  [formControl]="control"
+  [label]="to.labelText"
+  [link]="to.linkText"
+  [loadingFiles]="$any(loading$ | async)"
+  [maxFileSize]="to.maxFileSize"
+  [multiple]="to.multiple"
+  [readOnly]="!!to.readonly"
+  [rejectedFiles]="$any(rejected$ | async)"
+  [showSize]="to.showSize"
+  [size]="to.size"
+  class="flex-1"
+></tui-input-file>
+<img
+  *ngIf="formControl.value && to.previewImage"
+  [src]="formControl.value | getFile | async"
+  class="object-contain w-full h-36 mx-auto mt-4"
+/>

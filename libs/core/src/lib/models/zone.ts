@@ -27,7 +27,6 @@ export interface Zone {
   adder: string;
   description: string;
   address: string;
-  numberOfRoom: number;
   type: string;
   office: Partial<Zone>;
   imageUrl: string;

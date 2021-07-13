@@ -93,6 +93,7 @@
     "graphql": "^15.5.1",
     "inter-ui": "^3.18.1",
     "mxgraph": "^4.2.2",
+    "ng-heroicon": "^0.4.5",
     "ngx-cookie": "^5.0.2",
     "ngx-easy-table": "^15.0.0",
     "ngx-permissions": "^8.1.1",

@@ -5,8 +5,24 @@
 :root {
   font-family: 'Inter', -apple-system, 'BlinkMacSystemFont', system-ui, 'Roboto', 'Segoe UI', 'Helvetica Neue',
     sans-serif;
+}
 
-  .text-blue-primary {
-    color: var(--tui-primary);
+.text-primary {
+  color: var(--tui-primary);
+}
+
+.tui-required {
+  color: red;
+}
+
+tui-wrapper[data-appearance='outline'] {
+  color: var(--tui-primary);
+
+  &::after {
+    border: 2px solid var(--tui-primary);
+  }
+
+  &[data-state='hovered'] {
+    background: var(--tui-secondary);
   }
 }

@@ -4,7 +4,7 @@ import { FormGroup } from '@ngneat/reactive-forms';
 import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { Columns, DefaultConfig } from 'ngx-easy-table';
-import { Permission, PermissionForm, Policy, Resource } from '../../models/policy';
+import { Permission, PermissionForm, Policy, PolicyItem, Resource } from '../../models/policy';
 import { AdminPermissionsService } from '../../services/admin-permissions.service';
 import { validatorTextPermission } from '../../utils/validatiors';
 
@@ -102,19 +102,34 @@ export class PermissionDetailComponent implements OnInit {
   }
 
   updatePolicyItems(): void {
-    const policyItemsOnly: Policy = JSON.parse(JSON.stringify(this.servicesModel));
-    policyItemsOnly.policyItems.forEach((policyItem) => {
-      const permissions: Permission[] = [];
+    if (!this.policyModel.policyItems) this.policyModel.policyItems = [];
+    (JSON.parse(JSON.stringify(this.servicesModel.policyItems)) as PolicyItem[]).forEach((policyItem) => {
+      let result: PolicyItem = this.policyModel.policyItems?.filter(
+        (item) => item.service.id === policyItem.service.id
+      )[0] as PolicyItem;
+      if (!result) {
+        result = { service: policyItem.service } as PolicyItem;
+        result.permissions = [];
+        result.permissionRemoves = [];
+        this.policyModel.policyItems?.push(result);
+      } else
+        result.permissions.forEach((item) => {
+          if (
+            !JSON.stringify(
+              this.servicesModel.policyItems?.filter((item) => item.service.id === result.service.id)
+            ).includes((item.resource as Resource).id)
+          )
+            result.permissionRemoves.push(item);
+        });
       policyItem.permissions.forEach((permission) => {
         const action = permission.action;
         if (Array.isArray(permission.resource))
           permission.resource.forEach((resource) => {
-            permissions.push({ action, resource } as Permission);
+            if (result.permissions.findIndex((item) => (item.resource as Resource).id === resource.id) === -1)
+              result.permissions.push({ action, resource } as Permission);
           });
       });
-      policyItem.permissions = permissions;
     });
-    Object.assign(this.policyModel, policyItemsOnly);
   }
 
   updateDataTable(): void {

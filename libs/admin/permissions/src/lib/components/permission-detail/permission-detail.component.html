@@ -12,7 +12,7 @@
     <div class="flex-auto">
       <ngx-table [columns]="columns" [configuration]="configuration" [data]="data">
         <ng-template let-row>
-          <td class="text-blue-primary">{{ row.service }}</td>
+          <td class="text-primary">{{ row.service }}</td>
           <td>
             <div *ngFor="let permission of row.permissions" class="mb-1">
               <span class="font-semibold">{{ permission.action }}: </span>

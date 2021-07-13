@@ -5,7 +5,7 @@
   </legend>
   <tui-expand [expanded]="!!expanded">
     <ng-template tuiExpandContent>
-      <div *ngIf="permissionsForm.controls as controls " class="grid grid-cols-2 gap-4 p-4 pt-2">
+      <div *ngIf="permissionsForm?.controls as controls " class="grid grid-cols-2 gap-4 p-4 pt-2">
         <hcm-select-resources *ngFor="let control of controls" [control]="$any(control)"></hcm-select-resources>
       </div>
     </ng-template>

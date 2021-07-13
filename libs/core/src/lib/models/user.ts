@@ -2,12 +2,13 @@ interface UserGroup {
   groupName: string;
 }
 
-interface Contact {
+export interface Contact {
   email: string;
   phone: string;
   skype: string;
   facebook: string;
   instagram: string;
+  website: string;
 }
 
 interface Profile {

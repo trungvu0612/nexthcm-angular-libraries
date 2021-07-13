@@ -3,7 +3,7 @@
     <button
       (click)="toggleExpandable(index)"
       [disabled]="!formControl.valid"
-      class="col-start-1 justify-self-start text-blue-primary"
+      class="col-start-1 justify-self-start text-primary"
     >
       <tui-svg [src]="expandedList[index] ? 'tuiIconCollapse' : 'tuiIconExpand'"></tui-svg>
       {{ expandedList[index] ? 'Collapse' : 'Expand' }}
@@ -11,7 +11,7 @@
     <div class="col-start-2 justify-self-center font-semibold py-1">
       <p
         *ngIf="formControl.at(index).get('service')?.value?.name as name; else choose"
-        class="text-blue-primary text-lg"
+        class="text-primary text-lg"
       >
         {{ name }}
       </p>
@@ -28,7 +28,7 @@
     </ng-template>
   </tui-expand>
 </section>
-<button (click)="add()" class="block text-blue-primary mx-auto">
+<button (click)="add()" class="block text-primary mx-auto">
   <tui-svg src="tuiIconPlusCircleLarge"></tui-svg>
   Add additional services
 </button>

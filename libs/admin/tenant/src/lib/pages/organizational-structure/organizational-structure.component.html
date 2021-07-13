@@ -1,0 +1,28 @@
+<main *transloco="let t" class="main-page">
+  <header>
+    <h1>{{ t('organizationalStructure') }}</h1>
+    <button (click)="showDialog(content)" appearance="primary" tuiButton>{{ t('addOrganizationalLevel') }}</button>
+  </header>
+  <section class="main-section">
+    <ngx-table [columns]="(columns$ | async) || []" [configuration]="configuration" [data]="data">
+      <ng-template let-row>
+        <td>{{ row.name }}</td>
+        <td>{{ row.parentOrganization.label }}</td>
+        <td class="flex gap-1 text-gray-500">
+          <tui-svg (click)="showDialog(content, row)" class="cursor-pointer" src="tuiIconEdit"></tui-svg>
+          <tui-svg class="cursor-pointer" src="tuiIconTrash"></tui-svg>
+        </td>
+      </ng-template>
+    </ngx-table>
+  </section>
+  <ng-template #content let-observer>
+    <h1 class="font-semibold text-primary">{{ t(isAdd ? 'addOrganizationalLevel' : 'editOrganizationalLevel') }}</h1>
+    <formly-form [fields]="fields" [form]="$any(form)" [model]="model" class="formly-gap"></formly-form>
+    <div class="flex justify-center gap-6 mt-8">
+      <button (click)="observer.complete()" appearance="outline" tuiButton>{{ t('cancel') }}</button>
+      <button (click)="save(observer)" [disabled]="!form.valid" appearance="primary" tuiButton>
+        {{ t('save') }}
+      </button>
+    </div>
+  </ng-template>
+</main>

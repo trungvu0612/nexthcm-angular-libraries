@@ -20,6 +20,7 @@
     "date-fns",
     "graphql",
     "inter-ui",
+    "ng-heroicon",
     "ngx-cookie",
     "ngx-easy-table",
     "ngx-permissions",

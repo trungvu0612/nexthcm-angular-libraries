@@ -1,48 +1,42 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@ngneat/reactive-forms';
-import { TuiDestroyService } from '@taiga-ui/cdk';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { FormControl } from '@ngneat/reactive-forms';
+import { AdminTenantService } from '../../services/admin-tenant.service';
 import { BehaviorSubject, combineLatest } from 'rxjs';
-import { debounceTime, switchMap, takeUntil } from 'rxjs/operators';
-import { SearchTenant, Tenant } from '../../models/tenant';
-import { TenantService } from '../../services/tenant.service';
+import { map, startWith, switchMap } from 'rxjs/operators';
+import { filterBySearch } from '@nexthcm/ui';
+import { Tenant } from '../../models/tenant';
 
 @Component({
   selector: 'hcm-tenant-list',
   templateUrl: './tenant-list.component.html',
   styleUrls: ['./tenant-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [TuiDestroyService],
 })
-export class TenantListComponent implements OnInit {
-  searchTenant = new BehaviorSubject<SearchTenant>({ name: '' });
-  page$ = new BehaviorSubject<number>(1);
-  totalLength = 0;
-  size$ = 10;
-  perPageSubject = new BehaviorSubject<number>(this.size$);
-  data: Partial<Tenant>[] = [];
-  columns = ['code', 'fullName', 'status', 'action'];
+export class TenantListComponent {
+  readonly searchControl = new FormControl<string>();
+  readonly columns = ['ordinalNumber', 'tenantCode', 'tenantName', 'status', 'action'];
+  readonly params$ = new BehaviorSubject<{ [key: string]: number }>({ size: 10 });
+  readonly source$ = this.params$.pipe(switchMap((params) => this.adminTenantService.getTenants(params)));
+  readonly data$ = combineLatest([this.source$, this.searchControl.valueChanges.pipe(startWith(''))]).pipe(
+    map(([data, search]) => ({
+      ...data,
+      items: filterBySearch<Tenant>(data.items, search, ['tenantCode', 'tenantName']),
+    }))
+  );
+  readonly statistic$ = this.adminTenantService.getTenants({ size: 999 }).pipe(
+    map((data) => {
+      const getLength = (state: number) => data.items.filter((item) => item.state === state).length;
+      return {
+        active: getLength(1),
+        pending: getLength(0),
+        deactivate: getLength(-1),
+      };
+    })
+  );
 
-  constructor(
-    private tenantService: TenantService,
-    private formBuilder: FormBuilder,
-    private cdr: ChangeDetectorRef,
-    private destroy$: TuiDestroyService
-  ) {}
+  constructor(private readonly adminTenantService: AdminTenantService) {}
 
-  ngOnInit(): void {
-    const request$ = combineLatest([this.page$, this.perPageSubject, this.searchTenant])
-      .pipe(
-        debounceTime(0),
-        switchMap(([page, perpage, search]) => {
-          return this.tenantService.getTenant(page - 1, perpage, search);
-        }),
-        takeUntil(this.destroy$)
-      )
-      .subscribe((item) => {
-        console.log(item.data.items);
-        this.data = item.data.items;
-        this.totalLength = item.data.totalElements;
-        this.cdr.detectChanges();
-      });
+  changePagination(key: 'page' | 'size', value: number): void {
+    this.params$.next({ ...this.params$.value, [key]: value });
   }
 }

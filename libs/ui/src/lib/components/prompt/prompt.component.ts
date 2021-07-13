@@ -15,7 +15,7 @@ export class PromptComponent {
   swalOptions: SweetAlertOptions = {
     showCancelButton: false,
     showConfirmButton: true,
-    confirmButtonText: 'OK',
+    confirmButtonText: 'ok',
     cancelButtonText: 'cancel',
   };
 

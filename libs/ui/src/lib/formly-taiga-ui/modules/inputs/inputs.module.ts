@@ -50,7 +50,6 @@ import { InputComponent } from './input/input.component';
 import { TextAreaComponent } from './text-area/text-area.component';
 import { InputInlineComponent } from './input-inline/input-inline.component';
 import { TuiAutoFocusModule } from '@taiga-ui/cdk';
-import { InputFileComponent } from './input-file/input-file.component';
 import { InputSliderComponent } from './input-slider/input-slider.component';
 
 @NgModule({
@@ -71,7 +70,6 @@ import { InputSliderComponent } from './input-slider/input-slider.component';
     InputMonthRangeComponent,
     EditorComponent,
     InputInlineComponent,
-    InputFileComponent,
     InputSliderComponent,
   ],
   imports: [
@@ -86,7 +84,6 @@ import { InputSliderComponent } from './input-slider/input-slider.component';
         { name: 'input-month', component: InputMonthComponent, wrappers: ['form-field'] },
         { name: 'input-count', component: InputCountComponent, wrappers: ['form-field'] },
         { name: 'input-date-time', component: InputDateTimeComponent, wrappers: ['form-field'] },
-        { name: 'input-file', component: InputFileComponent, wrappers: ['form-field'] },
         { name: 'input-slider', component: InputSliderComponent, wrappers: ['form-field'] },
         { name: 'input-number', component: InputNumberComponent, wrappers: ['form-field'] },
         { name: 'input-password', component: InputPasswordComponent, wrappers: ['form-field'] },

@@ -1,38 +1,31 @@
 :host {
   display: block;
 
-  main {
-    h1 {
-      margin: 0;
-      color: var(--tui-primary);
-    }
+  ::ng-deep {
+    formly-form-field {
+      > label {
+        @apply flex flex-row items-center h-full;
 
-    ::ng-deep {
-      formly-form-field {
-        > label {
-          @apply flex flex-row items-center h-full;
-
-          > span:first-child {
-            @apply text-base font-semibold w-36;
-          }
-
-          > span:last-child {
-            flex: auto;
-          }
+        > span:first-child {
+          @apply text-base font-semibold w-36;
         }
 
-        tui-input-count {
-          width: 50%;
-        }
-
-        tui-input-slider {
-          height: 3rem;
+        > span:last-child {
+          flex: auto;
         }
       }
-    }
 
-    .bg-gradient {
-      @apply bg-gradient-to-r from-blue-300 via-green-300 to-purple-300 rounded-xl w-3/4 max-w-4xl p-3;
+      tui-input-count {
+        width: 50%;
+      }
+
+      tui-input-slider {
+        height: 3rem;
+      }
     }
+  }
+
+  .bg-gradient {
+    @apply bg-gradient-to-r from-blue-300 via-green-300 to-purple-300 rounded-xl w-3/4 max-w-4xl p-3;
   }
 }

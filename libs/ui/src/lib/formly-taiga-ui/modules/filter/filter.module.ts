@@ -5,7 +5,7 @@ import { TuiFilterModule } from '@taiga-ui/kit';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TuiLetModule } from '@taiga-ui/cdk';
 import { FormlyModule } from '@ngx-formly/core';
-import { SelectOptionsModule } from '../../../pipes/select-options/select-options.module';
+import { SelectOptionsModule } from '../../../pipes/';
 
 @NgModule({
   declarations: [FilterComponent],
