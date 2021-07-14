@@ -78,6 +78,10 @@ import { AppComponent } from './app.component';
               path: 'user-roles',
               loadChildren: () => import('@nexthcm/admin-user-roles').then((m) => m.AdminUserRolesModule),
             },
+            {
+              path: 'working-times',
+              loadChildren: () => import('@nexthcm/admin-working-times').then((m) => m.AdminWorkingTimesModule),
+            },
           ],
         },
       ],

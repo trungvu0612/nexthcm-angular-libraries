@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { filterBySearch } from '@nexthcm/ui';
 import { FormControl } from '@ngneat/reactive-forms';
-import { AdminTenantService } from '../../services/admin-tenant.service';
 import { BehaviorSubject, combineLatest } from 'rxjs';
 import { map, startWith, switchMap } from 'rxjs/operators';
-import { filterBySearch } from '@nexthcm/ui';
 import { Tenant } from '../../models/tenant';
+import { AdminTenantService } from '../../services/admin-tenant.service';
 
 @Component({
   selector: 'hcm-tenant-list',

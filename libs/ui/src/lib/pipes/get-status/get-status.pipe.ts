@@ -1,5 +1,5 @@
-import { NgModule, Pipe, PipeTransform } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule, Pipe, PipeTransform } from '@angular/core';
 
 enum CommonStatus {
   deactivate = -1,

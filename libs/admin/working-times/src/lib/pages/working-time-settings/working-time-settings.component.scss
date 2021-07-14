@@ -1,0 +1,47 @@
+:host {
+  display: block;
+
+  ::ng-deep tui-hosted-dropdown {
+    width: 100px;
+  }
+
+  ::ng-deep tui-input-count {
+    width: 80px;
+  }
+
+  .check-column {
+    min-width: 180px;
+  }
+
+  ::ng-deep .tui-dropdown {
+    tui-hosted-dropdown {
+      width: 200px !important;
+    }
+  }
+
+  .ab-right {
+    position: absolute;
+    right: 50px;
+    top: 100px;
+    @media screen and (max-width: 1600px) {
+      position: unset;
+      right: 0;
+      top: 0;
+    }
+  }
+
+  ::ng-deep .checkbox-day label {
+    display: unset !important;
+    position: relative;
+    top: 20px;
+
+    .label {
+      position: absolute;
+      left: 25px;
+    }
+  }
+
+  ::ng-deep .ngx-table__sort-header {
+    display: none;
+  }
+}

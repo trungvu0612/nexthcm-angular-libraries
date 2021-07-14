@@ -1,8 +1,8 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { APP_CONFIG, AppConfig, PagingResponse } from '@nexthcm/core';
+import { APP_CONFIG, AppConfig, PagingResponse, UserDto } from '@nexthcm/core';
 import { Observable } from 'rxjs';
-import { SearchWorkingHour, WorkingHour } from '../models/working-hour';
+import { RequestUpdateTime, SearchWorkingHour, WorkingHour } from '../models/working-hour';
 
 @Injectable({
   providedIn: 'root',
@@ -21,7 +21,7 @@ export class WorkingHourService {
     Object.keys(search).forEach((key) => {
       httpParams = httpParams.append(key, search[key as keyof SearchWorkingHour]);
     });
-    return this.httpClient.get<PagingResponse<WorkingHour>>(this.appVersion + '/working-hours-all', {
+    return this.httpClient.get<PagingResponse<WorkingHour>>(this.appVersion + '/working-hours', {
       params: httpParams
         .set('page', pageIndex ? pageIndex.toString() : '')
         .set('size', pageSize ? pageSize.toString() : ''),
@@ -31,16 +31,29 @@ export class WorkingHourService {
   getWorkingHourOnlyMe(
     pageIndex: number,
     pageSize: number,
-    search: SearchWorkingHour
+    search: SearchWorkingHour,
+    userId: string
   ): Observable<PagingResponse<WorkingHour>> {
     let httpParams = new HttpParams();
     Object.keys(search).forEach((key) => {
       httpParams = httpParams.append(key, search[key as keyof SearchWorkingHour]);
     });
-    return this.httpClient.get<PagingResponse<WorkingHour>>(this.appVersion + '/working-hour', {
+    return this.httpClient.get<PagingResponse<WorkingHour>>(this.appVersion + '/working-hours?userId=' + userId, {
       params: httpParams
         .set('page', pageIndex ? pageIndex.toString() : '')
         .set('size', pageSize ? pageSize.toString() : ''),
     });
+  }
+
+  getWorkingHourDetail(id: any): Observable<WorkingHour> {
+    return this.httpClient.get<WorkingHour>(this.appVersion + '/working-hours' + '/' + id);
+  }
+
+  getAllUsers(): Observable<PagingResponse<UserDto>> {
+    return this.httpClient.get<PagingResponse<UserDto>>(`/accountapp/v1.0/users`);
+  }
+
+  submitRequestTime(dto: RequestUpdateTime): Observable<RequestUpdateTime> {
+    return this.httpClient.post<RequestUpdateTime>(this.appVersion + '/working-hours', dto);
   }
 }

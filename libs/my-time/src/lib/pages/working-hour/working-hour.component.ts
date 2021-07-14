@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
+import { AuthService } from '@nexthcm/auth';
 import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
@@ -6,6 +7,8 @@ import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { BehaviorSubject, combineLatest } from 'rxjs';
 import { debounceTime, switchMap, takeUntil } from 'rxjs/operators';
 import { RequestOtComponent } from '../../components/request-ot/request-ot.component';
+import { RequestUpdateTimeComponent } from '../../components/request-update-time/request-update-time.component';
+import { WorkingHourDetailComponent } from '../../components/working-hour-detail/working-hour-detail.component';
 import { WorkingOutsiteComponent } from '../../components/working-outsite/working-outsite.component';
 import { SearchWorkingHour, WorkingHour } from '../../models/working-hour';
 import { WorkingHourService } from '../../services/working-hour.service';
@@ -19,8 +22,9 @@ import { WorkingHourService } from '../../services/working-hour.service';
 })
 export class WorkingHourComponent implements OnInit {
   workingMeStatus = true;
-  WorkingHourData!: WorkingHour[];
-  WorkingHourDataOnlyMe!: WorkingHour[];
+  workingHourData!: WorkingHour[];
+  workingHourDataOnlyMe!: WorkingHour[];
+  userInfo: any;
   searchForm!: FormGroup<SearchWorkingHour>;
   searchWorkingHour = new BehaviorSubject<SearchWorkingHour>({ name: '' });
   page$ = new BehaviorSubject<number>(1);
@@ -43,6 +47,7 @@ export class WorkingHourComponent implements OnInit {
   ];
   readonly everyone_columns = [
     'cif',
+    'cif',
     'fullName',
     'office',
     'date',
@@ -60,35 +65,38 @@ export class WorkingHourComponent implements OnInit {
     private workingHourService: WorkingHourService,
     private formBuilder: FormBuilder,
     private cdr: ChangeDetectorRef,
-    private destroy$: TuiDestroyService
+    private destroy$: TuiDestroyService,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
+    this.userInfo = this.authService.get('userInfo');
     this.searchForm = this.formBuilder.group<SearchWorkingHour>({
       name: '',
     });
-    const request$ = combineLatest([this.page$, this.perPageSubject, this.searchWorkingHour])
+    combineLatest([this.page$, this.perPageSubject, this.searchWorkingHour])
       .pipe(
         debounceTime(0),
         switchMap(([page, perpage, search]) => {
-          return this.workingHourService.getWorkingHourOnlyMe(page - 1, perpage, search);
+          return this.workingHourService.getWorkingHourOnlyMe(page - 1, perpage, search, this.userInfo.userId);
         }),
         takeUntil(this.destroy$)
       )
       .subscribe((item) => {
-        this.WorkingHourDataOnlyMe = item.data.items;
+        this.workingHourDataOnlyMe = item.data.items;
+        console.log(this.workingHourDataOnlyMe);
         this.totalLength = item.data.totalElements;
         this.cdr.detectChanges();
       });
   }
 
-  workingStatus(type: string) {
-    if (type == 'me') {
+  workingStatus(type: string): void {
+    if (type === 'me') {
       this.workingMeStatus = true;
     }
-    if (type == 'all') {
+    if (type === 'all') {
       this.workingMeStatus = false;
-      const request$ = combineLatest([this.page$, this.perPageSubject, this.searchWorkingHour])
+      combineLatest([this.page$, this.perPageSubject, this.searchWorkingHour])
         .pipe(
           debounceTime(0),
           switchMap(([page, perpage, search]) => {
@@ -97,7 +105,9 @@ export class WorkingHourComponent implements OnInit {
           takeUntil(this.destroy$)
         )
         .subscribe((item) => {
-          this.WorkingHourData = item.data.items;
+          this.workingHourData = item.data.items;
+          console.log('this.WorkingHourData');
+          console.log(this.workingHourData);
           this.totalLength = item.data.totalElements;
           this.cdr.detectChanges();
         });
@@ -126,13 +136,36 @@ export class WorkingHourComponent implements OnInit {
       });
   }
 
+  workingHourDetail(id: any): void {
+    this.dialogService
+      .open(new PolymorpheusComponent(WorkingHourDetailComponent, this.injector), {
+        size: 'm',
+        closeable: false,
+        data: id,
+      })
+      .subscribe((map) => {
+        this.cdr.detectChanges();
+      });
+  }
+
+  requestUpdateTime(): void {
+    this.dialogService
+      .open(new PolymorpheusComponent(RequestUpdateTimeComponent, this.injector), {
+        size: 'm',
+        closeable: false,
+      })
+      .subscribe((map) => {
+        this.cdr.detectChanges();
+      });
+  }
+
   onSearch(): void {}
 
-  onPage(page: number) {
+  onPage(page: number): void {
     this.page$.next(page + 1);
   }
 
-  onSize(size: number) {
+  onSize(size: number): void {
     this.perPageSubject.next(size);
   }
 }

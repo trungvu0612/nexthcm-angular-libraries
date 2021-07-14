@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { AdminPermissionsService } from '@nexthcm/admin-permissions';
 import { FieldType } from '@ngx-formly/core';
 import { TuiContextWithImplicit, TuiIdentityMatcher, TuiStringHandler } from '@taiga-ui/cdk';
-import { switchMap } from 'rxjs/operators';
 import { BehaviorSubject } from 'rxjs';
-import { AdminPermissionsService } from '@nexthcm/admin-permissions';
+import { switchMap } from 'rxjs/operators';
 
 interface Hero {
   readonly id: number;

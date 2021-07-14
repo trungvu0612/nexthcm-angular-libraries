@@ -1,0 +1,27 @@
+<div class='text-2xl text-center'>Detail</div>
+<div *ngIf='workingData.data' class='grid grid-cols-2 my-10 gap-2'>
+  <div class='text-base font-bold'>Date modified:</div>
+  <div>{{workingData.data.lastModifiedDate | date:'dd/MM/yyyy' }}</div>
+  <div class='text-base font-bold'>Day:</div>
+  <div>{{workingData.data.trackingDate | date:'fullDate' }}</div>
+  <div class='text-base font-bold'>Date:</div>
+  <div>{{workingData.data.trackingDate | date:'dd/MM/yyyy' }}</div>
+  <div class='text-base font-bold'>Office:</div>
+  <div></div>
+  <div class='text-base font-bold'>Time In:</div>
+  <div>{{workingData.data.inTime | date:'h:mm:ss' }}</div>
+  <div class='text-base font-bold'>Time Out:</div>
+  <div>{{workingData.data.outTime | date:'h:mm:ss' }}</div>
+  <div class='text-base font-bold'>Total Working Time (h):</div>
+  <div></div>
+  <div class='text-base font-bold'>Working Day:</div>
+  <div></div>
+  <div class='text-base font-bold'>Overtime:</div>
+  <div></div>
+  <div class='text-base font-bold'>Onsite Day:</div>
+  <div></div>
+  <div class='text-base font-bold'>WFH Day:</div>
+  <div></div>
+  <div class='text-base font-bold'>Leave:</div>
+  <div></div>
+</div>

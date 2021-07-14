@@ -1,10 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Pagination, PagingResponse } from '@nexthcm/core';
-import { Observable } from 'rxjs';
-import { Domain, Tenant } from '../models/tenant';
-import { map } from 'rxjs/operators';
 import { RxState } from '@rx-angular/state';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { Domain, Tenant } from '../models/tenant';
 
 @Injectable()
 export class AdminTenantService extends RxState<Tenant> {

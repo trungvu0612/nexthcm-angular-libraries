@@ -588,6 +588,44 @@
         }
       }
     },
+    "admin-working-times": {
+      "projectType": "library",
+      "root": "libs/admin/working-times",
+      "sourceRoot": "libs/admin/working-times/src",
+      "prefix": "hcm",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/angular:package",
+          "outputs": ["dist/libs/admin/working-times"],
+          "options": {
+            "project": "libs/admin/working-times/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "libs/admin/working-times/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "libs/admin/working-times/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/admin/working-times"],
+          "options": {
+            "jestConfig": "libs/admin/working-times/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/admin/working-times/src/**/*.ts", "libs/admin/working-times/src/**/*.html"]
+          }
+        }
+      }
+    },
     "auth": {
       "projectType": "library",
       "root": "libs/auth",

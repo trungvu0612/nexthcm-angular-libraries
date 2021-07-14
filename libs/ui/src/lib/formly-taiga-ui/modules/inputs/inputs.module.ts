@@ -4,6 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { FormlyModule } from '@ngx-formly/core';
 import { TuiCurrencyPipeModule } from '@taiga-ui/addon-commerce';
 import { TuiEditorModule } from '@taiga-ui/addon-editor';
+import { TuiAutoFocusModule } from '@taiga-ui/cdk';
 import {
   TuiButtonModule,
   TuiErrorModule,
@@ -38,19 +39,18 @@ import { InputCountComponent } from './input-count/input-count.component';
 import { InputDateRangeComponent } from './input-date-range/input-date-range.component';
 import { InputDateTimeComponent } from './input-date-time/input-date-time.component';
 import { InputDateComponent } from './input-date/input-date.component';
+import { InputInlineComponent } from './input-inline/input-inline.component';
 import { InputMonthRangeComponent } from './input-month-range/input-month-range.component';
 import { InputMonthComponent } from './input-month/input-month.component';
 import { InputNumberComponent } from './input-number/input-number.component';
 import { InputPasswordComponent } from './input-password/input-password.component';
 import { InputPhoneInternationalComponent } from './input-phone-international/input-phone-international.component';
 import { InputPhoneComponent } from './input-phone/input-phone.component';
+import { InputSliderComponent } from './input-slider/input-slider.component';
 import { InputTagComponent } from './input-tag/input-tag.component';
 import { InputTimeComponent } from './input-time/input-time.component';
 import { InputComponent } from './input/input.component';
 import { TextAreaComponent } from './text-area/text-area.component';
-import { InputInlineComponent } from './input-inline/input-inline.component';
-import { TuiAutoFocusModule } from '@taiga-ui/cdk';
-import { InputSliderComponent } from './input-slider/input-slider.component';
 
 @NgModule({
   declarations: [

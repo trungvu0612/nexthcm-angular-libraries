@@ -1,11 +1,11 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FilterComponent } from './filter.component';
-import { TuiFilterModule } from '@taiga-ui/kit';
+import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { TuiLetModule } from '@taiga-ui/cdk';
 import { FormlyModule } from '@ngx-formly/core';
+import { TuiLetModule } from '@taiga-ui/cdk';
+import { TuiFilterModule } from '@taiga-ui/kit';
 import { SelectOptionsModule } from '../../../pipes/';
+import { FilterComponent } from './filter.component';
 
 @NgModule({
   declarations: [FilterComponent],

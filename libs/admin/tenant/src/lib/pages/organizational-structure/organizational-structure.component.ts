@@ -1,15 +1,15 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { FormGroup } from '@ngneat/reactive-forms';
-import { Subscriber } from 'rxjs';
 import { ValidationService } from '@nexthcm/ui';
-import { OrganizationalLevel } from '../../models/tenant';
+import { FormGroup } from '@ngneat/reactive-forms';
+import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
+import { RxState } from '@rx-angular/state';
 import { TuiDialogContext, TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusContent } from '@tinkoff/ng-polymorpheus';
 import { Columns, DefaultConfig } from 'ngx-easy-table';
-import { RxState } from '@rx-angular/state';
-import { TranslocoService } from '@ngneat/transloco';
+import { Subscriber } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { OrganizationalLevel } from '../../models/tenant';
 
 @Component({
   selector: 'hcm-organizational-structure',

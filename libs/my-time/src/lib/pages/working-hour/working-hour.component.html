@@ -135,8 +135,6 @@
 
       <div class="my-3">
         <input
-          type="text"
-          placeholder="Search by CIF, Full Name, Office"
           class="
             searchbar
             px-3
@@ -152,6 +150,8 @@
             focus:outline-none focus:ring
             w-full
           "
+          placeholder="Search by CIF, Full Name, Office"
+          type="text"
         />
       </div>
 
@@ -177,27 +177,48 @@
                         <th *tuiHead="'action'" class="w-32" tuiTh>Action</th>
                       </tr>
                     </thead>
-                    <tbody [data]="WorkingHourDataOnlyMe" tuiTbody>
-                      <tr *tuiRow="let req of WorkingHourDataOnlyMe; let index = index" tuiTr>
-                        <td *tuiCell="'office'" tuiTd>{{ req.office }}</td>
-                        <td *tuiCell="'date'" tuiTd>{{ req.date }}</td>
+                    <tbody [data]="workingHourDataOnlyMe" tuiTbody>
+                      <tr *tuiRow="let req of workingHourDataOnlyMe; let index = index" tuiTr>
+                        <td *tuiCell="'office'" tuiTd></td>
+                        <td *tuiCell="'date'" tuiTd>{{ req.trackingDate | date: 'dd/MM/yyyy' }}</td>
                         <td *tuiCell="'day'" tuiTd>{{ req.day }}</td>
-                        <td *tuiCell="'timeIn'" tuiTd>{{ req.timeIn }}</td>
-                        <td *tuiCell="'timeOut'" tuiTd>{{ req.timeOut }}</td>
-                        <td *tuiCell="'totalWorkingTime'" tuiTd>{{ req.totalWorkingTime }}</td>
+                        <td *tuiCell="'timeIn'" tuiTd>{{ req.inTime | date: 'h:mm:ss' }}</td>
+                        <td *tuiCell="'timeOut'" tuiTd>{{ req.outTime | date: 'h:mm:ss' }}</td>
+                        <td *tuiCell="'totalWorkingTime'" tuiTd>{{ req.totalWorkingTime | date: 'h:mm:ss' }}</td>
                         <td *tuiCell="'workingDay'" tuiTd>{{ req.workingDay }}</td>
-                        <td *tuiCell="'ot'" tuiTd>{{ req.ot }}</td>
+                        <td *tuiCell="'ot'" tuiTd></td>
                         <td *tuiCell="'onsiteDay'" tuiTd>{{ req.onsiteDay }}</td>
-                        <td *tuiCell="'leave'" tuiTd>{{ req.leave }}</td>
+                        <td *tuiCell="'leave'" tuiTd></td>
                         <td *tuiCell="'action'" tuiTd>
-                          <button
-                            [icon]="'tuiIconEditLarge'"
-                            [routerLink]="['../edit/' + req.id]"
-                            [shape]="$any('rounded')"
-                            appearance="flat"
-                            size="s"
-                            tuiIconButton
-                          ></button>
+                          <div class="flex">
+                            <tui-svg
+                              (click)="workingHourDetail(req?.id)"
+                              class="mr-2"
+                              src="assets/icons/eye.svg"
+                            ></tui-svg>
+                            <div>
+                              <button
+                                (click)="requestUpdateTime()"
+                                appearance="flat"
+                                class="
+                                  bg-transparent
+                                  hover:bg-blue-500
+                                  text-blue-700
+                                  font-semibold
+                                  hover:text-white
+                                  py-2
+                                  px-4
+                                  border border-blue-500
+                                  hover:border-transparent
+                                  rounded
+                                  ml-2
+                                "
+                                size="s"
+                              >
+                                Update
+                              </button>
+                            </div>
+                          </div>
                         </td>
                       </tr>
                     </tbody>
@@ -229,26 +250,49 @@
                         <th *tuiHead="'action'" class="w-32" tuiTh>Action</th>
                       </tr>
                     </thead>
-                    <tbody [data]="WorkingHourData" tuiTbody>
-                      <tr *tuiRow="let req of WorkingHourData; let index = index" tuiTr>
-                        <td *tuiCell="'cif'" tuiTd>{{ req.cif }}</td>
-                        <td *tuiCell="'fullName'" tuiTd>{{ req?.fullName }}</td>
-                        <td *tuiCell="'office'" tuiTd>{{ req.office }}</td>
-                        <td *tuiCell="'date'" tuiTd>{{ req.date }}</td>
+                    <tbody [data]="workingHourData" tuiTbody>
+                      <tr *tuiRow="let req of workingHourData; let index = index" tuiTr>
+                        <td *tuiCell="'cif'" tuiTd>{{ req.userInfo.code }}</td>
+                        <td *tuiCell="'fullName'" tuiTd>{{ req?.userInfo?.profile?.fullName }}</td>
+                        <td *tuiCell="'office'" tuiTd></td>
+                        <td *tuiCell="'date'" tuiTd>{{ req.trackingDate | date: 'dd/MM/yyyy' }}</td>
                         <td *tuiCell="'day'" tuiTd>{{ req.day }}</td>
-                        <td *tuiCell="'timeIn'" tuiTd>{{ req.timeIn }}</td>
-                        <td *tuiCell="'timeOut'" tuiTd>{{ req.timeOut }}</td>
-                        <td *tuiCell="'totalWorkingTime'" tuiTd>{{ req.totalWorkingTime }}</td>
+                        <td *tuiCell="'timeIn'" tuiTd>{{ req.inTime | date: 'h:mm:ss' }}</td>
+                        <td *tuiCell="'timeOut'" tuiTd>{{ req.outTime | date: 'h:mm:ss' }}</td>
+                        <td *tuiCell="'totalWorkingTime'" tuiTd>{{ req.totalWorkingTime | date: 'h:mm:ss' }}</td>
                         <td *tuiCell="'workingDay'" tuiTd>{{ req.workingDay }}</td>
                         <td *tuiCell="'action'" tuiTd>
-                          <button
-                            [icon]="'tuiIconEditLarge'"
-                            [routerLink]="['../edit/' + req.id]"
-                            [shape]="$any('rounded')"
-                            appearance="flat"
-                            size="s"
-                            tuiIconButton
-                          ></button>
+                          <div class="flex">
+                            <div>
+                              <tui-svg
+                                (click)="workingHourDetail(req?.id)"
+                                class="mr-2"
+                                src="assets/icons/eye.svg"
+                              ></tui-svg>
+                            </div>
+                            <div>
+                              <button
+                                (click)="requestUpdateTime()"
+                                appearance="flat"
+                                class="
+                                  bg-transparent
+                                  hover:bg-blue-500
+                                  text-blue-700
+                                  font-semibold
+                                  hover:text-white
+                                  py-2
+                                  px-4
+                                  border border-blue-500
+                                  hover:border-transparent
+                                  rounded
+                                  ml-2
+                                "
+                                size="s"
+                              >
+                                Update
+                              </button>
+                            </div>
+                          </div>
                         </td>
                       </tr>
                     </tbody>

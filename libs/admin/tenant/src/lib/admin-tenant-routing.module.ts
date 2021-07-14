@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { LayoutComponent } from '@nexthcm/ui';
 import { AuthGuard } from '@nexthcm/auth';
-import { TenantListComponent } from './pages/tenant-list/tenant-list.component';
-import { UpsertTenantComponent } from './pages/upsert-tenant/upsert-tenant.component';
-import { DomainListComponent } from './pages/domain-list/domain-list.component';
+import { LayoutComponent } from '@nexthcm/ui';
 import { AdminTenantComponent } from './admin-tenant.component';
 import { SuperUserGuard } from './guards/super-user.guard';
-import { OrganizationalStructureComponent } from './pages/organizational-structure/organizational-structure.component';
+import { DomainListComponent } from './pages/domain-list/domain-list.component';
 import { OrganizationalChartComponent } from './pages/organizational-chart/organizational-chart.component';
+import { OrganizationalStructureComponent } from './pages/organizational-structure/organizational-structure.component';
+import { TenantListComponent } from './pages/tenant-list/tenant-list.component';
+import { UpsertTenantComponent } from './pages/upsert-tenant/upsert-tenant.component';
 
 const routes: Routes = [
   {

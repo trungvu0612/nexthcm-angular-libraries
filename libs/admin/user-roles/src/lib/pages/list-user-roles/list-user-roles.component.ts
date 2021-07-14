@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
-import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
+import { TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
-import { UpsertUserRolesComponent } from '../upsert-user-roles/upsert-user-roles.component';
+import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { BehaviorSubject, combineLatest } from 'rxjs';
 import { debounceTime, switchMap, takeUntil } from 'rxjs/operators';
 import { AdminUserRolesService } from '../../services/admin-user-roles.service';
-import { TuiDestroyService } from '@taiga-ui/cdk';
+import { UpsertUserRolesComponent } from '../upsert-user-roles/upsert-user-roles.component';
 
 @Component({
   selector: 'hcm-list-user-roles',

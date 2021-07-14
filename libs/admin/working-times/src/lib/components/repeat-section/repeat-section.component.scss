@@ -1,0 +1,40 @@
+:host {
+  display: block;
+
+  .add-btn {
+    padding: 5px;
+    margin: auto;
+    height: fit-content;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  ::ng-deep tui-select {
+    display: unset !important;
+  }
+
+  ::ng-deep .hosted {
+    display: inline-block !important;
+  }
+
+  ::ng-deep formly-form-field {
+    label {
+      span {
+        margin-left: 5px;
+        margin-right: 5px;
+      }
+
+      display: inline-block !important;
+      margin-left: 5px;
+      margin-right: 5px;
+    }
+  }
+
+  ::ng-deep tui-hosted-dropdown {
+    .hosted {
+      display: unset !important;
+    }
+  }
+}

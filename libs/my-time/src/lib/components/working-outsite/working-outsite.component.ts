@@ -22,5 +22,5 @@ export class WorkingOutsiteComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  submit() {}
+  submit(): void {}
 }
