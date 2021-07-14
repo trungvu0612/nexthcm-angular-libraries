@@ -1,1 +1,54 @@
-<button (click)="showDialog()" class="blue-button">Add Permission</button>
+<main class='main-page'>
+  <header>
+    <h1>Role List</h1>
+    <button (click)='showDialog()' class='blue-button' tuiButton>Add Roles</button>
+  </header>
+  <section class='main-section'>
+    <table *ngIf="data" [columns]='columns' class='hcm-tui-table' tuiTable>
+      <thead>
+      <tr tuiThGroup class='text-left'>
+        <th *tuiHead="'name'"  tuiTh>Tên</th>
+        <th *tuiHead="'description'"  tuiTh>Mô Tả</th>
+        <th *tuiHead="'action'"  tuiTh>Thao Tác</th>
+      </tr>
+      </thead>
+
+      <tbody [data]='data' tuiTbody>
+      <tr *tuiRow='let item of data' tuiTr>
+
+        <td *tuiCell="'name'" tuiTd>
+          {{ item.name }}
+        </td>
+
+        <td *tuiCell="'description'" tuiTd>
+          {{ item.description }}
+        </td>
+
+        <td *tuiCell="'action'" tuiTd>
+          <div class='flex text-gray-400'>
+            <button (click)='showDialogEdit(item.id)'>
+              <tui-svg src='tuiIconEdit'></tui-svg>
+            </button>
+            <button (click)='cancel()'>
+              <tui-svg src='tuiIconTrash'></tui-svg>
+            </button>
+          </div>
+        </td>
+      </tr>
+      </tbody>
+
+      <tfoot>
+      <tr>
+        <td [colSpan]='columns.length' class='px-5 py-3'>
+          <tui-table-pagination
+            (pageChange)="onPage($event)"
+            (sizeChange)="onSize($event)"
+            [(page)]='page'
+            [(size)]='size'
+            [total]='totalElements'></tui-table-pagination>
+        </td>
+      </tr>
+      </tfoot>
+    </table>
+  </section>
+</main>

@@ -1,10 +1,14 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { BranchPost } from '../../../../../branches/src/lib/models/branch';
+import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { FormGroup } from '@ngneat/reactive-forms';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { AdminPermissionsService } from '../../../../../permissions/src/lib/services/admin-permissions.service';
+import { ValidationService } from '@nexthcm/ui';
+import { AdminPermissionsService } from '@nexthcm/admin-permissions';
+import { AdminUserRolesService } from '../../services/admin-user-roles.service';
+import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
+import { TuiDialogContext } from '@taiga-ui/core';
+import { AdminUserRole } from '../../models/admin-user-role';
 
 @Component({
   selector: 'hcm-upsert-user-roles',
@@ -13,53 +17,77 @@ import { AdminPermissionsService } from '../../../../../permissions/src/lib/serv
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UpsertUserRolesComponent implements OnInit {
-  columns = ['name', 'code', 'description', 'lastModifiedDate', 'action'];
-  params$ = new BehaviorSubject<{ page?: number; size?: number }>({ size: 10 });
+  columns = ['name','description', 'action'];
+  params$ = new BehaviorSubject<{ page?: number; size?: number }>({ size: 100 });
   permissions$: Observable<any[]> = this.adminPermissionsService
     .getPermissions(this.params$.value)
     .pipe(map((data) => data.items));
   // timeValues$: Observable<any[]> = this.myLeaveService.getTimeValues().pipe(map((data) => data));
-  readonly branchForm = new FormGroup({});
-  model: Partial<BranchPost> = {};
+
+  data = this.context.data || '';
+  readonly adminUserRoleForm = new FormGroup({});
+  model: Partial<AdminUserRole> = {};
   options: FormlyFormOptions = {};
   fields: FormlyFieldConfig[] = [
     {
-      className: 'm-8',
-      key: 'valueRoles',
-      type: 'multi-select',
+      className: 'my-8',
+      key: 'name',
+      type: 'input',
       templateOptions: {
-        options: [
-          { id: 1, name: 'Luke Skywalker' },
-          { id: 2, name: 'Leia Organa Solo' },
-          { id: 3, name: 'Darth Vader' },
-          { id: 4, name: 'Han Solo' },
-          { id: 5, name: 'Obi-Wan Kenobi' },
-          { id: 6, name: 'Yoda' },
-        ],
-        textfieldSize: 'l',
-        labelProp: 'name',
-        valueProp: 'name',
-        textfieldLabelOutside: true,
+        required: true,
+        translate: true,
+        label: 'name',
+        textfieldLabelOutside: true
       },
+      ...this.validationService.getValidation(['required'])
     },
     {
-      key: 'permissions',
+      className: 'my-8',
+      key: 'description',
+      type: 'text-area',
+      templateOptions: {
+        required: true,
+        translate: true,
+        label: 'Description',
+        textfieldLabelOutside: true
+      },
+      ...this.validationService.getValidation(['required'])
+    },
+    {
+      className: 'my-8',
+      key: 'policies',
       type: 'select-permissions',
       templateOptions: {
         options: this.permissions$,
+        label: 'Permissions',
         labelProp: 'name',
         valueProp: 'id',
+        textfieldLabelOutside: true
       },
+      ...this.validationService.getValidation(['required'])
     },
   ];
 
-  constructor(private adminPermissionsService: AdminPermissionsService) {}
+  constructor(
+    @Inject(POLYMORPHEUS_CONTEXT) public context: TuiDialogContext<unknown, AdminUserRole>,
+    private adminPermissionsService: AdminPermissionsService,
+    private adminUserRolesService: AdminUserRolesService,
+    private readonly validationService: ValidationService,
+  ) {}
 
   ngOnInit(): void {
-    // console.log('permission$$$$$',this.permissions$);
+    console.log('iddddd data', this.data);
+    if (this.data !== '') {
+      this.adminUserRolesService.getAdminUserRolesId(this.data).subscribe((item) => {
+        console.log(item.data)
+        this.model = { ...this.model, ...item.data };
+      });
+    }
   }
 
   submit() {}
 
   cancel() {}
+
 }
+

@@ -90,8 +90,10 @@ export class ListTimesheetUpdateComponent implements OnInit {
           req.newInTime = new Date(newInTime * 1000).toISOString().substr(11, 5);
           req.newOutTime = new Date(newOutTime * 1000).toISOString().substr(11, 5);
           req.updateTotalTime = Math.round(((newOutTime - newInTime) / 3600) * 100) / 100;
-          req.timeSheetTracking.inTime = new Date((inTime ? inTime : 0) * 1000).toISOString().substr(11, 5);
-          req.timeSheetTracking.outTime = new Date((outTime ? outTime : 0) * 1000).toISOString().substr(11, 5);
+          if (req.timeSheetTracking){
+            req.timeSheetTracking.inTime = new Date((inTime ? inTime : 0) * 1000).toISOString().substr(11, 5);
+            req.timeSheetTracking.outTime = new Date((outTime ? outTime : 0) * 1000).toISOString().substr(11, 5);
+          }
         });
         this.totalLength = item.data.totalElements;
         this.cdr.markForCheck();
