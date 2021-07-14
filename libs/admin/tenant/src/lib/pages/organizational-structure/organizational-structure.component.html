@@ -8,9 +8,9 @@
       <ng-template let-row>
         <td>{{ row.name }}</td>
         <td>{{ row.parentOrganization.label }}</td>
-        <td class="flex gap-1 text-gray-500">
-          <tui-svg (click)="showDialog(content, row)" class="cursor-pointer" src="tuiIconEdit"></tui-svg>
-          <tui-svg class="cursor-pointer" src="tuiIconTrash"></tui-svg>
+        <td class="flex gap-1">
+          <hero-icon (click)="showDialog(content, row)" class="icon-button" name="pencil-alt" type="solid"></hero-icon>
+          <hero-icon class="icon-button" name="trash" type="solid"></hero-icon>
         </td>
       </ng-template>
     </ngx-table>

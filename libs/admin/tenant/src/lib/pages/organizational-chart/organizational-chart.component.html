@@ -4,10 +4,10 @@
     <button (click)="showDialog(content)" appearance="primary" tuiButton>{{ t('addOrganizationalUnit') }}</button>
   </header>
   <section #scrollbar (mouseenter)="canZoom = true" (mouseleave)="canZoom = false" class="main-section">
-    <p class="text-right font-semibold pt-4 pr-4">
-      {{ (zoom$ | async | number: '1.0-0') + '%' }}
-      <tui-svg src="assets/icons/zoom.svg"></tui-svg>
-    </p>
+    <div class="flex justify-end gap-1 pt-4 pr-4">
+      <span class="font-semibold"> {{ (zoom$ | async | number: '1.0-0') + '%' }}</span>
+      <hero-icon class="w-6 h-6" name="zoom-in" type="solid"></hero-icon>
+    </div>
     <tui-scrollbar class="w-full">
       <div
         *ngIf="dimension$ | async as dim"
@@ -19,6 +19,7 @@
           '--one': dim.one,
           '--three-quarter': dim['three-quarter'],
           '--half': dim.half,
+          '--quarter': dim.quarter,
           '--bar': dim.bar
         }"
         class="chart p-8 pt-2"

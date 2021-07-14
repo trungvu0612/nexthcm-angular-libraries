@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, ElementRef, HostBinding, Injector, Input } from '@angular/core';
-import { Seat, User } from '@nexthcm/core';
+import { Seat, UserDto } from '@nexthcm/core';
 import { RxState } from '@rx-angular/state';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
@@ -85,7 +85,7 @@ export class SeatComponent {
 
   addSeat(): void {
     this.dialogService
-      .open<Partial<User> | null>(new PolymorpheusComponent(AddSeatDialogComponent, this.injector), {
+      .open<Partial<UserDto> | null>(new PolymorpheusComponent(AddSeatDialogComponent, this.injector), {
         size: 's',
         closeable: false,
       })

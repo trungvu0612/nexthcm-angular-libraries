@@ -91,12 +91,23 @@ export interface ContactDTO {
   phone: string;
   id: string;
   contactType: string;
+  email: string;
+  skype: string;
+  facebook: string;
+  instagram: string;
+  website: string;
 }
 
 export interface Address {
+  id: string;
   address1: string;
   address2: string;
-  id: string;
+  address3: string;
+  countryId: string;
+  state: string;
+  city: string;
+  postalCode: number;
+  zipCode: number;
 }
 
 export interface UserDto {

@@ -14,19 +14,15 @@
         <tui-avatar
           [autoColor]="true"
           [avatarUrl]="domain.image || null"
-          [text]="domain.tenant.tenantName || ''"
+          [text]="domain.tenant?.tenantName || ''"
           size="l"
         ></tui-avatar>
         <div>
-          <p class="text-base font-semibold mb-2">{{ domain.tenant.tenantName }}</p>
+          <p class="text-base font-semibold mb-2">{{ domain.tenant?.tenantName }}</p>
           <tui-tag [hoverable]="true" [value]="t(1 | getStatus)" class="approved-tag" size="s"></tui-tag>
         </div>
       </div>
-      <tui-svg
-        (click)="showDialog(content, domain)"
-        class="cursor-pointer text-gray-500"
-        src="tuiIconEditLarge"
-      ></tui-svg>
+      <hero-icon (click)="showDialog(content, domain)" class="icon-button" name="pencil-alt" type="solid"></hero-icon>
     </div>
   </section>
   <ng-template #content let-observer>

@@ -1,4 +1,4 @@
-import { User } from './user';
+import { UserDto } from './user-dto';
 
 export interface Dimension {
   width: number;
@@ -14,7 +14,7 @@ export interface StyleSeat extends Partial<Dimension> {
 export interface Seat extends StyleSeat {
   id: string;
   label: string;
-  assignedUser: Partial<User> | null;
+  assignedUser: Partial<UserDto> | null;
   style: string;
 }
 

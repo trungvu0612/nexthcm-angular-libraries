@@ -16,6 +16,7 @@
       --one: 0;
       --three-quater: 0;
       --half: 0;
+      --quarter: 0;
       --bar: 0;
 
       width: var(--wrap);
@@ -47,7 +48,7 @@
       .icons {
         right: var(--half);
         bottom: var(--half);
-        gap: var(--half);
+        gap: var(--quarter);
 
         > * {
           width: var(--icon);

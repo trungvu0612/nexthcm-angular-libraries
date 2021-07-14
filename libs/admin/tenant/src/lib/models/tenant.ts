@@ -1,21 +1,10 @@
-import { ContactDTO, User } from '@nexthcm/core';
-
-export interface Address {
-  address1: string;
-  address2: string;
-  address3: string;
-  countryId: string;
-  state: string;
-  city: string;
-  postalCode: number;
-  zipCode: number;
-}
+import { Address, UserDto, ContactDTO } from '@nexthcm/core';
 
 export interface Tenant {
   createdDate: number;
   lastModifiedDate: number;
   id: string;
-  user: User;
+  user: UserDto;
   tenantCode: string;
   tenantName: string;
   state: number;
