@@ -66,7 +66,7 @@ export class GeneralInformationFormComponent {
               },
             },
             {
-              key: 'thumbnail',
+              key: 'image',
               className: 'tui-form__row block',
               type: 'upload-file',
               templateOptions: {
