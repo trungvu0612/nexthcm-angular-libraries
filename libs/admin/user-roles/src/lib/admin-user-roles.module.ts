@@ -13,7 +13,7 @@ import { TuiDataListWrapperModule, TuiMultiSelectModule } from '@taiga-ui/kit';
 import { TuiDataListModule, TuiSvgModule } from '@taiga-ui/core';
 import { TuiLetModule } from '@taiga-ui/cdk';
 import { TuiTableModule, TuiTablePaginationModule } from '@taiga-ui/addon-table';
-import { AdminPermissionsService } from '../../../permissions/src/lib/services/admin-permissions.service';
+import { AdminPermissionsService } from '@nexthcm/admin-permissions';
 
 export const adminUserRolesRoutes: Route[] = [
   {
