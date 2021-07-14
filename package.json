@@ -38,6 +38,7 @@
     "publish:admin-leave-types": "cd dist/libs/admin/leave-types && yarn publish --non-interactive --ignore-scripts",
     "publish:admin-processes": "cd dist/libs/admin/processes && yarn publish --non-interactive --ignore-scripts",
     "publish:admin-tenant": "cd dist/libs/admin/tenant && yarn publish --non-interactive --ignore-scripts",
+    "publish:admin-working-times": "cd dist/libs/admin/working-times && yarn publish --non-interactive --ignore-scripts",
     "publish:auth": "cd dist/libs/auth && yarn publish --non-interactive --ignore-scripts",
     "publish:configurations": "cd dist/libs/configurations && yarn publish --non-interactive --ignore-scripts",
     "publish:core": "cd dist/libs/core && yarn publish --non-interactive --ignore-scripts",
