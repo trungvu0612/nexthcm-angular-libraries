@@ -10,6 +10,7 @@ const translocoConfigFactory = (injector: Injector) => {
     fallbackLang: appConfig.language,
     prodMode: appConfig.production,
     reRenderOnLangChange: true,
+    flatten: { aot: appConfig.production },
   });
 };
 
