@@ -42,14 +42,14 @@ export class MenuLeftComponent {
     },
     {
       name: 'Quản lý nhân viên',
-      uri: '',
+      uri: '/admin/employees',
     },
     {
       name: 'Quản lý vai trò',
       uri: '/admin/user-roles',
     },
     {
-      name: 'Quản lý quyền',
+      name: 'Quản lý phân quyền',
       uri: '/admin/permissions',
     },
     {
@@ -77,7 +77,7 @@ export class MenuLeftComponent {
       uri: '/admin/branches',
     },
     {
-      name: 'Quản lý căn hộ',
+      name: 'Quản lý phòng ban',
       uri: '/admin/departments',
     },
     {
@@ -87,10 +87,6 @@ export class MenuLeftComponent {
     {
       name: 'Phụ cấp',
       uri: '/admin/entitlements',
-    },
-    {
-      name: 'Quản lý loại ngày nghỉ',
-      uri: '/admin/leave-types',
     },
     {
       name: 'Quản lý loại ngày nghỉ',
