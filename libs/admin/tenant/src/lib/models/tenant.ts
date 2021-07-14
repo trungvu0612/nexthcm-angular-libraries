@@ -1,4 +1,4 @@
-import { Contact, User } from '@nexthcm/core';
+import { ContactDTO, User } from '@nexthcm/core';
 
 export interface Address {
   address1: string;
@@ -21,7 +21,7 @@ export interface Tenant {
   state: number;
   image: string;
   tax: string;
-  contacts: Contact;
+  contacts: ContactDTO;
   addresses: Address;
 }
 

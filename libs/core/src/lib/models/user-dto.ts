@@ -87,7 +87,7 @@ export interface ReportTo {
   descendants: any[];
 }
 
-export interface Contact {
+export interface ContactDTO {
   phone: string;
   id: string;
   contactType: string;
@@ -119,10 +119,6 @@ export interface UserDto {
   officeId: string;
   assigned: boolean;
   descendants: any[];
-  contact: Contact;
+  contact: ContactDTO;
   address: Address;
-}
-
-export interface SearchEmployee {
-  filter: string;
 }
