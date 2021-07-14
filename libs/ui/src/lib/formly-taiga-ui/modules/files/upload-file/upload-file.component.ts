@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { FormControl } from '@ngneat/reactive-forms';
 import { FieldType, FormlyFieldConfig } from '@ngx-formly/core';
 import { tuiPure } from '@taiga-ui/cdk';
 import { TuiFileLike } from '@taiga-ui/kit';
 import { Observable, of } from 'rxjs';
 import { map, share, startWith, switchMap, tap } from 'rxjs/operators';
 import { convertRejected, RejectedFile } from '../../../models';
-import { FormControl } from '@ngneat/reactive-forms';
 
 @Component({
   selector: 'formly-upload-file',

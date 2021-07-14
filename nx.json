@@ -62,6 +62,9 @@
     "admin-user-roles": {
       "tags": []
     },
+    "admin-working-times": {
+      "tags": []
+    },
     "auth": {
       "tags": []
     },

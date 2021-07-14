@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { TranslocoService } from '@ngneat/transloco';
-import { filter } from 'rxjs/operators';
 import { BehaviorSubject } from 'rxjs';
+import { filter } from 'rxjs/operators';
 import { HeaderService } from '../../services';
 
 const LANGS: { [key: string]: string } = {

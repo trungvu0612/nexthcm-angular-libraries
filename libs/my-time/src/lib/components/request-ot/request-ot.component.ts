@@ -22,7 +22,7 @@ export class RequestOtComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  onClick(item: string) {
+  onClick(item: string): void {
     this.showDropdown = !this.showDropdown;
     if (this.sendItems[0].indexOf(item) !== -1) {
       this.primary = item;
@@ -30,5 +30,5 @@ export class RequestOtComponent implements OnInit {
     }
   }
 
-  submit() {}
+  submit(): void {}
 }

@@ -90,7 +90,7 @@ export class TimeDataTableComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const request$ = combineLatest([this.page$, this.perPageSubject])
+    combineLatest([this.page$, this.perPageSubject])
       .pipe(
         debounceTime(0),
         switchMap(([page, perpage]) => {

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { TranslocoService } from '@ngneat/transloco';
 import { FormControl, ValidationErrors } from '@angular/forms';
+import { TranslocoService } from '@ngneat/transloco';
 import { Observable } from 'rxjs';
 
 type ValidFunc = (control: FormControl) => ValidationErrors | null;

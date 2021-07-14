@@ -1,0 +1,5 @@
+<div *ngFor="let field of field.fieldGroup; let i = index" class="grid grid-flow-col auto-cols-max my-2">
+  <formly-field [field]="field"></formly-field>
+  <span (click)="add()" *ngIf="i === 0" class="add-btn bg-gray-200 hover:bg-gray-300 rounded-md text-sm">+</span>
+  <span (click)="remove(i)" *ngIf="i !== 0" class="add-btn bg-gray-200 hover:bg-gray-300 rounded-md text-sm">-</span>
+</div>

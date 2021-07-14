@@ -10,7 +10,7 @@ import {
   TuiHostedDropdownModule,
   TuiLoaderModule,
   TuiSvgModule,
-  TuiTextfieldControllerModule,
+  TuiTextfieldControllerModule
 } from '@taiga-ui/core';
 import {
   TuiDataListWrapperModule,
@@ -24,7 +24,7 @@ import {
   TuiSelectModule,
   TuiTabsModule,
   TuiTagModule,
-  TuiTextAreaModule,
+  TuiTextAreaModule
 } from '@taiga-ui/kit';
 import { RequestDataTableComponent } from './components/request-data-table/request-data-table.component';
 import { RequestDialogComponent } from './components/request-dialog/request-dialog.component';
@@ -43,6 +43,8 @@ import { SubmitLeaveRequestDialogComponent } from './pages/my-leave/submit-leave
 import { MyRequestComponent } from './pages/my-request/my-request.component';
 import { WorkingHourComponent } from './pages/working-hour/working-hour.component';
 import { MyLeaveService } from './services/my-leave/my-leave.service';
+import { RequestUpdateTimeComponent } from './components/request-update-time/request-update-time.component';
+import { WorkingHourDetailComponent } from './components/working-hour-detail/working-hour-detail.component';
 
 @NgModule({
   declarations: [
@@ -58,6 +60,8 @@ import { MyLeaveService } from './services/my-leave/my-leave.service';
     WorkingHourComponent,
     CancelDialogLeaveComponent,
     DurationConfirmDialogComponent,
+    RequestUpdateTimeComponent,
+    WorkingHourDetailComponent,
   ],
   imports: [
     CommonModule,

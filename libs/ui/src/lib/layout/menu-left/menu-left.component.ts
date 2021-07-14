@@ -42,7 +42,7 @@ export class MenuLeftComponent {
     },
     {
       name: 'Quản lý nhân viên',
-      uri: '/admin/employees',
+      uri: '',
     },
     {
       name: 'Quản lý vai trò',
@@ -95,6 +95,10 @@ export class MenuLeftComponent {
     {
       name: 'Quản lý loại ngày nghỉ',
       uri: '/admin/leave-types',
+    },
+    {
+      name: 'Quản lý thời gian làm việc',
+      uri: '/admin/working-times',
     },
   ];
 }

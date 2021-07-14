@@ -1,13 +1,13 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, HostListener, ViewChild } from '@angular/core';
-import { FormGroup } from '@ngneat/reactive-forms';
-import { OrganizationalUnit } from '../../models/tenant';
-import { FormlyFieldConfig } from '@ngx-formly/core';
 import { ValidationService } from '@nexthcm/ui';
+import { FormGroup } from '@ngneat/reactive-forms';
+import { FormlyFieldConfig } from '@ngx-formly/core';
+import { RxState } from '@rx-angular/state';
 import { TuiDialogContext, TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusContent } from '@tinkoff/ng-polymorpheus';
 import { Subscriber, timer } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { RxState } from '@rx-angular/state';
+import { OrganizationalUnit } from '../../models/tenant';
 
 interface Unit {
   level: string;

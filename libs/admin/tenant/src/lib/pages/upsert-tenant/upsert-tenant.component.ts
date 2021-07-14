@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { UploadFileService, ValidationService } from '@nexthcm/ui';
+import { FormGroup } from '@ngneat/reactive-forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { map, startWith, tap } from 'rxjs/operators';
-import { UploadFileService, ValidationService } from '@nexthcm/ui';
 import { Tenant } from '../../models/tenant';
-import { FormGroup } from '@ngneat/reactive-forms';
-import { Router } from '@angular/router';
 import { AdminTenantService } from '../../services/admin-tenant.service';
 
 @Component({
