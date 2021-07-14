@@ -58,7 +58,11 @@
             ></tui-tag>
           </td>
           <td *tuiCell="'action'" tuiTd>
-            <tui-svg class="cursor-pointer text-gray-500" src="tuiIconEdit"></tui-svg>
+            <div class="flex gap-1">
+              <hero-icon class="icon-button" name="pencil-alt" routerLink="./information" type="solid"></hero-icon>
+              <hero-icon class="icon-button" name="eye" routerLink="./information" type="solid"></hero-icon>
+              <hero-icon class="icon-button" name="trash" type="solid"></hero-icon>
+            </div>
           </td>
         </tr>
       </tbody>

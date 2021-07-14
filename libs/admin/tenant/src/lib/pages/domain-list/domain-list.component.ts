@@ -21,8 +21,7 @@ export class DomainListComponent implements OnInit {
   readonly refresh$ = new BehaviorSubject('');
   readonly source$ = this.refresh$.pipe(switchMap(() => this.adminTenantService.getDomains()));
   readonly domains$ = combineLatest([this.source$, this.searchControl.valueChanges.pipe(startWith(''))]).pipe(
-    map(([domains, search]) => filterBySearch<Domain>(domains, search, 'domainUrl')),
-    map((domains) => Array(3).fill(domains[0]) as Domain[])
+    map(([domains, search]) => filterBySearch<Domain>(domains, search, 'domainUrl'))
   );
   readonly form = new FormGroup<Partial<Domain>>({});
   model: Partial<Domain> = {};

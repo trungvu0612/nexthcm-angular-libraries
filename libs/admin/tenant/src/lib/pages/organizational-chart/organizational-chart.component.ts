@@ -64,6 +64,7 @@ export class OrganizationalChartComponent implements AfterViewInit {
         one: 16 * factor + 'px',
         'three-quarter': 12 * factor + 'px',
         half: 8 * factor + 'px',
+        quarter: 4 * factor + 'px',
         bar: 0.5 * factor + 'px',
       };
     })

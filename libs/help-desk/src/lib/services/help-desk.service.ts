@@ -1,13 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { PagingResponse, Seat, User, Zone } from '@nexthcm/core';
+import { PagingResponse, Seat, UserDto, Zone } from '@nexthcm/core';
 import { RxState } from '@rx-angular/state';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { CalendarBuilding, ExternalEmail, PeopleInvite } from '../models';
 
 interface HelpDesk {
-  users: Partial<User>[];
+  users: Partial<UserDto>[];
   seatMaps: Partial<Zone>[];
 }
 
@@ -19,9 +19,9 @@ export class HelpDeskService extends RxState<HelpDesk> {
     this.connect('seatMaps', this.getSeatMaps());
   }
 
-  getUsers(): Observable<Partial<User>[]> {
+  getUsers(): Observable<Partial<UserDto>[]> {
     return this.http
-      .get<PagingResponse<User>>('/accountapp/v1.0/users', { params: { size: 999 } })
+      .get<PagingResponse<UserDto>>('/accountapp/v1.0/users', { params: { size: 999 } })
       .pipe(map((response) => response.data.items));
   }
 

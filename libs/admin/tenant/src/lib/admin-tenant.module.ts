@@ -8,9 +8,10 @@ import { TuiTableModule, TuiTablePaginationModule } from '@taiga-ui/addon-table'
 import { TuiLetModule } from '@taiga-ui/cdk';
 import { TuiButtonModule, TuiScrollbarModule, TuiSvgModule, TuiTextfieldControllerModule } from '@taiga-ui/core';
 import { TuiAvatarModule, TuiInputModule, TuiIslandModule, TuiTagModule } from '@taiga-ui/kit';
-import { HeroIconModule, pencilAlt, trash } from 'ng-heroicon';
+import { eye, HeroIconModule, pencilAlt, trash, zoomIn } from 'ng-heroicon';
 import { TableModule } from 'ngx-easy-table';
 import { AdminTenantRoutingModule } from './admin-tenant-routing.module';
+import { AdminTenantSummaryComponent } from './admin-tenant-summary.component';
 import { AdminTenantComponent } from './admin-tenant.component';
 import { DomainListComponent } from './pages/domain-list/domain-list.component';
 import { OrganizationalChartComponent } from './pages/organizational-chart/organizational-chart.component';
@@ -21,10 +22,11 @@ import { AdminTenantService } from './services/admin-tenant.service';
 
 @NgModule({
   declarations: [
+    AdminTenantSummaryComponent,
     TenantListComponent,
+    DomainListComponent,
     AdminTenantComponent,
     UpsertTenantComponent,
-    DomainListComponent,
     OrganizationalStructureComponent,
     OrganizationalChartComponent,
   ],
@@ -47,7 +49,7 @@ import { AdminTenantService } from './services/admin-tenant.service';
     TableModule,
     TuiScrollbarModule,
     TuiLetModule,
-    HeroIconModule.withIcons({ pencilAlt, trash }),
+    HeroIconModule.withIcons({ pencilAlt, trash, eye, zoomIn }),
   ],
   providers: [AdminTenantService],
 })

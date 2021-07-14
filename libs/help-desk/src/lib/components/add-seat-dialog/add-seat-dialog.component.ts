@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
-import { User } from '@nexthcm/core';
+import { UserDto } from '@nexthcm/core';
 import { filterBySearch } from '@nexthcm/ui';
 import { FormGroup } from '@ngneat/reactive-forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
@@ -17,7 +17,7 @@ import { HelpDeskService } from '../../services/help-desk.service';
 })
 export class AddSeatDialogComponent {
   form = new FormGroup({});
-  model: { user?: Partial<User> } = {};
+  model: { user?: Partial<UserDto> } = {};
   fields: FormlyFieldConfig[] = [
     {
       key: 'user',
@@ -28,15 +28,15 @@ export class AddSeatDialogComponent {
         labelProp: 'username',
         subLabelProp: 'code',
         textfieldLabelOutside: false,
-        stringify: (item: User) => item.username,
-        serverRequest: (search: string): Observable<Partial<User>[]> =>
-          this.helpDeskService.select('users').pipe(map((users) => filterBySearch<User>(users, search, 'username'))),
+        stringify: (item: UserDto) => item.username,
+        serverRequest: (search: string): Observable<Partial<UserDto>[]> =>
+          this.helpDeskService.select('users').pipe(map((users) => filterBySearch<UserDto>(users, search, 'username'))),
       },
     },
   ];
 
   constructor(
-    @Inject(POLYMORPHEUS_CONTEXT) private context: TuiDialogContext<Partial<User> | null>,
+    @Inject(POLYMORPHEUS_CONTEXT) private context: TuiDialogContext<Partial<UserDto> | null>,
     private helpDeskService: HelpDeskService
   ) {}
 

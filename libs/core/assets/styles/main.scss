@@ -57,3 +57,7 @@ tui-select-option {
     margin: 0 !important;
   }
 }
+
+hero-icon.icon-button {
+  @apply cursor-pointer w-6 h-6;
+}
