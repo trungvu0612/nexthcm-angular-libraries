@@ -33,7 +33,7 @@
   </thead>
   <tbody [data]="requests" tuiTbody>
     <tr *tuiRow="let req of requests; let index = index" tuiTr>
-      <td *tuiCell="'trackingDate'" tuiTd>{{ req.timeSheetTracking.trackingDate | date: 'EEEE, dd/MM/yyyy' }}</td>
+      <td *tuiCell="'trackingDate'" tuiTd>{{ req.timeSheetTracking?.trackingDate | date: 'EEEE, dd/MM/yyyy' }}</td>
       <td *tuiCell="'newInTime'" tuiTd>{{ req.newInTime }}</td>
       <td *tuiCell="'newOutTime'" tuiTd>{{ req.newOutTime }}</td>
       <td *tuiCell="'updateTotalTime'" class="font-bold" tuiTd>{{ req.updateTotalTime }}</td>
