@@ -1,4 +1,4 @@
-import { Policy } from '../../../../permissions/src/lib/models/policy';
+import { Policy } from '@nexthcm/admin-permissions';
 
 export interface AdminUserRole {
   name?: string;
