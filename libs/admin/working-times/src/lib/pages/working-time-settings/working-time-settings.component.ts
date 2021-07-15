@@ -16,6 +16,7 @@ import { WorkingTimesService } from '../../services/working-times.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class WorkingTimeSettingsComponent implements OnInit {
+  activeItemIndex = 0;
   settingsElement: any;
   dataSettings$ = this.workingTimesService.getSettings().pipe(map((res) => res.data.items));
   public configuration?: any;

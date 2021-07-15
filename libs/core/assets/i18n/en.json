@@ -195,6 +195,11 @@
     "maternity": "Maternity Leave",
     "wfh": "Work from home"
   },
+  "WORKING_HOUR": {
+    "addCalendar": "Add calendar",
+    "addOverTime": "Add Ovetime"
+  },
+  "applyFor": "Apply for",
   "officeOnsite": "Office onsite",
   "chooseOfficeOnsite": "Choose an office onsite",
   "companyEmail": "Company email",

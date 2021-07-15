@@ -14,7 +14,7 @@ import { WorkingHourService } from '../../services/working-hour.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RequestUpdateTimeComponent implements OnInit {
-  userInfo: any;
+  myId = this.authService.get('userInfo').userId;
   dataUsersReport$ = this.workingHourService.getAllUsers().pipe(map((res) => res.data.items));
 
   readonly form = new FormGroup({
@@ -79,12 +79,12 @@ export class RequestUpdateTimeComponent implements OnInit {
   ngOnInit(): void {}
 
   submitRequestTime() {
-    this.userInfo = this.authService.get('userInfo');
+
     const formModel = this.form.value;
     formModel.createdDate = (formModel.createdDate as TuiDay).toLocalNativeDate().valueOf();
     formModel.newInTime = (formModel?.newInTime as TuiTime).toAbsoluteMilliseconds().valueOf();
     formModel.newOutTime = (formModel?.newOutTime as TuiTime).toAbsoluteMilliseconds().valueOf();
-    formModel.timeSheetId = this.userInfo.userId;
+    formModel.timeSheetId = this.myId;
     formModel.status = 0;
     console.log(formModel);
     this.workingHourService.submitRequestTime(formModel).subscribe((item) => {

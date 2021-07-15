@@ -4,16 +4,19 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from '@nexthcm/auth';
 import { FormlyTaigaUiModule, LayoutComponent } from '@nexthcm/ui';
+import { TranslocoModule } from '@ngneat/transloco';
 import { FormlyModule } from '@ngx-formly/core';
-import { TuiLabelModule, TuiTextfieldControllerModule } from '@taiga-ui/core';
+import { TuiButtonModule, TuiLabelModule, TuiTextfieldControllerModule } from '@taiga-ui/core';
 import {
   TuiCheckboxLabeledModule,
   TuiInputCountModule,
   TuiInputDateModule,
   TuiInputModule,
+  TuiTabsModule,
   TuiToggleModule,
 } from '@taiga-ui/kit';
 import { TableModule } from 'ngx-easy-table';
+import { OvertimeWorkingComponent } from './components/overtime-working/overtime-working.component';
 import { RepeatSectionComponent } from './components/repeat-section/repeat-section.component';
 import { WorkingTimeSettingsComponent } from './pages/working-time-settings/working-time-settings.component';
 
@@ -43,7 +46,14 @@ export const adminWorkingTimesRoutes: Routes = [
     TuiInputDateModule,
     TableModule,
     FormlyTaigaUiModule,
+    TuiTabsModule,
+    TranslocoModule,
+    TuiButtonModule,
   ],
-  declarations: [WorkingTimeSettingsComponent, RepeatSectionComponent],
+  declarations: [
+    WorkingTimeSettingsComponent,
+    RepeatSectionComponent,
+    OvertimeWorkingComponent,
+  ],
 })
 export class AdminWorkingTimesModule {}
