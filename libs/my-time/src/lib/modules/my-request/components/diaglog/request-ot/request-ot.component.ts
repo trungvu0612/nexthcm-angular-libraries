@@ -3,11 +3,8 @@ import { Requests, TimeSheetUpdateReq } from '../../../../../models/requests';
 import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { TuiDialogContext } from '@taiga-ui/core';
-import { JobTitle } from '../../../../../../../../admin/job-titles/src/lib/models/job-title';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
-import { of } from 'rxjs';
 import { TranslocoService } from '@ngneat/transloco';
-import { AdminJobTitlesService } from '../../../../../../../../admin/job-titles/src/lib/services/admin-job-titles.service';
 
 @Component({
   selector: 'hcm-request-ot-wfh',
@@ -18,7 +15,7 @@ import { AdminJobTitlesService } from '../../../../../../../../admin/job-titles/
 export class RequestOtComponent implements OnInit {
   id!: string;
   data = this.context.data || '';
-  form = new FormGroup<JobTitle>({});
+  form = new FormGroup<any>({});
   model: Requests = {};
 
   options: FormlyFormOptions = {};
