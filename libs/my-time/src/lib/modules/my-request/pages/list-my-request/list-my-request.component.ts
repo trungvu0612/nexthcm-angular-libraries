@@ -3,6 +3,7 @@ import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { MyRequestService } from '../../../../services/my-request.service';
 import { RequestsDialogComponent } from '../../components/requests-dialog/requests-dialog.component';
+import { RequestOtComponent } from '../../components/diaglog/request-ot/request-ot.component';
 
 @Component({
   selector: 'hcm-list-my-request',
@@ -40,4 +41,16 @@ export class ListMyRequestComponent implements OnInit {
         }
       });
   }
+
+  showDialogWFH(){
+    this.dialogService
+      .open<boolean>(new PolymorpheusComponent(RequestOtComponent, this.injector), {
+        closeable: false,
+        // data: { type: type },
+      })
+      .subscribe((data) => {
+        console.log('submit', data)
+      });
+  }
+
 }

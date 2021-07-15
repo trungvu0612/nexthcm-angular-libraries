@@ -5,6 +5,7 @@ export interface Requests {
   type?: string;
   userId?: string;
   state?: number;
+  status?: number
   assignedName?: string;
   fromDate?: number | Date | TuiDay;
   toDate?: number | Date | TuiDay;
@@ -13,6 +14,16 @@ export interface Requests {
   sendTo?: Employee;
   comments?: string;
   reason?: string;
+  length?: string;
+  userSendTo?: UserSendTo;
+}
+export interface UserSendTo {
+  username?: string
+  office?: Office;
+}
+
+export interface Office {
+  name?: string
 }
 
 export interface TimeSheetUpdateReq extends Requests {

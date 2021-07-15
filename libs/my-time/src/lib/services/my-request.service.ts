@@ -3,7 +3,11 @@ import { Inject, Injectable } from '@angular/core';
 import { APP_CONFIG, AppConfig, PagingResponse } from '@nexthcm/core';
 import { Observable } from 'rxjs';
 import { Requests, SearchRequest, TimeSheetUpdateReq } from '../models/requests';
+import { MyLeave } from '../models/my-leave';
+import { map } from 'rxjs/operators';
 
+const MY_TIME_PATH = '/mytimeapp/v1.0';
+const MY_ACCOUNT_PATH = '/accountapp/v1.0';
 @Injectable({
   providedIn: 'root',
 })
@@ -42,6 +46,27 @@ export class MyRequestService {
         .set('fromDate', search.fromDate ? search.fromDate : ('' as any))
         .set('toDate', search.toDate ? search.toDate : ('' as any)),
     });
+  }
+
+  getWorkFromHome(pageIndex: number, pageSize: number, search: SearchRequest): Observable<PagingResponse<Requests>> {
+    return this.httpClient.get<PagingResponse<Requests>>(this.appVersion + '/wfh', {
+      params: new HttpParams()
+        .set('userId', '934e5a26-8ade-4d3b-b7d9-28e11a1e4c2a')
+        .set('page', pageIndex ? pageIndex.toString() : '')
+        .set('size', pageSize ? pageSize.toString() : '')
+        .set('startDate', search.fromDate ? search.fromDate : ('' as any))
+        .set('endDate', search.toDate ? search.toDate : ('' as any)),
+    });
+  }
+
+  getWFHId(id: string): Observable<any> {
+    if (id === undefined || id == '') {
+      return this.httpClient.get<any>(this.env.apiUrl + `${MY_TIME_PATH}/wfh/`, {}).pipe(map((res) => res as any));
+    } else {
+      return this.httpClient
+        .get<any>(this.env.apiUrl + `${MY_TIME_PATH}/wfh/${id}`, {})
+        .pipe(map((res) => res as any));
+    }
   }
 
   createWorkingOutsideRequest(dto: Requests): Observable<Requests> {

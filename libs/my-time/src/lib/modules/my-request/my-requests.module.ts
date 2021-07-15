@@ -5,7 +5,7 @@ import { RouterModule } from '@angular/router';
 import { FormlyTaigaUiModule } from '@nexthcm/ui';
 import { FormlyModule } from '@ngx-formly/core';
 import { TuiTableModule, TuiTablePaginationModule } from '@taiga-ui/addon-table';
-import { TuiButtonModule, TuiColorModule, TuiDialogModule, TuiGroupModule } from '@taiga-ui/core';
+import { TuiButtonModule, TuiColorModule, TuiDialogModule, TuiGroupModule, TuiSvgModule } from '@taiga-ui/core';
 import {
   TuiFieldErrorModule,
   TuiMarkerIconModule,
@@ -13,13 +13,16 @@ import {
   TuiTabsModule,
   TuiTagModule,
 } from '@taiga-ui/kit';
-import { RequestDetailsComponent } from './components/request-details/request-details.component';
 import { RequestsDialogComponent } from './components/requests-dialog/requests-dialog.component';
 import { MyRequestsComponent } from './my-requests.component';
 import { ListMyRequestComponent } from './pages/list-my-request/list-my-request.component';
 import { ListOtRequestComponent } from './pages/list-ot-request/list-ot-request.component';
 import { ListTimesheetUpdateComponent } from './pages/list-timesheet-update/list-timesheet-update.component';
 import { ListWorkingOutsideComponent } from './pages/list-working-outside/list-working-outside.component';
+import { RequestOtComponent } from './components/diaglog/request-ot/request-ot.component';
+import { ListWorkFromHomeComponent } from './pages/list-work-from-home/list-work-from-home.component';
+import { RequestDetailsWfhComponent } from './components/request-details-wfh/request-details-wfh.component';
+import { RequestDetailsComponent } from './components/request-details/request-details.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +33,9 @@ import { ListWorkingOutsideComponent } from './pages/list-working-outside/list-w
     ListTimesheetUpdateComponent,
     ListWorkingOutsideComponent,
     RequestDetailsComponent,
+    RequestOtComponent,
+    ListWorkFromHomeComponent,
+    RequestDetailsWfhComponent,
   ],
   exports: [ListTimesheetUpdateComponent, ListOtRequestComponent, ListWorkingOutsideComponent],
   imports: [
@@ -50,6 +56,7 @@ import { ListWorkingOutsideComponent } from './pages/list-working-outside/list-w
     TuiDialogModule,
     ReactiveFormsModule,
     TuiColorModule,
+    TuiSvgModule,
   ],
 })
 export class MyRequestsModule {}
