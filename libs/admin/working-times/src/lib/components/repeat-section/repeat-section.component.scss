@@ -6,6 +6,15 @@
     margin: auto;
     height: fit-content;
 
+    ::ng-deep tui-wrapper.wrapper {
+      padding: 5px !important;
+      width: 25px;
+      height: 18px;
+      border-radius: 0;
+      border:0!important;
+      font-size:15px;
+    }
+
     &:hover {
       cursor: pointer;
     }

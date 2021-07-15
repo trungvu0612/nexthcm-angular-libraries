@@ -79,7 +79,6 @@ export class RequestUpdateTimeComponent implements OnInit {
   ngOnInit(): void {}
 
   submitRequestTime() {
-
     const formModel = this.form.value;
     formModel.createdDate = (formModel.createdDate as TuiDay).toLocalNativeDate().valueOf();
     formModel.newInTime = (formModel?.newInTime as TuiTime).toAbsoluteMilliseconds().valueOf();

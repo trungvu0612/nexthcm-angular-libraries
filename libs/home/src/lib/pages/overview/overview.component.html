@@ -1,125 +1,139 @@
-<div class='page-container'>
-  <div class='heading-title'>Good Morning,</div>
+<div class="page-container">
+  <div class="heading-title">Good Morning,</div>
   <div>
-    <p class='inline large-title'>Welcome Back, <span class='text-blue-500'>Toan</span></p>
-    <img class='inline ml-2 wave-icon' src='assets/images/wave.png' />
+    <p class="inline large-title">Welcome Back, <span class="text-blue-500">Toan</span></p>
+    <img class="inline ml-2 wave-icon" src="assets/images/wave.png" />
   </div>
 
-  <div class='grid grid-cols-1 md:grid-cols-3 my-10 text-base gap-6'>
-    <div class='col-span-2 working-section relative'>
-      <div class='shadow-tmp'></div>
-      <div class='grid md:grid-cols-3 text-white text-center bg-purple-700 pt-5 pl-5 pr-5 pb-2 rounded-t-lg'>
+  <div class="grid grid-cols-1 md:grid-cols-3 my-10 text-base gap-6">
+    <div class="col-span-2 working-section relative">
+      <div class="shadow-tmp"></div>
+      <div class="grid md:grid-cols-3 text-white text-center bg-purple-700 pt-5 pl-5 pr-5 pb-2 rounded-t-lg">
         <div>
-          <div class='font-bold text-md mb-5'>Working days</div>
-          <div class='mb-5'>Today (Nov 5)</div>
-          <div class='mb-5'>Yesterday</div>
+          <div class="font-bold text-md mb-5">Working days</div>
+          <div class="mb-5">Today (Nov 5)</div>
+          <div class="mb-5">Yesterday</div>
         </div>
-        <div class='border-time'>
-          <div class='font-bold text-md mb-5'>Time in</div>
-          <div class='mb-5'>07:13</div>
-          <div class='mb-5'>07:30</div>
+        <div class="border-time">
+          <div class="font-bold text-md mb-5">Time in</div>
+          <div class="mb-5">07:13</div>
+          <div class="mb-5">07:30</div>
         </div>
         <div>
-          <div class='font-bold text-md mb-5'>Time out</div>
-          <div class='text-yellow-400 mb-5'><img class='inline mr-1' src='assets/images/warning.png' />12:30</div>
-          <div class='mb-5'>19:00</div>
+          <div class="font-bold text-md mb-5">Time out</div>
+          <div class="text-yellow-400 mb-5"><img class="inline mr-1" src="assets/images/warning.png" />12:30</div>
+          <div class="mb-5">19:00</div>
         </div>
       </div>
-      <div class='grid md:grid-cols-3 bg-purple-700 pb-5 rounded-b-lg'>
-        <div class='text-center'>
-          <a href='#'><img class='inline mr-1' src='assets/images/prev.png' /></a>
+      <div class="grid md:grid-cols-3 bg-purple-700 pb-5 rounded-b-lg">
+        <div class="text-center">
+          <a href="#"><img class="inline mr-1" src="assets/images/prev.png" /></a>
         </div>
-        <div class='text-center text-white'><a [routerLink]="['my-time/working-hour']">View Detail</a></div>
-        <div class='text-center'>
-          <a href='#'><img class='inline mr-1' src='assets/images/next.png' /></a>
+        <div class="text-center text-white"><a [routerLink]="['my-time/working-hour']">View Detail</a></div>
+        <div class="text-center">
+          <a href="#"><img class="inline mr-1" src="assets/images/next.png" /></a>
         </div>
       </div>
     </div>
-    <div class='text-center shadow-md bg-white rounded-lg'>
-      <section *ngIf='fingerCheck' class='finger-preview relative'>
-        <a (click)='fingerStatus()' href='#'
-        ><img class='mx-auto close-finger absolute' src='assets/images/close.png'
+    <div class="text-center shadow-md bg-white rounded-lg">
+      <section *ngIf="fingerCheck" class="finger-preview relative">
+        <a (click)="fingerStatus()" href="#"
+          ><img class="mx-auto close-finger absolute" src="assets/images/close.png"
         /></a>
-        <img class='mx-auto finger-img' src='/assets/images/finger.png' />
-        <button (click)='checkingTime("checked-out")' class='rounded-lg bg-blue-600 hover:bg-blue-700 text-white pl-8 pr-8 pt-2 pb-2 text-base my-5'>
-        Check Out
-        </button>
+        <img class="mx-auto finger-img" src="/assets/images/finger.png" />
+        <ng-container *ngIf="checkingAction === 'check-in'">
+          <button
+            (click)="checkingTime('checked-out')"
+            class="rounded-lg bg-blue-600 hover:bg-blue-700 text-white pl-8 pr-8 pt-2 pb-2 text-base my-5"
+          >
+            Check Out
+          </button>
+        </ng-container>
+
+        <ng-container *ngIf="checkingAction === 'checked-out'">
+          <button
+            (click)="checkingTime('check-in')"
+            class="rounded-lg bg-blue-600 hover:bg-blue-700 text-white pl-8 pr-8 pt-2 pb-2 text-base my-5"
+          >
+            Check In
+          </button>
+        </ng-container>
       </section>
-      <section *ngIf='!fingerCheck' class='working-preview'>
-        <div class='heading-title mt-4'>Your working days this month</div>
-        <div (click)='fingerStatus()' class='finger-section'>
-          <span class='text-8xl text-blue-500 font-bold'>11.5</span>
-          <span class='text-3xl text-gray-400 font-bold'>/12</span>
+      <section *ngIf="!fingerCheck" class="working-preview">
+        <div class="heading-title mt-4">Your working days this month</div>
+        <div (click)="fingerStatus()" class="finger-section">
+          <span class="text-8xl text-blue-500 font-bold">11.5</span>
+          <span class="text-3xl text-gray-400 font-bold">/12</span>
         </div>
-        <div class='grid grid-cols-2 my-5 text-base'>
-          <div class='text-left ml-4'>Paid leave: <span class='text-blue-500 font-bold'>0/8.5</span></div>
-          <div class='text-right text-blue-500 mr-4'><a href='#'>View Detail</a></div>
+        <div class="grid grid-cols-2 my-5 text-base">
+          <div class="text-left ml-4">Paid leave: <span class="text-blue-500 font-bold">0/8.5</span></div>
+          <div class="text-right text-blue-500 mr-4"><a href="#">View Detail</a></div>
         </div>
       </section>
     </div>
   </div>
 
-  <div class='grid grid-cols-1 md:grid-cols-2 gap-6'>
-    <div class='shadow-md bg-white p-5 rounded-lg'>
-      <div class='heading-title'>
-        New Employee On Boarding - Nov 6 <img class='inline ml-4' src='assets/images/arrow-large.png' />
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div class="shadow-md bg-white p-5 rounded-lg">
+      <div class="heading-title">
+        New Employee On Boarding - Nov 6 <img class="inline ml-4" src="assets/images/arrow-large.png" />
       </div>
 
-      <section class='employee-section'>
-        <div class='grid grid-cols-5 mt-5'>
-          <div><img src='assets/images/employ.png' /></div>
-          <div class='col-span-3'>
-            <div class='font-bold text-gray-500 text-base'>Nguyen Hoang Long</div>
-            <div class='text-gray-400 text-sm'>Java Developer</div>
-            <div class='employ-start'>12/12/1998</div>
+      <section class="employee-section">
+        <div class="grid grid-cols-5 mt-5">
+          <div><img src="assets/images/employ.png" /></div>
+          <div class="col-span-3">
+            <div class="font-bold text-gray-500 text-base">Nguyen Hoang Long</div>
+            <div class="text-gray-400 text-sm">Java Developer</div>
+            <div class="employ-start">12/12/1998</div>
           </div>
-          <div><img class='tick-img' src='assets/images/tick.png' /></div>
+          <div><img class="tick-img" src="assets/images/tick.png" /></div>
         </div>
-        <div class='grid grid-cols-5 mt-5'>
-          <div><img src='assets/images/employ.png' /></div>
-          <div class='col-span-3'>
-            <div class='font-bold text-gray-500 text-base'>Nguyen Hoang Long</div>
-            <div class='text-gray-400 text-sm'>Java Developer</div>
-            <div class='employ-start'>12/12/1998</div>
+        <div class="grid grid-cols-5 mt-5">
+          <div><img src="assets/images/employ.png" /></div>
+          <div class="col-span-3">
+            <div class="font-bold text-gray-500 text-base">Nguyen Hoang Long</div>
+            <div class="text-gray-400 text-sm">Java Developer</div>
+            <div class="employ-start">12/12/1998</div>
           </div>
-          <div><img class='tick-img' src='assets/images/tick.png' /></div>
+          <div><img class="tick-img" src="assets/images/tick.png" /></div>
         </div>
-        <div class='grid grid-cols-5 mt-5'>
-          <div><img src='assets/images/employ.png' /></div>
-          <div class='col-span-3'>
-            <div class='font-bold text-gray-500 text-base'>Nguyen Hoang Long</div>
-            <div class='text-gray-400 text-sm'>Java Developer</div>
-            <div class='employ-start'>12/12/1998</div>
+        <div class="grid grid-cols-5 mt-5">
+          <div><img src="assets/images/employ.png" /></div>
+          <div class="col-span-3">
+            <div class="font-bold text-gray-500 text-base">Nguyen Hoang Long</div>
+            <div class="text-gray-400 text-sm">Java Developer</div>
+            <div class="employ-start">12/12/1998</div>
           </div>
-          <div><img class='tick-img' src='assets/images/tick.png' /></div>
+          <div><img class="tick-img" src="assets/images/tick.png" /></div>
         </div>
-        <div class='grid grid-cols-5 mt-5'>
-          <div><img src='assets/images/employ.png' /></div>
-          <div class='col-span-3'>
-            <div class='font-bold text-gray-500 text-base'>Nguyen Hoang Long</div>
-            <div class='text-gray-400 text-sm'>Java Developer</div>
-            <div class='employ-start'>12/12/1998</div>
+        <div class="grid grid-cols-5 mt-5">
+          <div><img src="assets/images/employ.png" /></div>
+          <div class="col-span-3">
+            <div class="font-bold text-gray-500 text-base">Nguyen Hoang Long</div>
+            <div class="text-gray-400 text-sm">Java Developer</div>
+            <div class="employ-start">12/12/1998</div>
           </div>
-          <div><img class='tick-img' src='assets/images/tick.png' /></div>
+          <div><img class="tick-img" src="assets/images/tick.png" /></div>
         </div>
-        <div class='grid grid-cols-5 mt-5'>
-          <div><img src='assets/images/employ.png' /></div>
-          <div class='col-span-3'>
-            <div class='font-bold text-gray-500 text-base'>Nguyen Hoang Long</div>
-            <div class='text-gray-400 text-sm'>Java Developer</div>
-            <div class='employ-start'>12/12/1998</div>
+        <div class="grid grid-cols-5 mt-5">
+          <div><img src="assets/images/employ.png" /></div>
+          <div class="col-span-3">
+            <div class="font-bold text-gray-500 text-base">Nguyen Hoang Long</div>
+            <div class="text-gray-400 text-sm">Java Developer</div>
+            <div class="employ-start">12/12/1998</div>
           </div>
-          <div><img class='tick-img' src='assets/images/tick.png' /></div>
+          <div><img class="tick-img" src="assets/images/tick.png" /></div>
         </div>
       </section>
     </div>
 
-    <div class='bg-blue-600 rounded-lg p-4'>
-      <div class='grid grid-cols-2'>
-        <div class='text-white text-xl'>Recent Notification</div>
-        <div class='text-right'>
+    <div class="bg-blue-600 rounded-lg p-4">
+      <div class="grid grid-cols-2">
+        <div class="text-white text-xl">Recent Notification</div>
+        <div class="text-right">
           <button
-            class='
+            class="
               bg-white
               hover:bg-transparent
               text-blue-700
@@ -131,12 +145,12 @@
               hover:border-white
               rounded
               mr-2
-            '
+            "
           >
             All
           </button>
           <button
-            class='
+            class="
               hover:bg-white
               bg-transparent
               hover:text-blue-700
@@ -149,131 +163,131 @@
               border-white
               rounded
               mr-2
-            '
+            "
           >
             Unread
           </button>
         </div>
       </div>
 
-      <div class='bg-white rounded-lg p-5 mt-5'>
-        <section class='notifications-section'>
-          <div class='grid grid-cols-5'>
-            <div><img src='assets/images/noti.png' /></div>
-            <div class='col-span-3'>
-              <div class='text-sm'><strong>Admin</strong> sent to you the payslip November 2020</div>
-              <div class='text-blue-500'>13 minutes ago</div>
+      <div class="bg-white rounded-lg p-5 mt-5">
+        <section class="notifications-section">
+          <div class="grid grid-cols-5">
+            <div><img src="assets/images/noti.png" /></div>
+            <div class="col-span-3">
+              <div class="text-sm"><strong>Admin</strong> sent to you the payslip November 2020</div>
+              <div class="text-blue-500">13 minutes ago</div>
             </div>
-            <div class='ellipse text-center'><img class='mt-5 inline' src='assets/images/ellipse.png' /></div>
+            <div class="ellipse text-center"><img class="mt-5 inline" src="assets/images/ellipse.png" /></div>
           </div>
-          <div class='grid grid-cols-5 mt-5'>
-            <div><img src='assets/images/noti.png' /></div>
-            <div class='col-span-3'>
-              <div class='text-sm'>
+          <div class="grid grid-cols-5 mt-5">
+            <div><img src="assets/images/noti.png" /></div>
+            <div class="col-span-3">
+              <div class="text-sm">
                 <strong>Nguyen Vu Hoang Cuong</strong> Waiting for your approval in the paid leave
               </div>
-              <div class='text-blue-500'>13 minutes ago</div>
+              <div class="text-blue-500">13 minutes ago</div>
             </div>
-            <div class='ellipse text-center'><img class='mt-5 inline' src='assets/images/ellipse.png' /></div>
+            <div class="ellipse text-center"><img class="mt-5 inline" src="assets/images/ellipse.png" /></div>
           </div>
-          <div class='grid grid-cols-5 mt-5'>
-            <div><img src='assets/images/noti.png' /></div>
-            <div class='col-span-3'>
-              <div class='text-sm'><strong>Admin</strong> sent to you the payslip November 2020</div>
-              <div class='text-blue-500'>13 minutes ago</div>
+          <div class="grid grid-cols-5 mt-5">
+            <div><img src="assets/images/noti.png" /></div>
+            <div class="col-span-3">
+              <div class="text-sm"><strong>Admin</strong> sent to you the payslip November 2020</div>
+              <div class="text-blue-500">13 minutes ago</div>
             </div>
-            <div class='ellipse text-center'><img class='mt-5 inline' src='assets/images/ellipse.png' /></div>
+            <div class="ellipse text-center"><img class="mt-5 inline" src="assets/images/ellipse.png" /></div>
           </div>
-          <div class='grid grid-cols-5 mt-5'>
-            <div><img src='assets/images/noti.png' /></div>
-            <div class='col-span-3'>
-              <div class='text-sm'><strong>Admin</strong> sent to you the payslip November 2020</div>
-              <div class='text-blue-500'>13 minutes ago</div>
+          <div class="grid grid-cols-5 mt-5">
+            <div><img src="assets/images/noti.png" /></div>
+            <div class="col-span-3">
+              <div class="text-sm"><strong>Admin</strong> sent to you the payslip November 2020</div>
+              <div class="text-blue-500">13 minutes ago</div>
             </div>
-            <div class='ellipse text-center'><img class='mt-5 inline' src='assets/images/ellipse.png' /></div>
+            <div class="ellipse text-center"><img class="mt-5 inline" src="assets/images/ellipse.png" /></div>
           </div>
-          <div class='grid grid-cols-5 mt-5'>
-            <div><img src='assets/images/noti.png' /></div>
-            <div class='col-span-3'>
-              <div class='text-sm'><strong>Admin</strong> sent to you the payslip November 2020</div>
-              <div class='text-blue-500'>13 minutes ago</div>
+          <div class="grid grid-cols-5 mt-5">
+            <div><img src="assets/images/noti.png" /></div>
+            <div class="col-span-3">
+              <div class="text-sm"><strong>Admin</strong> sent to you the payslip November 2020</div>
+              <div class="text-blue-500">13 minutes ago</div>
             </div>
-            <div class='ellipse text-center'><img class='mt-5 inline' src='assets/images/ellipse.png' /></div>
+            <div class="ellipse text-center"><img class="mt-5 inline" src="assets/images/ellipse.png" /></div>
           </div>
-          <div class='grid grid-cols-5 mt-5'>
-            <div><img src='assets/images/noti.png' /></div>
-            <div class='col-span-3'>
-              <div class='text-sm'><strong>Admin</strong> sent to you the payslip November 2020</div>
-              <div class='text-blue-500'>13 minutes ago</div>
+          <div class="grid grid-cols-5 mt-5">
+            <div><img src="assets/images/noti.png" /></div>
+            <div class="col-span-3">
+              <div class="text-sm"><strong>Admin</strong> sent to you the payslip November 2020</div>
+              <div class="text-blue-500">13 minutes ago</div>
             </div>
-            <div class='ellipse text-center'><img class='mt-5 inline' src='assets/images/ellipse.png' /></div>
+            <div class="ellipse text-center"><img class="mt-5 inline" src="assets/images/ellipse.png" /></div>
           </div>
-          <div class='grid grid-cols-5 mt-5'>
-            <div><img src='assets/images/noti.png' /></div>
-            <div class='col-span-3'>
-              <div class='text-sm'><strong>Admin</strong> sent to you the payslip November 2020</div>
-              <div class='text-blue-500'>13 minutes ago</div>
+          <div class="grid grid-cols-5 mt-5">
+            <div><img src="assets/images/noti.png" /></div>
+            <div class="col-span-3">
+              <div class="text-sm"><strong>Admin</strong> sent to you the payslip November 2020</div>
+              <div class="text-blue-500">13 minutes ago</div>
             </div>
-            <div class='ellipse text-center'><img class='mt-5 inline' src='assets/images/ellipse.png' /></div>
+            <div class="ellipse text-center"><img class="mt-5 inline" src="assets/images/ellipse.png" /></div>
           </div>
         </section>
       </div>
     </div>
   </div>
 
-  <div class='heading-title my-10'>Internal Notices</div>
-  <div class='grid grid-cols-1 md:grid-cols-5 my-10 gap-3'>
+  <div class="heading-title my-10">Internal Notices</div>
+  <div class="grid grid-cols-1 md:grid-cols-5 my-10 gap-3">
     <div>
-      <a href='#'>
-        <img src='assets/images/onboard.png' />
-        <div class='text-gray-500 text-sm font-bold mt-2'>Announcement of new employee on boarding</div>
-        <div class='text-gray-400 text-xs'>
-          <img class='inline clock-icon' src='assets/images/clock.png' /> Mar 23, 2021 15:35
+      <a href="#">
+        <img src="assets/images/onboard.png" />
+        <div class="text-gray-500 text-sm font-bold mt-2">Announcement of new employee on boarding</div>
+        <div class="text-gray-400 text-xs">
+          <img class="inline clock-icon" src="assets/images/clock.png" /> Mar 23, 2021 15:35
         </div>
       </a>
     </div>
 
     <div>
-      <a href='#'>
-        <img src='assets/images/onboard2.png' />
-        <div class='text-gray-500 text-sm font-bold mt-2'>Happy International Women’s Day 8/3</div>
-        <div class='text-gray-400 text-xs'>
-          <img class='inline clock-icon' src='assets/images/clock.png' /> Mar 23, 2021 15:35
+      <a href="#">
+        <img src="assets/images/onboard2.png" />
+        <div class="text-gray-500 text-sm font-bold mt-2">Happy International Women’s Day 8/3</div>
+        <div class="text-gray-400 text-xs">
+          <img class="inline clock-icon" src="assets/images/clock.png" /> Mar 23, 2021 15:35
         </div>
       </a>
     </div>
 
     <div>
-      <a href='#'>
-        <img src='assets/images/onboard.png' />
-        <div class='text-gray-500 text-sm font-bold mt-2'>Announcement of new employee on boarding</div>
-        <div class='text-gray-400 text-xs'>
-          <img class='inline clock-icon' src='assets/images/clock.png' /> Mar 23, 2021 15:35
+      <a href="#">
+        <img src="assets/images/onboard.png" />
+        <div class="text-gray-500 text-sm font-bold mt-2">Announcement of new employee on boarding</div>
+        <div class="text-gray-400 text-xs">
+          <img class="inline clock-icon" src="assets/images/clock.png" /> Mar 23, 2021 15:35
         </div>
       </a>
     </div>
 
     <div>
-      <a href='#'>
-        <img src='assets/images/onboard2.png' />
-        <div class='text-gray-500 text-sm font-bold mt-2'>Happy International Women’s Day 8/3</div>
-        <div class='text-gray-400 text-xs'>
-          <img class='inline clock-icon' src='assets/images/clock.png' /> Mar 23, 2021 15:35
+      <a href="#">
+        <img src="assets/images/onboard2.png" />
+        <div class="text-gray-500 text-sm font-bold mt-2">Happy International Women’s Day 8/3</div>
+        <div class="text-gray-400 text-xs">
+          <img class="inline clock-icon" src="assets/images/clock.png" /> Mar 23, 2021 15:35
         </div>
       </a>
     </div>
 
     <div>
-      <a href='#'>
-        <img src='assets/images/onboard.png' />
-        <div class='text-gray-500 text-sm font-bold mt-2'>Announcement of new employee on boarding</div>
-        <div class='text-gray-400 text-xs'>
-          <img class='inline clock-icon' src='assets/images/clock.png' /> Mar 23, 2021 15:35
+      <a href="#">
+        <img src="assets/images/onboard.png" />
+        <div class="text-gray-500 text-sm font-bold mt-2">Announcement of new employee on boarding</div>
+        <div class="text-gray-400 text-xs">
+          <img class="inline clock-icon" src="assets/images/clock.png" /> Mar 23, 2021 15:35
         </div>
       </a>
     </div>
   </div>
-  <div class='text-center readmore'>
-    <a href='#'>Viewmore <img class='inline' src='assets/images/arrow.png' /></a>
+  <div class="text-center readmore">
+    <a href="#">Viewmore <img class="inline" src="assets/images/arrow.png" /></a>
   </div>
 </div>
