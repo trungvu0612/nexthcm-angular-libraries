@@ -17,14 +17,19 @@ import { AdminUserRolesService } from '../../services/admin-user-roles.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UpsertUserRolesComponent implements OnInit {
-  columns = ['name','description', 'action'];
+  columns = ['name', 'description', 'action'];
   params$ = new BehaviorSubject<{ page?: number; size?: number }>({ size: 100 });
   permissions$: Observable<any[]> = this.adminPermissionsService
     .getPermissions(this.params$.value)
     .pipe(map((data) => data.items));
-  // timeValues$: Observable<any[]> = this.myLeaveService.getTimeValues().pipe(map((data) => data));
 
   data = this.context.data || '';
+
+  //Affter view init
+  arrayTemp: any[] = [];
+  count = 0;
+  removeArray = [];
+
   readonly adminUserRoleForm = new FormGroup({});
   model: Partial<AdminUserRole> = {};
   options: FormlyFormOptions = {};
@@ -37,9 +42,9 @@ export class UpsertUserRolesComponent implements OnInit {
         required: true,
         translate: true,
         label: 'name',
-        textfieldLabelOutside: true
+        textfieldLabelOutside: true,
       },
-      ...this.validationService.getValidation(['required'])
+      ...this.validationService.getValidation(['required']),
     },
     {
       className: 'my-8',
@@ -49,9 +54,9 @@ export class UpsertUserRolesComponent implements OnInit {
         required: true,
         translate: true,
         label: 'Description',
-        textfieldLabelOutside: true
+        textfieldLabelOutside: true,
       },
-      ...this.validationService.getValidation(['required'])
+      ...this.validationService.getValidation(['required']),
     },
     {
       className: 'my-8',
@@ -62,32 +67,86 @@ export class UpsertUserRolesComponent implements OnInit {
         label: 'Permissions',
         labelProp: 'name',
         valueProp: 'id',
-        textfieldLabelOutside: true
+        textfieldLabelOutside: true,
       },
-      ...this.validationService.getValidation(['required'])
+      ...this.validationService.getValidation(['required']),
     },
   ];
+
 
   constructor(
     @Inject(POLYMORPHEUS_CONTEXT) public context: TuiDialogContext<unknown, AdminUserRole>,
     private adminPermissionsService: AdminPermissionsService,
     private adminUserRolesService: AdminUserRolesService,
-    private readonly validationService: ValidationService,
+    private readonly validationService: ValidationService
   ) {}
 
   ngOnInit(): void {
     console.log('iddddd data', this.data);
+
     if (this.data !== '') {
       this.adminUserRolesService.getAdminUserRolesId(this.data).subscribe((item) => {
-        console.log(item.data)
+        console.log('aaaaaaaaaaa', item.data.policies);
         this.model = { ...this.model, ...item.data };
+
+        this.arrayTemp = item.data.policies;
+        this.count = item.data.policies.length;
       });
     }
   }
 
-  submit() {}
+  ngAfterViewInit() {
+    // const policiesControl = this.adminUserRoleForm.get('policies');
 
-  cancel() {}
+    if (this.data !== '') {
 
+      const policiesControl = this.adminUserRoleForm.controls.policies;
+
+      if (policiesControl) {
+        policiesControl.valueChanges.subscribe((data) => {
+          console.log('---------------------------');
+          console.log('init', this.arrayTemp);
+
+          const difference = data.filter((x: any) => !this.arrayTemp.includes(x)).concat(
+              this.arrayTemp.filter((x) => !data.includes(x))
+          );
+          console.log('difference', difference);
+
+          const intersection = data.filter((x: any) => this.arrayTemp.includes(x));
+          console.log('Intersection', intersection);
+
+          const difference1 = data.filter((x: any) => !this.arrayTemp.includes(x));
+          console.log('difference11111', difference1);
+
+          if (intersection.concat(difference1).length < this.arrayTemp.length){
+            this.removeArray = difference.filter((x: any) => this.arrayTemp.includes(x));
+            // result = result.filter((x: any) => this.arrayTemp.includes(x));
+          }
+          // this.model.policy = intersection.concat(difference1)
+          console.log('remove[]', this.removeArray);
+          console.log('result[]', intersection.concat(difference1));
+          console.log('****************************');
+        });
+      }
+    }
+  }
+
+  submit() {
+    if (this.data !== '') {
+      const body = {
+        id: this.data,
+        ...this.model,
+        policyRemoves: this.removeArray,
+      };
+      this.context.completeWith(body);
+      console.log('modelllll edit', body);
+    } else {
+      this.context.completeWith(this.model);
+      console.log('modelllll post', this.model);
+    }
+  }
+
+  cancel() {
+    this.context.completeWith(false);
+  }
 }
-

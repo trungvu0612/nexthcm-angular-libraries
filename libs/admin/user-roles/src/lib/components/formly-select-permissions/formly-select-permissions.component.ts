@@ -1,14 +1,9 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { AdminPermissionsService } from '@nexthcm/admin-permissions';
 import { FieldType } from '@ngx-formly/core';
 import { TuiContextWithImplicit, TuiIdentityMatcher, TuiStringHandler } from '@taiga-ui/cdk';
 import { BehaviorSubject } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
-
-interface Hero {
-  readonly id: number;
-  readonly name: string;
-}
+import { AdminUserRolesService } from '../../services/admin-user-roles.service';
 
 @Component({
   selector: 'hcm-formly-select-permissions',
@@ -17,32 +12,32 @@ interface Hero {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class FormlySelectPermissionsComponent extends FieldType {
+export class FormlySelectPermissionsComponent extends FieldType implements OnInit {
+  columns = ['name', 'code', 'description', 'action'];
+  params$ = new BehaviorSubject<{ page?: number; size?: number }>({ size: 100 });
 
-
-  // readonly items: ReadonlyArray<Hero> = [
-  //   {id: 1, name: 'Luke Skywalker'},
-  //   {id: 2, name: 'Leia Organa Solo'},
-  //   {id: 3, name: 'Darth Vader'},
-  //   {id: 4, name: 'Han Solo'},
-  //   {id: 5, name: 'Obi-Wan Kenobi'},
-  //   {id: 6, name: 'Yoda'},
-  // ];
-
-  columns = ['name', 'code', 'description', 'lastModifiedDate', 'action'];
-  params$ = new BehaviorSubject<{ page?: number; size?: number }>({ size: 10 });
-  permissions$ = this.params$.pipe(switchMap(() => this.adminPermissionsService.getPermissions(this.params$.value)));
-
-
-  // readonly control = new FormControl([
-  //   {
-  //     id: 4,
-  //     name: 'Han Solo',
-  //   },
-  // ]);
-
-  constructor(private adminPermissionsService: AdminPermissionsService) {
+  constructor(
+    private adminUserRolesService: AdminUserRolesService,
+    private adminPermissionsService: AdminPermissionsService) {
     super();
+  }
+
+  ngOnInit(): void {
+    // let count = 0
+    // this.formControl.valueChanges.subscribe( (data) => {
+    //   console.log(data.length)
+    //   if (data.length > count){
+    //     /*Tang*/
+    //     console.log('idddd tang', data.id)
+    //   } else if (data.length < count){
+    //     /*Giam*/
+    //     console.log('idddd giam', data.id)
+    //   } else if (data.length == count){
+    //     /*Not change*/
+    //     console.log('idddd not change', data.id)
+    //   }
+    //   count = data.length
+    // });
   }
 
   readonly stringify: TuiStringHandler<any | TuiContextWithImplicit<any>> = (item) =>
@@ -57,5 +52,9 @@ export class FormlySelectPermissionsComponent extends FieldType {
     const result = (this.formControl.value as any[]).slice();
     result.splice(index, 1);
     this.formControl.setValue(result);
+  }
+
+  tranfer() {
+    //Thang nay goi ve services de lay data policies[] lan dau, luu lai
   }
 }

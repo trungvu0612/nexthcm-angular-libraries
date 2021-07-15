@@ -74,13 +74,17 @@ export class UpsertJobLevelComponent implements OnInit {
     if (this.form.valid) {
       if (this.id) {
         this.levelService.editLevel(this.form.value, this.id).subscribe((item) => {
-          this.router.navigateByUrl('/human-resource/job-level');
+          this.router.navigateByUrl('/admin/job-level');
         });
       } else {
         this.levelService.createLevel(this.form.value).subscribe((item) => {
-          this.router.navigateByUrl('/human-resource/job-level');
+          this.router.navigateByUrl('/admin/job-level');
         });
       }
     }
+  }
+
+  cancel() {
+    console.log('cancel')
   }
 }
