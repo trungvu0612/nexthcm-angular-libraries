@@ -196,6 +196,11 @@
     "maternity": "Nghỉ thai sản",
     "wfh": "Làm việc tại nhà"
   },
+  "WORKING_HOUR": {
+    "addCalendar": "Thêm mới lịch",
+    "addOverTime": "Thêm mới làm việc ngoài giờ"
+  },
+  "applyFor": "Tùy chọn",
   "officeOnsite": "Văn phòng làm việc cho khách hàng",
   "chooseOfficeOnsite": "Chọn văn phòng làm việc cho khách hàng",
   "companyEmail": "Địa chỉ email công ty",
