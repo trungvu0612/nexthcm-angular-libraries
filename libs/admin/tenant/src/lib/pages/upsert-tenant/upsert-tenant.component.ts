@@ -239,6 +239,6 @@ export class UpsertTenantComponent implements OnInit {
 
   ngOnInit(): void {
     this.isAdd = this.router.url.includes('/add');
-    if (!this.isAdd) this.model = this.adminTenantService.get();
+    if (!this.isAdd) this.model = this.adminTenantService.get('tenant');
   }
 }

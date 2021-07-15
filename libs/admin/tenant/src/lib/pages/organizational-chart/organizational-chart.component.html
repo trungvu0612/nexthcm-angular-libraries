@@ -3,12 +3,25 @@
     <h1>{{ t('organizationalChart') }}</h1>
     <button (click)="showDialog(content)" appearance="primary" tuiButton>{{ t('addOrganizationalUnit') }}</button>
   </header>
-  <section #scrollbar (mouseenter)="canZoom = true" (mouseleave)="canZoom = false" class="main-section">
+  <section #scrollbar class="main-section">
+    <div class="p-8">
+      <ngx-table
+        [columns]="(columns$ | async) || []"
+        [configuration]="configuration"
+        [data]="(organization$ | async) || []"
+      >
+        <ng-template let-row>
+          <td>{{ row.orgName }}</td>
+          <td>{{ row.orgType }}</td>
+          <td>{{ row.tenant.tenantName }}</td>
+        </ng-template>
+      </ngx-table>
+    </div>
     <div class="flex justify-end gap-1 pt-4 pr-4">
       <span class="font-semibold"> {{ (zoom$ | async | number: '1.0-0') + '%' }}</span>
       <hero-icon class="w-6 h-6" name="zoom-in" type="solid"></hero-icon>
     </div>
-    <tui-scrollbar class="w-full">
+    <tui-scrollbar (mouseenter)="canZoom = true" (mouseleave)="canZoom = false" class="w-full">
       <div
         *ngIf="dimension$ | async as dim"
         [style]="{
@@ -66,7 +79,7 @@
     </tui-scrollbar>
   </section>
   <ng-template #content let-observer>
-    <h1 class="font-semibold text-primary">{{ t(isAdd ? 'addOrganizationalUnit' : 'editOrganizationalUnit') }}</h1>
+    <h1 class="font-semibold text-primary">{{ t(model.id ? 'editOrganizationalUnit' : 'addOrganizationalUnit') }}</h1>
     <formly-form [fields]="fields" [form]="$any(form)" [model]="model" class="formly-gap"></formly-form>
     <div class="flex justify-center gap-6 mt-8">
       <button (click)="observer.complete()" appearance="outline" tuiButton>{{ t('cancel') }}</button>
@@ -76,3 +89,4 @@
     </div>
   </ng-template>
 </main>
+<hcm-prompt #prompt></hcm-prompt>

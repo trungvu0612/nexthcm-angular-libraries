@@ -21,8 +21,18 @@ export class SelectComponent extends FieldType {
   @tuiPure
   stringify(items: ReadonlyArray<any>): TuiStringHandler<TuiContextWithImplicit<any>> {
     const map = new Map(
-      items.map((item) => [this.to.valueProp ? item[this.to.valueProp] : item, item[this.to.labelProp]])
+      items.map((item) => [
+        this.to.stringItem ? item : item[this.to.valueProp],
+        this.to.stringItem ? item : item[this.to.labelProp],
+      ])
     );
     return ({ $implicit }: TuiContextWithImplicit<any>) => map.get($implicit) || '';
+  }
+
+  getSubLabel(item: any): string | undefined {
+    return (
+      this.to.subLabelProp &&
+      this.to.subLabelProp.split('.').reduce((acc: any, cur: any) => (acc && acc[cur]) || null, item)
+    );
   }
 }

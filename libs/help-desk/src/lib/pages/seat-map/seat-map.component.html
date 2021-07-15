@@ -11,8 +11,9 @@
       </form>
     </div>
   </header>
-  <section class="main-section">
-    <article *ngIf="seatMap$ | async as seatMap" [class.hidden]="hidden$ | async" class="relative">
+  <section *tuiLet="hidden$ | async as hidden" class="main-section">
+    <tui-loader *ngIf="hidden" size="xl"></tui-loader>
+    <article *ngIf="seatMap$ | async as seatMap" [class.hidden]="hidden" class="relative">
       <hcm-seat
         (cdkDragEnded)="$event.source._dragRef.reset()"
         (cdkDragStarted)="moveSeat($event, index)"

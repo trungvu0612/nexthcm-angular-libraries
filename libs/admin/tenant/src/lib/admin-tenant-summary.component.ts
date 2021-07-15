@@ -10,10 +10,7 @@ export class AdminTenantSummaryComponent {
   constructor(private headerService: HeaderService) {
     this.headerService.set({
       root: '/admin/tenant',
-      tabs: [
-        { path: '', tabName: 'tenantManagement' },
-        { path: '/domain', tabName: 'domain' },
-      ],
+      tabs: [{ path: '', tabName: 'tenantManagement' }],
     });
   }
 }

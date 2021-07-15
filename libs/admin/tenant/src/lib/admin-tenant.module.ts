@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { GetStatusPipeModule } from '@nexthcm/ui';
+import { GetStatusPipeModule, PromptComponentModule } from '@nexthcm/ui';
 import { TranslocoModule } from '@ngneat/transloco';
 import { FormlyModule } from '@ngx-formly/core';
 import { TuiTableModule, TuiTablePaginationModule } from '@taiga-ui/addon-table';
@@ -50,6 +50,7 @@ import { AdminTenantService } from './services/admin-tenant.service';
     TuiScrollbarModule,
     TuiLetModule,
     HeroIconModule.withIcons({ pencilAlt, trash, eye, zoomIn }),
+    PromptComponentModule,
   ],
   providers: [AdminTenantService],
 })

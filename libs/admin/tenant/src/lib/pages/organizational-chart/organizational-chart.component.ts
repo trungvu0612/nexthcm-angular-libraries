@@ -1,13 +1,17 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, HostListener, ViewChild } from '@angular/core';
-import { ValidationService } from '@nexthcm/ui';
+import { PromptComponent, ValidationService } from '@nexthcm/ui';
 import { FormGroup } from '@ngneat/reactive-forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { RxState } from '@rx-angular/state';
 import { TuiDialogContext, TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusContent } from '@tinkoff/ng-polymorpheus';
-import { Subscriber, timer } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { OrganizationalUnit } from '../../models/tenant';
+import { of, Subscriber, timer } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
+import { OrganizationalUnit, OrganizationalUnitForm } from '../../models/tenant';
+import { AdminTenantService } from '../../services/admin-tenant.service';
+import { TranslocoService } from '@ngneat/transloco';
+import { DefaultConfig } from 'ngx-easy-table';
+import { SweetAlertOptions } from 'sweetalert2';
 
 interface Unit {
   level: string;
@@ -22,8 +26,8 @@ interface Unit {
   providers: [RxState],
 })
 export class OrganizationalChartComponent implements AfterViewInit {
+  @ViewChild('prompt') prompt!: PromptComponent;
   @ViewChild('scrollbar') scrollbar!: ElementRef;
-  isAdd!: boolean;
   canZoom = false;
   zoom$ = this.state.select('zoom');
   hovering: Unit | null = null;
@@ -69,59 +73,78 @@ export class OrganizationalChartComponent implements AfterViewInit {
       };
     })
   );
-  readonly form = new FormGroup<Partial<OrganizationalUnit>>({});
-  model: Partial<OrganizationalUnit> = {};
+  readonly configuration = { ...DefaultConfig, orderEnabled: false, paginationEnabled: false };
+  readonly columns$ = this.translocoService.selectTranslateObject('TABLE_HEADER').pipe(
+    map((translate) => [
+      { key: 'name', title: translate.name },
+      { key: 'organizationalLevel', title: translate.organizationalLevel },
+      { key: 'companyName', title: translate.companyName },
+    ])
+  );
+  readonly organization$ = this.adminTenantService.select('organization');
+  readonly form = new FormGroup<Partial<OrganizationalUnitForm>>({});
+  model: Partial<OrganizationalUnitForm> = {};
   readonly fields: FormlyFieldConfig[] = [
     {
-      key: 'name',
+      key: 'orgName',
       type: 'input',
       templateOptions: {
         required: true,
         translate: true,
         label: 'name',
+        placeholder: 'enterName',
         textfieldLabelOutside: true,
       },
       ...this.validationService.getValidation(['required']),
     },
     {
-      key: 'organizationalLevel',
+      key: 'orgType',
       type: 'select',
       templateOptions: {
         required: true,
         translate: true,
         label: 'organizationalLevel',
-        options: [
-          { value: 'Ban Vien', label: 'Ban Vien' },
-          { value: 'Team', label: 'Team' },
-          { value: 'Section', label: 'Section' },
-        ],
+        placeholder: 'chooseOrganizationalLevel',
+        stringItem: true,
+        options: this.adminTenantService.select('levels'),
       },
     },
     {
-      key: 'parentOrganization',
+      key: 'ancestor.id',
       type: 'select',
       templateOptions: {
         required: true,
         translate: true,
-        label: 'parentOrganization',
-        options: [
-          { value: 'Ban Vien', label: 'Ban Vien' },
-          { value: 'Team', label: 'Team' },
-          { value: 'Section', label: 'Section' },
-        ],
+        label: 'parentLevel',
+        placeholder: 'chooseParentLevel',
+        labelProp: 'orgName',
+        subLabelProp: 'orgType',
+        valueProp: 'id',
+      },
+      expressionProperties: {
+        'templateOptions.disabled': '!model.orgType',
+      },
+      hooks: {
+        onInit: (field?: FormlyFieldConfig) => {
+          if (field?.templateOptions) {
+            field.templateOptions.options = this.form.controls.orgType?.valueChanges.pipe(
+              switchMap((orgType) => (orgType ? this.adminTenantService.getParentLevel(orgType) : of([])))
+            );
+          }
+        },
       },
     },
     {
-      key: 'manager',
+      key: 'user.id',
       type: 'select',
       templateOptions: {
         translate: true,
         label: 'manager',
-        options: [
-          { value: 'Ban Vien', label: 'Ban Vien' },
-          { value: 'Team', label: 'Team' },
-          { value: 'Section', label: 'Section' },
-        ],
+        placeholder: 'chooseManager',
+        labelProp: 'username',
+        valueProp: 'id',
+        textfieldCleaner: true,
+        options: this.adminTenantService.select('users'),
       },
     },
     {
@@ -136,8 +159,10 @@ export class OrganizationalChartComponent implements AfterViewInit {
   ];
 
   constructor(
+    private readonly adminTenantService: AdminTenantService,
     private readonly validationService: ValidationService,
     private readonly dialogService: TuiDialogService,
+    private readonly translocoService: TranslocoService,
     private readonly state: RxState<{ min: number; zoom: number }>
   ) {
     this.state.set({ min: 100, zoom: 100 });
@@ -186,15 +211,15 @@ export class OrganizationalChartComponent implements AfterViewInit {
   }
 
   showDialog(content: PolymorpheusContent<TuiDialogContext>, unit?: Partial<OrganizationalUnit>) {
-    if (unit) {
-      this.isAdd = false;
-      Object.assign(this.model, unit);
-    } else this.isAdd = true;
-    this.dialogService.open(content).subscribe();
+    this.model = unit || {};
+    this.dialogService.open(content, { dismissible: false }).subscribe();
   }
 
   save(observer: Subscriber<unknown>) {
-    observer.complete();
+    this.adminTenantService
+      .postOrganizationUnit(this.model)
+      .pipe(switchMap(() => this.prompt.open({ icon: 'success' } as SweetAlertOptions)))
+      .subscribe(() => observer.complete());
   }
 
   editUnit(unit: Unit) {

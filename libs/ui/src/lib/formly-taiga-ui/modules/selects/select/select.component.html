@@ -4,6 +4,7 @@
   [formlyAttributes]="field"
   [style.maxWidth]="to.maxWidth"
   [tuiHintContent]="to.description || null"
+  [tuiTextfieldCleaner]="to.textfieldCleaner"
   [tuiTextfieldLabelOutside]="to.textfieldLabelOutside"
   [tuiTextfieldSize]="to.textfieldSize"
   [valueContent]="items ? stringify(items) : loading"
@@ -14,10 +15,15 @@
       <button
         *ngFor="let item of items"
         [disabled]="!!item.disabled"
-        [value]="to.valueProp ? item[to.valueProp] : item"
+        [value]="to.stringItem ? item : item[to.valueProp]"
         tuiOption
       >
-        {{ item[to.labelProp] }}
+        <div class="my-1">
+          <p [class.font-semibold]="to.subLabelProp" class="text-base">
+            {{ to.stringItem ? item : item[to.labelProp] }}
+          </p>
+          <p class="text-sm font-normal">{{ getSubLabel(item) }}</p>
+        </div>
       </button>
     </tui-data-list>
   </ng-template>
