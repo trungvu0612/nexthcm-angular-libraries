@@ -1,0 +1,66 @@
+<div class="object-form-container">
+  <div class="mt-8">
+    <formly-form
+      [fields]="fields"
+      [form]="$any(searchForm)"
+      [model]="model"
+      class="grid grid-cols-4 border-start border-end"
+    ></formly-form>
+  </div>
+  <div class="w-full text-center">
+    <button (click)="onClick()" class="blue-button" icon="tuiIconSearchLarge" tuiButton type="submit">Search</button>
+  </div>
+</div>
+
+<table [columns]="columns" class="hcm-tui-table" tuiTable>
+  <thead>
+<!--  readonly columns = ['fromDate', 'toDate', 'length', 'status', 'reason', 'assignedName', 'action'];-->
+  <tr tuiThGroup>
+    <th *tuiHead="'fromDate'" tuiTh>From Date</th>
+    <th *tuiHead="'toDate'" tuiTh>To Date</th>
+    <th *tuiHead="'length'" tuiTh>Day</th>
+    <th *tuiHead="'status'" tuiTh>Status</th>
+    <th *tuiHead="'reason'" tuiTh>Reason</th>
+    <th *tuiHead="'userSendTo'" tuiTh>Send To</th>
+    <th *tuiHead="'action'" class="w-32" tuiTh>Action</th>
+  </tr>
+  </thead>
+  <tbody [data]="requests" tuiTbody>
+  <tr *tuiRow="let req of requests" tuiTr>
+    <td *tuiCell="'fromDate'" tuiTd>{{ $any(req.fromDate) | date: 'dd/MM/yyyy' }}</td>
+    <td *tuiCell="'toDate'" tuiTd>{{ $any(req.toDate) | date: 'dd/MM/yyyy' }}</td>
+    <th *tuiHead="'length'" tuiTh>{{ req?.length }}</th>
+    <td *tuiCell="'reason'" tuiTd>{{ req.reason }}</td>
+    <td *tuiCell="'userSendTo'" tuiTd>{{ req?.userSendTo?.username }}</td>
+    <td *tuiCell="'status'" tuiTd>
+      <tui-tag [class]="STATUS[req.status + ''] + '-tag'" [value]="STATUS[req.status + ''] | titlecase"></tui-tag></td>
+    <td *tuiCell="'action'" tuiTd>
+<!--      -->
+      <button
+        (click)="cancelReq(req)"
+        [icon]="'tuiIconRemoveLarge'"
+        [shape]="$any('rounded')"
+        appearance="flat"
+        size="s"
+        tuiIconButton
+      ></button>
+      <button
+        (click)="showDetail(req.id)"
+        [icon]="'tuiIconShowLarge'"
+        [shape]="$any('rounded')"
+        appearance="flat"
+        class="ml-1"
+        size="s"
+        tuiIconButton
+      ></button>
+    </td>
+  </tr>
+  </tbody>
+</table>
+<tui-table-pagination
+  (pageChange)="onPage($event)"
+  (sizeChange)="onSize($event)"
+  [size]="size$"
+  [total]="totalLength"
+  [total]="totalLength"
+></tui-table-pagination>

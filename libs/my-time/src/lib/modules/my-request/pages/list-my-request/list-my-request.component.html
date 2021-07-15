@@ -4,13 +4,23 @@
     <div class="flex gap-4">
       <!--      <tui-input-month [formControl]="dateControl" class="date-control">Choose a month</tui-input-month>-->
       <button
+        (click)="showDialogWFH()"
+        class="tui-space_right-3 tui-space_bottom-3 mr-3"
+        icon="tuiIconPlusLarge"
+        tuiButton
+        type="button"
+      >
+        Request WFH
+      </button>
+
+      <button
         (click)="showDialog('ot')"
         class="tui-space_right-3 tui-space_bottom-3 mr-3"
         icon="tuiIconPlusLarge"
         tuiButton
         type="button"
       >
-        Add OT Request
+        Request OT
       </button>
       <button
         (click)="showDialog('word-outside')"
@@ -19,7 +29,7 @@
         tuiButton
         type="button"
       >
-        Add Working Outside Request
+        Request Working Onsite
       </button>
     </div>
   </header>
@@ -30,6 +40,7 @@
         <button tuiRipple="var(--tui-text-01)" tuiTab>Overtime</button>
         <button tuiRipple="var(--tui-text-01)" tuiTab>Update Time</button>
         <button tuiRipple="var(--tui-text-01)" tuiTab>Working Outside</button>
+        <button tuiRipple="var(--tui-text-01)" tuiTab>Work From Home</button>
       </tui-tabs>
       <ng-container [ngSwitch]="activeItemIndex">
         <ng-container *ngSwitchCase="0">
@@ -40,6 +51,9 @@
         </ng-container>
         <ng-container *ngSwitchCase="2">
           <hcm-list-working-outside></hcm-list-working-outside>
+        </ng-container>
+        <ng-container *ngSwitchCase="3">
+          <hcm-list-work-from-home></hcm-list-work-from-home>
         </ng-container>
       </ng-container>
     </article>
