@@ -63,7 +63,7 @@ export class ListUserRolesComponent implements OnInit {
       .subscribe((result) => {
         if (result) {
           console.log('dataaaaaaa', result);
-          this.adminUserRolesService.createAdminUserRoleId(result).subscribe((data) => {
+          this.adminUserRolesService.createAdminUserRole(result).subscribe((data) => {
             console.log('Success Post');
           });
         }
@@ -98,4 +98,9 @@ export class ListUserRolesComponent implements OnInit {
     console.log('cancel');
   }
 
+  delete(id: string) {
+    this.adminUserRolesService.deleteAdminUserRoleId(id).subscribe((data) => {
+      console.log('delete delete');
+    });
+  }
 }

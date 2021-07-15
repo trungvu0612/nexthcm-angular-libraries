@@ -1,10 +1,14 @@
 <div class="p-12">
-  <div class="tui-container">
+  <div class="tui-container my-8">
     <formly-form
       [fields]="fields"
       [form]="$any(form)"
       [model]="model"
       class="col-6 border-start border-end"
     ></formly-form>
+  </div>
+  <div class="flex justify-center gap-4">
+    <button (click)="submit()" [disabled]="!form.valid" class="blue-button ml-8">Save</button>
+    <button (click)="cancel()" class="btn-blue">Cancel</button>
   </div>
 </div>

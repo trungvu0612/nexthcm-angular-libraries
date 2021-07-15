@@ -33,12 +33,12 @@ export class AdminUserRolesService {
     }
   }
 
-  createAdminUserRoleId(body: any): Observable<AdminUserRole> {
+  createAdminUserRole(body: any): Observable<AdminUserRole> {
     return this.http.post<AdminUserRole>(`${MY_ACCOUNT_PATH}/roles`, body);
   }
 
   editAdminUserRoleId(id: string | undefined, body: any): Observable<AdminUserRole> {
-    return this.http.put<AdminUserRole>(`${MY_ACCOUNT_PATH}/roles/${id}`, body);
+    return this.http.post<AdminUserRole>(`${MY_ACCOUNT_PATH}/roles/`, body);
   }
 
   deleteAdminUserRoleId(id: string): Observable<AdminUserRole> {

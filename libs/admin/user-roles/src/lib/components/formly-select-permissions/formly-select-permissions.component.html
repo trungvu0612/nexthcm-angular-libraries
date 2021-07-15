@@ -1,5 +1,3 @@
-<!--    [formControl]='$any(formControl)'-->
-<!--    *tuiLet='to.options | selectOptions | async as items'-->
 <tui-multi-select
   *tuiLet='to.options | selectOptions | async as items'
   [editable]='false'
@@ -24,14 +22,11 @@
         <th *tuiHead="'name'" tuiTh>Permission Name</th>
         <th *tuiHead="'code'" tuiTh>Code</th>
         <th *tuiHead="'description'" tuiTh>Description</th>
-        <th *tuiHead="'lastModifiedDate'" tuiTh>Last Modified Date</th>
         <th *tuiHead="'action'" [sorter]='null' tuiTh>Action</th>
       </tr>
 
       <tbody [data]='formControl.value' tuiTbody>
       <tr *tuiRow='let item of formControl.value; index as index' tuiTr>
-
-
         <td *tuiCell="'name'" tuiTd>
           {{ item.name }}
         </td>
@@ -41,7 +36,7 @@
         <td *tuiCell="'description'" tuiTd>
           {{ item.description }}
         </td>
-        <td *tuiCell="'lastModifiedDate'" tuiTd>{{ item.lastModifiedDate | date: 'dd/MM/yyyy' }}</td>
+<!--        <td *tuiCell="'lastModifiedDate'" tuiTd>{{ item.lastModifiedDate | date: 'dd/MM/yyyy' }}</td>-->
         <td *tuiCell="'action'" tuiTd>
           <div class='flex text-gray-400'>
             <button (click)='delete(index)'>
@@ -52,55 +47,6 @@
       </tr>
       </tbody>
     </table>
-
-
-
-
-    <!--      <table *ngIf='permissions$ | async as permissions' [columns]='columns' class='hcm-tui-table mt-2' tuiTable>-->
-    <!--        <thead>-->
-    <!--        <tr tuiThGroup>-->
-    <!--          <th *tuiHead="'name'" tuiTh>Permission Name</th>-->
-    <!--          <th *tuiHead="'code'" tuiTh>Code</th>-->
-    <!--          <th *tuiHead="'description'" tuiTh>Description</th>-->
-    <!--          <th *tuiHead="'lastModifiedDate'" tuiTh>Last Modified Date</th>-->
-    <!--          <th *tuiHead="'action'" [sorter]='null' tuiTh>Action</th>-->
-    <!--        </tr>-->
-    <!--        </thead>-->
-    <!--        <tbody [data]='permissions.items' tuiTbody>-->
-    <!--        <tr *tuiRow='let item of permissions.items' tuiTr>-->
-    <!--          <td *tuiCell="'name'" tuiTd>-->
-    <!--            {{ item.name }}-->
-    <!--          </td>-->
-    <!--          <td *tuiCell="'code'" tuiTd>-->
-    <!--            {{ item.code }}-->
-    <!--          </td>-->
-    <!--          <td *tuiCell="'description'" tuiTd>-->
-    <!--            {{ item.description }}-->
-    <!--          </td>-->
-    <!--          <td *tuiCell="'lastModifiedDate'" tuiTd>{{ item.lastModifiedDate | date: 'dd/MM/yyyy' }}</td>-->
-    <!--          <td *tuiCell="'action'" tuiTd>-->
-    <!--            <div class='flex text-gray-400'>-->
-    <!--              <button>-->
-    <!--                <tui-svg src='tuiIconTrash'></tui-svg>-->
-    <!--              </button>-->
-    <!--            </div>-->
-    <!--          </td>-->
-    <!--        </tr>-->
-    <!--        </tbody>-->
-    <!--        <tfoot>-->
-    <!--        <tr>-->
-    <!--          <td [colSpan]='columns.length'>-->
-    <!--            <tui-table-pagination-->
-    <!--              (pageChange)="changePagination('page', $event)"-->
-    <!--              (sizeChange)="changePagination('size', $event)"-->
-    <!--              [total]='permissions.totalElements'-->
-    <!--            ></tui-table-pagination>-->
-    <!--          </td>-->
-    <!--        </tr>-->
-    <!--        </tfoot>-->
-    <!--      </table>-->
-    <!--    </div>-->
-
   </section>
 </div>
 
