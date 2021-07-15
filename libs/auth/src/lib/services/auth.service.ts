@@ -45,6 +45,7 @@ export class AuthService extends RxState<AuthState> {
     this.cookieService.removeAll();
     this.set({ userInfo: undefined });
     this.permissionsService.flushRoles();
+    this.permissionsService.flushPermissions();
     this.router.navigateByUrl('/auth');
   }
 

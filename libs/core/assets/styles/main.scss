@@ -13,29 +13,30 @@
   font-family: 'Inter', sans-serif;
 }
 
-.ng-select .ng-select-container {
-  height: var(--tui-height-l) !important;
-  border-color: var(--tui-base-03);
-  border-radius: var(--tui-radius-m);
-  box-shadow: 0 2px 3px rgb(0 0 0 / 10%);
+.ng-select,
+.ng-select.ng-select-multiple {
+  @apply max-w-full;
 
-  .ng-value-container {
-    @apply px-4 pt-0;
+  .ng-select-container {
+    min-height: var(--tui-height-l) !important;
+    border-color: var(--tui-base-03);
+    border-radius: var(--tui-radius-m);
+    box-shadow: 0 2px 3px rgb(0 0 0 / 10%);
 
-    .ng-placeholder {
-      @apply pb-0 pl-0;
+    .ng-value-container {
+      @apply px-4;
 
-      top: unset;
-      color: var(--tui-text-02);
-      font-size: 15px;
-    }
+      .ng-placeholder {
+        @apply pb-0 pl-0;
 
-    .ng-input {
-      @apply top-4 pl-4;
-    }
+        top: unset;
+        color: var(--tui-text-02);
+        font-size: 15px;
+      }
 
-    .ng-value {
-      @apply mb-0;
+      .ng-input {
+        @apply top-4 pl-4;
+      }
     }
   }
 }

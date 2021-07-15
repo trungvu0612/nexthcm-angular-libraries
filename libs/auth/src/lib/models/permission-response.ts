@@ -1,8 +1,8 @@
-export interface PermissionResponse {
-  service: string;
-  permissions: string[];
+interface Roles {
+  [k: string]: string[];
 }
 
-export interface AppPermissions {
-  [k: string]: string[];
+export interface PermissionsResponse {
+  permissions: string[];
+  roles: Roles;
 }

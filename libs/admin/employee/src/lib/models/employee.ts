@@ -24,3 +24,7 @@ export interface Employee
     EmployeeDuration,
     EmployeeEducation,
     EmployeeSHUI {}
+
+export interface BaseEmployee {
+  [x: string]: any;
+}

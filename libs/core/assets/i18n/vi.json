@@ -156,7 +156,10 @@
   "education": "Học vấn",
   "cifNumber": "Mã số nhân viên",
   "enterCifNumber": "Nhập mã số nhân viên",
-  "enterName": "Nhập tên",
+  "firstName": "Tên",
+  "enterFirstName": "Nhập tên",
+  "lastName": "Họ",
+  "enterLastName": "Nhập họ",
   "otherName": "Tên khác",
   "enterOtherName": "Nhập tên khác",
   "image": "Hình ảnh",
@@ -265,5 +268,16 @@
   "healthCareCompany": "Công ty bảo hiểm",
   "chooseHealthCareCompany": "Chọn công ty bảo hiểm",
   "healthCareNumber": "Mã số bảo hiểm",
-  "enterHealthCareNumber": "Nhập mã số bảo hiểm"
+  "enterHealthCareNumber": "Nhập mã số bảo hiểm",
+  "ADMIN_EMPLOYEE_MANAGEMENT_COLUMNS": {
+    "cif": "CIF",
+    "name": "Tên",
+    "currentStatus": "Tình trạng hiện tại",
+    "roles": "Vai trò",
+    "organization": "Tổ chức",
+    "jobTitle": "Chức danh",
+    "directReport": "Báo cáo trực tiếp",
+    "actions": "Thao tác"
+  },
+  "addNewEmployee": "Thêm nhân viên mới"
 }

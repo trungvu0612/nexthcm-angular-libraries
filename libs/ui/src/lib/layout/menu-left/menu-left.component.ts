@@ -3,6 +3,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 export interface Menu {
   name: string;
   uri: string;
+  roles?: string;
 }
 
 @Component({

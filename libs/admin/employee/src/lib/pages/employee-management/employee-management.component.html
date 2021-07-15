@@ -1,12 +1,9 @@
 <main class="main-page">
-  <ng-container *transloco="let t">
-    <h2 class="tui-text_h3">{{ t('ADMIN_PROCESSES.processManagement') }}</h2>
-    <section class="flex justify-end">
-      <button (click)="onCreateProcess()" class="tui-space_right-3 tui-space_bottom-3" size="m" tuiButton>
-        {{ t('ADMIN_PROCESSES.createNewProcess') }}
-      </button>
-    </section>
-  </ng-container>
+  <section *transloco="let t" class="flex justify-end">
+    <button (click)="onAddEmployee()" class="tui-space_right-3 tui-space_bottom-3" size="m" tuiButton>
+      {{ t('addNewEmployee') }}
+    </button>
+  </section>
   <section class="main-section">
     <tui-loader [overlay]="true" [showLoader]="(loading$ | async) === true">
       <ngx-table
@@ -14,41 +11,37 @@
         [columns]="(columns$ | async) || []"
         [configuration]="configuration"
         [data]="(data$ | async) || []"
-        [selectAllTemplate]="selectAllTemplate"
       >
         <ng-template let-row>
-          <td>
-            <tui-checkbox
-              (ngModelChange)="rowSelected(row, $event)"
-              [ngModel]="selected.has(process(row).id || '')"
-              size="l"
-            ></tui-checkbox>
-          </td>
-          <td>{{ process(row).name }}</td>
-          <td>{{ process(row).description }}</td>
-          <td></td>
+          <td>{{ employee(row).cif }}</td>
+          <td>{{ employee(row).name }}</td>
+          <td>{{ employee(row).currentStatus }}</td>
+          <td>{{ employee(row).roles }}</td>
+          <td>{{ employee(row).organization }}</td>
+          <td>{{ employee(row).jobTitle }}</td>
+          <td>{{ employee(row).directReport }}</td>
           <td>
             <div class="flex items-center">
               <button
+                [routerLink]="[employee(row).id, 'edit']"
                 appearance="flat"
                 class="tui-space_right-3"
                 icon="tuiIconEditLarge"
-                [routerLink]="[process(row).id, 'edit']"
                 size="m"
                 tuiIconButton
                 type="button"
               ></button>
               <button
+                [routerLink]="[employee(row).id, 'view']"
                 appearance="flat"
                 class="tui-space_right-3"
                 icon="tuiIconShowLarge"
-                [routerLink]="[process(row).id, 'view']"
                 size="m"
                 tuiIconButton
                 type="button"
               ></button>
               <button
-                (click)="onRemoveProcess(process(row).id)"
+                (click)="onRemoveEmployee(employee(row).id)"
                 appearance="flat"
                 icon="tuiIconTrashLarge"
                 size="m"
@@ -70,7 +63,3 @@
 </main>
 
 <hcm-prompt #prompt></hcm-prompt>
-
-<ng-template #selectAllTemplate let-changeEvent>
-  <tui-checkbox (ngModelChange)="changeEvent()" [(ngModel)]="allSelected" size="l"></tui-checkbox>
-</ng-template>
