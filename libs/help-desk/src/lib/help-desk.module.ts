@@ -13,6 +13,7 @@ import {
   TuiDropdownControllerModule,
   TuiGroupModule,
   TuiHostedDropdownModule,
+  TuiLoaderModule,
   TuiSvgModule,
   TuiTextfieldControllerModule,
 } from '@taiga-ui/core';
@@ -95,6 +96,7 @@ FullCalendarModule.registerPlugins([dayGridPlugin]);
     TuiDataListModule,
     FormlyModule,
     GetFileModule,
+    TuiLoaderModule,
   ],
   providers: [HelpDeskService],
 })

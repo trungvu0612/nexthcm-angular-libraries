@@ -12,6 +12,7 @@ export class AdminTenantComponent {
       root: '/admin/tenant',
       tabs: [
         { path: '/information', tabName: 'information' },
+        { path: '/domain', tabName: 'domain' },
         { path: '/organizational-structure', tabName: 'organizationalStructure' },
         { path: '/organizational-chart', tabName: 'organizationalChart' },
       ],

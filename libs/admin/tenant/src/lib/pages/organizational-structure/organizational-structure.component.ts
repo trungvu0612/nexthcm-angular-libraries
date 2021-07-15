@@ -1,89 +1,83 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { ValidationService } from '@nexthcm/ui';
+import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
+import { PromptComponent, ValidationService } from '@nexthcm/ui';
 import { FormGroup } from '@ngneat/reactive-forms';
 import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import { RxState } from '@rx-angular/state';
 import { TuiDialogContext, TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusContent } from '@tinkoff/ng-polymorpheus';
-import { Columns, DefaultConfig } from 'ngx-easy-table';
+import { DefaultConfig } from 'ngx-easy-table';
 import { Subscriber } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 import { OrganizationalLevel } from '../../models/tenant';
+import { AdminTenantService } from '../../services/admin-tenant.service';
+import { SweetAlertOptions } from 'sweetalert2';
 
 @Component({
   selector: 'hcm-organizational-structure',
   templateUrl: './organizational-structure.component.html',
   styleUrls: ['./organizational-structure.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [RxState],
 })
 export class OrganizationalStructureComponent {
-  isAdd!: boolean;
+  @ViewChild('prompt') prompt!: PromptComponent;
   readonly configuration = { ...DefaultConfig, orderEnabled: false, paginationEnabled: false };
-  columns$ = this.state.select('columns');
-  data = [
-    { name: 'Department', parentOrganization: 'Ban Vien' },
-    { name: 'Team', parentOrganization: 'Department' },
-    { name: 'Section', parentOrganization: 'Team' },
-  ];
+  readonly columns$ = this.translocoService.selectTranslateObject('TABLE_HEADER').pipe(
+    map((translate) => [
+      { key: 'name', title: translate.name },
+      { key: 'organizationalLevel', title: translate.organizationalLevel },
+      { key: 'parentLevel', title: translate.parentLevel },
+      { key: 'companyName', title: translate.companyName },
+      { key: 'action', title: translate.action },
+    ])
+  );
+  readonly structure$ = this.adminTenantService.select('structure');
   readonly form = new FormGroup<Partial<OrganizationalLevel>>({});
   model: Partial<OrganizationalLevel> = {};
   readonly fields: FormlyFieldConfig[] = [
     {
-      key: 'name',
+      key: 'orgTypeLabel',
       type: 'input',
       templateOptions: {
         required: true,
         translate: true,
         label: 'name',
+        placeholder: 'enterName',
         textfieldLabelOutside: true,
       },
       ...this.validationService.getValidation(['required']),
     },
     {
-      key: 'parentLevel',
+      key: 'parentOrgTypeLabel.id',
       type: 'select',
       templateOptions: {
         required: true,
         translate: true,
         label: 'parentLevel',
-        options: [
-          { value: 'Ban Vien', label: 'Ban Vien' },
-          { value: 'Team', label: 'Team' },
-          { value: 'Section', label: 'Section' },
-        ],
+        placeholder: 'chooseParentLevel',
+        labelProp: 'orgTypeLabel',
+        subLabelProp: 'orgType',
+        valueProp: 'id',
+        options: this.structure$,
       },
     },
   ];
 
   constructor(
+    private readonly adminTenantService: AdminTenantService,
     private readonly validationService: ValidationService,
     private readonly dialogService: TuiDialogService,
-    private readonly translocoService: TranslocoService,
-    private readonly state: RxState<{ columns: Columns[] }>
-  ) {
-    this.state.connect(
-      'columns',
-      this.translocoService.selectTranslateObject('TABLE_HEADER').pipe(
-        map((translate) => [
-          { key: 'name', title: translate.name, width: '40%' },
-          { key: 'parentOrganization', title: translate.parentOrganization, width: '40%' },
-          { key: 'action', title: translate.action, width: '20%' },
-        ])
-      )
-    );
-  }
+    private readonly translocoService: TranslocoService
+  ) {}
 
   showDialog(content: PolymorpheusContent<TuiDialogContext>, level?: Partial<OrganizationalLevel>) {
-    if (level) {
-      this.isAdd = false;
-      Object.assign(this.model, level);
-    } else this.isAdd = true;
-    this.dialogService.open(content).subscribe();
+    this.model = level || {};
+    this.dialogService.open(content, { dismissible: false }).subscribe();
   }
 
   save(observer: Subscriber<unknown>) {
-    observer.complete();
+    this.adminTenantService
+      .upsertOrganizationalLevel(this.model, this.model.id ? 'put' : 'post')
+      .pipe(switchMap(() => this.prompt.open({ icon: 'success' } as SweetAlertOptions)))
+      .subscribe(() => observer.complete());
   }
 }

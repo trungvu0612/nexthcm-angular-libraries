@@ -1,4 +1,4 @@
-import { Address, UserDto, ContactDTO } from '@nexthcm/core';
+import { Address, ContactDTO, UserDto } from '@nexthcm/core';
 
 export interface Tenant {
   createdDate: number;
@@ -16,15 +16,39 @@ export interface Tenant {
 
 export interface Domain {
   id: string;
-  tenant: Tenant;
+  tenant: Partial<Tenant>;
   domainUrl: string;
   image: string;
 }
 
 export interface OrganizationalLevel {
   id: string;
+  orgType: string;
+  orgTypeLabel: string;
+  tenant: Tenant;
+  parentOrgTypeLabel: OrganizationalLevel;
 }
 
 export interface OrganizationalUnit {
+  createdDate: number;
+  createdBy: string;
+  lastModifiedDate: number;
+  lastModifiedBy: string;
+  optCounter: number;
   id: string;
+  state: number;
+  orgType: string;
+  orgName: string;
+  code: string;
+  description: string;
+  tenant: Tenant;
+}
+
+export interface OrganizationalUnitForm {
+  id: string;
+  orgName: string;
+  orgType: string;
+  ancestor: { id: string };
+  user: { id: string };
+  description: string;
 }

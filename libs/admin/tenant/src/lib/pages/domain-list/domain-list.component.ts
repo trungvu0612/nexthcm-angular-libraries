@@ -74,7 +74,7 @@ export class DomainListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.model = { tenant: this.adminTenantService.get() };
+    this.model = { tenant: this.adminTenantService.get('tenant') };
   }
 
   showDialog(content: PolymorpheusContent<TuiDialogContext>, domain?: Partial<Domain>) {

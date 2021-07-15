@@ -4,10 +4,12 @@
     <button (click)="showDialog(content)" appearance="primary" tuiButton>{{ t('addOrganizationalLevel') }}</button>
   </header>
   <section class="main-section">
-    <ngx-table [columns]="(columns$ | async) || []" [configuration]="configuration" [data]="data">
+    <ngx-table [columns]="(columns$ | async) || []" [configuration]="configuration" [data]="(structure$ | async) || []">
       <ng-template let-row>
-        <td>{{ row.name }}</td>
-        <td>{{ row.parentOrganization.label }}</td>
+        <td>{{ row.orgTypeLabel }}</td>
+        <td>{{ row.orgType }}</td>
+        <td>{{ row.parentOrgTypeLabel?.orgTypeLabel }}</td>
+        <td>{{ row.tenant?.tenantName }}</td>
         <td class="flex gap-1">
           <hero-icon (click)="showDialog(content, row)" class="icon-button" name="pencil-alt" type="solid"></hero-icon>
           <hero-icon class="icon-button" name="trash" type="solid"></hero-icon>
@@ -16,7 +18,7 @@
     </ngx-table>
   </section>
   <ng-template #content let-observer>
-    <h1 class="font-semibold text-primary">{{ t(isAdd ? 'addOrganizationalLevel' : 'editOrganizationalLevel') }}</h1>
+    <h1 class="font-semibold text-primary">{{ t(model.id ? 'editOrganizationalLevel' : 'addOrganizationalLevel') }}</h1>
     <formly-form [fields]="fields" [form]="$any(form)" [model]="model" class="formly-gap"></formly-form>
     <div class="flex justify-center gap-6 mt-8">
       <button (click)="observer.complete()" appearance="outline" tuiButton>{{ t('cancel') }}</button>
@@ -26,3 +28,4 @@
     </div>
   </ng-template>
 </main>
+<hcm-prompt #prompt></hcm-prompt>

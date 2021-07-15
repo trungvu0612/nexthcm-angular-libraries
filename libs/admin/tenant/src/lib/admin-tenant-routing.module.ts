@@ -23,7 +23,6 @@ const routes: Routes = [
         children: [
           { path: '', component: TenantListComponent },
           { path: 'add', component: UpsertTenantComponent },
-          { path: 'domain', component: DomainListComponent },
         ],
         canActivate: [SuperUserGuard],
       },
@@ -32,6 +31,7 @@ const routes: Routes = [
         component: AdminTenantComponent,
         children: [
           { path: 'information', component: UpsertTenantComponent },
+          { path: 'domain', component: DomainListComponent },
           { path: 'organizational-structure', component: OrganizationalStructureComponent },
           { path: 'organizational-chart', component: OrganizationalChartComponent },
         ],
