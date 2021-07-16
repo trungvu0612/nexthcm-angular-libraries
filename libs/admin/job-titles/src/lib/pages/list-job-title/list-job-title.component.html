@@ -7,7 +7,7 @@
     <table *ngIf='data' [columns]='columns' class='hcm-tui-table' tuiTable>
       <thead>
       <tr class='text-left' tuiThGroup>
-        <th *tuiHead="'name'" [sorter]='null' tuiTh>Tên <tui-svg (click)='sort()' src='tuiEdit'></tui-svg></th>
+        <th *tuiHead="'name'" tuiTh>Tên <tui-svg (click)='sort()' src='tuiEdit'></tui-svg></th>
         <th *tuiHead="'createdBy'" [sorter]='null' tuiTh>Người Tạo</th>
         <th *tuiHead="'createdDate'" [sorter]='null' tuiTh>Ngày Tạo</th>
         <th *tuiHead="'lastModifiedDate'" [sorter]='null' tuiTh>Ngày Cập Nhật</th>
