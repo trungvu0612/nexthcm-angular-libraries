@@ -471,6 +471,44 @@
         }
       }
     },
+    "admin-seat-maps": {
+      "projectType": "library",
+      "root": "libs/admin/seat-maps",
+      "sourceRoot": "libs/admin/seat-maps/src",
+      "prefix": "hcm",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/angular:package",
+          "outputs": ["dist/libs/admin/seat-maps"],
+          "options": {
+            "project": "libs/admin/seat-maps/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "libs/admin/seat-maps/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "libs/admin/seat-maps/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/admin/seat-maps"],
+          "options": {
+            "jestConfig": "libs/admin/seat-maps/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/admin/seat-map/src/**/*.ts", "libs/admin/seat-map/src/**/*.html"]
+          }
+        }
+      }
+    },
     "admin-team-building-allowance": {
       "projectType": "library",
       "root": "libs/admin/team-building-allowance",

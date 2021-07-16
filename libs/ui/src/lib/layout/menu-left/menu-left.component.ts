@@ -59,7 +59,7 @@ export class MenuLeftComponent {
     },
     {
       name: 'Quản lý sơ đồ chỗ ngồi',
-      uri: '/admin/offices/seat-maps',
+      uri: '/admin/seat-maps',
     },
     {
       name: 'Quản lý chính sách',

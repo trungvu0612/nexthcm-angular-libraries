@@ -42,8 +42,8 @@ export class AdminTenantService extends RxState<State> {
       .pipe(map((response) => response.data));
   }
 
-  postTenant(body: Partial<Tenant>): Observable<Partial<Tenant>> {
-    return this.http.post<Partial<Tenant>>('/accountapp/v1.0/tenants', body);
+  postTenant(body: Partial<Tenant>): unknown {
+    return this.http.post('/accountapp/v1.0/tenants', body);
   }
 
   getDomains(): Observable<Partial<Domain>[]> {
@@ -56,13 +56,16 @@ export class AdminTenantService extends RxState<State> {
       .pipe(map((response) => response.data));
   }
 
-  upsertOrganizationalLevel(
-    body: Partial<OrganizationalLevel>,
-    type: 'post' | 'put'
-  ): Observable<Partial<OrganizationalLevel>[]> {
-    return this.http[type]<Partial<OrganizationalLevel>[]>('/accountapp/v1.0/org-type-label', body).pipe(
+  upsertOrganizationalLevel(body: Partial<OrganizationalLevel>, type: 'post' | 'put'): Observable<unknown> {
+    return this.http[type]('/accountapp/v1.0/org-type-label', body).pipe(
       tap(() => this.connect('structure', this.getOrganizationalStructure()))
     );
+  }
+
+  deleteOrganizationalLevel(id: string): Observable<unknown> {
+    return this.http
+      .delete(`/accountapp/v1.0/org-type-label/${id}`)
+      .pipe(tap(() => this.connect('structure', this.getOrganizationalStructure())));
   }
 
   getOrganizationalLevels(): Observable<string[]> {
@@ -85,9 +88,15 @@ export class AdminTenantService extends RxState<State> {
       .pipe(map((response) => response.data.items));
   }
 
-  postOrganizationUnit(body: Partial<OrganizationalUnitForm>): Observable<BaseResponse<Partial<OrganizationalUnit>>> {
+  postOrganizationUnit(body: Partial<OrganizationalUnitForm>): Observable<unknown> {
     return this.http
-      .post<BaseResponse<Partial<OrganizationalUnit>>>('/accountapp/v1.0/orgs', body)
+      .post('/accountapp/v1.0/orgs', body)
+      .pipe(tap(() => this.connect('organization', this.getOrganization())));
+  }
+
+  deleteOrganizationUnit(id: string): Observable<unknown> {
+    return this.http
+      .delete(`/accountapp/v1.0/orgs/${id}`)
       .pipe(tap(() => this.connect('organization', this.getOrganization())));
   }
 }

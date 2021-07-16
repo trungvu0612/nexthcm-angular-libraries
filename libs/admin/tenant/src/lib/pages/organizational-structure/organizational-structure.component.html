@@ -12,7 +12,7 @@
         <td>{{ row.tenant?.tenantName }}</td>
         <td class="flex gap-1">
           <hero-icon (click)="showDialog(content, row)" class="icon-button" name="pencil-alt" type="solid"></hero-icon>
-          <hero-icon class="icon-button" name="trash" type="solid"></hero-icon>
+          <hero-icon (click)="delete(row.id)" class="icon-button" name="trash" type="solid"></hero-icon>
         </td>
       </ng-template>
     </ngx-table>

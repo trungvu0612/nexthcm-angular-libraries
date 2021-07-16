@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SeatMapsComponent } from './seat-maps.component';
+import { UpsertSeatMapComponent } from './upsert-seat-map.component';
 
-describe('FloorsComponent', () => {
-  let component: SeatMapsComponent;
-  let fixture: ComponentFixture<SeatMapsComponent>;
+describe('UpsertSeatMapComponent', () => {
+  let component: UpsertSeatMapComponent;
+  let fixture: ComponentFixture<UpsertSeatMapComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [SeatMapsComponent],
+      declarations: [UpsertSeatMapComponent],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SeatMapsComponent);
+    fixture = TestBed.createComponent(UpsertSeatMapComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -5,7 +5,7 @@ import { FormlyFieldConfig } from '@ngx-formly/core';
 import { RxState } from '@rx-angular/state';
 import { TuiDialogContext, TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusContent } from '@tinkoff/ng-polymorpheus';
-import { of, Subscriber, timer } from 'rxjs';
+import { from, iif, of, Subscriber, timer } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { OrganizationalUnit, OrganizationalUnitForm } from '../../models/tenant';
 import { AdminTenantService } from '../../services/admin-tenant.service';
@@ -79,6 +79,7 @@ export class OrganizationalChartComponent implements AfterViewInit {
       { key: 'name', title: translate.name },
       { key: 'organizationalLevel', title: translate.organizationalLevel },
       { key: 'companyName', title: translate.companyName },
+      { key: 'action', title: translate.action },
     ])
   );
   readonly organization$ = this.adminTenantService.select('organization');
@@ -222,11 +223,12 @@ export class OrganizationalChartComponent implements AfterViewInit {
       .subscribe(() => observer.complete());
   }
 
-  editUnit(unit: Unit) {
-    console.log(unit);
-  }
-
-  deleteUnit(unit: Unit) {
-    console.log(unit);
+  delete(id: string) {
+    from(this.prompt.open({ icon: 'warning', showCancelButton: true } as SweetAlertOptions))
+      .pipe(
+        switchMap((result) => iif(() => result.isConfirmed, this.adminTenantService.deleteOrganizationUnit(id))),
+        switchMap(() => this.prompt.open({ icon: 'success' } as SweetAlertOptions))
+      )
+      .subscribe();
   }
 }

@@ -34,5 +34,6 @@ module.exports = {
     '<rootDir>/libs/admin/departments',
     '<rootDir>/libs/admin/user-roles',
     '<rootDir>/libs/admin/working-times',
+    '<rootDir>/libs/admin/seat-maps',
   ],
 };

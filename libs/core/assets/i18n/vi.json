@@ -70,6 +70,7 @@
   "chooseManager": "Chọn người quản lí",
   "TABLE_HEADER": {
     "name": "Tên",
+    "office": "Văn phòng",
     "organizationalLevel": "Cấp độ tổ chức",
     "parentLevel": "Cấp trên",
     "companyName": "Tên công ty",
@@ -160,6 +161,7 @@
   "education": "Học vấn",
   "cifNumber": "Mã số nhân viên",
   "enterCifNumber": "Nhập mã số nhân viên",
+  "enterName": "Nhập tên",
   "firstName": "Tên",
   "enterFirstName": "Nhập tên",
   "lastName": "Họ",

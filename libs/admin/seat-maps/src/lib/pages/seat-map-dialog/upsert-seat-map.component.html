@@ -1,0 +1,58 @@
+<ng-container *transloco="let t">
+  <main *ngIf="sign$ | async" class="main-page">
+    <header>
+      <h1>{{ t(seatMap.id ? 'editSeatMap' : 'addSeatMap') }}</h1>
+    </header>
+    <section class="main-section">
+      <form [formGroup]="form" class="max-w-4xl mb-4">
+        <formly-form
+          [fields]="fields"
+          [form]="form"
+          [model]="model"
+        ></formly-form>
+      </form>
+      <article #zone *ngIf="model.imageUrl" class="relative ring-4 ring-purple-700 my-4">
+        <button
+          (cdkDragEnded)="moveSeat(index, $event.distance, $event)"
+          (click)="focusSeat(index)"
+          *ngFor="let seat of seats; index as index"
+          [class.opacity]="current === index"
+          [style]="{
+            top: seat.positionY + '%',
+            left: seat.positionX + '%',
+            width: (seat.width || dimension.width) + '%',
+            height: (seat.height || dimension.height) + '%',
+            'border-radius': getRounded(seat.rounded) + '%'
+          }"
+          cdkDrag
+          cdkDragBoundary="article"
+          class="absolute bg-blue-400 opacity-60"
+        >
+          <img class="object-contain w-full h-full" src="/assets/icons/marker.svg" />
+        </button>
+        <img (load)="onImageLoad($event)" [src]="model.imageUrl | getFile | async" class="w-full" />
+      </article>
+      <form *ngIf="current !== -1" class="bg-gradient medium-buttons flex items-center gap-6 fixed bottom-3">
+        <formly-form
+          [fields]="seatFields"
+          [form]="seatForm"
+          [model]="seatModel"
+          class="grid grid-cols-3 gap-x-6 flex-auto"
+        ></formly-form>
+        <button (click)="resetSeat()" [disabled]="seats[current].width === undefined" class="btn-blue" type="button">
+          Reset
+        </button>
+        <button (click)="deleteSeat()" class="btn-red" type="button">
+          <tui-svg src="tuiIconTrashLarge"></tui-svg>
+        </button>
+      </form>
+      <div class="flex justify-end gap-6 mt-4">
+        <button appearance="outline" routerLink="/admin/seat-maps" tuiButton>{{ t('cancel') }}</button>
+        <button (click)="save()" [disabled]="!form.valid || !model.imageUrl" appearance="primary" tuiButton>
+          {{ t('save') }}
+        </button>
+      </div>
+    </section>
+  </main>
+</ng-container>
+<hcm-prompt #prompt></hcm-prompt>
