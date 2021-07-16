@@ -6,7 +6,7 @@ import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDialogContext, TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusContent } from '@tinkoff/ng-polymorpheus';
 import { DefaultConfig } from 'ngx-easy-table';
-import { Subscriber } from 'rxjs';
+import { from, iif, Subscriber } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { OrganizationalLevel } from '../../models/tenant';
 import { AdminTenantService } from '../../services/admin-tenant.service';
@@ -79,5 +79,14 @@ export class OrganizationalStructureComponent {
       .upsertOrganizationalLevel(this.model, this.model.id ? 'put' : 'post')
       .pipe(switchMap(() => this.prompt.open({ icon: 'success' } as SweetAlertOptions)))
       .subscribe(() => observer.complete());
+  }
+
+  delete(id: string) {
+    from(this.prompt.open({ icon: 'warning', showCancelButton: true } as SweetAlertOptions))
+      .pipe(
+        switchMap((result) => iif(() => result.isConfirmed, this.adminTenantService.deleteOrganizationalLevel(id))),
+        switchMap(() => this.prompt.open({ icon: 'success' } as SweetAlertOptions))
+      )
+      .subscribe();
   }
 }

@@ -1,47 +1,46 @@
 import { CdkDragEnd } from '@angular/cdk/drag-drop';
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  HostListener,
-  Inject,
-  ViewChild,
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, HostListener, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Dimension, Seat, Zone } from '@nexthcm/core';
-import { filterBySearch, UploadFileService } from '@nexthcm/ui';
-import { FormBuilder, FormControl, FormGroup } from '@ngneat/reactive-forms';
-import { TranslocoService } from '@ngneat/transloco';
+import { filterBySearch, PromptComponent, UploadFileService, ValidationService } from '@nexthcm/ui';
+import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDestroyService } from '@taiga-ui/cdk';
-import { TuiDialogContext } from '@taiga-ui/core';
-import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
-import { Observable } from 'rxjs';
-import { map, shareReplay, startWith, takeUntil } from 'rxjs/operators';
-import { SeatMapForm } from '../../models/offices';
-import { AdminOfficesService } from '../../services/admin-offices.service';
+import { iif, Observable, of } from 'rxjs';
+import { map, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { AdminSeatMapsService } from '../../services/admin-seat-maps.service';
+import { SweetAlertOptions } from 'sweetalert2';
+
+interface SeatMapForm extends Dimension {
+  office: Partial<Zone> | null;
+  name: string;
+  imageUrl: string;
+  dimensionX: number;
+  dimensionY: number;
+  seats: number;
+}
 
 const keys: ('width' | 'height' | 'rounded')[] = ['width', 'height', 'rounded'];
 
 @Component({
-  selector: 'hcm-seat-map-dialog',
-  templateUrl: './seat-map-dialog.component.html',
-  styleUrls: ['./seat-map-dialog.component.scss'],
+  selector: 'hcm-upsert-seat-map-',
+  templateUrl: './upsert-seat-map.component.html',
+  styleUrls: ['./upsert-seat-map.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [TuiDestroyService],
 })
-export class SeatMapDialogComponent implements AfterViewInit {
+export class UpsertSeatMapComponent implements AfterViewInit {
+  @ViewChild('prompt') prompt!: PromptComponent;
   @ViewChild('zone') zone!: ElementRef;
-  title!: string;
-  imageControl = new FormControl<File>();
+  sign$: Observable<Partial<Zone>>;
+  seatMap!: Partial<Zone>;
+  offices$ = this.adminSeatMapsService.select('offices');
   keepFocus = false;
   current = -1;
   first = true;
   factor = { width: 0, height: 0, rounded: 1 };
   dimension = { width: 0, height: 0, rounded: 0 };
   seats: Seat[] = [];
-  offices$ = this.adminOfficesService.getZoneData('office', { size: 9999 }).pipe(shareReplay(1));
 
   form: FormGroup<SeatMapForm>;
   model: SeatMapForm = {
@@ -57,84 +56,93 @@ export class SeatMapDialogComponent implements AfterViewInit {
   };
   fields: FormlyFieldConfig[] = [
     {
-      key: 'office',
-      type: 'combo-box',
-      templateOptions: {
-        label: 'office',
-        translate: true,
-        required: true,
-        textfieldSize: 'm',
-        serverRequest: (search: string): Observable<Partial<Zone>[]> =>
-          this.offices$.pipe(map((data) => filterBySearch<Zone>(data.items, search))),
-      },
-      validation: {
-        messages: {
-          required: () => this.translocoService.selectTranslate('VALIDATION.required'),
+      fieldGroupClassName: 'grid grid-flow-col grid-rows-3 gap-x-10 gap-y-2 mb-4',
+      fieldGroup: [
+        {
+          key: 'office',
+          type: 'combo-box',
+          templateOptions: {
+            label: 'office',
+            translate: true,
+            required: true,
+            textfieldSize: 'm',
+            serverRequest: (search: string): Observable<Partial<Zone>[]> =>
+              this.offices$.pipe(map((items) => filterBySearch<Zone>(items, search))),
+          },
+          ...this.validationService.getValidation(['required']),
         },
-      },
-    },
-    {
-      key: 'name',
-      type: 'input',
-      templateOptions: {
-        label: 'seatMap',
-        translate: true,
-        required: true,
-        textfieldSize: 'm',
-        textfieldLabelOutside: true,
-      },
-      validation: {
-        messages: {
-          required: () => this.translocoService.selectTranslate('VALIDATION.required'),
+        {
+          key: 'name',
+          type: 'input',
+          templateOptions: {
+            label: 'seatMap',
+            translate: true,
+            required: true,
+            textfieldSize: 'm',
+            textfieldLabelOutside: true,
+          },
+          ...this.validationService.getValidation(['required']),
         },
-      },
+        {
+          key: 'seats',
+          type: 'input-count',
+          templateOptions: {
+            label: 'numberOfSeat',
+            translate: true,
+            textfieldSize: 'm',
+            textfieldLabelOutside: true,
+          },
+          expressionProperties: {
+            'templateOptions.disabled': '!model.imageUrl',
+          },
+        },
+        {
+          key: 'width',
+          type: 'input-slider',
+          templateOptions: {
+            label: 'Width (px)',
+            min: 10,
+            max: 333,
+          },
+          expressionProperties: {
+            'templateOptions.disabled': '!model.seats',
+          },
+        },
+        {
+          key: 'height',
+          type: 'input-slider',
+          templateOptions: {
+            label: 'Height (px)',
+            min: 10,
+            max: 333,
+          },
+          expressionProperties: {
+            'templateOptions.disabled': '!model.seats',
+          },
+        },
+        {
+          key: 'rounded',
+          type: 'input-slider',
+          templateOptions: {
+            label: 'Rounded (%)',
+            max: 50,
+          },
+          expressionProperties: {
+            'templateOptions.disabled': '!model.seats',
+          },
+        },
+      ],
     },
     {
-      key: 'seats',
-      type: 'input-count',
+      key: 'imageUrl',
+      type: 'upload-file',
       templateOptions: {
-        label: 'numberOfSeat',
+        required: true,
         translate: true,
-        textfieldSize: 'm',
-        textfieldLabelOutside: true,
-      },
-      expressionProperties: {
-        'templateOptions.disabled': '!model.imageUrl',
-      },
-    },
-    {
-      key: 'width',
-      type: 'input-slider',
-      templateOptions: {
-        label: 'Width (px)',
-        min: 10,
-        max: 333,
-      },
-      expressionProperties: {
-        'templateOptions.disabled': '!model.seats',
-      },
-    },
-    {
-      key: 'height',
-      type: 'input-slider',
-      templateOptions: {
-        label: 'Height (px)',
-        min: 10,
-        max: 333,
-      },
-      expressionProperties: {
-        'templateOptions.disabled': '!model.seats',
-      },
-    },
-    {
-      key: 'rounded',
-      type: 'input-slider',
-      templateOptions: {
-        label: 'Rounded (%)',
-        max: 50,
-      },
-      expressionProperties: {
-        'templateOptions.disabled': '!model.seats',
+        linkText: 'chooseAnImage',
+        labelText: 'orDropItHere',
+        accept: 'image/*',
+        serverRequest: (file: File) => this.uploadFileService.uploadFile('admin-tenant/domain', file),
       },
     },
   ];
@@ -171,41 +179,33 @@ export class SeatMapDialogComponent implements AfterViewInit {
   ];
 
   constructor(
-    @Inject(POLYMORPHEUS_CONTEXT)
-    private context: TuiDialogContext<Partial<Zone> | undefined, Partial<Zone> | undefined>,
-    private adminOfficesService: AdminOfficesService,
-    private uploadFileService: UploadFileService,
-    private translocoService: TranslocoService,
-    private fb: FormBuilder,
-    private changeDetector: ChangeDetectorRef,
-    private destroy$: TuiDestroyService
+    private readonly adminSeatMapsService: AdminSeatMapsService,
+    private readonly uploadFileService: UploadFileService,
+    private readonly validationService: ValidationService,
+    private readonly route: ActivatedRoute,
+    private readonly router: Router,
+    private readonly fb: FormBuilder,
+    private readonly destroy$: TuiDestroyService
   ) {
     this.form = fb.group(this.model);
     this.seatForm = fb.group(this.seatModel);
-    this.offices$.subscribe();
+    this.sign$ = iif(
+      () => this.route.snapshot.params.id,
+      this.adminSeatMapsService.getSeatMap(this.route.snapshot.params.id),
+      of({})
+    ).pipe(
+      tap((data) => {
+        this.seatMap = data;
+        console.log(data);
+        if (data.id) {
+          const { name, office, imageUrl } = data;
+          Object.assign(this.model, { name, office, imageUrl });
+        }
+      })
+    );
   }
 
   ngAfterViewInit(): void {
-    if (this.context.data) {
-      const { name, imageUrl, office } = this.context.data;
-      if (name) this.form.patchValue({ name });
-      if (office) this.form.patchValue({ office });
-      if (imageUrl) this.model.imageUrl = imageUrl;
-      this.title = 'editSeatMap';
-    } else this.title = 'addSeatMap';
-
-    this.imageControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((file) => {
-      if (file) {
-        this.uploadFileService.uploadFile('seats-map', file).subscribe((imageUrl) => {
-          this.model.imageUrl = imageUrl;
-          this.changeDetector.detectChanges();
-        });
-      } else {
-        this.form.controls.seats.setValue(0);
-        this.model.imageUrl = '';
-      }
-    });
-
     this.form.controls.seats.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((value) => {
       this.seats = Array.from(
         { length: value },
@@ -282,10 +282,10 @@ export class SeatMapDialogComponent implements AfterViewInit {
     this.model.dimensionX = event.path[0].naturalWidth;
     this.model.dimensionY = event.path[0].naturalHeight;
     this.updateFactor();
-    if (this.first && this.context.data) {
+    if (this.first && this.seatMap.id) {
       this.first = false;
-      if (this.context.data.seats) {
-        this.seats = this.context.data.seats.map((seat) => {
+      if (this.seatMap.seats) {
+        this.seats = this.seatMap.seats.map((seat) => {
           return Object.assign(seat, JSON.parse(seat.style || '{}'));
         });
         this.form.patchValue({ seats: this.seats.length });
@@ -295,11 +295,12 @@ export class SeatMapDialogComponent implements AfterViewInit {
   }
 
   updateFactor(): void {
-    this.factor = {
-      width: this.zone.nativeElement.offsetWidth / 100,
-      height: this.zone.nativeElement.offsetHeight / 100,
-      rounded: 1,
-    };
+    if (this.zone)
+      this.factor = {
+        width: this.zone.nativeElement.offsetWidth / 100,
+        height: this.zone.nativeElement.offsetHeight / 100,
+        rounded: 1,
+      };
   }
 
   getRounded(rounded?: number): number {
@@ -356,13 +357,8 @@ export class SeatMapDialogComponent implements AfterViewInit {
     updateSeat('positionY', 'height', distance.y, this.factor.height);
   }
 
-  cancel(): void {
-    this.context.completeWith(undefined);
-  }
-
   save(): void {
-    const seatMap: Partial<Zone> = this.context.data || {};
-    if (!seatMap.type) seatMap.type = 'UNSET';
+    if (!this.seatMap.type) this.seatMap.type = 'UNSET';
     const { name, imageUrl, dimensionX, dimensionY, office } = this.model;
     const seats: Partial<Seat>[] = this.seats;
     seats.forEach((seat) => {
@@ -378,7 +374,10 @@ export class SeatMapDialogComponent implements AfterViewInit {
       delete seat.height;
       delete seat.rounded;
     });
-    Object.assign(seatMap, { office, name, imageUrl, dimensionX, dimensionY, seats });
-    this.context.completeWith(seatMap);
+    Object.assign(this.seatMap, { office, name, imageUrl, dimensionX, dimensionY, seats });
+    this.adminSeatMapsService
+      .putSeatMap(this.seatMap)
+      .pipe(switchMap(() => this.prompt.open({ icon: 'success' } as SweetAlertOptions)))
+      .subscribe(() => this.router.navigateByUrl('/admin/seat-maps'));
   }
 }

@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@nexthcm/admin-seat-maps": ["libs/admin/seat-maps/src/index.ts"],
       "@nexthcm/admin-branches": ["libs/admin/branches/src/index.ts"],
       "@nexthcm/admin-departments": ["libs/admin/departments/src/index.ts"],
       "@nexthcm/admin-employee": ["libs/admin/employee/src/index.ts"],

@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output
 import { Pagination, Zone } from '@nexthcm/core';
 import { BehaviorSubject, merge, Observable, Subject } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-import { ZoneType } from '../../models/offices';
 import { AdminOfficesService } from '../../services/admin-offices.service';
 
 @Component({
@@ -13,7 +12,7 @@ import { AdminOfficesService } from '../../services/admin-offices.service';
 })
 export class MainPageComponent implements OnInit {
   @Input() columns!: string[];
-  @Input() type!: ZoneType;
+  @Input() type!: 'office' | 'seatMap';
   @Input() refresh$!: Subject<unknown>;
   @Output() add = new EventEmitter();
   @Output() edit = new EventEmitter<Partial<Zone>>();
@@ -25,7 +24,7 @@ export class MainPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.data$ = merge(this.refresh$, this.params$).pipe(
-      switchMap(() => this.adminOfficesService.getZoneData(this.type, this.params$.value))
+      switchMap(() => this.adminOfficesService.getZoneData(this.params$.value))
     );
   }
 

@@ -1,0 +1,20 @@
+<main *transloco="let t" class="main-page">
+  <header>
+    <h1>{{ t('seatMapList') }}</h1>
+    <button appearance="primary" routerLink="./add" tuiButton>
+      {{ t('addSeatMap') }}
+    </button>
+  </header>
+  <section class="main-section">
+    <ngx-table [columns]="(columns$ | async) || []" [configuration]="configuration" [data]="(data$ | async) || []">
+      <ng-template let-row>
+        <td>{{ row.name }}</td>
+        <td>{{ row.office.name }}</td>
+        <td class="flex gap-1">
+          <hero-icon [routerLink]="'./edit/' + row.id" class="icon-button" name="pencil-alt" type="solid"></hero-icon>
+          <hero-icon (click)="delete(row.id)" class="icon-button" name="trash" type="solid"></hero-icon>
+        </td>
+      </ng-template>
+    </ngx-table>
+  </section>
+</main>

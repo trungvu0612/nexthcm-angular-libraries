@@ -42,6 +42,10 @@ import { AppComponent } from './app.component';
               loadChildren: () => import('@nexthcm/admin-permissions').then((m) => m.AdminPermissionsModule),
             },
             {
+              path: 'seat-maps',
+              loadChildren: () => import('@nexthcm/admin-seat-maps').then((m) => m.AdminSeatMapsModule),
+            },
+            {
               path: 'employees',
               loadChildren: () => import('@nexthcm/admin-employee').then((m) => m.AdminEmployeeModule),
             },
