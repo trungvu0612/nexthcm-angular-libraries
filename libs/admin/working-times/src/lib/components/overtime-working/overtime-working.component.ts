@@ -19,7 +19,7 @@ export class OvertimeWorkingComponent {
 
   fields: FormlyFieldConfig[] = [
     {
-      className: 'tui-form__row block small-field',
+      className: 'tui-form__row block',
       key: 'office',
       type: 'select',
       templateOptions: {
@@ -134,15 +134,15 @@ export class OvertimeWorkingComponent {
     {
       fieldGroup: [
         {
-          fieldGroupClassName: 'grid grid-cols-5 gap-4 mt-5',
+          fieldGroupClassName: 'grid grid-cols-5 gap-4',
           fieldGroup: [
             {
-              className: 'block my-5 small-field',
+              className: 'block my-5 text-xl',
               key: 'check-out',
               type: 'input',
+              defaultValue: '18:00',
               templateOptions: {
                 placeholder: 'Check out',
-                defaultValue: '18:00',
                 disabled: true,
               },
             },
@@ -168,11 +168,11 @@ export class OvertimeWorkingComponent {
             },
             {
               className: 'block my-5 small-field',
-              key: 'hourMax',
+              key: 'minuteMin',
               type: 'input-time',
               templateOptions: {
                 textfieldSize: 'l',
-                label: 'Hour Max',
+                label: 'Minute Min',
                 required: true,
               },
             },
@@ -192,15 +192,13 @@ export class OvertimeWorkingComponent {
     {
       fieldGroup: [
         {
-          fieldGroupClassName: 'grid grid-cols-5 gap-4 mt-5',
+          fieldGroupClassName: 'grid grid-cols-5 gap-4',
           fieldGroup: [
             {
               className: 'block my-5 small-field',
               key: 'check-out-time',
               type: 'input',
-              templateOptions: {
-                placeholder: '1',
-              },
+              defaultValue: '1',
             },
             {
               className: 'tui-form__row block small-field',
@@ -217,11 +215,11 @@ export class OvertimeWorkingComponent {
             },
             {
               className: 'block my-5 small-field',
-              key: 'minuteMin',
+              key: 'hourMax',
               type: 'input-time',
               templateOptions: {
                 textfieldSize: 'l',
-                label: 'Minute Min',
+                label: 'Hour Max',
                 required: true,
               },
             },
@@ -246,7 +244,7 @@ export class OvertimeWorkingComponent {
     {
       fieldGroup: [
         {
-          fieldGroupClassName: 'grid grid-flow-col grid-cols-3 grid-rows-3 gap-4',
+          fieldGroupClassName: 'grid grid-flow-col auto-cols-max col-custom',
           fieldGroup: [
             {
               key: 'weekendOt',

@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { PagingResponse } from '@nexthcm/core';
 import { Observable } from 'rxjs';
@@ -18,5 +18,13 @@ export class WorkingTimesService {
 
   saveSettings(dto: WorkingTimes): Observable<WorkingTimes> {
     return this.httpClient.post<WorkingTimes>(`${this.appVersion}/config/times`, dto);
+  }
+
+  getBranchDatas(pageIndex: number, pageSize: number): Observable<any> {
+    return this.httpClient.get<any>(  '/accountapp/v1.0/orgs', {
+      params: new HttpParams()
+        .set('page', pageIndex ? pageIndex.toString() : '')
+        .set('size', pageSize ? pageSize.toString() : ''),
+    });
   }
 }

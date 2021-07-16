@@ -1,10 +1,16 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '@nexthcm/auth';
+import { Zone } from '@nexthcm/core';
+import { PromptComponent } from '@nexthcm/ui';
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import { TuiDay, TuiTime } from '@taiga-ui/cdk';
-import { map } from 'rxjs/operators';
+import { TuiDay, TuiDestroyService, TuiTime } from '@taiga-ui/cdk';
+import { TuiDialogContext, TuiDialogService } from '@taiga-ui/core';
+import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
+import { of } from 'rxjs';
+import { catchError, filter, map, mapTo, startWith, switchMap, takeUntil } from 'rxjs/operators';
+import { SweetAlertOptions } from 'sweetalert2';
 import { WorkingHourService } from '../../services/working-hour.service';
 
 @Component({
@@ -14,7 +20,8 @@ import { WorkingHourService } from '../../services/working-hour.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RequestUpdateTimeComponent implements OnInit {
-  myId = this.authService.get('userInfo').userId;
+  @ViewChild('prompt') prompt!: PromptComponent;
+  id = this.context.data || '';
   dataUsersReport$ = this.workingHourService.getAllUsers().pipe(map((res) => res.data.items));
 
   readonly form = new FormGroup({
@@ -38,7 +45,7 @@ export class RequestUpdateTimeComponent implements OnInit {
         options: this.dataUsersReport$,
         labelProp: 'username',
         valueProp: 'id',
-        placeholder: 'Send To *',
+        placeholder: 'Send To',
       },
     },
     {
@@ -62,33 +69,54 @@ export class RequestUpdateTimeComponent implements OnInit {
       key: 'comments',
       type: 'text-area',
       templateOptions: {
-        label: 'Reason *',
+        label: 'Reason',
         textfieldSize: 'm',
         expandable: false,
         rows: 4,
+        required: true
       },
     },
   ];
 
   constructor(
+    @Inject(POLYMORPHEUS_CONTEXT)
+    private context: TuiDialogContext<Partial<Zone> | null, Partial<Zone> | null>,
     private workingHourService: WorkingHourService,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    @Inject(TuiDialogService) private readonly dialogService: TuiDialogService,
+    private destroy$: TuiDestroyService,
+    private activatedRoute: ActivatedRoute
   ) {}
 
   ngOnInit(): void {}
 
   submitRequestTime() {
-    const formModel = this.form.value;
-    formModel.createdDate = (formModel.createdDate as TuiDay).toLocalNativeDate().valueOf();
-    formModel.newInTime = (formModel?.newInTime as TuiTime).toAbsoluteMilliseconds().valueOf();
-    formModel.newOutTime = (formModel?.newOutTime as TuiTime).toAbsoluteMilliseconds().valueOf();
-    formModel.timeSheetId = this.myId;
-    formModel.status = 0;
-    console.log(formModel);
-    this.workingHourService.submitRequestTime(formModel).subscribe((item) => {
-      console.log(item);
-      // this.router.navigateByUrl('/my-time/working-hour');
-    });
+      const formModel = this.form.value;
+      formModel.timeSheetId = this.id;
+      formModel.createdDate = (formModel.createdDate as TuiDay).toLocalNativeDate().valueOf();
+      formModel.newInTime = (formModel?.newInTime as TuiTime).toAbsoluteMilliseconds().valueOf();
+      formModel.newOutTime = (formModel?.newOutTime as TuiTime).toAbsoluteMilliseconds().valueOf();
+      formModel.status = 0;
+
+    if (this.form.valid) {
+      this.workingHourService.submitRequestTime(formModel)
+        .pipe(
+          mapTo({ icon: 'success', text: 'Updating Successfully!' } as SweetAlertOptions),
+          takeUntil(this.destroy$),
+          catchError((err) =>
+            of({
+              icon: 'error',
+              text: err.error.message,
+              showCancelButton: true,
+              showConfirmButton: false,
+            } as SweetAlertOptions)
+          ),
+          switchMap((options) => this.prompt.open(options)),
+          filter((result) => result.isConfirmed),
+          takeUntil(this.destroy$)
+        )
+        .subscribe(() => this.router.navigate(['../..'], { relativeTo: this.activatedRoute }));
+    }
   }
 }
