@@ -4,16 +4,15 @@
     <button (click)='showDialog()' class='blue-button' tuiButton>Add Job Title</button>
   </header>
   <section class='main-section'>
-    <table *ngIf="data" [columns]='columns' class='hcm-tui-table' tuiTable>
+    <table *ngIf='data' [columns]='columns' class='hcm-tui-table' tuiTable>
       <thead>
       <tr class='text-left' tuiThGroup>
-        <th *tuiHead="'name'"  tuiTh>Tên</th>
-        <th *tuiHead="'description'"  tuiTh>Mô Tả</th>
-        <th *tuiHead="'createdBy'"  tuiTh>Người Tạo</th>
-        <th *tuiHead="'createdDate'"  tuiTh>Ngày Tạo</th>
-        <th *tuiHead="'lastModifiedDate'"  tuiTh>Ngày Cập Nhật</th>
-        <th *tuiHead="'state'"  tuiTh>Trạng Thái</th>
-        <th *tuiHead="'action'"  tuiTh>Thao Tác</th>
+        <th *tuiHead="'name'" [sorter]='null' tuiTh>Tên <tui-svg (click)='sort()' src='tuiEdit'></tui-svg></th>
+        <th *tuiHead="'createdBy'" [sorter]='null' tuiTh>Người Tạo</th>
+        <th *tuiHead="'createdDate'" [sorter]='null' tuiTh>Ngày Tạo</th>
+        <th *tuiHead="'lastModifiedDate'" [sorter]='null' tuiTh>Ngày Cập Nhật</th>
+        <th *tuiHead="'state'" [sorter]='null' tuiTh>Trạng Thái</th>
+        <th *tuiHead="'action'" [sorter]='null' tuiTh>Thao Tác</th>
       </tr>
       </thead>
 
@@ -24,13 +23,10 @@
           {{ item.name }}
         </td>
 
-        <td *tuiCell="'description'" tuiTd>
-          {{ item.description }}
+        <td *tuiCell="'createdBy'" tuiTd>
+          <p>Nguyen Hai Vien</p>
         </td>
 
-        <td *tuiCell="'createdBy'" tuiTd>
-          {{ item.createdBy }}
-        </td>
 
         <td *tuiCell="'createdDate'" tuiTd>
           {{ item.createdDate | date }}
@@ -47,7 +43,7 @@
           <div *ngIf='item.state === 0'>
             InActive
           </div>
-<!--          {{ item.state }}-->
+          <!--          {{ item.state }}-->
         </td>
 
         <td *tuiCell="'action'" tuiTd>
@@ -67,8 +63,8 @@
       <tr>
         <td [colSpan]='columns.length' class='px-5 py-3'>
           <tui-table-pagination
-            (pageChange)="onPage($event)"
-            (sizeChange)="onSize($event)"
+            (pageChange)='onPage($event)'
+            (sizeChange)='onSize($event)'
             [(page)]='page'
             [(size)]='size'
             [total]='totalElements'></tui-table-pagination>

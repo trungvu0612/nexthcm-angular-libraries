@@ -10,6 +10,7 @@ export class CheckboxComponent extends FieldType {
   defaultOptions: FormlyFieldConfig = {
     templateOptions: {
       size: 'l',
+      readonly: false,
     },
   };
 }
