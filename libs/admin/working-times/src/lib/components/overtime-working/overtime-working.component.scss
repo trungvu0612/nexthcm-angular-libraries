@@ -1,6 +1,13 @@
 :host {
   display: block;
-  .small-field{
+
+  .small-field {
     width: 40px;
+  }
+
+  ::ng-deep.col-custom {
+    formly-field {
+      margin-right: 30px!important;
+    }
   }
 }

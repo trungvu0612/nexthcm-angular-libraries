@@ -47,7 +47,6 @@ export class WorkingHourComponent implements OnInit {
   ];
   readonly everyone_columns = [
     'cif',
-    'cif',
     'fullName',
     'office',
     'date',
@@ -148,11 +147,12 @@ export class WorkingHourComponent implements OnInit {
       });
   }
 
-  requestUpdateTime(): void {
+  requestUpdateTime(id: any): void {
     this.dialogService
       .open(new PolymorpheusComponent(RequestUpdateTimeComponent, this.injector), {
         size: 'm',
         closeable: false,
+        data: id
       })
       .subscribe((map) => {
         this.cdr.detectChanges();

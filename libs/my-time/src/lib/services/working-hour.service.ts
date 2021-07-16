@@ -3,6 +3,7 @@ import { Inject, Injectable } from '@angular/core';
 import { APP_CONFIG, AppConfig, PagingResponse, UserDto } from '@nexthcm/core';
 import { Observable } from 'rxjs';
 import { RequestUpdateTime, SearchWorkingHour, WorkingHour } from '../models/working-hour';
+import { BaseResponse } from '@nexthcm/core';
 
 @Injectable({
   providedIn: 'root',
@@ -53,7 +54,7 @@ export class WorkingHourService {
     return this.httpClient.get<PagingResponse<UserDto>>(`/accountapp/v1.0/users`);
   }
 
-  submitRequestTime(dto: RequestUpdateTime): Observable<RequestUpdateTime> {
-    return this.httpClient.post<RequestUpdateTime>(this.appVersion + '/working-hours', dto);
+  submitRequestTime(dto: RequestUpdateTime): Observable<BaseResponse<RequestUpdateTime>> {
+    return this.httpClient.post<BaseResponse<RequestUpdateTime>>(this.appVersion + '/working-hours', dto);
   }
 }
