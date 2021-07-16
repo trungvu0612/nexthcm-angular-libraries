@@ -15,8 +15,7 @@ import { UpsertJobTitleComponent } from '../upsert-job-title/upsert-job-title.co
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ListJobTitleComponent implements OnInit {
-  readonly columns = ['name', 'createdBy', 'description', 'createdDate', 'lastModifiedDate', 'state', 'action'];
-  id!: string;
+  readonly columns = ['name', 'createdBy', 'createdDate', 'lastModifiedDate', 'state', 'action'];
   data: any = [];
 
   page$ = new BehaviorSubject<number>(1);
@@ -57,7 +56,6 @@ export class ListJobTitleComponent implements OnInit {
   showDialog(): void {
     this.dialogService
       .open<boolean>(new PolymorpheusComponent(UpsertJobTitleComponent, this.injector), {
-        // data: id,
       })
       .subscribe((result) => {
         if (result) {
@@ -70,14 +68,13 @@ export class ListJobTitleComponent implements OnInit {
   }
 
   showDialogEdit(id: string): void {
-    this.id = id;
     this.dialogService
       .open<boolean>(new PolymorpheusComponent(UpsertJobTitleComponent, this.injector), {
-        data: this.id,
+        data: this.adminJobTitlesService.getAdminJobTitleId(id),
       })
       .subscribe((result) => {
         if (result) {
-          this.adminJobTitlesService.editAdminJobTitleId(this.id, result).subscribe((data) => {
+          this.adminJobTitlesService.editAdminJobTitleId(id, result).subscribe((data) => {
             console.log('Edit Edit');
           });
         }
@@ -94,5 +91,9 @@ export class ListJobTitleComponent implements OnInit {
 
   cancel(): void {
     console.log('cancel');
+  }
+
+  sort() {
+
   }
 }

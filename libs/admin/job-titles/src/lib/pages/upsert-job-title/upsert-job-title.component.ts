@@ -1,29 +1,23 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
 import { FormGroup } from '@ngneat/reactive-forms';
 import { TranslocoService } from '@ngneat/transloco';
-import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
-import { TuiDestroyService } from '@taiga-ui/cdk';
+import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { JobTitle } from '../../models/job-title';
-import { AdminJobTitlesService } from '../../services/admin-job-titles.service';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'hcm-upsert-job-title',
   templateUrl: './upsert-job-title.component.html',
   styleUrls: ['./upsert-job-title.component.scss'],
-  providers: [TuiDestroyService],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class UpsertJobTitleComponent implements OnInit {
-  id!: string;
-  data = this.context.data || '';
+export class UpsertJobTitleComponent {
+  data$ = this.context.data.pipe(tap((value) => value && Object.assign(this.model, value))) || of(null);
   form = new FormGroup<JobTitle>({});
-  model: JobTitle = {};
-
-  options: FormlyFormOptions = {};
-
+  model: JobTitle = { hasLevel: true, stateCov: true };
   fields: FormlyFieldConfig[] = [
     {
       /*Ten chuc vu*/ fieldGroupClassName: 'mt-4 grid grid-cols-3 gap-4',
@@ -41,6 +35,7 @@ export class UpsertJobTitleComponent implements OnInit {
           templateOptions: {
             translate: true,
             required: true,
+            textfieldLabelOutside: true,
           },
           validation: {
             messages: {
@@ -52,7 +47,8 @@ export class UpsertJobTitleComponent implements OnInit {
     },
 
     {
-      /*Trạng thái*/ fieldGroupClassName: 'mt-4 grid grid-cols-3 gap-4',
+      /*Trạng thái*/
+      fieldGroupClassName: 'mt-4 grid grid-cols-3 gap-4',
       fieldGroup: [
         {
           className: '',
@@ -70,8 +66,7 @@ export class UpsertJobTitleComponent implements OnInit {
               type: 'toggle',
               templateOptions: { textfieldLabelOutside: true },
               expressionProperties: {
-                // 'templateOptions.label': of('Active:'),
-                'templateOptions.description': of('Active'),
+                'templateOptions.description': 'model.stateCov ? "Active" : "Deactive"',
               },
             },
             {
@@ -130,49 +125,13 @@ export class UpsertJobTitleComponent implements OnInit {
   ];
 
   constructor(
-    @Inject(POLYMORPHEUS_CONTEXT) public context: TuiDialogContext<unknown, JobTitle>,
-    private translocoService: TranslocoService,
-    private adminJobTitlesService: AdminJobTitlesService
+    @Inject(POLYMORPHEUS_CONTEXT) public context: TuiDialogContext<JobTitle, Observable<JobTitle>>,
+    private translocoService: TranslocoService
   ) {}
 
-  ngOnInit(): void {
-    console.log('iddddd data', this.data);
-    if (this.data !== '') {
-      this.adminJobTitlesService.getAdminJobTitleId(this.data).subscribe((item) => {
-        // console.log(item)
-
-        this.model = { ...this.model, ...item };
-
-        // if (item.hasLevel){
-        //   this.model.hasLevel = true
-        // } else {
-        //   this.model.hasLevel = false
-        // }
-        //
-        // if (item.state === 1){
-        //   this.model.stateCov = true
-        // } else {
-        //   this.model.stateCov = false
-        // }
-      });
-    } else {
-      this.model.hasLevel = true;
-      this.model.stateCov = true;
-    }
-  }
-
   submit() {
-    if (this.model.stateCov) {
-      this.model.state = 1;
-    } else {
-      this.model.state = 0;
-    }
-    const body: JobTitle = {
-      name: this.model.name,
-      description: this.model.description,
-      hasLevel: this.model.hasLevel,
-      state: this.model.state,
-    };
+    if (this.model.stateCov) this.model.state = 1;
+    else this.model.state = 0;
     this.context.completeWith(this.model);
   }
 

@@ -1,15 +1,14 @@
-<h1 class="text-2xl font-semibold mb-7 text-blue-500">Thêm chức vụ</h1>
-
-<div class="my-8">
-  <form [formGroup]="$any(form)">
+<ng-container *tuiLet="data$ | async as data">
+  <h1 class="text-2xl font-semibold mb-7 text-blue-500">{{ data ? 'Chỉnh sửa chức vụ' : 'Thêm chức vụ' }}</h1>
+  <form class="my-8" *ngIf="data" [formGroup]="$any(form)">
     <formly-form [fields]="fields" [form]="$any(form)" [model]="model"></formly-form>
   </form>
-</div>
 
-<!--[disabled]="!form.valid"-->
-<div class="flex justify-center gap-4">
-  <button (click)="submit()" [disabled]="!form.valid" class="blue-button ml-8">Save</button>
-  <button (click)="cancel()" class="btn-blue">Cancel</button>
-</div>
+  <!--[disabled]="!form.valid"-->
+  <div class="flex justify-center gap-4">
+    <button (click)="submit()" [disabled]="!form.valid" class="blue-button ml-8">Save</button>
+    <button (click)="cancel()" class="btn-blue">Cancel</button>
+  </div>
 
-<!--{{ model | json}}-->
+  <!--{{ model | json}}-->
+</ng-container>

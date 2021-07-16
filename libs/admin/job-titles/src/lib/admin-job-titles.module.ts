@@ -11,6 +11,7 @@ import { TuiTagModule } from '@taiga-ui/kit';
 import { JobTitlesComponent } from './job-titles.component';
 import { ListJobTitleComponent } from './pages/list-job-title/list-job-title.component';
 import { UpsertJobTitleComponent } from './pages/upsert-job-title/upsert-job-title.component';
+import { TuiLetModule } from '@taiga-ui/cdk';
 
 export const adminJobTitlesRoutes: Route[] = [
   {
@@ -37,6 +38,7 @@ export const adminJobTitlesRoutes: Route[] = [
     TuiSvgModule,
     TuiTagModule,
     TuiButtonModule,
+    TuiLetModule,
   ],
   declarations: [JobTitlesComponent, ListJobTitleComponent, UpsertJobTitleComponent],
 })
