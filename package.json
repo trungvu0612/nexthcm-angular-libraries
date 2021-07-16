@@ -7,7 +7,7 @@
     "postinstall": "patch-package && ngcc --properties es2015 browser module main",
     "nx": "nx",
     "start": "ng serve",
-    "start:processes": "ng serve hcm-processes",
+    "start:processes": "ng serve hcm-processes --port 4201",
     "build": "ng build",
     "test": "ng test",
     "lint": "nx workspace-lint && ng lint",
@@ -28,6 +28,7 @@
     "dep-graph": "nx dep-graph",
     "help": "nx help",
     "prepare": "husky install",
+    "generate-icons": "svg-generator",
     "publish:admin-employee": "cd dist/libs/admin/employee && yarn publish --non-interactive --ignore-scripts",
     "publish:admin-job-level": "cd dist/libs/admin/job-level && yarn publish --non-interactive --ignore-scripts",
     "publish:admin-job-titles": "cd dist/libs/admin/job-titles && yarn publish --non-interactive --ignore-scripts",
@@ -37,6 +38,7 @@
     "publish:admin-policies": "cd dist/libs/admin/policies && yarn publish --non-interactive --ignore-scripts",
     "publish:admin-leave-types": "cd dist/libs/admin/leave-types && yarn publish --non-interactive --ignore-scripts",
     "publish:admin-processes": "cd dist/libs/admin/processes && yarn publish --non-interactive --ignore-scripts",
+    "publish:admin-seat-maps": "cd dist/libs/admin/seat-maps && yarn publish --non-interactive --ignore-scripts",
     "publish:admin-tenant": "cd dist/libs/admin/tenant && yarn publish --non-interactive --ignore-scripts",
     "publish:admin-working-times": "cd dist/libs/admin/working-times && yarn publish --non-interactive --ignore-scripts",
     "publish:auth": "cd dist/libs/auth && yarn publish --non-interactive --ignore-scripts",
@@ -71,6 +73,7 @@
     "@fullcalendar/daygrid": "5.7.0",
     "@ng-select/ng-select": "^7.2.0",
     "@ngneat/reactive-forms": "^1.7.3",
+    "@ngneat/svg-icon": "^3.2.0",
     "@ngneat/transloco": "^2.22.0",
     "@ngx-formly/core": "^5.10.22",
     "@nrwl/angular": "12.5.8",
@@ -121,6 +124,7 @@
     "@graphql-codegen/typescript-operations": "^1.18.2",
     "@ngneat/eslint-plugin-reactive-forms": "^1.0.2",
     "@ngneat/scam": "^2.1.0",
+    "@ngneat/svg-generator": "^3.0.1",
     "@ngneat/tailwind": "^7.0.3",
     "@ngneat/transloco-optimize": "^1.0.2",
     "@ngx-formly/schematics": "^5.10.22",
@@ -165,5 +169,18 @@
     "ts-jest": "27.0.3",
     "ts-node": "~9.1.1",
     "typescript": "~4.3.5"
+  },
+  "svgGenerator": {
+    "outputPath": "libs/ui/src/lib/shared/icons",
+    "prefix": "hcm",
+    "srcPath": "libs/ui/svg-icons",
+    "svgoConfig": {
+      "plugins": [
+        {
+          "name": "removeViewBox",
+          "active": false
+        }
+      ]
+    }
   }
 }

@@ -1,9 +1,10 @@
 <main class="main-page">
-  <section *transloco="let t" class="flex justify-end">
+  <header *transloco="let t">
+    <h1>{{ t('employeeManagement') }}</h1>
     <button (click)="onAddEmployee()" class="tui-space_right-3 tui-space_bottom-3" size="m" tuiButton>
       {{ t('addNewEmployee') }}
     </button>
-  </section>
+  </header>
   <section class="main-section">
     <tui-loader [overlay]="true" [showLoader]="(loading$ | async) === true">
       <ngx-table
@@ -14,12 +15,12 @@
       >
         <ng-template let-row>
           <td>{{ employee(row).cif }}</td>
-          <td>{{ employee(row).name }}</td>
-          <td>{{ employee(row).currentStatus }}</td>
-          <td>{{ employee(row).roles }}</td>
-          <td>{{ employee(row).organization }}</td>
-          <td>{{ employee(row).jobTitle }}</td>
-          <td>{{ employee(row).directReport }}</td>
+          <td>{{ employee(row).userName }}</td>
+          <td>{{ (employee(row).status ? 'active' : 'inactive') | transloco }}</td>
+          <td>{{ employee(row).roles[0].name }}</td>
+          <td>{{ employee(row).organization.name }}</td>
+          <td>{{ employee(row).jobTitle.name }}</td>
+          <td>{{ employee(row).directReport.name }}</td>
           <td>
             <div class="flex items-center">
               <button

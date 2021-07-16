@@ -86,6 +86,7 @@ import { AppComponent } from './app.component';
               path: 'working-times',
               loadChildren: () => import('@nexthcm/admin-working-times').then((m) => m.AdminWorkingTimesModule),
             },
+            { path: '', redirectTo: 'employees', pathMatch: 'full' },
           ],
         },
       ],

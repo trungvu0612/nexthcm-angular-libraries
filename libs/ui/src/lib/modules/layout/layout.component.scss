@@ -1,0 +1,19 @@
+:host {
+  display: block;
+
+  .right-column {
+    .main-container {
+      background-color: #fafafb;
+    }
+
+    ::ng-deep {
+      > *:not(router-outlet):not(hcm-header) {
+        flex: auto;
+
+        > *:not(router-outlet) {
+          @apply h-full;
+        }
+      }
+    }
+  }
+}

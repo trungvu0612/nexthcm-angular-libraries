@@ -1,4 +1,3 @@
-import { DatePipe } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from '@nexthcm/auth';
@@ -10,7 +9,10 @@ const routes: Routes = [
     path: '',
     component: LayoutComponent,
     canActivate: [AuthGuard],
-    children: [{ path: '', component: OverviewComponent }],
+    children: [
+      { path: 'overview', component: OverviewComponent },
+      { path: '', redirectTo: 'overview', pathMatch: 'full' },
+    ],
   },
 ];
 

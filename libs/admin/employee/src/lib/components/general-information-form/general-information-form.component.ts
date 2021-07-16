@@ -52,7 +52,7 @@ export class GeneralInformationFormComponent implements OnInit {
           {
             fieldGroup: [
               {
-                key: 'cifNumber',
+                key: 'cif',
                 className: 'mt-5 block',
                 type: 'input-number',
                 hide: !this._editMode,

@@ -24,6 +24,7 @@
     "ngx-cookie",
     "ngx-easy-table",
     "ngx-permissions",
-    "sweetalert2"
+    "sweetalert2",
+    "@ngneat/svg-icon"
   ]
 }

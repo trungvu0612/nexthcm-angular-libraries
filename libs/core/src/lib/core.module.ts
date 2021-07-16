@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
+import { SvgIconsModule } from '@ngneat/svg-icon';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { FORMLY_CONFIG, FormlyModule } from '@ngx-formly/core';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
@@ -27,6 +28,7 @@ import { translateSpinTexts, translateTuiTablePaginationTexts } from './utils/tr
     SweetAlert2Module.forRoot(),
     GraphqlModule,
     NgxPermissionsModule.forRoot(),
+    SvgIconsModule.forRoot({ defaultSize: 'lg' }),
   ],
   providers: [
     httpLoader,

@@ -1,5 +1,5 @@
 {
-  "name": "@next-hcm/admin-seat-maps",
+  "name": "@nexthcm/admin-seat-maps",
   "version": "0.0.1",
   "peerDependencies": {
     "@angular/common": "^12.1.1",

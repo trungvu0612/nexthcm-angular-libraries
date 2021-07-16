@@ -1,0 +1,12 @@
+@import '../../../../../../../../../node_modules/tailwindcss/utilities.css';
+@import '../../../../../../../../../node_modules/@taiga-ui/core/styles/taiga-ui-local';
+
+:host {
+  .avatar {
+    margin: 0 $space * 2 0 0;
+  }
+
+  .label {
+    @include text-overflow();
+  }
+}

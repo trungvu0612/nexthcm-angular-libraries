@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   language: 'vi',
-  baseUrl: 'http://localhost:4200',
+  baseUrl: 'http://localhost:4201',
   apiUrl: 'https://dev-nexthcm-api.banvien.com.vn',
   // apiUrl: 'http://192.168.200.173:8089',
   authUrl: 'http://192.168.2.20:31125',

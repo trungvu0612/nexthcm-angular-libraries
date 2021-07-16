@@ -1,7 +1,7 @@
-@import 'other/component';
-@import 'other/effect';
-@import 'other/status';
-@import 'other/tag';
+@import 'modules/component';
+@import 'modules/effect';
+@import 'modules/status';
+@import 'modules/tag';
 @import '~@ng-select/ng-select/scss/default.theme';
 @import '~ngx-easy-table/style';
 
@@ -77,4 +77,8 @@ hero-icon.icon-button {
     -webkit-transition-timing-function: cubic-bezier(0.47, 2.02, 0.31, -0.36);
     transition-timing-function: cubic-bezier(0.47, 2.02, 0.31, -0.36);
   }
+}
+
+.submenu-active {
+
 }

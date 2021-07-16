@@ -1,0 +1,53 @@
+:host {
+  @apply block h-full border-r;
+
+  .sidebar-container {
+    width: 255px;
+
+    [role='option'] {
+      @apply p-5 font-semibold border-0 text-sm my-0 justify-start;
+
+      &:hover {
+        background-color: var(--tui-base-02);
+      }
+
+      &[aria-checked='true'] {
+        background-color: var(--tui-primary);
+        color: var(--tui-primary-text);
+
+        svg-icon {
+          ::ng-deep {
+            svg {
+              &[stroke],
+              *[stroke] {
+                stroke: var(--tui-primary-text);
+              }
+
+              *[fill] {
+                fill: var(--tui-primary-text);
+              }
+            }
+          }
+        }
+      }
+
+      ::ng-deep {
+        .arrow {
+          @apply hidden;
+        }
+      }
+    }
+  }
+}
+
+.submenu {
+  @apply py-2 font-semibold text-sm;
+
+  [role='option'] {
+    @apply font-medium text-sm;
+
+    &[aria-checked='true'] {
+      color: var(--tui-primary);
+    }
+  }
+}
