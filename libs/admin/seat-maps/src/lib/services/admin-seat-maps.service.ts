@@ -29,11 +29,11 @@ export class AdminSeatMapsService extends RxState<{ offices: Partial<Zone>[] }> 
     return this.http.get<Partial<Zone>>(`${MY_TIME_PATH}/seats-map/${id}`);
   }
 
-  postSeatMap(body: Partial<Zone>): Observable<unknown> {
+  createSeatMap(body: Partial<Zone>): Observable<unknown> {
     return this.http.post(MY_TIME_PATH + '/seats-map', body);
   }
 
-  putSeatMap(body: Partial<Zone>): Observable<unknown> {
+  editSeatMap(body: Partial<Zone>): Observable<unknown> {
     return this.http.put(MY_TIME_PATH + '/seats-map/' + body.id, body);
   }
 }

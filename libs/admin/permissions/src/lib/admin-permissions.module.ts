@@ -1,12 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { PromptComponentModule } from '@nexthcm/ui';
+import { LayoutComponent, PromptComponentModule } from '@nexthcm/ui';
 import { TranslocoModule } from '@ngneat/transloco';
 import { FormlyModule } from '@ngx-formly/core';
-import { TuiTableModule, TuiTablePaginationModule } from '@taiga-ui/addon-table';
+import { TuiTablePaginationModule } from '@taiga-ui/addon-table';
 import { TuiLetModule } from '@taiga-ui/cdk';
 import {
+  TuiButtonModule,
   TuiDataListModule,
   TuiDropdownControllerModule,
   TuiExpandModule,
@@ -23,9 +24,6 @@ import {
   TuiStepperModule,
 } from '@taiga-ui/kit';
 import { TableModule } from 'ngx-easy-table';
-import { of } from 'rxjs';
-import { AdminPermissionsRoutingModule } from './admin-permissions-routing.module';
-import { AdminPermissionsComponent } from './admin-permissions.component';
 import { InputActionsComponent } from './components/input-actions/input-actions.type';
 import { InputServiceComponent } from './components/input-service/input-service.type';
 import { PermissionDetailComponent } from './components/permission-detail/permission-detail.component';
@@ -35,10 +33,24 @@ import { CreatePermissionComponent } from './pages/create-permission/create-perm
 import { PermissionListComponent } from './pages/permission-list/permission-list.component';
 import { UpdatePermissionComponent } from './pages/update-permission/update-permission.component';
 import { AdminPermissionsService } from './services/admin-permissions.service';
+import { RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from '@nexthcm/auth';
+
+const routes: Routes = [
+  {
+    path: '',
+    component: LayoutComponent,
+    canActivate: [AuthGuard],
+    children: [
+      { path: '', component: PermissionListComponent },
+      { path: 'create', component: CreatePermissionComponent },
+      { path: 'update/:id', component: UpdatePermissionComponent },
+    ],
+  },
+];
 
 @NgModule({
   declarations: [
-    AdminPermissionsComponent,
     PermissionListComponent,
     CreatePermissionComponent,
     RepeatServiceComponent,
@@ -50,32 +62,19 @@ import { AdminPermissionsService } from './services/admin-permissions.service';
   ],
   imports: [
     CommonModule,
-    AdminPermissionsRoutingModule,
-    TranslocoModule,
-    TuiTableModule,
-    TuiSvgModule,
-    TuiStepperModule,
+    RouterModule.forChild(routes),
+    ReactiveFormsModule,
+
     FormlyModule.forChild({
       types: [
         { name: 'repeat-service', component: RepeatServiceComponent },
-        {
-          name: 'input-service',
-          component: InputServiceComponent,
-        },
-        {
-          name: 'input-actions',
-          component: InputActionsComponent,
-        },
-      ],
-      validationMessages: [
-        {
-          name: 'textPermission',
-          message: (maxCharacters: number) =>
-            of("Use alphanumeric, space and '+=,.@-_' characters. Maximum " + maxCharacters + ' characters.'),
-        },
+        { name: 'input-service', component: InputServiceComponent },
+        { name: 'input-actions', component: InputActionsComponent },
       ],
     }),
-    ReactiveFormsModule,
+    TranslocoModule,
+    TuiSvgModule,
+    TuiStepperModule,
     TuiExpandModule,
     TuiInputModule,
     TuiTextfieldControllerModule,
@@ -90,6 +89,7 @@ import { AdminPermissionsService } from './services/admin-permissions.service';
     TuiLetModule,
     TableModule,
     TuiTablePaginationModule,
+    TuiButtonModule,
   ],
   providers: [AdminPermissionsService],
 })

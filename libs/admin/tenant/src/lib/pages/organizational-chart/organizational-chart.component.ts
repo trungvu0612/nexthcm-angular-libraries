@@ -1,5 +1,5 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, HostListener, ViewChild } from '@angular/core';
-import { PromptComponent, ValidationService } from '@nexthcm/ui';
+import { PromptComponent } from '@nexthcm/ui';
 import { FormGroup } from '@ngneat/reactive-forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { RxState } from '@rx-angular/state';
@@ -73,8 +73,8 @@ export class OrganizationalChartComponent implements AfterViewInit {
       };
     })
   );
-  readonly configuration = { ...DefaultConfig, orderEnabled: false, paginationEnabled: false };
-  readonly columns$ = this.translocoService.selectTranslateObject('TABLE_HEADER').pipe(
+  readonly configuration = { ...DefaultConfig, orderEnabled: false, paginationEnabled: false, fixedColumnWidth: false };
+  readonly columns$ = this.translocoService.selectTranslateObject('TENANT_TABLE').pipe(
     map((translate) => [
       { key: 'name', title: translate.name },
       { key: 'organizationalLevel', title: translate.organizationalLevel },
@@ -84,7 +84,7 @@ export class OrganizationalChartComponent implements AfterViewInit {
   );
   readonly organization$ = this.adminTenantService.select('organization');
   readonly form = new FormGroup<Partial<OrganizationalUnitForm>>({});
-  model: Partial<OrganizationalUnitForm> = {};
+  model!: Partial<OrganizationalUnitForm>;
   readonly fields: FormlyFieldConfig[] = [
     {
       key: 'orgName',
@@ -96,7 +96,7 @@ export class OrganizationalChartComponent implements AfterViewInit {
         placeholder: 'enterName',
         textfieldLabelOutside: true,
       },
-      ...this.validationService.getValidation(['required']),
+      validation: { messages: { required: () => this.translocoService.selectTranslate('VALIDATION.required') } },
     },
     {
       key: 'orgType',
@@ -106,9 +106,9 @@ export class OrganizationalChartComponent implements AfterViewInit {
         translate: true,
         label: 'organizationalLevel',
         placeholder: 'chooseOrganizationalLevel',
-        stringItem: true,
         options: this.adminTenantService.select('levels'),
       },
+      validation: { messages: { required: () => this.translocoService.selectTranslate('VALIDATION.required') } },
     },
     {
       key: 'ancestor.id',
@@ -121,10 +121,10 @@ export class OrganizationalChartComponent implements AfterViewInit {
         labelProp: 'orgName',
         subLabelProp: 'orgType',
         valueProp: 'id',
+        matcherBy: 'id',
       },
-      expressionProperties: {
-        'templateOptions.disabled': '!model.orgType',
-      },
+      validation: { messages: { required: () => this.translocoService.selectTranslate('VALIDATION.required') } },
+      expressionProperties: { 'templateOptions.disabled': '!model.orgType' },
       hooks: {
         onInit: (field?: FormlyFieldConfig) => {
           if (field?.templateOptions) {
@@ -144,8 +144,10 @@ export class OrganizationalChartComponent implements AfterViewInit {
         placeholder: 'chooseManager',
         labelProp: 'username',
         valueProp: 'id',
+        subLabelProp: 'code',
         textfieldCleaner: true,
         options: this.adminTenantService.select('users'),
+        matcherBy: 'id',
       },
     },
     {
@@ -161,7 +163,6 @@ export class OrganizationalChartComponent implements AfterViewInit {
 
   constructor(
     private readonly adminTenantService: AdminTenantService,
-    private readonly validationService: ValidationService,
     private readonly dialogService: TuiDialogService,
     private readonly translocoService: TranslocoService,
     private readonly state: RxState<{ min: number; zoom: number }>
@@ -183,26 +184,26 @@ export class OrganizationalChartComponent implements AfterViewInit {
     });
   }
 
-  @HostListener('mousewheel', ['$event'])
-  zoom(event: WheelEvent) {
-    if (this.canZoom) {
-      const state = this.state.get();
-      if (
-        (state.zoom < 100 && state.zoom > state.min) ||
-        (state.zoom === 100 && event.deltaY < 0) ||
-        (state.zoom === state.min && event.deltaY > 0)
-      ) {
-        event.preventDefault();
-        this.state.set((state) => {
-          const newZoom = state.zoom + event.deltaY / 25;
-          return { zoom: newZoom > 100 ? 100 : newZoom < state.min ? state.min : newZoom };
-        });
-      }
-    }
-  }
+  // @HostListener('mousewheel', ['$event'])
+  // zoom(event: WheelEvent) {
+  //   if (this.canZoom) {
+  // const state = this.state.get();
+  // if (
+  //   (state.zoom < 100 && state.zoom > state.min) ||
+  //   (state.zoom === 100 && event.deltaY < 0) ||
+  //   (state.zoom === state.min && event.deltaY > 0)
+  // ) {
+  //   event.preventDefault();
+  //   this.state.set((state) => {
+  //     const newZoom = state.zoom + event.deltaY / 25;
+  //     return { zoom: newZoom > 100 ? 100 : newZoom < state.min ? state.min : newZoom };
+  //   });
+  // }
+  //   }
+  // }
 
   ngAfterViewInit(): void {
-    this.state.connect(timer(100).pipe(map(() => ({ min: this.min }))));
+    this.state.connect(timer(100).pipe(map(() => ({ min: this.min, zoom: this.min }))));
   }
 
   getSpread(item: Unit): number {
@@ -211,19 +212,21 @@ export class OrganizationalChartComponent implements AfterViewInit {
     else return 1;
   }
 
-  showDialog(content: PolymorpheusContent<TuiDialogContext>, unit?: Partial<OrganizationalUnit>) {
+  upsertUnit(content: PolymorpheusContent<TuiDialogContext>, unit?: Partial<OrganizationalUnit>) {
     this.model = unit || {};
     this.dialogService.open(content, { dismissible: false }).subscribe();
   }
 
-  save(observer: Subscriber<unknown>) {
-    this.adminTenantService
-      .postOrganizationUnit(this.model)
-      .pipe(switchMap(() => this.prompt.open({ icon: 'success' } as SweetAlertOptions)))
-      .subscribe(() => observer.complete());
+  submitUnit(observer: Subscriber<unknown>) {
+    if (this.form.valid) {
+      this.adminTenantService
+        .createOrganizationUnit(this.model)
+        .pipe(switchMap(() => this.prompt.open({ icon: 'success' } as SweetAlertOptions)))
+        .subscribe(() => observer.complete());
+    }
   }
 
-  delete(id: string) {
+  deleteUnit(id: string) {
     from(this.prompt.open({ icon: 'warning', showCancelButton: true } as SweetAlertOptions))
       .pipe(
         switchMap((result) => iif(() => result.isConfirmed, this.adminTenantService.deleteOrganizationUnit(id))),

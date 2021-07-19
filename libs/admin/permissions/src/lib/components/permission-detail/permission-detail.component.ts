@@ -1,12 +1,11 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { FormGroup } from '@ngneat/reactive-forms';
-import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { Columns, DefaultConfig } from 'ngx-easy-table';
 import { Permission, PermissionForm, Policy, PolicyItem, Resource } from '../../models/policy';
 import { AdminPermissionsService } from '../../services/admin-permissions.service';
-import { validatorTextPermission } from '../../utils/validatiors';
+import { TranslocoService } from '@ngneat/transloco';
 
 @Component({
   selector: 'hcm-permission-detail',
@@ -20,8 +19,8 @@ export class PermissionDetailComponent implements OnInit {
   @Input() servicesModel!: Partial<Policy>;
   @Input() policyForm!: FormGroup<Partial<Policy>>;
   @Input() policyModel!: Partial<Policy>;
-  service$ = this.adminPermissions.select('services');
-  servicesFields: FormlyFieldConfig[] = [
+  readonly service$ = this.adminPermissions.select('services');
+  readonly servicesFields: FormlyFieldConfig[] = [
     {
       type: 'repeat-service',
       key: 'policyItems',
@@ -34,11 +33,7 @@ export class PermissionDetailComponent implements OnInit {
               options: this.service$,
               required: true,
             },
-            validation: {
-              messages: {
-                required: () => this.translocoService.selectTranslate('VALIDATION.required'),
-              },
-            },
+            validation: { messages: { required: () => this.translocoService.selectTranslate('VALIDATION.required') } },
           },
           {
             type: 'input-actions',
@@ -54,48 +49,43 @@ export class PermissionDetailComponent implements OnInit {
       },
     },
   ];
-  policyFields: FormlyFieldConfig[] = [
+  readonly policyFields: FormlyFieldConfig[] = [
     {
       type: 'input',
       key: 'name',
       templateOptions: {
-        label: 'Name',
+        label: 'name',
         required: true,
+        translate: true,
         textfieldLabelOutside: true,
         textfieldSize: 'm',
       },
-      validators: {
-        validation: [validatorTextPermission(128)],
-      },
-      validation: {
-        messages: {
-          required: () => this.translocoService.selectTranslate('VALIDATION.required'),
-        },
-      },
+      validation: { messages: { required: () => this.translocoService.selectTranslate('VALIDATION.required') } },
     },
     {
       type: 'text-area',
       key: 'description',
       templateOptions: {
-        label: 'Description',
+        label: 'description',
+        translate: true,
         textfieldLabelOutside: true,
         textfieldSize: 'm',
         expandable: true,
         rows: 15,
       },
-      validators: {
-        validation: [validatorTextPermission(1000)],
-      },
     },
   ];
-  configuration = { ...DefaultConfig, paginationEnabled: false, searchEnabled: true };
-  columns: Columns[] = [
+  readonly configuration = { ...DefaultConfig, paginationEnabled: false, searchEnabled: true };
+  readonly columns: Columns[] = [
     { key: 'service', title: 'Service' },
     { key: 'detail', title: 'Actions & Resources' },
   ];
   data!: { service: string; permissions: { action: string; resource: string }[] }[];
 
-  constructor(private adminPermissions: AdminPermissionsService, private translocoService: TranslocoService) {}
+  constructor(
+    private readonly adminPermissions: AdminPermissionsService,
+    private readonly translocoService: TranslocoService
+  ) {}
 
   ngOnInit(): void {
     this.policyModel.id && this.updateDataTable();

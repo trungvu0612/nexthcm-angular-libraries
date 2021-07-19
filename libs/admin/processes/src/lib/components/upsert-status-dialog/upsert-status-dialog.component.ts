@@ -29,11 +29,7 @@ export class UpsertStatusDialogComponent implements OnInit {
         label: 'ADMIN_PROCESSES.name',
         textfieldLabelOutside: true,
       },
-      validation: {
-        messages: {
-          required: () => this.translocoService.selectTranslate('VALIDATION.required'),
-        },
-      },
+      validation: { messages: { required: () => this.translocoService.selectTranslate('VALIDATION.required') } },
     },
     {
       className: 'tui-form__row block',
@@ -48,7 +44,7 @@ export class UpsertStatusDialogComponent implements OnInit {
     {
       className: 'tui-form__row block',
       key: 'stateType',
-      type: 'object-select',
+      type: 'select',
       templateOptions: {
         translate: true,
         required: true,
@@ -56,11 +52,7 @@ export class UpsertStatusDialogComponent implements OnInit {
         label: 'ADMIN_PROCESSES.stateType',
         labelProp: 'name',
       },
-      validation: {
-        messages: {
-          required: () => this.translocoService.selectTranslate('VALIDATION.required'),
-        },
-      },
+      validation: { messages: { required: () => this.translocoService.selectTranslate('VALIDATION.required') } },
     },
   ];
   model: State = {

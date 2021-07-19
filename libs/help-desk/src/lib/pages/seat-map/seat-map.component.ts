@@ -34,12 +34,12 @@ export class SeatMapComponent {
       key: 'seatMap',
       type: 'combo-box',
       templateOptions: {
-        label: 'Seat Map List',
+        translate: true,
+        label: 'seatMap',
         textfieldSize: 'm',
-        textfieldLabelOutside: false,
         icon: 'assets/icons/office-building.svg',
         subLabelProp: 'office.name',
-        identityMatcher: (i1: Partial<Zone>, i2: Partial<Zone>) => i1.id === i2.id,
+        matcherBy: 'id',
         serverRequest: (search: string): Observable<Partial<Zone>[]> =>
           this.seatMaps$.pipe(map((maps) => filterBySearch<Zone>(maps, search))),
       },

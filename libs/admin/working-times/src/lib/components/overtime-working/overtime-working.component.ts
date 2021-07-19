@@ -3,7 +3,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { of } from 'rxjs';
-import { distinctUntilChanged, map, startWith, switchMap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'hcm-overtime-working',
@@ -28,6 +28,7 @@ export class OvertimeWorkingComponent {
           { value: 2, label: 'Copac' },
         ],
         label: 'Office',
+        valueProp: 'value',
         labelClassName: 'font-semibold',
       },
     },
@@ -210,6 +211,7 @@ export class OvertimeWorkingComponent {
                   { value: 1, label: 'Hour' },
                   { value: 2, label: 'Minute' },
                 ],
+                valueProp: 'value',
                 labelClassName: 'font-semibold',
               },
             },

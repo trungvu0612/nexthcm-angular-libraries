@@ -34,6 +34,7 @@
     "publish:admin-job-titles": "cd dist/libs/admin/job-titles && yarn publish --non-interactive --ignore-scripts",
     "publish:admin-user-roles": "cd dist/libs/admin/user-roles && yarn publish --non-interactive --ignore-scripts",
     "publish:admin-offices": "cd dist/libs/admin/offices && yarn publish --non-interactive --ignore-scripts",
+    "publish:admin-seat-maps": "cd dist/libs/admin/seat-maps && yarn publish --non-interactive --ignore-scripts",
     "publish:admin-permissions": "cd dist/libs/admin/permissions && yarn publish --non-interactive --ignore-scripts",
     "publish:admin-policies": "cd dist/libs/admin/policies && yarn publish --non-interactive --ignore-scripts",
     "publish:admin-leave-types": "cd dist/libs/admin/leave-types && yarn publish --non-interactive --ignore-scripts",

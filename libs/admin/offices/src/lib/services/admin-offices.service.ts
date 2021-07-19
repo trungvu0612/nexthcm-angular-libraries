@@ -12,13 +12,13 @@ const ACCOUNT_APP_PATH = '/accountapp/v1.0';
 export class AdminOfficesService {
   constructor(private http: HttpClient) {}
 
-  getZoneData(params: { [key: string]: number }): Observable<Pagination<Zone>> {
+  getOffices(params: { [key: string]: number }): Observable<Pagination<Zone>> {
     return this.http
       .get<PagingResponse<Zone>>(ACCOUNT_APP_PATH + '/offices', { params })
       .pipe(map((response) => response.data));
   }
 
-  addOffice(body: Partial<Zone>): Observable<Partial<Zone>> {
+  createOffice(body: Partial<Zone>): Observable<Partial<Zone>> {
     return this.http.post(ACCOUNT_APP_PATH + '/offices', body);
   }
 

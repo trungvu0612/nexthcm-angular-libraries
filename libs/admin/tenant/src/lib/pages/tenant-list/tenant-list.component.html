@@ -1,8 +1,8 @@
 <main *transloco="let t" class="main-page">
   <header>
     <h1>{{ t('tenantManagement') }}</h1>
-    <button routerLink="./add" tuiButton>
-      {{ t('addTenant') }}
+    <button routerLink="./create" tuiButton>
+      {{ t('createTenant') }}
     </button>
   </header>
   <div *ngIf="statistic$ | async as statistic" class="flex gap-8 mb-8">
@@ -19,64 +19,43 @@
       <p class="tui-island__paragraph text-rejected">{{ statistic.deactivate }}</p>
     </tui-island>
   </div>
-  <section class="main-section">
+  <section *tuiLet="data$ | async as data" class="main-section">
     <tui-input [formControl]="searchControl" [tuiTextfieldLabelOutside]="true" class="w-80 mb-4" icon="tuiIconSearch">
       {{ t('searchBy', { value: t('companyCode') + ', ' + t('companyName') }) }}
     </tui-input>
-    <table *ngIf="data$ | async as data" [columns]="columns" class="hcm-tui-table" tuiTable>
-      <thead>
-        <tr tuiThGroup>
-          <th *tuiHead="'ordinalNumber'" [sorter]="null" tuiTh>
-            <p class="text-center">{{ t('ordinalNumber') }}</p>
-          </th>
-          <th *tuiHead="'tenantCode'" tuiTh>{{ t('companyCode') }}</th>
-          <th *tuiHead="'tenantName'" tuiTh>{{ t('companyName') }}</th>
-          <th *tuiHead="'status'" tuiTh>{{ t('status') }}</th>
-          <th *tuiHead="'action'" [sorter]="null" tuiTh>{{ t('action') }}</th>
-        </tr>
-      </thead>
-      <tbody [data]="data.items" tuiTbody>
-        <tr *tuiRow="let item of data.items; index as index" tuiTr>
-          <td *tuiCell="'ordinalNumber'" tuiTd>
-            <p class="text-center">{{ index + 1 }}</p>
-          </td>
-          <td *tuiCell="'tenantCode'" tuiTd>
-            {{ item.tenantCode }}
-          </td>
-          <td *tuiCell="'tenantName'" tuiTd>
-            {{ item.tenantName }}
-          </td>
-          <td *tuiCell="'status'" tuiTd>
-            <tui-tag
-              [class]="{
-                'rejected-tag': item.state === -1,
-                'waiting-tag': item.state === 0,
-                'approved-tag': item.state === 1
-              }"
-              [hoverable]="true"
-              [value]="t(item.state | getStatus)"
-            ></tui-tag>
-          </td>
-          <td *tuiCell="'action'" tuiTd>
-            <div class="flex gap-1">
-              <hero-icon class="icon-button" name="pencil-alt" routerLink="./information" type="solid"></hero-icon>
-              <hero-icon class="icon-button" name="eye" routerLink="./information" type="solid"></hero-icon>
-              <hero-icon class="icon-button" name="trash" type="solid"></hero-icon>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-      <tfoot>
-        <tr>
-          <td [colSpan]="columns.length">
-            <tui-table-pagination
-              (pageChange)="changePagination('page', $event)"
-              (sizeChange)="changePagination('size', $event)"
-              [total]="data.totalElements"
-            ></tui-table-pagination>
-          </td>
-        </tr>
-      </tfoot>
-    </table>
+    <ngx-table [columns]="(columns$ | async) || []" [configuration]="configuration" [data]="data?.items || []">
+      <ng-template let-index="index" let-row>
+        <td class="text-center">{{ index + 1 }}</td>
+        <td>{{ row.tenantCode }}</td>
+        <td>{{ row.tenantName }}</td>
+        <td>
+          <tui-tag
+            [class]="{
+              'rejected-tag': row.state === -1,
+              'waiting-tag': row.state === 0,
+              'approved-tag': row.state === 1
+            }"
+            [hoverable]="true"
+            [value]="t(row.state | getStatus)"
+          ></tui-tag>
+        </td>
+        <td class="flex gap-2">
+          <button appearance="flat" icon="tuiIconShowLarge" routerLink="./information" size="m" tuiIconButton></button>
+          <button
+            (click)="deleteTenant(row.id)"
+            appearance="flat"
+            icon="tuiIconTrashLarge"
+            size="m"
+            tuiIconButton
+          ></button>
+        </td>
+      </ng-template>
+    </ngx-table>
+    <tui-table-pagination
+      (pageChange)="changePagination('page', $event)"
+      (sizeChange)="changePagination('size', $event)"
+      [total]="data?.totalElements || 0"
+    ></tui-table-pagination>
   </section>
 </main>
+<hcm-prompt #prompt></hcm-prompt>

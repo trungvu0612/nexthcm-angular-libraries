@@ -1,33 +1,26 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FieldType } from '@ngx-formly/core';
-import { TuiContextWithImplicit, TuiIdentityMatcher, TuiStringHandler } from '@taiga-ui/cdk';
+import { TuiIdentityMatcher } from '@taiga-ui/cdk/types';
+import { TUI_DEFAULT_IDENTITY_MATCHER } from '@taiga-ui/cdk';
 
 @Component({
   selector: 'formly-multi-select',
   templateUrl: './multi-select.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MultiSelectComponent extends FieldType implements OnInit {
+export class MultiSelectComponent extends FieldType {
   defaultOptions = {
     templateOptions: {
-      options: [],
       textfieldSize: 'l',
       labelProp: 'label',
-      valueProp: 'value',
       textfieldLabelOutside: true,
+      matcherBy: 'default',
+      stringify: (item: any) => item.name,
     },
   };
-  stringify!: TuiStringHandler<any | TuiContextWithImplicit<any>>;
-  identityMatcher!: TuiIdentityMatcher<any>;
 
-  ngOnInit(): void {
-    this.stringify = (item) =>
-      this.to.valueProp
-        ? item
-        : this.to.labelProp in item
-        ? item[this.to.labelProp]
-        : item.$implicit[this.to.labelProp];
-    this.identityMatcher = (item1, item2) =>
-      this.to.valueProp ? item1 === item2 : item1[this.to.idProp] === item2[this.to.idProp];
-  }
+  readonly matcher: { [p: string]: TuiIdentityMatcher<unknown> } = {
+    default: TUI_DEFAULT_IDENTITY_MATCHER,
+    id: (i1: any, i2: any) => i1.id === i2.id,
+  };
 }

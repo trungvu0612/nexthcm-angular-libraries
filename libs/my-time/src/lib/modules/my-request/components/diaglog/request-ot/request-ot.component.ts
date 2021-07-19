@@ -1,6 +1,6 @@
-import { Component, OnInit, ChangeDetectionStrategy, Inject } from '@angular/core';
-import { Requests, TimeSheetUpdateReq } from '../../../../../models/requests';
-import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
+import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
+import { Requests } from '../../../../../models/requests';
+import { FormGroup } from '@ngneat/reactive-forms';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
@@ -10,7 +10,7 @@ import { TranslocoService } from '@ngneat/transloco';
   selector: 'hcm-request-ot-wfh',
   templateUrl: './request-ot.component.html',
   styleUrls: ['./request-ot.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RequestOtComponent implements OnInit {
   id!: string;
@@ -55,6 +55,7 @@ export class RequestOtComponent implements OnInit {
             textfieldLabelOutside: true,
             required: true,
             placeholder: 'Send To',
+            valueProp: 'value',
             options: [{ label: 'Nguyen Thanh Son', value: 'e08eb04d-a430-4e03-b017-e46f865e648d' }],
           },
         },
@@ -73,7 +74,7 @@ export class RequestOtComponent implements OnInit {
 
   constructor(
     @Inject(POLYMORPHEUS_CONTEXT) public context: TuiDialogContext<unknown, Requests>,
-    private translocoService: TranslocoService,
+    private translocoService: TranslocoService
   ) {}
 
   ngOnInit(): void {

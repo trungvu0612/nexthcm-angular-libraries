@@ -5,7 +5,6 @@ import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { ProcessInit } from '../../models/process';
-import { StatusType } from '../../models/status-type';
 import { ProcessesService } from '../../services/processes.service';
 
 @Component({
@@ -28,11 +27,7 @@ export class CreateProcessDialogComponent {
         label: 'ADMIN_PROCESSES.name',
         textfieldLabelOutside: true,
       },
-      validation: {
-        messages: {
-          required: () => this.translocoService.selectTranslate('VALIDATION.required'),
-        },
-      },
+      validation: { messages: { required: () => this.translocoService.selectTranslate('VALIDATION.required') } },
     },
     {
       className: 'tui-form__row block',
@@ -54,11 +49,7 @@ export class CreateProcessDialogComponent {
         label: 'ADMIN_PROCESSES.initStatus',
         textfieldLabelOutside: true,
       },
-      validation: {
-        messages: {
-          required: () => this.translocoService.selectTranslate('VALIDATION.required'),
-        },
-      },
+      validation: { messages: { required: () => this.translocoService.selectTranslate('VALIDATION.required') } },
     },
     {
       className: 'tui-form__row block',
@@ -73,20 +64,16 @@ export class CreateProcessDialogComponent {
     {
       className: 'tui-form__row block',
       key: 'stateType',
-      type: 'object-select',
+      type: 'select',
       templateOptions: {
         translate: true,
         required: true,
         options: this.statusTypes$,
         label: 'ADMIN_PROCESSES.stateType',
         labelProp: 'name',
-        compareWith: (item1: StatusType, item2: StatusType) => item1.id === item2.id,
+        matcherBy: 'id',
       },
-      validation: {
-        messages: {
-          required: () => this.translocoService.selectTranslate('VALIDATION.required'),
-        },
-      },
+      validation: { messages: { required: () => this.translocoService.selectTranslate('VALIDATION.required') } },
     },
   ];
   model = {} as ProcessInit;

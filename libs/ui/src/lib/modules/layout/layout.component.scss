@@ -1,19 +1,7 @@
 :host {
-  display: block;
+  @apply flex h-screen;
 
-  .right-column {
-    .main-container {
-      background-color: #fafafb;
-    }
-
-    ::ng-deep {
-      > *:not(router-outlet):not(hcm-header) {
-        flex: auto;
-
-        > *:not(router-outlet) {
-          @apply h-full;
-        }
-      }
-    }
+  tui-scrollbar {
+    background-color: #fafafb;
   }
 }

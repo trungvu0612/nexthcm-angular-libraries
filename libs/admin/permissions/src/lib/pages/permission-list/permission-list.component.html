@@ -1,55 +1,30 @@
 <main class="main-page">
   <header>
     <h1>Permission</h1>
-    <button class="blue-button" routerLink="./create">Create Permission</button>
+    <button routerLink="./create" tuiButton>Create Permission</button>
   </header>
-  <section class="main-section">
-    <table *ngIf="permissions$ | async as permissions" [columns]="columns" class="hcm-tui-table mt-2" tuiTable>
-      <thead>
-        <tr tuiThGroup>
-          <th *tuiHead="'name'" tuiTh>Permission Name</th>
-          <th *tuiHead="'code'" tuiTh>Code</th>
-          <th *tuiHead="'description'" tuiTh>Description</th>
-          <th *tuiHead="'lastModifiedDate'" tuiTh>Last Modified Date</th>
-          <th *tuiHead="'action'" [sorter]="null" tuiTh>Action</th>
-        </tr>
-      </thead>
-      <tbody [data]="permissions.items" tuiTbody>
-        <tr *tuiRow="let item of permissions.items" tuiTr>
-          <td *tuiCell="'name'" tuiTd>
-            {{ item.name }}
-          </td>
-          <td *tuiCell="'code'" tuiTd>
-            {{ item.code }}
-          </td>
-          <td *tuiCell="'description'" tuiTd>
-            {{ item.description }}
-          </td>
-          <td *tuiCell="'lastModifiedDate'" tuiTd>{{ item.lastModifiedDate | date: 'dd/MM/yyyy' }}</td>
-          <td *tuiCell="'action'" tuiTd>
-            <div class="flex gap-1 text-gray-500">
-              <tui-svg
-                [queryParams]="{ policyId: item.id }"
-                class="cursor-pointer"
-                routerLink="./update"
-                src="tuiIconEdit"
-              ></tui-svg>
-              <tui-svg class="cursor-pointer" src="tuiIconTrash"></tui-svg>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-      <tfoot>
-        <tr>
-          <td [colSpan]="columns.length">
-            <tui-table-pagination
-              (pageChange)="changePagination('page', $event)"
-              (sizeChange)="changePagination('size', $event)"
-              [total]="permissions.totalElements"
-            ></tui-table-pagination>
-          </td>
-        </tr>
-      </tfoot>
-    </table>
+  <section *tuiLet="data$ | async as data" class="main-section">
+    <ngx-table [columns]="(columns$ | async) || []" [configuration]="configuration" [data]="data?.items || []">
+      <ng-template let-row>
+        <td>{{ row.name }}</td>
+        <td>{{ row.code }}</td>
+        <td>{{ row.description }}</td>
+        <td class="flex gap-2">
+          <button
+            [routerLink]="'./update/' + row.id"
+            appearance="flat"
+            icon="tuiIconEditLarge"
+            size="m"
+            tuiIconButton
+          ></button>
+          <button appearance="flat" icon="tuiIconTrashLarge" size="m" tuiIconButton></button>
+        </td>
+      </ng-template>
+    </ngx-table>
+    <tui-table-pagination
+      (pageChange)="changePagination('page', $event)"
+      (sizeChange)="changePagination('size', $event)"
+      [total]="data?.totalElements || 0"
+    ></tui-table-pagination>
   </section>
 </main>

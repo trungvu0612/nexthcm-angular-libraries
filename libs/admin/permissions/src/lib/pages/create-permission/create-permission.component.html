@@ -3,28 +3,30 @@
     <h1>Create Permission</h1>
   </header>
   <section class="main-section">
-    <tui-stepper [(activeItemIndex)]="stepperIndex" class="flex justify-center py-6 mb-8">
-      <button state="pass" tuiStep>Service & Resource</button>
-      <button (click)="submitServices()" [disabled]="!servicesForm.valid" tuiStep>Review Policy</button>
-    </tui-stepper>
-    <hcm-permission-detail
-      #permission
-      [hidden]="!!stepperIndex"
-      [policyModel]="policyModel"
-      [servicesForm]="servicesForm"
-      [policyForm]="policyForm"
-      [servicesModel]="servicesModel"
-    ></hcm-permission-detail>
-    <div class="medium-buttons flex justify-end gap-4 mt-5">
-      <button class="btn-white" routerLink="../">Cancel</button>
-      <button (click)="submitServices()" *ngIf="!stepperIndex" [disabled]="!servicesForm.valid" class="blue-button">
-        Next
-      </button>
-      <button (click)="stepperIndex = 0" *ngIf="stepperIndex" class="btn-blue">Previous</button>
-      <button (click)="createPolicy()" *ngIf="stepperIndex" [disabled]="!policyForm.valid" class="blue-button">
-        Create Policy
-      </button>
-    </div>
+    <form (ngSubmit)="submitPolicy()" [formGroup]="$any(policyForm)">
+      <tui-stepper [(activeItemIndex)]="stepper" class="flex justify-center py-6 mb-8">
+        <button state="pass" tuiStep type="button">Service & Resource</button>
+        <button (click)="nextStep()" [disabled]="!servicesForm.valid" tuiStep type="button">Review Policy</button>
+      </tui-stepper>
+      <hcm-permission-detail
+        #permission
+        [hidden]="!!stepper"
+        [policyForm]="policyForm"
+        [policyModel]="policyModel"
+        [servicesForm]="servicesForm"
+        [servicesModel]="servicesModel"
+      ></hcm-permission-detail>
+      <div class="flex justify-end gap-4 mt-5">
+        <button appearance="flat" routerLink="../" size="m" tuiButton type="button">Cancel</button>
+        <button (click)="nextStep()" *ngIf="!stepper" [disabled]="!servicesForm.valid" size="m" tuiButton type="button">
+          Next
+        </button>
+        <button (click)="stepper = 0" *ngIf="stepper" appearance="outline" size="m" tuiButton type="button">
+          Previous
+        </button>
+        <button *ngIf="stepper" size="m" tuiButton>Create Policy</button>
+      </div>
+    </form>
   </section>
 </main>
 <hcm-prompt #prompt></hcm-prompt>

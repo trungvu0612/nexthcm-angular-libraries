@@ -107,6 +107,7 @@ export class CreateCalendarComponent implements OnInit {
         imagePath: '/',
         subLabelProp: 'position',
         showImage: true,
+        textfieldLabelOutside: true,
       },
     },
     {
@@ -118,6 +119,7 @@ export class CreateCalendarComponent implements OnInit {
         placeholder: 'Or External email',
         serverRequest: this.helpDeskService.getEmail,
         showImage: true,
+        textfieldLabelOutside: true,
       },
     },
     {

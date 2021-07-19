@@ -2,7 +2,7 @@
   <div [class.justify-between]="index !== 0" class="grid grid-cols-3 p-2">
     <button
       (click)="toggleExpandable(index)"
-      [disabled]="!formControl.valid"
+      [disabled]="!formControl.at(index).valid"
       class="col-start-1 justify-self-start text-primary"
     >
       <tui-svg [src]="expandedList[index] ? 'tuiIconCollapse' : 'tuiIconExpand'"></tui-svg>

@@ -42,8 +42,20 @@ export class AdminTenantService extends RxState<State> {
       .pipe(map((response) => response.data));
   }
 
-  postTenant(body: Partial<Tenant>): unknown {
+  createTenant(body: Partial<Tenant>): Observable<unknown> {
     return this.http.post('/accountapp/v1.0/tenants', body);
+  }
+
+  getTenant(id: string): Observable<Partial<Tenant>> {
+    return this.http.get<Partial<Tenant>>('/accountapp/v1.0/tenant/' + id);
+  }
+
+  editTenant(body: Partial<Tenant>): Observable<unknown> {
+    return this.http.put('/accountapp/v1.0/tenants/' + body.id, body);
+  }
+
+  deleteTenant(id: string): Observable<unknown> {
+    return this.http.delete('/accountapp/v1.0/tenants/' + id);
   }
 
   getDomains(): Observable<Partial<Domain>[]> {
@@ -64,7 +76,7 @@ export class AdminTenantService extends RxState<State> {
 
   deleteOrganizationalLevel(id: string): Observable<unknown> {
     return this.http
-      .delete(`/accountapp/v1.0/org-type-label/${id}`)
+      .delete('/accountapp/v1.0/org-type-label/' + id)
       .pipe(tap(() => this.connect('structure', this.getOrganizationalStructure())));
   }
 
@@ -88,7 +100,7 @@ export class AdminTenantService extends RxState<State> {
       .pipe(map((response) => response.data.items));
   }
 
-  postOrganizationUnit(body: Partial<OrganizationalUnitForm>): Observable<unknown> {
+  createOrganizationUnit(body: Partial<OrganizationalUnitForm>): Observable<unknown> {
     return this.http
       .post('/accountapp/v1.0/orgs', body)
       .pipe(tap(() => this.connect('organization', this.getOrganization())));
@@ -96,7 +108,7 @@ export class AdminTenantService extends RxState<State> {
 
   deleteOrganizationUnit(id: string): Observable<unknown> {
     return this.http
-      .delete(`/accountapp/v1.0/orgs/${id}`)
+      .delete('/accountapp/v1.0/orgs/' + id)
       .pipe(tap(() => this.connect('organization', this.getOrganization())));
   }
 }

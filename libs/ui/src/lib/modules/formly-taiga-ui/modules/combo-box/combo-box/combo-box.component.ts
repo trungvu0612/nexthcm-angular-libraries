@@ -1,8 +1,9 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FieldType } from '@ngx-formly/core';
 import { TUI_DEFAULT_IDENTITY_MATCHER, TuiDestroyService } from '@taiga-ui/cdk';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, startWith, switchMap, takeUntil } from 'rxjs/operators';
+import { TuiIdentityMatcher } from '@taiga-ui/cdk/types';
 
 @Component({
   selector: 'formly-combo-box',
@@ -11,15 +12,14 @@ import { debounceTime, distinctUntilChanged, startWith, switchMap, takeUntil } f
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [TuiDestroyService],
 })
-export class ComboBoxComponent extends FieldType implements OnInit {
+export class ComboBoxComponent extends FieldType {
   defaultOptions = {
     templateOptions: {
       textfieldSize: 'l',
-      textfieldLabelOutside: true,
-      identityMatcher: TUI_DEFAULT_IDENTITY_MATCHER,
-      stringify: (item: any) => item.name,
-      imageProp: 'image',
       labelProp: 'name',
+      imageProp: 'image',
+      matcherBy: 'default',
+      stringify: (item: any) => item.name,
     },
   };
   readonly search$ = new Subject<string>();
@@ -31,14 +31,13 @@ export class ComboBoxComponent extends FieldType implements OnInit {
     takeUntil(this.destroy$)
   );
 
+  readonly matcher: { [p: string]: TuiIdentityMatcher<unknown> } = {
+    default: TUI_DEFAULT_IDENTITY_MATCHER,
+    id: (i1: any, i2: any) => i1.id === i2.id,
+  };
+
   constructor(private destroy$: TuiDestroyService) {
     super();
-  }
-
-  ngOnInit(): void {
-    this.formControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((value) => {
-      if (value) this.to.textfieldLabelOutside = true;
-    });
   }
 
   getSubLabel(item: any): string | undefined {

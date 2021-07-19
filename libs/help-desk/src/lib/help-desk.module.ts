@@ -43,6 +43,7 @@ import { HelpDeskComponent } from './help-desk.component';
 import { BvCalendarComponent } from './pages/bv-calendar/bv-calendar.component';
 import { SeatMapComponent } from './pages/seat-map/seat-map.component';
 import { HelpDeskService } from './services/help-desk.service';
+import { TranslocoModule } from '@ngneat/transloco';
 
 FullCalendarModule.registerPlugins([dayGridPlugin]);
 
@@ -97,6 +98,7 @@ FullCalendarModule.registerPlugins([dayGridPlugin]);
     FormlyModule,
     GetFileModule,
     TuiLoaderModule,
+    TranslocoModule,
   ],
   providers: [HelpDeskService],
 })

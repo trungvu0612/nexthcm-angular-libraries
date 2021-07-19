@@ -1,8 +1,33 @@
-<hcm-main-page
-  (add)="onAdd()"
-  (edit)="onEdit($event)"
-  (remove)="onRemove($event)"
-  [columns]="['name', 'adder', 'description', 'address', 'action']"
-  [refresh$]="refresh$"
-  [type]="'office'"
-></hcm-main-page>
+<main *transloco="let t" class="main-page">
+  <header>
+    <h1>{{ t('officeList') }}</h1>
+    <button (click)="upsertOffice()" tuiButton>
+      {{ t('createOffice') }}
+    </button>
+  </header>
+  <section *tuiLet="data$ | async as data" class="main-section">
+    <ngx-table [columns]="(columns$ | async) || []" [configuration]="configuration" [data]="data?.items || []">
+      <ng-template let-row>
+        <td>{{ row.name }}</td>
+        <td>{{ row.address }}</td>
+        <td>{{ row.description }}</td>
+        <td class="flex gap-2">
+          <button (click)="upsertOffice(row)" appearance="flat" icon="tuiIconEditLarge" size="m" tuiIconButton></button>
+          <button
+            (click)="deleteOffice(row.id)"
+            appearance="flat"
+            icon="tuiIconTrashLarge"
+            size="m"
+            tuiIconButton
+          ></button>
+        </td>
+      </ng-template>
+    </ngx-table>
+    <tui-table-pagination
+      (pageChange)="changePagination('page', $event)"
+      (sizeChange)="changePagination('size', $event)"
+      [total]="data?.totalElements || 0"
+    ></tui-table-pagination>
+  </section>
+</main>
+<hcm-prompt #prompt></hcm-prompt>

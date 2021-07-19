@@ -59,26 +59,6 @@ tui-select-option {
   }
 }
 
-hero-icon.icon-button {
-  display: inline-block;
-  box-shadow: 0 0 1px rgba(0, 0, 0, 0);
-  -webkit-transform: perspective(1px) translateZ(0);
-  transform: perspective(1px) translateZ(0);
-  -webkit-transition-duration: 0.5s;
-  transition-duration: 0.5s;
-  vertical-align: middle;
-  @apply cursor-pointer w-6 h-6;
-
-  &:hover,
-  &:focus,
-  &:active {
-    -webkit-transform: scale(1.2);
-    transform: scale(1.2);
-    -webkit-transition-timing-function: cubic-bezier(0.47, 2.02, 0.31, -0.36);
-    transition-timing-function: cubic-bezier(0.47, 2.02, 0.31, -0.36);
-  }
-}
-
-.submenu-active {
-
+tui-table-pagination {
+  margin-top: 8px;
 }

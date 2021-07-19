@@ -1,11 +1,14 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { UploadFileService, ValidationService } from '@nexthcm/ui';
+import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { PromptComponent, UploadFileService } from '@nexthcm/ui';
 import { FormGroup } from '@ngneat/reactive-forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import { map, startWith, tap } from 'rxjs/operators';
+import { map, startWith, switchMap, tap } from 'rxjs/operators';
 import { Tenant } from '../../models/tenant';
 import { AdminTenantService } from '../../services/admin-tenant.service';
+import { SweetAlertOptions } from 'sweetalert2';
+import { TranslocoService } from '@ngneat/transloco';
+import { RxwebValidators } from '@rxweb/reactive-form-validators';
 
 @Component({
   selector: 'hcm-upsert-tenant',
@@ -14,7 +17,7 @@ import { AdminTenantService } from '../../services/admin-tenant.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UpsertTenantComponent implements OnInit {
-  isAdd!: boolean;
+  @ViewChild('prompt') prompt!: PromptComponent;
   readonly form = new FormGroup<Partial<Tenant>>({});
   model: Partial<Tenant> = {};
   readonly fields: FormlyFieldConfig[] = [
@@ -25,9 +28,10 @@ export class UpsertTenantComponent implements OnInit {
         required: true,
         translate: true,
         label: 'companyName',
+        placeholder: 'enterCompanyName',
         textfieldLabelOutside: true,
       },
-      ...this.validationService.getValidation(['required']),
+      validation: { messages: { required: () => this.translocoService.selectTranslate('VALIDATION.required') } },
     },
     {
       key: 'image',
@@ -53,10 +57,11 @@ export class UpsertTenantComponent implements OnInit {
             required: true,
             translate: true,
             label: 'addresses',
+            placeholder: 'enterAddress',
             labelParams: { value: 1 },
             textfieldLabelOutside: true,
           },
-          ...this.validationService.getValidation(['required']),
+          validation: { messages: { required: () => this.translocoService.selectTranslate('VALIDATION.required') } },
         },
         {
           key: 'addresses.address2',
@@ -64,6 +69,7 @@ export class UpsertTenantComponent implements OnInit {
           templateOptions: {
             translate: true,
             label: 'addresses',
+            placeholder: 'enterAddress',
             labelParams: { value: 2 },
             textfieldLabelOutside: true,
           },
@@ -74,6 +80,7 @@ export class UpsertTenantComponent implements OnInit {
           templateOptions: {
             translate: true,
             label: 'addresses',
+            placeholder: 'enterAddress',
             labelParams: { value: 3 },
             textfieldLabelOutside: true,
           },
@@ -88,11 +95,14 @@ export class UpsertTenantComponent implements OnInit {
                 required: true,
                 translate: true,
                 label: 'country',
+                placeholder: 'chooseCountry',
                 options: [{ id: '1', name: 'Viet Nam' }],
                 valueProp: 'id',
                 labelProp: 'name',
               },
-              ...this.validationService.getValidation(['required']),
+              validation: {
+                messages: { required: () => this.translocoService.selectTranslate('VALIDATION.required') },
+              },
             },
             {
               key: 'addresses.state',
@@ -101,10 +111,13 @@ export class UpsertTenantComponent implements OnInit {
                 required: true,
                 translate: true,
                 label: 'province',
+                placeholder: 'chooseProvince',
                 valueProp: 'id',
                 labelProp: 'name',
               },
-              ...this.validationService.getValidation(['required']),
+              validation: {
+                messages: { required: () => this.translocoService.selectTranslate('VALIDATION.required') },
+              },
               hooks: {
                 onInit: (field) => {
                   if (field) {
@@ -136,10 +149,13 @@ export class UpsertTenantComponent implements OnInit {
                 required: true,
                 translate: true,
                 label: 'city',
+                placeholder: 'chooseCity',
                 valueProp: 'id',
                 labelProp: 'name',
               },
-              ...this.validationService.getValidation(['required']),
+              validation: {
+                messages: { required: () => this.translocoService.selectTranslate('VALIDATION.required') },
+              },
               hooks: {
                 onInit: (field) => {
                   if (field) {
@@ -167,9 +183,12 @@ export class UpsertTenantComponent implements OnInit {
                 required: true,
                 translate: true,
                 label: 'postalCode',
+                placeholder: 'enterPostalCode',
                 textfieldLabelOutside: true,
               },
-              ...this.validationService.getValidation(['required']),
+              validation: {
+                messages: { required: () => this.translocoService.selectTranslate('VALIDATION.required') },
+              },
             },
           ],
         },
@@ -180,9 +199,10 @@ export class UpsertTenantComponent implements OnInit {
             required: true,
             translate: true,
             label: 'username',
+            placeholder: 'enterUsername',
             textfieldLabelOutside: true,
           },
-          ...this.validationService.getValidation(['required']),
+          validation: { messages: { required: () => this.translocoService.selectTranslate('VALIDATION.required') } },
         },
         {
           key: 'tax',
@@ -191,9 +211,10 @@ export class UpsertTenantComponent implements OnInit {
             required: true,
             translate: true,
             label: 'taxCode',
+            placeholder: 'enterTaxCode',
             textfieldLabelOutside: true,
           },
-          ...this.validationService.getValidation(['required']),
+          validation: { messages: { required: () => this.translocoService.selectTranslate('VALIDATION.required') } },
         },
         {
           key: 'contacts.phone',
@@ -202,43 +223,64 @@ export class UpsertTenantComponent implements OnInit {
             required: true,
             translate: true,
             label: 'phone',
+            placeholder: 'enterPhoneNumber',
             textfieldLabelOutside: true,
           },
-          ...this.validationService.getValidation(['required']),
+          validation: { messages: { required: () => this.translocoService.selectTranslate('VALIDATION.required') } },
         },
         {
           key: 'contacts.email',
           type: 'input',
           templateOptions: {
             required: true,
-            label: 'Email',
+            translate: true,
+            label: 'email',
+            placeholder: 'enterEmail',
             textfieldLabelOutside: true,
           },
-          ...this.validationService.getValidation(['required', 'email'], ['email']),
+          validators: { validation: [RxwebValidators.email()] },
+          validation: {
+            messages: {
+              required: () => this.translocoService.selectTranslate('VALIDATION.required'),
+              email: () => this.translocoService.selectTranslate('VALIDATION.invalidEmail'),
+            },
+          },
         },
         {
           key: 'contacts.website',
           type: 'input',
           templateOptions: {
             required: true,
-            label: 'Website',
+            translate: true,
+            label: 'website',
+            placeholder: 'enterWebsite',
             textfieldLabelOutside: true,
           },
-          ...this.validationService.getValidation(['required']),
+          validation: {
+            messages: { required: () => this.translocoService.selectTranslate('VALIDATION.required') },
+          },
         },
       ],
     },
   ];
 
   constructor(
-    private adminTenantService: AdminTenantService,
-    private uploadFileService: UploadFileService,
-    private validationService: ValidationService,
-    private router: Router
+    private readonly adminTenantService: AdminTenantService,
+    private readonly uploadFileService: UploadFileService,
+    private readonly translocoService: TranslocoService,
+    private readonly route: ActivatedRoute,
+    private readonly router: Router
   ) {}
 
   ngOnInit(): void {
-    this.isAdd = this.router.url.includes('/add');
-    if (!this.isAdd) this.model = this.adminTenantService.get('tenant');
+    if (this.route.snapshot.url[0].path === 'information') this.model = this.adminTenantService.get('tenant');
+  }
+
+  submitTenant() {
+    if (this.form.valid) {
+      this.adminTenantService[this.model.id ? 'editTenant' : 'createTenant'](this.model)
+        .pipe(switchMap(() => this.prompt.open({ icon: 'success' } as SweetAlertOptions)))
+        .subscribe(() => this.router.navigateByUrl('/admin/tenant'));
+    }
   }
 }

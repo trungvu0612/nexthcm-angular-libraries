@@ -12,7 +12,7 @@
     {{ user.username?.replace('.', ' ') | titlecase }}
   </p>
   <ng-template #content>
-    <article class="p-4">
+    <article *transloco="let t" class="p-4">
       <div class="flex items-center border-b border-gray-300 pb-3">
         <tui-avatar
           [avatarUrl]="user.profile?.image || '' | getFile | async"
@@ -57,9 +57,13 @@
           <td>{{ user.contact?.instagram }}</td>
         </tr>
       </table>
-      <div class="medium-buttons flex justify-evenly mt-3">
-        <button (click)="deleteSeat()" *ngIf="isAdmin" class="btn-red">Delete</button>
-        <button [routerLink]="['/human-resource/employees', user.id]" class="blue-button">Detail</button>
+      <div class="flex justify-evenly mt-3">
+        <button (click)="deleteSeat()" *ngIf="isAdmin" appearance="outline" size="m" tuiButton>
+          {{ t('delete') }}
+        </button>
+        <button [routerLink]="['/human-resource/employees', user.id]" size="m" tuiButton>
+          {{ t('detail') }}
+        </button>
       </div>
     </article>
   </ng-template>

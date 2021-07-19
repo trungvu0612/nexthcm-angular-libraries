@@ -51,10 +51,6 @@ button {
   @include button;
 }
 
-.medium-buttons > button {
-  @apply rounded-lg text-sm px-5 h-9;
-}
-
 .custom-link {
   color: var(--tui-primary);
   @apply font-semibold;

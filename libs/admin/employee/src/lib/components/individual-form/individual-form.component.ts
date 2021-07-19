@@ -103,6 +103,7 @@ export class IndividualFormComponent {
                 label: 'currentStatus',
                 labelClassName: 'font-semibold',
                 placeholder: 'chooseCurrentStatus',
+                valueProp: 'value',
                 options: this.translocoService.selectTranslateObject<{ [p: string]: string }>('INDIVIDUAL_STATUS').pipe(
                   map(
                     (result) =>

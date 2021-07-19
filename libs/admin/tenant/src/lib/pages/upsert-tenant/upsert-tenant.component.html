@@ -1,12 +1,15 @@
 <main *transloco="let t" class="main-page">
   <header>
-    <h1>{{ t(isAdd ? 'addTenant' : 'information') }}</h1>
+    <h1>{{ t(model.id ? 'createTenant' : 'information') }}</h1>
   </header>
   <section class="main-section">
-    <formly-form [fields]="fields" [form]="$any(form)" [model]="model" class="formly-gap"></formly-form>
-    <div *ngIf="isAdd" class="flex justify-center gap-6 mt-8">
-      <button appearance="outline" routerLink="../" tuiButton>{{ t('cancel') }}</button>
-      <button [disabled]="!form.valid" tuiButton>{{ t('save') }}</button>
-    </div>
+    <form (ngSubmit)="submitTenant()" [formGroup]="$any(form)">
+      <formly-form [fields]="fields" [form]="$any(form)" [model]="model" class="formly-gap"></formly-form>
+      <div class="flex justify-center gap-6 mt-8">
+        <button appearance="outline" routerLink="../" tuiButton type="button">{{ t('cancel') }}</button>
+        <button tuiButton>{{ t('save') }}</button>
+      </div>
+    </form>
   </section>
 </main>
+<hcm-prompt #prompt></hcm-prompt>
