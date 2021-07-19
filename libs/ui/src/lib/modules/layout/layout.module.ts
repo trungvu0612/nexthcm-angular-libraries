@@ -12,8 +12,8 @@ import {
   TuiSvgModule,
 } from '@taiga-ui/core';
 import { TuiAvatarModule, TuiTabsModule } from '@taiga-ui/kit';
-import { NgxPermissionsRestrictStubModule } from 'ngx-permissions';
-import { SkipNavigationDirectiveModule } from '../../directives/skip-navigation/skip-navigation.directive';
+import { NgxPermissionsModule } from 'ngx-permissions';
+import { SkipNavigationDirectiveModule } from '../../directives';
 import { sidebarIcons } from '../../shared/icons/sidebar';
 import { HeaderComponent } from './header/header.component';
 import { LayoutComponent } from './layout.component';
@@ -32,10 +32,10 @@ import { SidebarComponent } from './sidebar/sidebar.component';
     TranslocoModule,
     TuiHostedDropdownModule,
     TuiButtonModule,
-    NgxPermissionsRestrictStubModule,
     SvgIconsModule.forChild(sidebarIcons),
     TuiScrollbarModule,
     SkipNavigationDirectiveModule,
+    NgxPermissionsModule,
   ],
   exports: [LayoutComponent],
 })

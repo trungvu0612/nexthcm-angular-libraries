@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
-import { AuthGuard } from '@nexthcm/auth';
 import { FormlyTaigaUiModule, LayoutComponent, PromptComponentModule } from '@nexthcm/ui';
 import { TranslocoModule } from '@ngneat/transloco';
 import { FormlyModule } from '@ngx-formly/core';
@@ -16,6 +15,7 @@ import {
   TuiToggleModule,
 } from '@taiga-ui/kit';
 import { TableModule } from 'ngx-easy-table';
+import { NgxPermissionsGuard } from 'ngx-permissions';
 import { OvertimeWorkingComponent } from './components/overtime-working/overtime-working.component';
 import { RepeatSectionComponent } from './components/repeat-section/repeat-section.component';
 import { WorkingTimeSettingsComponent } from './pages/working-time-settings/working-time-settings.component';
@@ -24,7 +24,8 @@ export const adminWorkingTimesRoutes: Routes = [
   {
     path: '',
     component: LayoutComponent,
-    canActivate: [AuthGuard],
+    canActivate: [NgxPermissionsGuard],
+    data: { permissions: { only: 'VIEW_WORKING_TIME', redirectTo: '/' } },
     children: [{ path: '', component: WorkingTimeSettingsComponent }],
   },
 ];
@@ -49,12 +50,8 @@ export const adminWorkingTimesRoutes: Routes = [
     TuiTabsModule,
     TranslocoModule,
     TuiButtonModule,
-    PromptComponentModule
+    PromptComponentModule,
   ],
-  declarations: [
-    WorkingTimeSettingsComponent,
-    RepeatSectionComponent,
-    OvertimeWorkingComponent,
-  ],
+  declarations: [WorkingTimeSettingsComponent, RepeatSectionComponent, OvertimeWorkingComponent],
 })
 export class AdminWorkingTimesModule {}

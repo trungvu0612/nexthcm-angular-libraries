@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
+import { RouterModule, Routes } from '@angular/router';
 import { GetStatusPipeModule, LayoutComponent, PromptComponentModule } from '@nexthcm/ui';
 import { TranslocoModule } from '@ngneat/transloco';
 import { FormlyModule } from '@ngx-formly/core';
@@ -10,6 +11,7 @@ import { TuiButtonModule, TuiScrollbarModule, TuiSvgModule, TuiTextfieldControll
 import { TuiAvatarModule, TuiInputModule, TuiIslandModule, TuiSliderModule, TuiTagModule } from '@taiga-ui/kit';
 import { HeroIconModule, pencilAlt, trash, zoomIn } from 'ng-heroicon';
 import { TableModule } from 'ngx-easy-table';
+import { NgxPermissionsGuard } from 'ngx-permissions';
 import { AdminTenantComponent } from './admin-tenant.component';
 import { DomainListComponent } from './pages/domain-list/domain-list.component';
 import { OrganizationalChartComponent } from './pages/organizational-chart/organizational-chart.component';
@@ -17,21 +19,26 @@ import { OrganizationalStructureComponent } from './pages/organizational-structu
 import { TenantListComponent } from './pages/tenant-list/tenant-list.component';
 import { UpsertTenantComponent } from './pages/upsert-tenant/upsert-tenant.component';
 import { AdminTenantService } from './services/admin-tenant.service';
-import { RouterModule, Routes } from '@angular/router';
-import { AuthGuard } from '@nexthcm/auth';
-import { SuperUserGuard } from './guards/super-user.guard';
 
-const routes: Routes = [
+export const adminTenantRoutes: Routes = [
   {
     path: '',
     component: LayoutComponent,
-    canActivate: [AuthGuard],
+    canActivate: [NgxPermissionsGuard],
+    data: { permissions: { only: 'VIEW_TENANT', redirectTo: '/' } },
     children: [
-      { path: '', component: TenantListComponent, canActivate: [SuperUserGuard] },
-      { path: 'create', component: UpsertTenantComponent, canActivate: [SuperUserGuard] },
+      { path: '', component: TenantListComponent },
+      {
+        path: 'create',
+        component: UpsertTenantComponent,
+        canActivate: [NgxPermissionsGuard],
+        data: { permissions: { only: 'CREATE_TENANT', redirectTo: '/' } },
+      },
       {
         path: '',
         component: AdminTenantComponent,
+        canActivate: [NgxPermissionsGuard],
+        data: { permissions: { only: 'UPDATE_TENANT', redirectTo: '/' } },
         children: [
           { path: 'information', component: UpsertTenantComponent },
           { path: 'domain', component: DomainListComponent },
@@ -54,7 +61,7 @@ const routes: Routes = [
   ],
   imports: [
     CommonModule,
-    RouterModule.forChild(routes),
+    RouterModule.forChild(adminTenantRoutes),
     ReactiveFormsModule,
     FormlyModule,
     TranslocoModule,

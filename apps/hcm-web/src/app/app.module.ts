@@ -31,7 +31,10 @@ import { AppComponent } from './app.component';
           path: 'human-resource',
           loadChildren: () => import('@nexthcm/human-resource').then((m) => m.HumanResourceModule),
         },
-        { path: 'policy', loadChildren: () => import('@nexthcm/policy').then((m) => m.PolicyModule) },
+        {
+          path: 'knowledge-base',
+          loadChildren: () => import('@nexthcm/knowledge-base').then((m) => m.KnowledgeBaseModule),
+        },
         { path: 'chat', loadChildren: () => import('@nexthcm/chat').then((m) => m.ChatModule) },
         {
           path: 'admin',
@@ -55,12 +58,8 @@ import { AppComponent } from './app.component';
               loadChildren: () => import('@nexthcm/admin-job-level').then((m) => m.AdminJobLevelModule),
             },
             {
-              path: 'policies',
-              loadChildren: () => import('@nexthcm/admin-policies').then((m) => m.AdminPoliciesModule),
-            },
-            {
-              path: 'branches',
-              loadChildren: () => import('@nexthcm/admin-branches').then((m) => m.AdminBranchesModule),
+              path: 'knowledge-base',
+              loadChildren: () => import('@nexthcm/admin-knowledge-base').then((m) => m.AdminKnowledgeBaseModule),
             },
             {
               path: 'entitlements',
@@ -75,10 +74,6 @@ import { AppComponent } from './app.component';
               loadChildren: () => import('@nexthcm/admin-leave-types').then((m) => m.AdminLeaveTypesModule),
             },
             {
-              path: 'departments',
-              loadChildren: () => import('@nexthcm/admin-departments').then((m) => m.AdminDepartmentsModule),
-            },
-            {
               path: 'user-roles',
               loadChildren: () => import('@nexthcm/admin-user-roles').then((m) => m.AdminUserRolesModule),
             },
@@ -86,7 +81,7 @@ import { AppComponent } from './app.component';
               path: 'working-times',
               loadChildren: () => import('@nexthcm/admin-working-times').then((m) => m.AdminWorkingTimesModule),
             },
-            { path: '', redirectTo: 'employees', pathMatch: 'full' },
+            { path: '', redirectTo: '/', pathMatch: 'full' },
           ],
         },
       ],

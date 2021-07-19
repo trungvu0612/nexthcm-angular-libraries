@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
-import { AuthGuard } from '@nexthcm/auth';
 import { LayoutComponent, PromptComponentModule } from '@nexthcm/ui';
 import { TranslocoModule } from '@ngneat/transloco';
 import { FormlyModule } from '@ngx-formly/core';
@@ -11,6 +10,7 @@ import { TuiButtonModule, TuiLabelModule, TuiLoaderModule, TuiSvgModule } from '
 import { TuiCheckboxModule, TuiTabsModule } from '@taiga-ui/kit';
 import { academicCap, HeroIconModule, identification, informationCircle } from 'ng-heroicon';
 import { TableModule } from 'ngx-easy-table';
+import { NgxPermissionsGuard } from 'ngx-permissions';
 import { DurationFormComponent } from './components/duration-form/duration-form.component';
 import { EducationFormComponent } from './components/education-form/education-form.component';
 import { FormlyRepeatSectionComponent } from './components/formly-repeat-section/formly-repeat-section.component';
@@ -26,10 +26,16 @@ export const adminEmployeeRoutes: Routes = [
   {
     path: '',
     component: LayoutComponent,
-    canActivate: [AuthGuard],
+    canActivate: [NgxPermissionsGuard],
+    data: { permissions: { only: 'VIEW_EMPLOYEE', redirectTo: '/' } },
     children: [
       { path: '', component: EmployeeManagementComponent },
-      { path: ':employeeId/edit', component: EditEmployeeComponent },
+      {
+        path: ':employeeId/edit',
+        component: EditEmployeeComponent,
+        canActivate: [NgxPermissionsGuard],
+        data: { permissions: { only: 'UPDATE_EMPLOYEE', redirectTo: '/' } },
+      },
     ],
   },
 ];

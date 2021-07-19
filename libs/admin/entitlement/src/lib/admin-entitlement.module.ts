@@ -8,7 +8,6 @@ import { RxReactiveFormsModule } from '@rxweb/reactive-form-validators';
 import { TuiTableModule, TuiTablePaginationModule } from '@taiga-ui/addon-table';
 import { TuiButtonModule, TuiSvgModule } from '@taiga-ui/core';
 import { TuiInputMonthModule, TuiTabsModule, TuiTagModule } from '@taiga-ui/kit';
-import { EntitlementsComponent } from './entitlements.component';
 import { CreateLeaveEntitlementComponent } from './pages/list-entitlement/dialog/create-leave-entitlement/create-leave-entitlement.component';
 import { CreateLeavePeriodComponent } from './pages/list-entitlement/dialog/create-leave-period/create-leave-period.component';
 import { ListEntitlementComponent } from './pages/list-entitlement/list-entitlement.component';
@@ -45,7 +44,6 @@ export const adminEntitlementRoutes: Route[] = [
     FormlyModule,
   ],
   declarations: [
-    EntitlementsComponent,
     ListEntitlementComponent,
     UpsertEntitlementComponent,
     TableOverviewComponent,

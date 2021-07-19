@@ -25,11 +25,11 @@ export interface UserInfo {
   givenName?: string;
   name?: string;
   preferred_username?: string;
-  id: string;
+  id?: string;
   family_name?: string;
   email?: string;
   tenantId?: string;
   orgId?: string;
   userId: string;
-  orgType: string;
+  orgType?: string;
 }

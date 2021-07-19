@@ -2,11 +2,12 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Route, RouterModule } from '@angular/router';
-import { LayoutComponent, FormlyTaigaUiModule } from '@nexthcm/ui';
+import { FormlyTaigaUiModule, LayoutComponent } from '@nexthcm/ui';
 import { FormlyModule } from '@ngx-formly/core';
 import { TuiTableModule, TuiTablePaginationModule } from '@taiga-ui/addon-table';
 import { TuiButtonModule } from '@taiga-ui/core';
 import { TuiMarkerIconModule, TuiTagModule } from '@taiga-ui/kit';
+import { NgxPermissionsGuard } from 'ngx-permissions';
 import { JobLevelComponent } from './job-level.component';
 import { ListJobLevelComponent } from './list-job-level/list-job-level.component';
 import { UpsertJobLevelComponent } from './upsert-job-level/upsert-job-level.component';
@@ -15,15 +16,26 @@ export const adminJobLevelRoutes: Route[] = [
   {
     path: '',
     component: LayoutComponent,
+    canActivate: [NgxPermissionsGuard],
+    data: { permissions: { only: 'VIEW_JOB_LEVEL', redirectTo: '/' } },
     children: [
       {
         path: '',
         component: JobLevelComponent,
         children: [
-          { path: '', pathMatch: 'full', redirectTo: 'list' },
-          { path: 'list', component: ListJobLevelComponent },
-          { path: 'add', component: UpsertJobLevelComponent },
-          { path: 'edit/:id', component: UpsertJobLevelComponent },
+          { path: '', component: ListJobLevelComponent },
+          {
+            path: 'add',
+            component: UpsertJobLevelComponent,
+            canActivate: [NgxPermissionsGuard],
+            data: { permissions: { only: 'CREATE_JOB_LEVEL', redirectTo: '/' } },
+          },
+          {
+            path: 'edit/:id',
+            component: UpsertJobLevelComponent,
+            canActivate: [NgxPermissionsGuard],
+            data: { permissions: { only: 'UPDATE_JOB_LEVEL', redirectTo: '/' } },
+          },
         ],
       },
     ],

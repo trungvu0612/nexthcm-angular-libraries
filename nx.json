@@ -20,12 +20,6 @@
     }
   },
   "projects": {
-    "admin-branches": {
-      "tags": []
-    },
-    "admin-departments": {
-      "tags": []
-    },
     "admin-employee": {
       "tags": []
     },
@@ -47,7 +41,7 @@
     "admin-permissions": {
       "tags": []
     },
-    "admin-policies": {
+    "admin-knowledge-base": {
       "tags": []
     },
     "admin-processes": {
@@ -118,7 +112,7 @@
     "payslip": {
       "tags": []
     },
-    "policy": {
+    "knowledge-base": {
       "tags": []
     },
     "report": {

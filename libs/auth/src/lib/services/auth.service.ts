@@ -12,7 +12,11 @@ import { PermissionsService } from './permissions.service';
 
 function createState(token: string): UserInfo {
   const helper = new JwtHelperService();
-  return helper.decodeToken(token) || { id: '', org_type: '' };
+  try {
+    return helper.decodeToken(token) || { userId: '' };
+  } catch {
+    return { userId: '' };
+  }
 }
 
 interface AuthState {

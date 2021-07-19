@@ -12,6 +12,7 @@ import { TuiLetModule } from '@taiga-ui/cdk';
 import { TuiButtonModule, TuiLabelModule, TuiLoaderModule } from '@taiga-ui/core';
 import { TuiCheckboxModule, TuiIslandModule } from '@taiga-ui/kit';
 import { TableModule } from 'ngx-easy-table';
+import { NgxPermissionsGuard } from 'ngx-permissions';
 import { AdminProcessesComponent } from './admin-processes.component';
 import { CreateProcessDialogComponent } from './components/create-process-dialog/create-process-dialog.component';
 import { UpsertStatusDialogComponent } from './components/upsert-status-dialog/upsert-status-dialog.component';
@@ -28,10 +29,17 @@ export const adminProcessesRoutes: Routes = [
       {
         path: '',
         component: AdminProcessesComponent,
+        canActivate: [NgxPermissionsGuard],
+        data: { permissions: { only: 'VIEW_WORKFLOW', redirectTo: '/' } },
         children: [
           { path: '', component: ProcessManagementComponent },
           { path: ':processId/view', component: UpsertProcessComponent },
-          { path: ':processId/edit', component: UpsertProcessComponent, data: { edit: true } },
+          {
+            path: ':processId/edit',
+            component: UpsertProcessComponent,
+            canActivate: [NgxPermissionsGuard],
+            data: { edit: true, permissions: { only: 'UPDATE_WORKFLOW', redirectTo: '/' } },
+          },
         ],
       },
     ],

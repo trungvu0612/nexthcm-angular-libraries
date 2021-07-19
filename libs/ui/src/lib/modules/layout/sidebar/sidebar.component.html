@@ -6,36 +6,38 @@
   <tui-scrollbar class="flex-1">
     <tui-data-list class="px-5" tuiDataListDropdownManager>
       <ng-container *ngFor="let item of items">
-        <a
-          #rla="routerLinkActive"
-          *ngIf="!item.children"
-          [attr.aria-checked]="rla.isActive"
-          [routerLink]="item.link"
-          class="rounded-xl"
-          routerLinkActive
-          tuiOption
-        >
-          <svg-icon *ngIf="item.icon" [key]="item.icon" class="mr-5"></svg-icon>
-          <span>{{ item.label | transloco }}</span>
-        </a>
-        <a
-          #rla="routerLinkActive"
-          *ngIf="item.submenu"
-          [attr.aria-checked]="rla.isActive"
-          [routerLink]="item.link"
-          [tuiDropdownContent]="item.submenu"
-          [tuiDropdownMaxHeight]="(item.children?.length || 0) * 60"
-          [tuiDropdownSided]="true"
-          [tuiDropdown]="false"
-          class="rounded-xl"
-          hcmSkipNavigation
-          routerLinkActive
-          tuiDropdownAlign="right"
-          tuiOption
-        >
-          <svg-icon *ngIf="item.icon" [key]="item.icon" class="mr-5"></svg-icon>
-          <span>{{ item.label | transloco }}</span>
-        </a>
+        <ng-container *ngxPermissionsOnly="item.permissions">
+          <a
+            #rla="routerLinkActive"
+            *ngIf="!item.children"
+            [attr.aria-checked]="rla.isActive"
+            [routerLink]="item.link"
+            class="rounded-xl"
+            routerLinkActive
+            tuiOption
+          >
+            <svg-icon *ngIf="item.icon" [key]="item.icon" class="mr-5"></svg-icon>
+            <span>{{ item.label | transloco }}</span>
+          </a>
+          <a
+            #rla="routerLinkActive"
+            *ngIf="item.submenu"
+            [attr.aria-checked]="rla.isActive"
+            [routerLink]="item.link"
+            [tuiDropdownContent]="item.submenu"
+            [tuiDropdownMaxHeight]="(item.children?.length || 0) * 60"
+            [tuiDropdownSided]="true"
+            [tuiDropdown]="false"
+            class="rounded-xl"
+            hcmSkipNavigation
+            routerLinkActive
+            tuiDropdownAlign="right"
+            tuiOption
+          >
+            <svg-icon *ngIf="item.icon" [key]="item.icon" class="mr-5"></svg-icon>
+            <span>{{ item.label | transloco }}</span>
+          </a>
+        </ng-container>
       </ng-container>
     </tui-data-list>
   </tui-scrollbar>
@@ -44,30 +46,34 @@
 <!-- TODO remove -->
 <ng-template #myTimeTmp>
   <tui-data-list class="submenu">
-    <a
-      #rla="routerLinkActive"
-      *ngFor="let item of myTimeSubmenu"
-      [attr.aria-checked]="rla.isActive"
-      [routerLink]="item.link"
-      routerLinkActive
-      tuiOption
-    >
-      {{ item.label | transloco }}
-    </a>
+    <ng-container *ngFor="let item of myTimeSubmenu">
+      <a
+        #rla="routerLinkActive"
+        *ngxPermissionsOnly="item.permissions"
+        [attr.aria-checked]="rla.isActive"
+        [routerLink]="item.link"
+        routerLinkActive
+        tuiOption
+      >
+        {{ item.label | transloco }}
+      </a>
+    </ng-container>
   </tui-data-list>
 </ng-template>
 
 <ng-template #adminTmp>
   <tui-data-list class="submenu">
-    <a
-      #rla="routerLinkActive"
-      *ngFor="let item of adminSubmenu"
-      [attr.aria-checked]="rla.isActive"
-      [routerLink]="item.link"
-      routerLinkActive
-      tuiOption
-    >
-      {{ item.label | transloco }}
-    </a>
+    <ng-container *ngFor="let item of adminSubmenu">
+      <a
+        #rla="routerLinkActive"
+        *ngxPermissionsOnly="item.permissions"
+        [attr.aria-checked]="rla.isActive"
+        [routerLink]="item.link"
+        routerLinkActive
+        tuiOption
+      >
+        {{ item.label | transloco }}
+      </a>
+    </ng-container>
   </tui-data-list>
 </ng-template>

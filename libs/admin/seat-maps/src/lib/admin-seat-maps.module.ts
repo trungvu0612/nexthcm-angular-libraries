@@ -1,30 +1,41 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { SeatMapListComponent } from './pages/seat-map-list/seat-map-list.component';
-import { TranslocoModule } from '@ngneat/transloco';
-import { TuiButtonModule, TuiSvgModule } from '@taiga-ui/core';
-import { TableModule } from 'ngx-easy-table';
-import { UpsertSeatMapComponent } from './pages/upsert-seat-map/upsert-seat-map.component';
-import { ReactiveFormsModule } from '@angular/forms';
-import { FormlyModule } from '@ngx-formly/core';
-import { TuiInputFileModule } from '@taiga-ui/kit';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import { GetFileModule, LayoutComponent, PromptComponentModule } from '@nexthcm/ui';
-import { AdminSeatMapsService } from './services/admin-seat-maps.service';
-import { TuiTablePaginationModule } from '@taiga-ui/addon-table';
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
-import { AuthGuard } from '@nexthcm/auth';
+import { GetFileModule, LayoutComponent, PromptComponentModule } from '@nexthcm/ui';
+import { TranslocoModule } from '@ngneat/transloco';
+import { FormlyModule } from '@ngx-formly/core';
+import { TuiTablePaginationModule } from '@taiga-ui/addon-table';
 import { TuiLetModule } from '@taiga-ui/cdk';
+import { TuiButtonModule, TuiSvgModule } from '@taiga-ui/core';
+import { TuiInputFileModule } from '@taiga-ui/kit';
+import { TableModule } from 'ngx-easy-table';
+import { NgxPermissionsGuard } from 'ngx-permissions';
+import { SeatMapListComponent } from './pages/seat-map-list/seat-map-list.component';
+import { UpsertSeatMapComponent } from './pages/upsert-seat-map/upsert-seat-map.component';
+import { AdminSeatMapsService } from './services/admin-seat-maps.service';
 
-const routes: Routes = [
+export const adminSeatMapsRoutes: Routes = [
   {
     path: '',
     component: LayoutComponent,
-    canActivate: [AuthGuard],
+    canActivate: [NgxPermissionsGuard],
+    data: { permissions: { only: 'VIEW_SEAT_MAP', redirectTo: '/' } },
     children: [
       { path: '', component: SeatMapListComponent },
-      { path: 'create', component: UpsertSeatMapComponent },
-      { path: 'edit/:id', component: UpsertSeatMapComponent },
+      {
+        path: 'create',
+        component: UpsertSeatMapComponent,
+        canActivate: [NgxPermissionsGuard],
+        data: { permissions: { only: 'CREATE_SEAT_MAP', redirectTo: '/' } },
+      },
+      {
+        path: 'edit/:id',
+        component: UpsertSeatMapComponent,
+        canActivate: [NgxPermissionsGuard],
+        data: { permissions: { only: 'UPDATE_SEAT_MAP', redirectTo: '/' } },
+      },
     ],
   },
 ];
@@ -33,7 +44,7 @@ const routes: Routes = [
   declarations: [SeatMapListComponent, UpsertSeatMapComponent],
   imports: [
     CommonModule,
-    RouterModule.forChild(routes),
+    RouterModule.forChild(adminSeatMapsRoutes),
     TranslocoModule,
     TuiButtonModule,
     TableModule,

@@ -1,0 +1,11 @@
+<div class="p-12">
+  <form (ngSubmit)="submit()" [formGroup]="$any(form)" class="tui-container">
+    <formly-form
+      [fields]="fields"
+      [form]="$any(form)"
+      [model]="model"
+      class="col-6 border-start border-end"
+    ></formly-form>
+    <button class="cancel blue-button mt-5">Submit</button>
+  </form>
+</div>

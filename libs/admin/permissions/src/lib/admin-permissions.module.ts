@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
+import { RouterModule, Routes } from '@angular/router';
 import { LayoutComponent, PromptComponentModule } from '@nexthcm/ui';
 import { TranslocoModule } from '@ngneat/transloco';
 import { FormlyModule } from '@ngx-formly/core';
@@ -24,6 +25,7 @@ import {
   TuiStepperModule,
 } from '@taiga-ui/kit';
 import { TableModule } from 'ngx-easy-table';
+import { NgxPermissionsGuard } from 'ngx-permissions';
 import { InputActionsComponent } from './components/input-actions/input-actions.type';
 import { InputServiceComponent } from './components/input-service/input-service.type';
 import { PermissionDetailComponent } from './components/permission-detail/permission-detail.component';
@@ -33,18 +35,27 @@ import { CreatePermissionComponent } from './pages/create-permission/create-perm
 import { PermissionListComponent } from './pages/permission-list/permission-list.component';
 import { UpdatePermissionComponent } from './pages/update-permission/update-permission.component';
 import { AdminPermissionsService } from './services/admin-permissions.service';
-import { RouterModule, Routes } from '@angular/router';
-import { AuthGuard } from '@nexthcm/auth';
 
-const routes: Routes = [
+export const adminPermissionsRoutes: Routes = [
   {
     path: '',
     component: LayoutComponent,
-    canActivate: [AuthGuard],
+    canActivate: [NgxPermissionsGuard],
+    data: { permissions: { only: 'VIEW_PERMISSION', redirectTo: '/' } },
     children: [
       { path: '', component: PermissionListComponent },
-      { path: 'create', component: CreatePermissionComponent },
-      { path: 'update/:id', component: UpdatePermissionComponent },
+      {
+        path: 'create',
+        component: CreatePermissionComponent,
+        canActivate: [NgxPermissionsGuard],
+        data: { permissions: { only: 'CREATE_PERMISSION', redirectTo: '/' } },
+      },
+      {
+        path: 'update/:id',
+        component: UpdatePermissionComponent,
+        canActivate: [NgxPermissionsGuard],
+        data: { permissions: { only: 'UPDATE_PERMISSION', redirectTo: '/' } },
+      },
     ],
   },
 ];
@@ -62,9 +73,8 @@ const routes: Routes = [
   ],
   imports: [
     CommonModule,
-    RouterModule.forChild(routes),
+    RouterModule.forChild(adminPermissionsRoutes),
     ReactiveFormsModule,
-
     FormlyModule.forChild({
       types: [
         { name: 'repeat-service', component: RepeatServiceComponent },

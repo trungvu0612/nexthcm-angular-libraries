@@ -35,7 +35,7 @@
     "publish:admin-user-roles": "cd dist/libs/admin/user-roles && yarn publish --non-interactive --ignore-scripts",
     "publish:admin-offices": "cd dist/libs/admin/offices && yarn publish --non-interactive --ignore-scripts",
     "publish:admin-permissions": "cd dist/libs/admin/permissions && yarn publish --non-interactive --ignore-scripts",
-    "publish:admin-policies": "cd dist/libs/admin/policies && yarn publish --non-interactive --ignore-scripts",
+    "publish:admin-knowledge-base": "cd dist/libs/admin/knowledge-base && yarn publish --non-interactive --ignore-scripts",
     "publish:admin-leave-types": "cd dist/libs/admin/leave-types && yarn publish --non-interactive --ignore-scripts",
     "publish:admin-processes": "cd dist/libs/admin/processes && yarn publish --non-interactive --ignore-scripts",
     "publish:admin-seat-maps": "cd dist/libs/admin/seat-maps && yarn publish --non-interactive --ignore-scripts",
@@ -51,7 +51,7 @@
     "publish:my-time": "cd dist/libs/my-time && yarn publish --non-interactive --ignore-scripts",
     "publish:notifications": "cd dist/libs/notifications && yarn publish --non-interactive --ignore-scripts",
     "publish:payslip": "cd dist/libs/payslip && yarn publish --non-interactive --ignore-scripts",
-    "publish:policy": "cd dist/libs/policy && yarn publish --non-interactive --ignore-scripts",
+    "publish:knowledge-base": "cd dist/libs/knowledge-base && yarn publish --non-interactive --ignore-scripts",
     "publish:ui": "cd dist/libs/ui && yarn publish --non-interactive --ignore-scripts",
     "publish:workflow-designer": "cd dist/libs/workflow-designer && yarn publish --non-interactive --ignore-scripts"
   },

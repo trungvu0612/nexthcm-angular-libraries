@@ -1,0 +1,20 @@
+<section *ngFor="let item of data" class="flex border-b text-base pb-5 mb-5">
+  <tui-avatar
+    [avatarUrl]="$any(item.thumbnail || '' | getFile | async)"
+    [rounded]="true"
+    class="cursor-pointer mr-6"
+    size="l"
+  ></tui-avatar>
+  <div *ngIf="item">
+    <h1 [routerLink]="['/knowledge-base/policies/' + item.id]" class="font-semibold cursor-pointer">{{ item.topic }}</h1>
+    <div class="time">
+      <tui-svg class="mr-2" src="tuiIconTimeLarge"></tui-svg>
+      {{ item.createdDate | date: 'dd/MM/yyyy' }}
+    </div>
+    <p>{{ item.shortDescription }}</p>
+  </div>
+</section>
+<ng-container [ngSwitch]="more">
+  <button (click)="viewMore()" *ngSwitchCase="true" class="blue-button">View More</button>
+  <p *ngSwitchDefault class="no-more">No more items found</p>
+</ng-container>
