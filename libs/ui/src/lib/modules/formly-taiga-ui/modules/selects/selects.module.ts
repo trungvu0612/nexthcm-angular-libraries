@@ -16,12 +16,11 @@ import { PolymorpheusModule } from '@tinkoff/ng-polymorpheus';
 import { SelectOptionsModule } from '../../../../pipes';
 import { FormFieldModule } from '../form-field/form-field.module';
 import { MultiSelectComponent } from './multi-select/multi-select.component';
-import { ObjectSelectComponent } from './object-select/object-select.component';
 import { SelectSearchComponent } from './select-search/select-search.component';
 import { SelectComponent } from './select/select.component';
 
 @NgModule({
-  declarations: [SelectComponent, MultiSelectComponent, SelectSearchComponent, ObjectSelectComponent],
+  declarations: [SelectComponent, MultiSelectComponent, SelectSearchComponent],
   imports: [
     CommonModule,
     FormFieldModule,
@@ -30,7 +29,6 @@ import { SelectComponent } from './select/select.component';
         { name: 'select', component: SelectComponent, wrappers: ['form-field'] },
         { name: 'multi-select', component: MultiSelectComponent, wrappers: ['form-field'] },
         { name: 'select-search', component: SelectSearchComponent, wrappers: ['form-field'] },
-        { name: 'object-select', component: ObjectSelectComponent, wrappers: ['form-field'] },
       ],
     }),
     TuiSelectModule,
