@@ -2,7 +2,7 @@
   (searchChange)="search$.next($event || '')"
   [formControl]="$any(formControl)"
   [formlyAttributes]="field"
-  [identityMatcher]="to.identityMatcher"
+  [identityMatcher]="matcher[to.matcherBy]"
   [stringify]="to.stringify"
   [style.maxWidth]="to.maxWidth"
   [tuiHintContent]="to.description || null"
@@ -12,11 +12,17 @@
   [tuiTextfieldSize]="to.textfieldSize"
   [valueContent]="content"
 >
-  {{ to.textfieldLabelOutside ? '' : to.label }}
+  {{ to.textfieldLabelOutside ? to.placeholder : to.label }}
+  <span *ngIf="to.required && !to.textfieldLabelOutside" class="tui-required"></span>
   <ng-template #content let-item> {{ item[to.labelProp] }} </ng-template>
   <ng-template tuiDataList>
     <tui-data-list *ngIf="items$ | async as items; else loading">
-      <button *ngFor="let item of items" [disabled]="!!item.disabled" [value]="item" tuiOption>
+      <button
+        *ngFor="let item of items"
+        [disabled]="!!item.disabled"
+        [value]="to.valueProp ? item[to.valueProp] : item"
+        tuiOption
+      >
         <div class="flex items-center gap-2 my-1">
           <tui-avatar
             *ngIf="to.showImage"

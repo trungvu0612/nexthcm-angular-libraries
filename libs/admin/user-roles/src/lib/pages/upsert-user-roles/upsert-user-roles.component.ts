@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
 import { AdminPermissionsService } from '@nexthcm/admin-permissions';
-import { ValidationService } from '@nexthcm/ui';
 import { FormGroup } from '@ngneat/reactive-forms';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { TuiDialogContext } from '@taiga-ui/core';
@@ -9,6 +8,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AdminUserRole } from '../../models/admin-user-role';
 import { AdminUserRolesService } from '../../services/admin-user-roles.service';
+import { TranslocoService } from '@ngneat/transloco';
 
 @Component({
   selector: 'hcm-upsert-user-roles',
@@ -44,7 +44,7 @@ export class UpsertUserRolesComponent implements OnInit {
         label: 'name',
         textfieldLabelOutside: true,
       },
-      ...this.validationService.getValidation(['required']),
+      validation: { messages: { required: () => this.translocoService.selectTranslate('VALIDATION.required') } },
     },
     {
       className: 'my-8',
@@ -56,7 +56,7 @@ export class UpsertUserRolesComponent implements OnInit {
         label: 'Description',
         textfieldLabelOutside: true,
       },
-      ...this.validationService.getValidation(['required']),
+      validation: { messages: { required: () => this.translocoService.selectTranslate('VALIDATION.required') } },
     },
     {
       className: 'my-8',
@@ -69,16 +69,14 @@ export class UpsertUserRolesComponent implements OnInit {
         valueProp: 'id',
         textfieldLabelOutside: true,
       },
-      ...this.validationService.getValidation(['required']),
     },
   ];
-
 
   constructor(
     @Inject(POLYMORPHEUS_CONTEXT) public context: TuiDialogContext<unknown, AdminUserRole>,
     private adminPermissionsService: AdminPermissionsService,
     private adminUserRolesService: AdminUserRolesService,
-    private readonly validationService: ValidationService
+    private readonly translocoService: TranslocoService
   ) {}
 
   ngOnInit(): void {
@@ -99,7 +97,6 @@ export class UpsertUserRolesComponent implements OnInit {
     // const policiesControl = this.adminUserRoleForm.get('policies');
 
     if (this.data !== '') {
-
       const policiesControl = this.adminUserRoleForm.controls.policies;
 
       if (policiesControl) {
@@ -107,9 +104,9 @@ export class UpsertUserRolesComponent implements OnInit {
           console.log('---------------------------');
           console.log('init', this.arrayTemp);
 
-          const difference = data.filter((x: any) => !this.arrayTemp.includes(x)).concat(
-              this.arrayTemp.filter((x) => !data.includes(x))
-          );
+          const difference = data
+            .filter((x: any) => !this.arrayTemp.includes(x))
+            .concat(this.arrayTemp.filter((x) => !data.includes(x)));
           console.log('difference', difference);
 
           const intersection = data.filter((x: any) => this.arrayTemp.includes(x));
@@ -118,7 +115,7 @@ export class UpsertUserRolesComponent implements OnInit {
           const difference1 = data.filter((x: any) => !this.arrayTemp.includes(x));
           console.log('difference11111', difference1);
 
-          if (intersection.concat(difference1).length < this.arrayTemp.length){
+          if (intersection.concat(difference1).length < this.arrayTemp.length) {
             this.removeArray = difference.filter((x: any) => this.arrayTemp.includes(x));
             // result = result.filter((x: any) => this.arrayTemp.includes(x));
           }

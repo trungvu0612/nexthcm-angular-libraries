@@ -1,8 +1,7 @@
-<header class="flex justify-between items-center">
-  <h1 class="text-2xl font-semibold">Assign User</h1>
-  <tui-svg (click)="close()" class="cursor-pointer" src="tuiIconRemoveLarge"></tui-svg>
-</header>
-<form [formGroup]="form" class="mt-6 mb-10">
+<form (ngSubmit)="submit()" [formGroup]="form">
   <formly-form [fields]="fields" [form]="form" [model]="model"></formly-form>
+  <div *transloco="let t" class="flex justify-center gap-6 mt-8">
+    <button (click)="cancel()" appearance="flat" tuiButton type="button">{{ t('cancel') }}</button>
+    <button tuiButton>{{ t('save') }}</button>
+  </div>
 </form>
-<button (click)="addSeat()" [disabled]="!form.valid" class="blue-button mx-auto">Submit</button>

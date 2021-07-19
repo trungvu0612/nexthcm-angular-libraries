@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
-import { PromptComponent, ValidationService } from '@nexthcm/ui';
+import { PromptComponent } from '@nexthcm/ui';
 import { FormGroup } from '@ngneat/reactive-forms';
 import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
@@ -20,8 +20,8 @@ import { SweetAlertOptions } from 'sweetalert2';
 })
 export class OrganizationalStructureComponent {
   @ViewChild('prompt') prompt!: PromptComponent;
-  readonly configuration = { ...DefaultConfig, orderEnabled: false, paginationEnabled: false };
-  readonly columns$ = this.translocoService.selectTranslateObject('TABLE_HEADER').pipe(
+  readonly configuration = { ...DefaultConfig, orderEnabled: false, paginationEnabled: false, fixedColumnWidth: false };
+  readonly columns$ = this.translocoService.selectTranslateObject('TENANT_TABLE').pipe(
     map((translate) => [
       { key: 'name', title: translate.name },
       { key: 'organizationalLevel', title: translate.organizationalLevel },
@@ -32,7 +32,7 @@ export class OrganizationalStructureComponent {
   );
   readonly structure$ = this.adminTenantService.select('structure');
   readonly form = new FormGroup<Partial<OrganizationalLevel>>({});
-  model: Partial<OrganizationalLevel> = {};
+  model!: Partial<OrganizationalLevel>;
   readonly fields: FormlyFieldConfig[] = [
     {
       key: 'orgTypeLabel',
@@ -44,7 +44,7 @@ export class OrganizationalStructureComponent {
         placeholder: 'enterName',
         textfieldLabelOutside: true,
       },
-      ...this.validationService.getValidation(['required']),
+      validation: { messages: { required: () => this.translocoService.selectTranslate('VALIDATION.required') } },
     },
     {
       key: 'parentOrgTypeLabel.id',
@@ -58,30 +58,33 @@ export class OrganizationalStructureComponent {
         subLabelProp: 'orgType',
         valueProp: 'id',
         options: this.structure$,
+        matcherBy: 'id',
       },
+      validation: { messages: { required: () => this.translocoService.selectTranslate('VALIDATION.required') } },
     },
   ];
 
   constructor(
     private readonly adminTenantService: AdminTenantService,
-    private readonly validationService: ValidationService,
     private readonly dialogService: TuiDialogService,
     private readonly translocoService: TranslocoService
   ) {}
 
-  showDialog(content: PolymorpheusContent<TuiDialogContext>, level?: Partial<OrganizationalLevel>) {
+  upsertLevel(content: PolymorpheusContent<TuiDialogContext>, level?: Partial<OrganizationalLevel>) {
     this.model = level || {};
     this.dialogService.open(content, { dismissible: false }).subscribe();
   }
 
-  save(observer: Subscriber<unknown>) {
-    this.adminTenantService
-      .upsertOrganizationalLevel(this.model, this.model.id ? 'put' : 'post')
-      .pipe(switchMap(() => this.prompt.open({ icon: 'success' } as SweetAlertOptions)))
-      .subscribe(() => observer.complete());
+  submitLevel(observer: Subscriber<unknown>) {
+    if (this.form.valid) {
+      this.adminTenantService
+        .upsertOrganizationalLevel(this.model, this.model.id ? 'put' : 'post')
+        .pipe(switchMap(() => this.prompt.open({ icon: 'success' } as SweetAlertOptions)))
+        .subscribe(() => observer.complete());
+    }
   }
 
-  delete(id: string) {
+  deleteLevel(id: string) {
     from(this.prompt.open({ icon: 'warning', showCancelButton: true } as SweetAlertOptions))
       .pipe(
         switchMap((result) => iif(() => result.isConfirmed, this.adminTenantService.deleteOrganizationalLevel(id))),

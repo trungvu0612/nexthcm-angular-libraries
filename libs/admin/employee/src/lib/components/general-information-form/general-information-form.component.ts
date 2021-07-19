@@ -7,7 +7,7 @@ import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { distinctUntilChanged, map, startWith, switchMap, takeUntil } from 'rxjs/operators';
-import { BaseItem, EmployeeGeneralInformation } from '../../models';
+import { EmployeeGeneralInformation } from '../../models';
 import { AdminEmployeeService } from '../../services/admin-employee.service';
 
 @Component({
@@ -156,7 +156,7 @@ export class GeneralInformationFormComponent implements OnInit {
               {
                 key: 'organization',
                 className: 'mt-5 block',
-                type: 'object-select',
+                type: 'select',
                 templateOptions: {
                   translate: true,
                   label: 'organization',
@@ -165,7 +165,7 @@ export class GeneralInformationFormComponent implements OnInit {
                   required: true,
                   options: this.adminEmployeeService.select('organizations'),
                   labelProp: 'name',
-                  compareWith: (item1: BaseItem, item2: BaseItem) => item1.id === item2.id,
+                  matcherBy: 'id',
                 },
                 validation: {
                   messages: { required: () => this.translocoService.selectTranslate('VALIDATION.required') },
@@ -174,7 +174,7 @@ export class GeneralInformationFormComponent implements OnInit {
               {
                 key: 'roles',
                 className: 'tui-form__row block',
-                type: 'object-select',
+                type: 'multi-select',
                 templateOptions: {
                   translate: true,
                   required: true,
@@ -183,8 +183,7 @@ export class GeneralInformationFormComponent implements OnInit {
                   placeholder: 'chooseRoles',
                   options: this.adminEmployeeService.select('roles'),
                   labelProp: 'name',
-                  multiple: true,
-                  compareWith: (item1: BaseItem, item2: BaseItem) => item1.id === item2.id,
+                  matcherBy: 'id',
                 },
                 validation: {
                   messages: { required: () => this.translocoService.selectTranslate('VALIDATION.required') },
@@ -193,7 +192,7 @@ export class GeneralInformationFormComponent implements OnInit {
               {
                 key: 'jobTitle',
                 className: 'tui-form__row block',
-                type: 'object-select',
+                type: 'select',
                 templateOptions: {
                   translate: true,
                   required: true,
@@ -202,7 +201,7 @@ export class GeneralInformationFormComponent implements OnInit {
                   placeholder: 'chooseJobTitle',
                   options: this.adminEmployeeService.select('jobTitles'),
                   labelProp: 'name',
-                  compareWith: (item1: BaseItem, item2: BaseItem) => item1.id === item2.id,
+                  matcherBy: 'id',
                 },
                 validation: {
                   messages: { required: () => this.translocoService.selectTranslate('VALIDATION.required') },
@@ -211,7 +210,7 @@ export class GeneralInformationFormComponent implements OnInit {
               {
                 key: 'jobLevel',
                 className: 'tui-form__row block',
-                type: 'object-select',
+                type: 'select',
                 templateOptions: {
                   translate: true,
                   label: 'jobLevel',
@@ -219,13 +218,13 @@ export class GeneralInformationFormComponent implements OnInit {
                   placeholder: 'chooseJobLevel',
                   options: this.adminEmployeeService.select('jobLevels'),
                   labelProp: 'name',
-                  compareWith: (item1: BaseItem, item2: BaseItem) => item1.id === item2.id,
+                  matcherBy: 'id',
                 },
               },
               {
                 key: 'directReport',
                 className: 'tui-form__row block',
-                type: 'object-select',
+                type: 'select',
                 templateOptions: {
                   translate: true,
                   required: true,
@@ -234,7 +233,7 @@ export class GeneralInformationFormComponent implements OnInit {
                   placeholder: 'chooseDirectReport',
                   options: this.adminEmployeeService.select('users'),
                   labelProp: 'name',
-                  compareWith: (item1: BaseItem, item2: BaseItem) => item1.id === item2.id,
+                  matcherBy: 'id',
                 },
                 validation: {
                   messages: { required: () => this.translocoService.selectTranslate('VALIDATION.required') },

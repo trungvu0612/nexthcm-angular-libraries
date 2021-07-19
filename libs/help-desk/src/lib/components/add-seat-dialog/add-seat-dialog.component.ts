@@ -8,6 +8,7 @@ import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { HelpDeskService } from '../../services/help-desk.service';
+import { TranslocoService } from '@ngneat/transloco';
 
 @Component({
   selector: 'hcm-add-seat-dialog',
@@ -16,35 +17,39 @@ import { HelpDeskService } from '../../services/help-desk.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AddSeatDialogComponent {
-  form = new FormGroup({});
+  readonly form = new FormGroup({});
   model: { user?: Partial<UserDto> } = {};
-  fields: FormlyFieldConfig[] = [
+  readonly fields: FormlyFieldConfig[] = [
     {
       key: 'user',
       type: 'combo-box',
       templateOptions: {
         required: true,
-        label: 'Search by CIF, Full Name',
+        translate: true,
+        label: 'chooseUser',
         labelProp: 'username',
         subLabelProp: 'code',
-        textfieldLabelOutside: false,
         stringify: (item: UserDto) => item.username,
         serverRequest: (search: string): Observable<Partial<UserDto>[]> =>
           this.helpDeskService.select('users').pipe(map((users) => filterBySearch<UserDto>(users, search, 'username'))),
       },
+      validation: { messages: { required: () => this.translocoService.selectTranslate('VALIDATION.required') } },
     },
   ];
 
   constructor(
-    @Inject(POLYMORPHEUS_CONTEXT) private context: TuiDialogContext<Partial<UserDto> | null>,
-    private helpDeskService: HelpDeskService
+    @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<Partial<UserDto> | null>,
+    private readonly helpDeskService: HelpDeskService,
+    private readonly translocoService: TranslocoService
   ) {}
 
-  close(): void {
+  cancel(): void {
     this.context.completeWith(null);
   }
 
-  addSeat(): void {
-    this.context.completeWith(this.model.user || null);
+  submit(): void {
+    if (this.form.valid) {
+      this.context.completeWith(this.model.user || null);
+    }
   }
 }

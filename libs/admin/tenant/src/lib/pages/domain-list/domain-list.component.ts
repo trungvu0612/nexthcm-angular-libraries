@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { filterBySearch, UploadFileService, ValidationService } from '@nexthcm/ui';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { filterBySearch, UploadFileService } from '@nexthcm/ui';
 import { FormControl, FormGroup } from '@ngneat/reactive-forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDialogContext, TuiDialogService } from '@taiga-ui/core';
@@ -8,6 +8,7 @@ import { BehaviorSubject, combineLatest, Subscriber } from 'rxjs';
 import { map, startWith, switchMap } from 'rxjs/operators';
 import { Domain } from '../../models/tenant';
 import { AdminTenantService } from '../../services/admin-tenant.service';
+import { TranslocoService } from '@ngneat/transloco';
 
 @Component({
   selector: 'hcm-domain',
@@ -15,8 +16,7 @@ import { AdminTenantService } from '../../services/admin-tenant.service';
   styleUrls: ['./domain-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DomainListComponent implements OnInit {
-  isAdd!: boolean;
+export class DomainListComponent {
   readonly searchControl = new FormControl<string>();
   readonly refresh$ = new BehaviorSubject('');
   readonly source$ = this.refresh$.pipe(switchMap(() => this.adminTenantService.getDomains()));
@@ -24,35 +24,8 @@ export class DomainListComponent implements OnInit {
     map(([domains, search]) => filterBySearch<Domain>(domains, search, 'domainUrl'))
   );
   readonly form = new FormGroup<Partial<Domain>>({});
-  model: Partial<Domain> = {};
+  model!: Partial<Domain>;
   readonly fields: FormlyFieldConfig[] = [
-    {
-      key: 'tenant.tenantName',
-      type: 'input',
-      templateOptions: {
-        required: true,
-        translate: true,
-        disabled: true,
-        label: 'companyName',
-        textfieldLabelOutside: true,
-      },
-      ...this.validationService.getValidation(['required']),
-    },
-    {
-      key: 'tenant.image',
-      type: 'upload-file',
-      templateOptions: {
-        required: true,
-        translate: true,
-        disabled: true,
-        label: 'companyLogo',
-        linkText: 'chooseAnImage',
-        labelText: 'orDropItHere',
-        accept: 'image/*',
-        previewImage: true,
-        serverRequest: (file: File) => this.uploadFileService.uploadFile('admin-tenant/domain', file),
-      },
-    },
     {
       key: 'domainUrl',
       type: 'input',
@@ -62,30 +35,25 @@ export class DomainListComponent implements OnInit {
         label: 'domain',
         textfieldLabelOutside: true,
       },
-      ...this.validationService.getValidation(['required']),
+      validation: { messages: { required: () => this.translocoService.selectTranslate('VALIDATION.required') } },
     },
   ];
 
   constructor(
     private readonly adminTenantService: AdminTenantService,
     private readonly uploadFileService: UploadFileService,
-    private readonly validationService: ValidationService,
+    private readonly translocoService: TranslocoService,
     private readonly dialogService: TuiDialogService
   ) {}
 
-  ngOnInit(): void {
-    this.model = { tenant: this.adminTenantService.get('tenant') };
+  upsertDomain(content: PolymorpheusContent<TuiDialogContext>, domain?: Partial<Domain>) {
+    this.model = domain || {};
+    this.dialogService.open(content, { dismissible: false }).subscribe();
   }
 
-  showDialog(content: PolymorpheusContent<TuiDialogContext>, domain?: Partial<Domain>) {
-    if (domain) {
-      this.isAdd = false;
-      Object.assign(this.model, domain);
-    } else this.isAdd = true;
-    this.dialogService.open(content).subscribe();
-  }
-
-  save(observer: Subscriber<unknown>) {
-    observer.complete();
+  submitDomain(observer: Subscriber<unknown>) {
+    if (this.form.valid) {
+      observer.complete();
+    }
   }
 }

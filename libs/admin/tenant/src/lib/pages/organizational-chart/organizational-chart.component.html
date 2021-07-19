@@ -1,7 +1,7 @@
 <main *transloco="let t" class="main-page">
   <header>
     <h1>{{ t('organizationalChart') }}</h1>
-    <button (click)="showDialog(content)" appearance="primary" tuiButton>{{ t('addOrganizationalUnit') }}</button>
+    <button (click)="upsertUnit(content)" tuiButton>{{ t('addOrganizationalUnit') }}</button>
   </header>
   <section #scrollbar class="main-section">
     <div class="p-8">
@@ -14,14 +14,22 @@
           <td>{{ row.orgName }}</td>
           <td>{{ row.orgType }}</td>
           <td>{{ row.tenant.tenantName }}</td>
-          <td class="flex gap-1">
-            <hero-icon
-              (click)="showDialog(content, row)"
-              class="icon-button"
-              name="pencil-alt"
-              type="solid"
-            ></hero-icon>
-            <hero-icon (click)="delete(row.id)" class="icon-button" name="trash" type="solid"></hero-icon>
+          <td class="flex gap-2">
+            <button
+              (click)="upsertUnit(content, row)"
+              appearance="flat"
+              icon="tuiIconEditLarge"
+              size="m"
+              tuiIconButton
+              type="button"
+            ></button>
+            <button
+              (click)="deleteUnit(row.id)"
+              appearance="flat"
+              icon="tuiIconTrashLarge"
+              size="m"
+              tuiIconButton
+            ></button>
           </td>
         </ng-template>
       </ngx-table>
@@ -30,7 +38,7 @@
       <span class="font-semibold"> {{ (zoom$ | async | number: '1.0-0') + '%' }}</span>
       <hero-icon class="w-6 h-6" name="zoom-in" type="solid"></hero-icon>
     </div>
-    <tui-scrollbar (mouseenter)="canZoom = true" (mouseleave)="canZoom = false" class="w-full">
+    <tui-scrollbar (mouseenter)="canZoom = true" (mouseleave)="canZoom = false" class="w-0 min-w-full">
       <div
         *ngIf="dimension$ | async as dim"
         [style]="{
@@ -65,8 +73,8 @@
                 <p class="sub-name text-gray-500">Address</p>
               </div>
               <div *ngIf="hover" class="icons flex absolute">
-                <hero-icon (click)="showDialog(content, unit)" name="pencil-alt" type="solid"></hero-icon>
-                <hero-icon (click)="delete(unit.id)" *ngIf="!length" name="trash" type="solid"></hero-icon>
+                <hero-icon (click)="upsertUnit(content, unit)" name="pencil-alt" type="solid"></hero-icon>
+                <hero-icon (click)="deleteUnit(unit.id)" *ngIf="!length" name="trash" type="solid"></hero-icon>
               </div>
             </div>
             <ng-container *ngIf="length > 1">
@@ -89,13 +97,13 @@
   </section>
   <ng-template #content let-observer>
     <h1 class="font-semibold text-primary">{{ t(model.id ? 'editOrganizationalUnit' : 'addOrganizationalUnit') }}</h1>
-    <formly-form [fields]="fields" [form]="$any(form)" [model]="model" class="formly-gap"></formly-form>
-    <div class="flex justify-center gap-6 mt-8">
-      <button (click)="observer.complete()" appearance="outline" tuiButton>{{ t('cancel') }}</button>
-      <button (click)="save(observer)" [disabled]="!form.valid" appearance="primary" tuiButton>
-        {{ t('save') }}
-      </button>
-    </div>
+    <form (ngSubmit)="submitUnit(observer)" [formGroup]="$any(form)">
+      <formly-form [fields]="fields" [form]="$any(form)" [model]="model" class="formly-gap"></formly-form>
+      <div class="flex justify-center gap-6 mt-8">
+        <button (click)="observer.complete()" appearance="outline" tuiButton type="button">{{ t('cancel') }}</button>
+        <button tuiButton>{{ t('save') }}</button>
+      </div>
+    </form>
   </ng-template>
 </main>
 <hcm-prompt #prompt></hcm-prompt>

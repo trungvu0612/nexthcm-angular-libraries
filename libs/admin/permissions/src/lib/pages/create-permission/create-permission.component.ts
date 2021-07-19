@@ -17,7 +17,7 @@ import { AdminPermissionsService } from '../../services/admin-permissions.servic
 export class CreatePermissionComponent {
   @ViewChild('prompt') prompt!: PromptComponent;
   @ViewChild('permission') permission!: PermissionDetailComponent;
-  stepperIndex = 0;
+  stepper = 0;
   servicesForm = new FormGroup<Partial<Policy>>({});
   servicesModel = { policyItems: [{}] } as Partial<Policy>;
   policyForm = new FormGroup<Partial<Policy>>({});
@@ -25,16 +25,20 @@ export class CreatePermissionComponent {
 
   constructor(private adminPermissions: AdminPermissionsService, private router: Router) {}
 
-  submitServices() {
+  nextStep() {
     this.permission.updateDataTable();
-    this.stepperIndex = 1;
+    this.stepper = 1;
   }
 
-  createPolicy(): void {
-    this.permission.updatePolicyItems();
-    this.adminPermissions
-      .addPermission(this.policyModel)
-      .pipe(switchMap(() => this.prompt.open({ icon: 'success', text: 'Created successfully!' } as SweetAlertOptions)))
-      .subscribe(() => this.router.navigateByUrl('admin/permissions'));
+  submitPolicy(): void {
+    if (this.policyForm.valid) {
+      this.permission.updatePolicyItems();
+      this.adminPermissions
+        .createPermission(this.policyModel)
+        .pipe(
+          switchMap(() => this.prompt.open({ icon: 'success', text: 'Created successfully!' } as SweetAlertOptions))
+        )
+        .subscribe(() => this.router.navigateByUrl('admin/permissions'));
+    }
   }
 }

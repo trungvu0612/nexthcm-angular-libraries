@@ -22,7 +22,7 @@ export class UpdatePermissionComponent {
   servicesModel!: Partial<Policy>;
   policyForm = new FormGroup<Partial<Policy>>({});
   policyModel!: Partial<Policy>;
-  refresh$ = this.adminPermissions.getPermission(this.route.snapshot.queryParams.policyId).pipe(
+  refresh$ = this.adminPermissions.getPermission(this.route.snapshot.params.id).pipe(
     map((policy) => {
       const policyItems: PolicyItem[] = JSON.parse(JSON.stringify(policy.policyItems));
       policyItems.forEach((policyItem) => {
@@ -50,16 +50,20 @@ export class UpdatePermissionComponent {
     private route: ActivatedRoute
   ) {}
 
-  next(): void {
+  nextStep(): void {
     if (this.stepperIndex === 1) this.permission.updateDataTable();
     this.stepperIndex += 1;
   }
 
-  updatePolicy(): void {
-    this.permission.updatePolicyItems();
-    this.adminPermissions
-      .editPermission(this.route.snapshot.queryParams.policyId, this.policyModel)
-      .pipe(switchMap(() => this.prompt.open({ icon: 'success', text: 'Updated successfully!' } as SweetAlertOptions)))
-      .subscribe(() => this.router.navigateByUrl('admin/permissions'));
+  submitPolicy(): void {
+    if (this.policyForm.valid) {
+      this.permission.updatePolicyItems();
+      this.adminPermissions
+        .editPermission(this.route.snapshot.queryParams.policyId, this.policyModel)
+        .pipe(
+          switchMap(() => this.prompt.open({ icon: 'success', text: 'Updated successfully!' } as SweetAlertOptions))
+        )
+        .subscribe(() => this.router.navigateByUrl('admin/permissions'));
+    }
   }
 }

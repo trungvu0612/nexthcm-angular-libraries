@@ -1,20 +1,37 @@
 <main *transloco="let t" class="main-page">
   <header>
     <h1>{{ t('seatMapList') }}</h1>
-    <button appearance="primary" routerLink="./add" tuiButton>
-      {{ t('addSeatMap') }}
+    <button routerLink="./create" tuiButton>
+      {{ t('createSeatMap') }}
     </button>
   </header>
-  <section class="main-section">
-    <ngx-table [columns]="(columns$ | async) || []" [configuration]="configuration" [data]="(data$ | async) || []">
+  <section *tuiLet="data$ | async as data" class="main-section">
+    <ngx-table [columns]="(columns$ | async) || []" [configuration]="configuration" [data]="data?.items || []">
       <ng-template let-row>
         <td>{{ row.name }}</td>
         <td>{{ row.office.name }}</td>
-        <td class="flex gap-1">
-          <hero-icon [routerLink]="'./edit/' + row.id" class="icon-button" name="pencil-alt" type="solid"></hero-icon>
-          <hero-icon (click)="delete(row.id)" class="icon-button" name="trash" type="solid"></hero-icon>
+        <td class="flex gap-2">
+          <button
+            [routerLink]="['./edit', row.id]"
+            appearance="flat"
+            icon="tuiIconEditLarge"
+            size="m"
+            tuiIconButton
+          ></button>
+          <button
+            (click)="deleteSeatMap(row.id)"
+            appearance="flat"
+            icon="tuiIconTrashLarge"
+            size="m"
+            tuiIconButton
+          ></button>
         </td>
       </ng-template>
     </ngx-table>
+    <tui-table-pagination
+      (pageChange)="changePagination('page', $event)"
+      (sizeChange)="changePagination('size', $event)"
+      [total]="data?.totalElements || 0"
+    ></tui-table-pagination>
   </section>
 </main>

@@ -1,10 +1,8 @@
-<section *transloco="let t" class="admin-dialog">
-  <h1 class="text-center font-semibold">{{ t(title) }}</h1>
-  <form class="my-8">
-    <formly-form [fields]="fields" [form]="form" [model]="model"></formly-form>
-  </form>
-  <div class="flex justify-center">
-    <button (click)="cancel()" class="btn-blue">{{ t('cancel') }}</button>
-    <button (click)="save()" [disabled]="!form.valid" class="blue-button ml-8">{{ t('save') }}</button>
+<form (ngSubmit)="submit()" *transloco="let t" [formGroup]="form">
+  <h1 class="text-center text-primary font-semibold">{{ t(model.id ? 'editOffice' : 'createOffice') }}</h1>
+  <formly-form [fields]="fields" [form]="form" [model]="model"></formly-form>
+  <div class="flex justify-center gap-6 mt-8">
+    <button (click)="cancel()" appearance="flat" tuiButton type="button">{{ t('cancel') }}</button>
+    <button tuiButton>{{ t('save') }}</button>
   </div>
-</section>
+</form>

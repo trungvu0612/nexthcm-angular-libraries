@@ -2,7 +2,7 @@ import { CdkDragEnd } from '@angular/cdk/drag-drop';
 import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Dimension, Seat, Zone } from '@nexthcm/core';
-import { filterBySearch, PromptComponent, UploadFileService, ValidationService } from '@nexthcm/ui';
+import { filterBySearch, PromptComponent, UploadFileService } from '@nexthcm/ui';
 import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDestroyService } from '@taiga-ui/cdk';
@@ -10,6 +10,7 @@ import { iif, Observable, of } from 'rxjs';
 import { map, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { AdminSeatMapsService } from '../../services/admin-seat-maps.service';
 import { SweetAlertOptions } from 'sweetalert2';
+import { TranslocoService } from '@ngneat/transloco';
 
 interface SeatMapForm extends Dimension {
   office: Partial<Zone> | null;
@@ -62,26 +63,29 @@ export class UpsertSeatMapComponent implements AfterViewInit {
           key: 'office',
           type: 'combo-box',
           templateOptions: {
-            label: 'office',
-            translate: true,
             required: true,
+            translate: true,
+            label: 'office',
+            placeholder: 'chooseOffice',
             textfieldSize: 'm',
+            textfieldLabelOutside: true,
             serverRequest: (search: string): Observable<Partial<Zone>[]> =>
               this.offices$.pipe(map((items) => filterBySearch<Zone>(items, search))),
           },
-          ...this.validationService.getValidation(['required']),
+          validation: { messages: { required: () => this.translocoService.selectTranslate('VALIDATION.required') } },
         },
         {
           key: 'name',
           type: 'input',
           templateOptions: {
-            label: 'seatMap',
-            translate: true,
             required: true,
+            translate: true,
+            label: 'name',
+            placeholder: 'enterName',
             textfieldSize: 'm',
             textfieldLabelOutside: true,
           },
-          ...this.validationService.getValidation(['required']),
+          validation: { messages: { required: () => this.translocoService.selectTranslate('VALIDATION.required') } },
         },
         {
           key: 'seats',
@@ -92,44 +96,25 @@ export class UpsertSeatMapComponent implements AfterViewInit {
             textfieldSize: 'm',
             textfieldLabelOutside: true,
           },
-          expressionProperties: {
-            'templateOptions.disabled': '!model.imageUrl',
-          },
+          expressionProperties: { 'templateOptions.disabled': '!model.imageUrl' },
         },
         {
           key: 'width',
           type: 'input-slider',
-          templateOptions: {
-            label: 'Width (px)',
-            min: 10,
-            max: 333,
-          },
-          expressionProperties: {
-            'templateOptions.disabled': '!model.seats',
-          },
+          templateOptions: { label: 'Width (px)', min: 10, max: 333 },
+          expressionProperties: { 'templateOptions.disabled': '!model.seats' },
         },
         {
           key: 'height',
           type: 'input-slider',
-          templateOptions: {
-            label: 'Height (px)',
-            min: 10,
-            max: 333,
-          },
-          expressionProperties: {
-            'templateOptions.disabled': '!model.seats',
-          },
+          templateOptions: { label: 'Height (px)', min: 10, max: 333 },
+          expressionProperties: { 'templateOptions.disabled': '!model.seats' },
         },
         {
           key: 'rounded',
           type: 'input-slider',
-          templateOptions: {
-            label: 'Rounded (%)',
-            max: 50,
-          },
-          expressionProperties: {
-            'templateOptions.disabled': '!model.seats',
-          },
+          templateOptions: { label: 'Rounded (%)', max: 50 },
+          expressionProperties: { 'templateOptions.disabled': '!model.seats' },
         },
       ],
     },
@@ -144,6 +129,7 @@ export class UpsertSeatMapComponent implements AfterViewInit {
         accept: 'image/*',
         serverRequest: (file: File) => this.uploadFileService.uploadFile('admin-tenant/domain', file),
       },
+      validation: { messages: { required: () => this.translocoService.selectTranslate('VALIDATION.required') } },
     },
   ];
 
@@ -153,50 +139,38 @@ export class UpsertSeatMapComponent implements AfterViewInit {
     {
       key: 'width',
       type: 'input-slider',
-      templateOptions: {
-        label: 'Width (px)',
-        min: 10,
-        max: 333,
-      },
+      templateOptions: { label: 'Width (px)', min: 10, max: 333 },
     },
     {
       key: 'height',
       type: 'input-slider',
-      templateOptions: {
-        label: 'Height (px)',
-        min: 10,
-        max: 333,
-      },
+      templateOptions: { label: 'Height (px)', min: 10, max: 333 },
     },
     {
       key: 'rounded',
       type: 'input-slider',
-      templateOptions: {
-        label: 'Rounded (%)',
-        max: 50,
-      },
+      templateOptions: { label: 'Rounded (%)', max: 50 },
     },
   ];
 
   constructor(
     private readonly adminSeatMapsService: AdminSeatMapsService,
     private readonly uploadFileService: UploadFileService,
-    private readonly validationService: ValidationService,
-    private readonly route: ActivatedRoute,
+    private readonly translocoService: TranslocoService,
     private readonly router: Router,
-    private readonly fb: FormBuilder,
-    private readonly destroy$: TuiDestroyService
+    private readonly destroy$: TuiDestroyService,
+    fb: FormBuilder,
+    route: ActivatedRoute
   ) {
     this.form = fb.group(this.model);
     this.seatForm = fb.group(this.seatModel);
     this.sign$ = iif(
-      () => this.route.snapshot.params.id,
-      this.adminSeatMapsService.getSeatMap(this.route.snapshot.params.id),
+      () => route.snapshot.params.id,
+      this.adminSeatMapsService.getSeatMap(route.snapshot.params.id),
       of({})
     ).pipe(
       tap((data) => {
         this.seatMap = data;
-        console.log(data);
         if (data.id) {
           const { name, office, imageUrl } = data;
           Object.assign(this.model, { name, office, imageUrl });
@@ -357,27 +331,28 @@ export class UpsertSeatMapComponent implements AfterViewInit {
     updateSeat('positionY', 'height', distance.y, this.factor.height);
   }
 
-  save(): void {
-    if (!this.seatMap.type) this.seatMap.type = 'UNSET';
-    const { name, imageUrl, dimensionX, dimensionY, office } = this.model;
-    const seats: Partial<Seat>[] = this.seats;
-    seats.forEach((seat) => {
-      keys.forEach((key) => {
-        if (seat[key] === undefined) seat[key] = this.dimension[key];
+  submitSeatMap(): void {
+    if (this.form.valid) {
+      if (!this.seatMap.type) this.seatMap.type = 'UNSET';
+      const { name, imageUrl, dimensionX, dimensionY, office } = this.model;
+      const seats: Partial<Seat>[] = this.seats;
+      seats.forEach((seat) => {
+        keys.forEach((key) => {
+          if (seat[key] === undefined) seat[key] = this.dimension[key];
+        });
+        if (!seat.label) seat.label = '';
+        const { positionX, positionY, width, height, rounded } = seat;
+        seat.style = JSON.stringify({ positionX, positionY, width, height, rounded });
+        delete seat.positionX;
+        delete seat.positionY;
+        delete seat.width;
+        delete seat.height;
+        delete seat.rounded;
       });
-      if (!seat.label) seat.label = '';
-      const { positionX, positionY, width, height, rounded } = seat;
-      seat.style = JSON.stringify({ positionX, positionY, width, height, rounded });
-      delete seat.positionX;
-      delete seat.positionY;
-      delete seat.width;
-      delete seat.height;
-      delete seat.rounded;
-    });
-    Object.assign(this.seatMap, { office, name, imageUrl, dimensionX, dimensionY, seats });
-    this.adminSeatMapsService
-      .putSeatMap(this.seatMap)
-      .pipe(switchMap(() => this.prompt.open({ icon: 'success' } as SweetAlertOptions)))
-      .subscribe(() => this.router.navigateByUrl('/admin/seat-maps'));
+      Object.assign(this.seatMap, { office, name, imageUrl, dimensionX, dimensionY, seats });
+      this.adminSeatMapsService[this.seatMap.id ? 'editSeatMap' : 'createSeatMap'](this.seatMap)
+        .pipe(switchMap(() => this.prompt.open({ icon: 'success' } as SweetAlertOptions)))
+        .subscribe(() => this.router.navigateByUrl('/admin/seat-maps'));
+    }
   }
 }

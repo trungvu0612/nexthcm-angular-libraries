@@ -41,7 +41,7 @@ export class AdminPermissionsService extends RxState<StatePermissions> {
     return this.http.get<Partial<Policy>>('/accountapp/v1.0/permissions/' + policyId);
   }
 
-  addPermission(body: Partial<Policy>): Observable<Partial<Policy>> {
+  createPermission(body: Partial<Policy>): Observable<Partial<Policy>> {
     return this.http.post<Partial<Policy>>('/accountapp/v1.0/permissions', body);
   }
 

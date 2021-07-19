@@ -52,6 +52,7 @@ export class RequestsDialogComponent implements OnInit {
             textfieldLabelOutside: true,
             required: true,
             placeholder: 'Send To',
+            valueProp: 'value',
             options: [{ label: 'Nguyen Thanh Son', value: 'e08eb04d-a430-4e03-b017-e46f865e648d' }],
           },
         },

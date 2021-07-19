@@ -1,10 +1,6 @@
 :host {
   display: block;
 
-  h1 {
-    color: var(--tui-primary);
-  }
-
   ::ng-deep {
     formly-form-field {
       > label {

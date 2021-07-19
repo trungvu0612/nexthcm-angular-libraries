@@ -2,9 +2,10 @@
   *tuiLet="to.options | selectOptions | async as items"
   [formControl]="$any(formControl)"
   [formlyAttributes]="field"
-  [identityMatcher]="identityMatcher"
-  [stringify]="stringify"
+  [identityMatcher]="matcher[to.matcherBy]"
+  [stringify]="to.stringify"
   [style.maxWidth]="to.maxWidth"
+  [tuiTextfieldCleaner]="to.textfieldCleaner"
   [tuiTextfieldLabelOutside]="to.textfieldLabelOutside"
   [tuiTextfieldSize]="to.textfieldSize"
 >
