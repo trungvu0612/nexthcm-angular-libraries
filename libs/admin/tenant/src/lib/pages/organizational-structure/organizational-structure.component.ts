@@ -47,7 +47,7 @@ export class OrganizationalStructureComponent {
       validation: { messages: { required: () => this.translocoService.selectTranslate('VALIDATION.required') } },
     },
     {
-      key: 'parentOrgTypeLabel.id',
+      key: 'parentOrgTypeLabel',
       type: 'select',
       templateOptions: {
         required: true,
@@ -56,7 +56,6 @@ export class OrganizationalStructureComponent {
         placeholder: 'chooseParentLevel',
         labelProp: 'orgTypeLabel',
         subLabelProp: 'orgType',
-        valueProp: 'id',
         options: this.structure$,
         matcherBy: 'id',
       },

@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FieldType } from '@ngx-formly/core';
-import { TUI_DEFAULT_IDENTITY_MATCHER } from '@taiga-ui/cdk';
+import { TUI_DEFAULT_IDENTITY_MATCHER, TuiContextWithImplicit, tuiPure, TuiStringHandler } from '@taiga-ui/cdk';
 import { TuiIdentityMatcher } from '@taiga-ui/cdk/types';
 
 @Component({
@@ -22,6 +22,17 @@ export class SelectComponent extends FieldType {
     default: TUI_DEFAULT_IDENTITY_MATCHER,
     id: (i1: any, i2: any) => i1.id === i2.id,
   };
+
+  @tuiPure
+  stringify(items: ReadonlyArray<any>): TuiStringHandler<TuiContextWithImplicit<any>> {
+    const map = new Map(
+      items.map((item) => [
+        this.to.stringItem ? item : item[this.to.valueProp],
+        this.to.stringItem ? item : item[this.to.labelProp],
+      ])
+    );
+    return ({ $implicit }: TuiContextWithImplicit<any>) => map.get($implicit) || '';
+  }
 
   getSubLabel(item: any): string | undefined {
     return (
