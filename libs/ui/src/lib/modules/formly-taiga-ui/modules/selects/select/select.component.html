@@ -8,7 +8,7 @@
   [tuiTextfieldCleaner]="to.textfieldCleaner"
   [tuiTextfieldLabelOutside]="to.textfieldLabelOutside"
   [tuiTextfieldSize]="to.textfieldSize"
-  [valueContent]="content"
+  [valueContent]="to.valueProp ? stringify(items) : content"
 >
   {{ to.textfieldLabelOutside ? to.placeholder : to.label }}
   <span *ngIf="to.required && !to.textfieldLabelOutside" class="tui-required"></span>

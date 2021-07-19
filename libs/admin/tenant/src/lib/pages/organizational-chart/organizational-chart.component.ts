@@ -111,7 +111,7 @@ export class OrganizationalChartComponent implements AfterViewInit {
       validation: { messages: { required: () => this.translocoService.selectTranslate('VALIDATION.required') } },
     },
     {
-      key: 'ancestor.id',
+      key: 'ancestor',
       type: 'select',
       templateOptions: {
         required: true,
@@ -120,7 +120,6 @@ export class OrganizationalChartComponent implements AfterViewInit {
         placeholder: 'chooseParentLevel',
         labelProp: 'orgName',
         subLabelProp: 'orgType',
-        valueProp: 'id',
         matcherBy: 'id',
       },
       validation: { messages: { required: () => this.translocoService.selectTranslate('VALIDATION.required') } },
@@ -136,14 +135,13 @@ export class OrganizationalChartComponent implements AfterViewInit {
       },
     },
     {
-      key: 'user.id',
+      key: 'user',
       type: 'select',
       templateOptions: {
         translate: true,
         label: 'manager',
         placeholder: 'chooseManager',
         labelProp: 'username',
-        valueProp: 'id',
         subLabelProp: 'code',
         textfieldCleaner: true,
         options: this.adminTenantService.select('users'),
