@@ -1,13 +1,14 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AuthService } from '@nexthcm/auth';
 import { PromptService } from '@nexthcm/ui';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDay, TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
 import { DefaultConfig } from 'ngx-easy-table';
-import { BehaviorSubject, combineLatest, of } from 'rxjs';
-import { catchError, debounceTime, filter, map, mapTo, switchMap, takeUntil } from 'rxjs/operators';
+import { BehaviorSubject, of } from 'rxjs';
+import { catchError, filter, map, mapTo, switchMap, takeUntil } from 'rxjs/operators';
 import { SweetAlertOptions } from 'sweetalert2';
 import { WORKING_TIMES } from '../../models/working-times';
 import { WorkingTimesService } from '../../services/working-times.service';
@@ -25,7 +26,7 @@ export class WorkingTimeSettingsComponent implements OnInit {
   size$ = 10;
   totalLength = 0;
   perPageSubject = new BehaviorSubject<number>(this.size$);
-
+  myOrgId = this.authService.get('userInfo').orgId;
   activeItemIndex = 0;
   settingsElement: any;
   dataSettings$ = this.workingTimesService.getSettings().pipe(map((res) => res.data.items));
@@ -350,6 +351,7 @@ export class WorkingTimeSettingsComponent implements OnInit {
     @Inject(TuiDialogService) private readonly dialogService: TuiDialogService,
     private destroy$: TuiDestroyService,
     private activatedRoute: ActivatedRoute,
+    private authService: AuthService,
     private promptService: PromptService
   ) {}
 
@@ -364,19 +366,19 @@ export class WorkingTimeSettingsComponent implements OnInit {
       { key: 'action', title: '' },
     ];
 
-    combineLatest([this.page$, this.perPageSubject])
-      .pipe(
-        debounceTime(0),
-        switchMap(([page, perpage]) => {
-          return this.workingTimesService.getBranchDatas(page - 1, perpage);
-        }),
-        takeUntil(this.destroy$)
-      )
-      .subscribe((item) => {
-        console.log('item' + item);
-        this.totalLength = item.totalElements;
-        this.cdr.detectChanges();
-      });
+    // combineLatest([this.page$, this.perPageSubject])
+    //   .pipe(
+    //     debounceTime(0),
+    //     switchMap(([page, perpage]) => {
+    //       return this.workingTimesService.getBranchDatas(page - 1, perpage);
+    //     }),
+    //     takeUntil(this.destroy$)
+    //   )
+    //   .subscribe((item) => {
+    //     console.log('item'+item);
+    //     this.totalLength = item.totalElements;
+    //     this.cdr.detectChanges();
+    //   });
     this.cdr.detectChanges();
   }
 
@@ -412,7 +414,7 @@ export class WorkingTimeSettingsComponent implements OnInit {
     }
 
     this.settingsElement = {
-      id: 'eaf06d90-207c-4642-a792-c378d48e4cc1',
+      id: this.myOrgId,
       checkInAfter: formModel.checkInAfter,
       checkOutBefore: formModel.checkOutBefore,
       workingHour: formModel.workingHour,
@@ -427,7 +429,7 @@ export class WorkingTimeSettingsComponent implements OnInit {
     this.workingTimesService
       .saveSettings(this.settingsElement)
       .pipe(
-        mapTo({ icon: 'success', text: 'Update Settings Successfully!' } as SweetAlertOptions),
+        mapTo({ icon: 'success', text: 'Add Settings Time Successfully!' } as SweetAlertOptions),
         takeUntil(this.destroy$),
         catchError((err) =>
           of({

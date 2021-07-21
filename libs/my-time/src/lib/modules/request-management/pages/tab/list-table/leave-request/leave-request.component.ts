@@ -127,7 +127,8 @@ export class LeaveRequestComponent implements OnInit {
     this.dialogService
       .open<boolean>(new PolymorpheusComponent(LeaveManagementDetailDialogComponent, this.injector), {
         closeable: false,
-        data: { type: 'timesheet', req: req },
+        data: req.id,
+        size: 'l'
       })
       .subscribe((cancel) => {
         console.log(cancel);

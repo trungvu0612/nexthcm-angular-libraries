@@ -29,7 +29,6 @@ export class LeaveManagementDetailDialogComponent implements OnInit {
   activeItemIndex = 0;
   dataId = this.context.data || '';
   dataRes?: any;
-
   data$: Observable<MyLeave> = this.myLeaveService.getLeave(this.dataId).pipe(map((data) => data.data));
 
   form = new FormGroup<LeaveSubmit | any>({});
@@ -79,7 +78,8 @@ export class LeaveManagementDetailDialogComponent implements OnInit {
     private myLeaveService: MyLeaveService
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+  }
 
   edit(id: string): void {
     this.context.completeWith(true);

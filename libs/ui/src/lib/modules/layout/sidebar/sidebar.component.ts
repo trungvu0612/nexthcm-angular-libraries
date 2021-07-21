@@ -250,7 +250,7 @@ export class SidebarComponent implements OnInit {
             label: 'workingTimeManagement',
             link: '/admin/working-times',
             icon: 'working-time',
-            permissions: 'VIEW_WORKING_TIME',
+            permissions: 'VIEW_ADMIN_CONFIG_TIME',
           },
         ],
         // @bad TODO remove
