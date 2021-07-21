@@ -1,6 +1,6 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, Injector, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { PromptComponent } from '@nexthcm/ui';
+import { PromptService } from '@nexthcm/ui';
 import {
   WorkflowAPI,
   WorkflowAPIDefinition,
@@ -44,7 +44,6 @@ interface ProcessState {
 })
 export class UpsertProcessComponent implements AfterViewInit {
   @ViewChild('workflowDesigner') workflowDesigner!: WorkflowAPIDefinition;
-  @ViewChild('prompt') prompt!: PromptComponent;
 
   processId: string = this.activatedRoute.snapshot.params.processId;
   editMode: boolean = this.activatedRoute.snapshot.data.edit;
@@ -109,7 +108,8 @@ export class UpsertProcessComponent implements AfterViewInit {
     private state: RxState<ProcessState>,
     private destroy$: TuiDestroyService,
     private router: Router,
-    private translocoService: TranslocoService
+    private translocoService: TranslocoService,
+    private promptService: PromptService
   ) {
     state.connect(
       'addedStates',
@@ -289,7 +289,7 @@ export class UpsertProcessComponent implements AfterViewInit {
               showConfirmButton: false,
             } as SweetAlertOptions)
           ),
-          switchMap((options) => this.prompt.open(options)),
+          switchMap((options) => this.promptService.open(options)),
           filter((result) => result.isConfirmed),
           takeUntil(this.destroy$)
         )
@@ -331,7 +331,7 @@ export class UpsertProcessComponent implements AfterViewInit {
     }
     const nextStatus = this.state.get('addedStates')[newStatusId];
     if (nextStatus) {
-      this.prompt
+      this.promptService
         .open({
           icon: 'warning',
           text: this.translocoService.translate(direction, { transition: newTransition.name, status: nextStatus.name }),

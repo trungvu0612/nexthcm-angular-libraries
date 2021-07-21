@@ -1,17 +1,17 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, HostListener, ViewChild } from '@angular/core';
-import { PromptComponent } from '@nexthcm/ui';
+import { PromptService } from '@nexthcm/ui';
 import { FormGroup } from '@ngneat/reactive-forms';
+import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { RxState } from '@rx-angular/state';
 import { TuiDialogContext, TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusContent } from '@tinkoff/ng-polymorpheus';
+import { DefaultConfig } from 'ngx-easy-table';
 import { from, iif, of, Subscriber, timer } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
+import { SweetAlertOptions } from 'sweetalert2';
 import { OrganizationalUnit, OrganizationalUnitForm } from '../../models/tenant';
 import { AdminTenantService } from '../../services/admin-tenant.service';
-import { TranslocoService } from '@ngneat/transloco';
-import { DefaultConfig } from 'ngx-easy-table';
-import { SweetAlertOptions } from 'sweetalert2';
 
 interface Unit {
   level: string;
@@ -26,7 +26,6 @@ interface Unit {
   providers: [RxState],
 })
 export class OrganizationalChartComponent implements AfterViewInit {
-  @ViewChild('prompt') prompt!: PromptComponent;
   @ViewChild('scrollbar') scrollbar!: ElementRef;
   canZoom = false;
   zoom$ = this.state.select('zoom');
@@ -163,7 +162,8 @@ export class OrganizationalChartComponent implements AfterViewInit {
     private readonly adminTenantService: AdminTenantService,
     private readonly dialogService: TuiDialogService,
     private readonly translocoService: TranslocoService,
-    private readonly state: RxState<{ min: number; zoom: number }>
+    private readonly state: RxState<{ min: number; zoom: number }>,
+    private promptService: PromptService
   ) {
     this.state.set({ min: 100, zoom: 100 });
   }
@@ -219,16 +219,16 @@ export class OrganizationalChartComponent implements AfterViewInit {
     if (this.form.valid) {
       this.adminTenantService
         .createOrganizationUnit(this.model)
-        .pipe(switchMap(() => this.prompt.open({ icon: 'success' } as SweetAlertOptions)))
+        .pipe(switchMap(() => this.promptService.open({ icon: 'success' } as SweetAlertOptions)))
         .subscribe(() => observer.complete());
     }
   }
 
   deleteUnit(id: string) {
-    from(this.prompt.open({ icon: 'warning', showCancelButton: true } as SweetAlertOptions))
+    from(this.promptService.open({ icon: 'warning', showCancelButton: true } as SweetAlertOptions))
       .pipe(
         switchMap((result) => iif(() => result.isConfirmed, this.adminTenantService.deleteOrganizationUnit(id))),
-        switchMap(() => this.prompt.open({ icon: 'success' } as SweetAlertOptions))
+        switchMap(() => this.promptService.open({ icon: 'success' } as SweetAlertOptions))
       )
       .subscribe();
   }

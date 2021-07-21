@@ -1,15 +1,15 @@
-import { ChangeDetectionStrategy, Component, Injector, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Injector } from '@angular/core';
 import { Zone } from '@nexthcm/core';
+import { PromptService } from '@nexthcm/ui';
+import { TranslocoService } from '@ngneat/transloco';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
+import { DefaultConfig } from 'ngx-easy-table';
 import { BehaviorSubject } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
+import { SweetAlertOptions } from 'sweetalert2';
 import { OfficeDetailDialogComponent } from '../../components/office-detail-dialog/office-detail-dialog.component';
 import { AdminOfficesService } from '../../services/admin-offices.service';
-import { map, switchMap } from 'rxjs/operators';
-import { DefaultConfig } from 'ngx-easy-table';
-import { TranslocoService } from '@ngneat/transloco';
-import { SweetAlertOptions } from 'sweetalert2';
-import { PromptComponent } from '@nexthcm/ui';
 
 @Component({
   selector: 'hcm-offices',
@@ -18,7 +18,6 @@ import { PromptComponent } from '@nexthcm/ui';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OfficesComponent {
-  @ViewChild('prompt') prompt!: PromptComponent;
   readonly configuration = { ...DefaultConfig, paginationEnabled: false, fixedColumnWidth: false };
   readonly columns$ = this.translocoService.selectTranslateObject('ZONE_TABLE').pipe(
     map((translate) => [
@@ -35,7 +34,8 @@ export class OfficesComponent {
     private readonly adminOfficesService: AdminOfficesService,
     private readonly translocoService: TranslocoService,
     private readonly dialogService: TuiDialogService,
-    private readonly injector: Injector
+    private readonly injector: Injector,
+    private promptService: PromptService
   ) {}
 
   upsertOffice(office?: Partial<Zone>): void {
@@ -47,7 +47,7 @@ export class OfficesComponent {
       .subscribe((result) => {
         if (result)
           this.adminOfficesService[office ? 'editOffice' : 'createOffice'](result)
-            .pipe(switchMap(() => this.prompt.open({ icon: 'success' } as SweetAlertOptions)))
+            .pipe(switchMap(() => this.promptService.open({ icon: 'success' } as SweetAlertOptions)))
             .subscribe(() => this.params$.next(this.params$.value));
       });
   }

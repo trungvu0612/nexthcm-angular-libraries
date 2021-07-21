@@ -2,15 +2,15 @@ import { CdkDragEnd } from '@angular/cdk/drag-drop';
 import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Dimension, Seat, Zone } from '@nexthcm/core';
-import { filterBySearch, PromptComponent, UploadFileService } from '@nexthcm/ui';
+import { filterBySearch, PromptService, UploadFileService } from '@nexthcm/ui';
 import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
+import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { iif, Observable, of } from 'rxjs';
 import { map, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
-import { AdminSeatMapsService } from '../../services/admin-seat-maps.service';
 import { SweetAlertOptions } from 'sweetalert2';
-import { TranslocoService } from '@ngneat/transloco';
+import { AdminSeatMapsService } from '../../services/admin-seat-maps.service';
 
 interface SeatMapForm extends Dimension {
   office: Partial<Zone> | null;
@@ -31,7 +31,6 @@ const keys: ('width' | 'height' | 'rounded')[] = ['width', 'height', 'rounded'];
   providers: [TuiDestroyService],
 })
 export class UpsertSeatMapComponent implements AfterViewInit {
-  @ViewChild('prompt') prompt!: PromptComponent;
   @ViewChild('zone') zone!: ElementRef;
   sign$: Observable<Partial<Zone>>;
   seatMap!: Partial<Zone>;
@@ -42,7 +41,6 @@ export class UpsertSeatMapComponent implements AfterViewInit {
   factor = { width: 0, height: 0, rounded: 1 };
   dimension = { width: 0, height: 0, rounded: 0 };
   seats: Seat[] = [];
-
   form: FormGroup<SeatMapForm>;
   model: SeatMapForm = {
     office: null,
@@ -159,6 +157,7 @@ export class UpsertSeatMapComponent implements AfterViewInit {
     private readonly translocoService: TranslocoService,
     private readonly router: Router,
     private readonly destroy$: TuiDestroyService,
+    private promptService: PromptService,
     fb: FormBuilder,
     route: ActivatedRoute
   ) {
@@ -351,7 +350,7 @@ export class UpsertSeatMapComponent implements AfterViewInit {
       });
       Object.assign(this.seatMap, { office, name, imageUrl, dimensionX, dimensionY, seats });
       this.adminSeatMapsService[this.seatMap.id ? 'editSeatMap' : 'createSeatMap'](this.seatMap)
-        .pipe(switchMap(() => this.prompt.open({ icon: 'success' } as SweetAlertOptions)))
+        .pipe(switchMap(() => this.promptService.open({ icon: 'success' } as SweetAlertOptions)))
         .subscribe(() => this.router.navigateByUrl('/admin/seat-maps'));
     }
   }

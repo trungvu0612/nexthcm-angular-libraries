@@ -2,7 +2,7 @@ import { HttpParams } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, Injector, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Pagination } from '@nexthcm/core';
-import { PromptComponent } from '@nexthcm/ui';
+import { PromptService } from '@nexthcm/ui';
 import { TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
 import { TuiDestroyService } from '@taiga-ui/cdk';
@@ -11,8 +11,9 @@ import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { BaseComponent, Columns, Config, DefaultConfig } from 'ngx-easy-table';
 import { BehaviorSubject, from, Observable } from 'rxjs';
 import { catchError, filter, map, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { SweetAlertOptions } from 'sweetalert2';
 import { InitEmployeeDialogComponent } from '../../components/init-employee-dialog/init-employee-dialog.component';
-import { BaseEmployee, EmployeeGeneralInformation } from '../../models/employee';
+import { BaseEmployee, EmployeeGeneralInformation } from '../../models';
 import { AdminEmployeeService } from '../../services/admin-employee.service';
 
 @Component({
@@ -24,7 +25,6 @@ import { AdminEmployeeService } from '../../services/admin-employee.service';
 })
 export class EmployeeManagementComponent {
   @ViewChild('table') table!: BaseComponent;
-  @ViewChild('prompt') prompt!: PromptComponent;
 
   configuration: Config = {
     ...DefaultConfig,
@@ -63,7 +63,8 @@ export class EmployeeManagementComponent {
     private adminEmployeesService: AdminEmployeeService,
     private destroy$: TuiDestroyService,
     private state: RxState<Pagination<BaseEmployee>>,
-    private translocoService: TranslocoService
+    private translocoService: TranslocoService,
+    private promptService: PromptService
   ) {
     state.connect(this.request$);
   }
@@ -83,10 +84,20 @@ export class EmployeeManagementComponent {
       .open<EmployeeGeneralInformation>(new PolymorpheusComponent(InitEmployeeDialogComponent, this.injector), {
         label: this.translocoService.translate('addNewEmployee'),
       })
-      .pipe(switchMap((data) => this.adminEmployeesService.initEmployee(data)))
-      .subscribe((res) => {
-        this.router.navigate([res.data.id, 'edit'], { relativeTo: this.activatedRoute });
-      });
+      .pipe(
+        switchMap((data) => this.adminEmployeesService.initEmployee(data)),
+        takeUntil(this.destroy$)
+      )
+      .subscribe(
+        () => {
+          this.promptService.open({
+            icon: 'success',
+            text: this.translocoService.translate('initEmployeeSuccessful'),
+          } as SweetAlertOptions);
+          this.queryParams$.next(this.queryParams$.value);
+        },
+        (err) => this.promptService.open({ icon: 'error', text: err.error.message } as SweetAlertOptions)
+      );
   }
 
   tableEventEmitted(tableEvent: { event: string; value: any }): void {
@@ -98,7 +109,7 @@ export class EmployeeManagementComponent {
   onRemoveEmployee(id?: string): void {
     if (id) {
       from(
-        this.prompt.open({
+        this.promptService.open({
           icon: 'question',
           text: this.translocoService.translate('deleteEmployee'),
           showCancelButton: true,
@@ -111,7 +122,7 @@ export class EmployeeManagementComponent {
               .removeEmployee(id)
               .pipe(tap(() => this.queryParams$.next(this.queryParams$.value)))
           ),
-          catchError((err) => this.prompt.open({ icon: 'error', text: err.error.message })),
+          catchError((err) => this.promptService.open({ icon: 'error', text: err.error.message })),
           takeUntil(this.destroy$)
         )
         .subscribe();

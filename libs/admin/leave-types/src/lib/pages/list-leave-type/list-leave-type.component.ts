@@ -1,7 +1,7 @@
 import { HttpParams } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 import { Pagination } from '@nexthcm/core';
-import { PromptComponent } from '@nexthcm/ui';
+import { PromptService } from '@nexthcm/ui';
 import { FormBuilder } from '@ngneat/reactive-forms';
 import { TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
@@ -21,7 +21,7 @@ import { LeaveType } from '../../models/leave-type';
 })
 export class ListLeaveTypeComponent {
   @ViewChild('table') table!: BaseComponent;
-  @ViewChild('prompt') prompt!: PromptComponent;
+
   readonly loading$ = this.state.$.pipe(map((value) => !value));
   readonly data$ = this.state.select('items');
   readonly total$ = this.state.select('totalElements');
@@ -42,6 +42,7 @@ export class ListLeaveTypeComponent {
       ])
     );
   leaveTypes!: LeaveType[];
+
   private readonly queryParams$ = new BehaviorSubject(new HttpParams().set('page', 0).set('size', 10));
   private readonly request$ = this.queryParams$.pipe(
     switchMap(() => this.leaveTypeService.getLeaveTypes(this.queryParams$.value)),
@@ -53,7 +54,8 @@ export class ListLeaveTypeComponent {
     private formBuilder: FormBuilder,
     private state: RxState<Pagination<LeaveType>>,
     private destroy$: TuiDestroyService,
-    private translocoService: TranslocoService
+    private translocoService: TranslocoService,
+    private promptService: PromptService
   ) {
     state.connect(this.request$);
   }
@@ -77,7 +79,7 @@ export class ListLeaveTypeComponent {
   delete(id: string): void {
     // if (id) {
     //   from(
-    //     this.prompt.open({
+    //     this.promptService.open({
     //       icon: 'question',
     //       text: this.translocoService.translate('ADMIN_PROCESSES.MESSAGES.deleteProcess'),
     //       showCancelButton: true,

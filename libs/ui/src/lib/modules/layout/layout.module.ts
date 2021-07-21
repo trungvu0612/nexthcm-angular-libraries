@@ -13,6 +13,7 @@ import {
 } from '@taiga-ui/core';
 import { TuiAvatarModule, TuiTabsModule } from '@taiga-ui/kit';
 import { NgxPermissionsModule } from 'ngx-permissions';
+import { PromptComponentModule } from '../../components';
 import { SkipNavigationDirectiveModule } from '../../directives';
 import { sidebarIcons } from '../../shared/icons/sidebar';
 import { HeaderComponent } from './header/header.component';
@@ -36,6 +37,7 @@ import { SidebarComponent } from './sidebar/sidebar.component';
     TuiScrollbarModule,
     SkipNavigationDirectiveModule,
     NgxPermissionsModule,
+    PromptComponentModule,
   ],
   exports: [LayoutComponent],
 })

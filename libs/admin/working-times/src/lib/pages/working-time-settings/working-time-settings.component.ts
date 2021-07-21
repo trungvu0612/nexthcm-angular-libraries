@@ -1,13 +1,13 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { PromptComponent } from '@nexthcm/ui';
+import { PromptService } from '@nexthcm/ui';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDay, TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
 import { DefaultConfig } from 'ngx-easy-table';
 import { BehaviorSubject, combineLatest, of } from 'rxjs';
-import { catchError, debounceTime, filter, map, mapTo, startWith, switchMap, takeUntil } from 'rxjs/operators';
+import { catchError, debounceTime, filter, map, mapTo, switchMap, takeUntil } from 'rxjs/operators';
 import { SweetAlertOptions } from 'sweetalert2';
 import { WORKING_TIMES } from '../../models/working-times';
 import { WorkingTimesService } from '../../services/working-times.service';
@@ -20,7 +20,6 @@ import { WorkingTimesService } from '../../services/working-times.service';
   providers: [TuiDestroyService],
 })
 export class WorkingTimeSettingsComponent implements OnInit {
-  @ViewChild('prompt') prompt!: PromptComponent;
   page = 0;
   page$ = new BehaviorSubject<number>(1);
   size$ = 10;
@@ -350,7 +349,8 @@ export class WorkingTimeSettingsComponent implements OnInit {
     private router: Router,
     @Inject(TuiDialogService) private readonly dialogService: TuiDialogService,
     private destroy$: TuiDestroyService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private promptService: PromptService
   ) {}
 
   ngOnInit(): void {
@@ -373,7 +373,7 @@ export class WorkingTimeSettingsComponent implements OnInit {
         takeUntil(this.destroy$)
       )
       .subscribe((item) => {
-        console.log('item'+item);
+        console.log('item' + item);
         this.totalLength = item.totalElements;
         this.cdr.detectChanges();
       });
@@ -437,7 +437,7 @@ export class WorkingTimeSettingsComponent implements OnInit {
             showConfirmButton: false,
           } as SweetAlertOptions)
         ),
-        switchMap((options) => this.prompt.open(options)),
+        switchMap((options) => this.promptService.open(options)),
         filter((result) => result.isConfirmed),
         takeUntil(this.destroy$)
       )

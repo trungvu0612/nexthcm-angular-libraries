@@ -1,14 +1,14 @@
-import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { PromptComponent, UploadFileService } from '@nexthcm/ui';
+import { PromptService, UploadFileService } from '@nexthcm/ui';
 import { FormGroup } from '@ngneat/reactive-forms';
+import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
+import { RxwebValidators } from '@rxweb/reactive-form-validators';
 import { map, startWith, switchMap, tap } from 'rxjs/operators';
+import { SweetAlertOptions } from 'sweetalert2';
 import { Tenant } from '../../models/tenant';
 import { AdminTenantService } from '../../services/admin-tenant.service';
-import { SweetAlertOptions } from 'sweetalert2';
-import { TranslocoService } from '@ngneat/transloco';
-import { RxwebValidators } from '@rxweb/reactive-form-validators';
 
 @Component({
   selector: 'hcm-upsert-tenant',
@@ -17,7 +17,6 @@ import { RxwebValidators } from '@rxweb/reactive-form-validators';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UpsertTenantComponent implements OnInit {
-  @ViewChild('prompt') prompt!: PromptComponent;
   readonly form = new FormGroup<Partial<Tenant>>({});
   model: Partial<Tenant> = {};
   readonly fields: FormlyFieldConfig[] = [
@@ -269,7 +268,8 @@ export class UpsertTenantComponent implements OnInit {
     private readonly uploadFileService: UploadFileService,
     private readonly translocoService: TranslocoService,
     private readonly route: ActivatedRoute,
-    private readonly router: Router
+    private readonly router: Router,
+    private promptService: PromptService
   ) {}
 
   ngOnInit(): void {
@@ -279,7 +279,7 @@ export class UpsertTenantComponent implements OnInit {
   submitTenant() {
     if (this.form.valid) {
       this.adminTenantService[this.model.id ? 'editTenant' : 'createTenant'](this.model)
-        .pipe(switchMap(() => this.prompt.open({ icon: 'success' } as SweetAlertOptions)))
+        .pipe(switchMap(() => this.promptService.open({ icon: 'success' } as SweetAlertOptions)))
         .subscribe(() => this.router.navigateByUrl('/admin/tenant'));
     }
   }

@@ -337,5 +337,7 @@
   "jobTitleManagement": "Job Title Management",
   "entitlementManagement": "Entitlement Management",
   "leaveTypeManagement": "Leave Type Management",
-  "workingTimeManagement": "Working Time Management"
+  "workingTimeManagement": "Working Time Management",
+  "initEmployeeSuccessful": "Create new employee successfully!",
+  "deleteEmployee": "Are you sure you want to remove this employee?"
 }

@@ -12,6 +12,7 @@ import { SweetAlertOptions, SweetAlertResult } from 'sweetalert2';
 })
 export class PromptComponent {
   @ViewChild('swal') swal!: SwalComponent;
+
   swalOptions: SweetAlertOptions = {
     showCancelButton: false,
     showConfirmButton: true,

@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
-import { PromptComponent } from '@nexthcm/ui';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { PromptService } from '@nexthcm/ui';
 import { FormGroup } from '@ngneat/reactive-forms';
 import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
@@ -8,9 +8,9 @@ import { PolymorpheusContent } from '@tinkoff/ng-polymorpheus';
 import { DefaultConfig } from 'ngx-easy-table';
 import { from, iif, Subscriber } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
+import { SweetAlertOptions } from 'sweetalert2';
 import { OrganizationalLevel } from '../../models/tenant';
 import { AdminTenantService } from '../../services/admin-tenant.service';
-import { SweetAlertOptions } from 'sweetalert2';
 
 @Component({
   selector: 'hcm-organizational-structure',
@@ -19,7 +19,6 @@ import { SweetAlertOptions } from 'sweetalert2';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OrganizationalStructureComponent {
-  @ViewChild('prompt') prompt!: PromptComponent;
   readonly configuration = { ...DefaultConfig, orderEnabled: false, paginationEnabled: false, fixedColumnWidth: false };
   readonly columns$ = this.translocoService.selectTranslateObject('TENANT_TABLE').pipe(
     map((translate) => [
@@ -66,7 +65,8 @@ export class OrganizationalStructureComponent {
   constructor(
     private readonly adminTenantService: AdminTenantService,
     private readonly dialogService: TuiDialogService,
-    private readonly translocoService: TranslocoService
+    private readonly translocoService: TranslocoService,
+    private promptService: PromptService
   ) {}
 
   upsertLevel(content: PolymorpheusContent<TuiDialogContext>, level?: Partial<OrganizationalLevel>) {
@@ -78,16 +78,16 @@ export class OrganizationalStructureComponent {
     if (this.form.valid) {
       this.adminTenantService
         .upsertOrganizationalLevel(this.model, this.model.id ? 'put' : 'post')
-        .pipe(switchMap(() => this.prompt.open({ icon: 'success' } as SweetAlertOptions)))
+        .pipe(switchMap(() => this.promptService.open({ icon: 'success' } as SweetAlertOptions)))
         .subscribe(() => observer.complete());
     }
   }
 
   deleteLevel(id: string) {
-    from(this.prompt.open({ icon: 'warning', showCancelButton: true } as SweetAlertOptions))
+    from(this.promptService.open({ icon: 'warning', showCancelButton: true } as SweetAlertOptions))
       .pipe(
         switchMap((result) => iif(() => result.isConfirmed, this.adminTenantService.deleteOrganizationalLevel(id))),
-        switchMap(() => this.prompt.open({ icon: 'success' } as SweetAlertOptions))
+        switchMap(() => this.promptService.open({ icon: 'success' } as SweetAlertOptions))
       )
       .subscribe();
   }

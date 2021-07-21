@@ -2,7 +2,7 @@ import { HttpParams } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, Injector, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Pagination } from '@nexthcm/core';
-import { PromptComponent } from '@nexthcm/ui';
+import { PromptService } from '@nexthcm/ui';
 import { TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
 import { TuiDestroyService } from '@taiga-ui/cdk';
@@ -24,7 +24,6 @@ import { ProcessesService } from '../../services/processes.service';
 })
 export class ProcessManagementComponent {
   @ViewChild('table') table!: BaseComponent;
-  @ViewChild('prompt') prompt!: PromptComponent;
 
   configuration: Config = {
     ...DefaultConfig,
@@ -45,10 +44,11 @@ export class ProcessManagementComponent {
     );
   allSelected: boolean | null = false;
   readonly selected = new Set<string>();
-  private readonly queryParams$ = new BehaviorSubject(new HttpParams().set('page', '0').set('size', 10));
   readonly loading$ = this.state.$.pipe(map((value) => !value));
   readonly data$ = this.state.select('items');
   readonly total$ = this.state.select('totalElements');
+
+  private readonly queryParams$ = new BehaviorSubject(new HttpParams().set('page', '0').set('size', 10));
   private readonly request$ = this.queryParams$.pipe(
     switchMap(() => this.processesService.getProcesses(this.queryParams$.value)),
     map((res) => res.data)
@@ -62,7 +62,8 @@ export class ProcessManagementComponent {
     private processesService: ProcessesService,
     private destroy$: TuiDestroyService,
     private state: RxState<Pagination<Process>>,
-    private translocoService: TranslocoService
+    private translocoService: TranslocoService,
+    private promptService: PromptService
   ) {
     state.connect(this.request$);
   }
@@ -115,7 +116,7 @@ export class ProcessManagementComponent {
   onRemoveProcess(id?: string): void {
     if (id) {
       from(
-        this.prompt.open({
+        this.promptService.open({
           icon: 'question',
           text: this.translocoService.translate('ADMIN_PROCESSES.MESSAGES.deleteProcess'),
           showCancelButton: true,
@@ -126,7 +127,7 @@ export class ProcessManagementComponent {
           switchMap(() =>
             this.processesService.deleteProcess(id).pipe(tap(() => this.queryParams$.next(this.queryParams$.value)))
           ),
-          catchError((err) => this.prompt.open({ icon: 'error', text: err.error.message })),
+          catchError((err) => this.promptService.open({ icon: 'error', text: err.error.message })),
           takeUntil(this.destroy$)
         )
         .subscribe();

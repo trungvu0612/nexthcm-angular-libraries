@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { PromptComponent } from '@nexthcm/ui';
+import { PromptService } from '@nexthcm/ui';
 import { FormGroup } from '@ngneat/reactive-forms';
 import { switchMap } from 'rxjs/operators';
 import { SweetAlertOptions } from 'sweetalert2';
@@ -15,7 +15,6 @@ import { AdminPermissionsService } from '../../services/admin-permissions.servic
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CreatePermissionComponent {
-  @ViewChild('prompt') prompt!: PromptComponent;
   @ViewChild('permission') permission!: PermissionDetailComponent;
   stepper = 0;
   servicesForm = new FormGroup<Partial<Policy>>({});
@@ -23,7 +22,11 @@ export class CreatePermissionComponent {
   policyForm = new FormGroup<Partial<Policy>>({});
   policyModel = {} as Partial<Policy>;
 
-  constructor(private adminPermissions: AdminPermissionsService, private router: Router) {}
+  constructor(
+    private adminPermissions: AdminPermissionsService,
+    private router: Router,
+    private promptService: PromptService
+  ) {}
 
   nextStep() {
     this.permission.updateDataTable();
@@ -36,7 +39,9 @@ export class CreatePermissionComponent {
       this.adminPermissions
         .createPermission(this.policyModel)
         .pipe(
-          switchMap(() => this.prompt.open({ icon: 'success', text: 'Created successfully!' } as SweetAlertOptions))
+          switchMap(() =>
+            this.promptService.open({ icon: 'success', text: 'Created successfully!' } as SweetAlertOptions)
+          )
         )
         .subscribe(() => this.router.navigateByUrl('admin/permissions'));
     }

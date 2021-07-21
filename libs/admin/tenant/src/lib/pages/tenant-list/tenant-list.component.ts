@@ -1,13 +1,13 @@
-import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
-import { filterBySearch, PromptComponent } from '@nexthcm/ui';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { filterBySearch, PromptService } from '@nexthcm/ui';
 import { FormControl } from '@ngneat/reactive-forms';
+import { TranslocoService } from '@ngneat/transloco';
+import { DefaultConfig } from 'ngx-easy-table';
 import { BehaviorSubject, combineLatest, from, iif } from 'rxjs';
 import { map, startWith, switchMap } from 'rxjs/operators';
+import { SweetAlertOptions } from 'sweetalert2';
 import { Tenant } from '../../models/tenant';
 import { AdminTenantService } from '../../services/admin-tenant.service';
-import { DefaultConfig } from 'ngx-easy-table';
-import { TranslocoService } from '@ngneat/transloco';
-import { SweetAlertOptions } from 'sweetalert2';
 
 @Component({
   selector: 'hcm-tenant-list',
@@ -16,7 +16,6 @@ import { SweetAlertOptions } from 'sweetalert2';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TenantListComponent {
-  @ViewChild('prompt') prompt!: PromptComponent;
   readonly searchControl = new FormControl<string>();
   readonly columns = ['ordinalNumber', 'tenantCode', 'tenantName', 'status', 'action'];
   readonly configuration = { ...DefaultConfig, paginationEnabled: false, fixedColumnWidth: false };
@@ -52,14 +51,15 @@ export class TenantListComponent {
 
   constructor(
     private readonly adminTenantService: AdminTenantService,
-    private readonly translocoService: TranslocoService
+    private readonly translocoService: TranslocoService,
+    private promptService: PromptService
   ) {}
 
   deleteTenant(id: string) {
-    from(this.prompt.open({ icon: 'warning', showCancelButton: true } as SweetAlertOptions))
+    from(this.promptService.open({ icon: 'warning', showCancelButton: true } as SweetAlertOptions))
       .pipe(
         switchMap((result) => iif(() => result.isConfirmed, this.adminTenantService.deleteTenant(id))),
-        switchMap(() => this.prompt.open({ icon: 'success' } as SweetAlertOptions))
+        switchMap(() => this.promptService.open({ icon: 'success' } as SweetAlertOptions))
       )
       .subscribe(() => this.params$.next(this.params$.value));
   }

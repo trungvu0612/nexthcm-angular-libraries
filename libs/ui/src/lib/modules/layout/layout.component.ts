@@ -1,4 +1,6 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
+import { PromptComponent } from '../../components';
+import { PromptService } from '../../services';
 
 @Component({
   selector: 'hcm-layout',
@@ -6,4 +8,12 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   styleUrls: ['./layout.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LayoutComponent {}
+export class LayoutComponent implements OnInit {
+  @ViewChild('prompt', { static: true }) prompt!: PromptComponent;
+
+  constructor(private promptService: PromptService) {}
+
+  ngOnInit(): void {
+    this.promptService.registerComponent(this.prompt);
+  }
+}

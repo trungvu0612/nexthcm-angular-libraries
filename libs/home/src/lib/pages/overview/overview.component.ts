@@ -1,14 +1,14 @@
 import { DatePipe } from '@angular/common';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { PromptComponent } from '@nexthcm/ui';
+import { AuthService } from '@nexthcm/auth';
+import { PromptService } from '@nexthcm/ui';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
 import { of } from 'rxjs';
-import { catchError, filter, map, mapTo, startWith, switchMap, takeUntil } from 'rxjs/operators';
+import { catchError, filter, mapTo, switchMap, takeUntil } from 'rxjs/operators';
 import { SweetAlertOptions } from 'sweetalert2';
 import { OverviewService } from '../../services/overview.service';
-import { AuthService } from '@nexthcm/auth';
 
 @Component({
   selector: 'hcm-overview',
@@ -18,7 +18,6 @@ import { AuthService } from '@nexthcm/auth';
   providers: [DatePipe, TuiDestroyService],
 })
 export class OverviewComponent implements OnInit {
-  @ViewChild('prompt') prompt!: PromptComponent;
   myId = this.authService.get('userInfo').userId;
   fingerCheck = true;
   idChecking: any;
@@ -33,7 +32,8 @@ export class OverviewComponent implements OnInit {
     @Inject(TuiDialogService) private readonly dialogService: TuiDialogService,
     private destroy$: TuiDestroyService,
     private activatedRoute: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private promptService: PromptService
   ) {}
 
   ngOnInit(): void {
@@ -78,7 +78,7 @@ export class OverviewComponent implements OnInit {
               showConfirmButton: false,
             } as SweetAlertOptions)
           ),
-          switchMap((options) => this.prompt.open(options)),
+          switchMap((options) => this.promptService.open(options)),
           filter((result) => result.isConfirmed),
           takeUntil(this.destroy$)
         )
@@ -104,7 +104,7 @@ export class OverviewComponent implements OnInit {
               showConfirmButton: false,
             } as SweetAlertOptions)
           ),
-          switchMap((options) => this.prompt.open(options)),
+          switchMap((options) => this.promptService.open(options)),
           filter((result) => result.isConfirmed),
           takeUntil(this.destroy$)
         )

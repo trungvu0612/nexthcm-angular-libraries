@@ -339,5 +339,7 @@
   "jobTitleManagement": "Quản lý chức danh công việc",
   "entitlementManagement": "Quản lý quyền lợi",
   "leaveTypeManagement": "Quản lý phân loại nghỉ phép",
-  "workingTimeManagement": "Quản lý thời gian làm việc"
+  "workingTimeManagement": "Quản lý thời gian làm việc",
+  "initEmployeeSuccessful": "Tạo nhân viên mới thành công!",
+  "deleteEmployee": "Bạn thật sự muốn xoá nhân viên này?"
 }
