@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
+import { APP_INITIALIZER, ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
 import { SvgIconsModule } from '@ngneat/svg-icon';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { FORMLY_CONFIG, FormlyModule } from '@ngx-formly/core';
@@ -9,14 +9,21 @@ import { TUI_TABLE_PAGINATION_TEXTS } from '@taiga-ui/addon-table';
 import { iconsPathFactory, TUI_ICONS_PATH, TUI_SANITIZER, TUI_SPIN_TEXTS, TuiDialogModule } from '@taiga-ui/core';
 import { NgDompurifySanitizer } from '@tinkoff/ng-dompurify';
 import { NgxPermissionsModule } from 'ngx-permissions';
+import { Observable } from 'rxjs';
 import { APP_CONFIG } from './app-config.token';
 import { registerTranslateExtension } from './extensions/formly-register-translate-extension';
 import { GraphqlModule } from './graphql/graphql.module';
 import { apiPrefixInterceptorProvider } from './interceptors';
 import { AppConfig } from './models';
+import { PermissionsResponse } from './models/permission-response';
+import { PermissionsService } from './services/permissions.service';
 import { httpLoader } from './transloco/http-loader';
 import { translocoConfigProvider } from './transloco/transloco-config';
 import { translateSpinTexts, translateTuiTablePaginationTexts } from './utils/translate-tui-texts';
+
+export function initApp(permissionsService: PermissionsService): () => Observable<PermissionsResponse> {
+  return () => permissionsService.getPermissions();
+}
 
 @NgModule({
   imports: [
@@ -39,6 +46,12 @@ import { translateSpinTexts, translateTuiTablePaginationTexts } from './utils/tr
     { provide: FORMLY_CONFIG, multi: true, useFactory: registerTranslateExtension, deps: [TranslocoService] },
     { provide: TUI_TABLE_PAGINATION_TEXTS, useFactory: translateTuiTablePaginationTexts, deps: [TranslocoService] },
     { provide: TUI_SPIN_TEXTS, useFactory: translateSpinTexts, deps: [TranslocoService] },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initApp,
+      deps: [PermissionsService],
+      multi: true,
+    },
   ],
 })
 export class CoreModule {

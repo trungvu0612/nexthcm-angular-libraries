@@ -85,7 +85,7 @@ import { AppComponent } from './app.component';
           ],
         },
       ],
-      { initialNavigation: 'enabled' }
+      { initialNavigation: 'disabled' }
     ),
     environment.production ? [] : AkitaNgDevtools.forRoot(),
     BrowserAnimationsModule,

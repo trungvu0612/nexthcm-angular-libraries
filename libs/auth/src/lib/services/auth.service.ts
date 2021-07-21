@@ -2,13 +2,12 @@ import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { APP_CONFIG, AppConfig } from '@nexthcm/core';
+import { APP_CONFIG, AppConfig, PermissionsService } from '@nexthcm/core';
 import { RxState } from '@rx-angular/state';
 import { CookieService } from 'ngx-cookie';
 import { Observable, Subject } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
 import { AuthInfo, LoginPayload, UserInfo } from '../models';
-import { PermissionsService } from './permissions.service';
 
 function createState(token: string): UserInfo {
   const helper = new JwtHelperService();
@@ -41,14 +40,13 @@ export class AuthService extends RxState<AuthState> {
     super();
     this.set('userInfo', () => createState(cookieService.get('access_token')));
     this.connect('userInfo', this.loginHandler$, (state, authInfo) => createState(authInfo.access_token));
-    this.hold(this.newLogin$, () => this.permissionsService.getPermissions());
+    this.hold(this.newLogin$.pipe(switchMap(() => this.permissionsService.getPermissions())));
     this.newLogin$.next();
   }
 
   logout(): void {
     this.cookieService.removeAll();
     this.set({ userInfo: undefined });
-    this.permissionsService.flushRoles();
     this.permissionsService.flushPermissions();
     this.router.navigateByUrl('/auth');
   }
