@@ -14,8 +14,8 @@ import { tap } from 'rxjs/operators';
   styleUrls: ['./upsert-job-title.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class UpsertJobTitleComponent {
-  data$ = this.context.data.pipe(tap((value) => value && Object.assign(this.model, value))) || of(null);
+export class UpsertJobTitleComponent implements OnInit {
+  data$: any
   form = new FormGroup<JobTitle>({});
   model: JobTitle = { hasLevel: true, stateCov: true };
   fields: FormlyFieldConfig[] = [
@@ -128,6 +128,14 @@ export class UpsertJobTitleComponent {
     @Inject(POLYMORPHEUS_CONTEXT) public context: TuiDialogContext<JobTitle, Observable<JobTitle>>,
     private translocoService: TranslocoService
   ) {}
+
+  ngOnInit(): void {
+    if (this.context.data === null || this.context.data === undefined){
+      this.data$ = of(this.model = {})
+    } else {
+      this.data$ = this.context.data.pipe(tap((value) => value && Object.assign(this.model, value))) || of(null);
+    }
+  }
 
   submit() {
     if (this.model.stateCov) this.model.state = 1;
