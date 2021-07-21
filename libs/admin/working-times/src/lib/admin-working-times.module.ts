@@ -25,7 +25,7 @@ export const adminWorkingTimesRoutes: Routes = [
     path: '',
     component: LayoutComponent,
     canActivate: [NgxPermissionsGuard],
-    data: { permissions: { only: 'VIEW_WORKING_TIME', redirectTo: '/' } },
+    data: { permissions: { only: 'VIEW_ADMIN_CONFIG_TIME', redirectTo: '/' } },
     children: [{ path: '', component: WorkingTimeSettingsComponent }],
   },
 ];

@@ -112,6 +112,9 @@
   .close-finger {
     right: 20px;
     top: 0;
+    &:hover{
+      cursor: pointer;
+    }
   }
 
   .finger-section {

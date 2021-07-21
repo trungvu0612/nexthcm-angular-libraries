@@ -233,7 +233,7 @@
   },
   "WORKING_HOUR": {
     "addCalendar": "Add calendar",
-    "addOverTime": "Add Ovetime"
+    "addOverTime": "Add Working After Time "
   },
   "applyFor": "Apply for",
   "officeOnsite": "Office onsite",
