@@ -10,8 +10,8 @@ export interface Tenant {
   state: number;
   image: string;
   tax: string;
-  contacts: ContactDTO;
-  addresses: Address;
+  contacts: ContactDTO | ContactDTO[];
+  addresses: Address | Address[];
 }
 
 export interface Domain {

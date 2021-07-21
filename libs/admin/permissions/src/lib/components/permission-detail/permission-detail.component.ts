@@ -6,6 +6,11 @@ import { Columns, DefaultConfig } from 'ngx-easy-table';
 import { Permission, PermissionForm, Policy, PolicyItem, Resource } from '../../models/policy';
 import { AdminPermissionsService } from '../../services/admin-permissions.service';
 import { TranslocoService } from '@ngneat/transloco';
+import { catchError, filter, mapTo, switchMap } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { SweetAlertOptions } from 'sweetalert2';
+import { PromptService } from '@nexthcm/ui';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'hcm-permission-detail',
@@ -84,7 +89,9 @@ export class PermissionDetailComponent implements OnInit {
 
   constructor(
     private readonly adminPermissions: AdminPermissionsService,
-    private readonly translocoService: TranslocoService
+    private readonly promptService: PromptService,
+    private readonly translocoService: TranslocoService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -134,5 +141,27 @@ export class PermissionDetailComponent implements OnInit {
           }));
         return { service, permissions };
       }) || [];
+  }
+
+  submitPolicy(): void {
+    if (this.policyForm.valid) {
+      this.updatePolicyItems();
+      this.adminPermissions
+        .upsertPermission(this.policyModel)
+        .pipe(
+          mapTo({ icon: 'success', text: 'Successfully!' } as SweetAlertOptions),
+          catchError((error) =>
+            of({
+              icon: 'error',
+              text: error.error.message,
+              showCancelButton: true,
+              showConfirmButton: false,
+            } as SweetAlertOptions)
+          ),
+          switchMap((option) => this.promptService.open(option)),
+          filter((result) => result.isConfirmed)
+        )
+        .subscribe(() => this.router.navigateByUrl('admin/permissions'));
+    }
   }
 }

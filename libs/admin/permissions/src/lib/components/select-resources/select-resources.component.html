@@ -3,8 +3,8 @@
     <div class="flex justify-between mb-1">
       <p class="font-semibold">{{ state.action.name }}</p>
       <div>
-        <button (click)="update()" class="text-blue-700 font-normal mr-3">Select All</button>
-        <button (click)="update(false)" class="text-red-700 font-normal">Remove All</button>
+        <button (click)="update()" class="text-blue-700 font-normal mr-3" type="button">Select All</button>
+        <button (click)="update(false)" class="text-red-700 font-normal" type="button">Remove All</button>
       </div>
     </div>
     <tui-multi-select

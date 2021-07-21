@@ -8,10 +8,10 @@ import { Observable } from 'rxjs';
 export class UploadFileService {
   constructor(private http: HttpClient) {}
 
-  uploadFile(subPath: string, file: File, keepName = true): Observable<string> {
+  uploadFile(subPath: string, file: File, keepName = false): Observable<string> {
     const formData = new FormData();
-    formData.append('file', file);
     formData.append('subPath', subPath);
+    formData.append('file', file);
     formData.append('keepName', '' + keepName);
     return this.http.post('/fileapp/store/file/upload', formData, { responseType: 'text' });
   }

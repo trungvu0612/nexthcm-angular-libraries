@@ -3,7 +3,7 @@
     <h1>Create Permission</h1>
   </header>
   <section class="main-section">
-    <form (ngSubmit)="submitPolicy()" [formGroup]="$any(policyForm)">
+    <form (ngSubmit)="permission.submitPolicy()" [formGroup]="$any(policyForm)">
       <tui-stepper [(activeItemIndex)]="stepper" class="flex justify-center py-6 mb-8">
         <button state="pass" tuiStep type="button">Service & Resource</button>
         <button (click)="nextStep()" [disabled]="!servicesForm.valid" tuiStep type="button">Review Policy</button>

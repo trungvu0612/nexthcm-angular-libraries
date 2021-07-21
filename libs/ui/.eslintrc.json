@@ -21,7 +21,8 @@
             "prefix": ["hcm", "formly", "custom"],
             "style": "kebab-case"
           }
-        ]
+        ],
+        "@typescript-eslint/no-explicit-any": "off"
       }
     },
     {

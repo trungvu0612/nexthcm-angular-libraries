@@ -98,7 +98,7 @@
     "ordinalNumber": "STT",
     "name": "Tên",
     "companyCode": "Mã công ty",
-    "organizationalLevel": "Cấp độ tổ chức",
+    "organizationalLevel": "Cấp tổ chức",
     "parentLevel": "Cấp trên",
     "companyName": "Tên công ty",
     "status": "Trạng thái",
@@ -108,8 +108,8 @@
     "required": "Trường này không được để trống.",
     "differentSource": "Điểm đích và điểm nguồn không được giống nhau.",
     "differentTarget": "Điểm nguồn và điểm đích không được giống nhau.",
-    "email": "Địa chỉ email không hợp lệ",
-    "invalidPermissionName": "Dùng chữ cái, số, khoảng trống và '+=,.@-_'. Tối đa 128 ký tự."
+    "email": "Địa chỉ email không hợp lệ.",
+    "numeric": "Bạn phải nhập số vào ô này."
   },
   "ADMIN_PROCESSES": {
     "name": "Tên",

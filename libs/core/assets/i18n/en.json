@@ -107,8 +107,8 @@
     "required": "This field should not be blank.",
     "differentSource": "The target and the source should not be the same.",
     "differentTarget": "The source and the target should not be the same.",
-    "email": "This is an invalid email",
-    "invalidPermissionName": "Use alphanumeric, space and '+=,.@-_' characters. Maximum 128 characters."
+    "email": "This is an invalid email.",
+    "numeric": "You must enter a number in this cell."
   },
   "ADMIN_PROCESSES": {
     "name": "Name",
