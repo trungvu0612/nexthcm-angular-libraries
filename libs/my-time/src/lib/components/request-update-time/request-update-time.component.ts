@@ -1,15 +1,15 @@
-import { ChangeDetectionStrategy, Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '@nexthcm/auth';
 import { Zone } from '@nexthcm/core';
-import { PromptComponent } from '@nexthcm/ui';
+import { PromptService } from '@nexthcm/ui';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDay, TuiDestroyService, TuiTime } from '@taiga-ui/cdk';
 import { TuiDialogContext, TuiDialogService } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { of } from 'rxjs';
-import { catchError, filter, map, mapTo, startWith, switchMap, takeUntil } from 'rxjs/operators';
+import { catchError, filter, map, mapTo, switchMap, takeUntil } from 'rxjs/operators';
 import { SweetAlertOptions } from 'sweetalert2';
 import { WorkingHourService } from '../../services/working-hour.service';
 
@@ -20,7 +20,6 @@ import { WorkingHourService } from '../../services/working-hour.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RequestUpdateTimeComponent implements OnInit {
-  @ViewChild('prompt') prompt!: PromptComponent;
   id = this.context.data || '';
   dataUsersReport$ = this.workingHourService.getAllUsers().pipe(map((res) => res.data.items));
 
@@ -73,7 +72,7 @@ export class RequestUpdateTimeComponent implements OnInit {
         textfieldSize: 'm',
         expandable: false,
         rows: 4,
-        required: true
+        required: true,
       },
     },
   ];
@@ -82,6 +81,7 @@ export class RequestUpdateTimeComponent implements OnInit {
     @Inject(POLYMORPHEUS_CONTEXT)
     private context: TuiDialogContext<Partial<Zone> | null, Partial<Zone> | null>,
     private workingHourService: WorkingHourService,
+    private readonly promptService: PromptService,
     private router: Router,
     private authService: AuthService,
     @Inject(TuiDialogService) private readonly dialogService: TuiDialogService,
@@ -92,15 +92,16 @@ export class RequestUpdateTimeComponent implements OnInit {
   ngOnInit(): void {}
 
   submitRequestTime() {
-      const formModel = this.form.value;
-      formModel.timeSheetId = this.id;
-      formModel.createdDate = (formModel.createdDate as TuiDay).toLocalNativeDate().valueOf();
-      formModel.newInTime = (formModel?.newInTime as TuiTime).toAbsoluteMilliseconds().valueOf();
-      formModel.newOutTime = (formModel?.newOutTime as TuiTime).toAbsoluteMilliseconds().valueOf();
-      formModel.status = 0;
+    const formModel = this.form.value;
+    formModel.timeSheetId = this.id;
+    formModel.createdDate = (formModel.createdDate as TuiDay).toLocalNativeDate().valueOf();
+    formModel.newInTime = (formModel?.newInTime as TuiTime).toAbsoluteMilliseconds().valueOf();
+    formModel.newOutTime = (formModel?.newOutTime as TuiTime).toAbsoluteMilliseconds().valueOf();
+    formModel.status = 0;
 
     if (this.form.valid) {
-      this.workingHourService.submitRequestTime(formModel)
+      this.workingHourService
+        .submitRequestTime(formModel)
         .pipe(
           mapTo({ icon: 'success', text: 'Updating Successfully!' } as SweetAlertOptions),
           takeUntil(this.destroy$),
@@ -112,7 +113,7 @@ export class RequestUpdateTimeComponent implements OnInit {
               showConfirmButton: false,
             } as SweetAlertOptions)
           ),
-          switchMap((options) => this.prompt.open(options)),
+          switchMap((options) => this.promptService.open(options)),
           filter((result) => result.isConfirmed),
           takeUntil(this.destroy$)
         )

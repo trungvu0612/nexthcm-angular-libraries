@@ -14,14 +14,13 @@ export class SelectComponent extends FieldType {
       textfieldSize: 'l',
       textfieldLabelOutside: true,
       labelProp: 'label',
-      matcherBy: 'default',
     },
   };
 
-  readonly matcher: { [p: string]: TuiIdentityMatcher<unknown> } = {
-    default: TUI_DEFAULT_IDENTITY_MATCHER,
-    id: (i1: any, i2: any) => i1.id === i2.id,
-  };
+  get identityMatcher(): TuiIdentityMatcher<unknown> {
+    if (!this.to.matcherBy) return TUI_DEFAULT_IDENTITY_MATCHER;
+    return (i1: any, i2: any) => i1[this.to.matcherBy] === i2[this.to.matcherBy];
+  }
 
   @tuiPure
   stringify(items: ReadonlyArray<any>): TuiStringHandler<TuiContextWithImplicit<any>> {

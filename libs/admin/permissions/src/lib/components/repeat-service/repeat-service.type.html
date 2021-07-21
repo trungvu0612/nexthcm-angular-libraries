@@ -4,15 +4,13 @@
       (click)="toggleExpandable(index)"
       [disabled]="!formControl.at(index).valid"
       class="col-start-1 justify-self-start text-primary"
+      type="button"
     >
       <tui-svg [src]="expandedList[index] ? 'tuiIconCollapse' : 'tuiIconExpand'"></tui-svg>
       {{ expandedList[index] ? 'Collapse' : 'Expand' }}
     </button>
     <div class="col-start-2 justify-self-center font-semibold py-1">
-      <p
-        *ngIf="formControl.at(index).get('service')?.value?.name as name; else choose"
-        class="text-primary text-lg"
-      >
+      <p *ngIf="formControl.at(index).get('service')?.value?.name as name; else choose" class="text-primary text-lg">
         {{ name }}
       </p>
       <ng-template #choose><p class="text-gray-600">Choose a service</p></ng-template>

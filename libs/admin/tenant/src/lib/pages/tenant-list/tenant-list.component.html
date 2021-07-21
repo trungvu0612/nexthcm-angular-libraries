@@ -40,7 +40,13 @@
           ></tui-tag>
         </td>
         <td class="flex gap-2">
-          <button appearance="flat" icon="tuiIconShowLarge" routerLink="./information" size="m" tuiIconButton></button>
+          <button
+            [routerLink]="['.', row.id]"
+            appearance="flat"
+            icon="tuiIconShowLarge"
+            size="m"
+            tuiIconButton
+          ></button>
           <button
             (click)="deleteTenant(row.id)"
             appearance="flat"

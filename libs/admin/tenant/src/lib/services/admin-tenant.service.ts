@@ -7,7 +7,6 @@ import { map, tap } from 'rxjs/operators';
 import { Domain, OrganizationalLevel, OrganizationalUnit, OrganizationalUnitForm, Tenant } from '../models/tenant';
 
 interface State {
-  tenant: Partial<Tenant>;
   users: Partial<UserDto>[];
   levels: string[];
   structure: Partial<OrganizationalLevel>[];
@@ -22,12 +21,6 @@ export class AdminTenantService extends RxState<State> {
     this.connect('levels', this.getOrganizationalLevels());
     this.connect('structure', this.getOrganizationalStructure());
     this.connect('organization', this.getOrganization());
-    this.set({
-      tenant: {
-        tenantName: 'Ban Vien Corp',
-        image: 'd6e6eec4-bd8c-4a34-bf3f-f2d3a11716aa/banvien/banvien.png',
-      },
-    });
   }
 
   getUsers(): Observable<Partial<UserDto>[]> {
@@ -42,12 +35,14 @@ export class AdminTenantService extends RxState<State> {
       .pipe(map((response) => response.data));
   }
 
-  createTenant(body: Partial<Tenant>): Observable<unknown> {
-    return this.http.post('/accountapp/v1.0/tenants', body);
+  getTenant(id: string): Observable<Partial<Tenant>> {
+    return this.http
+      .get<BaseResponse<Partial<Tenant>>>('/accountapp/v1.0/tenants/' + id)
+      .pipe(map((response) => response.data));
   }
 
-  getTenant(id: string): Observable<Partial<Tenant>> {
-    return this.http.get<Partial<Tenant>>('/accountapp/v1.0/tenant/' + id);
+  createTenant(body: Partial<Tenant>): Observable<unknown> {
+    return this.http.post('/accountapp/v1.0/tenants', body);
   }
 
   editTenant(body: Partial<Tenant>): Observable<unknown> {

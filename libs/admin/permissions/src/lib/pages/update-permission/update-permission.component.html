@@ -3,7 +3,7 @@
     <h1>Update Permission</h1>
   </header>
   <section class="main-section">
-    <form (ngSubmit)="submitPolicy()" [formGroup]="$any(policyForm)">
+    <form (ngSubmit)="permission.submitPolicy()" [formGroup]="$any(policyForm)">
       <tui-stepper [(activeItemIndex)]="stepperIndex" class="flex justify-center py-6 mb-8">
         <button [disabled]="stepperIndex" state="pass" tuiStep type="button">Policy Detail</button>
         <button [state]="stepperIndex ? 'pass' : 'normal'" tuiStep type="button">Service & Resource</button>
