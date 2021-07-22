@@ -40,10 +40,10 @@ export const adminTenantRoutes: Routes = [
         canActivate: [NgxPermissionsGuard],
         data: { permissions: { only: 'UPDATE_TENANT', redirectTo: '/' } },
         children: [
+          { path: 'detail', component: UpsertTenantComponent },
           { path: 'domain', component: DomainListComponent },
           { path: 'organizational-structure', component: OrganizationalStructureComponent },
           { path: 'organizational-chart', component: OrganizationalChartComponent },
-          { path: ':id', component: UpsertTenantComponent },
         ],
       },
     ],

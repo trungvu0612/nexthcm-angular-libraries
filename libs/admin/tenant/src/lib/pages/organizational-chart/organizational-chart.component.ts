@@ -209,7 +209,11 @@ export class OrganizationalChartComponent implements AfterViewInit {
 
   upsertUnit(content: PolymorpheusContent<TuiDialogContext>, unit?: Partial<OrganizationalUnit>) {
     this.model = unit || {};
-    this.dialogService.open(content, { dismissible: false }).subscribe();
+    this.dialogService
+      .open(content, {
+        label: this.translocoService.translate(this.model.id ? 'editOrganizationalUnit' : 'addOrganizationalUnit'),
+      })
+      .subscribe();
   }
 
   submitUnit(observer: Subscriber<unknown>) {

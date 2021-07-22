@@ -41,6 +41,7 @@
   "pending": "Đang chờ xử lý",
   "completed": "Đã hoàn thành",
   "searchBy": "Tìm kiếm bằng {{value}}",
+  "search": "Tìm kiếm",
   "chooseAnImage": "Chọn hình ảnh",
   "orDropItHere": "hoặc kéo thả vào đây",
   "companyLogo": "Logo công ty",
@@ -82,6 +83,14 @@
   "enterWebsite": "Nhập website",
   "chooseUser": "Chọn người dùng",
   "viewMore": "Xem thêm",
+  "category": "Thể loại",
+  "addCategory": "Thêm thể loại",
+  "editCategory": "Sửa thể loại",
+  "KNOWLEDGE_BASE_TABLE": {
+    "creator": "Người tạo",
+    "category": "Thể loại",
+    "action": "Action"
+  },
   "ZONE_TABLE": {
     "name": "Tên",
     "office": "Văn phòng",

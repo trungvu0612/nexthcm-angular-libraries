@@ -1,11 +1,9 @@
 <ng-container *transloco="let t">
   <header class="flex justify-between">
-    <tui-tabs [activeItemIndex]="(index$ | async) || 0" class="flex items-center ml-6">
-      <ng-container *ngIf="tabs$ | async as headerTab">
-        <button *ngFor="let tab of headerTab.tabs; index as index" routerLink="{{ headerTab.root + tab.path }}" tuiTab>
-          {{ t(tab.tabName) }}
-        </button>
-      </ng-container>
+    <tui-tabs class="flex items-center ml-6">
+      <a *ngFor="let tab of tabs$ | async; index as index" [routerLink]="[tab.path]" routerLinkActive tuiTab>
+        {{ t(tab.tabName) }}
+      </a>
     </tui-tabs>
     <div class="flex items-center border-l h-full">
       <tui-hosted-dropdown [(open)]="open" [content]="langsDropdown" class="mx-6">

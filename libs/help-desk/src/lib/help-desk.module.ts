@@ -36,7 +36,6 @@ import {
 } from '@taiga-ui/kit';
 import { PolymorpheusModule } from '@tinkoff/ng-polymorpheus';
 import { NgxPermissionsGuard } from 'ngx-permissions';
-import { AddSeatDialogComponent } from './components/add-seat-dialog/add-seat-dialog.component';
 import { CreateCalendarComponent } from './components/create-calendar/create-calendar.component';
 import { FormlyRepeatEventCalendarComponent } from './components/formly-repeat-event-calendar/formly-repeat-event-calendar.component';
 import { RepeatCalendarCustomComponent } from './components/formly-repeat-event-calendar/repeat-calendar-custom/repeat-calendar-custom.component';
@@ -82,7 +81,6 @@ export const helpDeskRoutes: Routes = [
   declarations: [
     HelpDeskComponent,
     SeatMapComponent,
-    AddSeatDialogComponent,
     BvCalendarComponent,
     CreateCalendarComponent,
     SeatComponent,

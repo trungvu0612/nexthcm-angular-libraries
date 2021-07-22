@@ -1,11 +1,14 @@
-import { ChangeDetectionStrategy, Component, ElementRef, HostBinding, Injector, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, HostBinding, Input } from '@angular/core';
 import { Seat, UserDto } from '@nexthcm/core';
 import { RxState } from '@rx-angular/state';
-import { TuiDialogService } from '@taiga-ui/core';
-import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
-import { Subject } from 'rxjs';
+import { TuiDialogContext, TuiDialogService } from '@taiga-ui/core';
+import { PolymorpheusContent } from '@tinkoff/ng-polymorpheus';
+import { Observable, Subject, Subscriber } from 'rxjs';
 import { HelpDeskService } from '../../services/help-desk.service';
-import { AddSeatDialogComponent } from '../add-seat-dialog/add-seat-dialog.component';
+import { FormGroup } from '@ngneat/reactive-forms';
+import { FormlyFieldConfig } from '@ngx-formly/core';
+import { map } from 'rxjs/operators';
+import { filterBySearch } from '@nexthcm/ui';
 
 enum USER_STATE {
   'checked-in',
@@ -31,37 +34,44 @@ export class SeatComponent {
   random = Math.round(Math.random() * 6);
   openDropdown = false;
   dragging$ = this.state.select('dragging');
+  readonly form = new FormGroup({});
+  model: Partial<Seat> = {};
+  readonly fields: FormlyFieldConfig[] = [
+    {
+      key: 'assignedUser.id',
+      type: 'combo-box',
+      templateOptions: {
+        required: true,
+        translate: true,
+        label: 'chooseUser',
+        labelProp: 'username',
+        subLabelProp: 'code',
+        stringify: (item: UserDto) => item.username,
+        serverRequest: (search: string): Observable<Partial<UserDto>[]> =>
+          this.helpDeskService.select('users').pipe(map((users) => filterBySearch<UserDto>(users, search, 'username'))),
+      },
+    },
+  ];
 
   constructor(
-    private helpDeskService: HelpDeskService,
-    private dialogService: TuiDialogService,
-    private injector: Injector,
-    private state: RxState<{ dragging: boolean }>,
-    public elementRef: ElementRef
+    private readonly helpDeskService: HelpDeskService,
+    private readonly dialogService: TuiDialogService,
+    private readonly state: RxState<{ dragging: boolean }>,
+    public readonly elementRef: ElementRef
   ) {}
 
   @Input() set dragging(dragging$: Subject<boolean>) {
     this.state.connect('dragging', dragging$);
   }
 
-  @HostBinding('style.left') get left() {
-    return this.seat.positionX + '%';
-  }
-
-  @HostBinding('style.top') get top() {
-    return this.seat.positionY + '%';
-  }
-
-  @HostBinding('style.width') get width() {
-    return this.seat.width + '%';
-  }
-
-  @HostBinding('style.height') get height() {
-    return this.seat.height + '%';
-  }
-
-  @HostBinding('style.border-radius') get rounded() {
-    return this.seat.rounded + '%';
+  @HostBinding('style') get style() {
+    return {
+      left: this.seat.positionX + '%',
+      top: this.seat.positionY + '%',
+      width: this.seat.width + '%',
+      height: this.seat.height + '%',
+      'border-radius': this.seat.rounded + '%',
+    };
   }
 
   get status(): string {
@@ -77,33 +87,22 @@ export class SeatComponent {
           .replace(/^./, (m) => m.toUpperCase());
   }
 
-  onClick(type: string): void {
-    if (this.state.get('dragging')) {
-      this.state.set({ dragging: false });
-    } else if (type === 'add') this.addSeat();
+  addSeatOrDropdown(type: string, content?: PolymorpheusContent<TuiDialogContext>): void {
+    if (this.state.get('dragging')) this.state.set({ dragging: false });
+    else if (type === 'add' && content) this.dialogService.open(content).subscribe();
   }
 
-  addSeat(): void {
-    this.dialogService
-      .open<Partial<UserDto> | null>(new PolymorpheusComponent(AddSeatDialogComponent, this.injector), {
-        size: 's',
-        closeable: false,
-      })
-      .subscribe((user) => {
-        if (user?.id && this.seat.id) {
-          this.helpDeskService
-            .updateAssignedUser(this.seat.id, { assignedUser: { id: user.id } })
-            .subscribe(() => this.refresh$.next());
-        }
-      });
+  submitSeat(observer: Subscriber<unknown>) {
+    if (this.form.valid) {
+      observer.complete();
+      this.helpDeskService.assignedUser(this.seat.id || '', this.model).subscribe(() => this.refresh$.next());
+    }
   }
 
   deleteSeat(): void {
     this.openDropdown = false;
     if (this.seat.id) {
-      this.helpDeskService
-        .updateAssignedUser(this.seat.id, { assignedUser: null })
-        .subscribe(() => this.refresh$.next());
+      this.helpDeskService.assignedUser(this.seat.id, { assignedUser: null }).subscribe(() => this.refresh$.next());
     }
   }
 }

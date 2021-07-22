@@ -36,7 +36,7 @@ export class HelpDeskService extends RxState<HelpDesk> {
     return this.http.get<Partial<Zone>>('/mytimeapp/v1.0' + path);
   }
 
-  updateAssignedUser(seatId: string, body: Partial<Seat>): Observable<Partial<Seat>> {
+  assignedUser(seatId: string, body: Partial<Seat>): Observable<Partial<Seat>> {
     return this.http.put('/mytimeapp/v1.0/seats-map/assign-seat/' + seatId, body);
   }
 

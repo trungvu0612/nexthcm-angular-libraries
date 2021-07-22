@@ -40,6 +40,7 @@
   "pending": "Pending",
   "completed": "Completed",
   "searchBy": "Search by {{value}}",
+  "search": "Search",
   "chooseAnImage": "Choose an image",
   "orDropItHere": "or drop it here",
   "companyLogo": "Company logo",
@@ -81,6 +82,14 @@
   "enterWebsite": "Enter website",
   "chooseUser": "Choose User",
   "viewMore": "View More",
+  "category": "Category",
+  "addCategory": "Add category",
+  "editCategory": "Edit category",
+  "KNOWLEDGE_BASE_TABLE": {
+    "creator": "Creator",
+    "category": "Category",
+    "action": "Action"
+  },
   "ZONE_TABLE": {
     "name": "Name",
     "office": "Office",

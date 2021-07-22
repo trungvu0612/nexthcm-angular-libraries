@@ -1,73 +1,84 @@
-<tui-hosted-dropdown
-  (click)="onClick('dropdown')"
-  *ngIf="seat.assignedUser as user; else icon"
-  [(open)]="openDropdown"
-  [canOpen]="(dragging$ | async) !== true"
-  [class]="status"
-  [content]="content"
-  [tuiDropdownSided]="true"
-  class="border-2 bg-white"
->
-  <p class="flex justify-center items-center text-center text-xs font-semibold">
-    {{ user.username?.replace('.', ' ') | titlecase }}
-  </p>
-  <ng-template #content>
-    <article *transloco="let t" class="p-4">
-      <div class="flex items-center border-b border-gray-300 pb-3">
-        <tui-avatar
-          [avatarUrl]="user.profile?.image || '' | getFile | async"
-          [rounded]="true"
-          [text]="user.username || ''"
-          size="xl"
-        ></tui-avatar>
-        <div class="flex-auto font-semibold text-center px-4">
-          <h1 class="text-2xl mt-3 mb-2">{{ user.username }}</h1>
-          <p class="text-lg text-gray-400">{{ user.code }}</p>
+<ng-container *transloco="let t">
+  <tui-hosted-dropdown
+    (click)="addSeatOrDropdown('dropdown')"
+    *ngIf="seat.assignedUser as user; else icon"
+    [(open)]="openDropdown"
+    [canOpen]="(dragging$ | async) !== true"
+    [class]="status"
+    [content]="content"
+    [tuiDropdownSided]="true"
+    class="border-2 bg-white"
+  >
+    <p class="flex justify-center items-center text-center text-xs font-semibold">
+      {{ user.username?.replace('.', ' ') | titlecase }}
+    </p>
+    <ng-template #content>
+      <article class="p-4">
+        <div class="flex items-center border-b border-gray-300 pb-3">
+          <tui-avatar
+            [avatarUrl]="user.profile?.image || '' | getFile | async"
+            [rounded]="true"
+            [text]="user.username || ''"
+            size="xl"
+          ></tui-avatar>
+          <div class="flex-auto font-semibold text-center px-4">
+            <h1 class="text-2xl mt-3 mb-2">{{ user.username }}</h1>
+            <p class="text-lg text-gray-400">{{ user.code }}</p>
+          </div>
         </div>
-      </div>
-      <table class="detail-table mt-2">
-        <tr>
-          <th>Status:</th>
-          <td>
-            <span [class]="status" class="border-2 rounded-xl px-2 py-1">{{ convertedStatus }}</span>
-          </td>
-        </tr>
-        <tr *ngIf="user.profile?.birthDay">
-          <th>Birth Day:</th>
-          <td>{{ user.profile?.birthDay | date: 'dd/MM/yyyy' }}</td>
-        </tr>
-        <tr *ngIf="user.contact?.phone">
-          <th>Phone:</th>
-          <td>{{ user.contact?.phone }}</td>
-        </tr>
-        <tr *ngIf="user.contact?.email">
-          <th>Email:</th>
-          <td>{{ user.contact?.email }}</td>
-        </tr>
-        <tr *ngIf="user.contact?.skype">
-          <th>Skype:</th>
-          <td>{{ user.contact?.skype }}</td>
-        </tr>
-        <tr *ngIf="user.contact?.facebook">
-          <th>Facebook:</th>
-          <td>{{ user.contact?.facebook }}</td>
-        </tr>
-        <tr *ngIf="user.contact?.instagram">
-          <th>Instagram:</th>
-          <td>{{ user.contact?.instagram }}</td>
-        </tr>
-      </table>
-      <div class="flex justify-evenly mt-3">
-        <button (click)="deleteSeat()" *ngIf="isAdmin" appearance="outline" size="m" tuiButton>
-          {{ t('delete') }}
-        </button>
-        <button [routerLink]="['/human-resource/employees', user.id]" size="m" tuiButton>
-          {{ t('detail') }}
-        </button>
-      </div>
-    </article>
+        <table class="detail-table mt-2">
+          <tr>
+            <th>Status:</th>
+            <td>
+              <span [class]="status" class="border-2 rounded-xl px-2 py-1">{{ convertedStatus }}</span>
+            </td>
+          </tr>
+          <tr *ngIf="user.profile?.birthDay">
+            <th>Birth Day:</th>
+            <td>{{ user.profile?.birthDay | date: 'dd/MM/yyyy' }}</td>
+          </tr>
+          <tr *ngIf="user.contact?.phone">
+            <th>Phone:</th>
+            <td>{{ user.contact?.phone }}</td>
+          </tr>
+          <tr *ngIf="user.contact?.email">
+            <th>Email:</th>
+            <td>{{ user.contact?.email }}</td>
+          </tr>
+          <tr *ngIf="user.contact?.skype">
+            <th>Skype:</th>
+            <td>{{ user.contact?.skype }}</td>
+          </tr>
+          <tr *ngIf="user.contact?.facebook">
+            <th>Facebook:</th>
+            <td>{{ user.contact?.facebook }}</td>
+          </tr>
+          <tr *ngIf="user.contact?.instagram">
+            <th>Instagram:</th>
+            <td>{{ user.contact?.instagram }}</td>
+          </tr>
+        </table>
+        <div class="flex justify-evenly mt-3">
+          <button (click)="deleteSeat()" *ngIf="isAdmin" appearance="outline" size="m" tuiButton>
+            {{ t('delete') }}
+          </button>
+          <button [routerLink]="['/human-resource/employees', user.id]" size="m" tuiButton>
+            {{ t('detail') }}
+          </button>
+        </div>
+      </article>
+    </ng-template>
+  </tui-hosted-dropdown>
+  <ng-template #icon>
+    <img (click)="addSeatOrDropdown('add', content)" class="object-contain w-full" src="assets/icons/marker.svg" />
   </ng-template>
-</tui-hosted-dropdown>
-<ng-template #icon>
-  <img (click)="onClick('add')" class="object-contain w-full" src="assets/icons/marker.svg" />
-</ng-template>
+  <ng-template #content let-observer>
+    <form (ngSubmit)="submitSeat(observer)" [formGroup]="form">
+      <formly-form [fields]="fields" [form]="form" [model]="model"></formly-form>
+      <div class="flex justify-center gap-6 mt-8">
+        <button (click)="observer.complete()" appearance="flat" tuiButton type="button">{{ t('cancel') }}</button>
+        <button tuiButton>{{ t('save') }}</button>
+      </div>
+    </form>
+  </ng-template>
+</ng-container>

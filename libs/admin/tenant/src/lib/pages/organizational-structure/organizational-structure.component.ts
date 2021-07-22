@@ -69,7 +69,11 @@ export class OrganizationalStructureComponent {
 
   upsertLevel(content: PolymorpheusContent<TuiDialogContext>, level?: Partial<OrganizationalLevel>) {
     this.model = level || {};
-    this.dialogService.open(content, { dismissible: false }).subscribe();
+    this.dialogService
+      .open(content, {
+        label: this.translocoService.translate(this.model.id ? 'editOrganizationalLevel' : 'addOrganizationalLevel'),
+      })
+      .subscribe();
   }
 
   submitLevel(observer: Subscriber<unknown>) {
