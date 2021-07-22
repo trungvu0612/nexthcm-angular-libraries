@@ -4,7 +4,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Dimension, Seat, Zone } from '@nexthcm/core';
 import { filterBySearch, PromptService, UploadFileService } from '@nexthcm/ui';
 import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
-import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { iif, Observable, of } from 'rxjs';
@@ -70,7 +69,6 @@ export class UpsertSeatMapComponent implements AfterViewInit {
             serverRequest: (search: string): Observable<Partial<Zone>[]> =>
               this.offices$.pipe(map((items) => filterBySearch<Zone>(items, search))),
           },
-          validation: { messages: { required: () => this.translocoService.selectTranslate('VALIDATION.required') } },
         },
         {
           key: 'name',
@@ -83,7 +81,6 @@ export class UpsertSeatMapComponent implements AfterViewInit {
             textfieldSize: 'm',
             textfieldLabelOutside: true,
           },
-          validation: { messages: { required: () => this.translocoService.selectTranslate('VALIDATION.required') } },
         },
         {
           key: 'seats',
@@ -127,7 +124,6 @@ export class UpsertSeatMapComponent implements AfterViewInit {
         accept: 'image/*',
         serverRequest: (file: File) => this.uploadFileService.uploadFile('admin-tenant/domain', file),
       },
-      validation: { messages: { required: () => this.translocoService.selectTranslate('VALIDATION.required') } },
     },
   ];
 
@@ -154,7 +150,6 @@ export class UpsertSeatMapComponent implements AfterViewInit {
   constructor(
     private readonly adminSeatMapsService: AdminSeatMapsService,
     private readonly uploadFileService: UploadFileService,
-    private readonly translocoService: TranslocoService,
     private readonly router: Router,
     private readonly destroy$: TuiDestroyService,
     private promptService: PromptService,

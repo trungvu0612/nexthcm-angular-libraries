@@ -7,8 +7,8 @@ import { HeaderService } from '@nexthcm/ui';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HumanResourceComponent {
-  constructor(private headerService: HeaderService) {
-    this.headerService.set({
+  constructor(headerService: HeaderService) {
+    headerService.set({
       root: '/human-resource',
       tabs: [
         { path: '/organization-chart', tabName: 'organizationChart' },

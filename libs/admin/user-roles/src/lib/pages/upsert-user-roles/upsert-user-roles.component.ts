@@ -8,7 +8,6 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AdminUserRole } from '../../models/admin-user-role';
 import { AdminUserRolesService } from '../../services/admin-user-roles.service';
-import { TranslocoService } from '@ngneat/transloco';
 
 @Component({
   selector: 'hcm-upsert-user-roles',
@@ -44,7 +43,6 @@ export class UpsertUserRolesComponent implements OnInit {
         label: 'name',
         textfieldLabelOutside: true,
       },
-      validation: { messages: { required: () => this.translocoService.selectTranslate('VALIDATION.required') } },
     },
     {
       className: 'my-8',
@@ -56,7 +54,6 @@ export class UpsertUserRolesComponent implements OnInit {
         label: 'Description',
         textfieldLabelOutside: true,
       },
-      validation: { messages: { required: () => this.translocoService.selectTranslate('VALIDATION.required') } },
     },
     {
       className: 'my-8',
@@ -75,8 +72,7 @@ export class UpsertUserRolesComponent implements OnInit {
   constructor(
     @Inject(POLYMORPHEUS_CONTEXT) public context: TuiDialogContext<unknown, AdminUserRole>,
     private adminPermissionsService: AdminPermissionsService,
-    private adminUserRolesService: AdminUserRolesService,
-    private readonly translocoService: TranslocoService
+    private adminUserRolesService: AdminUserRolesService
   ) {}
 
   ngOnInit(): void {

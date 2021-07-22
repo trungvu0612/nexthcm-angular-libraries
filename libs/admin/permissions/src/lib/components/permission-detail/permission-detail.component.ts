@@ -5,7 +5,6 @@ import { FormlyFieldConfig } from '@ngx-formly/core';
 import { Columns, DefaultConfig } from 'ngx-easy-table';
 import { Permission, PermissionForm, Policy, PolicyItem, Resource } from '../../models/policy';
 import { AdminPermissionsService } from '../../services/admin-permissions.service';
-import { TranslocoService } from '@ngneat/transloco';
 import { catchError, filter, mapTo, switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { SweetAlertOptions } from 'sweetalert2';
@@ -38,7 +37,6 @@ export class PermissionDetailComponent implements OnInit {
               options: this.service$,
               required: true,
             },
-            validation: { messages: { required: () => this.translocoService.selectTranslate('VALIDATION.required') } },
           },
           {
             type: 'input-actions',
@@ -65,7 +63,6 @@ export class PermissionDetailComponent implements OnInit {
         textfieldLabelOutside: true,
         textfieldSize: 'm',
       },
-      validation: { messages: { required: () => this.translocoService.selectTranslate('VALIDATION.required') } },
     },
     {
       type: 'text-area',
@@ -90,7 +87,6 @@ export class PermissionDetailComponent implements OnInit {
   constructor(
     private readonly adminPermissions: AdminPermissionsService,
     private readonly promptService: PromptService,
-    private readonly translocoService: TranslocoService,
     private router: Router
   ) {}
 

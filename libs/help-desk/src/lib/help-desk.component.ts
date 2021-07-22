@@ -7,8 +7,8 @@ import { HeaderService } from '@nexthcm/ui';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HelpDeskComponent {
-  constructor(private headerService: HeaderService) {
-    this.headerService.set({
+  constructor(headerService: HeaderService) {
+    headerService.set({
       root: '/help-desk',
       tabs: [
         { path: '/seat-map', tabName: 'seatMap' },

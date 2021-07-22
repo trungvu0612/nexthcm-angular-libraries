@@ -95,7 +95,6 @@ export class OrganizationalChartComponent implements AfterViewInit {
         placeholder: 'enterName',
         textfieldLabelOutside: true,
       },
-      validation: { messages: { required: () => this.translocoService.selectTranslate('VALIDATION.required') } },
     },
     {
       key: 'orgType',
@@ -107,7 +106,6 @@ export class OrganizationalChartComponent implements AfterViewInit {
         placeholder: 'chooseOrganizationalLevel',
         options: this.adminTenantService.select('levels'),
       },
-      validation: { messages: { required: () => this.translocoService.selectTranslate('VALIDATION.required') } },
     },
     {
       key: 'ancestor',
@@ -121,7 +119,6 @@ export class OrganizationalChartComponent implements AfterViewInit {
         subLabelProp: 'orgType',
         matcherBy: 'id',
       },
-      validation: { messages: { required: () => this.translocoService.selectTranslate('VALIDATION.required') } },
       expressionProperties: { 'templateOptions.disabled': '!model.orgType' },
       hooks: {
         onInit: (field?: FormlyFieldConfig) => {

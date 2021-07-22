@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
-import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
@@ -27,7 +26,6 @@ export class CreateProcessDialogComponent {
         label: 'ADMIN_PROCESSES.name',
         textfieldLabelOutside: true,
       },
-      validation: { messages: { required: () => this.translocoService.selectTranslate('VALIDATION.required') } },
     },
     {
       className: 'tui-form__row block',
@@ -49,7 +47,6 @@ export class CreateProcessDialogComponent {
         label: 'ADMIN_PROCESSES.initStatus',
         textfieldLabelOutside: true,
       },
-      validation: { messages: { required: () => this.translocoService.selectTranslate('VALIDATION.required') } },
     },
     {
       className: 'tui-form__row block',
@@ -73,7 +70,6 @@ export class CreateProcessDialogComponent {
         labelProp: 'name',
         matcherBy: 'id',
       },
-      validation: { messages: { required: () => this.translocoService.selectTranslate('VALIDATION.required') } },
     },
   ];
   model = {} as ProcessInit;
@@ -81,8 +77,7 @@ export class CreateProcessDialogComponent {
   constructor(
     private fb: FormBuilder,
     @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<unknown, ProcessInit>,
-    private processesService: ProcessesService,
-    private translocoService: TranslocoService
+    private processesService: ProcessesService
   ) {}
 
   onCancel(): void {

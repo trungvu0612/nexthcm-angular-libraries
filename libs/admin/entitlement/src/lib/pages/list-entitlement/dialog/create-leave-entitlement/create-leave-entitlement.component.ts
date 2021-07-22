@@ -1,6 +1,5 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormGroup } from '@ngneat/reactive-forms';
-import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { of } from 'rxjs';
 
@@ -10,7 +9,7 @@ import { of } from 'rxjs';
   styleUrls: ['./create-leave-entitlement.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CreateLeaveEntitlementComponent implements OnInit {
+export class CreateLeaveEntitlementComponent {
   form = new FormGroup({});
   model: any = {};
   options: FormlyFormOptions = {};
@@ -22,7 +21,7 @@ export class CreateLeaveEntitlementComponent implements OnInit {
         {
           className: 'flex items-center ',
           template: `
-        <p class='font-bold'>Add to multiple employees</p>
+        <p class="font-bold">Add to multiple employees</p>
         `,
         },
         {
@@ -44,9 +43,9 @@ export class CreateLeaveEntitlementComponent implements OnInit {
         {
           className: 'flex items-center ',
           template: `
-        <div class='flex flex-row'>
-          <div class='font-bold'>Employee</div>
-          <div class='font-bold text-red-500'>*</div>
+        <div class="flex flex-row">
+          <div class="font-bold">Employee</div>
+          <div class="font-bold text-red-500">*</div>
         </div>
         `,
         },
@@ -70,7 +69,7 @@ export class CreateLeaveEntitlementComponent implements OnInit {
         {
           className: 'flex items-center ',
           template: `
-        <p class='font-bold'>Branch</p>
+        <p class="font-bold">Branch</p>
         `,
         },
         {
@@ -93,7 +92,7 @@ export class CreateLeaveEntitlementComponent implements OnInit {
         {
           className: 'flex items-center ',
           template: `
-        <p class='font-bold'>Sub Unit</p>
+        <p class="font-bold">Sub Unit</p>
         `,
         },
         {
@@ -116,7 +115,7 @@ export class CreateLeaveEntitlementComponent implements OnInit {
         {
           className: 'flex items-center ',
           template: `
-        <p class='font-bold'>Job title</p>
+        <p class="font-bold">Job title</p>
         `,
         },
         {
@@ -139,7 +138,7 @@ export class CreateLeaveEntitlementComponent implements OnInit {
         {
           className: 'flex items-center ',
           template: `
-        <p class='font-bold'>Leave type</p>
+        <p class="font-bold">Leave type</p>
         `,
         },
         {
@@ -162,7 +161,7 @@ export class CreateLeaveEntitlementComponent implements OnInit {
         {
           className: 'flex items-center ',
           template: `
-        <p class='font-bold'>Leave period</p>
+        <p class="font-bold">Leave period</p>
         `,
         },
         {
@@ -185,7 +184,7 @@ export class CreateLeaveEntitlementComponent implements OnInit {
         {
           className: 'flex items-center ',
           template: `
-        <p class='font-bold'>Entitlement</p>
+        <p class="font-bold">Entitlement</p>
         `,
         },
         {
@@ -196,19 +195,10 @@ export class CreateLeaveEntitlementComponent implements OnInit {
             translate: true,
             required: true,
           },
-          validation: {
-            messages: {
-              required: () => this.translocoService.selectTranslate('VALIDATION.required'),
-            },
-          },
         },
       ],
     },
   ];
-
-  constructor(private translocoService: TranslocoService) {}
-
-  ngOnInit(): void {}
 
   submit() {}
 

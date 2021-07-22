@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@
 import { ActivatedRoute, Router } from '@angular/router';
 import { UploadFileService } from '@nexthcm/ui';
 import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
-import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { AdminKnowledgeBaseService } from '../../admin-knowledge-base.service';
@@ -30,11 +29,6 @@ export class UpsertPolicyComponent implements OnInit {
             required: true,
             translate: true,
             label: 'ADMIN_POLICIES.POLICIES_MANAGEMENT_COLUMNS.topic',
-          },
-          validation: {
-            messages: {
-              required: () => this.translocoService.selectTranslate('VALIDATION.required'),
-            },
           },
         },
       ],
@@ -106,7 +100,6 @@ export class UpsertPolicyComponent implements OnInit {
     private router: Router,
     private uploadFileService: UploadFileService,
     private cdr: ChangeDetectorRef,
-    private translocoService: TranslocoService,
     private destroy$: TuiDestroyService,
     private policiesService: AdminKnowledgeBaseService
   ) {

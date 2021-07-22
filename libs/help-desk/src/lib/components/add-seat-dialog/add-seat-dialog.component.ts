@@ -8,7 +8,6 @@ import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { HelpDeskService } from '../../services/help-desk.service';
-import { TranslocoService } from '@ngneat/transloco';
 
 @Component({
   selector: 'hcm-add-seat-dialog',
@@ -33,14 +32,12 @@ export class AddSeatDialogComponent {
         serverRequest: (search: string): Observable<Partial<UserDto>[]> =>
           this.helpDeskService.select('users').pipe(map((users) => filterBySearch<UserDto>(users, search, 'username'))),
       },
-      validation: { messages: { required: () => this.translocoService.selectTranslate('VALIDATION.required') } },
     },
   ];
 
   constructor(
     @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<Partial<UserDto> | null>,
-    private readonly helpDeskService: HelpDeskService,
-    private readonly translocoService: TranslocoService
+    private readonly helpDeskService: HelpDeskService
   ) {}
 
   cancel(): void {

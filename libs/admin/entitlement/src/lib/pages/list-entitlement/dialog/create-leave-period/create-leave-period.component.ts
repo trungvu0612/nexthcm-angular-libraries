@@ -1,6 +1,5 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormGroup } from '@ngneat/reactive-forms';
-import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 
 @Component({
@@ -9,7 +8,7 @@ import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
   styleUrls: ['./create-leave-period.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CreateLeavePeriodComponent implements OnInit {
+export class CreateLeavePeriodComponent {
   form = new FormGroup({});
   model: any = {};
   options: FormlyFormOptions = {};
@@ -27,11 +26,6 @@ export class CreateLeavePeriodComponent implements OnInit {
             required: true,
             textfieldLabelOutside: true,
           },
-          validation: {
-            messages: {
-              required: () => this.translocoService.selectTranslate('VALIDATION.required'),
-            },
-          },
         },
         {
           key: 'name1',
@@ -42,19 +36,10 @@ export class CreateLeavePeriodComponent implements OnInit {
             required: true,
             textfieldLabelOutside: true,
           },
-          validation: {
-            messages: {
-              required: () => this.translocoService.selectTranslate('VALIDATION.required'),
-            },
-          },
         },
       ],
     },
   ];
-
-  constructor(private translocoService: TranslocoService) {}
-
-  ngOnInit(): void {}
 
   submit() {}
 

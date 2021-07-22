@@ -62,11 +62,6 @@ export class UpsertProcessComponent implements AfterViewInit {
       expressionProperties: {
         'templateOptions.iconTitle': this.translocoService.selectTranslate('ADMIN_PROCESSES.editName'),
       },
-      validation: {
-        messages: {
-          required: () => this.translocoService.selectTranslate('VALIDATION.required'),
-        },
-      },
     },
     {
       className: 'mt-5 block',

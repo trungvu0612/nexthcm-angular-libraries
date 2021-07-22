@@ -4,7 +4,6 @@ import { Zone } from '@nexthcm/core';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
-import { TranslocoService } from '@ngneat/transloco';
 
 @Component({
   selector: 'hcm-office-detail',
@@ -25,7 +24,6 @@ export class OfficeDetailDialogComponent {
         required: true,
         textfieldLabelOutside: true,
       },
-      validation: { messages: { required: () => this.translocoService.selectTranslate('VALIDATION.required') } },
     },
     {
       key: 'address',
@@ -38,7 +36,6 @@ export class OfficeDetailDialogComponent {
         expandable: true,
         rows: 15,
       },
-      validation: { messages: { required: () => this.translocoService.selectTranslate('VALIDATION.required') } },
     },
     {
       key: 'description',
@@ -55,8 +52,7 @@ export class OfficeDetailDialogComponent {
 
   constructor(
     @Inject(POLYMORPHEUS_CONTEXT)
-    private readonly context: TuiDialogContext<Partial<Zone> | null, Partial<Zone> | null>,
-    private readonly translocoService: TranslocoService
+    private readonly context: TuiDialogContext<Partial<Zone> | null, Partial<Zone> | null>
   ) {}
 
   cancel(): void {
