@@ -41,7 +41,6 @@ export class AuthService extends RxState<AuthState> {
     this.set('userInfo', () => createState(cookieService.get('access_token')));
     this.connect('userInfo', this.loginHandler$, (state, authInfo) => createState(authInfo.access_token));
     this.hold(this.newLogin$.pipe(switchMap(() => this.permissionsService.getPermissions())));
-    this.newLogin$.next();
   }
 
   logout(): void {

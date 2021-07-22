@@ -6,7 +6,7 @@ const translocoConfigFactory = (injector: Injector) => {
   const appConfig = injector.get(APP_CONFIG);
   return translocoConfig({
     availableLangs: ['en', 'vi'],
-    defaultLang: appConfig.language,
+    defaultLang: localStorage.getItem('lang') || appConfig.language,
     fallbackLang: appConfig.language,
     prodMode: appConfig.production,
     reRenderOnLangChange: true,

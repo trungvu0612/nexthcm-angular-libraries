@@ -46,7 +46,9 @@ export class HeaderComponent {
   }
 
   changeLang(lang: string) {
+    const activeLang = Object.keys(LANGS).find((key) => LANGS[key] == lang) as string;
     this.open = false;
-    this.translocoService.setActiveLang(Object.keys(LANGS).find((key) => LANGS[key] == lang) as string);
+    this.translocoService.setActiveLang(activeLang);
+    localStorage.setItem('lang', activeLang);
   }
 }
