@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { OfficeDetailDialogComponent } from './office-detail-dialog.component';
+import { KnowledgeBaseComponent } from './knowledge-base.component';
 
-describe('AddOfficeComponent', () => {
-  let component: OfficeDetailDialogComponent;
-  let fixture: ComponentFixture<OfficeDetailDialogComponent>;
+describe('PolicyComponent', () => {
+  let component: KnowledgeBaseComponent;
+  let fixture: ComponentFixture<KnowledgeBaseComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [OfficeDetailDialogComponent],
+      declarations: [KnowledgeBaseComponent],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(OfficeDetailDialogComponent);
+    fixture = TestBed.createComponent(KnowledgeBaseComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -4,6 +4,7 @@ import { FieldType, FormlyFieldConfig } from '@ngx-formly/core';
 @Component({
   selector: 'formly-toggle',
   templateUrl: './toggle.component.html',
+  styleUrls: ['./toggle.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ToggleComponent extends FieldType {
@@ -11,7 +12,6 @@ export class ToggleComponent extends FieldType {
     templateOptions: {
       size: 'l',
       showIcons: true,
-      singleColor: false,
     },
   };
 }

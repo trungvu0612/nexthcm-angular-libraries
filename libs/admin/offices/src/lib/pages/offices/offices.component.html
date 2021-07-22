@@ -1,7 +1,7 @@
 <main *transloco="let t" class="main-page">
   <header>
     <h1>{{ t('officeList') }}</h1>
-    <button (click)="upsertOffice()" tuiButton>
+    <button (click)="upsertOffice(content)" tuiButton>
       {{ t('createOffice') }}
     </button>
   </header>
@@ -12,7 +12,13 @@
         <td>{{ row.address }}</td>
         <td>{{ row.description }}</td>
         <td class="flex gap-2">
-          <button (click)="upsertOffice(row)" appearance="flat" icon="tuiIconEditLarge" size="m" tuiIconButton></button>
+          <button
+            (click)="upsertOffice(content, row)"
+            appearance="flat"
+            icon="tuiIconEditLarge"
+            size="m"
+            tuiIconButton
+          ></button>
           <button
             (click)="deleteOffice(row.id)"
             appearance="flat"
@@ -29,4 +35,13 @@
       [total]="data?.totalElements || 0"
     ></tui-table-pagination>
   </section>
+  <ng-template #content let-observer>
+    <form (ngSubmit)="submitOffice(observer)" [formGroup]="form">
+      <formly-form [fields]="fields" [form]="form" [model]="model" class="formly-gap"></formly-form>
+      <div class="flex justify-center gap-6 mt-8">
+        <button (click)="observer.complete()" appearance="flat" tuiButton type="button">{{ t('cancel') }}</button>
+        <button tuiButton>{{ t('save') }}</button>
+      </div>
+    </form>
+  </ng-template>
 </main>

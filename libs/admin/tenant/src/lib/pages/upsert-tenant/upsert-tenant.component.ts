@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { HeaderService, PromptService, UploadFileService } from '@nexthcm/ui';
+import { PromptService, UploadFileService } from '@nexthcm/ui';
 import { FormGroup } from '@ngneat/reactive-forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { catchError, filter, map, mapTo, startWith, switchMap, tap } from 'rxjs/operators';
@@ -241,8 +241,8 @@ export class UpsertTenantComponent {
     },
   ];
   readonly sign$ = iif(
-    () => !!this.route.snapshot.params.id,
-    this.adminTenantService.getTenant(this.route.snapshot.params.id).pipe(tap((tenant) => (this.model = tenant))),
+    () => !!this.route.snapshot.queryParams.id,
+    this.adminTenantService.getTenant(this.route.snapshot.queryParams.id).pipe(tap((tenant) => (this.model = tenant))),
     of(true)
   );
 
@@ -251,20 +251,8 @@ export class UpsertTenantComponent {
     private readonly promptService: PromptService,
     private readonly uploadFileService: UploadFileService,
     private readonly route: ActivatedRoute,
-    private readonly router: Router,
-    headerService: HeaderService
-  ) {
-    if (this.route.snapshot.params.id)
-      headerService.set({
-        root: '/admin/tenant',
-        tabs: [
-          { path: '/' + this.route.snapshot.params.id, tabName: 'information' },
-          { path: '/domain', tabName: 'domain' },
-          { path: '/organizational-structure', tabName: 'organizationalStructure' },
-          { path: '/organizational-chart', tabName: 'organizationalChart' },
-        ],
-      });
-  }
+    private readonly router: Router
+  ) {}
 
   submitTenant() {
     if (this.form.valid) {

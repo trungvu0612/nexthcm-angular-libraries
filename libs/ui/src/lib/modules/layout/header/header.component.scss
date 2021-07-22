@@ -3,9 +3,9 @@
 
   ::ng-deep {
     tui-tabs {
-      button {
-        padding: 0 12px;
+      a {
         margin: 0 !important;
+        @apply font-semibold px-3 py-0;
 
         &._active .highlight {
           color: var(--tui-primary);

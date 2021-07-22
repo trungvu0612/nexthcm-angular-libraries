@@ -41,9 +41,10 @@
         </td>
         <td class="flex gap-2">
           <button
-            [routerLink]="['.', row.id]"
+            [queryParams]="{ id: row.id }"
             appearance="flat"
             icon="tuiIconShowLarge"
+            routerLink="./detail"
             size="m"
             tuiIconButton
           ></button>

@@ -96,7 +96,6 @@
     </tui-scrollbar>
   </section>
   <ng-template #content let-observer>
-    <h1 class="font-semibold text-primary">{{ t(model.id ? 'editOrganizationalUnit' : 'addOrganizationalUnit') }}</h1>
     <form (ngSubmit)="submitUnit(observer)" [formGroup]="$any(form)">
       <formly-form [fields]="fields" [form]="$any(form)" [model]="model" class="formly-gap"></formly-form>
       <div class="flex justify-center gap-6 mt-8">

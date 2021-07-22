@@ -1,8 +1,0 @@
-<form (ngSubmit)="submit()" *transloco="let t" [formGroup]="form">
-  <h1 class="text-center text-primary font-semibold">{{ t(model.id ? 'editOffice' : 'createOffice') }}</h1>
-  <formly-form [fields]="fields" [form]="form" [model]="model"></formly-form>
-  <div class="flex justify-center gap-6 mt-8">
-    <button (click)="cancel()" appearance="flat" tuiButton type="button">{{ t('cancel') }}</button>
-    <button tuiButton>{{ t('save') }}</button>
-  </div>
-</form>

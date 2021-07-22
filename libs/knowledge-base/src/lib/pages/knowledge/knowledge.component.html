@@ -1,22 +1,24 @@
-<main *ngIf="data$ | async as data" class="main-page">
-  <header>
-    <div class="flex items-baseline">
-      <h1 class="custom-link cursor-pointer" routerLink="../">Policy</h1>
-      <p>/</p>
-      <p>{{ data.topic }}</p>
-    </div>
-  </header>
-  <section class="main-section">
-    <header class="flex px-1 pb-2 mb-5">
-      <img [src]="data.thumbnail || '' | getFile | async" alt="" />
-      <div>
-        <h1 class="text-2xl font-semibold cursor-pointer">{{ data.topic }}</h1>
-        <div class="time">
-          <tui-svg class="mr-2" src="tuiIconTimeLarge"></tui-svg>
-          {{ data.createdDate | date: 'dd/MM/YYYY' }}
-        </div>
+<ng-container *ngIf="data$ | async as data">
+  <main *transloco="let t" class="main-page">
+    <header>
+      <div class="flex items-baseline">
+        <h1 class="custom-link cursor-pointer" routerLink="../">{{ t('knowledgeBase') }}</h1>
+        <p>/</p>
+        <p>{{ data.topic }}</p>
       </div>
     </header>
-    <div [innerHTML]="data.longDescription"></div>
-  </section>
-</main>
+    <section class="main-section">
+      <header class="flex px-1 pb-2 mb-5">
+        <img [src]="data.thumbnail || '' | getFile | async" alt="" />
+        <div>
+          <h1 class="text-2xl font-semibold cursor-pointer">{{ data.topic }}</h1>
+          <div class="time">
+            <tui-svg class="mr-2" src="tuiIconTimeLarge"></tui-svg>
+            {{ data.createdDate | date: 'dd/MM/YYYY' }}
+          </div>
+        </div>
+      </header>
+      <div [innerHTML]="data.longDescription"></div>
+    </section>
+  </main>
+</ng-container>

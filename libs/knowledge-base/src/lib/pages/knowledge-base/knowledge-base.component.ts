@@ -2,11 +2,12 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Knowledge } from '../../models/knowledge';
 
 @Component({
-  selector: 'hcm-knowledge-base-page',
-  templateUrl: './knowledge-base-page.component.html',
-  styleUrls: ['./knowledge-base-page.component.scss'],
+  selector: 'hcm-knowledge-base',
+  templateUrl: './knowledge-base.component.html',
+  styleUrls: ['./knowledge-base.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class KnowledgeBasePageComponent {
+export class KnowledgeBaseComponent {
+  search!: string;
   data: Knowledge[] = [];
 }

@@ -2,7 +2,8 @@
   [formControl]="$any(formControl)"
   [formlyAttributes]="field"
   [showIcons]="to.showIcons"
-  [singleColor]="to.singleColor"
+  [singleColor]="!!to.singleColor"
   [size]="to.size"
 ></tui-toggle>
 {{ to.description }}
+{{ to.status | async }}

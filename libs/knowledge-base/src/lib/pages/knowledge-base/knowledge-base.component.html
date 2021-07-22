@@ -1,6 +1,12 @@
 <main *transloco="let t" class="main-page">
   <header>
     <h1>{{ t('knowledgeBase') }}</h1>
+    <div class="flex gap-6">
+      <tui-input [(ngModel)]="search" [tuiTextfieldLabelOutside]="true" class="w-72" icon="tuiIconSearchLarge">{{
+        t('searchBy', { value: t('name').toLowerCase() + ', ' + t('description').toLowerCase() })
+      }}</tui-input>
+      <button tuiButton>{{ t('search') }}</button>
+    </div>
   </header>
   <section class="main-section">
     <tui-scrollbar class="h-max w-full">

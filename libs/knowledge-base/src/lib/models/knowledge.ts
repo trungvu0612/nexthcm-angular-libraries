@@ -6,3 +6,10 @@ export interface Knowledge {
   shortDescription: string;
   longDescription: string;
 }
+
+export interface Category {
+  id: string;
+  creator: string;
+  status: boolean;
+  description: string;
+}

@@ -1,47 +1,82 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { TranslocoService } from '@ngneat/transloco';
-import { BehaviorSubject } from 'rxjs';
-import { filter } from 'rxjs/operators';
-import { HeaderService } from '../../../services';
+import { filter, map } from 'rxjs/operators';
+import { RxState } from '@rx-angular/state';
 
-const LANGS: { [key: string]: string } = {
-  en: 'English',
-  vi: 'Tiếng Việt',
-};
+const LANGS: { [key: string]: string } = { en: 'English', vi: 'Tiếng Việt' };
+
+const TABS = [
+  {
+    root: 'admin/tenant/',
+    tabs: [
+      { path: 'detail', tabName: 'information' },
+      { path: 'domain', tabName: 'domain' },
+      { path: 'organizational-structure', tabName: 'organizationalStructure' },
+      { path: 'organizational-chart', tabName: 'organizationalChart' },
+    ],
+  },
+  {
+    root: 'my-time',
+    tabs: [
+      { path: 'my-leave', tabName: 'myLeave' },
+      { path: 'working-hour', tabName: 'workingHour' },
+      { path: 'my-request', tabName: 'myRequest' },
+      { path: 'request-management', tabName: 'requestManagement' },
+    ],
+  },
+  {
+    root: 'help-desk',
+    tabs: [
+      { path: 'seat-map', tabName: 'seatMap' },
+      { path: 'bv-calendar', tabName: 'bvCalendar' },
+    ],
+  },
+  {
+    root: 'human-resource',
+    tabs: [
+      { path: 'organization-chart', tabName: 'organizationChart' },
+      { path: 'employees', tabName: 'employees' },
+    ],
+  },
+  {
+    root: 'knowledge-base',
+    tabs: [
+      { path: 'summary', tabName: 'knowledgeBase' },
+      { path: 'updated', tabName: 'updated' },
+      { path: 'category', tabName: 'category' },
+    ],
+  },
+];
 
 @Component({
   selector: 'hcm-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [RxState],
 })
 export class HeaderComponent {
   open = false;
   notification = 13;
   readonly languages = (this.translocoService.getAvailableLangs() as string[]).map((lang) => LANGS[lang]);
-  readonly index$ = new BehaviorSubject(0);
-  readonly tabs$ = this.headerService.select();
+  readonly tabs$ = this.state.select('tabs');
 
   constructor(
-    private readonly headerService: HeaderService,
     private readonly translocoService: TranslocoService,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly state: RxState<any>
   ) {
-    this.headerService.hold(
-      this.router.events.pipe(filter((e: any) => e instanceof NavigationEnd)),
-      (event: NavigationEnd) => {
-        const url = event.urlAfterRedirects;
-        const headerTab = this.headerService.get();
-        if (new RegExp('^' + headerTab.root).test(url)) {
-          for (let index = headerTab.tabs.length - 1; index >= 0; index--) {
-            if (url.includes(headerTab.root + headerTab.tabs[index].path)) {
-              this.index$.next(index);
-              break;
-            }
-          }
-        } else this.headerService.initState();
-      }
+    this.state.set({ root: '', tabs: [] });
+    this.state.connect(
+      this.router.events.pipe(
+        filter((e: any) => e instanceof NavigationEnd),
+        map((event) => {
+          const index = TABS.findIndex((item) => new RegExp('^/' + item.root).test(event.urlAfterRedirects));
+          if (index > -1) return TABS[index];
+          return { root: '', tabs: [] };
+        })
+      )
     );
   }
 

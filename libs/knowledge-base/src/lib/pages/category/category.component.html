@@ -1,0 +1,33 @@
+<main *transloco="let t" class="main-page">
+  <header>
+    <h1>{{ t('category') }}</h1>
+    <button (click)="upsertCategory(content)" tuiButton>{{ t('addCategory') }}</button>
+  </header>
+  <section class="main-section">
+    <ngx-table [columns]="(columns$ | async) || []" [configuration]="configuration" [data]="data">
+      <ng-template let-row>
+        <td>{{ row.creator }}</td>
+        <td>{{ row.category }}</td>
+        <td class="flex gap-2">
+          <button
+            (click)="upsertCategory(content, row)"
+            appearance="flat"
+            icon="tuiIconEditLarge"
+            size="m"
+            tuiIconButton
+          ></button>
+          <button appearance="flat" icon="tuiIconTrashLarge" size="m" tuiIconButton></button>
+        </td>
+      </ng-template>
+    </ngx-table>
+  </section>
+  <ng-template #content let-observer>
+    <form (ngSubmit)="submitCategory(observer)" [formGroup]="$any(form)">
+      <formly-form [fields]="fields" [form]="$any(form)" [model]="model" class="formly-gap"></formly-form>
+      <div class="flex justify-center gap-6 mt-8">
+        <button (click)="observer.complete()" appearance="flat" tuiButton type="button">{{ t('cancel') }}</button>
+        <button tuiButton>{{ t('save') }}</button>
+      </div>
+    </form>
+  </ng-template>
+</main>

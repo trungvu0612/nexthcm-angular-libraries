@@ -8,6 +8,7 @@ import { BehaviorSubject, combineLatest, Subscriber } from 'rxjs';
 import { map, startWith, switchMap } from 'rxjs/operators';
 import { Domain } from '../../models/tenant';
 import { AdminTenantService } from '../../services/admin-tenant.service';
+import { TranslocoService } from '@ngneat/transloco';
 
 @Component({
   selector: 'hcm-domain',
@@ -40,12 +41,17 @@ export class DomainListComponent {
   constructor(
     private readonly adminTenantService: AdminTenantService,
     private readonly uploadFileService: UploadFileService,
+    private readonly translocoService: TranslocoService,
     private readonly dialogService: TuiDialogService
   ) {}
 
   upsertDomain(content: PolymorpheusContent<TuiDialogContext>, domain?: Partial<Domain>) {
     this.model = domain || {};
-    this.dialogService.open(content, { dismissible: false }).subscribe();
+    this.dialogService
+      .open(content, {
+        label: this.translocoService.translate(this.model.id ? 'editDomain' : 'createDomain'),
+      })
+      .subscribe();
   }
 
   submitDomain(observer: Subscriber<unknown>) {

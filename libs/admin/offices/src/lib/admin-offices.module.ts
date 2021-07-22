@@ -10,7 +10,6 @@ import { TuiLetModule } from '@taiga-ui/cdk';
 import { TuiButtonModule, TuiSvgModule } from '@taiga-ui/core';
 import { TableModule } from 'ngx-easy-table';
 import { NgxPermissionsGuard } from 'ngx-permissions';
-import { OfficeDetailDialogComponent } from './components/office-detail-dialog/office-detail-dialog.component';
 import { OfficesComponent } from './pages/offices/offices.component';
 import { AdminOfficesService } from './services/admin-offices.service';
 
@@ -25,7 +24,7 @@ export const adminOfficesRoutes: Routes = [
 ];
 
 @NgModule({
-  declarations: [OfficesComponent, OfficeDetailDialogComponent],
+  declarations: [OfficesComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(adminOfficesRoutes),
