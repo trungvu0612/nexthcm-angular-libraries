@@ -64,7 +64,7 @@ export const helpDeskRoutes: Routes = [
             path: 'seat-map',
             component: SeatMapComponent,
             canActivate: [NgxPermissionsGuard],
-            data: { permissions: { only: 'VIEW_SEAT', redirectTo: '/' } },
+            data: { permissions: { only: 'VIEW_HELP_DESK', redirectTo: '/' } },
           },
           {
             path: 'bv-calendar',
