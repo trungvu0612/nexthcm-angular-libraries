@@ -7,7 +7,6 @@ import { catchError, filter, map, mapTo, startWith, switchMap, tap } from 'rxjs/
 import { Tenant } from '../../models/tenant';
 import { AdminTenantService } from '../../services/admin-tenant.service';
 import { SweetAlertOptions } from 'sweetalert2';
-import { TranslocoService } from '@ngneat/transloco';
 import { NumericValueType, RxwebValidators } from '@rxweb/reactive-form-validators';
 import { iif, of } from 'rxjs';
 import { Address, ContactDTO } from '@nexthcm/core';
@@ -32,7 +31,6 @@ export class UpsertTenantComponent {
         placeholder: 'enterCompanyName',
         textfieldLabelOutside: true,
       },
-      validation: { messages: { required: () => this.translocoService.selectTranslate('VALIDATION.required') } },
     },
     {
       key: 'image',
@@ -47,7 +45,6 @@ export class UpsertTenantComponent {
         previewImage: true,
         serverRequest: (file: File) => this.uploadFileService.uploadFile('admin-tenant', file),
       },
-      // validation: { messages: { required: () => this.translocoService.selectTranslate('VALIDATION.required') } },
     },
     {
       fieldGroupClassName: 'grid grid-flow-col grid-rows-5 grid-cols-2 gap-x-6',
@@ -63,7 +60,6 @@ export class UpsertTenantComponent {
             labelParams: { value: 1 },
             textfieldLabelOutside: true,
           },
-          validation: { messages: { required: () => this.translocoService.selectTranslate('VALIDATION.required') } },
         },
         {
           key: 'addresses.address2',
@@ -102,9 +98,6 @@ export class UpsertTenantComponent {
                 valueProp: 'id',
                 labelProp: 'name',
               },
-              // validation: {
-              //   messages: { required: () => this.translocoService.selectTranslate('VALIDATION.required') },
-              // },
             },
             {
               key: 'addresses.state',
@@ -117,9 +110,6 @@ export class UpsertTenantComponent {
                 valueProp: 'id',
                 labelProp: 'name',
               },
-              // validation: {
-              //   messages: { required: () => this.translocoService.selectTranslate('VALIDATION.required') },
-              // },
               hooks: {
                 onInit: (field) => {
                   if (field) {
@@ -155,9 +145,6 @@ export class UpsertTenantComponent {
                 valueProp: 'id',
                 labelProp: 'name',
               },
-              // validation: {
-              //   messages: { required: () => this.translocoService.selectTranslate('VALIDATION.required') },
-              // },
               hooks: {
                 onInit: (field) => {
                   if (field) {
@@ -189,12 +176,6 @@ export class UpsertTenantComponent {
                 textfieldLabelOutside: true,
               },
               validators: { validation: [RxwebValidators.numeric({ acceptValue: NumericValueType.PositiveNumber })] },
-              validation: {
-                messages: {
-                  // required: () => this.translocoService.selectTranslate('VALIDATION.required'),
-                  numeric: () => this.translocoService.selectTranslate('VALIDATION.numeric'),
-                },
-              },
             },
           ],
         },
@@ -208,7 +189,6 @@ export class UpsertTenantComponent {
             placeholder: 'enterUsername',
             textfieldLabelOutside: true,
           },
-          // validation: { messages: { required: () => this.translocoService.selectTranslate('VALIDATION.required') } },
         },
         {
           key: 'tax',
@@ -221,12 +201,6 @@ export class UpsertTenantComponent {
             textfieldLabelOutside: true,
           },
           validators: { validation: [RxwebValidators.numeric({ acceptValue: NumericValueType.PositiveNumber })] },
-          validation: {
-            messages: {
-              // required: () => this.translocoService.selectTranslate('VALIDATION.required'),
-              numeric: () => this.translocoService.selectTranslate('VALIDATION.numeric'),
-            },
-          },
         },
         {
           key: 'contacts.phone',
@@ -239,12 +213,6 @@ export class UpsertTenantComponent {
             textfieldLabelOutside: true,
           },
           validators: { validation: [RxwebValidators.numeric({ acceptValue: NumericValueType.PositiveNumber })] },
-          validation: {
-            messages: {
-              // required: () => this.translocoService.selectTranslate('VALIDATION.required'),
-              numeric: () => this.translocoService.selectTranslate('VALIDATION.numeric'),
-            },
-          },
         },
         {
           key: 'contacts.email',
@@ -257,12 +225,6 @@ export class UpsertTenantComponent {
             textfieldLabelOutside: true,
           },
           validators: { validation: [RxwebValidators.email()] },
-          validation: {
-            messages: {
-              // required: () => this.translocoService.selectTranslate('VALIDATION.required'),
-              email: () => this.translocoService.selectTranslate('VALIDATION.email'),
-            },
-          },
         },
         {
           key: 'contacts.website',
@@ -274,7 +236,6 @@ export class UpsertTenantComponent {
             placeholder: 'enterWebsite',
             textfieldLabelOutside: true,
           },
-          // validation: { messages: { required: () => this.translocoService.selectTranslate('VALIDATION.required') } },
         },
       ],
     },
@@ -289,7 +250,6 @@ export class UpsertTenantComponent {
     private readonly adminTenantService: AdminTenantService,
     private readonly promptService: PromptService,
     private readonly uploadFileService: UploadFileService,
-    private readonly translocoService: TranslocoService,
     private readonly route: ActivatedRoute,
     private readonly router: Router,
     headerService: HeaderService

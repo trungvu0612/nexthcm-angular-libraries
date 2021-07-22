@@ -147,7 +147,6 @@ export class IndividualFormComponent {
                 placeholder: 'enterCompanyEmail',
               },
               validators: { validation: [RxwebValidators.email()] },
-              validation: { messages: { email: () => this.translocoService.selectTranslate('VALIDATION.email') } },
             },
             {
               key: 'personalEmail',
@@ -161,7 +160,6 @@ export class IndividualFormComponent {
                 placeholder: 'enterPersonalEmail',
               },
               validators: { validation: [RxwebValidators.email()] },
-              validation: { messages: { email: () => this.translocoService.selectTranslate('VALIDATION.email') } },
             },
             {
               key: 'phoneNumber',

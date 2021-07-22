@@ -3,7 +3,6 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
-import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -18,11 +17,11 @@ import { Process } from '../../models/process';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UpsertLeaveTypeComponent implements OnInit {
-  private readonly queryParams$ = new BehaviorSubject(new HttpParams().set('page', 0).set('size', 666));
-  dataProcesses$ = this.leaveTypeService.getProcesses(this.queryParams$.value).pipe(map((res) => res.data.items));
   id!: string;
   form!: FormGroup<LeaveType>;
   model!: LeaveType;
+  private readonly queryParams$ = new BehaviorSubject(new HttpParams().set('page', 0).set('size', 666));
+  dataProcesses$ = this.leaveTypeService.getProcesses(this.queryParams$.value).pipe(map((res) => res.data.items));
   fields: FormlyFieldConfig[] = [
     {
       fieldGroupClassName: 'grid md:grid-cols-1 gap-6 mb-4',
@@ -34,11 +33,6 @@ export class UpsertLeaveTypeComponent implements OnInit {
             required: true,
             translate: true,
             label: 'ADMIN_LEAVE_TYPES.LEAVE_TYPES_COLUMNS.name',
-          },
-          validation: {
-            messages: {
-              required: () => this.translocoService.selectTranslate('VALIDATION.required'),
-            },
           },
         },
       ],
@@ -97,7 +91,6 @@ export class UpsertLeaveTypeComponent implements OnInit {
     private formBuilder: FormBuilder,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private translocoService: TranslocoService,
     private leaveTypeService: LeaveTypesService
   ) {
     this.id = this.activatedRoute.snapshot.params.id;

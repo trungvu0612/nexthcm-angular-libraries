@@ -7,11 +7,11 @@ import { HeaderService } from '@nexthcm/ui';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class KnowledgeBaseComponent {
-  constructor(private headerService: HeaderService) {
-    this.headerService.set({
+  constructor(headerService: HeaderService) {
+    headerService.set({
       root: '/knowledge-base',
       tabs: [
-        { path: '', tabName: 'policy' },
+        { path: '', tabName: 'knowledgeBase' },
         { path: '/updated', tabName: 'updated' },
       ],
     });

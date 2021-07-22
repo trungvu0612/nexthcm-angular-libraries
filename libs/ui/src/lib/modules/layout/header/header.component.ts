@@ -18,22 +18,22 @@ const LANGS: { [key: string]: string } = {
 })
 export class HeaderComponent {
   open = false;
-  languages = (this.translocoService.getAvailableLangs() as string[]).map((lang) => LANGS[lang]);
   notification = 13;
-  index$ = new BehaviorSubject(0);
-  tabs$ = this.headerService.select();
+  readonly languages = (this.translocoService.getAvailableLangs() as string[]).map((lang) => LANGS[lang]);
+  readonly index$ = new BehaviorSubject(0);
+  readonly tabs$ = this.headerService.select();
 
   constructor(
-    private headerService: HeaderService,
-    private translocoService: TranslocoService,
-    private router: Router
+    private readonly headerService: HeaderService,
+    private readonly translocoService: TranslocoService,
+    private readonly router: Router
   ) {
     this.headerService.hold(
       this.router.events.pipe(filter((e: any) => e instanceof NavigationEnd)),
       (event: NavigationEnd) => {
         const url = event.urlAfterRedirects;
         const headerTab = this.headerService.get();
-        if (headerTab.root && url.includes(headerTab.root)) {
+        if (new RegExp('^' + headerTab.root).test(url)) {
           for (let index = headerTab.tabs.length - 1; index >= 0; index--) {
             if (url.includes(headerTab.root + headerTab.tabs[index].path)) {
               this.index$.next(index);

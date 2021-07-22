@@ -1,6 +1,6 @@
-<main class="main-page">
+<main *transloco="let t" class="main-page">
   <header>
-    <h1>Policy</h1>
+    <h1>{{ t('knowledgeBase') }}</h1>
   </header>
   <section class="main-section">
     <tui-scrollbar class="h-max w-full">
@@ -12,6 +12,6 @@
       </div>
     </tui-scrollbar>
     <p class="text-2xl font-semibold my-7">Updated</p>
-    <hcm-updated-detail></hcm-updated-detail>
+    <hcm-updated-knowledge></hcm-updated-knowledge>
   </section>
 </main>

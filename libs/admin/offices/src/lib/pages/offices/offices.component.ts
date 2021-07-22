@@ -28,7 +28,7 @@ export class OfficesComponent {
     ])
   );
   readonly params$ = new BehaviorSubject<{ [key: string]: number }>({ size: 10 });
-  readonly data$ = this.params$.pipe(switchMap(() => this.adminOfficesService.getOffices(this.params$.value)));
+  readonly data$ = this.params$.pipe(switchMap((params) => this.adminOfficesService.getOffices(params)));
 
   constructor(
     private readonly adminOfficesService: AdminOfficesService,

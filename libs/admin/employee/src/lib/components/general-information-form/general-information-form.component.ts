@@ -64,9 +64,6 @@ export class GeneralInformationFormComponent implements OnInit {
                   labelClassName: 'font-semibold',
                   placeholder: 'enterCifNumber',
                 },
-                validation: {
-                  messages: { required: () => this.translocoService.selectTranslate('VALIDATION.required') },
-                },
               },
               {
                 key: 'firstName',
@@ -80,9 +77,6 @@ export class GeneralInformationFormComponent implements OnInit {
                   labelClassName: 'font-semibold',
                   placeholder: 'enterFirstName',
                 },
-                validation: {
-                  messages: { required: () => this.translocoService.selectTranslate('VALIDATION.required') },
-                },
               },
               {
                 key: 'lastName',
@@ -95,9 +89,6 @@ export class GeneralInformationFormComponent implements OnInit {
                   textfieldLabelOutside: true,
                   labelClassName: 'font-semibold',
                   placeholder: 'enterLastName',
-                },
-                validation: {
-                  messages: { required: () => this.translocoService.selectTranslate('VALIDATION.required') },
                 },
               },
               {
@@ -124,9 +115,6 @@ export class GeneralInformationFormComponent implements OnInit {
                   labelClassName: 'font-semibold',
                   previewImage: true,
                   serverRequest: this.uploadFileService.uploadFile.bind(this.uploadFileService, 'employee'),
-                },
-                validation: {
-                  messages: { required: () => this.translocoService.selectTranslate('VALIDATION.required') },
                 },
                 expressionProperties: {
                   'templateOptions.linkText': this.translocoService.selectTranslate('chooseImage'),
@@ -167,9 +155,6 @@ export class GeneralInformationFormComponent implements OnInit {
                   labelProp: 'name',
                   matcherBy: 'id',
                 },
-                validation: {
-                  messages: { required: () => this.translocoService.selectTranslate('VALIDATION.required') },
-                },
               },
               {
                 key: 'roles',
@@ -185,9 +170,6 @@ export class GeneralInformationFormComponent implements OnInit {
                   labelProp: 'name',
                   matcherBy: 'id',
                 },
-                validation: {
-                  messages: { required: () => this.translocoService.selectTranslate('VALIDATION.required') },
-                },
               },
               {
                 key: 'jobTitle',
@@ -202,9 +184,6 @@ export class GeneralInformationFormComponent implements OnInit {
                   options: this.adminEmployeeService.select('jobTitles'),
                   labelProp: 'name',
                   matcherBy: 'id',
-                },
-                validation: {
-                  messages: { required: () => this.translocoService.selectTranslate('VALIDATION.required') },
                 },
               },
               {
@@ -234,9 +213,6 @@ export class GeneralInformationFormComponent implements OnInit {
                   options: this.adminEmployeeService.select('users'),
                   labelProp: 'name',
                   matcherBy: 'id',
-                },
-                validation: {
-                  messages: { required: () => this.translocoService.selectTranslate('VALIDATION.required') },
                 },
               },
             ],

@@ -4,13 +4,14 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from '@nexthcm/auth';
 import { GetFileModule, LayoutComponent, LayoutModule } from '@nexthcm/ui';
-import { TuiScrollbarModule, TuiSvgModule } from '@taiga-ui/core';
+import { TuiButtonModule, TuiLinkModule, TuiScrollbarModule, TuiSvgModule } from '@taiga-ui/core';
 import { TuiAvatarModule, TuiInputMonthModule } from '@taiga-ui/kit';
-import { UpdatedDetailComponent } from './components/updated-detail/updated-detail.component';
+import { UpdatedKnowledgeComponent } from './components/updated-knowledge/updated-knowledge.component';
 import { KnowledgeBaseComponent } from './knowledge-base.component';
-import { PoliciesComponent } from './pages/policies/policies.component';
-import { PolicyDetailComponent } from './pages/policy-detail/policy-detail.component';
+import { KnowledgeBasePageComponent } from './pages/knowledge-base-page/knowledge-base-page.component';
+import { KnowledgeComponent } from './pages/knowledge/knowledge.component';
 import { UpdatedComponent } from './pages/updated/updated.component';
+import { TranslocoModule } from '@ngneat/transloco';
 
 export const knowledgeBaseRoutes: Routes = [
   {
@@ -22,9 +23,9 @@ export const knowledgeBaseRoutes: Routes = [
         path: '',
         component: KnowledgeBaseComponent,
         children: [
-          { path: '', component: PoliciesComponent },
+          { path: '', component: KnowledgeBasePageComponent },
           { path: 'updated', component: UpdatedComponent },
-          { path: ':id', component: PolicyDetailComponent },
+          { path: ':id', component: KnowledgeComponent },
         ],
       },
     ],
@@ -32,7 +33,13 @@ export const knowledgeBaseRoutes: Routes = [
 ];
 
 @NgModule({
-  declarations: [KnowledgeBaseComponent, PoliciesComponent, PolicyDetailComponent, UpdatedComponent, UpdatedDetailComponent],
+  declarations: [
+    KnowledgeBaseComponent,
+    KnowledgeBasePageComponent,
+    KnowledgeComponent,
+    UpdatedComponent,
+    UpdatedKnowledgeComponent,
+  ],
   imports: [
     CommonModule,
     RouterModule.forChild(knowledgeBaseRoutes),
@@ -43,6 +50,9 @@ export const knowledgeBaseRoutes: Routes = [
     ReactiveFormsModule,
     TuiAvatarModule,
     TuiScrollbarModule,
+    TuiButtonModule,
+    TuiLinkModule,
+    TranslocoModule,
   ],
 })
 export class KnowledgeBaseModule {}

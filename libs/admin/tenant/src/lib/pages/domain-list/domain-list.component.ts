@@ -8,7 +8,6 @@ import { BehaviorSubject, combineLatest, Subscriber } from 'rxjs';
 import { map, startWith, switchMap } from 'rxjs/operators';
 import { Domain } from '../../models/tenant';
 import { AdminTenantService } from '../../services/admin-tenant.service';
-import { TranslocoService } from '@ngneat/transloco';
 
 @Component({
   selector: 'hcm-domain',
@@ -35,14 +34,12 @@ export class DomainListComponent {
         label: 'domain',
         textfieldLabelOutside: true,
       },
-      validation: { messages: { required: () => this.translocoService.selectTranslate('VALIDATION.required') } },
     },
   ];
 
   constructor(
     private readonly adminTenantService: AdminTenantService,
     private readonly uploadFileService: UploadFileService,
-    private readonly translocoService: TranslocoService,
     private readonly dialogService: TuiDialogService
   ) {}
 

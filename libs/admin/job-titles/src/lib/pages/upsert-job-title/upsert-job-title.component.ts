@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
 import { FormGroup } from '@ngneat/reactive-forms';
-import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
@@ -15,7 +14,7 @@ import { tap } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UpsertJobTitleComponent implements OnInit {
-  data$: any
+  data$: any;
   form = new FormGroup<JobTitle>({});
   model: JobTitle = { hasLevel: true, stateCov: true };
   fields: FormlyFieldConfig[] = [
@@ -25,7 +24,7 @@ export class UpsertJobTitleComponent implements OnInit {
         {
           className: 'flex items-center ',
           template: `
-        <p class='font-bold'>Tên chức vụ</p>
+        <p class="font-bold">Tên chức vụ</p>
         `,
         },
         {
@@ -36,11 +35,6 @@ export class UpsertJobTitleComponent implements OnInit {
             translate: true,
             required: true,
             textfieldLabelOutside: true,
-          },
-          validation: {
-            messages: {
-              required: () => this.translocoService.selectTranslate('VALIDATION.required'),
-            },
           },
         },
       ],
@@ -53,7 +47,7 @@ export class UpsertJobTitleComponent implements OnInit {
         {
           className: '',
           template: `
-        <p class='font-bold'>Trạng thái</p>
+        <p class="font-bold">Trạng thái</p>
         `,
         },
 
@@ -72,7 +66,7 @@ export class UpsertJobTitleComponent implements OnInit {
             {
               className: '',
               template: `
-                    <p class='font-bold'>Có cấp độ</p>
+                    <p class="font-bold">Có cấp độ</p>
                     `,
             },
           ],
@@ -92,7 +86,7 @@ export class UpsertJobTitleComponent implements OnInit {
         {
           className: 'flex items-center ',
           template: `
-        <p class='font-bold'>Mô Tả</p>
+        <p class="font-bold">Mô Tả</p>
         `,
         },
         {
@@ -112,7 +106,7 @@ export class UpsertJobTitleComponent implements OnInit {
         {
           className: 'flex items-center ',
           template: `
-        <p class='font-bold'>Note</p>
+        <p class="font-bold">Note</p>
         `,
         },
         {
@@ -124,14 +118,11 @@ export class UpsertJobTitleComponent implements OnInit {
     },
   ];
 
-  constructor(
-    @Inject(POLYMORPHEUS_CONTEXT) public context: TuiDialogContext<JobTitle, Observable<JobTitle>>,
-    private translocoService: TranslocoService
-  ) {}
+  constructor(@Inject(POLYMORPHEUS_CONTEXT) public context: TuiDialogContext<JobTitle, Observable<JobTitle>>) {}
 
   ngOnInit(): void {
-    if (this.context.data === null || this.context.data === undefined){
-      this.data$ = of(this.model = {})
+    if (this.context.data === null || this.context.data === undefined) {
+      this.data$ = of((this.model = {}));
     } else {
       this.data$ = this.context.data.pipe(tap((value) => value && Object.assign(this.model, value))) || of(null);
     }

@@ -22,7 +22,7 @@ export class PermissionListComponent {
     ])
   );
   params$ = new BehaviorSubject<{ [key: string]: number }>({ size: 10 });
-  data$ = this.params$.pipe(switchMap(() => this.adminPermissionsService.getPermissions(this.params$.value)));
+  data$ = this.params$.pipe(switchMap((params) => this.adminPermissionsService.getPermissions(params)));
 
   constructor(
     private adminPermissionsService: AdminPermissionsService,

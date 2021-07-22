@@ -43,7 +43,6 @@ export class OrganizationalStructureComponent {
         placeholder: 'enterName',
         textfieldLabelOutside: true,
       },
-      validation: { messages: { required: () => this.translocoService.selectTranslate('VALIDATION.required') } },
     },
     {
       key: 'parentOrgTypeLabel',
@@ -58,7 +57,6 @@ export class OrganizationalStructureComponent {
         options: this.structure$,
         matcherBy: 'id',
       },
-      validation: { messages: { required: () => this.translocoService.selectTranslate('VALIDATION.required') } },
     },
   ];
 

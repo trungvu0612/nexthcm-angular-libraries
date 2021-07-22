@@ -67,7 +67,6 @@ export class UpsertTransitionDialogComponent implements OnInit {
       },
       validation: {
         messages: {
-          required: () => this.translocoService.selectTranslate('VALIDATION.required'),
           different: () => this.translocoService.selectTranslate('VALIDATION.differentTarget'),
         },
       },
@@ -81,11 +80,6 @@ export class UpsertTransitionDialogComponent implements OnInit {
         translate: true,
         label: 'ADMIN_PROCESSES.name',
         textfieldLabelOutside: true,
-      },
-      validation: {
-        messages: {
-          required: () => this.translocoService.selectTranslate('VALIDATION.required'),
-        },
       },
     },
     {

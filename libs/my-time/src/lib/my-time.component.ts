@@ -7,8 +7,8 @@ import { HeaderService } from '@nexthcm/ui';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MyTimeComponent {
-  constructor(private headerService: HeaderService) {
-    this.headerService.set({
+  constructor(headerService: HeaderService) {
+    headerService.set({
       root: '/my-time',
       tabs: [
         { path: '/my-leave', tabName: 'myLeave' },
