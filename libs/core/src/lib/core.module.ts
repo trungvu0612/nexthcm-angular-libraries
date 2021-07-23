@@ -11,7 +11,7 @@ import { NgDompurifySanitizer } from '@tinkoff/ng-dompurify';
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { Observable } from 'rxjs';
 import { APP_CONFIG } from './app-config.token';
-import { registerTranslateExtension } from './extensions/formly-register-translate-extension';
+import { TranslateExtension } from './extensions/formly-translate-extension';
 import { GraphqlModule } from './graphql/graphql.module';
 import { apiPrefixInterceptorProvider } from './interceptors';
 import { AppConfig } from './models';
@@ -21,9 +21,18 @@ import { httpLoader } from './transloco/http-loader';
 import { translocoConfigProvider } from './transloco/transloco-config';
 import { translateSpinTexts, translateTuiTablePaginationTexts } from './utils/translate-tui-texts';
 
-export function initApp(permissionsService: PermissionsService): () => Observable<PermissionsResponse> {
+function initApp(permissionsService: PermissionsService): () => Observable<PermissionsResponse> {
   return () => permissionsService.getPermissions();
 }
+
+const configFormly = (translate: TranslocoService) => ({
+  extensions: [{ name: 'translate', extension: new TranslateExtension(translate) }],
+  validationMessages: [
+    { name: 'required', message: () => translate.selectTranslate('VALIDATION.required') },
+    { name: 'email', message: () => translate.selectTranslate('VALIDATION.email') },
+    { name: 'numeric', message: () => translate.selectTranslate('VALIDATION.numeric') },
+  ],
+});
 
 @NgModule({
   imports: [
@@ -43,7 +52,7 @@ export function initApp(permissionsService: PermissionsService): () => Observabl
     apiPrefixInterceptorProvider,
     { provide: TUI_ICONS_PATH, useValue: iconsPathFactory('assets/taiga-ui/icons/') },
     { provide: TUI_SANITIZER, useClass: NgDompurifySanitizer },
-    { provide: FORMLY_CONFIG, multi: true, useFactory: registerTranslateExtension, deps: [TranslocoService] },
+    { provide: FORMLY_CONFIG, multi: true, useFactory: configFormly, deps: [TranslocoService] },
     { provide: TUI_TABLE_PAGINATION_TEXTS, useFactory: translateTuiTablePaginationTexts, deps: [TranslocoService] },
     { provide: TUI_SPIN_TEXTS, useFactory: translateSpinTexts, deps: [TranslocoService] },
     {

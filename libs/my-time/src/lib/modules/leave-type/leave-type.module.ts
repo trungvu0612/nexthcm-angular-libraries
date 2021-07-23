@@ -12,8 +12,8 @@ import {
   TuiTextAreaModule,
 } from '@taiga-ui/kit';
 import { LeaveTypeComponent } from './leave-type.component';
-import { ListLeaveTypeComponent } from './pages/list-leave-type/list-leave-type.component';
-import { UpsertLeaveTypeComponent } from './pages/upsert-leave-type/upsert-leave-type.component';
+import { ListLeaveTypeComponent } from './list-leave-type/list-leave-type.component';
+import { UpsertLeaveTypeComponent } from './upsert-leave-type/upsert-leave-type.component';
 
 @NgModule({
   declarations: [LeaveTypeComponent, ListLeaveTypeComponent, UpsertLeaveTypeComponent],

@@ -941,7 +941,7 @@
                 "output": "assets/taiga-ui/icons"
               }
             ],
-            "styles": ["apps/hcm-web/src/styles.scss", "node_modules/@taiga-ui/core/styles/taiga-ui-global.less"],
+            "styles": ["node_modules/@taiga-ui/core/styles/taiga-ui-global.less", "apps/hcm-web/src/styles.scss"],
             "scripts": [],
             "allowedCommonJsDependencies": ["angular2-text-mask"]
           },

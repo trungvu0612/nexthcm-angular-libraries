@@ -13,22 +13,20 @@ import {
   TuiTabsModule,
   TuiTagModule,
 } from '@taiga-ui/kit';
-import { RequestsDialogComponent } from './components/requests-dialog/requests-dialog.component';
+import { ListMyRequestComponent } from './list-my-request/list-my-request.component';
+import { ListOtRequestComponent } from './list-ot-request/list-ot-request.component';
+import { ListTimesheetUpdateComponent } from './list-timesheet-update/list-timesheet-update.component';
+import { ListWorkFromHomeComponent } from './list-work-from-home/list-work-from-home.component';
+import { ListWorkingOutsideComponent } from './list-working-outside/list-working-outside.component';
 import { MyRequestsComponent } from './my-requests.component';
-import { ListMyRequestComponent } from './pages/list-my-request/list-my-request.component';
-import { ListOtRequestComponent } from './pages/list-ot-request/list-ot-request.component';
-import { ListTimesheetUpdateComponent } from './pages/list-timesheet-update/list-timesheet-update.component';
-import { ListWorkingOutsideComponent } from './pages/list-working-outside/list-working-outside.component';
-import { RequestOtComponent } from './components/diaglog/request-ot/request-ot.component';
-import { ListWorkFromHomeComponent } from './pages/list-work-from-home/list-work-from-home.component';
-import { RequestDetailsWfhComponent } from './components/request-details-wfh/request-details-wfh.component';
-import { RequestDetailsComponent } from './components/request-details/request-details.component';
+import { RequestDetailsWfhComponent } from './request-details-wfh/request-details-wfh.component';
+import { RequestDetailsComponent } from './request-details/request-details.component';
+import { RequestOtComponent } from './request-ot/request-ot.component';
 
 @NgModule({
   declarations: [
     MyRequestsComponent,
     ListMyRequestComponent,
-    RequestsDialogComponent,
     ListOtRequestComponent,
     ListTimesheetUpdateComponent,
     ListWorkingOutsideComponent,
@@ -37,7 +35,6 @@ import { RequestDetailsComponent } from './components/request-details/request-de
     ListWorkFromHomeComponent,
     RequestDetailsWfhComponent,
   ],
-  exports: [ListTimesheetUpdateComponent, ListOtRequestComponent, ListWorkingOutsideComponent],
   imports: [
     CommonModule,
     RouterModule,
