@@ -323,6 +323,22 @@
     "directReport": "Báo cáo trực tiếp",
     "actions": "Thao tác"
   },
+  "MY_TIME": {
+    "leaveDetail": "Chi tiết ngày phép",
+    "reject": "Từ chối",
+    "approve": "Chấp nhận",
+    "staffName": "Tên Nhân Viên",
+    "leaveType": "Loại Ngày Phép",
+    "type": "Thời Gian",
+    "duration": "Số Ngày",
+    "sendTo": "Gửi Đến",
+    "reason": "Lý Do",
+    "comment": "Bình Luận",
+    "history": "Lịch Sử Hoạt Động",
+    "close": "Đóng",
+    "status": "Trạng Thái",
+    "cancel": "Hủy"
+  },
   "addNewEmployee": "Thêm nhân viên mới",
   "overview": "Tổng quan",
   "myTime": "Thời gian",

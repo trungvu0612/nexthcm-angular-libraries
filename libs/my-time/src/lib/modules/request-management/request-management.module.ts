@@ -3,27 +3,37 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { FormlyTaigaUiModule } from '@nexthcm/ui';
+import { TranslocoModule } from '@ngneat/transloco';
 import { FormlyModule } from '@ngx-formly/core';
 import { TuiTableModule, TuiTablePaginationModule } from '@taiga-ui/addon-table';
-import { TuiButtonModule, TuiColorModule, TuiDialogModule, TuiGroupModule, TuiSvgModule } from '@taiga-ui/core';
+import {
+  TuiButtonModule,
+  TuiColorModule,
+  TuiDataListModule,
+  TuiDialogModule,
+  TuiGroupModule,
+  TuiHostedDropdownModule,
+  TuiSvgModule,
+  TuiTextfieldControllerModule,
+} from '@taiga-ui/core';
 import {
   TuiAvatarModule,
+  TuiDataListWrapperModule,
   TuiFieldErrorModule,
   TuiInputMonthModule,
   TuiMarkerIconModule,
   TuiRadioBlockModule,
+  TuiSelectModule,
   TuiTabsModule,
   TuiTagModule,
 } from '@taiga-ui/kit';
 import { MyRequestsModule } from '../my-request/my-requests.module';
-import { ListRequestManagementComponent } from './pages/list-request-management/list-request-management.component';
-import { LeaveManagementDetailDialogComponent } from './pages/tab/diaglog/leave-management-detail-dialog/leave-management-detail-dialog.component';
-import { HistoryRequestComponent } from './pages/tab/diaglog/tab/history-request/history-request.component';
-import { NotedComponent } from './pages/tab/diaglog/tab/noted/noted.component';
-import { LeaveRequestComponent } from './pages/tab/list-table/leave-request/leave-request.component';
-import { OvertimeComponent } from './pages/tab/list-table/overtime/overtime.component';
-import { UpdateTimeComponent } from './pages/tab/list-table/update-time/update-time.component';
-import { WorkingOutsideComponent } from './pages/tab/list-table/working-outside/working-outside.component';
+import { LeaveManagementDetailDialogComponent } from './leave-management-detail-dialog/leave-management-detail-dialog.component';
+import { ListRequestManagementComponent } from './list-request-management/list-request-management.component';
+import { LeaveRequestComponent } from './list-table/leave-request/leave-request.component';
+import { OvertimeComponent } from './list-table/overtime/overtime.component';
+import { UpdateTimeComponent } from './list-table/update-time/update-time.component';
+import { WorkingOutsideComponent } from './list-table/working-outside/working-outside.component';
 import { RequestManagementComponent } from './request-management.component';
 
 @NgModule({
@@ -34,9 +44,7 @@ import { RequestManagementComponent } from './request-management.component';
     LeaveRequestComponent,
     UpdateTimeComponent,
     WorkingOutsideComponent,
-    LeaveManagementDetailDialogComponent,
-    NotedComponent,
-    HistoryRequestComponent,
+    LeaveManagementDetailDialogComponent
   ],
   imports: [
     MyRequestsModule,
@@ -60,6 +68,12 @@ import { RequestManagementComponent } from './request-management.component';
     TuiSvgModule,
     TuiInputMonthModule,
     TuiAvatarModule,
+    TuiTextfieldControllerModule,
+    TuiDataListWrapperModule,
+    TuiSelectModule,
+    TuiDataListModule,
+    TuiHostedDropdownModule,
+    TranslocoModule
   ],
 })
 export class RequestManagementModule {}

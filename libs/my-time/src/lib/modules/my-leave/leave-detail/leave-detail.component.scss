@@ -1,0 +1,23 @@
+:host {
+  display: block;
+
+  ::ng-deep {
+    tui-wrapper[data-appearance='custom'] {
+      background: var(--tui-base-05);
+      color: #fff;
+
+      &[data-state='hovered'] {
+        background: var(--tui-base-06);
+      }
+    }
+
+    tui-wrapper[data-appearance='custom-green'] {
+      background: var(--tui-positive-night);
+      color: #fff;
+
+      &[data-state='hovered'] {
+        background: var(--tui-positive-night-hover);
+      }
+    }
+  }
+}
