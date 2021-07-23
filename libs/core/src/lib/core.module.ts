@@ -3,7 +3,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { APP_INITIALIZER, ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
 import { SvgIconsModule } from '@ngneat/svg-icon';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
-import { FORMLY_CONFIG, FormlyConfig, FormlyModule } from '@ngx-formly/core';
+import { FORMLY_CONFIG, FormlyModule } from '@ngx-formly/core';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { TUI_TABLE_PAGINATION_TEXTS } from '@taiga-ui/addon-table';
 import { iconsPathFactory, TUI_ICONS_PATH, TUI_SANITIZER, TUI_SPIN_TEXTS, TuiDialogModule } from '@taiga-ui/core';
@@ -64,17 +64,10 @@ const configFormly = (translate: TranslocoService) => ({
   ],
 })
 export class CoreModule {
-  constructor(
-    @Optional() @SkipSelf() coreModule: CoreModule,
-    translocoService: TranslocoService,
-    formlyConfig: FormlyConfig
-  ) {
+  constructor(@Optional() @SkipSelf() coreModule: CoreModule) {
     if (coreModule) {
       throw new Error('CoreModule has already been loaded. Import CoreModule in the AppModule only.');
     }
-    formlyConfig.addValidatorMessage('required', () => translocoService.selectTranslate('VALIDATION.required'));
-    formlyConfig.addValidatorMessage('email', () => translocoService.selectTranslate('VALIDATION.email'));
-    formlyConfig.addValidatorMessage('numeric', () => translocoService.selectTranslate('VALIDATION.numeric'));
   }
 
   static forRoot(environment: AppConfig): ModuleWithProviders<CoreModule> {
