@@ -1,4 +1,6 @@
-export const environment = {
+import { AppConfig } from '@nexthcm/core';
+
+export const environment: AppConfig = {
   production: true,
   language: 'vi',
   baseUrl: 'https://dev-nexthcm-api.banvien.com.vn',

@@ -2,13 +2,13 @@
 // `ng build` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
-export const environment = {
+import { AppConfig } from '@nexthcm/core';
+
+export const environment: AppConfig = {
   production: false,
   language: 'vi',
   baseUrl: 'http://localhost:4201',
   apiUrl: 'https://dev-nexthcm-api.banvien.com.vn',
-  // apiUrl: 'http://192.168.200.173:8089',
-  authUrl: 'http://192.168.2.20:31125',
   orgUrl: 'https://dev-nexthcm-api.banvien.com.vn',
 };
 

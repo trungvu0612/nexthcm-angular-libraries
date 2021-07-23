@@ -205,6 +205,44 @@
         }
       }
     },
+    "admin-knowledge-base": {
+      "projectType": "library",
+      "root": "libs/admin/knowledge-base",
+      "sourceRoot": "libs/admin/knowledge-base/src",
+      "prefix": "hcm",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/angular:package",
+          "outputs": ["dist/libs/admin/knowledge-base"],
+          "options": {
+            "project": "libs/admin/knowledge-base/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "libs/admin/knowledge-base/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "libs/admin/knowledge-base/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/admin/knowledge-base"],
+          "options": {
+            "jestConfig": "libs/admin/knowledge-base/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/admin/knowledge-base/src/**/*.ts", "libs/admin/knowledge-base/src/**/*.html"]
+          }
+        }
+      }
+    },
     "admin-leave-types": {
       "projectType": "library",
       "root": "libs/admin/leave-types",
@@ -315,44 +353,6 @@
           "builder": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": ["libs/admin/permissions/src/**/*.ts", "libs/admin/permissions/src/**/*.html"]
-          }
-        }
-      }
-    },
-    "admin-knowledge-base": {
-      "projectType": "library",
-      "root": "libs/admin/knowledge-base",
-      "sourceRoot": "libs/admin/knowledge-base/src",
-      "prefix": "hcm",
-      "architect": {
-        "build": {
-          "builder": "@nrwl/angular:package",
-          "outputs": ["dist/libs/admin/knowledge-base"],
-          "options": {
-            "project": "libs/admin/knowledge-base/ng-package.json"
-          },
-          "configurations": {
-            "production": {
-              "tsConfig": "libs/admin/knowledge-base/tsconfig.lib.prod.json"
-            },
-            "development": {
-              "tsConfig": "libs/admin/knowledge-base/tsconfig.lib.json"
-            }
-          },
-          "defaultConfiguration": "production"
-        },
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/admin/knowledge-base"],
-          "options": {
-            "jestConfig": "libs/admin/knowledge-base/jest.config.js",
-            "passWithNoTests": true
-          }
-        },
-        "lint": {
-          "builder": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": ["libs/admin/knowledge-base/src/**/*.ts", "libs/admin/knowledge-base/src/**/*.html"]
           }
         }
       }
@@ -1153,6 +1153,41 @@
         }
       }
     },
+    "knowledge-base": {
+      "projectType": "library",
+      "root": "libs/knowledge-base",
+      "sourceRoot": "libs/knowledge-base/src",
+      "prefix": "hcm",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/angular:package",
+          "options": {
+            "tsConfig": "libs/knowledge-base/tsconfig.lib.json",
+            "project": "libs/knowledge-base/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "libs/knowledge-base/tsconfig.lib.prod.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/knowledge-base/src/**/*.ts", "libs/knowledge-base/src/**/*.html"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/knowledge-base"],
+          "options": {
+            "jestConfig": "libs/knowledge-base/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
     "leave-entitlement": {
       "projectType": "library",
       "root": "libs/leave-entitlement",
@@ -1291,41 +1326,6 @@
           "outputs": ["coverage/libs/payslip"],
           "options": {
             "jestConfig": "libs/payslip/jest.config.js",
-            "passWithNoTests": true
-          }
-        }
-      }
-    },
-    "knowledge-base": {
-      "projectType": "library",
-      "root": "libs/knowledge-base",
-      "sourceRoot": "libs/knowledge-base/src",
-      "prefix": "hcm",
-      "architect": {
-        "build": {
-          "builder": "@nrwl/angular:package",
-          "options": {
-            "tsConfig": "libs/knowledge-base/tsconfig.lib.json",
-            "project": "libs/knowledge-base/ng-package.json"
-          },
-          "configurations": {
-            "production": {
-              "tsConfig": "libs/knowledge-base/tsconfig.lib.prod.json"
-            }
-          },
-          "defaultConfiguration": "production"
-        },
-        "lint": {
-          "builder": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": ["libs/knowledge-base/src/**/*.ts", "libs/knowledge-base/src/**/*.html"]
-          }
-        },
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/knowledge-base"],
-          "options": {
-            "jestConfig": "libs/knowledge-base/jest.config.js",
             "passWithNoTests": true
           }
         }

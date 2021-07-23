@@ -32,6 +32,9 @@
     "admin-job-titles": {
       "tags": []
     },
+    "admin-knowledge-base": {
+      "tags": []
+    },
     "admin-leave-types": {
       "tags": []
     },
@@ -39,9 +42,6 @@
       "tags": []
     },
     "admin-permissions": {
-      "tags": []
-    },
-    "admin-knowledge-base": {
       "tags": []
     },
     "admin-processes": {
@@ -100,6 +100,9 @@
     "human-resource": {
       "tags": []
     },
+    "knowledge-base": {
+      "tags": []
+    },
     "leave-entitlement": {
       "tags": []
     },
@@ -110,9 +113,6 @@
       "tags": []
     },
     "payslip": {
-      "tags": []
-    },
-    "knowledge-base": {
       "tags": []
     },
     "report": {

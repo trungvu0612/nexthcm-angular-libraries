@@ -2,12 +2,13 @@
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
-export const environment = {
+import { AppConfig } from '@nexthcm/core';
+
+export const environment: AppConfig = {
   production: false,
   language: 'vi',
   baseUrl: 'http://localhost:4200',
   apiUrl: 'https://dev-nexthcm-api.banvien.com.vn',
-  authUrl: 'http://192.168.2.20:31125',
   orgUrl: 'https://dev-nexthcm-api.banvien.com.vn',
   graphqlUrl: 'https://dev-nexthcm-api.banvien.com.vn/v1/graphql',
 };
@@ -19,4 +20,4 @@ export const environment = {
  * This import should be commented out in production mode because it will have a negative impact
  * on performance if an error is thrown.
  */
-import 'zone.js/plugins/zone-error'; // Included with Angular CLI.
+// import 'zone.js/plugins/zone-error'; // Included with Angular CLI.

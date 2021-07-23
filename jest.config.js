@@ -1,5 +1,8 @@
+const { getJestProjects } = require('@nrwl/jest');
+
 module.exports = {
   projects: [
+    ...getJestProjects(),
     '<rootDir>/apps/hcm-web',
     '<rootDir>/libs/core',
     '<rootDir>/libs/auth',
