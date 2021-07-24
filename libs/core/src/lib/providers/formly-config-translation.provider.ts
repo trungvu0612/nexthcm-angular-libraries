@@ -1,5 +1,6 @@
+import { Provider } from '@angular/core';
 import { TranslocoService } from '@ngneat/transloco';
-import { FormlyFieldConfig } from '@ngx-formly/core';
+import { FORMLY_CONFIG, FormlyFieldConfig } from '@ngx-formly/core';
 
 export class TranslateExtension {
   constructor(private translate: TranslocoService) {}
@@ -21,3 +22,19 @@ export class TranslateExtension {
     };
   }
 }
+
+export const FORMLY_CONFIG_TRANSLATION_PROVIDER: Provider = {
+  provide: FORMLY_CONFIG,
+  useFactory(translate: TranslocoService) {
+    return {
+      extensions: [{ name: 'translate', extension: new TranslateExtension(translate) }],
+      validationMessages: [
+        { name: 'required', message: () => translate.selectTranslate('VALIDATION.required') },
+        { name: 'email', message: () => translate.selectTranslate('VALIDATION.email') },
+        { name: 'numeric', message: () => translate.selectTranslate('VALIDATION.numeric') },
+      ],
+    };
+  },
+  deps: [TranslocoService],
+  multi: true,
+};

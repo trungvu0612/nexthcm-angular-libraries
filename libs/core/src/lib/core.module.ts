@@ -1,38 +1,22 @@
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import { APP_INITIALIZER, ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
+import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
 import { SvgIconsModule } from '@ngneat/svg-icon';
-import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
-import { FORMLY_CONFIG, FormlyModule } from '@ngx-formly/core';
+import { TranslocoModule } from '@ngneat/transloco';
+import { FormlyModule } from '@ngx-formly/core';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
-import { TUI_TABLE_PAGINATION_TEXTS } from '@taiga-ui/addon-table';
-import { iconsPathFactory, TUI_ICONS_PATH, TUI_SANITIZER, TUI_SPIN_TEXTS, TuiDialogModule } from '@taiga-ui/core';
+import { iconsPathFactory, TUI_ICONS_PATH, TUI_SANITIZER, TuiDialogModule } from '@taiga-ui/core';
 import { NgDompurifySanitizer } from '@tinkoff/ng-dompurify';
 import { NgxPermissionsModule } from 'ngx-permissions';
-import { Observable } from 'rxjs';
 import { APP_CONFIG } from './app-config.token';
-import { TranslateExtension } from './extensions/formly-translate-extension';
 import { GraphqlModule } from './graphql/graphql.module';
-import { apiPrefixInterceptorProvider } from './interceptors';
+import { API_PREFIX_INTERCEPTOR_PROVIDER } from './interceptors';
 import { AppConfig } from './models';
-import { PermissionsResponse } from './models/permission-response';
-import { PermissionsService } from './services/permissions.service';
-import { httpLoader } from './transloco/http-loader';
-import { translocoConfigProvider } from './transloco/transloco-config';
-import { translateSpinTexts, translateTuiTablePaginationTexts } from './utils/translate-tui-texts';
-
-function initApp(permissionsService: PermissionsService): () => Observable<PermissionsResponse> {
-  return () => permissionsService.getPermissions();
-}
-
-const configFormly = (translate: TranslocoService) => ({
-  extensions: [{ name: 'translate', extension: new TranslateExtension(translate) }],
-  validationMessages: [
-    { name: 'required', message: () => translate.selectTranslate('VALIDATION.required') },
-    { name: 'email', message: () => translate.selectTranslate('VALIDATION.email') },
-    { name: 'numeric', message: () => translate.selectTranslate('VALIDATION.numeric') },
-  ],
-});
+import { FORMLY_CONFIG_TRANSLATION_PROVIDER } from './providers/formly-config-translation.provider';
+import { INIT_PERMISSIONS_PROVIDER } from './providers/init-permissions.provider';
+import { LANGUAGE_PROVIDER } from './providers/language.provider';
+import { TRANSLATION_CONFIG_PROVIDER } from './transloco/transloco-config';
+import { TRANSLOCO_HTTP_LOADER_PROVIDER } from './transloco/transloco-http-loader';
 
 @NgModule({
   imports: [
@@ -47,20 +31,14 @@ const configFormly = (translate: TranslocoService) => ({
     SvgIconsModule.forRoot({ defaultSize: 'lg' }),
   ],
   providers: [
-    httpLoader,
-    translocoConfigProvider,
-    apiPrefixInterceptorProvider,
+    TRANSLOCO_HTTP_LOADER_PROVIDER,
+    TRANSLATION_CONFIG_PROVIDER,
+    API_PREFIX_INTERCEPTOR_PROVIDER,
+    FORMLY_CONFIG_TRANSLATION_PROVIDER,
+    INIT_PERMISSIONS_PROVIDER,
+    LANGUAGE_PROVIDER,
     { provide: TUI_ICONS_PATH, useValue: iconsPathFactory('assets/taiga-ui/icons/') },
     { provide: TUI_SANITIZER, useClass: NgDompurifySanitizer },
-    { provide: FORMLY_CONFIG, multi: true, useFactory: configFormly, deps: [TranslocoService] },
-    { provide: TUI_TABLE_PAGINATION_TEXTS, useFactory: translateTuiTablePaginationTexts, deps: [TranslocoService] },
-    { provide: TUI_SPIN_TEXTS, useFactory: translateSpinTexts, deps: [TranslocoService] },
-    {
-      provide: APP_INITIALIZER,
-      useFactory: initApp,
-      deps: [PermissionsService],
-      multi: true,
-    },
   ],
 })
 export class CoreModule {

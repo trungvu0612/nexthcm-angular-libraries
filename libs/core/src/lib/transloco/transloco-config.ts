@@ -14,7 +14,7 @@ const translocoConfigFactory = (injector: Injector) => {
   });
 };
 
-export const translocoConfigProvider: Provider = {
+export const TRANSLATION_CONFIG_PROVIDER: Provider = {
   provide: TRANSLOCO_CONFIG,
   useFactory: translocoConfigFactory,
   deps: [Injector],

@@ -22,7 +22,7 @@ export class ApiPrefixInterceptor implements HttpInterceptor {
   }
 }
 
-export const apiPrefixInterceptorProvider: Provider = {
+export const API_PREFIX_INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
   useClass: ApiPrefixInterceptor,
   multi: true,

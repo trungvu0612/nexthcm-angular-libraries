@@ -184,12 +184,6 @@
     "cantLoginInform": "Can't access your account? Please contact your <a class='font-semibold' href='{{url}}'>administrators</a>.",
     "login": "Login"
   },
-  "TUI_TABLE_PAGINATION_TEXTS": {
-    "pages": "Pages",
-    "linesPerPage": "Lines per page",
-    "of": "of"
-  },
-  "TUI_SPIN_TEXTS": ["Previous", "Next"],
   "editEmployee": "Edit Employee",
   "generalInformation": "General Information",
   "individual": "Individual",

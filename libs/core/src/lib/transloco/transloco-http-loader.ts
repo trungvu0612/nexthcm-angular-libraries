@@ -18,4 +18,4 @@ export class TranslocoHttpLoader implements TranslocoLoader {
   }
 }
 
-export const httpLoader: Provider = { provide: TRANSLOCO_LOADER, useClass: TranslocoHttpLoader };
+export const TRANSLOCO_HTTP_LOADER_PROVIDER: Provider = { provide: TRANSLOCO_LOADER, useClass: TranslocoHttpLoader };
