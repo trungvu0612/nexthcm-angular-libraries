@@ -1,7 +1,7 @@
 <main *transloco="let t" class="main-page">
   <header>
     <h1>{{ t('tenantManagement') }}</h1>
-    <button (click)="setTenantId('')" routerLink="./create" tuiButton>
+    <button (click)="viewOrCreateTenant('')" routerLink="./create" tuiButton>
       {{ t('createTenant') }}
     </button>
   </header>
@@ -37,10 +37,9 @@
         </td>
         <td class="flex gap-2">
           <button
-            (click)="setTenantId(row.id)"
+            (click)="viewOrCreateTenant(row.id)"
             appearance="flat"
             icon="tuiIconShowLarge"
-            routerLink="./detail"
             size="m"
             tuiIconButton
           ></button>

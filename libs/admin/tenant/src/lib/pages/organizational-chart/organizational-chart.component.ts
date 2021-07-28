@@ -38,7 +38,8 @@ export class OrganizationalChartComponent {
   scrollbar!: ElementRef;
   canZoom = false;
   hovering: OrganizationalUnit | null = null;
-  $ = this.state.select();
+  chart$ = this.state.select('chart');
+  zoom$ = this.state.select('zoom');
   dimension$ = this.state.select('zoom').pipe(
     map((zoom) => {
       const factor = zoom / 100;
@@ -147,8 +148,10 @@ export class OrganizationalChartComponent {
 
   @ViewChild('scrollbar') set element(element: ElementRef) {
     this.scrollbar = element;
-    const min = this.min > 100 ? 100 : this.min;
-    this.state.set({ min, zoom: min });
+    this.state.hold(this.state.select('width'), () => {
+      const min = this.min > 100 ? 100 : this.min;
+      this.state.set({ min, zoom: min });
+    });
   }
 
   get min(): number {

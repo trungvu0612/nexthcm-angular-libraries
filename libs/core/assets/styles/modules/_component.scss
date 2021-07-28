@@ -106,7 +106,7 @@ button {
 }
 
 .formly-gap {
-  formly-field {
+  > formly-field {
     @apply block mt-4;
 
     p span:first-child {

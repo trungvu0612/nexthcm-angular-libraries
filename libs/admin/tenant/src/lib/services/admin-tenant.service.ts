@@ -6,7 +6,9 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Domain, OrganizationalLevel, OrganizationalUnit, OrganizationalUnitForm, Tenant } from '../models/tenant';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class AdminTenantService extends RxState<{ id: string }> {
   constructor(private readonly http: HttpClient) {
     super();
