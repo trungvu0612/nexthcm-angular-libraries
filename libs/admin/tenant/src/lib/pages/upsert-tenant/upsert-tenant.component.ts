@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { PromptService, UploadFileService } from '@nexthcm/ui';
 import { FormGroup } from '@ngneat/reactive-forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
@@ -36,7 +36,6 @@ export class UpsertTenantComponent {
       key: 'image',
       type: 'upload-file',
       templateOptions: {
-        // required: true,
         translate: true,
         label: 'companyLogo',
         linkText: 'chooseAnImage',
@@ -53,7 +52,6 @@ export class UpsertTenantComponent {
           key: 'addresses.address1',
           type: 'input',
           templateOptions: {
-            required: true,
             translate: true,
             label: 'addresses',
             placeholder: 'enterAddress',
@@ -90,7 +88,6 @@ export class UpsertTenantComponent {
               key: 'addresses.countryId',
               type: 'select',
               templateOptions: {
-                // required: true,
                 translate: true,
                 label: 'country',
                 placeholder: 'chooseCountry',
@@ -103,7 +100,6 @@ export class UpsertTenantComponent {
               key: 'addresses.state',
               type: 'select',
               templateOptions: {
-                // required: true,
                 translate: true,
                 label: 'province',
                 placeholder: 'chooseProvince',
@@ -138,7 +134,6 @@ export class UpsertTenantComponent {
               key: 'addresses.city',
               type: 'select',
               templateOptions: {
-                // required: true,
                 translate: true,
                 label: 'city',
                 placeholder: 'chooseCity',
@@ -169,7 +164,6 @@ export class UpsertTenantComponent {
               key: 'addresses.postalCode',
               type: 'input',
               templateOptions: {
-                // required: true,
                 translate: true,
                 label: 'postalCode',
                 placeholder: 'enterPostalCode',
@@ -180,21 +174,37 @@ export class UpsertTenantComponent {
           ],
         },
         {
-          key: 'user.username',
-          type: 'input',
-          templateOptions: {
-            // required: true,
-            translate: true,
-            label: 'username',
-            placeholder: 'enterUsername',
-            textfieldLabelOutside: true,
-          },
+          fieldGroupClassName: 'grid grid-cols-2 gap-x-4',
+          fieldGroup: [
+            {
+              key: 'user.profile.firstName',
+              type: 'input',
+              templateOptions: {
+                required: true,
+                translate: true,
+                label: 'firstName',
+                placeholder: 'enterFirstName',
+                textfieldLabelOutside: true,
+              },
+            },
+            {
+              key: 'user.profile.lastName',
+              type: 'input',
+              templateOptions: {
+                required: true,
+                translate: true,
+                label: 'lastName',
+                placeholder: 'enterLastName',
+                textfieldLabelOutside: true,
+              },
+            },
+          ],
         },
+
         {
           key: 'tax',
           type: 'input',
           templateOptions: {
-            // required: true,
             translate: true,
             label: 'taxCode',
             placeholder: 'enterTaxCode',
@@ -206,7 +216,6 @@ export class UpsertTenantComponent {
           key: 'contacts.phone',
           type: 'input',
           templateOptions: {
-            // required: true,
             translate: true,
             label: 'phone',
             placeholder: 'enterPhoneNumber',
@@ -218,7 +227,6 @@ export class UpsertTenantComponent {
           key: 'contacts.email',
           type: 'input',
           templateOptions: {
-            // required: true,
             translate: true,
             label: 'email',
             placeholder: 'enterEmail',
@@ -230,7 +238,6 @@ export class UpsertTenantComponent {
           key: 'contacts.website',
           type: 'input',
           templateOptions: {
-            // required: true,
             translate: true,
             label: 'website',
             placeholder: 'enterWebsite',
@@ -241,8 +248,8 @@ export class UpsertTenantComponent {
     },
   ];
   readonly sign$ = iif(
-    () => !!this.route.snapshot.queryParams.id,
-    this.adminTenantService.getTenant(this.route.snapshot.queryParams.id).pipe(tap((tenant) => (this.model = tenant))),
+    () => !!this.adminTenantService.get('id'),
+    this.adminTenantService.getTenant().pipe(tap((tenant) => (this.model = tenant))),
     of(true)
   );
 
@@ -250,7 +257,6 @@ export class UpsertTenantComponent {
     private readonly adminTenantService: AdminTenantService,
     private readonly promptService: PromptService,
     private readonly uploadFileService: UploadFileService,
-    private readonly route: ActivatedRoute,
     private readonly router: Router
   ) {}
 

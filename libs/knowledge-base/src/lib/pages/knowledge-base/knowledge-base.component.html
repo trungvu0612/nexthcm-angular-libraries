@@ -2,10 +2,15 @@
   <header>
     <h1>{{ t('knowledgeBase') }}</h1>
     <div class="flex gap-6">
-      <tui-input [(ngModel)]="search" [tuiTextfieldLabelOutside]="true" class="w-72" icon="tuiIconSearchLarge">{{
-        t('searchBy', { value: t('name').toLowerCase() + ', ' + t('description').toLowerCase() })
-      }}</tui-input>
-      <button tuiButton>{{ t('search') }}</button>
+      <tui-input
+        (keydown.enter)="search$.next(search)"
+        [(ngModel)]="search"
+        [tuiTextfieldLabelOutside]="true"
+        class="w-72"
+        icon="tuiIconSearchLarge"
+        >{{ t('searchBy', { value: t('name').toLowerCase() + ', ' + t('description').toLowerCase() }) }}</tui-input
+      >
+      <button (click)="search$.next(search)" tuiButton>{{ t('search') }}</button>
     </div>
   </header>
   <section class="main-section">
@@ -18,6 +23,6 @@
       </div>
     </tui-scrollbar>
     <p class="text-2xl font-semibold my-7">Updated</p>
-    <hcm-updated-knowledge></hcm-updated-knowledge>
+    <hcm-updated-knowledge [search]="search$"></hcm-updated-knowledge>
   </section>
 </main>

@@ -1,7 +1,7 @@
 <main *transloco="let t" class="main-page">
   <header>
     <h1>{{ t('tenantManagement') }}</h1>
-    <button routerLink="./create" tuiButton>
+    <button (click)="setTenantId('')" routerLink="./create" tuiButton>
       {{ t('createTenant') }}
     </button>
   </header>
@@ -30,18 +30,14 @@
         <td>{{ row.tenantName }}</td>
         <td>
           <tui-tag
-            [class]="{
-              'rejected-tag': row.state === -1,
-              'waiting-tag': row.state === 0,
-              'approved-tag': row.state === 1
-            }"
             [hoverable]="true"
             [value]="t(row.state | getStatus)"
+            class="{{ (row.state | getStatus) + '-tag' }}"
           ></tui-tag>
         </td>
         <td class="flex gap-2">
           <button
-            [queryParams]="{ id: row.id }"
+            (click)="setTenantId(row.id)"
             appearance="flat"
             icon="tuiIconShowLarge"
             routerLink="./detail"

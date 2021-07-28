@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, HostListener, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { PromptService } from '@nexthcm/ui';
 import { FormGroup } from '@ngneat/reactive-forms';
 import { TranslocoService } from '@ngneat/transloco';
@@ -6,17 +6,26 @@ import { FormlyFieldConfig } from '@ngx-formly/core';
 import { RxState } from '@rx-angular/state';
 import { TuiDialogContext, TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusContent } from '@tinkoff/ng-polymorpheus';
-import { DefaultConfig } from 'ngx-easy-table';
-import { from, iif, of, Subscriber, timer } from 'rxjs';
+import { from, iif, of, Subscriber } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { SweetAlertOptions } from 'sweetalert2';
 import { OrganizationalUnit, OrganizationalUnitForm } from '../../models/tenant';
 import { AdminTenantService } from '../../services/admin-tenant.service';
+import { UserDto } from '@nexthcm/core';
 
-interface Unit {
-  level: string;
-  children?: Unit[];
+interface State {
+  users: Partial<UserDto>[];
+  levels: string[];
+  chart: Partial<OrganizationalUnit>;
+  width: number;
+  min: number;
+  zoom: number;
 }
+
+const getSpan = (item: Partial<OrganizationalUnit>): number => {
+  if (item.descendants?.length) return item.descendants.map((i) => getSpan(i)).reduce((a: number, b: number) => a + b);
+  else return 1;
+};
 
 @Component({
   selector: 'hcm-organizational-chart',
@@ -25,42 +34,16 @@ interface Unit {
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [RxState],
 })
-export class OrganizationalChartComponent implements AfterViewInit {
-  @ViewChild('scrollbar') scrollbar!: ElementRef;
+export class OrganizationalChartComponent {
+  scrollbar!: ElementRef;
   canZoom = false;
-  zoom$ = this.state.select('zoom');
-  hovering: Unit | null = null;
-  root: Unit = {
-    level: 'root',
-    children: [
-      {
-        level: '1l',
-        children: [
-          { level: '2l', children: [{ level: '3', children: [{ level: '4' }] }] },
-          { level: '2r', children: [{ level: '3', children: [{ level: '4' }] }] },
-        ],
-      },
-      {
-        level: '1l',
-        children: [
-          { level: '2l', children: [{ level: '3', children: [{ level: '4' }] }] },
-          { level: '2r', children: [{ level: '3', children: [{ level: '4' }] }] },
-        ],
-      },
-      {
-        level: '1r',
-        children: [
-          { level: '2l', children: [{ level: '3', children: [{ level: '4' }] }] },
-          { level: '2r', children: [{ level: '3', children: [{ level: '4' }] }] },
-        ],
-      },
-    ],
-  };
+  hovering: OrganizationalUnit | null = null;
+  $ = this.state.select();
   dimension$ = this.state.select('zoom').pipe(
     map((zoom) => {
       const factor = zoom / 100;
       return {
-        wrap: this.getSpread(this.root) * 320 * factor + 64 + 'px',
+        wrap: this.state.get('width') * factor + 'px',
         unit: 300 * factor + 'px',
         image: 64 * factor + 'px',
         icon: 24 * factor + 'px',
@@ -72,16 +55,6 @@ export class OrganizationalChartComponent implements AfterViewInit {
       };
     })
   );
-  readonly configuration = { ...DefaultConfig, orderEnabled: false, paginationEnabled: false, fixedColumnWidth: false };
-  readonly columns$ = this.translocoService.selectTranslateObject('TENANT_TABLE').pipe(
-    map((translate) => [
-      { key: 'name', title: translate.name },
-      { key: 'organizationalLevel', title: translate.organizationalLevel },
-      { key: 'companyName', title: translate.companyName },
-      { key: 'action', title: translate.action },
-    ])
-  );
-  readonly organization$ = this.adminTenantService.select('organization');
   readonly form = new FormGroup<Partial<OrganizationalUnitForm>>({});
   model!: Partial<OrganizationalUnitForm>;
   readonly fields: FormlyFieldConfig[] = [
@@ -104,7 +77,7 @@ export class OrganizationalChartComponent implements AfterViewInit {
         translate: true,
         label: 'organizationalLevel',
         placeholder: 'chooseOrganizationalLevel',
-        options: this.adminTenantService.select('levels'),
+        options: this.state.select('levels'),
       },
     },
     {
@@ -120,6 +93,7 @@ export class OrganizationalChartComponent implements AfterViewInit {
         matcherBy: 'id',
       },
       expressionProperties: { 'templateOptions.disabled': '!model.orgType' },
+      hideExpression: 'model.id',
       hooks: {
         onInit: (field?: FormlyFieldConfig) => {
           if (field?.templateOptions) {
@@ -140,9 +114,10 @@ export class OrganizationalChartComponent implements AfterViewInit {
         labelProp: 'username',
         subLabelProp: 'code',
         textfieldCleaner: true,
-        options: this.adminTenantService.select('users'),
+        options: this.state.select('users'),
         matcherBy: 'id',
       },
+      hideExpression: 'model.id',
     },
     {
       key: 'description',
@@ -159,52 +134,54 @@ export class OrganizationalChartComponent implements AfterViewInit {
     private readonly adminTenantService: AdminTenantService,
     private readonly dialogService: TuiDialogService,
     private readonly translocoService: TranslocoService,
-    private readonly state: RxState<{ min: number; zoom: number }>,
+    private readonly state: RxState<State>,
     private promptService: PromptService
   ) {
-    this.state.set({ min: 100, zoom: 100 });
+    this.state.connect('users', this.adminTenantService.getUsers());
+    this.state.connect('levels', this.adminTenantService.getOrganizationalLevels());
+    this.state.connect('chart', this.adminTenantService.getOrganizationChart());
+    this.state.hold(this.state.select('chart'), (chart) => {
+      this.state.set({ width: getSpan(chart) * 320 });
+    });
+  }
+
+  @ViewChild('scrollbar') set element(element: ElementRef) {
+    this.scrollbar = element;
+    const min = this.min > 100 ? 100 : this.min;
+    this.state.set({ min, zoom: min });
   }
 
   get min(): number {
-    return this.scrollbar
-      ? ((this.scrollbar.nativeElement.offsetWidth - 64) / (this.getSpread(this.root) * 320)) * 100
-      : 100;
+    return this.scrollbar && this.state.get('width')
+      ? ((this.scrollbar.nativeElement.offsetWidth - 64) / this.state.get('width')) * 100
+      : 0;
   }
 
   @HostListener('window:resize', ['$event'])
   updateMin() {
-    this.state.set((state) => {
-      if (state.zoom < this.min) return { min: this.min, zoom: this.min };
-      return { min: this.min };
-    });
+    if (this.min <= 100)
+      this.state.set((state) => {
+        if (state.zoom < this.min) return { min: this.min, zoom: this.min };
+        return { min: this.min };
+      });
   }
 
-  // @HostListener('mousewheel', ['$event'])
-  // zoom(event: WheelEvent) {
-  //   if (this.canZoom) {
-  // const state = this.state.get();
-  // if (
-  //   (state.zoom < 100 && state.zoom > state.min) ||
-  //   (state.zoom === 100 && event.deltaY < 0) ||
-  //   (state.zoom === state.min && event.deltaY > 0)
-  // ) {
-  //   event.preventDefault();
-  //   this.state.set((state) => {
-  //     const newZoom = state.zoom + event.deltaY / 25;
-  //     return { zoom: newZoom > 100 ? 100 : newZoom < state.min ? state.min : newZoom };
-  //   });
-  // }
-  //   }
-  // }
-
-  ngAfterViewInit(): void {
-    this.state.connect(timer(100).pipe(map(() => ({ min: this.min, zoom: this.min }))));
-  }
-
-  getSpread(item: Unit): number {
-    if (item.children?.length)
-      return item.children.map((i) => this.getSpread(i)).reduce((a: number, b: number) => a + b);
-    else return 1;
+  @HostListener('mousewheel', ['$event'])
+  zoom(event: WheelEvent) {
+    if (this.canZoom) {
+      event.preventDefault();
+      const state = this.state.get();
+      if (
+        (state.zoom < 100 && state.zoom > state.min) ||
+        (state.zoom === 100 && event.deltaY < 0) ||
+        (state.zoom === state.min && event.deltaY > 0)
+      ) {
+        this.state.set((state) => {
+          const newZoom = state.zoom + event.deltaY / 25;
+          return { zoom: newZoom > 100 ? 100 : newZoom < state.min ? state.min : newZoom };
+        });
+      }
+    }
   }
 
   upsertUnit(content: PolymorpheusContent<TuiDialogContext>, unit?: Partial<OrganizationalUnit>) {
@@ -218,10 +195,10 @@ export class OrganizationalChartComponent implements AfterViewInit {
 
   submitUnit(observer: Subscriber<unknown>) {
     if (this.form.valid) {
-      this.adminTenantService
-        .createOrganizationUnit(this.model)
+      observer.complete();
+      this.adminTenantService[this.model.id ? 'editOrganizationUnit' : 'createOrganizationUnit'](this.model)
         .pipe(switchMap(() => this.promptService.open({ icon: 'success' } as SweetAlertOptions)))
-        .subscribe(() => observer.complete());
+        .subscribe(() => this.state.connect('chart', this.adminTenantService.getOrganizationChart()));
     }
   }
 
@@ -231,6 +208,6 @@ export class OrganizationalChartComponent implements AfterViewInit {
         switchMap((result) => iif(() => result.isConfirmed, this.adminTenantService.deleteOrganizationUnit(id))),
         switchMap(() => this.promptService.open({ icon: 'success' } as SweetAlertOptions))
       )
-      .subscribe();
+      .subscribe(() => this.state.connect('chart', this.adminTenantService.getOrganizationChart()));
   }
 }

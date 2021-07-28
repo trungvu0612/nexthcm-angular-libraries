@@ -6,7 +6,7 @@ import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDialogContext, TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusContent } from '@tinkoff/ng-polymorpheus';
 import { DefaultConfig } from 'ngx-easy-table';
-import { from, iif, Subscriber } from 'rxjs';
+import { BehaviorSubject, from, iif, Subscriber } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { SweetAlertOptions } from 'sweetalert2';
 import { OrganizationalLevel } from '../../models/tenant';
@@ -29,7 +29,8 @@ export class OrganizationalStructureComponent {
       { key: 'action', title: translate.action },
     ])
   );
-  readonly structure$ = this.adminTenantService.select('structure');
+  readonly refresh$ = new BehaviorSubject('');
+  readonly structure$ = this.refresh$.pipe(switchMap(() => this.adminTenantService.getOrganizationalStructure()));
   readonly form = new FormGroup<Partial<OrganizationalLevel>>({});
   model!: Partial<OrganizationalLevel>;
   readonly fields: FormlyFieldConfig[] = [
@@ -78,10 +79,11 @@ export class OrganizationalStructureComponent {
 
   submitLevel(observer: Subscriber<unknown>) {
     if (this.form.valid) {
+      observer.complete();
       this.adminTenantService
         .upsertOrganizationalLevel(this.model, this.model.id ? 'put' : 'post')
         .pipe(switchMap(() => this.promptService.open({ icon: 'success' } as SweetAlertOptions)))
-        .subscribe(() => observer.complete());
+        .subscribe(() => this.refresh$.next(''));
     }
   }
 
@@ -91,6 +93,6 @@ export class OrganizationalStructureComponent {
         switchMap((result) => iif(() => result.isConfirmed, this.adminTenantService.deleteOrganizationalLevel(id))),
         switchMap(() => this.promptService.open({ icon: 'success' } as SweetAlertOptions))
       )
-      .subscribe();
+      .subscribe(() => this.refresh$.next(''));
   }
 }

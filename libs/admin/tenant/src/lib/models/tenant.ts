@@ -42,13 +42,14 @@ export interface OrganizationalUnit {
   code: string;
   description: string;
   tenant: Tenant;
+  descendants: OrganizationalUnit[];
 }
 
 export interface OrganizationalUnitForm {
   id: string;
   orgName: string;
   orgType: string;
+  description: string;
   ancestor: { id: string };
   user: { id: string };
-  description: string;
 }

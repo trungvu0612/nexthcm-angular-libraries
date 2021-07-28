@@ -88,6 +88,8 @@
   "KNOWLEDGE_BASE_TABLE": {
     "creator": "Creator",
     "category": "Category",
+    "description": "Description",
+    "status": "Status",
     "action": "Action"
   },
   "ZONE_TABLE": {
@@ -110,7 +112,7 @@
     "organizationalLevel": "Organizational level",
     "parentOrganization": "Parent organizational",
     "companyName": "Company name",
-    "status": "Trạng thái",
+    "status": "Status",
     "action": "Action"
   },
   "VALIDATION": {

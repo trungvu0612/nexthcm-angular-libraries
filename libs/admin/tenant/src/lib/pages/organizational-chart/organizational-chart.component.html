@@ -3,46 +3,16 @@
     <h1>{{ t('organizationalChart') }}</h1>
     <button (click)="upsertUnit(content)" tuiButton>{{ t('addOrganizationalUnit') }}</button>
   </header>
-  <section #scrollbar class="main-section">
-    <div class="p-8">
-      <ngx-table
-        [columns]="(columns$ | async) || []"
-        [configuration]="configuration"
-        [data]="(organization$ | async) || []"
-      >
-        <ng-template let-row>
-          <td>{{ row.orgName }}</td>
-          <td>{{ row.orgType }}</td>
-          <td>{{ row.tenant.tenantName }}</td>
-          <td class="flex gap-2">
-            <button
-              (click)="upsertUnit(content, row)"
-              appearance="flat"
-              icon="tuiIconEditLarge"
-              size="m"
-              tuiIconButton
-              type="button"
-            ></button>
-            <button
-              (click)="deleteUnit(row.id)"
-              appearance="flat"
-              icon="tuiIconTrashLarge"
-              size="m"
-              tuiIconButton
-            ></button>
-          </td>
-        </ng-template>
-      </ngx-table>
-    </div>
-    <div class="flex justify-end gap-1 pt-4 pr-4">
-      <span class="font-semibold"> {{ (zoom$ | async | number: '1.0-0') + '%' }}</span>
+  <section #scrollbar *ngIf="$ | async as $" class="main-section">
+    <div class="flex justify-end gap-1">
+      <span class="font-semibold"> {{ ($.zoom | number: '1.0-0') + '%' }}</span>
       <hero-icon class="w-6 h-6" name="zoom-in" type="solid"></hero-icon>
     </div>
     <tui-scrollbar (mouseenter)="canZoom = true" (mouseleave)="canZoom = false" class="w-0 min-w-full">
       <div
         *ngIf="dimension$ | async as dim"
         [style]="{
-          '--wrap': dim.wrap,
+          width: dim.wrap,
           '--unit': dim.unit,
           '--image': dim.image,
           '--icon': dim.icon,
@@ -52,11 +22,11 @@
           '--quarter': dim.quarter,
           '--bar': dim.bar
         }"
-        class="chart min-w-full p-8 pt-2"
+        class="my-4"
       >
-        <ng-template [ngTemplateOutletContext]="{ $implicit: root }" [ngTemplateOutlet]="level"></ng-template>
-        <ng-template #level let-unit>
-          <ng-container *tuiLet="unit.children?.length as length">
+        <ng-template [ngTemplateOutletContext]="{ $implicit: $.chart }" [ngTemplateOutlet]="unitContent"></ng-template>
+        <ng-template #unitContent let-unit>
+          <ng-container *tuiLet="unit.descendants?.length as length">
             <div
               (mouseenter)="hovering = unit"
               (mouseleave)="hovering = null"
@@ -69,8 +39,8 @@
                 src="https://pbs.twimg.com/profile_images/1369877387949699074/tcvNQSr1.jpg"
               />
               <div>
-                <p class="name font-semibold">Company Name</p>
-                <p class="sub-name text-gray-500">Address</p>
+                <p class="name font-semibold">{{ unit.orgName }}</p>
+                <p class="sub-name text-gray-500">{{ unit.code }}</p>
               </div>
               <div *ngIf="hover" class="icons flex absolute">
                 <hero-icon (click)="upsertUnit(content, unit)" name="pencil-alt" type="solid"></hero-icon>
@@ -86,8 +56,11 @@
             </ng-container>
             <div *ngIf="length" [class]="'grid-cols-' + length" class="grid">
               <div *ngFor="let i of [].constructor(length)" class="bar-vertical bg-black justify-self-center"></div>
-              <div *ngFor="let child of unit.children">
-                <ng-template [ngTemplateOutletContext]="{ $implicit: child }" [ngTemplateOutlet]="level"></ng-template>
+              <div *ngFor="let child of unit.descendants">
+                <ng-template
+                  [ngTemplateOutletContext]="{ $implicit: child }"
+                  [ngTemplateOutlet]="unitContent"
+                ></ng-template>
               </div>
             </div>
           </ng-container>

@@ -9,6 +9,7 @@ const LANGS: { [key: string]: string } = { en: 'English', vi: 'Tiếng Việt' }
 const TABS = [
   {
     root: 'admin/tenant/',
+    exclude: 'create',
     tabs: [
       { path: 'detail', tabName: 'information' },
       { path: 'domain', tabName: 'domain' },
@@ -72,7 +73,12 @@ export class HeaderComponent {
       this.router.events.pipe(
         filter((e: any) => e instanceof NavigationEnd),
         map((event) => {
-          const index = TABS.findIndex((item) => new RegExp('^/' + item.root).test(event.urlAfterRedirects));
+          const index = TABS.findIndex((item) => {
+            const checkHas = new RegExp('^/' + item.root).test(event.urlAfterRedirects);
+            if (item.exclude)
+              return checkHas && !new RegExp('^/' + item.root + item.exclude).test(event.urlAfterRedirects);
+            return checkHas;
+          });
           if (index > -1) return TABS[index];
           return { root: '', tabs: [] };
         })

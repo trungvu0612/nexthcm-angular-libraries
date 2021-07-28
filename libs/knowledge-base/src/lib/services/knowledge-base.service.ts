@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Pagination, PagingResponse } from '@nexthcm/core';
 import { Observable } from 'rxjs';
-import { Knowledge } from '../models/knowledge';
+import { Category, Knowledge } from '../models/knowledge';
 import { map } from 'rxjs/operators';
 
 @Injectable({
@@ -11,7 +11,7 @@ import { map } from 'rxjs/operators';
 export class KnowledgeBaseService {
   constructor(private http: HttpClient) {}
 
-  getKnowledgeBase(params: { [key: string]: number }): Observable<Pagination<Partial<Knowledge>>> {
+  getKnowledgeBase(params: { longDescription?: string; size: number }): Observable<Pagination<Partial<Knowledge>>> {
     return this.http
       .get<PagingResponse<Partial<Knowledge>>>('/mytimeapp/v1.0/policies', { params })
       .pipe(map((response) => response.data));
@@ -21,11 +21,25 @@ export class KnowledgeBaseService {
     return this.http.get<Partial<Knowledge>>('/mytimeapp/v1.0/policies/' + id);
   }
 
-  createKnowledge(knowledge: Partial<Knowledge>): Observable<unknown> {
-    return this.http.post('/mytimeapp/v1.0/policies', knowledge);
+  getCategories(params: { [key: string]: number }): Observable<Pagination<Partial<Category>>> {
+    return this.http
+      .get<PagingResponse<Partial<Category>>>('/mytimeapp/v1.0/policy-category', { params })
+      .pipe(map((response) => response.data));
   }
 
-  editKnowledge(knowledge: Partial<Knowledge>, id: string): Observable<unknown> {
-    return this.http.put('/mytimeapp/v1.0/policies/' + id, knowledge);
+  getCategory(id: string): Observable<Partial<Category>> {
+    return this.http.get<Partial<Category>>('/mytimeapp/v1.0/policy-category/' + id);
+  }
+
+  createCategory(category: Partial<Category>): Observable<unknown> {
+    return this.http.post('/mytimeapp/v1.0/policy-category', category);
+  }
+
+  editCategory(category: Partial<Category>): Observable<unknown> {
+    return this.http.put('/mytimeapp/v1.0/policy-category/' + category.id, category);
+  }
+
+  deleteCategory(id: string): Observable<unknown> {
+    return this.http.delete('/mytimeapp/v1.0/policy-category/' + id);
   }
 }

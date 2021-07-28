@@ -3,7 +3,7 @@
     <div *ngFor="let item of data.items" class="flex gap-6 border-b text-base pb-5 mb-5">
       <tui-avatar [avatarUrl]="item.thumbnail || '' | getFile | async" [rounded]="true" size="l"></tui-avatar>
       <div>
-        <a [routerLink]="['/knowledge-base/policies/' + item.id]" class="font-semibold" tuiLink>
+        <a [routerLink]="['/knowledge-base', item.id]" class="font-semibold" tuiLink>
           {{ item.topic }}
         </a>
         <div class="flex items-center gap-2 text-gray-500 mt-2 mb-4">
@@ -13,12 +13,7 @@
         <p>{{ item.shortDescription }}</p>
       </div>
     </div>
-    <button
-      (click)="size$.next(size$.value + 10)"
-      *ngIf="data.size < data.totalElements"
-      class="block mx-auto"
-      tuiButton
-    >
+    <button (click)="viewMore()" *ngIf="data.size < data.totalElements" class="block mx-auto" tuiButton>
       {{ t('viewMore') }}
     </button>
   </section>

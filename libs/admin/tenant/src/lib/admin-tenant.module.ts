@@ -12,7 +12,6 @@ import { TuiAvatarModule, TuiInputModule, TuiIslandModule, TuiSliderModule, TuiT
 import { HeroIconModule, pencilAlt, trash, zoomIn } from 'ng-heroicon';
 import { TableModule } from 'ngx-easy-table';
 import { NgxPermissionsGuard } from 'ngx-permissions';
-import { AdminTenantComponent } from './admin-tenant.component';
 import { DomainListComponent } from './pages/domain-list/domain-list.component';
 import { OrganizationalChartComponent } from './pages/organizational-chart/organizational-chart.component';
 import { OrganizationalStructureComponent } from './pages/organizational-structure/organizational-structure.component';
@@ -36,7 +35,6 @@ export const adminTenantRoutes: Routes = [
       },
       {
         path: '',
-        component: AdminTenantComponent,
         canActivate: [NgxPermissionsGuard],
         data: { permissions: { only: 'UPDATE_TENANT', redirectTo: '/' } },
         children: [
@@ -52,7 +50,6 @@ export const adminTenantRoutes: Routes = [
 
 @NgModule({
   declarations: [
-    AdminTenantComponent,
     TenantListComponent,
     DomainListComponent,
     UpsertTenantComponent,
