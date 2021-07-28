@@ -333,7 +333,9 @@
     "history": "Lịch Sử Hoạt Động",
     "close": "Đóng",
     "status": "Trạng Thái",
-    "cancel": "Hủy"
+    "cancel": "Hủy",
+    "requestSuccess": "Đã Gửi Đơn Xin Làm Việc Tại Nhà!",
+    "requestOnsiteSuccess": "Đã Gửi Đơn Thành Công!"
   },
   "addNewEmployee": "Thêm nhân viên mới",
   "overview": "Tổng quan",

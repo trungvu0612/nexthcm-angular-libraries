@@ -5,6 +5,8 @@ import { Observable } from 'rxjs';
 import { Office } from '../models/offices';
 import { WorkingAfterTime } from '../models/working-after-time';
 import { WorkingTimes } from '../models/working-times';
+import { map } from 'rxjs/operators';
+import { Level } from '../../../../job-level/src/lib/models/level';
 
 @Injectable({
   providedIn: 'root',
@@ -42,5 +44,9 @@ export class WorkingTimesService {
 
   submitWorkingAfterTime(body: any): Observable<WorkingAfterTime> {
     return this.httpClient.post<WorkingAfterTime>(`${this.appVersion}/config/times/overtime`, body);
+  }
+
+  statusChecking(): Observable<any> {
+    return this.httpClient.get<any>(this.appVersion + '/check-in-out');
   }
 }

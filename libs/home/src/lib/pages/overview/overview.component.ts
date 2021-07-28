@@ -15,10 +15,12 @@ import { OverviewService } from '../../services/overview.service';
   templateUrl: './overview.component.html',
   styleUrls: ['./overview.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [DatePipe, TuiDestroyService],
+  providers: [DatePipe, TuiDestroyService]
 })
 export class OverviewComponent implements OnInit {
   myId = this.authService.get('userInfo').userId;
+  orgId = this.authService.get('userInfo').orgId;
+  checkingBtn = true;
   fingerCheck = true;
   idChecking: any;
   dataChecking: any;
@@ -34,11 +36,17 @@ export class OverviewComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private promptService: PromptService
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
-    const myDate = this.datePipe.transform(new Date(), 'yyyy-MM-dd hh:mm:ss');
-    this.overviewService.statusChecking(this.myId, myDate).subscribe((item) => {
+    this.getWorkingHourTime();
+    this.checkingStatus();
+  }
+
+  checkingStatus() {
+    this.overviewService.statusChecking().subscribe((item) => {
+      console.log(item);
       if (item.data?.items.length > 0) {
         // show check-out button
         this.checkingAction = 'checked-out';
@@ -51,8 +59,22 @@ export class OverviewComponent implements OnInit {
     });
   }
 
+  getWorkingHourTime() {
+    this.overviewService.getTimeWorkingHour(this.orgId).subscribe((item) => {
+      const today = new Date();
+      const timeChecking = today.getHours() * 60 * 60 + today.getMinutes() * 60 + today.getSeconds();
+      if (timeChecking < item.data?.minStart || timeChecking > item.data?.maxStart) {
+        this.fingerCheck = false;
+        this.checkingBtn = false;
+      }
+      this.cdr.detectChanges();
+    });
+  }
+
   fingerStatus() {
-    this.fingerCheck = !this.fingerCheck;
+    if (this.checkingBtn == true) {
+      this.fingerCheck = !this.fingerCheck;
+    }
   }
 
   checkingTime(checkingType: string) {
@@ -60,7 +82,7 @@ export class OverviewComponent implements OnInit {
     const timeChecking = today.getHours() * 60 * 60 + today.getMinutes() * 60 + today.getSeconds();
     this.dataChecking = {
       trackingDate: today.valueOf(),
-      lastAction: checkingType,
+      lastAction: checkingType
     };
     if (checkingType == 'checked-in') {
       this.dataChecking.checkinFrom = 'web-app';
@@ -75,7 +97,7 @@ export class OverviewComponent implements OnInit {
               icon: 'error',
               text: err.error.message,
               showCancelButton: true,
-              showConfirmButton: false,
+              showConfirmButton: false
             } as SweetAlertOptions)
           ),
           switchMap((options) => this.promptService.open(options)),
@@ -101,7 +123,7 @@ export class OverviewComponent implements OnInit {
               icon: 'error',
               text: err.error.message,
               showCancelButton: true,
-              showConfirmButton: false,
+              showConfirmButton: false
             } as SweetAlertOptions)
           ),
           switchMap((options) => this.promptService.open(options)),

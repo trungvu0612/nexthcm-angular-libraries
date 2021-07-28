@@ -14,14 +14,13 @@
 
 <table [columns]="columns" class="hcm-tui-table" tuiTable>
   <thead>
-<!--  readonly columns = ['fromDate', 'toDate', 'length', 'status', 'reason', 'assignedName', 'action'];-->
+  <!--  readonly columns = ['fromDate', 'toDate', 'length', 'status', 'reason', 'assignedName', 'action'];-->
   <tr tuiThGroup>
     <th *tuiHead="'fromDate'" tuiTh>From Date</th>
     <th *tuiHead="'toDate'" tuiTh>To Date</th>
     <th *tuiHead="'length'" tuiTh>Day</th>
-    <th *tuiHead="'status'" tuiTh>Status</th>
     <th *tuiHead="'reason'" tuiTh>Reason</th>
-    <th *tuiHead="'userSendTo'" tuiTh>Send To</th>
+    <th *tuiHead="'status'" tuiTh>Status</th>
     <th *tuiHead="'action'" class="w-32" tuiTh>Action</th>
   </tr>
   </thead>
@@ -31,11 +30,10 @@
     <td *tuiCell="'toDate'" tuiTd>{{ $any(req.toDate) | date: 'dd/MM/yyyy' }}</td>
     <th *tuiHead="'length'" tuiTh>{{ req?.length }}</th>
     <td *tuiCell="'reason'" tuiTd>{{ req.reason }}</td>
-    <td *tuiCell="'userSendTo'" tuiTd>{{ req?.userSendTo?.username }}</td>
     <td *tuiCell="'status'" tuiTd>
       <tui-tag [class]="STATUS[req.status + ''] + '-tag'" [value]="STATUS[req.status + ''] | titlecase"></tui-tag></td>
     <td *tuiCell="'action'" tuiTd>
-<!--      -->
+
       <button
         (click)="cancelReq(req)"
         [icon]="'tuiIconRemoveLarge'"
@@ -45,7 +43,7 @@
         tuiIconButton
       ></button>
       <button
-        (click)="showLeaveDetail(req?.id)"
+        (click)="showLeaveDetail(req.id)"
         [icon]="'tuiIconShowLarge'"
         [shape]="$any('rounded')"
         appearance="flat"

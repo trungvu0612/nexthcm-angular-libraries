@@ -9,6 +9,7 @@ import { LeaveType } from '../models/leave-type';
 import { MyLeave } from '../models/my-leave';
 import { SentToUser } from '../models/send-to-user';
 import { durationValues, PartialDays } from '../models/submit-leave';
+import { WorkFromHome } from '../models/my-time';
 
 const MY_TIME_PATH = '/mytimeapp/v1.0';
 const MY_ACCOUNT_PATH = '/accountapp/v1.0';

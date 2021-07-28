@@ -19,3 +19,10 @@ export interface DialogRequestData {
   title: string;
   group: string;
 }
+
+export interface WorkFromHome {
+  fromDate: string;
+  toDate: string;
+  sendTo: string;
+  reason: string;
+}

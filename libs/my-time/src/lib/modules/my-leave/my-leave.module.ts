@@ -22,6 +22,7 @@ import { LeaveRequestManagementComponent } from './leave-request-management/leav
 import { MyLeaveComponent } from './my-leave.component';
 import { NotedComponent } from './noted/noted.component';
 import { SubmitLeaveRequestDialogComponent } from './submit-leave-request-dialog/submit-leave-request-dialog.component';
+import { TuiLetModule } from '@taiga-ui/cdk';
 
 @NgModule({
   declarations: [
@@ -52,6 +53,7 @@ import { SubmitLeaveRequestDialogComponent } from './submit-leave-request-dialog
     TuiTagModule,
     TuiTableModule,
     TuiInputMonthModule,
+    TuiLetModule,
   ],
 })
 export class MyLeaveModule {}

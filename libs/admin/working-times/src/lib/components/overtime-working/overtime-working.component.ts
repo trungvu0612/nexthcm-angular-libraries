@@ -15,18 +15,19 @@ import { WorkingTimesService } from '../../services/working-times.service';
   selector: 'hcm-overtime-working',
   templateUrl: './overtime-working.component.html',
   styleUrls: ['./overtime-working.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OvertimeWorkingComponent implements OnInit {
   @ViewChild('prompt') prompt!: PromptComponent;
   params$ = new BehaviorSubject<{ page?: number; size?: number }>({ size: 100 });
   offices$ = this.WorkingTimesService.getOffices().pipe(map((res) => res.data.items));
+  dataChecking$ = this.WorkingTimesService.statusChecking().pipe(map((res) => res.data.items));
 
   model: any = {};
   workingAfterTimeElement: any;
   workingHourElement: any;
   readonly form = new FormGroup({
-    filters: new FormControl([]),
+    filters: new FormControl([])
   });
 
   fields: FormlyFieldConfig[] = [
@@ -42,15 +43,15 @@ export class OvertimeWorkingComponent implements OnInit {
         subLabelProp: 'orgType',
         matcherBy: 'id',
         labelClassName: 'font-semibold',
-        required: true,
-      },
+        required: true
+      }
     },
     {
       expressionProperties: {
         template: this.translocoService
           .selectTranslate<string>('applyFor')
-          .pipe(map((result) => `<div class="font-semibold mt-5">${result}</div>`)),
-      },
+          .pipe(map((result) => `<div class='font-semibold mt-5'>${result}</div>`))
+      }
     },
     {
       className: 'tui-form__row block',
@@ -64,8 +65,8 @@ export class OvertimeWorkingComponent implements OnInit {
           templateOptions: {
             translate: true,
             label: 'Default',
-            size: 'l',
-          },
+            size: 'l'
+          }
         },
         {
           fieldGroupClassName: 'grid grid-cols-7 gap-2',
@@ -77,8 +78,8 @@ export class OvertimeWorkingComponent implements OnInit {
               templateOptions: {
                 translate: true,
                 label: 'Monday',
-                size: 'l',
-              },
+                size: 'l'
+              }
             },
             {
               key: '3',
@@ -87,8 +88,8 @@ export class OvertimeWorkingComponent implements OnInit {
               templateOptions: {
                 translate: true,
                 label: 'Tuesday',
-                size: 'l',
-              },
+                size: 'l'
+              }
             },
             {
               key: '4',
@@ -97,8 +98,8 @@ export class OvertimeWorkingComponent implements OnInit {
               templateOptions: {
                 translate: true,
                 label: 'Wednesday',
-                size: 'l',
-              },
+                size: 'l'
+              }
             },
             {
               key: '5',
@@ -107,8 +108,8 @@ export class OvertimeWorkingComponent implements OnInit {
               templateOptions: {
                 translate: true,
                 label: 'Thursday',
-                size: 'l',
-              },
+                size: 'l'
+              }
             },
             {
               key: '6',
@@ -117,8 +118,8 @@ export class OvertimeWorkingComponent implements OnInit {
               templateOptions: {
                 translate: true,
                 label: 'Friday',
-                size: 'l',
-              },
+                size: 'l'
+              }
             },
             {
               key: '7',
@@ -127,8 +128,8 @@ export class OvertimeWorkingComponent implements OnInit {
               templateOptions: {
                 translate: true,
                 label: 'Saturday',
-                size: 'l',
-              },
+                size: 'l'
+              }
             },
             {
               key: '1',
@@ -137,12 +138,12 @@ export class OvertimeWorkingComponent implements OnInit {
               templateOptions: {
                 translate: true,
                 label: 'Sunday',
-                size: 'l',
-              },
-            },
-          ],
-        },
-      ],
+                size: 'l'
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       fieldGroup: [
@@ -153,12 +154,14 @@ export class OvertimeWorkingComponent implements OnInit {
               className: 'block my-5 text-xl',
               key: 'check-out',
               type: 'input',
+              defaultValue: this.dataChecking$,
               templateOptions: {
                 textfieldLabelOutside: true,
                 label: 'OT Time (Check in)',
                 labelClassName: 'font-semibold',
                 disabled: true,
-              },
+                valueProp: 'inTime',
+              }
             },
             {
               className: 'block my-5',
@@ -169,8 +172,8 @@ export class OvertimeWorkingComponent implements OnInit {
                 label: 'Check out',
                 labelClassName: 'font-semibold',
                 textfieldSize: 'l',
-                required: true,
-              },
+                required: true
+              }
             },
             {
               className: 'block my-5',
@@ -180,8 +183,8 @@ export class OvertimeWorkingComponent implements OnInit {
                 textfieldLabelOutside: true,
                 textfieldSize: 'l',
                 label: 'Hour Min',
-                required: true,
-              },
+                required: true
+              }
             },
             {
               className: 'block my-5',
@@ -191,8 +194,8 @@ export class OvertimeWorkingComponent implements OnInit {
                 textfieldSize: 'l',
                 label: 'Minute Min',
                 required: true,
-                textfieldLabelOutside: true,
-              },
+                textfieldLabelOutside: true
+              }
             },
             {
               key: 'fingerPrint',
@@ -200,12 +203,12 @@ export class OvertimeWorkingComponent implements OnInit {
               type: 'toggle',
               templateOptions: { textfieldLabelOutside: true, labelClassName: 'font-semibold' },
               expressionProperties: {
-                'templateOptions.label': of('Use FingerPrint'),
-              },
-            },
-          ],
-        },
-      ],
+                'templateOptions.label': of('Use FingerPrint')
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       fieldGroup: [
@@ -219,14 +222,14 @@ export class OvertimeWorkingComponent implements OnInit {
               templateOptions: {
                 translate: true,
                 label: 'Weekend OT Break',
-                size: 'l',
-              },
+                size: 'l'
+              }
             },
             {
               className: 'block my-5',
               key: 'otBreakHours',
               type: 'input',
-              defaultValue: 1,
+              defaultValue: 1
             },
             {
               className: 'tui-form__row block',
@@ -236,11 +239,11 @@ export class OvertimeWorkingComponent implements OnInit {
               templateOptions: {
                 options: [
                   { value: 1, label: 'Hour' },
-                  { value: 2, label: 'Minute' },
+                  { value: 2, label: 'Minute' }
                 ],
                 valueProp: 'value',
-                labelClassName: 'font-semibold',
-              },
+                labelClassName: 'font-semibold'
+              }
             },
             {
               className: 'block my-5',
@@ -250,8 +253,8 @@ export class OvertimeWorkingComponent implements OnInit {
                 textfieldSize: 'l',
                 label: 'Hour Max',
                 required: true,
-                textfieldLabelOutside: true,
-              },
+                textfieldLabelOutside: true
+              }
             },
             {
               className: 'block my-5',
@@ -261,13 +264,13 @@ export class OvertimeWorkingComponent implements OnInit {
                 textfieldSize: 'l',
                 label: 'Minute Max',
                 required: true,
-                textfieldLabelOutside: true,
-              },
-            },
-          ],
-        },
-      ],
-    },
+                textfieldLabelOutside: true
+              }
+            }
+          ]
+        }
+      ]
+    }
   ];
 
   constructor(
@@ -277,9 +280,12 @@ export class OvertimeWorkingComponent implements OnInit {
     @Inject(TuiDialogService) private readonly dialogService: TuiDialogService,
     private destroy$: TuiDestroyService,
     private activatedRoute: ActivatedRoute
-  ) {}
+  ) {
+  }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    console.log('dataChecking$=' + this.dataChecking$);
+  }
 
   onSubmit(): void {
     const formModel = this.form.value;
@@ -288,12 +294,12 @@ export class OvertimeWorkingComponent implements OnInit {
     const workingItems: any[] = [
       {
         values: [],
-        weekDayId: 7,
+        weekDayId: 7
       },
       {
         values: [],
-        weekDayId: 1,
-      },
+        weekDayId: 1
+      }
     ];
 
     if (formModel.applyFor.includes('7')) {
@@ -321,10 +327,10 @@ export class OvertimeWorkingComponent implements OnInit {
                 ? 0
                 : formModel.workOtType == 1
                 ? formModel.otBreakHours * 3600
-                : formModel.otBreakHours * 60,
-          },
+                : formModel.otBreakHours * 60
+          }
         ],
-        weekDayId: formModel.applyFor[item],
+        weekDayId: formModel.applyFor[item]
       });
     });
 
@@ -337,7 +343,7 @@ export class OvertimeWorkingComponent implements OnInit {
       maxOtMinutes: formModel.applyFor.includes('default') ? formModel.maxOtMinutes : 0,
       otBreakHours: formModel.applyFor.includes('default') ? formModel.otBreakHours : 0,
       minStart: formModel.applyFor.includes('default') ? formModel.minStart : 0,
-      items: workingItems,
+      items: workingItems
     };
     // console.log(JSON.stringify(this.workingAfterTimeElement));
 
@@ -350,7 +356,7 @@ export class OvertimeWorkingComponent implements OnInit {
             icon: 'error',
             text: err.error.message,
             showCancelButton: true,
-            showConfirmButton: false,
+            showConfirmButton: false
           } as SweetAlertOptions)
         ),
         switchMap((options) => this.prompt.open(options)),

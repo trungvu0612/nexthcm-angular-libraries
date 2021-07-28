@@ -35,6 +35,7 @@ import { OvertimeComponent } from './list-table/overtime/overtime.component';
 import { UpdateTimeComponent } from './list-table/update-time/update-time.component';
 import { WorkingOutsideComponent } from './list-table/working-outside/working-outside.component';
 import { RequestManagementComponent } from './request-management.component';
+import { WorkFromHomeComponent } from './list-table/work-from-home/work-from-home.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,9 @@ import { RequestManagementComponent } from './request-management.component';
     LeaveRequestComponent,
     UpdateTimeComponent,
     WorkingOutsideComponent,
-    LeaveManagementDetailDialogComponent
+    LeaveManagementDetailDialogComponent,
+    WorkFromHomeComponent,
+    WorkFromHomeComponent
   ],
   imports: [
     MyRequestsModule,
