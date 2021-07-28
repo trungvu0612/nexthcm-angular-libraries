@@ -17,7 +17,7 @@ import { OrganizationalChartComponent } from './pages/organizational-chart/organ
 import { OrganizationalStructureComponent } from './pages/organizational-structure/organizational-structure.component';
 import { TenantListComponent } from './pages/tenant-list/tenant-list.component';
 import { UpsertTenantComponent } from './pages/upsert-tenant/upsert-tenant.component';
-import { AdminTenantService } from './services/admin-tenant.service';
+import { HasTenantIdGuard } from './guards/has-tenant-id.guard';
 
 export const adminTenantRoutes: Routes = [
   {
@@ -35,7 +35,7 @@ export const adminTenantRoutes: Routes = [
       },
       {
         path: '',
-        canActivate: [NgxPermissionsGuard],
+        canActivate: [NgxPermissionsGuard, HasTenantIdGuard],
         data: { permissions: { only: 'UPDATE_TENANT', redirectTo: '/' } },
         children: [
           { path: 'detail', component: UpsertTenantComponent },
@@ -79,6 +79,5 @@ export const adminTenantRoutes: Routes = [
     PromptComponentModule,
     TuiSliderModule,
   ],
-  providers: [AdminTenantService],
 })
 export class AdminTenantModule {}

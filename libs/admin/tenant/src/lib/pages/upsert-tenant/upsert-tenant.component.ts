@@ -46,7 +46,7 @@ export class UpsertTenantComponent {
       },
     },
     {
-      fieldGroupClassName: 'grid grid-flow-col grid-rows-5 grid-cols-2 gap-x-6',
+      fieldGroupClassName: 'grid grid-flow-col grid-rows-5 grid-cols-2 gap-x-6 gap-y-4',
       fieldGroup: [
         {
           key: 'addresses.address1',
@@ -82,7 +82,7 @@ export class UpsertTenantComponent {
           },
         },
         {
-          fieldGroupClassName: 'grid grid-cols-2 gap-x-4',
+          fieldGroupClassName: 'grid grid-cols-2 gap-4',
           fieldGroup: [
             {
               key: 'addresses.countryId',
@@ -128,7 +128,7 @@ export class UpsertTenantComponent {
           ],
         },
         {
-          fieldGroupClassName: 'grid grid-cols-2 gap-x-4',
+          fieldGroupClassName: 'grid grid-cols-2 gap-4',
           fieldGroup: [
             {
               key: 'addresses.city',
@@ -174,7 +174,7 @@ export class UpsertTenantComponent {
           ],
         },
         {
-          fieldGroupClassName: 'grid grid-cols-2 gap-x-4',
+          fieldGroupClassName: 'grid grid-cols-2 gap-4',
           fieldGroup: [
             {
               key: 'user.profile.firstName',
@@ -186,6 +186,7 @@ export class UpsertTenantComponent {
                 placeholder: 'enterFirstName',
                 textfieldLabelOutside: true,
               },
+              expressionProperties: { 'templateOptions.disabled': 'model.id' },
             },
             {
               key: 'user.profile.lastName',
@@ -197,6 +198,7 @@ export class UpsertTenantComponent {
                 placeholder: 'enterLastName',
                 textfieldLabelOutside: true,
               },
+              expressionProperties: { 'templateOptions.disabled': 'model.id' },
             },
           ],
         },
@@ -281,6 +283,6 @@ export class UpsertTenantComponent {
           filter((result) => result.isConfirmed)
         )
         .subscribe(() => this.router.navigateByUrl('/admin/tenant'));
-    } else this.promptService.open({ icon: 'error', text: this.form.status } as SweetAlertOptions);
+    }
   }
 }

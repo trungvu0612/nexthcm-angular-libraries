@@ -1,14 +1,19 @@
 <main *transloco="let t" class="main-page">
   <header>
     <h1>{{ t('organizationalChart') }}</h1>
-    <button (click)="upsertUnit(content)" tuiButton>{{ t('addOrganizationalUnit') }}</button>
+    <button (click)="upsertUnit(dialog)" tuiButton>{{ t('addOrganizationalUnit') }}</button>
   </header>
-  <section #scrollbar *ngIf="$ | async as $" class="main-section">
+  <section #scrollbar class="main-section">
     <div class="flex justify-end gap-1">
-      <span class="font-semibold"> {{ ($.zoom | number: '1.0-0') + '%' }}</span>
+      <span class="font-semibold"> {{ (zoom$ | async | number: '1.0-0') + '%' }}</span>
       <hero-icon class="w-6 h-6" name="zoom-in" type="solid"></hero-icon>
     </div>
-    <tui-scrollbar (mouseenter)="canZoom = true" (mouseleave)="canZoom = false" class="w-0 min-w-full">
+    <tui-scrollbar
+      (mouseenter)="canZoom = true"
+      (mouseleave)="canZoom = false"
+      *ngIf="chart$ | async as chart"
+      class="w-0 min-w-full"
+    >
       <div
         *ngIf="dimension$ | async as dim"
         [style]="{
@@ -22,16 +27,15 @@
           '--quarter': dim.quarter,
           '--bar': dim.bar
         }"
-        class="my-4"
+        class="min-w-full my-4"
       >
-        <ng-template [ngTemplateOutletContext]="{ $implicit: $.chart }" [ngTemplateOutlet]="unitContent"></ng-template>
-        <ng-template #unitContent let-unit>
+        <ng-template *ngTemplateOutlet="content; context: { $implicit: chart }"></ng-template>
+        <ng-template #content let-unit>
           <ng-container *tuiLet="unit.descendants?.length as length">
             <div
               (mouseenter)="hovering = unit"
               (mouseleave)="hovering = null"
-              *tuiLet="hovering === unit as hover"
-              [class.ring]="hover"
+              [class.ring]="hovering === unit"
               class="unit flex relative border mx-auto"
             >
               <img
@@ -42,7 +46,7 @@
                 <p class="name font-semibold">{{ unit.orgName }}</p>
                 <p class="sub-name text-gray-500">{{ unit.code }}</p>
               </div>
-              <div *ngIf="hover" class="icons flex absolute">
+              <div *ngIf="hovering === unit" class="icons flex absolute">
                 <hero-icon (click)="upsertUnit(content, unit)" name="pencil-alt" type="solid"></hero-icon>
                 <hero-icon (click)="deleteUnit(unit.id)" *ngIf="!length" name="trash" type="solid"></hero-icon>
               </div>
@@ -57,10 +61,7 @@
             <div *ngIf="length" [class]="'grid-cols-' + length" class="grid">
               <div *ngFor="let i of [].constructor(length)" class="bar-vertical bg-black justify-self-center"></div>
               <div *ngFor="let child of unit.descendants">
-                <ng-template
-                  [ngTemplateOutletContext]="{ $implicit: child }"
-                  [ngTemplateOutlet]="unitContent"
-                ></ng-template>
+                <ng-template *ngTemplateOutlet="content; context: { $implicit: child }"></ng-template>
               </div>
             </div>
           </ng-container>
@@ -68,7 +69,8 @@
       </div>
     </tui-scrollbar>
   </section>
-  <ng-template #content let-observer>
+
+  <ng-template #dialog let-observer>
     <form (ngSubmit)="submitUnit(observer)" [formGroup]="$any(form)">
       <formly-form [fields]="fields" [form]="$any(form)" [model]="model" class="formly-gap"></formly-form>
       <div class="flex justify-center gap-6 mt-8">

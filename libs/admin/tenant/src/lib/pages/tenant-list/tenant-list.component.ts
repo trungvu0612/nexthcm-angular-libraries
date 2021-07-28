@@ -8,6 +8,7 @@ import { map, startWith, switchMap } from 'rxjs/operators';
 import { SweetAlertOptions } from 'sweetalert2';
 import { Tenant } from '../../models/tenant';
 import { AdminTenantService } from '../../services/admin-tenant.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'hcm-tenant-list',
@@ -52,7 +53,8 @@ export class TenantListComponent {
   constructor(
     private readonly adminTenantService: AdminTenantService,
     private readonly translocoService: TranslocoService,
-    private promptService: PromptService
+    private readonly promptService: PromptService,
+    private readonly router: Router
   ) {}
 
   deleteTenant(id: string) {
@@ -64,8 +66,9 @@ export class TenantListComponent {
       .subscribe(() => this.params$.next(this.params$.value));
   }
 
-  setTenantId(id: string) {
+  viewOrCreateTenant(id: string) {
     this.adminTenantService.set({ id });
+    if (id) this.router.navigateByUrl('/admin/tenant/detail');
   }
 
   changePagination(key: 'page' | 'size', value: number): void {
