@@ -13,11 +13,15 @@ import { ListEntitlementComponent } from './pages/list-entitlement/list-entitlem
 import { TableLeavePeriodComponent } from './pages/list-entitlement/tab/table-leave-period/table-leave-period.component';
 import { TableOverviewComponent } from './pages/list-entitlement/tab/table-overview/table-overview.component';
 import { UpsertEntitlementComponent } from './pages/upsert-entitlement/upsert-entitlement.component';
+import { NgxPermissionsGuard } from 'ngx-permissions';
 
 export const ADMIN_ENTITLEMENT_ROUTES: Route[] = [
   {
     path: '',
     component: LayoutComponent,
+    canActivate: [NgxPermissionsGuard],
+    // TODO need supplement PERMISSION
+    data: { permissions: { only: 'ADMIN', redirectTo: '/' } },
     children: [
       { path: '', component: ListEntitlementComponent },
       { path: 'add', component: UpsertEntitlementComponent },
