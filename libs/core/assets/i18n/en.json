@@ -331,7 +331,10 @@
     "history": "History",
     "close": "Close",
     "status": "Status",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "requestSuccess": "Request Work For Home Successfully!",
+    "requestOnsiteSuccess": "Request Successfully!"
+
   },
   "addNewEmployee": "Add new employee",
   "overview": "Overview",

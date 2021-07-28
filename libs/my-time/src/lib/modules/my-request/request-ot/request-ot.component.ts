@@ -1,10 +1,13 @@
-import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { FormGroup } from '@ngneat/reactive-forms';
 import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { Requests } from '../../../models/requests';
+import { map } from 'rxjs/operators';
+import { MyLeaveService } from '../../../services/my-leave.service';
+import { TuiDay } from '@taiga-ui/cdk';
 
 @Component({
   selector: 'hcm-request-ot-wfh',
@@ -12,9 +15,9 @@ import { Requests } from '../../../models/requests';
   styleUrls: ['./request-ot.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class RequestOtComponent implements OnInit {
+export class RequestOtComponent {
+  dataUsersReport$ = this.myLeaveService.getSendToUsers().pipe(map((res) => res.data.items));
   id!: string;
-  data = this.context.data || '';
   form = new FormGroup<any>({});
   model: Requests = {};
 
@@ -45,7 +48,7 @@ export class RequestOtComponent implements OnInit {
       ],
     },
     {
-      key: 'employee',
+      key: 'sendTo',
       fieldGroupClassName: 'grid md:grid-cols-2 gap-6 mb-4',
       fieldGroup: [
         {
@@ -53,52 +56,45 @@ export class RequestOtComponent implements OnInit {
           type: 'select',
           templateOptions: {
             textfieldLabelOutside: true,
-            required: true,
+            // required: true,
             placeholder: 'Send To',
-            valueProp: 'value',
             options: [{ label: 'Nguyen Thanh Son', value: 'e08eb04d-a430-4e03-b017-e46f865e648d' }],
+            valueProp: 'value',
           },
         },
       ],
     },
     {
-      key: 'reason',
+      key: 'comment',
       type: 'text-area',
       templateOptions: {
         required: true,
         textfieldLabelOutside: true,
-        placeholder: 'Reason',
+        placeholder: 'Comment',
       },
     },
   ];
 
   constructor(
     @Inject(POLYMORPHEUS_CONTEXT) public context: TuiDialogContext<unknown, Requests>,
-    private translocoService: TranslocoService
+    private translocoService: TranslocoService,
+    private myLeaveService: MyLeaveService
   ) {}
 
-  ngOnInit(): void {
-    console.log('iddddd data', this.data);
+  submit(): void {
+    if (this.form.valid) {
+      const formModel = this.form.value;
+      const obj = {
+        fromDate: (formModel.fromDate as TuiDay).toLocalNativeDate().valueOf(),
+        toDate: (formModel.toDate as TuiDay).toLocalNativeDate().valueOf(),
+        comment: formModel.comment,
+        sendTo: '934e5a26-8ade-4d3b-b7d9-28e11a1e4c2a',
+      };
+      this.context.completeWith(obj);
+    }
   }
 
-  submit() {
-    // if (this.model.stateCov) {
-    //   this.model.state = 1;
-    // } else {
-    //   this.model.state = 0;
-    // }
-    // const body: JobTitle = {
-    //   name: this.model.name,
-    //   description: this.model.description,
-    //   hasLevel: this.model.hasLevel,
-    //   state: this.model.state,
-    // };
-    this.context.completeWith(this.model);
+  cancel(): void {
+    this.context.$implicit.complete();
   }
-
-  cancel() {
-    this.context.completeWith(false);
-  }
-
-  save() {}
 }

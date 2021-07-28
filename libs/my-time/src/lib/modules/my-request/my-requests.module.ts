@@ -22,6 +22,7 @@ import { MyRequestsComponent } from './my-requests.component';
 import { RequestDetailsWfhComponent } from './request-details-wfh/request-details-wfh.component';
 import { RequestDetailsComponent } from './request-details/request-details.component';
 import { RequestOtComponent } from './request-ot/request-ot.component';
+import { TranslocoModule } from '@ngneat/transloco';
 
 @NgModule({
   declarations: [
@@ -54,6 +55,7 @@ import { RequestOtComponent } from './request-ot/request-ot.component';
     ReactiveFormsModule,
     TuiColorModule,
     TuiSvgModule,
+    TranslocoModule,
   ],
 })
 export class MyRequestsModule {}

@@ -1,32 +1,31 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, Injector, ChangeDetectorRef } from '@angular/core';
+import { Requests, SearchRequest } from '../../../../models/requests';
+import { BehaviorSubject, combineLatest } from 'rxjs';
 import { FormBuilder, FormControl, FormGroup } from '@ngneat/reactive-forms';
+import { TuiDestroyService, TuiMonth } from '@taiga-ui/cdk';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { FormlyFieldConfigCache } from '@ngx-formly/core/lib/components/formly.field.config';
-import { TuiDestroyService, TuiMonth } from '@taiga-ui/cdk';
+import { MyRequestService } from '../../../../services/my-request.service';
 import { TuiDialogService } from '@taiga-ui/core';
-import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
-import endOfMonth from 'date-fns/endOfMonth';
 import startOfMonth from 'date-fns/startOfMonth';
-import { BehaviorSubject, combineLatest } from 'rxjs';
+import endOfMonth from 'date-fns/endOfMonth';
 import { debounceTime, switchMap, takeUntil } from 'rxjs/operators';
-import { Requests, SearchRequest } from '../../../models/requests';
-import { MyRequestService } from '../../../services/my-request.service';
-import { RequestDetailsWfhComponent } from '../request-details-wfh/request-details-wfh.component';
+import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
+import { RequestDetailsWfhComponent } from '../../../my-request/request-details-wfh/request-details-wfh.component';
 import { AuthService } from '@nexthcm/auth';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'hcm-list-work-from-home',
-  templateUrl: './list-work-from-home.component.html',
-  styleUrls: ['./list-work-from-home.component.scss'],
+  selector: 'hcm-work-from-home',
+  templateUrl: './work-from-home.component.html',
+  styleUrls: ['./work-from-home.component.scss'],
   providers: [TuiDestroyService],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ListWorkFromHomeComponent implements OnInit {
-  myId = this.authService.get('userInfo').userId;
+export class WorkFromHomeComponent implements OnInit {
   today: Date = new Date();
   requests: Requests[] = [];
-  readonly columns = ['fromDate', 'toDate', 'length', 'status', 'reason', 'userSendTo', 'action'];
+  readonly columns = ['fromDate', 'toDate', 'length', 'reason', 'status', 'action'];
   page$ = new BehaviorSubject<number>(1);
   totalLength = 0;
   size$ = 10;
@@ -68,7 +67,6 @@ export class ListWorkFromHomeComponent implements OnInit {
     private destroy$: TuiDestroyService,
     private injector: Injector,
     private cdr: ChangeDetectorRef,
-    private authService: AuthService,
     private router: Router
   ) {
     this.searchForm = new FormGroup<{ month: TuiMonth }>({
@@ -86,7 +84,7 @@ export class ListWorkFromHomeComponent implements OnInit {
       .pipe(
         debounceTime(0),
         switchMap(([page, perpage, search]) => {
-          return this.myRequestService.getWorkFromHome(page - 1, perpage, search, this.myId);
+          return this.myRequestService.getWorkFromHomeManagement(page - 1, perpage, search);
         }),
         takeUntil(this.destroy$)
       )
@@ -141,6 +139,6 @@ export class ListWorkFromHomeComponent implements OnInit {
   }
 
   showLeaveDetail(req: any): void {
-    this.router.navigateByUrl('/my-time/my-request/' + req + '/detail');
+    this.router.navigateByUrl('/my-time/request-management/'+req+'/detail');
   }
 }

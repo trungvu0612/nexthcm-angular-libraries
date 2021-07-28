@@ -18,7 +18,12 @@ export class OverviewService {
   checkOut(dto: CheckingTime, idChecking: string): Observable<CheckingTime> {
     return this.httpClient.put<CheckingTime>(this.appVersion + `/check-out/`+idChecking, dto);
   }
-  statusChecking(id: string, currentDate: any): Observable<any> {
-    return this.httpClient.get<any>(this.appVersion + `/check-in-out?userId=${id}&filterDate=${currentDate}`).pipe(map((data) => data as any));
+
+  statusChecking(): Observable<any> {
+    return this.httpClient.get<any>(this.appVersion + '/check-in-out');
+  }
+
+  getTimeWorkingHour(id: any): Observable<any> {
+    return this.httpClient.get<any>(this.appVersion + `/config/times/working-hour-config-by-org-id/${id}`).pipe(map((data) => data as any));
   }
 }

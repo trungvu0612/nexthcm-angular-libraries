@@ -4,6 +4,10 @@ import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { RequestsDialogComponent } from '../../../components/requests-dialog/requests-dialog.component';
 import { MyRequestService } from '../../../services/my-request.service';
 import { RequestOtComponent } from '../request-ot/request-ot.component';
+import { PartialObserver } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
+import { TranslocoService } from '@ngneat/transloco';
+import { PromptService } from '@nexthcm/ui';
 
 @Component({
   selector: 'hcm-list-my-request',
@@ -18,7 +22,9 @@ export class ListMyRequestComponent implements OnInit {
     private myRequestService: MyRequestService,
     private dialogService: TuiDialogService,
     private injector: Injector,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private translocoService: TranslocoService,
+    private promptService: PromptService
   ) {}
 
   ngOnInit(): void {}
@@ -32,25 +38,26 @@ export class ListMyRequestComponent implements OnInit {
       .open<boolean>(new PolymorpheusComponent(RequestsDialogComponent, this.injector), {
         closeable: false,
         data: { type: type },
-      })
-      .subscribe((cancel) => {
-        if (cancel) {
-          this.cancel();
-        } else {
-          this.activeItemIndex = type === 'ot' ? 0 : 2;
-        }
-      });
+      }).pipe(switchMap(data => this.myRequestService.submitRequestOutside(data, type)))
+      .subscribe(this.handleResponse('MY_TIME.requestOnsiteSuccess'));
   }
 
-  showDialogWFH(){
+  showDialogWFH(): void {
     this.dialogService
-      .open<boolean>(new PolymorpheusComponent(RequestOtComponent, this.injector), {
+      .open<any>(new PolymorpheusComponent(RequestOtComponent, this.injector), {
         closeable: false,
         // data: { type: type },
-      })
-      .subscribe((data) => {
-        console.log('submit', data)
-      });
+      }).pipe(switchMap(data => this.myRequestService.submitRequestFromHome(data)))
+      .subscribe(this.handleResponse('MY_TIME.requestSuccess'));
   }
 
+  private handleResponse(successfulText: string): PartialObserver<unknown> {
+    return {
+      next: () =>
+        this.promptService.open({
+          icon: 'success',
+          text: this.translocoService.translate(successfulText),
+        }),
+    };
+  }
 }

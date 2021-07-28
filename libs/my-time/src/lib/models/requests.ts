@@ -1,11 +1,11 @@
-import { TuiDay } from '@taiga-ui/cdk';
+import { TuiDay, TuiTime } from '@taiga-ui/cdk';
 
 export interface Requests {
   id?: string;
   type?: string;
   userId?: string;
   state?: number;
-  status?: number
+  status?: number;
   assignedName?: string;
   fromDate?: number | Date | TuiDay;
   toDate?: number | Date | TuiDay;
@@ -17,13 +17,14 @@ export interface Requests {
   length?: string;
   userSendTo?: UserSendTo;
 }
+
 export interface UserSendTo {
-  username?: string
+  username?: string;
   office?: Office;
 }
 
 export interface Office {
-  name?: string
+  name?: string;
 }
 
 export interface TimeSheetUpdateReq extends Requests {
@@ -54,4 +55,14 @@ export interface Employee {
 export interface SearchRequest {
   fromDate?: number | Date | TuiDay | string;
   toDate?: number | Date | TuiDay | string;
+}
+
+export interface SubmitRequest {
+  userId?: string;
+  fromDate?: number | Date | TuiDay;
+  toDate?: number | Date | TuiDay;
+  duration?: TuiTime;
+  sendTo?: string;
+  comment?: string;
+  reason?: string;
 }

@@ -414,7 +414,7 @@ export class WorkingTimeSettingsComponent implements OnInit {
     }
 
     this.settingsElement = {
-      id: this.myOrgId,
+      orgId: this.myOrgId,
       checkInAfter: formModel.checkInAfter,
       checkOutBefore: formModel.checkOutBefore,
       workingHour: formModel.workingHour,
