@@ -89,6 +89,8 @@
   "KNOWLEDGE_BASE_TABLE": {
     "creator": "Người tạo",
     "category": "Thể loại",
+    "description": "Mô tả",
+    "status": "Trạng thái",
     "action": "Action"
   },
   "ZONE_TABLE": {

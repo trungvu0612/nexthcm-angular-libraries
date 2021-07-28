@@ -64,6 +64,10 @@ export class TenantListComponent {
       .subscribe(() => this.params$.next(this.params$.value));
   }
 
+  setTenantId(id: string) {
+    this.adminTenantService.set({ id });
+  }
+
   changePagination(key: 'page' | 'size', value: number): void {
     this.params$.next({ ...this.params$.value, [key]: value });
   }

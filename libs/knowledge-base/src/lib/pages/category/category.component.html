@@ -3,23 +3,42 @@
     <h1>{{ t('category') }}</h1>
     <button (click)="upsertCategory(content)" tuiButton>{{ t('addCategory') }}</button>
   </header>
-  <section class="main-section">
-    <ngx-table [columns]="(columns$ | async) || []" [configuration]="configuration" [data]="data">
+  <section *tuiLet="data$ | async as data" class="main-section">
+    <ngx-table [columns]="(columns$ | async) || []" [configuration]="configuration" [data]="data?.items || []">
       <ng-template let-row>
-        <td>{{ row.creator }}</td>
-        <td>{{ row.category }}</td>
+        <td>{{ row.userCreatedBy.username }}</td>
+        <td>{{ row.name }}</td>
+        <td>{{ row.description }}</td>
+        <td>
+          <tui-tag
+            [hoverable]="true"
+            [value]="t(row.status === 1 ? 'active' : 'deactivate')"
+            class="{{ (row.status === 1 ? 'active' : 'deactivate') + '-tag' }}"
+          ></tui-tag>
+        </td>
         <td class="flex gap-2">
           <button
-            (click)="upsertCategory(content, row)"
+            (click)="upsertCategory(content, row.id)"
             appearance="flat"
             icon="tuiIconEditLarge"
             size="m"
             tuiIconButton
           ></button>
-          <button appearance="flat" icon="tuiIconTrashLarge" size="m" tuiIconButton></button>
+          <button
+            (click)="deleteCategory(row.id)"
+            appearance="flat"
+            icon="tuiIconTrashLarge"
+            size="m"
+            tuiIconButton
+          ></button>
         </td>
       </ng-template>
     </ngx-table>
+    <tui-table-pagination
+      (pageChange)="changePagination('page', $event)"
+      (sizeChange)="changePagination('size', $event)"
+      [total]="data?.totalElements || 0"
+    ></tui-table-pagination>
   </section>
   <ng-template #content let-observer>
     <form (ngSubmit)="submitCategory(observer)" [formGroup]="$any(form)">

@@ -10,7 +10,7 @@ import {
   TuiSvgModule,
   TuiTextfieldControllerModule,
 } from '@taiga-ui/core';
-import { TuiAvatarModule, TuiInputModule, TuiInputMonthModule } from '@taiga-ui/kit';
+import { TuiAvatarModule, TuiInputModule, TuiInputMonthModule, TuiTagModule } from '@taiga-ui/kit';
 import { UpdatedKnowledgeComponent } from './components/updated-knowledge/updated-knowledge.component';
 import { KnowledgeBaseComponent } from './pages/knowledge-base/knowledge-base.component';
 import { KnowledgeComponent } from './pages/knowledge/knowledge.component';
@@ -20,6 +20,8 @@ import { CategoryComponent } from './pages/category/category.component';
 import { AuthGuard } from '@nexthcm/auth';
 import { TableModule } from 'ngx-easy-table';
 import { FormlyModule } from '@ngx-formly/core';
+import { TuiTablePaginationModule } from '@taiga-ui/addon-table';
+import { TuiLetModule } from '@taiga-ui/cdk';
 
 export const knowledgeBaseRoutes: Routes = [
   {
@@ -62,6 +64,9 @@ export const knowledgeBaseRoutes: Routes = [
     TableModule,
     FormlyModule,
     TuiTextfieldControllerModule,
+    TuiTagModule,
+    TuiTablePaginationModule,
+    TuiLetModule,
   ],
 })
 export class KnowledgeBaseModule {}

@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Knowledge } from '../../models/knowledge';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'hcm-knowledge-base',
@@ -9,5 +10,6 @@ import { Knowledge } from '../../models/knowledge';
 })
 export class KnowledgeBaseComponent {
   search!: string;
+  readonly search$ = new BehaviorSubject('');
   data: Knowledge[] = [];
 }

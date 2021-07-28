@@ -1,3 +1,5 @@
+import { UserDto } from '@nexthcm/core';
+
 export interface Knowledge {
   id: string;
   thumbnail: string;
@@ -9,7 +11,8 @@ export interface Knowledge {
 
 export interface Category {
   id: string;
-  creator: string;
-  status: boolean;
+  userCreatedBy: UserDto;
+  status: number;
+  name: string;
   description: string;
 }
