@@ -17,17 +17,18 @@ import { KnowledgeComponent } from './pages/knowledge/knowledge.component';
 import { UpdatedComponent } from './pages/updated/updated.component';
 import { TranslocoModule } from '@ngneat/transloco';
 import { CategoryComponent } from './pages/category/category.component';
-import { AuthGuard } from '@nexthcm/auth';
 import { TableModule } from 'ngx-easy-table';
 import { FormlyModule } from '@ngx-formly/core';
 import { TuiTablePaginationModule } from '@taiga-ui/addon-table';
 import { TuiLetModule } from '@taiga-ui/cdk';
+import { NgxPermissionsGuard } from 'ngx-permissions';
 
-export const knowledgeBaseRoutes: Routes = [
+export const KNOWLEDGE_BASE_ROUTES: Routes = [
   {
     path: '',
     component: LayoutComponent,
-    canActivate: [AuthGuard],
+    canActivate: [NgxPermissionsGuard],
+    data: { permissions: { only: 'VIEW_KNOWLEDGE_BASE', redirectTo: '/' } },
     children: [
       { path: '', pathMatch: 'full', redirectTo: 'summary' },
       { path: 'summary', component: KnowledgeBaseComponent },
@@ -48,7 +49,7 @@ export const knowledgeBaseRoutes: Routes = [
   ],
   imports: [
     CommonModule,
-    RouterModule.forChild(knowledgeBaseRoutes),
+    RouterModule.forChild(KNOWLEDGE_BASE_ROUTES),
     FormsModule,
     ReactiveFormsModule,
     TranslocoModule,

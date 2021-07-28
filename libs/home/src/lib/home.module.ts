@@ -1,24 +1,23 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AuthGuard } from '@nexthcm/auth';
 import { LayoutComponent, LayoutModule, PromptComponentModule } from '@nexthcm/ui';
 import { OverviewComponent } from './pages/overview/overview.component';
 
-export const homeRoutes: Routes = [
+export const HOME_ROUTES: Routes = [
   {
     path: '',
     component: LayoutComponent,
-    canActivate: [AuthGuard],
+    data: { permissions: { only: 'VIEW_OVERVIEW', redirectTo: '/' } },
     children: [
-      { path: 'overview', component: OverviewComponent },
       { path: '', redirectTo: 'overview', pathMatch: 'full' },
+      { path: 'overview', component: OverviewComponent },
     ],
   },
 ];
 
 @NgModule({
   declarations: [OverviewComponent],
-  imports: [CommonModule, RouterModule.forChild(homeRoutes), LayoutModule, PromptComponentModule],
+  imports: [CommonModule, RouterModule.forChild(HOME_ROUTES), LayoutModule, PromptComponentModule],
 })
 export class HomeModule {}

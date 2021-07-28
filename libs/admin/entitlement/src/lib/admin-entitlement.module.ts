@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { Route, RouterModule } from '@angular/router';
-import { AuthGuard } from '@nexthcm/auth';
 import { LayoutComponent } from '@nexthcm/ui';
 import { FormlyModule } from '@ngx-formly/core';
 import { RxReactiveFormsModule } from '@rxweb/reactive-form-validators';
@@ -15,11 +14,10 @@ import { TableLeavePeriodComponent } from './pages/list-entitlement/tab/table-le
 import { TableOverviewComponent } from './pages/list-entitlement/tab/table-overview/table-overview.component';
 import { UpsertEntitlementComponent } from './pages/upsert-entitlement/upsert-entitlement.component';
 
-export const adminEntitlementRoutes: Route[] = [
+export const ADMIN_ENTITLEMENT_ROUTES: Route[] = [
   {
     path: '',
     component: LayoutComponent,
-    canActivate: [AuthGuard],
     children: [
       { path: '', component: ListEntitlementComponent },
       { path: 'add', component: UpsertEntitlementComponent },
@@ -29,10 +27,18 @@ export const adminEntitlementRoutes: Route[] = [
 ];
 
 @NgModule({
+  declarations: [
+    ListEntitlementComponent,
+    UpsertEntitlementComponent,
+    TableOverviewComponent,
+    TableLeavePeriodComponent,
+    CreateLeaveEntitlementComponent,
+    CreateLeavePeriodComponent,
+  ],
   imports: [
     CommonModule,
     RouterModule,
-    RouterModule.forChild(adminEntitlementRoutes),
+    RouterModule.forChild(ADMIN_ENTITLEMENT_ROUTES),
     TuiTableModule,
     TuiTablePaginationModule,
     TuiSvgModule,
@@ -42,14 +48,6 @@ export const adminEntitlementRoutes: Route[] = [
     TuiButtonModule,
     RxReactiveFormsModule,
     FormlyModule,
-  ],
-  declarations: [
-    ListEntitlementComponent,
-    UpsertEntitlementComponent,
-    TableOverviewComponent,
-    TableLeavePeriodComponent,
-    CreateLeaveEntitlementComponent,
-    CreateLeavePeriodComponent,
   ],
 })
 export class AdminEntitlementModule {}
