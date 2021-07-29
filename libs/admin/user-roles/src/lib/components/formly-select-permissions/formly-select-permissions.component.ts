@@ -23,21 +23,6 @@ export class FormlySelectPermissionsComponent extends FieldType implements OnIni
   }
 
   ngOnInit(): void {
-    // let count = 0
-    // this.formControl.valueChanges.subscribe( (data) => {
-    //   console.log(data.length)
-    //   if (data.length > count){
-    //     /*Tang*/
-    //     console.log('idddd tang', data.id)
-    //   } else if (data.length < count){
-    //     /*Giam*/
-    //     console.log('idddd giam', data.id)
-    //   } else if (data.length == count){
-    //     /*Not change*/
-    //     console.log('idddd not change', data.id)
-    //   }
-    //   count = data.length
-    // });
   }
 
   readonly stringify: TuiStringHandler<any | TuiContextWithImplicit<any>> = (item) =>

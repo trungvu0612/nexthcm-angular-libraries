@@ -2,8 +2,8 @@
   <section class="main-section">
     <article>
       <tui-tabs [(activeItemIndex)]="activeItemIndex">
-        <button tuiRipple="var(--tui-text-01)" tuiTab>Overview</button>
-        <button tuiRipple="var(--tui-text-01)" tuiTab>Leave period</button>
+        <button tuiRipple="var(--tui-text-01)" tuiTab>Leave Entitlement</button>
+        <button tuiRipple="var(--tui-text-01)" tuiTab>Leave Period</button>
       </tui-tabs>
       <ng-container [ngSwitch]="activeItemIndex">
         <ng-container *ngSwitchCase="0">
