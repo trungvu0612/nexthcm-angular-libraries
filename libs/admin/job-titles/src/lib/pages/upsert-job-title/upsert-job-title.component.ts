@@ -19,7 +19,8 @@ export class UpsertJobTitleComponent implements OnInit {
   model: JobTitle = { hasLevel: true, stateCov: true };
   fields: FormlyFieldConfig[] = [
     {
-      /*Ten chuc vu*/ fieldGroupClassName: 'mt-4 grid grid-cols-3 gap-4',
+      /*Ten chuc vu*/
+      fieldGroupClassName: 'mt-4 grid grid-cols-3 gap-4',
       fieldGroup: [
         {
           className: 'flex items-center ',
@@ -81,7 +82,8 @@ export class UpsertJobTitleComponent implements OnInit {
     },
 
     {
-      /*Mô Tả*/ fieldGroupClassName: 'mt-4 grid grid-cols-3 gap-4',
+      /*Mô Tả*/
+      fieldGroupClassName: 'mt-4 grid grid-cols-3 gap-4',
       fieldGroup: [
         {
           className: 'flex items-center ',
@@ -101,7 +103,8 @@ export class UpsertJobTitleComponent implements OnInit {
     },
 
     {
-      /*Note*/ fieldGroupClassName: 'mt-4 grid grid-cols-3 gap-4',
+      /*Note*/
+      fieldGroupClassName: 'mt-4 grid grid-cols-3 gap-4',
       fieldGroup: [
         {
           className: 'flex items-center ',
@@ -118,7 +121,7 @@ export class UpsertJobTitleComponent implements OnInit {
     },
   ];
 
-  constructor(@Inject(POLYMORPHEUS_CONTEXT) public context: TuiDialogContext<JobTitle, Observable<JobTitle>>) {}
+  constructor(@Inject(POLYMORPHEUS_CONTEXT) public context: TuiDialogContext<unknown, Observable<JobTitle>>) {}
 
   ngOnInit(): void {
     if (this.context.data === null || this.context.data === undefined) {
@@ -128,13 +131,16 @@ export class UpsertJobTitleComponent implements OnInit {
     }
   }
 
+
   submit() {
     if (this.model.stateCov) this.model.state = 1;
     else this.model.state = 0;
     this.context.completeWith(this.model);
   }
 
-  cancel() {}
+  cancel() {
+    this.context.completeWith(false);
+  }
 
   save() {}
 }

@@ -101,6 +101,13 @@ export class SidebarComponent implements OnInit {
       icon: 'working-time',
       permissions: 'VIEW_ADMIN_WORKING_TIME',
     },
+    {
+      label: 'leaveLevelApprove',
+      link: '/admin/leave-level-approve',
+      icon: 'working-time',
+      /*TODO need fix*/
+      permissions: 'ADMIN',
+    },
   ];
 
   items!: MenuItem[];
@@ -251,6 +258,13 @@ export class SidebarComponent implements OnInit {
             link: '/admin/working-times',
             icon: 'working-time',
             permissions: 'VIEW_ADMIN_CONFIG_TIME',
+          },
+          {
+            label: 'leaveLevelApprove',
+            link: '/admin/leave-level-approve',
+            icon: 'working-time',
+            /*TODO need fix*/
+            permissions: 'ADMIN',
           },
         ],
         // @bad TODO remove

@@ -1,12 +1,15 @@
-import { ChangeDetectionStrategy, Component, Injector, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
 import { FormControl } from '@ngneat/reactive-forms';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
-import { BehaviorSubject } from 'rxjs';
-import { MyLeave } from '../../../../../../../../my-time/src/lib/models/my-leave';
+import { BehaviorSubject, combineLatest } from 'rxjs';
 import { LeaveStatus } from '../../../../enums/status';
 import { CreateLeaveEntitlementComponent } from '../../dialog/create-leave-entitlement/create-leave-entitlement.component';
+import { AdminEntitlementService } from '../../../../services/admin-entitlement.service';
+import { AdminPeriodService } from '../../../../services/admin-period.service';
+import { debounceTime, switchMap, takeUntil } from 'rxjs/operators';
+import { CreateLeavePeriodComponent } from '../../dialog/create-leave-period/create-leave-period.component';
 
 @Component({
   selector: 'hcm-table-overview-entitlement',
@@ -16,24 +19,46 @@ import { CreateLeaveEntitlementComponent } from '../../dialog/create-leave-entit
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TableOverviewComponent implements OnInit {
+
   readonly LeaveStatus = LeaveStatus;
 
   dateControl = new FormControl<Date>();
-  columns = ['date', 'leaveType', 'days', 'status', 'sendTo', 'action'];
+  columns = ['period.name', 'leaveType', 'entitlement', 'status', 'action'];
 
-  data: MyLeave[] = [];
-
+  data: any = [];
   page$ = new BehaviorSubject<number>(1);
   size$ = 10;
-  totalLength = 100;
-  perPageSubject = new BehaviorSubject<number>(this.size$);
 
+  perPageSubject = new BehaviorSubject<number>(this.size$);
+  totalElements = 0;
   page = 0;
   size = 10;
 
-  constructor(private dialogService: TuiDialogService, private injector: Injector) {}
+  constructor(
+    private adminEntitlementService: AdminEntitlementService,
+    private dialogService: TuiDialogService,
+    private injector: Injector,
+    private destroy$: TuiDestroyService,
+    private cdr: ChangeDetectorRef
+  ) {
+  }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    const request$ = combineLatest([this.page$, this.perPageSubject])
+      .pipe(
+        debounceTime(0),
+        switchMap(([page, perpage]) => {
+          return this.adminEntitlementService.getAdminEntitlements(page - 1, perpage);
+        }),
+        takeUntil(this.destroy$)
+      )
+      .subscribe((item) => {
+        this.data = item.data.items;
+        console.log('dataa', this.data);
+        this.totalElements = item.data.totalElements;
+        this.cdr.detectChanges();
+      });
+  }
 
   cancel(): void {
     console.log('cancel');
@@ -41,24 +66,31 @@ export class TableOverviewComponent implements OnInit {
 
   onPage($event: number) {
     this.page$.next($event);
-    // console.log(this.pages$.getValue());
   }
 
   onSize($event: number) {
     this.size$ = $event;
-    // console.log(this.size$);
   }
 
   showDialogSubmit() {
     this.dialogService
-      .open<boolean>(new PolymorpheusComponent(CreateLeaveEntitlementComponent, this.injector), {
-        closeable: false,
-      })
-      .subscribe((data) => {
-        // console.log('check data outside dialog', data);
-        // this.myLeaveService.createLeave(data).subscribe((data) => {
-        //   console.log('susscess post');
-        // });
+      .open<boolean>(new PolymorpheusComponent(CreateLeaveEntitlementComponent, this.injector), {})
+      .subscribe((result) => {
+        if (result) {
+          console.log('dataaaaaaa', result);
+          this.adminEntitlementService.createAdminEntitlementOrg(result).subscribe((data) => {
+            console.log('Success Post');
+          });
+        }
       });
   }
+
+  delete(id: string): void {
+    if (id) {
+      this.adminEntitlementService.deleteAdminEntitlementId(id).subscribe((data) => {
+        console.log('Delete sucesss');
+      });
+    }
+  }
+
 }

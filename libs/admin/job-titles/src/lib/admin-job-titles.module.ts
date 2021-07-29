@@ -17,7 +17,7 @@ export const adminJobTitlesRoutes: Route[] = [
   {
     path: '',
     component: LayoutComponent,
-    canActivate: [NgxPermissionsGuard],
+    // canActivate: [NgxPermissionsGuard],
     data: { permissions: { only: 'VIEW_JOB_LEVEL', redirectTo: '/' } },
     children: [
       { path: '', component: ListJobTitleComponent },
@@ -30,7 +30,6 @@ export const adminJobTitlesRoutes: Route[] = [
 @NgModule({
   imports: [
     CommonModule,
-    RouterModule,
     RouterModule.forChild(adminJobTitlesRoutes),
     FormlyModule,
     RxReactiveFormsModule,

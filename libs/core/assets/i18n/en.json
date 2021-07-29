@@ -363,6 +363,7 @@
   "entitlementManagement": "Entitlement Management",
   "leaveTypeManagement": "Leave Type Management",
   "workingTimeManagement": "Working Time Management",
+  "leaveLevelApprove": "Level Approve Management",
   "initEmployeeSuccessful": "Create new employee successfully!",
   "deleteEmployee": "Are you sure you want to remove this employee?"
 }

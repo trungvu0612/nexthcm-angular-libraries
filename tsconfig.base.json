@@ -20,6 +20,7 @@
       "@nexthcm/admin-job-level": ["libs/admin/job-level/src/index.ts"],
       "@nexthcm/admin-job-titles": ["libs/admin/job-titles/src/index.ts"],
       "@nexthcm/admin-knowledge-base": ["libs/admin/knowledge-base/src/index.ts"],
+      "@nexthcm/admin-leave-level-approve": ["libs/admin/leave-level-approve/src/index.ts"],
       "@nexthcm/admin-leave-types": ["libs/admin/leave-types/src/index.ts"],
       "@nexthcm/admin-offices": ["libs/admin/offices/src/index.ts"],
       "@nexthcm/admin-permissions": ["libs/admin/permissions/src/index.ts"],

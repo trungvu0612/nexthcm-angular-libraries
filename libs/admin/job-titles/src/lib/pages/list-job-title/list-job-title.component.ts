@@ -12,7 +12,7 @@ import { UpsertJobTitleComponent } from '../upsert-job-title/upsert-job-title.co
   templateUrl: './list-job-title.component.html',
   styleUrls: ['./list-job-title.component.scss'],
   providers: [TuiDestroyService],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ListJobTitleComponent implements OnInit {
   readonly columns = ['name', 'createdBy', 'createdDate', 'lastModifiedDate', 'state', 'action'];
@@ -32,7 +32,8 @@ export class ListJobTitleComponent implements OnInit {
     private injector: Injector,
     private destroy$: TuiDestroyService,
     private cdr: ChangeDetectorRef
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
     // console.log(this.dataTest$.subscribe((data) => console.log('resssssss', data)));
@@ -55,8 +56,7 @@ export class ListJobTitleComponent implements OnInit {
 
   showDialog(): void {
     this.dialogService
-      .open<boolean>(new PolymorpheusComponent(UpsertJobTitleComponent, this.injector), {
-      })
+      .open<boolean>(new PolymorpheusComponent(UpsertJobTitleComponent, this.injector), {})
       .subscribe((result) => {
         if (result) {
           console.log('dataaaaaaa', result);
@@ -70,7 +70,7 @@ export class ListJobTitleComponent implements OnInit {
   showDialogEdit(id: string): void {
     this.dialogService
       .open<boolean>(new PolymorpheusComponent(UpsertJobTitleComponent, this.injector), {
-        data: this.adminJobTitlesService.getAdminJobTitleId(id),
+        data: this.adminJobTitlesService.getAdminJobTitleId(id)
       })
       .subscribe((result) => {
         if (result) {
@@ -89,11 +89,14 @@ export class ListJobTitleComponent implements OnInit {
     this.perPageSubject.next(size);
   }
 
-  cancel(): void {
-    console.log('cancel');
+  delete(id: string): void {
+    if (id) {
+      this.adminJobTitlesService.deleteAdminJobTitleId(id).subscribe((data) => {
+        console.log('Delete sucesss');
+      });
+    }
   }
 
   sort() {
-
   }
 }

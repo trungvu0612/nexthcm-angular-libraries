@@ -364,6 +364,7 @@
   "entitlementManagement": "Quản lý quyền lợi",
   "leaveTypeManagement": "Quản lý phân loại nghỉ phép",
   "workingTimeManagement": "Quản lý thời gian làm việc",
+  "leaveLevelApprove": "Quản lý cấp độ nghỉ phép",
   "initEmployeeSuccessful": "Tạo nhân viên mới thành công!",
   "deleteEmployee": "Bạn thật sự muốn xoá nhân viên này?"
 }
