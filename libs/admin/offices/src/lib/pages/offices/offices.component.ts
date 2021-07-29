@@ -81,9 +81,10 @@ export class OfficesComponent {
       .subscribe();
   }
 
-  submitOffice(observer: Subscriber<unknown>): void {
+  submitOffice(observer: Subscriber<unknown>) {
     if (this.form.valid) {
       observer.complete();
+      this.form.markAsUntouched();
       this.adminOfficesService[this.model.id ? 'editOffice' : 'createOffice'](this.model)
         .pipe(switchMap(() => this.promptService.open({ icon: 'success' } as SweetAlertOptions)))
         .subscribe(() => this.params$.next(this.params$.value));

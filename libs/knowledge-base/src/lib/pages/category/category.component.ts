@@ -99,6 +99,7 @@ export class CategoryComponent {
   submitCategory(observer: Subscriber<unknown>) {
     if (this.form.valid) {
       observer.complete();
+      this.form.markAsUntouched();
       this.model.status = this.model.status ? 1 : 0;
       this.knowledgeBaseService[this.model.id ? 'editCategory' : 'createCategory'](this.model)
         .pipe(switchMap(() => this.promptService.open({ icon: 'success' } as SweetAlertOptions)))

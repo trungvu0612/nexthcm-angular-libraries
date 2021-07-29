@@ -29,9 +29,9 @@
         }"
         class="min-w-full my-4"
       >
-        <ng-template *ngTemplateOutlet="content; context: { $implicit: chart }"></ng-template>
-        <ng-template #content let-unit>
-          <ng-container *tuiLet="unit.descendants?.length as length">
+        <ng-template *ngTemplateOutlet="content; context: { $implicit: chart, span: getSpan(chart) }"></ng-template>
+        <ng-template #content let-span="span" let-unit>
+          <ng-container *tuiLet="unit.descendants?.length as children">
             <div
               (mouseenter)="hovering = unit"
               (mouseleave)="hovering = null"
@@ -42,26 +42,30 @@
                 class="image object-contain"
                 src="https://pbs.twimg.com/profile_images/1369877387949699074/tcvNQSr1.jpg"
               />
-              <div>
+              <div class="info flex flex-col">
                 <p class="name font-semibold">{{ unit.orgName }}</p>
+                <p class="sub-name text-gray-500">{{ unit.orgType }}</p>
                 <p class="sub-name text-gray-500">{{ unit.code }}</p>
               </div>
               <div *ngIf="hovering === unit" class="icons flex absolute">
                 <hero-icon (click)="upsertUnit(content, unit)" name="pencil-alt" type="solid"></hero-icon>
-                <hero-icon (click)="deleteUnit(unit.id)" *ngIf="!length" name="trash" type="solid"></hero-icon>
+                <hero-icon (click)="deleteUnit(unit.id)" *ngIf="!children" name="trash" type="solid"></hero-icon>
               </div>
             </div>
-            <ng-container *ngIf="length > 1">
-              <div class="bar-vertical bg-black mx-auto"></div>
+            <div *ngIf="children > 1" class="vertical-bar bg-black mx-auto"></div>
+            <div *ngIf="children" class="flex">
               <div
-                [style]="{ height: dim.bar, width: ((length - 1) / length) * 100 + '%' }"
-                class="bg-black mx-auto"
-              ></div>
-            </ng-container>
-            <div *ngIf="length" [class]="'grid-cols-' + length" class="grid">
-              <div *ngFor="let i of [].constructor(length)" class="bar-vertical bg-black justify-self-center"></div>
-              <div *ngFor="let child of unit.descendants">
-                <ng-template *ngTemplateOutlet="content; context: { $implicit: child }"></ng-template>
+                *ngFor="let child of unit.descendants; first as first; last as last"
+                [style.width]="(getSpan(child) / span) * 100 + '%'"
+              >
+                <div class="grid grid-cols-2">
+                  <div [class.bg-black]="!first" class="horizontal-bar"></div>
+                  <div [class.bg-black]="!last" class="horizontal-bar"></div>
+                </div>
+                <div class="vertical-bar bg-black mx-auto"></div>
+                <ng-template
+                  *ngTemplateOutlet="content; context: { $implicit: child, span: getSpan(child) }"
+                ></ng-template>
               </div>
             </div>
           </ng-container>
