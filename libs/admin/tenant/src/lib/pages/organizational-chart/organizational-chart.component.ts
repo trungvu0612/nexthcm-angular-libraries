@@ -22,11 +22,6 @@ interface State {
   zoom: number;
 }
 
-const getSpan = (item: Partial<OrganizationalUnit>): number => {
-  if (item.descendants?.length) return item.descendants.map((i) => getSpan(i)).reduce((a: number, b: number) => a + b);
-  else return 1;
-};
-
 @Component({
   selector: 'hcm-organizational-chart',
   templateUrl: './organizational-chart.component.html',
@@ -35,7 +30,7 @@ const getSpan = (item: Partial<OrganizationalUnit>): number => {
   providers: [RxState],
 })
 export class OrganizationalChartComponent {
-  scrollbar!: ElementRef;
+  @ViewChild('scrollbar') scrollbar!: ElementRef;
   canZoom = false;
   hovering: OrganizationalUnit | null = null;
   chart$ = this.state.select('chart');
@@ -142,12 +137,8 @@ export class OrganizationalChartComponent {
     this.state.connect('levels', this.adminTenantService.getOrganizationalLevels());
     this.state.connect('chart', this.adminTenantService.getOrganizationChart());
     this.state.hold(this.state.select('chart'), (chart) => {
-      this.state.set({ width: getSpan(chart) * 320 });
+      this.state.set({ width: this.getSpan(chart) * 320 });
     });
-  }
-
-  @ViewChild('scrollbar') set element(element: ElementRef) {
-    this.scrollbar = element;
     this.state.hold(this.state.select('width'), () => {
       const min = this.min > 100 ? 100 : this.min;
       this.state.set({ min, zoom: min });
@@ -187,6 +178,12 @@ export class OrganizationalChartComponent {
     }
   }
 
+  getSpan(item: Partial<OrganizationalUnit>): number {
+    if (item.descendants?.length)
+      return item.descendants.map((i) => this.getSpan(i)).reduce((a: number, b: number) => a + b);
+    else return 1;
+  }
+
   upsertUnit(content: PolymorpheusContent<TuiDialogContext>, unit?: Partial<OrganizationalUnit>) {
     this.model = unit || {};
     this.dialogService
@@ -199,6 +196,7 @@ export class OrganizationalChartComponent {
   submitUnit(observer: Subscriber<unknown>) {
     if (this.form.valid) {
       observer.complete();
+      this.form.markAsUntouched();
       this.adminTenantService[this.model.id ? 'editOrganizationUnit' : 'createOrganizationUnit'](this.model)
         .pipe(switchMap(() => this.promptService.open({ icon: 'success' } as SweetAlertOptions)))
         .subscribe(() => this.state.connect('chart', this.adminTenantService.getOrganizationChart()));

@@ -80,6 +80,7 @@ export class OrganizationalStructureComponent {
   submitLevel(observer: Subscriber<unknown>) {
     if (this.form.valid) {
       observer.complete();
+      this.form.markAsUntouched();
       this.adminTenantService
         .upsertOrganizationalLevel(this.model, this.model.id ? 'put' : 'post')
         .pipe(switchMap(() => this.promptService.open({ icon: 'success' } as SweetAlertOptions)))

@@ -57,6 +57,7 @@ export class DomainListComponent {
   submitDomain(observer: Subscriber<unknown>) {
     if (this.form.valid) {
       observer.complete();
+      this.form.markAsUntouched();
     }
   }
 }

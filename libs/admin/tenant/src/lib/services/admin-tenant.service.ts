@@ -71,7 +71,7 @@ export class AdminTenantService extends RxState<{ id: string }> {
   getParentLevel(orgType: string): Observable<Partial<OrganizationalUnit>[]> {
     return this.http
       .get<BaseResponse<Partial<OrganizationalUnit>[]>>('/accountapp/v1.0/orgs/parent-org-by-org-type', {
-        params: { orgType },
+        params: { orgType, tenantId: this.get('id') },
       })
       .pipe(map((response) => response.data));
   }
