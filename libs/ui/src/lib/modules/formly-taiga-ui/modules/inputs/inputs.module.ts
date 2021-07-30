@@ -32,6 +32,7 @@ import {
   TuiInputTimeModule,
   TuiTextAreaModule,
 } from '@taiga-ui/kit';
+import { TextMaskModule } from 'angular2-text-mask';
 import { InputPhoneInternationalModule } from '../../shared/input-phone-international/input-phone-international.module';
 import { FormFieldModule } from '../form-field/form-field.module';
 import { EditorComponent } from './editor/editor.component';
@@ -124,6 +125,7 @@ import { TextAreaComponent } from './text-area/text-area.component';
     TuiButtonModule,
     TuiInputFileModule,
     TuiInputSliderModule,
+    TextMaskModule,
   ],
 })
 export class InputsModule {}

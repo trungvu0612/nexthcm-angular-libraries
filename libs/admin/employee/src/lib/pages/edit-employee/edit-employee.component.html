@@ -6,17 +6,27 @@
   <section class="main-section">
     <tui-tabs [(activeItemIndex)]="activeItemIndex">
       <button tuiTab>
-        <hero-icon class="w-6 h-6 tui-space_right-2" name="information-circle"></hero-icon> {{ t('generalInformation') }}
+        <hero-icon class="w-6 h-6 tui-space_right-2" name="information-circle"></hero-icon>
+        {{ t('generalInformation') }}
       </button>
-      <button tuiTab><hero-icon class="w-6 h-6 tui-space_right-2" name="identification"></hero-icon> {{ t('individual') }}</button>
+      <button tuiTab>
+        <hero-icon class="w-6 h-6 tui-space_right-2" name="identification"></hero-icon> {{ t('individual') }}
+      </button>
       <button tuiTab>
         <tui-svg class="tui-space_right-2" src="tuiIconCompanyLarge"></tui-svg> {{ t('duration') }}
       </button>
-      <button tuiTab><hero-icon class="w-6 h-6 tui-space_right-2" name="academic-cap"></hero-icon> {{ t('education') }}</button>
+      <button tuiTab>
+        <hero-icon class="w-6 h-6 tui-space_right-2" name="academic-cap"></hero-icon> {{ t('education') }}
+      </button>
       <button tuiTab><tui-svg class="tui-space_right-2" src="tuiIconStarLarge"></tui-svg> SHUI</button>
     </tui-tabs>
     <div [ngSwitch]="activeItemIndex" class="mt-5">
-      <hcm-general-information-form *ngSwitchCase="0" editMode></hcm-general-information-form>
+      <hcm-general-information-form
+        (cancel)="onCancel()"
+        (submitted)="onSubmitGeneralInformationForm($event)"
+        *ngSwitchCase="0"
+        editMode
+      ></hcm-general-information-form>
       <hcm-individual-form *ngSwitchCase="1"></hcm-individual-form>
       <hcm-duration-form *ngSwitchCase="2"></hcm-duration-form>
       <hcm-education-form *ngSwitchCase="3"></hcm-education-form>

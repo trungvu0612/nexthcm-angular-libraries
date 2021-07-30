@@ -1,18 +1,26 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { PromptService } from '@nexthcm/ui';
 import { FormBuilder } from '@ngneat/reactive-forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import { EmployeeEducation } from '../../models/employee';
+import { TuiDestroyService } from '@taiga-ui/cdk';
+import { map, takeUntil, tap } from 'rxjs/operators';
+import { EmployeeEducation } from '../../models';
+import { AdminEmployeeService } from '../../services/admin-employee.service';
 
 @Component({
   selector: 'hcm-education-form',
   templateUrl: './education-form.component.html',
   styleUrls: ['./education-form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [TuiDestroyService],
 })
 export class EducationFormComponent {
   form = this.fb.group<EmployeeEducation>({});
   model: EmployeeEducation = {};
   fields: FormlyFieldConfig[] = [
+    { key: 'employeeId', defaultValue: this.activatedRoute.snapshot.params.employeeId },
+    { key: 'type', defaultValue: 'EDUCATION' },
     {
       key: 'university',
       className: 'tui-form__row block',
@@ -59,6 +67,7 @@ export class EducationFormComponent {
         labelClassName: 'font-semibold',
         placeholder: 'enterGraduationYear',
         textfieldLabelOutside: true,
+        precision: 0,
       },
     },
     {
@@ -74,10 +83,30 @@ export class EducationFormComponent {
       },
     },
   ];
+  readonly request$ = this.adminEmployeeService
+    .getEmployeeInformation<EmployeeEducation>(this.activatedRoute.snapshot.params.employeeId, 'education')
+    .pipe(tap((res) => (this.model = { ...this.model, ...res.data })));
+  readonly loading$ = this.request$.pipe(map((value) => !value));
 
-  constructor(private fb: FormBuilder) {}
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private adminEmployeeService: AdminEmployeeService,
+    private destroy$: TuiDestroyService,
+    private promptService: PromptService
+  ) {}
 
   onSubmit(): void {
-    console.log(JSON.stringify(this.form.value));
+    if (this.form.valid) {
+      this.adminEmployeeService
+        .updateEmployeeInformation(this.form.value)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(this.promptService.handleResponse('updateSuccessful'));
+    }
+  }
+
+  onCancel(): void {
+    this.router.navigate(['../..'], { relativeTo: this.activatedRoute });
   }
 }

@@ -44,23 +44,6 @@
 </section>
 
 <!-- TODO remove -->
-<ng-template #myTimeTmp>
-  <tui-data-list class="submenu">
-    <ng-container *ngFor="let item of myTimeSubmenu">
-      <a
-        #rla="routerLinkActive"
-        *ngxPermissionsOnly="item.permissions"
-        [attr.aria-checked]="rla.isActive"
-        [routerLink]="item.link"
-        routerLinkActive
-        tuiOption
-      >
-        {{ item.label | transloco }}
-      </a>
-    </ng-container>
-  </tui-data-list>
-</ng-template>
-
 <ng-template #adminTmp>
   <tui-data-list class="submenu">
     <ng-container *ngFor="let item of adminSubmenu">

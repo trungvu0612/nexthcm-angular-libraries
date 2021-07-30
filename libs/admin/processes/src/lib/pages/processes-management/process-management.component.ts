@@ -109,7 +109,7 @@ export class ProcessManagementComponent {
     if (!this.selected.size) {
       this.allSelected = false;
     } else {
-      this.allSelected = this.allSelected = this.selected.size !== this.table.data.length ? null : true;
+      this.allSelected = this.selected.size !== this.table.data.length ? null : true;
     }
   }
 

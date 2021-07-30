@@ -4,7 +4,7 @@ import { BaseResponse, PagingResponse } from '@nexthcm/core';
 import { RxState } from '@rx-angular/state';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { BaseEmployee, BaseItem, EmployeeGeneralInformation } from '../models';
+import { BaseEmployee, BaseItem, EmployeeGeneralInformation, EmployeeInformationType } from '../models';
 
 interface AdminEmployeeState {
   organizations: BaseItem[];
@@ -12,6 +12,7 @@ interface AdminEmployeeState {
   jobTitles: BaseItem[];
   jobLevels: BaseItem[];
   users: BaseItem[];
+  offices: BaseItem[];
 }
 
 const ADMIN_EMPLOYEE_PATH = '/accountapp/v1.0';
@@ -25,6 +26,7 @@ export class AdminEmployeeService extends RxState<AdminEmployeeState> {
     this.connect('jobTitles', this.getJobTitles().pipe(map((res) => res.data.items)));
     this.connect('jobLevels', this.getJobLevels().pipe(map((res) => res.data.items)));
     this.connect('users', this.getUsers().pipe(map((res) => res.data.items)));
+    this.connect('offices', this.getOffices().pipe(map((res) => res.data.items)));
   }
 
   getEmployees(params: HttpParams): Observable<PagingResponse<BaseEmployee>> {
@@ -59,7 +61,25 @@ export class AdminEmployeeService extends RxState<AdminEmployeeState> {
     return this.http.get<PagingResponse<BaseItem>>(`${ADMIN_EMPLOYEE_PATH}/levels/v2`);
   }
 
+  getOffices(): Observable<PagingResponse<BaseItem>> {
+    return this.http.get<PagingResponse<BaseItem>>(`${ADMIN_EMPLOYEE_PATH}/offices/v2`);
+  }
+
   getEmployeeGeneralInformation(id: string): Observable<BaseResponse<EmployeeGeneralInformation>> {
-    return this.http.get<BaseResponse<EmployeeGeneralInformation>>(`${ADMIN_EMPLOYEE_PATH}/employees/${id}`)
+    return this.http.get<BaseResponse<EmployeeGeneralInformation>>(`${ADMIN_EMPLOYEE_PATH}/employees/${id}`);
+  }
+
+  updateEmployeeGeneralInformation(
+    payload: EmployeeGeneralInformation
+  ): Observable<BaseResponse<EmployeeGeneralInformation>> {
+    return this.http.post<BaseResponse<EmployeeGeneralInformation>>(`${ADMIN_EMPLOYEE_PATH}/employees`, payload);
+  }
+
+  getEmployeeInformation<T>(id: string, apiType: EmployeeInformationType): Observable<BaseResponse<T>> {
+    return this.http.get<BaseResponse<T>>(`${ADMIN_EMPLOYEE_PATH}/info/employees/${apiType}/${id}`);
+  }
+
+  updateEmployeeInformation(payload: any): Observable<BaseResponse<any>> {
+    return this.http.post<BaseResponse<any>>(`${ADMIN_EMPLOYEE_PATH}/info/employees`, payload);
   }
 }

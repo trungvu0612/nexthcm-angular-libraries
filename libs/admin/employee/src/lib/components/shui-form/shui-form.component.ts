@@ -1,18 +1,26 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { PromptService } from '@nexthcm/ui';
 import { FormBuilder } from '@ngneat/reactive-forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import { EmployeeSHUI } from '../../models/employee';
+import { TuiDestroyService } from '@taiga-ui/cdk';
+import { map, takeUntil, tap } from 'rxjs/operators';
+import { EmployeeSHUI } from '../../models';
+import { AdminEmployeeService } from '../../services/admin-employee.service';
 
 @Component({
   selector: 'hcm-shui-form',
   templateUrl: './shui-form.component.html',
   styleUrls: ['./shui-form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [TuiDestroyService],
 })
 export class ShuiFormComponent {
   form = this.fb.group<EmployeeSHUI>({});
   model: EmployeeSHUI = { healthCareInsurances: [{}] };
   fields: FormlyFieldConfig[] = [
+    { key: 'employeeId', defaultValue: this.activatedRoute.snapshot.params.employeeId },
+    { key: 'type', defaultValue: 'SHUI' },
     {
       fieldGroupClassName: 'grid grid-cols-2 gap-4',
       fieldGroup: [
@@ -45,7 +53,7 @@ export class ShuiFormComponent {
             {
               key: 'socialInsurancePlace',
               className: 'tui-form__row block',
-              type: 'input-number',
+              type: 'input',
               templateOptions: {
                 translate: true,
                 label: 'socialInsurancePlace',
@@ -133,10 +141,30 @@ export class ShuiFormComponent {
       ],
     },
   ];
+  readonly request$ = this.adminEmployeeService
+    .getEmployeeInformation<EmployeeSHUI>(this.activatedRoute.snapshot.params.employeeId, 'shui')
+    .pipe(tap((res) => (this.model = { ...this.model, ...res.data })));
+  readonly loading$ = this.request$.pipe(map((value) => !value));
 
-  constructor(private fb: FormBuilder) {}
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private adminEmployeeService: AdminEmployeeService,
+    private destroy$: TuiDestroyService,
+    private promptService: PromptService
+  ) {}
 
   onSubmit(): void {
-    console.log(JSON.stringify(this.form.value));
+    if (this.form.valid) {
+      this.adminEmployeeService
+        .updateEmployeeInformation(this.form.value)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(this.promptService.handleResponse('updateSuccessful'));
+    }
+  }
+
+  onCancel(): void {
+    this.router.navigate(['../..'], { relativeTo: this.activatedRoute });
   }
 }

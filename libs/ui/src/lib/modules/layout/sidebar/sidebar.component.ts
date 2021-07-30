@@ -9,13 +9,7 @@ import { MenuItem } from '../../../models/menu-item';
 })
 export class SidebarComponent implements OnInit {
   // @bad TODO remove TemplateRefs & temporary submenu
-  @ViewChild('myTimeTmp', { static: true }) myTimeTmp!: TemplateRef<any>;
   @ViewChild('adminTmp', { static: true }) adminTmp!: TemplateRef<any>;
-  readonly myTimeSubmenu: MenuItem[] = [
-    { label: 'leaveHistory', link: '/leave-history', permissions: 'VIEW_LEAVE_HISTORY' },
-    { label: 'myRequest', link: '/my-time/my-request', permissions: 'VIEW_MY_REQUEST' },
-    { label: 'workingHour', link: '/my-time/working-hour', permissions: 'VIEW_WORKING_HOUR' },
-  ];
   readonly adminSubmenu: MenuItem[] = [
     {
       label: 'tenantManagement',
@@ -66,7 +60,7 @@ export class SidebarComponent implements OnInit {
       permissions: 'VIEW_JOB_LEVEL',
     },
     {
-      label: 'processManagement',
+      label: 'workflowManagement',
       link: '/admin/processes',
       icon: 'process',
       permissions: 'VIEW_WORKFLOW',
@@ -99,14 +93,13 @@ export class SidebarComponent implements OnInit {
       label: 'workingTimeManagement',
       link: '/admin/working-times',
       icon: 'working-time',
-      permissions: 'VIEW_ADMIN_WORKING_TIME',
+      permissions: 'VIEW_ADMIN_CONFIG_TIME',
     },
     {
       label: 'leaveLevelApprove',
       link: '/admin/leave-level-approve',
       icon: 'working-time',
-      /*TODO need fix*/
-      permissions: 'ADMIN',
+      permissions: 'ADMIN', // TODO need fix
     },
   ];
 
@@ -125,19 +118,18 @@ export class SidebarComponent implements OnInit {
         link: '/my-time',
         icon: 'my-time',
         permissions: 'MY_TIME',
-        children: [
-          { label: 'leaveHistory', link: '/leave-history', permissions: 'VIEW_LEAVE_HISTORY' },
-          { label: 'myRequest', link: '/my-time/my-request', permissions: 'VIEW_MY_REQUEST' },
-          { label: 'workingHour', link: '/my-time/working-hour', permissions: 'VIEW_WORKING_HOUR' },
-        ],
-        // @bad TODO remove
-        submenu: this.myTimeTmp,
       },
       {
-        label: 'helpDesk',
-        link: '/help-desk',
-        icon: 'help-desk',
-        permissions: 'HELP_DESK',
+        label: 'seatMap',
+        link: '/seat-map',
+        icon: 'seat-map',
+        permissions: 'VIEW_HELP_DESK', // TODO need change
+      },
+      {
+        label: 'calendar',
+        link: '/calendar',
+        icon: 'calendar',
+        permissions: 'VIEW_CALENDAR',
       },
       {
         label: 'payslip',
@@ -224,7 +216,7 @@ export class SidebarComponent implements OnInit {
             permissions: 'VIEW_JOB_LEVEL',
           },
           {
-            label: 'processManagement',
+            label: 'workflowManagement',
             link: '/admin/processes',
             icon: 'process',
             permissions: 'VIEW_WORKFLOW',
@@ -263,12 +255,10 @@ export class SidebarComponent implements OnInit {
             label: 'leaveLevelApprove',
             link: '/admin/leave-level-approve',
             icon: 'working-time',
-            /*TODO need fix*/
-            permissions: 'ADMIN',
+            permissions: 'ADMIN', // TODO need fix
           },
         ],
-        // @bad TODO remove
-        submenu: this.adminTmp,
+        submenu: this.adminTmp, // @bad TODO remove
       },
     ];
   }

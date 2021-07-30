@@ -1,22 +1,28 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { BaseOption } from '@nexthcm/ui';
-import { FormBuilder } from '@ngneat/reactive-forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { BaseOption, PromptService } from '@nexthcm/ui';
+import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { RxwebValidators } from '@rxweb/reactive-form-validators';
-import { map } from 'rxjs/operators';
-import { EmployeeIndividual } from '../../models/employee';
+import { TuiDay, TuiDestroyService } from '@taiga-ui/cdk';
+import { map, takeUntil, tap } from 'rxjs/operators';
+import { EmployeeIndividual } from '../../models';
+import { AdminEmployeeService } from '../../services/admin-employee.service';
 
 @Component({
   selector: 'hcm-individual-form',
   templateUrl: './individual-form.component.html',
   styleUrls: ['./individual-form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [TuiDestroyService],
 })
 export class IndividualFormComponent {
-  form = this.fb.group<EmployeeIndividual>({});
-  model: EmployeeIndividual = { bankAccounts: [{}] };
+  form: FormGroup<EmployeeIndividual> = this.fb.group({} as EmployeeIndividual);
+  model = { bankAccounts: [{}] } as EmployeeIndividual;
   fields: FormlyFieldConfig[] = [
+    { key: 'employeeId', defaultValue: this.activatedRoute.snapshot.params.employeeId },
+    { key: 'type', defaultValue: 'INDIVIDUAL' },
     {
       fieldGroupClassName: 'grid grid-cols-2 gap-4',
       fieldGroup: [
@@ -49,7 +55,7 @@ export class IndividualFormComponent {
             {
               key: 'birthDate',
               className: 'tui-form__row block',
-              type: 'input',
+              type: 'input-date',
               templateOptions: {
                 translate: true,
                 label: 'DOB',
@@ -120,14 +126,13 @@ export class IndividualFormComponent {
             },
             {
               key: 'officeOnsite',
-              className: 'tui-form__row block',
-              type: 'select',
+              type: 'input',
               templateOptions: {
                 translate: true,
                 label: 'officeOnsite',
                 labelClassName: 'font-semibold',
                 placeholder: 'chooseOfficeOnsite',
-                options: [],
+                textfieldLabelOutside: true,
               },
               hideExpression: 'model.currentStatus !== 1',
             },
@@ -181,8 +186,10 @@ export class IndividualFormComponent {
                 translate: true,
                 label: 'office',
                 labelClassName: 'font-semibold',
-                options: [],
+                options: this.adminEmployeeService.select('offices'),
                 placeholder: 'chooseOffice',
+                labelProp: 'name',
+                matcherBy: 'id',
               },
             },
             {
@@ -198,16 +205,16 @@ export class IndividualFormComponent {
                 fieldGroup: [
                   {
                     key: 'bank',
-                    type: 'select',
+                    type: 'input',
                     templateOptions: {
                       translate: true,
                       label: 'bank',
-                      options: [],
                       placeholder: 'selectBank',
+                      textfieldLabelOutside: true,
                     },
                   },
                   {
-                    key: 'accountNumber',
+                    key: 'number',
                     type: 'input-number',
                     templateOptions: {
                       translate: true,
@@ -224,10 +231,41 @@ export class IndividualFormComponent {
       ],
     },
   ];
+  readonly request$ = this.adminEmployeeService
+    .getEmployeeInformation<EmployeeIndividual>(this.activatedRoute.snapshot.params.employeeId, 'individual')
+    .pipe(
+      tap((res) => {
+        const data = res.data;
+        data.birthDate = TuiDay.fromUtcNativeDate(new Date(data.birthDate as string));
+        data.issueOn = TuiDay.fromUtcNativeDate(new Date(data.issueOn as string));
+        // this.model = { ...this.model, ...data };
+      })
+    );
+  readonly loading$ = this.request$.pipe(map((value) => !value));
 
-  constructor(private fb: FormBuilder, private translocoService: TranslocoService) {}
+  constructor(
+    private fb: FormBuilder,
+    private translocoService: TranslocoService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private adminEmployeeService: AdminEmployeeService,
+    private destroy$: TuiDestroyService,
+    private promptService: PromptService
+  ) {}
 
   onSubmit(): void {
-    console.log(JSON.stringify(this.form.value));
+    if (this.form.valid) {
+      const formModel = this.form.value;
+      formModel.birthDate = (formModel.birthDate as TuiDay).toUtcNativeDate();
+      formModel.issueOn = (formModel.issueOn as TuiDay).toUtcNativeDate();
+      this.adminEmployeeService
+        .updateEmployeeInformation(formModel)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(this.promptService.handleResponse('updateSuccessful'));
+    }
+  }
+
+  onCancel(): void {
+    this.router.navigate(['../..'], { relativeTo: this.activatedRoute });
   }
 }
