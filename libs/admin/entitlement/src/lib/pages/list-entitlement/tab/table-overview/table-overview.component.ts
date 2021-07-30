@@ -7,9 +7,7 @@ import { BehaviorSubject, combineLatest } from 'rxjs';
 import { LeaveStatus } from '../../../../enums/status';
 import { CreateLeaveEntitlementComponent } from '../../dialog/create-leave-entitlement/create-leave-entitlement.component';
 import { AdminEntitlementService } from '../../../../services/admin-entitlement.service';
-import { AdminPeriodService } from '../../../../services/admin-period.service';
 import { debounceTime, switchMap, takeUntil } from 'rxjs/operators';
-import { CreateLeavePeriodComponent } from '../../dialog/create-leave-period/create-leave-period.component';
 
 @Component({
   selector: 'hcm-table-overview-entitlement',

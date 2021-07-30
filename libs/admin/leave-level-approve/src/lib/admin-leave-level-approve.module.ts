@@ -11,7 +11,6 @@ import { TuiDataListModule, TuiSvgModule } from '@taiga-ui/core';
 import { TuiLetModule } from '@taiga-ui/cdk';
 import { TuiTableModule, TuiTablePaginationModule } from '@taiga-ui/addon-table';
 import { FormlyModule } from '@ngx-formly/core';
-import { FormlySelectPermissionsComponent } from '../../../user-roles/src/lib/components/formly-select-permissions/formly-select-permissions.component';
 import { FormlySelectJobTitlesComponent } from './components/formly-select-job-titles/formly-select-job-titles.component';
 import { AdminPermissionsService } from '@nexthcm/admin-permissions';
 import { LevelApproveService } from './services/level-approve.service';

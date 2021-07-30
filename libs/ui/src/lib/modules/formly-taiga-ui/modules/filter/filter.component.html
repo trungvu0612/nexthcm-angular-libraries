@@ -10,4 +10,4 @@
   (toggledItem)="onToggledItem()"
 ></tui-filter>
 
-<ng-template #content let-item>{{ item[to.labelProp] }}</ng-template>
+<ng-template #content let-item>{{ item[to.labelProp] + ' - ' + item[to.labelProp1] }}</ng-template>

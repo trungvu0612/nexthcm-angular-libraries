@@ -1,7 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { AdminUserRolesService } from '../../../../../user-roles/src/lib/services/admin-user-roles.service';
-import { AdminPermissionsService } from '@nexthcm/admin-permissions';
 import { TuiContextWithImplicit, TuiIdentityMatcher, TuiStringHandler } from '@taiga-ui/cdk';
 import { FieldType } from '@ngx-formly/core';
 
@@ -15,9 +13,7 @@ export class FormlySelectJobTitleEntitlementsComponent extends FieldType impleme
 
   params$ = new BehaviorSubject<{ page?: number; size?: number }>({ size: 100 });
 
-  constructor(
-    private adminUserRolesService: AdminUserRolesService,
-    private adminPermissionsService: AdminPermissionsService) {
+  constructor() {
     super();
   }
 

@@ -1,10 +1,10 @@
 import { Inject, Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { JobTitle } from '../../../../job-titles/src/lib/models/job-title';
 import { Observable } from 'rxjs';
 import { APP_CONFIG, AppConfig, Pagination, PagingResponse } from '@nexthcm/core';
 import { map } from 'rxjs/operators';
 import { LevelApprove } from '../models/level-approve';
+import { JobTitle } from '@nexthcm/admin-job-titles';
 
 const MY_TIME_PATH = '/mytimeapp/v1.0';
 
@@ -35,7 +35,7 @@ export class LevelApproveService {
     });
   }
 
-  getAdminLevelApproveId(id: JobTitle | string): Observable<LevelApprove> {
+  getAdminLevelApproveId(id: LevelApprove | string): Observable<LevelApprove> {
     if (id === undefined || id === '') {
       return this.http.get<LevelApprove>(this.env.apiUrl + `${MY_TIME_PATH}/leave-level-approve/`, {}).pipe(map((res) => res as any));
     } else {

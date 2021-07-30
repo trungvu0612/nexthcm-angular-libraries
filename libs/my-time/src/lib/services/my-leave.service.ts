@@ -5,27 +5,32 @@ import { RxState } from '@rx-angular/state';
 import { TuiTime } from '@taiga-ui/cdk';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { LeaveType } from '../models/leave-type';
+import { LeavesRemaining, LeaveType } from '../models/leave-type';
 import { MyLeave } from '../models/my-leave';
 import { SentToUser } from '../models/send-to-user';
 import { durationValues, PartialDays } from '../models/submit-leave';
-import { WorkFromHome } from '../models/my-time';
+import { AuthService } from '@nexthcm/auth';
 
 const MY_TIME_PATH = '/mytimeapp/v1.0';
 const MY_ACCOUNT_PATH = '/accountapp/v1.0';
 
 interface MyLeaveState {
-  leaveTypes: LeaveType[];
+  leaveTypeRemain: LeavesRemaining[];
   sendToUsers: SentToUser[];
 }
 
 @Injectable()
 export class MyLeaveService extends RxState<MyLeaveState> {
-  constructor(@Inject(APP_CONFIG) protected env: AppConfig, private http: HttpClient) {
+  constructor(
+    @Inject(APP_CONFIG) protected env: AppConfig,
+    private authService: AuthService,
+    private http: HttpClient) {
     super();
-    this.connect('leaveTypes', this.getLeaveTypes());
+    this.connect('leaveTypeRemain', this.getLeaveTypes());
     this.connect('sendToUsers', this.getSendToUsers().pipe(map((res) => res.data.items)));
   }
+
+  readonly loggedInUserId = this.authService.get('userInfo', 'userId')
 
   partialDays: PartialDays[] = [
     {
@@ -136,8 +141,8 @@ export class MyLeaveService extends RxState<MyLeaveState> {
     }
   }
 
-  getLeaveTypes(): Observable<LeaveType[]> {
-    return this.http.get<any>(`${MY_TIME_PATH}/leave-type?name=`).pipe(map((res) => res.items as LeaveType[]));
+  getLeaveTypes(): Observable<LeavesRemaining[]> {
+    return this.http.get<any>(`${MY_TIME_PATH}/leaves/remaining-entitlement-by-user-id/${this.loggedInUserId}`).pipe(map((res) => res.data as LeavesRemaining[]));
   }
 
   getSendToUsers(): Observable<PagingResponse<SentToUser>> {

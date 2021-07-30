@@ -42,8 +42,8 @@
         <td *tuiCell="'status'" class="center-custom" tuiTd>
           <tui-tag
             class="font-bold"
-            [class]="LeaveStatus[item.status] + '-tag'"
-            [value]="LeaveStatus[item.status] | titlecase"
+            [class]="LeaveStatus[item.status ? item.status : 4] + '-tag'"
+            [value]="LeaveStatus[item.status ? item.status : 4] | titlecase"
           ></tui-tag>
         </td>
 

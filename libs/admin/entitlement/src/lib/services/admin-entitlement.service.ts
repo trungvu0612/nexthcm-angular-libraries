@@ -1,9 +1,7 @@
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { APP_CONFIG, AppConfig, Pagination, PagingResponse } from '@nexthcm/core';
-import { LevelApprove } from '../../../../leave-level-approve/src/lib/models/level-approve';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { JobTitle } from '../../../../job-titles/src/lib/models/job-title';
 import { map } from 'rxjs/operators';
 import { LeaveEntitlement } from '../models/leave-entitlement';
 
@@ -56,12 +54,12 @@ export class AdminEntitlementService {
     });
   }
 
-  getAdminEntitlementId(id: JobTitle | string): Observable<LeaveEntitlement> {
+  getAdminEntitlementId(id: LeaveEntitlement | string): Observable<LeaveEntitlement> {
     if (id === undefined || id === '') {
       return this.http.get<LeaveEntitlement>(this.env.apiUrl + `${MY_TIME_PATH}/leave-entitlements/`, {}).pipe(map((res) => res as any));
     } else {
       return this.http
-        .get<LevelApprove>(this.env.apiUrl + `${MY_TIME_PATH}/leave-entitlements/${id}`, {})
+        .get<LeaveEntitlement>(this.env.apiUrl + `${MY_TIME_PATH}/leave-entitlements/${id}`, {})
         .pipe(map((res) => res as any));
     }
   }

@@ -5,12 +5,16 @@ export interface MyLeave extends LeaveType {
   date?: Date;
   leaveType?: LeaveType;
   days?: number;
-  status: number;
-  comments: string;
-  sendTo: string;
-  startTime: string;
-  endTime: string;
-  userId: string;
+  status?: number;
+  comments?: string;
+  comment?: string;
+  sendTo?: string;
+  startTime?: string;
+  endTime?: string;
+  userId?: string;
+  toDate?: number;
+  fromDate?: number;
+  duration?: number;
 }
 
 export interface LeaveRes {

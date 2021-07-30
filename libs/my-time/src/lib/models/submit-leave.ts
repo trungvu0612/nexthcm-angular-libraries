@@ -47,6 +47,14 @@ export interface Body {
   resultDays?: number;
 }
 
+export interface BodyTemp {
+  partialDayTypeId?: string,
+  fromDate?: number,
+  toDate?: number,
+  leaveTypeId?: string,
+  comment?: string;
+}
+
 export interface DurationType {
   durationTypeId?: string;
   fromTime?: number;
@@ -63,6 +71,9 @@ export interface Duration {
 
 export interface LeaveType {
   id?: string;
+  leaveTypeId?: string;
+  leaveTypeName?: string;
+  remainingEntitlement?: string;
 }
 
 export interface PartialDays {
