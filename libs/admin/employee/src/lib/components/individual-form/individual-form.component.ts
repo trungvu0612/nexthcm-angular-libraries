@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BaseOption, PromptService } from '@nexthcm/ui';
+import { BaseOption, parseDateFields, parseTuiDayFields, PromptService } from '@nexthcm/ui';
 import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { RxwebValidators } from '@rxweb/reactive-form-validators';
-import { TuiDay, TuiDestroyService } from '@taiga-ui/cdk';
+import { TuiDestroyService } from '@taiga-ui/cdk';
 import { map, takeUntil, tap } from 'rxjs/operators';
 import { EmployeeIndividual } from '../../models';
 import { AdminEmployeeService } from '../../services/admin-employee.service';
@@ -114,18 +114,19 @@ export class IndividualFormComponent {
                   map(
                     (result) =>
                       [
-                        { value: 0, label: result.working },
-                        { value: 1, label: result.onsite },
-                        { value: 2, label: result.probation },
-                        { value: 3, label: result.maternity },
-                        { value: 4, label: result.wfh },
-                      ] as BaseOption<number>[]
+                        { value: '0', label: result.working },
+                        { value: '1', label: result.onsite },
+                        { value: '2', label: result.probation },
+                        { value: '3', label: result.maternity },
+                        { value: '4', label: result.wfh },
+                      ] as BaseOption<string>[]
                   )
                 ),
               },
             },
             {
               key: 'officeOnsite',
+              className: 'tui-form__row block',
               type: 'input',
               templateOptions: {
                 translate: true,
@@ -134,7 +135,7 @@ export class IndividualFormComponent {
                 placeholder: 'chooseOfficeOnsite',
                 textfieldLabelOutside: true,
               },
-              hideExpression: 'model.currentStatus !== 1',
+              hideExpression: `model.currentStatus !== '1'`,
             },
           ],
         },
@@ -235,10 +236,10 @@ export class IndividualFormComponent {
     .getEmployeeInformation<EmployeeIndividual>(this.activatedRoute.snapshot.params.employeeId, 'individual')
     .pipe(
       tap((res) => {
-        const data = res.data;
-        data.birthDate = TuiDay.fromUtcNativeDate(new Date(data.birthDate as string));
-        data.issueOn = TuiDay.fromUtcNativeDate(new Date(data.issueOn as string));
-        // this.model = { ...this.model, ...data };
+        const data = parseTuiDayFields(res.data, ['birthDate', 'issueOn']);
+        data.bankAccounts = JSON.parse(data.bankAccounts as string);
+        data.office = JSON.parse(data.office as string);
+        this.model = { ...this.model, ...data };
       })
     );
   readonly loading$ = this.request$.pipe(map((value) => !value));
@@ -255,9 +256,7 @@ export class IndividualFormComponent {
 
   onSubmit(): void {
     if (this.form.valid) {
-      const formModel = this.form.value;
-      formModel.birthDate = (formModel.birthDate as TuiDay).toUtcNativeDate();
-      formModel.issueOn = (formModel.issueOn as TuiDay).toUtcNativeDate();
+      const formModel = parseDateFields(this.form.value, ['birthDate', 'issueOn']);
       this.adminEmployeeService
         .updateEmployeeInformation(formModel)
         .pipe(takeUntil(this.destroy$))

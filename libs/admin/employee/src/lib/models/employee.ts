@@ -1,4 +1,5 @@
-import { TuiDay } from '@taiga-ui/cdk';
+import { DateRange } from '@nexthcm/ui';
+import { TuiDay, TuiDayRange } from '@taiga-ui/cdk';
 
 export type EmployeeInformationType = 'individual' | 'duration' | 'education' | 'shui';
 
@@ -68,24 +69,48 @@ export interface EmployeeIndividual {
   officeOnsite?: string;
 }
 
+export interface EmergencyContact {
+  phoneNumber: string;
+  relationship: string;
+}
+
 export interface EmployeeDuration {
-  [x: string]: any;
+	type?: string;
+	emergencyContacts?: EmergencyContact[] | string;
+	employeeId?: string;
+	onboardDate?: string | TuiDay | Date;
+	probationDate?: DateRange | TuiDayRange | string;
+	officialStartDate?: string | TuiDay | Date;
+	terminationDate?: string | TuiDay | Date;
+	probationNumber?: number;
+	labourContractNumber?: string;
+	labourContractDate?: string | TuiDay | Date;
+	indefiniteTermContract?: string;
+	indefiniteTermContractDate?: string | TuiDay | Date;
+	resignationAgreement?: string;
+	resignationAgreementDate?: string | TuiDay | Date;
 }
 
 export interface EmployeeEducation {
   [x: string]: any;
 }
 
-export interface EmployeeSHUI {
-  [x: string]: any;
+export interface HealthCare {
+  healthcare: string;
+  number: string;
 }
 
-export interface Employee
-  extends EmployeeGeneralInformation,
-    EmployeeIndividual,
-    EmployeeDuration,
-    EmployeeEducation,
-    EmployeeSHUI {}
+export interface EmployeeSHUI {
+  employeeId: string;
+	type: EmployeeInformationType;
+	taxIDNumber: string;
+	socialInsuranceNumber: string;
+	socialInsurancePlace: string;
+	familyHealthyCareNumber: string;
+	familyAllowance: string;
+	healthInsuranceNumber: string;
+	healthCares: HealthCare[] | string;
+}
 
 export interface BaseEmployee {
   [x: string]: any;

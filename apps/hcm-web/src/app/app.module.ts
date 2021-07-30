@@ -25,7 +25,8 @@ import { AppComponent } from './app.component';
         ],
       },
       { path: 'my-time', loadChildren: () => import('@nexthcm/my-time').then((m) => m.MyTimeModule) },
-      { path: 'help-desk', loadChildren: () => import('@nexthcm/help-desk').then((m) => m.HelpDeskModule) },
+      { path: 'calendar', loadChildren: () => import('@nexthcm/calendar').then((m) => m.CalendarModule) },
+      { path: 'seat-maps', loadChildren: () => import('@nexthcm/seat-maps').then((m) => m.SeatMapsModule) },
       {
         path: 'human-resource',
         loadChildren: () => import('@nexthcm/human-resource').then((m) => m.HumanResourceModule),

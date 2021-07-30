@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { TranslocoService } from '@ngneat/transloco';
-import { filter, map } from 'rxjs/operators';
 import { RxState } from '@rx-angular/state';
+import { filter, map } from 'rxjs/operators';
 
 const LANGS: { [key: string]: string } = { en: 'English', vi: 'Tiếng Việt' };
 
@@ -24,13 +24,6 @@ const TABS = [
       { path: 'working-hour', tabName: 'workingHour' },
       { path: 'my-request', tabName: 'myRequest' },
       { path: 'request-management', tabName: 'requestManagement' },
-    ],
-  },
-  {
-    root: 'help-desk',
-    tabs: [
-      { path: 'seat-map', tabName: 'seatMap' },
-      { path: 'bv-calendar', tabName: 'bvCalendar' },
     ],
   },
   {

@@ -68,6 +68,9 @@
     "auth": {
       "tags": []
     },
+    "calendar": {
+      "tags": []
+    },
     "chat": {
       "tags": []
     },
@@ -94,9 +97,6 @@
       "tags": [],
       "implicitDependencies": ["hcm-web"]
     },
-    "help-desk": {
-      "tags": []
-    },
     "home": {
       "tags": []
     },
@@ -119,6 +119,9 @@
       "tags": []
     },
     "report": {
+      "tags": []
+    },
+    "seat-maps": {
       "tags": []
     },
     "ui": {

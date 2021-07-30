@@ -27,6 +27,7 @@
   "remove": "Remove",
   "save": "Save",
   "seatMap": "Seat map",
+  "seatMaps": "Seat Maps",
   "seatMapList": "Seat map list",
   "signOut": "Sign Out",
   "teams": "Teams",
@@ -180,7 +181,7 @@
       "deleteLeaveType": "Are you sure you want to delete this leave types?"
     },
     "ERRORS": {
-      "LEAVE_TYPE_DELETE_LEAVE_ALREADY_EXIST": "You can't delete this leave type because there are leaves submitted by it." 
+      "LEAVE_TYPE_DELETE_LEAVE_ALREADY_EXIST": "You can't delete this leave type because there are leaves submitted by it."
     }
   },
   "AUTH": {
@@ -193,7 +194,8 @@
   "editEmployee": "Edit Employee",
   "generalInformation": "General Information",
   "individual": "Individual",
-  "duration": "Employee Duration",
+  "employeeDuration": "Employee Duration",
+  "duration": "Duration",
   "education": "Education",
   "cifNumber": "CIF Number",
   "enterCifNumber": "Enter CIF Number",
@@ -338,7 +340,6 @@
     "cancel": "Cancel",
     "requestSuccess": "Request Work For Home Successfully!",
     "requestOnsiteSuccess": "Request Successfully!"
-
   },
   "addNewEmployee": "Add new employee",
   "overview": "Overview",
@@ -369,5 +370,6 @@
   "workingTimeManagement": "Working Time Management",
   "leaveLevelApprove": "Level Approve Management",
   "initEmployeeSuccessful": "Create new employee successfully!",
-  "deleteEmployee": "Are you sure you want to remove this employee?"
+  "deleteEmployee": "Are you sure you want to remove this employee?",
+  "updateSuccessful": "Update successfully!"
 }

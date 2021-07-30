@@ -31,11 +31,11 @@
       "@nexthcm/admin-user-roles": ["libs/admin/user-roles/src/index.ts"],
       "@nexthcm/admin-working-times": ["libs/admin/working-times/src/index.ts"],
       "@nexthcm/auth": ["libs/auth/src/index.ts"],
+      "@nexthcm/calendar": ["libs/calendar/src/index.ts"],
       "@nexthcm/chat": ["libs/chat/src/index.ts"],
       "@nexthcm/configurations": ["libs/configurations/src/index.ts"],
       "@nexthcm/core": ["libs/core/src/index.ts"],
       "@nexthcm/form": ["libs/form/src/index.ts"],
-      "@nexthcm/help-desk": ["libs/help-desk/src/index.ts"],
       "@nexthcm/home": ["libs/home/src/index.ts"],
       "@nexthcm/human-resource": ["libs/human-resource/src/index.ts"],
       "@nexthcm/knowledge-base": ["libs/knowledge-base/src/index.ts"],
@@ -43,6 +43,7 @@
       "@nexthcm/notifications": ["libs/notifications/src/index.ts"],
       "@nexthcm/payslip": ["libs/payslip/src/index.ts"],
       "@nexthcm/report": ["libs/report/src/index.ts"],
+      "@nexthcm/seat-maps": ["libs/seat-maps/src/index.ts"],
       "@nexthcm/ui": ["libs/ui/src/index.ts"],
       "@nexthcm/workflow-designer": ["libs/workflow-designer/src/index.ts"]
     }

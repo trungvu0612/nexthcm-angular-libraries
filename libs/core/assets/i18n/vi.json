@@ -28,6 +28,7 @@
   "remove": "Xóa",
   "save": "Lưu",
   "seatMap": "Sơ đồ chỗ ngồi",
+  "seatMaps": "Sơ đồ chỗ ngồi",
   "seatMapList": "Danh sách sơ đồ chỗ ngồi",
   "signOut": "Đăng xuất",
   "teams": "Nhóm",
@@ -181,7 +182,7 @@
       "deleteLeaveType": "Bạn có chắc chắn muốn xóa loại ngày nghỉ này không?"
     },
     "ERRORS": {
-      "LEAVE_TYPE_DELETE_LEAVE_ALREADY_EXIST": "Bạn không thể xoá loại ngày nghỉ này vì nó đã được sử dụng để xin nghỉ." 
+      "LEAVE_TYPE_DELETE_LEAVE_ALREADY_EXIST": "Bạn không thể xoá loại ngày nghỉ này vì nó đã được sử dụng để xin nghỉ."
     }
   },
   "AUTH": {
@@ -194,7 +195,8 @@
   "editEmployee": "Chỉnh sửa thông tin nhân viên",
   "generalInformation": "Thông tin chung",
   "individual": "Cá nhân",
-  "duration": "Thời hạn làm việc",
+  "employeeDuration": "Thời gian làm việc",
+  "duration": "Khoảng thời gian",
   "education": "Học vấn",
   "cifNumber": "Mã số nhân viên",
   "enterCifNumber": "Nhập mã số nhân viên",
@@ -369,5 +371,6 @@
   "workingTimeManagement": "Quản lý thời gian làm việc",
   "leaveLevelApprove": "Quản lý cấp độ nghỉ phép",
   "initEmployeeSuccessful": "Tạo nhân viên mới thành công!",
-  "deleteEmployee": "Bạn thật sự muốn xoá nhân viên này?"
+  "deleteEmployee": "Bạn thật sự muốn xoá nhân viên này?",
+  "updateSuccessful": "Cập nhật thành công!"
 }

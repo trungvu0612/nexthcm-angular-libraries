@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PromptService } from '@nexthcm/ui';
-import { FormBuilder } from '@ngneat/reactive-forms';
+import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { map, takeUntil, tap } from 'rxjs/operators';
@@ -16,8 +16,8 @@ import { AdminEmployeeService } from '../../services/admin-employee.service';
   providers: [TuiDestroyService],
 })
 export class ShuiFormComponent {
-  form = this.fb.group<EmployeeSHUI>({});
-  model: EmployeeSHUI = { healthCareInsurances: [{}] };
+  form: FormGroup<EmployeeSHUI> = this.fb.group({} as EmployeeSHUI);
+  model = { healthCares: [{}] } as EmployeeSHUI;
   fields: FormlyFieldConfig[] = [
     { key: 'employeeId', defaultValue: this.activatedRoute.snapshot.params.employeeId },
     { key: 'type', defaultValue: 'SHUI' },
@@ -63,7 +63,7 @@ export class ShuiFormComponent {
               },
             },
             {
-              key: 'healthCareInsurances',
+              key: 'healthCares',
               className: 'tui-form__row block',
               type: 'repeat',
               templateOptions: {
@@ -76,15 +76,16 @@ export class ShuiFormComponent {
                   {
                     key: 'healthCareCompany',
                     type: 'select',
+                    defaultValue: 'PVI',
                     templateOptions: {
                       translate: true,
                       label: 'healthCareCompany',
                       placeholder: 'chooseHealthCareCompany',
-                      options: [],
+                      options: ['PVI'],
                     },
                   },
                   {
-                    key: 'healthCareNumber',
+                    key: 'number',
                     type: 'input-number',
                     templateOptions: {
                       translate: true,
@@ -101,7 +102,7 @@ export class ShuiFormComponent {
         {
           fieldGroup: [
             {
-              key: 'familyHealthCarePackageNumber',
+              key: 'familyHealthyCareNumber',
               className: 'tui-form__row block',
               type: 'input-number',
               templateOptions: {
@@ -143,7 +144,11 @@ export class ShuiFormComponent {
   ];
   readonly request$ = this.adminEmployeeService
     .getEmployeeInformation<EmployeeSHUI>(this.activatedRoute.snapshot.params.employeeId, 'shui')
-    .pipe(tap((res) => (this.model = { ...this.model, ...res.data })));
+    .pipe(tap((res) => {
+      const data = res.data;
+      data.healthCares = JSON.parse(data.healthCares as string);
+      this.model = { ...this.model, ...data };
+    }));
   readonly loading$ = this.request$.pipe(map((value) => !value));
 
   constructor(

@@ -7,7 +7,6 @@ module.exports = {
     '<rootDir>/libs/core',
     '<rootDir>/libs/auth',
     '<rootDir>/libs/my-time',
-    '<rootDir>/libs/help-desk',
     '<rootDir>/libs/payslip',
     '<rootDir>/libs/report',
     '<rootDir>/libs/human-resource',

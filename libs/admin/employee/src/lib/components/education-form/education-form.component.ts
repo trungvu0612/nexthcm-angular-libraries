@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PromptService } from '@nexthcm/ui';
-import { FormBuilder } from '@ngneat/reactive-forms';
+import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { map, takeUntil, tap } from 'rxjs/operators';
@@ -16,8 +16,8 @@ import { AdminEmployeeService } from '../../services/admin-employee.service';
   providers: [TuiDestroyService],
 })
 export class EducationFormComponent {
-  form = this.fb.group<EmployeeEducation>({});
-  model: EmployeeEducation = {};
+  form: FormGroup<EmployeeEducation> = this.fb.group({} as EmployeeEducation);
+  model = {} as EmployeeEducation;
   fields: FormlyFieldConfig[] = [
     { key: 'employeeId', defaultValue: this.activatedRoute.snapshot.params.employeeId },
     { key: 'type', defaultValue: 'EDUCATION' },

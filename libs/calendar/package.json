@@ -1,0 +1,13 @@
+{
+  "name": "@nexthcm/calendar",
+  "version": "0.0.1",
+  "peerDependencies": {
+    "@angular/common": "^12.1.0-",
+    "@angular/core": "^12.1.0-"
+  },
+  "dependencies": {
+    "tslib": "^2.2.0",
+    "@fullcalendar/angular": "^5.9.0",
+    "@fullcalendar/daygrid": "^5.9.0"
+  }
+}

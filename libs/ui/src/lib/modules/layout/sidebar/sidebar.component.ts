@@ -120,8 +120,8 @@ export class SidebarComponent implements OnInit {
         permissions: 'MY_TIME',
       },
       {
-        label: 'seatMap',
-        link: '/seat-map',
+        label: 'seatMaps',
+        link: '/seat-maps',
         icon: 'seat-map',
         permissions: 'VIEW_HELP_DESK', // TODO need change
       },

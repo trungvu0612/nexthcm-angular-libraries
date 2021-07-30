@@ -664,6 +664,44 @@
         }
       }
     },
+    "calendar": {
+      "projectType": "library",
+      "root": "libs/calendar",
+      "sourceRoot": "libs/calendar/src",
+      "prefix": "hcm",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/angular:package",
+          "outputs": ["dist/libs/calendar"],
+          "options": {
+            "project": "libs/calendar/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "libs/calendar/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "libs/calendar/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/calendar"],
+          "options": {
+            "jestConfig": "libs/calendar/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/calendar/src/**/*.ts", "libs/calendar/src/**/*.html"]
+          }
+        }
+      }
+    },
     "chat": {
       "projectType": "library",
       "root": "libs/chat",
@@ -1089,41 +1127,6 @@
         }
       }
     },
-    "help-desk": {
-      "projectType": "library",
-      "root": "libs/help-desk",
-      "sourceRoot": "libs/help-desk/src",
-      "prefix": "hcm",
-      "architect": {
-        "build": {
-          "builder": "@nrwl/angular:package",
-          "options": {
-            "tsConfig": "libs/help-desk/tsconfig.lib.json",
-            "project": "libs/help-desk/ng-package.json"
-          },
-          "configurations": {
-            "production": {
-              "tsConfig": "libs/help-desk/tsconfig.lib.prod.json"
-            }
-          },
-          "defaultConfiguration": "production"
-        },
-        "lint": {
-          "builder": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": ["libs/help-desk/src/**/*.ts", "libs/help-desk/src/**/*.html"]
-          }
-        },
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/help-desk"],
-          "options": {
-            "jestConfig": "libs/help-desk/jest.config.js",
-            "passWithNoTests": true
-          }
-        }
-      }
-    },
     "home": {
       "projectType": "library",
       "root": "libs/home",
@@ -1403,6 +1406,44 @@
           "options": {
             "jestConfig": "libs/report/jest.config.js",
             "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "seat-maps": {
+      "projectType": "library",
+      "root": "libs/seat-maps",
+      "sourceRoot": "libs/seat-maps/src",
+      "prefix": "hcm",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/angular:package",
+          "outputs": ["dist/libs/seat-maps"],
+          "options": {
+            "project": "libs/seat-maps/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "libs/seat-maps/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "libs/seat-maps/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/seat-maps"],
+          "options": {
+            "jestConfig": "libs/seat-maps/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/seat-maps/src/**/*.ts", "libs/seat-maps/src/**/*.html"]
           }
         }
       }

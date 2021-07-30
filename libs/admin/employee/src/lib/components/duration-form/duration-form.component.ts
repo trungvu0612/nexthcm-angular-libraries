@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { PromptService } from '@nexthcm/ui';
-import { FormBuilder } from '@ngneat/reactive-forms';
+import { DateRange, parseDateFields, parseTuiDayFields, PromptService } from '@nexthcm/ui';
+import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import { TuiDestroyService } from '@taiga-ui/cdk';
+import { TuiDayRange, TuiDestroyService } from '@taiga-ui/cdk';
 import { map, takeUntil, tap } from 'rxjs/operators';
 import { EmployeeDuration } from '../../models';
 import { AdminEmployeeService } from '../../services/admin-employee.service';
@@ -16,8 +16,8 @@ import { AdminEmployeeService } from '../../services/admin-employee.service';
   providers: [TuiDestroyService],
 })
 export class DurationFormComponent {
-  form = this.fb.group<EmployeeDuration>({});
-  model: EmployeeDuration = { emergencyContacts: [{}] };
+  form: FormGroup<EmployeeDuration> = this.fb.group({} as EmployeeDuration);
+  model = { emergencyContacts: [{}] } as EmployeeDuration;
   fields: FormlyFieldConfig[] = [
     { key: 'employeeId', defaultValue: this.activatedRoute.snapshot.params.employeeId },
     { key: 'type', defaultValue: 'DURATION' },
@@ -27,7 +27,7 @@ export class DurationFormComponent {
         {
           fieldGroup: [
             {
-              key: 'onboardingDate',
+              key: 'onboardDate',
               className: 'tui-form__row block',
               type: 'input-date',
               templateOptions: {
@@ -39,7 +39,7 @@ export class DurationFormComponent {
               },
             },
             {
-              key: 'probationDates',
+              key: 'probationDate',
               className: 'tui-form__row block',
               type: 'input-date-range',
               templateOptions: {
@@ -47,6 +47,18 @@ export class DurationFormComponent {
                 label: 'probationDates',
                 labelClassName: 'font-semibold',
                 placeholder: 'enterProbationDates',
+                textfieldLabelOutside: true,
+              },
+            },
+            {
+              key: 'officialStartDate',
+              className: 'tui-form__row block',
+              type: 'input-date',
+              templateOptions: {
+                translate: true,
+                label: 'officialStartDate',
+                labelClassName: 'font-semibold',
+                placeholder: 'enterOfficialStartDate',
                 textfieldLabelOutside: true,
               },
             },
@@ -191,7 +203,23 @@ export class DurationFormComponent {
   ];
   readonly request$ = this.adminEmployeeService
     .getEmployeeInformation<EmployeeDuration>(this.activatedRoute.snapshot.params.employeeId, 'duration')
-    .pipe(tap((res) => (this.model = { ...this.model, ...res.data })));
+    .pipe(
+      tap((res) => {
+        const data = parseTuiDayFields(res.data, [
+          'onboardDate',
+          'officialStartDate',
+          'terminationDate',
+          'labourContractDate',
+          'indefiniteTermContractDate',
+          'resignationAgreementDate',
+        ]);
+        data.probationDate = data.probationDate
+          ? DateRange.toTuiDayRange(JSON.parse(data.probationDate as string))
+          : undefined;
+        data.emergencyContacts = JSON.parse(data.emergencyContacts as string);
+        this.model = { ...this.model, ...data };
+      })
+    );
   readonly loading$ = this.request$.pipe(map((value) => !value));
 
   constructor(
@@ -205,8 +233,17 @@ export class DurationFormComponent {
 
   onSubmit(): void {
     if (this.form.valid) {
+      const formModel = parseDateFields(this.form.value, [
+        'onboardDate',
+        'officialStartDate',
+        'terminationDate',
+        'labourContractDate',
+        'indefiniteTermContractDate',
+        'resignationAgreementDate',
+      ]);
+      formModel.probationDate = new DateRange(formModel.probationDate as TuiDayRange);
       this.adminEmployeeService
-        .updateEmployeeInformation(this.form.value)
+        .updateEmployeeInformation(formModel)
         .pipe(takeUntil(this.destroy$))
         .subscribe(this.promptService.handleResponse('updateSuccessful'));
     }
