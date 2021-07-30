@@ -7,8 +7,8 @@ import { TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { BaseComponent, Columns, Config, DefaultConfig } from 'ngx-easy-table';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { BehaviorSubject, from, Observable } from 'rxjs';
+import { catchError, filter, map, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { LeaveTypesService } from '../../leave-types.service';
 import { LeaveType } from '../../models/leave-type';
 
@@ -77,23 +77,25 @@ export class ListLeaveTypeComponent {
   }
 
   delete(id: string): void {
+    if (!id) { 
+      console.error(`Id = ${id}, cannot delete`);
+    }
     // if (id) {
-    //   from(
-    //     this.promptService.open({
-    //       icon: 'question',
-    //       text: this.translocoService.translate('ADMIN_PROCESSES.MESSAGES.deleteProcess'),
-    //       showCancelButton: true,
-    //     })
-    //   )
-    //     .pipe(
-    //       filter((result) => result.isConfirmed),
-    //       switchMap(() =>
-    //         this.policiesService.delete(id).pipe(tap(() => this.queryParams$.next(this.queryParams$.value)))
-    //       ),
-    //       catchError((err) => this.prompt.open({ icon: 'error', text: err.error.message })),
-    //       takeUntil(this.destroy$)
-    //     )
-    //     .subscribe();
-    // }
+    from(
+      this.promptService.open({
+        icon: 'question',
+        text: this.translocoService.translate('ADMIN_LEAVE_TYPES.MESSAGES.deleteLeaveType'),
+        showCancelButton: true,
+      })
+    )
+      .pipe(
+        filter((result) => result.isConfirmed),
+        switchMap(() =>
+          this.leaveTypeService.delete(id).pipe(tap(() => this.queryParams$.next(this.queryParams$.value)))
+        ),
+        catchError((err) => this.promptService.open({ icon: 'error', text: this.translocoService.translate(`ADMIN_LEAVE_TYPES.ERRORS.${err.error.message}`)})),
+        takeUntil(this.destroy$)
+      )
+      .subscribe();
   }
 }
