@@ -9,7 +9,7 @@ import { POLYMORPHEUS_CONTEXT, PolymorpheusComponent } from '@tinkoff/ng-polymor
 import { Observable } from 'rxjs';
 import { distinctUntilChanged, map, tap } from 'rxjs/operators';
 import { PartialDaysEnum } from '../../../enums/partial-days';
-import { Body, DurationType, LeaveSubmit } from '../../../models/submit-leave';
+import { Body, BodyTemp, DurationType, LeaveSubmit } from '../../../models/submit-leave';
 import { MyLeaveService } from '../../../services/my-leave.service';
 import { SubmitLeaveService } from '../../../services/submit-leave.service';
 import { DurationConfirmDialogComponent } from '../duaration-comfirm-dialog/duration-confirm-dialog.component';
@@ -43,18 +43,20 @@ export class SubmitLeaveRequestDialogComponent {
     status: 0,
   };
   fields: FormlyFieldConfig[] = [
-    // {
-    //   className: 'col-span-full mt-4',
-    //   key: 'leaveTypes',
-    //   type: 'filter',
-    //   templateOptions: {
-    //     options: this.myLeaveService.select('leaveTypes'),
-    //     labelProp: 'name',
-    //     size: 's',
-    //     single: true,
-    //     required: true,
-    //   },
-    // },
+
+    {
+      className: 'col-span-full mt-4',
+      key: 'leaveTypes',
+      type: 'filter',
+      templateOptions: {
+        options: this.myLeaveService.select('leaveTypeRemain'),
+        labelProp: 'leaveTypeName',
+        labelProp1: "remainingEntitlement",
+        size: 's',
+        single: true,
+        required: true,
+      },
+    },
 
     {
       className: 'col-span-full mt-4',
@@ -396,231 +398,239 @@ export class SubmitLeaveRequestDialogComponent {
       console.log('undefine');
     }
 
-    const body: Body = {};
+    const body: BodyTemp = {};
     const leaveItem: DurationType = { resultTime: 0 };
     const leaveItems: DurationType[] = [];
 
     if (leaveRequestModel) {
       if (leaveRequestModel.startTime && leaveRequestModel.endTime) {
-        if (TuiDay.lengthBetween(leaveRequestModel.startTime, leaveRequestModel.endTime) == 0) {
-          body.leaveTypeId = '';
-          body.fromDate = leaveRequestModel.startTime.toLocalNativeDate().getTime();
-          body.toDate = leaveRequestModel.endTime.toLocalNativeDate().getTime();
-          body.sendTo = '';
-          body.comment = '';
-          if (leaveRequestModel.durationHold != undefined && leaveRequestModel.partialDays == undefined) {
-            leaveItem.durationTypeId = '';
-            if (leaveRequestModel.durationHold == 0) {
-              /*Full time*/
-              leaveItem.fullDay = true;
-              leaveItem.resultTime = 8.0;
-            } else if (leaveRequestModel.durationHold == 1) {
-              /*Half day*/
-              if (leaveRequestModel.halfDay == 0) {
-                leaveItem.morning = true;
-                leaveItem.resultTime = 4.0;
-                body.resultDays = leaveItem.resultTime;
-              } else if (leaveRequestModel.halfDay == 1) {
-                leaveItem.morning = false;
-                leaveItem.resultTime = 4.0;
-                body.resultDays = leaveItem.resultTime;
-              }
-            } else if (leaveRequestModel.durationHold == 2) {
-              /*Special time*/
-              if (leaveRequestModel.specialTimeFrom && leaveRequestModel.specialTimeTo) {
-                leaveItem.fromTime = leaveRequestModel.specialTimeFrom.toAbsoluteMilliseconds();
-                leaveItem.toTime = leaveRequestModel.specialTimeTo.toAbsoluteMilliseconds();
-                leaveItem.resultTime = (leaveItem.toTime - leaveItem.fromTime) / 3600000;
-                body.resultDays = leaveItem.resultTime;
-              }
-            }
-            leaveItems.push(leaveItem);
-            console.log('leaveItem[]]]]]]]', leaveItems);
-            body.leaveItems = leaveItems;
-            console.log('body', body);
-          }
-        } else if (TuiDay.lengthBetween(leaveRequestModel.startTime, leaveRequestModel.endTime) > 0) {
-          body.leaveTypeId = '';
-          body.fromDate = leaveRequestModel.startTime.toLocalNativeDate().getTime();
-          body.toDate = leaveRequestModel.endTime.toLocalNativeDate().getTime();
-          body.sendTo = '';
-          body.comment = '';
-          if (leaveRequestModel.durationHold != undefined && leaveRequestModel.partialDays != undefined) {
-            if (leaveRequestModel.partialDays == 0) {
-              body.partialDayTypeId = '0';
-              console.log('body', body);
-              console.log('leaveItem', leaveItem);
-            } else if (leaveRequestModel.partialDays == 1) {
-              /*Khac ngay - all day - special day - time from - time to*/
-              body.partialDayTypeId = '1';
-              if (leaveRequestModel.durationHold == 1) {
-                leaveItem.durationTypeId = '';
-                if (leaveRequestModel.halfDay == 0) {
-                  leaveItem.morning = true;
-                  leaveItem.afternoon = false;
-                  leaveItem.resultTime = 4.0;
-                  body.resultDays = leaveItem.resultTime;
-                } else if (leaveRequestModel.halfDay == 1) {
-                  leaveItem.morning = false;
-                  leaveItem.afternoon = true;
-                  leaveItem.resultTime = 4.0;
-                  body.resultDays = leaveItem.resultTime;
-                }
-              } else if (leaveRequestModel.durationHold == 2) {
-                leaveItem.durationTypeId = '';
-                if (leaveRequestModel.specialTimeFrom && leaveRequestModel.specialTimeTo) {
-                  leaveItem.fromTime = leaveRequestModel.specialTimeFrom.toAbsoluteMilliseconds();
-                  leaveItem.toTime = leaveRequestModel.specialTimeTo.toAbsoluteMilliseconds();
-                  leaveItem.resultTime = (leaveItem.toTime - leaveItem.fromTime) / 3600000;
-                  body.resultDays = leaveItem.resultTime;
-                }
-              }
-              leaveItems.push(leaveItem);
-              console.log('leaveItem[]]]]]]]', leaveItems);
-              body.leaveItems = leaveItems;
-              console.log('body', body);
-            } else if (leaveRequestModel.partialDays == 2) {
-              /*Khac ngay - start day only - special day - time from - time to*/
-              body.partialDayTypeId = '2';
-              if (leaveRequestModel.durationHold == 1) {
-                leaveItem.durationTypeId = '';
-                if (leaveRequestModel.halfDay == 0) {
-                  leaveItem.morning = true;
-                  leaveItem.afternoon = false;
-                  leaveItem.resultTime = 4.0;
-                  body.resultDays = leaveItem.resultTime;
-                } else if (leaveRequestModel.halfDay == 1) {
-                  leaveItem.morning = false;
-                  leaveItem.afternoon = true;
-                  leaveItem.resultTime = 4.0;
-                  body.resultDays = leaveItem.resultTime;
-                }
-              } else if (leaveRequestModel.durationHold == 2) {
-                leaveItem.durationTypeId = '';
-                if (leaveRequestModel.specialTimeFrom && leaveRequestModel.specialTimeTo) {
-                  leaveItem.fromTime = leaveRequestModel.specialTimeFrom.toAbsoluteMilliseconds();
-                  leaveItem.toTime = leaveRequestModel.specialTimeTo.toAbsoluteMilliseconds();
-                  leaveItem.resultTime = (leaveItem.toTime - leaveItem.fromTime) / 3600000;
-                  body.resultDays = leaveItem.resultTime;
-                }
-              }
-              leaveItems.push(leaveItem);
-              console.log('leaveItem[]]]]]]]', leaveItems);
-              body.leaveItems = leaveItems;
-              console.log('body', body);
-            } else if (leaveRequestModel.partialDays == 3) {
-              /*Khac ngay - end day only - special day - time from - time to*/
-              body.partialDayTypeId = '3';
-              if (leaveRequestModel.durationHold == 1) {
-                leaveItem.durationTypeId = '';
-                if (leaveRequestModel.halfDay == 0) {
-                  leaveItem.morning = true;
-                  leaveItem.afternoon = false;
-                  leaveItem.resultTime = 4.0;
-                  body.resultDays = leaveItem.resultTime;
-                } else if (leaveRequestModel.halfDay == 1) {
-                  leaveItem.morning = false;
-                  leaveItem.afternoon = true;
-                  leaveItem.resultTime = 4.0;
-                  body.resultDays = leaveItem.resultTime;
-                }
-              } else if (leaveRequestModel.durationHold == 2) {
-                leaveItem.durationTypeId = '';
-                if (leaveRequestModel.specialTimeFrom && leaveRequestModel.specialTimeTo) {
-                  leaveItem.fromTime = leaveRequestModel.specialTimeFrom.toAbsoluteMilliseconds();
-                  leaveItem.toTime = leaveRequestModel.specialTimeTo.toAbsoluteMilliseconds();
-                  leaveItem.resultTime = (leaveItem.toTime - leaveItem.fromTime) / 3600000;
-                  body.resultDays = leaveItem.resultTime;
-                }
-              }
-              leaveItems.push(leaveItem);
-              console.log('leaveItem[]]]]]]]', leaveItems);
-              body.leaveItems = leaveItems;
-              console.log('body', body);
-            } else if (leaveRequestModel.partialDays == 4) {
-              /*Khac ngay - start end day only - special day - time from - time to*/
-              const leaveItem1: DurationType = { resultTime: 0 };
-
-              body.partialDayTypeId = '4';
-              if (leaveRequestModel.durationHold == 1) {
-                if (leaveRequestModel.halfDay == 0) {
-                  leaveItem1.durationTypeId = '';
-                  leaveItem1.morning = true;
-                  leaveItem1.afternoon = false;
-                  leaveItem1.resultTime = 4.0;
-                  body.resultDays = leaveItem.resultTime;
-                } else if (leaveRequestModel.halfDay == 1) {
-                  leaveItem1.durationTypeId = '';
-                  leaveItem1.morning = false;
-                  leaveItem1.afternoon = true;
-                  leaveItem1.resultTime = 4.0;
-                  body.resultDays = leaveItem.resultTime;
-                }
-              } else if (leaveRequestModel.durationHold == 2) {
-                if (leaveRequestModel.specialTimeFrom && leaveRequestModel.specialTimeTo) {
-                  leaveItem1.durationTypeId = '';
-                  leaveItem1.fromTime = leaveRequestModel.specialTimeFrom.toAbsoluteMilliseconds();
-                  leaveItem1.toTime = leaveRequestModel.specialTimeTo.toAbsoluteMilliseconds();
-                  leaveItem1.resultTime = (leaveItem1.toTime - leaveItem1.fromTime) / 3600000;
-                }
-              }
-              if (Object.keys(leaveItem1).length !== 0) {
-                leaveItems.push(leaveItem1);
-              }
-              /**/
-              const leaveItem2: DurationType = { resultTime: 0 };
-
-              if (leaveRequestModel.durationEnd == 1) {
-                if (leaveRequestModel.halfDay2 == 0) {
-                  leaveItem2.durationTypeId = '';
-                  leaveItem2.morning = true;
-                  leaveItem2.afternoon = false;
-                  leaveItem2.resultTime = 4.0;
-                  body.resultDays = leaveItem.resultTime;
-                } else if (leaveRequestModel.halfDay2 == 1) {
-                  leaveItem2.durationTypeId = '';
-                  leaveItem2.morning = false;
-                  leaveItem2.afternoon = true;
-                  leaveItem2.resultTime = 4.0;
-                }
-              } else if (leaveRequestModel.durationEnd == 2) {
-                if (leaveRequestModel.specialTimeFrom2 && leaveRequestModel.specialTimeTo2) {
-                  leaveItem2.durationTypeId = '';
-                  leaveItem2.fromTime = leaveRequestModel.specialTimeFrom2.toAbsoluteMilliseconds();
-                  leaveItem2.toTime = leaveRequestModel.specialTimeTo2.toAbsoluteMilliseconds();
-                  leaveItem2.resultTime = (leaveItem2.toTime - leaveItem2.fromTime) / 3600000;
-                }
-              }
-              if (Object.keys(leaveItem2).length !== 0) {
-                leaveItems.push(leaveItem2);
-              }
-              console.log('leaveItem[]]]]]]]', leaveItems);
-              body.leaveItems = leaveItems;
-
-              if (leaveItems.length != 0) {
-                if (leaveItems.length == 1) {
-                  body.resultDays = leaveItems[0].resultTime;
-                } else if (leaveItems.length == 2) {
-                  if (leaveItems[1].resultTime && leaveItems[0].resultTime) {
-                    const minusDays = TuiDay.lengthBetween(leaveRequestModel.startTime, leaveRequestModel.endTime);
-                    const plusDays = leaveItems[0].resultTime + leaveItems[1].resultTime;
-                    const result = this.checkDays(minusDays, plusDays);
-                    if (minusDays == 1) {
-                      body.resultDays = result.plusDays;
-                    } else if (minusDays >= 2) {
-                      body.resultDays = result.minusDays - 1 + result.plusDays;
-                    }
-                  }
-                }
-              } else {
-                console.log('Bang 0');
-              }
-              console.log('body', body);
-            }
-            console.log('Oke khac ngay');
-          }
+        // if (TuiDay.lengthBetween(leaveRequestModel.startTime, leaveRequestModel.endTime) == 0) {
+        //   body.leaveTypeId = '';
+        //   body.fromDate = leaveRequestModel.startTime.toLocalNativeDate().getTime();
+        //   body.toDate = leaveRequestModel.endTime.toLocalNativeDate().getTime();
+        //   body.sendTo = '';
+        //   body.comment = '';
+        //   if (leaveRequestModel.durationHold != undefined && leaveRequestModel.partialDays == undefined) {
+        //     leaveItem.durationTypeId = '';
+        //     if (leaveRequestModel.durationHold == 0) {
+        //       /*Full time*/
+        //       leaveItem.fullDay = true;
+        //       leaveItem.resultTime = 8.0;
+        //     } else if (leaveRequestModel.durationHold == 1) {
+        //       /*Half day*/
+        //       if (leaveRequestModel.halfDay == 0) {
+        //         leaveItem.morning = true;
+        //         leaveItem.resultTime = 4.0;
+        //         body.resultDays = leaveItem.resultTime;
+        //       } else if (leaveRequestModel.halfDay == 1) {
+        //         leaveItem.morning = false;
+        //         leaveItem.resultTime = 4.0;
+        //         body.resultDays = leaveItem.resultTime;
+        //       }
+        //     } else if (leaveRequestModel.durationHold == 2) {
+        //       /*Special time*/
+        //       if (leaveRequestModel.specialTimeFrom && leaveRequestModel.specialTimeTo) {
+        //         leaveItem.fromTime = leaveRequestModel.specialTimeFrom.toAbsoluteMilliseconds();
+        //         leaveItem.toTime = leaveRequestModel.specialTimeTo.toAbsoluteMilliseconds();
+        //         leaveItem.resultTime = (leaveItem.toTime - leaveItem.fromTime) / 3600000;
+        //         body.resultDays = leaveItem.resultTime;
+        //       }
+        //     }
+        //     leaveItems.push(leaveItem);
+        //     console.log('leaveItem[]]]]]]]', leaveItems);
+        //     body.leaveItems = leaveItems;
+        //     console.log('body', body);
+        //   }
+        // } else if (TuiDay.lengthBetween(leaveRequestModel.startTime, leaveRequestModel.endTime) > 0) {
+        //   body.leaveTypeId = '';
+        //   body.fromDate = leaveRequestModel.startTime.toLocalNativeDate().getTime();
+        //   body.toDate = leaveRequestModel.endTime.toLocalNativeDate().getTime();
+        //   body.sendTo = '';
+        //   body.comment = '';
+        //   if (leaveRequestModel.durationHold != undefined && leaveRequestModel.partialDays != undefined) {
+        //     if (leaveRequestModel.partialDays == 0) {
+        //       body.partialDayTypeId = '0';
+        //       console.log('body', body);
+        //       console.log('leaveItem', leaveItem);
+        //     } else if (leaveRequestModel.partialDays == 1) {
+        //       /*Khac ngay - all day - special day - time from - time to*/
+        //       body.partialDayTypeId = '1';
+        //       if (leaveRequestModel.durationHold == 1) {
+        //         leaveItem.durationTypeId = '';
+        //         if (leaveRequestModel.halfDay == 0) {
+        //           leaveItem.morning = true;
+        //           leaveItem.afternoon = false;
+        //           leaveItem.resultTime = 4.0;
+        //           body.resultDays = leaveItem.resultTime;
+        //         } else if (leaveRequestModel.halfDay == 1) {
+        //           leaveItem.morning = false;
+        //           leaveItem.afternoon = true;
+        //           leaveItem.resultTime = 4.0;
+        //           body.resultDays = leaveItem.resultTime;
+        //         }
+        //       } else if (leaveRequestModel.durationHold == 2) {
+        //         leaveItem.durationTypeId = '';
+        //         if (leaveRequestModel.specialTimeFrom && leaveRequestModel.specialTimeTo) {
+        //           leaveItem.fromTime = leaveRequestModel.specialTimeFrom.toAbsoluteMilliseconds();
+        //           leaveItem.toTime = leaveRequestModel.specialTimeTo.toAbsoluteMilliseconds();
+        //           leaveItem.resultTime = (leaveItem.toTime - leaveItem.fromTime) / 3600000;
+        //           body.resultDays = leaveItem.resultTime;
+        //         }
+        //       }
+        //       leaveItems.push(leaveItem);
+        //       console.log('leaveItem[]]]]]]]', leaveItems);
+        //       body.leaveItems = leaveItems;
+        //       console.log('body', body);
+        //     } else if (leaveRequestModel.partialDays == 2) {
+        //       /*Khac ngay - start day only - special day - time from - time to*/
+        //       body.partialDayTypeId = '2';
+        //       if (leaveRequestModel.durationHold == 1) {
+        //         leaveItem.durationTypeId = '';
+        //         if (leaveRequestModel.halfDay == 0) {
+        //           leaveItem.morning = true;
+        //           leaveItem.afternoon = false;
+        //           leaveItem.resultTime = 4.0;
+        //           body.resultDays = leaveItem.resultTime;
+        //         } else if (leaveRequestModel.halfDay == 1) {
+        //           leaveItem.morning = false;
+        //           leaveItem.afternoon = true;
+        //           leaveItem.resultTime = 4.0;
+        //           body.resultDays = leaveItem.resultTime;
+        //         }
+        //       } else if (leaveRequestModel.durationHold == 2) {
+        //         leaveItem.durationTypeId = '';
+        //         if (leaveRequestModel.specialTimeFrom && leaveRequestModel.specialTimeTo) {
+        //           leaveItem.fromTime = leaveRequestModel.specialTimeFrom.toAbsoluteMilliseconds();
+        //           leaveItem.toTime = leaveRequestModel.specialTimeTo.toAbsoluteMilliseconds();
+        //           leaveItem.resultTime = (leaveItem.toTime - leaveItem.fromTime) / 3600000;
+        //           body.resultDays = leaveItem.resultTime;
+        //         }
+        //       }
+        //       leaveItems.push(leaveItem);
+        //       console.log('leaveItem[]]]]]]]', leaveItems);
+        //       body.leaveItems = leaveItems;
+        //       console.log('body', body);
+        //     } else if (leaveRequestModel.partialDays == 3) {
+        //       /*Khac ngay - end day only - special day - time from - time to*/
+        //       body.partialDayTypeId = '3';
+        //       if (leaveRequestModel.durationHold == 1) {
+        //         leaveItem.durationTypeId = '';
+        //         if (leaveRequestModel.halfDay == 0) {
+        //           leaveItem.morning = true;
+        //           leaveItem.afternoon = false;
+        //           leaveItem.resultTime = 4.0;
+        //           body.resultDays = leaveItem.resultTime;
+        //         } else if (leaveRequestModel.halfDay == 1) {
+        //           leaveItem.morning = false;
+        //           leaveItem.afternoon = true;
+        //           leaveItem.resultTime = 4.0;
+        //           body.resultDays = leaveItem.resultTime;
+        //         }
+        //       } else if (leaveRequestModel.durationHold == 2) {
+        //         leaveItem.durationTypeId = '';
+        //         if (leaveRequestModel.specialTimeFrom && leaveRequestModel.specialTimeTo) {
+        //           leaveItem.fromTime = leaveRequestModel.specialTimeFrom.toAbsoluteMilliseconds();
+        //           leaveItem.toTime = leaveRequestModel.specialTimeTo.toAbsoluteMilliseconds();
+        //           leaveItem.resultTime = (leaveItem.toTime - leaveItem.fromTime) / 3600000;
+        //           body.resultDays = leaveItem.resultTime;
+        //         }
+        //       }
+        //       leaveItems.push(leaveItem);
+        //       console.log('leaveItem[]]]]]]]', leaveItems);
+        //       body.leaveItems = leaveItems;
+        //       console.log('body', body);
+        //     } else if (leaveRequestModel.partialDays == 4) {
+        //       /*Khac ngay - start end day only - special day - time from - time to*/
+        //       const leaveItem1: DurationType = { resultTime: 0 };
+        //
+        //       body.partialDayTypeId = '4';
+        //       if (leaveRequestModel.durationHold == 1) {
+        //         if (leaveRequestModel.halfDay == 0) {
+        //           leaveItem1.durationTypeId = '';
+        //           leaveItem1.morning = true;
+        //           leaveItem1.afternoon = false;
+        //           leaveItem1.resultTime = 4.0;
+        //           body.resultDays = leaveItem.resultTime;
+        //         } else if (leaveRequestModel.halfDay == 1) {
+        //           leaveItem1.durationTypeId = '';
+        //           leaveItem1.morning = false;
+        //           leaveItem1.afternoon = true;
+        //           leaveItem1.resultTime = 4.0;
+        //           body.resultDays = leaveItem.resultTime;
+        //         }
+        //       } else if (leaveRequestModel.durationHold == 2) {
+        //         if (leaveRequestModel.specialTimeFrom && leaveRequestModel.specialTimeTo) {
+        //           leaveItem1.durationTypeId = '';
+        //           leaveItem1.fromTime = leaveRequestModel.specialTimeFrom.toAbsoluteMilliseconds();
+        //           leaveItem1.toTime = leaveRequestModel.specialTimeTo.toAbsoluteMilliseconds();
+        //           leaveItem1.resultTime = (leaveItem1.toTime - leaveItem1.fromTime) / 3600000;
+        //         }
+        //       }
+        //       if (Object.keys(leaveItem1).length !== 0) {
+        //         leaveItems.push(leaveItem1);
+        //       }
+        //       /**/
+        //       const leaveItem2: DurationType = { resultTime: 0 };
+        //
+        //       if (leaveRequestModel.durationEnd == 1) {
+        //         if (leaveRequestModel.halfDay2 == 0) {
+        //           leaveItem2.durationTypeId = '';
+        //           leaveItem2.morning = true;
+        //           leaveItem2.afternoon = false;
+        //           leaveItem2.resultTime = 4.0;
+        //           body.resultDays = leaveItem.resultTime;
+        //         } else if (leaveRequestModel.halfDay2 == 1) {
+        //           leaveItem2.durationTypeId = '';
+        //           leaveItem2.morning = false;
+        //           leaveItem2.afternoon = true;
+        //           leaveItem2.resultTime = 4.0;
+        //         }
+        //       } else if (leaveRequestModel.durationEnd == 2) {
+        //         if (leaveRequestModel.specialTimeFrom2 && leaveRequestModel.specialTimeTo2) {
+        //           leaveItem2.durationTypeId = '';
+        //           leaveItem2.fromTime = leaveRequestModel.specialTimeFrom2.toAbsoluteMilliseconds();
+        //           leaveItem2.toTime = leaveRequestModel.specialTimeTo2.toAbsoluteMilliseconds();
+        //           leaveItem2.resultTime = (leaveItem2.toTime - leaveItem2.fromTime) / 3600000;
+        //         }
+        //       }
+        //       if (Object.keys(leaveItem2).length !== 0) {
+        //         leaveItems.push(leaveItem2);
+        //       }
+        //       console.log('leaveItem[]]]]]]]', leaveItems);
+        //       body.leaveItems = leaveItems;
+        //
+        //       if (leaveItems.length != 0) {
+        //         if (leaveItems.length == 1) {
+        //           body.resultDays = leaveItems[0].resultTime;
+        //         } else if (leaveItems.length == 2) {
+        //           if (leaveItems[1].resultTime && leaveItems[0].resultTime) {
+        //             const minusDays = TuiDay.lengthBetween(leaveRequestModel.startTime, leaveRequestModel.endTime);
+        //             const plusDays = leaveItems[0].resultTime + leaveItems[1].resultTime;
+        //             const result = this.checkDays(minusDays, plusDays);
+        //             if (minusDays == 1) {
+        //               body.resultDays = result.plusDays;
+        //             } else if (minusDays >= 2) {
+        //               body.resultDays = result.minusDays - 1 + result.plusDays;
+        //             }
+        //           }
+        //         }
+        //       } else {
+        //         console.log('Bang 0');
+        //       }
+        //       console.log('body', body);
+        //     }
+        //     console.log('Oke khac ngay');
+        //   }
+        // }
+        body.partialDayTypeId = "1393df26-9970-4633-9465-8d9d6a9234c6";
+        body.fromDate = leaveRequestModel.startTime.toLocalNativeDate().getTime();
+        body.toDate = leaveRequestModel.endTime.toLocalNativeDate().getTime();
+        if (this.model.leaveTypes){
+          body.leaveTypeId = this.model.leaveTypes[0]?.leaveTypeId
+        } else {
         }
-        this.showDialogConfirmDuration(body.resultDays ? body.resultDays : 0);
+        body.comment = this.model.comments
+        this.showDialogConfirmDuration(body);
       }
     }
   }
@@ -639,7 +649,7 @@ export class SubmitLeaveRequestDialogComponent {
     return result;
   }
 
-  showDialogConfirmDuration(resultDays: number): void {
+  showDialogConfirmDuration(resultDays: any): void {
     this.dialogService
       .open<boolean>(new PolymorpheusComponent(DurationConfirmDialogComponent, this.injector), {
         closeable: false,

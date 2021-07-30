@@ -4,13 +4,11 @@ import { TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { BehaviorSubject, combineLatest } from 'rxjs';
-import { MyLeave } from '../../../../../../../../my-time/src/lib/models/my-leave';
 import { LeaveStatus } from '../../../../enums/status';
 import { CreateLeavePeriodComponent } from '../../dialog/create-leave-period/create-leave-period.component';
 import { debounceTime, switchMap, takeUntil } from 'rxjs/operators';
 import { AdminPeriodService } from '../../../../services/admin-period.service';
 import { AdminEntitlementService } from '../../../../services/admin-entitlement.service';
-import { UpsertLeaveLevelApproveComponent } from '../../../../../../../leave-level-approve/src/lib/pages/upsert-leave-level-approve/upsert-leave-level-approve.component';
 
 @Component({
   selector: 'hcm-table-leave-period',

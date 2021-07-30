@@ -32,6 +32,8 @@
     "publish:admin-employee": "cd dist/libs/admin/employee && yarn publish --non-interactive --ignore-scripts",
     "publish:admin-job-level": "cd dist/libs/admin/job-level && yarn publish --non-interactive --ignore-scripts",
     "publish:admin-job-titles": "cd dist/libs/admin/job-titles && yarn publish --non-interactive --ignore-scripts",
+    "publish:admin-entitlement": "cd dist/libs/admin/entitlement && yarn publish --non-interactive --ignore-scripts",
+    "publish:admin-leave-level-approve": "cd dist/libs/admin/leave-level-approve && yarn publish --non-interactive --ignore-scripts",
     "publish:admin-user-roles": "cd dist/libs/admin/user-roles && yarn publish --non-interactive --ignore-scripts",
     "publish:admin-offices": "cd dist/libs/admin/offices && yarn publish --non-interactive --ignore-scripts",
     "publish:admin-permissions": "cd dist/libs/admin/permissions && yarn publish --non-interactive --ignore-scripts",

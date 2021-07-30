@@ -24,7 +24,7 @@ export class LeaveRequestManagementComponent implements OnInit {
   readonly LeaveStatus = LeaveStatus;
 
   dateControl = new FormControl<Date>();
-  columns = ['date', 'leaveType', 'days', 'status', 'sendTo', 'action'];
+  columns = ['fromDate', 'toDate', 'leaveType', 'days', 'status', 'comment', 'action'];
 
   data: MyLeave[] = [];
 
