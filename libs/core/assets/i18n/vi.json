@@ -178,7 +178,10 @@
       "operations": "Hoạt động"
     },
     "MESSAGES": {
-      "deleteProcess": "Bạn có chắc chắn muốn xóa loại ngày nghỉ này không?"
+      "deleteLeaveType": "Bạn có chắc chắn muốn xóa loại ngày nghỉ này không?"
+    },
+    "ERRORS": {
+      "LEAVE_TYPE_DELETE_LEAVE_ALREADY_EXIST": "Bạn không thể xoá loại ngày nghỉ này vì nó đã được sử dụng để xin nghỉ." 
     }
   },
   "AUTH": {
