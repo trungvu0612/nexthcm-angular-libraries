@@ -83,8 +83,8 @@ export class LeaveRequestManagementComponent implements OnInit {
       });
   }
 
-  showLeaveDetail(req: string): void {
-    // this.router.navigateByUrl('/my-time/my-leave/'+req+'/detail');
+  showLeaveDetail(leaveId: string): void {
+    this.router.navigateByUrl(`/my-time/my-leave/${leaveId}/detail`);
   }
 
   showDialogSubmit() {
