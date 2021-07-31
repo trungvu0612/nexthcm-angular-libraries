@@ -2,7 +2,7 @@ import { Process } from './process';
 
 export interface LeaveType {
   id?: string;
-  orgId: string;
+  orgId?: string;
   name?: string | undefined;
   deleted: number;
   createdDate?: string;
