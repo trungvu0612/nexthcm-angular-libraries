@@ -1,6 +1,7 @@
 :host {
   display: block;
   height: 100%;
+
   .page-container {
     padding: 30px;
   }
@@ -112,7 +113,8 @@
   .close-finger {
     right: 20px;
     top: 0;
-    &:hover{
+
+    &:hover {
       cursor: pointer;
     }
   }
@@ -126,6 +128,12 @@
   .finger-img {
     width: 125px;
     position: relative;
-    top:10px;
+    top: 10px;
+  }
+
+  .view-detail {
+    a:hover {
+      cursor: pointer;
+    }
   }
 }

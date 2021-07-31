@@ -8,9 +8,8 @@ describe('ListLeaveLevelApproveComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ListLeaveLevelApproveComponent ]
-    })
-    .compileComponents();
+      declarations: [ListLeaveLevelApproveComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

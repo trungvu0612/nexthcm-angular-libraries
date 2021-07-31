@@ -8,7 +8,6 @@ import { TuiTableModule, TuiTablePaginationModule } from '@taiga-ui/addon-table'
 import { TuiLetModule } from '@taiga-ui/cdk';
 import { TuiButtonModule, TuiSvgModule } from '@taiga-ui/core';
 import { TuiTagModule } from '@taiga-ui/kit';
-import { NgxPermissionsGuard } from 'ngx-permissions';
 import { JobTitlesComponent } from './job-titles.component';
 import { ListJobTitleComponent } from './pages/list-job-title/list-job-title.component';
 import { UpsertJobTitleComponent } from './pages/upsert-job-title/upsert-job-title.component';

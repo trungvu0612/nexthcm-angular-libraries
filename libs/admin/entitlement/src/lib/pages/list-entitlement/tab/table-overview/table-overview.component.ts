@@ -4,10 +4,10 @@ import { TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { BehaviorSubject, combineLatest } from 'rxjs';
-import { LeaveStatus } from '../../../../enums/status';
-import { CreateLeaveEntitlementComponent } from '../../dialog/create-leave-entitlement/create-leave-entitlement.component';
-import { AdminEntitlementService } from '../../../../services/admin-entitlement.service';
 import { debounceTime, switchMap, takeUntil } from 'rxjs/operators';
+import { LeaveStatus } from '../../../../enums/status';
+import { AdminEntitlementService } from '../../../../services/admin-entitlement.service';
+import { CreateLeaveEntitlementComponent } from '../../dialog/create-leave-entitlement/create-leave-entitlement.component';
 
 @Component({
   selector: 'hcm-table-overview-entitlement',

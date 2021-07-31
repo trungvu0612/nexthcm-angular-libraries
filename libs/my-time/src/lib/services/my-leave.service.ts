@@ -1,15 +1,15 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
+import { AuthService } from '@nexthcm/auth';
 import { APP_CONFIG, AppConfig, PagingResponse } from '@nexthcm/core';
 import { RxState } from '@rx-angular/state';
 import { TuiTime } from '@taiga-ui/cdk';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { LeavesRemaining, LeaveType } from '../models/leave-type';
+import { LeavesRemaining } from '../models/leave-type';
 import { MyLeave } from '../models/my-leave';
 import { SentToUser } from '../models/send-to-user';
 import { durationValues, PartialDays } from '../models/submit-leave';
-import { AuthService } from '@nexthcm/auth';
 
 const MY_TIME_PATH = '/mytimeapp/v1.0';
 const MY_ACCOUNT_PATH = '/accountapp/v1.0';
@@ -21,6 +21,8 @@ interface MyLeaveState {
 
 @Injectable()
 export class MyLeaveService extends RxState<MyLeaveState> {
+  readonly loggedInUserId = this.authService.get('userInfo', 'userId')
+
   constructor(
     @Inject(APP_CONFIG) protected env: AppConfig,
     private authService: AuthService,
@@ -29,8 +31,6 @@ export class MyLeaveService extends RxState<MyLeaveState> {
     this.connect('leaveTypeRemain', this.getLeaveTypes());
     this.connect('sendToUsers', this.getSendToUsers().pipe(map((res) => res.data.items)));
   }
-
-  readonly loggedInUserId = this.authService.get('userInfo', 'userId')
 
   partialDays: PartialDays[] = [
     {

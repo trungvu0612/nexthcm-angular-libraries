@@ -339,7 +339,12 @@
     "status": "Status",
     "cancel": "Cancel",
     "requestSuccess": "Request Work For Home Successfully!",
-    "requestOnsiteSuccess": "Request Successfully!"
+    "requestOnsiteSuccess": "Request Successfully!",
+    "approveLeave": "Approve Leave Successfully!",
+    "rejectLeave": "Reject Leave Successfully!"
+  },
+  "OVERVIEW": {
+    "viewDetail": "View Detail"
   },
   "addNewEmployee": "Add new employee",
   "overview": "Overview",

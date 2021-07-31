@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { LayoutComponent, LayoutModule, PromptComponentModule } from '@nexthcm/ui';
 import { OverviewComponent } from './pages/overview/overview.component';
 import { NgxPermissionsGuard } from 'ngx-permissions';
+import { TranslocoModule } from '@ngneat/transloco';
 
 export const HOME_ROUTES: Routes = [
   {
@@ -20,6 +21,6 @@ export const HOME_ROUTES: Routes = [
 
 @NgModule({
   declarations: [OverviewComponent],
-  imports: [CommonModule, RouterModule.forChild(HOME_ROUTES), LayoutModule, PromptComponentModule],
+  imports: [CommonModule, RouterModule.forChild(HOME_ROUTES), LayoutModule, PromptComponentModule, TranslocoModule],
 })
 export class HomeModule {}

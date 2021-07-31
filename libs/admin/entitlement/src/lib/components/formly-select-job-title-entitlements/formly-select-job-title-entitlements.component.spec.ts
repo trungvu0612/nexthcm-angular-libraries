@@ -8,9 +8,8 @@ describe('FormlySelectJobTitleEntitlementsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ FormlySelectJobTitleEntitlementsComponent ]
-    })
-    .compileComponents();
+      declarations: [FormlySelectJobTitleEntitlementsComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

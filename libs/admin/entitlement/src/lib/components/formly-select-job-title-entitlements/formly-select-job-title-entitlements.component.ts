@@ -1,7 +1,7 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import { TuiContextWithImplicit, TuiIdentityMatcher, TuiStringHandler } from '@taiga-ui/cdk';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FieldType } from '@ngx-formly/core';
+import { TuiContextWithImplicit, TuiIdentityMatcher, TuiStringHandler } from '@taiga-ui/cdk';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'hcm-formly-select-job-title-entitlements',

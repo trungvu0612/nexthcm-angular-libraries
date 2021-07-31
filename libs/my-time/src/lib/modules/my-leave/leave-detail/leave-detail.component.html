@@ -11,8 +11,8 @@
           <button appearance="custom" tuiButton>{{ t('MY_TIME.cancel') }}</button>
         </ng-container>
         <ng-container *ngIf="leaveRequestType === 'manager'">
-          <button appearance="custom" tuiButton>{{ t('MY_TIME.reject') }}</button>
-          <button appearance="custom-green" class="ml-2" tuiButton>{{ t('MY_TIME.approve') }}</button>
+          <button (click)="rejectLeaveRequest(myId)"  appearance="custom" tuiButton>{{ t('MY_TIME.reject') }}</button>
+          <button (click)="approveLeaveRequest(myId)" appearance="custom-green" class="ml-2" tuiButton>{{ t('MY_TIME.approve') }}</button>
         </ng-container>
       </div>
 
@@ -107,11 +107,5 @@
         <hcm-history-request class="mt-8"></hcm-history-request>
       </ng-container>
     </ng-container>
-
-    <footer class="flex justify-center">
-      <!--    <button (click)="edit(data.id)" *ngIf="data.status !== 1 && data.status !== 0" class="cancel blue-button mr-7">-->
-      <!--      Cancel Leave Request-->
-      <!--    </button>-->
-    </footer>
   </article>
 </main>

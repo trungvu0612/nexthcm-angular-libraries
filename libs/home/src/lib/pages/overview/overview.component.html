@@ -1,4 +1,4 @@
-<div class="page-container">
+<div *transloco="let t" class="page-container">
   <div class="heading-title">Good Morning,</div>
   <div>
     <p class="inline large-title">Welcome Back, <span class="text-blue-500">Toan</span></p>
@@ -11,35 +11,31 @@
       <div class="grid md:grid-cols-3 text-white text-center bg-purple-700 pt-5 pl-5 pr-5 pb-2 rounded-t-lg">
         <div>
           <div class="font-bold text-md mb-5">Working days</div>
-          <div class="mb-5">Today (Nov 5)</div>
+          <div class="mb-5">Today ({{ myWorkingHour.timeToday }})</div>
           <div class="mb-5">Yesterday</div>
         </div>
         <div class="border-time">
           <div class="font-bold text-md mb-5">Time in</div>
-          <div class="mb-5">07:13</div>
-          <div class="mb-5">07:30</div>
+          <div class="mb-5">{{ myWorkingHour?.timeInToday }}</div>
+          <div class="mb-5">{{ myWorkingHour?.timeInYesterday }}</div>
         </div>
         <div>
           <div class="font-bold text-md mb-5">Time out</div>
-          <div class="text-yellow-400 mb-5"><img class="inline mr-1" src="assets/images/warning.png" />12:30</div>
-          <div class="mb-5">19:00</div>
+          <div class="text-yellow-400 mb-5">
+            <img class="inline mr-1" src="assets/images/warning.png" />{{ myWorkingHour?.timeOutToday }}
+          </div>
+          <div class="mb-5">{{ myWorkingHour?.timeOutYesterday }}</div>
         </div>
       </div>
-      <div class="grid md:grid-cols-3 bg-purple-700 pb-5 rounded-b-lg">
-        <div class="text-center">
-          <a href="#"><img class="inline mr-1" src="assets/images/prev.png" /></a>
-        </div>
-        <div class="text-center text-white"><a [routerLink]="['my-time/working-hour']">View Detail</a></div>
-        <div class="text-center">
-          <a href="#"><img class="inline mr-1" src="assets/images/next.png" /></a>
+      <div class="bg-purple-700 pb-5 rounded-b-lg">
+        <div class="text-center text-white view-detail">
+          <a (click)="workingHourDetail()">{{ t('OVERVIEW.viewDetail') }}</a>
         </div>
       </div>
     </div>
     <div class="text-center shadow-md bg-white rounded-lg">
       <section *ngIf="fingerCheck" class="finger-preview relative">
-        <a (click)="fingerStatus()"
-          ><img class="mx-auto close-finger absolute" src="assets/images/close.png"
-        /></a>
+        <a (click)="fingerStatus()"><img class="mx-auto close-finger absolute" src="assets/images/close.png" /></a>
         <img class="mx-auto finger-img" src="/assets/images/finger.png" />
 
         <ng-container *ngIf="checkingAction === 'checked-out'">
@@ -68,7 +64,9 @@
         </div>
         <div class="grid grid-cols-2 my-5 text-base">
           <div class="text-left ml-4">Paid leave: <span class="text-blue-500 font-bold">0/8.5</span></div>
-          <div class="text-right text-blue-500 mr-4"><a href="#">View Detail</a></div>
+          <div class="text-right text-blue-500 mr-4">
+            <a [routerLink]="'/my-time/working-hour'">{{ t('OVERVIEW.viewDetail') }}</a>
+          </div>
         </div>
       </section>
     </div>

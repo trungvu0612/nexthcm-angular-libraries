@@ -1,9 +1,12 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup } from '@ngneat/reactive-forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { LeaveSubmit } from '../../../models/submit-leave';
 import { MyLeaveService } from '../../../services/my-leave.service';
+import { PartialObserver } from 'rxjs';
+import { PromptService } from '@nexthcm/ui';
+import { TranslocoService } from '@ngneat/transloco';
 
 @Component({
   selector: 'hcm-leave-detail',
@@ -12,6 +15,7 @@ import { MyLeaveService } from '../../../services/my-leave.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LeaveDetailComponent implements OnInit {
+  myId = this.activatedRoute.snapshot.params.id;
   leaveRequestType = 'employee';
   showDropdown = true;
   open = false;
@@ -56,7 +60,13 @@ export class LeaveDetailComponent implements OnInit {
     },
   ];
 
-  constructor(private myLeaveService: MyLeaveService, private router: Router) {}
+  constructor(
+    private myLeaveService: MyLeaveService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private promptService: PromptService,
+    private translocoService: TranslocoService
+  ) {}
 
   ngOnInit(): void {
     if (this.router.url.includes('request-management')) {
@@ -70,5 +80,29 @@ export class LeaveDetailComponent implements OnInit {
       this.primary = item;
       return;
     }
+  }
+
+  approveLeaveRequest(id: string) {
+    if (id) {
+      const body = { status: 1 };
+      this.myLeaveService.editLeave(id, body).subscribe(this.handleResponse('MY_TIME.approveLeave'));
+    }
+  }
+
+  rejectLeaveRequest(id: string) {
+    if (id) {
+      const body = { status: -1 };
+      this.myLeaveService.editLeave(id, body).subscribe(this.handleResponse('MY_TIME.rejectLeave'));
+    }
+  }
+
+  private handleResponse(successfulText: string): PartialObserver<unknown> {
+    return {
+      next: () =>
+        this.promptService.open({
+          icon: 'success',
+          text: this.translocoService.translate(successfulText),
+        }),
+    };
   }
 }
