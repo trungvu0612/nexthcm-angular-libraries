@@ -73,22 +73,22 @@
       <div class="grid grid-cols-2 text-base gap-1">
         <div>
           <div class="text-left inline mr-10">
-            <select class="year-filter appearance-none">
-              <option>2021</option>
-              <option>2021</option>
-            </select>
+<!--            <select class="year-filter appearance-none">-->
+<!--              <option>2021</option>-->
+<!--              <option>2021</option>-->
+<!--            </select>-->
           </div>
           <div class="text-left inline mr-10">
-            <select class="month-filter appearance-none">
-              <option>November</option>
-              <option>September</option>
-            </select>
+<!--            <select class="month-filter appearance-none">-->
+<!--              <option>November</option>-->
+<!--              <option>September</option>-->
+<!--            </select>-->
           </div>
           <div class="text-left inline mr-10">
-            <select class="week-filter appearance-none">
-              <option>Week 1</option>
-              <option>Week 2</option>
-            </select>
+<!--            <select class="week-filter appearance-none">-->
+<!--              <option>Week 1</option>-->
+<!--              <option>Week 2</option>-->
+<!--            </select>-->
           </div>
         </div>
 
@@ -185,7 +185,10 @@
                         <td *tuiCell="'timeIn'" tuiTd>{{ req.inTimeToFullTime }}</td>
                         <td *tuiCell="'timeOut'" tuiTd>{{ req.outTimeToFulltime }}</td>
                         <td *tuiCell="'totalWorkingTime'" tuiTd>{{ req.totalWorkingTime }}</td>
-                        <td *tuiCell="'workingDay'" tuiTd>{{ req.workingDay }}</td>
+                        <td *tuiCell="'workingDay'" tuiTd>
+                          <ng-container *ngIf="req.workingDay === 0">{{ req.workingDay }}</ng-container>
+                          <ng-container *ngIf="req.workingDay !== 0">{{ req.workingDay.toFixed(2) }}</ng-container>
+                        </td>
                         <td *tuiCell="'ot'" tuiTd>{{ req.ot }}</td>
                         <td *tuiCell="'onsiteDay'" tuiTd>{{ req.onsiteDay }}</td>
                         <td *tuiCell="'leave'" tuiTd>{{ req?.leave?.leaveType?.name }}</td>
@@ -260,7 +263,10 @@
                         <td *tuiCell="'timeIn'" tuiTd>{{ req.inTimeToFullTime }}</td>
                         <td *tuiCell="'timeOut'" tuiTd>{{ req.outTimeToFulltime }}</td>
                         <td *tuiCell="'totalWorkingTime'" tuiTd>{{ req.totalWorkingTime }}</td>
-                        <td *tuiCell="'workingDay'" tuiTd>{{ req.workingDay }}</td>
+                        <td *tuiCell="'workingDay'" tuiTd>
+                          <ng-container *ngIf="req.workingDay === 0">{{ req.workingDay }}</ng-container>
+                          <ng-container *ngIf="req.workingDay !== 0">{{ req.workingDay.toFixed(2) }}</ng-container>
+                        </td>
                         <td *tuiCell="'action'" tuiTd>
                           <div class="flex">
                             <div>
