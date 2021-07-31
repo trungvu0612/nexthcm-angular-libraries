@@ -1,6 +1,6 @@
 export interface LeaveType {
   id?: string;
-  orgId: string;
+  orgId?: string;
   name?: string | undefined;
   deleted: number;
   createdDate?: string;

@@ -6,10 +6,6 @@ import { FormlyModule } from '@ngx-formly/core';
 import { TuiButtonModule } from '@taiga-ui/core';
 import { NgxPermissionsGuard } from 'ngx-permissions';
 import { RequestsDialogComponent } from './components/requests-dialog/requests-dialog.component';
-import { LeaveTypeComponent } from './modules/leave-type/leave-type.component';
-import { LeaveTypeModule } from './modules/leave-type/leave-type.module';
-import { ListLeaveTypeComponent } from './modules/leave-type/list-leave-type/list-leave-type.component';
-import { UpsertLeaveTypeComponent } from './modules/leave-type/upsert-leave-type/upsert-leave-type.component';
 import { LeaveDetailComponent } from './modules/my-leave/leave-detail/leave-detail.component';
 import { LeaveRequestManagementComponent } from './modules/my-leave/leave-request-management/leave-request-management.component';
 import { MyLeaveComponent } from './modules/my-leave/my-leave.component';
@@ -59,18 +55,6 @@ export const myTimeRoutes: Routes = [
             data: { permissions: { only: 'VIEW_MY_REQUEST', redirectTo: '/' } },
             children: [
               { path: '', component: ListMyRequestComponent },
-              {
-                path: 'add',
-                component: UpsertLeaveTypeComponent,
-                canActivate: [NgxPermissionsGuard],
-                data: { permissions: { only: 'CREATE_MY_REQUEST', redirectTo: '/' } },
-              },
-              {
-                path: 'edit/:id',
-                component: UpsertLeaveTypeComponent,
-                canActivate: [NgxPermissionsGuard],
-                data: { permissions: { only: 'UPDATE_MY_REQUEST', redirectTo: '/' } },
-              },
               { path: ':id/detail', component: LeaveDetailComponent },
             ],
           },
@@ -79,19 +63,9 @@ export const myTimeRoutes: Routes = [
             component: RequestManagementComponent,
             children: [
               { path: '', component: ListRequestManagementComponent },
-              // { path: 'add', component: UpsertLeaveTypeComponent },
               { path: ':id/detail', component: LeaveDetailComponent },
             ],
           },
-        ],
-      },
-      {
-        path: 'leave-type',
-        component: LeaveTypeComponent,
-        children: [
-          { path: '', component: ListLeaveTypeComponent },
-          { path: 'add', component: UpsertLeaveTypeComponent },
-          { path: 'edit/:id', component: UpsertLeaveTypeComponent },
         ],
       },
     ],
@@ -103,7 +77,6 @@ export const myTimeRoutes: Routes = [
   imports: [
     CommonModule,
     RouterModule.forChild(myTimeRoutes),
-    LeaveTypeModule,
     MyLeaveModule,
     MyRequestsModule,
     RequestManagementModule,
