@@ -60,8 +60,12 @@ export class OverviewComponent implements OnInit {
         // show check-out button
         this.checkingAction = 'checked-out';
         this.idChecking = item.data?.items[0]?.id;
-        this.myWorkingHour.timeInToday = this.secondsToTime(item.data?.items[0].inTime);
-        this.myWorkingHour.timeOutToday = this.secondsToTime(item.data?.items[0].outTime);
+        if (item.data?.items[0]?.inTime) {
+          this.myWorkingHour.timeInToday = this.secondsToTime(item.data?.items[0]?.inTime);
+        }
+        if (item.data?.items[0]?.outTime) {
+          this.myWorkingHour.timeOutToday = this.secondsToTime(item.data?.items[0]?.outTime);
+        }
       } else {
         //show check-in button
         this.checkingAction = 'checked-in';
@@ -74,8 +78,13 @@ export class OverviewComponent implements OnInit {
     this.overviewService
       .getWorkingHourByDate(this.myId, this.startOfYesterday, this.endOfYesterday)
       .subscribe((item) => {
-        this.myWorkingHour.timeInYesterday = item.data.items[0].inTimeToFullTime;
-        this.myWorkingHour.timeOutYesterday = item.data.items[0].outTimeToFulltime;
+        if (item.data?.items[0]?.inTimeToFullTime) {
+          this.myWorkingHour.timeInYesterday = item.data.items[0].inTimeToFullTime;
+        }
+        if (item.data?.items[0]?.outTimeToFulltime) {
+          this.myWorkingHour.timeOutYesterday = item.data.items[0].outTimeToFulltime;
+        }
+
         this.cdr.detectChanges();
       });
     this.overviewService.getTimeWorkingHour(this.orgId).subscribe((item) => {
