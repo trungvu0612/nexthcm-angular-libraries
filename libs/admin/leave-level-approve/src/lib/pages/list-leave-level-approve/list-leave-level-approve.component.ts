@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
-import { BehaviorSubject, combineLatest } from 'rxjs';
-import { TuiDialogService } from '@taiga-ui/core';
 import { TuiDestroyService } from '@taiga-ui/cdk';
-import { debounceTime, switchMap, takeUntil } from 'rxjs/operators';
+import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
-import { UpsertLeaveLevelApproveComponent } from '../upsert-leave-level-approve/upsert-leave-level-approve.component';
+import { BehaviorSubject, combineLatest } from 'rxjs';
+import { debounceTime, switchMap, takeUntil } from 'rxjs/operators';
 import { LevelApproveService } from '../../services/level-approve.service';
+import { UpsertLeaveLevelApproveComponent } from '../upsert-leave-level-approve/upsert-leave-level-approve.component';
 
 @Component({
   selector: 'hcm-list-leave-level-approve',

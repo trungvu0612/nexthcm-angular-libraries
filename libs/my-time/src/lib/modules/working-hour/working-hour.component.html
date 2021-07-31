@@ -179,16 +179,16 @@
                     </thead>
                     <tbody [data]="workingHourDataOnlyMe" tuiTbody>
                       <tr *tuiRow="let req of workingHourDataOnlyMe; let index = index" tuiTr>
-                        <td *tuiCell="'office'" tuiTd></td>
+                        <td *tuiCell="'office'" tuiTd>{{ req?.userInfo?.office?.name }}</td>
                         <td *tuiCell="'date'" tuiTd>{{ req.trackingDate | date: 'dd/MM/yyyy' }}</td>
                         <td *tuiCell="'day'" tuiTd>{{ req.day }}</td>
-                        <td *tuiCell="'timeIn'" tuiTd>{{ req.inTime | date: 'h:mm:ss' }}</td>
-                        <td *tuiCell="'timeOut'" tuiTd>{{ req.outTime | date: 'h:mm:ss' }}</td>
-                        <td *tuiCell="'totalWorkingTime'" tuiTd>{{ req.totalWorkingTime | date: 'h:mm:ss' }}</td>
+                        <td *tuiCell="'timeIn'" tuiTd>{{ req.inTimeToFullTime }}</td>
+                        <td *tuiCell="'timeOut'" tuiTd>{{ req.outTimeToFulltime }}</td>
+                        <td *tuiCell="'totalWorkingTime'" tuiTd>{{ req.totalWorkingTime }}</td>
                         <td *tuiCell="'workingDay'" tuiTd>{{ req.workingDay }}</td>
-                        <td *tuiCell="'ot'" tuiTd></td>
+                        <td *tuiCell="'ot'" tuiTd>{{ req.ot }}</td>
                         <td *tuiCell="'onsiteDay'" tuiTd>{{ req.onsiteDay }}</td>
-                        <td *tuiCell="'leave'" tuiTd></td>
+                        <td *tuiCell="'leave'" tuiTd>{{ req?.leave?.leaveType?.name }}</td>
                         <td *tuiCell="'action'" tuiTd>
                           <div class="flex">
                             <tui-svg
@@ -254,12 +254,12 @@
                       <tr *tuiRow="let req of workingHourData; let index = index" tuiTr>
                         <td *tuiCell="'cif'" tuiTd>{{ req.userInfo.code }}</td>
                         <td *tuiCell="'fullName'" tuiTd>{{ req?.userInfo?.profile?.fullName }}</td>
-                        <td *tuiCell="'office'" tuiTd></td>
+                        <td *tuiCell="'office'" tuiTd>{{ req?.userInfo?.office?.name }}</td>
                         <td *tuiCell="'date'" tuiTd>{{ req.trackingDate | date: 'dd/MM/yyyy' }}</td>
                         <td *tuiCell="'day'" tuiTd>{{ req.day }}</td>
-                        <td *tuiCell="'timeIn'" tuiTd>{{ req.inTime | date: 'h:mm:ss' }}</td>
-                        <td *tuiCell="'timeOut'" tuiTd>{{ req.outTime | date: 'h:mm:ss' }}</td>
-                        <td *tuiCell="'totalWorkingTime'" tuiTd>{{ req.totalWorkingTime | date: 'h:mm:ss' }}</td>
+                        <td *tuiCell="'timeIn'" tuiTd>{{ req.inTimeToFullTime }}</td>
+                        <td *tuiCell="'timeOut'" tuiTd>{{ req.outTimeToFulltime }}</td>
+                        <td *tuiCell="'totalWorkingTime'" tuiTd>{{ req.totalWorkingTime }}</td>
                         <td *tuiCell="'workingDay'" tuiTd>{{ req.workingDay }}</td>
                         <td *tuiCell="'action'" tuiTd>
                           <div class="flex">

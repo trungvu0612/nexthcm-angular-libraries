@@ -4,8 +4,8 @@ import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { Observable, of } from 'rxjs';
-import { JobTitle } from '../../models/job-title';
 import { tap } from 'rxjs/operators';
+import { JobTitle } from '../../models/job-title';
 
 @Component({
   selector: 'hcm-upsert-job-title',

@@ -8,9 +8,8 @@ describe('UpsertLeaveLevelApproveComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ UpsertLeaveLevelApproveComponent ]
-    })
-    .compileComponents();
+      declarations: [UpsertLeaveLevelApproveComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

@@ -1,12 +1,10 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Pagination, PagingResponse } from '@nexthcm/core';
+import { PagingResponse } from '@nexthcm/core';
 import { Observable } from 'rxjs';
 import { Office } from '../models/offices';
 import { WorkingAfterTime } from '../models/working-after-time';
 import { WorkingTimes } from '../models/working-times';
-import { map } from 'rxjs/operators';
-import { Level } from '../../../../job-level/src/lib/models/level';
 
 @Injectable({
   providedIn: 'root',

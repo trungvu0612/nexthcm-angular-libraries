@@ -74,8 +74,8 @@ export class LeaveRequestComponent implements OnInit {
 
   ngOnInit(): void {
     this.searchSubject.next({
-      fromDate: startOfMonth(this.today).toISOString(),
-      toDate: endOfMonth(this.today).toISOString(),
+      fromDate: startOfMonth(this.today).valueOf(),
+      toDate: endOfMonth(this.today).valueOf(),
     });
     combineLatest([this.page$, this.perPageSubject, this.searchSubject])
       .pipe(
@@ -136,6 +136,6 @@ export class LeaveRequestComponent implements OnInit {
   }
 
   showLeaveDetail(req: Requests): void {
-    // this.router.navigateByUrl('/my-time/request-management/1/detail');
+    this.router.navigateByUrl('/my-time/request-management/'+req.id+'/detail');
   }
 }

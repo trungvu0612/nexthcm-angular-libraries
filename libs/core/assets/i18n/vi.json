@@ -340,7 +340,12 @@
     "status": "Trạng Thái",
     "cancel": "Hủy",
     "requestSuccess": "Đã Gửi Đơn Xin Làm Việc Tại Nhà!",
-    "requestOnsiteSuccess": "Đã Gửi Đơn Thành Công!"
+    "requestOnsiteSuccess": "Đã Gửi Đơn Thành Công!",
+    "approveLeave": "Đã Phê Duyệt Đơn Xin Nghỉ Phép!",
+    "rejectLeave": "Đã Từ Chối Đơn Xin Nghỉ Phép!"
+  },
+  "OVERVIEW": {
+    "viewDetail": "Chi tiết"
   },
   "addNewEmployee": "Thêm nhân viên mới",
   "overview": "Tổng quan",

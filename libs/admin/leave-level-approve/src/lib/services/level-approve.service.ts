@@ -1,10 +1,10 @@
-import { Inject, Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Inject, Injectable } from '@angular/core';
+import { JobTitle } from '@nexthcm/admin-job-titles';
 import { APP_CONFIG, AppConfig, Pagination, PagingResponse } from '@nexthcm/core';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { LevelApprove } from '../models/level-approve';
-import { JobTitle } from '@nexthcm/admin-job-titles';
 
 const MY_TIME_PATH = '/mytimeapp/v1.0';
 

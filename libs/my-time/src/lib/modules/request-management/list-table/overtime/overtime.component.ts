@@ -10,6 +10,8 @@ import { MyLeave } from '../../../../models/my-leave';
 import { MyLeaveService } from '../../../../services/my-leave.service';
 import { CancelDialogLeaveComponent } from '../../../my-leave/cancel-dialog-leave/cancel-dialog-leave.component';
 import { LeaveManagementDetailDialogComponent } from '../../leave-management-detail-dialog/leave-management-detail-dialog.component';
+import { Requests } from '../../../../models/requests';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'hcm-overtime',
@@ -39,7 +41,8 @@ export class OvertimeComponent implements OnInit {
     private injector: Injector,
     private myLeaveService: MyLeaveService,
     private destroy$: TuiDestroyService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -77,6 +80,10 @@ export class OvertimeComponent implements OnInit {
           console.log('susscess edit', id);
         });
       });
+  }
+
+  showLeaveDetail(id: string): void {
+    this.router.navigateByUrl('/my-time/request-management/'+id+'/detail');
   }
 
   showDialogSubmit() {

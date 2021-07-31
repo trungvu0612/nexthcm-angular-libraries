@@ -9,15 +9,21 @@ import { of } from 'rxjs';
 import { catchError, filter, mapTo, switchMap, takeUntil } from 'rxjs/operators';
 import { SweetAlertOptions } from 'sweetalert2';
 import { OverviewService } from '../../services/overview.service';
+import { TranslocoService } from '@ngneat/transloco';
+import { startOfYesterday, endOfYesterday, differenceInSeconds, startOfToday } from 'date-fns';
 
 @Component({
   selector: 'hcm-overview',
   templateUrl: './overview.component.html',
   styleUrls: ['./overview.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [DatePipe, TuiDestroyService]
+  providers: [DatePipe, TuiDestroyService],
 })
 export class OverviewComponent implements OnInit {
+  toDay = new Date();
+  startOfYesterday = startOfYesterday().valueOf();
+  endOfYesterday = endOfYesterday().valueOf();
+  nowInMiliseconds = differenceInSeconds(this.toDay, startOfToday());
   myId = this.authService.get('userInfo').userId;
   orgId = this.authService.get('userInfo').orgId;
   checkingBtn = true;
@@ -25,6 +31,7 @@ export class OverviewComponent implements OnInit {
   idChecking: any;
   dataChecking: any;
   checkingAction: any;
+  myWorkingHour = { timeToday: '', timeInToday: '', timeOutToday: '', timeInYesterday: '', timeOutYesterday: '' };
 
   constructor(
     private overviewService: OverviewService,
@@ -35,9 +42,9 @@ export class OverviewComponent implements OnInit {
     private destroy$: TuiDestroyService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private promptService: PromptService
-  ) {
-  }
+    private promptService: PromptService,
+    private translocoService: TranslocoService
+  ) {}
 
   ngOnInit(): void {
     this.getWorkingHourTime();
@@ -45,12 +52,16 @@ export class OverviewComponent implements OnInit {
   }
 
   checkingStatus() {
+    this.myWorkingHour.timeToday =
+      new Date().toLocaleString('en-us', { month: 'short' }) + ' ' + String(new Date().getDate()).padStart(2, '0');
     this.overviewService.statusChecking().subscribe((item) => {
       console.log(item);
       if (item.data?.items.length > 0) {
         // show check-out button
         this.checkingAction = 'checked-out';
         this.idChecking = item.data?.items[0]?.id;
+        this.myWorkingHour.timeInToday = this.secondsToTime(item.data?.items[0].inTime);
+        this.myWorkingHour.timeOutToday = this.secondsToTime(item.data?.items[0].outTime);
       } else {
         //show check-in button
         this.checkingAction = 'checked-in';
@@ -60,10 +71,16 @@ export class OverviewComponent implements OnInit {
   }
 
   getWorkingHourTime() {
+    this.overviewService
+      .getWorkingHourByDate(this.myId, this.startOfYesterday, this.endOfYesterday)
+      .subscribe((item) => {
+        this.myWorkingHour.timeInYesterday = item.data.items[0].inTimeToFullTime;
+        this.myWorkingHour.timeOutYesterday = item.data.items[0].outTimeToFulltime;
+        this.cdr.detectChanges();
+      });
     this.overviewService.getTimeWorkingHour(this.orgId).subscribe((item) => {
-      const today = new Date();
-      const timeChecking = today.getHours() * 60 * 60 + today.getMinutes() * 60 + today.getSeconds();
-      if (timeChecking < item.data?.minStart || timeChecking > item.data?.maxStart) {
+      const toDay = new Date();
+      if (this.nowInMiliseconds < item.data?.minStart || this.nowInMiliseconds > item.data?.maxStart) {
         this.fingerCheck = false;
         this.checkingBtn = false;
       }
@@ -78,15 +95,13 @@ export class OverviewComponent implements OnInit {
   }
 
   checkingTime(checkingType: string) {
-    const today = new Date();
-    const timeChecking = today.getHours() * 60 * 60 + today.getMinutes() * 60 + today.getSeconds();
     this.dataChecking = {
-      trackingDate: today.valueOf(),
-      lastAction: checkingType
+      trackingDate: this.toDay,
+      lastAction: checkingType,
     };
     if (checkingType == 'checked-in') {
       this.dataChecking.checkinFrom = 'web-app';
-      this.dataChecking.inTime = timeChecking;
+      this.dataChecking.inTime = this.nowInMiliseconds;
       this.overviewService
         .checkIn(this.dataChecking)
         .pipe(
@@ -97,7 +112,7 @@ export class OverviewComponent implements OnInit {
               icon: 'error',
               text: err.error.message,
               showCancelButton: true,
-              showConfirmButton: false
+              showConfirmButton: false,
             } as SweetAlertOptions)
           ),
           switchMap((options) => this.promptService.open(options)),
@@ -112,7 +127,7 @@ export class OverviewComponent implements OnInit {
     }
     if (checkingType == 'checked-out') {
       this.dataChecking.checkoutFrom = 'web-app';
-      this.dataChecking.outTime = timeChecking;
+      this.dataChecking.outTime = this.nowInMiliseconds;
       this.overviewService
         .checkOut(this.dataChecking, this.idChecking)
         .pipe(
@@ -123,7 +138,7 @@ export class OverviewComponent implements OnInit {
               icon: 'error',
               text: err.error.message,
               showCancelButton: true,
-              showConfirmButton: false
+              showConfirmButton: false,
             } as SweetAlertOptions)
           ),
           switchMap((options) => this.promptService.open(options)),
@@ -134,7 +149,26 @@ export class OverviewComponent implements OnInit {
           this.checkingAction = 'checked-out';
           this.cdr.detectChanges();
           this.router.navigate(['../..'], { relativeTo: this.activatedRoute });
+          this.cdr.detectChanges();
         });
     }
+  }
+
+  secondsToTime = (secs: any) => {
+    const hours = Math.floor(secs / (60 * 60));
+    const divisor_for_minutes = secs % (60 * 60);
+    const minutes = Math.floor(divisor_for_minutes / 60);
+    const divisor_for_seconds = divisor_for_minutes % 60;
+    const seconds = Math.ceil(divisor_for_seconds);
+    const obj = {
+      h: hours === 0 ? '00' : hours < 10 ? `0${hours}` : hours,
+      m: minutes === 0 ? '00' : minutes < 10 ? `0${minutes}` : minutes,
+      s: seconds,
+    };
+    return obj.h + ': ' + obj.m;
+  };
+
+  workingHourDetail() {
+    this.router.navigateByUrl('/my-time/working-hour');
   }
 }
