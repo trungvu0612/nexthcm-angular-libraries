@@ -95,7 +95,6 @@ export class UpsertLeaveTypeComponent implements OnInit {
   ) {
     this.id = this.activatedRoute.snapshot.params.id;
     this.form = this.formBuilder.group<LeaveType>({
-      orgId: '3ca97c73-7312-4191-b54d-3a8e0cc9e4dd',
       name: ['', Validators.required],
       deleted: [0],
     });
