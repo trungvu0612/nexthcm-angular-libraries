@@ -12,6 +12,7 @@ import { RequestOtComponent } from './request-ot/request-ot.component';
 import { RequestUpdateTimeComponent } from './request-update-time/request-update-time.component';
 import { WorkingHourDetailComponent } from './working-hour-detail/working-hour-detail.component';
 import { WorkingOutsiteComponent } from './working-outsite/working-outsite.component';
+import { startOfYesterday, endOfYesterday, differenceInSeconds, startOfToday } from 'date-fns';
 
 @Component({
   selector: 'hcm-working-hour',
@@ -31,6 +32,12 @@ export class WorkingHourComponent implements OnInit {
   totalLength = 0;
   size$ = 10;
   perPageSubject = new BehaviorSubject<number>(this.size$);
+
+  toDay = new Date();
+  startOfYesterday = startOfYesterday().valueOf();
+  endOfYesterday = endOfYesterday().valueOf();
+  myId = this.authService.get('userInfo').userId;
+  myWorkingHour = { timeInYesterday: '', timeOutYesterday: '', totalWorkingTime: '', userOffice: '' };
 
   readonly onlyme_columns = [
     'office',
@@ -69,6 +76,7 @@ export class WorkingHourComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.getWorkingHourTime();
     this.userInfo = this.authService.get('userInfo');
     this.searchForm = this.formBuilder.group<SearchWorkingHour>({
       name: '',
@@ -83,7 +91,6 @@ export class WorkingHourComponent implements OnInit {
       )
       .subscribe((item) => {
         this.workingHourDataOnlyMe = item.data.items;
-        console.log(this.workingHourDataOnlyMe);
         this.totalLength = item.data.totalElements;
         this.cdr.detectChanges();
       });
@@ -105,8 +112,6 @@ export class WorkingHourComponent implements OnInit {
         )
         .subscribe((item) => {
           this.workingHourData = item.data.items;
-          console.log('this.WorkingHourData');
-          console.log(this.workingHourData);
           this.totalLength = item.data.totalElements;
           this.cdr.detectChanges();
         });
@@ -152,7 +157,7 @@ export class WorkingHourComponent implements OnInit {
       .open(new PolymorpheusComponent(RequestUpdateTimeComponent, this.injector), {
         size: 'm',
         closeable: false,
-        data: id
+        data: id,
       })
       .subscribe((map) => {
         this.cdr.detectChanges();
@@ -168,4 +173,39 @@ export class WorkingHourComponent implements OnInit {
   onSize(size: number): void {
     this.perPageSubject.next(size);
   }
+
+  getWorkingHourTime() {
+    this.workingHourService
+      .getWorkingHourByDate(this.myId, this.startOfYesterday, this.endOfYesterday)
+      .subscribe((item) => {
+        if (item.data?.items[0]?.inTimeToFullTime) {
+          this.myWorkingHour.timeInYesterday = item.data.items[0].inTimeToFullTime;
+        }
+        if (item.data?.items[0]?.outTimeToFulltime) {
+          this.myWorkingHour.timeOutYesterday = item.data.items[0].outTimeToFulltime;
+        }
+        if (item.data?.items[0]?.totalWorkingTime) {
+          this.myWorkingHour.totalWorkingTime = item.data.items[0].totalWorkingTime;
+        }
+
+        if (item.data?.items[0]?.userInfo?.office?.name) {
+          this.myWorkingHour.userOffice = item.data?.items[0].userInfo.office.name;
+        }
+        this.cdr.detectChanges();
+      });
+  }
+
+  secondsToTime = (secs: any) => {
+    const hours = Math.floor(secs / (60 * 60));
+    const divisor_for_minutes = secs % (60 * 60);
+    const minutes = Math.floor(divisor_for_minutes / 60);
+    const divisor_for_seconds = divisor_for_minutes % 60;
+    const seconds = Math.ceil(divisor_for_seconds);
+    const obj = {
+      h: hours === 0 ? '00' : hours < 10 ? `0${hours}` : hours,
+      m: minutes === 0 ? '00' : minutes < 10 ? `0${minutes}` : minutes,
+      s: seconds,
+    };
+    return obj.h + ': ' + obj.m;
+  };
 }

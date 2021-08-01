@@ -16,15 +16,15 @@
         </div>
         <div class="border-time">
           <div class="font-bold text-md mb-5">Time in</div>
-          <div class="mb-5">{{ myWorkingHour?.timeInToday }}</div>
-          <div class="mb-5">{{ myWorkingHour?.timeInYesterday }}</div>
+          <div class="mb-5 time-height">{{ myWorkingHour?.timeInToday }}</div>
+          <div class="mb-5 time-height">{{ myWorkingHour?.timeInYesterday }}</div>
         </div>
         <div>
           <div class="font-bold text-md mb-5">Time out</div>
-          <div class="text-yellow-400 mb-5">
-            <img class="inline mr-1" src="assets/images/warning.png" />{{ myWorkingHour?.timeOutToday }}
+          <div class="text-yellow-400 mb-5 time-height">
+            <img *ngIf="myWorkingHour?.timeOutToday" class="inline mr-1" src="assets/images/warning.png" />{{ myWorkingHour?.timeOutToday }}
           </div>
-          <div class="mb-5">{{ myWorkingHour?.timeOutYesterday }}</div>
+          <div class="mb-5 time-height">{{ myWorkingHour?.timeOutYesterday }}</div>
         </div>
       </div>
       <div class="bg-purple-700 pb-5 rounded-b-lg">
