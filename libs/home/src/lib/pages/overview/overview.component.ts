@@ -55,7 +55,6 @@ export class OverviewComponent implements OnInit {
     this.myWorkingHour.timeToday =
       new Date().toLocaleString('en-us', { month: 'short' }) + ' ' + String(new Date().getDate()).padStart(2, '0');
     this.overviewService.statusChecking().subscribe((item) => {
-      console.log(item);
       if (item.data?.items.length > 0) {
         // show check-out button
         this.checkingAction = 'checked-out';

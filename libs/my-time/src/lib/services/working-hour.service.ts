@@ -57,4 +57,10 @@ export class WorkingHourService {
   submitRequestTime(dto: RequestUpdateTime): Observable<BaseResponse<RequestUpdateTime>> {
     return this.httpClient.post<BaseResponse<RequestUpdateTime>>(this.appVersion + '/working-hours', dto);
   }
+
+  getWorkingHourByDate(userId: string, fromDate: any, toDate: any): Observable<any> {
+    return this.httpClient.get<any>(
+      this.appVersion + '/working-hours?userId=' + userId + '&fromDate=' + fromDate + '&toDate=' + toDate
+    );
+  }
 }

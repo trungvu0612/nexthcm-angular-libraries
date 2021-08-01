@@ -25,7 +25,27 @@ export class WorkingHourDetailComponent implements OnInit {
       this.workingHourService.getWorkingHourDetail(this.id).subscribe((item) => {
         this.workingData = item;
         console.log(this.workingData);
+        if(this.workingData.data?.inTime){
+          this.workingData.data.inTime = this.secondsToTime(this.workingData.data.inTime);
+        }
+        if(this.workingData.data?.outTime){
+          this.workingData.data.outTime = this.secondsToTime(this.workingData.data.outTime);
+        }
       });
     }
   }
+
+  secondsToTime = (secs: any) => {
+    const hours = Math.floor(secs / (60 * 60));
+    const divisor_for_minutes = secs % (60 * 60);
+    const minutes = Math.floor(divisor_for_minutes / 60);
+    const divisor_for_seconds = divisor_for_minutes % 60;
+    const seconds = Math.ceil(divisor_for_seconds);
+    const obj = {
+      h: hours === 0 ? '00' : hours < 10 ? `0${hours}` : hours,
+      m: minutes === 0 ? '00' : minutes < 10 ? `0${minutes}` : minutes,
+      s: seconds,
+    };
+    return obj.h + ': ' + obj.m;
+  };
 }

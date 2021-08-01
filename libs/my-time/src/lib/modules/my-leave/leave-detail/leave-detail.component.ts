@@ -91,7 +91,7 @@ export class LeaveDetailComponent implements OnInit {
 
   rejectLeaveRequest(id: string) {
     if (id) {
-      const body = { status: -1 };
+      const body = { status: -1, reason: '' };
       this.myLeaveService.editLeave(id, body).subscribe(this.handleResponse('MY_TIME.rejectLeave'));
     }
   }
