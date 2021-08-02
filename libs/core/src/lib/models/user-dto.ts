@@ -69,6 +69,7 @@ export interface Profile {
   maritalStatus: number;
   major: string;
   salary: number;
+  fullName: string;
 }
 
 export interface ReportTo {

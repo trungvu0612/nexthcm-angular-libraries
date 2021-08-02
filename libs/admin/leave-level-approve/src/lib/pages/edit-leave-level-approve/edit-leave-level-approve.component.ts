@@ -86,7 +86,6 @@ export class EditLeaveLevelApproveComponent implements OnInit {
       this.levelApproveService.getAdminLevelApproveId(this.data).subscribe((item) => {
         console.log('aaaaaaaaaaa', item);
         this.model = { ...this.model, ...item };
-        this.model.jobTitles = item.jobTitleDTOList
       });
     }
   }
