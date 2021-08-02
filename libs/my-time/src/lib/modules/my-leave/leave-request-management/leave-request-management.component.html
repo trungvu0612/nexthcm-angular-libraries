@@ -80,14 +80,19 @@
             </td>
           </tr>
         </tbody>
+        <tfoot>
+        <tr>
+          <td [colSpan]='columns.length' class='px-5 py-3'>
+            <tui-table-pagination
+              (pageChange)='onPage($event)'
+              (sizeChange)='onSize($event)'
+              [(page)]='page'
+              [(size)]='size'
+              [total]='totalElements'></tui-table-pagination>
+          </td>
+        </tr>
+        </tfoot>
       </table>
     </article>
-    <tui-table-pagination
-      [total]="totalLength"
-      [(page)]="page"
-      [(size)]="size"
-      (pageChange)="onPage($event)"
-      (sizeChange)="onSize($event)"
-    ></tui-table-pagination>
   </section>
 </main>

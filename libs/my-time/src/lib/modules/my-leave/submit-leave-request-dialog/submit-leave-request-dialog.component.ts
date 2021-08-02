@@ -21,10 +21,13 @@ import { DurationConfirmDialogComponent } from '../duaration-comfirm-dialog/dura
 })
 export class SubmitLeaveRequestDialogComponent {
   partialDays$: Observable<any[]> = this.myLeaveService.getPartialDays().pipe(map((data) => data));
+  leaveTypes$: Observable<any[]> = this.myLeaveService.getLeaveTypes().pipe(map((data) => data));
   durationValues: Observable<any[]> = this.myLeaveService.getdurationValues().pipe(map((data) => data));
   timeValues$: Observable<any[]> = this.myLeaveService.getTimeValues().pipe(map((data) => data));
   halfTimeValues$: Observable<any[]> = this.myLeaveService.getHalfTime().pipe(map((data) => data));
 
+  descriptionLeaveType = ''
+  titleLeaveType = ''
   form = this.fb.group<LeaveSubmit>({});
   model: LeaveSubmit = {
     comments: '',
@@ -60,12 +63,11 @@ export class SubmitLeaveRequestDialogComponent {
     {
       className: 'col-span-full mt-4',
       template: `
-        <div class="my-8">
-        <div style="border: 1px solid #e4e4e4"></div>
+        <div class='my-8'>
+        <div style='border: 1px solid #e4e4e4'></div>
         </div>
-        <h3 class="text-xl font-semibold">Paid Leave</h3>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam, purus sit amet luctus venenatis, lectus magna
-        fringilla urna, porttitor</p>
+        <h3 class='text-xl font-semibold'>` + this.titleLeaveType + `</h3>
+        <p>` + this.descriptionLeaveType + `</p>
         </div>
         `,
     },
@@ -342,19 +344,19 @@ export class SubmitLeaveRequestDialogComponent {
     {
       fieldGroupClassName: 'grid grid-cols-1 gap-4',
       fieldGroup: [
-        // {
-        //   className: 'mt-4',
-        //   key: 'sendTo',
-        //   type: 'select',
-        //   templateOptions: {
-        //     options: this.myLeaveService.select('sendToUsers'),
-        //     labelProp: 'username',
-        //     valueProp: 'id',
-        //     placeholder: 'Send to',
-        //     label: 'Send to',
-        //     textfieldLabelOutside: true,
-        //   },
-        // },
+        {
+          className: 'mt-4',
+          key: 'sendTo',
+          type: 'select',
+          templateOptions: {
+            options: this.myLeaveService.select('sendToUsers'),
+            labelProp: 'username',
+            valueProp: 'id',
+            placeholder: 'Send to',
+            label: 'Send to',
+            textfieldLabelOutside: true,
+          },
+        },
 
         {
           className: 'mt-4',
@@ -386,6 +388,17 @@ export class SubmitLeaveRequestDialogComponent {
     private router: Router,
     private fb: FormBuilder
   ) {}
+
+  ngAfterViewInit() {
+    const leaveTypes = this.form.controls.leaveTypes
+    if (leaveTypes){
+      leaveTypes.valueChanges.subscribe(
+        (data) => {
+          this.descriptionLeaveType = data[0].leaveTypeDescription
+          this.titleLeaveType = data[0].leaveTypeName
+      })
+    }
+  }
 
   submit() {
     const leaveRequestModel = this.form.value;
