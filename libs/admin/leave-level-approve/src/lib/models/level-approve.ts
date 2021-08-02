@@ -3,6 +3,7 @@ export interface LevelApprove {
   totalLeave?: number;
   tenantId?: string;
   jobTitles?: JobTitle[];
+  jobTitleDTOList?: JobTitle[];
 }
 
 export interface LeaveType {
@@ -12,3 +13,9 @@ export interface LeaveType {
 export interface JobTitle {
   id?: string;
 }
+
+export interface ResLevelApprove {
+  code?: string;
+  data?: LevelApprove;
+}
+

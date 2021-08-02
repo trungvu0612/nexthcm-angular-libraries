@@ -17,25 +17,21 @@
   <table [columns]='columns' class='hcm-tui-table' tuiTable>
     <thead>
     <tr tuiThGroup>
-      <th *tuiHead="'date'" [sorter]='null' class='center-custom' tuiTh>Date</th>
-      <th *tuiHead="'leaveType'" [sorter]='null' class='center-custom' tuiTh>Leave Type</th>
-      <th *tuiHead="'days'" [sorter]='null' class='center-custom' tuiTh>Days</th>
+      <th *tuiHead="'startDate'" [sorter]='null' class='text-left' tuiTh>Start Date</th>
+      <th *tuiHead="'endDate'" [sorter]='null' class='text-left' tuiTh>End Date</th>
       <th *tuiHead="'status'" [sorter]='null' class='center-custom' tuiTh>Status</th>
-      <th *tuiHead="'sendTo'" [sorter]='null' class='center-custom' tuiTh>Send To</th>
-      <th *tuiHead="'action'" [sorter]='null' style='text-align: center' tuiTh>Action</th>
+      <th *tuiHead="'action'" [sorter]='null' class='text-left' tuiTh>Action</th>
     </tr>
     </thead>
     <tbody [data]='data' tuiTbody>
     <tr *tuiRow='let item of data' tuiTr>
-      <td *tuiCell="'date'" class='underline' tuiTd>
-        <p>{{ item.startTime }}</p>
+      <td *tuiCell="'startDate'" class='underline' tuiTd>
+        <p>{{ item.startDate | date }}</p>
       </td>
 
-      <td *tuiCell="'leaveType'" tuiTd>
-        <strong>{{ item.leaveType?.name }}</strong>
+      <td *tuiCell="'endDate'" class='text-left underline' tuiTd>
+        <p>{{ item.endDate | date }}</p>
       </td>
-
-      <td *tuiCell="'days'" class='center-custom font-semibold' tuiTd>1.0</td>
 
       <td *tuiCell="'status'" class='center-custom' tuiTd>
         <tui-tag
@@ -45,14 +41,11 @@
         ></tui-tag>
       </td>
 
-      <td *tuiCell="'sendTo'" class='center-custom font-semibold' tuiTd><strong>Nguyen Hai Vien</strong></td>
-
       <td *tuiCell="'action'" tuiTd>
         <div class='flex text-gray-400'>
-          <!--            <button (click)='showDialogEdit(item.id)'>-->
-          <!--            <button>-->
-          <!--              <tui-svg src='tuiIconEdit'></tui-svg>-->
-          <!--            </button>-->
+          <button (click)='showDialogEdit(item.id)'>
+            <tui-svg src='tuiIconEdit'></tui-svg>
+          </button>
           <button (click)='delete(item.id)'>
             <tui-svg src='tuiIconTrash'></tui-svg>
           </button>

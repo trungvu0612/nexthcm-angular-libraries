@@ -8,6 +8,7 @@ import { debounceTime, switchMap, takeUntil } from 'rxjs/operators';
 import { LeaveStatus } from '../../../../enums/status';
 import { AdminEntitlementService } from '../../../../services/admin-entitlement.service';
 import { CreateLeaveEntitlementComponent } from '../../dialog/create-leave-entitlement/create-leave-entitlement.component';
+import { EditLeaveEntitlementComponent } from '../../dialog/edit/edit-leave-entitlement/edit-leave-entitlement.component';
 
 @Component({
   selector: 'hcm-table-overview-entitlement',
@@ -52,14 +53,12 @@ export class TableOverviewComponent implements OnInit {
       )
       .subscribe((item) => {
         this.data = item.data.items;
-        console.log('dataa', this.data);
         this.totalElements = item.data.totalElements;
         this.cdr.detectChanges();
       });
   }
 
   cancel(): void {
-    console.log('cancel');
   }
 
   onPage($event: number) {
@@ -75,9 +74,20 @@ export class TableOverviewComponent implements OnInit {
       .open<boolean>(new PolymorpheusComponent(CreateLeaveEntitlementComponent, this.injector), {})
       .subscribe((result) => {
         if (result) {
-          console.log('dataaaaaaa', result);
           this.adminEntitlementService.createAdminEntitlementOrg(result).subscribe((data) => {
-            console.log('Success Post');
+          });
+        }
+      });
+  }
+
+  showDialogEdit(id: string) {
+    this.dialogService
+      .open<boolean>(new PolymorpheusComponent(EditLeaveEntitlementComponent, this.injector), {
+        data: id
+      })
+      .subscribe((result) => {
+        if (result) {
+          this.adminEntitlementService.createAdminEntitlementOrg(result).subscribe((data) => {
           });
         }
       });
@@ -86,7 +96,6 @@ export class TableOverviewComponent implements OnInit {
   delete(id: string): void {
     if (id) {
       this.adminEntitlementService.deleteAdminEntitlementId(id).subscribe((data) => {
-        console.log('Delete sucesss');
       });
     }
   }

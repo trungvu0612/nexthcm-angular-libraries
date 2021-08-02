@@ -1,23 +1,24 @@
-import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, Inject } from '@angular/core';
 import { FormGroup } from '@ngneat/reactive-forms';
-import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { NumericValueType, RxwebValidators } from '@rxweb/reactive-form-validators';
 import { distinctUntilChanged, map, startWith, switchMap } from 'rxjs/operators';
-import { LeaveEntitlement } from '../../../../models/leave-entitlement';
+import { LeaveEntitlement } from '../../../../../models/leave-entitlement';
+import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
+import { NumericValueType, RxwebValidators } from '@rxweb/reactive-form-validators';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { TuiDialogContext } from '@taiga-ui/core';
-import { AdminEntitlementService } from '../../../../services/admin-entitlement.service';
+import { AdminEntitlementService } from '../../../../../services/admin-entitlement.service';
 import { TranslocoService } from '@ngneat/transloco';
 import { AuthService } from '@nexthcm/auth';
 
 @Component({
-  selector: 'hcm-create-leave-entitlement',
-  templateUrl: './create-leave-entitlement.component.html',
-  styleUrls: ['./create-leave-entitlement.component.scss'],
+  selector: 'hcm-edit-leave-entitlement',
+  templateUrl: './edit-leave-entitlement.component.html',
+  styleUrls: ['./edit-leave-entitlement.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CreateLeaveEntitlementComponent {
+export class EditLeaveEntitlementComponent implements OnInit {
+
   form = new FormGroup({});
 
   params$ = new BehaviorSubject<{ page?: number; size?: number }>({ size: 100 });
@@ -175,6 +176,7 @@ export class CreateLeaveEntitlementComponent {
   }
 
   ngOnInit(): void {
+
   }
 
   ngAfterViewInit() {
@@ -194,8 +196,8 @@ export class CreateLeaveEntitlementComponent {
           }
           const body = {
             status: 1,
-            fromDate: 1609434000000,
-            toDate: 1640969999000,
+            fromDate: 1609434000000, /*API have but not used => hard code*/
+            toDate: 1640969999000, /*API have but not used => hard code*/
             orgId: this.model.org?.id ? this.model.org?.id : '',
             entitlement: this.model.entitlement,
             leaveType: this.model.leaveType,
@@ -215,8 +217,8 @@ export class CreateLeaveEntitlementComponent {
           }
           const body = {
             status: 0,
-            fromDate: 1609434000000,
-            toDate: 1640969999000,
+            fromDate: 1609434000000, /*API have but not used => hard code*/
+            toDate: 1640969999000, /*API have but not used => hard code*/
             entitlement: this.model.entitlement,
             leaveType: this.model.leaveType,
             period: this.model.period,
@@ -232,5 +234,6 @@ export class CreateLeaveEntitlementComponent {
   cancel() {
     this.context.completeWith(false);
   }
+
 
 }

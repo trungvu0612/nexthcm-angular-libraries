@@ -4,7 +4,7 @@ import { JobTitle } from '@nexthcm/admin-job-titles';
 import { APP_CONFIG, AppConfig, Pagination, PagingResponse } from '@nexthcm/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { LevelApprove } from '../models/level-approve';
+import { LevelApprove, ResLevelApprove } from '../models/level-approve';
 
 const MY_TIME_PATH = '/mytimeapp/v1.0';
 
@@ -40,8 +40,8 @@ export class LevelApproveService {
       return this.http.get<LevelApprove>(this.env.apiUrl + `${MY_TIME_PATH}/leave-level-approve/`, {}).pipe(map((res) => res as any));
     } else {
       return this.http
-        .get<LevelApprove>(this.env.apiUrl + `${MY_TIME_PATH}/leave-level-approve/${id}`, {})
-        .pipe(map((res) => res as any));
+        .get<ResLevelApprove>(this.env.apiUrl + `${MY_TIME_PATH}/leave-level-approve/${id}`, {})
+        .pipe(map((res) => res.data as LevelApprove));
     }
   }
 

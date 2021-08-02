@@ -3,7 +3,7 @@ import { Inject, Injectable } from '@angular/core';
 import { APP_CONFIG, AppConfig, PagingResponse } from '@nexthcm/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { LeavePeriod } from '../models/leave-period';
+import { LeavePeriod, ResLeavePeriod } from '../models/leave-period';
 
 const MY_TIME_PATH = '/mytimeapp/v1.0';
 
@@ -28,8 +28,8 @@ export class AdminPeriodService {
       return this.http.get<LeavePeriod>(this.env.apiUrl + `${MY_TIME_PATH}/leave-periods/`, {}).pipe(map((res) => res as any));
     } else {
       return this.http
-        .get<LeavePeriod>(this.env.apiUrl + `${MY_TIME_PATH}/leave-periods/${id}`, {})
-        .pipe(map((res) => res as any));
+        .get<ResLeavePeriod>(this.env.apiUrl + `${MY_TIME_PATH}/leave-periods/${id}`, {})
+        .pipe(map((res) => res.data as LeavePeriod));
     }
   }
 
