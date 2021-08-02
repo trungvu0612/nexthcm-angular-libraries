@@ -127,7 +127,9 @@ export class MyLeaveService extends RxState<MyLeaveState> {
     return this.http.get<PagingResponse<MyLeave>>(`${MY_TIME_PATH}/leaves`, {
       params: httpParams
         .set('page', pageIndex ? pageIndex.toString() : '')
-        .set('size', pageSize ? pageSize.toString() : ''),
+        .set('size', pageSize ? pageSize.toString() : '')
+        .set('sort', 'createdDate')
+        .set('createdDate.dir', 'des')
     });
   }
 

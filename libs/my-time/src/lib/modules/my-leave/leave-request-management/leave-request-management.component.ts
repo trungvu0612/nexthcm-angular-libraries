@@ -30,9 +30,9 @@ export class LeaveRequestManagementComponent implements OnInit {
 
   page$ = new BehaviorSubject<number>(1);
   size$ = 10;
-  totalLength = 100;
-  perPageSubject = new BehaviorSubject<number>(this.size$);
 
+  perPageSubject = new BehaviorSubject<number>(this.size$);
+  totalElements = 0;
   page = 0;
   size = 10;
 
@@ -56,7 +56,7 @@ export class LeaveRequestManagementComponent implements OnInit {
       )
       .subscribe((item) => {
         this.data = item.data.items;
-        this.totalLength = item.data.totalElements + 10;
+        this.totalElements = item.data.totalElements;
         this.cdr.detectChanges();
       });
   }
@@ -100,14 +100,12 @@ export class LeaveRequestManagementComponent implements OnInit {
       });
   }
 
-  onPage($event: number) {
-    this.page$.next($event);
-    // console.log(this.pages$.getValue());
+  onPage(page: number) {
+    this.page$.next(page + 1);
   }
 
-  onSize($event: number) {
-    this.size$ = $event;
-    // console.log(this.size$);
+  onSize(size: number) {
+    this.perPageSubject.next(size);
   }
 
   showDialogDelete(id: string) {
