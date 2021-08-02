@@ -10,6 +10,7 @@ import { LeavesRemaining } from '../models/leave-type';
 import { MyLeave } from '../models/my-leave';
 import { SentToUser } from '../models/send-to-user';
 import { durationValues, PartialDays } from '../models/submit-leave';
+import { Requests } from '../models/requests';
 
 const MY_TIME_PATH = '/mytimeapp/v1.0';
 const MY_ACCOUNT_PATH = '/accountapp/v1.0';
@@ -177,5 +178,9 @@ export class MyLeaveService extends RxState<MyLeaveState> {
 
   getHalfTime(): Observable<any[]> {
     return of(this.halfTime);
+  }
+
+  getRequestDetail(id?: string): Observable<any> {
+    return this.http.get<Requests>(`${MY_TIME_PATH}/leaves/` + id);
   }
 }

@@ -59,7 +59,7 @@
     text-align: left;
     background-position: right;
     background-repeat: no-repeat;
-    background-image: (url('/assets/images/calendar.svg'));
+    background-image: url('/assets/images/calendar.svg');
   }
 
   .filter-search {
@@ -70,6 +70,7 @@
     .actived {
       background: #3b82f6;
       color: #ffffff;
+      border: solid 2px #3b82f6;
     }
   }
 

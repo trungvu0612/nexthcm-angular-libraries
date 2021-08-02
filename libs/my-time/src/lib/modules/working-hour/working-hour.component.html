@@ -67,7 +67,7 @@
               [class.actived]="!workingMeStatus"
               class="
                 focus:outline-none
-                hover:bg-blue-500 hover:text-white hover:bg-blue-500
+                hover:bg-blue-500 hover:border-blue-500 hover:text-white hover:bg-blue-500
                 text-base
                 rounded-lg
                 pl-5
@@ -85,7 +85,7 @@
               [class.actived]="workingMeStatus"
               class="
                 focus:outline-none
-                hover:bg-blue-500 hover:text-white hover:bg-blue-500
+                hover:bg-blue-500 hover:border-blue-500 hover:text-white hover:bg-blue-500
                 text-base
                 rounded-lg
                 pl-5
@@ -129,163 +129,89 @@
             <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
               <div *ngIf="workingMeStatus" class="grid-rows-1">
                 <div class="grid-cols-12">
-                  <table [columns]="onlyme_columns" class="my-8 w-full" tuiTable>
-                    <thead>
-                      <tr tuiThGroup>
-                        <th *tuiHead="'office'" tuiTh>Office</th>
-                        <th *tuiHead="'date'" tuiTh>Date</th>
-                        <th *tuiHead="'day'" tuiTh>Day</th>
-                        <th *tuiHead="'timeIn'" tuiTh>Time In</th>
-                        <th *tuiHead="'timeOut'" tuiTh>Time Out</th>
-                        <th *tuiHead="'totalWorkingTime'" tuiTh>Total Working Time (h)</th>
-                        <th *tuiHead="'workingDay'" tuiTh>Working Day</th>
-                        <th *tuiHead="'ot'" tuiTh>OT</th>
-                        <th *tuiHead="'onsiteDay'" tuiTh>Onsite Day</th>
-                        <th *tuiHead="'leave'" tuiTh>Leave</th>
-                        <th *tuiHead="'action'" class="w-32" tuiTh>Action</th>
-                      </tr>
-                    </thead>
-                    <tbody [data]="workingHourDataOnlyMe" tuiTbody>
-                      <tr *tuiRow="let req of workingHourDataOnlyMe; let index = index" tuiTr>
-                        <td *tuiCell="'office'" tuiTd>{{ req?.userInfo?.office?.name }}</td>
-                        <td *tuiCell="'date'" tuiTd>{{ req.trackingDate | date: 'dd/MM/yyyy' }}</td>
-                        <td *tuiCell="'day'" tuiTd>{{ req.day }}</td>
-                        <td *tuiCell="'timeIn'" tuiTd>
-                          <ng-container *ngIf="req?.inTime">{{ secondsToTime(req.inTime) }}</ng-container>
-                        </td>
-                        <td *tuiCell="'timeOut'" tuiTd>
-                          <ng-container *ngIf="req?.outTime">{{ secondsToTime(req.outTime) }}</ng-container>
-                        </td>
-                        <td *tuiCell="'totalWorkingTime'" tuiTd>{{ req.totalWorkingTime }}</td>
-                        <td *tuiCell="'workingDay'" tuiTd>
-                          <ng-container *ngIf="req.workingDay === 0">{{ req.workingDay }}</ng-container>
-                          <ng-container *ngIf="req.workingDay !== 0">{{ req.workingDay.toFixed(2) }}</ng-container>
-                        </td>
-                        <td *tuiCell="'ot'" tuiTd>{{ req.ot }}</td>
-                        <td *tuiCell="'onsiteDay'" tuiTd>{{ req.onsiteDay }}</td>
-                        <td *tuiCell="'leave'" tuiTd>{{ req?.leave?.leaveType?.name }}</td>
-                        <td *tuiCell="'action'" tuiTd>
+                  <section class="main-section">
+                    <ngx-table
+                      [columns]="(columns$ | async) || []"
+                      [configuration]="configuration"
+                      [data]="(data$ | async) || []"
+                    >
+                      <ng-template let-row>
+                        <td>{{ item(row).userInfo?.office?.name }}</td>
+                        <td>{{ item(row).trackingDate | date: 'dd/MM/yyyy' }}</td>
+                        <td>{{ item(row).day }}</td>
+                        <td>{{ item(row).inTime * 1000 | date: 'HH:mm':'GMT' }}</td>
+                        <td>{{ item(row).outTime * 1000 | date: 'HH:mm':'GMT' }}</td>
+                        <td>{{ item(row).totalWorkingTime }}</td>
+                        <td>{{ item(row).workingDay | number }}</td>
+                        <td>{{ item(row).ot }}</td>
+                        <td>{{ item(row).onsiteDay }}</td>
+                        <td>{{ item(row).leave?.leaveType?.name }}</td>
+                        <td>
                           <div class="flex">
-                            <tui-svg
-                              (click)="workingHourDetail(req?.id)"
-                              class="mr-2"
-                              src="assets/icons/eye.svg"
-                            ></tui-svg>
-                            <div>
-                              <button
-                                (click)="requestUpdateTime(req?.id)"
-                                appearance="flat"
-                                class="
-                                  bg-transparent
-                                  hover:bg-blue-500
-                                  text-blue-700
-                                  font-semibold
-                                  hover:text-white
-                                  py-2
-                                  px-4
-                                  border border-blue-500
-                                  hover:border-transparent
-                                  rounded
-                                  ml-2
-                                "
-                                size="s"
-                              >
-                                Update
-                              </button>
-                            </div>
+                            <button
+                              (click)="workingHourDetail(item(row).id)"
+                              appearance="flat"
+                              class="tui-space_right-3"
+                              icon="tuiIconShowLarge"
+                              size="m"
+                              tuiIconButton
+                            ></button>
+                            <button
+                              (click)="requestUpdateTime(item(row).id)"
+                              appearance="flat"
+                              icon="tuiIconEditLarge"
+                              size="m"
+                              tuiIconButton
+                            ></button>
                           </div>
                         </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                  <tui-table-pagination
-                    (pageChange)="onPage($event)"
-                    (sizeChange)="onSize($event)"
-                    [size]="size$"
-                    [total]="totalLength"
-                  ></tui-table-pagination>
-                  <p>Current page: {{ page$ | async }}</p>
+                      </ng-template>
+                    </ngx-table>
+                  </section>
                 </div>
               </div>
 
               <div *ngIf="!workingMeStatus" class="grid-rows-1">
                 <div class="grid-cols-12">
-                  <table [columns]="everyone_columns" class="my-8 w-full" tuiTable>
-                    <thead>
-                      <tr tuiThGroup>
-                        <th *tuiHead="'cif'" tuiTh>CIF</th>
-                        <th *tuiHead="'fullName'" tuiTh>Full Name</th>
-                        <th *tuiHead="'office'" tuiTh>Office</th>
-                        <th *tuiHead="'date'" tuiTh>Date</th>
-                        <th *tuiHead="'day'" tuiTh>Day</th>
-                        <th *tuiHead="'timeIn'" tuiTh>Time In</th>
-                        <th *tuiHead="'timeOut'" tuiTh>Time Out</th>
-                        <th *tuiHead="'totalWorkingTime'" tuiTh>Total Working Time</th>
-                        <th *tuiHead="'workingDay'" tuiTh>Total Working Day</th>
-                        <th *tuiHead="'action'" class="w-32" tuiTh>Action</th>
-                      </tr>
-                    </thead>
-                    <tbody [data]="workingHourData" tuiTbody>
-                      <tr *tuiRow="let req of workingHourData; let index = index" tuiTr>
-                        <td *tuiCell="'cif'" tuiTd>{{ req.userInfo.code }}</td>
-                        <td *tuiCell="'fullName'" tuiTd>{{ req?.userInfo?.profile?.fullName }}</td>
-                        <td *tuiCell="'office'" tuiTd>{{ req?.userInfo?.office?.name }}</td>
-                        <td *tuiCell="'date'" tuiTd>{{ req.trackingDate | date: 'dd/MM/yyyy' }}</td>
-                        <td *tuiCell="'day'" tuiTd>{{ req.day }}</td>
-                        <td *tuiCell="'timeIn'" tuiTd>
-                          <ng-container *ngIf="req?.inTime">{{ secondsToTime(req.inTime) }}</ng-container>
-                        </td>
-                        <td *tuiCell="'timeOut'" tuiTd>
-                          <ng-container *ngIf="req?.outTime">{{ secondsToTime(req.outTime) }}</ng-container>
-                        </td>
-                        <td *tuiCell="'totalWorkingTime'" tuiTd>{{ req.totalWorkingTime }}</td>
-                        <td *tuiCell="'workingDay'" tuiTd>
-                          <ng-container *ngIf="req.workingDay === 0">{{ req.workingDay }}</ng-container>
-                          <ng-container *ngIf="req.workingDay !== 0">{{ req.workingDay.toFixed(2) }}</ng-container>
-                        </td>
-                        <td *tuiCell="'action'" tuiTd>
+                  <section class="main-section">
+                    <ngx-table
+                      [columns]="(columnsEveryone$ | async) || []"
+                      [configuration]="configuration"
+                      [data]="(data$ | async) || []"
+                    >
+                      <ng-template let-row>
+                        <td>{{ item(row).userInfo.code }}</td>
+                        <td>{{ item(row).userInfo?.profile?.fullName }}</td>
+                        <td>{{ item(row).userInfo?.office?.name }}</td>
+                        <td>{{ item(row).trackingDate | date: 'dd/MM/yyyy' }}</td>
+                        <td>{{ item(row).outTime * 1000 | date: 'HH:mm':'GMT' }}</td>
+                        <td>{{ item(row).day }}</td>
+                        <td>{{ item(row).inTime * 1000 | date: 'HH:mm':'GMT' }}</td>
+                        <td>{{ item(row).outTime * 1000 | date: 'HH:mm':'GMT' }}</td>
+                        <td>{{ item(row).totalWorkingTime }}</td>
+                        <td>{{ item(row).workingDay | number }}</td>
+                        <td>
                           <div class="flex">
-                            <div>
-                              <tui-svg
-                                (click)="workingHourDetail(req?.id)"
-                                class="mr-2"
-                                src="assets/icons/eye.svg"
-                              ></tui-svg>
-                            </div>
-                            <div>
-                              <button
-                                (click)="requestUpdateTime(req?.id)"
-                                appearance="flat"
-                                class="
-                                  bg-transparent
-                                  hover:bg-blue-500
-                                  text-blue-700
-                                  font-semibold
-                                  hover:text-white
-                                  py-2
-                                  px-4
-                                  border border-blue-500
-                                  hover:border-transparent
-                                  rounded
-                                  ml-2
-                                "
-                                size="s"
-                              >
-                                Update
-                              </button>
-                            </div>
+                            <button
+                              (click)="workingHourDetail(item(row).id)"
+                              appearance="flat"
+                              class="tui-space_right-3"
+                              icon="tuiIconShowLarge"
+                              size="m"
+                              tuiIconButton
+                            ></button>
+                            <button
+                              (click)="requestUpdateTime(item(row).id)"
+                              appearance="flat"
+                              icon="tuiIconEditLarge"
+                              size="m"
+                              tuiIconButton
+                            ></button>
                           </div>
                         </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                  <tui-table-pagination
-                    (pageChange)="onPage($event)"
-                    (sizeChange)="onSize($event)"
-                    [size]="size$"
-                    [total]="totalLength"
-                  ></tui-table-pagination>
-                  <p>Current page: {{ page$ | async }}</p>
+                      </ng-template>
+                    </ngx-table>
+                  </section>
                 </div>
               </div>
             </div>

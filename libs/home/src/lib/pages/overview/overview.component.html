@@ -1,7 +1,9 @@
 <div *transloco="let t" class="page-container">
   <div class="heading-title">Good Morning,</div>
   <div>
-    <p class="inline large-title">Welcome Back, <span class="text-blue-500">Toan</span></p>
+    <p class="inline large-title">
+      Welcome Back, <span class="text-blue-500">{{ myName }}</span>
+    </p>
     <img class="inline ml-2 wave-icon" src="assets/images/wave.png" />
   </div>
 
@@ -22,7 +24,9 @@
         <div>
           <div class="font-bold text-md mb-5">Time out</div>
           <div class="text-yellow-400 mb-5 time-height">
-            <img *ngIf="myWorkingHour?.timeOutToday" class="inline mr-1" src="assets/images/warning.png" />{{ myWorkingHour?.timeOutToday }}
+            <img *ngIf="myWorkingHour?.timeOutToday" class="inline mr-1" src="assets/images/warning.png" />{{
+              myWorkingHour?.timeOutToday
+            }}
           </div>
           <div class="mb-5 time-height">{{ myWorkingHour?.timeOutYesterday }}</div>
         </div>

@@ -1,69 +1,109 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
 import { AuthService } from '@nexthcm/auth';
-import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
+import { FormBuilder, FormControl, FormGroup } from '@ngneat/reactive-forms';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
-import { BehaviorSubject, combineLatest } from 'rxjs';
-import { debounceTime, switchMap, takeUntil } from 'rxjs/operators';
-import { SearchWorkingHour, WorkingHour } from '../../models/working-hour';
+import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
+import { debounceTime, map, switchMap, takeUntil } from 'rxjs/operators';
+import { WorkingHour, SearchWorkingHour } from '../../models/working-hour';
 import { WorkingHourService } from '../../services/working-hour.service';
 import { RequestOtComponent } from './request-ot/request-ot.component';
 import { RequestUpdateTimeComponent } from './request-update-time/request-update-time.component';
 import { WorkingHourDetailComponent } from './working-hour-detail/working-hour-detail.component';
 import { WorkingOutsiteComponent } from './working-outsite/working-outsite.component';
-import { startOfYesterday, endOfYesterday, differenceInSeconds, startOfToday } from 'date-fns';
+import { endOfYesterday, startOfYesterday } from 'date-fns';
+import { AbstractServerPaginationTableComponent, ServerPaginationTableComponent } from '@nexthcm/ui';
+import { HttpParams } from '@angular/common/http';
+import { RxState } from '@rx-angular/state';
+import { Columns } from 'ngx-easy-table';
+import { Pagination } from '@nexthcm/core';
+import { TranslocoService } from '@ngneat/transloco';
 
 @Component({
   selector: 'hcm-working-hour',
   templateUrl: './working-hour.component.html',
   styleUrls: ['./working-hour.component.scss'],
-  providers: [TuiDestroyService],
+  providers: [TuiDestroyService, RxState],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class WorkingHourComponent implements OnInit {
+export class WorkingHourComponent
+  extends AbstractServerPaginationTableComponent<WorkingHour>
+  implements ServerPaginationTableComponent<WorkingHour>, OnInit
+{
   workingMeStatus = true;
-  workingHourData!: WorkingHour[];
-  workingHourDataOnlyMe!: WorkingHour[];
-  userInfo: any;
+  workingHourData: any;
+  workingHourDataOnlyMe: any;
   searchForm!: FormGroup<SearchWorkingHour>;
   searchWorkingHour = new BehaviorSubject<SearchWorkingHour>({ name: '' });
-  page$ = new BehaviorSubject<number>(1);
-  totalLength = 0;
-  size$ = 10;
-  perPageSubject = new BehaviorSubject<number>(this.size$);
-
-  toDay = new Date();
   startOfYesterday = startOfYesterday().valueOf();
   endOfYesterday = endOfYesterday().valueOf();
   myId = this.authService.get('userInfo').userId;
   myWorkingHour = { timeInYesterday: '', timeOutYesterday: '', totalWorkingTime: '', userOffice: '' };
+  page$ = new BehaviorSubject<number>(1);
+  totalLength = 0;
+  size$ = 10;
+  perPageSubject = new BehaviorSubject<number>(this.size$);
+  readonly searchControl = new FormControl<string>();
 
-  readonly onlyme_columns = [
-    'office',
-    'date',
-    'day',
-    'timeIn',
-    'timeOut',
-    'totalWorkingTime',
-    'workingDay',
-    'ot',
-    'onsiteDay',
-    'leave',
-    'action',
-  ];
-  readonly everyone_columns = [
-    'cif',
-    'fullName',
-    'office',
-    'date',
-    'day',
-    'timeIn',
-    'timeOut',
-    'totalWorkingTime',
-    'workingDay',
-    'action',
-  ];
+  // readonly everyone_columns = [
+  //   'cif',
+  //   'fullName',
+  //   'office',
+  //   'date',
+  //   'day',
+  //   'timeIn',
+  //   'timeOut',
+  //   'totalWorkingTime',
+  //   'workingDay',
+  //   'action',
+  // ];
+
+  columns$: Observable<Columns[]> = this.translocoService
+    .selectTranslateObject('ADMIN_WORKING_HOUR_MANAGEMENT_COLUMNS')
+    .pipe(
+      map((result) => [
+        { key: 'office', title: result.office },
+        { key: 'nameHoliday', title: result.date },
+        { key: 'day', title: result.day },
+        { key: 'timeIn', title: result.timeIn },
+        { key: 'timeOut', title: result.timeOut },
+        { key: 'totalWorkingTime', title: result.totalWorkingTime },
+        { key: 'workingDay', title: result.workingDay },
+        { key: 'ot', title: result.ot },
+        { key: 'onsiteDay', title: result.onsiteDay },
+        { key: 'leave', title: result.leave },
+        { key: 'actions', title: result.functions },
+      ])
+    );
+
+  columnsEveryone$: Observable<Columns[]> = this.translocoService
+    .selectTranslateObject('ADMIN_WORKING_HOUR_MANAGEMENT_COLUMNS')
+    .pipe(
+      map((result) => [
+        { key: 'cif', title: result.cif },
+        { key: 'fullName', title: result.fullName },
+        { key: 'office', title: result.office },
+        { key: 'date', title: result.date },
+        { key: 'day', title: result.day },
+        { key: 'timeIn', title: result.timeIn },
+        { key: 'timeOut', title: result.timeOut },
+        { key: 'totalWorkingTime', title: result.totalWorkingTime },
+        { key: 'workingDay', title: result.workingDay },
+        { key: 'actions', title: result.functions },
+      ])
+    );
+
+  readonly loading$ = this.state.$.pipe(map((value) => !value));
+  readonly data$ = this.state.select('items');
+  readonly total$ = this.state.select('totalElements');
+  readonly queryParams$ = new BehaviorSubject(
+    new HttpParams().set('page', '0').set('size', 10).set('userId', this.authService.get('userInfo', 'userId'))
+  );
+  readonly request$ = this.queryParams$.pipe(
+    switchMap((params) => this.workingHourService.getWorkingHourOnlyMe(params)),
+    map((res) => res.data)
+  );
 
   constructor(
     private dialogService: TuiDialogService,
@@ -72,28 +112,19 @@ export class WorkingHourComponent implements OnInit {
     private formBuilder: FormBuilder,
     private cdr: ChangeDetectorRef,
     private destroy$: TuiDestroyService,
-    private authService: AuthService
-  ) {}
+    private authService: AuthService,
+    private state: RxState<Pagination<WorkingHour>>,
+    private translocoService: TranslocoService
+  ) {
+    super();
+    state.connect(this.request$);
+  }
 
   ngOnInit(): void {
     this.getWorkingHourTime();
-    this.userInfo = this.authService.get('userInfo');
     this.searchForm = this.formBuilder.group<SearchWorkingHour>({
       name: '',
     });
-    combineLatest([this.page$, this.perPageSubject, this.searchWorkingHour])
-      .pipe(
-        debounceTime(0),
-        switchMap(([page, perpage, search]) => {
-          return this.workingHourService.getWorkingHourOnlyMe(page - 1, perpage, search, this.userInfo.userId);
-        }),
-        takeUntil(this.destroy$)
-      )
-      .subscribe((item) => {
-        this.workingHourDataOnlyMe = item.data.items;
-        this.totalLength = item.data.totalElements;
-        this.cdr.detectChanges();
-      });
   }
 
   workingStatus(type: string): void {
@@ -166,14 +197,6 @@ export class WorkingHourComponent implements OnInit {
 
   onSearch(): void {}
 
-  onPage(page: number): void {
-    this.page$.next(page + 1);
-  }
-
-  onSize(size: number): void {
-    this.perPageSubject.next(size);
-  }
-
   getWorkingHourTime() {
     this.workingHourService
       .getWorkingHourByDate(this.myId, this.startOfYesterday, this.endOfYesterday)
@@ -187,25 +210,10 @@ export class WorkingHourComponent implements OnInit {
         if (item.data?.items[0]?.totalWorkingTime) {
           this.myWorkingHour.totalWorkingTime = item.data.items[0].totalWorkingTime;
         }
-
         if (item.data?.items[0]?.userInfo?.office?.name) {
           this.myWorkingHour.userOffice = item.data?.items[0].userInfo.office.name;
         }
         this.cdr.detectChanges();
       });
   }
-
-  secondsToTime = (secs: any) => {
-    const hours = Math.floor(secs / (60 * 60));
-    const divisor_for_minutes = secs % (60 * 60);
-    const minutes = Math.floor(divisor_for_minutes / 60);
-    const divisor_for_seconds = divisor_for_minutes % 60;
-    const seconds = Math.ceil(divisor_for_seconds);
-    const obj = {
-      h: hours === 0 ? '00' : hours < 10 ? `0${hours}` : hours,
-      m: minutes === 0 ? '00' : minutes < 10 ? `0${minutes}` : minutes,
-      s: seconds,
-    };
-    return obj.h + ': ' + obj.m;
-  };
 }

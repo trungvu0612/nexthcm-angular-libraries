@@ -324,8 +324,23 @@
     "directReport": "Direct Report",
     "functions": "Functions"
   },
+  "ADMIN_WORKING_HOUR_MANAGEMENT_COLUMNS": {
+    "office": "Office",
+    "date": "Date",
+    "day": "Day",
+    "timeIn": "Time in",
+    "timeOut": "Time out",
+    "totalWorkingTime": "Total working time (h)",
+    "workingDay": "Working day",
+    "ot": "OT",
+    "onsiteDay": "Onsite day",
+    "leave": "Leave",
+    "functions": "Action",
+    "cif": "CIF",
+    "fullName": "Full Name"
+  },
   "MY_TIME": {
-    "leaveDetail": "Leave Detail",
+    "leaveDetail": "Request Detail",
     "reject": "Reject",
     "approve": "Approve",
     "staffName": "Staff Name",
@@ -342,7 +357,13 @@
     "requestSuccess": "Request Work For Home Successfully!",
     "requestOnsiteSuccess": "Request Successfully!",
     "approveLeave": "Approve Leave Successfully!",
-    "rejectLeave": "Reject Leave Successfully!"
+    "rejectLeave": "Reject Leave Successfully!",
+    "dateFrom": "Date from",
+    "dateTo": "Date to",
+    "asignStaff": "Assign Staff",
+    "office": "Office",
+    "type": "Type",
+    "toDayOfDay": "Today of day"
   },
   "OVERVIEW": {
     "viewDetail": "View Detail"

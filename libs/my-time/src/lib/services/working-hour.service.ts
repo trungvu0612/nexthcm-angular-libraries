@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { APP_CONFIG, AppConfig, PagingResponse, UserDto } from '@nexthcm/core';
+import { APP_CONFIG, AppConfig, Pagination, PagingResponse, UserDto } from '@nexthcm/core';
 import { Observable } from 'rxjs';
 import { RequestUpdateTime, SearchWorkingHour, WorkingHour } from '../models/working-hour';
 import { BaseResponse } from '@nexthcm/core';
@@ -29,22 +29,26 @@ export class WorkingHourService {
     });
   }
 
-  getWorkingHourOnlyMe(
-    pageIndex: number,
-    pageSize: number,
-    search: SearchWorkingHour,
-    userId: string
-  ): Observable<PagingResponse<WorkingHour>> {
-    let httpParams = new HttpParams();
-    Object.keys(search).forEach((key) => {
-      httpParams = httpParams.append(key, search[key as keyof SearchWorkingHour]);
-    });
-    return this.httpClient.get<PagingResponse<WorkingHour>>(this.appVersion + '/working-hours?userId=' + userId, {
-      params: httpParams
-        .set('page', pageIndex ? pageIndex.toString() : '')
-        .set('size', pageSize ? pageSize.toString() : ''),
-    });
+  getWorkingHourOnlyMe(params: HttpParams): Observable<PagingResponse<WorkingHour>> {
+    return this.httpClient.get<PagingResponse<WorkingHour>>(this.appVersion + '/working-hours', { params });
   }
+
+  // getWorkingHourOnlyMe(
+  //   pageIndex: number,
+  //   pageSize: number,
+  //   search: SearchWorkingHour,
+  //   userId: string
+  // ): Observable<PagingResponse<WorkingHour>> {
+  //   let httpParams = new HttpParams();
+  //   Object.keys(search).forEach((key) => {
+  //     httpParams = httpParams.append(key, search[key as keyof SearchWorkingHour]);
+  //   });
+  //   return this.httpClient.get<PagingResponse<WorkingHour>>(this.appVersion + '/working-hours?userId=' + userId, {
+  //     params: httpParams
+  //       .set('page', pageIndex ? pageIndex.toString() : '')
+  //       .set('size', pageSize ? pageSize.toString() : ''),
+  //   });
+  // }
 
   getWorkingHourDetail(id: any): Observable<WorkingHour> {
     return this.httpClient.get<WorkingHour>(this.appVersion + '/working-hours' + '/' + id);

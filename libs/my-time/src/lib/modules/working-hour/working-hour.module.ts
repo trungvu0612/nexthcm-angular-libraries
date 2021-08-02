@@ -4,11 +4,12 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { FormlyModule } from '@ngx-formly/core';
 import { TuiTableModule, TuiTablePaginationModule } from '@taiga-ui/addon-table';
 import {
+  TuiButtonModule,
   TuiDataListModule,
   TuiHostedDropdownModule,
   TuiLinkModule,
   TuiSvgModule,
-  TuiTextfieldControllerModule,
+  TuiTextfieldControllerModule
 } from '@taiga-ui/core';
 import {
   TuiDataListWrapperModule,
@@ -22,6 +23,7 @@ import { RequestUpdateTimeComponent } from './request-update-time/request-update
 import { WorkingHourDetailComponent } from './working-hour-detail/working-hour-detail.component';
 import { WorkingHourComponent } from './working-hour.component';
 import { WorkingOutsiteComponent } from './working-outsite/working-outsite.component';
+import { TableModule } from 'ngx-easy-table';
 
 @NgModule({
   declarations: [
@@ -47,6 +49,8 @@ import { WorkingOutsiteComponent } from './working-outsite/working-outsite.compo
     TuiDataListWrapperModule,
     TuiTableModule,
     TuiTablePaginationModule,
+    TableModule,
+    TuiButtonModule,
   ],
 })
 export class WorkingHourModule {}
