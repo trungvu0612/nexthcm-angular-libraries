@@ -325,6 +325,21 @@
     "directReport": "Báo cáo trực tiếp",
     "functions": "Chức năng"
   },
+  "ADMIN_WORKING_HOUR_MANAGEMENT_COLUMNS": {
+    "office": "Văn phòng",
+    "date": "Ngày",
+    "day": "Thứ",
+    "timeIn": "Giờ vào",
+    "timeOut": "Giờ về",
+    "totalWorkingTime": "Thời gian làm",
+    "workingDay": "Ngày làm",
+    "ot": "Làm thêm",
+    "onsiteDay": "Ngày onsite",
+    "leave": "Loại phép",
+    "functions": "Chức năng",
+    "cif": "Mã nhân viên",
+    "fullName": "Họ tên"
+  },
   "MY_TIME": {
     "leaveDetail": "Chi tiết ngày phép",
     "reject": "Từ chối",
@@ -343,7 +358,13 @@
     "requestSuccess": "Đã Gửi Đơn Xin Làm Việc Tại Nhà!",
     "requestOnsiteSuccess": "Đã Gửi Đơn Thành Công!",
     "approveLeave": "Đã Phê Duyệt Đơn Xin Nghỉ Phép!",
-    "rejectLeave": "Đã Từ Chối Đơn Xin Nghỉ Phép!"
+    "rejectLeave": "Đã Từ Chối Đơn Xin Nghỉ Phép!",
+    "dateFrom": "Từ ngày",
+    "dateTo": "Đến ngày",
+    "asignStaff": "Người duyệt",
+    "office": "Văn phòng",
+    "type": "Loại phép",
+    "toDayOfDay": "Số ngày nghỉ"
   },
   "OVERVIEW": {
     "viewDetail": "Chi tiết"

@@ -1,111 +1,100 @@
 <main class="main-page">
-  <!--<article *ngIf="data$ | async as data">-->
-  <article *transloco="let t">
-    <header class="flex justify-between items-center mb-7">
-      <h1 class="text-2xl font-semibold">{{ t('MY_TIME.leaveDetail') }}</h1>
-    </header>
+  <section *ngIf="dataRequest$ | async as data">
+    <article *transloco="let t">
+      <header class="flex justify-between items-center mb-7">
+        <h1 class="text-2xl font-semibold">{{ t('MY_TIME.leaveDetail') }}</h1>
+      </header>
 
-    <table class="detail-table">
       <div class="mb-5">
         <ng-container *ngIf="leaveRequestType === 'employee'">
           <button appearance="custom" tuiButton>{{ t('MY_TIME.cancel') }}</button>
         </ng-container>
         <ng-container *ngIf="leaveRequestType === 'manager'">
-          <button (click)="rejectLeaveRequest(myId)"  appearance="custom" tuiButton>{{ t('MY_TIME.reject') }}</button>
-          <button (click)="approveLeaveRequest(myId)" appearance="custom-green" class="ml-2" tuiButton>{{ t('MY_TIME.approve') }}</button>
+          <button (click)="rejectLeaveRequest(myId)" appearance="custom" tuiButton>{{ t('MY_TIME.reject') }}</button>
+          <button (click)="approveLeaveRequest(myId)" appearance="custom-green" class="ml-2" tuiButton>
+            {{ t('MY_TIME.approve') }}
+          </button>
         </ng-container>
       </div>
 
-      <tr>
-        <th>{{ t('MY_TIME.staffName') }}:</th>
-        <td>
-          <!--        <p>{{ data.lastModifiedDate | date: 'MM/dd/yyyy' }}</p>-->
-          <p>name</p>
-        </td>
-      </tr>
-    </table>
+      <table class="detail-table">
+        <tr>
+          <td>{{ t('MY_TIME.staffName') }}:</td>
+          <td class="min-contain">
+            <span class="font-semibold ml-2">{{ data.employeeDTO?.profile?.fullName }}</span>
+          </td>
+          <td>
+            {{ t('MY_TIME.office') }}: <span class="font-semibold ml-2">{{ data.employeeDTO?.office?.name }}</span>
+          </td>
+        </tr>
 
-    <table class="detail-table mb-6">
-      <td>
-        <form [formGroup]="form">
-          <formly-form [fields]="fields" [form]="form" [model]="model" class="flex justify-start"></formly-form>
-        </form>
-      </td>
-    </table>
+        <tr>
+          <td>{{ t('MY_TIME.dateFrom') }}:</td>
+          <td class="min-contain">
+            <span class="font-semibold ml-2">{{ data?.fromDate | date: 'dd/MM/yyyy' }}</span>
+          </td>
+          <td>
+            {{ t('MY_TIME.asignStaff') }}:
+            <span class="font-semibold ml-2">{{ data?.employeeDTO?.reportTo?.username }}</span>
+          </td>
+        </tr>
+        <tr>
+          <td>{{ t('MY_TIME.dateTo') }}:</td>
+          <td class="min-contain">
+            <span class="font-semibold ml-2">{{ data?.toDate | date: 'dd/MM/yyyy' }}</span>
+          </td>
+          <td>
+            {{ t('MY_TIME.type') }}: <span class="font-semibold ml-2"> {{ data?.leaveType?.name }}</span>
+          </td>
+        </tr>
+      </table>
 
-    <table class="detail-table grid grid-cols-2 gap-4">
-      <tr>
-        <th>{{ t('MY_TIME.leaveType') }}:</th>
-        <td>
-          <!--        <p class="font-semibold">{{ data.leaveType?.name }}</p>-->
-          <p>Paid leave</p>
-        </td>
-      </tr>
+      <table class="detail-table grid grid-cols-2 gap-4">
+        <tr class="col-span-full">
+          <td>{{ t('MY_TIME.toDayOfDay') }}:</td>
+          <td class="min-contain">
+            <span class="font-semibold ml-2">{{ data.durationInDay }}</span>
+          </td>
+        </tr>
 
-      <tr>
-        <th>{{ t('MY_TIME.type') }}</th>
-        <td>
-          <tui-hosted-dropdown [content]="dropdown" [(open)]="open">
-            <a tuiLink class="link" tabindex="0">
-              {{ primary }}
-              <tui-svg class="arrow" [class.arrow_open]="open" src="tuiIconChevronDown"></tui-svg>
-            </a>
-          </tui-hosted-dropdown>
+        <tr class="col-span-full">
+          <td>{{ t('MY_TIME.status') }}:</td>
+          <td class="ml-8 min-contain">
+            <tui-tag
+              [class]="STATUS[data.status + ''] + '-tag ml-2'"
+              [value]="STATUS[data.status + ''] | titlecase"
+            ></tui-tag>
+          </td>
+        </tr>
 
-          <ng-template #dropdown>
-            <tui-data-list>
-              <tui-opt-group *ngFor="let group of leaveType">
-                <button (click)="onClick(item)" *ngFor="let item of group" class="item" tuiOption>
-                  {{ item }}
-                </button>
-              </tui-opt-group>
-            </tui-data-list>
-          </ng-template>
-        </td>
-      </tr>
+        <tr class="col-span-full">
+          <td>{{ t('MY_TIME.sendTo') }}:</td>
+          <td class="min-contain">
+            <span class="font-semibold ml-2 underline text-blue-500">{{data?.employeeDTO?.reportTo?.reportTo?.profile?.fullName}}</span>
+          </td>
+        </tr>
 
-      <tr class="col-span-full">
-        <th>{{ t('MY_TIME.duration') }}:</th>
-        <td>
-          <p>1.0</p>
-        </td>
-      </tr>
+        <tr class="col-span-full">
+          <td>{{ t('MY_TIME.comment') }}:</td>
+          <td class="min-contain">
+            <span class="font-semibold ml-2">{{data?.comment}}</span>
+          </td>
+        </tr>
 
-      <tr class="col-span-full">
-        <th>{{ t('MY_TIME.status') }}:</th>
-        <td class="ml-8">
-          <!--        <tui-tag [class]="STATUS[data.status + ''] + '-tag'" [value]="STATUS[data.status + ''] | titlecase"></tui-tag>-->
-          Đã xác nhận
-        </td>
-      </tr>
+      </table>
 
-      <tr class="col-span-full">
-        <th>{{ t('MY_TIME.sendTo') }}:</th>
-        <td>
-          <p class="underline text-blue-500">Nguyen Hai Vien</p>
-        </td>
-      </tr>
-
-      <tr class="col-span-full">
-        <th>{{ t('MY_TIME.reason') }}:</th>
-        <td>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam, purus sit amet luctus venenatis, lectus
-          magna fringilla urna, porttitor
-        </td>
-      </tr>
-    </table>
-
-    <tui-tabs [(activeItemIndex)]="activeItemIndex" class="mt-8">
-      <button tuiRipple="var(--tui-text-01)" tuiTab>{{ t('MY_TIME.comment') }}</button>
-      <button tuiRipple="var(--tui-text-01)" tuiTab>{{ t('MY_TIME.history') }}</button>
-    </tui-tabs>
-    <ng-container [ngSwitch]="activeItemIndex">
-      <ng-container *ngSwitchCase="0">
-        <hcm-noted class="m-8"></hcm-noted>
+      <tui-tabs [(activeItemIndex)]="activeItemIndex" class="mt-8">
+        <button tuiRipple="var(--tui-text-01)" tuiTab>{{ t('MY_TIME.comment') }}</button>
+        <button tuiRipple="var(--tui-text-01)" tuiTab>{{ t('MY_TIME.history') }}</button>
+      </tui-tabs>
+      <ng-container [ngSwitch]="activeItemIndex">
+        <ng-container *ngSwitchCase="0">
+          <hcm-noted class="m-8"></hcm-noted>
+        </ng-container>
+        <ng-container *ngSwitchCase="1">
+          <hcm-history-request class="mt-8"></hcm-history-request>
+        </ng-container>
       </ng-container>
-      <ng-container *ngSwitchCase="1">
-        <hcm-history-request class="mt-8"></hcm-history-request>
-      </ng-container>
-    </ng-container>
-  </article>
+    </article>
+  </section>
 </main>

@@ -1,32 +1,32 @@
-<main class='main-page'>
+<main class="main-page">
   <header>
-    <h1 class='text-4xl'>Request Managements</h1>
-    <div class='flex gap-4'></div>
+    <h1 class="text-4xl">Request Managements</h1>
+    <div class="flex gap-4"></div>
   </header>
 
-  <section class='main-section'>
+  <section class="main-section">
     <article>
-      <tui-tabs [(activeItemIndex)]='activeItemIndex'>
-        <button tuiRipple='var(--tui-text-01)' tuiTab>Leave Request</button>
-        <button tuiRipple='var(--tui-text-01)' tuiTab>Overtime</button>
-        <button tuiRipple='var(--tui-text-01)' tuiTab>Update time</button>
-        <button tuiRipple='var(--tui-text-01)' tuiTab>Working outside</button>
-        <button tuiRipple='var(--tui-text-01)' tuiTab>Work from home</button>
+      <tui-tabs [(activeItemIndex)]="activeItemIndex">
+        <button tuiRipple="var(--tui-text-01)" tuiTab>Overtime</button>
+        <button tuiRipple="var(--tui-text-01)" tuiTab>Leave Request</button>
+        <button tuiRipple="var(--tui-text-01)" tuiTab>Update time</button>
+        <button tuiRipple="var(--tui-text-01)" tuiTab>Working outside</button>
+        <button tuiRipple="var(--tui-text-01)" tuiTab>Work from home</button>
       </tui-tabs>
-      <ng-container [ngSwitch]='activeItemIndex'>
-        <ng-container *ngSwitchCase='0'>
-          <hcm-leave-request></hcm-leave-request>
-        </ng-container>
-        <ng-container *ngSwitchCase='1'>
+      <ng-container [ngSwitch]="activeItemIndex">
+        <ng-container *ngSwitchCase="0">
           <hcm-overtime></hcm-overtime>
         </ng-container>
-        <ng-container *ngSwitchCase='2'>
+        <ng-container *ngSwitchCase="1">
+          <hcm-leave-request></hcm-leave-request>
+        </ng-container>
+        <ng-container *ngSwitchCase="2">
           <hcm-update-time></hcm-update-time>
         </ng-container>
-        <ng-container *ngSwitchCase='3'>
+        <ng-container *ngSwitchCase="3">
           <hcm-working-outside></hcm-working-outside>
         </ng-container>
-        <ng-container *ngSwitchCase='4'>
+        <ng-container *ngSwitchCase="4">
           <hcm-work-from-home></hcm-work-from-home>
         </ng-container>
       </ng-container>

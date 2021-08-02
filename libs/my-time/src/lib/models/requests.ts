@@ -7,15 +7,58 @@ export interface Requests {
   state?: number;
   status?: number;
   assignedName?: string;
-  fromDate?: number | Date | TuiDay;
-  toDate?: number | Date | TuiDay;
+  fromDate?: number;
+  toDate?: number;
   lastModifiedDate?: Date;
   duration?: Duration;
   sendTo?: Employee;
   comments?: string;
+  comment?: string;
   reason?: string;
   length?: string;
   userSendTo?: UserSendTo;
+  employeeDTO?: RequestsEmployeeDTO;
+  leaveType?: LeaveProfile;
+  durationInDay?: string;
+}
+
+export interface LeaveProfile {
+  name: string;
+}
+
+export interface RequestsEmployeeDTO {
+  profile: RequestsEmployeeDTOProfile;
+  office: RequestsOffice;
+  reportTo: ReportProfile;
+}
+
+export interface ReportProfile {
+  username: string;
+  reportTo: ProfileLeaveInfo;
+}
+
+export interface ProfileLeaveInfo {
+  profile: ProfileLeave;
+}
+
+export interface ProfileLeave {
+  fullName: string;
+}
+
+export interface RequestsOffice {
+  name: string;
+}
+
+export interface RequestsEmployeeDTOProfile {
+  createdDate: number;
+  createdBy: string;
+  lastModifiedDate: number;
+  lastModifiedBy: string;
+  optCounter: number;
+  id: string;
+  firstName: string;
+  lastName: string;
+  fullName: string;
 }
 
 export interface UserSendTo {

@@ -24,6 +24,7 @@ export class OverviewComponent implements OnInit {
   startOfYesterday = startOfYesterday().valueOf();
   endOfYesterday = endOfYesterday().valueOf();
   nowInMiliseconds = differenceInSeconds(this.toDay, startOfToday());
+  myName = this.authService.get('userInfo').preferred_username;
   myId = this.authService.get('userInfo').userId;
   orgId = this.authService.get('userInfo').orgId;
   checkingBtn = true;
@@ -47,6 +48,7 @@ export class OverviewComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    console.log(this.authService.get('userInfo'));
     this.getWorkingHourTime();
     this.checkingStatus();
   }
