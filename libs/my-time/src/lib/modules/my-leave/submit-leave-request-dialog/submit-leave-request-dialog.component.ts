@@ -642,6 +642,7 @@ export class SubmitLeaveRequestDialogComponent {
         } else {
         }
         body.comment = this.model.comments
+        body.sendTo = this.model.sendTo
         this.showDialogConfirmDuration(body);
       }
     }

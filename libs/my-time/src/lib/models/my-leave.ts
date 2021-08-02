@@ -15,6 +15,7 @@ export interface MyLeave extends LeaveType {
   toDate?: number;
   fromDate?: number;
   duration?: number;
+  sendToDTO?: CreatedUserDTO;
   durationInDay?: number;
 }
 
@@ -28,4 +29,12 @@ export interface LeaveRes {
   leaveType?: LeaveType;
   duration?: any;
   leaveRequest?: any;
+}
+
+export interface CreatedUserDTO {
+  profile?: Profile;
+}
+
+export interface Profile {
+  fullName?: string;
 }

@@ -26,6 +26,7 @@
             <th *tuiHead="'days'" [sorter]="null" class="center-custom" tuiTh>Days</th>
             <th *tuiHead="'status'" [sorter]="null" class="center-custom" tuiTh>Status</th>
             <th *tuiHead="'comment'" [sorter]="null" class="center-custom" tuiTh>Comments</th>
+            <th *tuiHead="'sendTo'" [sorter]="null" class="center-custom" tuiTh>Send To</th>
             <th *tuiHead="'action'" [sorter]="null" style="text-align: center" tuiTh>Action</th>
           </tr>
         </thead>
@@ -54,6 +55,8 @@
             </td>
 
             <td *tuiCell="'comment'" class="center-custom font-semibold" tuiTd><strong>{{item.comment}}</strong></td>
+
+            <td *tuiCell="'sendTo'" class="center-custom font-semibold" tuiTd> <strong>{{ item?.sendToDTO?.profile?.fullName }}</strong></td>
 
             <td *tuiCell="'action'" class="center-custom" tuiTd>
               <div class="flex justify-center -m-2 gap-4">
