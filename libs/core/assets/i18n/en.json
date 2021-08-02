@@ -221,7 +221,7 @@
   "jobLevel": "Job level",
   "chooseJobLevel": "Choose a job level",
   "directReport": "Direct report",
-  "chooseDirectReport": "Choose a person of direct reporting",
+  "chooseDirectReport": "Choose a person for direct reporting",
   "permanentAddress": "Permanent address",
   "enterPermanentAddress": "Enter permanent address",
   "temporaryAddress": "Temporary address",
@@ -316,12 +316,13 @@
   "ADMIN_EMPLOYEE_MANAGEMENT_COLUMNS": {
     "cif": "CIF",
     "name": "Name",
+    "username": "Username",
     "currentStatus": "Current Status",
     "roles": "Roles",
     "organization": "Organization",
     "jobTitle": "Job Title",
     "directReport": "Direct Report",
-    "actions": "Actions"
+    "functions": "Functions"
   },
   "MY_TIME": {
     "leaveDetail": "Leave Detail",
@@ -374,7 +375,17 @@
   "leaveTypeManagement": "Leave Type Management",
   "workingTimeManagement": "Working Time Management",
   "leaveLevelApprove": "Level Approve Management",
-  "initEmployeeSuccessful": "Create new employee successfully!",
+  "initEmployeeSuccessfully": "Create new employee successfully!",
   "deleteEmployee": "Are you sure you want to remove this employee?",
-  "updateSuccessful": "Update successfully!"
+  "updateSuccessful": "Update successfully!",
+  "HTTP_RESPONSE_ERROR_MESSAGES": {
+    "400": "400 - Bad Request.",
+    "404": "404 - The requested resource does not exist.",
+    "412": "412 - Precondition Failed.",
+    "500": "500 - Internal Server Error.",
+    "503": "503 - The requested service is not available.",
+    "422": "422 - Validation Error!",
+    "default": "Something went wrong!"
+  },
+  "errorOccurred": "An error occurred"
 }

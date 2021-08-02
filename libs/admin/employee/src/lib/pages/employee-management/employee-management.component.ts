@@ -1,17 +1,15 @@
-import { HttpParams } from '@angular/common/http';
-import { ChangeDetectionStrategy, Component, Injector, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Injector } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Pagination } from '@nexthcm/core';
-import { PromptService } from '@nexthcm/ui';
+import { AbstractServerPaginationTableComponent, PromptService, ServerPaginationTableComponent } from '@nexthcm/ui';
 import { TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
-import { BaseComponent, Columns, Config, DefaultConfig } from 'ngx-easy-table';
-import { BehaviorSubject, from, Observable } from 'rxjs';
-import { catchError, filter, map, switchMap, takeUntil, tap } from 'rxjs/operators';
-import { SweetAlertOptions } from 'sweetalert2';
+import { Columns } from 'ngx-easy-table';
+import { from, Observable } from 'rxjs';
+import { filter, map, switchMap, takeUntil } from 'rxjs/operators';
 import { InitEmployeeDialogComponent } from '../../components/init-employee-dialog/init-employee-dialog.component';
 import { BaseEmployee, EmployeeGeneralInformation } from '../../models';
 import { AdminEmployeeService } from '../../services/admin-employee.service';
@@ -23,33 +21,28 @@ import { AdminEmployeeService } from '../../services/admin-employee.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [TuiDestroyService, RxState],
 })
-export class EmployeeManagementComponent {
-  @ViewChild('table') table!: BaseComponent;
-
-  configuration: Config = {
-    ...DefaultConfig,
-    paginationEnabled: false,
-    paginationRangeEnabled: false,
-    fixedColumnWidth: false,
-  };
+export class EmployeeManagementComponent
+  extends AbstractServerPaginationTableComponent<BaseEmployee>
+  implements ServerPaginationTableComponent<BaseEmployee>
+{
   columns$: Observable<Columns[]> = this.translocoService
     .selectTranslateObject('ADMIN_EMPLOYEE_MANAGEMENT_COLUMNS')
     .pipe(
       map((result) => [
         { key: 'cif', title: result.cif },
         { key: 'name', title: result.name },
+        { key: 'username', title: result.username },
         { key: 'currentStatus', title: result.currentStatus },
         { key: 'roles', title: result.roles },
         { key: 'organization', title: result.organization },
         { key: 'jobTitle', title: result.jobTitle },
         { key: 'directReport', title: result.directReport },
-        { key: 'actions', title: result.actions },
+        { key: 'actions', title: result.functions },
       ])
     );
   readonly loading$ = this.state.$.pipe(map((value) => !value));
   readonly data$ = this.state.select('items');
   readonly total$ = this.state.select('totalElements');
-  private readonly queryParams$ = new BehaviorSubject(new HttpParams().set('page', '0').set('size', 10));
   private readonly request$ = this.queryParams$.pipe(
     switchMap(() => this.adminEmployeesService.getEmployees(this.queryParams$.value)),
     map((res) => res.data)
@@ -66,37 +59,24 @@ export class EmployeeManagementComponent {
     private translocoService: TranslocoService,
     private promptService: PromptService
   ) {
+    super();
     state.connect(this.request$);
-  }
-
-  readonly employee = (item: BaseEmployee) => item;
-
-  onSize(size: number): void {
-    this.queryParams$.next(this.queryParams$.value.set('size', size.toString()));
-  }
-
-  onPage(page: number): void {
-    this.queryParams$.next(this.queryParams$.value.set('page', page.toString()));
   }
 
   onAddEmployee(): void {
     this.dialogService
       .open<EmployeeGeneralInformation>(new PolymorpheusComponent(InitEmployeeDialogComponent, this.injector), {
         label: this.translocoService.translate('addNewEmployee'),
+        size: 'l',
       })
       .pipe(
         switchMap((data) => this.adminEmployeesService.initEmployee(data)),
         takeUntil(this.destroy$)
       )
       .subscribe(
-        () => {
-          this.promptService.open({
-            icon: 'success',
-            text: this.translocoService.translate('initEmployeeSuccessful'),
-          } as SweetAlertOptions);
-          this.queryParams$.next(this.queryParams$.value);
-        },
-        (err) => this.promptService.open({ icon: 'error', text: err.error.message } as SweetAlertOptions)
+        this.promptService.handleResponse('initEmployeeSuccessfully', () =>
+          this.queryParams$.next(this.queryParams$.value)
+        )
       );
   }
 
@@ -117,15 +97,14 @@ export class EmployeeManagementComponent {
       )
         .pipe(
           filter((result) => result.isConfirmed),
-          switchMap(() =>
-            this.adminEmployeesService
-              .removeEmployee(id)
-              .pipe(tap(() => this.queryParams$.next(this.queryParams$.value)))
-          ),
-          catchError((err) => this.promptService.open({ icon: 'error', text: err.error.message })),
+          switchMap(() => this.adminEmployeesService.removeEmployee(id)),
           takeUntil(this.destroy$)
         )
-        .subscribe();
+        .subscribe(
+          this.promptService.handleResponse('removeEmployeeSuccessfully', () =>
+            this.queryParams$.next(this.queryParams$.value)
+          )
+        );
     }
   }
 }

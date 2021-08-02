@@ -7,40 +7,36 @@
   </header>
   <section class="main-section">
     <tui-loader [overlay]="true" [showLoader]="(loading$ | async) === true">
-      <ngx-table
-        #table
-        [columns]="(columns$ | async) || []"
-        [configuration]="configuration"
-        [data]="(data$ | async) || []"
-      >
+      <ngx-table [columns]="(columns$ | async) || []" [configuration]="configuration" [data]="(data$ | async) || []">
         <ng-template let-row>
-          <td>{{ employee(row).cif }}</td>
-          <td>{{ employee(row).userName }}</td>
-          <td>{{ (employee(row).status ? 'active' : 'inactive') | transloco }}</td>
-          <td>{{ employee(row).roles[0].name }}</td>
-          <td>{{ employee(row).organization.name }}</td>
-          <td>{{ employee(row).jobTitle.name }}</td>
-          <td>{{ employee(row).directReport.name }}</td>
+          <td>{{ item(row).cif }}</td>
+          <td>{{ item(row).firstName + ' ' + item(row).lastName }}</td>
+          <td>{{ item(row).userName }}</td>
+          <td>{{ (item(row).status ? 'active' : 'inactive') | transloco }}</td>
+          <td>{{ item(row).roles[0].name }}</td>
+          <td>{{ item(row).organization.name }}</td>
+          <td>{{ item(row).jobTitle.name }}</td>
+          <td>{{ item(row).directReport.name }}</td>
           <td>
             <div class="flex items-center">
               <button
-                [routerLink]="[employee(row).id, 'edit']"
+                [routerLink]="[item(row).id, 'edit']"
                 appearance="flat"
                 class="tui-space_right-3"
                 icon="tuiIconEditLarge"
                 size="m"
                 tuiIconButton
               ></button>
-              <button
-                [routerLink]="[employee(row).id, 'view']"
+              <!--<button
+                [routerLink]="[item(row).id, 'view']"
                 appearance="flat"
                 class="tui-space_right-3"
                 icon="tuiIconShowLarge"
                 size="m"
                 tuiIconButton
-              ></button>
+              ></button>-->
               <button
-                (click)="onRemoveEmployee(employee(row).id)"
+                (click)="onRemoveEmployee(item(row).id)"
                 appearance="flat"
                 icon="tuiIconTrashLarge"
                 size="m"

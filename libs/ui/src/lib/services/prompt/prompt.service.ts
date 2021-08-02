@@ -21,14 +21,23 @@ export class PromptService {
     return this.component.open(options);
   }
 
-  handleResponse(successfulText: string): PartialObserver<unknown> {
+  handleResponse(successfulText: string, callback?: () => void): PartialObserver<unknown> {
     return {
       next: () =>
         this.open({
           icon: 'success',
           text: this.translocoService.translate(successfulText),
-        }),
-      error: (err: HttpErrorResponse) => this.open({ icon: 'error', text: err.error.message }),
+        }).then(() => (callback ? callback() : null)),
+      error: (err: HttpErrorResponse) => {
+        let errorMessage: string;
+        if (err.error instanceof ErrorEvent) {
+          errorMessage = `${this.translocoService.translate('errorOccurred')}: ${err.error.message}`;
+        } else {
+          const HTTP_RESPONSE_ERROR_MESSAGES = this.translocoService.translateObject('HTTP_RESPONSE_ERROR_MESSAGES');
+          errorMessage = HTTP_RESPONSE_ERROR_MESSAGES[err.status] || HTTP_RESPONSE_ERROR_MESSAGES.default;
+        }
+        this.open({ icon: 'error', text: errorMessage });
+      },
     };
   }
 }

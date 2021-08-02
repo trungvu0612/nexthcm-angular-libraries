@@ -1,3 +1,4 @@
+export * from './lib/abstract-components';
 export * from './lib/components';
 export * from './lib/modules/formly-taiga-ui';
 export * from './lib/modules/layout';

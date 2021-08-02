@@ -317,12 +317,13 @@
   "ADMIN_EMPLOYEE_MANAGEMENT_COLUMNS": {
     "cif": "CIF",
     "name": "Tên",
+    "username": "Tên đăng nhập",
     "currentStatus": "Tình trạng hiện tại",
     "roles": "Vai trò",
     "organization": "Tổ chức",
     "jobTitle": "Chức danh",
     "directReport": "Báo cáo trực tiếp",
-    "actions": "Thao tác"
+    "functions": "Chức năng"
   },
   "MY_TIME": {
     "leaveDetail": "Chi tiết ngày phép",
@@ -375,7 +376,16 @@
   "leaveTypeManagement": "Quản lý phân loại nghỉ phép",
   "workingTimeManagement": "Quản lý thời gian làm việc",
   "leaveLevelApprove": "Quản lý cấp độ nghỉ phép",
-  "initEmployeeSuccessful": "Tạo nhân viên mới thành công!",
+  "initEmployeeSuccessfully": "Tạo nhân viên mới thành công!",
   "deleteEmployee": "Bạn thật sự muốn xoá nhân viên này?",
-  "updateSuccessful": "Cập nhật thành công!"
+  "updateSuccessful": "Cập nhật thành công!",
+  "HTTP_RESPONSE_ERROR_MESSAGES": {
+    "400": "400 - Có lỗi cú pháp trong yêu cầu.",
+    "404": "404 - Không tìm thấy.",
+    "412": "412 - Chưa thiết lập cấu hình điều kiện.",
+    "500": "500 - Lỗi máy chủ nội bộ.",
+    "503": "503 - Dịch vụ không khả dụng.",
+    "default": "Có gì đó không ổn!"
+  },
+  "errorOccurred": "Đã xảy ra lỗi"
 }
