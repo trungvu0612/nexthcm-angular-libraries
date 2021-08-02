@@ -15,6 +15,7 @@ export interface MyLeave extends LeaveType {
   toDate?: number;
   fromDate?: number;
   duration?: number;
+  durationInDay?: number;
 }
 
 export interface LeaveRes {

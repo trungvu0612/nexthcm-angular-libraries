@@ -47,7 +47,7 @@ export class UpsertLeaveLevelApproveComponent implements OnInit {
       },
     },
     {
-      key: 'jobTitles',
+      key: 'jobTitleDTOList',
       className: 'tui-form__row block',
       type: 'multi-select',
       templateOptions: {
@@ -87,7 +87,7 @@ export class UpsertLeaveLevelApproveComponent implements OnInit {
     //   this.adminUserRolesService.getAdminUserRolesId(this.data).subscribe((item) => {
     //     console.log('aaaaaaaaaaa', item.data.policies);
     //     this.model = { ...this.model, ...item.data };
-    //
+    
     //     this.arrayTemp = item.data.policies;
     //     this.count = item.data.policies.length;
     //   });
@@ -104,6 +104,9 @@ export class UpsertLeaveLevelApproveComponent implements OnInit {
       if (this.model.totalLeave){
         this.model.tenantId = 'fc8cbf0d-083c-43ac-bd86-be2ef7d72f3d'
         this.model.totalLeave = +this.model.totalLeave
+        if (this.model?.jobTitleDTOList) {
+          this.model.jobTitle = this.model.jobTitleDTOList.map((jobTitleDTO) => jobTitleDTO.id as string);
+        }
         this.context.completeWith(this.model);
       }
     }
