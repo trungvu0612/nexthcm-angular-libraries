@@ -14,6 +14,7 @@ import { FormlySelectJobTitlesComponent } from './components/formly-select-job-t
 import { ListLeaveLevelApproveComponent } from './pages/list-leave-level-approve/list-leave-level-approve.component';
 import { UpsertLeaveLevelApproveComponent } from './pages/upsert-leave-level-approve/upsert-leave-level-approve.component';
 import { LevelApproveService } from './services/level-approve.service';
+import { EditLeaveLevelApproveComponent } from './pages/edit-leave-level-approve/edit-leave-level-approve.component';
 
 export const adminLeaveLevelApproveRoutes: Route[] = [
   {
@@ -46,7 +47,8 @@ export const adminLeaveLevelApproveRoutes: Route[] = [
   declarations: [
     ListLeaveLevelApproveComponent,
     UpsertLeaveLevelApproveComponent,
-    FormlySelectJobTitlesComponent
+    FormlySelectJobTitlesComponent,
+    EditLeaveLevelApproveComponent
   ],
   providers: [
     AdminPermissionsService,

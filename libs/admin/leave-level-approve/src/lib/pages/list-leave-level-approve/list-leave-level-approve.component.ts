@@ -1,11 +1,12 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
-import { TuiDestroyService } from '@taiga-ui/cdk';
-import { TuiDialogService } from '@taiga-ui/core';
-import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { BehaviorSubject, combineLatest } from 'rxjs';
+import { TuiDialogService } from '@taiga-ui/core';
+import { TuiDestroyService } from '@taiga-ui/cdk';
 import { debounceTime, switchMap, takeUntil } from 'rxjs/operators';
-import { LevelApproveService } from '../../services/level-approve.service';
+import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { UpsertLeaveLevelApproveComponent } from '../upsert-leave-level-approve/upsert-leave-level-approve.component';
+import { LevelApproveService } from '../../services/level-approve.service';
+import { EditLeaveLevelApproveComponent } from '../edit-leave-level-approve/edit-leave-level-approve.component';
 
 @Component({
   selector: 'hcm-list-leave-level-approve',
@@ -66,19 +67,19 @@ export class ListLeaveLevelApproveComponent implements OnInit {
       });
   }
 
-  // showDialogEdit(id: string): void {
-  //   this.dialogService
-  //     .open<boolean>(new PolymorpheusComponent(UpsertLeaveLevelApproveComponent, this.injector), {
-  //       data: this.levelApproveService.getAdminLevelApproveId(id)
-  //     })
-  //     .subscribe((result) => {
-  //       if (result) {
-  //         this.levelApproveService.editAdminLevelApproveId(id, result).subscribe((data) => {
-  //           console.log('Edit Edit');
-  //         });
-  //       }
-  //     });
-  // }
+  showDialogEdit(id: string): void {
+    this.dialogService
+      .open<boolean>(new PolymorpheusComponent(EditLeaveLevelApproveComponent, this.injector), {
+        data: id
+      })
+      .subscribe((result) => {
+        if (result) {
+          this.levelApproveService.editAdminLevelApproveId(id, result).subscribe((data) => {
+            console.log('Edit Edit');
+          });
+        }
+      });
+  }
 
   onPage(page: number) {
     this.page$.next(page + 1);

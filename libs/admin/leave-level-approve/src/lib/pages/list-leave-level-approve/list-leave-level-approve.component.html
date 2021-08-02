@@ -38,13 +38,14 @@
 
         <td *tuiCell="'action'" tuiTd>
           <div class='flex text-gray-400'>
-<!--            <button (click)='showDialogEdit(item.id)'>-->
-<!--            <button>-->
-<!--              <tui-svg src='tuiIconEdit'></tui-svg>-->
-<!--            </button>-->
-            <button (click)='delete(item.id)'>
-              <tui-svg src='tuiIconTrash'></tui-svg>
-            </button>
+            <div class='flex text-gray-400'>
+              <button (click)='showDialogEdit(item.id)'>
+                <tui-svg src='tuiIconEdit'></tui-svg>
+              </button>
+              <button (click)='delete(item.id)'>
+                <tui-svg src='tuiIconTrash'></tui-svg>
+              </button>
+            </div>
           </div>
         </td>
       </tr>

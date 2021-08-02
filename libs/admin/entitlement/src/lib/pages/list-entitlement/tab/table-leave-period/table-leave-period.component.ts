@@ -9,6 +9,8 @@ import { LeaveStatus } from '../../../../enums/status';
 import { AdminEntitlementService } from '../../../../services/admin-entitlement.service';
 import { AdminPeriodService } from '../../../../services/admin-period.service';
 import { CreateLeavePeriodComponent } from '../../dialog/create-leave-period/create-leave-period.component';
+import { EditLeaveEntitlementComponent } from '../../dialog/edit/edit-leave-entitlement/edit-leave-entitlement.component';
+import { EditLeavePeriodComponent } from '../../dialog/edit/edit-leave-period/edit-leave-period.component';
 
 @Component({
   selector: 'hcm-table-leave-period',
@@ -21,7 +23,7 @@ export class TableLeavePeriodComponent implements OnInit {
   readonly LeaveStatus = LeaveStatus;
 
   dateControl = new FormControl<Date>();
-  columns = ['date', 'leaveType', 'days', 'status', 'sendTo', 'action'];
+  columns = ['startDate', 'endDate','status', 'action'];
 
   data: any = [];
   page$ = new BehaviorSubject<number>(1);
@@ -53,14 +55,12 @@ export class TableLeavePeriodComponent implements OnInit {
       )
       .subscribe((item) => {
         this.data = item.data.items;
-        console.log('dataa', this.data);
         this.totalElements = item.data.totalElements;
         this.cdr.detectChanges();
       });
   }
 
   cancel(): void {
-    console.log('cancel');
   }
 
   onPage($event: number) {
@@ -76,9 +76,20 @@ export class TableLeavePeriodComponent implements OnInit {
       .open<boolean>(new PolymorpheusComponent(CreateLeavePeriodComponent, this.injector), {})
       .subscribe((result) => {
         if (result) {
-          console.log('dataaaaaaa', result);
           this.adminPeriodService.createAdminPeriodId(result).subscribe((data) => {
-            console.log('Success Post');
+          });
+        }
+      });
+  }
+
+  showDialogEdit(id: string) {
+    this.dialogService
+      .open<boolean>(new PolymorpheusComponent(EditLeavePeriodComponent, this.injector), {
+        data: id
+      })
+      .subscribe((result) => {
+        if (result) {
+          this.adminPeriodService.getAdminPeriodId(id).subscribe((data) => {
           });
         }
       });
@@ -87,7 +98,6 @@ export class TableLeavePeriodComponent implements OnInit {
   delete(id: string): void {
     if (id) {
       this.adminPeriodService.deleteAdminPeriodId(id).subscribe((data) => {
-        console.log('Delete sucesss');
       });
     }
   }
