@@ -53,6 +53,7 @@ export interface BodyTemp {
   toDate?: number,
   leaveTypeId?: string,
   comment?: string;
+  sendTo?: string;
 }
 
 export interface DurationType {
