@@ -1,15 +1,15 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { PromptService, UploadFileService } from '@nexthcm/ui';
+import { PromptService, UploadFileService } from '@nexthcm/cdk';
+import { Address, ContactDTO } from '@nexthcm/core';
 import { FormGroup } from '@ngneat/reactive-forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import { catchError, filter, map, mapTo, startWith, switchMap, tap } from 'rxjs/operators';
-import { Tenant } from '../../models/tenant';
-import { AdminTenantService } from '../../services/admin-tenant.service';
-import { SweetAlertOptions } from 'sweetalert2';
 import { NumericValueType, RxwebValidators } from '@rxweb/reactive-form-validators';
 import { iif, of } from 'rxjs';
-import { Address, ContactDTO } from '@nexthcm/core';
+import { catchError, filter, map, mapTo, startWith, switchMap, tap } from 'rxjs/operators';
+import { SweetAlertOptions } from 'sweetalert2';
+import { Tenant } from '../../models/tenant';
+import { AdminTenantService } from '../../services/admin-tenant.service';
 
 @Component({
   selector: 'hcm-upsert-tenant',

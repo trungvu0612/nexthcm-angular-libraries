@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
-import { FormlyTaigaUiModule, LayoutComponent, PromptComponentModule } from '@nexthcm/ui';
+import { FormlyTaigaUiModule, LayoutComponent } from '@nexthcm/ui';
 import { TranslocoModule } from '@ngneat/transloco';
 import { FormlyModule } from '@ngx-formly/core';
 import { TuiButtonModule, TuiLabelModule, TuiTextfieldControllerModule } from '@taiga-ui/core';
@@ -50,7 +50,6 @@ export const adminWorkingTimesRoutes: Routes = [
     TuiTabsModule,
     TranslocoModule,
     TuiButtonModule,
-    PromptComponentModule,
   ],
   declarations: [WorkingTimeSettingsComponent, RepeatSectionComponent, OvertimeWorkingComponent],
 })

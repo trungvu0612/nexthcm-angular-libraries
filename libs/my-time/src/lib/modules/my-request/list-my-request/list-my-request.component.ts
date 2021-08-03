@@ -1,13 +1,13 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
+import { PromptService } from '@nexthcm/cdk';
+import { TranslocoService } from '@ngneat/transloco';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
+import { PartialObserver } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 import { RequestsDialogComponent } from '../../../components/requests-dialog/requests-dialog.component';
 import { MyRequestService } from '../../../services/my-request.service';
 import { RequestOtComponent } from '../request-ot/request-ot.component';
-import { PartialObserver } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
-import { TranslocoService } from '@ngneat/transloco';
-import { PromptService } from '@nexthcm/ui';
 
 @Component({
   selector: 'hcm-list-my-request',

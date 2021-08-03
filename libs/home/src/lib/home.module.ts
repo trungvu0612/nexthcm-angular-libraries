@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { LayoutComponent, LayoutModule, PromptComponentModule } from '@nexthcm/ui';
-import { OverviewComponent } from './pages/overview/overview.component';
-import { NgxPermissionsGuard } from 'ngx-permissions';
+import { LayoutComponent, LayoutModule } from '@nexthcm/ui';
 import { TranslocoModule } from '@ngneat/transloco';
+import { NgxPermissionsGuard } from 'ngx-permissions';
+import { OverviewComponent } from './pages/overview/overview.component';
 
 export const HOME_ROUTES: Routes = [
   {
@@ -21,6 +21,6 @@ export const HOME_ROUTES: Routes = [
 
 @NgModule({
   declarations: [OverviewComponent],
-  imports: [CommonModule, RouterModule.forChild(HOME_ROUTES), LayoutModule, PromptComponentModule, TranslocoModule],
+  imports: [CommonModule, RouterModule.forChild(HOME_ROUTES), LayoutModule, TranslocoModule],
 })
 export class HomeModule {}

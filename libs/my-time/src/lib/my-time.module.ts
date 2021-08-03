@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
-import { LayoutComponent, PromptComponentModule } from '@nexthcm/ui';
+import { LayoutComponent } from '@nexthcm/ui';
 import { FormlyModule } from '@ngx-formly/core';
 import { TuiButtonModule } from '@taiga-ui/core';
 import { NgxPermissionsGuard } from 'ngx-permissions';
@@ -20,7 +21,6 @@ import { WorkingHourComponent } from './modules/working-hour/working-hour.compon
 import { WorkingHourModule } from './modules/working-hour/working-hour.module';
 import { MyTimeComponent } from './my-time.component';
 import { MyLeaveService } from './services/my-leave.service';
-import { ReactiveFormsModule } from '@angular/forms';
 
 export const myTimeRoutes: Routes = [
   {
@@ -84,7 +84,6 @@ export const myTimeRoutes: Routes = [
     TuiButtonModule,
     FormlyModule,
     ReactiveFormsModule,
-    PromptComponentModule
   ],
   providers: [MyLeaveService],
 })

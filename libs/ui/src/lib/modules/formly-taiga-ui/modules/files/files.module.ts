@@ -5,7 +5,7 @@ import { FormlyModule } from '@ngx-formly/core';
 import { TuiLabelModule, TuiTooltipModule } from '@taiga-ui/core';
 import { TuiFieldErrorModule, TuiInputFileModule } from '@taiga-ui/kit';
 import { PolymorpheusModule } from '@tinkoff/ng-polymorpheus';
-import { GetFileModule } from '../../../../pipes';
+import { GetFileModule } from '../../../../../../../cdk/src/lib/pipes';
 import { FormFieldModule } from '../form-field/form-field.module';
 import { UploadFileComponent } from './upload-file/upload-file.component';
 

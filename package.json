@@ -29,7 +29,7 @@
     "help": "nx help",
     "prepare": "husky install",
     "generate-icons": "svg-generator",
-    "publish:admin-employee": "nx build core && cd dist/libs/admin/employee && yarn publish --non-interactive --ignore-scripts",
+    "publish:admin-employee": "nx build admin-employee && cd dist/libs/admin/employee && yarn publish --non-interactive --ignore-scripts",
     "publish:admin-job-level": "nx build admin-job-level && cd dist/libs/admin/job-level && yarn publish --non-interactive --ignore-scripts",
     "publish:admin-job-titles": "nx build admin-job-titles && cd dist/libs/admin/job-titles && yarn publish --non-interactive --ignore-scripts",
     "publish:admin-entitlement": "nx build admin-entitlement && cd dist/libs/admin/entitlement && yarn publish --non-interactive --ignore-scripts",

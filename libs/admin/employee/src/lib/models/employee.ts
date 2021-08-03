@@ -1,4 +1,4 @@
-import { DateRange } from '@nexthcm/ui';
+import { DateRange } from '@nexthcm/cdk';
 import { TuiDay, TuiDayRange } from '@taiga-ui/cdk';
 
 export type EmployeeInformationType = 'individual' | 'duration' | 'education' | 'shui';

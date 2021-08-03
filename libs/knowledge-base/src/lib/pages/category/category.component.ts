@@ -1,17 +1,17 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { DefaultConfig } from 'ngx-easy-table';
-import { map, startWith, switchMap, takeUntil } from 'rxjs/operators';
-import { TranslocoService } from '@ngneat/transloco';
-import { PolymorpheusContent } from '@tinkoff/ng-polymorpheus';
-import { TuiDialogContext, TuiDialogService } from '@taiga-ui/core';
-import { BehaviorSubject, from, iif, Subscriber } from 'rxjs';
+import { PromptService } from '@nexthcm/cdk';
 import { FormGroup } from '@ngneat/reactive-forms';
+import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import { Category } from '../../models/knowledge';
 import { TuiDestroyService } from '@taiga-ui/cdk';
-import { KnowledgeBaseService } from '../../services/knowledge-base.service';
+import { TuiDialogContext, TuiDialogService } from '@taiga-ui/core';
+import { PolymorpheusContent } from '@tinkoff/ng-polymorpheus';
+import { DefaultConfig } from 'ngx-easy-table';
+import { BehaviorSubject, from, iif, Subscriber } from 'rxjs';
+import { map, startWith, switchMap, takeUntil } from 'rxjs/operators';
 import { SweetAlertOptions } from 'sweetalert2';
-import { PromptService } from '@nexthcm/ui';
+import { Category } from '../../models/knowledge';
+import { KnowledgeBaseService } from '../../services/knowledge-base.service';
 
 @Component({
   selector: 'hcm-category',

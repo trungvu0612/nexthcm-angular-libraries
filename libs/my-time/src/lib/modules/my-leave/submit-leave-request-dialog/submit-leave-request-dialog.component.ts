@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Inject, Injector } from '@angular/core';
 import { Router } from '@angular/router';
-import { BaseOption } from '@nexthcm/ui';
+import { BaseOption } from '@nexthcm/cdk';
 import { FormBuilder } from '@ngneat/reactive-forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDialogContext, TuiDialogService } from '@taiga-ui/core';

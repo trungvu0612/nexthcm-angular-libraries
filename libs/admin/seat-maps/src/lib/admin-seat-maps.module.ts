@@ -3,7 +3,8 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
-import { GetFileModule, LayoutComponent, PromptComponentModule } from '@nexthcm/ui';
+import { GetFileModule } from '@nexthcm/cdk';
+import { LayoutComponent } from '@nexthcm/ui';
 import { TranslocoModule } from '@ngneat/transloco';
 import { FormlyModule } from '@ngx-formly/core';
 import { TuiTablePaginationModule } from '@taiga-ui/addon-table';
@@ -54,7 +55,6 @@ export const adminSeatMapsRoutes: Routes = [
     DragDropModule,
     TuiSvgModule,
     GetFileModule,
-    PromptComponentModule,
     TuiTablePaginationModule,
     TuiLetModule,
   ],

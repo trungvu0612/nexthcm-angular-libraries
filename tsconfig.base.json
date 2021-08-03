@@ -32,6 +32,7 @@
       "@nexthcm/admin-working-times": ["libs/admin/working-times/src/index.ts"],
       "@nexthcm/auth": ["libs/auth/src/index.ts"],
       "@nexthcm/calendar": ["libs/calendar/src/index.ts"],
+      "@nexthcm/cdk": ["libs/cdk/src/index.ts"],
       "@nexthcm/chat": ["libs/chat/src/index.ts"],
       "@nexthcm/configurations": ["libs/configurations/src/index.ts"],
       "@nexthcm/core": ["libs/core/src/index.ts"],

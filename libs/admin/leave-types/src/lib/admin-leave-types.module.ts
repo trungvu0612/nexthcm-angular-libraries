@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Route, RouterModule } from '@angular/router';
-import { FormlyTaigaUiModule, LayoutComponent, PromptComponentModule } from '@nexthcm/ui';
+import { FormlyTaigaUiModule, LayoutComponent } from '@nexthcm/ui';
 import { TranslocoModule } from '@ngneat/transloco';
 import { FormlyModule } from '@ngx-formly/core';
 import { TuiTableModule, TuiTablePaginationModule } from '@taiga-ui/addon-table';
@@ -61,7 +61,6 @@ export const adminLeaveTypesRoutes: Route[] = [
     FormlyModule,
     FormlyTaigaUiModule,
     TuiMarkerIconModule,
-    PromptComponentModule,
     TranslocoModule,
     ReactiveFormsModule,
   ],

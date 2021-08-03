@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, ElementRef, HostListener, ViewChild } from '@angular/core';
-import { PromptService } from '@nexthcm/ui';
+import { PromptService } from '@nexthcm/cdk';
+import { UserDto } from '@nexthcm/core';
 import { FormGroup } from '@ngneat/reactive-forms';
 import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
@@ -11,7 +12,6 @@ import { map, switchMap } from 'rxjs/operators';
 import { SweetAlertOptions } from 'sweetalert2';
 import { OrganizationalUnit, OrganizationalUnitForm } from '../../models/tenant';
 import { AdminTenantService } from '../../services/admin-tenant.service';
-import { UserDto } from '@nexthcm/core';
 
 interface State {
   users: Partial<UserDto>[];

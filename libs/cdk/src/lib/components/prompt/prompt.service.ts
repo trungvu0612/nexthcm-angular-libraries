@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { TranslocoService } from '@ngneat/transloco';
 import { PartialObserver } from 'rxjs';
 import { SweetAlertOptions, SweetAlertResult } from 'sweetalert2';
-import { PromptComponent } from '../../components';
+import { PromptComponent } from './prompt.component';
 
 @Injectable({
   providedIn: 'root',

@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { PromptComponentModule, SkipNavigationDirectiveModule } from '@nexthcm/cdk';
 import { SvgIconsModule } from '@ngneat/svg-icon';
 import { TranslocoModule } from '@ngneat/transloco';
 import {
@@ -13,8 +14,6 @@ import {
 } from '@taiga-ui/core';
 import { TuiAvatarModule, TuiTabsModule } from '@taiga-ui/kit';
 import { NgxPermissionsModule } from 'ngx-permissions';
-import { PromptComponentModule } from '../../components';
-import { SkipNavigationDirectiveModule } from '../../directives';
 import { sidebarIcons } from '../../shared/icons/sidebar';
 import { HeaderComponent } from './header/header.component';
 import { LayoutComponent } from './layout.component';

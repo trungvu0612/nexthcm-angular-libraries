@@ -1,8 +1,8 @@
 import { HttpParams } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, Injector, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { PromptService } from '@nexthcm/cdk';
 import { Pagination } from '@nexthcm/core';
-import { PromptService } from '@nexthcm/ui';
 import { TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
 import { TuiDestroyService } from '@taiga-ui/cdk';

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular/core';
-import { filterBySearch } from '@nexthcm/ui';
+import { filterBySearch } from '@nexthcm/cdk';
 import { FormGroup } from '@ngneat/reactive-forms';
 import { RxState } from '@rx-angular/state';
 import { TuiIdentityMatcher, TuiStringHandler } from '@taiga-ui/cdk';

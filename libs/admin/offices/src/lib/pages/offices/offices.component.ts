@@ -1,7 +1,9 @@
 import { ChangeDetectionStrategy, Component, Injector } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { PromptService } from '@nexthcm/cdk';
 import { Zone } from '@nexthcm/core';
-import { PromptService } from '@nexthcm/ui';
 import { TranslocoService } from '@ngneat/transloco';
+import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDialogContext, TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusContent } from '@tinkoff/ng-polymorpheus';
 import { DefaultConfig } from 'ngx-easy-table';
@@ -9,8 +11,6 @@ import { BehaviorSubject, Subscriber } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { SweetAlertOptions } from 'sweetalert2';
 import { AdminOfficesService } from '../../services/admin-offices.service';
-import { FormGroup } from '@angular/forms';
-import { FormlyFieldConfig } from '@ngx-formly/core';
 
 @Component({
   selector: 'hcm-offices',

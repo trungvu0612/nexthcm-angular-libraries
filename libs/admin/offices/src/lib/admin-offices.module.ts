@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
-import { LayoutComponent, PromptComponentModule } from '@nexthcm/ui';
+import { LayoutComponent } from '@nexthcm/ui';
 import { TranslocoModule } from '@ngneat/transloco';
 import { FormlyModule } from '@ngx-formly/core';
 import { TuiTableModule, TuiTablePaginationModule } from '@taiga-ui/addon-table';
@@ -36,7 +36,6 @@ export const adminOfficesRoutes: Routes = [
     TuiSvgModule,
     TuiButtonModule,
     TableModule,
-    PromptComponentModule,
     TuiLetModule,
   ],
   providers: [AdminOfficesService],

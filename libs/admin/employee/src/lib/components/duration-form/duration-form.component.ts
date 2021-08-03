@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DateRange, parseDateFields, parseTuiDayFields, PromptService } from '@nexthcm/ui';
+import { DateRange, parseDateFields, parseTuiDayFields, PromptService } from '@nexthcm/cdk';
 import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDayRange, TuiDestroyService } from '@taiga-ui/cdk';

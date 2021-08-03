@@ -20,7 +20,7 @@ import {
   TuiSelectModule,
 } from '@taiga-ui/kit';
 import { PolymorpheusModule } from '@tinkoff/ng-polymorpheus';
-import { SelectOptionsModule } from '../../../../pipes';
+import { SelectOptionsModule } from '../../../../../../../cdk/src/lib/pipes';
 import { FormFieldModule } from '../form-field/form-field.module';
 import { RadioComponent } from './radio.component';
 

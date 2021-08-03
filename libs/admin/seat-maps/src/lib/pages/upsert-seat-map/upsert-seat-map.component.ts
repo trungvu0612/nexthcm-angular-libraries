@@ -1,8 +1,8 @@
 import { CdkDragEnd } from '@angular/cdk/drag-drop';
 import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { filterBySearch, PromptService, UploadFileService } from '@nexthcm/cdk';
 import { Dimension, Seat, Zone } from '@nexthcm/core';
-import { filterBySearch, PromptService, UploadFileService } from '@nexthcm/ui';
 import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDestroyService } from '@taiga-ui/cdk';

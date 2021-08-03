@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Injector } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AbstractServerPaginationTableComponent, PromptService, ServerPaginationTableComponent } from '@nexthcm/cdk';
 import { Pagination } from '@nexthcm/core';
-import { AbstractServerPaginationTableComponent, PromptService, ServerPaginationTableComponent } from '@nexthcm/ui';
 import { TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
 import { TuiDestroyService } from '@taiga-ui/cdk';

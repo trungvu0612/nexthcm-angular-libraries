@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
-import { PromptComponent } from '../../components';
-import { PromptService } from '../../services';
+import { PromptComponent, PromptService } from '@nexthcm/cdk';
 
 @Component({
   selector: 'hcm-layout',

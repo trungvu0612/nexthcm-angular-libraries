@@ -2,15 +2,15 @@ import { DatePipe } from '@angular/common';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '@nexthcm/auth';
-import { PromptService } from '@nexthcm/ui';
+import { PromptService } from '@nexthcm/cdk';
+import { TranslocoService } from '@ngneat/transloco';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
+import { differenceInSeconds, endOfYesterday, startOfToday, startOfYesterday } from 'date-fns';
 import { of } from 'rxjs';
 import { catchError, filter, mapTo, switchMap, takeUntil } from 'rxjs/operators';
 import { SweetAlertOptions } from 'sweetalert2';
 import { OverviewService } from '../../services/overview.service';
-import { TranslocoService } from '@ngneat/transloco';
-import { startOfYesterday, endOfYesterday, differenceInSeconds, startOfToday } from 'date-fns';
 
 @Component({
   selector: 'hcm-overview',

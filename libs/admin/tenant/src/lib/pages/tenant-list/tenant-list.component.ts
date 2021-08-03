@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { filterBySearch, PromptService } from '@nexthcm/ui';
+import { Router } from '@angular/router';
+import { filterBySearch, PromptService } from '@nexthcm/cdk';
 import { FormControl } from '@ngneat/reactive-forms';
 import { TranslocoService } from '@ngneat/transloco';
 import { DefaultConfig } from 'ngx-easy-table';
@@ -8,7 +9,6 @@ import { map, startWith, switchMap } from 'rxjs/operators';
 import { SweetAlertOptions } from 'sweetalert2';
 import { Tenant } from '../../models/tenant';
 import { AdminTenantService } from '../../services/admin-tenant.service';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'hcm-tenant-list',

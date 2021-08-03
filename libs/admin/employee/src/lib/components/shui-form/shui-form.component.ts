@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { PromptService } from '@nexthcm/ui';
+import { PromptService } from '@nexthcm/cdk';
 import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDestroyService } from '@taiga-ui/cdk';
@@ -144,11 +144,13 @@ export class ShuiFormComponent {
   ];
   readonly request$ = this.adminEmployeeService
     .getEmployeeInformation<EmployeeSHUI>(this.activatedRoute.snapshot.params.employeeId, 'shui')
-    .pipe(tap((res) => {
-      const data = res.data;
-      data.healthCares = JSON.parse(data.healthCares as string);
-      this.model = { ...this.model, ...data };
-    }));
+    .pipe(
+      tap((res) => {
+        const data = res.data;
+        data.healthCares = JSON.parse(data.healthCares as string);
+        this.model = { ...this.model, ...data };
+      })
+    );
   readonly loading$ = this.request$.pipe(map((value) => !value));
 
   constructor(

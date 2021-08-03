@@ -1,7 +1,7 @@
 import { HttpParams } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
+import { PromptService } from '@nexthcm/cdk';
 import { Pagination } from '@nexthcm/core';
-import { PromptService } from '@nexthcm/ui';
 import { FormBuilder } from '@ngneat/reactive-forms';
 import { TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
@@ -77,7 +77,7 @@ export class ListLeaveTypeComponent {
   }
 
   delete(id: string): void {
-    if (!id) { 
+    if (!id) {
       console.error(`Id = ${id}, cannot delete`);
     }
     // if (id) {
@@ -93,7 +93,12 @@ export class ListLeaveTypeComponent {
         switchMap(() =>
           this.leaveTypeService.delete(id).pipe(tap(() => this.queryParams$.next(this.queryParams$.value)))
         ),
-        catchError((err) => this.promptService.open({ icon: 'error', text: this.translocoService.translate(`ADMIN_LEAVE_TYPES.ERRORS.${err.error.message}`)})),
+        catchError((err) =>
+          this.promptService.open({
+            icon: 'error',
+            text: this.translocoService.translate(`ADMIN_LEAVE_TYPES.ERRORS.${err.error.message}`),
+          })
+        ),
         takeUntil(this.destroy$)
       )
       .subscribe();

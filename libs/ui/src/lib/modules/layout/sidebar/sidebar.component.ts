@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { MenuItem } from '../../../models/menu-item';
+import { MenuItem } from '../../../models';
 
 @Component({
   selector: 'hcm-sidebar',

@@ -2,7 +2,8 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
-import { GetStatusPipeModule, LayoutComponent, PromptComponentModule } from '@nexthcm/ui';
+import { GetStatusPipeModule } from '@nexthcm/cdk';
+import { LayoutComponent } from '@nexthcm/ui';
 import { TranslocoModule } from '@ngneat/transloco';
 import { FormlyModule } from '@ngx-formly/core';
 import { TuiTableModule, TuiTablePaginationModule } from '@taiga-ui/addon-table';
@@ -12,12 +13,12 @@ import { TuiAvatarModule, TuiInputModule, TuiIslandModule, TuiSliderModule, TuiT
 import { HeroIconModule, pencilAlt, trash, zoomIn } from 'ng-heroicon';
 import { TableModule } from 'ngx-easy-table';
 import { NgxPermissionsGuard } from 'ngx-permissions';
+import { HasTenantIdGuard } from './guards/has-tenant-id.guard';
 import { DomainListComponent } from './pages/domain-list/domain-list.component';
 import { OrganizationalChartComponent } from './pages/organizational-chart/organizational-chart.component';
 import { OrganizationalStructureComponent } from './pages/organizational-structure/organizational-structure.component';
 import { TenantListComponent } from './pages/tenant-list/tenant-list.component';
 import { UpsertTenantComponent } from './pages/upsert-tenant/upsert-tenant.component';
-import { HasTenantIdGuard } from './guards/has-tenant-id.guard';
 
 export const adminTenantRoutes: Routes = [
   {
@@ -76,7 +77,6 @@ export const adminTenantRoutes: Routes = [
     TuiScrollbarModule,
     TuiLetModule,
     HeroIconModule.withIcons({ pencilAlt, trash, zoomIn }),
-    PromptComponentModule,
     TuiSliderModule,
   ],
 })

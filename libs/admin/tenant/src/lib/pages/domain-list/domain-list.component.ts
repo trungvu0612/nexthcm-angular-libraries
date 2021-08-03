@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { filterBySearch, UploadFileService } from '@nexthcm/ui';
+import { filterBySearch, UploadFileService } from '@nexthcm/cdk';
 import { FormControl, FormGroup } from '@ngneat/reactive-forms';
+import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDialogContext, TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusContent } from '@tinkoff/ng-polymorpheus';
@@ -8,7 +9,6 @@ import { BehaviorSubject, combineLatest, Subscriber } from 'rxjs';
 import { map, startWith, switchMap } from 'rxjs/operators';
 import { Domain } from '../../models/tenant';
 import { AdminTenantService } from '../../services/admin-tenant.service';
-import { TranslocoService } from '@ngneat/transloco';
 
 @Component({
   selector: 'hcm-domain',

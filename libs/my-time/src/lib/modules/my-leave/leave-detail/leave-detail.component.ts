@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MyLeaveService } from '../../../services/my-leave.service';
-import { Observable, PartialObserver } from 'rxjs';
-import { PromptService } from '@nexthcm/ui';
+import { PromptService } from '@nexthcm/cdk';
 import { TranslocoService } from '@ngneat/transloco';
-import { Requests } from '../../../models/requests';
+import { Observable, PartialObserver } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { Requests } from '../../../models/requests';
+import { MyLeaveService } from '../../../services/my-leave.service';
 
 @Component({
   selector: 'hcm-leave-detail',
