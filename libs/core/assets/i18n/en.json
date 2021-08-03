@@ -363,7 +363,8 @@
     "asignStaff": "Assign Staff",
     "office": "Office",
     "type": "Type",
-    "toDayOfDay": "Today of day"
+    "toDayOfDay": "Today of day",
+    "leaveNotFound": "Leave not found"
   },
   "OVERVIEW": {
     "viewDetail": "View Detail"

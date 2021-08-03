@@ -11,10 +11,9 @@ import { MyRequestService } from '../../../services/my-request.service';
   selector: 'hcm-request-details-wfh',
   templateUrl: './request-details-wfh.component.html',
   styleUrls: ['./request-details-wfh.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RequestDetailsWfhComponent implements OnInit {
-
   STATUS: { [key: string]: string } = {
     '-1': 'rejected',
     '1': 'approved',
@@ -37,18 +36,14 @@ export class RequestDetailsWfhComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log('dataIddddddddd', this.data$)
+    console.log('dataIddddddddd', this.data$);
   }
 
   close(): void {
     // this.context.completeWith(true);
   }
 
-  cancel() {
+  cancel() {}
 
-  }
-
-  edit(id: string) {
-
-  }
+  edit(id: string) {}
 }

@@ -1,5 +1,5 @@
-<main *transloco='let t' class='main-page'>
-  <tui-tabs [(activeItemIndex)]='activeItemIndex'>
+<main *transloco="let t" class="main-page">
+  <tui-tabs [(activeItemIndex)]="activeItemIndex">
     <button tuiTab>
       {{ t('WORKING_HOUR.addCalendar') }}
     </button>
@@ -8,89 +8,89 @@
     </button>
   </tui-tabs>
 
-  <ng-container [ngSwitch]='activeItemIndex'>
-    <div class='mt-5'>
-      <ng-container *ngSwitchCase='0'>
-        <div class='max-w-3xl'>
-          <div class='grid grid-cols-2'>
-            <div class='text-xl font-bold text-blue-500'> {{ t('WORKING_HOUR.addCalendar') }}</div>
-            <div class='work-shift text-center'>Work shift</div>
+  <ng-container [ngSwitch]="activeItemIndex">
+    <div class="mt-5">
+      <ng-container *ngSwitchCase="0">
+        <div class="max-w-3xl">
+          <div class="grid grid-cols-2">
+            <div class="text-xl font-bold text-blue-500"> {{ t('WORKING_HOUR.addCalendar') }}</div>
+            <div class="work-shift text-center">Work shift</div>
           </div>
-          <formly-form [fields]='fields' [formGroup]='$any(form)' [form]='form' [model]='model'
-                       class='grid grid-cols-3'>
-            <div class='my-10 ab-right'>
-              <div class='grid grid-flow-col auto-cols-max gap-4'>
-                <div class='mx-2 check-column my-4'>Check in after</div>
-                <div class='my-4'>
+          <formly-form [fields]="fields" [formGroup]="$any(form)" [form]="form" [model]="model"
+                       class="grid grid-cols-3">
+            <div class="my-10 ab-right">
+              <div class="grid grid-flow-col auto-cols-max gap-4">
+                <div class="mx-2 check-column my-4">Check in after</div>
+                <div class="my-4">
                   <label tuiLabel>
                     <tui-input-count
-                      [max]='18'
-                      [min]='10'
-                      [tuiTextfieldLabelOutside]='true'
-                      class='count-input'
-                      formControlName='checkInAfter'
-                      tuiTextfieldSize='m'
+                      [max]="18"
+                      [min]="10"
+                      [tuiTextfieldLabelOutside]="true"
+                      class="count-input"
+                      formControlName="checkInAfter"
+                      tuiTextfieldSize="m"
                     >
                     </tui-input-count>
                   </label>
                 </div>
-                <div class='mx-2 my-4'>Employee is off working in morning</div>
+                <div class="mx-2 my-4">Employee is off working in morning</div>
               </div>
-              <div class='grid grid-flow-col auto-cols-max gap-4'>
-                <div class='mx-2 check-column my-4'>Check out before</div>
-                <div class='my-4'>
+              <div class="grid grid-flow-col auto-cols-max gap-4">
+                <div class="mx-2 check-column my-4">Check out before</div>
+                <div class="my-4">
                   <label tuiLabel>
                     <tui-input-count
-                      [max]='18'
-                      [min]='10'
-                      [tuiTextfieldLabelOutside]='true'
-                      class='count-input'
-                      formControlName='checkOutBefore'
-                      tuiTextfieldSize='m'
+                      [max]="18"
+                      [min]="10"
+                      [tuiTextfieldLabelOutside]="true"
+                      class="count-input"
+                      formControlName="checkOutBefore"
+                      tuiTextfieldSize="m"
                     >
                     </tui-input-count>
                   </label>
                 </div>
-                <div class='mx-2 my-4'>Employee is off working in morning</div>
+                <div class="mx-2 my-4">Employee is off working in morning</div>
               </div>
-              <div class='grid grid-flow-col auto-cols-max gap-4'>
-                <div class='mx-2 check-column my-4'>Working hours less than</div>
-                <div class='my-4'>
+              <div class="grid grid-flow-col auto-cols-max gap-4">
+                <div class="mx-2 check-column my-4">Working hours less than</div>
+                <div class="my-4">
                   <label tuiLabel>
                     <tui-input-count
-                      [max]='18'
-                      [min]='2'
-                      [tuiTextfieldLabelOutside]='true'
-                      class='count-input'
-                      formControlName='workingHour'
-                      tuiTextfieldSize='m'
+                      [max]="18"
+                      [min]="2"
+                      [tuiTextfieldLabelOutside]="true"
+                      class="count-input"
+                      formControlName="workingHour"
+                      tuiTextfieldSize="m"
                     >
                     </tui-input-count>
                   </label>
                 </div>
-                <div class='mx-2 my-4'>Employee is off working</div>
+                <div class="mx-2 my-4">Employee is off working</div>
               </div>
 
-              <div class='grid grid-flow-col auto-cols-max gap-4'>
-                <div class='mx-2 check-column my-4'>Break lunch hours</div>
-                <div class='my-4'>
+              <div class="grid grid-flow-col auto-cols-max gap-4">
+                <div class="mx-2 check-column my-4">Break lunch hours</div>
+                <div class="my-4">
                   <tui-input
-                    [tuiTextfieldLabelOutside]='true'
-                    class='tui-input'
-                    formControlName='lunchHours'
-                    tuiTextfieldSize='m'
+                    [tuiTextfieldLabelOutside]="true"
+                    class="tui-input"
+                    formControlName="lunchHours"
+                    tuiTextfieldSize="m"
                   ></tui-input>
                 </div>
               </div>
 
-              <div class='grid grid-flow-col auto-cols-max gap-4'>
-                <div class='mx-2 check-column my-4'>Total working hours a day</div>
-                <div class='my-4'>
+              <div class="grid grid-flow-col auto-cols-max gap-4">
+                <div class="mx-2 check-column my-4">Total working hours a day</div>
+                <div class="my-4">
                   <tui-input
-                    [tuiTextfieldLabelOutside]='true'
-                    class='tui-input'
-                    formControlName='totalWorkingHour'
-                    tuiTextfieldSize='m'
+                    [tuiTextfieldLabelOutside]="true"
+                    class="tui-input"
+                    formControlName="totalWorkingHour"
+                    tuiTextfieldSize="m"
                   ></tui-input>
                 </div>
               </div>
@@ -107,20 +107,20 @@
               <!--            </tui-select>-->
               <!--          </div>-->
               <!--        </div>-->
-              <div class='grid grid-flow-col auto-cols-max gap-4'>
-                <div class='mx-2 check-column my-4'>Use FingerPrint</div>
-                <div class='my-4'>
-                  <tui-toggle [showIcons]='true' class='tui-space_left-1' formControlName='fingerPrint'
-                              size='m'></tui-toggle>
+              <div class="grid grid-flow-col auto-cols-max gap-4">
+                <div class="mx-2 check-column my-4">Use FingerPrint</div>
+                <div class="my-4">
+                  <tui-toggle [showIcons]="true" class="tui-space_left-1" formControlName="fingerPrint"
+                              size="m"></tui-toggle>
                 </div>
               </div>
 
-              <div class='grid grid-flow-col auto-cols-max gap-4'>
-                <div class='mx-2 check-column my-4'>Convert OT time</div>
-                <div class='my-4'>
-                  <tui-checkbox-labeled formControlName='timePayroll' size='m'> Convert to payroll
+              <div class="grid grid-flow-col auto-cols-max gap-4">
+                <div class="mx-2 check-column my-4">Convert OT time</div>
+                <div class="my-4">
+                  <tui-checkbox-labeled formControlName="timePayroll" size="m"> Convert to payroll
                   </tui-checkbox-labeled>
-                  <tui-checkbox-labeled class='tui-space_top-5' formControlName='timePaidLeave' size='m'>
+                  <tui-checkbox-labeled class="tui-space_top-5" formControlName="timePaidLeave" size="m">
                     Convert to paid leave
                   </tui-checkbox-labeled>
                 </div>
@@ -128,57 +128,57 @@
             </div>
           </formly-form>
 
-          <div class='my-5 max-w-6xl'>
-            <div class='font-bold text-xl mb-5'>Holiday</div>
-            <form [formGroup]='holidayForm' class='b-form'>
-              <div class='flex items-center gap-4'>
-                <div class='text-base'>Add holidays</div>
+          <div class="my-5 max-w-6xl">
+            <div class="font-bold text-xl mb-5">Holiday</div>
+            <form [formGroup]="holidayForm" class="b-form">
+              <div class="flex items-center gap-4">
+                <div class="text-base">Add holidays</div>
                 <div>
                   <tui-input-date
-                    [tuiTextfieldLabelOutside]='true'
-                    class='tui-dropdown'
-                    formControlName='holidayValue'
-                    tuiTextfieldSize='m'
+                    [tuiTextfieldLabelOutside]="true"
+                    class="tui-dropdown"
+                    formControlName="holidayValue"
+                    tuiTextfieldSize="m"
                   >
                     Choose a date
                   </tui-input-date>
                 </div>
                 <div>
                   <tui-input
-                    [tuiTextfieldLabelOutside]='true'
-                    class='tui-dropdown'
-                    formControlName='holidayName'
-                    tuiTextfieldSize='m'
+                    [tuiTextfieldLabelOutside]="true"
+                    class="tui-dropdown"
+                    formControlName="holidayName"
+                    tuiTextfieldSize="m"
                   >
                     Holiday Name
                   </tui-input>
                 </div>
                 <div>
-                  <tui-checkbox-labeled class='tui-space_top-3' formControlName='repeatYearly'>
+                  <tui-checkbox-labeled class="tui-space_top-3" formControlName="repeatYearly">
                     Repeat yearly
                   </tui-checkbox-labeled>
                 </div>
                 <div>
                   <button
-                    (click)='addHolidayTime()'
-                    class='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'
+                    (click)="addHolidayTime()"
+                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                   >
                     Add
                   </button>
                 </div>
               </div>
             </form>
-            <ngx-table [columns]='columns' [configuration]='configuration' [data]='dataHoliday'>
-              <ng-template let-index='index' let-row>
+            <ngx-table [columns]="columns" [configuration]="configuration" [data]="dataHoliday">
+              <ng-template let-index="index" let-row>
                 <td>{{ row?.holidayTime | date: 'dd/MM/yyyy' }}</td>
-                <td>{{ row?.nameHoliday }}</td>
+                <td>{{ row?.holidayName }}</td>
                 <td>
-                  <ng-container *ngIf='row?.yearly'><img class='w-6' src='/assets/images/close.png' /></ng-container>
+                  <ng-container *ngIf="row?.yearly"><img class="w-6" src="/assets/images/close.png" /></ng-container>
                 </td>
                 <td>
                   <button
-                    (click)='removeHoliday(index)'
-                    class='
+                    (click)="removeHoliday(index)"
+                    class="
                 text-sm
                 bg-transparent
                 hover:bg-blue-500
@@ -190,7 +190,7 @@
                 border border-blue-500
                 hover:border-transparent
                 rounded
-              '
+              "
                   >
                     Delete
                   </button>
@@ -198,12 +198,12 @@
               </ng-template>
             </ngx-table>
           </div>
-          <div class='my-10 text-right'>
-            <button (click)='saveSettings()' [disabled]='!form.valid' class='blue-button mt-5 mx-auto'>Lưu</button>
+          <div class="my-10 text-right">
+            <button (click)="saveSettings()" [disabled]="!form.valid" class="blue-button mt-5 mx-auto">Lưu</button>
           </div>
         </div>
       </ng-container>
-      <ng-container *ngSwitchCase='1'>
+      <ng-container *ngSwitchCase="1">
         <hcm-overtime-working></hcm-overtime-working>
       </ng-container>
     </div>

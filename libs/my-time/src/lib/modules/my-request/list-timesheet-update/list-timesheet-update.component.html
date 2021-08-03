@@ -40,8 +40,8 @@
       <td *tuiCell="'assignedName'" tuiTd>{{ req.assignedName }}</td>
       <td *tuiCell="'state'" tuiTd>
         <tui-tag
-          [class]="STATUS[req.state + ''] + '-tag'"
-          [value]="STATUS[req.state + ''] | titlecase"
+          [class]="STATUS[req.status + ''] + '-tag'"
+          [value]="STATUS[req.status + ''] | titlecase"
           class="font-semibold"
         ></tui-tag>
       </td>
@@ -55,7 +55,7 @@
           tuiIconButton
         ></button>
         <button
-          (click)="showDetail(req)"
+          (click)="showLeaveDetail(req.id)"
           [icon]="'tuiIconShowLarge'"
           [shape]="$any('rounded')"
           appearance="flat"

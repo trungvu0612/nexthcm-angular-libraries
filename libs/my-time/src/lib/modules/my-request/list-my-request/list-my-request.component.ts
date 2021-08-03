@@ -1,9 +1,8 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector } from '@angular/core';
 import { PromptService } from '@nexthcm/cdk';
 import { TranslocoService } from '@ngneat/transloco';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
-import { PartialObserver } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { RequestsDialogComponent } from '../../../components/requests-dialog/requests-dialog.component';
 import { MyRequestService } from '../../../services/my-request.service';
@@ -15,7 +14,7 @@ import { RequestOtComponent } from '../request-ot/request-ot.component';
   styleUrls: ['./list-my-request.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ListMyRequestComponent implements OnInit {
+export class ListMyRequestComponent {
   activeItemIndex = 0;
 
   constructor(
@@ -27,8 +26,6 @@ export class ListMyRequestComponent implements OnInit {
     private promptService: PromptService
   ) {}
 
-  ngOnInit(): void {}
-
   cancel(): void {
     console.log('cancel');
   }
@@ -38,8 +35,9 @@ export class ListMyRequestComponent implements OnInit {
       .open<boolean>(new PolymorpheusComponent(RequestsDialogComponent, this.injector), {
         closeable: false,
         data: { type: type },
-      }).pipe(switchMap(data => this.myRequestService.submitRequestOutside(data, type)))
-      .subscribe(this.handleResponse('MY_TIME.requestOnsiteSuccess'));
+      })
+      .pipe(switchMap((data) => this.myRequestService.submitRequestOutside(data, type)))
+      .subscribe(this.promptService.handleResponse('MY_TIME.requestOnsiteSuccess'));
   }
 
   showDialogWFH(): void {
@@ -47,17 +45,8 @@ export class ListMyRequestComponent implements OnInit {
       .open<any>(new PolymorpheusComponent(RequestOtComponent, this.injector), {
         closeable: false,
         // data: { type: type },
-      }).pipe(switchMap(data => this.myRequestService.submitRequestFromHome(data)))
-      .subscribe(this.handleResponse('MY_TIME.requestSuccess'));
-  }
-
-  private handleResponse(successfulText: string): PartialObserver<unknown> {
-    return {
-      next: () =>
-        this.promptService.open({
-          icon: 'success',
-          text: this.translocoService.translate(successfulText),
-        }),
-    };
+      })
+      .pipe(switchMap((data) => this.myRequestService.submitRequestFromHome(data)))
+      .subscribe(this.promptService.handleResponse('MY_TIME.requestSuccess'));
   }
 }

@@ -76,8 +76,8 @@ export class WorkFromHomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.searchSubject.next({
-      fromDate: startOfMonth(this.today).toISOString(),
-      toDate: endOfMonth(this.today).toISOString()
+      fromDate: startOfMonth(this.today).valueOf(),
+      toDate: endOfMonth(this.today).valueOf()
     });
 
     combineLatest([this.page$, this.perPageSubject, this.searchSubject])

@@ -1,12 +1,11 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { FormBuilder, FormControl, FormGroup } from '@ngneat/reactive-forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import { FormlyFieldConfigCache } from '@ngx-formly/core/lib/components/formly.field.config';
 import { TuiDestroyService, TuiMonth } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
-import endOfMonth from 'date-fns/endOfMonth';
-import startOfMonth from 'date-fns/startOfMonth';
+import { endOfMonth, startOfMonth } from 'date-fns';
 import { BehaviorSubject, combineLatest } from 'rxjs';
 import { debounceTime, switchMap, takeUntil } from 'rxjs/operators';
 import { Requests, SearchRequest } from '../../../models/requests';
@@ -28,7 +27,6 @@ export class ListWorkingOutsideComponent implements OnInit {
   totalLength = 0;
   size$ = 10;
   perPageSubject = new BehaviorSubject<number>(this.size$);
-  perPage$ = this.perPageSubject.asObservable();
   searchSubject = new BehaviorSubject<SearchRequest>({});
   searchForm!: FormGroup<{ month: TuiMonth }>;
   model!: SearchRequest;
@@ -51,9 +49,6 @@ export class ListWorkingOutsideComponent implements OnInit {
         textfieldLabelOutside: true,
         tuiTextfieldInputMode: 'numeric',
         placeholder: 'Select Month',
-        fieldChange: (field: FormlyFieldConfigCache) => {
-          console.log(field);
-        },
       },
     },
   ];
@@ -64,7 +59,8 @@ export class ListWorkingOutsideComponent implements OnInit {
     private dialogService: TuiDialogService,
     private destroy$: TuiDestroyService,
     private injector: Injector,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private router: Router
   ) {
     this.searchForm = new FormGroup<{ month: TuiMonth }>({
       month: new FormControl<TuiMonth>(new TuiMonth(this.today.getFullYear(), this.today.getMonth())),
@@ -73,8 +69,8 @@ export class ListWorkingOutsideComponent implements OnInit {
 
   ngOnInit(): void {
     this.searchSubject.next({
-      fromDate: startOfMonth(this.today).toISOString(),
-      toDate: endOfMonth(this.today).toISOString(),
+      fromDate: startOfMonth(this.today).valueOf(),
+      toDate: endOfMonth(this.today).valueOf(),
     });
 
     combineLatest([this.page$, this.perPageSubject, this.searchSubject])
@@ -112,16 +108,12 @@ export class ListWorkingOutsideComponent implements OnInit {
 
   cancelReq(req: Requests): void {
     req.state = -1;
-    this.myRequestService.editWorkingOutsideRequest(req, req.id as string).subscribe((item) => {
-      console.log(item);
-    });
+    this.myRequestService.editWorkingOutsideRequest(req, req.id as string).subscribe();
   }
 
   approveReq(req: Requests): void {
     req.state = 1;
-    this.myRequestService.editOTRequest(req, req.id as string).subscribe((item) => {
-      console.log(item);
-    });
+    this.myRequestService.editOTRequest(req, req.id as string).subscribe();
   }
 
   showDetail(req: Requests): void {
@@ -130,8 +122,10 @@ export class ListWorkingOutsideComponent implements OnInit {
         closeable: false,
         data: { type: 'timesheet', req: req },
       })
-      .subscribe((cancel) => {
-        console.log(cancel);
-      });
+      .subscribe();
+  }
+
+  showLeaveDetail(leaveId: any): void {
+    this.router.navigateByUrl(`/my-time/my-request/${leaveId}/detail`);
   }
 }

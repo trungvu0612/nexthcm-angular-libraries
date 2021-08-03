@@ -1,9 +1,12 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Injector, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PromptService } from '@nexthcm/cdk';
 import { TranslocoService } from '@ngneat/transloco';
-import { Observable, PartialObserver } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { TuiDialogService } from '@taiga-ui/core';
+import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
+import { Observable } from 'rxjs';
+import { catchError, map, switchMap } from 'rxjs/operators';
+import { RejectDialogComponent } from '../../../components/reject-dialog/reject-dialog.component';
 import { Requests } from '../../../models/requests';
 import { MyLeaveService } from '../../../services/my-leave.service';
 
@@ -24,18 +27,24 @@ export class LeaveDetailComponent implements OnInit {
     '5': 'holiday',
   };
   myId = this.activatedRoute.snapshot.params.id;
-  dataRequest$: Observable<Requests> = this.myLeaveService.getRequestDetail(this.myId).pipe(map((data) => data.data));
+  dataRequest$: Observable<Requests> = this.myLeaveService.getRequestDetail(this.myId).pipe(
+    catchError((err) => this.promptService.open({ icon: 'error', text: err.error.message })),
+    map((data) => data.data)
+  );
 
   leaveRequestType = 'employee';
   showDropdown = true;
   open = false;
   activeItemIndex = 0;
+
   constructor(
     private myLeaveService: MyLeaveService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private promptService: PromptService,
-    private translocoService: TranslocoService
+    private translocoService: TranslocoService,
+    private injector: Injector,
+    private dialogService: TuiDialogService
   ) {}
 
   ngOnInit(): void {
@@ -47,24 +56,27 @@ export class LeaveDetailComponent implements OnInit {
   approveLeaveRequest(id: string) {
     if (id) {
       const body = { status: 1 };
-      this.myLeaveService.editLeave(id, body).subscribe(this.handleResponse('MY_TIME.approveLeave'));
+      this.myLeaveService.editLeave(id, body).subscribe(this.promptService.handleResponse('MY_TIME.approveLeave'));
     }
+  }
+
+  showDialog(id: string): void {
+    this.dialogService
+      .open<boolean>(new PolymorpheusComponent(RejectDialogComponent, this.injector), {
+        closeable: false,
+      })
+      .pipe(switchMap((data) => this.myLeaveService.editLeave(id, data)))
+      .subscribe(this.promptService.handleResponse('MY_TIME.rejectLeave'));
   }
 
   rejectLeaveRequest(id: string) {
     if (id) {
       const body = { status: -1, reason: '' };
-      this.myLeaveService.editLeave(id, body).subscribe(this.handleResponse('MY_TIME.rejectLeave'));
+      this.myLeaveService.editLeave(id, body).subscribe(this.promptService.handleResponse('MY_TIME.rejectLeave'));
     }
   }
 
-  private handleResponse(successfulText: string): PartialObserver<unknown> {
-    return {
-      next: () =>
-        this.promptService.open({
-          icon: 'success',
-          text: this.translocoService.translate(successfulText),
-        }),
-    };
+  onCancel(): void {
+    this.router.navigate(['../..'], { relativeTo: this.activatedRoute });
   }
 }

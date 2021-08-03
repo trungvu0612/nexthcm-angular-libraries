@@ -42,7 +42,7 @@ export class MyRequestService {
     pageSize: number,
     search: SearchRequest
   ): Observable<PagingResponse<Requests>> {
-    return this.httpClient.get<PagingResponse<Requests>>(this.appVersion + '/outside-requests', {
+    return this.httpClient.get<PagingResponse<Requests>>(this.appVersion + '/outside', {
       params: new HttpParams()
         .set('page', pageIndex ? pageIndex.toString() : '')
         .set('size', pageSize ? pageSize.toString() : '')
@@ -90,11 +90,11 @@ export class MyRequestService {
   }
 
   createWorkingOutsideRequest(dto: Requests): Observable<Requests> {
-    return this.httpClient.post<Requests>(this.appVersion + '/outside-requests', dto);
+    return this.httpClient.post<Requests>(this.appVersion + '/outside', dto);
   }
 
   editWorkingOutsideRequest(dto: Requests, id: string): Observable<Requests> {
-    return this.httpClient.put<Requests>(this.appVersion + `/outside-requests/${id}`, dto);
+    return this.httpClient.put<Requests>(this.appVersion + `/outside/${id}`, dto);
   }
 
   getTimeSheetUpdateReqs(

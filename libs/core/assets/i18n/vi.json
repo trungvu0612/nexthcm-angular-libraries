@@ -364,7 +364,8 @@
     "asignStaff": "Người duyệt",
     "office": "Văn phòng",
     "type": "Loại phép",
-    "toDayOfDay": "Số ngày nghỉ"
+    "toDayOfDay": "Số ngày nghỉ",
+    "leaveNotFound": "Không tìm thấy đơn xin phép này!"
   },
   "OVERVIEW": {
     "viewDetail": "Chi tiết"

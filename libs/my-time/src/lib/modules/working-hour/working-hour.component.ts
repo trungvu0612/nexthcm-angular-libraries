@@ -39,7 +39,7 @@ export class WorkingHourComponent
   startOfYesterday = startOfYesterday().valueOf();
   endOfYesterday = endOfYesterday().valueOf();
   myId = this.authService.get('userInfo').userId;
-  myWorkingHour = { timeInYesterday: '', timeOutYesterday: '', totalWorkingTime: '', userOffice: '' };
+  myWorkingHour = { timeInYesterday: '', timeOutYesterday: '', workingTimeYesterday: '', userOffice: '' };
   page$ = new BehaviorSubject<number>(1);
   totalLength = 0;
   size$ = 10;
@@ -208,7 +208,7 @@ export class WorkingHourComponent
           this.myWorkingHour.timeOutYesterday = item.data.items[0].outTimeToFulltime;
         }
         if (item.data?.items[0]?.totalWorkingTime) {
-          this.myWorkingHour.totalWorkingTime = item.data.items[0].totalWorkingTime;
+          this.myWorkingHour.workingTimeYesterday = item.data.items[0].totalWorkingTime;
         }
         if (item.data?.items[0]?.userInfo?.office?.name) {
           this.myWorkingHour.userOffice = item.data?.items[0].userInfo.office.name;

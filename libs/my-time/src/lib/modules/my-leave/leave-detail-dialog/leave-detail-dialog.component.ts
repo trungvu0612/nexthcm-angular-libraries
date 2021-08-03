@@ -44,6 +44,6 @@ export class LeaveDetailDialogComponent implements OnInit {
   }
 
   close() {
-    this.context.completeWith(false);
+    this.context.$implicit.complete();
   }
 }
