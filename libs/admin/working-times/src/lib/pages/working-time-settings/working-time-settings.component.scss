@@ -8,7 +8,7 @@
     }
 
     tui-hosted-dropdown {
-      min-width: 100px !important;
+      min-width: 150px !important;
     }
 
     .checkbox-day label {
@@ -40,5 +40,11 @@
       right: 0;
       top: 0;
     }
+  }
+
+  .work-shift {
+    margin-left: 120px;
+    position: relative;
+    top: 40px;
   }
 }

@@ -1,13 +1,13 @@
-import { ChangeDetectionStrategy, Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { AuthService } from '@nexthcm/auth';
 import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDay, TuiDestroyService, TuiTime } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
-import { Requests, SubmitRequest } from '../../models/requests';
+import { SubmitRequest } from '../../models/requests';
 import { MyRequestService } from '../../services/my-request.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { AuthService } from '@nexthcm/auth';
 
 @Component({
   selector: 'hcm-requests-dialog',
@@ -17,12 +17,12 @@ import { AuthService } from '@nexthcm/auth';
   providers: [TuiDestroyService],
 })
 export class RequestsDialogComponent implements OnInit {
+  form = new FormGroup<any>({});
+  model!: SubmitRequest;
   myId = this.authService.get('userInfo').userId;
   type = '';
   requestForm!: FormGroup<SubmitRequest>;
-  form = new FormGroup<any>({});
 
-  model!: SubmitRequest;
   fields: FormlyFieldConfig[] = [
     {
       fieldGroupClassName: 'grid md:grid-cols-2 gap-6 mb-4',
@@ -90,8 +90,6 @@ export class RequestsDialogComponent implements OnInit {
     private destroy$: TuiDestroyService,
     private activatedRoute: ActivatedRoute,
     private authService: AuthService,
-    private router: Router,
-    // @Inject(POLYMORPHEUS_CONTEXT) private context: TuiDialogContext<boolean, { type: string }>
     @Inject(POLYMORPHEUS_CONTEXT) public context: TuiDialogContext<unknown, { type: string }>
   ) {
     this.requestForm = this.formbuilder.group<SubmitRequest>({});
@@ -99,7 +97,6 @@ export class RequestsDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.type = this.context.data.type;
-    console.log(this.type);
   }
 
   submit(): void {
@@ -127,6 +124,6 @@ export class RequestsDialogComponent implements OnInit {
   }
 
   close(): void {
-    this.context.completeWith(true);
+    this.context.$implicit.complete();
   }
 }

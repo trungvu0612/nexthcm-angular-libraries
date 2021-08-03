@@ -6,6 +6,7 @@ import { LayoutComponent } from '@nexthcm/ui';
 import { FormlyModule } from '@ngx-formly/core';
 import { TuiButtonModule } from '@taiga-ui/core';
 import { NgxPermissionsGuard } from 'ngx-permissions';
+import { RejectDialogComponent } from './components/reject-dialog/reject-dialog.component';
 import { RequestsDialogComponent } from './components/requests-dialog/requests-dialog.component';
 import { LeaveDetailComponent } from './modules/my-leave/leave-detail/leave-detail.component';
 import { LeaveRequestManagementComponent } from './modules/my-leave/leave-request-management/leave-request-management.component';
@@ -22,7 +23,7 @@ import { WorkingHourModule } from './modules/working-hour/working-hour.module';
 import { MyTimeComponent } from './my-time.component';
 import { MyLeaveService } from './services/my-leave.service';
 
-export const myTimeRoutes: Routes = [
+export const MY_TIME_ROUTES: Routes = [
   {
     path: '',
     component: LayoutComponent,
@@ -73,10 +74,10 @@ export const myTimeRoutes: Routes = [
 ];
 
 @NgModule({
-  declarations: [MyTimeComponent, RequestsDialogComponent],
+  declarations: [MyTimeComponent, RequestsDialogComponent, RejectDialogComponent],
   imports: [
     CommonModule,
-    RouterModule.forChild(myTimeRoutes),
+    RouterModule.forChild(MY_TIME_ROUTES),
     MyLeaveModule,
     MyRequestsModule,
     RequestManagementModule,

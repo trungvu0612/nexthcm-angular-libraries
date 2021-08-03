@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Inject, Injector } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, Inject, Injector } from '@angular/core';
 import { Router } from '@angular/router';
 import { BaseOption } from '@nexthcm/cdk';
 import { FormBuilder } from '@ngneat/reactive-forms';
@@ -19,15 +19,13 @@ import { DurationConfirmDialogComponent } from '../duaration-comfirm-dialog/dura
   styleUrls: ['./submit-leave-request-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SubmitLeaveRequestDialogComponent {
-  partialDays$: Observable<any[]> = this.myLeaveService.getPartialDays().pipe(map((data) => data));
-  leaveTypes$: Observable<any[]> = this.myLeaveService.getLeaveTypes().pipe(map((data) => data));
+export class SubmitLeaveRequestDialogComponent implements AfterViewInit {
   durationValues: Observable<any[]> = this.myLeaveService.getdurationValues().pipe(map((data) => data));
   timeValues$: Observable<any[]> = this.myLeaveService.getTimeValues().pipe(map((data) => data));
   halfTimeValues$: Observable<any[]> = this.myLeaveService.getHalfTime().pipe(map((data) => data));
 
-  descriptionLeaveType = ''
-  titleLeaveType = ''
+  descriptionLeaveType = '';
+  titleLeaveType = '';
   form = this.fb.group<LeaveSubmit>({});
   model: LeaveSubmit = {
     comments: '',
@@ -45,7 +43,6 @@ export class SubmitLeaveRequestDialogComponent {
     status: 0,
   };
   fields: FormlyFieldConfig[] = [
-
     {
       className: 'col-span-full mt-4',
       key: 'leaveTypes',
@@ -53,7 +50,7 @@ export class SubmitLeaveRequestDialogComponent {
       templateOptions: {
         options: this.myLeaveService.select('leaveTypeRemain'),
         labelProp: 'leaveTypeName',
-        labelProp1: "remainingEntitlement",
+        labelProp1: 'remainingEntitlement',
         size: 's',
         single: true,
         required: true,
@@ -62,12 +59,17 @@ export class SubmitLeaveRequestDialogComponent {
 
     {
       className: 'col-span-full mt-4',
-      template: `
+      template:
+        `
         <div class='my-8'>
         <div style='border: 1px solid #e4e4e4'></div>
         </div>
-        <h3 class='text-xl font-semibold'>` + this.titleLeaveType + `</h3>
-        <p>` + this.descriptionLeaveType + `</p>
+        <h3 class='text-xl font-semibold'>` +
+        this.titleLeaveType +
+        `</h3>
+        <p>` +
+        this.descriptionLeaveType +
+        `</p>
         </div>
         `,
     },
@@ -374,11 +376,6 @@ export class SubmitLeaveRequestDialogComponent {
     },
   ];
 
-  // leaveRequestModel = this.form.value;
-  // minusHours: number = this.leaveRequestModel.specialTimeTo?.hours - this.leaveRequestModel.specialTimeFrom?.hours;
-  // minusMinutes: number = this.leaveRequestModel.specialTimeTo?.minutes - this.leaveRequestModel.specialTimeFrom?.minutes;
-  // dayMinus: any = TuiDay.lengthBetween(this.leaveRequestModel.startTime, this.leaveRequestModel.endTime);
-
   constructor(
     @Inject(POLYMORPHEUS_CONTEXT) public context: TuiDialogContext<unknown, LeaveSubmit>,
     private submitLeaveService: SubmitLeaveService,
@@ -389,22 +386,20 @@ export class SubmitLeaveRequestDialogComponent {
     private fb: FormBuilder
   ) {}
 
-  ngAfterViewInit() {
-    const leaveTypes = this.form.controls.leaveTypes
-    if (leaveTypes){
-      leaveTypes.valueChanges.subscribe(
-        (data) => {
-          this.descriptionLeaveType = data[0].leaveTypeDescription
-          this.titleLeaveType = data[0].leaveTypeName
-      })
+  ngAfterViewInit(): void {
+    const leaveTypes = this.form.controls.leaveTypes;
+    if (leaveTypes) {
+      leaveTypes.valueChanges.subscribe((data) => {
+        this.descriptionLeaveType = data[0].leaveTypeDescription;
+        this.titleLeaveType = data[0].leaveTypeName;
+      });
     }
   }
 
-  submit() {
+  submit(): void {
     const leaveRequestModel = this.form.value;
 
     if (leaveRequestModel.specialTimeTo) {
-      // console.log('milisecondddd', leaveRequestModel.startTime.toLocalNativeDate().getTime())
       console.log('milisecondddd', leaveRequestModel.specialTimeTo.toAbsoluteMilliseconds());
     } else {
       console.log('undefine');
@@ -634,15 +629,15 @@ export class SubmitLeaveRequestDialogComponent {
         //     console.log('Oke khac ngay');
         //   }
         // }
-        body.partialDayTypeId = "1393df26-9970-4633-9465-8d9d6a9234c6";
+        body.partialDayTypeId = '1393df26-9970-4633-9465-8d9d6a9234c6';
         body.fromDate = leaveRequestModel.startTime.toLocalNativeDate().getTime();
         body.toDate = leaveRequestModel.endTime.toLocalNativeDate().getTime();
-        if (this.model.leaveTypes){
-          body.leaveTypeId = this.model.leaveTypes[0]?.leaveTypeId
+        if (this.model.leaveTypes) {
+          body.leaveTypeId = this.model.leaveTypes[0]?.leaveTypeId;
         } else {
         }
-        body.comment = this.model.comments
-        body.sendTo = this.model.sendTo
+        body.comment = this.model.comments;
+        body.sendTo = this.model.sendTo;
         this.showDialogConfirmDuration(body);
       }
     }
@@ -671,7 +666,6 @@ export class SubmitLeaveRequestDialogComponent {
       })
       .subscribe((data) => {
         if (data) {
-          console.log('resultDaysssss', resultDays);
           this.context.completeWith(resultDays);
         }
       });

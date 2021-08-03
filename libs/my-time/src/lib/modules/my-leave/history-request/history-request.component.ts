@@ -1,8 +1,8 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { MyTimeService } from '../../../services/my-time.service';
 import { map, share, tap } from 'rxjs/operators';
 import { TrackingHistoryChanges } from '../../../models/tracking-history';
+import { MyTimeService } from '../../../services/my-time.service';
 
 @Component({
   selector: 'hcm-history-request',
@@ -10,7 +10,7 @@ import { TrackingHistoryChanges } from '../../../models/tracking-history';
   styleUrls: ['./history-request.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HistoryRequestComponent implements OnInit {
+export class HistoryRequestComponent {
   private readonly request$ = this.myTimeService.getTrackingHistory(this.route.snapshot.params.id).pipe(share());
   data$ = this.request$.pipe(
     map((histories) =>
@@ -21,9 +21,7 @@ export class HistoryRequestComponent implements OnInit {
     tap((res) => console.log(res))
   );
 
-  loading$ = this.request$.pipe(map(value => !value));
+  loading$ = this.request$.pipe(map((value) => !value));
 
   constructor(private myTimeService: MyTimeService, private route: ActivatedRoute) {}
-
-  ngOnInit(): void {}
 }

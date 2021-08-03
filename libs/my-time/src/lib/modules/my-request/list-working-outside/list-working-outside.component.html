@@ -17,7 +17,7 @@
     <tr tuiThGroup>
       <th *tuiHead="'fromDate'" tuiTh>From Date</th>
       <th *tuiHead="'toDate'" tuiTh>To Date</th>
-      <th *tuiHead="'state'" tuiTh>Status</th>
+      <th *tuiHead="'status'" tuiTh>Status</th>
       <th *tuiHead="'assignedName'" tuiTh>Assignee</th>
       <th *tuiHead="'reason'" tuiTh>Reason</th>
       <th *tuiHead="'action'" class="w-32" tuiTh>Action</th>
@@ -29,7 +29,13 @@
       <td *tuiCell="'toDate'" tuiTd>{{ $any(req.toDate) | date: 'dd/MM/yyyy' }}</td>
       <td *tuiCell="'reason'" tuiTd>{{ req.reason }}</td>
       <td *tuiCell="'assignedName'" tuiTd>{{ req.assignedName }}</td>
-      <td *tuiCell="'state'" tuiTd></td>
+      <td *tuiCell="'status'" tuiTd>
+        <tui-tag
+          [class]="STATUS[req.status + ''] + '-tag'"
+          [value]="STATUS[req.status + ''] | titlecase"
+          class="font-semibold"
+        ></tui-tag>
+      </td>
       <td *tuiCell="'action'" tuiTd>
         <button
           (click)="cancelReq(req)"
@@ -40,7 +46,7 @@
           tuiIconButton
         ></button>
         <button
-          (click)="showDetail(req)"
+          (click)="showLeaveDetail(req.id)"
           [icon]="'tuiIconShowLarge'"
           [shape]="$any('rounded')"
           appearance="flat"

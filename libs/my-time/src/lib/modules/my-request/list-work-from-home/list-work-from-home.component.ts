@@ -1,26 +1,24 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService } from '@nexthcm/auth';
 import { FormBuilder, FormControl, FormGroup } from '@ngneat/reactive-forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import { FormlyFieldConfigCache } from '@ngx-formly/core/lib/components/formly.field.config';
 import { TuiDestroyService, TuiMonth } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
-import endOfMonth from 'date-fns/endOfMonth';
-import startOfMonth from 'date-fns/startOfMonth';
+import { endOfMonth, startOfMonth } from 'date-fns';
 import { BehaviorSubject, combineLatest } from 'rxjs';
 import { debounceTime, switchMap, takeUntil } from 'rxjs/operators';
 import { Requests, SearchRequest } from '../../../models/requests';
 import { MyRequestService } from '../../../services/my-request.service';
 import { RequestDetailsWfhComponent } from '../request-details-wfh/request-details-wfh.component';
-import { AuthService } from '@nexthcm/auth';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'hcm-list-work-from-home',
   templateUrl: './list-work-from-home.component.html',
   styleUrls: ['./list-work-from-home.component.scss'],
   providers: [TuiDestroyService],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ListWorkFromHomeComponent implements OnInit {
   myId = this.authService.get('userInfo').userId;
@@ -31,7 +29,6 @@ export class ListWorkFromHomeComponent implements OnInit {
   totalLength = 0;
   size$ = 10;
   perPageSubject = new BehaviorSubject<number>(this.size$);
-  perPage$ = this.perPageSubject.asObservable();
   searchSubject = new BehaviorSubject<SearchRequest>({});
   searchForm!: FormGroup<{ month: TuiMonth }>;
   model!: SearchRequest;
@@ -42,7 +39,7 @@ export class ListWorkFromHomeComponent implements OnInit {
     '2': 'waiting',
     '3': 'taken',
     '4': 'weekend',
-    '5': 'holiday'
+    '5': 'holiday',
   };
   fields: FormlyFieldConfig[] = [
     {
@@ -54,11 +51,8 @@ export class ListWorkFromHomeComponent implements OnInit {
         textfieldLabelOutside: true,
         tuiTextfieldInputMode: 'numeric',
         placeholder: 'Select Month',
-        fieldChange: (field: FormlyFieldConfigCache) => {
-          console.log(field);
-        }
-      }
-    }
+      },
+    },
   ];
 
   constructor(
@@ -72,14 +66,14 @@ export class ListWorkFromHomeComponent implements OnInit {
     private router: Router
   ) {
     this.searchForm = new FormGroup<{ month: TuiMonth }>({
-      month: new FormControl<TuiMonth>(new TuiMonth(this.today.getFullYear(), this.today.getMonth()))
+      month: new FormControl<TuiMonth>(new TuiMonth(this.today.getFullYear(), this.today.getMonth())),
     });
   }
 
   ngOnInit(): void {
     this.searchSubject.next({
-      fromDate: startOfMonth(this.today).toISOString(),
-      toDate: endOfMonth(this.today).toISOString()
+      fromDate: startOfMonth(this.today).valueOf(),
+      toDate: endOfMonth(this.today).valueOf(),
     });
 
     combineLatest([this.page$, this.perPageSubject, this.searchSubject])
@@ -102,7 +96,7 @@ export class ListWorkFromHomeComponent implements OnInit {
       const date = new Date(this.searchForm.value.month?.year, this.searchForm.value.month?.month);
       this.searchSubject.next({
         fromDate: startOfMonth(date).toISOString(),
-        toDate: endOfMonth(date).toISOString()
+        toDate: endOfMonth(date).toISOString(),
       });
     }
   }
@@ -133,11 +127,9 @@ export class ListWorkFromHomeComponent implements OnInit {
     this.dialogService
       .open<boolean>(new PolymorpheusComponent(RequestDetailsWfhComponent, this.injector), {
         closeable: false,
-        data: id
+        data: id,
       })
-      .subscribe((cancel) => {
-        // console.log(cancel);
-      });
+      .subscribe();
   }
 
   showLeaveDetail(req: any): void {

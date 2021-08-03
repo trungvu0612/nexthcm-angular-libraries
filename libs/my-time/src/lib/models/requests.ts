@@ -109,3 +109,7 @@ export interface SubmitRequest {
   comment?: string;
   reason?: string;
 }
+
+export interface SubmitRejectRequest {
+  reason?: string;
+}

@@ -1,17 +1,17 @@
-<main class="main-page">
+<main *transloco="let t" class="main-page">
   <section *ngIf="dataRequest$ | async as data">
-    <article *transloco="let t">
+    <article>
       <header class="flex justify-between items-center mb-7">
         <h1 class="text-2xl font-semibold">{{ t('MY_TIME.leaveDetail') }}</h1>
       </header>
 
       <div class="mb-5">
         <ng-container *ngIf="leaveRequestType === 'employee'">
-          <button appearance="custom" tuiButton>{{ t('MY_TIME.cancel') }}</button>
+          <button (click)="onCancel()" appearance="custom" tuiButton>{{ t('MY_TIME.cancel') }}</button>
         </ng-container>
         <ng-container *ngIf="leaveRequestType === 'manager'">
-          <button (click)="rejectLeaveRequest(myId)" appearance="custom" tuiButton>{{ t('MY_TIME.reject') }}</button>
-          <button (click)="approveLeaveRequest(myId)" appearance="custom-green" class="ml-2" tuiButton>
+          <button (click)="showDialog(myId)" appearance="custom" tuiButton>{{ t('MY_TIME.reject') }}</button>
+          <button *ngIf="data?.status!=1" (click)="approveLeaveRequest(myId)" appearance="custom-green" class="ml-2" tuiButton>
             {{ t('MY_TIME.approve') }}
           </button>
         </ng-container>

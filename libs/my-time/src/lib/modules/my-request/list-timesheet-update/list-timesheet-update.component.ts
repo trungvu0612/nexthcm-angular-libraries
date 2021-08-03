@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { FormBuilder, FormControl, FormGroup } from '@ngneat/reactive-forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDestroyService, TuiMonth } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
-import endOfMonth from 'date-fns/endOfMonth';
-import startOfMonth from 'date-fns/startOfMonth';
+import { endOfMonth, startOfMonth } from 'date-fns';
 import { BehaviorSubject, combineLatest } from 'rxjs';
 import { debounceTime, switchMap, takeUntil } from 'rxjs/operators';
 import { SearchRequest, TimeSheetUpdateReq } from '../../../models/requests';
@@ -27,7 +27,6 @@ export class ListTimesheetUpdateComponent implements OnInit {
   totalLength = 0;
   size$ = 10;
   perPageSubject = new BehaviorSubject<number>(this.size$);
-  perPage$ = this.perPageSubject.asObservable();
   searchSubject = new BehaviorSubject<SearchRequest>({});
   searchForm!: FormGroup<{ month: TuiMonth }>;
   model!: SearchRequest;
@@ -60,7 +59,8 @@ export class ListTimesheetUpdateComponent implements OnInit {
     private dialogService: TuiDialogService,
     private destroy$: TuiDestroyService,
     private injector: Injector,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private router: Router
   ) {
     this.searchForm = new FormGroup<{ month: TuiMonth }>({
       month: new FormControl<TuiMonth>(new TuiMonth(this.today.getFullYear(), this.today.getMonth())),
@@ -69,8 +69,8 @@ export class ListTimesheetUpdateComponent implements OnInit {
 
   ngOnInit(): void {
     this.searchSubject.next({
-      fromDate: startOfMonth(this.today).toISOString(),
-      toDate: endOfMonth(this.today).toISOString(),
+      fromDate: startOfMonth(this.today).valueOf(),
+      toDate: endOfMonth(this.today).valueOf(),
     });
     combineLatest([this.page$, this.perPageSubject, this.searchSubject])
       .pipe(
@@ -90,7 +90,7 @@ export class ListTimesheetUpdateComponent implements OnInit {
           req.newInTime = new Date(newInTime * 1000).toISOString().substr(11, 5);
           req.newOutTime = new Date(newOutTime * 1000).toISOString().substr(11, 5);
           req.updateTotalTime = Math.round(((newOutTime - newInTime) / 3600) * 100) / 100;
-          if (req.timeSheetTracking){
+          if (req.timeSheetTracking) {
             req.timeSheetTracking.inTime = new Date((inTime ? inTime : 0) * 1000).toISOString().substr(11, 5);
             req.timeSheetTracking.outTime = new Date((outTime ? outTime : 0) * 1000).toISOString().substr(11, 5);
           }
@@ -120,16 +120,12 @@ export class ListTimesheetUpdateComponent implements OnInit {
 
   cancelReq(req: TimeSheetUpdateReq): void {
     req.state = -1;
-    this.myRequestService.editTimeSheetUpdateReqs(req, req.id as string).subscribe((item) => {
-      console.log(item);
-    });
+    this.myRequestService.editTimeSheetUpdateReqs(req, req.id as string).subscribe();
   }
 
   approveReq(req: TimeSheetUpdateReq): void {
     req.state = 1;
-    this.myRequestService.editTimeSheetUpdateReqs(req, req.id as string).subscribe((item) => {
-      console.log(item);
-    });
+    this.myRequestService.editTimeSheetUpdateReqs(req, req.id as string).subscribe();
   }
 
   showDetail(req: TimeSheetUpdateReq): void {
@@ -138,8 +134,10 @@ export class ListTimesheetUpdateComponent implements OnInit {
         closeable: false,
         data: { type: 'timesheet', req: req },
       })
-      .subscribe((cancel) => {
-        console.log(cancel);
-      });
+      .subscribe();
+  }
+
+  showLeaveDetail(leaveId: any): void {
+    this.router.navigateByUrl(`/my-time/my-request/${leaveId}/detail`);
   }
 }

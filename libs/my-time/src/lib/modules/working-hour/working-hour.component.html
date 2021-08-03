@@ -10,7 +10,7 @@
           </div>
           <div>
             <div class="font-bold text-xl mb-5">Worked time yesterday</div>
-            <div class="mb-3 font-bold text-4xl">{{ myWorkingHour.totalWorkingTime }}</div>
+            <div class="mb-3 font-bold text-4xl">{{ myWorkingHour.workingTimeYesterday }}</div>
             <div class="mb-5 text-base">
               <img class="inline mr-1" src="assets/images/map-pin.png" />{{ myWorkingHour.userOffice }}
             </div>
@@ -184,7 +184,6 @@
                         <td>{{ item(row).userInfo?.profile?.fullName }}</td>
                         <td>{{ item(row).userInfo?.office?.name }}</td>
                         <td>{{ item(row).trackingDate | date: 'dd/MM/yyyy' }}</td>
-                        <td>{{ item(row).outTime * 1000 | date: 'HH:mm':'GMT' }}</td>
                         <td>{{ item(row).day }}</td>
                         <td>{{ item(row).inTime * 1000 | date: 'HH:mm':'GMT' }}</td>
                         <td>{{ item(row).outTime * 1000 | date: 'HH:mm':'GMT' }}</td>

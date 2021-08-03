@@ -23,7 +23,6 @@ export class RequestDetailsComponent implements OnInit {
   ngOnInit(): void {
     this.type = this.context.data.type;
     this.req = this.context.data.req;
-    console.log(this.req);
     switch (this.type) {
       case 'timesheet':
         this.title = 'Update Time Detail';
@@ -31,6 +30,6 @@ export class RequestDetailsComponent implements OnInit {
   }
 
   close(): void {
-    this.context.completeWith(true);
+    this.context.$implicit.complete();
   }
 }
