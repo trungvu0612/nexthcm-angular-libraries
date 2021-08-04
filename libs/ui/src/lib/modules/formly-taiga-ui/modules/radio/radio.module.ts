@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
+import { SelectOptionsModule } from '@nexthcm/cdk';
 import { FormlyModule } from '@ngx-formly/core';
 import { TuiLetModule } from '@taiga-ui/cdk';
 import {
@@ -20,7 +21,6 @@ import {
   TuiSelectModule,
 } from '@taiga-ui/kit';
 import { PolymorpheusModule } from '@tinkoff/ng-polymorpheus';
-import { SelectOptionsModule } from '../../../../../../../cdk/src/lib/pipes';
 import { FormFieldModule } from '../form-field/form-field.module';
 import { RadioComponent } from './radio.component';
 

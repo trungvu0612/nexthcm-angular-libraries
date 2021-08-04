@@ -26,6 +26,7 @@ import {
   TuiInputMonthRangeModule,
   TuiInputNumberModule,
   TuiInputPasswordModule,
+  TuiInputPhoneInternationalModule,
   TuiInputPhoneModule,
   TuiInputSliderModule,
   TuiInputTagModule,
@@ -33,7 +34,6 @@ import {
   TuiTextAreaModule,
 } from '@taiga-ui/kit';
 import { TextMaskModule } from 'angular2-text-mask';
-import { InputPhoneInternationalModule } from '../../shared/input-phone-international/input-phone-international.module';
 import { FormFieldModule } from '../form-field/form-field.module';
 import { EditorComponent } from './editor/editor.component';
 import { InputCountComponent } from './input-count/input-count.component';
@@ -119,13 +119,13 @@ import { TextAreaComponent } from './text-area/text-area.component';
     TuiInputMonthModule,
     TuiInputMonthRangeModule,
     TuiEditorModule,
-    InputPhoneInternationalModule,
     TuiInputInlineModule,
     TuiAutoFocusModule,
     TuiButtonModule,
     TuiInputFileModule,
     TuiInputSliderModule,
     TextMaskModule,
+    TuiInputPhoneInternationalModule,
   ],
 })
 export class InputsModule {}

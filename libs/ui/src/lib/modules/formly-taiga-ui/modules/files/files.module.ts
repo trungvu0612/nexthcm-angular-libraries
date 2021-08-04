@@ -1,11 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
+import { GetFileModule } from '@nexthcm/cdk';
 import { FormlyModule } from '@ngx-formly/core';
 import { TuiLabelModule, TuiTooltipModule } from '@taiga-ui/core';
 import { TuiFieldErrorModule, TuiInputFileModule } from '@taiga-ui/kit';
 import { PolymorpheusModule } from '@tinkoff/ng-polymorpheus';
-import { GetFileModule } from '../../../../../../../cdk/src/lib/pipes';
 import { FormFieldModule } from '../form-field/form-field.module';
 import { UploadFileComponent } from './upload-file/upload-file.component';
 
