@@ -46,6 +46,7 @@
     "publish:auth": "nx build auth && cd dist/libs/auth && yarn publish --non-interactive --ignore-scripts",
     "publish:configurations": "nx build configurations && cd dist/libs/configurations && yarn publish --non-interactive --ignore-scripts",
     "publish:core": "nx build core && cd dist/libs/core && transloco-optimize assets/i18n && yarn publish --non-interactive --ignore-scripts",
+    "publish:cdk": "nx build cdk && cd dist/libs/cdk && yarn publish --non-interactive --ignore-scripts",
     "publish:form": "nx build form && cd dist/libs/form && yarn publish --non-interactive --ignore-scripts",
     "publish:seat-maps": "nx build seat-maps && cd dist/libs/seat-maps && yarn publish --non-interactive --ignore-scripts",
     "publish:calendar": "nx build calendar && cd dist/libs/calendar && yarn publish --non-interactive --ignore-scripts",

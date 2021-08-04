@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
-import { LayoutComponent, LayoutModule, PromptComponentModule } from '@nexthcm/ui';
+import { LayoutComponent, LayoutModule } from '@nexthcm/ui';
 import { WorkflowDesignerModule } from '@nexthcm/workflow-designer';
 import { TranslocoModule } from '@ngneat/transloco';
 import { FormlyModule } from '@ngx-formly/core';
@@ -21,7 +21,7 @@ import { ProcessManagementComponent } from './pages/processes-management/process
 import { UpsertProcessComponent } from './pages/upsert-process/upsert-process.component';
 import { ProcessesService } from './services/processes.service';
 
-export const adminProcessesRoutes: Routes = [
+export const ADMIN_PROCESSES_ROUTES: Routes = [
   {
     path: '',
     component: LayoutComponent,
@@ -49,7 +49,7 @@ export const adminProcessesRoutes: Routes = [
 @NgModule({
   imports: [
     CommonModule,
-    RouterModule.forChild(adminProcessesRoutes),
+    RouterModule.forChild(ADMIN_PROCESSES_ROUTES),
     WorkflowDesignerModule,
     TuiButtonModule,
     TuiIslandModule,
@@ -63,7 +63,6 @@ export const adminProcessesRoutes: Routes = [
     TuiCheckboxModule,
     FormsModule,
     LetModule,
-    PromptComponentModule,
     TranslocoModule,
     TuiLabelModule,
   ],

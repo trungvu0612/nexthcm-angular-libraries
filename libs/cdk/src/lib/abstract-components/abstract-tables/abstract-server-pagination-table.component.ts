@@ -2,7 +2,7 @@ import { HttpParams } from '@angular/common/http';
 import { Config, DefaultConfig } from 'ngx-easy-table';
 import { BehaviorSubject } from 'rxjs';
 
-export class AbstractServerPaginationTableComponent<T> {
+export abstract class AbstractServerPaginationTableComponent<T> {
   configuration: Config = {
     ...DefaultConfig,
     paginationEnabled: false,

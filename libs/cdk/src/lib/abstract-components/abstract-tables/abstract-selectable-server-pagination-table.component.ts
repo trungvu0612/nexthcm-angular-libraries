@@ -1,7 +1,7 @@
 import { BaseComponent, Config, DefaultConfig } from 'ngx-easy-table';
 import { AbstractServerPaginationTableComponent } from './abstract-server-pagination-table.component';
 
-export class AbstractSelectableServerPaginationTableComponent<
+export abstract class AbstractSelectableServerPaginationTableComponent<
   T,
   K = string
 > extends AbstractServerPaginationTableComponent<T> {
