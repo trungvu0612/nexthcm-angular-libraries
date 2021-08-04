@@ -57,10 +57,10 @@ export class EditLeavePeriodComponent implements OnInit {
     console.log('iddddd data', this.data);
     if (this.data !== '') {
       this.adminPeriodService.getAdminPeriodId(this.data).subscribe((item) => {
-        console.log('aaaaaaaaaaa', item);
+        console.log('aaaaaaaaaaassss', item.startDate);
         this.model = { ...this.model, ...item };
         if (item.startDate && item.endDate) {
-          this.model.startDateEdit = TuiDay.fromLocalNativeDate(toDate(item.startDate)) ;
+          this.model.startDateEdit = TuiDay.fromLocalNativeDate(toDate(item.startDate));
           this.model.endDateEdit = TuiDay.fromLocalNativeDate(toDate(item.endDate));
         }
       });
@@ -73,15 +73,14 @@ export class EditLeavePeriodComponent implements OnInit {
 
   submit() {
     console.log('this.model', this.model);
-
     if (this.data !== '') {
       if (this.model) {
+        this.model.startDate = this.model.startDateEdit as number
+        this.model.endDate = this.model.endDateEdit as number
         if (this.model.startDate && this.model.endDate) {
           this.model.orgId = 'b4b49d56-931a-4320-b9eb-7fb3dbd757f5';
-          this.model.name = this.model.startDateEdit + ' - ' + this.model.endDateEdit;
+          this.model.name = this.model.startDateEdit?.toString() + ' - ' + this.model.endDateEdit?.toString();
           console.log('this.modelllll', this.model)
-          this.model.startDate = this.model.startDateEdit as number
-          this.model.endDate = this.model.endDateEdit as number
           this.context.completeWith(this.model);
         }
       }
@@ -94,7 +93,6 @@ export class EditLeavePeriodComponent implements OnInit {
         }
       }
     }
-
   }
 
   cancel() {

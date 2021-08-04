@@ -21,7 +21,6 @@ export interface LeaveType {
 export interface JobTitle {
   id: string;
   name: string;
-
 }
 
 export interface ResLevelApprove {
