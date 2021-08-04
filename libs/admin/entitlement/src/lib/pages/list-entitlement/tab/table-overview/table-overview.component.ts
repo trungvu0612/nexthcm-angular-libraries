@@ -87,11 +87,27 @@ export class TableOverviewComponent implements OnInit {
       })
       .subscribe((result) => {
         if (result) {
-          this.adminEntitlementService.createAdminEntitlementOrg(result).subscribe((data) => {
+          console.log('ngoaiiii', result)
+          this.adminEntitlementService.editAdminEntitlementId(id,result).subscribe((data) => {
           });
         }
       });
   }
+
+  // showDialogEdit(id: string) {
+  //   this.dialogService
+  //     .open<boolean>(new PolymorpheusComponent(EditLeaveEntitlementComponent, this.injector), {
+  //       data: id
+  //     })
+  //     .subscribe((result) => {
+  //       if (result) {
+  //         console.log('dataaaaaaa', result);
+  //         this.adminEntitlementService.createAdminEntitlementOrg(result).subscribe((data) => {
+  //           console.log('Success Post');
+  //         });
+  //       }
+  //     });
+  // }
 
   delete(id: string): void {
     if (id) {

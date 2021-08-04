@@ -362,14 +362,21 @@
     "dateTo": "Date to",
     "asignStaff": "Assign Staff",
     "office": "Office",
-    "type": "Type",
     "toDayOfDay": "Today of day",
     "leaveNotFound": "Leave not found"
   },
   "OVERVIEW": {
     "viewDetail": "View Detail"
   },
+  "ADMIN_LEAVE_LEVEL_APPROVE_MANAGEMENT_COLUMNS": {
+    "name": "Name",
+    "leaveType": "Leave Types",
+    "jobTitle": "Job Titles",
+    "totalLeave": "Total Leaves",
+    "functions": "Functions"
+  },
   "addNewEmployee": "Add new employee",
+  "addNewLeaveLevelApprove": "Add new leave level approve",
   "overview": "Overview",
   "myTime": "My Time",
   "helpDesk": "Help Desk",
@@ -383,6 +390,7 @@
   "workingHour": "Working Hour",
   "tenantManagement": "Tenant management",
   "employeeManagement": "Employee Management",
+  "leaveLevelApproveManagement": "Leave Level Approve Management",
   "roleManagement": "Role Management",
   "permissionManagement": "Permission Management",
   "officeManagement": "Office Management",
@@ -398,7 +406,9 @@
   "workingTimeManagement": "Working Time Management",
   "leaveLevelApprove": "Level Approve Management",
   "initEmployeeSuccessfully": "Create new employee successfully!",
+  "initLeaveLevelApproveSuccessfully": "Create new leave level approve successfully!",
   "deleteEmployee": "Are you sure you want to remove this employee?",
+  "deleteLeaveLevelApprove": "Are you sure you want to remove this leave level approve?",
   "updateSuccessful": "Update successfully!",
   "HTTP_RESPONSE_ERROR_MESSAGES": {
     "400": "400 - Bad Request.",

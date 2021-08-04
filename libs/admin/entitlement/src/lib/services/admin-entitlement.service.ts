@@ -3,7 +3,7 @@ import { Inject, Injectable } from '@angular/core';
 import { APP_CONFIG, AppConfig, Pagination, PagingResponse } from '@nexthcm/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { LeaveEntitlement } from '../models/leave-entitlement';
+import { LeaveEntitlement, ResLeaveEntitlement } from '../models/leave-entitlement';
 
 const MY_TIME_PATH = '/mytimeapp/v1.0';
 const ACCOUNT_PATH = '/accountapp/v1.0';
@@ -54,12 +54,12 @@ export class AdminEntitlementService {
     });
   }
 
-  getAdminEntitlementId(id: LeaveEntitlement | string): Observable<LeaveEntitlement> {
+  getAdminEntitlementId(id: LeaveEntitlement | string): Observable<ResLeaveEntitlement> {
     if (id === undefined || id === '') {
-      return this.http.get<LeaveEntitlement>(this.env.apiUrl + `${MY_TIME_PATH}/leave-entitlements/`, {}).pipe(map((res) => res as any));
+      return this.http.get<ResLeaveEntitlement>(this.env.apiUrl + `${MY_TIME_PATH}/leave-entitlements/`, {}).pipe(map((res) => res as any));
     } else {
       return this.http
-        .get<LeaveEntitlement>(this.env.apiUrl + `${MY_TIME_PATH}/leave-entitlements/${id}`, {})
+        .get<ResLeaveEntitlement>(this.env.apiUrl + `${MY_TIME_PATH}/leave-entitlements/${id}`, {})
         .pipe(map((res) => res as any));
     }
   }
@@ -72,7 +72,7 @@ export class AdminEntitlementService {
     return this.http.post<LeaveEntitlement>(`${MY_TIME_PATH}/leave-entitlements`, body);
   }
 
-  editAdminEntitlementId(id: string | undefined, body: any): Observable<LeaveEntitlement> {
+  editAdminEntitlementId(id: LeaveEntitlement | string, body: any): Observable<LeaveEntitlement> {
     return this.http.put<LeaveEntitlement>(`${MY_TIME_PATH}/leave-entitlements/${id}`, body);
   }
 

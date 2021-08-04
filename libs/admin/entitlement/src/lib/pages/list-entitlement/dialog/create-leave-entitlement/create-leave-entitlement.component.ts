@@ -90,7 +90,6 @@ export class CreateLeaveEntitlementComponent {
         label: 'Organization',
         labelClassName: 'font-semibold',
         placeholder: 'Organization',
-        required: true,
         options: this.orgs$,
         labelProp: 'name',
         matcherBy: 'id'
@@ -107,7 +106,6 @@ export class CreateLeaveEntitlementComponent {
       type: 'multi-select',
       templateOptions: {
         translate: true,
-        required: true,
         label: 'Job Title',
         labelClassName: 'font-semibold',
         placeholder: 'chooseRoles',

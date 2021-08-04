@@ -1,12 +1,12 @@
 import { UserDto } from "@nexthcm/core";
 
 export interface LevelApprove {
-  id?: string;
-  leaveType?: LeaveType;
-  totalLeave?: number;
+  id: string;
+  leaveType: LeaveType;
+  totalLeave: number;
   tenantId?: string;
   jobTitle?: string[];
-  jobTitleDTOList?: JobTitle[];
+  jobTitleDTOList: JobTitle[];
   createdUserDTO?: UserDto;
 
   // Frontend attribute
@@ -19,7 +19,7 @@ export interface LeaveType {
 }
 
 export interface JobTitle {
-  id?: string;
+  id: string;
   name: string;
 
 }

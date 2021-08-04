@@ -1,0 +1,44 @@
+<main class="main-page">
+  <header *transloco="let t">
+    <h1>{{ t('leaveLevelApproveManagement') }}</h1>
+    <button (click)="onAddLeaveLevel()" class="tui-space_right-3 tui-space_bottom-3" size="m" tuiButton>
+      {{ t('addNewLeaveLevelApprove') }}
+    </button>
+  </header>
+  <section class="main-section">
+    <tui-loader [overlay]="true" [showLoader]="(loading$ | async) === true">
+      <ngx-table [columns]="(columns$ | async) || []" [configuration]="configuration" [data]="(data$ | async) || []">
+        <ng-template let-row>
+          <td>{{ item(row).createdUserDTO?.profile?.fullName }}</td>
+          <td>{{ item(row).leaveType?.name }}</td>
+          <td>{{ item(row).jobTitlesName}}</td>
+          <td>{{ item(row).totalLeave}}</td>
+          <td>
+            <div class="flex items-center">
+              <button
+                (click)="onEditLeaveLevelApprove(item(row))"
+                appearance="flat"
+                class="tui-space_right-3"
+                icon="tuiIconEditLarge"
+                size="m"
+                tuiIconButton
+              ></button>
+              <button
+                (click)="onRemoveLeaveLevel(item(row).id)"
+                appearance="flat"
+                icon="tuiIconTrashLarge"
+                size="m"
+                tuiIconButton
+              ></button>
+            </div>
+          </td>
+        </ng-template>
+      </ngx-table>
+    </tui-loader>
+    <tui-table-pagination
+      (pageChange)="onPage($event)"
+      (sizeChange)="onSize($event)"
+      [total]="(total$ | async) || 0"
+    ></tui-table-pagination>
+  </section>
+</main>

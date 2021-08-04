@@ -176,7 +176,14 @@ export class EditLeaveEntitlementComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
+      if (this.data){
+        this.adminEntitlementService.getAdminEntitlementId(this.data).subscribe(
+          (item) => {
+            console.log(item.data)
+            this.model = {...this.model, ...item.data};
+            this.model.jobTitle = item.data.jobTitleDTOList
+          })
+      }
   }
 
   ngAfterViewInit() {
@@ -184,7 +191,9 @@ export class EditLeaveEntitlementComponent implements OnInit {
 
   submit() {
 
-    if (this.model){
+
+    if (this.data){
+
       if (this.model.statusCov){
         if (this.model.entitlement){
           this.model.entitlement = +this.model.entitlement
@@ -228,7 +237,54 @@ export class EditLeaveEntitlementComponent implements OnInit {
           this.context.completeWith(body);
         }
       }
+    } else {
+      if (this.model){
+        if (this.model.statusCov){
+          if (this.model.entitlement){
+            this.model.entitlement = +this.model.entitlement
+            const arrayTitle = []
+            if (this.model.jobTitle){
+              for (const value of this.model.jobTitle) {
+                arrayTitle.push(value.id)
+              }
+            }
+            const body = {
+              status: 1,
+              fromDate: 1609434000000, /*API have but not used => hard code*/
+              toDate: 1640969999000, /*API have but not used => hard code*/
+              orgId: this.model.org?.id ? this.model.org?.id : '',
+              entitlement: this.model.entitlement,
+              leaveType: this.model.leaveType,
+              period: this.model.period,
+              jobTitle: arrayTitle,
+            }
+            this.context.completeWith(body);
+          }
+        } else if (!this.model.statusCov){
+          if (this.model.entitlement){
+            this.model.entitlement = +this.model.entitlement
+            const arrayTitle = []
+            if (this.model.jobTitle){
+              for (const value of this.model.jobTitle) {
+                arrayTitle.push(value.id)
+              }
+            }
+            const body = {
+              status: 0,
+              fromDate: 1609434000000, /*API have but not used => hard code*/
+              toDate: 1640969999000, /*API have but not used => hard code*/
+              entitlement: this.model.entitlement,
+              leaveType: this.model.leaveType,
+              period: this.model.period,
+              employeeId: this.loggedInUserId,
+              jobTitle: arrayTitle,
+            }
+            this.context.completeWith(body);
+          }
+        }
+      }
     }
+
   }
 
   cancel() {

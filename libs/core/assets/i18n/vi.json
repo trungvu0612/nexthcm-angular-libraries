@@ -370,6 +370,13 @@
   "OVERVIEW": {
     "viewDetail": "Chi tiết"
   },
+  "ADMIN_LEAVE_LEVEL_APPROVE_MANAGEMENT_COLUMNS": {
+    "name": "Tên",
+    "leaveType": "Loại nghỉ phép",
+    "jobTitle": "Chức danh công việc",
+    "totalLeave": "Số ngày nghỉ",
+    "functions": "Chức năng"
+  },
   "addNewEmployee": "Thêm nhân viên mới",
   "overview": "Tổng quan",
   "myTime": "Thời gian",
@@ -384,6 +391,7 @@
   "workingHour": "Giờ làm việc",
   "tenantManagement": "Quản lý công ty",
   "employeeManagement": "Quản lý nhân viên",
+  "leaveLevelApproveManagement": "Quản lý cấp độ ngày nghỉ",
   "roleManagement": "Quản lý vai trò",
   "permissionManagement": "Quản lý phân quyền",
   "officeManagement": "Quản lý văn phòng",
@@ -399,7 +407,9 @@
   "workingTimeManagement": "Quản lý thời gian làm việc",
   "leaveLevelApprove": "Quản lý cấp độ nghỉ phép",
   "initEmployeeSuccessfully": "Tạo nhân viên mới thành công!",
+  "initLeaveLevelApproveSuccessfully": "Tạo Cấp độ nghỉ phép mới thành công",
   "deleteEmployee": "Bạn thật sự muốn xoá nhân viên này?",
+  "deleteLeaveLevelApprove": "Bạn thật sự muốn xóa cấp độ nghỉ phép này?",
   "updateSuccessful": "Cập nhật thành công!",
   "HTTP_RESPONSE_ERROR_MESSAGES": {
     "400": "400 - Có lỗi cú pháp trong yêu cầu.",
