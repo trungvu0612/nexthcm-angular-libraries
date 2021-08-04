@@ -1,17 +1,21 @@
 import { ChangeDetectionStrategy, Component, Injector } from '@angular/core';
-import { AbstractServerPaginationTableComponent, PromptService, ServerPaginationTableComponent } from '@nexthcm/cdk';
-import { LevelApprove } from '../../models/level-approve';
-import { from, Observable } from 'rxjs';
-import { Columns } from 'ngx-easy-table';
-import { filter, map, switchMap, takeUntil } from 'rxjs/operators';
+import {
+  AbstractServerPaginationTableComponent,
+  Pagination,
+  PromptService,
+  ServerPaginationTableComponent,
+} from '@nexthcm/cdk';
 import { TranslocoService } from '@ngneat/transloco';
 import { RxState, setProp } from '@rx-angular/state';
-import { Pagination } from '@nexthcm/core';
-import { TuiDialogService } from '@taiga-ui/core';
-import { AdminLeaveLevelApproveService } from '../../services/admin-leave-level-approve.service';
-import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
+import { TuiDialogService } from '@taiga-ui/core';
+import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
+import { Columns } from 'ngx-easy-table';
+import { from, Observable } from 'rxjs';
+import { filter, map, switchMap, takeUntil } from 'rxjs/operators';
 import { UpsertLeaveLevelApproveDialogComponent } from '../../components/upsert-leave-level-approve/upsert-leave-level-approve-dialog.component';
+import { LevelApprove } from '../../models/level-approve';
+import { AdminLeaveLevelApproveService } from '../../services/admin-leave-level-approve.service';
 
 @Component({
   selector: 'hcm-leave-level-approve-management',
@@ -54,13 +58,13 @@ export class LeaveLevelApproveManagementComponent
     private levelApproveService: AdminLeaveLevelApproveService
   ) {
     super();
-    state.connect(this.request$, (state, data) => {
-      return setProp(
+    state.connect(this.request$, (state, data) =>
+      setProp(
         data,
         'items',
         data.items.map((item) => this.getJobTitleName(item))
-      );
-    });
+      )
+    );
   }
 
   onAddLeaveLevel(): void {
@@ -127,8 +131,8 @@ export class LeaveLevelApproveManagementComponent
       return levelApprove;
     }
     levelApprove.jobTitlesName = levelApprove.jobTitleDTOList
-      .filter(isPresent)
       .map((jobTitle) => jobTitle.name)
+      .filter(isPresent)
       .join(', ');
     return levelApprove;
   }

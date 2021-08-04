@@ -66,11 +66,11 @@ export interface DurationType {
   resultTime: number;
 }
 
-export interface Duration {
+interface Duration {
   id?: string;
 }
 
-export interface LeaveType {
+interface LeaveType {
   id?: string;
   leaveTypeId?: string;
   leaveTypeName?: string;

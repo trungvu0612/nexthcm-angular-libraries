@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
-import { APP_CONFIG, AppConfig, PagingResponse } from '@nexthcm/core';
+import { Injectable } from '@angular/core';
+import { PagingResponse } from '@nexthcm/cdk';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { LeavePeriod, ResLeavePeriod } from '../models/leave-period';
@@ -12,7 +12,7 @@ const MY_TIME_PATH = '/mytimeapp/v1.0';
 })
 export class AdminPeriodService {
 
-  constructor(@Inject(APP_CONFIG) protected env: AppConfig, private http: HttpClient) {}
+  constructor(private http: HttpClient) {}
 
   getAdminPeriods(pageIndex: number, pageSize: number): Observable<PagingResponse<LeavePeriod>> {
     const httpParams = new HttpParams();
@@ -25,10 +25,10 @@ export class AdminPeriodService {
 
   getAdminPeriodId(id: LeavePeriod | string): Observable<LeavePeriod> {
     if (id === undefined || id === '') {
-      return this.http.get<LeavePeriod>(this.env.apiUrl + `${MY_TIME_PATH}/leave-periods/`, {}).pipe(map((res) => res as any));
+      return this.http.get<LeavePeriod>(`${MY_TIME_PATH}/leave-periods/`, {}).pipe(map((res) => res as any));
     } else {
       return this.http
-        .get<ResLeavePeriod>(this.env.apiUrl + `${MY_TIME_PATH}/leave-periods/${id}`, {})
+        .get<ResLeavePeriod>( `${MY_TIME_PATH}/leave-periods/${id}`, {})
         .pipe(map((res) => res.data as LeavePeriod));
     }
   }

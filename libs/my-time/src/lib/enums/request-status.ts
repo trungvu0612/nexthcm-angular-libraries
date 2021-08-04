@@ -1,4 +1,4 @@
-export enum LeaveStatus {
+export enum RequestStatus {
   reject = -1,
   cancelled,
   approved,

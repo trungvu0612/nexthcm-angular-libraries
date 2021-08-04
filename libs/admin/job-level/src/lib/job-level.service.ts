@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
-import { APP_CONFIG, AppConfig, PagingResponse } from '@nexthcm/core';
+import { Injectable } from '@angular/core';
+import { PagingResponse } from '@nexthcm/cdk';
 import { Observable } from 'rxjs';
 import { Level, SearchLevel } from './models/level';
 
@@ -8,9 +8,9 @@ import { Level, SearchLevel } from './models/level';
   providedIn: 'root',
 })
 export class JobLevelService {
-  appVersion = this.env.apiUrl + '/accountapp/v1.0';
+  appVersion = '/accountapp/v1.0';
 
-  constructor(@Inject(APP_CONFIG) protected env: AppConfig, private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient) {}
 
   getLevels(pageIndex: number, pageSize: number, search: SearchLevel): Observable<PagingResponse<Level>> {
     return this.httpClient.get<PagingResponse<Level>>(this.appVersion + '/levels', {

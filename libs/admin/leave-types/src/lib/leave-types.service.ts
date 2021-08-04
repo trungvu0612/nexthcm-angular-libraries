@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
-import { APP_CONFIG, AppConfig, BaseResponse, PagingResponse } from '@nexthcm/core';
+import { Injectable } from '@angular/core';
+import { BaseResponse, PagingResponse } from '@nexthcm/cdk';
 import { Observable } from 'rxjs';
 import { LeaveType } from './models/leave-type';
 import { Process } from './models/process';
@@ -11,9 +11,9 @@ const WORKFLOWS_PATH = 'workflowapp/v1.0';
   providedIn: 'root',
 })
 export class LeaveTypesService {
-  appVersion = this.env.apiUrl + '/mytimeapp/v1.0';
+  appVersion = '/mytimeapp/v1.0';
 
-  constructor(@Inject(APP_CONFIG) protected env: AppConfig, private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient) {}
 
   getLeaveTypes(params: HttpParams): Observable<PagingResponse<LeaveType>> {
     return this.httpClient.get<PagingResponse<LeaveType>>(this.appVersion + '/leaveTypes', { params });

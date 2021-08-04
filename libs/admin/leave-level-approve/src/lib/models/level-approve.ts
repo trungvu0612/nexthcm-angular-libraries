@@ -1,4 +1,4 @@
-import { UserDto } from "@nexthcm/core";
+import { UserDto } from '@nexthcm/cdk';
 
 export interface LevelApprove {
   id: string;

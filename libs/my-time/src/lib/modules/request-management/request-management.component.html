@@ -1,0 +1,20 @@
+<main *transloco="let t" class="main-page">
+  <header>
+    <h1 class="text-4xl">{{ t('requestManagement') }}</h1>
+  </header>
+
+  <section class="main-section">
+    <tui-tabs [(activeItemIndex)]="activeItemIndex">
+      <button routerLink="/my-time/requests/leave" routerLinkActive tuiTab>
+        {{ t('leaveRequest') }}
+      </button>
+      <button routerLink="/my-time/requests/after-hours" routerLinkActive tuiTab>{{ t('afterHours') }}</button>
+      <button routerLink="/my-time/requests/update-time" routerLinkActive tuiTab>{{ t('updateTime') }}</button>
+      <button routerLink="/my-time/requests/working-outside" routerLinkActive tuiTab>{{ t('workingOutside') }}</button>
+      <button routerLink="/my-time/requests/wfh" routerLinkActive tuiTab>{{ t('wfh') }}</button>
+    </tui-tabs>
+    <div class="mt-5">
+      <router-outlet></router-outlet>
+    </div>
+  </section>
+</main>

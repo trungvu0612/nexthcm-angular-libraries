@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, ElementRef, HostListener, ViewChild } from '@angular/core';
-import { PromptService } from '@nexthcm/cdk';
-import { UserDto } from '@nexthcm/core';
+import { PromptService, UserDto } from '@nexthcm/cdk';
 import { FormGroup } from '@ngneat/reactive-forms';
 import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';

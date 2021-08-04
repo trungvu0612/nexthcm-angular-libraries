@@ -1,4 +1,4 @@
-import { UserDto } from '@nexthcm/core';
+import { UserDto } from '@nexthcm/cdk';
 
 export interface Knowledge {
   id: string;

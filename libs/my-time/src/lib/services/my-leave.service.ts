@@ -1,16 +1,16 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { AuthService } from '@nexthcm/auth';
-import { APP_CONFIG, AppConfig, PagingResponse } from '@nexthcm/core';
+import { PagingResponse } from '@nexthcm/cdk';
 import { RxState } from '@rx-angular/state';
 import { TuiTime } from '@taiga-ui/cdk';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { LeavesRemaining } from '../models/leave-type';
 import { MyLeave } from '../models/my-leave';
+import { Requests } from '../models/requests';
 import { SentToUser } from '../models/send-to-user';
 import { durationValues, PartialDays } from '../models/submit-leave';
-import { Requests } from '../models/requests';
 
 const MY_TIME_PATH = '/mytimeapp/v1.0';
 const MY_ACCOUNT_PATH = '/accountapp/v1.0';
@@ -22,12 +22,9 @@ interface MyLeaveState {
 
 @Injectable()
 export class MyLeaveService extends RxState<MyLeaveState> {
-  readonly loggedInUserId = this.authService.get('userInfo', 'userId')
+  readonly loggedInUserId = this.authService.get('userInfo', 'userId');
 
-  constructor(
-    @Inject(APP_CONFIG) protected env: AppConfig,
-    private authService: AuthService,
-    private http: HttpClient) {
+  constructor(private authService: AuthService, private http: HttpClient) {
     super();
     this.connect('leaveTypeRemain', this.getLeaveTypes());
     this.connect('sendToUsers', this.getSendToUsers().pipe(map((res) => res.data.items)));
@@ -130,22 +127,22 @@ export class MyLeaveService extends RxState<MyLeaveState> {
         .set('page', pageIndex ? pageIndex.toString() : '')
         .set('size', pageSize ? pageSize.toString() : '')
         .set('sort', 'createdDate')
-        .set('createdDate.dir', 'des')
+        .set('createdDate.dir', 'des'),
     });
   }
 
   getLeave(id: string): Observable<any> {
     if (id === undefined || id == '') {
-      return this.http.get<MyLeave>(this.env.apiUrl + `${MY_TIME_PATH}/leaves/`, {}).pipe(map((res) => res as any));
+      return this.http.get<MyLeave>(`${MY_TIME_PATH}/leaves/`, {}).pipe(map((res) => res as any));
     } else {
-      return this.http
-        .get<MyLeave>(this.env.apiUrl + `${MY_TIME_PATH}/leaves/${id}`, {})
-        .pipe(map((res) => res as any));
+      return this.http.get<MyLeave>(`${MY_TIME_PATH}/leaves/${id}`, {}).pipe(map((res) => res as any));
     }
   }
 
   getLeaveTypes(): Observable<LeavesRemaining[]> {
-    return this.http.get<any>(`${MY_TIME_PATH}/leaves/remaining-entitlement-by-user-id/${this.loggedInUserId}`).pipe(map((res) => res.data as LeavesRemaining[]));
+    return this.http
+      .get<any>(`${MY_TIME_PATH}/leaves/remaining-entitlement-by-user-id/${this.loggedInUserId}`)
+      .pipe(map((res) => res.data as LeavesRemaining[]));
   }
 
   getSendToUsers(): Observable<PagingResponse<SentToUser>> {

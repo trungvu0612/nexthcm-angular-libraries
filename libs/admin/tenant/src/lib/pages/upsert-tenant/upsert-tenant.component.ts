@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { PromptService, UploadFileService } from '@nexthcm/cdk';
-import { Address, ContactDTO } from '@nexthcm/core';
+import { Address, ContactDTO, PromptService, UploadFileService } from '@nexthcm/cdk';
 import { FormGroup } from '@ngneat/reactive-forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { NumericValueType, RxwebValidators } from '@rxweb/reactive-form-validators';

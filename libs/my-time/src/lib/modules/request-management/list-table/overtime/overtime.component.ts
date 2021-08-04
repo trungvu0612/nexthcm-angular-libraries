@@ -1,17 +1,16 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { FormControl } from '@ngneat/reactive-forms';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { BehaviorSubject, combineLatest } from 'rxjs';
 import { debounceTime, switchMap, takeUntil } from 'rxjs/operators';
-import { LeaveStatus } from '../../../../enums/status';
+import { RequestStatus } from '../../../../enums/request-status';
 import { MyLeave } from '../../../../models/my-leave';
 import { MyLeaveService } from '../../../../services/my-leave.service';
 import { CancelDialogLeaveComponent } from '../../../my-leave/cancel-dialog-leave/cancel-dialog-leave.component';
 import { LeaveManagementDetailDialogComponent } from '../../leave-management-detail-dialog/leave-management-detail-dialog.component';
-import { Requests } from '../../../../models/requests';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'hcm-overtime',
@@ -21,7 +20,7 @@ import { Router } from '@angular/router';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OvertimeComponent implements OnInit {
-  readonly LeaveStatus = LeaveStatus;
+  readonly LeaveStatus = RequestStatus;
 
   dateControl = new FormControl<Date>();
   columns = ['date', 'leaveType', 'days', 'status', 'sendTo', 'action'];

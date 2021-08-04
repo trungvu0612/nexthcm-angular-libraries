@@ -1,9 +1,9 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { Pagination, PagingResponse, Zone } from '@nexthcm/core';
-import { map } from 'rxjs/operators';
+import { Injectable } from '@angular/core';
+import { Pagination, PagingResponse, Zone } from '@nexthcm/cdk';
 import { RxState } from '@rx-angular/state';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 const MY_TIME_PATH = '/mytimeapp/v1.0';
 

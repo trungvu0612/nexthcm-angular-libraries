@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, Injector } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { PromptService } from '@nexthcm/cdk';
-import { Zone } from '@nexthcm/core';
+import { PromptService, Zone } from '@nexthcm/cdk';
 import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDialogContext, TuiDialogService } from '@taiga-ui/core';

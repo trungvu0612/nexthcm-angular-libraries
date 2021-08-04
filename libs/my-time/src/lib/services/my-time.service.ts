@@ -1,18 +1,34 @@
-import { HttpClient } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
-import { APP_CONFIG, AppConfig } from '@nexthcm/core';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Pagination, PagingResponse } from '@nexthcm/cdk';
 import { Observable } from 'rxjs';
-import { TrackingHistory } from '../models/tracking-history';
+import { map } from 'rxjs/operators';
+import { TrackingHistory, UpdateRequestPayload } from '../models';
 
 const MY_TIME_PATH = '/mytimeapp/v1.0';
+
+export enum RequestTypesUrlPath {
+  leave = 'leaves',
+  afterHours = 'ot-requests',
+}
 
 @Injectable({
   providedIn: 'root',
 })
 export class MyTimeService {
-  constructor(@Inject(APP_CONFIG) protected env: AppConfig, private http: HttpClient) {}
+  constructor(private http: HttpClient) {}
 
   getTrackingHistory(id?: string): Observable<TrackingHistory[]> {
-    return this.http.get<TrackingHistory[]>(`${MY_TIME_PATH}/leaves/tracking-history/` + id);
+    return this.http.get<TrackingHistory[]>(`${MY_TIME_PATH}/leaves/tracking-history/${id}`);
+  }
+
+  getRequests<T>(type: RequestTypesUrlPath, params: HttpParams, userId?: string): Observable<Pagination<T>> {
+    return this.http
+      .get<PagingResponse<T>>(`${MY_TIME_PATH}/${type}${userId ? `/${userId}` : ''}`, { params })
+      .pipe(map((res) => res.data));
+  }
+
+  updateRequest(type: RequestTypesUrlPath, id: string, payload: UpdateRequestPayload): Observable<unknown> {
+    return this.http.put<unknown>(`${MY_TIME_PATH}/${type}/${id}`, payload);
   }
 }

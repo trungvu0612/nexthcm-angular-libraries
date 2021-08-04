@@ -1,0 +1,49 @@
+<tui-loader [overlay]="true" [showLoader]="(loading$ | async) === true">
+  <ngx-table [columns]="(columns$ | async) || []" [configuration]="configuration" [data]="(data$ | async) || []">
+    <ng-template let-row>
+      <ng-container *tuiLet="item(row) as item">
+        <td>{{ item.fromDate | date: 'MM/dd/yyyy' }} - {{ item.toDate | date: 'MM/dd/yyyy' }}</td>
+        <td>{{ item.user.profile.fullName }}</td>
+        <td>
+          <tui-tag
+            [value]="RequestStatus[item.status] | transloco"
+            class="font-bold {{ RequestStatus[item.status] }}-tag"
+          ></tui-tag>
+        </td>
+        <td>{{ item.comment }}</td>
+        <td>
+          <div class="flex items-center">
+            <button
+              (click)="onViewRequestDetail(item.id)"
+              appearance="flat"
+              icon="tuiIconShowLarge"
+              size="m"
+              tuiIconButton
+            ></button>
+            <button
+              (click)="onApproveRequest(item.id)"
+              appearance="flat"
+              class="approve-mark"
+              icon="tuiIconCheckLarge"
+              size="m"
+              tuiIconButton
+            ></button>
+            <button
+              (click)="onRejectRequest(item.id)"
+              appearance="flat"
+              class="reject-mark"
+              icon="tuiIconRemoveLarge"
+              size="m"
+              tuiIconButton
+            ></button>
+          </div>
+        </td>
+      </ng-container>
+    </ng-template>
+  </ngx-table>
+</tui-loader>
+<tui-table-pagination
+  (pageChange)="onPage($event)"
+  (sizeChange)="onSize($event)"
+  [total]="(total$ | async) || 0"
+></tui-table-pagination>

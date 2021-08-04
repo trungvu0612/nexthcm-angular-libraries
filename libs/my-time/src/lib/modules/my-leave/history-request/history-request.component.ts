@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { map, share, tap } from 'rxjs/operators';
+import { map, share } from 'rxjs/operators';
 import { TrackingHistoryChanges } from '../../../models/tracking-history';
 import { MyTimeService } from '../../../services/my-time.service';
 
@@ -17,8 +17,7 @@ export class HistoryRequestComponent {
       ([] as TrackingHistoryChanges[]).concat(
         ...histories.map((history) => history.changes.filter((change) => change.changeType === 'ValueChange'))
       )
-    ),
-    tap((res) => console.log(res))
+    )
   );
 
   loading$ = this.request$.pipe(map((value) => !value));

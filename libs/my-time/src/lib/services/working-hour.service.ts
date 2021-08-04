@@ -1,17 +1,16 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
-import { APP_CONFIG, AppConfig, Pagination, PagingResponse, UserDto } from '@nexthcm/core';
+import { Injectable } from '@angular/core';
+import { BaseResponse, PagingResponse, UserDto } from '@nexthcm/cdk';
 import { Observable } from 'rxjs';
 import { RequestUpdateTime, SearchWorkingHour, WorkingHour } from '../models/working-hour';
-import { BaseResponse } from '@nexthcm/core';
 
 @Injectable({
   providedIn: 'root',
 })
 export class WorkingHourService {
-  appVersion = this.env.apiUrl + '/mytimeapp/v1.0';
+  appVersion = '/mytimeapp/v1.0';
 
-  constructor(@Inject(APP_CONFIG) protected env: AppConfig, private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient) {}
 
   getWorkingHour(
     pageIndex: number,

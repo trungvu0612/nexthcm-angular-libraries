@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BaseResponse, Pagination, PagingResponse, UserDto } from '@nexthcm/core';
+import { BaseResponse, Pagination, PagingResponse, UserDto } from '@nexthcm/cdk';
 import { RxState } from '@rx-angular/state';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';

@@ -1,7 +1,6 @@
-import { Injectable } from '@angular/core';
-import { Seat } from '@nexthcm/core';
-import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { CheckingTime } from '../models/checking-time';
 

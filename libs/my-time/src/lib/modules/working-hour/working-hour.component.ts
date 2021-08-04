@@ -1,8 +1,7 @@
 import { HttpParams } from '@angular/common/http';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
 import { AuthService } from '@nexthcm/auth';
-import { AbstractServerPaginationTableComponent, ServerPaginationTableComponent } from '@nexthcm/cdk';
-import { Pagination } from '@nexthcm/core';
+import { AbstractServerPaginationTableComponent, Pagination, ServerPaginationTableComponent } from '@nexthcm/cdk';
 import { FormBuilder, FormControl, FormGroup } from '@ngneat/reactive-forms';
 import { TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';

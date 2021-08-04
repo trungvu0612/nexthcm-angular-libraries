@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
-import { APP_CONFIG, AppConfig, PagingResponse } from '@nexthcm/core';
+import { Injectable } from '@angular/core';
+import { PagingResponse } from '@nexthcm/cdk';
 import { Observable } from 'rxjs';
 import { AdminPolicy } from './models/policies';
 
@@ -8,9 +8,9 @@ import { AdminPolicy } from './models/policies';
   providedIn: 'root',
 })
 export class AdminKnowledgeBaseService {
-  appVersion = this.env.apiUrl + '/mytimeapp/v1.0';
+  appVersion = '/mytimeapp/v1.0';
 
-  constructor(@Inject(APP_CONFIG) protected env: AppConfig, private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient) {}
 
   getPolicies(params: HttpParams): Observable<PagingResponse<AdminPolicy>> {
     return this.httpClient.get<PagingResponse<AdminPolicy>>(this.appVersion + '/policies', { params });

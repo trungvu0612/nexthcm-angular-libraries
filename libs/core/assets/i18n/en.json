@@ -419,5 +419,21 @@
     "422": "422 - Validation Error!",
     "default": "Something went wrong!"
   },
-  "errorOccurred": "An error occurred"
+  "errorOccurred": "An error occurred",
+  "REQUEST_MANAGEMENT_LEAVE_REQUEST_TABLE_COLUMNS": {
+    "dateRange": "Date Range",
+    "from": "From",
+    "leaveType": "Leave Type",
+    "days": "Days",
+    "status": "Status",
+    "comment": "Comment",
+    "functions": "Functions"
+  },
+  "reject": "Reject",
+  "cancelled": "Cancelled",
+  "approved": "Approved",
+  "waiting": "Waiting",
+  "taken": "Taken",
+  "weekend": "Weekend",
+  "holiday": "Holiday"
 }

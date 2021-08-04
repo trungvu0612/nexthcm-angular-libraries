@@ -15,7 +15,8 @@ import { MyLeaveModule } from './modules/my-leave/my-leave.module';
 import { ListMyRequestComponent } from './modules/my-request/list-my-request/list-my-request.component';
 import { MyRequestsComponent } from './modules/my-request/my-requests.component';
 import { MyRequestsModule } from './modules/my-request/my-requests.module';
-import { ListRequestManagementComponent } from './modules/request-management/list-request-management/list-request-management.component';
+import { LeaveRequestListComponent } from './modules/request-management/pages/leave-request-list/leave-request-list.component';
+import { WorkingAfterHoursRequestListComponent } from './modules/request-management/pages/working-after-hours-request-list/working-after-hours-request-list.component';
 import { RequestManagementComponent } from './modules/request-management/request-management.component';
 import { RequestManagementModule } from './modules/request-management/request-management.module';
 import { WorkingHourComponent } from './modules/working-hour/working-hour.component';
@@ -60,11 +61,12 @@ export const MY_TIME_ROUTES: Routes = [
             ],
           },
           {
-            path: 'request-management',
+            path: 'requests',
             component: RequestManagementComponent,
             children: [
-              { path: '', component: ListRequestManagementComponent },
-              { path: ':id/detail', component: LeaveDetailComponent },
+              { path: 'leave', component: LeaveRequestListComponent },
+              { path: 'after-hours', component: WorkingAfterHoursRequestListComponent },
+              { path: '', redirectTo: 'leave', pathMatch: 'full' },
             ],
           },
         ],

@@ -23,7 +23,7 @@ const TABS = [
       { path: 'my-leave', tabName: 'myLeave' },
       { path: 'working-hour', tabName: 'workingHour' },
       { path: 'my-request', tabName: 'myRequest' },
-      { path: 'request-management', tabName: 'requestManagement' },
+      { path: 'requests', tabName: 'requestManagement' },
     ],
   },
   {

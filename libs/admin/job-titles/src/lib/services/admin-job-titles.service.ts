@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
-import { APP_CONFIG, AppConfig, PagingResponse } from '@nexthcm/core';
+import { Injectable } from '@angular/core';
+import { PagingResponse } from '@nexthcm/cdk';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { JobTitle } from '../models/job-title';
@@ -11,7 +11,7 @@ const MY_ACCOUNT_PATH = '/accountapp/v1.0';
   providedIn: 'root',
 })
 export class AdminJobTitlesService {
-  constructor(@Inject(APP_CONFIG) protected env: AppConfig, private http: HttpClient) {}
+  constructor(private http: HttpClient) {}
 
   getAdminJobTitles(pageIndex: number, pageSize: number): Observable<PagingResponse<JobTitle>> {
     const httpParams = new HttpParams();
@@ -24,10 +24,10 @@ export class AdminJobTitlesService {
 
   getAdminJobTitleId(id: JobTitle | string): Observable<JobTitle> {
     if (id === undefined || id === '') {
-      return this.http.get<JobTitle>(this.env.apiUrl + `${MY_ACCOUNT_PATH}/titles/`, {}).pipe(map((res) => res as any));
+      return this.http.get<JobTitle>(`${MY_ACCOUNT_PATH}/titles/`, {}).pipe(map((res) => res as any));
     } else {
       return this.http
-        .get<JobTitle>(this.env.apiUrl + `${MY_ACCOUNT_PATH}/titles/${id}`, {})
+        .get<JobTitle>(`${MY_ACCOUNT_PATH}/titles/${id}`, {})
         .pipe(map((res) => res as any));
     }
   }

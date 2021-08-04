@@ -1,6 +1,6 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { PagingResponse } from '@nexthcm/core';
+import { PagingResponse } from '@nexthcm/cdk';
 import { Observable } from 'rxjs';
 import { Office } from '../models/offices';
 import { WorkingAfterTime } from '../models/working-after-time';

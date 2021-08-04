@@ -1,6 +1,6 @@
 import { APP_INITIALIZER, Provider } from '@angular/core';
 import { Observable } from 'rxjs';
-import { PermissionsResponse } from '../models/permission-response';
+import { PermissionsResponse } from '../../../../cdk/src/lib/models/permission-response';
 import { PermissionsService } from '../services/permissions.service';
 
 export const INIT_PERMISSIONS_PROVIDER: Provider = {

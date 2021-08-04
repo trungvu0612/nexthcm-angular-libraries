@@ -1,7 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
-import { JobTitle } from '@nexthcm/cdk';
-import { APP_CONFIG, AppConfig, PagingResponse } from '@nexthcm/core';
+import { Injectable } from '@angular/core';
+import { JobTitle, PagingResponse } from '@nexthcm/cdk';
 import { RxState } from '@rx-angular/state';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -16,7 +15,7 @@ const MY_TIME_PATH = '/mytimeapp/v1.0';
 
 @Injectable()
 export class AdminLeaveLevelApproveService extends RxState<ServiceState> {
-  constructor(@Inject(APP_CONFIG) protected env: AppConfig, private http: HttpClient) {
+  constructor(private http: HttpClient) {
     super();
     this.connect('jobTitles', this.getJobTitles());
     this.connect('leaveTypes', this.getLeaveTypes());

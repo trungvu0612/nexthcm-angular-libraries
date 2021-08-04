@@ -1,23 +1,20 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
-import { APP_CONFIG, AppConfig, PagingResponse } from '@nexthcm/core';
+import { Injectable } from '@angular/core';
+import { PagingResponse } from '@nexthcm/cdk';
 import { Observable } from 'rxjs';
-import { Requests, SearchRequest, SubmitRequest, TimeSheetUpdateReq } from '../models/requests';
-import { MyLeave } from '../models/my-leave';
 import { map } from 'rxjs/operators';
-import { ControlValue } from '@ngneat/reactive-forms/lib/types';
-import { WorkFromHome } from '../models/my-time';
+import { WorkFromHome } from '../models';
+import { Requests, SearchRequest, SubmitRequest, TimeSheetUpdateReq } from '../models/requests';
 
 const MY_TIME_PATH = '/mytimeapp/v1.0';
-const MY_ACCOUNT_PATH = '/accountapp/v1.0';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MyRequestService {
-  appVersion = this.env.apiUrl + '/mytimeapp/v1.0';
+  appVersion = '/mytimeapp/v1.0';
 
-  constructor(@Inject(APP_CONFIG) protected env: AppConfig, private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient) {}
 
   getMyOtRequests(pageIndex: number, pageSize: number, search: SearchRequest): Observable<PagingResponse<Requests>> {
     return this.httpClient.get<PagingResponse<Requests>>(this.appVersion + '/ot-requests', {
@@ -83,9 +80,9 @@ export class MyRequestService {
 
   getWFHId(id: string): Observable<any> {
     if (id === undefined || id == '') {
-      return this.httpClient.get<any>(this.env.apiUrl + `${MY_TIME_PATH}/wfh/`, {}).pipe(map((res) => res as any));
+      return this.httpClient.get<any>(`${MY_TIME_PATH}/wfh/`, {}).pipe(map((res) => res as any));
     } else {
-      return this.httpClient.get<any>(this.env.apiUrl + `${MY_TIME_PATH}/wfh/${id}`, {}).pipe(map((res) => res as any));
+      return this.httpClient.get<any>(`${MY_TIME_PATH}/wfh/${id}`, {}).pipe(map((res) => res as any));
     }
   }
 

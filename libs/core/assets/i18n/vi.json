@@ -13,7 +13,7 @@
   "editSeatMap": "Chỉnh sửa sơ đồ chỗ ngồi",
   "employees": "Nhân sự",
   "myLeave": "Danh sách nghỉ phép",
-  "myRequest": "Danh sách yêu cầu",
+  "myRequest": "Yêu cầu của tôi",
   "requestManagement": "Quản lý yêu cầu",
   "name": "Tên",
   "numberOfSeat": "Số chỗ ngồi",
@@ -419,5 +419,21 @@
     "503": "503 - Dịch vụ không khả dụng.",
     "default": "Có gì đó không ổn!"
   },
-  "errorOccurred": "Đã xảy ra lỗi"
+  "errorOccurred": "Đã xảy ra lỗi",
+  "REQUEST_MANAGEMENT_LEAVE_REQUEST_TABLE_COLUMNS": {
+    "dateRange": "Khoảng thời gian",
+    "from": "Từ",
+    "leaveType": "Loại nghỉ phép",
+    "days": "Số ngày",
+    "status": "Trạng thái",
+    "comment": "Bình luận",
+    "functions": "Chức năng"
+  },
+  "reject": "Từ chối",
+  "cancelled": "Huỷ bỏ",
+  "approved": "Chấp thuận",
+  "waiting": "Đang chờ",
+  "taken": "Đã nhận",
+  "weekend": "Cuối tuần",
+  "holiday": "Ngày lễ"
 }

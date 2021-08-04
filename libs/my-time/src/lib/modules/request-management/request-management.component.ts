@@ -1,12 +1,11 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
   selector: 'hcm-request-management',
-  template: '<router-outlet></router-outlet>',
+  templateUrl: './request-management.component.html',
+  styleUrls: ['./request-management.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class RequestManagementComponent implements OnInit {
-  constructor() {}
-
-  ngOnInit(): void {}
+export class RequestManagementComponent {
+  activeItemIndex = 0;
 }

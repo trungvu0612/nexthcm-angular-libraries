@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
-import { APP_CONFIG, AppConfig, PagingResponse } from '@nexthcm/core';
+import { Injectable } from '@angular/core';
+import { PagingResponse } from '@nexthcm/cdk';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AdminUserRole } from '../models/admin-user-role';
@@ -11,8 +11,7 @@ const MY_ACCOUNT_PATH = '/accountapp/v1.0';
   providedIn: 'root',
 })
 export class AdminUserRolesService {
-
-  constructor(@Inject(APP_CONFIG) protected env: AppConfig, private http: HttpClient) {}
+  constructor(private http: HttpClient) {}
 
   getAdminUserRoles(pageIndex: number, pageSize: number): Observable<PagingResponse<AdminUserRole>> {
     const httpParams = new HttpParams();
@@ -25,11 +24,9 @@ export class AdminUserRolesService {
 
   getAdminUserRolesId(id: AdminUserRole | string): Observable<any> {
     if (id === undefined || id === '') {
-      return this.http.get<any>(this.env.apiUrl + `${MY_ACCOUNT_PATH}/roles/`, {}).pipe(map((res) => res as any));
+      return this.http.get<any>(`${MY_ACCOUNT_PATH}/roles/`, {}).pipe(map((res) => res as any));
     } else {
-      return this.http
-        .get<any>(this.env.apiUrl + `${MY_ACCOUNT_PATH}/roles/${id}`, {})
-        .pipe(map((res) => res as any));
+      return this.http.get<any>(`${MY_ACCOUNT_PATH}/roles/${id}`, {}).pipe(map((res) => res as any));
     }
   }
 

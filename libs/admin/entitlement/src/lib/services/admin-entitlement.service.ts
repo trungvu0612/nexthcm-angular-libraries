@@ -1,7 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
-import { BaseResponse } from '@nexthcm/cdk';
-import { APP_CONFIG, AppConfig, Pagination, PagingResponse, UserDto } from '@nexthcm/core';
+import { Injectable } from '@angular/core';
+import { BaseResponse, Pagination, PagingResponse, UserDto } from '@nexthcm/cdk';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { LeaveEntitlement, ResLeaveEntitlement } from '../models/leave-entitlement';
@@ -10,11 +9,10 @@ const MY_TIME_PATH = '/mytimeapp/v1.0';
 const ACCOUNT_PATH = '/accountapp/v1.0';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AdminEntitlementService {
-
-  constructor(@Inject(APP_CONFIG) protected env: AppConfig, private http: HttpClient) {}
+  constructor(private http: HttpClient) {}
 
   getJobTitles(params: { [key: string]: number }): Observable<Pagination<any>> {
     return this.http
@@ -57,10 +55,12 @@ export class AdminEntitlementService {
 
   getAdminEntitlementId(id: LeaveEntitlement | string): Observable<ResLeaveEntitlement> {
     if (id === undefined || id === '') {
-      return this.http.get<ResLeaveEntitlement>(this.env.apiUrl + `${MY_TIME_PATH}/leave-entitlements/`, {}).pipe(map((res) => res as any));
+      return this.http
+        .get<ResLeaveEntitlement>(`${MY_TIME_PATH}/leave-entitlements/`, {})
+        .pipe(map((res) => res as any));
     } else {
       return this.http
-        .get<ResLeaveEntitlement>(this.env.apiUrl + `${MY_TIME_PATH}/leave-entitlements/${id}`, {})
+        .get<ResLeaveEntitlement>(`${MY_TIME_PATH}/leave-entitlements/${id}`, {})
         .pipe(map((res) => res as any));
     }
   }
@@ -80,5 +80,4 @@ export class AdminEntitlementService {
   deleteAdminEntitlementId(id: string): Observable<LeaveEntitlement> {
     return this.http.delete<LeaveEntitlement>(`${MY_TIME_PATH}/leave-entitlements/${id}`);
   }
-
 }

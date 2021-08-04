@@ -6,7 +6,7 @@ import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { BehaviorSubject, combineLatest } from 'rxjs';
 import { debounceTime, switchMap, takeUntil } from 'rxjs/operators';
-import { LeaveStatus } from '../../../enums/status';
+import { RequestStatus } from '../../../enums/request-status';
 import { MyLeave } from '../../../models/my-leave';
 import { MyLeaveService } from '../../../services/my-leave.service';
 import { CancelDialogLeaveComponent } from '../cancel-dialog-leave/cancel-dialog-leave.component';
@@ -21,7 +21,7 @@ import { SubmitLeaveRequestDialogComponent } from '../submit-leave-request-dialo
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LeaveRequestManagementComponent implements OnInit {
-  readonly LeaveStatus = LeaveStatus;
+  readonly LeaveStatus = RequestStatus;
 
   dateControl = new FormControl<Date>();
   columns = ['fromDate', 'toDate', 'leaveType', 'days', 'status', 'comment', 'sendTo', 'action'];

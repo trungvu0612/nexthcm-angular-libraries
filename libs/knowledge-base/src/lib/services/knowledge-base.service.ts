@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Pagination, PagingResponse } from '@nexthcm/core';
+import { Pagination, PagingResponse } from '@nexthcm/cdk';
 import { Observable } from 'rxjs';
-import { Category, Knowledge } from '../models/knowledge';
 import { map } from 'rxjs/operators';
+import { Category, Knowledge } from '../models/knowledge';
 
 @Injectable({
   providedIn: 'root',

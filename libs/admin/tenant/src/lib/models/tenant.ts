@@ -1,4 +1,4 @@
-import { Address, ContactDTO, UserDto } from '@nexthcm/core';
+import { Address, ContactDTO, UserDto } from '@nexthcm/cdk';
 
 export interface Tenant {
   createdDate: number;
