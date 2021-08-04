@@ -5,8 +5,8 @@ export interface LeavePeriod {
   name?: string;
   startDate?: number;
   endDate?: number;
-  startDateEdit?: Date | TuiDay | number;
-  endDateEdit?: Date | TuiDay | number;
+  startDateEdit?: TuiDay | number;
+  endDateEdit?: TuiDay | number;
 }
 
 export interface ResLeavePeriod {

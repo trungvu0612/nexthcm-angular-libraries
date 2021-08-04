@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { JobTitle } from '@nexthcm/admin-job-titles';
+import { JobTitle } from '@nexthcm/cdk';
 import { APP_CONFIG, AppConfig, PagingResponse } from '@nexthcm/core';
 import { RxState } from '@rx-angular/state';
 import { Observable } from 'rxjs';

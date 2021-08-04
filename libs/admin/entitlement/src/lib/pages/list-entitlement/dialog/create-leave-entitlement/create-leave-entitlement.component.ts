@@ -194,7 +194,7 @@ export class CreateLeaveEntitlementComponent {
             status: 1,
             fromDate: 1609434000000,
             toDate: 1640969999000,
-            orgId: this.model.org?.id ? this.model.org?.id : '',
+            orgId: this.model.org?.orgId ? this.model.org?.orgId : '',
             entitlement: this.model.entitlement,
             leaveType: this.model.leaveType,
             period: this.model.period,

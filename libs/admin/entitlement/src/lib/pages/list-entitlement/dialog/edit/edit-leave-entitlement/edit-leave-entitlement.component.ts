@@ -179,9 +179,10 @@ export class EditLeaveEntitlementComponent implements OnInit {
       if (this.data){
         this.adminEntitlementService.getAdminEntitlementId(this.data).subscribe(
           (item) => {
-            console.log(item.data)
+            console.log('item.dataaaaaaa', item.data)
             this.model = {...this.model, ...item.data};
             this.model.jobTitle = item.data.jobTitleDTOList
+            // this.model.org = this.model.org?.map((item) => item.orgId)
           })
       }
   }
@@ -207,7 +208,7 @@ export class EditLeaveEntitlementComponent implements OnInit {
             status: 1,
             fromDate: 1609434000000, /*API have but not used => hard code*/
             toDate: 1640969999000, /*API have but not used => hard code*/
-            orgId: this.model.org?.id ? this.model.org?.id : '',
+            orgId: this.model.org?.orgId ? this.model.org?.orgId : '',
             entitlement: this.model.entitlement,
             leaveType: this.model.leaveType,
             period: this.model.period,
@@ -252,7 +253,7 @@ export class EditLeaveEntitlementComponent implements OnInit {
               status: 1,
               fromDate: 1609434000000, /*API have but not used => hard code*/
               toDate: 1640969999000, /*API have but not used => hard code*/
-              orgId: this.model.org?.id ? this.model.org?.id : '',
+              orgId: this.model.org?.orgId ? this.model.org?.orgId : '',
               entitlement: this.model.entitlement,
               leaveType: this.model.leaveType,
               period: this.model.period,
@@ -290,6 +291,4 @@ export class EditLeaveEntitlementComponent implements OnInit {
   cancel() {
     this.context.completeWith(false);
   }
-
-
 }

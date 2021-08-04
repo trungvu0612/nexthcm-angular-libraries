@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { Route, RouterModule } from '@angular/router';
-import { AdminPermissionsService } from '@nexthcm/admin-permissions';
 import { SelectOptionsModule } from '@nexthcm/cdk';
 import { LayoutComponent } from '@nexthcm/ui';
 import { FormlyModule } from '@ngx-formly/core';
@@ -17,7 +16,6 @@ import {
   TuiTagModule,
 } from '@taiga-ui/kit';
 import { NgxPermissionsGuard } from 'ngx-permissions';
-import { FormlySelectJobTitleEntitlementsComponent } from './components/formly-select-job-title-entitlements/formly-select-job-title-entitlements.component';
 import { CreateLeaveEntitlementComponent } from './pages/list-entitlement/dialog/create-leave-entitlement/create-leave-entitlement.component';
 import { CreateLeavePeriodComponent } from './pages/list-entitlement/dialog/create-leave-period/create-leave-period.component';
 import { EditLeaveEntitlementComponent } from './pages/list-entitlement/dialog/edit/edit-leave-entitlement/edit-leave-entitlement.component';
@@ -45,7 +43,7 @@ export const adminEntitlementRoutes: Route[] = [
   imports: [
     CommonModule,
     RouterModule.forChild(adminEntitlementRoutes),
-    FormlyModule.forChild({ types: [{ name: 'select-permissions2', component: FormlySelectJobTitleEntitlementsComponent }] }),
+    FormlyModule,
     TuiTableModule,
     TuiTablePaginationModule,
     TuiSvgModule,
@@ -67,12 +65,10 @@ export const adminEntitlementRoutes: Route[] = [
     TableLeavePeriodComponent,
     CreateLeaveEntitlementComponent,
     CreateLeavePeriodComponent,
-    FormlySelectJobTitleEntitlementsComponent,
     EditLeavePeriodComponent,
     EditLeaveEntitlementComponent
   ],
   providers: [
-    AdminPermissionsService,
   ]
 })
 export class AdminEntitlementModule {

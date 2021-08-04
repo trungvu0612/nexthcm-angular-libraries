@@ -21,7 +21,7 @@ export interface LeaveEntitlement {
 }
 
 export interface Org {
-  id?: string;
+  orgId?: string;
   name?: string;
 }
 
