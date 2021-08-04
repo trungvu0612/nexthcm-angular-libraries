@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { UpsertLeaveLevelApproveComponent } from './upsert-leave-level-approve.component';
+import { UpsertLeaveLevelApproveDialogComponent } from './upsert-leave-level-approve-dialog.component';
 
 describe('UpsertLeaveLevelApproveComponent', () => {
-  let component: UpsertLeaveLevelApproveComponent;
-  let fixture: ComponentFixture<UpsertLeaveLevelApproveComponent>;
+  let component: UpsertLeaveLevelApproveDialogComponent;
+  let fixture: ComponentFixture<UpsertLeaveLevelApproveDialogComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [UpsertLeaveLevelApproveComponent],
+      declarations: [UpsertLeaveLevelApproveDialogComponent],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(UpsertLeaveLevelApproveComponent);
+    fixture = TestBed.createComponent(UpsertLeaveLevelApproveDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

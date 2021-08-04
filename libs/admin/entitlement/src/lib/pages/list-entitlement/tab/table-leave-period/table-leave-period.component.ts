@@ -89,7 +89,8 @@ export class TableLeavePeriodComponent implements OnInit {
       })
       .subscribe((result) => {
         if (result) {
-          this.adminPeriodService.getAdminPeriodId(id).subscribe((data) => {
+          console.log('result', result)
+          this.adminPeriodService.editAdminPeriodId(id, result).subscribe((data) => {
           });
         }
       });

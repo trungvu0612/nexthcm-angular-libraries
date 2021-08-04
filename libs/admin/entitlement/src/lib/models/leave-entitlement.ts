@@ -1,4 +1,10 @@
 
+
+export interface ResLeaveEntitlement {
+  code?: string;
+  data: LeaveEntitlement;
+}
+
 export interface LeaveEntitlement {
   status?: number;
   statusCov?: boolean;
@@ -11,6 +17,7 @@ export interface LeaveEntitlement {
   jobTitle?: JobTitle[];
   orgId?: string;
   org?: Org;
+  jobTitleDTOList?: JobTitle[];
 }
 
 export interface Org {

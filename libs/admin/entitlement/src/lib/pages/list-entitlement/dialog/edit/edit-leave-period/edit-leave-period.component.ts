@@ -1,9 +1,10 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
 import { FormGroup } from '@ngneat/reactive-forms';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
+import { TuiDay } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
-import { toDate } from 'date-fns';
+import { addMilliseconds, toDate } from 'date-fns';
 import { LeavePeriod } from '../../../../../models/leave-period';
 import { AdminPeriodService } from '../../../../../services/admin-period.service';
 
@@ -59,8 +60,8 @@ export class EditLeavePeriodComponent implements OnInit {
         console.log('aaaaaaaaaaa', item);
         this.model = { ...this.model, ...item };
         if (item.startDate && item.endDate) {
-          this.model.startDateEdit = toDate(item.startDate);
-          this.model.endDateEdit = toDate(item.endDate);
+          this.model.startDateEdit = TuiDay.fromLocalNativeDate(toDate(item.startDate)) ;
+          this.model.endDateEdit = TuiDay.fromLocalNativeDate(toDate(item.endDate));
         }
       });
     }
@@ -72,13 +73,28 @@ export class EditLeavePeriodComponent implements OnInit {
 
   submit() {
     console.log('this.model', this.model);
-    if (this.model) {
-      if (this.model.startDate && this.model.endDate) {
-        this.model.orgId = 'b4b49d56-931a-4320-b9eb-7fb3dbd757f5';
-        this.model.name = this.model.startDate.toString() + ' - ' + this.model.endDate.toString();
-        this.context.completeWith(this.model);
+
+    if (this.data !== '') {
+      if (this.model) {
+        if (this.model.startDate && this.model.endDate) {
+          this.model.orgId = 'b4b49d56-931a-4320-b9eb-7fb3dbd757f5';
+          this.model.name = this.model.startDateEdit + ' - ' + this.model.endDateEdit;
+          console.log('this.modelllll', this.model)
+          this.model.startDate = this.model.startDateEdit as number
+          this.model.endDate = this.model.endDateEdit as number
+          this.context.completeWith(this.model);
+        }
+      }
+    } else {
+      if (this.model) {
+        if (this.model.startDate && this.model.endDate) {
+          this.model.orgId = 'b4b49d56-931a-4320-b9eb-7fb3dbd757f5';
+          this.model.name = this.model.startDate.toString() + ' - ' + this.model.endDate.toString();
+          this.context.completeWith(this.model);
+        }
       }
     }
+
   }
 
   cancel() {

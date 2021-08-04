@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { LevelApproveService } from './level-approve.service';
+import { AdminLeaveLevelApproveService } from './admin-leave-level-approve.service';
 
 describe('LevelApproveService', () => {
-  let service: LevelApproveService;
+  let service: AdminLeaveLevelApproveService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(LevelApproveService);
+    service = TestBed.inject(AdminLeaveLevelApproveService);
   });
 
   it('should be created', () => {
