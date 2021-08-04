@@ -35,8 +35,7 @@ export class EditLeaveEntitlementComponent implements OnInit {
     .pipe(map((data) => data.items));
 
   emp$: Observable<any[]> = this.adminEntitlementService
-    .getEmployees(this.params$.value)
-    .pipe(map((data) => data.items));
+    .getUserSameOrgAndChildOrg(this.params$.value);
 
   period$: Observable<any[]> = this.adminEntitlementService
     .getPeriods(this.params$.value)
@@ -74,7 +73,7 @@ export class EditLeaveEntitlementComponent implements OnInit {
         placeholder: 'Employee',
         required: true,
         options: this.emp$,
-        labelProp: 'name',
+        labelProp: 'username',
         matcherBy: 'id'
       },
       hideExpression: '(model.statusCov)',
