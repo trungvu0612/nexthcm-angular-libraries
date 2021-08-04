@@ -1,6 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { APP_CONFIG, AppConfig, Pagination, PagingResponse } from '@nexthcm/core';
+import { BaseResponse } from '@nexthcm/cdk';
+import { APP_CONFIG, AppConfig, Pagination, PagingResponse, UserDto } from '@nexthcm/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { LeaveEntitlement, ResLeaveEntitlement } from '../models/leave-entitlement';
@@ -39,9 +40,9 @@ export class AdminEntitlementService {
       .pipe(map((response) => response.data));
   }
 
-  getEmployees(params: { [key: string]: number }): Observable<Pagination<any>> {
+  getUserSameOrgAndChildOrg(params: { [key: string]: number }): Observable<Array<UserDto>> {
     return this.http
-      .get<PagingResponse<any>>(`${ACCOUNT_PATH}/employees`, { params })
+      .get<BaseResponse<Array<UserDto>>>(`${ACCOUNT_PATH}/users/get-user-same-org-and-child-org`, { params })
       .pipe(map((response) => response.data));
   }
 
