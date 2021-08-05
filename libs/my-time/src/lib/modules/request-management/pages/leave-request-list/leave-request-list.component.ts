@@ -1,4 +1,6 @@
+import { HttpParams } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, Injector } from '@angular/core';
+import { AuthService } from '@nexthcm/auth';
 import {
   AbstractServerPaginationTableComponent,
   Pagination,
@@ -12,7 +14,7 @@ import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { format } from 'date-fns';
 import { Columns } from 'ngx-easy-table';
-import { from, iif, Observable } from 'rxjs';
+import { BehaviorSubject, from, iif, Observable } from 'rxjs';
 import { map, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { SweetAlertOptions } from 'sweetalert2';
 import { RequestStatus } from '../../../../enums';
@@ -45,6 +47,12 @@ export class LeaveRequestListComponent
       ])
     );
   readonly RequestStatus = RequestStatus;
+  readonly queryParams$ = new BehaviorSubject(
+    new HttpParams()
+      .set('page', '0')
+      .set('size', 10)
+      .set('orgId', this.authService.get('userInfo', 'orgId') as string)
+  );
   readonly loading$ = this.state.$.pipe(map((value) => !value));
   readonly data$ = this.state.select('items').pipe();
   readonly total$ = this.state.select('totalElements');
@@ -59,7 +67,8 @@ export class LeaveRequestListComponent
     private promptService: PromptService,
     private destroy$: TuiDestroyService,
     private dialogService: TuiDialogService,
-    private injector: Injector
+    private injector: Injector,
+    private authService: AuthService
   ) {
     super();
     state.connect(this.request$, (state, data) =>
