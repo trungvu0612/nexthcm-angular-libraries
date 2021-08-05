@@ -422,7 +422,7 @@
   "errorOccurred": "An error occurred",
   "REQUEST_MANAGEMENT_TABLE_COLUMNS": {
     "dateRange": "Date Range",
-    "from": "From",
+    "name": "Name",
     "leaveType": "Leave Type",
     "days": "Days",
     "status": "Status",

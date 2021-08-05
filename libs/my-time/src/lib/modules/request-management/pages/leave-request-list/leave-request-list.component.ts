@@ -1,22 +1,17 @@
 import { HttpParams } from '@angular/common/http';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 import { AuthService } from '@nexthcm/auth';
-import {
-  AbstractServerPaginationTableComponent,
-  Pagination,
-  PromptService,
-  ServerPaginationTableComponent,
-} from '@nexthcm/cdk';
+import { Pagination, PromptService } from '@nexthcm/cdk';
 import { TranslocoService } from '@ngneat/transloco';
 import { RxState, setProp } from '@rx-angular/state';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { format } from 'date-fns';
-import { Columns } from 'ngx-easy-table';
+import { BaseComponent, Columns } from 'ngx-easy-table';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { map, startWith, switchMap, takeUntil } from 'rxjs/operators';
-import { RequestStatus } from '../../../../enums';
+import { map, switchMap } from 'rxjs/operators';
 import { LeaveRequest } from '../../../../models';
 import { MyTimeService, RequestTypeUrlPath } from '../../../../services/my-time.service';
+import { AbstractRequestListComponent } from '../../abstract-components/abstract-request-list.component';
 
 @Component({
   selector: 'hcm-leave-request-list',
@@ -25,17 +20,15 @@ import { MyTimeService, RequestTypeUrlPath } from '../../../../services/my-time.
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [RxState, TuiDestroyService],
 })
-export class LeaveRequestListComponent
-  extends AbstractServerPaginationTableComponent<LeaveRequest>
-  implements ServerPaginationTableComponent<LeaveRequest>
-{
+export class LeaveRequestListComponent extends AbstractRequestListComponent<LeaveRequest> {
+  @ViewChild('table') table!: BaseComponent;
   readonly requestTypeUrlPath = RequestTypeUrlPath.leave;
-  columns$: Observable<Columns[]> = this.translocoService
+  readonly columns$: Observable<Columns[]> = this.translocoService
     .selectTranslateObject('REQUEST_MANAGEMENT_TABLE_COLUMNS')
     .pipe(
       map((result) => [
         { key: 'cif', title: result.cif },
-        { key: 'from', title: result.from },
+        { key: 'name', title: result.name },
         { key: 'dateRange', title: result.dateRange },
         { key: 'leaveType', title: result.leaveType },
         { key: 'days', title: result.days },
@@ -44,32 +37,25 @@ export class LeaveRequestListComponent
         { key: 'functions', title: result.functions },
       ])
     );
-  readonly RequestStatus = RequestStatus;
   readonly queryParams$ = new BehaviorSubject(
     new HttpParams()
       .set('page', '0')
       .set('size', 10)
       .set('orgId', this.authService.get('userInfo', 'orgId') as string)
   );
-  readonly loading$ = this.state.select().pipe(
-    map((value) => !value),
-    startWith(true)
-  );
-  readonly data$ = this.state.select('items');
-  readonly total$ = this.state.select('totalElements');
   private readonly request$ = this.queryParams$.pipe(
     switchMap(() => this.myTimeService.getRequests<LeaveRequest>(this.requestTypeUrlPath, this.queryParams$.value))
   );
 
   constructor(
+    public myTimeService: MyTimeService,
+    public destroy$: TuiDestroyService,
+    public state: RxState<Pagination<LeaveRequest>>,
     private translocoService: TranslocoService,
-    private myTimeService: MyTimeService,
-    private state: RxState<Pagination<LeaveRequest>>,
     private promptService: PromptService,
-    private destroy$: TuiDestroyService,
     private authService: AuthService
   ) {
-    super();
+    super(state);
     state.connect(this.request$, (state, data) =>
       setProp(
         data,
@@ -91,23 +77,5 @@ export class LeaveRequestListComponent
       item.dateRange = `${format(item.fromDate, 'MM/dd/yyyy')} - ${format(item.toDate, 'MM/dd/yyyy')}`;
     }
     return item;
-  }
-
-  onViewLeaveRequestDetail(id: string): void {
-    //
-  }
-
-  onApproveLeaveRequest(id: string): void {
-    this.myTimeService
-      .approveRequest(this.requestTypeUrlPath, id, () => this.queryParams$.next(this.queryParams$.value))
-      .pipe(takeUntil(this.destroy$))
-      .subscribe();
-  }
-
-  onRejectLeaveRequest(id: string): void {
-    this.myTimeService
-      .rejectRequest(this.requestTypeUrlPath, id, () => this.queryParams$.next(this.queryParams$.value))
-      .pipe(takeUntil(this.destroy$))
-      .subscribe();
   }
 }

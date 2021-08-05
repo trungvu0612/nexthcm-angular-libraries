@@ -422,7 +422,7 @@
   "errorOccurred": "Đã xảy ra lỗi",
   "REQUEST_MANAGEMENT_TABLE_COLUMNS": {
     "dateRange": "Khoảng thời gian",
-    "from": "Từ",
+    "name": "Tên",
     "leaveType": "Loại nghỉ phép",
     "days": "Số ngày",
     "status": "Trạng thái",

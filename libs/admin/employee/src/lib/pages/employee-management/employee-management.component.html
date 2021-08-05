@@ -7,7 +7,7 @@
   </header>
   <section class="main-section">
     <tui-loader [overlay]="true" [showLoader]="(loading$ | async) === true">
-      <ngx-table [columns]="(columns$ | async) || []" [configuration]="configuration" [data]="(data$ | async) || []">
+      <ngx-table #table [columns]="(columns$ | async) || []" [configuration]="configuration" [data]="(data$ | async) || []">
         <ng-template let-row>
           <td>{{ item(row).cif }}</td>
           <td>{{ item(row).firstName + ' ' + item(row).lastName }}</td>

@@ -1,5 +1,5 @@
 <tui-loader [overlay]="true" [showLoader]="(loading$ | async) === true">
-  <ngx-table [columns]="(columns$ | async) || []" [configuration]="configuration" [data]="(data$ | async) || []">
+  <ngx-table #table [columns]="(columns$ | async) || []" [configuration]="configuration" [data]="(data$ | async) || []">
     <ng-template let-row>
       <ng-container *tuiLet="item(row) as item">
         <td>{{ item.userInfo.cif }}</td>
@@ -15,13 +15,7 @@
         <td>{{ item.comment }}</td>
         <td>
           <div class="flex items-center">
-            <button
-              (click)="onViewRequestDetail(item.id)"
-              appearance="flat"
-              icon="tuiIconShowLarge"
-              size="m"
-              tuiIconButton
-            ></button>
+            <button appearance="flat" icon="tuiIconShowLarge" size="m" tuiIconButton></button>
             <button
               (click)="onApproveRequest(item.id)"
               appearance="flat"

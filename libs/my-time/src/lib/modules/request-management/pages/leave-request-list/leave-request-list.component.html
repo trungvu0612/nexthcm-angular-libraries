@@ -1,5 +1,5 @@
 <tui-loader [overlay]="true" [showLoader]="(loading$ | async) === true">
-  <ngx-table [columns]="(columns$ | async) || []" [configuration]="configuration" [data]="(data$ | async) || []">
+  <ngx-table #table [columns]="(columns$ | async) || []" [configuration]="configuration" [data]="(data$ | async) || []">
     <ng-template let-row>
       <ng-container *tuiLet="item(row) as item">
         <td>{{ item.employeeDTO.cif }}</td>
@@ -17,14 +17,13 @@
         <td>
           <div class="flex items-center">
             <button
-              (click)="onViewLeaveRequestDetail(item.id)"
               appearance="flat"
               icon="tuiIconShowLarge"
               size="m"
               tuiIconButton
             ></button>
             <button
-              (click)="onApproveLeaveRequest(item.id)"
+              (click)="onApproveRequest(item.id)"
               appearance="flat"
               class="approve-mark"
               icon="tuiIconCheckLarge"
@@ -32,7 +31,7 @@
               tuiIconButton
             ></button>
             <button
-              (click)="onRejectLeaveRequest(item.id)"
+              (click)="onRejectRequest(item.id)"
               appearance="flat"
               class="reject-mark"
               icon="tuiIconRemoveLarge"

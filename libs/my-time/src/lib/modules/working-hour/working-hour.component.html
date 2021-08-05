@@ -175,6 +175,7 @@
                 <div class="grid-cols-12">
                   <section class="main-section">
                     <ngx-table
+                      #table
                       [columns]="(columnsEveryone$ | async) || []"
                       [configuration]="configuration"
                       [data]="(data$ | async) || []"

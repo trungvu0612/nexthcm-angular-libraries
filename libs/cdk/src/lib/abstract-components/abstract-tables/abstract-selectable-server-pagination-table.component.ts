@@ -1,4 +1,4 @@
-import { BaseComponent, Config, DefaultConfig } from 'ngx-easy-table';
+import { Config, DefaultConfig } from 'ngx-easy-table';
 import { AbstractServerPaginationTableComponent } from './abstract-server-pagination-table.component';
 
 export abstract class AbstractSelectableServerPaginationTableComponent<
@@ -12,7 +12,6 @@ export abstract class AbstractSelectableServerPaginationTableComponent<
     paginationRangeEnabled: false,
     fixedColumnWidth: false,
   };
-  table!: BaseComponent;
   allSelected: boolean | null = false;
   readonly selected = new Set<K>();
 

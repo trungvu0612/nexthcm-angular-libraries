@@ -1,18 +1,12 @@
-import { ChangeDetectionStrategy, Component, Injector } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Injector, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import {
-  AbstractServerPaginationTableComponent,
-  EmployeeInfo,
-  Pagination,
-  PromptService,
-  ServerPaginationTableComponent,
-} from '@nexthcm/cdk';
+import { AbstractServerPaginationTableComponent, EmployeeInfo, Pagination, PromptService } from '@nexthcm/cdk';
 import { TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
-import { Columns } from 'ngx-easy-table';
+import { BaseComponent, Columns } from 'ngx-easy-table';
 import { from, Observable } from 'rxjs';
 import { filter, map, switchMap, takeUntil } from 'rxjs/operators';
 import { InitEmployeeDialogComponent } from '../../components/init-employee-dialog/init-employee-dialog.component';
@@ -26,11 +20,9 @@ import { AdminEmployeeService } from '../../services/admin-employee.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [TuiDestroyService, RxState],
 })
-export class EmployeeManagementComponent
-  extends AbstractServerPaginationTableComponent<EmployeeInfo>
-  implements ServerPaginationTableComponent<EmployeeInfo>
-{
-  columns$: Observable<Columns[]> = this.translocoService
+export class EmployeeManagementComponent extends AbstractServerPaginationTableComponent<EmployeeInfo> {
+  @ViewChild('table') table!: BaseComponent;
+  readonly columns$: Observable<Columns[]> = this.translocoService
     .selectTranslateObject('ADMIN_EMPLOYEE_MANAGEMENT_COLUMNS')
     .pipe(
       map((result) => [
@@ -45,26 +37,23 @@ export class EmployeeManagementComponent
         { key: 'actions', title: result.functions },
       ])
     );
-  readonly loading$ = this.state.$.pipe(map((value) => !value));
-  readonly data$ = this.state.select('items');
-  readonly total$ = this.state.select('totalElements');
   private readonly request$ = this.queryParams$.pipe(
     switchMap(() => this.adminEmployeesService.getEmployees(this.queryParams$.value)),
     map((res) => res.data)
   );
 
   constructor(
-    private readonly dialogService: TuiDialogService,
-    private readonly injector: Injector,
+    public state: RxState<Pagination<EmployeeInfo>>,
+    private dialogService: TuiDialogService,
+    private injector: Injector,
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private adminEmployeesService: AdminEmployeeService,
     private destroy$: TuiDestroyService,
-    private state: RxState<Pagination<EmployeeInfo>>,
     private translocoService: TranslocoService,
     private promptService: PromptService
   ) {
-    super();
+    super(state);
     state.connect(this.request$);
   }
 

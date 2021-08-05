@@ -1,7 +1,7 @@
 import { HttpParams } from '@angular/common/http';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit, ViewChild } from '@angular/core';
 import { AuthService } from '@nexthcm/auth';
-import { AbstractServerPaginationTableComponent, Pagination, ServerPaginationTableComponent } from '@nexthcm/cdk';
+import { AbstractServerPaginationTableComponent, Pagination } from '@nexthcm/cdk';
 import { FormBuilder, FormControl, FormGroup } from '@ngneat/reactive-forms';
 import { TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
@@ -9,10 +9,10 @@ import { TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { endOfYesterday, startOfYesterday } from 'date-fns';
-import { Columns } from 'ngx-easy-table';
+import { BaseComponent, Columns } from 'ngx-easy-table';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { debounceTime, map, switchMap, takeUntil } from 'rxjs/operators';
-import { SearchWorkingHour, WorkingHour } from '../../models/working-hour';
+import { SearchWorkingHour, WorkingHour } from '../../models';
 import { WorkingHourService } from '../../services/working-hour.service';
 import { RequestOtComponent } from './request-ot/request-ot.component';
 import { RequestUpdateTimeComponent } from './request-update-time/request-update-time.component';
@@ -26,10 +26,8 @@ import { WorkingOutsiteComponent } from './working-outsite/working-outsite.compo
   providers: [TuiDestroyService, RxState],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class WorkingHourComponent
-  extends AbstractServerPaginationTableComponent<WorkingHour>
-  implements ServerPaginationTableComponent<WorkingHour>, OnInit
-{
+export class WorkingHourComponent extends AbstractServerPaginationTableComponent<WorkingHour> implements OnInit {
+  @ViewChild('table') table!: BaseComponent;
   workingMeStatus = true;
   workingHourData: any;
   workingHourDataOnlyMe: any;
@@ -92,10 +90,6 @@ export class WorkingHourComponent
         { key: 'actions', title: result.functions },
       ])
     );
-
-  readonly loading$ = this.state.$.pipe(map((value) => !value));
-  readonly data$ = this.state.select('items');
-  readonly total$ = this.state.select('totalElements');
   readonly queryParams$ = new BehaviorSubject(
     new HttpParams().set('page', '0').set('size', 10).set('userId', this.authService.get('userInfo', 'userId'))
   );
@@ -105,6 +99,7 @@ export class WorkingHourComponent
   );
 
   constructor(
+    public state: RxState<Pagination<WorkingHour>>,
     private dialogService: TuiDialogService,
     private injector: Injector,
     private workingHourService: WorkingHourService,
@@ -112,10 +107,9 @@ export class WorkingHourComponent
     private cdr: ChangeDetectorRef,
     private destroy$: TuiDestroyService,
     private authService: AuthService,
-    private state: RxState<Pagination<WorkingHour>>,
     private translocoService: TranslocoService
   ) {
-    super();
+    super(state);
     state.connect(this.request$);
   }
 

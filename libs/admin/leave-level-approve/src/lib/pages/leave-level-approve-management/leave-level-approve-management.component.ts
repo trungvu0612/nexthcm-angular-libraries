@@ -1,16 +1,11 @@
-import { ChangeDetectionStrategy, Component, Injector } from '@angular/core';
-import {
-  AbstractServerPaginationTableComponent,
-  Pagination,
-  PromptService,
-  ServerPaginationTableComponent,
-} from '@nexthcm/cdk';
+import { ChangeDetectionStrategy, Component, Injector, ViewChild } from '@angular/core';
+import { AbstractServerPaginationTableComponent, Pagination, PromptService } from '@nexthcm/cdk';
 import { TranslocoService } from '@ngneat/transloco';
 import { RxState, setProp } from '@rx-angular/state';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
-import { Columns } from 'ngx-easy-table';
+import { BaseComponent, Columns } from 'ngx-easy-table';
 import { from, Observable } from 'rxjs';
 import { filter, map, switchMap, takeUntil } from 'rxjs/operators';
 import { UpsertLeaveLevelApproveDialogComponent } from '../../components/upsert-leave-level-approve/upsert-leave-level-approve-dialog.component';
@@ -24,11 +19,9 @@ import { AdminLeaveLevelApproveService } from '../../services/admin-leave-level-
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [TuiDestroyService, RxState],
 })
-export class LeaveLevelApproveManagementComponent
-  extends AbstractServerPaginationTableComponent<LevelApprove>
-  implements ServerPaginationTableComponent<LevelApprove>
-{
-  columns$: Observable<Columns[]> = this.translocoService
+export class LeaveLevelApproveManagementComponent extends AbstractServerPaginationTableComponent<LevelApprove> {
+  @ViewChild('table') table!: BaseComponent;
+  readonly columns$: Observable<Columns[]> = this.translocoService
     .selectTranslateObject('ADMIN_LEAVE_LEVEL_APPROVE_MANAGEMENT_COLUMNS')
     .pipe(
       map((result) => [
@@ -39,25 +32,21 @@ export class LeaveLevelApproveManagementComponent
         { key: 'functions', title: result.functions },
       ])
     );
-
-  readonly loading$ = this.state.$.pipe(map((value) => !value));
-  readonly data$ = this.state.select('items').pipe();
-  readonly total$ = this.state.select('totalElements');
   private readonly request$ = this.queryParams$.pipe(
     switchMap(() => this.levelApproveService.getAdminLevelApproves(this.queryParams$.value)),
     map((res) => res.data)
   );
 
   constructor(
+    public state: RxState<Pagination<LevelApprove>>,
     private destroy$: TuiDestroyService,
-    private readonly dialogService: TuiDialogService,
-    private readonly injector: Injector,
+    private dialogService: TuiDialogService,
+    private injector: Injector,
     private translocoService: TranslocoService,
-    private state: RxState<Pagination<LevelApprove>>,
     private promptService: PromptService,
     private levelApproveService: AdminLeaveLevelApproveService
   ) {
-    super();
+    super(state);
     state.connect(this.request$, (state, data) =>
       setProp(
         data,
