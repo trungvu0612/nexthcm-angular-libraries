@@ -979,7 +979,7 @@
         "publish": {
           "builder": "@nrwl/workspace:run-commands",
           "options": {
-            "command": "yarn publish dist/libs/core"
+            "command": "yarn transloco-optimize && yarn publish dist/libs/core"
           }
         }
       }

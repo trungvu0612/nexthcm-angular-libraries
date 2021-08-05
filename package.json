@@ -29,7 +29,8 @@
     "dep-graph": "nx dep-graph",
     "help": "nx help",
     "prepare": "husky install",
-    "generate-icons": "svg-generator"
+    "generate-icons": "svg-generator",
+    "transloco-optimize": "transloco-optimize dist/libs/core/assets/i18n"
   },
   "private": true,
   "dependencies": {
