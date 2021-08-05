@@ -26,7 +26,7 @@ export class PromptService {
       next: () =>
         this.open({
           icon: 'success',
-          text: this.translocoService.translate(successfulText),
+          html: this.translocoService.translate(successfulText),
         }).then(() => (callback ? callback() : null)),
       error: (err: HttpErrorResponse) => {
         let errorMessage: string;
@@ -36,7 +36,7 @@ export class PromptService {
           const HTTP_RESPONSE_ERROR_MESSAGES = this.translocoService.translateObject('HTTP_RESPONSE_ERROR_MESSAGES');
           errorMessage = HTTP_RESPONSE_ERROR_MESSAGES[err.status] || HTTP_RESPONSE_ERROR_MESSAGES.default;
         }
-        this.open({ icon: 'error', text: errorMessage });
+        this.open({ icon: 'error', html: errorMessage });
       },
     };
   }

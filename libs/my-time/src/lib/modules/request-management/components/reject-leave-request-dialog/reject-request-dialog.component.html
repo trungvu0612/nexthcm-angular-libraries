@@ -1,6 +1,7 @@
-<form (ngSubmit)="onSubmit()" [formGroup]="$any(form)">
+<form (ngSubmit)="onSubmit()" *transloco="let t" [formGroup]="$any(form)">
+  <div class="tui-text_h5 mb-5">{{ t('rejectRequestWarning') }}</div>
   <formly-form [fields]="fields" [form]="$any(form)"></formly-form>
-  <div *transloco="let t" class="tui-form__buttons">
+  <div class="tui-form__buttons">
     <button class="tui-form__button" size="l" tuiButton>{{ t('ok') }}</button>
     <button (click)="onCancel()" appearance="flat" class="tui-form__button" size="l" tuiButton type="button">
       {{ t('cancel') }}

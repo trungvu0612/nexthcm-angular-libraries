@@ -5,9 +5,9 @@ import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { MyLeave } from '../../../models/my-leave';
-import { LeaveSubmit } from '../../../models/submit-leave';
-import { MyLeaveService } from '../../../services/my-leave.service';
+import { MyLeave } from '../../../../models/my-leave';
+import { LeaveSubmit } from '../../../../models/submit-leave';
+import { MyLeaveService } from '../../../../services/my-leave.service';
 
 @Component({
   selector: 'hcm-leave-management-detail-dialog',

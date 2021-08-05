@@ -62,9 +62,20 @@ export class LeaveLevelApproveManagementComponent
       setProp(
         data,
         'items',
-        data.items.map((item) => this.getJobTitleName(item))
+        data.items.map((item) => LeaveLevelApproveManagementComponent.getJobTitleName(item))
       )
     );
+  }
+
+  private static getJobTitleName(levelApprove: LevelApprove): LevelApprove {
+    if (!levelApprove.jobTitleDTOList) {
+      return levelApprove;
+    }
+    levelApprove.jobTitlesName = levelApprove.jobTitleDTOList
+      .map((jobTitle) => jobTitle.name)
+      .filter(isPresent)
+      .join(', ');
+    return levelApprove;
   }
 
   onAddLeaveLevel(): void {
@@ -85,7 +96,7 @@ export class LeaveLevelApproveManagementComponent
       from(
         this.promptService.open({
           icon: 'question',
-          text: this.translocoService.translate('deleteLeaveLevelApprove'),
+          html: this.translocoService.translate('deleteLeaveLevelApprove'),
           showCancelButton: true,
         })
       )
@@ -124,16 +135,5 @@ export class LeaveLevelApproveManagementComponent
         data,
       }
     );
-  }
-
-  private getJobTitleName(levelApprove: LevelApprove): LevelApprove {
-    if (!levelApprove.jobTitleDTOList) {
-      return levelApprove;
-    }
-    levelApprove.jobTitlesName = levelApprove.jobTitleDTOList
-      .map((jobTitle) => jobTitle.name)
-      .filter(isPresent)
-      .join(', ');
-    return levelApprove;
   }
 }

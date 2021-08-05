@@ -2,12 +2,13 @@
   <ngx-table [columns]="(columns$ | async) || []" [configuration]="configuration" [data]="(data$ | async) || []">
     <ng-template let-row>
       <ng-container *tuiLet="item(row) as item">
+        <td>{{ item.user.cif }}</td>
+        <td class="font-bold uppercase">{{ item.user.fullName }}</td>
         <td>{{ item.fromDate | date: 'MM/dd/yyyy' }} - {{ item.toDate | date: 'MM/dd/yyyy' }}</td>
-        <td>{{ item.user.profile.fullName }}</td>
         <td>
           <tui-tag
             [value]="RequestStatus[item.status] | transloco"
-            class="font-bold {{ RequestStatus[item.status] }}-tag"
+            class="{{ RequestStatus[item.status] }}-tag"
           ></tui-tag>
         </td>
         <td>{{ item.comment }}</td>

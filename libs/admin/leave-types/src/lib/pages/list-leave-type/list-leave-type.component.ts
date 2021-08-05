@@ -83,7 +83,7 @@ export class ListLeaveTypeComponent {
     from(
       this.promptService.open({
         icon: 'question',
-        text: this.translocoService.translate('ADMIN_LEAVE_TYPES.MESSAGES.deleteLeaveType'),
+        html: this.translocoService.translate('ADMIN_LEAVE_TYPES.MESSAGES.deleteLeaveType'),
         showCancelButton: true,
       })
     )
@@ -95,7 +95,7 @@ export class ListLeaveTypeComponent {
         catchError((err) =>
           this.promptService.open({
             icon: 'error',
-            text: this.translocoService.translate(`ADMIN_LEAVE_TYPES.ERRORS.${err.error.message}`),
+            html: this.translocoService.translate(`ADMIN_LEAVE_TYPES.ERRORS.${err.error.message}`),
           })
         ),
         takeUntil(this.destroy$)

@@ -16,7 +16,10 @@ import { ListMyRequestComponent } from './modules/my-request/list-my-request/lis
 import { MyRequestsComponent } from './modules/my-request/my-requests.component';
 import { MyRequestsModule } from './modules/my-request/my-requests.module';
 import { LeaveRequestListComponent } from './modules/request-management/pages/leave-request-list/leave-request-list.component';
+import { UpdateTimesheetRequestListComponent } from './modules/request-management/pages/update-timesheet-request-list/update-timesheet-request-list.component';
+import { WorkFormHomeRequestListComponent } from './modules/request-management/pages/work-form-home-request-list/work-form-home-request-list.component';
 import { WorkingAfterHoursRequestListComponent } from './modules/request-management/pages/working-after-hours-request-list/working-after-hours-request-list.component';
+import { WorkingOutsideRequestListComponent } from './modules/request-management/pages/working-outside-request-list/working-outside-request-list.component';
 import { RequestManagementComponent } from './modules/request-management/request-management.component';
 import { RequestManagementModule } from './modules/request-management/request-management.module';
 import { WorkingHourComponent } from './modules/working-hour/working-hour.component';
@@ -65,7 +68,10 @@ export const MY_TIME_ROUTES: Routes = [
             component: RequestManagementComponent,
             children: [
               { path: 'leave', component: LeaveRequestListComponent },
-              { path: 'after-hours', component: WorkingAfterHoursRequestListComponent },
+              { path: 'working-after-hours', component: WorkingAfterHoursRequestListComponent },
+              { path: 'update-timesheet', component: UpdateTimesheetRequestListComponent },
+              { path: 'working-outside', component: WorkingOutsideRequestListComponent },
+              { path: 'work-from-home', component: WorkFormHomeRequestListComponent },
               { path: '', redirectTo: 'leave', pathMatch: 'full' },
             ],
           },

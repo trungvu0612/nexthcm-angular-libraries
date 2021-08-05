@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, Injector } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   AbstractServerPaginationTableComponent,
+  EmployeeInfo,
   Pagination,
   PromptService,
   ServerPaginationTableComponent,
@@ -15,7 +16,7 @@ import { Columns } from 'ngx-easy-table';
 import { from, Observable } from 'rxjs';
 import { filter, map, switchMap, takeUntil } from 'rxjs/operators';
 import { InitEmployeeDialogComponent } from '../../components/init-employee-dialog/init-employee-dialog.component';
-import { BaseEmployee, EmployeeGeneralInformation } from '../../models';
+import { EmployeeGeneralInformation } from '../../models';
 import { AdminEmployeeService } from '../../services/admin-employee.service';
 
 @Component({
@@ -26,8 +27,8 @@ import { AdminEmployeeService } from '../../services/admin-employee.service';
   providers: [TuiDestroyService, RxState],
 })
 export class EmployeeManagementComponent
-  extends AbstractServerPaginationTableComponent<BaseEmployee>
-  implements ServerPaginationTableComponent<BaseEmployee>
+  extends AbstractServerPaginationTableComponent<EmployeeInfo>
+  implements ServerPaginationTableComponent<EmployeeInfo>
 {
   columns$: Observable<Columns[]> = this.translocoService
     .selectTranslateObject('ADMIN_EMPLOYEE_MANAGEMENT_COLUMNS')
@@ -59,7 +60,7 @@ export class EmployeeManagementComponent
     private activatedRoute: ActivatedRoute,
     private adminEmployeesService: AdminEmployeeService,
     private destroy$: TuiDestroyService,
-    private state: RxState<Pagination<BaseEmployee>>,
+    private state: RxState<Pagination<EmployeeInfo>>,
     private translocoService: TranslocoService,
     private promptService: PromptService
   ) {
@@ -95,7 +96,7 @@ export class EmployeeManagementComponent
       from(
         this.promptService.open({
           icon: 'question',
-          text: this.translocoService.translate('deleteEmployee'),
+          html: this.translocoService.translate('deleteEmployee'),
           showCancelButton: true,
         })
       )

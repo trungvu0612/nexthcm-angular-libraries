@@ -420,14 +420,18 @@
     "default": "Có gì đó không ổn!"
   },
   "errorOccurred": "Đã xảy ra lỗi",
-  "REQUEST_MANAGEMENT_LEAVE_REQUEST_TABLE_COLUMNS": {
+  "REQUEST_MANAGEMENT_TABLE_COLUMNS": {
     "dateRange": "Khoảng thời gian",
     "from": "Từ",
     "leaveType": "Loại nghỉ phép",
     "days": "Số ngày",
     "status": "Trạng thái",
     "comment": "Bình luận",
-    "functions": "Chức năng"
+    "functions": "Chức năng",
+    "cif": "Mã nhân viên",
+    "newTimeIn": "Giờ vào mới",
+    "newTimeOut": "Giờ ra mới",
+    "date": "Ngày"
   },
   "reject": "Từ chối",
   "cancelled": "Huỷ bỏ",
@@ -435,5 +439,16 @@
   "waiting": "Đang chờ",
   "taken": "Đã nhận",
   "weekend": "Cuối tuần",
-  "holiday": "Ngày lễ"
+  "holiday": "Ngày lễ",
+  "leave": "Nghỉ phép",
+  "workingAfterHours": "Làm việc ngoài giờ",
+  "updateTimesheet": "Cập nhật bảng ghi thời gian",
+  "workingOutside": "Làm việc bên ngoài",
+  "workFromHome": "Làm việc tại nhà",
+  "approveRequestWarning": "<b>Bạn có thật sự muốn chấp thuận yêu cầu này?</b>",
+  "rejectRequestWarning": "Bạn có thật sự muốn từ chối yêu cầu này?",
+  "enterRejectReason": "Nhập lý do từ chối...",
+  "approveSuccessfully": "Chấp thuận yêu cầu thành công!",
+  "rejectSuccessfully": "Từ chối yêu cầu thành công!",
+  "reason": "Lý do"
 }

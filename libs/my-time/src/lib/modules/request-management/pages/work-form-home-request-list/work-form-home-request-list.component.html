@@ -2,11 +2,10 @@
   <ngx-table [columns]="(columns$ | async) || []" [configuration]="configuration" [data]="(data$ | async) || []">
     <ng-template let-row>
       <ng-container *tuiLet="item(row) as item">
-        <td>{{ item.employeeDTO.cif }}</td>
-        <td class="font-bold uppercase">{{ item.employeeDTO.fullName }}</td>
-        <td>{{ item.dateRange }}</td>
-        <td>{{ item.leaveType.name }}</td>
-        <td>{{ item.durationInDay }}</td>
+        <td>{{ item.userInfo.cif }}</td>
+        <td class="font-bold uppercase">{{ item.userInfo.fullName }}</td>
+        <td>{{ item.fromDate | date: 'MM/dd/yyyy' }} - {{ item.toDate | date: 'MM/dd/yyyy' }}</td>
+        <td>{{ item.lengthDay }}</td>
         <td>
           <tui-tag
             [value]="RequestStatus[item.status] | transloco"
@@ -17,14 +16,14 @@
         <td>
           <div class="flex items-center">
             <button
-              (click)="onViewLeaveRequestDetail(item.id)"
+              (click)="onViewRequestDetail(item.id)"
               appearance="flat"
               icon="tuiIconShowLarge"
               size="m"
               tuiIconButton
             ></button>
             <button
-              (click)="onApproveLeaveRequest(item.id)"
+              (click)="onApproveRequest(item.id)"
               appearance="flat"
               class="approve-mark"
               icon="tuiIconCheckLarge"
@@ -32,7 +31,7 @@
               tuiIconButton
             ></button>
             <button
-              (click)="onRejectLeaveRequest(item.id)"
+              (click)="onRejectRequest(item.id)"
               appearance="flat"
               class="reject-mark"
               icon="tuiIconRemoveLarge"

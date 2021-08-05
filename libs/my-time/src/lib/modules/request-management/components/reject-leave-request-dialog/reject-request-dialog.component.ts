@@ -6,7 +6,7 @@ import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { UpdateRequestPayload } from '../../../../models';
 
 @Component({
-  selector: 'hcm-reject-leave-request-dialog',
+  selector: 'hcm-reject-request-dialog',
   templateUrl: './reject-request-dialog.component.html',
   styleUrls: ['./reject-request-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -17,12 +17,12 @@ export class RejectRequestDialogComponent {
     { key: 'status', defaultValue: -1 },
     {
       key: 'reason',
-      type: 'input',
+      type: 'text-area',
       templateOptions: {
         translate: true,
         label: 'reason',
         labelClassName: 'font-semibold',
-        placeholder: 'enterReason',
+        placeholder: 'enterRejectReason',
         required: true,
         textfieldLabelOutside: true,
       },

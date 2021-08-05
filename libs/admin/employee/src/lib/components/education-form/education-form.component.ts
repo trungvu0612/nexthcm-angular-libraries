@@ -100,7 +100,7 @@ export class EducationFormComponent {
   onSubmit(): void {
     if (this.form.valid) {
       this.adminEmployeeService
-        .updateEmployeeInformation(this.form.value)
+        .updateEmployeeInformation<EmployeeEducation>(this.form.value)
         .pipe(takeUntil(this.destroy$))
         .subscribe(this.promptService.handleResponse('updateSuccessful'));
     }

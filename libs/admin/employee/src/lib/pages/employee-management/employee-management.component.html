@@ -11,7 +11,7 @@
         <ng-template let-row>
           <td>{{ item(row).cif }}</td>
           <td>{{ item(row).firstName + ' ' + item(row).lastName }}</td>
-          <td>{{ item(row).userName }}</td>
+          <td>{{ item(row).username }}</td>
           <td>{{ (item(row).status ? 'active' : 'inactive') | transloco }}</td>
           <td>{{ item(row).roles[0].name }}</td>
           <td>{{ item(row).organization.name }}</td>

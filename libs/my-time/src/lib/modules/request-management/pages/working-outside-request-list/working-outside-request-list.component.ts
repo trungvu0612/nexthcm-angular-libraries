@@ -15,20 +15,21 @@ import { from, iif, Observable } from 'rxjs';
 import { map, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { SweetAlertOptions } from 'sweetalert2';
 import { RequestStatus } from '../../../../enums';
-import { UpdateRequestPayload, WorkingAfterHoursRequest } from '../../../../models';
+import { UpdateRequestPayload } from '../../../../models';
+import { WorkingOutsideRequest } from '../../../../models/interfaces/working-outside-request';
 import { MyTimeService, RequestTypeUrlPath } from '../../../../services/my-time.service';
 import { RejectRequestDialogComponent } from '../../components/reject-leave-request-dialog/reject-request-dialog.component';
 
 @Component({
-  selector: 'hcm-working-after-hours-request-list',
-  templateUrl: './working-after-hours-request-list.component.html',
-  styleUrls: ['./working-after-hours-request-list.component.scss'],
+  selector: 'hcm-working-outside-request-list',
+  templateUrl: './working-outside-request-list.component.html',
+  styleUrls: ['./working-outside-request-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [RxState, TuiDestroyService],
 })
-export class WorkingAfterHoursRequestListComponent
-  extends AbstractServerPaginationTableComponent<WorkingAfterHoursRequest>
-  implements ServerPaginationTableComponent<WorkingAfterHoursRequest>
+export class WorkingOutsideRequestListComponent
+  extends AbstractServerPaginationTableComponent<WorkingOutsideRequest>
+  implements ServerPaginationTableComponent<WorkingOutsideRequest>
 {
   columns$: Observable<Columns[]> = this.translocoService
     .selectTranslateObject('REQUEST_MANAGEMENT_TABLE_COLUMNS')
@@ -37,6 +38,7 @@ export class WorkingAfterHoursRequestListComponent
         { key: 'cif', title: result.cif },
         { key: 'from', title: result.from },
         { key: 'dateRange', title: result.dateRange },
+        { key: 'days', title: result.days },
         { key: 'status', title: result.status },
         { key: 'comment', title: result.comment },
         { key: 'functions', title: result.functions },
@@ -51,17 +53,14 @@ export class WorkingAfterHoursRequestListComponent
   readonly total$ = this.state.select('totalElements');
   private readonly request$ = this.queryParams$.pipe(
     switchMap(() =>
-      this.myTimeService.getRequests<WorkingAfterHoursRequest>(
-        RequestTypeUrlPath.workingAfterHours,
-        this.queryParams$.value
-      )
+      this.myTimeService.getRequests<WorkingOutsideRequest>(RequestTypeUrlPath.workingOutside, this.queryParams$.value)
     )
   );
 
   constructor(
     private translocoService: TranslocoService,
     private myTimeService: MyTimeService,
-    private state: RxState<Pagination<WorkingAfterHoursRequest>>,
+    private state: RxState<Pagination<WorkingOutsideRequest>>,
     private promptService: PromptService,
     private destroy$: TuiDestroyService,
     private dialogService: TuiDialogService,
@@ -80,7 +79,7 @@ export class WorkingAfterHoursRequestListComponent
       this.promptService.open({
         icon: 'warning',
         showCancelButton: true,
-        html: this.translocoService.translate('approveLeaveRequestWarning'),
+        html: this.translocoService.translate('approveRequestWarning'),
       } as SweetAlertOptions)
     )
       .pipe(
@@ -93,7 +92,7 @@ export class WorkingAfterHoursRequestListComponent
   onRejectRequest(id: string): void {
     this.dialogService
       .open<UpdateRequestPayload>(new PolymorpheusComponent(RejectRequestDialogComponent, this.injector), {
-        label: 'rejectRequest',
+        label: 'rejectWorkingOutsideRequest',
       })
       .pipe(
         switchMap((payload) => this.updateRequest(id, payload)),
@@ -104,7 +103,7 @@ export class WorkingAfterHoursRequestListComponent
 
   private updateRequest(id: string, payload: UpdateRequestPayload): Observable<unknown> {
     return this.myTimeService
-      .updateRequest(RequestTypeUrlPath.workingAfterHours, id, payload)
+      .updateRequest(RequestTypeUrlPath.workingOutside, id, payload)
       .pipe(tap(this.promptService.handleResponse('', () => this.queryParams$.next(this.queryParams$.value))));
   }
 }

@@ -111,7 +111,3 @@ export interface EmployeeSHUI {
 	healthInsuranceNumber: string;
 	healthCares: HealthCare[] | string;
 }
-
-export interface BaseEmployee {
-  [x: string]: any;
-}

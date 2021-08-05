@@ -1,5 +1,5 @@
 import { HttpParams } from '@angular/common/http';
-import { ChangeDetectionStrategy, Component, Injector } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { AuthService } from '@nexthcm/auth';
 import {
   AbstractServerPaginationTableComponent,
@@ -10,17 +10,13 @@ import {
 import { TranslocoService } from '@ngneat/transloco';
 import { RxState, setProp } from '@rx-angular/state';
 import { TuiDestroyService } from '@taiga-ui/cdk';
-import { TuiDialogService } from '@taiga-ui/core';
-import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { format } from 'date-fns';
 import { Columns } from 'ngx-easy-table';
-import { BehaviorSubject, from, iif, Observable } from 'rxjs';
-import { map, switchMap, takeUntil, tap } from 'rxjs/operators';
-import { SweetAlertOptions } from 'sweetalert2';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { map, startWith, switchMap, takeUntil } from 'rxjs/operators';
 import { RequestStatus } from '../../../../enums';
-import { LeaveRequest, UpdateRequestPayload } from '../../../../models';
-import { MyTimeService, RequestTypesUrlPath } from '../../../../services/my-time.service';
-import { RejectRequestDialogComponent } from '../../components/reject-leave-request-dialog/reject-request-dialog.component';
+import { LeaveRequest } from '../../../../models';
+import { MyTimeService, RequestTypeUrlPath } from '../../../../services/my-time.service';
 
 @Component({
   selector: 'hcm-leave-request-list',
@@ -33,12 +29,14 @@ export class LeaveRequestListComponent
   extends AbstractServerPaginationTableComponent<LeaveRequest>
   implements ServerPaginationTableComponent<LeaveRequest>
 {
+  readonly requestTypeUrlPath = RequestTypeUrlPath.leave;
   columns$: Observable<Columns[]> = this.translocoService
-    .selectTranslateObject('REQUEST_MANAGEMENT_LEAVE_REQUEST_TABLE_COLUMNS')
+    .selectTranslateObject('REQUEST_MANAGEMENT_TABLE_COLUMNS')
     .pipe(
       map((result) => [
-        { key: 'dateRange', title: result.dateRange },
+        { key: 'cif', title: result.cif },
         { key: 'from', title: result.from },
+        { key: 'dateRange', title: result.dateRange },
         { key: 'leaveType', title: result.leaveType },
         { key: 'days', title: result.days },
         { key: 'status', title: result.status },
@@ -53,11 +51,14 @@ export class LeaveRequestListComponent
       .set('size', 10)
       .set('orgId', this.authService.get('userInfo', 'orgId') as string)
   );
-  readonly loading$ = this.state.$.pipe(map((value) => !value));
-  readonly data$ = this.state.select('items').pipe();
+  readonly loading$ = this.state.select().pipe(
+    map((value) => !value),
+    startWith(true)
+  );
+  readonly data$ = this.state.select('items');
   readonly total$ = this.state.select('totalElements');
   private readonly request$ = this.queryParams$.pipe(
-    switchMap(() => this.myTimeService.getRequests<LeaveRequest>(RequestTypesUrlPath.leave, this.queryParams$.value))
+    switchMap(() => this.myTimeService.getRequests<LeaveRequest>(this.requestTypeUrlPath, this.queryParams$.value))
   );
 
   constructor(
@@ -66,8 +67,6 @@ export class LeaveRequestListComponent
     private state: RxState<Pagination<LeaveRequest>>,
     private promptService: PromptService,
     private destroy$: TuiDestroyService,
-    private dialogService: TuiDialogService,
-    private injector: Injector,
     private authService: AuthService
   ) {
     super();
@@ -99,35 +98,16 @@ export class LeaveRequestListComponent
   }
 
   onApproveLeaveRequest(id: string): void {
-    from(
-      this.promptService.open({
-        icon: 'warning',
-        showCancelButton: true,
-        text: this.translocoService.translate('approveLeaveRequestWarning'),
-      } as SweetAlertOptions)
-    )
-      .pipe(
-        switchMap((result) => iif(() => result.isConfirmed, this.updateRequest(id, { status: 1 }))),
-        takeUntil(this.destroy$)
-      )
+    this.myTimeService
+      .approveRequest(this.requestTypeUrlPath, id, () => this.queryParams$.next(this.queryParams$.value))
+      .pipe(takeUntil(this.destroy$))
       .subscribe();
   }
 
   onRejectLeaveRequest(id: string): void {
-    this.dialogService
-      .open<UpdateRequestPayload>(new PolymorpheusComponent(RejectRequestDialogComponent, this.injector), {
-        label: 'rejectLeaveRequest',
-      })
-      .pipe(
-        switchMap((payload) => this.updateRequest(id, payload)),
-        takeUntil(this.destroy$)
-      )
+    this.myTimeService
+      .rejectRequest(this.requestTypeUrlPath, id, () => this.queryParams$.next(this.queryParams$.value))
+      .pipe(takeUntil(this.destroy$))
       .subscribe();
-  }
-
-  private updateRequest(id: string, payload: UpdateRequestPayload): Observable<unknown> {
-    return this.myTimeService
-      .updateRequest(RequestTypesUrlPath.leave, id, payload)
-      .pipe(tap(this.promptService.handleResponse('', () => this.queryParams$.next(this.queryParams$.value))));
   }
 }

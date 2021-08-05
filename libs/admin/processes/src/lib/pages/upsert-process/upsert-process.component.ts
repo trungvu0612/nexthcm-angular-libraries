@@ -329,7 +329,7 @@ export class UpsertProcessComponent implements AfterViewInit {
       this.promptService
         .open({
           icon: 'warning',
-          text: this.translocoService.translate(direction, { transition: newTransition.name, status: nextStatus.name }),
+          html: this.translocoService.translate(direction, { transition: newTransition.name, status: nextStatus.name }),
           showCancelButton: true,
         })
         .then((result) => {

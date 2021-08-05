@@ -165,7 +165,7 @@ export class ShuiFormComponent {
   onSubmit(): void {
     if (this.form.valid) {
       this.adminEmployeeService
-        .updateEmployeeInformation(this.form.value)
+        .updateEmployeeInformation<EmployeeSHUI>(this.form.value)
         .pipe(takeUntil(this.destroy$))
         .subscribe(this.promptService.handleResponse('updateSuccessful'));
     }

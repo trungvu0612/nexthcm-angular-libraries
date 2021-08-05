@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Injector } from '@angular/core';
+import { Component, Injector } from '@angular/core';
 import {
   AbstractServerPaginationTableComponent,
   Pagination,
@@ -15,20 +15,19 @@ import { from, iif, Observable } from 'rxjs';
 import { map, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { SweetAlertOptions } from 'sweetalert2';
 import { RequestStatus } from '../../../../enums';
-import { UpdateRequestPayload, WorkingAfterHoursRequest } from '../../../../models';
+import { UpdateRequestPayload, UpdateTimesheetRequest } from '../../../../models';
 import { MyTimeService, RequestTypeUrlPath } from '../../../../services/my-time.service';
 import { RejectRequestDialogComponent } from '../../components/reject-leave-request-dialog/reject-request-dialog.component';
 
 @Component({
-  selector: 'hcm-working-after-hours-request-list',
-  templateUrl: './working-after-hours-request-list.component.html',
-  styleUrls: ['./working-after-hours-request-list.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [RxState, TuiDestroyService],
+  selector: 'hcm-update-timesheet-request-list',
+  templateUrl: './update-timesheet-request-list.component.html',
+  styleUrls: ['./update-timesheet-request-list.component.scss'],
+  providers: [TuiDestroyService, RxState],
 })
-export class WorkingAfterHoursRequestListComponent
-  extends AbstractServerPaginationTableComponent<WorkingAfterHoursRequest>
-  implements ServerPaginationTableComponent<WorkingAfterHoursRequest>
+export class UpdateTimesheetRequestListComponent
+  extends AbstractServerPaginationTableComponent<UpdateTimesheetRequest>
+  implements ServerPaginationTableComponent<UpdateTimesheetRequest>
 {
   columns$: Observable<Columns[]> = this.translocoService
     .selectTranslateObject('REQUEST_MANAGEMENT_TABLE_COLUMNS')
@@ -36,7 +35,9 @@ export class WorkingAfterHoursRequestListComponent
       map((result) => [
         { key: 'cif', title: result.cif },
         { key: 'from', title: result.from },
-        { key: 'dateRange', title: result.dateRange },
+        { key: 'date', title: result.date },
+        { key: 'newTimeIn', title: result.newTimeIn },
+        { key: 'newTimeOut', title: result.newTimeOut },
         { key: 'status', title: result.status },
         { key: 'comment', title: result.comment },
         { key: 'functions', title: result.functions },
@@ -51,8 +52,8 @@ export class WorkingAfterHoursRequestListComponent
   readonly total$ = this.state.select('totalElements');
   private readonly request$ = this.queryParams$.pipe(
     switchMap(() =>
-      this.myTimeService.getRequests<WorkingAfterHoursRequest>(
-        RequestTypeUrlPath.workingAfterHours,
+      this.myTimeService.getRequests<UpdateTimesheetRequest>(
+        RequestTypeUrlPath.updateTimeSheet,
         this.queryParams$.value
       )
     )
@@ -61,7 +62,7 @@ export class WorkingAfterHoursRequestListComponent
   constructor(
     private translocoService: TranslocoService,
     private myTimeService: MyTimeService,
-    private state: RxState<Pagination<WorkingAfterHoursRequest>>,
+    private state: RxState<Pagination<UpdateTimesheetRequest>>,
     private promptService: PromptService,
     private destroy$: TuiDestroyService,
     private dialogService: TuiDialogService,
@@ -93,7 +94,7 @@ export class WorkingAfterHoursRequestListComponent
   onRejectRequest(id: string): void {
     this.dialogService
       .open<UpdateRequestPayload>(new PolymorpheusComponent(RejectRequestDialogComponent, this.injector), {
-        label: 'rejectRequest',
+        label: 'rejectLeaveRequest',
       })
       .pipe(
         switchMap((payload) => this.updateRequest(id, payload)),
@@ -104,7 +105,7 @@ export class WorkingAfterHoursRequestListComponent
 
   private updateRequest(id: string, payload: UpdateRequestPayload): Observable<unknown> {
     return this.myTimeService
-      .updateRequest(RequestTypeUrlPath.workingAfterHours, id, payload)
+      .updateRequest(RequestTypeUrlPath.updateTimeSheet, id, payload)
       .pipe(tap(this.promptService.handleResponse('', () => this.queryParams$.next(this.queryParams$.value))));
   }
 }

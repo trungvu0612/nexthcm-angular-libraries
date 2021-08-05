@@ -420,14 +420,18 @@
     "default": "Something went wrong!"
   },
   "errorOccurred": "An error occurred",
-  "REQUEST_MANAGEMENT_LEAVE_REQUEST_TABLE_COLUMNS": {
+  "REQUEST_MANAGEMENT_TABLE_COLUMNS": {
     "dateRange": "Date Range",
     "from": "From",
     "leaveType": "Leave Type",
     "days": "Days",
     "status": "Status",
     "comment": "Comment",
-    "functions": "Functions"
+    "functions": "Functions",
+    "cif": "CIF",
+    "newTimeIn": "New check-in time",
+    "newTimeOut": "New check-out time",
+    "date": "Date"
   },
   "reject": "Reject",
   "cancelled": "Cancelled",
@@ -435,5 +439,16 @@
   "waiting": "Waiting",
   "taken": "Taken",
   "weekend": "Weekend",
-  "holiday": "Holiday"
+  "holiday": "Holiday",
+  "leave": "Leave",
+  "workingAfterHours": "Working after-hours",
+  "updateTimesheet": "Update timesheet",
+  "workingOutside": "Working outside",
+  "workFromHome": "Work from home",
+  "approveRequestWarning": "<b>Are you sure you want to approve this request?</b>",
+  "rejectRequestWarning": "Are you sure you want to reject this request?",
+  "enterRejectReason": "Enter reject reason...",
+  "approveSuccessfully": "Approve this request successfully!",
+  "rejectSuccessfully": "Reject this request successfully!",
+  "reason": "Reason"
 }
