@@ -1,6 +1,6 @@
 import { getGreeting } from '../support/app.po';
 
-describe('hcm-processes', () => {
+describe('hcm-workflows', () => {
   beforeEach(() => cy.visit('/'));
 
   it('should display welcome message', () => {
@@ -8,6 +8,6 @@ describe('hcm-processes', () => {
     cy.login('my-email@something.com', 'myPassword');
 
     // Function helper example, see `../support/app.po.ts` file
-    getGreeting().contains('Welcome to hcm-processes!');
+    getGreeting().contains('Welcome to hcm-workflows!');
   });
 });

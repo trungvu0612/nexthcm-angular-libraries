@@ -8,7 +8,7 @@
     ".stylelintrc.json": "*"
   },
   "affected": {
-    "defaultBase": "master"
+    "defaultBase": "develop"
   },
   "npmScope": "next-hcm",
   "tasksRunnerOptions": {
@@ -86,12 +86,12 @@
     "form": {
       "tags": []
     },
-    "hcm-processes": {
+    "hcm-workflows": {
       "tags": []
     },
-    "hcm-processes-e2e": {
+    "hcm-workflows-e2e": {
       "tags": [],
-      "implicitDependencies": ["hcm-processes"]
+      "implicitDependencies": ["hcm-workflows"]
     },
     "hcm-web": {
       "tags": []
@@ -107,9 +107,6 @@
       "tags": []
     },
     "knowledge-base": {
-      "tags": []
-    },
-    "leave-entitlement": {
       "tags": []
     },
     "my-time": {

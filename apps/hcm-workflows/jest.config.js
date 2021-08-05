@@ -1,5 +1,5 @@
 module.exports = {
-  displayName: 'hcm-processes',
+  displayName: 'hcm-workflows',
   preset: '../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   globals: {
@@ -8,7 +8,7 @@ module.exports = {
       stringifyContentPathRegex: '\\.(html|svg)$',
     },
   },
-  coverageDirectory: '../../coverage/apps/hcm-processes',
+  coverageDirectory: '../../coverage/apps/hcm-workflows',
   snapshotSerializers: [
     'jest-preset-angular/build/serializers/no-ng-attributes',
     'jest-preset-angular/build/serializers/ng-snapshot',
