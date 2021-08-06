@@ -363,7 +363,6 @@
     "dateTo": "Đến ngày",
     "asignStaff": "Người duyệt",
     "office": "Văn phòng",
-    "type": "Loại phép",
     "toDayOfDay": "Số ngày nghỉ",
     "leaveNotFound": "Không tìm thấy đơn xin phép này!"
   },
@@ -433,13 +432,16 @@
     "newTimeOut": "Giờ ra mới",
     "date": "Ngày"
   },
-  "reject": "Từ chối",
-  "cancelled": "Huỷ bỏ",
-  "approved": "Chấp thuận",
-  "waiting": "Đang chờ",
-  "taken": "Đã nhận",
-  "weekend": "Cuối tuần",
-  "holiday": "Ngày lễ",
+  "REQUEST_STATUS": {
+    "all": "Tất cả",
+    "rejected": "Từ chối",
+    "cancelled": "Huỷ bỏ",
+    "approved": "Chấp thuận",
+    "waiting": "Đang chờ",
+    "taken": "Đã nhận",
+    "weekend": "Cuối tuần",
+    "holiday": "Ngày lễ"
+  },
   "leave": "Nghỉ phép",
   "workingAfterHours": "Làm việc ngoài giờ",
   "updateTimesheet": "Cập nhật bảng ghi thời gian",
@@ -448,7 +450,10 @@
   "approveRequestWarning": "<b>Bạn có thật sự muốn chấp thuận yêu cầu này?</b>",
   "rejectRequestWarning": "Bạn có thật sự muốn từ chối yêu cầu này?",
   "enterRejectReason": "Nhập lý do từ chối...",
-  "approveSuccessfully": "Chấp thuận yêu cầu thành công!",
-  "rejectSuccessfully": "Từ chối yêu cầu thành công!",
-  "reason": "Lý do"
+  "approveSuccessfully": "<b>Chấp thuận yêu cầu thành công!</b>",
+  "rejectSuccessfully": "<b>Từ chối yêu cầu thành công!</b>",
+  "reason": "Lý do",
+  "year": "Năm",
+  "month": "Tháng",
+  "searchByCifFullNameOffice": "Tìm kiếm bằng mã nhân viên, tên, văn phòng..."
 }

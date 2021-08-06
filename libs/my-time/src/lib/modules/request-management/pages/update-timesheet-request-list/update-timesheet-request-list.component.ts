@@ -2,10 +2,10 @@ import { Component, ViewChild } from '@angular/core';
 import { Pagination } from '@nexthcm/cdk';
 import { TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
-import { TuiDestroyService } from '@taiga-ui/cdk';
+import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { BaseComponent, Columns } from 'ngx-easy-table';
 import { Observable } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { filter, map, share, startWith, switchMap } from 'rxjs/operators';
 import { UpdateTimesheetRequest } from '../../../../models';
 import { MyTimeService, RequestTypeUrlPath } from '../../../../services/my-time.service';
 import { AbstractRequestListComponent } from '../../abstract-components/abstract-request-list.component';
@@ -35,9 +35,13 @@ export class UpdateTimesheetRequestListComponent extends AbstractRequestListComp
     );
   private readonly request$ = this.queryParams$.pipe(
     switchMap(() =>
-      this.myTimeService.getRequests<UpdateTimesheetRequest>(this.requestTypeUrlPath, this.queryParams$.value)
-    )
+      this.myTimeService
+        .getRequests<UpdateTimesheetRequest>(this.requestTypeUrlPath, this.queryParams$.value)
+        .pipe(startWith(null))
+    ),
+    share()
   );
+  readonly loading$ = this.request$.pipe(map((value) => !value));
 
   constructor(
     public myTimeService: MyTimeService,
@@ -46,6 +50,6 @@ export class UpdateTimesheetRequestListComponent extends AbstractRequestListComp
     private translocoService: TranslocoService
   ) {
     super(state);
-    state.connect(this.request$);
+    state.connect(this.request$.pipe(filter(isPresent)));
   }
 }

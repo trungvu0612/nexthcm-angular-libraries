@@ -433,13 +433,16 @@
     "newTimeOut": "New check-out time",
     "date": "Date"
   },
-  "reject": "Reject",
-  "cancelled": "Cancelled",
-  "approved": "Approved",
-  "waiting": "Waiting",
-  "taken": "Taken",
-  "weekend": "Weekend",
-  "holiday": "Holiday",
+  "REQUEST_STATUS":{
+    "all": "All",
+    "rejected": "Rejected",
+    "cancelled": "Cancelled",
+    "approved": "Approved",
+    "waiting": "Waiting",
+    "taken": "Taken",
+    "weekend": "Weekend",
+    "holiday": "Holiday"
+  },
   "leave": "Leave",
   "workingAfterHours": "Working after-hours",
   "updateTimesheet": "Update timesheet",
@@ -448,7 +451,10 @@
   "approveRequestWarning": "<b>Are you sure you want to approve this request?</b>",
   "rejectRequestWarning": "Are you sure you want to reject this request?",
   "enterRejectReason": "Enter reject reason...",
-  "approveSuccessfully": "Approve this request successfully!",
-  "rejectSuccessfully": "Reject this request successfully!",
-  "reason": "Reason"
+  "approveSuccessfully": "<b>Approve this request successfully!</b>",
+  "rejectSuccessfully": "<b>Reject this request successfully!</b>",
+  "reason": "Reason",
+  "year": "Year",
+  "month": "Month",
+  "searchByCifFullNameOffice": "Search by CIF, full name, office..."
 }

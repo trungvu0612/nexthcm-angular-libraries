@@ -1,3 +1,4 @@
+<hcm-request-management-filter [queryParams]="queryParams$" class="mb-5"></hcm-request-management-filter>
 <tui-loader [overlay]="true" [showLoader]="(loading$ | async) === true">
   <ngx-table #table [columns]="(columns$ | async) || []" [configuration]="configuration" [data]="(data$ | async) || []">
     <ng-template let-row>
@@ -9,19 +10,14 @@
         <td>{{ item.durationInDay }}</td>
         <td>
           <tui-tag
-            [value]="RequestStatus[item.status] | transloco"
+            [value]="'REQUEST_STATUS.' + RequestStatus[item.status] | transloco"
             class="{{ RequestStatus[item.status] }}-tag"
           ></tui-tag>
         </td>
         <td>{{ item.comment }}</td>
         <td>
           <div class="flex items-center">
-            <button
-              appearance="flat"
-              icon="tuiIconShowLarge"
-              size="m"
-              tuiIconButton
-            ></button>
+            <button appearance="flat" icon="tuiIconShowLarge" size="m" tuiIconButton></button>
             <button
               (click)="onApproveRequest(item.id)"
               appearance="flat"

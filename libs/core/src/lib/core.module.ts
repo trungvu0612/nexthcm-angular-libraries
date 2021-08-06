@@ -1,5 +1,6 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, registerLocaleData } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
+import localeVi from '@angular/common/locales/vi';
 import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
 import { SvgIconsModule } from '@ngneat/svg-icon';
 import { TranslocoModule } from '@ngneat/transloco';
@@ -17,6 +18,8 @@ import { INIT_PERMISSIONS_PROVIDER } from './providers/init-permissions.provider
 import { LANGUAGE_PROVIDER } from './providers/language.provider';
 import { TRANSLATION_CONFIG_PROVIDER } from './transloco/transloco-config';
 import { TRANSLOCO_HTTP_LOADER_PROVIDER } from './transloco/transloco-http-loader';
+
+registerLocaleData(localeVi);
 
 @NgModule({
   imports: [

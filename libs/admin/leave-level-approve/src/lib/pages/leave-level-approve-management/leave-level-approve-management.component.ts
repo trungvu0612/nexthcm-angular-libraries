@@ -36,6 +36,7 @@ export class LeaveLevelApproveManagementComponent extends AbstractServerPaginati
     switchMap(() => this.levelApproveService.getAdminLevelApproves(this.queryParams$.value)),
     map((res) => res.data)
   );
+  readonly loading$ = this.request$.pipe(map((value) => !value));
 
   constructor(
     public state: RxState<Pagination<LevelApprove>>,

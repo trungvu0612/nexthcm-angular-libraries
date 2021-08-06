@@ -2,13 +2,14 @@ import { HttpParams } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 import { AuthService } from '@nexthcm/auth';
 import { Pagination, PromptService } from '@nexthcm/cdk';
+import { FormBuilder } from '@ngneat/reactive-forms';
 import { TranslocoService } from '@ngneat/transloco';
 import { RxState, setProp } from '@rx-angular/state';
-import { TuiDestroyService } from '@taiga-ui/cdk';
+import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { format } from 'date-fns';
 import { BaseComponent, Columns } from 'ngx-easy-table';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { filter, map, share, startWith, switchMap } from 'rxjs/operators';
 import { LeaveRequest } from '../../../../models';
 import { MyTimeService, RequestTypeUrlPath } from '../../../../services/my-time.service';
 import { AbstractRequestListComponent } from '../../abstract-components/abstract-request-list.component';
@@ -39,24 +40,31 @@ export class LeaveRequestListComponent extends AbstractRequestListComponent<Leav
     );
   readonly queryParams$ = new BehaviorSubject(
     new HttpParams()
-      .set('page', '0')
+      .set('page', 0)
       .set('size', 10)
       .set('orgId', this.authService.get('userInfo', 'orgId') as string)
   );
   private readonly request$ = this.queryParams$.pipe(
-    switchMap(() => this.myTimeService.getRequests<LeaveRequest>(this.requestTypeUrlPath, this.queryParams$.value))
+    switchMap(() =>
+      this.myTimeService
+        .getRequests<LeaveRequest>(this.requestTypeUrlPath, this.queryParams$.value)
+        .pipe(startWith(null))
+    ),
+    share()
   );
+  readonly loading$ = this.request$.pipe(map((value) => !value));
 
   constructor(
     public myTimeService: MyTimeService,
     public destroy$: TuiDestroyService,
     public state: RxState<Pagination<LeaveRequest>>,
+    private fb: FormBuilder,
     private translocoService: TranslocoService,
     private promptService: PromptService,
     private authService: AuthService
   ) {
     super(state);
-    state.connect(this.request$, (state, data) =>
+    state.connect(this.request$.pipe(filter(isPresent)), (state, data) =>
       setProp(
         data,
         'items',

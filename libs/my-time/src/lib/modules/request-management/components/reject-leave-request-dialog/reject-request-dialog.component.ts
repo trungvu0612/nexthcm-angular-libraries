@@ -14,7 +14,7 @@ import { UpdateRequestPayload } from '../../../../models';
 export class RejectRequestDialogComponent {
   form = this.fb.group<UpdateRequestPayload>({} as UpdateRequestPayload);
   fields: FormlyFieldConfig[] = [
-    { key: 'status', defaultValue: -1 },
+    { key: 'status', defaultValue: 3 },
     {
       key: 'reason',
       type: 'text-area',

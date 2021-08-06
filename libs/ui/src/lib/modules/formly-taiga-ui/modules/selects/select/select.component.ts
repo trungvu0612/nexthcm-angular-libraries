@@ -18,18 +18,14 @@ export class SelectComponent extends FieldType {
   };
 
   get identityMatcher(): TuiIdentityMatcher<unknown> {
-    if (!this.to.matcherBy) return TUI_DEFAULT_IDENTITY_MATCHER;
-    return (i1: any, i2: any) => i1[this.to.matcherBy] === i2[this.to.matcherBy];
+    return this.to.matcherBy
+      ? (i1: any, i2: any) => i1[this.to.matcherBy] === i2[this.to.matcherBy]
+      : TUI_DEFAULT_IDENTITY_MATCHER;
   }
 
   @tuiPure
   stringify(items: ReadonlyArray<any>): TuiStringHandler<TuiContextWithImplicit<any>> {
-    const map = new Map(
-      items.map((item) => [
-        this.to.stringItem ? item : item[this.to.valueProp],
-        this.to.stringItem ? item : item[this.to.labelProp],
-      ])
-    );
+    const map = new Map(items.map((item) => [item[this.to.valueProp], item[this.to.labelProp]]));
     return ({ $implicit }: TuiContextWithImplicit<any>) => map.get($implicit) || '';
   }
 

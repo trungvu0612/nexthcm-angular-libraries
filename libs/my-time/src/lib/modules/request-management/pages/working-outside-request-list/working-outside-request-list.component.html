@@ -1,3 +1,4 @@
+<hcm-request-management-filter [queryParams]="queryParams$" class="mb-5"></hcm-request-management-filter>
 <tui-loader [overlay]="true" [showLoader]="(loading$ | async) === true">
   <ngx-table #table [columns]="(columns$ | async) || []" [configuration]="configuration" [data]="(data$ | async) || []">
     <ng-template let-row>
@@ -8,7 +9,7 @@
         <td>{{ item.dayWorking | number: '1.0-0' }}</td>
         <td>
           <tui-tag
-            [value]="RequestStatus[item.status] | transloco"
+            [value]="'REQUEST_STATUS.' + RequestStatus[item.status] | transloco"
             class="{{ RequestStatus[item.status] }}-tag"
           ></tui-tag>
         </td>
