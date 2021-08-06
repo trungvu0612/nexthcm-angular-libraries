@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@nexthcm/admin-contracts": ["libs/admin/contracts/src/index.ts"],
       "@nexthcm/admin-employee": ["libs/admin/employee/src/index.ts"],
       "@nexthcm/admin-entitlement": ["libs/admin/entitlement/src/index.ts"],
       "@nexthcm/admin-job-level": ["libs/admin/job-level/src/index.ts"],

@@ -20,6 +20,9 @@
     }
   },
   "projects": {
+    "admin-contracts": {
+      "tags": []
+    },
     "admin-employee": {
       "tags": []
     },
@@ -86,19 +89,19 @@
     "form": {
       "tags": []
     },
-    "hcm-workflows": {
-      "tags": []
-    },
-    "hcm-workflows-e2e": {
-      "tags": [],
-      "implicitDependencies": ["hcm-workflows"]
-    },
     "hcm-web": {
       "tags": []
     },
     "hcm-web-e2e": {
       "tags": [],
       "implicitDependencies": ["hcm-web"]
+    },
+    "hcm-workflows": {
+      "tags": []
+    },
+    "hcm-workflows-e2e": {
+      "tags": [],
+      "implicitDependencies": ["hcm-workflows"]
     },
     "home": {
       "tags": []
