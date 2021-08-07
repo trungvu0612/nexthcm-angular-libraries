@@ -52,20 +52,20 @@ export interface BankAccount {
 }
 
 export interface EmployeeIndividual {
-	employeeId: string;
-	type: EmployeeInformationType;
-	permanentAddress: string;
-	temporaryAddress: string;
-	birthDate: string | TuiDay | Date;
-	idNumber: number;
-	issueOn: string | TuiDay | Date;
-	issueAt: string;
-	currentStatus: number;
-	companyEmail: string;
-	personalEmail: string;
-	phoneNumber: number;
-	bankAccounts: BankAccount[] | string;
-	office: BaseOption | string;
+  employeeId: string;
+  type: EmployeeInformationType;
+  permanentAddress: string;
+  temporaryAddress: string;
+  birthDate: string | TuiDay | Date;
+  idNumber: number;
+  issueOn: string | TuiDay | Date;
+  issueAt: string;
+  currentStatus: number;
+  companyEmail: string;
+  personalEmail: string;
+  phoneNumber: number;
+  bankAccounts: BankAccount[] | string;
+  office: BaseOption | string;
   officeOnsite?: string;
 }
 
@@ -75,24 +75,30 @@ export interface EmergencyContact {
 }
 
 export interface EmployeeDuration {
-	type?: string;
-	emergencyContacts?: EmergencyContact[] | string;
-	employeeId?: string;
-	onboardDate?: string | TuiDay | Date;
-	probationDate?: DateRange | TuiDayRange | string;
-	officialStartDate?: string | TuiDay | Date;
-	terminationDate?: string | TuiDay | Date;
-	probationNumber?: number;
-	labourContractNumber?: string;
-	labourContractDate?: string | TuiDay | Date;
-	indefiniteTermContract?: string;
-	indefiniteTermContractDate?: string | TuiDay | Date;
-	resignationAgreement?: string;
-	resignationAgreementDate?: string | TuiDay | Date;
+  type?: string;
+  emergencyContacts?: EmergencyContact[] | string;
+  employeeId?: string;
+  onboardDate?: string | TuiDay | Date;
+  probationDate?: DateRange | TuiDayRange | string;
+  officialStartDate?: string | TuiDay | Date;
+  terminationDate?: string | TuiDay | Date;
+  probationNumber?: number;
+  labourContractNumber?: string;
+  labourContractDate?: string | TuiDay | Date;
+  indefiniteTermContract?: string;
+  indefiniteTermContractDate?: string | TuiDay | Date;
+  resignationAgreement?: string;
+  resignationAgreementDate?: string | TuiDay | Date;
 }
 
 export interface EmployeeEducation {
-  [x: string]: any;
+  employeeId: string;
+  type?: string;
+  university?: string;
+  major?: string;
+  highestCertificate?: string;
+  graduationYear?: string;
+  description?: string;
 }
 
 export interface HealthCare {
@@ -102,12 +108,12 @@ export interface HealthCare {
 
 export interface EmployeeSHUI {
   employeeId: string;
-	type: EmployeeInformationType;
-	taxIDNumber: string;
-	socialInsuranceNumber: string;
-	socialInsurancePlace: string;
-	familyHealthyCareNumber: string;
-	familyAllowance: string;
-	healthInsuranceNumber: string;
-	healthCares: HealthCare[] | string;
+  type: EmployeeInformationType;
+  taxIDNumber: string;
+  socialInsuranceNumber: string;
+  socialInsurancePlace: string;
+  familyHealthyCareNumber: string;
+  familyAllowance: string;
+  healthInsuranceNumber: string;
+  healthCares: HealthCare[] | string;
 }

@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import { Route, RouterModule } from '@angular/router';
 import { SelectOptionsModule } from '@nexthcm/cdk';
 import { LayoutComponent } from '@nexthcm/ui';
 import { FormlyModule } from '@ngx-formly/core';
-import { RxReactiveFormsModule } from '@rxweb/reactive-form-validators';
 import { TuiTableModule, TuiTablePaginationModule } from '@taiga-ui/addon-table';
 import { TuiLetModule } from '@taiga-ui/cdk';
 import { TuiButtonModule, TuiDataListModule, TuiSvgModule } from '@taiga-ui/core';
@@ -35,8 +35,8 @@ export const adminEntitlementRoutes: Route[] = [
     children: [
       { path: '', component: ListEntitlementComponent },
       { path: 'period', component: ListEntitlementComponent },
-    ]
-  }
+    ],
+  },
 ];
 
 @NgModule({
@@ -51,7 +51,7 @@ export const adminEntitlementRoutes: Route[] = [
     TuiInputMonthModule,
     TuiTagModule,
     TuiButtonModule,
-    RxReactiveFormsModule,
+    ReactiveFormsModule,
     TuiMultiSelectModule,
     TuiDataListWrapperModule,
     TuiDataListModule,
@@ -66,10 +66,8 @@ export const adminEntitlementRoutes: Route[] = [
     CreateLeaveEntitlementComponent,
     CreateLeavePeriodComponent,
     EditLeavePeriodComponent,
-    EditLeaveEntitlementComponent
+    EditLeaveEntitlementComponent,
   ],
-  providers: [
-  ]
+  providers: [],
 })
-export class AdminEntitlementModule {
-}
+export class AdminEntitlementModule {}

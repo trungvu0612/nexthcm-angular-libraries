@@ -30,8 +30,6 @@ export class RequestManagementFilterComponent {
 
   constructor(private translocoService: TranslocoService) {}
 
-  readonly statusStringify: TuiStringHandler<any> = (item: BaseOption) => item.label;
-
   @tuiPure
   monthStringify(items: ReadonlyArray<BaseOption<number>>): TuiStringHandler<TuiContextWithImplicit<number>> {
     const map = new Map(items.map(({ value, label }) => [value, label]));

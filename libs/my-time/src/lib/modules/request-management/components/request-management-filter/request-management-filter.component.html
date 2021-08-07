@@ -5,7 +5,6 @@
   <tui-select
     (ngModelChange)="onFilterByMonth($event)"
     *tuiLet="monthList$ | async as months"
-    [disabled]="year === null"
     [ngModel]="month"
     [tuiTextfieldCleaner]="true"
     [valueContent]="monthStringify(months || [])"

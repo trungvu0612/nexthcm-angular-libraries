@@ -18,7 +18,8 @@
               }
             ]
           }
-        ]
+        ],
+        "@ngneat/reactive-forms/no-angular-forms-imports": "error"
       }
     },
     {

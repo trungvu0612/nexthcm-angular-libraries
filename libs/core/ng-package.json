@@ -5,27 +5,5 @@
     "entryFile": "src/index.ts"
   },
   "assets": ["assets"],
-  "allowedNonPeerDependencies": [
-    "@apollo/client",
-    "@ngneat/reactive-forms",
-    "@ngneat/transloco",
-    "@ngx-formly/core",
-    "@rx-angular/cdk",
-    "@rx-angular/state",
-    "@rx-angular/template",
-    "@rxweb/reactive-form-validators",
-    "@sweetalert2/ngx-sweetalert2",
-    "@tinkoff/ng-dompurify",
-    "apollo-angular",
-    "date-fns",
-    "graphql",
-    "inter-ui",
-    "ng-heroicon",
-    "ngx-cookie",
-    "ngx-easy-table",
-    "ngx-permissions",
-    "sweetalert2",
-    "@ngneat/svg-icon",
-    "@ng-stack/forms"
-  ]
+  "allowedNonPeerDependencies": ["."]
 }

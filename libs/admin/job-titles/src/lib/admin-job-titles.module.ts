@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import { Route, RouterModule } from '@angular/router';
 import { LayoutComponent } from '@nexthcm/ui';
 import { FormlyModule } from '@ngx-formly/core';
-import { RxReactiveFormsModule } from '@rxweb/reactive-form-validators';
 import { TuiTableModule, TuiTablePaginationModule } from '@taiga-ui/addon-table';
 import { TuiLetModule } from '@taiga-ui/cdk';
 import { TuiButtonModule, TuiSvgModule } from '@taiga-ui/core';
@@ -32,7 +32,7 @@ export const adminJobTitlesRoutes: Route[] = [
     CommonModule,
     RouterModule.forChild(adminJobTitlesRoutes),
     FormlyModule,
-    RxReactiveFormsModule,
+    ReactiveFormsModule,
     TuiTablePaginationModule,
     TuiTableModule,
     TuiSvgModule,

@@ -1,8 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { NgStackFormsModule } from '@ng-stack/forms';
 import { TranslocoModule } from '@ngneat/transloco';
 import { FormlyModule } from '@ngx-formly/core';
 import { TuiTablePaginationModule } from '@taiga-ui/addon-table';
@@ -52,7 +51,7 @@ import { RequestManagementComponent } from './request-management.component';
     TuiTagModule,
     TuiLetModule,
     FormlyModule,
-    NgStackFormsModule,
+    ReactiveFormsModule,
     TuiInputNumberModule,
     TuiDataListModule,
     TuiInputModule,
