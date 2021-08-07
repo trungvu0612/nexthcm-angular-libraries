@@ -34,7 +34,7 @@ export class LeaveRequestListComponent extends AbstractRequestListComponent<Leav
         { key: 'leaveType', title: result.leaveType },
         { key: 'days', title: result.days },
         { key: 'status', title: result.status },
-        { key: 'comment', title: result.comment },
+        { key: 'comment', title: result.Comment },
         { key: 'functions', title: result.functions },
       ])
     );

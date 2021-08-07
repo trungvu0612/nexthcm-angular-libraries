@@ -28,7 +28,7 @@ export class WorkingAfterHoursRequestListComponent extends AbstractRequestListCo
         { key: 'name', title: result.name },
         { key: 'dateRange', title: result.dateRange },
         { key: 'status', title: result.status },
-        { key: 'comment', title: result.comment },
+        { key: 'comment', title: result.Comment },
         { key: 'functions', title: result.functions },
       ])
     );

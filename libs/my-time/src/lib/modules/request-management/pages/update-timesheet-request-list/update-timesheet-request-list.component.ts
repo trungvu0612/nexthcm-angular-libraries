@@ -29,7 +29,7 @@ export class UpdateTimesheetRequestListComponent extends AbstractRequestListComp
         { key: 'newTimeIn', title: result.newTimeIn },
         { key: 'newTimeOut', title: result.newTimeOut },
         { key: 'status', title: result.status },
-        { key: 'comment', title: result.comment },
+        { key: 'comment', title: result.Comment },
         { key: 'functions', title: result.functions },
       ])
     );

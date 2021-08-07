@@ -29,7 +29,7 @@ export class WorkingOutsideRequestListComponent extends AbstractRequestListCompo
         { key: 'dateRange', title: result.dateRange },
         { key: 'days', title: result.days },
         { key: 'status', title: result.status },
-        { key: 'comment', title: result.comment },
+        { key: 'comment', title: result.Comment },
         { key: 'functions', title: result.functions },
       ])
     );

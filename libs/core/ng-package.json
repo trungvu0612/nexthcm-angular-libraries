@@ -25,6 +25,7 @@
     "ngx-easy-table",
     "ngx-permissions",
     "sweetalert2",
-    "@ngneat/svg-icon"
+    "@ngneat/svg-icon",
+    "@ng-stack/forms"
   ]
 }
