@@ -7,7 +7,7 @@ import { BaseComponent, Columns } from 'ngx-easy-table';
 import { Observable } from 'rxjs';
 import { filter, map, share, startWith, switchMap } from 'rxjs/operators';
 import { WorkingAfterHoursRequest } from '../../../../models';
-import { MyTimeService, RequestTypeUrlPath } from '../../../../services/my-time.service';
+import { MyTimeService, RequestTypeAPIUrlPath } from '../../../../services/my-time.service';
 import { AbstractRequestListComponent } from '../../abstract-components/abstract-request-list.component';
 
 @Component({
@@ -19,7 +19,7 @@ import { AbstractRequestListComponent } from '../../abstract-components/abstract
 })
 export class WorkingAfterHoursRequestListComponent extends AbstractRequestListComponent<WorkingAfterHoursRequest> {
   @ViewChild('table') table!: BaseComponent;
-  readonly requestTypeUrlPath = RequestTypeUrlPath.workingAfterHours;
+  readonly requestTypeUrlPath = RequestTypeAPIUrlPath.workingAfterHours;
   readonly columns$: Observable<Columns[]> = this.translocoService
     .selectTranslateObject('REQUEST_MANAGEMENT_TABLE_COLUMNS')
     .pipe(

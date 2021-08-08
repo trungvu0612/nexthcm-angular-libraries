@@ -17,7 +17,13 @@
         <td>{{ item.comment }}</td>
         <td>
           <div class="flex items-center">
-            <button appearance="flat" icon="tuiIconShowLarge" size="m" tuiIconButton></button>
+            <button
+              (click)="onViewEmployeeRequestDetail(item.id)"
+              appearance="flat"
+              icon="tuiIconShowLarge"
+              size="m"
+              tuiIconButton
+            ></button>
             <button
               (click)="onApproveRequest(item.id)"
               appearance="flat"

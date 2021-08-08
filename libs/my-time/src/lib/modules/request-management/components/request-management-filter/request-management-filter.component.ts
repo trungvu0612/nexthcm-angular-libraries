@@ -1,6 +1,7 @@
-import { getLocaleMonthNames } from '@angular/common';
+import { getLocaleMonthNames, Location } from '@angular/common';
 import { HttpParams } from '@angular/common/http';
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ActivatedRoute, convertToParamMap, Params, UrlSerializer } from '@angular/router';
 import { BaseOption } from '@nexthcm/cdk';
 import { TranslocoService } from '@ngneat/transloco';
 import { TuiContextWithImplicit, tuiPure, TuiStringHandler } from '@taiga-ui/cdk';
@@ -15,11 +16,10 @@ import { RequestStatus } from '../../../../enums';
   styleUrls: ['./request-management-filter.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class RequestManagementFilterComponent {
+export class RequestManagementFilterComponent implements OnInit {
   @Input() queryParams!: BehaviorSubject<HttpParams>;
   year: number | null = null;
   month: number | null = null;
-  monthSearch: string | null = null;
   keyword: string | null = null;
   status: RequestStatus | null = null;
   readonly monthList$: Observable<BaseOption<number>[]> = this.translocoService.langChanges$.pipe(
@@ -28,7 +28,12 @@ export class RequestManagementFilterComponent {
   readonly statusList = Object.values(RequestStatus).filter((value) => !isNaN(Number(value)));
   readonly RequestStatus = RequestStatus;
 
-  constructor(private translocoService: TranslocoService) {}
+  constructor(
+    private translocoService: TranslocoService,
+    private activatedRoute: ActivatedRoute,
+    private urlSerializer: UrlSerializer,
+    private locationRef: Location
+  ) {}
 
   @tuiPure
   monthStringify(items: ReadonlyArray<BaseOption<number>>): TuiStringHandler<TuiContextWithImplicit<number>> {
@@ -36,29 +41,39 @@ export class RequestManagementFilterComponent {
     return ({ $implicit }: TuiContextWithImplicit<number>) => map.get($implicit) || '';
   }
 
+  ngOnInit(): void {
+    this.parseParams(this.activatedRoute.snapshot.queryParams);
+  }
+
   onFilterByYear(): void {
-    this.filterByYearMonth();
+    this.setQueryParams<number>('year', this.year);
+    this.queryParams.next(this.filterByYearMonth());
   }
 
   onFilterByMonth(value: number | null): void {
     this.month = value;
-    this.filterByYearMonth();
+    this.setQueryParams<number>('month', this.month);
+    this.queryParams.next(this.filterByYearMonth());
   }
 
   onFilterByStatus(value: RequestStatus | null): void {
     this.status = value;
-    this.onFilter('status', value);
+    this.queryParams.next(this.onFilter('status', value));
   }
 
-  onFilter(key: string, value: string | number | RequestStatus | null): void {
+  onFilter(key: string, value: string | number | RequestStatus | null): HttpParams {
+    let httpParams = this.queryParams.value;
+    this.setQueryParams<string | number>(key, value);
     if (value !== null) {
-      this.queryParams.next(this.queryParams.value.set(key, value));
+      httpParams = httpParams.set(key, value);
     } else {
-      this.queryParams.next(this.queryParams.value.delete(key));
+      httpParams = httpParams.delete(key);
     }
+    return httpParams;
   }
 
-  private filterByYearMonth(): void {
+  private filterByYearMonth(): HttpParams {
+    let httpParams = this.queryParams.value;
     if (this.year !== null) {
       let fromDate: number;
       let toDate: number;
@@ -70,9 +85,38 @@ export class RequestManagementFilterComponent {
         fromDate = startOfYear(setYear(NOW, this.year)).valueOf();
         toDate = endOfYear(setYear(NOW, this.year)).valueOf();
       }
-      this.queryParams.next(this.queryParams.value.set('fromDate', fromDate).set('toDate', toDate));
+      httpParams = httpParams.set('fromDate', fromDate).set('toDate', toDate);
     } else {
-      this.queryParams.next(this.queryParams.value.delete('fromDate').delete('toDate'));
+      httpParams = httpParams.delete('fromDate').delete('toDate');
     }
+    return httpParams;
+  }
+
+  private parseParams(params: Params): void {
+    if (convertToParamMap(params).keys.length) {
+      let httpParams = this.queryParams.value;
+      if (params.year && !isNaN(Number(params.year))) {
+        this.year = +params.year;
+        if (params.month && !isNaN(Number(params.month))) {
+          this.month = +params.month;
+        }
+        httpParams = this.filterByYearMonth();
+      }
+      if (params.keyword) {
+        this.keyword = params.keyword;
+        httpParams = this.onFilter('keyword', params.keyword);
+      }
+      if (params.status && !isNaN(Number(params.status))) {
+        this.status = params.status;
+        httpParams = this.onFilter('status', params.status);
+      }
+      this.queryParams.next(httpParams);
+    }
+  }
+
+  private setQueryParams<T>(key: string, value: T | null) {
+    const tree = this.urlSerializer.parse(this.locationRef.path());
+    tree.queryParams = { ...tree.queryParams, [key]: value };
+    this.locationRef.go(String(tree));
   }
 }

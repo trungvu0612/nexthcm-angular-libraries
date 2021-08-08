@@ -3,16 +3,26 @@ import { RxState } from '@rx-angular/state';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { takeUntil } from 'rxjs/operators';
 import { RequestStatus } from '../../../enums';
-import { MyTimeService, RequestTypeUrlPath } from '../../../services/my-time.service';
+import { MyTimeService, RequestTypeAPIUrlPath } from '../../../services/my-time.service';
 
 export abstract class AbstractRequestListComponent<T> extends AbstractServerPaginationTableComponent<T> {
-  requestTypeUrlPath!: RequestTypeUrlPath;
+  requestTypeUrlPath!: RequestTypeAPIUrlPath;
   myTimeService!: MyTimeService;
   destroy$!: TuiDestroyService;
   readonly RequestStatus = RequestStatus;
 
   protected constructor(public state: RxState<Pagination<T>>) {
     super(state);
+  }
+
+  onViewEmployeeRequestDetail(id: string): void {
+    this.myTimeService
+      .viewEmployeeRequestDetail(this.requestTypeUrlPath, id)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(
+        () => null,
+        () => this.queryParams$.next(this.queryParams$.value)
+      );
   }
 
   onApproveRequest(id: string): void {

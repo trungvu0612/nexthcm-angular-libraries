@@ -7,7 +7,7 @@ import { BaseComponent, Columns } from 'ngx-easy-table';
 import { Observable } from 'rxjs';
 import { filter, map, share, startWith, switchMap } from 'rxjs/operators';
 import { WorkingOutsideRequest } from '../../../../models/interfaces/working-outside-request';
-import { MyTimeService, RequestTypeUrlPath } from '../../../../services/my-time.service';
+import { MyTimeService, RequestTypeAPIUrlPath } from '../../../../services/my-time.service';
 import { AbstractRequestListComponent } from '../../abstract-components/abstract-request-list.component';
 
 @Component({
@@ -19,7 +19,7 @@ import { AbstractRequestListComponent } from '../../abstract-components/abstract
 })
 export class WorkingOutsideRequestListComponent extends AbstractRequestListComponent<WorkingOutsideRequest> {
   @ViewChild('table') table!: BaseComponent;
-  readonly requestTypeUrlPath = RequestTypeUrlPath.workingOutside;
+  readonly requestTypeUrlPath = RequestTypeAPIUrlPath.workingOutside;
   readonly columns$: Observable<Columns[]> = this.translocoService
     .selectTranslateObject('REQUEST_MANAGEMENT_TABLE_COLUMNS')
     .pipe(

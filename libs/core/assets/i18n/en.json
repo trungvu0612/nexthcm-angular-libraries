@@ -433,7 +433,7 @@
     "newTimeOut": "New check-out time",
     "date": "Date"
   },
-  "REQUEST_STATUS":{
+  "REQUEST_STATUS": {
     "all": "All",
     "rejected": "Rejected",
     "cancelled": "Cancelled",
@@ -456,5 +456,18 @@
   "reason": "Reason",
   "year": "Year",
   "month": "Month",
-  "searchByCifFullNameOffice": "Search by CIF, full name, office..."
+  "searchByCifFullNameOffice": "Search by CIF, full name, office...",
+  "cif": "CIF",
+  "assignee": "Assignee",
+  "leaveType": "Leave type",
+  "dateRange": "Date Range",
+  "days": "Days",
+  "sendTo": "Send to",
+  "Comment": "Comment",
+  "reject": "Reject",
+  "approve": "Approve",
+  "history": "History",
+  "type": "Type",
+  "newTimeIn": "New check-in time",
+  "newTimeOut": "New check-out time"
 }

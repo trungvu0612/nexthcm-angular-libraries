@@ -10,6 +10,7 @@ export interface LeaveRequest extends BaseRequest {
   items: unknown[];
   durationInDay: number;
   employeeDTO: EmployeeInfo;
+  sendToDTO: EmployeeInfo;
   escalateDTO: EmployeeInfo;
   dateRange?: string;
 }

@@ -6,7 +6,7 @@
         <td>{{ item.userInfo.cif }}</td>
         <td class="font-bold uppercase">{{ item.userInfo.fullName }}</td>
         <td>{{ item.fromDate | date: 'MM/dd/yyyy' }} - {{ item.toDate | date: 'MM/dd/yyyy' }}</td>
-        <td>{{ item.dayWorking | number: '1.0-0' }}</td>
+        <td>{{ item.duration }}</td>
         <td>
           <tui-tag
             [value]="'REQUEST_STATUS.' + RequestStatus[item.status] | transloco"
@@ -16,7 +16,13 @@
         <td>{{ item.comment }}</td>
         <td>
           <div class="flex items-center">
-            <button appearance="flat" icon="tuiIconShowLarge" size="m" tuiIconButton></button>
+            <button
+              (click)="onViewEmployeeRequestDetail(item.id)"
+              appearance="flat"
+              icon="tuiIconShowLarge"
+              size="m"
+              tuiIconButton
+            ></button>
             <button
               (click)="onApproveRequest(item.id)"
               appearance="flat"

@@ -455,5 +455,18 @@
   "reason": "Lý do",
   "year": "Năm",
   "month": "Tháng",
-  "searchByCifFullNameOffice": "Tìm kiếm bằng mã nhân viên, tên, văn phòng..."
+  "searchByCifFullNameOffice": "Tìm kiếm bằng mã nhân viên, tên, văn phòng...",
+  "cif": "Mã nhân viên",
+  "assignee": "Người thụ quyền",
+  "leaveType": "Loại nghỉ phép",
+  "dateRange": "Khoảng thời gian",
+  "days": "Số ngày",
+  "sendTo": "Gửi cho",
+  "Comment": "Bình luận",
+  "reject": "Từ chối",
+  "approve": "Chấp thuận",
+  "history": "Lịch sử",
+  "type": "Loại",
+  "newTimeIn": "Giờ vào mới",
+  "newTimeOut": "Giờ ra mới"
 }

@@ -6,13 +6,13 @@ import { FormBuilder } from '@ngneat/reactive-forms';
 import { TranslocoService } from '@ngneat/transloco';
 import { RxState, setProp } from '@rx-angular/state';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
-import { format } from 'date-fns';
 import { BaseComponent, Columns } from 'ngx-easy-table';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { filter, map, share, startWith, switchMap } from 'rxjs/operators';
 import { LeaveRequest } from '../../../../models';
-import { MyTimeService, RequestTypeUrlPath } from '../../../../services/my-time.service';
+import { MyTimeService, RequestTypeAPIUrlPath } from '../../../../services/my-time.service';
 import { AbstractRequestListComponent } from '../../abstract-components/abstract-request-list.component';
+import { parseLeaveDateRange } from '../../utils/parse-leave-date-range';
 
 @Component({
   selector: 'hcm-leave-request-list',
@@ -23,7 +23,7 @@ import { AbstractRequestListComponent } from '../../abstract-components/abstract
 })
 export class LeaveRequestListComponent extends AbstractRequestListComponent<LeaveRequest> {
   @ViewChild('table') table!: BaseComponent;
-  readonly requestTypeUrlPath = RequestTypeUrlPath.leave;
+  readonly requestTypeUrlPath = RequestTypeAPIUrlPath.leave;
   readonly columns$: Observable<Columns[]> = this.translocoService
     .selectTranslateObject('REQUEST_MANAGEMENT_TABLE_COLUMNS')
     .pipe(
@@ -68,22 +68,8 @@ export class LeaveRequestListComponent extends AbstractRequestListComponent<Leav
       setProp(
         data,
         'items',
-        data.items.map((item) => LeaveRequestListComponent.parseLeaveDateRange(item))
+        data.items.map((item) => parseLeaveDateRange(item))
       )
     );
-  }
-
-  private static parseLeaveDateRange(item: LeaveRequest): LeaveRequest {
-    if (item.durationInDay === 1) {
-      item.dateRange = `${format(item.fromDate, 'MM/dd/yyyy')}`;
-    } else if (item.durationInDay < 1) {
-      item.dateRange = `${format(item.fromDate, 'MM/dd/yyyy')} (${format(item.fromDate, 'HH:mm')} - ${format(
-        item.toDate,
-        'HH:mm'
-      )})`;
-    } else {
-      item.dateRange = `${format(item.fromDate, 'MM/dd/yyyy')} - ${format(item.toDate, 'MM/dd/yyyy')}`;
-    }
-    return item;
   }
 }

@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, Injector } from '@angular/core';
-import { Pagination, PagingResponse, PromptService } from '@nexthcm/cdk';
+import { BaseResponse, Pagination, PagingResponse, PromptService } from '@nexthcm/cdk';
 import { TranslocoService } from '@ngneat/transloco';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
@@ -8,16 +8,19 @@ import { from, iif, Observable } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
 import { SweetAlertOptions } from 'sweetalert2';
 import { TrackingHistory, UpdateRequestPayload } from '../models';
+import { GeneralRequest } from '../models/interfaces/general-request';
+import { EmployeeRequestDetailDialogComponent } from '../modules/request-management/components/employee-request-detail-dialog/employee-request-detail-dialog.component';
 import { RejectRequestDialogComponent } from '../modules/request-management/components/reject-leave-request-dialog/reject-request-dialog.component';
+import { parseLeaveDateRange } from '../modules/request-management/utils/parse-leave-date-range';
 
 const MY_TIME_PATH = '/mytimeapp/v1.0';
 
-export enum RequestTypeUrlPath {
-  leave = 'leaves',
-  workingAfterHours = 'ot-requests',
-  updateTimeSheet = 'timesheet-updates',
-  workingOutside = 'outside',
-  workFromHome = 'wfh',
+export enum RequestTypeAPIUrlPath {
+  leave = 'leaves' as any,
+  workingAfterHours = 'ot-requests' as any,
+  updateTimesheet = 'timesheet-updates' as any,
+  workingOutside = 'outside' as any,
+  workFromHome = 'wfh' as any,
 }
 
 @Injectable({
@@ -36,15 +39,19 @@ export class MyTimeService {
     return this.http.get<TrackingHistory[]>(`${MY_TIME_PATH}/leaves/tracking-history/${id}`);
   }
 
-  getRequests<T>(type: RequestTypeUrlPath, params: HttpParams): Observable<Pagination<T>> {
+  getRequests<T>(type: RequestTypeAPIUrlPath, params: HttpParams): Observable<Pagination<T>> {
     return this.http.get<PagingResponse<T>>(`${MY_TIME_PATH}/${type}`, { params }).pipe(map((res) => res.data));
   }
 
-  updateRequest(type: RequestTypeUrlPath, id: string, payload: UpdateRequestPayload): Observable<unknown> {
+  updateRequest(type: RequestTypeAPIUrlPath, id: string, payload: UpdateRequestPayload): Observable<unknown> {
     return this.http.put<unknown>(`${MY_TIME_PATH}/${type}/${id}`, payload);
   }
 
-  approveRequest(type: RequestTypeUrlPath, id: string, callback: () => void): Observable<unknown> {
+  getRequest(type: RequestTypeAPIUrlPath, id: string): Observable<BaseResponse<GeneralRequest>> {
+    return this.http.get<BaseResponse<GeneralRequest>>(`${MY_TIME_PATH}/${type}/${id}`);
+  }
+
+  approveRequest(type: RequestTypeAPIUrlPath, id: string, callback?: () => void): Observable<unknown> {
     return from(
       this.promptService.open({
         icon: 'warning',
@@ -57,12 +64,23 @@ export class MyTimeService {
     );
   }
 
-  rejectRequest(type: RequestTypeUrlPath, id: string, callback: () => void): Observable<unknown> {
+  rejectRequest(type: RequestTypeAPIUrlPath, id: string, callback?: () => void): Observable<unknown> {
     return this.dialogService
       .open<UpdateRequestPayload>(new PolymorpheusComponent(RejectRequestDialogComponent, this.injector))
       .pipe(
         switchMap((payload) => this.updateRequest(type, id, payload)),
         tap(this.promptService.handleResponse('rejectSuccessfully', callback))
       );
+  }
+
+  viewEmployeeRequestDetail(type: RequestTypeAPIUrlPath, id: string): Observable<unknown> {
+    return this.getRequest(type, id).pipe(
+      switchMap((res) =>
+        this.dialogService.open(new PolymorpheusComponent(EmployeeRequestDetailDialogComponent, this.injector), {
+          data: { type, value: type === RequestTypeAPIUrlPath.leave ? parseLeaveDateRange(res.data) : res.data },
+          required: true,
+        })
+      )
+    );
   }
 }
