@@ -5,6 +5,7 @@
   <tui-select
     (ngModelChange)="onFilterByMonth($event)"
     *tuiLet="monthList$ | async as months"
+    [disabled]="year === null"
     [ngModel]="month"
     [tuiTextfieldCleaner]="true"
     [valueContent]="monthStringify(months || [])"
@@ -23,6 +24,7 @@
     [(ngModel)]="keyword"
     [tuiTextfieldCleaner]="true"
     class="col-span-3"
+    icon="tuiIconSearchLarge"
   >
     <span class="font-semibold">{{ t('searchByCifFullNameOffice') }}</span>
   </tui-input>

@@ -42,10 +42,16 @@ export class RequestManagementFilterComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.parseParams(this.activatedRoute.snapshot.queryParams);
+    if (convertToParamMap(this.activatedRoute.snapshot.queryParams).keys.length) {
+      this.parseParams(this.activatedRoute.snapshot.queryParams);
+    }
   }
 
   onFilterByYear(): void {
+    if (this.year === null) {
+      this.month = null;
+      this.setQueryParams('month', null);
+    }
     this.setQueryParams<number>('year', this.year);
     this.queryParams.next(this.filterByYearMonth());
   }
@@ -93,25 +99,27 @@ export class RequestManagementFilterComponent implements OnInit {
   }
 
   private parseParams(params: Params): void {
-    if (convertToParamMap(params).keys.length) {
-      let httpParams = this.queryParams.value;
-      if (params.year && !isNaN(Number(params.year))) {
+    let httpParams = this.queryParams.value;
+    if (params.year) {
+      if (!isNaN(Number(params.year))) {
         this.year = +params.year;
         if (params.month && !isNaN(Number(params.month))) {
           this.month = +params.month;
         }
         httpParams = this.filterByYearMonth();
+      } else {
+        this.setQueryParams('month', null);
       }
-      if (params.keyword) {
-        this.keyword = params.keyword;
-        httpParams = this.onFilter('keyword', params.keyword);
-      }
-      if (params.status && !isNaN(Number(params.status))) {
-        this.status = params.status;
-        httpParams = this.onFilter('status', params.status);
-      }
-      this.queryParams.next(httpParams);
     }
+    if (params.keyword) {
+      this.keyword = params.keyword;
+      httpParams = this.onFilter('keyword', params.keyword);
+    }
+    if (params.status && !isNaN(Number(params.status))) {
+      this.status = params.status;
+      httpParams = this.onFilter('status', params.status);
+    }
+    this.queryParams.next(httpParams);
   }
 
   private setQueryParams<T>(key: string, value: T | null) {
