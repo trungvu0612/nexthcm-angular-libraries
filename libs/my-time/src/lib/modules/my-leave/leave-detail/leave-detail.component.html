@@ -11,7 +11,13 @@
         </ng-container>
         <ng-container *ngIf="leaveRequestType === 'manager'">
           <button (click)="showDialog(myId)" appearance="custom" tuiButton>{{ t('MY_TIME.reject') }}</button>
-          <button *ngIf="data?.status!=1" (click)="approveLeaveRequest(myId)" appearance="custom-green" class="ml-2" tuiButton>
+          <button
+            (click)="approveLeaveRequest(myId)"
+            *ngIf="data?.status != 1"
+            appearance="custom-green"
+            class="ml-2"
+            tuiButton
+          >
             {{ t('MY_TIME.approve') }}
           </button>
         </ng-container>
@@ -70,21 +76,22 @@
         <tr class="col-span-full">
           <td>{{ t('MY_TIME.sendTo') }}:</td>
           <td class="min-contain">
-            <span class="font-semibold ml-2 underline text-blue-500">{{data?.employeeDTO?.reportTo?.reportTo?.profile?.fullName}}</span>
+            <span class="font-semibold ml-2 underline text-blue-500">{{
+              data?.employeeDTO?.reportTo?.reportTo?.profile?.fullName
+            }}</span>
           </td>
         </tr>
 
         <tr class="col-span-full">
-          <td>{{ t('MY_TIME.comment') }}:</td>
+          <td>{{ t('MY_TIME.Comment') }}:</td>
           <td class="min-contain">
-            <span class="font-semibold ml-2">{{data?.comment}}</span>
+            <span class="font-semibold ml-2">{{ data?.comment }}</span>
           </td>
         </tr>
-
       </table>
 
       <tui-tabs [(activeItemIndex)]="activeItemIndex" class="mt-8">
-        <button tuiRipple="var(--tui-text-01)" tuiTab>{{ t('MY_TIME.comment') }}</button>
+        <button tuiRipple="var(--tui-text-01)" tuiTab>{{ t('MY_TIME.Comment') }}</button>
         <button tuiRipple="var(--tui-text-01)" tuiTab>{{ t('MY_TIME.history') }}</button>
       </tui-tabs>
       <ng-container [ngSwitch]="activeItemIndex">

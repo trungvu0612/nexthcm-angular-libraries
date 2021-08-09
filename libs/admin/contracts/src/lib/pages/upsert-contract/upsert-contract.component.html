@@ -1,0 +1,16 @@
+<main *transloco="let t" class="main-page">
+  <header *transloco="let t">
+    <h1>{{ t('ADMIN_CONTRACT_MANAGEMENT_COLUMNS.createContract') }}</h1>
+  </header>
+  <section class="main-section">
+    <form [formGroup]="$any(form)">
+      <formly-form [fields]="fields" [form]="form" [model]="model" class="max-w-3xl"> </formly-form>
+      <div class="tui-form__buttons">
+        <button class="tui-form__button" size="m" tuiButton>{{ t('save') }}</button>
+        <button (click)="onCancel()" appearance="flat" class="tui-form__button" size="m" tuiButton type="button">
+          {{ t('cancel') }}
+        </button>
+      </div>
+    </form>
+  </section>
+</main>

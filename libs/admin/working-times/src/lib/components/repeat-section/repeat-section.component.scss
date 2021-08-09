@@ -1,49 +1,55 @@
 :host {
   display: block;
 
-  .add-btn {
-    padding: 45px 0 0 25px;
-    margin: auto;
-    height: fit-content;
+  ::ng-deep {
+    .add-btn {
+      padding: 45px 0 0 25px;
+      margin: auto;
+      height: fit-content;
 
-    ::ng-deep tui-wrapper.wrapper {
-      padding: 5px !important;
-      width: 25px;
-      height: 18px;
-      border-radius: 0;
-      border:0!important;
-      font-size:15px;
+      tui-wrapper.wrapper {
+        background-color: #d7d7d7 !important;
+      }
+
+      ::ng-deep tui-wrapper.wrapper {
+        padding: 5px !important;
+        width: 25px;
+        height: 18px;
+        border-radius: 0;
+        border: 0 !important;
+        font-size: 15px;
+      }
+
+      &:hover {
+        cursor: pointer;
+      }
     }
 
-    &:hover {
-      cursor: pointer;
+    ::ng-deep tui-select {
+      display: unset !important;
     }
-  }
 
-  ::ng-deep tui-select {
-    display: unset !important;
-  }
+    ::ng-deep .hosted {
+      display: inline-block !important;
+    }
 
-  ::ng-deep .hosted {
-    display: inline-block !important;
-  }
+    ::ng-deep formly-form-field {
+      label {
+        span {
+          margin-left: 5px;
+          margin-right: 5px;
+        }
 
-  ::ng-deep formly-form-field {
-    label {
-      span {
+        display: inline-block !important;
         margin-left: 5px;
         margin-right: 5px;
       }
-
-      display: inline-block !important;
-      margin-left: 5px;
-      margin-right: 5px;
     }
-  }
 
-  ::ng-deep tui-hosted-dropdown {
-    .hosted {
-      display: unset !important;
+    ::ng-deep tui-hosted-dropdown {
+      .hosted {
+        display: unset !important;
+      }
     }
   }
 }

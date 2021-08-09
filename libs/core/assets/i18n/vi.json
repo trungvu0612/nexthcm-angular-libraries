@@ -185,6 +185,18 @@
       "LEAVE_TYPE_DELETE_LEAVE_ALREADY_EXIST": "Bạn không thể xoá loại ngày nghỉ này vì nó đã được sử dụng để xin nghỉ."
     }
   },
+  "ADMIN_CONTRACT_MANAGEMENT_COLUMNS": {
+    "contractManagement": "Quản lý hợp đồng",
+    "addNewContract": "Thêm mới hợp đồng",
+    "creator": "Người tạo",
+    "nameType": "Loại hợp đồng",
+    "functions": "Chức năng",
+    "createContract": "Thêm loại hợp đồng",
+    "name": "Name",
+    "status": "Status",
+    "workflow": "Workflow",
+    "description": "Description"
+  },
   "AUTH": {
     "username": "Tên người dùng",
     "password": "Mật khẩu",
@@ -245,8 +257,9 @@
     "wfh": "Làm việc tại nhà"
   },
   "WORKING_HOUR": {
-    "addCalendar": "Thêm mới lịch",
-    "addOverTime": "Thêm mới làm việc ngoài giờ"
+    "addCalendar": "Thêm Mới Giờ Làm Việc",
+    "addOverTime": "Thêm Mới Giờ Làm Việc ngoài Giờ",
+    "updateCalendar": "Cập Nhật Giờ Làm Việc"
   },
   "applyFor": "Tùy chọn",
   "officeOnsite": "Văn phòng làm việc cho khách hàng",
@@ -410,6 +423,7 @@
   "deleteEmployee": "Bạn thật sự muốn xoá nhân viên này?",
   "deleteLeaveLevelApprove": "Bạn thật sự muốn xóa cấp độ nghỉ phép này?",
   "updateSuccessful": "Cập nhật thành công!",
+  "contractManagement": "Quản lý hợp đồng",
   "HTTP_RESPONSE_ERROR_MESSAGES": {
     "400": "400 - Có lỗi cú pháp trong yêu cầu.",
     "404": "404 - Không tìm thấy.",
