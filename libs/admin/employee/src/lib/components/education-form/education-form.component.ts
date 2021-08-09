@@ -83,7 +83,7 @@ export class EducationFormComponent {
       },
     },
   ];
-  readonly request$ = this.adminEmployeeService
+  private readonly request$ = this.adminEmployeeService
     .getEmployeeInformation<EmployeeEducation>(this.activatedRoute.snapshot.params.employeeId, 'education')
     .pipe(tap((res) => (this.model = { ...this.model, ...res.data })));
   readonly loading$ = this.request$.pipe(map((value) => !value));

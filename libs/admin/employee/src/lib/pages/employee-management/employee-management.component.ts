@@ -3,12 +3,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AbstractServerPaginationTableComponent, EmployeeInfo, Pagination, PromptService } from '@nexthcm/cdk';
 import { TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
-import { TuiDestroyService } from '@taiga-ui/cdk';
+import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { BaseComponent, Columns } from 'ngx-easy-table';
 import { from, Observable } from 'rxjs';
-import { filter, map, switchMap, takeUntil } from 'rxjs/operators';
+import { filter, map, share, startWith, switchMap, takeUntil } from 'rxjs/operators';
 import { InitEmployeeDialogComponent } from '../../components/init-employee-dialog/init-employee-dialog.component';
 import { EmployeeGeneralInformation } from '../../models';
 import { AdminEmployeeService } from '../../services/admin-employee.service';
@@ -38,8 +38,8 @@ export class EmployeeManagementComponent extends AbstractServerPaginationTableCo
       ])
     );
   private readonly request$ = this.queryParams$.pipe(
-    switchMap(() => this.adminEmployeesService.getEmployees(this.queryParams$.value)),
-    map((res) => res.data)
+    switchMap(() => this.adminEmployeesService.getEmployees(this.queryParams$.value).pipe(startWith(null))),
+    share()
   );
   readonly loading$ = this.request$.pipe(map((value) => !value));
 
@@ -55,7 +55,7 @@ export class EmployeeManagementComponent extends AbstractServerPaginationTableCo
     private promptService: PromptService
   ) {
     super(state);
-    state.connect(this.request$);
+    state.connect(this.request$.pipe(filter(isPresent)));
   }
 
   onAddEmployee(): void {

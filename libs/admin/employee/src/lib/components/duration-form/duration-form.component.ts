@@ -201,7 +201,7 @@ export class DurationFormComponent {
       ],
     },
   ];
-  readonly request$ = this.adminEmployeeService
+  private readonly request$ = this.adminEmployeeService
     .getEmployeeInformation<EmployeeDuration>(this.activatedRoute.snapshot.params.employeeId, 'duration')
     .pipe(
       tap((res) => {

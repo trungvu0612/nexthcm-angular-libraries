@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BaseObject, BaseResponse, EmployeeInfo, PagingResponse } from '@nexthcm/cdk';
+import { BaseObject, BaseResponse, EmployeeInfo, Pagination, PagingResponse } from '@nexthcm/cdk';
 import { RxState } from '@rx-angular/state';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -29,8 +29,10 @@ export class AdminEmployeeService extends RxState<AdminEmployeeState> {
     this.connect('offices', this.getOffices().pipe(map((res) => res.data.items)));
   }
 
-  getEmployees(params: HttpParams): Observable<PagingResponse<EmployeeInfo>> {
-    return this.http.get<PagingResponse<EmployeeInfo>>(`${ADMIN_EMPLOYEE_PATH}/employees`, { params });
+  getEmployees(params: HttpParams): Observable<Pagination<EmployeeInfo>> {
+    return this.http
+      .get<PagingResponse<EmployeeInfo>>(`${ADMIN_EMPLOYEE_PATH}/employees`, { params })
+      .pipe(map((res) => res.data));
   }
 
   initEmployee(payload: EmployeeGeneralInformation): Observable<BaseResponse<EmployeeGeneralInformation>> {

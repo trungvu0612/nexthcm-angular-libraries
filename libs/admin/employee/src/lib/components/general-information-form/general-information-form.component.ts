@@ -203,7 +203,7 @@ export class GeneralInformationFormComponent {
       ],
     },
   ];
-  readonly request$ = this.activatedRoute.snapshot.params.employeeId
+  private readonly request$ = this.activatedRoute.snapshot.params.employeeId
     ? this.adminEmployeeService
         .getEmployeeGeneralInformation(this.activatedRoute.snapshot.params.employeeId)
         .pipe(tap((res) => (this.model = { ...this.model, ...res.data })))

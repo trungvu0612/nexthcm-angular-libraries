@@ -232,7 +232,7 @@ export class IndividualFormComponent {
       ],
     },
   ];
-  readonly request$ = this.adminEmployeeService
+  private readonly request$ = this.adminEmployeeService
     .getEmployeeInformation<EmployeeIndividual>(this.activatedRoute.snapshot.params.employeeId, 'individual')
     .pipe(
       tap((res) => {

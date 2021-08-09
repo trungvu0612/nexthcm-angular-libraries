@@ -93,7 +93,7 @@ export class WorkingHourComponent extends AbstractServerPaginationTableComponent
   readonly queryParams$ = new BehaviorSubject(
     new HttpParams().set('page', '0').set('size', 10).set('userId', this.authService.get('userInfo', 'userId'))
   );
-  readonly request$ = this.queryParams$.pipe(
+  private readonly request$ = this.queryParams$.pipe(
     switchMap((params) => this.workingHourService.getWorkingHourOnlyMe(params)),
     map((res) => res.data)
   );

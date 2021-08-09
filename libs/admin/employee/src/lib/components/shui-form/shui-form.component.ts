@@ -142,7 +142,7 @@ export class ShuiFormComponent {
       ],
     },
   ];
-  readonly request$ = this.adminEmployeeService
+  private readonly request$ = this.adminEmployeeService
     .getEmployeeInformation<EmployeeSHUI>(this.activatedRoute.snapshot.params.employeeId, 'shui')
     .pipe(
       tap((res) => {

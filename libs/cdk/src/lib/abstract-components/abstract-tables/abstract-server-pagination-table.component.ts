@@ -24,10 +24,7 @@ export abstract class AbstractServerPaginationTableComponent<T> {
   item = (item: T) => item;
 
   onSize(size: number): void {
-    this.table.apiEvent({
-      type: API.setPaginationDisplayLimit,
-      value: size,
-    });
+    this.table.apiEvent({ type: API.setPaginationDisplayLimit, value: size });
     this.queryParams$.next(this.queryParams$.value.set('size', size.toString()));
   }
 
