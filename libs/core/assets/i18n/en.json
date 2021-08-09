@@ -184,6 +184,18 @@
       "LEAVE_TYPE_DELETE_LEAVE_ALREADY_EXIST": "You can't delete this leave type because there are leaves submitted by it."
     }
   },
+  "ADMIN_CONTRACT_MANAGEMENT_COLUMNS": {
+    "contractManagement": "Contract Management",
+    "addNewContract": "Add New Contract",
+    "creator": "Creator",
+    "nameType": "Name type",
+    "functions": "Function",
+    "createContract": "Create contract type",
+    "name": "Tên hợp đồng",
+    "status": "Trạng thái",
+    "workflow": "Quy trình làm việc",
+    "description": "Mô tả"
+  },
   "AUTH": {
     "username": "Username",
     "password": "Password",
@@ -244,8 +256,9 @@
     "wfh": "Work from home"
   },
   "WORKING_HOUR": {
-    "addCalendar": "Add calendar",
-    "addOverTime": "Add Working After Time "
+    "addCalendar": "Add Calendar",
+    "addOverTime": "Add Working After Time",
+    "updateCalendar": "Update Calendar"
   },
   "applyFor": "Apply for",
   "officeOnsite": "Office onsite",
@@ -410,6 +423,7 @@
   "deleteEmployee": "Are you sure you want to remove this employee?",
   "deleteLeaveLevelApprove": "Are you sure you want to remove this leave level approve?",
   "updateSuccessful": "Update successfully!",
+  "contractManagement": "Contract Management",
   "HTTP_RESPONSE_ERROR_MESSAGES": {
     "400": "400 - Bad Request.",
     "404": "404 - The requested resource does not exist.",

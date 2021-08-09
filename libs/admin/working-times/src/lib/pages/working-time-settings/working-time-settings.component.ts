@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject } from '@angular/core';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '@nexthcm/auth';
@@ -8,7 +8,7 @@ import { TuiDay, TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
 import { DefaultConfig } from 'ngx-easy-table';
 import { BehaviorSubject, of } from 'rxjs';
-import { catchError, filter, map, mapTo, switchMap, takeUntil } from 'rxjs/operators';
+import { catchError, filter, mapTo, switchMap, takeUntil } from 'rxjs/operators';
 import { SweetAlertOptions } from 'sweetalert2';
 import { WORKING_TIMES } from '../../models/working-times';
 import { WorkingTimesService } from '../../services/working-times.service';
@@ -20,7 +20,7 @@ import { WorkingTimesService } from '../../services/working-times.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [TuiDestroyService],
 })
-export class WorkingTimeSettingsComponent implements OnInit {
+export class WorkingTimeSettingsComponent implements AfterViewInit {
   page = 0;
   page$ = new BehaviorSubject<number>(1);
   size$ = 10;
@@ -29,7 +29,7 @@ export class WorkingTimeSettingsComponent implements OnInit {
   myOrgId = this.authService.get('userInfo').orgId;
   activeItemIndex = 0;
   settingsElement: any;
-  dataSettings$ = this.workingTimesService.getSettings().pipe(map((res) => res.data.items));
+  workingHourId: any;
   public configuration?: any;
   public columns?: any;
   public dataHoliday: any[] = [];
@@ -41,7 +41,8 @@ export class WorkingTimeSettingsComponent implements OnInit {
     wednesdayTime: new FormArray([]),
     thursdayTime: new FormArray([]),
     fridayTime: new FormArray([]),
-
+    saturdayTime: new FormArray([]),
+    sundayTime: new FormArray([]),
     checkInAfter: new FormControl(10),
     checkOutBefore: new FormControl(10),
     workingHour: new FormControl(2),
@@ -66,6 +67,8 @@ export class WorkingTimeSettingsComponent implements OnInit {
     wednesdayTime: [{}],
     thursdayTime: [{}],
     fridayTime: [{}],
+    saturdayTime: [{}],
+    sundayTime: [{}],
   };
   readonly workflowData = ['Workflow OT', 'Workflow others'];
 
@@ -125,7 +128,6 @@ export class WorkingTimeSettingsComponent implements OnInit {
         ],
       },
     },
-
     {
       className: 'checkbox-day',
       key: 'day3',
@@ -342,6 +344,114 @@ export class WorkingTimeSettingsComponent implements OnInit {
         ],
       },
     },
+    {
+      className: 'checkbox-day',
+      key: 'day7',
+      type: 'checkbox',
+      templateOptions: {
+        textfieldLabelOutside: true,
+        size: 'm',
+      },
+      expressionProperties: {
+        'templateOptions.label': of('Saturday'),
+      },
+      defaultValue: false,
+    },
+    {
+      className: 'col-span-2',
+      key: 'saturdayTime',
+      type: 'repeat',
+      templateOptions: {},
+      fieldArray: {
+        fieldGroup: [
+          {
+            className: 'inline',
+            key: 'from',
+            type: 'select',
+            templateOptions: {
+              options: this.dataWorkingTimes,
+              labelProp: 'name',
+              valueProp: 'value',
+              size: 'm',
+            },
+          },
+          {
+            className: 'inline',
+            key: 'to',
+            type: 'select',
+            templateOptions: {
+              options: this.dataWorkingTimes,
+              labelProp: 'name',
+              valueProp: 'value',
+              size: 'm',
+            },
+            expressionProperties: {
+              'templateOptions.label': of('to'),
+            },
+          },
+          {
+            key: 'workShift',
+            type: 'toggle',
+            templateOptions: { textfieldLabelOutside: true, size: 'm' },
+            defaultValue: false,
+          },
+        ],
+      },
+    },
+    {
+      className: 'checkbox-day',
+      key: 'day1',
+      type: 'checkbox',
+      templateOptions: {
+        textfieldLabelOutside: true,
+        size: 'm',
+      },
+      expressionProperties: {
+        'templateOptions.label': of('Sunday'),
+      },
+      defaultValue: false,
+    },
+    {
+      className: 'col-span-2',
+      key: 'sundayTime',
+      type: 'repeat',
+      templateOptions: {},
+      fieldArray: {
+        fieldGroup: [
+          {
+            className: 'inline',
+            key: 'from',
+            type: 'select',
+            templateOptions: {
+              options: this.dataWorkingTimes,
+              labelProp: 'name',
+              valueProp: 'value',
+              size: 'm',
+            },
+          },
+          {
+            className: 'inline',
+            key: 'to',
+            type: 'select',
+            templateOptions: {
+              options: this.dataWorkingTimes,
+              labelProp: 'name',
+              valueProp: 'value',
+              size: 'm',
+            },
+            expressionProperties: {
+              'templateOptions.label': of('to'),
+            },
+          },
+          {
+            key: 'workShift',
+            type: 'toggle',
+            templateOptions: { textfieldLabelOutside: true, size: 'm' },
+            defaultValue: false,
+          },
+        ],
+      },
+    },
   ];
 
   constructor(
@@ -355,7 +465,17 @@ export class WorkingTimeSettingsComponent implements OnInit {
     private promptService: PromptService
   ) {}
 
-  ngOnInit(): void {
+  ngAfterViewInit() {
+    this.workingTimesService.getHoliday().subscribe((item) => {
+      item.data.items.forEach((item) => {
+        this.dataHoliday.push({
+          holidayDate: item.holidayDate,
+          name: item.name,
+          recurring: item.recurring,
+          id: item.id,
+        });
+      });
+    });
     this.configuration = { ...DefaultConfig };
     this.configuration.searchEnabled = true;
 
@@ -366,53 +486,50 @@ export class WorkingTimeSettingsComponent implements OnInit {
       { key: 'action', title: '' },
     ];
 
-    // combineLatest([this.page$, this.perPageSubject])
-    //   .pipe(
-    //     debounceTime(0),
-    //     switchMap(([page, perpage]) => {
-    //       return this.workingTimesService.getBranchDatas(page - 1, perpage);
-    //     }),
-    //     takeUntil(this.destroy$)
-    //   )
-    //   .subscribe((item) => {
-    //     console.log('item'+item);
-    //     this.totalLength = item.totalElements;
-    //     this.cdr.detectChanges();
-    //   });
+    this.workingTimesService.getWorkingHourConfigByOrg(this.myOrgId).subscribe((item) => {
+      if (item?.code === 'SUCCESS') {
+        this.workingHourId = item?.data?.id;
+        this.form.patchValue(item);
+      }
+    });
     this.cdr.detectChanges();
   }
 
   saveSettings() {
     const formModel = this.form.value;
-    const items = [
-      {
-        weekDayId: 1,
-        values: [],
-      },
-      {
-        weekDayId: 7,
-        values: [],
-      },
-    ];
-
+    const items = [];
     const dayTime = [
+      formModel.sundayTime,
       formModel.mondayTime,
       formModel.tuesdayTime,
       formModel.wednesdayTime,
       formModel.thursdayTime,
       formModel.fridayTime,
+      formModel.saturdayTime,
     ];
-    const dayKey = [formModel.day2, formModel.day3, formModel.day4, formModel.day5, formModel.day6];
-    for (let i = 2; i < 7; i++) {
-      const m: number = i - 2;
+    const dayKey = [
+      formModel.day1,
+      formModel.day2,
+      formModel.day3,
+      formModel.day4,
+      formModel.day5,
+      formModel.day6,
+      formModel.day7,
+    ];
+    for (let i = 1; i <= 7; i++) {
+      const m: number = i - 1;
       if (dayKey[m] == true) {
         items.push({
           weekDayId: i,
           values: dayTime[m],
         });
+      } else {
+        items.push({
+          weekDayId: i,
+          values: [],
+        });
       }
     }
-
     this.settingsElement = {
       orgId: this.myOrgId,
       checkInAfter: formModel.checkInAfter,
@@ -425,11 +542,14 @@ export class WorkingTimeSettingsComponent implements OnInit {
       timePaidLeave: formModel.timePaidLeave,
       items: items,
     };
+    if (this.workingHourId) {
+      this.settingsElement.id = this.workingHourId;
+    }
     // console.log(JSON.stringify(this.settingsElement));
     this.workingTimesService
       .saveSettings(this.settingsElement)
       .pipe(
-        mapTo({ icon: 'success', text: 'Add Settings Time Successfully!' } as SweetAlertOptions),
+        mapTo({ icon: 'success', text: 'Update Settings Time Successfully!' } as SweetAlertOptions),
         takeUntil(this.destroy$),
         catchError((err) =>
           of({
@@ -455,21 +575,31 @@ export class WorkingTimeSettingsComponent implements OnInit {
   }
 
   addHolidayTime() {
-    this.dataHoliday.push({
-      holidayTime: (this.holidayForm.controls['holidayValue'].value as TuiDay).toLocalNativeDate().valueOf(),
-      holidayName: this.holidayForm.controls['holidayName'].value,
-      yearly: this.holidayForm.controls['repeatYearly'].value,
+    const dataAddHoliday = {
+      holidayDate: (this.holidayForm.controls['holidayValue'].value as TuiDay).toLocalNativeDate().valueOf(),
+      name: this.holidayForm.controls['holidayName'].value,
+      recurring: this.holidayForm.controls['repeatYearly'].value,
+    };
+
+    this.workingTimesService.addHoliday(dataAddHoliday).subscribe((item) => {
+      this.dataHoliday.push({
+        holidayDate: item.data.holidayDate,
+        name: item.data.name,
+        recurring: item.data.recurring,
+        id: item.data.id,
+      });
+      this.dataHoliday = [...this.dataHoliday];
+      this.cdr.detectChanges();
     });
-    this.dataHoliday = [...this.dataHoliday];
-    this.cdr.detectChanges();
   }
 
-  removeHoliday(index: number) {
+  removeHoliday(index: number, id: any) {
     // delete this.dataHoliday[index];
-    this.dataHoliday.splice(index, 1);
-    console.log(this.dataHoliday);
-    this.dataHoliday = [...this.dataHoliday];
-    this.cdr.detectChanges();
+    this.workingTimesService.deleteHoliday(id).subscribe((item) => {
+      this.dataHoliday.splice(index, 1);
+      this.dataHoliday = [...this.dataHoliday];
+      this.cdr.detectChanges();
+    });
   }
 
   onPage(page: number) {

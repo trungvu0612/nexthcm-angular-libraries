@@ -1,8 +1,9 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { APP_CONFIG, AppConfig, PagingResponse } from '@nexthcm/core';
+import { PagingResponse } from '@nexthcm/cdk';
+import { APP_CONFIG, AppConfig } from '@nexthcm/core';
 import { Observable } from 'rxjs';
-import { LeaveType, SearchLeaveType } from '../models/leave-type';
+import { LeaveType, SearchLeaveType } from '../models';
 
 @Injectable({
   providedIn: 'root',

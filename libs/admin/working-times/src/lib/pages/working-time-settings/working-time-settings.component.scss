@@ -14,15 +14,21 @@
     .checkbox-day label {
       display: unset !important;
       position: relative;
-      top: 20px;
+      top: 65px;
 
       .label {
         position: absolute;
         left: 25px;
+        span {
+          font-size: 16px;
+        }
       }
     }
 
     .ngx-table__sort-header {
+      display: none;
+    }
+    .ngx-table__body-empty {
       display: none;
     }
   }

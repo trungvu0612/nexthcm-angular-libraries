@@ -1,0 +1,23 @@
+<main class="main-page">
+  <header *transloco="let t">
+    <h1>{{ t('ADMIN_CONTRACT_MANAGEMENT_COLUMNS.contractManagement') }}</h1>
+    <button [routerLink]="['add']" class="blue-button">
+      <tui-svg class="-ml-1 mr-2" src="tuiIconPlusLarge"></tui-svg>
+      {{ t('ADMIN_CONTRACT_MANAGEMENT_COLUMNS.addNewContract') }}
+    </button>
+  </header>
+  <section class="main-section">
+    <ngx-table #table [columns]="(columns$ | async) || []" [configuration]="configuration" [data]="data$">
+      <ng-template let-row>
+        <td>{{ row?.creator }}</td>
+        <td>{{ row?.nameType }}</td>
+        <td>
+          <div class="flex items-center">
+            <button appearance="flat" class="tui-space_right-3" icon="tuiIconEditLarge" size="m" tuiIconButton></button>
+            <button appearance="flat" icon="tuiIconTrashLarge" size="m" tuiIconButton></button>
+          </div>
+        </td>
+      </ng-template>
+    </ngx-table>
+  </section>
+</main>

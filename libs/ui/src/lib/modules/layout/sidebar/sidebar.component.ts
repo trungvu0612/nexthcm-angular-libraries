@@ -96,9 +96,15 @@ export class SidebarComponent implements OnInit {
       permissions: 'VIEW_ADMIN_CONFIG_TIME',
     },
     {
+      label: 'contractManagement',
+      link: '/admin/contracts',
+      icon: 'contracts',
+      permissions: 'ADMIN', // TODO need fix
+    },
+    {
       label: 'leaveLevelApprove',
       link: '/admin/leave-level-approve',
-      icon: 'working-time',
+      icon: 'leave-level-approve',
       permissions: 'ADMIN', // TODO need fix
     },
   ];
@@ -252,9 +258,15 @@ export class SidebarComponent implements OnInit {
             permissions: 'VIEW_ADMIN_CONFIG_TIME',
           },
           {
+            label: 'contractManagement',
+            link: '/admin/contracts',
+            icon: 'contracts',
+            permissions: 'ADMIN', // TODO need fix
+          },
+          {
             label: 'leaveLevelApprove',
             link: '/admin/leave-level-approve',
-            icon: 'working-time',
+            icon: 'leave-level-approve',
             permissions: 'ADMIN', // TODO need fix
           },
         ],

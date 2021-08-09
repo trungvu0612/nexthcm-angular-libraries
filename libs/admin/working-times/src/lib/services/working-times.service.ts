@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { PagingResponse } from '@nexthcm/cdk';
 import { Observable } from 'rxjs';
+import { Holiday } from '../models/holiday';
 import { Office } from '../models/offices';
 import { WorkingAfterTime } from '../models/working-after-time';
 import { WorkingTimes } from '../models/working-times';
@@ -22,14 +23,6 @@ export class WorkingTimesService {
     return this.httpClient.post<WorkingTimes>(`${this.appVersion}/config/times`, dto);
   }
 
-  // getBranchDatas(pageIndex: number, pageSize: number): Observable<any> {
-  //   return this.httpClient.get<any>('/accountapp/v1.0/orgs', {
-  //     params: new HttpParams()
-  //       .set('page', pageIndex ? pageIndex.toString() : '')
-  //       .set('size', pageSize ? pageSize.toString() : ''),
-  //   });
-  // }
-
   getOffices(): Observable<PagingResponse<Office>> {
     return this.httpClient.get<PagingResponse<Office>>(`/accountapp/v1.0/orgs`);
   }
@@ -46,5 +39,21 @@ export class WorkingTimesService {
 
   statusChecking(): Observable<any> {
     return this.httpClient.get<any>(this.appVersion + '/check-in-out');
+  }
+
+  getWorkingHourConfigByOrg(orgId: any): Observable<any> {
+    return this.httpClient.get<any>(`${this.appVersion}/config/times/working-hour-config-by-org-id/` + orgId);
+  }
+
+  getHoliday(): Observable<PagingResponse<Holiday>> {
+    return this.httpClient.get<PagingResponse<Holiday>>(`${this.appVersion}/holidays`);
+  }
+
+  addHoliday(dto: { recurring: any; name: any; holidayDate: number }): Observable<any> {
+    return this.httpClient.post<any>(`${this.appVersion}/holidays`, dto);
+  }
+
+  deleteHoliday(id: string): Observable<Holiday> {
+    return this.httpClient.delete<Holiday>(`${this.appVersion}/holidays/` + id);
   }
 }
