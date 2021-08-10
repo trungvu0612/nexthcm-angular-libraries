@@ -23,9 +23,7 @@ export enum RequestTypeAPIUrlPath {
   workFromHome = 'wfh' as any,
 }
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class MyTimeService {
   constructor(
     private http: HttpClient,

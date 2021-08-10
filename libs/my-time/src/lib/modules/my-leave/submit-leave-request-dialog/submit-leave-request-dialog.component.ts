@@ -9,10 +9,8 @@ import { POLYMORPHEUS_CONTEXT, PolymorpheusComponent } from '@tinkoff/ng-polymor
 import { endOfDay, getTime } from 'date-fns';
 import { Observable } from 'rxjs';
 import { distinctUntilChanged, map, tap } from 'rxjs/operators';
-import { PartialDayType } from '../../../models/partial-day-type';
-import { LeaveSubmit, PayLoad } from '../../../models/submit-leave';
-import { MyLeaveService } from '../../../services/my-leave.service';
-import { SubmitLeaveService } from '../../../services/submit-leave.service';
+import { LeaveSubmit, PartialDayType, PayLoad } from '../../../models';
+import { MyLeaveService } from '../../../services';
 import { DurationConfirmDialogComponent } from '../duaration-comfirm-dialog/duration-confirm-dialog.component';
 
 @Component({
@@ -69,8 +67,8 @@ export class SubmitLeaveRequestDialogComponent implements AfterViewInit {
         translate: true,
         label: 'Date range',
         labelClassName: 'font-semibold',
-        placeholder: 'Choose dates'
-      }
+        placeholder: 'Choose dates',
+      },
     },
 
     {
@@ -90,8 +88,7 @@ export class SubmitLeaveRequestDialogComponent implements AfterViewInit {
           },
           hideExpression: 'model.fromTo?.isSingleDay',
           expressionProperties: {
-            className:
-              '!model.fromTo || model.fromTo.isSingleDay ? "hidden" : "col-span-full mt-4"',
+            className: '!model.fromTo || model.fromTo.isSingleDay ? "hidden" : "col-span-full mt-4"',
           },
         },
       ],
@@ -210,11 +207,9 @@ export class SubmitLeaveRequestDialogComponent implements AfterViewInit {
             placeholder: 'Duration End',
             label: 'Duration End',
           },
-          hideExpression:
-            'model.partialDays?.type !== 4 ',
+          hideExpression: 'model.partialDays?.type !== 4 ',
           expressionProperties: {
-            className:
-              'model.partialDays?.type !== 4 ?  "hidden" : ""',
+            className: 'model.partialDays?.type !== 4 ?  "hidden" : ""',
           },
           hooks: {
             onInit: (field) => {
@@ -334,7 +329,6 @@ export class SubmitLeaveRequestDialogComponent implements AfterViewInit {
 
   constructor(
     @Inject(POLYMORPHEUS_CONTEXT) public context: TuiDialogContext<unknown, LeaveSubmit>,
-    private submitLeaveService: SubmitLeaveService,
     private dialogService: TuiDialogService,
     private myLeaveService: MyLeaveService,
     private injector: Injector,
@@ -351,11 +345,9 @@ export class SubmitLeaveRequestDialogComponent implements AfterViewInit {
       });
   }
 
-
   ngAfterViewInit(): void {}
 
   submit(): void {
-
     const leaveRequestModel = this.form.value;
     const body: PayLoad = {};
 

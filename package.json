@@ -45,7 +45,6 @@
     "@angular/router": "~12.1.0",
     "@apollo/client": "^3.3.20",
     "@auth0/angular-jwt": "^5.0.2",
-    "@datorama/akita": "^6.2.1",
     "@fullcalendar/angular": "^5.9.0",
     "@fullcalendar/daygrid": "^5.9.0",
     "@ng-select/ng-select": "^7.2.0",

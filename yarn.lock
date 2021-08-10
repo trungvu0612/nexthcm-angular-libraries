@@ -1492,14 +1492,6 @@
     debug "^3.1.0"
     lodash.once "^4.1.1"
 
-"@datorama/akita@^6.2.1":
-  version "6.2.1"
-  resolved "https://registry.yarnpkg.com/@datorama/akita/-/akita-6.2.1.tgz#380e5191545bb422e3c6c498689e2e62ed2f3d44"
-  integrity sha512-JvMQX1eQL04sTluS6A58hvhc4LjUFkYZ83EUJ5qXqNfSy/52PFkYrNIK/sDWbdNiCk10/PY7R98UVTk9gbm1Lg==
-  dependencies:
-    rxjs "6.6.7"
-    schematics-utilities "^2.0.3"
-
 "@discoveryjs/json-ext@0.5.3":
   version "0.5.3"
   resolved "https://registry.yarnpkg.com/@discoveryjs/json-ext/-/json-ext-0.5.3.tgz#90420f9f9c6d3987f176a19a7d8e764271a2f55d"
@@ -13387,20 +13379,6 @@ schematics-utilities@2.0.2:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/schematics-utilities/-/schematics-utilities-2.0.2.tgz#8b6c45ff1c09a496dd9f9a163e64ec602d72ae7d"
   integrity sha512-rf9kf76c7LvfeHGAJJNjfYeVEf8kIpaTSU4e931MohjX/o1E+sxuBAD/rIwTKE5wmcRcuRrFCuGb9jcMUZ6eeg==
-  dependencies:
-    "@angular-devkit/core" "^8.3.8"
-    "@angular-devkit/schematics" "^8.3.8"
-    "@schematics/angular" "^8.3.8"
-    "@schematics/update" "^0.803.8"
-    rxjs "^6.4.0"
-    typescript "^3.6.3"
-  optionalDependencies:
-    parse5 "^5.1.0"
-
-schematics-utilities@^2.0.3:
-  version "2.0.3"
-  resolved "https://registry.yarnpkg.com/schematics-utilities/-/schematics-utilities-2.0.3.tgz#691fc5e785fae4b457d8f49c564c9364d68b8cf3"
-  integrity sha512-Elpkg3NVwAMsuo6CKi5MattjGo5ZK2F0vku1FGJAX5Fr4ebJvgKeDEn1J+rho97Ol7lM4LqeubBfJfYBTi/xYg==
   dependencies:
     "@angular-devkit/core" "^8.3.8"
     "@angular-devkit/schematics" "^8.3.8"

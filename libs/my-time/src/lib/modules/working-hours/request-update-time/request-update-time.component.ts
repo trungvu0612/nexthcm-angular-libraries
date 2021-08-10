@@ -10,7 +10,7 @@ import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { of } from 'rxjs';
 import { catchError, filter, map, mapTo, switchMap, takeUntil } from 'rxjs/operators';
 import { SweetAlertOptions } from 'sweetalert2';
-import { WorkingHourService } from '../../../services/working-hour.service';
+import { WorkingHoursService } from '../../../services';
 
 @Component({
   selector: 'hcm-request-update-time',
@@ -79,7 +79,7 @@ export class RequestUpdateTimeComponent implements OnInit {
   constructor(
     @Inject(POLYMORPHEUS_CONTEXT)
     private context: TuiDialogContext<Partial<Zone> | null, Partial<Zone> | null>,
-    private workingHourService: WorkingHourService,
+    private workingHourService: WorkingHoursService,
     private readonly promptService: PromptService,
     private router: Router,
     private authService: AuthService,
@@ -96,7 +96,7 @@ export class RequestUpdateTimeComponent implements OnInit {
     formModel.createdDate = (formModel.createdDate as TuiDay).toLocalNativeDate().valueOf();
     // In time To seconds
     formModel.newInTime = (formModel?.newInTime as TuiTime).toAbsoluteMilliseconds().valueOf() / 1000;
-    
+
     // To time to seconds
     formModel.newOutTime = (formModel?.newOutTime as TuiTime).toAbsoluteMilliseconds().valueOf() / 1000;
     formModel.status = 0;

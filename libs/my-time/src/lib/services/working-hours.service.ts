@@ -4,10 +4,8 @@ import { BaseResponse, PagingResponse, UserDto } from '@nexthcm/cdk';
 import { Observable } from 'rxjs';
 import { RequestUpdateTime, WorkingHours, WorkingInfoCurrentMonth } from '../models';
 
-@Injectable({
-  providedIn: 'root',
-})
-export class WorkingHourService {
+@Injectable()
+export class WorkingHoursService {
   appVersion = '/mytimeapp/v1.0';
 
   constructor(private httpClient: HttpClient) {}

@@ -24,7 +24,7 @@ import { RequestManagementModule } from './modules/request-management/request-ma
 import { WorkingHoursComponent } from './modules/working-hours/working-hours.component';
 import { WorkingHoursModule } from './modules/working-hours/working-hours.module';
 import { MyTimeComponent } from './my-time.component';
-import { MyLeaveService } from './services/my-leave.service';
+import { MyLeaveService, MyRequestService, MyTimeService, WorkingHoursService } from './services';
 
 export const MY_TIME_ROUTES: Routes = [
   {
@@ -41,9 +41,7 @@ export const MY_TIME_ROUTES: Routes = [
           {
             path: 'my-leave',
             component: MyLeaveComponent,
-            children: [
-              { path: '', component: LeaveRequestManagementComponent }
-            ],
+            children: [{ path: '', component: LeaveRequestManagementComponent }],
           },
           {
             path: 'working-hours',
@@ -56,9 +54,7 @@ export const MY_TIME_ROUTES: Routes = [
             component: MyRequestsComponent,
             canActivate: [NgxPermissionsGuard],
             data: { permissions: { only: 'VIEW_MY_REQUEST', redirectTo: '/' } },
-            children: [
-              { path: '', component: ListMyRequestComponent }
-            ],
+            children: [{ path: '', component: ListMyRequestComponent }],
           },
           {
             path: 'requests',
@@ -91,6 +87,6 @@ export const MY_TIME_ROUTES: Routes = [
     FormlyModule,
     ReactiveFormsModule,
   ],
-  providers: [MyLeaveService],
+  providers: [MyLeaveService, MyTimeService, WorkingHoursService, MyRequestService],
 })
 export class MyTimeModule {}

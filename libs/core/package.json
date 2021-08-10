@@ -27,6 +27,6 @@
     "sweetalert2": "^11.0.18",
     "tslib": "^2.0.0",
     "@ngneat/svg-icon": "^3.2.0",
-    "@ng-stack/forms": "^2.4.0"
+    "@ngneat/transloco-locale": "^1.4.0"
   }
 }

@@ -27,7 +27,7 @@ import { BaseComponent, Columns } from 'ngx-easy-table';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { map, startWith, switchMap, takeUntil } from 'rxjs/operators';
 import { SearchWorkingHour, WeekInfo, WorkingHours, WorkingInfoCurrentMonth } from '../../models';
-import { WorkingHourService } from '../../services/working-hour.service';
+import { WorkingHoursService } from '../../services';
 import { WorkingHoursDetailDialogComponent } from './components/working-hour-detail-dialog/working-hours-detail-dialog.component';
 import { RequestUpdateTimeComponent } from './request-update-time/request-update-time.component';
 
@@ -149,7 +149,7 @@ export class WorkingHoursComponent extends AbstractServerPaginationTableComponen
     public state: RxState<Pagination<WorkingHours>>,
     private dialogService: TuiDialogService,
     private injector: Injector,
-    private workingHourService: WorkingHourService,
+    private workingHourService: WorkingHoursService,
     private formBuilder: FormBuilder,
     private cdr: ChangeDetectorRef,
     private destroy$: TuiDestroyService,
