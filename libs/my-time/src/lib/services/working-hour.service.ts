@@ -12,26 +12,13 @@ export class WorkingHourService {
 
   constructor(private httpClient: HttpClient) {}
 
-  getWorkingHour(
-    pageIndex: number,
-    pageSize: number,
-    search: SearchWorkingHour
-  ): Observable<PagingResponse<WorkingHour>> {
-    let httpParams = new HttpParams();
-    Object.keys(search).forEach((key) => {
-      httpParams = httpParams.append(key, search[key as keyof SearchWorkingHour]);
-    });
-    return this.httpClient.get<PagingResponse<WorkingHour>>(this.appVersion + '/working-hours', {
-      params: httpParams
-        .set('page', pageIndex ? pageIndex.toString() : '')
-        .set('size', pageSize ? pageSize.toString() : ''),
-    });
-  }
-
   getWorkingHourOnlyMe(params: HttpParams): Observable<PagingResponse<WorkingHour>> {
     return this.httpClient.get<PagingResponse<WorkingHour>>(this.appVersion + '/working-hours', { params });
   }
 
+  getWorkingHourEveryone(params: HttpParams): Observable<PagingResponse<WorkingHour>> {
+    return this.httpClient.get<PagingResponse<WorkingHour>>(this.appVersion + '/working-hours-everyone', { params });
+  }
   // getWorkingHourOnlyMe(
   //   pageIndex: number,
   //   pageSize: number,

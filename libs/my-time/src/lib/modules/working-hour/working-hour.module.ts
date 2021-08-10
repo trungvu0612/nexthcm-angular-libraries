@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FormlyModule } from '@ngx-formly/core';
 import { TuiTableModule, TuiTablePaginationModule } from '@taiga-ui/addon-table';
 import {
@@ -14,6 +14,8 @@ import {
 import {
   TuiDataListWrapperModule,
   TuiInputDateModule,
+  TuiInputModule,
+  TuiInputNumberModule,
   TuiSelectModule,
   TuiTextAreaModule,
   TuiUnfinishedValidatorModule,
@@ -24,6 +26,11 @@ import { WorkingHourDetailComponent } from './working-hour-detail/working-hour-d
 import { WorkingHourComponent } from './working-hour.component';
 import { WorkingOutsiteComponent } from './working-outsite/working-outsite.component';
 import { TableModule } from 'ngx-easy-table';
+import { SecondsToHourMinutePipeModule } from '../../pipes/seconds-to-hour-mintue/seconds-to-hour-minute.pipe';
+import { TranslocoModule, TranslocoPipe } from '@ngneat/transloco';
+import { TuiLetModule } from '@taiga-ui/cdk';
+import { TranslocoLocaleModule } from '@ngneat/transloco-locale';
+import { TranslocoRootModule } from 'libs/core/src/lib/transloco/transloco-root.module';
 
 @NgModule({
   declarations: [
@@ -51,6 +58,13 @@ import { TableModule } from 'ngx-easy-table';
     TuiTablePaginationModule,
     TableModule,
     TuiButtonModule,
+    SecondsToHourMinutePipeModule,
+    FormsModule,
+    TuiInputNumberModule,
+    TuiInputModule,
+    TuiLetModule,
+    TranslocoRootModule,
+    TranslocoLocaleModule,
   ],
 })
 export class WorkingHourModule {}

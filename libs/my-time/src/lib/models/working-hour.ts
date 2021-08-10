@@ -45,17 +45,6 @@ export interface WorkingHourUserInfoOrg {
 	code: string;
 	tenant: WorkingHourUserInfoOrgTenant;
 }
-export interface WorkingHourUserInfoProfile {
-	createdDate: number;
-	createdBy: string;
-	lastModifiedDate: number;
-	lastModifiedBy: string;
-	optCounter: number;
-	id: string;
-	firstName: string;
-	lastName: string;
-	fullName: string;
-}
 export interface WorkingHourUserInfoOffice {
 	id: string;
 	name: string;
@@ -73,13 +62,13 @@ export interface WorkingHourUserInfo {
 	tenantId: string;
 	state: number;
 	username: string;
-	code: string;
+	cif: string;
 	registerType: string;
 	registration: number;
 	org: WorkingHourUserInfoOrg;
-	profile: WorkingHourUserInfoProfile;
 	office: WorkingHourUserInfoOffice;
 	descendants: any[];
+	fullName: string;
 }
 export interface WorkingHourLeaveLeaveType {
 	id: string;
@@ -101,7 +90,10 @@ export interface WorkingHourLeave {
 }
 
 export interface SearchWorkingHour {
-  name: string;
+  search: string | null;
+  month: number | null;
+  year: number | null;
+  week: WeekInfo | null;
 }
 
 export interface RequestUpdateTime {
@@ -113,3 +105,11 @@ export interface RequestUpdateTime {
   comments: string;
   status: 0;
 }
+
+
+export interface WeekInfo {
+	week: number;
+	weekStart: number;
+	weekEnd: number;
+  }
+  
