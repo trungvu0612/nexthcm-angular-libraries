@@ -6,7 +6,7 @@ import { PromptService } from '@nexthcm/cdk';
 import { TranslocoService } from '@ngneat/transloco';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
-import { differenceInSeconds, endOfYesterday, startOfToday, startOfYesterday } from 'date-fns';
+import { differenceInSeconds, endOfToday, endOfYesterday, startOfToday, startOfYesterday } from 'date-fns';
 import { of } from 'rxjs';
 import { catchError, filter, mapTo, switchMap, takeUntil } from 'rxjs/operators';
 import { SweetAlertOptions } from 'sweetalert2';
@@ -22,7 +22,7 @@ import { OverviewService } from '../../services/overview.service';
 export class OverviewComponent implements OnInit {
   toDay = new Date();
   startOfYesterday = startOfYesterday().valueOf();
-  endOfYesterday = endOfYesterday().valueOf();
+  endOfYesterday = endOfToday().valueOf();
   nowInMiliseconds = differenceInSeconds(this.toDay, startOfToday());
   myName = this.authService.get('userInfo').preferred_username;
   myId = this.authService.get('userInfo').userId;
@@ -32,7 +32,7 @@ export class OverviewComponent implements OnInit {
   idChecking: any;
   dataChecking: any;
   checkingAction: any;
-  myWorkingHour = { timeToday: '', timeInToday: '', timeOutToday: '', timeInYesterday: '', timeOutYesterday: '' };
+  myWorkingHour = { timeToday: new Date(), timeInToday: 0, timeOutToday: 0, timeInYesterday: 0, timeOutYesterday: 0 };
 
   constructor(
     private overviewService: OverviewService,
@@ -54,18 +54,17 @@ export class OverviewComponent implements OnInit {
   }
 
   checkingStatus() {
-    this.myWorkingHour.timeToday =
-      new Date().toLocaleString('en-us', { month: 'short' }) + ' ' + String(new Date().getDate()).padStart(2, '0');
+    this.myWorkingHour.timeToday = new Date();
     this.overviewService.statusChecking().subscribe((item) => {
       if (item.data?.items.length > 0) {
         // show check-out button
         this.checkingAction = 'checked-out';
         this.idChecking = item.data?.items[0]?.id;
         if (item.data?.items[0]?.inTime) {
-          this.myWorkingHour.timeInToday = this.secondsToTime(item.data?.items[0]?.inTime);
+          this.myWorkingHour.timeInToday = item.data?.items[0]?.inTime;
         }
         if (item.data?.items[0]?.outTime) {
-          this.myWorkingHour.timeOutToday = this.secondsToTime(item.data?.items[0]?.outTime);
+          this.myWorkingHour.timeOutToday = item.data?.items[0]?.outTime;
         }
       } else {
         //show check-in button
@@ -79,11 +78,20 @@ export class OverviewComponent implements OnInit {
     this.overviewService
       .getWorkingHourByDate(this.myId, this.startOfYesterday, this.endOfYesterday)
       .subscribe((item) => {
-        if (item.data?.items[0]?.inTimeToFullTime) {
-          this.myWorkingHour.timeInYesterday = item.data.items[0].inTimeToFullTime;
+
+        // Sort by tracking date desc
+        // That mean today is [0] , yesterday is [1]
+        if (item.data?.items[1]?.inTime) {
+          this.myWorkingHour.timeInYesterday = item.data.items[1].inTime;
         }
-        if (item.data?.items[0]?.outTimeToFulltime) {
-          this.myWorkingHour.timeOutYesterday = item.data.items[0].outTimeToFulltime;
+        if (item.data?.items[1]?.outTime) {
+          this.myWorkingHour.timeOutYesterday = item.data.items[1].outTime;
+        }
+        if (item.data?.items[0]?.inTime) {
+          this.myWorkingHour.timeInToday = item.data.items[0].inTime;
+        }
+        if (item.data?.items[0]?.outTime) {
+          this.myWorkingHour.timeOutToday = item.data.items[0].outTime;
         }
 
         this.cdr.detectChanges();
@@ -164,19 +172,6 @@ export class OverviewComponent implements OnInit {
     }
   }
 
-  secondsToTime = (secs: any) => {
-    const hours = Math.floor(secs / (60 * 60));
-    const divisor_for_minutes = secs % (60 * 60);
-    const minutes = Math.floor(divisor_for_minutes / 60);
-    const divisor_for_seconds = divisor_for_minutes % 60;
-    const seconds = Math.ceil(divisor_for_seconds);
-    const obj = {
-      h: hours === 0 ? '00' : hours < 10 ? `0${hours}` : hours,
-      m: minutes === 0 ? '00' : minutes < 10 ? `0${minutes}` : minutes,
-      s: seconds,
-    };
-    return obj.h + ': ' + obj.m;
-  };
 
   workingHourDetail() {
     this.router.navigateByUrl('/my-time/working-hour');

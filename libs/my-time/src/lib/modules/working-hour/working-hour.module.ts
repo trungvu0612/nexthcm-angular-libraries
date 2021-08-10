@@ -24,7 +24,7 @@ import {
 } from '@taiga-ui/kit';
 import { TranslocoRootModule } from 'libs/core/src/lib/transloco/transloco-root.module';
 import { TableModule } from 'ngx-easy-table';
-import { SecondsToHourMinutePipeModule } from '../../pipes/seconds-to-hour-mintue/seconds-to-hour-minute.pipe';
+import { SecondsToHourMinutePipeModule } from '../../pipes/seconds-to-hour-minute/seconds-to-hour-minute.pipe';
 import { RequestOtComponent } from './request-ot/request-ot.component';
 import { RequestUpdateTimeComponent } from './request-update-time/request-update-time.component';
 import { WorkingHourDetailComponent } from './working-hour-detail/working-hour-detail.component';

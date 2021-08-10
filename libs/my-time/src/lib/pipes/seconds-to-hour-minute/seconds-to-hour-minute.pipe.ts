@@ -6,7 +6,7 @@ import { TimeUtils } from '../../modules/utils/time-util';
 })
 export class SecondsToHourMinutePipe implements PipeTransform {
 
-  transform(seconds: number): string {
+  transform(seconds: number | undefined | null): string {
     return TimeUtils.getHourMinuteStringBySeconds(seconds);
   }
 
