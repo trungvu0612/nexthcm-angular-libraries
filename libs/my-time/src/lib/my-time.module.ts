@@ -21,8 +21,8 @@ import { WorkingAfterHoursRequestListComponent } from './modules/request-managem
 import { WorkingOutsideRequestListComponent } from './modules/request-management/pages/working-outside-request-list/working-outside-request-list.component';
 import { RequestManagementComponent } from './modules/request-management/request-management.component';
 import { RequestManagementModule } from './modules/request-management/request-management.module';
-import { WorkingHourComponent } from './modules/working-hour/working-hour.component';
-import { WorkingHourModule } from './modules/working-hour/working-hour.module';
+import { WorkingHoursComponent } from './modules/working-hours/working-hours.component';
+import { WorkingHoursModule } from './modules/working-hours/working-hours.module';
 import { MyTimeComponent } from './my-time.component';
 import { MyLeaveService } from './services/my-leave.service';
 
@@ -46,8 +46,8 @@ export const MY_TIME_ROUTES: Routes = [
             ],
           },
           {
-            path: 'working-hour',
-            component: WorkingHourComponent,
+            path: 'working-hours',
+            component: WorkingHoursComponent,
             canActivate: [NgxPermissionsGuard],
             data: { permissions: { only: 'VIEW_WORKING_HOUR', redirectTo: '/' } },
           },
@@ -86,7 +86,7 @@ export const MY_TIME_ROUTES: Routes = [
     MyLeaveModule,
     MyRequestsModule,
     RequestManagementModule,
-    WorkingHourModule,
+    WorkingHoursModule,
     TuiButtonModule,
     FormlyModule,
     ReactiveFormsModule,

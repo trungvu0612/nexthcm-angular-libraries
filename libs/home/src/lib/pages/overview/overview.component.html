@@ -18,17 +18,17 @@
         </div>
         <div class="border-time">
           <div class="font-bold text-md mb-5">Time in</div>
-          <div class="mb-5 time-height">{{ myWorkingHour?.timeInToday | secondsToHourMinute}}</div>
-          <div class="mb-5 time-height">{{ myWorkingHour?.timeInYesterday | secondsToHourMinute}}</div>
+          <div class="mb-5 time-height">{{ myWorkingHour.timeInToday * 1000 | date : 'HH:mm' : 'UTC'}}</div>
+          <div class="mb-5 time-height">{{ myWorkingHour.timeInYesterday * 1000 | date : 'HH:mm' : 'UTC'}}</div>
         </div>
         <div>
           <div class="font-bold text-md mb-5">Time out</div>
           <div class="text-yellow-400 mb-5 time-height">
-            <img *ngIf="myWorkingHour?.timeOutToday" class="inline mr-1" src="assets/images/warning.png" />{{
-              myWorkingHour?.timeOutToday | secondsToHourMinute
+            <img *ngIf="myWorkingHour.timeOutToday" class="inline mr-1" src="assets/images/warning.png" />{{
+              myWorkingHour.timeOutToday * 1000 | date : 'HH:mm' : 'UTC'
             }}
           </div>
-          <div class="mb-5 time-height">{{ myWorkingHour?.timeOutYesterday | secondsToHourMinute }}</div>
+          <div class="mb-5 time-height">{{ myWorkingHour.timeOutYesterday * 1000 | date : 'HH:mm' : 'UTC' }}</div>
         </div>
       </div>
       <div class="bg-purple-700 pb-5 rounded-b-lg">
@@ -69,7 +69,7 @@
         <div class="grid grid-cols-2 my-5 text-base">
           <div class="text-left ml-4">Paid leave: <span class="text-blue-500 font-bold">0/8.5</span></div>
           <div class="text-right text-blue-500 mr-4">
-            <a [routerLink]="'/my-time/working-hour'">{{ t('OVERVIEW.viewDetail') }}</a>
+            <a [routerLink]="'/my-time/working-hours'">{{ t('OVERVIEW.viewDetail') }}</a>
           </div>
         </div>
       </section>

@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BaseResponse, PagingResponse, UserDto } from '@nexthcm/cdk';
 import { Observable } from 'rxjs';
-import { RequestUpdateTime, WorkingHour, WorkingInfoCurrentMonth } from '../models/working-hour';
+import { RequestUpdateTime, WorkingHours, WorkingInfoCurrentMonth } from '../models';
 
 @Injectable({
   providedIn: 'root',
@@ -12,32 +12,32 @@ export class WorkingHourService {
 
   constructor(private httpClient: HttpClient) {}
 
-  getWorkingHourOnlyMe(params: HttpParams): Observable<PagingResponse<WorkingHour>> {
-    return this.httpClient.get<PagingResponse<WorkingHour>>(this.appVersion + '/working-hours', { params });
+  getWorkingHoursOnlyMe(params: HttpParams): Observable<PagingResponse<WorkingHours>> {
+    return this.httpClient.get<PagingResponse<WorkingHours>>(this.appVersion + '/working-hours', { params });
   }
 
-  getWorkingHourEveryone(params: HttpParams): Observable<PagingResponse<WorkingHour>> {
-    return this.httpClient.get<PagingResponse<WorkingHour>>(this.appVersion + '/working-hours-everyone', { params });
+  getWorkingHoursEveryone(params: HttpParams): Observable<PagingResponse<WorkingHours>> {
+    return this.httpClient.get<PagingResponse<WorkingHours>>(this.appVersion + '/working-hours-everyone', { params });
   }
-  // getWorkingHourOnlyMe(
+  // getWorkingHoursOnlyMe(
   //   pageIndex: number,
   //   pageSize: number,
-  //   search: SearchWorkingHour,
+  //   search: SearchWorkingHours,
   //   userId: string
-  // ): Observable<PagingResponse<WorkingHour>> {
+  // ): Observable<PagingResponse<WorkingHours>> {
   //   let httpParams = new HttpParams();
   //   Object.keys(search).forEach((key) => {
-  //     httpParams = httpParams.append(key, search[key as keyof SearchWorkingHour]);
+  //     httpParams = httpParams.append(key, search[key as keyof SearchWorkingHours]);
   //   });
-  //   return this.httpClient.get<PagingResponse<WorkingHour>>(this.appVersion + '/working-hours?userId=' + userId, {
+  //   return this.httpClient.get<PagingResponse<WorkingHours>>(this.appVersion + '/working-hours?userId=' + userId, {
   //     params: httpParams
   //       .set('page', pageIndex ? pageIndex.toString() : '')
   //       .set('size', pageSize ? pageSize.toString() : ''),
   //   });
   // }
 
-  getWorkingHourDetail(id: any): Observable<WorkingHour> {
-    return this.httpClient.get<WorkingHour>(this.appVersion + '/working-hours' + '/' + id);
+  getWorkingHoursDetail(id: any): Observable<WorkingHours> {
+    return this.httpClient.get<WorkingHours>(this.appVersion + '/working-hours' + '/' + id);
   }
 
   getAllUsers(): Observable<PagingResponse<UserDto>> {
@@ -48,13 +48,15 @@ export class WorkingHourService {
     return this.httpClient.post<BaseResponse<RequestUpdateTime>>(this.appVersion + '/working-hours', dto);
   }
 
-  getWorkingHourByDate(userId: string, fromDate: any, toDate: any): Observable<any> {
+  getWorkingHoursByDate(userId: string, fromDate: any, toDate: any): Observable<any> {
     return this.httpClient.get<any>(
       this.appVersion + '/working-hours?userId=' + userId + '&fromDate=' + fromDate + '&toDate=' + toDate
     );
   }
 
   getWorkingInfoCurrentMonth(): Observable<BaseResponse<WorkingInfoCurrentMonth>> {
-    return this.httpClient.get<BaseResponse<WorkingInfoCurrentMonth>>(`${this.appVersion}/working-hours/display-total-working-day-per-month`);
+    return this.httpClient.get<BaseResponse<WorkingInfoCurrentMonth>>(
+      `${this.appVersion}/working-hours/display-total-working-day-per-month`
+    );
   }
 }

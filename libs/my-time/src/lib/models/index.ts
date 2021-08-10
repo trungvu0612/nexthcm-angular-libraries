@@ -5,7 +5,7 @@ export * from './requests';
 export * from './leave-type';
 export * from './interfaces';
 export * from './send-to-user';
-export * from './working-hour';
+export * from './working-hours';
 export * from './tracking-history';
 export * from './update-request-payload';
 export * from './half-day';

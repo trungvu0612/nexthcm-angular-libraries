@@ -506,5 +506,12 @@
   "history": "Lịch sử",
   "type": "Loại",
   "newTimeIn": "Giờ vào mới",
-  "newTimeOut": "Giờ ra mới"
+  "newTimeOut": "Giờ ra mới",
+  "date": "Ngày",
+  "timeIn": "Giờ vào",
+  "timeOut": "Giờ ra",
+  "totalWorkingTimeH": "Số giờ làm việc",
+  "workingDay": "Số ngày công",
+  "overtime": "Ngoài giờ",
+  "workingHoursDetail": "Chi tiết giờ làm việc"
 }

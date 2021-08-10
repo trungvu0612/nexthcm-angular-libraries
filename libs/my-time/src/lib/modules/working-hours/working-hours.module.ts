@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TranslocoModule } from '@ngneat/transloco';
 import { TranslocoLocaleModule } from '@ngneat/transloco-locale';
 import { FormlyModule } from '@ngx-formly/core';
 import { TuiTableModule, TuiTablePaginationModule } from '@taiga-ui/addon-table';
@@ -22,22 +23,17 @@ import {
   TuiTextAreaModule,
   TuiUnfinishedValidatorModule,
 } from '@taiga-ui/kit';
-import { TranslocoRootModule } from 'libs/core/src/lib/transloco/transloco-root.module';
 import { TableModule } from 'ngx-easy-table';
 import { SecondsToHourMinutePipeModule } from '../../pipes/seconds-to-hour-minute/seconds-to-hour-minute.pipe';
-import { RequestOtComponent } from './request-ot/request-ot.component';
+import { WorkingHoursDetailDialogComponent } from './components/working-hour-detail-dialog/working-hours-detail-dialog.component';
 import { RequestUpdateTimeComponent } from './request-update-time/request-update-time.component';
-import { WorkingHourDetailComponent } from './working-hour-detail/working-hour-detail.component';
-import { WorkingHourComponent } from './working-hour.component';
-import { WorkingOutsiteComponent } from './working-outsite/working-outsite.component';
+import { WorkingHoursComponent } from './working-hours.component';
 
 @NgModule({
   declarations: [
-    WorkingHourComponent,
-    RequestOtComponent,
+    WorkingHoursComponent,
     RequestUpdateTimeComponent,
-    WorkingHourDetailComponent,
-    WorkingOutsiteComponent,
+    WorkingHoursDetailDialogComponent,
   ],
   imports: [
     CommonModule,
@@ -62,8 +58,8 @@ import { WorkingOutsiteComponent } from './working-outsite/working-outsite.compo
     TuiInputNumberModule,
     TuiInputModule,
     TuiLetModule,
-    TranslocoRootModule,
+    TranslocoModule,
     TranslocoLocaleModule,
   ],
 })
-export class WorkingHourModule {}
+export class WorkingHoursModule {}

@@ -15,8 +15,6 @@ import { AppConfig } from './models';
 import { FORMLY_CONFIG_TRANSLATION_PROVIDER } from './providers/formly-config-translation.provider';
 import { INIT_PERMISSIONS_PROVIDER } from './providers/init-permissions.provider';
 import { LANGUAGE_PROVIDER } from './providers/language.provider';
-import { TRANSLATION_CONFIG_PROVIDER } from './transloco/transloco-config';
-import { TRANSLOCO_HTTP_LOADER_PROVIDER } from './transloco/transloco-http-loader';
 import { TranslocoRootModule } from './transloco/transloco-root.module';
 
 registerLocaleData(localeVi);
@@ -34,8 +32,6 @@ registerLocaleData(localeVi);
     SvgIconsModule.forRoot({ defaultSize: 'lg' }),
   ],
   providers: [
-    TRANSLOCO_HTTP_LOADER_PROVIDER,
-    TRANSLATION_CONFIG_PROVIDER,
     API_PREFIX_INTERCEPTOR_PROVIDER,
     FORMLY_CONFIG_TRANSLATION_PROVIDER,
     INIT_PERMISSIONS_PROVIDER,

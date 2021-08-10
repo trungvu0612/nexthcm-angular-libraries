@@ -507,5 +507,12 @@
   "history": "History",
   "type": "Type",
   "newTimeIn": "New check-in time",
-  "newTimeOut": "New check-out time"
+  "newTimeOut": "New check-out time",
+  "date": "Date",
+  "timeIn": "Time in",
+  "timeOut": "Time out",
+  "totalWorkingTimeH": "Total Working Time (h)",
+  "workingDay": "Working Day",
+  "overtime": "Overtime",
+  "workingHoursDetail": "Working hours detail"
 }

@@ -14,7 +14,7 @@ export abstract class AbstractServerPaginationTableComponent<T> {
   };
   data$: Observable<T[]>;
   total$: Observable<number>;
-  readonly queryParams$ = new BehaviorSubject(new HttpParams().set('page', '0').set('size', 10));
+  readonly queryParams$ = new BehaviorSubject(new HttpParams().set('page', 0).set('size', 10));
 
   protected constructor(public state: RxState<Pagination<T>>) {
     this.data$ = this.state.select('items');

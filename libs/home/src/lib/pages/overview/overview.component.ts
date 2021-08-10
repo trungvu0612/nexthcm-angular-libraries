@@ -6,7 +6,7 @@ import { PromptService } from '@nexthcm/cdk';
 import { TranslocoService } from '@ngneat/transloco';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
-import { differenceInSeconds, endOfToday, endOfYesterday, startOfToday, startOfYesterday } from 'date-fns';
+import { differenceInSeconds, endOfToday, startOfToday, startOfYesterday } from 'date-fns';
 import { of } from 'rxjs';
 import { catchError, filter, mapTo, switchMap, takeUntil } from 'rxjs/operators';
 import { SweetAlertOptions } from 'sweetalert2';
@@ -78,7 +78,6 @@ export class OverviewComponent implements OnInit {
     this.overviewService
       .getWorkingHourByDate(this.myId, this.startOfYesterday, this.endOfYesterday)
       .subscribe((item) => {
-
         // Sort by tracking date desc
         // That mean today is [0] , yesterday is [1]
         if (item.data?.items[1]?.inTime) {
@@ -172,8 +171,7 @@ export class OverviewComponent implements OnInit {
     }
   }
 
-
   workingHourDetail() {
-    this.router.navigateByUrl('/my-time/working-hour');
+    this.router.navigateByUrl('/my-time/working-hours');
   }
 }

@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { EntityState, EntityStore, StoreConfig } from '@datorama/akita';
-import { WorkingHour } from '../../models/working-hour';
+import { WorkingHours } from '../../models/working-hours';
 
-export interface WorkingHourState extends EntityState<WorkingHour> {}
+export interface WorkingHourState extends EntityState<WorkingHours> {}
 
 @Injectable({ providedIn: 'root' })
-@StoreConfig({ name: 'working-hour-management' })
+@StoreConfig({ name: 'working-hours-management' })
 export class WorkingHourStore extends EntityStore<WorkingHourState> {
   constructor() {
     super();

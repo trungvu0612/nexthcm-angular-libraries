@@ -19,7 +19,7 @@
         <div class="grid md:grid-cols-2 text-white text-center bg-purple-700 pt-5 pl-5 pr-5 pb-2 rounded-b-lg">
           <div class="text-base">
             <div class="text-xl">Time in</div>
-            <div class="my-3 time-height text-base">{{ myWorkingHour.timeInYesterday | secondsToHourMinute}}</div>
+            <div class="my-3 time-height text-base">{{ myWorkingHour.timeInYesterday | secondsToHourMinute }}</div>
           </div>
           <div class="border-time text-base">
             <div class="text-xl">Time out</div>
@@ -30,9 +30,8 @@
 
       <div class="text-center shadow-md bg-white rounded-lg grid">
         <div class="heading-title flex items-center justify-center">Your working days this month</div>
-        <ng-container *ngIf="(workingHourInfoCurrentMonth$ | async) as workingHourInfoCurrentMonth;">
+        <ng-container *ngIf="workingHourInfoCurrentMonth$ | async as workingHourInfoCurrentMonth">
           <div class="finger-section">
-     
             <span class="text-8xl text-blue-500 font-bold">{{ workingHourInfoCurrentMonth?.workingDay }}</span>
             <span class="text-3xl text-gray-400 font-bold">/{{ workingHourInfoCurrentMonth?.totalWorkingDay }}</span>
           </div>
@@ -64,104 +63,109 @@
         </div>
       </div>
 
-
       <!-- FILTER - START-->
-      <div [ngClass]="{
-        'grid-rows-2' : !(onlyMe$ | async),
-        'grid-rows-1' : (onlyMe$ | async)
-      }" 
-      class="grid grid-flow-col gap-3 mb-3">
-      <section class="grid grid-cols-4 gap-6 auto-rows-max">
-        <tui-input-number (keyup.enter)="onFilterByYear()" [precision]="0" [tuiTextfieldCleaner]="true" formControlName="year">
-          <span class="font-semibold">{{ t('year') }}</span>
-        </tui-input-number>
-        <tui-select
-          (ngModelChange)="onFilterByMonth($event)"
-          *tuiLet="monthList$ | async as months"
-          [disabled]="year === null"
-          [tuiTextfieldCleaner]="true"
-          [valueContent]="monthStringify(months || [])"
-          formControlName="month"
-        >
-          <span class="font-semibold">{{ t('month') }}</span>
-          <ng-template tuiDataList>
-            <tui-data-list>
-              <button *ngFor="let month of months" [value]="month.value" tuiOption>
-                {{ month.label }}
-              </button>
-            </tui-data-list>
-          </ng-template>
-        </tui-select>
-        <tui-select
-          (ngModelChange)="onFilterByWeek()"
-          *tuiLet="weekList$ | async as weeks"
-          [disabled]="month === null"
-          [tuiTextfieldCleaner]="true"
-          [valueContent]="weekStringify(weeks || [])"
-          formControlName="week"
-        >
-          <span class="font-semibold">{{ t('week') }}</span>
-          <ng-template tuiDataList>
-            <tui-data-list>
-              <button *ngFor="let week of weeks" [value]="week.value" tuiOption>
-                {{ week.label }}
-              </button>
-            </tui-data-list>
-          </ng-template>
-        </tui-select>
-        <div class="filter-search">
-          <button
-          (click)="workingStatus('all')"
-          [class.actived]="!(onlyMe$ | async)"
-          class="
-            focus:outline-none
-            hover:bg-blue-500 hover:border-blue-500 hover:text-white hover:bg-blue-500
-            text-base
-            rounded-lg
-            pl-5
-            pr-5
-            pt-1
-            pb-1
-            inline
-            mr-4
-            h-full
-          "
-        >
-          Everyone
-        </button>
-        <button
-          (click)="workingStatus('me')"
-          [class.actived]="(onlyMe$ | async)"
-          class="
-            focus:outline-none
-            hover:bg-blue-500 hover:border-blue-500 hover:text-white hover:bg-blue-500
-            text-base
-            rounded-lg
-            pl-5
-            pr-5
-            pt-1
-            pb-1
-            inline
-            h-full
-          "
-        >
-          Only me
-        </button>
-        </div>
-      </section>
-      <tui-input
-        (keyup.enter)="onFilter('search', search)"
-        [tuiTextfieldCleaner]="true"
-        class="col-span-3"
-        formControlName="search"
-        icon="tuiIconSearchLarge"
-        *ngIf="!(onlyMe$ | async)"
+      <div
+        [ngClass]="{
+          'grid-rows-2': !(onlyMe$ | async),
+          'grid-rows-1': (onlyMe$ | async)
+        }"
+        class="grid grid-flow-col gap-3 mb-3"
       >
-        <span class="font-semibold">{{ t('searchByCifFullNameOffice') }}</span>
-      </tui-input>
-    </div>
+        <section class="grid grid-cols-4 gap-6 auto-rows-max">
+          <tui-input-number
+            (keyup.enter)="onFilterByYear()"
+            [precision]="0"
+            [tuiTextfieldCleaner]="true"
+            formControlName="year"
+          >
+            <span class="font-semibold">{{ t('year') }}</span>
+          </tui-input-number>
+          <tui-select
+            (ngModelChange)="onFilterByMonth($event)"
+            *tuiLet="monthList$ | async as months"
+            [disabled]="year === null"
+            [tuiTextfieldCleaner]="true"
+            [valueContent]="monthStringify(months || [])"
+            formControlName="month"
+          >
+            <span class="font-semibold">{{ t('month') }}</span>
+            <ng-template tuiDataList>
+              <tui-data-list>
+                <button *ngFor="let month of months" [value]="month.value" tuiOption>
+                  {{ month.label }}
+                </button>
+              </tui-data-list>
+            </ng-template>
+          </tui-select>
+          <tui-select
+            (ngModelChange)="onFilterByWeek()"
+            *tuiLet="weekList$ | async as weeks"
+            [disabled]="month === null"
+            [tuiTextfieldCleaner]="true"
+            [valueContent]="weekStringify(weeks || [])"
+            formControlName="week"
+          >
+            <span class="font-semibold">{{ t('week') }}</span>
+            <ng-template tuiDataList>
+              <tui-data-list>
+                <button *ngFor="let week of weeks" [value]="week.value" tuiOption>
+                  {{ week.label }}
+                </button>
+              </tui-data-list>
+            </ng-template>
+          </tui-select>
+          <div class="filter-search">
+            <button
+              (click)="onlyMe$.next(false)"
+              [class.actived]="!(onlyMe$ | async)"
+              class="
+                focus:outline-none
+                hover:bg-blue-500 hover:border-blue-500 hover:text-white hover:bg-blue-500
+                text-base
+                rounded-lg
+                pl-5
+                pr-5
+                pt-1
+                pb-1
+                inline
+                mr-4
+                h-full
+              "
+            >
+              Everyone
+            </button>
+            <button
+              (click)="onlyMe$.next(true)"
+              [class.actived]="onlyMe$ | async"
+              class="
+                focus:outline-none
+                hover:bg-blue-500 hover:border-blue-500 hover:text-white hover:bg-blue-500
+                text-base
+                rounded-lg
+                pl-5
+                pr-5
+                pt-1
+                pb-1
+                inline
+                h-full
+              "
+            >
+              Only me
+            </button>
+          </div>
+        </section>
+        <tui-input
+          (keyup.enter)="onFilter('search', search)"
+          *ngIf="!(onlyMe$ | async)"
+          [tuiTextfieldCleaner]="true"
+          class="col-span-3"
+          formControlName="search"
+          icon="tuiIconSearchLarge"
+        >
+          <span class="font-semibold">{{ t('searchByCifFullNameOffice') }}</span>
+        </tui-input>
+      </div>
       <!-- FILTER - END-->
-
 
       <div class="flex flex-col shadow-md bg-white">
         <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -178,7 +182,7 @@
                       <ng-template let-row>
                         <td>{{ item(row).userInfo?.office?.name }}</td>
                         <td>{{ item(row).trackingDate | date: 'dd/MM/yyyy' }}</td>
-                        <td>{{ item(row).trackingDate | translocoDate : {weekday: 'long'} }}</td>
+                        <td>{{ item(row).trackingDate | translocoDate: { weekday: 'long' } }}</td>
                         <td>{{ item(row).inTime | secondsToHourMinute }}</td>
                         <td>{{ item(row).outTime | secondsToHourMinute }}</td>
                         <td>{{ item(row).totalWorkingTime | secondsToHourMinute }}</td>
@@ -189,7 +193,7 @@
                         <td>
                           <div class="flex">
                             <button
-                              (click)="workingHourDetail(item(row).id)"
+                              (click)="onViewWorkingHoursDetail(item(row))"
                               appearance="flat"
                               class="tui-space_right-3"
                               icon="tuiIconShowLarge"
@@ -213,7 +217,7 @@
 
               <div *ngIf="!(onlyMe$ | async)" class="grid-rows-1">
                 <div class="grid-cols-12">
-                  <section class="main-section" *ngIf="(queryParams$ | async) as queryParams">
+                  <section *ngIf="queryParams$ | async as queryParams" class="main-section">
                     <ngx-table
                       #table
                       [columns]="(columnsEveryone$ | async) || []"
@@ -224,12 +228,15 @@
                         <td>{{ item(row).userInfo.cif }}</td>
                         <td>{{ item(row).userInfo?.fullName }}</td>
                         <td>{{ item(row).userInfo?.office?.name }}</td>
-                        <td>{{ queryParams.get('fromDateForGroupBy') | date: 'dd/MM/yyyy'}} - {{ queryParams.get('toDateForGroupBy') | date : 'dd/MM/yyyy' }}</td>
+                        <td>
+                          {{ queryParams.get('fromDateForGroupBy') | date: 'dd/MM/yyyy' }} -
+                          {{ queryParams.get('toDateForGroupBy') | date: 'dd/MM/yyyy' }}
+                        </td>
                         <td>{{ item(row).totalWorkingTime | secondsToHourMinute }}</td>
                         <td>{{ item(row).workingDay | number }}</td>
                         <td>{{ item(row).ot }}</td>
                         <td>{{ item(row).onsiteDay }}</td>
-                        <td>{{ item(row).countLeave}}</td>
+                        <td>{{ item(row).countLeave }}</td>
                       </ng-template>
                     </ngx-table>
                   </section>
