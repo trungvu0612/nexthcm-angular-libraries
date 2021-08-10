@@ -152,7 +152,7 @@ export class CreateLeaveEntitlementComponent {
       templateOptions: {
         required: true,
         translate: true,
-        label: 'Entitlement',
+        label: 'Days',
         placeholder: 'Total leave can approve',
         textfieldLabelOutside: true
       },

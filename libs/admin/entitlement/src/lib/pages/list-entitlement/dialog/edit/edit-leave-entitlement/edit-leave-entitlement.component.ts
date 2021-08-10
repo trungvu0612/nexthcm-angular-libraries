@@ -155,7 +155,7 @@ export class EditLeaveEntitlementComponent implements OnInit {
       templateOptions: {
         required: true,
         translate: true,
-        label: 'Entitlement',
+        label: 'Days',
         placeholder: 'Total leave can approve',
         textfieldLabelOutside: true
       },

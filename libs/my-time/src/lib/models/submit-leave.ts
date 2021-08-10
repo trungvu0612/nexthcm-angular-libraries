@@ -1,13 +1,8 @@
-import { TuiDay, TuiTime } from '@taiga-ui/cdk';
-
-// export interface SubmitLeave {
-//   id: number;
-//   image: string;
-//   name: string;
-// }
+import { TuiDay, TuiDayRange, TuiTime } from '@taiga-ui/cdk';
+import { PartialDayType } from './partial-day-type';
 
 export interface LeaveSubmit {
-  leaveTypes?: LeaveType[]; // for form
+  leaveTypes?: LeavesRemaining[]; // for form
   durationHold?: number;
   durationEnd?: number;
   status?: number;
@@ -15,15 +10,15 @@ export interface LeaveSubmit {
   leaveType?: LeaveType;
   sendTo?: string;
   duration?: Duration;
-
-  startTime?: TuiDay;
-  endTime?: TuiDay;
+  fromTo?: TuiDayRange;
+  startTime?: TuiDay | number;
+  endTime?: TuiDay | number;
 
   //
-  specialTimeTo?: TuiTime;
-  specialTimeFrom?: TuiTime;
-  specialTimeTo2?: TuiTime;
-  specialTimeFrom2?: TuiTime;
+  specialTimeTo?: TuiTime | number;
+  specialTimeFrom?: TuiTime | number;
+  specialTimeTo2?: TuiTime | number;
+  specialTimeFrom2?: TuiTime | number;
 
   //for convert
   coSpecialTimeTo?: number;
@@ -33,7 +28,7 @@ export interface LeaveSubmit {
 
   halfDay?: number;
   halfDay2?: number;
-  partialDays?: number | undefined;
+  partialDays?: PartialDayType;
 }
 
 export interface Body {
@@ -47,11 +42,13 @@ export interface Body {
   resultDays?: number;
 }
 
-export interface BodyTemp {
-  partialDayTypeId?: string,
-  fromDate?: number,
-  toDate?: number,
-  leaveTypeId?: string,
+export interface PayLoad {
+  partialDayTypeId?: string;
+  fromDate?: number;
+  toDate?: number;
+  leaveTypeId?: string;
+  items?: unknown[];
+  itemEnds?: unknown[];
   comment?: string;
   sendTo?: string;
 }
@@ -77,13 +74,20 @@ interface LeaveType {
   remainingEntitlement?: string;
 }
 
+export interface LeavesRemaining {
+  leaveTypeId?: string;
+  leaveTypeName?: string;
+  remainingEntitlement?: number;
+}
+
 export interface PartialDays {
   value?: number;
   label?: string;
 }
 
-export interface durationValues {
+export interface DurationValues {
   value?: number;
   label?: string;
   idPartial?: string;
+  boolValue?: boolean;
 }

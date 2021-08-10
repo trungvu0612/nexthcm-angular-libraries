@@ -3,15 +3,19 @@ import { Router } from '@angular/router';
 import { BaseOption } from '@nexthcm/cdk';
 import { FormBuilder } from '@ngneat/reactive-forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
+import { TuiDay, TuiTime } from '@taiga-ui/cdk';
 import { TuiDialogContext, TuiDialogService } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT, PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { Observable } from 'rxjs';
 import { distinctUntilChanged, map, tap } from 'rxjs/operators';
 import { PartialDaysEnum } from '../../../enums/partial-days';
-import { BodyTemp, DurationType, LeaveSubmit } from '../../../models/submit-leave';
+import { HalfDay } from '../../../models';
+import { PartialDayType } from '../../../models/partial-day-type';
+import { LeaveSubmit, PayLoad } from '../../../models/submit-leave';
 import { MyLeaveService } from '../../../services/my-leave.service';
 import { SubmitLeaveService } from '../../../services/submit-leave.service';
 import { DurationConfirmDialogComponent } from '../duaration-comfirm-dialog/duration-confirm-dialog.component';
+import { getTime, endOfDay } from 'date-fns';
 
 @Component({
   selector: 'hcm-submit-leave-request-dialog',
@@ -23,9 +27,11 @@ export class SubmitLeaveRequestDialogComponent implements AfterViewInit {
   durationValues: Observable<any[]> = this.myLeaveService.getdurationValues().pipe(map((data) => data));
   timeValues$: Observable<any[]> = this.myLeaveService.getTimeValues().pipe(map((data) => data));
   halfTimeValues$: Observable<any[]> = this.myLeaveService.getHalfTime().pipe(map((data) => data));
+  partialType$: Observable<PartialDayType[]> = this.myLeaveService.getPartialTypes().pipe(map((data) => data));
 
   descriptionLeaveType = '';
   titleLeaveType = '';
+  partialType: any;
   form = this.fb.group<LeaveSubmit>({});
   model: LeaveSubmit = {
     comments: '',
@@ -58,46 +64,15 @@ export class SubmitLeaveRequestDialogComponent implements AfterViewInit {
     },
 
     {
-      className: 'col-span-full mt-4',
-      template:
-        `
-        <div class='my-8'>
-        <div style='border: 1px solid #e4e4e4'></div>
-        </div>
-        <h3 class='text-xl font-semibold'>` +
-        this.titleLeaveType +
-        `</h3>
-        <p>` +
-        this.descriptionLeaveType +
-        `</p>
-        </div>
-        `,
-    },
-
-    {
-      fieldGroupClassName: 'grid grid-cols-2 gap-4 mt-4',
-      fieldGroup: [
-        {
-          key: 'startTime',
-          type: 'input-date',
-          templateOptions: {
-            label: 'From Date',
-            placeholder: 'From Date',
-            required: true,
-            textfieldLabelOutside: true,
-          },
-        },
-        {
-          key: 'endTime',
-          type: 'input-date',
-          templateOptions: {
-            label: 'To Date',
-            placeholder: 'To Date',
-            required: true,
-            textfieldLabelOutside: true,
-          },
-        },
-      ],
+      key: 'fromTo',
+      type: 'input-date-range',
+      templateOptions: {
+        required: true,
+        translate: true,
+        label: 'Date range',
+        labelClassName: 'font-semibold',
+        placeholder: 'Choose dates'
+      }
     },
 
     {
@@ -107,35 +82,18 @@ export class SubmitLeaveRequestDialogComponent implements AfterViewInit {
           key: 'partialDays',
           type: 'select',
           templateOptions: {
-            options: [
-              {
-                value: PartialDaysEnum.None,
-                label: 'None',
-              },
-              {
-                value: PartialDaysEnum.AllDays,
-                label: 'All Days',
-              },
-              {
-                value: PartialDaysEnum.StartDayOnly,
-                label: 'Start Day Only',
-              },
-              {
-                value: PartialDaysEnum.EndDayOnly,
-                label: 'End Day Only',
-              },
-              {
-                value: PartialDaysEnum.StartEndDay,
-                label: 'Start End Day',
-              },
-            ],
-            valueProp: 'value',
+            options: this.myLeaveService.select('partialDayTypes'),
+            valueProp: '',
+            labelProp: 'name',
             label: 'Partial Days All',
+            size: 's',
+            single: true,
+            required: true,
           },
-          hideExpression: '!(model.startTime?.toLocalNativeDate() < model.endTime?.toLocalNativeDate())',
+          hideExpression: 'model.fromTo?.isSingleDay',
           expressionProperties: {
             className:
-              '!(model.startTime?.toLocalNativeDate() < model.endTime?.toLocalNativeDate())  ?  "hidden" : "col-span-full mt-4"',
+              '!model.fromTo || model.fromTo.isSingleDay ? "hidden" : "col-span-full mt-4"',
           },
         },
       ],
@@ -154,10 +112,10 @@ export class SubmitLeaveRequestDialogComponent implements AfterViewInit {
             valueProp: 'value',
             required: true,
           },
-          hideExpression: 'model.partialDays === 0',
+          hideExpression: 'model.partialDays?.type === 0',
           expressionProperties: {
-            className: 'model.partialDays === 0  ?  "hidden" : ""',
-            'templateOptions.disabled': '!model.startTime || !model.endTime',
+            className: 'model.partialDays?.type === 0  ?  "hidden" : ""',
+            'templateOptions.disabled': '!model.fromTo',
           },
           hooks: {
             onInit: (field) => {
@@ -186,7 +144,7 @@ export class SubmitLeaveRequestDialogComponent implements AfterViewInit {
               ];
 
               field!.templateOptions!.options = this.form.valueChanges.pipe(
-                map((formValue) => formValue.partialDays),
+                map((formValue) => formValue.partialDays?.type),
                 distinctUntilChanged(),
                 map((value) => (value ? options[value] : defaultOption)),
                 tap(() => field?.formControl?.setValue(null, { emitEvent: false }))
@@ -215,7 +173,7 @@ export class SubmitLeaveRequestDialogComponent implements AfterViewInit {
           templateOptions: {
             options: this.timeValues$,
             labelProp: 'label',
-            valueProp: 'time',
+            valueProp: 'conVertToSecond',
             placeholder: 'Special time from',
             label: 'Special time from',
           },
@@ -230,7 +188,7 @@ export class SubmitLeaveRequestDialogComponent implements AfterViewInit {
           templateOptions: {
             options: this.timeValues$,
             labelProp: 'label',
-            valueProp: 'time',
+            valueProp: 'conVertToSecond',
             placeholder: 'Special time to',
             label: 'Special time to',
           },
@@ -255,10 +213,10 @@ export class SubmitLeaveRequestDialogComponent implements AfterViewInit {
             label: 'Duration End',
           },
           hideExpression:
-            ' (model.partialDays !== 4 || !(model.startTime?.toLocalNativeDate() < model.endTime?.toLocalNativeDate()))',
+            'model.partialDays?.type !== 4 ',
           expressionProperties: {
             className:
-              ' (model.partialDays !== 4 || !(model.startTime?.toLocalNativeDate() < model.endTime?.toLocalNativeDate()))  ?  "hidden" : ""',
+              'model.partialDays?.type !== 4 ?  "hidden" : ""',
           },
           hooks: {
             onInit: (field) => {
@@ -286,7 +244,7 @@ export class SubmitLeaveRequestDialogComponent implements AfterViewInit {
                 { value: 2, label: 'Special Time' },
               ];
               field!.templateOptions!.options = this.form.valueChanges.pipe(
-                map((formValue) => formValue.partialDays),
+                map((formValue) => formValue.partialDays?.type),
                 distinctUntilChanged(),
                 map((value) => (value ? options[value] : defaultOption)),
                 tap(() => field?.formControl?.setValue(null, { emitEvent: false }))
@@ -320,9 +278,9 @@ export class SubmitLeaveRequestDialogComponent implements AfterViewInit {
             placeholder: 'Special time from2',
             label: 'Special time from 2',
           },
-          hideExpression: 'model.durationEnd !== 2 || model.partialDays !== 4',
+          hideExpression: 'model.durationEnd !== 2 || model.partialDays?.type !== 4',
           expressionProperties: {
-            className: 'model.durationEnd !== 2 || model.partialDays !== 4 ?  "hidden" : ""',
+            className: 'model.durationEnd !== 2 || model.partialDays?.type !== 4 ?  "hidden" : ""',
           },
         },
         {
@@ -335,9 +293,9 @@ export class SubmitLeaveRequestDialogComponent implements AfterViewInit {
             placeholder: 'Special time to2',
             label: 'Special time to 2',
           },
-          hideExpression: 'model.durationEnd !== 2 || model.partialDays !== 4',
+          hideExpression: 'model.durationEnd !== 2 || model.partialDays?.type !== 4',
           expressionProperties: {
-            className: 'model.durationEnd !== 2 || model.partialDays !== 4 ?  "hidden" : ""',
+            className: 'model.durationEnd !== 2 || model.partialDays?.type !== 4 ?  "hidden" : ""',
           },
         },
       ],
@@ -386,275 +344,35 @@ export class SubmitLeaveRequestDialogComponent implements AfterViewInit {
     private fb: FormBuilder
   ) {}
 
-  ngAfterViewInit(): void {
-    const leaveTypes = this.form.controls.leaveTypes;
-    if (leaveTypes) {
-      leaveTypes.valueChanges.subscribe((data) => {
-        this.descriptionLeaveType = data[0].leaveTypeDescription;
-        this.titleLeaveType = data[0].leaveTypeName;
+  ngOnInit(): void {
+    this.myLeaveService
+      .getLeaveTypes()
+      .pipe(map((data) => data[0]))
+      .subscribe((data) => {
+        this.form.controls.leaveTypes?.setValue([data], true);
       });
-    }
   }
+
+
+  ngAfterViewInit(): void {}
 
   submit(): void {
+
     const leaveRequestModel = this.form.value;
+    const body: PayLoad = {};
 
-    if (leaveRequestModel.specialTimeTo) {
-      console.log('milisecondddd', leaveRequestModel.specialTimeTo.toAbsoluteMilliseconds());
-    } else {
-      console.log('undefine');
+    body.fromDate = getTime((this.model.fromTo?.from as TuiDay).toLocalNativeDate());
+    body.toDate = getTime(endOfDay((this.model.fromTo?.to as any).toLocalNativeDate()));
+
+    body.items = this.myLeaveService.action(leaveRequestModel);
+    if (this.model.leaveTypes) {
+      body.leaveTypeId = this.model.leaveTypes[0]?.leaveTypeId;
     }
+    body.comment = this.model.comments;
+    body.sendTo = this.model.sendTo;
+    body.partialDayTypeId = this.model.partialDays?.id;
 
-    const body: BodyTemp = {};
-    const leaveItem: DurationType = { resultTime: 0 };
-    const leaveItems: DurationType[] = [];
-
-    if (leaveRequestModel) {
-      if (leaveRequestModel.startTime && leaveRequestModel.endTime) {
-        // if (TuiDay.lengthBetween(leaveRequestModel.startTime, leaveRequestModel.endTime) == 0) {
-        //   body.leaveTypeId = '';
-        //   body.fromDate = leaveRequestModel.startTime.toLocalNativeDate().getTime();
-        //   body.toDate = leaveRequestModel.endTime.toLocalNativeDate().getTime();
-        //   body.sendTo = '';
-        //   body.comment = '';
-        //   if (leaveRequestModel.durationHold != undefined && leaveRequestModel.partialDays == undefined) {
-        //     leaveItem.durationTypeId = '';
-        //     if (leaveRequestModel.durationHold == 0) {
-        //       /*Full time*/
-        //       leaveItem.fullDay = true;
-        //       leaveItem.resultTime = 8.0;
-        //     } else if (leaveRequestModel.durationHold == 1) {
-        //       /*Half day*/
-        //       if (leaveRequestModel.halfDay == 0) {
-        //         leaveItem.morning = true;
-        //         leaveItem.resultTime = 4.0;
-        //         body.resultDays = leaveItem.resultTime;
-        //       } else if (leaveRequestModel.halfDay == 1) {
-        //         leaveItem.morning = false;
-        //         leaveItem.resultTime = 4.0;
-        //         body.resultDays = leaveItem.resultTime;
-        //       }
-        //     } else if (leaveRequestModel.durationHold == 2) {
-        //       /*Special time*/
-        //       if (leaveRequestModel.specialTimeFrom && leaveRequestModel.specialTimeTo) {
-        //         leaveItem.fromTime = leaveRequestModel.specialTimeFrom.toAbsoluteMilliseconds();
-        //         leaveItem.toTime = leaveRequestModel.specialTimeTo.toAbsoluteMilliseconds();
-        //         leaveItem.resultTime = (leaveItem.toTime - leaveItem.fromTime) / 3600000;
-        //         body.resultDays = leaveItem.resultTime;
-        //       }
-        //     }
-        //     leaveItems.push(leaveItem);
-        //     console.log('leaveItem[]]]]]]]', leaveItems);
-        //     body.leaveItems = leaveItems;
-        //     console.log('body', body);
-        //   }
-        // } else if (TuiDay.lengthBetween(leaveRequestModel.startTime, leaveRequestModel.endTime) > 0) {
-        //   body.leaveTypeId = '';
-        //   body.fromDate = leaveRequestModel.startTime.toLocalNativeDate().getTime();
-        //   body.toDate = leaveRequestModel.endTime.toLocalNativeDate().getTime();
-        //   body.sendTo = '';
-        //   body.comment = '';
-        //   if (leaveRequestModel.durationHold != undefined && leaveRequestModel.partialDays != undefined) {
-        //     if (leaveRequestModel.partialDays == 0) {
-        //       body.partialDayTypeId = '0';
-        //       console.log('body', body);
-        //       console.log('leaveItem', leaveItem);
-        //     } else if (leaveRequestModel.partialDays == 1) {
-        //       /*Khac ngay - all day - special day - time from - time to*/
-        //       body.partialDayTypeId = '1';
-        //       if (leaveRequestModel.durationHold == 1) {
-        //         leaveItem.durationTypeId = '';
-        //         if (leaveRequestModel.halfDay == 0) {
-        //           leaveItem.morning = true;
-        //           leaveItem.afternoon = false;
-        //           leaveItem.resultTime = 4.0;
-        //           body.resultDays = leaveItem.resultTime;
-        //         } else if (leaveRequestModel.halfDay == 1) {
-        //           leaveItem.morning = false;
-        //           leaveItem.afternoon = true;
-        //           leaveItem.resultTime = 4.0;
-        //           body.resultDays = leaveItem.resultTime;
-        //         }
-        //       } else if (leaveRequestModel.durationHold == 2) {
-        //         leaveItem.durationTypeId = '';
-        //         if (leaveRequestModel.specialTimeFrom && leaveRequestModel.specialTimeTo) {
-        //           leaveItem.fromTime = leaveRequestModel.specialTimeFrom.toAbsoluteMilliseconds();
-        //           leaveItem.toTime = leaveRequestModel.specialTimeTo.toAbsoluteMilliseconds();
-        //           leaveItem.resultTime = (leaveItem.toTime - leaveItem.fromTime) / 3600000;
-        //           body.resultDays = leaveItem.resultTime;
-        //         }
-        //       }
-        //       leaveItems.push(leaveItem);
-        //       console.log('leaveItem[]]]]]]]', leaveItems);
-        //       body.leaveItems = leaveItems;
-        //       console.log('body', body);
-        //     } else if (leaveRequestModel.partialDays == 2) {
-        //       /*Khac ngay - start day only - special day - time from - time to*/
-        //       body.partialDayTypeId = '2';
-        //       if (leaveRequestModel.durationHold == 1) {
-        //         leaveItem.durationTypeId = '';
-        //         if (leaveRequestModel.halfDay == 0) {
-        //           leaveItem.morning = true;
-        //           leaveItem.afternoon = false;
-        //           leaveItem.resultTime = 4.0;
-        //           body.resultDays = leaveItem.resultTime;
-        //         } else if (leaveRequestModel.halfDay == 1) {
-        //           leaveItem.morning = false;
-        //           leaveItem.afternoon = true;
-        //           leaveItem.resultTime = 4.0;
-        //           body.resultDays = leaveItem.resultTime;
-        //         }
-        //       } else if (leaveRequestModel.durationHold == 2) {
-        //         leaveItem.durationTypeId = '';
-        //         if (leaveRequestModel.specialTimeFrom && leaveRequestModel.specialTimeTo) {
-        //           leaveItem.fromTime = leaveRequestModel.specialTimeFrom.toAbsoluteMilliseconds();
-        //           leaveItem.toTime = leaveRequestModel.specialTimeTo.toAbsoluteMilliseconds();
-        //           leaveItem.resultTime = (leaveItem.toTime - leaveItem.fromTime) / 3600000;
-        //           body.resultDays = leaveItem.resultTime;
-        //         }
-        //       }
-        //       leaveItems.push(leaveItem);
-        //       console.log('leaveItem[]]]]]]]', leaveItems);
-        //       body.leaveItems = leaveItems;
-        //       console.log('body', body);
-        //     } else if (leaveRequestModel.partialDays == 3) {
-        //       /*Khac ngay - end day only - special day - time from - time to*/
-        //       body.partialDayTypeId = '3';
-        //       if (leaveRequestModel.durationHold == 1) {
-        //         leaveItem.durationTypeId = '';
-        //         if (leaveRequestModel.halfDay == 0) {
-        //           leaveItem.morning = true;
-        //           leaveItem.afternoon = false;
-        //           leaveItem.resultTime = 4.0;
-        //           body.resultDays = leaveItem.resultTime;
-        //         } else if (leaveRequestModel.halfDay == 1) {
-        //           leaveItem.morning = false;
-        //           leaveItem.afternoon = true;
-        //           leaveItem.resultTime = 4.0;
-        //           body.resultDays = leaveItem.resultTime;
-        //         }
-        //       } else if (leaveRequestModel.durationHold == 2) {
-        //         leaveItem.durationTypeId = '';
-        //         if (leaveRequestModel.specialTimeFrom && leaveRequestModel.specialTimeTo) {
-        //           leaveItem.fromTime = leaveRequestModel.specialTimeFrom.toAbsoluteMilliseconds();
-        //           leaveItem.toTime = leaveRequestModel.specialTimeTo.toAbsoluteMilliseconds();
-        //           leaveItem.resultTime = (leaveItem.toTime - leaveItem.fromTime) / 3600000;
-        //           body.resultDays = leaveItem.resultTime;
-        //         }
-        //       }
-        //       leaveItems.push(leaveItem);
-        //       console.log('leaveItem[]]]]]]]', leaveItems);
-        //       body.leaveItems = leaveItems;
-        //       console.log('body', body);
-        //     } else if (leaveRequestModel.partialDays == 4) {
-        //       /*Khac ngay - start end day only - special day - time from - time to*/
-        //       const leaveItem1: DurationType = { resultTime: 0 };
-        //
-        //       body.partialDayTypeId = '4';
-        //       if (leaveRequestModel.durationHold == 1) {
-        //         if (leaveRequestModel.halfDay == 0) {
-        //           leaveItem1.durationTypeId = '';
-        //           leaveItem1.morning = true;
-        //           leaveItem1.afternoon = false;
-        //           leaveItem1.resultTime = 4.0;
-        //           body.resultDays = leaveItem.resultTime;
-        //         } else if (leaveRequestModel.halfDay == 1) {
-        //           leaveItem1.durationTypeId = '';
-        //           leaveItem1.morning = false;
-        //           leaveItem1.afternoon = true;
-        //           leaveItem1.resultTime = 4.0;
-        //           body.resultDays = leaveItem.resultTime;
-        //         }
-        //       } else if (leaveRequestModel.durationHold == 2) {
-        //         if (leaveRequestModel.specialTimeFrom && leaveRequestModel.specialTimeTo) {
-        //           leaveItem1.durationTypeId = '';
-        //           leaveItem1.fromTime = leaveRequestModel.specialTimeFrom.toAbsoluteMilliseconds();
-        //           leaveItem1.toTime = leaveRequestModel.specialTimeTo.toAbsoluteMilliseconds();
-        //           leaveItem1.resultTime = (leaveItem1.toTime - leaveItem1.fromTime) / 3600000;
-        //         }
-        //       }
-        //       if (Object.keys(leaveItem1).length !== 0) {
-        //         leaveItems.push(leaveItem1);
-        //       }
-        //       /**/
-        //       const leaveItem2: DurationType = { resultTime: 0 };
-        //
-        //       if (leaveRequestModel.durationEnd == 1) {
-        //         if (leaveRequestModel.halfDay2 == 0) {
-        //           leaveItem2.durationTypeId = '';
-        //           leaveItem2.morning = true;
-        //           leaveItem2.afternoon = false;
-        //           leaveItem2.resultTime = 4.0;
-        //           body.resultDays = leaveItem.resultTime;
-        //         } else if (leaveRequestModel.halfDay2 == 1) {
-        //           leaveItem2.durationTypeId = '';
-        //           leaveItem2.morning = false;
-        //           leaveItem2.afternoon = true;
-        //           leaveItem2.resultTime = 4.0;
-        //         }
-        //       } else if (leaveRequestModel.durationEnd == 2) {
-        //         if (leaveRequestModel.specialTimeFrom2 && leaveRequestModel.specialTimeTo2) {
-        //           leaveItem2.durationTypeId = '';
-        //           leaveItem2.fromTime = leaveRequestModel.specialTimeFrom2.toAbsoluteMilliseconds();
-        //           leaveItem2.toTime = leaveRequestModel.specialTimeTo2.toAbsoluteMilliseconds();
-        //           leaveItem2.resultTime = (leaveItem2.toTime - leaveItem2.fromTime) / 3600000;
-        //         }
-        //       }
-        //       if (Object.keys(leaveItem2).length !== 0) {
-        //         leaveItems.push(leaveItem2);
-        //       }
-        //       console.log('leaveItem[]]]]]]]', leaveItems);
-        //       body.leaveItems = leaveItems;
-        //
-        //       if (leaveItems.length != 0) {
-        //         if (leaveItems.length == 1) {
-        //           body.resultDays = leaveItems[0].resultTime;
-        //         } else if (leaveItems.length == 2) {
-        //           if (leaveItems[1].resultTime && leaveItems[0].resultTime) {
-        //             const minusDays = TuiDay.lengthBetween(leaveRequestModel.startTime, leaveRequestModel.endTime);
-        //             const plusDays = leaveItems[0].resultTime + leaveItems[1].resultTime;
-        //             const result = this.checkDays(minusDays, plusDays);
-        //             if (minusDays == 1) {
-        //               body.resultDays = result.plusDays;
-        //             } else if (minusDays >= 2) {
-        //               body.resultDays = result.minusDays - 1 + result.plusDays;
-        //             }
-        //           }
-        //         }
-        //       } else {
-        //         console.log('Bang 0');
-        //       }
-        //       console.log('body', body);
-        //     }
-        //     console.log('Oke khac ngay');
-        //   }
-        // }
-        body.partialDayTypeId = '1393df26-9970-4633-9465-8d9d6a9234c6';
-        body.fromDate = leaveRequestModel.startTime.toLocalNativeDate().getTime();
-        body.toDate = leaveRequestModel.endTime.toLocalNativeDate().getTime();
-        if (this.model.leaveTypes) {
-          body.leaveTypeId = this.model.leaveTypes[0]?.leaveTypeId;
-        } else {
-        }
-        body.comment = this.model.comments;
-        body.sendTo = this.model.sendTo;
-        this.showDialogConfirmDuration(body);
-      }
-    }
-  }
-
-  checkDays(minusDays: number, plusDays: number): any {
-    const result = {
-      minusDays: minusDays,
-      plusDays: plusDays,
-    };
-    if (plusDays > 8) {
-      minusDays++;
-      plusDays = plusDays - 8;
-    }
-    result.minusDays = minusDays;
-    result.plusDays = plusDays;
-    return result;
+    this.showDialogConfirmDuration(body);
   }
 
   showDialogConfirmDuration(resultDays: any): void {

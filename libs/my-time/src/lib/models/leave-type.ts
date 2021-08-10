@@ -12,10 +12,3 @@ export interface LeaveType {
 export interface SearchLeaveType {
   name: string;
 }
-
-
-export interface LeavesRemaining{
-  leaveTypeId?: string;
-  leaveTypeName?: string;
-  remainingEntitlement?: number;
-}
