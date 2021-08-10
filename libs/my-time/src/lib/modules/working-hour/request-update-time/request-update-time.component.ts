@@ -94,8 +94,11 @@ export class RequestUpdateTimeComponent implements OnInit {
     const formModel = this.form.value;
     formModel.timeSheetId = this.id;
     formModel.createdDate = (formModel.createdDate as TuiDay).toLocalNativeDate().valueOf();
-    formModel.newInTime = (formModel?.newInTime as TuiTime).toAbsoluteMilliseconds().valueOf();
-    formModel.newOutTime = (formModel?.newOutTime as TuiTime).toAbsoluteMilliseconds().valueOf();
+    // In time To seconds
+    formModel.newInTime = (formModel?.newInTime as TuiTime).toAbsoluteMilliseconds().valueOf() / 1000;
+    
+    // To time to seconds
+    formModel.newOutTime = (formModel?.newOutTime as TuiTime).toAbsoluteMilliseconds().valueOf() / 1000;
     formModel.status = 0;
 
     if (this.form.valid) {
@@ -116,7 +119,9 @@ export class RequestUpdateTimeComponent implements OnInit {
           filter((result) => result.isConfirmed),
           takeUntil(this.destroy$)
         )
-        .subscribe(() => this.router.navigate(['../..'], { relativeTo: this.activatedRoute }));
+        .subscribe(() => {
+          this.context.$implicit.complete();
+        });
     }
   }
 }
