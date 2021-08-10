@@ -19,4 +19,5 @@ export interface GeneralRequest extends BaseRequest {
   timeSheetTracking?: UpdateTimesheetRequestTimeSheetTracking;
   newInTime?: number;
   newOutTime?: number;
+  reason: string;
 }

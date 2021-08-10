@@ -8,4 +8,5 @@ export interface WorkingOutsideRequest extends BaseRequest {
   duration: number;
   userInfo: EmployeeInfo;
   dayWorking: number;
+  reason: string;
 }

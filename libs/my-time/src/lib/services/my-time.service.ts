@@ -73,11 +73,11 @@ export class MyTimeService {
       );
   }
 
-  viewEmployeeRequestDetail(type: RequestTypeAPIUrlPath, id: string): Observable<unknown> {
+  viewEmployeeRequestDetail(type: RequestTypeAPIUrlPath, id: string, userId?: string): Observable<unknown> {
     return this.getRequest(type, id).pipe(
       switchMap((res) =>
         this.dialogService.open(new PolymorpheusComponent(EmployeeRequestDetailDialogComponent, this.injector), {
-          data: { type, value: type === RequestTypeAPIUrlPath.leave ? parseLeaveDateRange(res.data) : res.data },
+          data: { type, value: type === RequestTypeAPIUrlPath.leave ? parseLeaveDateRange(res.data) : res.data, userId },
           required: true,
         })
       )

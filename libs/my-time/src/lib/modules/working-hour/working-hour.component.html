@@ -1,4 +1,4 @@
-<div class="page-container" *transloco="let t">
+<div *transloco="let t" class="page-container">
   <div class="heading-title">Working Hour</div>
   <form (ngSubmit)="onSearch()" [formGroup]="searchForm" class="object-form-container">
     <div class="grid grid-cols-1 md:grid-cols-2 my-10 text-base gap-6 working-time">
@@ -65,16 +65,16 @@
       <!-- FILTER - START-->
       <div class="grid grid-rows-2 grid-flow-col gap-3 mb-3">
       <section class="grid grid-cols-4 gap-6 auto-rows-max">
-        <tui-input-number (keyup.enter)="onFilterByYear()" formControlName="year" [precision]="0" [tuiTextfieldCleaner]="true">
+        <tui-input-number (keyup.enter)="onFilterByYear()" [precision]="0" [tuiTextfieldCleaner]="true" formControlName="year">
           <span class="font-semibold">{{ t('year') }}</span>
         </tui-input-number>
         <tui-select
           (ngModelChange)="onFilterByMonth($event)"
           *tuiLet="monthList$ | async as months"
           [disabled]="year === null"
-          formControlName="month"
           [tuiTextfieldCleaner]="true"
           [valueContent]="monthStringify(months || [])"
+          formControlName="month"
         >
           <span class="font-semibold">{{ t('month') }}</span>
           <ng-template tuiDataList>
@@ -84,14 +84,14 @@
               </button>
             </tui-data-list>
           </ng-template>
-        </tui-select> 
+        </tui-select>
         <tui-select
           (ngModelChange)="onFilterByWeek()"
           *tuiLet="weekList$ | async as weeks"
           [disabled]="month === null"
-          formControlName="week"
           [tuiTextfieldCleaner]="true"
           [valueContent]="weekStringify(weeks || [])"
+          formControlName="week"
         >
           <span class="font-semibold">{{ t('week') }}</span>
           <ng-template tuiDataList>
@@ -101,7 +101,7 @@
               </button>
             </tui-data-list>
           </ng-template>
-        </tui-select> 
+        </tui-select>
         <div class="filter-search">
           <button
           (click)="workingStatus('all')"
@@ -144,16 +144,16 @@
       </section>
       <tui-input
         (keyup.enter)="onFilter('search', search)"
-        formControlName="search"
         [tuiTextfieldCleaner]="true"
         class="col-span-3"
+        formControlName="search"
         icon="tuiIconSearchLarge"
       >
         <span class="font-semibold">{{ t('searchByCifFullNameOffice') }}</span>
       </tui-input>
     </div>
       <!-- FILTER - END-->
-      
+
 
       <div class="flex flex-col shadow-md bg-white">
         <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">

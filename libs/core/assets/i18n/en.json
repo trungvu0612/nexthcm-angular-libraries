@@ -447,6 +447,28 @@
     "newTimeOut": "New check-out time",
     "date": "Date"
   },
+  "WORKING_OUTSIDE_MANAGEMENT": {
+    "fromDate": "From Date",
+    "toDate": "To Date",
+    "state": "Status",
+    "assignedName": "Assigned name",
+    "reason": "Reason",
+    "functions": "Functions",
+    "status": "Status",
+    "day": "Day"
+  },
+  "TIMESHEET_MANAGEMENT": {
+    "office": "Office",
+    "trackingDate": "Tracking date",
+    "newInTime": "Updated Time In",
+    "newOutTime": "Updated Time Out",
+    "updateTotalTime": "Updated Total Time",
+    "asignee": "Assignee",
+    "status": "Status",
+    "functions": "Functions",
+    "date": "Date",
+    "day": "Day"
+  },
   "REQUEST_STATUS": {
     "all": "All",
     "rejected": "Rejected",

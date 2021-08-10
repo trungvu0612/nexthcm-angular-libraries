@@ -8,7 +8,6 @@ import { TuiButtonModule } from '@taiga-ui/core';
 import { NgxPermissionsGuard } from 'ngx-permissions';
 import { RejectDialogComponent } from './components/reject-dialog/reject-dialog.component';
 import { RequestsDialogComponent } from './components/requests-dialog/requests-dialog.component';
-import { LeaveDetailComponent } from './modules/my-leave/leave-detail/leave-detail.component';
 import { LeaveRequestManagementComponent } from './modules/my-leave/leave-request-management/leave-request-management.component';
 import { MyLeaveComponent } from './modules/my-leave/my-leave.component';
 import { MyLeaveModule } from './modules/my-leave/my-leave.module';
@@ -43,8 +42,7 @@ export const MY_TIME_ROUTES: Routes = [
             path: 'my-leave',
             component: MyLeaveComponent,
             children: [
-              { path: '', component: LeaveRequestManagementComponent },
-              { path: ':id/detail', component: LeaveDetailComponent },
+              { path: '', component: LeaveRequestManagementComponent }
             ],
           },
           {
@@ -59,8 +57,7 @@ export const MY_TIME_ROUTES: Routes = [
             canActivate: [NgxPermissionsGuard],
             data: { permissions: { only: 'VIEW_MY_REQUEST', redirectTo: '/' } },
             children: [
-              { path: '', component: ListMyRequestComponent },
-              { path: ':id/detail', component: LeaveDetailComponent },
+              { path: '', component: ListMyRequestComponent }
             ],
           },
           {

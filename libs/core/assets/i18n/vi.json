@@ -446,6 +446,28 @@
     "newTimeOut": "Giờ ra mới",
     "date": "Ngày"
   },
+  "WORKING_OUTSIDE_MANAGEMENT": {
+    "fromDate": "Từ ngày",
+    "toDate": "Đến ngày",
+    "state": "Trạng thái",
+    "assignedName": "Gửi cho",
+    "reason": "Lý do",
+    "functions": "Chức năng",
+    "status": "Trạng thái",
+    "day": "Ngày"
+  },
+  "TIMESHEET_MANAGEMENT": {
+    "office": "Văn Phòng",
+    "trackingDate": "Ngày tháng",
+    "newInTime": "Giờ vào",
+    "newOutTime": "Giờ về",
+    "updateTotalTime": "Tổng thời gian làm",
+    "asignee": "Gửi cho",
+    "status": "Trạng thái",
+    "functions": "Chức năng",
+    "date": "Ngày",
+    "day": "Ngày"
+  },
   "REQUEST_STATUS": {
     "all": "Tất cả",
     "rejected": "Từ chối",

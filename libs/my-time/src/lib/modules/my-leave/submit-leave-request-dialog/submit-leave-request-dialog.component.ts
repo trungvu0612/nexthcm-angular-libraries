@@ -3,19 +3,17 @@ import { Router } from '@angular/router';
 import { BaseOption } from '@nexthcm/cdk';
 import { FormBuilder } from '@ngneat/reactive-forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import { TuiDay, TuiTime } from '@taiga-ui/cdk';
+import { TuiDay } from '@taiga-ui/cdk';
 import { TuiDialogContext, TuiDialogService } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT, PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
+import { endOfDay, getTime } from 'date-fns';
 import { Observable } from 'rxjs';
 import { distinctUntilChanged, map, tap } from 'rxjs/operators';
-import { PartialDaysEnum } from '../../../enums/partial-days';
-import { HalfDay } from '../../../models';
 import { PartialDayType } from '../../../models/partial-day-type';
 import { LeaveSubmit, PayLoad } from '../../../models/submit-leave';
 import { MyLeaveService } from '../../../services/my-leave.service';
 import { SubmitLeaveService } from '../../../services/submit-leave.service';
 import { DurationConfirmDialogComponent } from '../duaration-comfirm-dialog/duration-confirm-dialog.component';
-import { getTime, endOfDay } from 'date-fns';
 
 @Component({
   selector: 'hcm-submit-leave-request-dialog',

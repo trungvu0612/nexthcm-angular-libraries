@@ -3,7 +3,6 @@ import { HttpClientModule } from '@angular/common/http';
 import localeVi from '@angular/common/locales/vi';
 import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
 import { SvgIconsModule } from '@ngneat/svg-icon';
-import { TranslocoModule } from '@ngneat/transloco';
 import { FormlyModule } from '@ngx-formly/core';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { iconsPathFactory, TUI_ICONS_PATH, TUI_SANITIZER, TuiDialogModule } from '@taiga-ui/core';

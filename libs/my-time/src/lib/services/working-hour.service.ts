@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BaseResponse, PagingResponse, UserDto } from '@nexthcm/cdk';
 import { Observable } from 'rxjs';
-import { RequestUpdateTime, SearchWorkingHour, WorkingHour } from '../models/working-hour';
+import { RequestUpdateTime, WorkingHour } from '../models/working-hour';
 
 @Injectable({
   providedIn: 'root',

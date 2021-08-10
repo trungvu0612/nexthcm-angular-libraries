@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { NgModule, Pipe, PipeTransform } from '@angular/core';
 import { TimeUtils } from '../../modules/utils/time-util';
 

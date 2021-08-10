@@ -8,16 +8,7 @@ import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { DurationHoldsEnum, PartialDaysEnum } from '../enums';
 import { HalfDaysEnum } from '../enums/half-days';
-import {
-  DurationValues,
-  LeavesRemaining,
-  LeaveSubmit,
-  MyLeave,
-  PartialDays,
-  PartialDayType,
-  Requests,
-  SentToUser,
-} from '../models';
+import { DurationValues, LeavesRemaining, LeaveSubmit, MyLeave, PartialDayType, Requests, SentToUser } from '../models';
 
 const MY_TIME_PATH = '/mytimeapp/v1.0';
 const MY_ACCOUNT_PATH = '/accountapp/v1.0';
@@ -31,13 +22,6 @@ interface MyLeaveState {
 @Injectable()
 export class MyLeaveService extends RxState<MyLeaveState> {
   readonly loggedInUserId = this.authService.get('userInfo', 'userId');
-
-  constructor(private authService: AuthService, private http: HttpClient) {
-    super();
-    this.connect('leaveTypeRemain', this.getLeaveTypes());
-    this.connect('partialDayTypes', this.getPartialTypes());
-    this.connect('sendToUsers', this.getSendToUsers().pipe(map((res) => res.data.items)));
-  }
 
   durationValues: DurationValues[] = [
     {
@@ -53,6 +37,10 @@ export class MyLeaveService extends RxState<MyLeaveState> {
       label: 'Special Time',
     },
   ];
+  halfTime = [
+    { value: 0, label: 'Morning', boolValue: true },
+    { value: 1, label: 'Afternoon', boolValue: false },
+  ];
 
   durationFromPartial = [
     {
@@ -64,14 +52,7 @@ export class MyLeaveService extends RxState<MyLeaveState> {
       label: 'Special Time',
     },
   ];
-
-  halfTime = [
-    { value: 0, label: 'Morning', boolValue: true },
-    { value: 1, label: 'Afternoon', boolValue: false },
-  ];
-
   leaveSubmit: LeaveSubmit[] = [];
-
   strategies = new Map([
     //===
     [`${DurationHoldsEnum.FullDay}`, 'FULL_TIME'],
@@ -103,6 +84,13 @@ export class MyLeaveService extends RxState<MyLeaveState> {
     [`${PartialDaysEnum.StartEndDay}_${DurationHoldsEnum.SpecialTime}_${HalfDaysEnum.Afternoon}`, 'TIME_AFTERNOON'],
     [`${PartialDaysEnum.StartEndDay}_${DurationHoldsEnum.SpecialTime}_${DurationHoldsEnum.SpecialTime}`, 'TIME_TIME'],
   ]);
+
+  constructor(private authService: AuthService, private http: HttpClient) {
+    super();
+    this.connect('leaveTypeRemain', this.getLeaveTypes());
+    this.connect('partialDayTypes', this.getPartialTypes());
+    this.connect('sendToUsers', this.getSendToUsers().pipe(map((res) => res.data.items)));
+  }
 
   action(leaveSubmit: LeaveSubmit): any[] {
     let condition =

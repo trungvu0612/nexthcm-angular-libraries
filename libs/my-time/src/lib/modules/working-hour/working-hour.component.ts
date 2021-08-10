@@ -1,21 +1,32 @@
 import { getLocaleMonthNames } from '@angular/common';
 import { HttpParams } from '@angular/common/http';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit, ViewChild } from '@angular/core';
-import { Params } from '@angular/router';
 import { AuthService } from '@nexthcm/auth';
 import { AbstractServerPaginationTableComponent, BaseOption, Pagination } from '@nexthcm/cdk';
-import { FormBuilder, FormControl, FormGroup } from '@ngneat/reactive-forms';
-import { flatten, TranslocoService } from '@ngneat/transloco';
+import { FormBuilder } from '@ngneat/reactive-forms';
+import { TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
-import { padStart, TuiContextWithImplicit, TuiDestroyService, tuiPure, TuiStringHandler } from '@taiga-ui/cdk';
+import { TuiContextWithImplicit, TuiDestroyService, tuiPure, TuiStringHandler } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
-import { add, eachWeekOfInterval, endOfMonth, endOfYear, endOfYesterday, getMonth, getYear, intervalToDuration, secondsInHour, secondsToMilliseconds, setMonth, setYear, startOfMonth, startOfYear, startOfYesterday, sub, subMilliseconds } from 'date-fns';
+import {
+  add,
+  endOfMonth,
+  endOfYear,
+  endOfYesterday,
+  getMonth,
+  getYear,
+  setMonth,
+  setYear,
+  startOfMonth,
+  startOfYear,
+  startOfYesterday,
+  subMilliseconds,
+} from 'date-fns';
 import { BaseComponent, Columns } from 'ngx-easy-table';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
-import { debounceTime, map, mergeMap, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
-import { RequestStatus } from '../../enums';
-import { SearchWorkingHour, WorkingHour, WeekInfo } from '../../models';
+import { map, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { SearchWorkingHour, WeekInfo, WorkingHour } from '../../models';
 import { WorkingHourService } from '../../services/working-hour.service';
 import { RequestOtComponent } from './request-ot/request-ot.component';
 import { RequestUpdateTimeComponent } from './request-update-time/request-update-time.component';
@@ -83,23 +94,9 @@ export class WorkingHourComponent extends AbstractServerPaginationTableComponent
     this.generateFirstQueryParam()
   );
   readonly onlyMe$ = new BehaviorSubject(false);
-  private readonly request$ = combineLatest([this.queryParams$, this.onlyMe$]).pipe(
-    switchMap(([params, onlyMe]) => {
-      if (onlyMe) {
-        params = params.set('userId', this.myId);
-        return this.workingHourService.getWorkingHourOnlyMe(params);
-      }
-      
-      params = params.delete('userId');
-      return this.workingHourService.getWorkingHourEveryone(params);
-    }),
-    map((res) => res.data)
-  );
-
   readonly monthList$: Observable<BaseOption<number>[]> = this.translocoService.langChanges$.pipe(
     map((lang) => getLocaleMonthNames(lang, 1, 2).map((month, index) => ({ label: month, value: index })))
   );
-
   readonly weekList$: Observable<BaseOption<WeekInfo>[]> = combineLatest([this.searchForm.get('month').valueChanges.pipe(startWith(this.month)), this.translocoService.langChanges$]).pipe(
     map((month,_lang) => {
       const NOW = Date.now();
@@ -108,7 +105,7 @@ export class WorkingHourComponent extends AbstractServerPaginationTableComponent
       let weekArray = new Array<WeekInfo>();
       let currentWeekDate = startOfMonthDate;
       let index = 1;
-      while(currentWeekDate < endOfMonthDate) { 
+      while(currentWeekDate < endOfMonthDate) {
         const weekStart = currentWeekDate;
         const nextStartWeek = add(currentWeekDate, {weeks: 1});
         let weekEndMilisSub = subMilliseconds(nextStartWeek, 1);
@@ -122,6 +119,18 @@ export class WorkingHourComponent extends AbstractServerPaginationTableComponent
       }
       return weekArray.map((weekInfo) => ({label: `${this.translocoService.translate('week')} ${weekInfo.week}`, value: weekInfo} as BaseOption<WeekInfo>));
     }));
+  private readonly request$ = combineLatest([this.queryParams$, this.onlyMe$]).pipe(
+    switchMap(([params, onlyMe]) => {
+      if (onlyMe) {
+        params = params.set('userId', this.myId);
+        return this.workingHourService.getWorkingHourOnlyMe(params);
+      }
+
+      params = params.delete('userId');
+      return this.workingHourService.getWorkingHourEveryone(params);
+    }),
+    map((res) => res.data)
+  );
 
 
   constructor(
@@ -139,29 +148,16 @@ export class WorkingHourComponent extends AbstractServerPaginationTableComponent
     state.connect(this.request$);
   }
 
-  private generateFirstQueryParam(): HttpParams {
-    const NOW = Date.now();
-    const fromDate = startOfMonth(setMonth(setYear(NOW, this.year), this.month)).valueOf();
-    const toDate = endOfMonth(setMonth(setYear(NOW, this.year), this.month)).valueOf();
-    return new HttpParams().set('page', '0').set('size', 10).set('userId', this.authService.get('userInfo', 'userId')).set('fromDateForGroupBy', fromDate).set('toDateForGroupBy', toDate);
+  get year() {
+    return this.searchForm.get('year').value;
   }
 
-  ngOnInit(): void {
-    this.getWorkingHourTime();
-    this.onlyMe$.pipe(tap((onlyMe) => {
-
-    }),
-      takeUntil(this.destroy$)
-    ).subscribe();
+  get month() {
+    return this.searchForm.get('month').value;
   }
 
-  workingStatus(type: string): void {
-    if (type === 'me') {
-      this.onlyMe$.next(true);
-    }
-    if (type === 'all') {
-      this.onlyMe$.next(false);
-    }
+  get week(): WeekInfo {
+    return this.searchForm.get('week').value as WeekInfo;
   }
 
   requestOT(): void {
@@ -212,6 +208,28 @@ export class WorkingHourComponent extends AbstractServerPaginationTableComponent
 
   onSearch(): void {}
 
+  get search() {
+    return this.searchForm.get('search').value;
+  }
+
+  ngOnInit(): void {
+    this.getWorkingHourTime();
+    this.onlyMe$.pipe(tap((onlyMe) => {
+
+    }),
+      takeUntil(this.destroy$)
+    ).subscribe();
+  }
+
+  workingStatus(type: string): void {
+    if (type === 'me') {
+      this.onlyMe$.next(true);
+    }
+    if (type === 'all') {
+      this.onlyMe$.next(false);
+    }
+  }
+
   getWorkingHourTime() {
     this.workingHourService
       .getWorkingHourByDate(this.myId, this.startOfYesterday, this.endOfYesterday)
@@ -261,9 +279,16 @@ export class WorkingHourComponent extends AbstractServerPaginationTableComponent
     if (value) {
       this.queryParams$.next(this.queryParams$.value.set(key, value));
     } else {
-      this.queryParams$.next(this.queryParams$.value.delete(key));   
+      this.queryParams$.next(this.queryParams$.value.delete(key));
     }
     return httpParams;
+  }
+
+  private generateFirstQueryParam(): HttpParams {
+    const NOW = Date.now();
+    const fromDate = startOfMonth(setMonth(setYear(NOW, this.year), this.month)).valueOf();
+    const toDate = endOfMonth(setMonth(setYear(NOW, this.year), this.month)).valueOf();
+    return new HttpParams().set('page', '0').set('size', 10).set('userId', this.authService.get('userInfo', 'userId')).set('fromDateForGroupBy', fromDate).set('toDateForGroupBy', toDate);
   }
 
   private filterByYearMonth(): HttpParams {
@@ -293,24 +318,8 @@ export class WorkingHourComponent extends AbstractServerPaginationTableComponent
       return httpParams;
     }
     const fromDate = this.week.weekStart;
-    const toDate = this.week.weekEnd; 
+    const toDate = this.week.weekEnd;
     httpParams = httpParams.set('fromDateForGroupBy', fromDate).set('toDateForGroupBy', toDate);
     return httpParams;
-  }
-
-
-  get year() {
-    return this.searchForm.get('year').value;
-  }
-  
-  get month() {
-    return this.searchForm.get('month').value;
-  }
-
-  get week(): WeekInfo {
-    return this.searchForm.get('week').value as WeekInfo;
-  }
-  get search() {
-    return this.searchForm.get('search').value;
   }
 }

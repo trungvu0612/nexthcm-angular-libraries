@@ -1,85 +1,35 @@
-<div class="object-form-container">
-  <div class="mt-8">
-    <formly-form
-      [fields]="fields"
-      [form]="$any(searchForm)"
-      [model]="model"
-      class="grid grid-cols-4 border-start border-end"
-    ></formly-form>
-  </div>
-  <div class="w-full text-center">
-    <button
-      (click)="onClick()"
-      class="tui-space_right-3 tui-space_bottom-3 mt-5"
-      icon="tuiIconSearchLarge"
-      tuiButton
-      type="submit"
-    >
-      Search
-    </button>
-  </div>
-</div>
-<table [columns]="columns" class="hcm-tui-table" tuiTable>
-  <thead>
-    <tr tuiThGroup>
-      <th *tuiHead="'trackingDate'" tuiTh>Tracking Date</th>
-      <th *tuiHead="'newInTime'" tuiTh>New In Time</th>
-      <th *tuiHead="'newOutTime'" tuiTh>New Out Time</th>
-      <th *tuiHead="'updateTotalTime'" tuiTh>Updated Total Time</th>
-      <th *tuiHead="'assignedName'" tuiTh>Assignee</th>
-      <th *tuiHead="'state'" tuiTh>Status</th>
-      <th *tuiHead="'action'" class="w-32" tuiTh>Action</th>
-    </tr>
-  </thead>
-  <tbody [data]="requests" tuiTbody>
-    <tr *tuiRow="let req of requests; let index = index" tuiTr>
-      <td *tuiCell="'trackingDate'" tuiTd>{{ req.timeSheetTracking?.trackingDate | date: 'EEEE, dd/MM/yyyy' }}</td>
-      <td *tuiCell="'newInTime'" tuiTd>{{ req.newInTime }}</td>
-      <td *tuiCell="'newOutTime'" tuiTd>{{ req.newOutTime }}</td>
-      <td *tuiCell="'updateTotalTime'" class="font-bold" tuiTd>{{ req.updateTotalTime }}</td>
-      <td *tuiCell="'assignedName'" tuiTd>{{ req.assignedName }}</td>
-      <td *tuiCell="'state'" tuiTd>
-        <tui-tag
-          [class]="STATUS[req.status + ''] + '-tag'"
-          [value]="STATUS[req.status + ''] | titlecase"
-          class="font-semibold"
-        ></tui-tag>
-      </td>
-      <td *tuiCell="'action'" tuiTd>
-        <button
-          (click)="cancelReq(req)"
-          [icon]="'tuiIconRemoveLarge'"
-          [shape]="$any('rounded')"
-          appearance="flat"
-          size="s"
-          tuiIconButton
-        ></button>
-        <button
-          (click)="showLeaveDetail(req.id)"
-          [icon]="'tuiIconShowLarge'"
-          [shape]="$any('rounded')"
-          appearance="flat"
-          class="ml-1"
-          size="s"
-          tuiIconButton
-        ></button>
-        <button
-          (click)="approveReq(req)"
-          [icon]="'tuiIconCheckLarge'"
-          [shape]="$any('rounded')"
-          appearance="flat"
-          class="ml-1"
-          size="s"
-          tuiIconButton
-        ></button>
-      </td>
-    </tr>
-  </tbody>
-</table>
+<tui-loader [overlay]="true" [showLoader]="(loading$ | async) === true">
+  <ngx-table #table [columns]="(columns$ | async) || []" [configuration]="configuration" [data]="(data$ | async) || []">
+    <ng-template let-row>
+      <ng-container *tuiLet="item(row) as item">
+        <td>{{ item.timeSheetTracking?.trackingDate | date: 'EEEE, dd/MM/yyyy' }}</td>
+        <td>{{ item.newInTime * 1000 | date: 'HH:mm':'GMT' }}</td>
+        <td>{{ item.newOutTime * 1000 | date: 'HH:mm':'GMT' }}</td>
+        <td></td>
+        <td>
+          <tui-tag
+            [value]="'REQUEST_STATUS.' + RequestStatus[item.status] | transloco"
+            class="{{ RequestStatus[item.status] }}-tag"
+          ></tui-tag>
+        </td>
+        <td>
+          <div class="flex items-center">
+            <button
+              (click)="onViewEmployeeRequestDetail(item.id)"
+              appearance="flat"
+              icon="tuiIconShowLarge"
+              size="m"
+              tuiIconButton
+            ></button>
+          </div>
+        </td>
+      </ng-container>
+    </ng-template>
+  </ngx-table>
+</tui-loader>
 <tui-table-pagination
   (pageChange)="onPage($event)"
   (sizeChange)="onSize($event)"
-  [size]="size$"
-  [total]="totalLength"
+  [total]="(total$ | async) || 0"
 ></tui-table-pagination>
-<p>Current page: {{ page$ | async }}</p>
+
