@@ -2,7 +2,7 @@ import { getLocaleMonthNames } from '@angular/common';
 import { HttpParams } from '@angular/common/http';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit, ViewChild } from '@angular/core';
 import { AuthService } from '@nexthcm/auth';
-import { AbstractServerPaginationTableComponent, BaseOption, Pagination } from '@nexthcm/cdk';
+import { AbstractServerPaginationTableComponent, BaseOption, BaseResponse, Pagination } from '@nexthcm/cdk';
 import { FormBuilder } from '@ngneat/reactive-forms';
 import { TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
@@ -26,7 +26,7 @@ import {
 import { BaseComponent, Columns } from 'ngx-easy-table';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { map, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
-import { SearchWorkingHour, WeekInfo, WorkingHour } from '../../models';
+import { SearchWorkingHour, WeekInfo, WorkingHour, WorkingInfoCurrentMonth } from '../../models';
 import { WorkingHourService } from '../../services/working-hour.service';
 import { RequestOtComponent } from './request-ot/request-ot.component';
 import { RequestUpdateTimeComponent } from './request-update-time/request-update-time.component';
@@ -56,6 +56,7 @@ export class WorkingHourComponent extends AbstractServerPaginationTableComponent
   totalLength = 0;
   size$ = 10;
   perPageSubject = new BehaviorSubject<number>(this.size$);
+  workingHourInfoCurrentMonth$ = this.workingHourService.getWorkingInfoCurrentMonth().pipe(map((result: BaseResponse<WorkingInfoCurrentMonth>) => result.data));
   search$ = new BehaviorSubject<string>('');
   columns$: Observable<Columns[]> = this.translocoService
     .selectTranslateObject('ADMIN_WORKING_HOUR_MANAGEMENT_COLUMNS')
@@ -83,11 +84,11 @@ export class WorkingHourComponent extends AbstractServerPaginationTableComponent
         { key: 'fullName', title: result.fullName },
         { key: 'office', title: result.office },
         { key: 'date', title: result.date },
-        { key: 'timeIn', title: result.timeIn },
-        { key: 'timeOut', title: result.timeOut },
         { key: 'totalWorkingTime', title: result.totalWorkingTime },
         { key: 'workingDay', title: result.workingDay },
-        { key: 'actions', title: result.functions },
+        { key: 'ot', title: result.ot },
+        { key: 'onsiteDay', title: result.onsiteDay },
+        { key: 'countLeave', title: result.countLeave },
       ])
     );
   readonly queryParams$ = new BehaviorSubject(
@@ -304,7 +305,11 @@ export class WorkingHourComponent extends AbstractServerPaginationTableComponent
         fromDate = startOfYear(setYear(NOW, this.year)).valueOf();
         toDate = endOfYear(setYear(NOW, this.year)).valueOf();
       }
-      httpParams = httpParams.set('fromDateForGroupBy', fromDate).set('toDateForGroupBy', toDate);
+      if (this.onlyMe$.value) {
+        httpParams = httpParams.set('fromDate', fromDate).set('toDate', toDate);
+      } else {
+        httpParams = httpParams.set('fromDateForGroupBy', fromDate).set('toDateForGroupBy', toDate);
+      }
     } else {
       httpParams = httpParams.delete('fromDateForGroupBy').delete('toDateForGroupBy');
     }
@@ -319,7 +324,11 @@ export class WorkingHourComponent extends AbstractServerPaginationTableComponent
     }
     const fromDate = this.week.weekStart;
     const toDate = this.week.weekEnd;
-    httpParams = httpParams.set('fromDateForGroupBy', fromDate).set('toDateForGroupBy', toDate);
+    if (this.onlyMe$.value) {
+      httpParams = httpParams.set('fromDate', fromDate).set('toDate', toDate);
+    } else {
+      httpParams = httpParams.set('fromDateForGroupBy', fromDate).set('toDateForGroupBy', toDate);
+    }
     return httpParams;
   }
 }
