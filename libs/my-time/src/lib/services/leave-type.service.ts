@@ -1,7 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { PagingResponse } from '@nexthcm/cdk';
-import { APP_CONFIG, AppConfig } from '@nexthcm/core';
 import { Observable } from 'rxjs';
 import { LeaveType, SearchLeaveType } from '../models';
 
@@ -9,9 +8,9 @@ import { LeaveType, SearchLeaveType } from '../models';
   providedIn: 'root',
 })
 export class LeaveTypeService {
-  appVersion = this.env.apiUrl + '/mytimeapp/v1.0';
+  appVersion = '/mytimeapp/v1.0';
 
-  constructor(@Inject(APP_CONFIG) protected env: AppConfig, private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient) {}
 
   getLeaveTypes(pageIndex: number, pageSize: number, search: SearchLeaveType): Observable<PagingResponse<LeaveType>> {
     let httpParams = new HttpParams();

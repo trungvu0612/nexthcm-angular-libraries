@@ -1,3 +1,5 @@
 export enum DurationHoldsEnum {
-  FullDay,
+  FullDay = -1,
+  HalfDay,
+  SpecialTime = 2
 }

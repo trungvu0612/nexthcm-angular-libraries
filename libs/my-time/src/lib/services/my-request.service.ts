@@ -4,7 +4,7 @@ import { PagingResponse } from '@nexthcm/cdk';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { WorkFromHome } from '../models';
-import { Requests, SearchRequest, SubmitRequest, TimeSheetUpdateReq } from '../models/requests';
+import { Requests, SearchRequest, SubmitRequest, TimeSheetUpdateReq } from '../models';
 
 const MY_TIME_PATH = '/mytimeapp/v1.0';
 
