@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BaseResponse, PagingResponse, UserDto } from '@nexthcm/cdk';
 import { Observable } from 'rxjs';
-import { RequestUpdateTime, WorkingHour } from '../models/working-hour';
+import { RequestUpdateTime, WorkingHour, WorkingInfoCurrentMonth } from '../models/working-hour';
 
 @Injectable({
   providedIn: 'root',
@@ -52,5 +52,9 @@ export class WorkingHourService {
     return this.httpClient.get<any>(
       this.appVersion + '/working-hours?userId=' + userId + '&fromDate=' + fromDate + '&toDate=' + toDate
     );
+  }
+
+  getWorkingInfoCurrentMonth(): Observable<BaseResponse<WorkingInfoCurrentMonth>> {
+    return this.httpClient.get<BaseResponse<WorkingInfoCurrentMonth>>(`${this.appVersion}/working-hours/display-total-working-day-per-month`);
   }
 }

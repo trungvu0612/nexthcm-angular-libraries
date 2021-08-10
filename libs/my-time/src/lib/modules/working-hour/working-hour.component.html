@@ -30,10 +30,13 @@
 
       <div class="text-center shadow-md bg-white rounded-lg grid">
         <div class="heading-title flex items-center justify-center">Your working days this month</div>
-        <div class="finger-section">
-          <span class="text-8xl text-blue-500 font-bold">11.5</span>
-          <span class="text-3xl text-gray-400 font-bold">/12</span>
-        </div>
+        <ng-container *ngIf="(workingHourInfoCurrentMonth$ | async) as workingHourInfoCurrentMonth;">
+          <div class="finger-section">
+     
+            <span class="text-8xl text-blue-500 font-bold">{{ workingHourInfoCurrentMonth?.workingDay }}</span>
+            <span class="text-3xl text-gray-400 font-bold">/{{ workingHourInfoCurrentMonth?.totalWorkingDay }}</span>
+          </div>
+        </ng-container>
       </div>
     </div>
 
@@ -63,7 +66,11 @@
 
 
       <!-- FILTER - START-->
-      <div class="grid grid-rows-2 grid-flow-col gap-3 mb-3">
+      <div [ngClass]="{
+        'grid-rows-2' : !(onlyMe$ | async),
+        'grid-rows-1' : (onlyMe$ | async)
+      }" 
+      class="grid grid-flow-col gap-3 mb-3">
       <section class="grid grid-cols-4 gap-6 auto-rows-max">
         <tui-input-number (keyup.enter)="onFilterByYear()" [precision]="0" [tuiTextfieldCleaner]="true" formControlName="year">
           <span class="font-semibold">{{ t('year') }}</span>
@@ -148,6 +155,7 @@
         class="col-span-3"
         formControlName="search"
         icon="tuiIconSearchLarge"
+        *ngIf="!(onlyMe$ | async)"
       >
         <span class="font-semibold">{{ t('searchByCifFullNameOffice') }}</span>
       </tui-input>
@@ -177,7 +185,7 @@
                         <td>{{ item(row).workingDay | number }}</td>
                         <td>{{ item(row).ot }}</td>
                         <td>{{ item(row).onsiteDay }}</td>
-                        <td>{{ item(row).leave?.leaveType?.name }}</td>
+                        <td>{{ item(row).leaveType }}</td>
                         <td>
                           <div class="flex">
                             <button
@@ -205,7 +213,7 @@
 
               <div *ngIf="!(onlyMe$ | async)" class="grid-rows-1">
                 <div class="grid-cols-12">
-                  <section class="main-section">
+                  <section class="main-section" *ngIf="(queryParams$ | async) as queryParams">
                     <ngx-table
                       #table
                       [columns]="(columnsEveryone$ | async) || []"
@@ -216,30 +224,12 @@
                         <td>{{ item(row).userInfo.cif }}</td>
                         <td>{{ item(row).userInfo?.fullName }}</td>
                         <td>{{ item(row).userInfo?.office?.name }}</td>
-                        <td>{{ item(row).trackingDate | date: 'dd/MM/yyyy' }}</td>
-                        <td>{{ item(row).inTime | secondsToHourMinute }}</td>
-                        <td>{{ item(row).outTime | secondsToHourMinute }}</td>
+                        <td>{{ queryParams.get('fromDateForGroupBy') | date: 'dd/MM/yyyy'}} - {{ queryParams.get('toDateForGroupBy') | date : 'dd/MM/yyyy' }}</td>
                         <td>{{ item(row).totalWorkingTime | secondsToHourMinute }}</td>
                         <td>{{ item(row).workingDay | number }}</td>
-                        <td>
-                          <div class="flex">
-                            <button
-                              (click)="workingHourDetail(item(row).id)"
-                              appearance="flat"
-                              class="tui-space_right-3"
-                              icon="tuiIconShowLarge"
-                              size="m"
-                              tuiIconButton
-                            ></button>
-                            <button
-                              (click)="requestUpdateTime(item(row).id)"
-                              appearance="flat"
-                              icon="tuiIconEditLarge"
-                              size="m"
-                              tuiIconButton
-                            ></button>
-                          </div>
-                        </td>
+                        <td>{{ item(row).ot }}</td>
+                        <td>{{ item(row).onsiteDay }}</td>
+                        <td>{{ item(row).countLeave}}</td>
                       </ng-template>
                     </ngx-table>
                   </section>

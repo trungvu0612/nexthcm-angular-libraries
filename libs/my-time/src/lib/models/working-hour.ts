@@ -18,6 +18,8 @@ export interface WorkingHour {
 	leave: WorkingHourLeave;
 	inTimeToFullTime: string;
 	outTimeToFulltime: string;
+	countLeave: number;
+	leaveType: string;
 }
 export interface WorkingHourUserInfoOrgMember {
 	id: string;
@@ -111,5 +113,9 @@ export interface WeekInfo {
 	week: number;
 	weekStart: number;
 	weekEnd: number;
-  }
-  
+}
+
+export interface WorkingInfoCurrentMonth {
+	workingDay:      number;
+	totalWorkingDay: number;
+}  
