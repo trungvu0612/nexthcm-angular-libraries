@@ -11,7 +11,7 @@ import { TrackingHistory, UpdateRequestPayload } from '../models';
 import { GeneralRequest } from '../models/interfaces/general-request';
 import { EmployeeRequestDetailDialogComponent } from '../modules/request-management/components/employee-request-detail-dialog/employee-request-detail-dialog.component';
 import { RejectRequestDialogComponent } from '../modules/request-management/components/reject-leave-request-dialog/reject-request-dialog.component';
-import { parseLeaveDateRange } from '../modules/request-management/utils/parse-leave-date-range';
+import { parseLeaveDateRange } from '../modules/shared/utils/parse-leave-date-range';
 
 const MY_TIME_PATH = '/mytimeapp/v1.0';
 

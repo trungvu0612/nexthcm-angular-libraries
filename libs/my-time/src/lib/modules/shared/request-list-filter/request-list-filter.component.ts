@@ -1,26 +1,36 @@
-import { getLocaleMonthNames, Location } from '@angular/common';
+import { CommonModule, getLocaleMonthNames, Location } from '@angular/common';
 import { HttpParams } from '@angular/common/http';
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, NgModule, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, convertToParamMap, Params, UrlSerializer } from '@angular/router';
 import { BaseOption } from '@nexthcm/cdk';
-import { TranslocoService } from '@ngneat/transloco';
-import { TuiContextWithImplicit, tuiPure, TuiStringHandler } from '@taiga-ui/cdk';
+import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
+import { TuiContextWithImplicit, TuiLetModule, tuiPure, TuiStringHandler } from '@taiga-ui/cdk';
+import { TuiDataListModule, TuiTextfieldControllerModule } from '@taiga-ui/core';
+import {
+  TuiDataListWrapperModule,
+  TuiInputModule,
+  TuiInputNumberModule,
+  TuiSelectModule,
+  TuiTagModule,
+} from '@taiga-ui/kit';
 import { endOfMonth, endOfYear, setMonth, setYear, startOfMonth, startOfYear } from 'date-fns';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { RequestStatus } from '../../../../enums';
+import { RequestStatus } from '../../../enums';
 
 @Component({
-  selector: 'hcm-request-management-filter[queryParams]',
-  templateUrl: './request-management-filter.component.html',
-  styleUrls: ['./request-management-filter.component.scss'],
+  selector: 'hcm-request-list-filter',
+  templateUrl: './request-list-filter.component.html',
+  styleUrls: ['./request-list-filter.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class RequestManagementFilterComponent implements OnInit {
+export class RequestListFilterComponent implements OnInit {
   @Input() queryParams!: BehaviorSubject<HttpParams>;
+  @Input() statusFilter = true;
   year: number | null = null;
   month: number | null = null;
-  keyword: string | null = null;
+  search: string | null = null;
   status: RequestStatus | null = null;
   readonly monthList$: Observable<BaseOption<number>[]> = this.translocoService.langChanges$.pipe(
     map((lang) => getLocaleMonthNames(lang, 1, 2).map((month, index) => ({ label: month, value: index })))
@@ -67,6 +77,10 @@ export class RequestManagementFilterComponent implements OnInit {
     this.queryParams.next(this.onFilter('status', value));
   }
 
+  onFilterByKeyword(): void {
+    this.queryParams.next(this.onFilter('search', this.search));
+  }
+
   onFilter(key: string, value: string | number | RequestStatus | null): HttpParams {
     let httpParams = this.queryParams.value;
     this.setQueryParams<string | number>(key, value);
@@ -111,9 +125,9 @@ export class RequestManagementFilterComponent implements OnInit {
         this.setQueryParams('month', null);
       }
     }
-    if (params.keyword) {
-      this.keyword = params.keyword;
-      httpParams = this.onFilter('keyword', params.keyword);
+    if (params.search) {
+      this.search = params.search;
+      httpParams = this.onFilter('search', params.search);
     }
     if (params.status && !isNaN(Number(params.status))) {
       this.status = params.status;
@@ -128,3 +142,22 @@ export class RequestManagementFilterComponent implements OnInit {
     this.locationRef.go(String(tree));
   }
 }
+
+@NgModule({
+  declarations: [RequestListFilterComponent],
+  imports: [
+    CommonModule,
+    TranslocoModule,
+    TuiInputNumberModule,
+    TuiSelectModule,
+    TuiLetModule,
+    TuiTextfieldControllerModule,
+    FormsModule,
+    TuiDataListModule,
+    TuiInputModule,
+    TuiDataListWrapperModule,
+    TuiTagModule,
+  ],
+  exports: [RequestListFilterComponent],
+})
+export class RequestListFilterComponentModule {}

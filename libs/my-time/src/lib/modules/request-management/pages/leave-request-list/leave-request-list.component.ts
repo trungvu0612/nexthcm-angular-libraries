@@ -11,8 +11,8 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { filter, map, share, startWith, switchMap } from 'rxjs/operators';
 import { LeaveRequest } from '../../../../models';
 import { MyTimeService, RequestTypeAPIUrlPath } from '../../../../services/my-time.service';
-import { AbstractRequestListComponent } from '../../abstract-components/abstract-request-list.component';
-import { parseLeaveDateRange } from '../../utils/parse-leave-date-range';
+import { AbstractRequestListComponent } from '../../../shared/abstract-components/abstract-request-list.component';
+import { parseLeaveDateRange } from '../../../shared/utils/parse-leave-date-range';
 
 @Component({
   selector: 'hcm-leave-request-list',

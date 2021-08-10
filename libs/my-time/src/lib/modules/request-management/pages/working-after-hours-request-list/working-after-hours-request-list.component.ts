@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 import { filter, map, share, startWith, switchMap } from 'rxjs/operators';
 import { WorkingAfterHoursRequest } from '../../../../models';
 import { MyTimeService, RequestTypeAPIUrlPath } from '../../../../services/my-time.service';
-import { AbstractRequestListComponent } from '../../abstract-components/abstract-request-list.component';
+import { AbstractRequestListComponent } from '../../../shared/abstract-components/abstract-request-list.component';
 
 @Component({
   selector: 'hcm-working-after-hours-request-list',

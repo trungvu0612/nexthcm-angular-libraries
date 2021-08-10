@@ -1,4 +1,4 @@
-<hcm-request-management-filter [queryParams]="queryParams$" class="mb-5"></hcm-request-management-filter>
+<hcm-request-list-filter [queryParams]="queryParams$" class="mb-5"></hcm-request-list-filter>
 <tui-loader [overlay]="true" [showLoader]="(loading$ | async) === true">
   <ngx-table #table [columns]="(columns$ | async) || []" [configuration]="configuration" [data]="(data$ | async) || []">
     <ng-template let-row>

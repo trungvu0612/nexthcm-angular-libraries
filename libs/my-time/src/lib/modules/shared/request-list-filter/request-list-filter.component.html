@@ -20,24 +20,26 @@
     </ng-template>
   </tui-select>
   <tui-input
-    (keyup.enter)="onFilter('keyword', keyword)"
-    [(ngModel)]="keyword"
+    (keyup.enter)="onFilterByKeyword()"
+    [(ngModel)]="search"
     [tuiTextfieldCleaner]="true"
     class="col-span-3"
     icon="tuiIconSearchLarge"
   >
     <span class="font-semibold">{{ t('searchByCifFullNameOffice') }}</span>
   </tui-input>
-  <tui-select
-    (ngModelChange)="onFilterByStatus($event)"
-    *tuiLet="statusList"
-    [ngModel]="status"
-    [tuiTextfieldCleaner]="true"
-    [valueContent]="statusContent"
-  >
-    <span class="font-semibold">{{ t('status') }}</span>
-    <tui-data-list-wrapper *tuiDataList [itemContent]="statusContent" [items]="statusList"></tui-data-list-wrapper>
-  </tui-select>
+  <div *ngIf="statusFilter">
+    <tui-select
+      (ngModelChange)="onFilterByStatus($event)"
+      *tuiLet="statusList"
+      [ngModel]="status"
+      [tuiTextfieldCleaner]="true"
+      [valueContent]="statusContent"
+    >
+      <span class="font-semibold">{{ t('status') }}</span>
+      <tui-data-list-wrapper *tuiDataList [itemContent]="statusContent" [items]="statusList"></tui-data-list-wrapper>
+    </tui-select>
+  </div>
 </section>
 
 <ng-template #statusContent let-data>
