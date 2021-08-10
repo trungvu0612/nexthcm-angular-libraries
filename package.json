@@ -52,6 +52,7 @@
     "@ngneat/reactive-forms": "^1.7.4",
     "@ngneat/svg-icon": "^3.2.0",
     "@ngneat/transloco": "^2.22.0",
+    "@ngneat/transloco-locale": "^1.4.0",
     "@ngx-formly/core": "^5.10.22",
     "@nrwl/angular": "12.6.3",
     "@rx-angular/cdk": "^1.0.0-alpha.8",

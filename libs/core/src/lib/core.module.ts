@@ -18,6 +18,7 @@ import { INIT_PERMISSIONS_PROVIDER } from './providers/init-permissions.provider
 import { LANGUAGE_PROVIDER } from './providers/language.provider';
 import { TRANSLATION_CONFIG_PROVIDER } from './transloco/transloco-config';
 import { TRANSLOCO_HTTP_LOADER_PROVIDER } from './transloco/transloco-http-loader';
+import { TranslocoRootModule } from './transloco/transloco-root.module';
 
 registerLocaleData(localeVi);
 
@@ -25,7 +26,7 @@ registerLocaleData(localeVi);
   imports: [
     CommonModule,
     HttpClientModule,
-    TranslocoModule,
+    TranslocoRootModule,
     FormlyModule.forRoot({ extras: { lazyRender: true, resetFieldOnHide: true } }),
     TuiDialogModule,
     SweetAlert2Module.forRoot(),

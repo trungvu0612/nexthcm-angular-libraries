@@ -469,6 +469,7 @@
   "reason": "Lý do",
   "year": "Năm",
   "month": "Tháng",
+  "week": "Tuần",
   "searchByCifFullNameOffice": "Tìm kiếm bằng mã nhân viên, tên, văn phòng...",
   "cif": "Mã nhân viên",
   "assignee": "Người thụ quyền",
