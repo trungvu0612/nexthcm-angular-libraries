@@ -5,11 +5,23 @@ import { RouterModule } from '@angular/router';
 import { FormlyTaigaUiModule } from '@nexthcm/ui';
 import { FormlyModule } from '@ngx-formly/core';
 import { TuiTableModule, TuiTablePaginationModule } from '@taiga-ui/addon-table';
-import { TuiButtonModule, TuiColorModule, TuiDialogModule, TuiGroupModule, TuiSvgModule } from '@taiga-ui/core';
 import {
+  TuiButtonModule,
+  TuiColorModule,
+  TuiDialogModule,
+  TuiGroupModule,
+  TuiLoaderModule,
+  TuiSvgModule,
+  TuiTextfieldControllerModule,
+} from '@taiga-ui/core';
+import {
+  TuiAccordionModule,
+  TuiAvatarModule,
   TuiFieldErrorModule,
+  TuiLazyLoadingModule,
   TuiMarkerIconModule,
   TuiRadioBlockModule,
+  TuiSelectModule,
   TuiTabsModule,
   TuiTagModule,
 } from '@taiga-ui/kit';
@@ -17,12 +29,16 @@ import { ListMyRequestComponent } from './list-my-request/list-my-request.compon
 import { ListOtRequestComponent } from './list-ot-request/list-ot-request.component';
 import { ListTimesheetUpdateComponent } from './list-timesheet-update/list-timesheet-update.component';
 import { ListWorkFromHomeComponent } from './list-work-from-home/list-work-from-home.component';
-import { ListWorkingOutsideComponent } from './list-working-outside/list-working-outside.component';
+import { MyWorkingOutsideRequestsComponent } from './list-working-outside/my-working-outside-requests.component';
 import { MyRequestsComponent } from './my-requests.component';
 import { RequestDetailsWfhComponent } from './request-details-wfh/request-details-wfh.component';
 import { RequestDetailsComponent } from './request-details/request-details.component';
 import { RequestOtComponent } from './request-ot/request-ot.component';
 import { TranslocoModule } from '@ngneat/transloco';
+import { TableModule } from 'ngx-easy-table';
+import { TuiLetModule } from '@taiga-ui/cdk';
+import { MyRequestManagementFilterComponent } from './components/my-request-management-filter/my-request-management-filter.component';
+import { GetFileModule } from '@nexthcm/cdk';
 
 @NgModule({
   declarations: [
@@ -30,11 +46,12 @@ import { TranslocoModule } from '@ngneat/transloco';
     ListMyRequestComponent,
     ListOtRequestComponent,
     ListTimesheetUpdateComponent,
-    ListWorkingOutsideComponent,
+    MyWorkingOutsideRequestsComponent,
     RequestDetailsComponent,
     RequestOtComponent,
     ListWorkFromHomeComponent,
     RequestDetailsWfhComponent,
+    MyRequestManagementFilterComponent,
   ],
   imports: [
     CommonModule,
@@ -56,6 +73,15 @@ import { TranslocoModule } from '@ngneat/transloco';
     TuiColorModule,
     TuiSvgModule,
     TranslocoModule,
+    TuiLoaderModule,
+    TableModule,
+    TuiLetModule,
+    TuiSelectModule,
+    TuiTextfieldControllerModule,
+    TuiLazyLoadingModule,
+    TuiAccordionModule,
+    GetFileModule,
+    TuiAvatarModule,
   ],
 })
 export class MyRequestsModule {}

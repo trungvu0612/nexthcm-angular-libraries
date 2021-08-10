@@ -20,7 +20,7 @@ export class EmployeeRequestDetailDialogComponent {
 
   constructor(
     @Inject(POLYMORPHEUS_CONTEXT)
-    public context: TuiDialogContext<unknown, { type: RequestTypeAPIUrlPath; value: GeneralRequest }>,
+    public context: TuiDialogContext<unknown, { type: RequestTypeAPIUrlPath; value: GeneralRequest; userId?: string }>,
     private myTimeService: MyTimeService,
     private destroy$: TuiDestroyService
   ) {}
@@ -31,6 +31,10 @@ export class EmployeeRequestDetailDialogComponent {
 
   get requestTypeAPIUrlPath(): RequestTypeAPIUrlPath {
     return this.context.data.type;
+  }
+
+  get isMyRequest(): boolean {
+    return !!this.context.data.userId;
   }
 
   onApproveRequest(id: string): void {

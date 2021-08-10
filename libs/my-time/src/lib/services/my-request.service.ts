@@ -1,12 +1,21 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { PagingResponse } from '@nexthcm/cdk';
+import { Injectable, Injector } from '@angular/core';
+import { Pagination, PagingResponse, PromptService } from '@nexthcm/cdk';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { WorkFromHome } from '../models';
-import { Requests, SearchRequest, SubmitRequest, TimeSheetUpdateReq } from '../models';
+import { Requests, SearchRequest, SubmitRequest, TimeSheetUpdateReq } from '../models/requests';
+import { TuiDialogService } from '@taiga-ui/core';
+import { TranslocoService } from '@ngneat/transloco';
 
 const MY_TIME_PATH = '/mytimeapp/v1.0';
+
+export enum MyRequestTypeAPIUrlPath {
+  workingAfterHours = 'ot-requests' as any,
+  updateTimesheet = 'timesheet-updates' as any,
+  workingOutside = 'outside' as any,
+  workFromHome = 'wfh' as any,
+}
 
 @Injectable({
   providedIn: 'root',
@@ -14,7 +23,13 @@ const MY_TIME_PATH = '/mytimeapp/v1.0';
 export class MyRequestService {
   appVersion = '/mytimeapp/v1.0';
 
-  constructor(private httpClient: HttpClient) {}
+  constructor(
+    private httpClient: HttpClient,
+    private dialogService: TuiDialogService,
+    private injector: Injector,
+    private promptService: PromptService,
+    private translocoService: TranslocoService
+  ) {}
 
   getMyOtRequests(pageIndex: number, pageSize: number, search: SearchRequest): Observable<PagingResponse<Requests>> {
     return this.httpClient.get<PagingResponse<Requests>>(this.appVersion + '/ot-requests', {
@@ -34,18 +49,24 @@ export class MyRequestService {
     return this.httpClient.put<Requests>(this.appVersion + `/ot-requests/${id}`, dto);
   }
 
-  geWorkingOutsideRequests(
-    pageIndex: number,
-    pageSize: number,
-    search: SearchRequest
-  ): Observable<PagingResponse<Requests>> {
-    return this.httpClient.get<PagingResponse<Requests>>(this.appVersion + '/outside', {
-      params: new HttpParams()
-        .set('page', pageIndex ? pageIndex.toString() : '')
-        .set('size', pageSize ? pageSize.toString() : '')
-        .set('fromDate', search.fromDate ? search.fromDate : ('' as any))
-        .set('toDate', search.toDate ? search.toDate : ('' as any)),
-    });
+  // geWorkingOutsideRequests(
+  //   pageIndex: number,
+  //   pageSize: number,
+  //   search: SearchRequest
+  // ): Observable<PagingResponse<Requests>> {
+  //   return this.httpClient.get<PagingResponse<Requests>>(this.appVersion + '/outside', {
+  //     params: new HttpParams()
+  //       .set('page', pageIndex ? pageIndex.toString() : '')
+  //       .set('size', pageSize ? pageSize.toString() : '')
+  //       .set('fromDate', search.fromDate ? search.fromDate : ('' as any))
+  //       .set('toDate', search.toDate ? search.toDate : ('' as any))
+  //   });
+  // }
+
+  geWorkingOutsideRequests<T>(type: MyRequestTypeAPIUrlPath, params: HttpParams): Observable<Pagination<T>> {
+    return this.httpClient
+      .get<PagingResponse<T>>(this.appVersion + `/${type}`, { params })
+      .pipe(map((res) => res.data));
   }
 
   getWorkFromHome(
@@ -127,8 +148,4 @@ export class MyRequestService {
       return this.httpClient.post<SubmitRequest>(this.appVersion + '/outside', body);
     }
   }
-
-  // submitAfterTime(body: any): Observable<SubmitRequest> {
-  //   return this.httpClient.post<SubmitRequest>(this.appVersion + '/ot-requests', body);
-  // }
 }

@@ -1,7 +1,6 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import {TuiBooleanHandler} from '@taiga-ui/cdk';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FieldType, FormlyFieldConfig } from '@ngx-formly/core';
-import { ALWAYS_FALSE_HANDLER, TUI_DEFAULT_IDENTITY_MATCHER } from '@taiga-ui/cdk';
+import { ALWAYS_FALSE_HANDLER, TUI_DEFAULT_IDENTITY_MATCHER, TuiBooleanHandler } from '@taiga-ui/cdk';
 
 @Component({
   selector: 'formly-filter',

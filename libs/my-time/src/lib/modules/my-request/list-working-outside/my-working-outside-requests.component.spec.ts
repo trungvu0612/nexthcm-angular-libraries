@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ListWorkingOutsideComponent } from './list-working-outside.component';
+import { MyWorkingOutsideRequestsComponent } from './my-working-outside-requests.component';
 
 describe('ListWorkingOutsideComponent', () => {
-  let component: ListWorkingOutsideComponent;
-  let fixture: ComponentFixture<ListWorkingOutsideComponent>;
+  let component: MyWorkingOutsideRequestsComponent;
+  let fixture: ComponentFixture<MyWorkingOutsideRequestsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ListWorkingOutsideComponent],
+      declarations: [MyWorkingOutsideRequestsComponent],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ListWorkingOutsideComponent);
+    fixture = TestBed.createComponent(MyWorkingOutsideRequestsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
