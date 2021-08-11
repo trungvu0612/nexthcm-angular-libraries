@@ -99,9 +99,7 @@ export class LeaveRequestManagementComponent extends AbstractServerPaginationTab
         closeable: false,
       })
       .subscribe((data) => {
-        console.log('check data outside dialog', data);
         this.myLeaveService.createLeave(data).subscribe((data) => {
-          console.log('susscess post');
         });
       });
   }

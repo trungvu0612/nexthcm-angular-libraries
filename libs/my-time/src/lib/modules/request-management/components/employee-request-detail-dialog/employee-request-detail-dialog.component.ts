@@ -12,7 +12,7 @@ import { MyTimeService, RequestTypeAPIUrlPath } from '../../../../services/my-ti
   templateUrl: './employee-request-detail-dialog.component.html',
   styleUrls: ['./employee-request-detail-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [TuiDestroyService],
+  providers: [TuiDestroyService]
 })
 export class EmployeeRequestDetailDialogComponent {
   readonly RequestStatus = RequestStatus;
@@ -23,7 +23,8 @@ export class EmployeeRequestDetailDialogComponent {
     public context: TuiDialogContext<unknown, { type: RequestTypeAPIUrlPath; value: GeneralRequest; userId?: string }>,
     private myTimeService: MyTimeService,
     private destroy$: TuiDestroyService
-  ) {}
+  ) {
+  }
 
   get data(): GeneralRequest {
     return this.context.data.value;
@@ -49,5 +50,12 @@ export class EmployeeRequestDetailDialogComponent {
       .rejectRequest(this.requestTypeAPIUrlPath, id)
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => (this.context.data.value.status = RequestStatus.rejected));
+  }
+
+  onCancelRequest(idLeave: string): void {
+    this.myTimeService
+      .cancelRequest(this.requestTypeAPIUrlPath, idLeave)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => (this.context.data.value.status = RequestStatus.cancelled));
   }
 }
