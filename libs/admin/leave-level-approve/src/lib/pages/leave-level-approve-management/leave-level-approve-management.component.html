@@ -9,7 +9,6 @@
     <tui-loader [overlay]="true" [showLoader]="(loading$ | async) === true">
       <ngx-table #table [columns]="(columns$ | async) || []" [configuration]="configuration" [data]="(data$ | async) || []">
         <ng-template let-row>
-          <td>{{ item(row).createdUserDTO?.profile?.fullName }}</td>
           <td>{{ item(row).leaveType?.name }}</td>
           <td>{{ item(row).jobTitlesName}}</td>
           <td>{{ item(row).totalLeave}}</td>

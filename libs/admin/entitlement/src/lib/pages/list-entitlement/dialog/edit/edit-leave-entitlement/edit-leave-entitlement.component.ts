@@ -1,15 +1,15 @@
-import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
-import { AuthService } from '@nexthcm/auth';
+import { Component, OnInit, ChangeDetectionStrategy, Inject } from '@angular/core';
 import { FormGroup } from '@ngneat/reactive-forms';
-import { TranslocoService } from '@ngneat/transloco';
-import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
-import { NumericValueType, RxwebValidators } from '@rxweb/reactive-form-validators';
-import { TuiDialogContext } from '@taiga-ui/core';
-import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { distinctUntilChanged, map, startWith, switchMap } from 'rxjs/operators';
 import { LeaveEntitlement } from '../../../../../models/leave-entitlement';
+import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
+import { NumericValueType, RxwebValidators } from '@rxweb/reactive-form-validators';
+import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
+import { TuiDialogContext } from '@taiga-ui/core';
 import { AdminEntitlementService } from '../../../../../services/admin-entitlement.service';
+import { TranslocoService } from '@ngneat/transloco';
+import { AuthService } from '@nexthcm/auth';
 
 @Component({
   selector: 'hcm-edit-leave-entitlement',
@@ -90,7 +90,6 @@ export class EditLeaveEntitlementComponent implements OnInit {
         label: 'Organization',
         labelClassName: 'font-semibold',
         placeholder: 'Organization',
-        required: true,
         options: this.orgs$,
         labelProp: 'name',
         matcherBy: 'id'
@@ -155,7 +154,7 @@ export class EditLeaveEntitlementComponent implements OnInit {
       templateOptions: {
         required: true,
         translate: true,
-        label: 'Days',
+        label: 'Entitlements',
         placeholder: 'Total leave can approve',
         textfieldLabelOutside: true
       },

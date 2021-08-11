@@ -1,101 +1,54 @@
 <main class="main-page">
-  <header>
-    <h1 class="text-4xl">My Leave</h1>
-    <div class="flex gap-4">
-      <!--      <tui-input-month [formControl]="dateControl" class="date-control">Choose a month</tui-input-month>-->
-      <button (click)="showDialogSubmit()" class="blue-button">
-        <tui-svg class="-ml-1 mr-2" src="tuiIconPlusLarge"></tui-svg>
-        Submit Leave Request
-      </button>
-    </div>
-  </header>
-
-  <section class="main-section px-8 py-10">
-    <div class="flex justify-start items-center mb-7">
-      <tui-input-month [formControl]="dateControl" class="w-48 mr-7">Choose a month</tui-input-month>
-      <button class="blue-button">Search</button>
-    </div>
-
-    <article>
-      <table [columns]="columns" class="hcm-tui-table" tuiTable>
-        <thead>
-          <tr tuiThGroup>
-            <th *tuiHead="'fromDate'" [sorter]="null" class="center-custom" tuiTh>From Date</th>
-            <th *tuiHead="'toDate'" [sorter]="null" class="center-custom" tuiTh>To Date</th>
-            <th *tuiHead="'leaveType'" [sorter]="null" class="center-custom" tuiTh>Leave Type</th>
-            <th *tuiHead="'days'" [sorter]="null" class="center-custom" tuiTh>Days</th>
-            <th *tuiHead="'status'" [sorter]="null" class="center-custom" tuiTh>Status</th>
-            <th *tuiHead="'comment'" [sorter]="null" class="center-custom" tuiTh>Comments</th>
-            <th *tuiHead="'sendTo'" [sorter]="null" class="center-custom" tuiTh>Send To</th>
-            <th *tuiHead="'action'" [sorter]="null" style="text-align: center" tuiTh>Action</th>
-          </tr>
-        </thead>
-        <tbody [data]="data" tuiTbody>
-          <tr *tuiRow="let item of data" tuiTr>
-            <td *tuiCell="'fromDate'" class="underline" tuiTd>
-              <p>{{ item.fromDate | date }}</p>
-            </td>
-
-            <td *tuiCell="'toDate'" class="underline" tuiTd>
-              <p>{{ item.toDate | date }}</p>
-            </td>
-
-            <td *tuiCell="'leaveType'" tuiTd>
-              <strong>{{ item.leaveType?.name }}</strong>
-            </td>
-
-            <td *tuiCell="'days'" class="center-custom font-semibold" tuiTd><strong>{{ item.durationInDay }}</strong></td>
-
-            <td *tuiCell="'status'" class="center-custom" tuiTd>
-              <tui-tag
-                class="font-bold"
-                [class]="LeaveStatus[item.status ? item.status : 4] + '-tag'"
-                [value]="LeaveStatus[item.status ? item.status : 4] | titlecase"
-              ></tui-tag>
-            </td>
-
-            <td *tuiCell="'comment'" class="center-custom font-semibold" tuiTd><strong>{{item.comment}}</strong></td>
-
-            <td *tuiCell="'sendTo'" class="center-custom font-semibold" tuiTd> <strong>{{ item?.sendToDTO?.profile?.fullName }}</strong></td>
-
-            <td *tuiCell="'action'" class="center-custom" tuiTd>
-              <div class="flex justify-center -m-2 gap-4">
-                <button
-                  *ngIf="item.status !== 1"
-                  class="text-blue-500 center-custom"
-                  [icon]="'tuiIconTrashLarge'"
-                  [shape]="$any('rounded')"
-                  appearance="flat"
-                  size="s"
-                  tuiIconButton
-                  (click)="showDialogDelete(item.id)"
-                ></button>
-                <button
-                  class="text-blue-500 center-custom"
-                  [icon]="'tuiIconShowLarge'"
-                  [shape]="$any('rounded')"
-                  appearance="flat"
-                  size="s"
-                  tuiIconButton
-                  (click)="showLeaveDetail(item.id)"
-                ></button>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-        <tfoot>
-        <tr>
-          <td [colSpan]='columns.length' class='px-5 py-3'>
-            <tui-table-pagination
-              (pageChange)='onPage($event)'
-              (sizeChange)='onSize($event)'
-              [(page)]='page'
-              [(size)]='size'
-              [total]='totalElements'></tui-table-pagination>
-          </td>
-        </tr>
-        </tfoot>
-      </table>
-    </article>
+  <section *transloco="let t">
+    <header>
+      <div class="py-8 flex justify-between">
+        <h1 class="font-bold text-4xl text-gray-400">{{ t('myLeave') }}</h1>
+          <button (click)="showDialogSubmit()" class="blue-button">
+            <tui-svg class="-ml-1 mr-2" src="tuiIconPlusLarge"></tui-svg>
+            {{ t('submitLeaveRequest') }}
+          </button>
+      </div>
+    </header>
   </section>
+  <tui-loader [overlay]="true" [showLoader]="(loading$ | async) === true">
+    <ngx-table
+      #table
+      [columns]="(columns$ | async) || []"
+      [configuration]="configuration"
+      [data]="(data$ | async) || []"
+    >
+      <ng-template let-row>
+        <ng-container *tuiLet="item(row) as item">
+          <td>{{ item.fromDate | date}}</td>
+          <td>{{ item.toDate | date}}</td>
+          <td class="font-bold">{{ item.leaveType?.name }}</td>
+          <td>{{ item.durationInDay }}</td>
+          <td>
+            <tui-tag
+              [value]="'REQUEST_STATUS.' + RequestStatus[item.status] | transloco"
+              class="{{ RequestStatus[item.status] }}-tag"
+            ></tui-tag>
+          </td>
+          <td>{{ item.comment }}</td>
+          <td>{{ item?.sendToDTO?.fullName }}</td>
+          <td>
+            <div class="flex items-center">
+              <button
+                (click)="showLeaveDetail(item.id)"
+                appearance="flat"
+                icon="tuiIconShowLarge"
+                size="m"
+                tuiIconButton
+              ></button>
+            </div>
+          </td>
+        </ng-container>
+      </ng-template>
+    </ngx-table>
+  </tui-loader>
+  <tui-table-pagination
+    (pageChange)="onPage($event)"
+    (sizeChange)="onSize($event)"
+    [total]="(total$ | async) || 0"
+  ></tui-table-pagination>
 </main>

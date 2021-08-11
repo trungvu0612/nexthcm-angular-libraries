@@ -36,6 +36,7 @@ export class ListLeaveTypeComponent {
     .pipe(
       map((result) => [
         { key: 'name', title: result.name },
+        { key: 'description', title: result.description },
         { key: 'createdDate', title: result.createdDate },
         { key: 'operations', title: result.operations },
       ])

@@ -1,8 +1,9 @@
-<h2 class="text-2xl font-semibold mb-7">Submit Leave Request</h2>
-
+<section *transloco="let t">
+  <p class="font-bold text-4xl text-gray-400">Submit Leave Request</p>
+</section>
 <div class="my-8">
   <form [formGroup]="$any(form)">
-    <formly-form [fields]="fields" [form]="$any(form)" [model]="model"></formly-form>
+    <formly-form [fields]="fields" [form]="$any(form)" [model]="model" class="formly-gap"></formly-form>
   </form>
 </div>
 

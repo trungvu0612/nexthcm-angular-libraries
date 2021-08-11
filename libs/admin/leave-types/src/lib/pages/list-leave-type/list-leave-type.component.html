@@ -17,6 +17,7 @@
       >
         <ng-template let-row>
           <td>{{ item(row).name }}</td>
+          <td>{{ item(row).description }}</td>
           <td>{{ item(row).createdDate | date: 'dd/MM/yyyy' }}</td>
           <td>
             <div class="flex items-center">
