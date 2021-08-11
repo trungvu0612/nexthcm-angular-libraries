@@ -6,6 +6,7 @@ export interface WorkingAfterHoursRequest extends BaseRequest {
   toDate: number;
   optCounter: number;
   duration: number;
+  type: string;
   reason: string;
   sendToUser: WorkingAfterHoursRequestSendToUser;
   user: EmployeeInfo;

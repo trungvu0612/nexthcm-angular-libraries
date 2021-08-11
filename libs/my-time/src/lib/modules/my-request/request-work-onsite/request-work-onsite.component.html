@@ -1,7 +1,7 @@
 <article>
   <header class='flex justify-between items-center mb-7'>
     <h1
-      class='text-2xl font-semibold'>Working After Time Request</h1>
+      class='text-2xl font-semibold'>{{ type === 'ot' ? 'Working After Time Request' : 'Working Outside Request' }}</h1>
     <button
       (click)='close()'
       [icon]="'tuiIconRemoveLarge'"

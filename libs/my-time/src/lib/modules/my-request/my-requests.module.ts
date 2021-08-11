@@ -12,7 +12,7 @@ import {
   TuiGroupModule,
   TuiLoaderModule,
   TuiSvgModule,
-  TuiTextfieldControllerModule,
+  TuiTextfieldControllerModule
 } from '@taiga-ui/core';
 import {
   TuiAccordionModule,
@@ -23,7 +23,7 @@ import {
   TuiRadioBlockModule,
   TuiSelectModule,
   TuiTabsModule,
-  TuiTagModule,
+  TuiTagModule
 } from '@taiga-ui/kit';
 import { ListMyRequestComponent } from './list-my-request/list-my-request.component';
 import { ListOtRequestComponent } from './list-ot-request/list-ot-request.component';
@@ -39,6 +39,7 @@ import { TableModule } from 'ngx-easy-table';
 import { TuiLetModule } from '@taiga-ui/cdk';
 import { MyRequestManagementFilterComponent } from './components/my-request-management-filter/my-request-management-filter.component';
 import { GetFileModule } from '@nexthcm/cdk';
+import { RequestWorkOnsiteComponent } from './request-work-onsite/request-work-onsite.component';
 
 @NgModule({
   declarations: [
@@ -52,6 +53,7 @@ import { GetFileModule } from '@nexthcm/cdk';
     ListWorkFromHomeComponent,
     RequestDetailsWfhComponent,
     MyRequestManagementFilterComponent,
+    RequestWorkOnsiteComponent,
   ],
   imports: [
     CommonModule,
