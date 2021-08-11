@@ -2,6 +2,11 @@
   display: block;
 
   ::ng-deep {
+    tui-input-time {
+      max-width: 250px;
+      margin-bottom:10px;
+    }
+
     tui-input,
     tui-input-count {
       min-width: 80px;
@@ -19,6 +24,7 @@
       .label {
         position: absolute;
         left: 25px;
+
         span {
           font-size: 16px;
         }
@@ -28,6 +34,7 @@
     .ngx-table__sort-header {
       display: none;
     }
+
     .ngx-table__body-empty {
       display: none;
     }

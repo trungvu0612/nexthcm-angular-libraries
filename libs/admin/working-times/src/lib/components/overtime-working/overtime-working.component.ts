@@ -283,7 +283,7 @@ export class OvertimeWorkingComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log('dataChecking$=' + this.dataChecking$);
+    // console.log('dataChecking$=' + this.dataChecking$);
   }
 
   onSubmit(): void {
@@ -344,7 +344,7 @@ export class OvertimeWorkingComponent implements OnInit {
       minStart: formModel.applyFor.includes('default') ? formModel.minStart : 0,
       items: workingItems,
     };
-    // console.log(JSON.stringify(this.workingAfterTimeElement));
+    console.log(JSON.stringify(this.workingAfterTimeElement));
 
     this.WorkingTimesService.submitWorkingAfterTime(this.workingAfterTimeElement)
       .pipe(

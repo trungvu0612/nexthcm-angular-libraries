@@ -10,9 +10,9 @@ import {
   TuiCheckboxLabeledModule,
   TuiInputCountModule,
   TuiInputDateModule,
-  TuiInputModule,
+  TuiInputModule, TuiInputTimeModule,
   TuiTabsModule,
-  TuiToggleModule,
+  TuiToggleModule
 } from '@taiga-ui/kit';
 import { TableModule } from 'ngx-easy-table';
 import { NgxPermissionsGuard } from 'ngx-permissions';
@@ -35,7 +35,7 @@ export const adminWorkingTimesRoutes: Routes = [
     CommonModule,
     RouterModule.forChild(adminWorkingTimesRoutes),
     FormlyModule.forRoot({
-      types: [{ name: 'repeat', component: RepeatSectionComponent }],
+      types: [{ name: 'repeat', component: RepeatSectionComponent }]
     }),
     ReactiveFormsModule,
     TuiLabelModule,
@@ -50,6 +50,7 @@ export const adminWorkingTimesRoutes: Routes = [
     TuiTabsModule,
     TranslocoModule,
     TuiButtonModule,
+    TuiInputTimeModule
   ],
   declarations: [WorkingTimeSettingsComponent, RepeatSectionComponent, OvertimeWorkingComponent],
 })

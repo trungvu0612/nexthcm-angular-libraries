@@ -1,149 +1,155 @@
-<ng-container *transloco="let t">
-  <ng-container *ngIf="data.employeeDTO || data.user || data.userInfo as employee">
-    <section *ngIf="!isMyRequest" class="flex flex-col items-center py-8 border-b">
-      <img [src]="(employee.image | getFile | async) || ''" alt class="mb-8 w-40 h-40 rounded-full" loading="lazy" />
-      <div class="mb-3 font-semibold text-blue-500 tui-text_h5">{{ employee.fullName }}</div>
-      <div class="text-lg">{{ employee.jobTitle?.name }}</div>
+<ng-container *transloco='let t'>
+  <ng-container *ngIf='data.employeeDTO || data.user || data.userInfo as employee'>
+    <section *ngIf='!isMyRequest' class='flex flex-col items-center py-8 border-b'>
+      <img [src]="(employee.image | getFile | async) || ''" alt class='mb-8 w-40 h-40 rounded-full' loading='lazy' />
+      <div class='mb-3 font-semibold text-blue-500 tui-text_h5'>{{ employee.fullName }}</div>
+      <div class='text-lg'>{{ employee.jobTitle?.name }}</div>
     </section>
-    <section class="py-8 border-b">
-      <div class="table w-full">
-        <div class="table-row">
-          <div class="table-label">{{ t('cif') }}:</div>
-          <div class="table-value">{{ employee.cif }}</div>
+    <section class='py-8 border-b'>
+      <div class='table w-full'>
+        <div class='table-row'>
+          <div class='table-label'>{{ t('cif') }}:</div>
+          <div class='table-value'>{{ employee.cif }}</div>
         </div>
-        <div class="table-row">
-          <div class="table-label">{{ t('status') }}:</div>
-          <div class="table-value">
+        <div class='table-row'>
+          <div class='table-label'>{{ t('status') }}:</div>
+          <div class='table-value'>
             <tui-tag
               [value]="t('REQUEST_STATUS.' + RequestStatus[data.status])"
-              class="{{ RequestStatus[data.status] }}-tag"
+              class='{{ RequestStatus[data.status] }}-tag'
             ></tui-tag>
           </div>
         </div>
-        <div class="table-row">
-          <div class="table-label">{{ t('type') }}:</div>
-          <div class="table-value">{{ t(RequestTypeAPIUrlPath[requestTypeAPIUrlPath]) }}</div>
+        <div class='table-row'>
+          <div class='table-label'>{{ t('type') }}:</div>
+          <div class='table-value'>{{ t(RequestTypeAPIUrlPath[requestTypeAPIUrlPath]) }}</div>
         </div>
-        <div class="table-row">
-          <div class="table-label">{{ t('assignee') }}:</div>
-          <div class="table-value">
-            <div *ngIf="data.escalateDTO" class="flex items-center">
+        <div class='table-row'>
+          <div class='table-label'>{{ t('assignee') }}:</div>
+          <div class='table-value'>
+            <div *ngIf='data.escalateDTO' class='flex items-center'>
               <tui-avatar
-                [autoColor]="true"
-                [avatarUrl]="data.escalateDTO.image | getFile | async"
-                [rounded]="true"
-                [text]="data.escalateDTO.fullName"
-                class="mr-2"
-                size="s"
+                [autoColor]='true'
+                [avatarUrl]='data.escalateDTO.image | getFile | async'
+                [rounded]='true'
+                [text]='data.escalateDTO.fullName'
+                class='mr-2'
+                size='s'
               ></tui-avatar>
               {{ data.escalateDTO.fullName }}
             </div>
           </div>
         </div>
 
-        <ng-container [ngSwitch]="requestTypeAPIUrlPath">
-          <ng-container *ngSwitchCase="RequestTypeAPIUrlPath.leave">
-            <div class="table-row">
-              <div class="table-label">{{ t('leaveType') }}:</div>
-              <div class="table-value">{{ data.leaveType!.name }}</div>
+        <ng-container [ngSwitch]='requestTypeAPIUrlPath'>
+          <ng-container *ngSwitchCase='RequestTypeAPIUrlPath.leave'>
+            <div class='table-row'>
+              <div class='table-label'>{{ t('leaveType') }}:</div>
+              <div class='table-value'>{{ data.leaveType!.name }}</div>
             </div>
-            <div class="table-row">
-              <div class="table-label">{{ t('dateRange') }}:</div>
-              <div class="table-value">{{ data.dateRange }}</div>
+            <div class='table-row'>
+              <div class='table-label'>{{ t('dateRange') }}:</div>
+              <div class='table-value'>{{ data.dateRange }}</div>
             </div>
-            <div class="table-row">
-              <div class="table-label">{{ t('days') }}:</div>
-              <div class="table-value">{{ data.durationInDay }}</div>
+            <div class='table-row'>
+              <div class='table-label'>{{ t('days') }}:</div>
+              <div class='table-value'>{{ data.durationInDay }}</div>
             </div>
           </ng-container>
-          <ng-container *ngSwitchCase="RequestTypeAPIUrlPath.updateTimesheet">
-            <div class="table-row">
-              <div class="table-label">{{ t('TIMESHEET_MANAGEMENT.date') }}:</div>
-              <div class="table-value">
+          <ng-container *ngSwitchCase='RequestTypeAPIUrlPath.updateTimesheet'>
+            <div class='table-row'>
+              <div class='table-label'>{{ t('TIMESHEET_MANAGEMENT.date') }}:</div>
+              <div class='table-value'>
                 {{ data.timeSheetTracking!.trackingDate | date: 'MM/dd/yyyy' }}
               </div>
             </div>
-            <div class="table-row">
-              <div class="table-label">{{ t('TIMESHEET_MANAGEMENT.newInTime') }}:</div>
-              <div class="table-value">{{ data.newInTime | date: 'HH:mm':'GMT' }}</div>
+            <div class='table-row'>
+              <div class='table-label'>{{ t('TIMESHEET_MANAGEMENT.newInTime') }}:</div>
+              <div class='table-value'>{{ data.newInTime | date: 'HH:mm':'GMT' }}</div>
             </div>
-            <div class="table-row">
-              <div class="table-label">{{ t('TIMESHEET_MANAGEMENT.newOutTime') }}:</div>
-              <div class="table-value">{{ data.newOutTime |  date: 'HH:mm':'GMT' }}</div>
+            <div class='table-row'>
+              <div class='table-label'>{{ t('TIMESHEET_MANAGEMENT.newOutTime') }}:</div>
+              <div class='table-value'>{{ data.newOutTime |  date: 'HH:mm':'GMT' }}</div>
             </div>
           </ng-container>
-          <ng-container *ngSwitchCase="RequestTypeAPIUrlPath.workingOutside">
-            <div class="table-row">
-              <div class="table-label">{{ t('days') }}:</div>
-              <div class="table-value">{{ data.duration }}</div>
+          <ng-container *ngSwitchCase='RequestTypeAPIUrlPath.workingOutside'>
+            <div class='table-row'>
+              <div class='table-label'>{{ t('days') }}:</div>
+              <div class='table-value'>{{ data.duration }}</div>
             </div>
           </ng-container>
           <ng-container *ngSwitchDefault>
-            <div class="table-row">
-              <div class="table-label">{{ t('dateRange') }}:</div>
-              <div class="table-value">
+            <div class='table-row'>
+              <div class='table-label'>{{ t('dateRange') }}:</div>
+              <div class='table-value'>
                 {{ data.fromDate | date: 'MM/dd/yyyy' }} - {{ data.toDate | date: 'MM/dd/yyyy' }}
               </div>
             </div>
           </ng-container>
         </ng-container>
 
-        <div class="table-row">
-          <div class="table-label">{{ t('office') }}:</div>
-          <div class="table-value"></div>
+        <div class='table-row'>
+          <div class='table-label'>{{ t('office') }}:</div>
+          <div class='table-value'></div>
         </div>
-        <div class="table-row">
-          <div class="table-label">{{ t('sendTo') }}:</div>
-          <div class="table-value">
-            <div *ngIf="data.sendToDTO || data.sendToUser as sendTo" class="flex items-center">
+        <div class='table-row'>
+          <div class='table-label'>{{ t('sendTo') }}:</div>
+          <div class='table-value'>
+            <div *ngIf='data.sendToDTO || data.sendToUser as sendTo' class='flex items-center'>
               <tui-avatar
-                [autoColor]="true"
-                [avatarUrl]="sendTo.image | getFile | async"
-                [rounded]="true"
-                [text]="sendTo.fullName"
-                class="mr-2"
-                size="s"
+                [autoColor]='true'
+                [avatarUrl]='sendTo.image | getFile | async'
+                [rounded]='true'
+                [text]='sendTo.fullName'
+                class='mr-2'
+                size='s'
               ></tui-avatar>
               {{ sendTo.fullName }}
             </div>
           </div>
         </div>
-        <div class="table-row">
-          <div class="table-label">{{ t('MY_TIME.reason') }}:</div>
-          <div class="table-value">{{ data.reason }}</div>
+        <div class='table-row'>
+          <div class='table-label'>{{ t('MY_TIME.reason') }}:</div>
+          <div class='table-value'>{{ data.reason }}</div>
         </div>
       </div>
     </section>
-    <section *ngIf="!isMyRequest" class="grid grid-cols-2 gap-8 py-8 border-b">
-      <button (click)="onRejectRequest(data.id)" appearance="secondary" tuiButton>{{ t('reject') }}</button>
-      <button (click)="onApproveRequest(data.id)" tuiButton>{{ t('approve') }}</button>
+    <section *ngIf='!isMyRequest' class='grid grid-cols-2 gap-8 py-8 border-b'>
+      <button (click)='onRejectRequest(data.id)' appearance='secondary' tuiButton>{{ t('reject') }}</button>
+      <button (click)='onApproveRequest(data.id)' tuiButton>{{ t('approve') }}</button>
     </section>
-    <tui-accordion [closeOthers]="false" [rounded]="false">
-      <tui-accordion-item [borders]="null" class="border-b-2">
-        <div class="font-semibold uppercase">{{ t('history') }}</div>
+    <section *ngIf='isMyRequest'>
+      <div class='my-5 text-center'>
+        <button class='justify-center' (click)='onCancelRequest(data.id)' appearance='secondary'
+                tuiButton>{{ t('cancel') }}</button>
+      </div>
+    </section>
+    <tui-accordion [closeOthers]='false' [rounded]='false'>
+      <tui-accordion-item [borders]='null' class='border-b-2'>
+        <div class='font-semibold uppercase'>{{ t('history') }}</div>
         <ng-template tuiAccordionItemContent>
           <p>
-            <span class="text-blue-500">Nguyen Huu Thang</span> was approved by
-            <span class="text-blue-500">Le Thi Thu Thuy</span>
-            <span class="text-gray-300">23/07/2021 23:56</span>
+            <span class='text-blue-500'>Nguyen Huu Thang</span> was approved by
+            <span class='text-blue-500'>Le Thi Thu Thuy</span>
+            <span class='text-gray-300'>23/07/2021 23:56</span>
           </p>
           <p>
-            <span class="text-blue-500">Nguyen Huu Thang</span> was approved by
-            <span class="text-blue-500">Le Thi Thu Thuy</span>
-            <span class="text-gray-300">23/07/2021 23:56</span>
+            <span class='text-blue-500'>Nguyen Huu Thang</span> was approved by
+            <span class='text-blue-500'>Le Thi Thu Thuy</span>
+            <span class='text-gray-300'>23/07/2021 23:56</span>
           </p>
         </ng-template>
       </tui-accordion-item>
-      <tui-accordion-item [borders]="null">
-        <div class="font-semibold uppercase">{{ t('Comment') }}</div>
+      <tui-accordion-item [borders]='null'>
+        <div class='font-semibold uppercase'>{{ t('Comment') }}</div>
         <ng-template tuiAccordionItemContent>
           <p>
-            <span class="text-blue-500">Nguyen Huu Thang</span> Hello mọi người
-            <span class="text-gray-300">23/07/2021 23:56</span>
+            <span class='text-blue-500'>Nguyen Huu Thang</span> Hello mọi người
+            <span class='text-gray-300'>23/07/2021 23:56</span>
           </p>
           <p>
-            <span class="text-blue-500">Nguyen Huu Thang</span> Hello mọi người
-            <span class="text-gray-300">23/07/2021 23:56</span>
+            <span class='text-blue-500'>Nguyen Huu Thang</span> Hello mọi người
+            <span class='text-gray-300'>23/07/2021 23:56</span>
           </p>
         </ng-template>
       </tui-accordion-item>
