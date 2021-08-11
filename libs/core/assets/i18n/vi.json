@@ -327,6 +327,17 @@
   "chooseHealthCareCompany": "Chọn công ty bảo hiểm",
   "healthCareNumber": "Mã số bảo hiểm",
   "enterHealthCareNumber": "Nhập mã số bảo hiểm",
+  "myLeave": "Quản lý ngày nghỉ",
+  "MY_LEAVE_TABLE_COLUMNS": {
+    "fromDate": "Từ ngày",
+    "toDate": "Đến ngày",
+    "leaveType": "Tên loại phép nghỉ",
+    "days": "Số ngày",
+    "status": "Trạng thái",
+    "comment": "Bình luận",
+    "sendTo": "Gửi đến",
+    "functions": "Chức năng"
+  },
   "ADMIN_EMPLOYEE_MANAGEMENT_COLUMNS": {
     "cif": "CIF",
     "name": "Tên",

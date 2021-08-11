@@ -25,7 +25,6 @@ export class LeaveLevelApproveManagementComponent extends AbstractServerPaginati
     .selectTranslateObject('ADMIN_LEAVE_LEVEL_APPROVE_MANAGEMENT_COLUMNS')
     .pipe(
       map((result) => [
-        { key: 'name', title: result.name },
         { key: 'leaveType', title: result.leaveType },
         { key: 'jobTitle', title: result.jobTitle },
         { key: 'totalLeave', title: result.totalLeave },

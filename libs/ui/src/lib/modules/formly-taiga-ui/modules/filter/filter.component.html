@@ -11,17 +11,14 @@
 ></tui-filter>
 
 <ng-template #content let-item>
-  {{ item[to.labelProp] + ' - ' + item[to.labelProp1] }}
+  {{ item[to.labelProp] + ' - ' + item[to.labelPropEntitlement] }}
 </ng-template>
 
+<div class="py-8">
+  <p class="font-bold text-3xl text-blue-400">{{ this.formControl.value[0]?.leaveTypeName }}</p>
+  <p>{{ this.formControl.value[0]?.leaveTypeDescription }}</p>
+</div>
 
-  <h1>
-      {{this.formControl.value[0]?.leaveTypeName}}
-  </h1>
-
-  <h3>
-      {{this.formControl.value[0]?.leaveTypeDescription}}
-  </h3>
 
 
 

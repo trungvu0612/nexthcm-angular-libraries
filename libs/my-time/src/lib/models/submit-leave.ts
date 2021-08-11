@@ -47,7 +47,7 @@ export interface PayLoad {
   fromDate?: number;
   toDate?: number;
   leaveTypeId?: string;
-  items?: unknown[];
+  items?: [] | null;
   itemEnds?: unknown[];
   comment?: string;
   sendTo?: string;

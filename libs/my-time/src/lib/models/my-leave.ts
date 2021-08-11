@@ -5,7 +5,7 @@ export interface MyLeave extends LeaveType {
   date?: Date;
   leaveType?: LeaveType;
   days?: number;
-  status?: number;
+  status: number;
   comments?: string;
   comment?: string;
   sendTo?: string;

@@ -5,24 +5,25 @@ import { RouterModule } from '@angular/router';
 import { TranslocoModule } from '@ngneat/transloco';
 import { FormlyModule } from '@ngx-formly/core';
 import { TuiTableModule, TuiTablePaginationModule } from '@taiga-ui/addon-table';
+import { TuiLetModule } from '@taiga-ui/cdk';
 import {
   TuiButtonModule,
   TuiDataListModule,
   TuiHostedDropdownModule,
   TuiLinkModule,
+  TuiLoaderModule,
   TuiSvgModule,
 } from '@taiga-ui/core';
 import { TuiAvatarModule, TuiInputMonthModule, TuiTabsModule, TuiTagModule } from '@taiga-ui/kit';
+import { TableModule } from 'ngx-easy-table';
 import { CancelDialogLeaveComponent } from './cancel-dialog-leave/cancel-dialog-leave.component';
 import { DurationConfirmDialogComponent } from './duaration-comfirm-dialog/duration-confirm-dialog.component';
 import { HistoryRequestComponent } from './history-request/history-request.component';
-import { LeaveDetailDialogComponent } from './leave-detail-dialog/leave-detail-dialog.component';
 import { LeaveDetailComponent } from './leave-detail/leave-detail.component';
 import { LeaveRequestManagementComponent } from './leave-request-management/leave-request-management.component';
 import { MyLeaveComponent } from './my-leave.component';
 import { NotedComponent } from './noted/noted.component';
 import { SubmitLeaveRequestDialogComponent } from './submit-leave-request-dialog/submit-leave-request-dialog.component';
-import { TuiLetModule } from '@taiga-ui/cdk';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,6 @@ import { TuiLetModule } from '@taiga-ui/cdk';
     CancelDialogLeaveComponent,
     DurationConfirmDialogComponent,
     LeaveDetailComponent,
-    LeaveDetailDialogComponent,
     LeaveRequestManagementComponent,
     SubmitLeaveRequestDialogComponent,
     NotedComponent,
@@ -54,6 +54,8 @@ import { TuiLetModule } from '@taiga-ui/cdk';
     TuiTableModule,
     TuiInputMonthModule,
     TuiLetModule,
+    TuiLoaderModule,
+    TableModule,
   ],
 })
 export class MyLeaveModule {}

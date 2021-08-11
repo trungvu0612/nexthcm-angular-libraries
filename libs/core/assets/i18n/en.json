@@ -326,6 +326,18 @@
   "chooseHealthCareCompany": "Choose a health care company",
   "healthCareNumber": "Heath care number",
   "enterHealthCareNumber": "Enter health care number",
+  "myLeave": "My leave",
+  "submitLeaveRequest": "Submit Leave Request",
+  "MY_LEAVE_TABLE_COLUMNS": {
+    "fromDate": "From date",
+    "toDate": "To date",
+    "leaveType": "Leave Type Name",
+    "days": "Days",
+    "status": "Status",
+    "comment": "Comment",
+    "sendTo": "Send To",
+    "functions": "Functions"
+  },
   "ADMIN_EMPLOYEE_MANAGEMENT_COLUMNS": {
     "cif": "CIF",
     "name": "Name",

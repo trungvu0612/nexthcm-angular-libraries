@@ -23,6 +23,13 @@ interface MyLeaveState {
 export class MyLeaveService extends RxState<MyLeaveState> {
   readonly loggedInUserId = this.authService.get('userInfo', 'userId');
 
+  constructor(private authService: AuthService, private http: HttpClient) {
+    super();
+    this.connect('leaveTypeRemain', this.getLeaveTypes());
+    this.connect('partialDayTypes', this.getPartialTypes());
+    this.connect('sendToUsers', this.getSendToUsers().pipe(map((res) => res.data.items)));
+  }
+
   durationValues: DurationValues[] = [
     {
       value: 0,
@@ -37,10 +44,6 @@ export class MyLeaveService extends RxState<MyLeaveState> {
       label: 'Special Time',
     },
   ];
-  halfTime = [
-    { value: 0, label: 'Morning', boolValue: true },
-    { value: 1, label: 'Afternoon', boolValue: false },
-  ];
 
   durationFromPartial = [
     {
@@ -52,7 +55,14 @@ export class MyLeaveService extends RxState<MyLeaveState> {
       label: 'Special Time',
     },
   ];
+
+  halfTime = [
+    { value: 0, label: 'Morning', boolValue: true },
+    { value: 1, label: 'Afternoon', boolValue: false },
+  ];
+
   leaveSubmit: LeaveSubmit[] = [];
+
   strategies = new Map([
     //===
     [`${DurationHoldsEnum.FullDay}`, 'FULL_TIME'],
@@ -61,6 +71,8 @@ export class MyLeaveService extends RxState<MyLeaveState> {
     [`${DurationHoldsEnum.SpecialTime}`, 'ONLY_TIME'],
 
     //!==
+    [`${PartialDaysEnum.None}`, 'NONE'],
+
     [`${PartialDaysEnum.AllDays}_${HalfDaysEnum.Morning}`, 'ONLY_MORNING'],
     [`${PartialDaysEnum.AllDays}_${HalfDaysEnum.Afternoon}`, 'ONLY_AFTERNOON'],
     [`${PartialDaysEnum.AllDays}_${DurationHoldsEnum.SpecialTime}`, 'ONLY_TIME'],
@@ -85,20 +97,13 @@ export class MyLeaveService extends RxState<MyLeaveState> {
     [`${PartialDaysEnum.StartEndDay}_${DurationHoldsEnum.SpecialTime}_${DurationHoldsEnum.SpecialTime}`, 'TIME_TIME'],
   ]);
 
-  constructor(private authService: AuthService, private http: HttpClient) {
-    super();
-    this.connect('leaveTypeRemain', this.getLeaveTypes());
-    this.connect('partialDayTypes', this.getPartialTypes());
-    this.connect('sendToUsers', this.getSendToUsers().pipe(map((res) => res.data.items)));
-  }
-
-  action(leaveSubmit: LeaveSubmit): any[] {
+  action(leaveSubmit: LeaveSubmit): [] | null {
     let condition =
-      `${leaveSubmit.partialDays === 0 ? '0' : ''}` +
-      `${leaveSubmit.partialDays === 1 ? '1' : ''}` +
-      `${leaveSubmit.partialDays === 2 ? '2' : ''}` +
-      `${leaveSubmit.partialDays === 3 ? '3' : ''}` +
-      `${leaveSubmit.partialDays === 4 ? '4' : ''}` +
+      `${leaveSubmit.partialDays?.type === 0 ? '0' : ''}` +
+      `${leaveSubmit.partialDays?.type === 1 ? '1' : ''}` +
+      `${leaveSubmit.partialDays?.type === 2 ? '2' : ''}` +
+      `${leaveSubmit.partialDays?.type === 3 ? '3' : ''}` +
+      `${leaveSubmit.partialDays?.type === 4 ? '4' : ''}` +
       `${leaveSubmit.durationHold === 0 ? '_-1' : ''}` +
       `${leaveSubmit.durationHold === 1 ? '' : ''}` +
       `${leaveSubmit.durationHold === 2 ? '_2' : ''}` +
@@ -116,82 +121,86 @@ export class MyLeaveService extends RxState<MyLeaveState> {
     console.log('condition', condition);
     console.log('strategy', strategy);
 
-    let items: any[] = [{}];
+    let items: any[] | null = [];
 
-    if (strategy === 'FULL_TIME') {
-      return items;
-    } else if (strategy === 'ONLY_MORNING') {
-      items = [
-        {
-          morning: true,
-        },
-      ];
-    } else if (strategy === 'ONLY_AFTERNOON') {
-      items = [
-        {
-          afternoon: true,
-        },
-      ];
-    } else if (strategy === 'ONLY_TIME') {
-      items = [
-        {
-          fromTime: leaveSubmit.specialTimeFrom,
-          toTime: leaveSubmit.specialTimeTo,
-        },
-      ]; /*TIME BEGIN*/
-    } else if (strategy === 'TWO_MORNING') {
-      items = [{ morning: true }, { morning: true }];
-    } else if (strategy === 'TWO_AFTERNOON') {
-      items = [{ afternoon: true }, { afternoon: true }];
-    } else if (strategy === 'MORNING_AFTERNOON') {
-      items = [{ morning: true }, { afternoon: true }];
-    } else if (strategy === 'AFTERNOON_MORNING') {
-      items = [{ afternoon: true }, { morning: true }];
-    } else if (strategy === 'MORNING_TIME') {
-      items = [
-        { morning: true },
-        {
-          fromTime: leaveSubmit.specialTimeFrom2,
-          toTime: leaveSubmit.specialTimeTo2,
-        },
-      ];
-    } else if (strategy === 'AFTERNOON_TIME') {
-      items = [
-        { afternoon: true },
-        {
-          fromTime: leaveSubmit.specialTimeFrom2,
-          toTime: leaveSubmit.specialTimeTo2,
-        },
-      ];
-    } else if (strategy === 'TIME_MORNING') {
-      items = [
-        {
-          fromTime: leaveSubmit.specialTimeFrom,
-          toTime: leaveSubmit.specialTimeTo,
-        },
-        { morning: true },
-      ];
-    } else if (strategy === 'TIME_AFTERNOON') {
-      items = [
-        {
-          fromTime: leaveSubmit.specialTimeFrom,
-          toTime: leaveSubmit.specialTimeTo,
-        },
-        { afternoon: true },
-      ];
-    } else if (strategy === 'TIME_TIME') {
-      items = [
-        {
-          fromTime: leaveSubmit.specialTimeFrom,
-          toTime: leaveSubmit.specialTimeTo,
-        },
-        {
-          fromTime: leaveSubmit.specialTimeFrom2,
-          toTime: leaveSubmit.specialTimeTo2,
-        },
-      ];
+    if (strategy !== 'FULL_TIME') {
+      if (strategy === 'ONLY_MORNING') {
+        items = [
+          {
+            morning: true,
+          },
+        ];
+      } else if (strategy === 'ONLY_AFTERNOON') {
+        items = [
+          {
+            afternoon: true,
+          },
+        ];
+      } else if (strategy === 'ONLY_TIME') {
+        items = [
+          {
+            fromTime: leaveSubmit.specialTimeFrom,
+            toTime: leaveSubmit.specialTimeTo,
+          },
+        ]; /*TIME BEGIN*/
+      } else if (strategy === 'TWO_MORNING') {
+        items = [{ morning: true }, { morning: true }];
+      } else if (strategy === 'TWO_AFTERNOON') {
+        items = [{ afternoon: true }, { afternoon: true }];
+      } else if (strategy === 'MORNING_AFTERNOON') {
+        items = [{ morning: true }, { afternoon: true }];
+      } else if (strategy === 'AFTERNOON_MORNING') {
+        items = [{ afternoon: true }, { morning: true }];
+      } else if (strategy === 'MORNING_TIME') {
+        items = [
+          { morning: true },
+          {
+            fromTime: leaveSubmit.specialTimeFrom2,
+            toTime: leaveSubmit.specialTimeTo2,
+          },
+        ];
+      } else if (strategy === 'AFTERNOON_TIME') {
+        items = [
+          { afternoon: true },
+          {
+            fromTime: leaveSubmit.specialTimeFrom2,
+            toTime: leaveSubmit.specialTimeTo2,
+          },
+        ];
+      } else if (strategy === 'TIME_MORNING') {
+        items = [
+          {
+            fromTime: leaveSubmit.specialTimeFrom,
+            toTime: leaveSubmit.specialTimeTo,
+          },
+          { morning: true },
+        ];
+      } else if (strategy === 'TIME_AFTERNOON') {
+        items = [
+          {
+            fromTime: leaveSubmit.specialTimeFrom,
+            toTime: leaveSubmit.specialTimeTo,
+          },
+          { afternoon: true },
+        ];
+      } else if (strategy === 'TIME_TIME') {
+        items = [
+          {
+            fromTime: leaveSubmit.specialTimeFrom,
+            toTime: leaveSubmit.specialTimeTo,
+          },
+          {
+            fromTime: leaveSubmit.specialTimeFrom2,
+            toTime: leaveSubmit.specialTimeTo2,
+          },
+        ];
+      } else if (strategy === 'NONE') {
+        return null;
+      }
+    } else {
+      return null;
     }
-    return items;
+    return items as [];
   }
 
   shiftTimeHours(): any[] {
@@ -243,12 +252,9 @@ export class MyLeaveService extends RxState<MyLeaveState> {
     });
   }
 
-  getLeave(id: string): Observable<any> {
-    if (id === undefined || id == '') {
-      return this.http.get<MyLeave>(`${MY_TIME_PATH}/leaves/`, {}).pipe(map((res) => res as any));
-    } else {
-      return this.http.get<MyLeave>(`${MY_TIME_PATH}/leaves/${id}`, {}).pipe(map((res) => res as any));
-    }
+
+  getLeaves(params: HttpParams): Observable<PagingResponse<MyLeave>> {
+    return this.http.get<PagingResponse<MyLeave>>(`${MY_TIME_PATH}/leaves/`, { params });
   }
 
   getLeaveTypes(): Observable<LeavesRemaining[]> {
@@ -258,7 +264,9 @@ export class MyLeaveService extends RxState<MyLeaveState> {
   }
 
   getPartialTypes(): Observable<PartialDayType[]> {
-    return this.http.get<BaseResponse<PartialDayType[]>>(`${MY_TIME_PATH}/partial-day-type/`).pipe(map((res) => res.data));
+    return this.http
+      .get<BaseResponse<PartialDayType[]>>(`${MY_TIME_PATH}/partial-day-type/`)
+      .pipe(map((res) => res.data));
   }
 
   getSendToUsers(): Observable<PagingResponse<SentToUser>> {

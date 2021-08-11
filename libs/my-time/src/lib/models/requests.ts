@@ -1,11 +1,11 @@
 import { TuiDay, TuiTime } from '@taiga-ui/cdk';
 
 export interface Requests {
-  id?: string;
-  type?: string;
+  id: string;
+  type: string;
   userId?: string;
   state?: number;
-  status?: number;
+  status: number;
   assignedName?: string;
   fromDate?: number;
   toDate?: number;

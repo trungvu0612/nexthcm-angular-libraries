@@ -9,8 +9,9 @@ import { POLYMORPHEUS_CONTEXT, PolymorpheusComponent } from '@tinkoff/ng-polymor
 import { endOfDay, getTime } from 'date-fns';
 import { Observable } from 'rxjs';
 import { distinctUntilChanged, map, tap } from 'rxjs/operators';
-import { LeaveSubmit, PartialDayType, PayLoad } from '../../../models';
-import { MyLeaveService } from '../../../services';
+import { PartialDayType } from '../../../models/partial-day-type';
+import { LeaveSubmit, PayLoad } from '../../../models/submit-leave';
+import { MyLeaveService } from '../../../services/my-leave.service';
 import { DurationConfirmDialogComponent } from '../duaration-comfirm-dialog/duration-confirm-dialog.component';
 
 @Component({
@@ -50,9 +51,10 @@ export class SubmitLeaveRequestDialogComponent implements AfterViewInit {
       key: 'leaveTypes',
       type: 'filter',
       templateOptions: {
+        labelClassName: 'font-semibold',
         options: this.myLeaveService.select('leaveTypeRemain'),
         labelProp: 'leaveTypeName',
-        labelProp1: 'remainingEntitlement',
+        labelPropEntitlement: 'remainingEntitlement',
         size: 's',
         single: true,
         required: true,
@@ -63,10 +65,11 @@ export class SubmitLeaveRequestDialogComponent implements AfterViewInit {
       key: 'fromTo',
       type: 'input-date-range',
       templateOptions: {
+        textfieldLabelOutside: true,
+        labelClassName: 'font-semibold',
         required: true,
         translate: true,
         label: 'Date range',
-        labelClassName: 'font-semibold',
         placeholder: 'Choose dates',
       },
     },
@@ -79,6 +82,7 @@ export class SubmitLeaveRequestDialogComponent implements AfterViewInit {
           type: 'select',
           templateOptions: {
             options: this.myLeaveService.select('partialDayTypes'),
+            labelClassName: 'font-semibold',
             valueProp: '',
             labelProp: 'name',
             label: 'Partial Days All',
@@ -102,6 +106,7 @@ export class SubmitLeaveRequestDialogComponent implements AfterViewInit {
           type: 'select',
           templateOptions: {
             options: [],
+            labelClassName: 'font-semibold',
             placeholder: 'Duration Start',
             label: 'Duration Start',
             valueProp: 'value',
@@ -154,8 +159,10 @@ export class SubmitLeaveRequestDialogComponent implements AfterViewInit {
             label: 'Half Day',
             textfieldLabelOutside: true,
             options: this.halfTimeValues$,
+            labelClassName: 'font-semibold',
             valueProp: 'value',
             placeholder: 'halfDay or Afternoon',
+            required: true,
           },
           hideExpression: 'model.durationHold !== 1',
           expressionProperties: {
@@ -167,10 +174,12 @@ export class SubmitLeaveRequestDialogComponent implements AfterViewInit {
           type: 'select',
           templateOptions: {
             options: this.timeValues$,
+            labelClassName: 'font-semibold',
             labelProp: 'label',
             valueProp: 'conVertToSecond',
             placeholder: 'Special time from',
             label: 'Special time from',
+            required: true,
           },
           hideExpression: 'model.durationHold !== 2',
           expressionProperties: {
@@ -182,10 +191,12 @@ export class SubmitLeaveRequestDialogComponent implements AfterViewInit {
           type: 'select',
           templateOptions: {
             options: this.timeValues$,
+            labelClassName: 'font-semibold',
             labelProp: 'label',
             valueProp: 'conVertToSecond',
             placeholder: 'Special time to',
             label: 'Special time to',
+            required: true,
           },
           hideExpression: 'model.durationHold !== 2',
           expressionProperties: {
@@ -203,9 +214,11 @@ export class SubmitLeaveRequestDialogComponent implements AfterViewInit {
           type: 'select',
           templateOptions: {
             options: [],
+            labelClassName: 'font-semibold',
             valueProp: 'value',
             placeholder: 'Duration End',
             label: 'Duration End',
+            required: true,
           },
           hideExpression: 'model.partialDays?.type !== 4 ',
           expressionProperties: {
@@ -250,11 +263,11 @@ export class SubmitLeaveRequestDialogComponent implements AfterViewInit {
           type: 'select',
           templateOptions: {
             options: this.halfTimeValues$,
-            // labelProp: 'name',
-            // valueProp: 'id',
+            labelClassName: 'font-semibold',
             placeholder: 'halfDay or Afternoon 2',
             valueProp: 'value',
             label: 'Half Day 2',
+            required: true,
           },
           hideExpression: 'model.durationEnd !== 1',
           expressionProperties: {
@@ -266,10 +279,12 @@ export class SubmitLeaveRequestDialogComponent implements AfterViewInit {
           type: 'select',
           templateOptions: {
             options: this.timeValues$,
+            labelClassName: 'font-semibold',
             labelProp: 'label',
-            valueProp: 'time',
+            valueProp: 'conVertToSecond',
             placeholder: 'Special time from2',
             label: 'Special time from 2',
+            required: true,
           },
           hideExpression: 'model.durationEnd !== 2 || model.partialDays?.type !== 4',
           expressionProperties: {
@@ -281,10 +296,12 @@ export class SubmitLeaveRequestDialogComponent implements AfterViewInit {
           type: 'select',
           templateOptions: {
             options: this.timeValues$,
+            labelClassName: 'font-semibold',
             labelProp: 'label',
-            valueProp: 'time',
+            valueProp: 'conVertToSecond',
             placeholder: 'Special time to2',
             label: 'Special time to 2',
+            required: true,
           },
           hideExpression: 'model.durationEnd !== 2 || model.partialDays?.type !== 4',
           expressionProperties: {
@@ -303,6 +320,7 @@ export class SubmitLeaveRequestDialogComponent implements AfterViewInit {
           type: 'select',
           templateOptions: {
             options: this.myLeaveService.select('sendToUsers'),
+            labelClassName: 'font-semibold',
             labelProp: 'username',
             valueProp: 'id',
             placeholder: 'Send to',
@@ -316,11 +334,13 @@ export class SubmitLeaveRequestDialogComponent implements AfterViewInit {
           key: 'comments',
           type: 'text-area',
           templateOptions: {
+            labelClassName: 'font-semibold',
             textfieldSize: 'l',
             expandable: false,
             rows: 4,
             textfieldLabelOutside: true,
             label: 'Comments',
+            required: true,
           },
         },
       ],
@@ -348,24 +368,42 @@ export class SubmitLeaveRequestDialogComponent implements AfterViewInit {
   ngAfterViewInit(): void {}
 
   submit(): void {
-    const leaveRequestModel = this.form.value;
-    const body: PayLoad = {};
+    if (this.form.valid) {
+      const leaveRequestModel = this.form.value;
+      const body: PayLoad = {};
 
-    body.fromDate = getTime((this.model.fromTo?.from as TuiDay).toLocalNativeDate());
-    body.toDate = getTime(endOfDay((this.model.fromTo?.to as any).toLocalNativeDate()));
+      body.fromDate = getTime((this.model.fromTo?.from as TuiDay).toLocalNativeDate());
+      body.toDate = getTime(endOfDay((this.model.fromTo?.to as any).toLocalNativeDate()));
 
-    body.items = this.myLeaveService.action(leaveRequestModel);
-    if (this.model.leaveTypes) {
-      body.leaveTypeId = this.model.leaveTypes[0]?.leaveTypeId;
+      if (this.model.specialTimeFrom && this.model.specialTimeTo) {
+        leaveRequestModel.specialTimeFrom = this.model.specialTimeFrom;
+        leaveRequestModel.specialTimeTo = this.model.specialTimeTo;
+      }
+
+      if (this.model.specialTimeFrom2) {
+        if (this.model.specialTimeTo2) {
+          leaveRequestModel.specialTimeFrom2 = this.model.specialTimeFrom2;
+          leaveRequestModel.specialTimeTo2 = this.model.specialTimeTo2;
+        }
+      }
+
+      const checkItem = this.myLeaveService.action(leaveRequestModel);
+      if (checkItem !== null) {
+        body.items = checkItem;
+      }
+      if (this.model.leaveTypes) {
+        body.leaveTypeId = this.model.leaveTypes[0]?.leaveTypeId;
+      }
+      body.comment = this.model.comments;
+      body.sendTo = this.model.sendTo;
+      body.partialDayTypeId = this.model.partialDays?.id;
+
+      console.log(body);
+      this.showDialogConfirmDuration(body);
     }
-    body.comment = this.model.comments;
-    body.sendTo = this.model.sendTo;
-    body.partialDayTypeId = this.model.partialDays?.id;
-
-    this.showDialogConfirmDuration(body);
   }
 
-  showDialogConfirmDuration(resultDays: any): void {
+  showDialogConfirmDuration(resultDays: unknown): void {
     this.dialogService
       .open<boolean>(new PolymorpheusComponent(DurationConfirmDialogComponent, this.injector), {
         closeable: false,
