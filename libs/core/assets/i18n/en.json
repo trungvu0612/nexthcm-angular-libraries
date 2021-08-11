@@ -453,10 +453,15 @@
     "toDate": "To Date",
     "state": "Status",
     "assignedName": "Assigned name",
+    "type": "Type",
     "reason": "Reason",
     "functions": "Functions",
     "status": "Status",
     "day": "Day"
+  },
+  "OT_TYPE": {
+    "WORKING_AFTERTIME": "After time",
+    "OVERTIME": "Overtime"
   },
   "TIMESHEET_MANAGEMENT": {
     "office": "Office",
@@ -485,6 +490,10 @@
   "updateTimesheet": "Update timesheet",
   "workingOutside": "Working outside",
   "workFromHome": "Work from home",
+  "workFromHomeReq": "Work from home request",
+  "wfhReq": "Request WFH",
+  "otReq": "Request OT",
+  "onSiteReq": "Request Onsite",
   "approveRequestWarning": "<b>Are you sure you want to approve this request?</b>",
   "rejectRequestWarning": "Are you sure you want to reject this request?",
   "enterRejectReason": "Enter reject reason...",
@@ -514,5 +523,6 @@
   "totalWorkingTimeH": "Total Working Time (h)",
   "workingDay": "Working Day",
   "overtime": "Overtime",
+  "workAfterTime": "Working After Time",
   "workingHoursDetail": "Working hours detail"
 }

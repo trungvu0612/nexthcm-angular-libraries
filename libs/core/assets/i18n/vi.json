@@ -452,10 +452,15 @@
     "toDate": "Đến ngày",
     "state": "Trạng thái",
     "assignedName": "Gửi cho",
+    "type": "Loại",
     "reason": "Lý do",
     "functions": "Chức năng",
     "status": "Trạng thái",
     "day": "Ngày"
+  },
+  "OT_TYPE": {
+    "WORKING_AFTERTIME": "Sau giờ",
+    "OVERTIME": "Ngoài giờ"
   },
   "TIMESHEET_MANAGEMENT": {
     "office": "Văn Phòng",
@@ -484,6 +489,10 @@
   "updateTimesheet": "Cập nhật bảng ghi thời gian",
   "workingOutside": "Làm việc bên ngoài",
   "workFromHome": "Làm việc tại nhà",
+  "workFromHomeReq": "Yêu cầu làm việc tại nhà",
+  "wfhReq": "Yêu cầu làm WFH",
+  "otReq": "Yêu cầu làm OT",
+  "onSiteReq": "Yêu cầu làm Onsite",
   "approveRequestWarning": "<b>Bạn có thật sự muốn chấp thuận yêu cầu này?</b>",
   "rejectRequestWarning": "Bạn có thật sự muốn từ chối yêu cầu này?",
   "enterRejectReason": "Nhập lý do từ chối...",
@@ -513,5 +522,6 @@
   "totalWorkingTimeH": "Số giờ làm việc",
   "workingDay": "Số ngày công",
   "overtime": "Ngoài giờ",
+  "workAfterTime": "Làm sau giờ",
   "workingHoursDetail": "Chi tiết giờ làm việc"
 }

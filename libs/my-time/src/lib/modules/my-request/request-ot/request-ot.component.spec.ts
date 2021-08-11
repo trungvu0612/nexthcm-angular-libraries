@@ -8,7 +8,7 @@ describe('RequestOtComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [RequestOtComponent],
+      declarations: [RequestOtComponent]
     }).compileComponents();
   });
 

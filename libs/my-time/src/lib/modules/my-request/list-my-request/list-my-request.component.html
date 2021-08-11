@@ -1,58 +1,58 @@
-<main class="main-page">
+<main class='main-page'>
   <header>
-    <h1 class="text-4xl">My Request</h1>
-    <div class="flex gap-4">
+    <h1 class='text-4xl'>{{'myRequest' | transloco}}</h1>
+    <div class='flex gap-4'>
       <!--      <tui-input-month [formControl]="dateControl" class="date-control">Choose a month</tui-input-month>-->
       <button
-        (click)="showDialogWFH()"
-        class="tui-space_right-3 tui-space_bottom-3 mr-3"
-        icon="tuiIconPlusLarge"
+        (click)='showDialogWFH()'
+        class='tui-space_right-3 tui-space_bottom-3 mr-3'
+        icon='tuiIconPlusLarge'
         tuiButton
-        type="button"
+        type='button'
       >
-        Request WFH
+        {{'wfhReq' | transloco}}
       </button>
 
       <button
-        (click)="showDialog('ot')"
-        class="tui-space_right-3 tui-space_bottom-3 mr-3"
-        icon="tuiIconPlusLarge"
+        (click)='showDialogOT()'
+        class='tui-space_right-3 tui-space_bottom-3 mr-3'
+        icon='tuiIconPlusLarge'
         tuiButton
-        type="button"
+        type='button'
       >
-        Request WAT
+        {{'otReq' | transloco}}
       </button>
       <button
-        (click)="showDialog('word-outside')"
-        class="tui-space_right-3 tui-space_bottom-3"
-        icon="tuiIconPlusLarge"
+        (click)='showDialogWorkOnsite()'
+        class='tui-space_right-3 tui-space_bottom-3'
+        icon='tuiIconPlusLarge'
         tuiButton
-        type="button"
+        type='button'
       >
-        Request Working Onsite
+        {{'onSiteReq' | transloco}}
       </button>
     </div>
   </header>
 
-  <section class="main-section">
+  <section class='main-section'>
     <article>
-      <tui-tabs [(activeItemIndex)]="activeItemIndex">
-        <button tuiRipple="var(--tui-text-01)" tuiTab>Working Aftertime</button>
-        <button tuiRipple="var(--tui-text-01)" tuiTab>Update Time</button>
-        <button tuiRipple="var(--tui-text-01)" tuiTab>Working Outside</button>
-        <button tuiRipple="var(--tui-text-01)" tuiTab>Work From Home</button>
+      <tui-tabs [(activeItemIndex)]='activeItemIndex'>
+        <button tuiRipple='var(--tui-text-01)' tuiTab>{{'workingAfterHours' | transloco}}</button>
+        <button tuiRipple='var(--tui-text-01)' tuiTab>{{'updateTimesheet' | transloco}}</button>
+        <button tuiRipple='var(--tui-text-01)' tuiTab>{{'onSiteReq' | transloco}}</button>
+        <button tuiRipple='var(--tui-text-01)' tuiTab>{{'workFromHomeReq' | transloco}}</button>
       </tui-tabs>
-      <ng-container [ngSwitch]="activeItemIndex">
-        <ng-container *ngSwitchCase="0">
+      <ng-container [ngSwitch]='activeItemIndex'>
+        <ng-container *ngSwitchCase='0'>
           <hcm-list-ot-request></hcm-list-ot-request>
         </ng-container>
-        <ng-container *ngSwitchCase="1">
+        <ng-container *ngSwitchCase='1'>
           <hcm-list-timesheet-update></hcm-list-timesheet-update>
         </ng-container>
-        <ng-container *ngSwitchCase="2">
+        <ng-container *ngSwitchCase='2'>
           <hcm-my-working-outside-requests></hcm-my-working-outside-requests>
         </ng-container>
-        <ng-container *ngSwitchCase="3">
+        <ng-container *ngSwitchCase='3'>
           <hcm-list-work-from-home></hcm-list-work-from-home>
         </ng-container>
       </ng-container>

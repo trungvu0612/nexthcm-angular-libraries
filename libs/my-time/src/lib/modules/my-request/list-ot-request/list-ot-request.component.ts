@@ -17,7 +17,7 @@ import { AuthService } from '@nexthcm/auth';
   templateUrl: './list-ot-request.component.html',
   styleUrls: ['./list-ot-request.component.scss'],
   providers: [RxState, TuiDestroyService],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ListOtRequestComponent extends AbstractRequestListComponent<WorkingAfterHoursRequest> {
   @ViewChild('table') table!: BaseComponent;
@@ -28,8 +28,9 @@ export class ListOtRequestComponent extends AbstractRequestListComponent<Working
       { key: 'fromDate', title: result.fromDate },
       { key: 'toDate', title: result.toDate },
       { key: 'status', title: result.status },
+      { key: 'type', title: result.type },
       { key: 'reason', title: result.reason },
-      { key: 'functions', title: result.functions },
+      { key: 'functions', title: result.functions }
     ])
   );
   readonly queryParams$ = new BehaviorSubject(
