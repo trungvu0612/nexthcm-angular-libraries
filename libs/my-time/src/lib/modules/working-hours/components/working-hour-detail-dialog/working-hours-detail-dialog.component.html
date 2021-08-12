@@ -18,8 +18,12 @@
     <div class="table-value">{{ data.outTime * 1000 | date: 'HH:mm':'UTC' }}</div>
   </div>
   <div class="table-row">
-    <div class="table-label">{{ t('totalWorkingTime') }}:</div>
-    <div class="table-value">{{ data.totalWorkingTime * 1000 | date: 'HH:mm':'UTC' }}</div>
+    <div class="table-label">{{ t('totalWorkingTimeH') }}:</div>
+    <div class="table-value">
+      {{
+        data.totalWorkingTime ? (data.totalWorkingTime / 3600 | translocoDecimal: { maximumFractionDigits: 1 }) : '-'
+      }}
+    </div>
   </div>
   <div class="table-row">
     <div class="table-label">{{ t('workingDay') }}:</div>

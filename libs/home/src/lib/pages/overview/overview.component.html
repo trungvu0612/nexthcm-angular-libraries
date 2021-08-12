@@ -10,7 +10,7 @@
   <div class="grid grid-cols-1 md:grid-cols-3 my-10 text-base gap-6">
     <div class="col-span-2 working-section relative">
       <div class="shadow-tmp"></div>
-      <div class="grid md:grid-cols-3 text-white text-center bg-purple-700 pt-5 pl-5 pr-5 pb-2 rounded-t-lg">
+      <div class="grid md:grid-cols-3 text-white text-center bg-indigo-700 pt-5 pl-5 pr-5 pb-2 rounded-t-lg">
         <div>
           <div class="font-bold text-md mb-5">Working days</div>
           <div class="mb-5">Today ({{ myWorkingHour.timeToday | translocoDate : {weekday: 'long', day: '2-digit'} }})</div>
@@ -31,7 +31,7 @@
           <div class="mb-5 time-height">{{ myWorkingHour.outTimeYesterday * 1000 | date : 'HH:mm' : 'UTC' }}</div>
         </div>
       </div>
-      <div class="bg-purple-700 pb-5 rounded-b-lg">
+      <div class="bg-indigo-700 pb-5 rounded-b-lg">
         <div class="text-center text-white view-detail">
           <a (click)="workingHourDetail()">{{ t('OVERVIEW.viewDetail') }}</a>
         </div>

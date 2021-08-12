@@ -1,45 +1,31 @@
 <section *transloco="let t" class="grid grid-cols-6 gap-6">
-  <tui-input-number (keyup.enter)="onFilterByYear()" [(ngModel)]="year" [precision]="0" [tuiTextfieldCleaner]="true">
-    <span class="font-semibold">{{ t('year') }}</span>
-  </tui-input-number>
-  <tui-select
-    (ngModelChange)="onFilterByMonth($event)"
-    *tuiLet="monthList$ | async as months"
-    [disabled]="year === null"
-    [ngModel]="month"
-    [tuiTextfieldCleaner]="true"
-    [valueContent]="monthStringify(months || [])"
-  >
-    <span class="font-semibold">{{ t('month') }}</span>
-    <ng-template tuiDataList>
-      <tui-data-list>
-        <button *ngFor="let month of months" [value]="month.value" tuiOption>
-          {{ month.label }}
-        </button>
-      </tui-data-list>
-    </ng-template>
-  </tui-select>
-  <tui-input
-    (keyup.enter)="onFilterByKeyword()"
-    [(ngModel)]="search"
-    [tuiTextfieldCleaner]="true"
+  <hcm-input-filter
+    (valueChange)="year$.next($event)"
+    [label]="t('year')"
+    numberValue
+    propertyName="year"
+  ></hcm-input-filter>
+  <hcm-select-month-filter (monthChange)="month$.next($event)"></hcm-select-month-filter>
+  <hcm-input-filter
+    (valueChange)="search$.next($event)"
+    [label]="t('searchByCifFullNameOffice')"
     class="col-span-3"
     icon="tuiIconSearchLarge"
+    propertyName="search"
+  ></hcm-input-filter>
+  <hcm-select-filter
+    (valueChange)="status$.next($event)"
+    *ngIf="statusFilter"
+    [label]="t('status')"
+    [valueContent]="statusContent"
+    propertyName="status"
   >
-    <span class="font-semibold">{{ t('searchByCifFullNameOffice') }}</span>
-  </tui-input>
-  <div *ngIf="statusFilter">
-    <tui-select
-      (ngModelChange)="onFilterByStatus($event)"
-      *tuiLet="statusList"
-      [ngModel]="status"
-      [tuiTextfieldCleaner]="true"
-      [valueContent]="statusContent"
-    >
-      <span class="font-semibold">{{ t('status') }}</span>
-      <tui-data-list-wrapper *tuiDataList [itemContent]="statusContent" [items]="statusList"></tui-data-list-wrapper>
-    </tui-select>
-  </div>
+    <tui-data-list>
+      <button *ngFor="let status of statusList" [value]="status" tuiOption>
+        <ng-container *ngTemplateOutlet="statusContent; context: { $implicit: status }"></ng-container>
+      </button>
+    </tui-data-list>
+  </hcm-select-filter>
 </section>
 
 <ng-template #statusContent let-data>

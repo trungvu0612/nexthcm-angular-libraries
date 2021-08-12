@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { PropertyRouteConnectorDirectiveModule } from '@nexthcm/cdk';
 import { InputFilterComponentModule, SelectFilterComponentModule, SelectMonthFilterComponentModule } from '@nexthcm/ui';
@@ -9,27 +9,9 @@ import { TranslocoLocaleModule } from '@ngneat/transloco-locale';
 import { FormlyModule } from '@ngx-formly/core';
 import { TuiTablePaginationModule } from '@taiga-ui/addon-table';
 import { TuiLetModule } from '@taiga-ui/cdk';
-import {
-  TuiButtonModule,
-  TuiDataListModule,
-  TuiHostedDropdownModule,
-  TuiLinkModule,
-  TuiLoaderModule,
-  TuiSvgModule,
-  TuiTextfieldControllerModule,
-} from '@taiga-ui/core';
-import {
-  TuiDataListWrapperModule,
-  TuiInputDateModule,
-  TuiInputModule,
-  TuiInputNumberModule,
-  TuiSelectModule,
-  TuiTabsModule,
-  TuiTextAreaModule,
-  TuiUnfinishedValidatorModule,
-} from '@taiga-ui/kit';
+import { TuiButtonModule, TuiDataListModule, TuiLoaderModule, TuiSvgModule } from '@taiga-ui/core';
+import { TuiDataListWrapperModule, TuiTabsModule } from '@taiga-ui/kit';
 import { TableModule } from 'ngx-easy-table';
-import { SecondsToHourMinutePipeModule } from '../../pipes/seconds-to-hour-minute/seconds-to-hour-minute.pipe';
 import { EveryoneWorkingHoursListComponent } from './components/everyone-working-hours-list/everyone-working-hours-list.component';
 import { GroupWorkingHoursTableComponent } from './components/group-working-hours-table/group-working-hours-table.component';
 import { OnlyMeWorkingHoursListComponent } from './components/only-me-working-hours-list/only-me-working-hours-list.component';
@@ -50,25 +32,14 @@ import { WorkingHoursComponent } from './working-hours.component';
   ],
   imports: [
     CommonModule,
-    TuiInputDateModule,
-    ReactiveFormsModule,
-    TuiUnfinishedValidatorModule,
-    TuiHostedDropdownModule,
-    TuiLinkModule,
-    TuiSvgModule,
     TuiDataListModule,
-    TuiTextAreaModule,
-    TuiTextfieldControllerModule,
+    ReactiveFormsModule,
+    TuiSvgModule,
     FormlyModule,
-    TuiSelectModule,
     TuiDataListWrapperModule,
     TuiTablePaginationModule,
     TableModule,
     TuiButtonModule,
-    SecondsToHourMinutePipeModule,
-    FormsModule,
-    TuiInputNumberModule,
-    TuiInputModule,
     TuiLetModule,
     TranslocoModule,
     TranslocoLocaleModule,

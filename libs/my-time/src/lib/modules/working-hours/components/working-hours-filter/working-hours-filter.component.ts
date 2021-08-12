@@ -1,7 +1,7 @@
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { HttpParams } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { ActivatedRoute, convertToParamMap, Params } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { BaseOption, PropertyRouteConnectorDirective } from '@nexthcm/cdk';
 import { TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
@@ -11,6 +11,7 @@ import {
   endOfMonth,
   endOfWeek,
   endOfYear,
+  getYear,
   isAfter,
   setMonth,
   setYear,
@@ -31,6 +32,7 @@ import { map } from 'rxjs/operators';
 export class WorkingHoursFilterComponent implements OnInit {
   @Input() fromKey = 'fromDate';
   @Input() toKey = 'toDate';
+
   readonly year$ = new BehaviorSubject<string | null>(null);
   readonly month$ = new BehaviorSubject<number | null>(null);
   readonly week$ = new Subject<number | null>();
@@ -51,6 +53,17 @@ export class WorkingHoursFilterComponent implements OnInit {
     this.state.hold(this.month$, () => this.httpParams$.next(this.generateDateRange()));
     this.state.hold(this.week$, (week) => this.httpParams$.next(this.generateDateRange(week)));
     this.state.hold(this.search$, (search) => this.onSearch(search));
+  }
+
+  private _initYear?: string;
+
+  get initYear(): string | undefined {
+    return this._initYear;
+  }
+
+  @Input()
+  set initYear(_: unknown) {
+    this._initYear = String(getYear(new Date()));
   }
 
   @Input()
@@ -84,9 +97,7 @@ export class WorkingHoursFilterComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (convertToParamMap(this.activatedRoute.snapshot.queryParams).keys.length) {
-      this.parseParams(this.activatedRoute.snapshot.queryParams);
-    }
+    this.parseParams(this.activatedRoute.snapshot.queryParams);
   }
 
   @tuiPure
@@ -121,6 +132,8 @@ export class WorkingHoursFilterComponent implements OnInit {
           }
         }
       }
+    } else if (this._initYear) {
+      this.year$.next(this._initYear);
     }
     if (params.search && this.includeSearch) {
       this.search$.next(params.search);

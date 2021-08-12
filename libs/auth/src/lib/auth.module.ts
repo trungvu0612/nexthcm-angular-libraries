@@ -7,9 +7,8 @@ import { TuiTableModule } from '@taiga-ui/addon-table';
 import { TuiButtonModule, TuiSvgModule, TuiTextfieldControllerModule } from '@taiga-ui/core';
 import { TuiCheckboxLabeledModule, TuiCheckboxModule, TuiInputModule, TuiInputPasswordModule } from '@taiga-ui/kit';
 import { CookieModule } from 'ngx-cookie';
-import { tokenInterceptorProvider } from './interceptors';
-import { LoginComponent } from './pages/login/login.component';
-import { LogoutComponent } from './pages/logout/logout.component';
+import { TOKEN_INTERCEPTOR_PROVIDER } from './interceptors';
+import { LoginComponent, LogoutComponent } from './pages';
 
 @NgModule({
   declarations: [LoginComponent, LogoutComponent],
@@ -29,6 +28,6 @@ import { LogoutComponent } from './pages/logout/logout.component';
     TranslocoModule,
     TuiButtonModule,
   ],
-  providers: [tokenInterceptorProvider],
+  providers: [TOKEN_INTERCEPTOR_PROVIDER],
 })
 export class AuthModule {}

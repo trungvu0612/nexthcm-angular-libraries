@@ -6,5 +6,5 @@ export interface WorkFromHomeRequest extends BaseRequest {
   toDate: number;
   userId: string;
   userInfo: EmployeeInfo;
-  lengthDay: number;
+  totalDay: number;
 }

@@ -7,7 +7,7 @@ import { BaseComponent, Columns } from 'ngx-easy-table';
 import { Observable } from 'rxjs';
 import { filter, map, share, startWith, switchMap } from 'rxjs/operators';
 import { WorkingOutsideRequest } from '../../../../models/interfaces/working-outside-request';
-import { MyTimeService, RequestTypeAPIUrlPath } from '../../../../services/my-time.service';
+import { MyTimeService, RequestTypeAPIUrlPath } from '../../../../services';
 import { AbstractRequestListComponent } from '../../../shared/abstract-components/abstract-request-list.component';
 
 @Component({

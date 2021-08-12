@@ -1,22 +1,15 @@
-import { CommonModule, getLocaleMonthNames, Location } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { HttpParams } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, Input, NgModule, OnInit } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { ActivatedRoute, convertToParamMap, Params, UrlSerializer } from '@angular/router';
-import { BaseOption } from '@nexthcm/cdk';
+import { ActivatedRoute, convertToParamMap, Params } from '@angular/router';
+import { InputFilterComponentModule, SelectFilterComponentModule, SelectMonthFilterComponentModule } from '@nexthcm/ui';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
-import { TuiContextWithImplicit, TuiLetModule, tuiPure, TuiStringHandler } from '@taiga-ui/cdk';
-import { TuiDataListModule, TuiTextfieldControllerModule } from '@taiga-ui/core';
-import {
-  TuiDataListWrapperModule,
-  TuiInputModule,
-  TuiInputNumberModule,
-  TuiSelectModule,
-  TuiTagModule,
-} from '@taiga-ui/kit';
+import { RxState } from '@rx-angular/state';
+import { tuiDefaultProp } from '@taiga-ui/cdk';
+import { TuiDataListModule } from '@taiga-ui/core';
+import { TuiTagModule } from '@taiga-ui/kit';
 import { endOfMonth, endOfYear, setMonth, setYear, startOfMonth, startOfYear } from 'date-fns';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, Subject } from 'rxjs';
 import { RequestStatus } from '../../../enums';
 
 @Component({
@@ -24,31 +17,33 @@ import { RequestStatus } from '../../../enums';
   templateUrl: './request-list-filter.component.html',
   styleUrls: ['./request-list-filter.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [RxState],
 })
 export class RequestListFilterComponent implements OnInit {
-  @Input() queryParams!: BehaviorSubject<HttpParams>;
   @Input() statusFilter = true;
-  year: number | null = null;
-  month: number | null = null;
-  search: string | null = null;
-  status: RequestStatus | null = null;
-  readonly monthList$: Observable<BaseOption<number>[]> = this.translocoService.langChanges$.pipe(
-    map((lang) => getLocaleMonthNames(lang, 1, 2).map((month, index) => ({ label: month, value: index })))
-  );
+
+  readonly year$ = new BehaviorSubject<string | null>(null);
+  readonly month$ = new BehaviorSubject<number | null>(null);
+  readonly search$ = new Subject<string | null>();
+  readonly status$ = new Subject<RequestStatus | null>();
   readonly statusList = Object.values(RequestStatus).filter((value) => !isNaN(Number(value)));
   readonly RequestStatus = RequestStatus;
+  private httpParams$ = new BehaviorSubject<HttpParams>(new HttpParams());
 
   constructor(
+    private state: RxState<Record<string, unknown>>,
     private translocoService: TranslocoService,
-    private activatedRoute: ActivatedRoute,
-    private urlSerializer: UrlSerializer,
-    private locationRef: Location
-  ) {}
+    private activatedRoute: ActivatedRoute
+  ) {
+    state.hold(combineLatest([this.year$, this.month$]), () => this.httpParams$.next(this.filterByYearMonth()));
+    state.hold(this.search$, (search) => this.httpParams$.next(this.onFilter('search', search)));
+    state.hold(this.status$, (status) => this.httpParams$.next(this.onFilter('status', status)));
+  }
 
-  @tuiPure
-  monthStringify(items: ReadonlyArray<BaseOption<number>>): TuiStringHandler<TuiContextWithImplicit<number>> {
-    const map = new Map(items.map(({ value, label }) => [value, label]));
-    return ({ $implicit }: TuiContextWithImplicit<number>) => map.get($implicit) || '';
+  @Input()
+  @tuiDefaultProp()
+  set httpParams(subject: BehaviorSubject<HttpParams>) {
+    this.httpParams$ = subject;
   }
 
   ngOnInit(): void {
@@ -57,33 +52,8 @@ export class RequestListFilterComponent implements OnInit {
     }
   }
 
-  onFilterByYear(): void {
-    if (this.year === null) {
-      this.month = null;
-      this.setQueryParams('month', null);
-    }
-    this.setQueryParams<number>('year', this.year);
-    this.queryParams.next(this.filterByYearMonth());
-  }
-
-  onFilterByMonth(value: number | null): void {
-    this.month = value;
-    this.setQueryParams<number>('month', this.month);
-    this.queryParams.next(this.filterByYearMonth());
-  }
-
-  onFilterByStatus(value: RequestStatus | null): void {
-    this.status = value;
-    this.queryParams.next(this.onFilter('status', value));
-  }
-
-  onFilterByKeyword(): void {
-    this.queryParams.next(this.onFilter('search', this.search));
-  }
-
   onFilter(key: string, value: string | number | RequestStatus | null): HttpParams {
-    let httpParams = this.queryParams.value;
-    this.setQueryParams<string | number>(key, value);
+    let httpParams = this.httpParams$.value;
     if (value !== null) {
       httpParams = httpParams.set(key, value);
     } else {
@@ -93,53 +63,40 @@ export class RequestListFilterComponent implements OnInit {
   }
 
   private filterByYearMonth(): HttpParams {
-    let httpParams = this.queryParams.value;
-    if (this.year !== null) {
+    let httpParams = this.httpParams$.value;
+    if (this.year$.value === null) {
+      httpParams = httpParams.delete('fromDate').delete('toDate');
+    } else {
       let fromDate: number;
       let toDate: number;
       const NOW = new Date();
-      if (this.month !== null) {
-        fromDate = startOfMonth(setMonth(setYear(NOW, this.year), this.month)).valueOf();
-        toDate = endOfMonth(setMonth(setYear(NOW, this.year), this.month)).valueOf();
+      if (this.month$.value !== null) {
+        fromDate = startOfMonth(setMonth(setYear(NOW, Number(this.year$.value)), this.month$.value)).valueOf();
+        toDate = endOfMonth(setMonth(setYear(NOW, Number(this.year$.value)), this.month$.value)).valueOf();
       } else {
-        fromDate = startOfYear(setYear(NOW, this.year)).valueOf();
-        toDate = endOfYear(setYear(NOW, this.year)).valueOf();
+        fromDate = startOfYear(setYear(NOW, Number(this.year$.value))).valueOf();
+        toDate = endOfYear(setYear(NOW, Number(this.year$.value))).valueOf();
       }
       httpParams = httpParams.set('fromDate', fromDate).set('toDate', toDate);
-    } else {
-      httpParams = httpParams.delete('fromDate').delete('toDate');
     }
     return httpParams;
   }
 
   private parseParams(params: Params): void {
-    let httpParams = this.queryParams.value;
     if (params.year) {
       if (!isNaN(Number(params.year))) {
-        this.year = +params.year;
+        this.year$.next(params.year);
         if (params.month && !isNaN(Number(params.month))) {
-          this.month = +params.month;
+          this.month$.next(params.month);
         }
-        httpParams = this.filterByYearMonth();
-      } else {
-        this.setQueryParams('month', null);
       }
     }
     if (params.search) {
-      this.search = params.search;
-      httpParams = this.onFilter('search', params.search);
+      this.search$.next(params.search);
     }
     if (params.status && !isNaN(Number(params.status))) {
-      this.status = params.status;
-      httpParams = this.onFilter('status', params.status);
+      this.status$.next(params.status);
     }
-    this.queryParams.next(httpParams);
-  }
-
-  private setQueryParams<T>(key: string, value: T | null) {
-    const tree = this.urlSerializer.parse(this.locationRef.path());
-    tree.queryParams = { ...tree.queryParams, [key]: value };
-    this.locationRef.go(String(tree));
   }
 }
 
@@ -148,15 +105,11 @@ export class RequestListFilterComponent implements OnInit {
   imports: [
     CommonModule,
     TranslocoModule,
-    TuiInputNumberModule,
-    TuiSelectModule,
-    TuiLetModule,
-    TuiTextfieldControllerModule,
-    FormsModule,
     TuiDataListModule,
-    TuiInputModule,
-    TuiDataListWrapperModule,
     TuiTagModule,
+    SelectMonthFilterComponentModule,
+    InputFilterComponentModule,
+    SelectFilterComponentModule,
   ],
   exports: [RequestListFilterComponent],
 })

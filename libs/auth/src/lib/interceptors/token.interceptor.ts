@@ -35,7 +35,7 @@ export class TokenInterceptor implements HttpInterceptor {
   }
 }
 
-export const tokenInterceptorProvider: Provider = {
+export const TOKEN_INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
   useClass: TokenInterceptor,
   multi: true,

@@ -1,5 +1,11 @@
 <section *transloco="let t" class="grid grid-cols-6 gap-6 mb-5">
-  <hcm-input-filter (valueChange)="year$.next($event)" [label]="t('year')" numberValue propertyName="year"></hcm-input-filter>
+  <hcm-input-filter
+    (valueChange)="year$.next($event)"
+    [initValue]="initYear"
+    [label]="t('year')"
+    numberValue
+    propertyName="year"
+  ></hcm-input-filter>
   <hcm-select-month-filter (monthChange)="month$.next($event)"></hcm-select-month-filter>
   <hcm-select-filter
     (valueChange)="week$.next($event)"

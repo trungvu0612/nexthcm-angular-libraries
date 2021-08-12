@@ -5,11 +5,15 @@
 
   <section class="main-section">
     <tui-tabs [(activeItemIndex)]="activeItemIndex">
-      <a routerLink="/my-time/requests/leave" routerLinkActive tuiTab>{{ t('leave') }}</a>
-      <a routerLink="/my-time/requests/working-after-hours" routerLinkActive tuiTab>{{ t('workingAfterHours') }}</a>
-      <a routerLink="/my-time/requests/update-timesheet" routerLinkActive tuiTab>{{ t('updateTimesheet') }}</a>
-      <a routerLink="/my-time/requests/working-outside" routerLinkActive tuiTab>{{ t('workingOutside') }}</a>
-      <a routerLink="/my-time/requests/work-from-home" routerLinkActive tuiTab>{{ t('workFromHome') }}</a>
+      <button routerLink="/my-time/requests/leave" routerLinkActive tuiTab>{{ t('leave') }}</button>
+      <button routerLink="/my-time/requests/working-after-hours" routerLinkActive tuiTab>
+        {{ t('workingAfterHours') }}
+      </button>
+      <button routerLink="/my-time/requests/update-timesheet" routerLinkActive tuiTab>
+        {{ t('updateTimesheet') }}
+      </button>
+      <button routerLink="/my-time/requests/working-outside" routerLinkActive tuiTab>{{ t('workingOutside') }}</button>
+      <button routerLink="/my-time/requests/work-from-home" routerLinkActive tuiTab>{{ t('workFromHome') }}</button>
     </tui-tabs>
     <div class="mt-5">
       <router-outlet></router-outlet>
