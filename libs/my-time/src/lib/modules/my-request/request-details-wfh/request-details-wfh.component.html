@@ -25,7 +25,7 @@
     <tr>
       <th>Date modified:</th>
       <td>
-        <p>{{ data.lastModifiedDate | date: 'MM/dd/yyyy' }}</p>
+        <p>{{ data.lastModifiedDate | translocoDate }}</p>
       </td>
     </tr>
 
@@ -39,14 +39,14 @@
     <tr>
       <th>From Date:</th>
       <td>
-        <p>{{ data.fromDate | date: 'MM/dd/yyyy' }}</p>
+        <p>{{ data.fromDate | translocoDate }}</p>
       </td>
     </tr>
 
     <tr>
       <th>To Date:</th>
       <td>
-        <p>{{ data.toDate | date: 'MM/dd/yyyy' }}</p>
+        <p>{{ data.toDate | translocoDate }}</p>
       </td>
     </tr>
 

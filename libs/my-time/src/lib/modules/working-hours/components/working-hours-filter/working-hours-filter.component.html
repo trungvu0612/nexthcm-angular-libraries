@@ -1,0 +1,25 @@
+<section *transloco="let t" class="grid grid-cols-6 gap-6 mb-5">
+  <hcm-input-filter (valueChange)="year$.next($event)" [label]="t('year')" numberValue propertyName="year"></hcm-input-filter>
+  <hcm-select-month-filter (monthChange)="month$.next($event)"></hcm-select-month-filter>
+  <hcm-select-filter
+    (valueChange)="week$.next($event)"
+    *tuiLet="weekList$ | async as weeks"
+    [label]="t('week')"
+    [valueContent]="weeksStringify(weeks || [])"
+    propertyName="week"
+  >
+    <tui-data-list>
+      <button *ngFor="let week of weeks" [value]="week.value" tuiOption>
+        {{ week.label }}
+      </button>
+    </tui-data-list>
+  </hcm-select-filter>
+  <hcm-input-filter
+    (valueChange)="search$.next($event)"
+    *ngIf="includeSearch"
+    [label]="t('searchByCifFullNameOffice')"
+    class="col-span-3"
+    icon="tuiIconSearchLarge"
+    propertyName="search"
+  ></hcm-input-filter>
+</section>

@@ -1,6 +1,16 @@
 import { EmployeeInfo } from '@nexthcm/cdk';
 
-export interface WorkingHours {
+export interface BaseWorkingHours {
+  userId: string;
+  totalWorkingTime: number;
+  workingDay: number;
+  userInfo: EmployeeInfo;
+  ot: number;
+  wfh: number;
+  onsiteDay: number;
+}
+
+export interface WorkingHours extends BaseWorkingHours {
   id: string;
   trackingDate: number;
   inTime: number;
@@ -8,17 +18,13 @@ export interface WorkingHours {
   checkinFrom: string;
   checkoutFrom: string;
   lastAction: string;
-  userId: string;
   lastModifiedDate: number;
-  totalWorkingTime: number;
-  workingDay: number;
-  userInfo: EmployeeInfo;
-  ot: number;
-  wfh: number;
-  onsiteDay: number;
   leave: WorkingHoursLeave;
-  countLeave: number;
   leaveType: string;
+}
+
+export interface WorkingHoursGroup extends BaseWorkingHours {
+  countLeave: number;
 }
 
 export interface WorkingHoursLeave {

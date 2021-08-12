@@ -60,7 +60,7 @@
             <div class='table-row'>
               <div class='table-label'>{{ t('TIMESHEET_MANAGEMENT.date') }}:</div>
               <div class='table-value'>
-                {{ data.timeSheetTracking!.trackingDate | date: 'MM/dd/yyyy' }}
+                {{ data.timeSheetTracking!.trackingDate | translocoDate }}
               </div>
             </div>
             <div class='table-row'>
@@ -82,7 +82,7 @@
             <div class='table-row'>
               <div class='table-label'>{{ t('dateRange') }}:</div>
               <div class='table-value'>
-                {{ data.fromDate | date: 'MM/dd/yyyy' }} - {{ data.toDate | date: 'MM/dd/yyyy' }}
+                {{ data.fromDate | translocoDate }} - {{ data.toDate | translocoDate }}
               </div>
             </div>
           </ng-container>

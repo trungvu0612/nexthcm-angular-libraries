@@ -1,0 +1,31 @@
+<hcm-working-hours-filter [httpParams]="queryParams$" class="mb-5" includeSearch></hcm-working-hours-filter>
+
+<tui-loader [overlay]="true" [showLoader]="(loading$ | async) === true">
+  <ngx-table #table [columns]="(columns$ | async) || []" [configuration]="configuration" [data]="(data$ | async) || []">
+    <ng-template let-row>
+      <ng-container *tuiLet="item(row) as item">
+        <td>{{ item.userInfo.cif }}</td>
+        <td>{{ item.userInfo.fullName }}</td>
+        <td>{{ item.userInfo.office.name }}</td>
+        <td></td>
+        <td>{{ item.totalWorkingTime * 1000 | date: 'HH:mm':'UTC' }}</td>
+        <td>{{ item.workingDay ? (item.workingDay | translocoDecimal: { maximumFractionDigits: 1 }) : '-' }}</td>
+        <td>{{ item.ot ? (item.ot | translocoDecimal: { maximumFractionDigits: 1 }) : '-' }}</td>
+        <td>{{ item.onsiteDay ? (item.onsiteDay | translocoDecimal: { maximumFractionDigits: 1 }) : '-' }}</td>
+        <td>{{ item.wfh ? (item.wfh | translocoDecimal: { maximumFractionDigits: 1 }) : '-' }}</td>
+        <td>{{ item.countLeave ? (item.countLeave | translocoDecimal: { maximumFractionDigits: 1 }) : '-' }}</td>
+        <td>
+          <div class="flex items-center">
+            <button appearance="flat" icon="tuiIconShowLarge" size="m" tuiIconButton></button>
+            <button appearance="flat" class="reject-mark" icon="tuiIconEditLarge" size="m" tuiIconButton></button>
+          </div>
+        </td>
+      </ng-container>
+    </ng-template>
+  </ngx-table>
+</tui-loader>
+<tui-table-pagination
+  (pageChange)="onPage($event)"
+  (sizeChange)="onSize($event)"
+  [total]="(total$ | async) || 0"
+></tui-table-pagination>

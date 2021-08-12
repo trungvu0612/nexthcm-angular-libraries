@@ -10,7 +10,7 @@ import { BaseComponent, Columns } from 'ngx-easy-table';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { filter, map, share, startWith, switchMap } from 'rxjs/operators';
 import { LeaveRequest } from '../../../../models';
-import { MyTimeService, RequestTypeAPIUrlPath } from '../../../../services/my-time.service';
+import { MyTimeService, RequestTypeAPIUrlPath } from '../../../../services';
 import { AbstractRequestListComponent } from '../../../shared/abstract-components/abstract-request-list.component';
 import { parseLeaveDateRange } from '../../../shared/utils/parse-leave-date-range';
 

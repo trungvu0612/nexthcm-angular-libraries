@@ -5,7 +5,7 @@
       <ng-container *tuiLet="item(row) as item">
         <td>{{ item.userInfo.cif }}</td>
         <td class="font-bold uppercase">{{ item.userInfo.fullName }}</td>
-        <td>{{ item.fromDate | date: 'MM/dd/yyyy' }} - {{ item.toDate | date: 'MM/dd/yyyy' }}</td>
+        <td>{{ item.fromDate | translocoDate }} - {{ item.toDate | translocoDate }}</td>
         <td>{{ item.lengthDay }}</td>
         <td>
           <tui-tag

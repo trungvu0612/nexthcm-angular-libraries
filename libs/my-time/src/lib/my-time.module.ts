@@ -21,6 +21,8 @@ import { WorkingAfterHoursRequestListComponent } from './modules/request-managem
 import { WorkingOutsideRequestListComponent } from './modules/request-management/pages/working-outside-request-list/working-outside-request-list.component';
 import { RequestManagementComponent } from './modules/request-management/request-management.component';
 import { RequestManagementModule } from './modules/request-management/request-management.module';
+import { EveryoneWorkingHoursListComponent } from './modules/working-hours/components/everyone-working-hours-list/everyone-working-hours-list.component';
+import { OnlyMeWorkingHoursListComponent } from './modules/working-hours/components/only-me-working-hours-list/only-me-working-hours-list.component';
 import { WorkingHoursComponent } from './modules/working-hours/working-hours.component';
 import { WorkingHoursModule } from './modules/working-hours/working-hours.module';
 import { MyTimeComponent } from './my-time.component';
@@ -48,6 +50,11 @@ export const MY_TIME_ROUTES: Routes = [
             component: WorkingHoursComponent,
             canActivate: [NgxPermissionsGuard],
             data: { permissions: { only: 'VIEW_WORKING_HOUR', redirectTo: '/' } },
+            children: [
+              { path: 'only-me', component: OnlyMeWorkingHoursListComponent },
+              { path: 'everyone', component: EveryoneWorkingHoursListComponent },
+              { path: '', redirectTo: 'only-me', pathMatch: 'full' },
+            ],
           },
           {
             path: 'my-request',

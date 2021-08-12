@@ -1,57 +1,49 @@
 <tui-multi-select
-  *tuiLet='to.options | selectOptions | async as items'
-  [editable]='false'
-  [formControl]='$any(formControl)'
-  [identityMatcher]='identityMatcher'
-  [stringify]='stringify'
+  *tuiLet="to.options | selectOptions | async as items"
+  [editable]="false"
+  [formControl]="$any(formControl)"
+  [identityMatcher]="identityMatcher"
+  [stringify]="stringify"
 >
   Permission name
   <tui-data-list-wrapper
     *tuiDataList
-    [itemContent]='stringify'
-    [items]='items'
+    [itemContent]="stringify"
+    [items]="items"
     tuiMultiSelectGroup
   ></tui-data-list-wrapper>
 </tui-multi-select>
-<div *ngIf='formControl.value'>
-  <!--  <p>{{formControl.setValue(formControl.value.splice(x,1)) | json}}</p>-->
-  <section class='main-section'>
-    <table [columns]='columns' class='hcm-tui-table mt-2' tuiTable>
-
+<div *ngIf="formControl.value">
+  <section class="main-section">
+    <table [columns]="columns" class="hcm-tui-table mt-2" tuiTable>
       <tr tuiThGroup>
         <th *tuiHead="'name'" tuiTh>Permission Name</th>
         <th *tuiHead="'code'" tuiTh>Code</th>
         <th *tuiHead="'description'" tuiTh>Description</th>
-        <th *tuiHead="'action'" [sorter]='null' tuiTh>Action</th>
+        <th *tuiHead="'action'" [sorter]="null" tuiTh>Action</th>
       </tr>
 
-      <tbody [data]='formControl.value' tuiTbody>
-      <tr *tuiRow='let item of formControl.value; index as index' tuiTr>
-        <td *tuiCell="'name'" tuiTd>
-          {{ item.name }}
-        </td>
-        <td *tuiCell="'code'" tuiTd>
-          {{ item.code }}
-        </td>
-        <td *tuiCell="'description'" tuiTd>
-          {{ item.description }}
-        </td>
-<!--        <td *tuiCell="'lastModifiedDate'" tuiTd>{{ item.lastModifiedDate | date: 'dd/MM/yyyy' }}</td>-->
-        <td *tuiCell="'action'" tuiTd>
-          <div class='flex text-gray-400'>
-            <button (click)='delete(index)'>
-              <tui-svg src='tuiIconTrash'></tui-svg>
-            </button>
-          </div>
-        </td>
-      </tr>
+      <tbody [data]="formControl.value" tuiTbody>
+        <tr *tuiRow="let item of formControl.value; index as index" tuiTr>
+          <td *tuiCell="'name'" tuiTd>
+            {{ item.name }}
+          </td>
+          <td *tuiCell="'code'" tuiTd>
+            {{ item.code }}
+          </td>
+          <td *tuiCell="'description'" tuiTd>
+            {{ item.description }}
+          </td>
+          <!--        <td *tuiCell="'lastModifiedDate'" tuiTd>{{ item.lastModifiedDate | date: 'dd/MM/yyyy' }}</td>-->
+          <td *tuiCell="'action'" tuiTd>
+            <div class="flex text-gray-400">
+              <button (click)="delete(index)">
+                <tui-svg src="tuiIconTrash"></tui-svg>
+              </button>
+            </div>
+          </td>
+        </tr>
       </tbody>
     </table>
   </section>
 </div>
-
-<!--  <pre>{{formControl.value | json}}</pre>-->
-
-
-
-

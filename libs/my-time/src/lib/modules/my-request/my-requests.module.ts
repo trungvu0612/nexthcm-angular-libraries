@@ -2,9 +2,13 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { GetFileModule } from '@nexthcm/cdk';
 import { FormlyTaigaUiModule } from '@nexthcm/ui';
+import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoLocaleModule } from '@ngneat/transloco-locale';
 import { FormlyModule } from '@ngx-formly/core';
 import { TuiTableModule, TuiTablePaginationModule } from '@taiga-ui/addon-table';
+import { TuiLetModule } from '@taiga-ui/cdk';
 import {
   TuiButtonModule,
   TuiColorModule,
@@ -12,7 +16,7 @@ import {
   TuiGroupModule,
   TuiLoaderModule,
   TuiSvgModule,
-  TuiTextfieldControllerModule
+  TuiTextfieldControllerModule,
 } from '@taiga-ui/core';
 import {
   TuiAccordionModule,
@@ -23,8 +27,10 @@ import {
   TuiRadioBlockModule,
   TuiSelectModule,
   TuiTabsModule,
-  TuiTagModule
+  TuiTagModule,
 } from '@taiga-ui/kit';
+import { TableModule } from 'ngx-easy-table';
+import { MyRequestManagementFilterComponent } from './components/my-request-management-filter/my-request-management-filter.component';
 import { ListMyRequestComponent } from './list-my-request/list-my-request.component';
 import { ListOtRequestComponent } from './list-ot-request/list-ot-request.component';
 import { ListTimesheetUpdateComponent } from './list-timesheet-update/list-timesheet-update.component';
@@ -34,11 +40,6 @@ import { MyRequestsComponent } from './my-requests.component';
 import { RequestDetailsWfhComponent } from './request-details-wfh/request-details-wfh.component';
 import { RequestDetailsComponent } from './request-details/request-details.component';
 import { RequestOtComponent } from './request-ot/request-ot.component';
-import { TranslocoModule } from '@ngneat/transloco';
-import { TableModule } from 'ngx-easy-table';
-import { TuiLetModule } from '@taiga-ui/cdk';
-import { MyRequestManagementFilterComponent } from './components/my-request-management-filter/my-request-management-filter.component';
-import { GetFileModule } from '@nexthcm/cdk';
 import { RequestWorkOnsiteComponent } from './request-work-onsite/request-work-onsite.component';
 
 @NgModule({
@@ -84,6 +85,7 @@ import { RequestWorkOnsiteComponent } from './request-work-onsite/request-work-o
     TuiAccordionModule,
     GetFileModule,
     TuiAvatarModule,
+    TranslocoLocaleModule,
   ],
 })
 export class MyRequestsModule {}

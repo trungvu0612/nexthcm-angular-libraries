@@ -312,7 +312,7 @@ export class OvertimeWorkingComponent implements OnInit {
 
     Object.keys(formModel.applyFor).forEach((item) => {
       console.log(item); // key
-      console.log(formModel.applyFor[item]); // value
+      console.log(formModel.applyFor[item]); // propertyValue
       workingItems.push({
         values: [
           {

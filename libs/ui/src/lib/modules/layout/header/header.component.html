@@ -1,6 +1,6 @@
 <ng-container *transloco="let t">
   <header class="flex justify-between">
-    <tui-tabs class="flex items-center ml-6">
+    <tui-tabs class="flex items-center ml-3">
       <a *ngFor="let tab of tabs$ | async; index as index" [routerLink]="[tab.path]" routerLinkActive tuiTab>
         {{ t(tab.tabName) }}
       </a>

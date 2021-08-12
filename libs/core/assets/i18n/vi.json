@@ -349,21 +349,22 @@
     "directReport": "Báo cáo trực tiếp",
     "functions": "Chức năng"
   },
-  "ADMIN_WORKING_HOUR_MANAGEMENT_COLUMNS": {
+  "WORKING_HOURS_TABLE_COLUMNS": {
     "office": "Văn phòng",
     "date": "Ngày",
-    "day": "Thứ",
-    "timeIn": "Giờ vào",
-    "timeOut": "Giờ về",
+    "inTime": "Giờ vào",
+    "outTime": "Giờ ra",
     "totalWorkingTime": "Thời gian làm",
-    "workingDay": "Ngày làm",
+    "workingDay": "Ngày công",
     "ot": "Làm thêm",
     "onsiteDay": "Ngày onsite",
     "leave": "Loại phép",
     "countLeave": "Số ngày nghỉ",
     "functions": "Chức năng",
     "cif": "Mã nhân viên",
-    "fullName": "Họ tên"
+    "fullName": "Họ tên",
+    "dateRange": "Khoảng thời gian",
+    "workFromHome": "Làm tại nhà"
   },
   "MY_TIME": {
     "leaveDetail": "Chi tiết ngày phép",
@@ -412,7 +413,7 @@
   "form": "Mẫu biểu",
   "knowledgeBase": "Cơ sở tri thức",
   "admin": "Quản trị",
-  "workingHour": "Giờ làm việc",
+  "workingHours": "Giờ làm việc",
   "tenantManagement": "Quản lý công ty",
   "employeeManagement": "Quản lý nhân viên",
   "leaveLevelApproveManagement": "Quản lý cấp độ ngày nghỉ",
@@ -530,11 +531,15 @@
   "newTimeIn": "Giờ vào mới",
   "newTimeOut": "Giờ ra mới",
   "date": "Ngày",
-  "timeIn": "Giờ vào",
-  "timeOut": "Giờ ra",
-  "totalWorkingTimeH": "Số giờ làm việc",
+  "inTime": "Giờ vào",
+  "outTime": "Giờ ra",
+  "totalWorkingTime": "Số giờ làm việc",
   "workingDay": "Số ngày công",
   "overtime": "Ngoài giờ",
   "workAfterTime": "Làm sau giờ",
-  "workingHoursDetail": "Chi tiết giờ làm việc"
+  "workingHoursDetail": "Chi tiết giờ làm việc",
+  "onlyMe": "Chỉ mình tôi",
+  "everyone": "Mọi người",
+  "workedTimeToday": "Thời gian đã làm hôm nay",
+  "yourWorkingDaysThisMonth": "Số ngày làm việc trong tháng này"
 }

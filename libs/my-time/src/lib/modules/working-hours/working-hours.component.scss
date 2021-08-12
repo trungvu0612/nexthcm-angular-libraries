@@ -1,80 +1,13 @@
 :host {
   display: block;
 
-  button:focus {
-    outline: none;
+  .shadow-tmp {
+    @apply absolute left-3 -bottom-5 z-0 m-auto h-5 bg-indigo-500 rounded-br-xl rounded-bl-xl;
+
+    width: calc(100% - 1.5rem);
   }
 
-  .page-container {
-    padding: 30px;
-  }
-
-  .heading-title {
-    font-weight: 600;
-    font-size: 22px;
-    line-height: 27px;
-    color: #111921;
-  }
-
-  .border-time {
-    border-left: solid 1px #7d6dea;
-    margin-bottom: 10px;
-  }
-
-  .working-section {
-    border-radius: 9px;
-
-    .shadow-tmp {
-      width: 99%;
-      height: 100%;
-      position: absolute;
-      top: 0px;
-      left: 0;
-      box-shadow: 1px 18px 0 -6px #7074d9;
-      right: 0;
-      margin: auto;
-      border-radius: 9px;
-      z-index: 0;
-    }
-  }
-
-  .searchbar {
-    background-color: #f7f7f7;
-    background-image: url('/assets/images/search.png');
-    background-repeat: no-repeat;
-    background-position: left;
-    padding-left: 30px;
-  }
-
-  .year-filter,
-  .month-filter,
-  .week-filter {
-    background: #f7f7f7;
-    padding: 2px 50px 2px 10px;
-    border: solid 1px #e5e7eb;
-    text-align: left;
-    background-position: right;
-    background-repeat: no-repeat;
-    background-image: url('/assets/images/calendar.svg');
-  }
-
-  .filter-search {
-    button {
-      border: solid 2px #41474d;
-    }
-
-    .actived {
-      background: #3b82f6;
-      color: #ffffff;
-      border: solid 2px #3b82f6;
-    }
-  }
-
-  tui-svg:hover {
-    cursor: pointer;
-  }
-
-  .time-height {
-    min-height: 24px;
+  .month-working-days {
+    height: calc(100% + 1.25rem);
   }
 }

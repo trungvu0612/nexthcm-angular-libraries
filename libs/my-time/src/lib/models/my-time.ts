@@ -5,8 +5,8 @@ export interface MyRequestData {
   toDate: Date;
   spentTime: number;
   day: number;
-  timeIn: string;
-  timeOut: string;
+  inTime: string;
+  outTime: string;
   totalTime: number;
   status: string;
   reason: string;

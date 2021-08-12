@@ -32,7 +32,7 @@ export class OverviewComponent implements OnInit {
   idChecking: any;
   dataChecking: any;
   checkingAction: any;
-  myWorkingHour = { timeToday: new Date(), timeInToday: 0, timeOutToday: 0, timeInYesterday: 0, timeOutYesterday: 0 };
+  myWorkingHour = { timeToday: new Date(), inTimeToday: 0, outTimeToday: 0, inTimeYesterday: 0, outTimeYesterday: 0 };
 
   constructor(
     private overviewService: OverviewService,
@@ -61,10 +61,10 @@ export class OverviewComponent implements OnInit {
         this.checkingAction = 'checked-out';
         this.idChecking = item.data?.items[0]?.id;
         if (item.data?.items[0]?.inTime) {
-          this.myWorkingHour.timeInToday = item.data?.items[0]?.inTime;
+          this.myWorkingHour.inTimeToday = item.data?.items[0]?.inTime;
         }
         if (item.data?.items[0]?.outTime) {
-          this.myWorkingHour.timeOutToday = item.data?.items[0]?.outTime;
+          this.myWorkingHour.outTimeToday = item.data?.items[0]?.outTime;
         }
       } else {
         //show check-in button
@@ -81,16 +81,16 @@ export class OverviewComponent implements OnInit {
         // Sort by tracking date desc
         // That mean today is [0] , yesterday is [1]
         if (item.data?.items[1]?.inTime) {
-          this.myWorkingHour.timeInYesterday = item.data.items[1].inTime;
+          this.myWorkingHour.inTimeYesterday = item.data.items[1].inTime;
         }
         if (item.data?.items[1]?.outTime) {
-          this.myWorkingHour.timeOutYesterday = item.data.items[1].outTime;
+          this.myWorkingHour.outTimeYesterday = item.data.items[1].outTime;
         }
         if (item.data?.items[0]?.inTime) {
-          this.myWorkingHour.timeInToday = item.data.items[0].inTime;
+          this.myWorkingHour.inTimeToday = item.data.items[0].inTime;
         }
         if (item.data?.items[0]?.outTime) {
-          this.myWorkingHour.timeOutToday = item.data.items[0].outTime;
+          this.myWorkingHour.outTimeToday = item.data.items[0].outTime;
         }
 
         this.cdr.detectChanges();

@@ -1,17 +1,17 @@
 main.main-page {
-  @apply px-14 py-9;
+  @apply p-6;
 
   > header {
     @apply flex justify-between items-center font-semibold mb-8;
 
     h1 {
-      @apply text-4xl m-0;
+      @apply text-3xl m-0;
     }
   }
 }
 
 section.main-section {
-  @apply shadow-xl bg-white rounded-xl p-8;
+  @apply shadow-xl bg-white rounded-xl p-6;
 }
 
 button {

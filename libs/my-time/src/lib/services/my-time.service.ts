@@ -12,7 +12,6 @@ import { GeneralRequest } from '../models/interfaces/general-request';
 import { EmployeeRequestDetailDialogComponent } from '../modules/request-management/components/employee-request-detail-dialog/employee-request-detail-dialog.component';
 import { RejectRequestDialogComponent } from '../modules/request-management/components/reject-leave-request-dialog/reject-request-dialog.component';
 import { parseLeaveDateRange } from '../modules/shared/utils/parse-leave-date-range';
-import { Tenant } from '../../../../admin/tenant/src/lib/models/tenant';
 
 const MY_TIME_PATH = '/mytimeapp/v1.0';
 
@@ -32,8 +31,7 @@ export class MyTimeService {
     private injector: Injector,
     private promptService: PromptService,
     private translocoService: TranslocoService
-  ) {
-  }
+  ) {}
 
   getTrackingHistory(id?: string): Observable<TrackingHistory[]> {
     return this.http.get<TrackingHistory[]>(`${MY_TIME_PATH}/leaves/tracking-history/${id}`);
@@ -56,7 +54,7 @@ export class MyTimeService {
       this.promptService.open({
         icon: 'warning',
         showCancelButton: true,
-        html: this.translocoService.translate('approveRequestWarning')
+        html: this.translocoService.translate('approveRequestWarning'),
       } as SweetAlertOptions)
     ).pipe(
       switchMap((result) => iif(() => result.isConfirmed, this.updateRequest(type, id, { status: 1 }))),
@@ -78,7 +76,7 @@ export class MyTimeService {
       this.promptService.open({
         icon: 'warning',
         showCancelButton: true,
-        html: this.translocoService.translate('cancelRequestWarning')
+        html: this.translocoService.translate('cancelRequestWarning'),
       } as SweetAlertOptions)
     ).pipe(
       switchMap((result) => iif(() => result.isConfirmed, this.updateRequest(type, id, { status: 2 }))),
@@ -93,9 +91,9 @@ export class MyTimeService {
           data: {
             type,
             value: type === RequestTypeAPIUrlPath.leave ? parseLeaveDateRange(res.data) : res.data,
-            userId
+            userId,
           },
-          required: true
+          required: true,
         })
       )
     );

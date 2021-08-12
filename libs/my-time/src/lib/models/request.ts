@@ -5,8 +5,8 @@ export interface HCMRequest {
   toDate: Date;
   spentTime: number;
   day: number;
-  timeIn: string;
-  timeOut?: any;
+  inTime: string;
+  outTime?: any;
   totalTime: number;
   status: string;
   reason: string;

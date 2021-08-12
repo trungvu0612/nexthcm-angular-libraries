@@ -21,7 +21,7 @@ const TABS = [
     root: 'my-time',
     tabs: [
       { path: 'my-leave', tabName: 'myLeave' },
-      { path: 'working-hours', tabName: 'workingHour' },
+      { path: 'working-hours', tabName: 'workingHours' },
       { path: 'my-request', tabName: 'myRequest' },
       { path: 'requests', tabName: 'requestManagement' },
     ],

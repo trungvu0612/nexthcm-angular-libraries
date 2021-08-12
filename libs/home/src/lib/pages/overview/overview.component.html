@@ -18,17 +18,17 @@
         </div>
         <div class="border-time">
           <div class="font-bold text-md mb-5">Time in</div>
-          <div class="mb-5 time-height">{{ myWorkingHour.timeInToday * 1000 | date : 'HH:mm' : 'UTC'}}</div>
-          <div class="mb-5 time-height">{{ myWorkingHour.timeInYesterday * 1000 | date : 'HH:mm' : 'UTC'}}</div>
+          <div class="mb-5 time-height">{{ myWorkingHour.inTimeToday * 1000 | date : 'HH:mm' : 'UTC'}}</div>
+          <div class="mb-5 time-height">{{ myWorkingHour.inTimeYesterday * 1000 | date : 'HH:mm' : 'UTC'}}</div>
         </div>
         <div>
           <div class="font-bold text-md mb-5">Time out</div>
           <div class="text-yellow-400 mb-5 time-height">
-            <img *ngIf="myWorkingHour.timeOutToday" class="inline mr-1" src="assets/images/warning.png" />{{
-              myWorkingHour.timeOutToday * 1000 | date : 'HH:mm' : 'UTC'
+            <img *ngIf="myWorkingHour.outTimeToday" class="inline mr-1" src="assets/images/warning.png" />{{
+              myWorkingHour.outTimeToday * 1000 | date : 'HH:mm' : 'UTC'
             }}
           </div>
-          <div class="mb-5 time-height">{{ myWorkingHour.timeOutYesterday * 1000 | date : 'HH:mm' : 'UTC' }}</div>
+          <div class="mb-5 time-height">{{ myWorkingHour.outTimeYesterday * 1000 | date : 'HH:mm' : 'UTC' }}</div>
         </div>
       </div>
       <div class="bg-purple-700 pb-5 rounded-b-lg">

@@ -349,12 +349,12 @@
     "directReport": "Direct Report",
     "functions": "Functions"
   },
-  "ADMIN_WORKING_HOUR_MANAGEMENT_COLUMNS": {
+  "WORKING_HOURS_TABLE_COLUMNS": {
     "office": "Office",
     "date": "Date",
     "day": "Day",
-    "timeIn": "Time in",
-    "timeOut": "Time out",
+    "inTime": "Time in",
+    "outTime": "Time out",
     "totalWorkingTime": "Total working time (h)",
     "workingDay": "Working day",
     "ot": "OT",
@@ -363,7 +363,8 @@
     "countLeave": "Leave count",
     "functions": "Action",
     "cif": "CIF",
-    "fullName": "Full Name"
+    "fullName": "Full Name",
+    "workFromHome": "Work from home"
   },
   "MY_TIME": {
     "leaveDetail": "Request Detail",
@@ -413,7 +414,7 @@
   "form": "Form",
   "knowledgeBase": "Knowledge Base",
   "admin": "Admin",
-  "workingHour": "Working Hour",
+  "workingHours": "Working Hours",
   "tenantManagement": "Tenant management",
   "employeeManagement": "Employee Management",
   "leaveLevelApproveManagement": "Leave Level Approve Management",
@@ -532,11 +533,15 @@
   "newTimeIn": "New check-in time",
   "newTimeOut": "New check-out time",
   "date": "Date",
-  "timeIn": "Time in",
-  "timeOut": "Time out",
-  "totalWorkingTimeH": "Total Working Time (h)",
+  "inTime": "Time in",
+  "outTime": "Time out",
+  "totalWorkingTime": "Total Working Time",
   "workingDay": "Working Day",
   "overtime": "Overtime",
   "workAfterTime": "Working After Time",
-  "workingHoursDetail": "Working hours detail"
+  "workingHoursDetail": "Working hours detail",
+  "onlyMe": "Only me",
+  "everyone": "Everyone",
+  "workedTimeToday": "Worked time today",
+  "yourWorkingDaysThisMonth": "Your working days this month"
 }

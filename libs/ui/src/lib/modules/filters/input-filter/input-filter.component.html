@@ -1,0 +1,11 @@
+<tui-input
+  #connector="hcmPropertyRouteName"
+  (keyup.enter)="onChangeValue(connector)"
+  [(ngModel)]="connector.propertyValue"
+  [hcmPropertyRouteName]="propertyName"
+  [iconAlign]="iconAlign"
+  [icon]="icon"
+  [tuiTextfieldCleaner]="true"
+>
+  <span class="font-semibold">{{ label }}</span>
+</tui-input>

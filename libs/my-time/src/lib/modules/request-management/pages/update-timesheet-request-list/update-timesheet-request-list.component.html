@@ -5,9 +5,9 @@
       <ng-container *tuiLet="item(row) as item">
         <td>{{ item.userInfo.cif }}</td>
         <td class="font-bold uppercase">{{ item.userInfo.fullName }}</td>
-        <td>{{ item.timeSheetTracking.trackingDate | date: 'MM/dd/yyyy' }}</td>
-        <td>{{ item.newInTime | date: 'HH:mm':'UTC' }}</td>
-        <td>{{ item.newOutTime | date: 'HH:mm':'UTC' }}</td>
+        <td>{{ item.timeSheetTracking.trackingDate | translocoDate }}</td>
+        <td>{{ item.newInTime ? (item.newInTime * 1000 | date: 'HH:mm':'UTC') : '-' }}</td>
+        <td>{{ item.newOutTime ? (item.newOutTime * 1000 | date: 'HH:mm':'UTC') : '-' }}</td>
         <td>
           <tui-tag
             [value]="'REQUEST_STATUS.' + RequestStatus[item.status] | transloco"

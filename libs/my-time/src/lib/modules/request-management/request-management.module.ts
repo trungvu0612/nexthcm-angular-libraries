@@ -4,6 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { GetFileModule } from '@nexthcm/cdk';
 import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoLocaleModule } from '@ngneat/transloco-locale';
 import { FormlyModule } from '@ngx-formly/core';
 import { TuiTablePaginationModule } from '@taiga-ui/addon-table';
 import { TuiLetModule } from '@taiga-ui/cdk';
@@ -57,6 +58,7 @@ import { RequestManagementComponent } from './request-management.component';
     GetFileModule,
     TuiAvatarModule,
     RequestListFilterComponentModule,
+    TranslocoLocaleModule,
   ],
 })
 export class RequestManagementModule {}
