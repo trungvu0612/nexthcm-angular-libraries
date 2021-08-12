@@ -29,8 +29,8 @@ import { map } from 'rxjs/operators';
   providers: [RxState],
 })
 export class WorkingHoursFilterComponent implements OnInit {
-  @Input() @tuiDefaultProp() fromKey = 'fromDate';
-  @Input() @tuiDefaultProp() toKey = 'toDate';
+  @Input() fromKey = 'fromDate';
+  @Input() toKey = 'toDate';
   readonly year$ = new BehaviorSubject<string | null>(null);
   readonly month$ = new BehaviorSubject<number | null>(null);
   readonly week$ = new Subject<number | null>();

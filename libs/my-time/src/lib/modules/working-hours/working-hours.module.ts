@@ -31,6 +31,7 @@ import {
 import { TableModule } from 'ngx-easy-table';
 import { SecondsToHourMinutePipeModule } from '../../pipes/seconds-to-hour-minute/seconds-to-hour-minute.pipe';
 import { EveryoneWorkingHoursListComponent } from './components/everyone-working-hours-list/everyone-working-hours-list.component';
+import { GroupWorkingHoursTableComponent } from './components/group-working-hours-table/group-working-hours-table.component';
 import { OnlyMeWorkingHoursListComponent } from './components/only-me-working-hours-list/only-me-working-hours-list.component';
 import { WorkingHoursDetailDialogComponent } from './components/working-hour-detail-dialog/working-hours-detail-dialog.component';
 import { WorkingHoursFilterComponent } from './components/working-hours-filter/working-hours-filter.component';
@@ -45,6 +46,7 @@ import { WorkingHoursComponent } from './working-hours.component';
     OnlyMeWorkingHoursListComponent,
     EveryoneWorkingHoursListComponent,
     WorkingHoursFilterComponent,
+    GroupWorkingHoursTableComponent,
   ],
   imports: [
     CommonModule,

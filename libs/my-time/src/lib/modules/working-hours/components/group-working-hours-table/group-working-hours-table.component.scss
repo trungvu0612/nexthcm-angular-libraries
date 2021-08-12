@@ -1,0 +1,19 @@
+:host {
+  display: block;
+  margin-right: -6px;
+  margin-left: -6px;
+
+  ::ng-deep {
+    .ngx-table {
+      &__header-title {
+        display: none;
+      }
+
+      &__table--normal > {
+        thead > tr > th {
+          @apply border-0 p-0;
+        }
+      }
+    }
+  }
+}

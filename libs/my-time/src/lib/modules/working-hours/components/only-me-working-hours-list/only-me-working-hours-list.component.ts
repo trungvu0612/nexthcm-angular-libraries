@@ -1,15 +1,19 @@
 import { HttpParams } from '@angular/common/http';
-import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Injector, ViewChild } from '@angular/core';
 import { AuthService } from '@nexthcm/auth';
 import { AbstractServerPaginationTableComponent, Pagination } from '@nexthcm/cdk';
 import { HashMap, TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
+import { TuiDialogService } from '@taiga-ui/core';
+import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { BaseComponent, Columns } from 'ngx-easy-table';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { filter, map, share, startWith, switchMap } from 'rxjs/operators';
+import { filter, map, share, startWith, switchMap, takeUntil } from 'rxjs/operators';
 import { WorkingHours } from '../../../../models';
 import { WorkingHoursService } from '../../../../services';
+import { RequestUpdateTimeComponent } from '../../request-update-time/request-update-time.component';
+import { WorkingHoursDetailDialogComponent } from '../working-hour-detail-dialog/working-hours-detail-dialog.component';
 
 @Component({
   selector: 'hcm-only-me-working-hours-list',
@@ -29,7 +33,7 @@ export class OnlyMeWorkingHoursListComponent extends AbstractServerPaginationTab
         { key: 'date', title: result.date },
         { key: 'inTime', title: result.inTime },
         { key: 'outTime', title: result.outTime },
-        { key: 'totalWorkingTime', title: result.totalWorkingTime },
+        { key: 'totalWorkingTime', title: result.totalWorkingTimeH },
         { key: 'workingDay', title: result.workingDay },
         { key: 'ot', title: result.ot },
         { key: 'onsiteDay', title: result.onsiteDay },
@@ -48,13 +52,35 @@ export class OnlyMeWorkingHoursListComponent extends AbstractServerPaginationTab
   readonly loading$ = this.request$.pipe(map((value) => !value));
 
   constructor(
-    public workingHoursService: WorkingHoursService,
-    public destroy$: TuiDestroyService,
     public state: RxState<Pagination<WorkingHours>>,
+    private workingHoursService: WorkingHoursService,
+    private destroy$: TuiDestroyService,
     private translocoService: TranslocoService,
-    private authService: AuthService
+    private authService: AuthService,
+    private dialogService: TuiDialogService,
+    private injector: Injector
   ) {
     super(state);
     state.connect(this.request$.pipe(filter(isPresent)));
+  }
+
+  onViewWorkingHoursDetail(data: WorkingHours): void {
+    this.dialogService
+      .open(new PolymorpheusComponent(WorkingHoursDetailDialogComponent, this.injector), {
+        label: this.translocoService.translate('workingHoursDetail'),
+        data,
+      })
+      .pipe(takeUntil(this.destroy$))
+      .subscribe();
+  }
+
+  requestUpdateTime(id: string): void {
+    this.dialogService
+      .open(new PolymorpheusComponent(RequestUpdateTimeComponent, this.injector), {
+        label: 'Request Update Time',
+        data: id,
+      })
+      .pipe(takeUntil(this.destroy$))
+      .subscribe();
   }
 }

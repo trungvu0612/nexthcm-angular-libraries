@@ -1,25 +1,29 @@
-import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
 import { AbstractServerPaginationTableComponent, Pagination } from '@nexthcm/cdk';
 import { HashMap, TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
-import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
-import { API, BaseComponent, Columns, Config, DefaultConfig } from 'ngx-easy-table';
+import { isPresent, tuiDefaultProp } from '@taiga-ui/cdk';
+import { BaseComponent, Columns, Config, DefaultConfig } from 'ngx-easy-table';
 import { Observable } from 'rxjs';
-import { filter, map, share, startWith, switchMap } from 'rxjs/operators';
-import { WorkingHoursGroup } from '../../../../models';
+import { filter, map, share, skip, startWith, switchMap } from 'rxjs/operators';
+import { WorkingHours } from '../../../../models';
 import { WorkingHoursService } from '../../../../services';
 
 @Component({
-  selector: 'hcm-everyone-working-hours-list',
-  templateUrl: './everyone-working-hours-list.component.html',
-  styleUrls: ['./everyone-working-hours-list.component.scss'],
+  selector: 'hcm-group-working-hours-table',
+  templateUrl: './group-working-hours-table.component.html',
+  styleUrls: ['./group-working-hours-table.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [TuiDestroyService, RxState],
+  providers: [RxState],
 })
-export class EveryoneWorkingHoursListComponent
-  extends AbstractServerPaginationTableComponent<WorkingHoursGroup>
-  implements OnInit
+export class GroupWorkingHoursTableComponent
+  extends AbstractServerPaginationTableComponent<WorkingHours>
+  implements OnChanges
 {
+  @Input() @tuiDefaultProp() userId = '223c4cc3-4320-47b6-ab7d-3aeab7af5d9d';
+  @Input() @tuiDefaultProp() fromDate = 1609434000000;
+  @Input() @tuiDefaultProp() toDate = 1640969999999;
+
   @ViewChild('table') table!: BaseComponent;
 
   configuration: Config = {
@@ -28,7 +32,6 @@ export class EveryoneWorkingHoursListComponent
     paginationRangeEnabled: false,
     detailsTemplate: true,
   };
-  readonly toggledRows = new Set<number>();
   readonly columns$: Observable<Columns[]> = this.translocoService
     .selectTranslateObject<HashMap<string>>('WORKING_HOURS_TABLE_COLUMNS')
     .pipe(
@@ -47,42 +50,26 @@ export class EveryoneWorkingHoursListComponent
       ])
     );
   private readonly request$ = this.queryParams$.pipe(
-    switchMap(() => this.workingHoursService.getWorkingHoursOfEveryone(this.queryParams$.value).pipe(startWith(null))),
+    skip(1),
+    switchMap(() => this.workingHoursService.getWorkingHoursOfOnlyMe(this.queryParams$.value).pipe(startWith(null))),
     share()
   );
   readonly loading$ = this.request$.pipe(map((value) => !value));
 
   constructor(
-    public workingHoursService: WorkingHoursService,
-    public destroy$: TuiDestroyService,
-    public state: RxState<Pagination<WorkingHoursGroup>>,
+    public state: RxState<Pagination<WorkingHours>>,
+    private workingHoursService: WorkingHoursService,
     private translocoService: TranslocoService
   ) {
     super(state);
     state.connect(this.request$.pipe(filter(isPresent)));
   }
 
-  get fromDateForGroupBy(): number {
-    const fromDate = this.queryParams$.value.get('fromDateForGroupBy');
-    return fromDate ? +fromDate : 0;
-  }
-
-  get toDateForGroupBy(): number {
-    const toDate = this.queryParams$.value.get('toDateForGroupBy');
-    return toDate ? +toDate : 0;
-  }
-
-  ngOnInit(): void {
-    this.configuration.tableLayout.hover = true;
-  }
-
-  onRowClickEvent($event: MouseEvent, index: number): void {
-    $event.preventDefault();
-    this.table.apiEvent({ type: API.toggleRowIndex, value: index });
-    if (this.toggledRows.has(index)) {
-      this.toggledRows.delete(index);
-    } else {
-      this.toggledRows.add(index);
-    }
+  ngOnChanges(changes: SimpleChanges): void {
+    let httpParams = this.queryParams$.value;
+    httpParams = changes.userId
+      ? httpParams.set('userId', this.userId)
+      : httpParams.set('fromDate', this.fromDate).set('toDate', this.toDate);
+    this.queryParams$.next(httpParams);
   }
 }

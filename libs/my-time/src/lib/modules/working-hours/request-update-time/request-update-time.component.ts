@@ -1,8 +1,8 @@
-import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { AuthService } from '@nexthcm/auth';
-import { PromptService, Zone } from '@nexthcm/cdk';
+import { PromptService } from '@nexthcm/cdk';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDay, TuiDestroyService, TuiTime } from '@taiga-ui/cdk';
 import { TuiDialogContext, TuiDialogService } from '@taiga-ui/core';
@@ -18,7 +18,7 @@ import { WorkingHoursService } from '../../../services';
   styleUrls: ['./request-update-time.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class RequestUpdateTimeComponent implements OnInit {
+export class RequestUpdateTimeComponent {
   id = this.context.data || '';
   dataUsersReport$ = this.workingHourService.getAllUsers().pipe(map((res) => res.data.items));
 
@@ -77,18 +77,14 @@ export class RequestUpdateTimeComponent implements OnInit {
   ];
 
   constructor(
-    @Inject(POLYMORPHEUS_CONTEXT)
-    private context: TuiDialogContext<Partial<Zone> | null, Partial<Zone> | null>,
+    @Inject(POLYMORPHEUS_CONTEXT) private context: TuiDialogContext<boolean, string>,
     private workingHourService: WorkingHoursService,
-    private readonly promptService: PromptService,
+    private promptService: PromptService,
     private router: Router,
     private authService: AuthService,
-    @Inject(TuiDialogService) private readonly dialogService: TuiDialogService,
-    private destroy$: TuiDestroyService,
-    private activatedRoute: ActivatedRoute
+    private dialogService: TuiDialogService,
+    private destroy$: TuiDestroyService
   ) {}
-
-  ngOnInit(): void {}
 
   submitRequestTime() {
     const formModel = this.form.value;

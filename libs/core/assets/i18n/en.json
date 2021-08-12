@@ -355,7 +355,7 @@
     "day": "Day",
     "inTime": "Time in",
     "outTime": "Time out",
-    "totalWorkingTime": "Total working time (h)",
+    "totalWorkingTimeH": "Total working time (h)",
     "workingDay": "Working day",
     "ot": "OT",
     "onsiteDay": "Onsite day",
@@ -363,7 +363,8 @@
     "countLeave": "Leave count",
     "functions": "Action",
     "cif": "CIF",
-    "fullName": "Full Name",
+    "fullName": "Full name",
+    "dateRange": "Date range",
     "workFromHome": "Work from home"
   },
   "MY_TIME": {
@@ -535,7 +536,7 @@
   "date": "Date",
   "inTime": "Time in",
   "outTime": "Time out",
-  "totalWorkingTime": "Total Working Time",
+  "totalWorkingTimeH": "Total working time (h)",
   "workingDay": "Working Day",
   "overtime": "Overtime",
   "workAfterTime": "Working After Time",

@@ -1,24 +1,62 @@
-<hcm-working-hours-filter [httpParams]="queryParams$" class="mb-5" includeSearch></hcm-working-hours-filter>
+<hcm-working-hours-filter
+  [httpParams]="queryParams$"
+  class="mb-5"
+  fromKey="fromDateForGroupBy"
+  includeSearch
+  toKey="toDateForGroupBy"
+></hcm-working-hours-filter>
 
 <tui-loader [overlay]="true" [showLoader]="(loading$ | async) === true">
-  <ngx-table #table [columns]="(columns$ | async) || []" [configuration]="configuration" [data]="(data$ | async) || []">
-    <ng-template let-row>
+  <ngx-table
+    #table
+    [columns]="(columns$ | async) || []"
+    [configuration]="configuration"
+    [data]="(data$ | async) || []"
+    [detailsTemplate]="detailsTemplate"
+  >
+    <ng-template let-index="index" let-row>
       <ng-container *tuiLet="item(row) as item">
-        <td>{{ item.userInfo.cif }}</td>
-        <td>{{ item.userInfo.fullName }}</td>
-        <td>{{ item.userInfo.office.name }}</td>
-        <td></td>
-        <td>{{ item.totalWorkingTime * 1000 | date: 'HH:mm':'UTC' }}</td>
-        <td>{{ item.workingDay ? (item.workingDay | translocoDecimal: { maximumFractionDigits: 1 }) : '-' }}</td>
-        <td>{{ item.ot ? (item.ot | translocoDecimal: { maximumFractionDigits: 1 }) : '-' }}</td>
-        <td>{{ item.onsiteDay ? (item.onsiteDay | translocoDecimal: { maximumFractionDigits: 1 }) : '-' }}</td>
-        <td>{{ item.wfh ? (item.wfh | translocoDecimal: { maximumFractionDigits: 1 }) : '-' }}</td>
-        <td>{{ item.countLeave ? (item.countLeave | translocoDecimal: { maximumFractionDigits: 1 }) : '-' }}</td>
         <td>
-          <div class="flex items-center">
-            <button appearance="flat" icon="tuiIconShowLarge" size="m" tuiIconButton></button>
-            <button appearance="flat" class="reject-mark" icon="tuiIconEditLarge" size="m" tuiIconButton></button>
-          </div>
+          <button
+            (click)="onRowClickEvent($event, index)"
+            [icon]="icon"
+            appearance="flat"
+            id="expandButton-{{ index }}"
+            tuiIconButton
+          ></button>
+          <ng-template #icon>
+            <tui-svg
+              [class.icon_rotated]="toggledRows.has(index)"
+              class="icon"
+              src="tuiIconChevronRightLarge"
+            ></tui-svg>
+          </ng-template>
+        </td>
+        <td class="font-semibold">{{ item.userInfo.cif }}</td>
+        <td class="font-semibold">{{ item.userInfo.fullName }}</td>
+        <td class="font-semibold">{{ item.userInfo.office.name }}</td>
+        <td class="font-semibold">{{ fromDateForGroupBy | translocoDate }} - {{ toDateForGroupBy | translocoDate }}</td>
+        <td class="font-semibold">
+          {{
+            item.totalWorkingTime
+              ? (item.totalWorkingTime / 3600 | translocoDecimal: { maximumFractionDigits: 1 })
+              : '-'
+          }}
+        </td>
+        <td class="font-semibold">
+          {{ item.workingDay ? (item.workingDay | translocoDecimal: { maximumFractionDigits: 1 }) : '-' }}
+        </td>
+        <td class="font-semibold">
+          {{ item.ot ? (item.ot | translocoDecimal: { maximumFractionDigits: 1 }) : '-' }}
+        </td>
+        <td class="font-semibold">
+          {{ item.onsiteDay ? (item.onsiteDay | translocoDecimal: { maximumFractionDigits: 1 }) : '-' }}
+        </td>
+        <td class="font-semibold">
+          {{ item.wfh ? (item.wfh | translocoDecimal: { maximumFractionDigits: 1 }) : '-' }}
+        </td>
+        <td class="font-semibold">
+          {{ item.countLeave ? (item.countLeave | translocoDecimal: { maximumFractionDigits: 1 }) : '-' }}
         </td>
       </ng-container>
     </ng-template>
@@ -29,3 +67,13 @@
   (sizeChange)="onSize($event)"
   [total]="(total$ | async) || 0"
 ></tui-table-pagination>
+
+<ng-template #detailsTemplate let-row>
+  <ng-container *tuiLet="item(row) as item">
+    <hcm-group-working-hours-table
+      [fromDate]="fromDateForGroupBy!"
+      [toDate]="toDateForGroupBy!"
+      [userId]="item.userId"
+    ></hcm-group-working-hours-table>
+  </ng-container>
+</ng-template>

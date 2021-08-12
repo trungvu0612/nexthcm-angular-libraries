@@ -1,3 +1,13 @@
+@import '~@taiga-ui/core/styles/taiga-ui-local';
+
 :host {
   display: block;
+
+  .icon {
+    @include transition(transform);
+
+    &_rotated {
+      transform: rotate(90deg);
+    }
+  }
 }

@@ -1,13 +1,12 @@
-<hcm-working-hours-filter [httpParams]="queryParams$" class="mb-5"></hcm-working-hours-filter>
-
 <tui-loader [overlay]="true" [showLoader]="(loading$ | async) === true">
   <ngx-table #table [columns]="(columns$ | async) || []" [configuration]="configuration" [data]="(data$ | async) || []">
     <ng-template let-row>
       <ng-container *tuiLet="item(row) as item">
+        <td><button class="invisible" tuiIconButton></button></td>
+        <td>{{ item.userInfo.cif }}</td>
+        <td>{{ item.userInfo.fullName }}</td>
         <td>{{ item.userInfo.office.name }}</td>
-        <td>{{ item.trackingDate | translocoDate: { weekday: 'long' } }}, {{ item.trackingDate | translocoDate }}</td>
-        <td>{{ item.inTime * 1000 | date: 'HH:mm':'UTC' }}</td>
-        <td>{{ item.outTime * 1000 | date: 'HH:mm':'UTC' }}</td>
+        <td>{{ item.trackingDate | translocoDate }}</td>
         <td>
           {{
             item.totalWorkingTime
@@ -19,26 +18,7 @@
         <td>{{ item.ot ? (item.ot | translocoDecimal: { maximumFractionDigits: 1 }) : '-' }}</td>
         <td>{{ item.onsiteDay ? (item.onsiteDay | translocoDecimal: { maximumFractionDigits: 1 }) : '-' }}</td>
         <td>{{ item.wfh ? (item.wfh | translocoDecimal: { maximumFractionDigits: 1 }) : '-' }}</td>
-        <td>{{ item.leaveType }}</td>
-        <td>
-          <div class="flex items-center">
-            <button
-              (click)="onViewWorkingHoursDetail(item)"
-              appearance="flat"
-              icon="tuiIconShowLarge"
-              size="m"
-              tuiIconButton
-            ></button>
-            <button
-              (click)="requestUpdateTime(item.id)"
-              appearance="flat"
-              class="reject-mark"
-              icon="tuiIconEditLarge"
-              size="m"
-              tuiIconButton
-            ></button>
-          </div>
-        </td>
+        <td></td>
       </ng-container>
     </ng-template>
   </ngx-table>
