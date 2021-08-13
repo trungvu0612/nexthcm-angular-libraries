@@ -8,7 +8,7 @@ import { TimeSheetUpdateReq } from '../../../models/requests';
   selector: 'hcm-request-details',
   templateUrl: './request-details.component.html',
   styleUrls: ['./request-details.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RequestDetailsComponent implements OnInit {
   req!: TimeSheetUpdateReq;
@@ -18,7 +18,8 @@ export class RequestDetailsComponent implements OnInit {
   constructor(
     private formbuilder: FormBuilder,
     @Inject(POLYMORPHEUS_CONTEXT) private context: TuiDialogContext<boolean, { type: string; req: TimeSheetUpdateReq }>
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
     this.type = this.context.data.type;

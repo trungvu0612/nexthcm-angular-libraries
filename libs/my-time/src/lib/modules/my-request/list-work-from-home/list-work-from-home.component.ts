@@ -18,7 +18,7 @@ import { RequestDetailsWfhComponent } from '../request-details-wfh/request-detai
   templateUrl: './list-work-from-home.component.html',
   styleUrls: ['./list-work-from-home.component.scss'],
   providers: [TuiDestroyService],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ListWorkFromHomeComponent implements OnInit {
   myId = this.authService.get('userInfo').userId;
@@ -39,7 +39,7 @@ export class ListWorkFromHomeComponent implements OnInit {
     '2': 'waiting',
     '3': 'taken',
     '4': 'weekend',
-    '5': 'holiday',
+    '5': 'holiday'
   };
   fields: FormlyFieldConfig[] = [
     {
@@ -50,9 +50,9 @@ export class ListWorkFromHomeComponent implements OnInit {
         required: true,
         textfieldLabelOutside: true,
         tuiTextfieldInputMode: 'numeric',
-        placeholder: 'Select Month',
-      },
-    },
+        placeholder: 'Select Month'
+      }
+    }
   ];
 
   constructor(
@@ -66,14 +66,14 @@ export class ListWorkFromHomeComponent implements OnInit {
     private router: Router
   ) {
     this.searchForm = new FormGroup<{ month: TuiMonth }>({
-      month: new FormControl<TuiMonth>(new TuiMonth(this.today.getFullYear(), this.today.getMonth())),
+      month: new FormControl<TuiMonth>(new TuiMonth(this.today.getFullYear(), this.today.getMonth()))
     });
   }
 
   ngOnInit(): void {
     this.searchSubject.next({
       fromDate: startOfMonth(this.today).valueOf(),
-      toDate: endOfMonth(this.today).valueOf(),
+      toDate: endOfMonth(this.today).valueOf()
     });
 
     combineLatest([this.page$, this.perPageSubject, this.searchSubject])
@@ -96,7 +96,7 @@ export class ListWorkFromHomeComponent implements OnInit {
       const date = new Date(this.searchForm.value.month?.year, this.searchForm.value.month?.month);
       this.searchSubject.next({
         fromDate: startOfMonth(date).toISOString(),
-        toDate: endOfMonth(date).toISOString(),
+        toDate: endOfMonth(date).toISOString()
       });
     }
   }
@@ -127,7 +127,7 @@ export class ListWorkFromHomeComponent implements OnInit {
     this.dialogService
       .open<boolean>(new PolymorpheusComponent(RequestDetailsWfhComponent, this.injector), {
         closeable: false,
-        data: id,
+        data: id
       })
       .subscribe();
   }

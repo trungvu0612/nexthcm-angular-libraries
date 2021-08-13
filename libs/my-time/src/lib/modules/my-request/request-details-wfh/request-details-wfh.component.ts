@@ -11,7 +11,7 @@ import { MyRequestService } from '../../../services/my-request.service';
   selector: 'hcm-request-details-wfh',
   templateUrl: './request-details-wfh.component.html',
   styleUrls: ['./request-details-wfh.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RequestDetailsWfhComponent implements OnInit {
   STATUS: { [key: string]: string } = {
@@ -21,7 +21,7 @@ export class RequestDetailsWfhComponent implements OnInit {
     '2': 'waiting',
     '3': 'taken',
     '4': 'weekend',
-    '5': 'holiday',
+    '5': 'holiday'
   };
 
   req!: TimeSheetUpdateReq;
@@ -33,7 +33,8 @@ export class RequestDetailsWfhComponent implements OnInit {
     private myRequestService: MyRequestService,
     private formbuilder: FormBuilder,
     @Inject(POLYMORPHEUS_CONTEXT) private context: TuiDialogContext<boolean>
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
     console.log('dataIddddddddd', this.data$);
@@ -43,7 +44,9 @@ export class RequestDetailsWfhComponent implements OnInit {
     // this.context.completeWith(true);
   }
 
-  cancel() {}
+  cancel() {
+  }
 
-  edit(id: string) {}
+  edit(id: string) {
+  }
 }

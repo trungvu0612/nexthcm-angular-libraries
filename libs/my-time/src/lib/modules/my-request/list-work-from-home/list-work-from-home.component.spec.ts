@@ -8,7 +8,7 @@ describe('ListWorkFromHomeComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ListWorkFromHomeComponent],
+      declarations: [ListWorkFromHomeComponent]
     }).compileComponents();
   });
 

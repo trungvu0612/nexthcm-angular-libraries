@@ -17,7 +17,7 @@ import { UpdateTimesheetRequest } from '../../../models';
   templateUrl: './list-timesheet-update.component.html',
   styleUrls: ['./list-timesheet-update.component.scss'],
   providers: [RxState, TuiDestroyService],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ListTimesheetUpdateComponent extends AbstractRequestListComponent<UpdateTimesheetRequest> {
   @ViewChild('table') table!: BaseComponent;
@@ -30,7 +30,7 @@ export class ListTimesheetUpdateComponent extends AbstractRequestListComponent<U
       { key: 'newOutTime', title: result.newOutTime },
       { key: 'updateTotalTime', title: result.updateTotalTime },
       { key: 'status', title: result.status },
-      { key: 'functions', title: result.functions },
+      { key: 'functions', title: result.functions }
     ])
   );
   readonly queryParams$ = new BehaviorSubject(

@@ -17,7 +17,7 @@ import { AuthService } from '@nexthcm/auth';
   templateUrl: './my-working-outside-requests.component.html',
   styleUrls: ['./my-working-outside-requests.component.scss'],
   providers: [RxState, TuiDestroyService],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MyWorkingOutsideRequestsComponent extends AbstractRequestListComponent<WorkingOutsideRequest> {
   @ViewChild('table') table!: BaseComponent;
@@ -32,7 +32,7 @@ export class MyWorkingOutsideRequestsComponent extends AbstractRequestListCompon
         { key: 'day', title: result.day },
         { key: 'state', title: result.state },
         { key: 'reason', title: result.reason },
-        { key: 'functions', title: result.functions },
+        { key: 'functions', title: result.functions }
       ])
     );
   readonly queryParams$ = new BehaviorSubject(

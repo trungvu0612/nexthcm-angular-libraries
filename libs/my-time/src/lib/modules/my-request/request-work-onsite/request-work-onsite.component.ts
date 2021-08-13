@@ -2,12 +2,13 @@ import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/cor
 import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 import { SubmitRequest } from '../../../models';
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import { MyRequestService } from '../../../services';
+import { MyLeaveService, MyRequestService } from '../../../services';
 import { TuiDay, TuiDestroyService, TuiTime } from '@taiga-ui/cdk';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '@nexthcm/auth';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { TuiDialogContext } from '@taiga-ui/core';
+import { TranslocoService } from '@ngneat/transloco';
 
 @Component({
   selector: 'hcm-request-work-onsite',
@@ -33,7 +34,7 @@ export class RequestWorkOnsiteComponent implements OnInit {
           templateOptions: {
             textfieldLabelOutside: true,
             required: true,
-            placeholder: 'From Date'
+            placeholder: this.translocoService.translate('WORKING_OUTSIDE_MANAGEMENT.fromDate')
           }
         },
         {
@@ -42,7 +43,7 @@ export class RequestWorkOnsiteComponent implements OnInit {
           templateOptions: {
             textfieldLabelOutside: true,
             required: true,
-            placeholder: 'To Date'
+            placeholder: this.translocoService.translate('WORKING_OUTSIDE_MANAGEMENT.toDate')
           }
         }
       ]
@@ -56,9 +57,10 @@ export class RequestWorkOnsiteComponent implements OnInit {
           templateOptions: {
             textfieldLabelOutside: true,
             required: true,
-            placeholder: 'Send To',
-            valueProp: 'value',
-            options: [{ label: 'Nguyen Thanh Son', value: '557e6ff6-87ab-463e-a46c-2338f64c521a' }]
+            placeholder: this.translocoService.translate('WORKING_OUTSIDE_MANAGEMENT.assignedName'),
+            options: this.myLeaveService.select('sendToUsers'),
+            labelProp: 'username',
+            valueProp: 'id'
           }
         },
         {
@@ -67,7 +69,7 @@ export class RequestWorkOnsiteComponent implements OnInit {
           templateOptions: {
             textfieldLabelOutside: true,
             required: true,
-            placeholder: 'Duration'
+            placeholder: this.translocoService.translate('duration')
           }
         }
       ]
@@ -79,7 +81,7 @@ export class RequestWorkOnsiteComponent implements OnInit {
       templateOptions: {
         required: true,
         textfieldLabelOutside: true,
-        placeholder: 'Comment'
+        placeholder: this.translocoService.translate('reason')
       }
     }
   ];
@@ -87,6 +89,8 @@ export class RequestWorkOnsiteComponent implements OnInit {
   constructor(
     private formbuilder: FormBuilder,
     private requestService: MyRequestService,
+    private myLeaveService: MyLeaveService,
+    private translocoService: TranslocoService,
     private destroy$: TuiDestroyService,
     private activatedRoute: ActivatedRoute,
     private authService: AuthService,
