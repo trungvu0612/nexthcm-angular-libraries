@@ -41,7 +41,7 @@
         <button tuiTab>{{ t('onSiteReq') }}</button>
         <button tuiTab>{{ t('workFromHomeReq') }}</button>
       </tui-tabs>
-      <ng-container [ngSwitch]="activeItemIndex">
+      <ng-container [ngSwitch]="activeItemIndex" class="p-8">
         <ng-container *ngSwitchCase="0">
           <hcm-list-ot-request></hcm-list-ot-request>
         </ng-container>
