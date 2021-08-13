@@ -1,7 +1,8 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, Injector } from '@angular/core';
-import { BaseResponse, Pagination, PagingResponse, PromptService } from '@nexthcm/cdk';
+import { BaseResponse, EmployeeInfo, Pagination, PagingResponse, PromptService } from '@nexthcm/cdk';
 import { TranslocoService } from '@ngneat/transloco';
+import { RxState } from '@rx-angular/state';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { from, iif, Observable } from 'rxjs';
@@ -9,11 +10,17 @@ import { map, switchMap, tap } from 'rxjs/operators';
 import { SweetAlertOptions } from 'sweetalert2';
 import { TrackingHistory, UpdateRequestPayload } from '../models';
 import { GeneralRequest } from '../models/interfaces/general-request';
+import { SubmitRequestPayload } from '../models/interfaces/submit-request-payload';
 import { RejectRequestDialogComponent } from '../modules/request-management/components/reject-leave-request-dialog/reject-request-dialog.component';
 import { RequestDetailDialogComponent } from '../modules/shared/request-detail-dialog/request-detail-dialog.component';
 import { parseLeaveDateRange } from '../modules/shared/utils/parse-leave-date-range';
 
+interface ServiceState {
+  sendToUsers: EmployeeInfo[];
+}
+
 const MY_TIME_PATH = '/mytimeapp/v1.0';
+const ACCOUNT_PATH = '/accountapp/v1.0';
 
 export enum RequestTypeAPIUrlPath {
   leave = 'leaves' as any,
@@ -24,14 +31,21 @@ export enum RequestTypeAPIUrlPath {
 }
 
 @Injectable()
-export class MyTimeService {
+export class MyTimeService extends RxState<ServiceState> {
   constructor(
     private http: HttpClient,
     private dialogService: TuiDialogService,
     private injector: Injector,
     private promptService: PromptService,
     private translocoService: TranslocoService
-  ) {}
+  ) {
+    super();
+    this.connect('sendToUsers', this.getSendToUsers());
+  }
+
+  getSendToUsers(): Observable<EmployeeInfo[]> {
+    return this.http.get<PagingResponse<EmployeeInfo>>(`${ACCOUNT_PATH}/users`).pipe(map((res) => res.data.items));
+  }
 
   getTrackingHistory(id?: string): Observable<TrackingHistory[]> {
     return this.http.get<TrackingHistory[]>(`${MY_TIME_PATH}/leaves/tracking-history/${id}`);
@@ -39,6 +53,10 @@ export class MyTimeService {
 
   getRequests<T>(type: RequestTypeAPIUrlPath, params: HttpParams): Observable<Pagination<T>> {
     return this.http.get<PagingResponse<T>>(`${MY_TIME_PATH}/${type}`, { params }).pipe(map((res) => res.data));
+  }
+
+  submitRequest(type: RequestTypeAPIUrlPath, payload: SubmitRequestPayload): Observable<unknown> {
+    return this.http.post<unknown>(`${MY_TIME_PATH}/${type}`, payload);
   }
 
   updateRequest(type: RequestTypeAPIUrlPath, id: string, payload: UpdateRequestPayload): Observable<unknown> {
@@ -97,5 +115,11 @@ export class MyTimeService {
         })
       )
     );
+  }
+
+  getEscalateUsers(searchQuery: string): Observable<EmployeeInfo[]> {
+    return this.http
+      .get<BaseResponse<EmployeeInfo[]>>('/accountapp/v1.0/users/get-manager')
+      .pipe(map((res) => res.data));
   }
 }

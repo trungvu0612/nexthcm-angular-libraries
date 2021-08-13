@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { GetFilePipeModule } from '@nexthcm/cdk';
-import { FormlyTaigaUiModule } from '@nexthcm/ui';
+import { BaseFormComponentModule, FormlyTaigaUiModule } from '@nexthcm/ui';
 import { TranslocoModule } from '@ngneat/transloco';
 import { TranslocoLocaleModule } from '@ngneat/transloco-locale';
 import { FormlyModule } from '@ngx-formly/core';
@@ -34,6 +34,7 @@ import { RequestListFilterComponentModule } from '../shared/request-list-filter/
 import { RequestOtComponent } from './components/request-ot/request-ot.component';
 import { RequestWorkOnsiteComponent } from './components/request-work-onsite/request-work-onsite.component';
 import { RequestsDialogComponent } from './components/requests-dialog/requests-dialog.component';
+import { SubmitWorkFromHomeRequestDialogComponent } from './components/submit-work-from-home-request-dialog/submit-work-from-home-request-dialog.component';
 import { MyRequestsComponent } from './my-requests.component';
 import { ListOtRequestComponent } from './pages/list-ot-request/list-ot-request.component';
 import { ListTimesheetUpdateComponent } from './pages/list-timesheet-update/list-timesheet-update.component';
@@ -50,6 +51,7 @@ import { MyWorkingOutsideRequestsComponent } from './pages/list-working-outside/
     ListWorkFromHomeComponent,
     RequestWorkOnsiteComponent,
     MyRequestsComponent,
+    SubmitWorkFromHomeRequestDialogComponent,
   ],
   imports: [
     CommonModule,
@@ -81,6 +83,7 @@ import { MyWorkingOutsideRequestsComponent } from './pages/list-working-outside/
     GetFilePipeModule,
     TuiAvatarModule,
     TranslocoLocaleModule,
+    BaseFormComponentModule,
     RequestListFilterComponentModule,
   ],
 })

@@ -24,21 +24,51 @@
           <div class="table-label">{{ t('type') }}:</div>
           <div class="table-value">{{ t(RequestTypeAPIUrlPath[requestTypeAPIUrlPath]) }}</div>
         </div>
-        <div class="table-row" >
+        <div class="table-row">
           <div class="table-label">{{ t('assignee') }}:</div>
           <div class="table-value">
-            <div *ngIf="data.escalateDTO" class="flex items-center">
+            <div *ngIf="data.escalateDTO && isMyRequest" class="flex items-center">
+              <ng-container *ngTemplateOutlet="value; context: { $implicit: data.escalateDTO }"></ng-container>
+            </div>
+            <div *ngIf="!isMyRequest">
+              <tui-combo-box
+                (ngModelChange)="onChangeEscalateUser($event, data.id)"
+                (searchChange)="search$.next($event || '')"
+                *tuiLet="items$ | async as items"
+                [identityMatcher]="identityMatcher"
+                [ngModel]="data.escalateDTO"
+                [stringify]="stringify"
+                [tuiTextfieldLabelOutside]="true"
+                [valueContent]="value"
+              >
+                <tui-data-list-wrapper *tuiDataList [itemContent]="content" [items]="items"></tui-data-list-wrapper>
+                <ng-template #content let-data>
+                  <div class="flex items-center">
+                    <tui-avatar
+                      [avatarUrl]="data.image | getFile | async"
+                      [rounded]="true"
+                      [text]="data.fullName"
+                      class="mr-2"
+                      size="s"
+                    ></tui-avatar>
+                    <span [tuiHighlight]="search$.value">{{ data.fullName }}</span>
+                  </div>
+                </ng-template>
+              </tui-combo-box>
+            </div>
+          </div>
+          <ng-template #value let-data>
+            <div class="flex items-center">
               <tui-avatar
-                [autoColor]="true"
-                [avatarUrl]="data.escalateDTO.image | getFile | async"
+                [avatarUrl]="data.image | getFile | async"
                 [rounded]="true"
-                [text]="data.escalateDTO.fullName"
+                [text]="data.fullName"
                 class="mr-2"
                 size="s"
               ></tui-avatar>
-              {{ data.escalateDTO.fullName }}
+              {{ data.fullName }}
             </div>
-          </div>
+          </ng-template>
         </div>
 
         <ng-container [ngSwitch]="requestTypeAPIUrlPath">

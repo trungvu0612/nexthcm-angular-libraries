@@ -12,7 +12,6 @@
   "editOffice": "Chỉnh sửa văn phòng",
   "editSeatMap": "Chỉnh sửa sơ đồ chỗ ngồi",
   "employees": "Nhân sự",
-  "myLeave": "Danh sách nghỉ phép",
   "myRequest": "Yêu cầu của tôi",
   "requestManagement": "Quản lý yêu cầu",
   "name": "Tên",
@@ -448,7 +447,7 @@
     "default": "Có gì đó không ổn!"
   },
   "errorOccurred": "Đã xảy ra lỗi",
-  "REQUEST_MANAGEMENT_TABLE_COLUMNS": {
+  "MY_TIME_REQUEST_LIST_COLUMNS": {
     "dateRange": "Khoảng thời gian",
     "name": "Tên",
     "leaveType": "Loại nghỉ phép",
@@ -545,5 +544,7 @@
   "onlyMe": "Chỉ mình tôi",
   "everyone": "Mọi người",
   "workedTimeToday": "Thời gian đã làm hôm nay",
-  "yourWorkingDaysThisMonth": "Số ngày làm việc trong tháng này"
+  "yourWorkingDaysThisMonth": "Số ngày làm việc trong tháng này",
+  "chooseAPerson": "Chọn một người",
+  "chooseDateRange": "Chọn khoảng thời gian"
 }

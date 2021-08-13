@@ -24,14 +24,13 @@ export class ListWorkFromHomeComponent extends AbstractRequestListComponent<Work
   readonly userId = this.authService.get('userInfo', 'userId');
   readonly requestTypeUrlPath = RequestTypeAPIUrlPath.workFromHome;
   readonly columns$: Observable<Columns[]> = this.translocoService
-    .selectTranslateObject('WORKING_OUTSIDE_MANAGEMENT')
+    .selectTranslateObject('MY_TIME_REQUEST_LIST_COLUMNS')
     .pipe(
       map((result) => [
-        { key: 'fromDate', title: result.fromDate },
-        { key: 'toDate', title: result.toDate },
-        { key: 'day', title: result.totalDay },
+        { key: 'dateRange', title: result.fromDate },
+        { key: 'totalDay', title: result.totalDay },
         { key: 'status', title: result.status },
-        { key: 'comment', title: result.comment },
+        { key: 'comment', title: result.Comment },
         { key: 'functions', title: result.functions },
       ])
     );

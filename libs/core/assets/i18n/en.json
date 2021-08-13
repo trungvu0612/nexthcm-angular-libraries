@@ -328,7 +328,6 @@
   "enterHealthCareNumber": "Enter health care number",
   "morning": "Morning",
   "afternoon": "Afternoon",
-  "myLeave": "My leave",
   "submitLeaveRequest": "Submit Leave Request",
   "MY_LEAVE_TABLE_COLUMNS": {
     "dateRange": "Date Range",
@@ -450,7 +449,7 @@
     "default": "Something went wrong!"
   },
   "errorOccurred": "An error occurred",
-  "REQUEST_MANAGEMENT_TABLE_COLUMNS": {
+  "MY_TIME_REQUEST_LIST_COLUMNS": {
     "dateRange": "Date Range",
     "name": "Name",
     "leaveType": "Leave Type",
@@ -547,5 +546,7 @@
   "onlyMe": "Only me",
   "everyone": "Everyone",
   "workedTimeToday": "Worked time today",
-  "yourWorkingDaysThisMonth": "Your working days this month"
+  "yourWorkingDaysThisMonth": "Your working days this month",
+  "chooseAPerson": "Choose a person",
+  "chooseDateRange": "Choose date range"
 }

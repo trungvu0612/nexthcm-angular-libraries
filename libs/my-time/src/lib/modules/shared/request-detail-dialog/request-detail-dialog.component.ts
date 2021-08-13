@@ -1,13 +1,23 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Inject, NgModule } from '@angular/core';
-import { GetFilePipeModule } from '@nexthcm/cdk';
+import { FormsModule } from '@angular/forms';
+import { EmployeeInfo, GetFilePipeModule } from '@nexthcm/cdk';
 import { TranslocoModule } from '@ngneat/transloco';
 import { TranslocoLocaleModule } from '@ngneat/transloco-locale';
-import { TuiDestroyService } from '@taiga-ui/cdk';
-import { TuiButtonModule, TuiDialogContext } from '@taiga-ui/core';
-import { TuiAccordionModule, TuiAvatarModule, TuiLazyLoadingModule, TuiTagModule } from '@taiga-ui/kit';
+import { TuiDestroyService, TuiIdentityMatcher, TuiLetModule, TuiStringHandler } from '@taiga-ui/cdk';
+import { TuiButtonModule, TuiDataListModule, TuiDialogContext, TuiTextfieldControllerModule } from '@taiga-ui/core';
+import {
+  TuiAccordionModule,
+  TuiAvatarModule,
+  TuiComboBoxModule,
+  TuiDataListWrapperModule,
+  TuiHighlightModule,
+  TuiLazyLoadingModule,
+  TuiTagModule,
+} from '@taiga-ui/kit';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
-import { takeUntil } from 'rxjs/operators';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { filter, switchMap, takeUntil } from 'rxjs/operators';
 import { RequestStatus } from '../../../enums';
 import { GeneralRequest } from '../../../models/interfaces/general-request';
 import { MyTimeService, RequestTypeAPIUrlPath } from '../../../services';
@@ -22,6 +32,11 @@ import { MyTimeService, RequestTypeAPIUrlPath } from '../../../services';
 export class RequestDetailDialogComponent {
   readonly RequestStatus = RequestStatus;
   readonly RequestTypeAPIUrlPath = RequestTypeAPIUrlPath;
+  readonly search$ = new BehaviorSubject<string>('');
+  readonly items$: Observable<EmployeeInfo[]> = this.search$.pipe(
+    filter((search) => !!search),
+    switchMap((search) => this.myTimeService.getEscalateUsers(search))
+  );
 
   constructor(
     @Inject(POLYMORPHEUS_CONTEXT)
@@ -42,6 +57,11 @@ export class RequestDetailDialogComponent {
     return !!this.context.data.userId;
   }
 
+  readonly identityMatcher: TuiIdentityMatcher<any> = (item1: EmployeeInfo, item2: EmployeeInfo) =>
+    item1.id === item2.id;
+
+  readonly stringify: TuiStringHandler<any> = (item: EmployeeInfo) => item.fullName;
+
   onApproveRequest(id: string): void {
     this.myTimeService
       .approveRequest(this.requestTypeAPIUrlPath, id)
@@ -56,11 +76,21 @@ export class RequestDetailDialogComponent {
       .subscribe(() => (this.context.data.value.status = RequestStatus.rejected));
   }
 
-  onCancelRequest(idLeave: string): void {
+  onCancelRequest(id: string): void {
     this.myTimeService
-      .cancelRequest(this.requestTypeAPIUrlPath, idLeave)
+      .cancelRequest(this.requestTypeAPIUrlPath, id)
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => (this.context.data.value.status = RequestStatus.cancelled));
+  }
+
+  onChangeEscalateUser(value: EmployeeInfo | null, requestId: string): void {
+    this.data.escalateDTO = value;
+    if (value) {
+      this.myTimeService
+        .updateRequest(this.requestTypeAPIUrlPath, requestId, { escalate: value.id })
+        .pipe(takeUntil(this.destroy$))
+        .subscribe();
+    }
   }
 }
 
@@ -76,6 +106,13 @@ export class RequestDetailDialogComponent {
     TranslocoLocaleModule,
     TuiButtonModule,
     TuiAccordionModule,
+    TuiComboBoxModule,
+    TuiDataListWrapperModule,
+    TuiLetModule,
+    TuiDataListModule,
+    TuiHighlightModule,
+    FormsModule,
+    TuiTextfieldControllerModule,
   ],
   exports: [RequestDetailDialogComponent],
 })

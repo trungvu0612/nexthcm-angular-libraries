@@ -3,16 +3,15 @@
   <ngx-table #table [columns]="(columns$ | async) || []" [configuration]="configuration" [data]="(data$ | async) || []">
     <ng-template let-row>
       <ng-container *tuiLet="item(row) as item">
-        <td>{{ item.fromDate | date: 'dd/MM/yyyy' }}</td>
-        <td>{{ item.toDate | date: 'dd/MM/yyyy' }}</td>
-        <td>{{item.totalDay}}</td>
+        <td>{{ item.fromDate | translocoDate }} - {{ item.toDate | translocoDate }}</td>
+        <td>{{ item.totalDay }}</td>
         <td>
           <tui-tag
             [value]="'REQUEST_STATUS.' + RequestStatus[item.status] | transloco"
             class="{{ RequestStatus[item.status] }}-tag"
           ></tui-tag>
         </td>
-        <td>{{item?.reason}}</td>
+        <td>{{ item?.comment }}</td>
         <td>
           <div class="flex items-center">
             <button

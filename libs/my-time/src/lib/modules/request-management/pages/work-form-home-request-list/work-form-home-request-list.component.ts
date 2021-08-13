@@ -21,7 +21,7 @@ export class WorkFormHomeRequestListComponent extends AbstractRequestListCompone
   @ViewChild('table') table!: BaseComponent;
   readonly requestTypeUrlPath = RequestTypeAPIUrlPath.workFromHome;
   readonly columns$: Observable<Columns[]> = this.translocoService
-    .selectTranslateObject('REQUEST_MANAGEMENT_TABLE_COLUMNS')
+    .selectTranslateObject('MY_TIME_REQUEST_LIST_COLUMNS')
     .pipe(
       map((result) => [
         { key: 'cif', title: result.cif },

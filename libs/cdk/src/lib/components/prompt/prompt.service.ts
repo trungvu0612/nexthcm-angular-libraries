@@ -21,13 +21,16 @@ export class PromptService {
     return this.component.open(options);
   }
 
-  handleResponse(successfulText: string, callback?: () => void): PartialObserver<unknown> {
+  handleResponse(successfulText?: string, callback?: () => void): PartialObserver<unknown> {
     return {
-      next: () =>
-        this.open({
-          icon: 'success',
-          html: this.translocoService.translate(successfulText),
-        }).then(() => (callback ? callback() : null)),
+      next: () => {
+        if (successfulText) {
+          this.open({
+            icon: 'success',
+            html: this.translocoService.translate(successfulText),
+          }).then(() => (callback ? callback() : null));
+        }
+      },
       error: (err: HttpErrorResponse) => {
         let errorMessage: string;
         if (err.error instanceof ErrorEvent) {

@@ -7,7 +7,7 @@ export interface GeneralRequest extends BaseRequest {
   employeeDTO?: EmployeeInfo;
   user?: EmployeeInfo;
   userInfo?: EmployeeInfo;
-  escalateDTO?: EmployeeInfo;
+  escalateDTO?: EmployeeInfo | null;
   sendToDTO?: EmployeeInfo;
   sendToUser?: EmployeeInfo;
   durationInDay?: number;
