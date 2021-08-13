@@ -1,11 +1,14 @@
 <hcm-request-list-filter [httpParams]="queryParams$" class="mb-5"></hcm-request-list-filter>
+<section *transloco="let t">
 <tui-loader [overlay]="true" [showLoader]="(loading$ | async) === true">
   <ngx-table #table [columns]="(columns$ | async) || []" [configuration]="configuration" [data]="(data$ | async) || []">
     <ng-template let-row>
       <ng-container *tuiLet="item(row) as item">
         <td>{{ item.employeeDTO.cif }}</td>
         <td class="font-bold uppercase">{{ item.employeeDTO.fullName }}</td>
-        <td>{{ item.dateRange }}</td>
+        <td *tuiLet="item.items as type">
+          <hcm-abstract-col-day-range [item]="item"></hcm-abstract-col-day-range>
+        </td>
         <td>{{ item.leaveType.name }}</td>
         <td>{{ item.durationInDay }}</td>
         <td>
@@ -46,8 +49,11 @@
     </ng-template>
   </ngx-table>
 </tui-loader>
+</section>
 <tui-table-pagination
   (pageChange)="onPage($event)"
   (sizeChange)="onSize($event)"
   [total]="(total$ | async) || 0"
 ></tui-table-pagination>
+
+

@@ -7,7 +7,7 @@ export interface LeaveRequest extends BaseRequest {
   fromDate: number;
   toDate: number;
   leaveType: LeaveRequestLeaveType;
-  items: unknown[];
+  items: Type[];
   durationInDay: number;
   employeeDTO: EmployeeInfo;
   sendToDTO: EmployeeInfo;
@@ -22,4 +22,12 @@ export interface LeaveRequestLeaveType {
   processId: string;
   status: number;
   orgId: string;
+}
+
+export interface Type {
+  morning?: boolean;
+  afternoon?: boolean;
+  fullDay?: boolean;
+  fromTime?: number;
+  toTime?: number;
 }

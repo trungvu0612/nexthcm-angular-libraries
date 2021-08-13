@@ -18,6 +18,8 @@ import {
   TuiTagModule,
 } from '@taiga-ui/kit';
 import { TableModule } from 'ngx-easy-table';
+import { SecondsToHourMinutePipeModule } from '../../pipes/seconds-to-hour-minute/seconds-to-hour-minute.pipe';
+import { AbstractColDayRangeComponentModule } from '../shared/abstract-col-day-range/abstract-col-day-range.component';
 import { RequestListFilterComponentModule } from '../shared/request-list-filter/request-list-filter.component';
 import { EmployeeRequestDetailDialogComponent } from './components/employee-request-detail-dialog/employee-request-detail-dialog.component';
 import { RejectRequestDialogComponent } from './components/reject-leave-request-dialog/reject-request-dialog.component';
@@ -59,6 +61,8 @@ import { RequestManagementComponent } from './request-management.component';
     TuiAvatarModule,
     RequestListFilterComponentModule,
     TranslocoLocaleModule,
+    SecondsToHourMinutePipeModule,
+    AbstractColDayRangeComponentModule
   ],
 })
 export class RequestManagementModule {}

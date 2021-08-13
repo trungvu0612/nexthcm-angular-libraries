@@ -1,0 +1,48 @@
+<section *transloco="let t">
+    <div *ngIf="item.toDate > item.fromDate">
+      <ng-container [ngSwitch]="item.items.length">
+        <ng-container *ngSwitchCase="0">
+          <p>{{(item.fromDate | translocoDate)}}</p>
+        </ng-container>
+        <ng-container *ngSwitchCase="1" [ngTemplateOutlet]="elseBlockHalfDay">
+        </ng-container>
+        <ng-container *ngSwitchCase="2" [ngTemplateOutlet]="elseBlockHalfDay">
+        </ng-container>
+      </ng-container>
+      <ng-template #elseBlockHalfDay>
+        <div *ngFor="let itemType of item.items; index as index">
+          <div *ngIf="item.items[index].afternoon else elseBlockHalfDayMorning">
+            <p> {{ index === 0 ? ' ' + (item.fromDate | translocoDate) + ' ' + t('afternoon') + ''
+              : '' + (item.toDate | translocoDate) + ' ' + t('afternoon')  }} </p>
+          </div>
+          <ng-template #elseBlockHalfDayMorning>
+            <div *ngIf="item.items[index].morning else elseBlockSpecialTime">
+              <p> {{ index === 0 ? ' ' + (item.fromDate | translocoDate) + ' ' + t('morning') + ''
+                : '' + (item.toDate | translocoDate) + ' ' + t('morning') }} </p>
+            </div>
+          </ng-template>
+          <ng-template #elseBlockSpecialTime>
+            <div *ngIf="item.items.length === 1; else specialTime2Index">
+              <div *ngIf="(item.items[index].fromTime | secondsToHourMinute)">
+                <p> {{ '' + ((item.fromDate | translocoDate) | translocoDate) + ' ' + (item.toDate | translocoDate) + '  ' + (item.items[index].fromTime | secondsToHourMinute) + '-' + (item.items[index].toTime | secondsToHourMinute) }} </p>
+              </div>
+            </div>
+            <ng-template #specialTime2Index>
+
+              <div *ngIf="index===0">
+                <div *ngIf="(item.items[index].fromTime)">
+                  <p> {{ '' + (item.fromDate | translocoDate) + ' ' + (item.items[index].fromTime | secondsToHourMinute) + ' ' + (item.items[index].toTime | secondsToHourMinute) }} </p>
+                </div>
+              </div>
+
+              <div *ngIf="index===1">
+                <div *ngIf="(item.items[index].fromTime)">
+                  <p> {{ '' + (item.toDate | translocoDate) + ' ' + (item.items[index].fromTime | secondsToHourMinute) + ' ' + (item.items[index].toTime | secondsToHourMinute) }} </p>
+                </div>
+              </div>
+            </ng-template>
+          </ng-template>
+        </div>
+      </ng-template>
+    </div>
+</section>

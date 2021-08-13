@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { LayoutComponent } from '@nexthcm/ui';
+import { TranslocoLocaleModule } from '@ngneat/transloco-locale';
 import { FormlyModule } from '@ngx-formly/core';
 import { TuiButtonModule } from '@taiga-ui/core';
 import { NgxPermissionsGuard } from 'ngx-permissions';
@@ -26,6 +27,7 @@ import { OnlyMeWorkingHoursListComponent } from './modules/working-hours/compone
 import { WorkingHoursComponent } from './modules/working-hours/working-hours.component';
 import { WorkingHoursModule } from './modules/working-hours/working-hours.module';
 import { MyTimeComponent } from './my-time.component';
+import { SecondsToHourMinutePipeModule } from './pipes/seconds-to-hour-minute/seconds-to-hour-minute.pipe';
 import { MyLeaveService, MyRequestService, MyTimeService, WorkingHoursService } from './services';
 
 export const MY_TIME_ROUTES: Routes = [
@@ -93,6 +95,8 @@ export const MY_TIME_ROUTES: Routes = [
     TuiButtonModule,
     FormlyModule,
     ReactiveFormsModule,
+    TranslocoLocaleModule,
+    SecondsToHourMinutePipeModule,
   ],
   providers: [MyLeaveService, MyTimeService, WorkingHoursService, MyRequestService],
 })

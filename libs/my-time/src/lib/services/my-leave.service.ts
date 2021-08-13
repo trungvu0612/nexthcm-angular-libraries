@@ -1,14 +1,17 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AuthService } from '@nexthcm/auth';
-import { BaseResponse, PagingResponse } from '@nexthcm/cdk';
+import { BaseResponse, PagingResponse, PromptService } from '@nexthcm/cdk';
+import { TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
 import { TuiTime } from '@taiga-ui/cdk';
-import { Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { from, iif, Observable, of } from 'rxjs';
+import { map, switchMap, tap } from 'rxjs/operators';
+import { SweetAlertOptions } from 'sweetalert2';
 import { DurationHoldsEnum, PartialDaysEnum } from '../enums';
 import { HalfDaysEnum } from '../enums/half-days';
 import { DurationValues, LeavesRemaining, LeaveSubmit, MyLeave, PartialDayType, Requests, SentToUser } from '../models';
+import { RequestTypeAPIUrlPath } from './my-time.service';
 
 const MY_TIME_PATH = '/mytimeapp/v1.0';
 const MY_ACCOUNT_PATH = '/accountapp/v1.0';
@@ -23,7 +26,11 @@ interface MyLeaveState {
 export class MyLeaveService extends RxState<MyLeaveState> {
   readonly loggedInUserId = this.authService.get('userInfo', 'userId');
 
-  constructor(private authService: AuthService, private http: HttpClient) {
+  constructor(private authService: AuthService,
+              private http: HttpClient,
+              private promptService: PromptService,
+              private translocoService: TranslocoService
+  ) {
     super();
     this.connect('leaveTypeRemain', this.getLeaveTypes());
     this.connect('partialDayTypes', this.getPartialTypes());
@@ -220,7 +227,7 @@ export class MyLeaveService extends RxState<MyLeaveState> {
         arrayTime.push({
           value: i,
           label:
-            time.toString('HH:MM:SS') > '12' ? time.toString('HH:MM:SS') + ' PM' : time.toString('HH:MM:SS') + ' AM',
+            time.toString('HH:MM') > '12' ? time.toString('HH:MM') : time.toString('HH:MM'),
           time: time,
           conVertToSecond: time.toAbsoluteMilliseconds() / 1000,
         });
@@ -231,7 +238,7 @@ export class MyLeaveService extends RxState<MyLeaveState> {
         arrayTime.push({
           value: i,
           label:
-            time.toString('HH:MM:SS') > '12' ? time.toString('HH:MM:SS') + ' PM' : time.toString('HH:MM:SS') + ' AM',
+            time.toString('HH:MM') > '12' ? time.toString('HH:MM') : time.toString('HH:MM'),
           time: time,
           conVertToSecond: time.toAbsoluteMilliseconds() / 1000,
         });
@@ -267,6 +274,19 @@ export class MyLeaveService extends RxState<MyLeaveState> {
     return this.http
       .get<BaseResponse<PartialDayType[]>>(`${MY_TIME_PATH}/partial-day-type/`)
       .pipe(map((res) => res.data));
+  }
+
+  cancelRequest(id: string, callback?: () => void): Observable<unknown> {
+    return from(
+      this.promptService.open({
+        icon: 'warning',
+        showCancelButton: true,
+        html: this.translocoService.translate('cancelRequestWarning'),
+      } as SweetAlertOptions)
+    ).pipe(
+      switchMap((result) => iif(() => result.isConfirmed, this.editLeave(id, { status: 2 }))),
+      tap(this.promptService.handleResponse('cancelSuccessfully', callback))
+    );
   }
 
   getSendToUsers(): Observable<PagingResponse<SentToUser>> {
