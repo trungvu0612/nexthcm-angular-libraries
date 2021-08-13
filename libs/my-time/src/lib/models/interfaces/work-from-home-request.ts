@@ -7,4 +7,6 @@ export interface WorkFromHomeRequest extends BaseRequest {
   userId: string;
   userInfo: EmployeeInfo;
   totalDay: number;
+  dayWorking: number;
+  reason: string;
 }

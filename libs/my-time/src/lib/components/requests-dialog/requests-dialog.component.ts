@@ -10,6 +10,7 @@ import { SubmitRequest } from '../../models/requests';
 import { MyRequestService } from '../../services/my-request.service';
 import { TranslocoService } from '@ngneat/transloco';
 import { MyLeaveService } from '../../services';
+import { endOfDay } from 'date-fns';
 
 @Component({
   selector: 'hcm-requests-dialog',
@@ -68,7 +69,7 @@ export class RequestsDialogComponent implements OnInit {
       ]
     },
     {
-      key: 'reason',
+      key: 'comment',
       type: 'text-area',
       templateOptions: {
         required: true,
@@ -98,7 +99,7 @@ export class RequestsDialogComponent implements OnInit {
     if (this.requestForm.valid) {
       const formModel = this.requestForm.value;
       const newFromDate = (formModel.fromDate as TuiDay).toLocalNativeDate().valueOf();
-      const newToDate = (formModel.toDate as TuiDay).toLocalNativeDate().valueOf();
+      const newToDate = endOfDay((formModel.toDate as TuiDay).toLocalNativeDate().valueOf());
 
       const { fromDate, toDate, ...dataToSubmit } = this.requestForm.value;
       const obj = {

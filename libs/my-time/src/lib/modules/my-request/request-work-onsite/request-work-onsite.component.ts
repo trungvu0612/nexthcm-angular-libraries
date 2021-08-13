@@ -9,6 +9,7 @@ import { AuthService } from '@nexthcm/auth';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { TranslocoService } from '@ngneat/transloco';
+import { endOfDay } from 'date-fns';
 
 @Component({
   selector: 'hcm-request-work-onsite',
@@ -76,12 +77,12 @@ export class RequestWorkOnsiteComponent implements OnInit {
     },
 
     {
-      key: 'reason',
+      key: 'comment',
       type: 'text-area',
       templateOptions: {
         required: true,
         textfieldLabelOutside: true,
-        placeholder: this.translocoService.translate('reason')
+        placeholder: this.translocoService.translate('comment')
       }
     }
   ];
@@ -107,7 +108,7 @@ export class RequestWorkOnsiteComponent implements OnInit {
     if (this.requestForm.valid) {
       const formModel = this.requestForm.value;
       const newFromDate = (formModel.fromDate as TuiDay).toLocalNativeDate().valueOf();
-      const newToDate = (formModel.toDate as TuiDay).toLocalNativeDate().valueOf();
+      const newToDate = endOfDay((formModel.toDate as TuiDay).toLocalNativeDate().valueOf());
       const newDuration = (formModel?.duration as TuiTime).toAbsoluteMilliseconds().valueOf() / 1000;
 
       const { fromDate, toDate, ...dataToSubmit } = this.requestForm.value;
