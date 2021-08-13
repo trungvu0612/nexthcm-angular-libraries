@@ -10,8 +10,7 @@ import { TuiLetModule } from '@taiga-ui/cdk';
 import { TuiButtonModule, TuiLoaderModule } from '@taiga-ui/core';
 import { TuiDataListWrapperModule, TuiTabsModule, TuiTagModule } from '@taiga-ui/kit';
 import { TableModule } from 'ngx-easy-table';
-import { AbstractColDayRangeComponentModule } from '../shared/abstract-col-day-range/abstract-col-day-range.component';
-import { SecondsToHourMinutePipeModule } from '../shared/pipes/seconds-to-hour-minute/seconds-to-hour-minute.pipe';
+import { LeaveRequestDateRangeComponentModule } from '../shared/leave-request-date-range/leave-request-date-range.component';
 import { RequestListFilterComponentModule } from '../shared/request-list-filter/request-list-filter.component';
 import { RejectRequestDialogComponent } from './components/reject-leave-request-dialog/reject-request-dialog.component';
 import { LeaveRequestListComponent } from './pages/leave-request-list/leave-request-list.component';
@@ -47,8 +46,7 @@ import { RequestManagementComponent } from './request-management.component';
     TuiDataListWrapperModule,
     RequestListFilterComponentModule,
     TranslocoLocaleModule,
-    SecondsToHourMinutePipeModule,
-    AbstractColDayRangeComponentModule,
+    LeaveRequestDateRangeComponentModule,
   ],
 })
 export class RequestManagementModule {}

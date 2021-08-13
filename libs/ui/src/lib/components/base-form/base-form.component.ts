@@ -18,14 +18,8 @@ export class BaseFormComponent<T extends Record<string, any>> {
   @Input() model = {} as T;
   @Input() fields: FormlyFieldConfig[] = [];
 
-  @Output() submitForm = new EventEmitter<T>();
+  @Output() submitForm = new EventEmitter();
   @Output() cancel = new EventEmitter();
-
-  onSubmit(): void {
-    if (this.form.valid) {
-      this.submitForm.emit(this.form.value);
-    }
-  }
 }
 
 @NgModule({

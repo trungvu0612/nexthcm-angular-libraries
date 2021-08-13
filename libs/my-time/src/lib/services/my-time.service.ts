@@ -8,12 +8,12 @@ import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { from, iif, Observable } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
 import { SweetAlertOptions } from 'sweetalert2';
+import { RequestStatus } from '../enums';
 import { TrackingHistory, UpdateRequestPayload } from '../models';
 import { GeneralRequest } from '../models/interfaces/general-request';
 import { SubmitRequestPayload } from '../models/interfaces/submit-request-payload';
 import { RejectRequestDialogComponent } from '../modules/request-management/components/reject-leave-request-dialog/reject-request-dialog.component';
 import { RequestDetailDialogComponent } from '../modules/shared/request-detail-dialog/request-detail-dialog.component';
-import { parseLeaveDateRange } from '../modules/shared/utils/parse-leave-date-range';
 
 interface ServiceState {
   sendToUsers: EmployeeInfo[];
@@ -61,7 +61,9 @@ export class MyTimeService extends RxState<ServiceState> {
 
   getComments(objectId?: string): Observable<PagingResponse<any>> {
     const typeComment = 'hcm_working_hours_comment';
-    return this.http.get<PagingResponse<any>>(`${MY_TIME_PATH}/comments-common?objectId=${objectId}&type=`+typeComment);
+    return this.http.get<PagingResponse<any>>(
+      `${MY_TIME_PATH}/comments-common?objectId=${objectId}&type=` + typeComment
+    );
   }
 
   getRequests<T>(type: RequestTypeAPIUrlPath, params: HttpParams): Observable<Pagination<T>> {
@@ -88,7 +90,9 @@ export class MyTimeService extends RxState<ServiceState> {
         html: this.translocoService.translate('approveRequestWarning'),
       } as SweetAlertOptions)
     ).pipe(
-      switchMap((result) => iif(() => result.isConfirmed, this.updateRequest(type, id, { status: 1 }))),
+      switchMap((result) =>
+        iif(() => result.isConfirmed, this.updateRequest(type, id, { status: RequestStatus.approved }))
+      ),
       tap(this.promptService.handleResponse('approveSuccessfully', callback))
     );
   }
@@ -110,7 +114,9 @@ export class MyTimeService extends RxState<ServiceState> {
         html: this.translocoService.translate('cancelRequestWarning'),
       } as SweetAlertOptions)
     ).pipe(
-      switchMap((result) => iif(() => result.isConfirmed, this.updateRequest(type, id, { status: 2 }))),
+      switchMap((result) =>
+        iif(() => result.isConfirmed, this.updateRequest(type, id, { status: RequestStatus.cancelled }))
+      ),
       tap(this.promptService.handleResponse('cancelSuccessfully', callback))
     );
   }
@@ -121,7 +127,7 @@ export class MyTimeService extends RxState<ServiceState> {
         this.dialogService.open(new PolymorpheusComponent(RequestDetailDialogComponent, this.injector), {
           data: {
             type,
-            value: type === RequestTypeAPIUrlPath.leave ? parseLeaveDateRange(res.data) : res.data,
+            value: res.data,
             userId,
           },
           required: true,
@@ -131,8 +137,6 @@ export class MyTimeService extends RxState<ServiceState> {
   }
 
   getEscalateUsers(searchQuery: string): Observable<EmployeeInfo[]> {
-    return this.http
-      .get<BaseResponse<EmployeeInfo[]>>('/accountapp/v1.0/users/get-manager')
-      .pipe(map((res) => res.data));
+    return this.http.get<EmployeeInfo[]>('/accountapp/v1.0/users/get-manager');
   }
 }

@@ -1,0 +1,11 @@
+.approve-mark {
+  tui-wrapper.wrapper {
+    color: var(--tui-positive);
+  }
+}
+
+.reject-mark {
+  tui-wrapper.wrapper {
+    color: var(--tui-negative);
+  }
+}

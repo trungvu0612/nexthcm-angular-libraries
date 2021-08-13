@@ -5,9 +5,16 @@
       <ng-container *tuiLet="item(row) as item">
         <td>{{ item.userInfo.cif }}</td>
         <td class="font-bold uppercase">{{ item.userInfo.fullName }}</td>
-        <td>{{ item.timeSheetTracking.trackingDate | translocoDate }}</td>
+        <td>
+          {{ item.timeSheetTracking.trackingDate | translocoDate: { weekday: 'long' } }},
+          {{ item.timeSheetTracking.trackingDate | translocoDate }}
+        </td>
         <td>{{ item.newInTime ? (item.newInTime * 1000 | date: 'HH:mm':'UTC') : '-' }}</td>
         <td>{{ item.newOutTime ? (item.newOutTime * 1000 | date: 'HH:mm':'UTC') : '-' }}</td>
+        <td>
+          {{ item.totalHourUpdate ? (item.totalHourUpdate | translocoDecimal) : '-' }}
+        </td>
+        <td>{{ item.updateWorkingDay ? (item.updateWorkingDay | translocoDecimal) : '-' }}</td>
         <td>
           <tui-tag
             [value]="'REQUEST_STATUS.' + RequestStatus[item.status] | transloco"
@@ -24,22 +31,24 @@
               size="m"
               tuiIconButton
             ></button>
-            <button
-              (click)="onApproveRequest(item.id)"
-              appearance="flat"
-              class="approve-mark"
-              icon="tuiIconCheckLarge"
-              size="m"
-              tuiIconButton
-            ></button>
-            <button
-              (click)="onRejectRequest(item.id)"
-              appearance="flat"
-              class="reject-mark"
-              icon="tuiIconRemoveLarge"
-              size="m"
-              tuiIconButton
-            ></button>
+            <ng-container *ngIf="item.status === RequestStatus.waiting">
+              <button
+                (click)="onApproveRequest(item.id)"
+                appearance="flat"
+                class="approve-mark"
+                icon="tuiIconCheckLarge"
+                size="m"
+                tuiIconButton
+              ></button>
+              <button
+                (click)="onRejectRequest(item.id)"
+                appearance="flat"
+                class="reject-mark"
+                icon="tuiIconRemoveLarge"
+                size="m"
+                tuiIconButton
+              ></button>
+            </ng-container>
           </div>
         </td>
       </ng-container>

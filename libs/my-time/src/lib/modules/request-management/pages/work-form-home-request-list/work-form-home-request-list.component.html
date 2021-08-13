@@ -23,22 +23,24 @@
               size="m"
               tuiIconButton
             ></button>
-            <button
-              (click)="onApproveRequest(item.id)"
-              appearance="flat"
-              class="approve-mark"
-              icon="tuiIconCheckLarge"
-              size="m"
-              tuiIconButton
-            ></button>
-            <button
-              (click)="onRejectRequest(item.id)"
-              appearance="flat"
-              class="reject-mark"
-              icon="tuiIconRemoveLarge"
-              size="m"
-              tuiIconButton
-            ></button>
+            <ng-container *ngIf="item.status === RequestStatus.waiting">
+              <button
+                (click)="onApproveRequest(item.id)"
+                appearance="flat"
+                class="approve-mark"
+                icon="tuiIconCheckLarge"
+                size="m"
+                tuiIconButton
+              ></button>
+              <button
+                (click)="onRejectRequest(item.id)"
+                appearance="flat"
+                class="reject-mark"
+                icon="tuiIconRemoveLarge"
+                size="m"
+                tuiIconButton
+              ></button>
+            </ng-container>
           </div>
         </td>
       </ng-container>

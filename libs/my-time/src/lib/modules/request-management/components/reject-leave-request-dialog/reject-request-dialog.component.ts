@@ -3,6 +3,7 @@ import { FormBuilder } from '@ngneat/reactive-forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
+import { RequestStatus } from '../../../../enums';
 import { UpdateRequestPayload } from '../../../../models';
 
 @Component({
@@ -14,7 +15,7 @@ import { UpdateRequestPayload } from '../../../../models';
 export class RejectRequestDialogComponent {
   form = this.fb.group<UpdateRequestPayload>({} as UpdateRequestPayload);
   fields: FormlyFieldConfig[] = [
-    { key: 'status', defaultValue: 3 },
+    { key: 'status', defaultValue: RequestStatus.rejected },
     {
       key: 'reason',
       type: 'text-area',

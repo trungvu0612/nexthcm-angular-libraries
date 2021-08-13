@@ -1,59 +1,64 @@
 <hcm-request-list-filter includeSearch [httpParams]="queryParams$" class="mb-5"></hcm-request-list-filter>
 <section *transloco="let t">
-<tui-loader [overlay]="true" [showLoader]="(loading$ | async) === true">
-  <ngx-table #table [columns]="(columns$ | async) || []" [configuration]="configuration" [data]="(data$ | async) || []">
-    <ng-template let-row>
-      <ng-container *tuiLet="item(row) as item">
-        <td>{{ item.employeeDTO.cif }}</td>
-        <td class="font-bold uppercase">{{ item.employeeDTO.fullName }}</td>
-        <td *tuiLet="item.items as type">
-          <hcm-abstract-col-day-range [item]="item"></hcm-abstract-col-day-range>
-        </td>
-        <td>{{ item.leaveType.name }}</td>
-        <td>{{ item.durationInDay }}</td>
-        <td>
-          <tui-tag
-            [value]="'REQUEST_STATUS.' + RequestStatus[item.status] | transloco"
-            class="{{ RequestStatus[item.status] }}-tag"
-          ></tui-tag>
-        </td>
-        <td>{{ item.comment }}</td>
-        <td>
-          <div class="flex items-center">
-            <button
-              (click)="onViewEmployeeRequestDetail(item.id)"
-              appearance="flat"
-              icon="tuiIconShowLarge"
-              size="m"
-              tuiIconButton
-            ></button>
-            <button
-              (click)="onApproveRequest(item.id)"
-              appearance="flat"
-              class="approve-mark"
-              icon="tuiIconCheckLarge"
-              size="m"
-              tuiIconButton
-            ></button>
-            <button
-              (click)="onCancelRequest(item.id)"
-              appearance="flat"
-              class="reject-mark"
-              icon="tuiIconRemoveLarge"
-              size="m"
-              tuiIconButton
-            ></button>
-          </div>
-        </td>
-      </ng-container>
-    </ng-template>
-  </ngx-table>
-</tui-loader>
+  <tui-loader [overlay]="true" [showLoader]="(loading$ | async) === true">
+    <ngx-table
+      #table
+      [columns]="(columns$ | async) || []"
+      [configuration]="configuration"
+      [data]="(data$ | async) || []"
+    >
+      <ng-template let-row>
+        <ng-container *tuiLet="item(row) as item">
+          <td>{{ item.employeeDTO.cif }}</td>
+          <td class="font-bold uppercase">{{ item.employeeDTO.fullName }}</td>
+          <td *tuiLet="item.items as type">
+            <hcm-leave-request-date-range [request]="item"></hcm-leave-request-date-range>
+          </td>
+          <td>{{ item.leaveType.name }}</td>
+          <td>{{ item.durationInDay }}</td>
+          <td>
+            <tui-tag
+              [value]="'REQUEST_STATUS.' + RequestStatus[item.status] | transloco"
+              class="{{ RequestStatus[item.status] }}-tag"
+            ></tui-tag>
+          </td>
+          <td>{{ item.comment }}</td>
+          <td>
+            <div class="flex items-center">
+              <button
+                (click)="onViewEmployeeRequestDetail(item.id)"
+                appearance="flat"
+                icon="tuiIconShowLarge"
+                size="m"
+                tuiIconButton
+              ></button>
+              <ng-container *ngIf="item.status === RequestStatus.waiting">
+                <button
+                  (click)="onApproveRequest(item.id)"
+                  appearance="flat"
+                  class="approve-mark"
+                  icon="tuiIconCheckLarge"
+                  size="m"
+                  tuiIconButton
+                ></button>
+                <button
+                  (click)="onRejectRequest(item.id)"
+                  appearance="flat"
+                  class="reject-mark"
+                  icon="tuiIconRemoveLarge"
+                  size="m"
+                  tuiIconButton
+                ></button>
+              </ng-container>
+            </div>
+          </td>
+        </ng-container>
+      </ng-template>
+    </ngx-table>
+  </tui-loader>
 </section>
 <tui-table-pagination
   (pageChange)="onPage($event)"
   (sizeChange)="onSize($event)"
   [total]="(total$ | async) || 0"
 ></tui-table-pagination>
-
-

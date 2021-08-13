@@ -1,0 +1,38 @@
+<div *transloco="let t">
+  <ng-container *ngIf="!request.items.length; else halfDay">{{ request.fromDate | translocoDate }}</ng-container>
+
+  <ng-template #halfDay>
+    <ng-container *ngFor="let itemType of request.items; index as index">
+      <p *ngIf="itemType.afternoon; else halfDayMorning">
+        {{ (index === 0 ? request.fromDate : request.toDate) | translocoDate }} ({{ t('afternoon') }})
+      </p>
+
+      <ng-template #halfDayMorning>
+        <p *ngIf="itemType.morning; else specialTime">
+          {{ (index === 0 ? request.fromDate : request.toDate) | translocoDate }} ({{ t('morning') }})
+        </p>
+      </ng-template>
+
+      <ng-template #specialTime>
+        <ng-container *ngIf="request.items.length === 1; else specialTime2Index">
+          <p *ngIf="itemType.fromTime && itemType.toTime">
+            {{ request.fromDate | translocoDate }}-{{ request.toDate | translocoDate }} ({{
+              itemType.fromTime * 1000 | date: 'HH:mm':'UTC'
+            }}-{{ itemType.toTime * 1000 | date: 'HH:mm':'UTC' }})
+          </p>
+        </ng-container>
+
+        <ng-template #specialTime2Index>
+          <p *ngIf="index === 0 && itemType.fromTime && itemType.toTime">
+            {{ request.fromDate | translocoDate }}
+            ({{ itemType.fromTime * 1000 | date: 'HH:mm':'UTC' }}-{{ itemType.toTime * 1000 | date: 'HH:mm':'UTC' }})
+          </p>
+          <p *ngIf="index === 1 && itemType.fromTime && itemType.toTime">
+            {{ request.toDate | translocoDate }}
+            ({{ itemType.fromTime * 1000 | date: 'HH:mm':'UTC' }}-{{ itemType.toTime * 1000 | date: 'HH:mm':'UTC' }})
+          </p>
+        </ng-template>
+      </ng-template>
+    </ng-container>
+  </ng-template>
+</div>

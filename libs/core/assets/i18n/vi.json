@@ -326,10 +326,10 @@
   "chooseHealthCareCompany": "Chọn công ty bảo hiểm",
   "healthCareNumber": "Mã số bảo hiểm",
   "enterHealthCareNumber": "Nhập mã số bảo hiểm",
-  "myLeave": "Quản lý ngày nghỉ",
+  "myLeave": "Ngày nghỉ của tôi",
   "morning": "Buổi sáng",
   "afternoon": "Buổi chiều",
-  "submitLeaveRequest": "Nộp đơn xin nghỉ phép",
+  "submitLeaveRequest": "Yêu cầu nghỉ phép",
   "MY_LEAVE_TABLE_COLUMNS": {
     "dateRange": "Khoảng thời gian",
     "leaveType": "Tên loại phép nghỉ",
@@ -383,7 +383,7 @@
     "status": "Trạng Thái",
     "cancel": "Hủy",
     "requestSuccess": "Đã Gửi Đơn Xin Làm Việc Tại Nhà!",
-    "requestOnsiteSuccess": "Đã Gửi Đơn Thành Công!",
+    "submitSuccessfully": "Đã Gửi Đơn Thành Công!",
     "approveLeave": "Đã Phê Duyệt Đơn Xin Nghỉ Phép!",
     "rejectLeave": "Đã Từ Chối Đơn Xin Nghỉ Phép!",
     "dateFrom": "Từ ngày",
@@ -456,38 +456,16 @@
     "Comment": "Bình luận",
     "functions": "Chức năng",
     "cif": "Mã nhân viên",
-    "newTimeIn": "Giờ vào mới",
-    "newTimeOut": "Giờ ra mới",
-    "date": "Ngày"
-  },
-  "WORKING_OUTSIDE_MANAGEMENT": {
-    "fromDate": "Từ ngày",
-    "toDate": "Đến ngày",
-    "state": "Trạng thái",
-    "assignedName": "Gửi cho",
-    "type": "Loại",
-    "reason": "Lý do",
-    "functions": "Chức năng",
-    "status": "Trạng thái",
-    "comment": "Giải thích",
-    "totalDay": "Số ngày",
-    "day": "Ngày"
-  },
-  "OT_TYPE": {
-    "WORKING_AFTERTIME": "Sau giờ",
-    "OVERTIME": "Ngoài giờ"
-  },
-  "TIMESHEET_MANAGEMENT": {
-    "office": "Văn Phòng",
-    "trackingDate": "Ngày tháng",
-    "newInTime": "Giờ vào",
-    "newOutTime": "Giờ về",
-    "updateTotalTime": "Tổng thời gian làm",
-    "asignee": "Gửi cho",
-    "status": "Trạng thái",
-    "functions": "Chức năng",
+    "newInTime": "Giờ vào mới",
+    "newOutTime": "Giờ ra mới",
     "date": "Ngày",
-    "day": "Ngày"
+    "updateTotalTime": "Tổng thời gian làm việc",
+    "updateWorkingDay": "Số ngày công",
+    "type": "Loại"
+  },
+  "WORKING_AFTER_HOURS_TYPE": {
+    "WORKING_AFTERTIME": "Làm việc ngoài giờ",
+    "OVERTIME": "Làm việc thêm giờ"
   },
   "REQUEST_STATUS": {
     "all": "Tất cả",
@@ -501,13 +479,13 @@
   },
   "leave": "Nghỉ phép",
   "workingAfterHours": "Làm việc ngoài giờ",
+  "workingAfterHoursRequest": "Yêu cầu làm việc ngoài giờ",
   "updateTimesheet": "Cập nhật bảng ghi thời gian",
   "workingOutside": "Làm việc bên ngoài",
   "workFromHome": "Làm tại nhà",
-  "workFromHomeReq": "Yêu cầu làm tại nhà",
-  "wfhReq": "Yêu cầu làm WFH",
-  "otReq": "Yêu cầu làm OT",
-  "onSiteReq": "Yêu cầu làm Onsite",
+  "workFromHomeRequest": "Yêu cầu làm tại nhà",
+  "overtimeRequest": "Yêu cầu OT",
+  "workingOutsideRequest": "Yêu cầu làm bên ngoài",
   "approveRequestWarning": "<b>Bạn có thật sự muốn chấp thuận yêu cầu này?</b>",
   "cancelRequestWarning": "<b>Bạn có thật sự muốn hủy yêu cầu này?</b>",
   "rejectRequestWarning": "Bạn có thật sự muốn từ chối yêu cầu này?",
@@ -546,5 +524,9 @@
   "workedTimeToday": "Thời gian đã làm hôm nay",
   "yourWorkingDaysThisMonth": "Số ngày làm việc trong tháng này",
   "chooseAPerson": "Chọn một người",
-  "chooseDateRange": "Chọn khoảng thời gian"
+  "chooseDateRange": "Chọn khoảng thời gian",
+  "enterNumberOfWorkingDays": "Nhập số ngày làm việc",
+  "enterTotalWorkingHours": "Nhập số giờ làm việc",
+  "newInTime": "Giờ vào mới",
+  "newOutTime": "Giờ ra mới"
 }

@@ -4,7 +4,7 @@ import { AuthService } from '@nexthcm/auth';
 import { Pagination, PromptService } from '@nexthcm/cdk';
 import { FormBuilder } from '@ngneat/reactive-forms';
 import { TranslocoService } from '@ngneat/transloco';
-import { RxState, setProp } from '@rx-angular/state';
+import { RxState } from '@rx-angular/state';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { BaseComponent, Columns } from 'ngx-easy-table';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -12,7 +12,6 @@ import { filter, map, share, startWith, switchMap } from 'rxjs/operators';
 import { LeaveRequest } from '../../../../models';
 import { MyTimeService, RequestTypeAPIUrlPath } from '../../../../services';
 import { AbstractRequestListComponent } from '../../../shared/abstract-components/abstract-request-list.component';
-import { parseLeaveDateRange } from '../../../shared/utils/parse-leave-date-range';
 
 @Component({
   selector: 'hcm-leave-request-list',
@@ -64,12 +63,6 @@ export class LeaveRequestListComponent extends AbstractRequestListComponent<Leav
     private authService: AuthService
   ) {
     super(state);
-    state.connect(this.request$.pipe(filter(isPresent)), (state, data) =>
-      setProp(
-        data,
-        'items',
-        data.items.map((item) => parseLeaveDateRange(item))
-      )
-    );
+    state.connect(this.request$.pipe(filter(isPresent)));
   }
 }

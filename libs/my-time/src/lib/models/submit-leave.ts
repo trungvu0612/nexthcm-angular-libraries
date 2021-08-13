@@ -42,10 +42,10 @@ export interface Body {
   resultDays?: number;
 }
 
-export interface PayLoad {
+export interface SubmitLeavePayLoad {
   partialDayTypeId?: string;
-  fromDate?: number;
-  toDate?: number;
+  fromDate: number;
+  toDate: number;
   leaveTypeId?: string;
   items?: [] | null;
   itemEnds?: unknown[];

@@ -84,7 +84,12 @@ export class RequestDetailDialogComponent {
   }
 
   onChangeEscalateUser(value: EmployeeInfo | null, requestId: string): void {
-    this.data.escalateDTO = value;
+    if ('escalateInfo' in this.data) {
+      this.data.escalateInfo = value;
+    }
+    if ('escalateInfo' in this.data) {
+      this.data.escalateInfo = value;
+    }
     if (value) {
       this.myTimeService
         .updateRequest(this.requestTypeAPIUrlPath, requestId, { escalate: value.id })

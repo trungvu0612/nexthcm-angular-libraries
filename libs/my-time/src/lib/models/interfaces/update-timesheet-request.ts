@@ -2,15 +2,15 @@ import { EmployeeInfo } from '@nexthcm/cdk';
 import { BaseRequest } from './base-request';
 
 export interface UpdateTimesheetRequest extends BaseRequest {
-  optCounter: number;
   newInTime: number;
   newOutTime: number;
   oldInTime: number;
   oldOutTime: number;
-  comments: string;
+  comment: string;
   day: string;
   totalHourUpdate: number;
   updateTotalTime: number;
+  updateWorkingDay: number;
   userInfo: EmployeeInfo;
   timeSheetTracking: UpdateTimesheetRequestTimeSheetTracking;
 }

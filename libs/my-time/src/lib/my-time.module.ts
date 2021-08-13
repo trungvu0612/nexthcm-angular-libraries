@@ -3,11 +3,14 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LayoutComponent } from '@nexthcm/ui';
 import { NgxPermissionsGuard } from 'ngx-permissions';
-import { LeaveRequestManagementComponent } from './modules/my-leave/leave-request-management/leave-request-management.component';
 import { MyLeaveComponent } from './modules/my-leave/my-leave.component';
 import { MyLeaveModule } from './modules/my-leave/my-leave.module';
-import { MyRequestsComponent } from './modules/my-request/my-requests.component';
-import { MyRequestsModule } from './modules/my-request/my-requests.module';
+import { MyRequestsComponent } from './modules/my-requests/my-requests.component';
+import { MyRequestsModule } from './modules/my-requests/my-requests.module';
+import { MyUpdateTimesheetRequestsComponent } from './modules/my-requests/pages/my-update-timesheet-requests/my-update-timesheet-requests.component';
+import { MyWorkFromHomeRequestsComponent } from './modules/my-requests/pages/my-work-from-home-requests/my-work-from-home-requests.component';
+import { MyWorkingAfterHoursRequestsComponent } from './modules/my-requests/pages/my-working-after-hours-requests/my-working-after-hours-requests.component';
+import { MyWorkingOutsideRequestsComponent } from './modules/my-requests/pages/my-working-outside-requests/my-working-outside-requests.component';
 import { LeaveRequestListComponent } from './modules/request-management/pages/leave-request-list/leave-request-list.component';
 import { UpdateTimesheetRequestListComponent } from './modules/request-management/pages/update-timesheet-request-list/update-timesheet-request-list.component';
 import { WorkFormHomeRequestListComponent } from './modules/request-management/pages/work-form-home-request-list/work-form-home-request-list.component';
@@ -29,11 +32,7 @@ export const MY_TIME_ROUTES: Routes = [
     data: { permissions: { only: 'MY_TIME', redirectTo: '/' } },
     children: [
       { path: '', pathMatch: 'full', redirectTo: 'my-leave' },
-      {
-        path: 'my-leave',
-        component: MyLeaveComponent,
-        children: [{ path: '', component: LeaveRequestManagementComponent }],
-      },
+      { path: 'my-leave', component: MyLeaveComponent },
       {
         path: 'working-hours',
         component: WorkingHoursComponent,
@@ -46,10 +45,17 @@ export const MY_TIME_ROUTES: Routes = [
         ],
       },
       {
-        path: 'my-request',
+        path: 'my-requests',
         component: MyRequestsComponent,
         canActivate: [NgxPermissionsGuard],
         data: { permissions: { only: 'VIEW_MY_REQUEST', redirectTo: '/' } },
+        children: [
+          { path: 'working-after-hours', component: MyWorkingAfterHoursRequestsComponent },
+          { path: 'update-timesheet', component: MyUpdateTimesheetRequestsComponent },
+          { path: 'working-outside', component: MyWorkingOutsideRequestsComponent },
+          { path: 'work-from-home', component: MyWorkFromHomeRequestsComponent },
+          { path: '', redirectTo: 'working-after-hours', pathMatch: 'full' },
+        ],
       },
       {
         path: 'requests',

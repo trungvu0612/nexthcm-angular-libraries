@@ -1,0 +1,62 @@
+<main *transloco="let t" class="main-page">
+  <header>
+    <h1>{{ t('myLeave') }}</h1>
+    <button (click)="showDialogSubmit()" icon="tuiIconPlusLarge" size="m" tuiButton>
+      {{ t('submitLeaveRequest') }}
+    </button>
+  </header>
+
+  <section class="main-section">
+    <hcm-request-list-filter [httpParams]="queryParams$" class="mb-5"></hcm-request-list-filter>
+    <tui-loader [overlay]="true" [showLoader]="(loading$ | async) === true">
+      <ngx-table
+        #table
+        [columns]="(columns$ | async) || []"
+        [configuration]="configuration"
+        [data]="(data$ | async) || []"
+      >
+        <ng-template let-row>
+          <ng-container *tuiLet="item(row) as item">
+            <td *tuiLet="item.items as type">
+              <hcm-leave-request-date-range [request]="item"></hcm-leave-request-date-range>
+            </td>
+            <td>{{ item.leaveType?.name }}</td>
+            <td>{{ item.durationInDay | translocoDecimal }}</td>
+            <td>
+              <tui-tag
+                [value]="'REQUEST_STATUS.' + RequestStatus[item.status] | transloco"
+                class="{{ RequestStatus[item.status] }}-tag"
+              ></tui-tag>
+            </td>
+            <td>{{ item.comment }}</td>
+            <td>
+              <div class="flex items-center">
+                <button
+                  (click)="onViewEmployeeRequestDetail(item.id, userId)"
+                  appearance="flat"
+                  icon="tuiIconShowLarge"
+                  size="m"
+                  tuiIconButton
+                ></button>
+                <button
+                  *ngIf="item.status === RequestStatus.waiting"
+                  (click)="onCancelRequest(item.id)"
+                  appearance="flat"
+                  class="reject-mark"
+                  icon="tuiIconRemoveLarge"
+                  size="m"
+                  tuiIconButton
+                ></button>
+              </div>
+            </td>
+          </ng-container>
+        </ng-template>
+      </ngx-table>
+    </tui-loader>
+    <tui-table-pagination
+      (pageChange)="onPage($event)"
+      (sizeChange)="onSize($event)"
+      [total]="(total$ | async) || 0"
+    ></tui-table-pagination>
+  </section>
+</main>

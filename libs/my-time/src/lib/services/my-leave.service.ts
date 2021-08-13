@@ -10,8 +10,16 @@ import { map, switchMap, tap } from 'rxjs/operators';
 import { SweetAlertOptions } from 'sweetalert2';
 import { DurationHoldsEnum, PartialDaysEnum } from '../enums';
 import { HalfDaysEnum } from '../enums/half-days';
-import { DurationValues, LeavesRemaining, LeaveSubmit, MyLeave, PartialDayType, Requests, SentToUser } from '../models';
-import { RequestTypeAPIUrlPath } from './my-time.service';
+import {
+  DurationValues,
+  LeavesRemaining,
+  LeaveSubmit,
+  MyLeave,
+  PartialDayType,
+  Requests,
+  SentToUser,
+  SubmitLeavePayLoad,
+} from '../models';
 
 const MY_TIME_PATH = '/mytimeapp/v1.0';
 const MY_ACCOUNT_PATH = '/accountapp/v1.0';
@@ -292,8 +300,8 @@ export class MyLeaveService extends RxState<MyLeaveState> {
     return this.http.get<PagingResponse<SentToUser>>(`${MY_ACCOUNT_PATH}/users`);
   }
 
-  createLeave(body: any): Observable<any> {
-    return this.http.post<any>(`${MY_TIME_PATH}/leaves`, body);
+  createLeave(body: SubmitLeavePayLoad): Observable<unknown> {
+    return this.http.post<unknown>(`${MY_TIME_PATH}/leaves`, body);
   }
 
   editLeave(id: string | undefined, body: any): Observable<any> {

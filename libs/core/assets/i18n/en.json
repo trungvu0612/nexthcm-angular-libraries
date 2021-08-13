@@ -384,7 +384,7 @@
     "status": "Status",
     "cancel": "Cancel",
     "requestSuccess": "Request Work For Home Successfully!",
-    "requestOnsiteSuccess": "Request Successfully!",
+    "submitSuccessfully": "Request Successfully!",
     "approveLeave": "Approve Leave Successfully!",
     "rejectLeave": "Reject Leave Successfully!",
     "dateFrom": "Date from",
@@ -459,9 +459,12 @@
     "Comment": "Comment",
     "functions": "Functions",
     "cif": "CIF",
-    "newTimeIn": "New check-in time",
-    "newTimeOut": "New check-out time",
-    "date": "Date"
+    "newInTime": "New check-in time",
+    "newOutTime": "New check-out time",
+    "date": "Date",
+    "updateTotalTime": "Updated total time",
+    "updateWorkingDay": "Updated working day",
+    "type": "Type"
   },
   "WORKING_OUTSIDE_MANAGEMENT": {
     "fromDate": "From Date",
@@ -476,21 +479,9 @@
     "totalDay": "Total day",
     "day": "Day"
   },
-  "OT_TYPE": {
-    "WORKING_AFTERTIME": "After time",
+  "WORKING_AFTER_HOURS_TYPE": {
+    "WORKING_AFTERTIME": "After hours",
     "OVERTIME": "Overtime"
-  },
-  "TIMESHEET_MANAGEMENT": {
-    "office": "Office",
-    "trackingDate": "Tracking date",
-    "newInTime": "Updated Time In",
-    "newOutTime": "Updated Time Out",
-    "updateTotalTime": "Updated Total Time",
-    "asignee": "Assignee",
-    "status": "Status",
-    "functions": "Functions",
-    "date": "Date",
-    "day": "Day"
   },
   "REQUEST_STATUS": {
     "all": "All",
@@ -503,14 +494,14 @@
     "holiday": "Holiday"
   },
   "leave": "Leave",
-  "workingAfterHours": "Working After Hours",
-  "updateTimesheet": "Update Timesheet",
-  "workingOutside": "Working Outside",
-  "workFromHome": "Work From Home",
-  "workFromHomeReq": "Work From Home Request",
-  "wfhReq": "Request WFH",
-  "otReq": "Request OT",
-  "onSiteReq": "Request Onsite",
+  "workingAfterHours": "Working after-hours",
+  "workingAfterHoursRequest": "Request to work after-hours",
+  "updateTimesheet": "Update timesheet",
+  "workingOutside": "Working outside",
+  "workFromHome": "Work from home",
+  "workFromHomeRequest": "Request to work from home",
+  "overtimeRequest": "Request to work overtime",
+  "workingOutsideRequest": "Request to work outside",
   "approveRequestWarning": "<b>Are you sure you want to approve this request?</b>",
   "cancelRequestWarning": "<b>Are you sure you want to cancel this request?</b>",
   "rejectRequestWarning": "Are you sure you want to reject this request?",
@@ -549,5 +540,9 @@
   "workedTimeToday": "Worked time today",
   "yourWorkingDaysThisMonth": "Your working days this month",
   "chooseAPerson": "Choose a person",
-  "chooseDateRange": "Choose date range"
+  "chooseDateRange": "Choose date range",
+  "enterNumberOfWorkingDays": "Enter number of working days",
+  "enterTotalWorkingHours": "Enter total working hours",
+  "newInTime": "New check-in time",
+  "newOutTime": "New check-out time"
 }
