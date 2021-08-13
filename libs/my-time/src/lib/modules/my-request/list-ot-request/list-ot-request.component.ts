@@ -1,12 +1,11 @@
 import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { AbstractRequestListComponent } from '../../shared/abstract-components/abstract-request-list.component';
 import { WorkingAfterHoursRequest } from '../../../models';
 import { BaseComponent, Columns } from 'ngx-easy-table';
 import { MyTimeService, RequestTypeAPIUrlPath } from '../../../services/my-time.service';
 import { filter, map, share, startWith, switchMap } from 'rxjs/operators';
-import { HttpParams } from '@angular/common/http';
 import { RxState } from '@rx-angular/state';
 import { Pagination } from '@nexthcm/cdk';
 import { TranslocoService } from '@ngneat/transloco';
@@ -32,9 +31,6 @@ export class ListOtRequestComponent extends AbstractRequestListComponent<Working
       { key: 'reason', title: result.reason },
       { key: 'functions', title: result.functions }
     ])
-  );
-  readonly queryParams$ = new BehaviorSubject(
-    new HttpParams().set('page', 0).set('size', 10).set('userId', this.userId)
   );
 
   private readonly request$ = this.queryParams$.pipe(

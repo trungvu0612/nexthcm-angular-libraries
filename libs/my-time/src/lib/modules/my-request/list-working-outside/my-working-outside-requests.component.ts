@@ -30,7 +30,7 @@ export class MyWorkingOutsideRequestsComponent extends AbstractRequestListCompon
         { key: 'fromDate', title: result.fromDate },
         { key: 'toDate', title: result.toDate },
         { key: 'day', title: result.day },
-        { key: 'state', title: result.state },
+        { key: 'status', title: result.status },
         { key: 'reason', title: result.reason },
         { key: 'functions', title: result.functions }
       ])

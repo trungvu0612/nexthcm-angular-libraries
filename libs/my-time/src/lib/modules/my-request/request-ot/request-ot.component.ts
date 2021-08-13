@@ -94,7 +94,7 @@ export class RequestOtComponent {
     },
 
     {
-      key: 'reason',
+      key: 'comment',
       type: 'text-area',
       templateOptions: {
         required: true,

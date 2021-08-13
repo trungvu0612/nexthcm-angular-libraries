@@ -470,6 +470,8 @@
     "reason": "Lý do",
     "functions": "Chức năng",
     "status": "Trạng thái",
+    "comment": "Giải thích",
+    "totalDay": "Số ngày",
     "day": "Ngày"
   },
   "OT_TYPE": {

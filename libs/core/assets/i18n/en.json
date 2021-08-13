@@ -472,6 +472,8 @@
     "reason": "Reason",
     "functions": "Functions",
     "status": "Status",
+    "comment": "Comment",
+    "totalDay": "Total day",
     "day": "Day"
   },
   "OT_TYPE": {
