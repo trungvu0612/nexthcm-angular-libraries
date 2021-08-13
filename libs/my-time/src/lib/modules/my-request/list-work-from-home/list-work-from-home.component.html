@@ -14,7 +14,7 @@
 
 <table [columns]="columns" class="hcm-tui-table" tuiTable>
   <thead>
-<!--  readonly columns = ['fromDate', 'toDate', 'length', 'status', 'reason', 'assignedName', 'action'];-->
+  <!--  readonly columns = ['fromDate', 'toDate', 'length', 'status', 'reason', 'assignedName', 'action'];-->
   <tr tuiThGroup>
     <th *tuiHead="'fromDate'" tuiTh>From Date</th>
     <th *tuiHead="'toDate'" tuiTh>To Date</th>
@@ -33,9 +33,10 @@
     <td *tuiCell="'reason'" tuiTd>{{ req.reason }}</td>
     <td *tuiCell="'userSendTo'" tuiTd>{{ req?.userSendTo?.username }}</td>
     <td *tuiCell="'status'" tuiTd>
-      <tui-tag [class]="STATUS[req.status + ''] + '-tag'" [value]="STATUS[req.status + ''] | titlecase"></tui-tag></td>
+      <tui-tag [class]="STATUS[req.status + ''] + '-tag'" [value]="STATUS[req.status + ''] | titlecase"></tui-tag>
+    </td>
     <td *tuiCell="'action'" tuiTd>
-<!--      -->
+      <!--      -->
       <button
         (click)="cancelReq(req)"
         [icon]="'tuiIconRemoveLarge'"

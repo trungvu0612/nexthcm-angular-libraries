@@ -82,7 +82,7 @@ export const MY_TIME_ROUTES: Routes = [
 ];
 
 @NgModule({
-  declarations: [MyTimeComponent, RequestsDialogComponent, RejectDialogComponent],
+  declarations: [MyTimeComponent, RejectDialogComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(MY_TIME_ROUTES),

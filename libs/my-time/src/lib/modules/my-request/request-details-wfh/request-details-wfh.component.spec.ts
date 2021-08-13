@@ -8,7 +8,7 @@ describe('RequestDetailsWfhComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [RequestDetailsWfhComponent],
+      declarations: [RequestDetailsWfhComponent]
     }).compileComponents();
   });
 

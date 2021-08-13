@@ -16,7 +16,7 @@ import {
   TuiGroupModule,
   TuiLoaderModule,
   TuiSvgModule,
-  TuiTextfieldControllerModule,
+  TuiTextfieldControllerModule
 } from '@taiga-ui/core';
 import {
   TuiAccordionModule,
@@ -27,7 +27,7 @@ import {
   TuiRadioBlockModule,
   TuiSelectModule,
   TuiTabsModule,
-  TuiTagModule,
+  TuiTagModule
 } from '@taiga-ui/kit';
 import { TableModule } from 'ngx-easy-table';
 import { MyRequestManagementFilterComponent } from './components/my-request-management-filter/my-request-management-filter.component';
@@ -41,6 +41,7 @@ import { RequestDetailsWfhComponent } from './request-details-wfh/request-detail
 import { RequestDetailsComponent } from './request-details/request-details.component';
 import { RequestOtComponent } from './request-ot/request-ot.component';
 import { RequestWorkOnsiteComponent } from './request-work-onsite/request-work-onsite.component';
+import { RequestsDialogComponent } from '../../components/requests-dialog/requests-dialog.component';
 
 @NgModule({
   declarations: [
@@ -49,12 +50,13 @@ import { RequestWorkOnsiteComponent } from './request-work-onsite/request-work-o
     ListOtRequestComponent,
     ListTimesheetUpdateComponent,
     MyWorkingOutsideRequestsComponent,
+    RequestsDialogComponent,
     RequestDetailsComponent,
     RequestOtComponent,
     ListWorkFromHomeComponent,
     RequestDetailsWfhComponent,
     MyRequestManagementFilterComponent,
-    RequestWorkOnsiteComponent,
+    RequestWorkOnsiteComponent
   ],
   imports: [
     CommonModule,
@@ -85,7 +87,8 @@ import { RequestWorkOnsiteComponent } from './request-work-onsite/request-work-o
     TuiAccordionModule,
     GetFileModule,
     TuiAvatarModule,
-    TranslocoLocaleModule,
-  ],
+    TranslocoLocaleModule
+  ]
 })
-export class MyRequestsModule {}
+export class MyRequestsModule {
+}

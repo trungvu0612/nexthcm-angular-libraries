@@ -8,7 +8,7 @@ describe('MyRequestManagementFilterComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [MyRequestManagementFilterComponent],
+      declarations: [MyRequestManagementFilterComponent]
     }).compileComponents();
   });
 

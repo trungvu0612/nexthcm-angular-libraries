@@ -8,7 +8,8 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 })
 export class MyRequestManagementFilterComponent implements OnInit {
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit(): void {
   }

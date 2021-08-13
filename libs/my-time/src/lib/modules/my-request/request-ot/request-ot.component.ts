@@ -5,7 +5,7 @@ import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { SubmitRequest } from '../../../models/requests';
 import { TuiDay, TuiDestroyService, TuiTime } from '@taiga-ui/cdk';
-import { MyRequestService } from '../../../services';
+import { MyLeaveService, MyRequestService } from '../../../services';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '@nexthcm/auth';
 import { OTEnum } from '../../../enums/ot';
@@ -52,7 +52,7 @@ export class RequestOtComponent {
           templateOptions: {
             textfieldLabelOutside: true,
             required: true,
-            placeholder: 'From Date'
+            placeholder: this.translocoService.translate('WORKING_OUTSIDE_MANAGEMENT.fromDate')
           }
         },
         {
@@ -61,7 +61,7 @@ export class RequestOtComponent {
           templateOptions: {
             textfieldLabelOutside: true,
             required: true,
-            placeholder: 'To Date'
+            placeholder: this.translocoService.translate('WORKING_OUTSIDE_MANAGEMENT.toDate')
           }
         }
       ]
@@ -75,9 +75,10 @@ export class RequestOtComponent {
           templateOptions: {
             textfieldLabelOutside: true,
             required: true,
-            placeholder: 'Send To',
-            valueProp: 'id',
-            options: [{ label: 'Nguyen Thanh Son', id: '557e6ff6-87ab-463e-a46c-2338f64c521a' }]
+            placeholder: this.translocoService.translate('WORKING_OUTSIDE_MANAGEMENT.assignedName'),
+            options: this.myLeaveService.select('sendToUsers'),
+            labelProp: 'username',
+            valueProp: 'id'
           }
         },
         {
@@ -86,7 +87,7 @@ export class RequestOtComponent {
           templateOptions: {
             textfieldLabelOutside: true,
             required: true,
-            placeholder: 'Duration'
+            placeholder: this.translocoService.translate('duration')
           }
         }
       ]
@@ -98,7 +99,7 @@ export class RequestOtComponent {
       templateOptions: {
         required: true,
         textfieldLabelOutside: true,
-        placeholder: 'Comment'
+        placeholder: this.translocoService.translate('reason')
       }
     }
   ];
@@ -107,6 +108,7 @@ export class RequestOtComponent {
     private formbuilder: FormBuilder,
     private requestService: MyRequestService,
     private destroy$: TuiDestroyService,
+    private myLeaveService: MyLeaveService,
     private translocoService: TranslocoService,
     private activatedRoute: ActivatedRoute,
     private authService: AuthService,

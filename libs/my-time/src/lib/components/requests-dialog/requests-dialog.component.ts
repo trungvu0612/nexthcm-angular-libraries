@@ -8,6 +8,8 @@ import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { SubmitRequest } from '../../models/requests';
 import { MyRequestService } from '../../services/my-request.service';
+import { TranslocoService } from '@ngneat/transloco';
+import { MyLeaveService } from '../../services';
 
 @Component({
   selector: 'hcm-requests-dialog',
@@ -33,7 +35,7 @@ export class RequestsDialogComponent implements OnInit {
           templateOptions: {
             textfieldLabelOutside: true,
             required: true,
-            placeholder: 'From Date'
+            placeholder: this.translocoService.translate('WORKING_OUTSIDE_MANAGEMENT.fromDate'),
           }
         },
         {
@@ -42,7 +44,7 @@ export class RequestsDialogComponent implements OnInit {
           templateOptions: {
             textfieldLabelOutside: true,
             required: true,
-            placeholder: 'To Date'
+            placeholder: this.translocoService.translate('WORKING_OUTSIDE_MANAGEMENT.toDate'),
           }
         }
       ]
@@ -57,9 +59,10 @@ export class RequestsDialogComponent implements OnInit {
             textfieldLabelOutside: true,
             required: true,
             // required: true,
-            placeholder: 'Send To',
-            options: [{ label: 'Nguyen Thanh Son', value: '557e6ff6-87ab-463e-a46c-2338f64c521a' }],
-            valueProp: 'value'
+            placeholder: this.translocoService.translate('WORKING_OUTSIDE_MANAGEMENT.assignedName'),
+            options: this.myLeaveService.select('sendToUsers'),
+            labelProp: 'username',
+            valueProp: 'id',
           }
         }
       ]
@@ -70,7 +73,7 @@ export class RequestsDialogComponent implements OnInit {
       templateOptions: {
         required: true,
         textfieldLabelOutside: true,
-        placeholder: 'Reason'
+        placeholder: this.translocoService.translate('reason'),
       }
     }
   ];
@@ -78,7 +81,9 @@ export class RequestsDialogComponent implements OnInit {
   constructor(
     private formbuilder: FormBuilder,
     private requestService: MyRequestService,
+    private myLeaveService: MyLeaveService,
     private destroy$: TuiDestroyService,
+    private translocoService: TranslocoService,
     private activatedRoute: ActivatedRoute,
     private authService: AuthService,
     @Inject(POLYMORPHEUS_CONTEXT) public context: TuiDialogContext<unknown>
