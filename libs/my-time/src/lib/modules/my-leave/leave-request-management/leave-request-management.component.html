@@ -37,9 +37,10 @@
             <td>
               <div class="flex items-center">
                 <button
-                  appearance="flat"
-                  icon="tuiIconShowLarge"
-                  size="m"
+                  (click)='onViewEmployeeRequestDetail(item.id, userId)'
+                  appearance='flat'
+                  icon='tuiIconShowLarge'
+                  size='m'
                   tuiIconButton
                 ></button>
                 <button *ngIf="item.status === 0"

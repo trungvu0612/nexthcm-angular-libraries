@@ -38,4 +38,11 @@ export abstract class AbstractRequestListComponent<T> extends AbstractServerPagi
       .pipe(takeUntil(this.destroy$))
       .subscribe();
   }
+
+  onCancelRequest(id: string): void {
+    this.myTimeService
+      .cancelRequest(this.requestTypeUrlPath, id, () => this.queryParams$.next(this.queryParams$.value))
+      .pipe(takeUntil(this.destroy$))
+      .subscribe();
+  }
 }

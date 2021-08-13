@@ -28,6 +28,7 @@ import { SubmitLeaveRequestDialogComponent } from '../submit-leave-request-dialo
 })
 export class LeaveRequestManagementComponent extends AbstractServerPaginationTableComponent<LeaveRequest> {
   @ViewChild('table') table!: BaseComponent;
+  readonly userId = this.authService.get('userInfo', 'userId');
   configuration: Config = {
     ...DefaultConfig,
     paginationEnabled: false,
@@ -86,6 +87,16 @@ export class LeaveRequestManagementComponent extends AbstractServerPaginationTab
         data.items.map((item) => parseLeaveDateRange(item))
       )
     );
+  }
+
+  onViewEmployeeRequestDetail(id: string, userId?: string): void {
+    this.myTimeService
+      .viewEmployeeRequestDetail(this.requestTypeUrlPath, id, userId)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(
+        () => null,
+        () => this.queryParams$.next(this.queryParams$.value)
+      );
   }
 
   showDialogSubmit() {
