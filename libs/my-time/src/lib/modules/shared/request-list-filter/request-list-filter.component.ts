@@ -1,3 +1,4 @@
+import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { CommonModule } from '@angular/common';
 import { HttpParams } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, Input, NgModule, OnInit } from '@angular/core';
@@ -44,6 +45,17 @@ export class RequestListFilterComponent implements OnInit {
   @tuiDefaultProp()
   set httpParams(subject: BehaviorSubject<HttpParams>) {
     this.httpParams$ = subject;
+  }
+
+  private _includeSearch = false;
+
+  get includeSearch(): boolean {
+    return this._includeSearch;
+  }
+
+  @Input()
+  set includeSearch(value: unknown) {
+    this._includeSearch = coerceBooleanProperty(value);
   }
 
   ngOnInit(): void {

@@ -41,7 +41,7 @@ export class LeaveRequestManagementComponent extends AbstractServerPaginationTab
       { key: 'leaveType', title: result.leaveType },
       { key: 'days', title: result.days },
       { key: 'status', title: result.status },
-      { key: 'comment', title: result.comment },
+      { key: 'Comment', title: result.comment },
       { key: 'sendTo', title: result.sendTo },
       { key: 'functions', title: result.functions },
     ])

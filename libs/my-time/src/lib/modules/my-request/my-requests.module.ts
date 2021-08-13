@@ -30,6 +30,7 @@ import {
   TuiTagModule,
 } from '@taiga-ui/kit';
 import { TableModule } from 'ngx-easy-table';
+import { RequestListFilterComponentModule } from '../shared/request-list-filter/request-list-filter.component';
 import { RequestOtComponent } from './components/request-ot/request-ot.component';
 import { RequestWorkOnsiteComponent } from './components/request-work-onsite/request-work-onsite.component';
 import { RequestsDialogComponent } from './components/requests-dialog/requests-dialog.component';
@@ -80,6 +81,7 @@ import { MyWorkingOutsideRequestsComponent } from './pages/list-working-outside/
     GetFilePipeModule,
     TuiAvatarModule,
     TranslocoLocaleModule,
+    RequestListFilterComponentModule,
   ],
 })
 export class MyRequestsModule {}

@@ -78,7 +78,7 @@ export class MyLeaveService extends RxState<MyLeaveState> {
     [`${DurationHoldsEnum.SpecialTime}`, 'ONLY_TIME'],
 
     //!==
-    [`${PartialDaysEnum.None}`, 'NONE'],
+    [`${PartialDaysEnum.None}_${PartialDaysEnum.None}`, 'NONE'],
 
     [`${PartialDaysEnum.AllDays}_${HalfDaysEnum.Morning}`, 'ONLY_MORNING'],
     [`${PartialDaysEnum.AllDays}_${HalfDaysEnum.Afternoon}`, 'ONLY_AFTERNOON'],
@@ -107,6 +107,7 @@ export class MyLeaveService extends RxState<MyLeaveState> {
   action(leaveSubmit: LeaveSubmit): [] | null {
     let condition =
       `${leaveSubmit.partialDays?.type === 0 ? '0' : ''}` +
+      `${leaveSubmit.partialDays?.type === 0 ? '_0' : ''}` +
       `${leaveSubmit.partialDays?.type === 1 ? '1' : ''}` +
       `${leaveSubmit.partialDays?.type === 2 ? '2' : ''}` +
       `${leaveSubmit.partialDays?.type === 3 ? '3' : ''}` +
@@ -231,7 +232,6 @@ export class MyLeaveService extends RxState<MyLeaveState> {
           time: time,
           conVertToSecond: time.toAbsoluteMilliseconds() / 1000,
         });
-        // console.log('objCaculateHours', time.toString('HH:MM:SS'));
       } else {
         const increasedTime = time.shift({ hours: 0, minutes: objCaculateHours.addMinute, seconds: 0 });
         time = increasedTime;
@@ -242,7 +242,6 @@ export class MyLeaveService extends RxState<MyLeaveState> {
           time: time,
           conVertToSecond: time.toAbsoluteMilliseconds() / 1000,
         });
-        // console.log('objCaculateHours', time.toString('HH:MM:SS'));
       }
     }
     return arrayTime;

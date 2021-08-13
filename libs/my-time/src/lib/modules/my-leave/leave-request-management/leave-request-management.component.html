@@ -9,9 +9,7 @@
         </button>
       </div>
     </header>
-
-    <hcm-leave-request-filter [httpParams]="queryParams$" class="mb-5"></hcm-leave-request-filter>
-
+    <hcm-request-list-filter [httpParams]="queryParams$" class="mb-5"></hcm-request-list-filter>
     <tui-loader [overlay]="true" [showLoader]="(loading$ | async) === true">
       <ngx-table
         #table
