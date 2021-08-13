@@ -23,7 +23,6 @@ import { RequestListFilterComponentModule } from '../shared/request-list-filter/
 import { CancelDialogLeaveComponent } from './cancel-dialog-leave/cancel-dialog-leave.component';
 import { DurationConfirmDialogComponent } from './duaration-comfirm-dialog/duration-confirm-dialog.component';
 import { HistoryRequestComponent } from './history-request/history-request.component';
-import { LeaveRequestFilterComponentModule } from './leave-request-filter/leave-request-filter.component';
 import { LeaveRequestManagementComponent } from './leave-request-management/leave-request-management.component';
 import { MyLeaveComponent } from './my-leave.component';
 import { NotedComponent } from './noted/noted.component';
@@ -62,7 +61,6 @@ import { SubmitLeaveRequestDialogComponent } from './submit-leave-request-dialog
     TranslocoLocaleModule,
     SecondsToHourMinutePipeModule,
     AbstractColDayRangeComponentModule,
-    LeaveRequestFilterComponentModule,
     RequestListFilterComponentModule,
   ],
 })
