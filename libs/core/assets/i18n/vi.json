@@ -328,9 +328,11 @@
   "healthCareNumber": "Mã số bảo hiểm",
   "enterHealthCareNumber": "Nhập mã số bảo hiểm",
   "myLeave": "Quản lý ngày nghỉ",
+  "morning": "Buổi sáng",
+  "afternoon": "Buổi chiều",
+  "submitLeaveRequest": "Nộp đơn xin nghỉ phép",
   "MY_LEAVE_TABLE_COLUMNS": {
-    "fromDate": "Từ ngày",
-    "toDate": "Đến ngày",
+    "dateRange": "Khoảng thời gian",
     "leaveType": "Tên loại phép nghỉ",
     "days": "Số ngày",
     "status": "Trạng thái",

@@ -11,7 +11,7 @@ import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { BaseComponent, Columns, Config, DefaultConfig } from 'ngx-easy-table';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { filter, map, share, startWith, switchMap } from 'rxjs/operators';
+import { filter, map, share, startWith, switchMap, takeUntil } from 'rxjs/operators';
 import { RequestStatus } from '../../../enums';
 import { LeaveRequest } from '../../../models';
 import { MyLeaveService } from '../../../services/my-leave.service';
@@ -37,8 +37,7 @@ export class LeaveRequestManagementComponent extends AbstractServerPaginationTab
   readonly requestTypeUrlPath = RequestTypeAPIUrlPath.leave;
   readonly columns$: Observable<Columns[]> = this.translocoService.selectTranslateObject('MY_LEAVE_TABLE_COLUMNS').pipe(
     map((result) => [
-      { key: 'fromDate', title: result.fromDate },
-      { key: 'toDate', title: result.toDate },
+      { key: 'dateRange', title: result.dateRange },
       { key: 'leaveType', title: result.leaveType },
       { key: 'days', title: result.days },
       { key: 'status', title: result.status },
@@ -89,10 +88,6 @@ export class LeaveRequestManagementComponent extends AbstractServerPaginationTab
     );
   }
 
-  showLeaveDetail(leaveId: string): void {
-    this.router.navigateByUrl(`/my-time/my-leave/${leaveId}/detail`);
-  }
-
   showDialogSubmit() {
     this.dialogService
       .open<boolean>(new PolymorpheusComponent(SubmitLeaveRequestDialogComponent, this.injector), {
@@ -100,7 +95,15 @@ export class LeaveRequestManagementComponent extends AbstractServerPaginationTab
       })
       .subscribe((data) => {
         this.myLeaveService.createLeave(data).subscribe((data) => {
+          this.queryParams$.next(this.queryParams$.value)
         });
       });
+  }
+
+  onCancelRequest(id: string): void {
+    this.myLeaveService
+      .cancelRequest(id, () => this.queryParams$.next(this.queryParams$.value))
+      .pipe(takeUntil(this.destroy$))
+      .subscribe();
   }
 }
