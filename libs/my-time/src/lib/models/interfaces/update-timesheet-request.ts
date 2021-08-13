@@ -10,7 +10,7 @@ export interface UpdateTimesheetRequest extends BaseRequest {
   comments: string;
   day: string;
   totalHourUpdate: number;
-  updateTotalTime: string;
+  updateTotalTime: number;
   userInfo: EmployeeInfo;
   timeSheetTracking: UpdateTimesheetRequestTimeSheetTracking;
 }

@@ -30,6 +30,14 @@ export enum RequestTypeAPIUrlPath {
   workFromHome = 'wfh' as any,
 }
 
+export enum RequestTypeComment {
+  leave = 'hcm_leave_comment' as any,
+  workingAfterHours = 'hcm_working_hours_comment' as any,
+  updateTimesheet = 'hcm_update_time_comment' as any,
+  workingOutside = 'hcm_working_onsite_comment' as any,
+  workFromHome = 'hcm_wfh_comment' as any,
+}
+
 @Injectable()
 export class MyTimeService extends RxState<ServiceState> {
   constructor(
@@ -49,6 +57,11 @@ export class MyTimeService extends RxState<ServiceState> {
 
   getTrackingHistory(id?: string): Observable<TrackingHistory[]> {
     return this.http.get<TrackingHistory[]>(`${MY_TIME_PATH}/leaves/tracking-history/${id}`);
+  }
+
+  getComments(objectId?: string): Observable<PagingResponse<any>> {
+    const typeComment = 'hcm_working_hours_comment';
+    return this.http.get<PagingResponse<any>>(`${MY_TIME_PATH}/comments-common?objectId=${objectId}&type=`+typeComment);
   }
 
   getRequests<T>(type: RequestTypeAPIUrlPath, params: HttpParams): Observable<Pagination<T>> {

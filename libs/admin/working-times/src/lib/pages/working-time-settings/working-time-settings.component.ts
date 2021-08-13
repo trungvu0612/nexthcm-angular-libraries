@@ -2,7 +2,7 @@ import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, I
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '@nexthcm/auth';
-import { PromptService } from '@nexthcm/cdk';
+import { PromptService, secondsToTime } from '@nexthcm/cdk';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDay, TuiDestroyService, TuiTime } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
@@ -10,7 +10,7 @@ import { DefaultConfig } from 'ngx-easy-table';
 import { BehaviorSubject, of } from 'rxjs';
 import { catchError, filter, mapTo, switchMap, takeUntil } from 'rxjs/operators';
 import { SweetAlertOptions } from 'sweetalert2';
-import { WORKING_TIMES } from '../../models/working-times';
+import { WORKING_TIMES, WorkingTimes } from '../../models/working-times';
 import { WorkingTimesService } from '../../services/working-times.service';
 import { TranslocoService } from '@ngneat/transloco';
 
@@ -22,11 +22,6 @@ import { TranslocoService } from '@ngneat/transloco';
   providers: [TuiDestroyService]
 })
 export class WorkingTimeSettingsComponent implements AfterViewInit {
-  page = 0;
-  page$ = new BehaviorSubject<number>(1);
-  size$ = 10;
-  totalLength = 0;
-  perPageSubject = new BehaviorSubject<number>(this.size$);
   myOrgId = this.authService.get('userInfo').orgId;
   activeItemIndex = 0;
   settingsElement: any;
@@ -44,12 +39,10 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
     fridayTime: new FormArray([]),
     saturdayTime: new FormArray([]),
     sundayTime: new FormArray([]),
-    checkInAfter: new FormControl(),
     checkOutBefore: new FormControl(),
     workingHour: new FormControl(),
     totalWorkingHour: new FormControl(),
     lunchHours: new FormControl(),
-    workflow: new FormControl('Workflow OT'),
     fingerPrint: new FormControl(true),
     timePayroll: new FormControl(true),
     timePaidLeave: new FormControl(false)
@@ -60,8 +53,6 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
     repeatYearly: new FormControl(true)
   });
 
-  primary = 'Workflow OT';
-  showDropdown = true;
   model: any = {
     mondayTime: [{}],
     tuesdayTime: [{}],
@@ -70,10 +61,8 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
     fridayTime: [{}],
     saturdayTime: [{}],
     sundayTime: [{}]
-  };
-  readonly workflowData = ['Workflow OT', 'Workflow others'];
+  } as WorkingTimes;
 
-  open = false;
   fields: FormlyFieldConfig[] = [
     {
       className: 'checkbox-day',
@@ -124,7 +113,7 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
             key: 'workShift',
             type: 'toggle',
             templateOptions: { textfieldLabelOutside: true, size: 'm' },
-            defaultValue: false
+            defaultValue: true
           }
         ]
       }
@@ -178,7 +167,7 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
             key: 'workShift',
             type: 'toggle',
             templateOptions: { textfieldLabelOutside: true, size: 'm' },
-            defaultValue: false
+            defaultValue: true
           }
         ]
       }
@@ -232,7 +221,7 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
             key: 'workShift',
             type: 'toggle',
             templateOptions: { textfieldLabelOutside: true, size: 'm' },
-            defaultValue: false
+            defaultValue: true
           }
         ]
       }
@@ -286,7 +275,7 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
             key: 'workShift',
             type: 'toggle',
             templateOptions: { textfieldLabelOutside: true, size: 'm' },
-            defaultValue: false
+            defaultValue: true
           }
         ]
       }
@@ -340,7 +329,7 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
             key: 'workShift',
             type: 'toggle',
             templateOptions: { textfieldLabelOutside: true, size: 'm' },
-            defaultValue: false
+            defaultValue: true
           }
         ]
       }
@@ -571,7 +560,50 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
     this.workingTimesService.getWorkingHourConfigByOrg(this.myOrgId).subscribe((item) => {
       if (item?.code === 'SUCCESS') {
         this.workingHourId = item?.data?.id;
-        this.form.patchValue(item);
+        const formModel = item.data;
+        const jsonEditData = {
+          mondayTime: {},
+          tuesdayTime: {},
+          wednesdayTime: {},
+          thursdayTime: {},
+          fridayTime: {},
+          saturdayTime: {},
+          sundayTime: {},
+          checkInAfter: new TuiTime(Number(secondsToTime(formModel.checkInAfter).h), Number(secondsToTime(formModel.checkInAfter).m)),
+          checkOutBefore: new TuiTime(Number(secondsToTime(formModel.checkOutBefore).h), Number(secondsToTime(formModel.checkOutBefore).m)),
+          workingHour: new TuiTime(Number(secondsToTime(formModel.workingHour).h), Number(secondsToTime(formModel.workingHour).m)),
+          lunchHours: new TuiTime(Number(secondsToTime(formModel.lunchHours).h), Number(secondsToTime(formModel.lunchHours).m)),
+          totalWorkingHour: new TuiTime(Number(secondsToTime(formModel.totalWorkingHour).h), Number(secondsToTime(formModel.totalWorkingHour).m)),
+          fingerPrint: formModel.fingerPrint,
+          timePayroll: formModel.timePayroll,
+          timePaidLeave: formModel.timePaidLeave
+        };
+
+        const DayDefault = [{ from: '', to: '', workShift: false }];
+        formModel.items.forEach(function(res: any) {
+          if (res.weekDayId === 2) {
+            jsonEditData.mondayTime = res.totalTime > 0 ? res.values : DayDefault;
+          }
+          if (res.weekDayId === 3) {
+            jsonEditData.tuesdayTime = res.totalTime > 0 ? res.values : DayDefault;
+          }
+          if (res.weekDayId === 4) {
+            jsonEditData.wednesdayTime = res.totalTime > 0 ? res.values : DayDefault;
+          }
+          if (res.weekDayId === 5) {
+            jsonEditData.thursdayTime = res.totalTime > 0 ? res.values : DayDefault;
+          }
+          if (res.weekDayId === 6) {
+            jsonEditData.fridayTime = res.totalTime > 0 ? res.values : DayDefault;
+          }
+          if (res.weekDayId === 7) {
+            jsonEditData.saturdayTime = res.totalTime > 0 ? res.values : DayDefault;
+          }
+          if (res.weekDayId === 1) {
+            jsonEditData.sundayTime = res.totalTime > 0 ? res.values : DayDefault;
+          }
+        });
+        this.model = { ...this.model, ...jsonEditData };
       }
     });
     this.cdr.detectChanges();
@@ -628,6 +660,7 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
       this.settingsElement.id = this.workingHourId;
     }
     // console.log(JSON.stringify(this.settingsElement));
+
     this.workingTimesService
       .saveSettings(this.settingsElement)
       .pipe(
@@ -646,14 +679,6 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
         takeUntil(this.destroy$)
       )
       .subscribe(() => this.router.navigate(['../..'], { relativeTo: this.activatedRoute }));
-  }
-
-  onClick(item: string) {
-    this.showDropdown = !this.showDropdown;
-    if (this.workflowData[0].indexOf(item) !== -1) {
-      this.primary = item;
-      return;
-    }
   }
 
   addHolidayTime() {
@@ -682,13 +707,5 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
       this.dataHoliday = [...this.dataHoliday];
       this.cdr.detectChanges();
     });
-  }
-
-  onPage(page: number) {
-    this.page$.next(page + 1);
-  }
-
-  onSize(size: number) {
-    this.perPageSubject.next(size);
   }
 }
