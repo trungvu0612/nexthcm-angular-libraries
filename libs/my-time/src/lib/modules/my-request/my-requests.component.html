@@ -1,0 +1,60 @@
+<main class="main-page">
+  <header>
+    <h1 class="text-4xl">{{ 'myRequest' | transloco }}</h1>
+    <div class="flex gap-4">
+      <button
+        (click)="showDialogWFH()"
+        class="tui-space_right-3 tui-space_bottom-3 mr-3"
+        icon="tuiIconPlusLarge"
+        tuiButton
+        type="button"
+      >
+        {{ 'wfhReq' | transloco }}
+      </button>
+
+      <button
+        (click)="showDialogOT()"
+        class="tui-space_right-3 tui-space_bottom-3 mr-3"
+        icon="tuiIconPlusLarge"
+        tuiButton
+        type="button"
+      >
+        {{ 'otReq' | transloco }}
+      </button>
+      <button
+        (click)="showDialogWorkOnsite()"
+        class="tui-space_right-3 tui-space_bottom-3"
+        icon="tuiIconPlusLarge"
+        tuiButton
+        type="button"
+      >
+        {{ 'onSiteReq' | transloco }}
+      </button>
+    </div>
+  </header>
+
+  <section class="main-section">
+    <article>
+      <tui-tabs *transloco="let t" [(activeItemIndex)]="activeItemIndex">
+        <button tuiTab>{{ t('workingAfterHours') }}</button>
+        <button tuiTab>{{ t('updateTimesheet') }}</button>
+        <button tuiTab>{{ t('onSiteReq') }}</button>
+        <button tuiTab>{{ t('workFromHomeReq') }}</button>
+      </tui-tabs>
+      <ng-container [ngSwitch]="activeItemIndex">
+        <ng-container *ngSwitchCase="0">
+          <hcm-list-ot-request></hcm-list-ot-request>
+        </ng-container>
+        <ng-container *ngSwitchCase="1">
+          <hcm-list-timesheet-update></hcm-list-timesheet-update>
+        </ng-container>
+        <ng-container *ngSwitchCase="2">
+          <hcm-my-working-outside-requests></hcm-my-working-outside-requests>
+        </ng-container>
+        <ng-container *ngSwitchCase="3">
+          <hcm-list-work-from-home></hcm-list-work-from-home>
+        </ng-container>
+      </ng-container>
+    </article>
+  </section>
+</main>
