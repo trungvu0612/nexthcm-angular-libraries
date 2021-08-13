@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
-import { GetFileModule } from '@nexthcm/cdk';
+import { GetFilePipeModule } from '@nexthcm/cdk';
 import { LayoutComponent } from '@nexthcm/ui';
 import { TranslocoModule } from '@ngneat/transloco';
 import { FormlyModule } from '@ngx-formly/core';
@@ -41,7 +41,7 @@ export const SEAT_MAPS_ROUTES: Routes = [
     TuiLetModule,
     TuiLoaderModule,
     DragDropModule,
-    GetFileModule,
+    GetFilePipeModule,
     TranslocoModule,
     TuiHostedDropdownModule,
     TuiDropdownControllerModule,

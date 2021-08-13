@@ -21,4 +21,4 @@ export class GetFilePipe implements PipeTransform {
   declarations: [GetFilePipe],
   exports: [GetFilePipe],
 })
-export class GetFileModule {}
+export class GetFilePipeModule {}

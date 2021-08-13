@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
-import { GetFileModule } from '@nexthcm/cdk';
+import { GetFilePipeModule } from '@nexthcm/cdk';
 import { LayoutComponent, LayoutModule } from '@nexthcm/ui';
 import { TranslocoModule } from '@ngneat/transloco';
 import { FormlyModule } from '@ngx-formly/core';
@@ -55,7 +55,7 @@ export const KNOWLEDGE_BASE_ROUTES: Routes = [
     ReactiveFormsModule,
     TranslocoModule,
     LayoutModule,
-    GetFileModule,
+    GetFilePipeModule,
     TuiSvgModule,
     TuiInputMonthModule,
     TuiAvatarModule,

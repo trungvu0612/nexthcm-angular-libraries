@@ -3,7 +3,7 @@ import { RxState } from '@rx-angular/state';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { takeUntil } from 'rxjs/operators';
 import { RequestStatus } from '../../../enums';
-import { MyTimeService, RequestTypeAPIUrlPath } from '../../../services/my-time.service';
+import { MyTimeService, RequestTypeAPIUrlPath } from '../../../services';
 
 export abstract class AbstractRequestListComponent<T> extends AbstractServerPaginationTableComponent<T> {
   requestTypeUrlPath!: RequestTypeAPIUrlPath;

@@ -9,8 +9,8 @@ import { map, switchMap, tap } from 'rxjs/operators';
 import { SweetAlertOptions } from 'sweetalert2';
 import { TrackingHistory, UpdateRequestPayload } from '../models';
 import { GeneralRequest } from '../models/interfaces/general-request';
-import { EmployeeRequestDetailDialogComponent } from '../modules/request-management/components/employee-request-detail-dialog/employee-request-detail-dialog.component';
 import { RejectRequestDialogComponent } from '../modules/request-management/components/reject-leave-request-dialog/reject-request-dialog.component';
+import { RequestDetailDialogComponent } from '../modules/shared/request-detail-dialog/request-detail-dialog.component';
 import { parseLeaveDateRange } from '../modules/shared/utils/parse-leave-date-range';
 
 const MY_TIME_PATH = '/mytimeapp/v1.0';
@@ -87,7 +87,7 @@ export class MyTimeService {
   viewEmployeeRequestDetail(type: RequestTypeAPIUrlPath, id: string, userId?: string): Observable<unknown> {
     return this.getRequest(type, id).pipe(
       switchMap((res) =>
-        this.dialogService.open(new PolymorpheusComponent(EmployeeRequestDetailDialogComponent, this.injector), {
+        this.dialogService.open(new PolymorpheusComponent(RequestDetailDialogComponent, this.injector), {
           data: {
             type,
             value: type === RequestTypeAPIUrlPath.leave ? parseLeaveDateRange(res.data) : res.data,

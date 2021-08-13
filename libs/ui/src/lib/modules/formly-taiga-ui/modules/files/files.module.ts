@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { GetFileModule } from '@nexthcm/cdk';
+import { GetFilePipeModule } from '@nexthcm/cdk';
 import { FormlyModule } from '@ngx-formly/core';
 import { TuiLabelModule, TuiTooltipModule } from '@taiga-ui/core';
 import { TuiFieldErrorModule, TuiInputFileModule } from '@taiga-ui/kit';
@@ -23,7 +23,7 @@ import { UploadFileComponent } from './upload-file/upload-file.component';
     }),
     TuiTooltipModule,
     PolymorpheusModule,
-    GetFileModule,
+    GetFilePipeModule,
   ],
 })
 export class FilesModule {}

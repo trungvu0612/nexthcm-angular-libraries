@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { GetFileModule } from '@nexthcm/cdk';
+import { GetFilePipeModule } from '@nexthcm/cdk';
 import { FormlyTaigaUiModule } from '@nexthcm/ui';
 import { TranslocoModule } from '@ngneat/transloco';
 import { TranslocoLocaleModule } from '@ngneat/transloco-locale';
@@ -16,7 +16,7 @@ import {
   TuiGroupModule,
   TuiLoaderModule,
   TuiSvgModule,
-  TuiTextfieldControllerModule
+  TuiTextfieldControllerModule,
 } from '@taiga-ui/core';
 import {
   TuiAccordionModule,
@@ -27,36 +27,28 @@ import {
   TuiRadioBlockModule,
   TuiSelectModule,
   TuiTabsModule,
-  TuiTagModule
+  TuiTagModule,
 } from '@taiga-ui/kit';
 import { TableModule } from 'ngx-easy-table';
-import { MyRequestManagementFilterComponent } from './components/my-request-management-filter/my-request-management-filter.component';
-import { ListMyRequestComponent } from './list-my-request/list-my-request.component';
-import { ListOtRequestComponent } from './list-ot-request/list-ot-request.component';
-import { ListTimesheetUpdateComponent } from './list-timesheet-update/list-timesheet-update.component';
-import { ListWorkFromHomeComponent } from './list-work-from-home/list-work-from-home.component';
-import { MyWorkingOutsideRequestsComponent } from './list-working-outside/my-working-outside-requests.component';
+import { RequestOtComponent } from './components/request-ot/request-ot.component';
+import { RequestWorkOnsiteComponent } from './components/request-work-onsite/request-work-onsite.component';
+import { RequestsDialogComponent } from './components/requests-dialog/requests-dialog.component';
 import { MyRequestsComponent } from './my-requests.component';
-import { RequestDetailsWfhComponent } from './request-details-wfh/request-details-wfh.component';
-import { RequestDetailsComponent } from './request-details/request-details.component';
-import { RequestOtComponent } from './request-ot/request-ot.component';
-import { RequestWorkOnsiteComponent } from './request-work-onsite/request-work-onsite.component';
-import { RequestsDialogComponent } from '../../components/requests-dialog/requests-dialog.component';
+import { ListOtRequestComponent } from './pages/list-ot-request/list-ot-request.component';
+import { ListTimesheetUpdateComponent } from './pages/list-timesheet-update/list-timesheet-update.component';
+import { ListWorkFromHomeComponent } from './pages/list-work-from-home/list-work-from-home.component';
+import { MyWorkingOutsideRequestsComponent } from './pages/list-working-outside/my-working-outside-requests.component';
 
 @NgModule({
   declarations: [
-    MyRequestsComponent,
-    ListMyRequestComponent,
     ListOtRequestComponent,
     ListTimesheetUpdateComponent,
     MyWorkingOutsideRequestsComponent,
     RequestsDialogComponent,
-    RequestDetailsComponent,
     RequestOtComponent,
     ListWorkFromHomeComponent,
-    RequestDetailsWfhComponent,
-    MyRequestManagementFilterComponent,
-    RequestWorkOnsiteComponent
+    RequestWorkOnsiteComponent,
+    MyRequestsComponent,
   ],
   imports: [
     CommonModule,
@@ -85,10 +77,9 @@ import { RequestsDialogComponent } from '../../components/requests-dialog/reques
     TuiTextfieldControllerModule,
     TuiLazyLoadingModule,
     TuiAccordionModule,
-    GetFileModule,
+    GetFilePipeModule,
     TuiAvatarModule,
-    TranslocoLocaleModule
-  ]
+    TranslocoLocaleModule,
+  ],
 })
-export class MyRequestsModule {
-}
+export class MyRequestsModule {}

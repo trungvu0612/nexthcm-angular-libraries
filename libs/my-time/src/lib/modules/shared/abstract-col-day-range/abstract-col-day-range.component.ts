@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, Input, NgModule, OnInit } from '@an
 import { TranslocoModule } from '@ngneat/transloco';
 import { TranslocoLocaleModule } from '@ngneat/transloco-locale';
 import { LeaveRequest } from '../../../models';
-import { SecondsToHourMinutePipeModule } from '../../../pipes/seconds-to-hour-minute/seconds-to-hour-minute.pipe';
+import { SecondsToHourMinutePipeModule } from '../pipes/seconds-to-hour-minute/seconds-to-hour-minute.pipe';
 
 @Component({
   selector: 'hcm-abstract-col-day-range',
