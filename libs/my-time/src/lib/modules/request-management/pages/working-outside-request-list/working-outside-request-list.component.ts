@@ -6,7 +6,7 @@ import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { BaseComponent, Columns } from 'ngx-easy-table';
 import { Observable } from 'rxjs';
 import { filter, map, share, startWith, switchMap } from 'rxjs/operators';
-import { WorkingOutsideRequest } from '../../../../models/interfaces/working-outside-request';
+import { WorkingOutsideRequest } from '../../../../models';
 import { MyTimeService, RequestTypeAPIUrlPath } from '../../../../services';
 import { AbstractRequestListComponent } from '../../../shared/abstract-components/abstract-request-list.component';
 

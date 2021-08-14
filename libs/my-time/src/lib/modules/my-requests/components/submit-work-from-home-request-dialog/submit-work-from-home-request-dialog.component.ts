@@ -5,7 +5,7 @@ import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { tap } from 'rxjs/operators';
-import { SubmitRequestPayload } from '../../../../models/interfaces/submit-request-payload';
+import { SubmitRequestPayload } from '../../../../models';
 import { MyTimeService, RequestTypeAPIUrlPath } from '../../../../services';
 
 @Component({
@@ -19,8 +19,8 @@ export class SubmitWorkFromHomeRequestDialogComponent {
   model = {} as SubmitRequestPayload;
   readonly fields: FormlyFieldConfig[] = [
     {
-      className: 'tui-form__row block',
       key: 'fromTo',
+      className: 'tui-form__row block',
       type: 'input-date-range',
       templateOptions: {
         translate: true,
@@ -32,8 +32,20 @@ export class SubmitWorkFromHomeRequestDialogComponent {
       },
     },
     {
+      key: 'comment',
       className: 'tui-form__row block',
+      type: 'text-area',
+      templateOptions: {
+        translate: true,
+        label: 'Comment',
+        labelClassName: 'font-semibold',
+        required: true,
+        textfieldLabelOutside: true,
+      },
+    },
+    {
       key: 'sendTo',
+      className: 'tui-form__row block',
       type: 'select',
       templateOptions: {
         translate: true,
@@ -43,18 +55,6 @@ export class SubmitWorkFromHomeRequestDialogComponent {
         options: this.myTimeService.select('sendToUsers'),
         labelProp: 'username',
         valueProp: 'id',
-      },
-    },
-    {
-      className: 'tui-form__row block',
-      key: 'comment',
-      type: 'text-area',
-      templateOptions: {
-        translate: true,
-        label: 'Comment',
-        labelClassName: 'font-semibold',
-        required: true,
-        textfieldLabelOutside: true,
       },
     },
   ];

@@ -10,7 +10,7 @@ import { endOfDay, getTime } from 'date-fns';
 import { Observable } from 'rxjs';
 import { distinctUntilChanged, filter, map, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { LeaveSubmit, SubmitLeavePayLoad } from '../../../../models';
-import { MyLeaveService } from '../../../../services';
+import { MyLeaveService, MyTimeService } from '../../../../services';
 import { DurationConfirmDialogComponent } from '../duaration-comfirm-dialog/duration-confirm-dialog.component';
 
 @Component({
@@ -313,7 +313,7 @@ export class SubmitLeaveRequestDialogComponent implements OnInit {
           key: 'sendTo',
           type: 'select',
           templateOptions: {
-            options: this.myLeaveService.select('sendToUsers'),
+            options: this.myTimeService.select('sendToUsers'),
             labelClassName: 'font-semibold',
             labelProp: 'username',
             valueProp: 'id',
@@ -349,7 +349,8 @@ export class SubmitLeaveRequestDialogComponent implements OnInit {
     private router: Router,
     private fb: FormBuilder,
     private destroy$: TuiDestroyService,
-    private promptService: PromptService
+    private promptService: PromptService,
+    private myTimeService: MyTimeService
   ) {}
 
   ngOnInit(): void {

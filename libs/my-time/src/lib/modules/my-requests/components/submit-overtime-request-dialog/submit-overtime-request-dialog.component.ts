@@ -8,8 +8,8 @@ import { TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { map, takeUntil, tap } from 'rxjs/operators';
-import { WorkingAfterHoursType } from '../../../../enums/working-after-hours-type';
-import { SubmitRequestPayload } from '../../../../models/interfaces/submit-request-payload';
+import { WorkingAfterHoursType } from '../../../../enums';
+import { SubmitRequestPayload } from '../../../../models';
 import { MyTimeService, RequestTypeAPIUrlPath } from '../../../../services';
 
 @Component({
@@ -25,8 +25,8 @@ export class SubmitOvertimeRequestDialogComponent {
   readonly fields: FormlyFieldConfig[] = [
     { key: 'userId', defaultValue: this.authService.get('userInfo', 'userId') },
     {
-      className: 'tui-form__row block',
       key: 'type',
+      className: 'tui-form__row block',
       type: 'select',
       defaultValue: WorkingAfterHoursType.Overtime,
       templateOptions: {
@@ -46,8 +46,8 @@ export class SubmitOvertimeRequestDialogComponent {
       },
     },
     {
-      className: 'tui-form__row block',
       key: 'fromTo',
+      className: 'tui-form__row block',
       type: 'input-date-range',
       templateOptions: {
         translate: true,
@@ -59,22 +59,8 @@ export class SubmitOvertimeRequestDialogComponent {
       },
     },
     {
-      className: 'tui-form__row block',
-      key: 'sendTo',
-      type: 'select',
-      templateOptions: {
-        translate: true,
-        label: 'sendTo',
-        labelClassName: 'font-semibold',
-        placeholder: 'chooseAPerson',
-        options: this.myTimeService.select('sendToUsers'),
-        labelProp: 'username',
-        valueProp: 'id',
-      },
-    },
-    {
-      className: 'tui-form__row block',
       key: 'duration',
+      className: 'tui-form__row block',
       type: 'input-number',
       templateOptions: {
         translate: true,
@@ -86,8 +72,8 @@ export class SubmitOvertimeRequestDialogComponent {
       },
     },
     {
-      className: 'tui-form__row block',
       key: 'comment',
+      className: 'tui-form__row block',
       type: 'text-area',
       templateOptions: {
         translate: true,
@@ -95,6 +81,20 @@ export class SubmitOvertimeRequestDialogComponent {
         labelClassName: 'font-semibold',
         required: true,
         textfieldLabelOutside: true,
+      },
+    },
+    {
+      key: 'sendTo',
+      className: 'tui-form__row block',
+      type: 'select',
+      templateOptions: {
+        translate: true,
+        label: 'sendTo',
+        labelClassName: 'font-semibold',
+        placeholder: 'chooseAPerson',
+        options: this.myTimeService.select('sendToUsers'),
+        labelProp: 'username',
+        valueProp: 'id',
       },
     },
   ];

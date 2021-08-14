@@ -1,6 +1,14 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, Injector } from '@angular/core';
-import { BaseResponse, EmployeeInfo, Pagination, PagingResponse, PromptService } from '@nexthcm/cdk';
+import {
+  ACCOUNT_API_PATH,
+  BaseResponse,
+  EmployeeInfo,
+  MY_TIME_API_PATH,
+  Pagination,
+  PagingResponse,
+  PromptService,
+} from '@nexthcm/cdk';
 import { TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
 import { TuiDialogService } from '@taiga-ui/core';
@@ -9,18 +17,14 @@ import { from, iif, Observable } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
 import { SweetAlertOptions } from 'sweetalert2';
 import { RequestStatus } from '../enums';
-import { TrackingHistory, UpdateRequestPayload } from '../models';
-import { GeneralRequest } from '../models/interfaces/general-request';
-import { SubmitRequestPayload } from '../models/interfaces/submit-request-payload';
+import { SubmitRequestPayload, UpdateRequestPayload } from '../models';
+import { GeneralRequest } from '../models/requests/general-request';
 import { RejectRequestDialogComponent } from '../modules/request-management/components/reject-leave-request-dialog/reject-request-dialog.component';
 import { RequestDetailDialogComponent } from '../modules/shared/request-detail-dialog/request-detail-dialog.component';
 
 interface ServiceState {
   sendToUsers: EmployeeInfo[];
 }
-
-const MY_TIME_PATH = '/mytimeapp/v1.0';
-const ACCOUNT_PATH = '/accountapp/v1.0';
 
 export enum RequestTypeAPIUrlPath {
   leave = 'leaves' as any,
@@ -52,34 +56,30 @@ export class MyTimeService extends RxState<ServiceState> {
   }
 
   getSendToUsers(): Observable<EmployeeInfo[]> {
-    return this.http.get<PagingResponse<EmployeeInfo>>(`${ACCOUNT_PATH}/users`).pipe(map((res) => res.data.items));
-  }
-
-  getTrackingHistory(id?: string): Observable<TrackingHistory[]> {
-    return this.http.get<TrackingHistory[]>(`${MY_TIME_PATH}/leaves/tracking-history/${id}`);
+    return this.http.get<PagingResponse<EmployeeInfo>>(`${ACCOUNT_API_PATH}/users`).pipe(map((res) => res.data.items));
   }
 
   getComments(objectId?: string): Observable<PagingResponse<any>> {
     const typeComment = 'hcm_working_hours_comment';
     return this.http.get<PagingResponse<any>>(
-      `${MY_TIME_PATH}/comments-common?objectId=${objectId}&type=` + typeComment
+      `${MY_TIME_API_PATH}/comments-common?objectId=${objectId}&type=` + typeComment
     );
   }
 
   getRequests<T>(type: RequestTypeAPIUrlPath, params: HttpParams): Observable<Pagination<T>> {
-    return this.http.get<PagingResponse<T>>(`${MY_TIME_PATH}/${type}`, { params }).pipe(map((res) => res.data));
+    return this.http.get<PagingResponse<T>>(`${MY_TIME_API_PATH}/${type}`, { params }).pipe(map((res) => res.data));
   }
 
   submitRequest(type: RequestTypeAPIUrlPath, payload: SubmitRequestPayload): Observable<unknown> {
-    return this.http.post<unknown>(`${MY_TIME_PATH}/${type}`, payload);
+    return this.http.post<unknown>(`${MY_TIME_API_PATH}/${type}`, payload);
   }
 
   updateRequest(type: RequestTypeAPIUrlPath, id: string, payload: UpdateRequestPayload): Observable<unknown> {
-    return this.http.put<unknown>(`${MY_TIME_PATH}/${type}/${id}`, payload);
+    return this.http.put<unknown>(`${MY_TIME_API_PATH}/${type}/${id}`, payload);
   }
 
   getRequest(type: RequestTypeAPIUrlPath, id: string): Observable<BaseResponse<GeneralRequest>> {
-    return this.http.get<BaseResponse<GeneralRequest>>(`${MY_TIME_PATH}/${type}/${id}`);
+    return this.http.get<BaseResponse<GeneralRequest>>(`${MY_TIME_API_PATH}/${type}/${id}`);
   }
 
   approveRequest(type: RequestTypeAPIUrlPath, id: string, callback?: () => void): Observable<unknown> {
@@ -137,6 +137,6 @@ export class MyTimeService extends RxState<ServiceState> {
   }
 
   getEscalateUsers(searchQuery: string): Observable<EmployeeInfo[]> {
-    return this.http.get<EmployeeInfo[]>('/accountapp/v1.0/users/get-manager');
+    return this.http.get<EmployeeInfo[]>(`${ACCOUNT_API_PATH}/users/get-manager`);
   }
 }

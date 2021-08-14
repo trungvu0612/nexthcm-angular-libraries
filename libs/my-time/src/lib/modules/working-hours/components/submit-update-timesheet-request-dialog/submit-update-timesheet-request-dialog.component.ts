@@ -2,47 +2,67 @@ import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { PromptService } from '@nexthcm/cdk';
 import { FormBuilder } from '@ngneat/reactive-forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
+import { TuiDay, TuiTime } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { tap } from 'rxjs/operators';
+import { RequestStatus } from '../../../../enums';
 import { SubmitRequestPayload } from '../../../../models';
 import { MyTimeService, RequestTypeAPIUrlPath } from '../../../../services';
 
 @Component({
-  selector: 'hcm-submit-working-outside-request-dialog',
-  templateUrl: './submit-working-outside-request-dialog.component.html',
-  styleUrls: ['./submit-working-outside-request-dialog.component.scss'],
+  selector: 'hcm-submit-update-timesheet-request-dialog',
+  templateUrl: './submit-update-timesheet-request-dialog.component.html',
+  styleUrls: ['./submit-update-timesheet-request-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SubmitWorkingOutsideRequestDialogComponent {
+export class SubmitUpdateTimesheetRequestDialogComponent {
   readonly form = this.fb.group<SubmitRequestPayload>({} as SubmitRequestPayload);
   model = {} as SubmitRequestPayload;
   readonly fields: FormlyFieldConfig[] = [
+    { key: 'timeSheetId', defaultValue: this.context.data },
+    { key: 'status', defaultValue: RequestStatus.waiting },
     {
-      key: 'fromTo',
+      key: 'createdDate',
       className: 'tui-form__row block',
-      type: 'input-date-range',
+      type: 'input-date',
       templateOptions: {
         translate: true,
-        label: 'dateRange',
+        label: 'date',
         labelClassName: 'font-semibold',
-        placeholder: 'chooseDateRange',
+        placeholder: 'chooseADate',
         required: true,
         textfieldLabelOutside: true,
       },
     },
     {
-      key: 'duration',
-      className: 'tui-form__row block',
-      type: 'input-number',
-      templateOptions: {
-        translate: true,
-        label: 'days',
-        labelClassName: 'font-semibold',
-        placeholder: 'enterNumberOfWorkingDays',
-        required: true,
-        textfieldLabelOutside: true,
-      },
+      fieldGroupClassName: 'grid grid-cols-2 gap-4 mt-5',
+      fieldGroup: [
+        {
+          key: 'newInTime',
+          type: 'input-time',
+          templateOptions: {
+            translate: true,
+            label: 'newInTime',
+            labelClassName: 'font-semibold',
+            placeholder: 'enterNewInTime',
+            required: true,
+            textfieldLabelOutside: true,
+          },
+        },
+        {
+          key: 'newOutTime',
+          type: 'input-time',
+          templateOptions: {
+            translate: true,
+            label: 'newOutTime',
+            labelClassName: 'font-semibold',
+            placeholder: 'enterNewOutTime',
+            required: true,
+            textfieldLabelOutside: true,
+          },
+        },
+      ],
     },
     {
       key: 'comment',
@@ -74,7 +94,7 @@ export class SubmitWorkingOutsideRequestDialogComponent {
 
   constructor(
     private fb: FormBuilder,
-    @Inject(POLYMORPHEUS_CONTEXT) readonly context: TuiDialogContext<boolean>,
+    @Inject(POLYMORPHEUS_CONTEXT) readonly context: TuiDialogContext<boolean, string>,
     private myTimeService: MyTimeService,
     private promptService: PromptService
   ) {}
@@ -82,13 +102,11 @@ export class SubmitWorkingOutsideRequestDialogComponent {
   onSubmit(): void {
     if (this.form.valid) {
       const formModel = this.form.value;
-      if (formModel.fromTo) {
-        formModel.fromDate = formModel.fromTo.from.toLocalNativeDate().valueOf();
-        formModel.toDate = formModel.fromTo.from.toLocalNativeDate().valueOf();
-      }
-      delete formModel.fromTo;
+      formModel.createdDate = (formModel.createdDate as TuiDay).toLocalNativeDate().valueOf();
+      formModel.newInTime = (formModel.newInTime as TuiTime).toAbsoluteMilliseconds() / 1000;
+      formModel.newOutTime = (formModel.newOutTime as TuiTime).toAbsoluteMilliseconds() / 1000;
       this.myTimeService
-        .submitRequest(RequestTypeAPIUrlPath.workingOutside, formModel)
+        .submitRequest(RequestTypeAPIUrlPath.updateTimesheet, formModel)
         .pipe(tap(() => this.promptService.handleResponse()))
         .subscribe(() => this.context.completeWith(true));
     }

@@ -2193,7 +2193,7 @@
   dependencies:
     requireindex "1.1.0"
 
-"@ngneat/reactive-forms@^1.7.4":
+"@ngneat/reactive-forms@^1.7.5":
   version "1.7.5"
   resolved "https://registry.yarnpkg.com/@ngneat/reactive-forms/-/reactive-forms-1.7.5.tgz#df30ac7f7fe5ef8a7d0a2beac36aa009c1c26336"
   integrity sha512-7hTWW7SDopCZW+sWDf7UK5lsLzeKK66iuAzxx+LntqVoU5d3lGCeR503sXCbo8TDKApSH1za9f/KKLFqUYGV/w==
@@ -2360,17 +2360,17 @@
     node-gyp "^7.1.0"
     read-package-json-fast "^2.0.1"
 
-"@nrwl/angular@12.6.6":
-  version "12.6.6"
-  resolved "https://registry.yarnpkg.com/@nrwl/angular/-/angular-12.6.6.tgz#24069f823a5b19c125cadf0fee673e209529129f"
-  integrity sha512-MmflkJe4vc1TPVzKBuZFkbb5RFDGHhFy+1zdz8ocUThcLr8ucxU2fgkQ9IpTjaq4d8dPmAeiqXdhLUazZv/yIg==
+"@nrwl/angular@12.7.1":
+  version "12.7.1"
+  resolved "https://registry.yarnpkg.com/@nrwl/angular/-/angular-12.7.1.tgz#5367be06f0a1c74fbfb3d9bd76df5d606ee2c0fd"
+  integrity sha512-ix499g4v/gW4Q0ixpLP+pE+Y04OAWVQJ/skMCkOrAd4nWHI5/CHzMRNbHznk0cwr5h55kWmixgs8hHZGYFWiCw==
   dependencies:
     "@angular-devkit/schematics" "~12.1.0"
-    "@nrwl/cypress" "12.6.6"
-    "@nrwl/devkit" "12.6.6"
-    "@nrwl/jest" "12.6.6"
-    "@nrwl/linter" "12.6.6"
-    "@nrwl/storybook" "12.6.6"
+    "@nrwl/cypress" "12.7.1"
+    "@nrwl/devkit" "12.7.1"
+    "@nrwl/jest" "12.7.1"
+    "@nrwl/linter" "12.7.1"
+    "@nrwl/storybook" "12.7.1"
     "@phenomnomnominal/tsquery" "4.1.1"
     "@schematics/angular" "~12.1.0"
     ignore "^5.0.4"
@@ -2379,26 +2379,26 @@
     tslib "^2.2.0"
     webpack-merge "5.7.3"
 
-"@nrwl/cli@12.6.6":
-  version "12.6.6"
-  resolved "https://registry.yarnpkg.com/@nrwl/cli/-/cli-12.6.6.tgz#6b0324b223c5b8e7b2ead4ae53fdbfc41a2b883c"
-  integrity sha512-993L+P2WYnRbdyr9KAcBmnAL/2W9ZiJ7kOK3G4IiXspYTSKeljEMvTvXHKCm4r2Jokdj1RwRSxW2FdRX+nDk2w==
+"@nrwl/cli@12.7.1":
+  version "12.7.1"
+  resolved "https://registry.yarnpkg.com/@nrwl/cli/-/cli-12.7.1.tgz#cd781731c0396975ce44edb6c80b8fccbba4b23e"
+  integrity sha512-Rjv9Pwv2Bdgztkr0GnKuE/W7DmSTQI/bvdtKOqcOJIsL4i5xJCZDxVDbhmfPoa4NXPIYHeW3EqfFAP4PH1rCKg==
   dependencies:
-    "@nrwl/tao" "12.6.6"
+    "@nrwl/tao" "12.7.1"
     chalk "4.1.0"
     v8-compile-cache "2.3.0"
     yargs "15.4.1"
     yargs-parser "20.0.0"
 
-"@nrwl/cypress@12.6.6":
-  version "12.6.6"
-  resolved "https://registry.yarnpkg.com/@nrwl/cypress/-/cypress-12.6.6.tgz#8ab0759e207a3ad5ac16194683bad08d2234daf6"
-  integrity sha512-CQrfh9LXrA+IGvYbGSWIIzGNXcRyuQwOVJl2lWOAMCJvSylghyGdqxv8Af+Q44tZOpCGUwkNQ6KCmsumEHrUOA==
+"@nrwl/cypress@12.7.1":
+  version "12.7.1"
+  resolved "https://registry.yarnpkg.com/@nrwl/cypress/-/cypress-12.7.1.tgz#054992fcd1bf2b6ceff84f114b92aee37dea561a"
+  integrity sha512-xr8CKrmg0UashIT1WgFygKzz1uj6CbL3CPh+FDzrau0mZwT5QtBMiOh+00B7ox26RhO+w9pH6obCJGOJuamuiQ==
   dependencies:
     "@cypress/webpack-preprocessor" "4.1.5"
-    "@nrwl/devkit" "12.6.6"
-    "@nrwl/linter" "12.6.6"
-    "@nrwl/workspace" "12.6.6"
+    "@nrwl/devkit" "12.7.1"
+    "@nrwl/linter" "12.7.1"
+    "@nrwl/workspace" "12.7.1"
     chalk "4.1.0"
     fork-ts-checker-webpack-plugin "6.2.10"
     rxjs "^6.5.4"
@@ -2409,12 +2409,12 @@
     webpack-node-externals "1.7.2"
     yargs-parser "20.0.0"
 
-"@nrwl/devkit@12.6.6":
-  version "12.6.6"
-  resolved "https://registry.yarnpkg.com/@nrwl/devkit/-/devkit-12.6.6.tgz#ac0ff61cef4fb63bbeeba0a1c8b32916378a7325"
-  integrity sha512-G7QIzxYKJYPSYBC53x790tKcfesTlF20Q7lVj48XPfHFY5jr+6i9PVsvk9bSk/Xf+BxDkJli/iJnTAD3D22ToQ==
+"@nrwl/devkit@12.7.1":
+  version "12.7.1"
+  resolved "https://registry.yarnpkg.com/@nrwl/devkit/-/devkit-12.7.1.tgz#aea0d8db1663fed44b5189452beae87bf432c60f"
+  integrity sha512-g88SWsXbiZDvL+4PWCBFlhzsg0niEJCxGDJ1EV+dLexAM3iD1aBn3EK2ygaF1sgabBNlJnUgbpU14/N5SexZuA==
   dependencies:
-    "@nrwl/tao" "12.6.6"
+    "@nrwl/tao" "12.7.1"
     ejs "^3.1.5"
     ignore "^5.0.4"
     rxjs "^6.5.4"
@@ -2433,24 +2433,24 @@
     semver "7.3.4"
     tslib "^2.0.0"
 
-"@nrwl/eslint-plugin-nx@12.6.6":
-  version "12.6.6"
-  resolved "https://registry.yarnpkg.com/@nrwl/eslint-plugin-nx/-/eslint-plugin-nx-12.6.6.tgz#dc9944bc0bbc6245ca282d6f3e62e77fe422fb2f"
-  integrity sha512-Vi78Yt+rxwJe9XMVGLkFho9w0VhKi7biVEOpnS5pb3UBJBvbrdZqqGU65bSyYt5hIVhax8sjU3TGXGgXOV9tkw==
+"@nrwl/eslint-plugin-nx@12.7.1":
+  version "12.7.1"
+  resolved "https://registry.yarnpkg.com/@nrwl/eslint-plugin-nx/-/eslint-plugin-nx-12.7.1.tgz#a9468073af1079bba14501001492c5be1e91f4af"
+  integrity sha512-cV/dblw0cJm5T0sgyVPtEbN9z7sQusdM9JPeuX8k20wUdmTHwsIp1rIXfQ45QRRj7Csdsd+vd4LU40DOG38Cqg==
   dependencies:
-    "@nrwl/devkit" "12.6.6"
-    "@nrwl/workspace" "12.6.6"
+    "@nrwl/devkit" "12.7.1"
+    "@nrwl/workspace" "12.7.1"
     "@typescript-eslint/experimental-utils" "~4.28.3"
     confusing-browser-globals "^1.0.9"
 
-"@nrwl/jest@12.6.6":
-  version "12.6.6"
-  resolved "https://registry.yarnpkg.com/@nrwl/jest/-/jest-12.6.6.tgz#43b35f479d206bb5a905e7b4a4dfc4d47732cfc2"
-  integrity sha512-afsdGleGtzH0r0RmSyQkKzkYEowL161DPyxlGiTJ7zGZyCYgqgmkGrRJe/w/SZHoVTtpANHZ3yaJ2UolTYWfww==
+"@nrwl/jest@12.7.1":
+  version "12.7.1"
+  resolved "https://registry.yarnpkg.com/@nrwl/jest/-/jest-12.7.1.tgz#1f90c3d032c10e7e5afd736bf74c328002350449"
+  integrity sha512-+Pg9UimjoDWAJUH2SLqHcdn+6gLvzB6uISDqh4tvzyixiHSUNcY/WMqP1X9qVFfFA4HMwr8YvA7RUFHbSCrcxA==
   dependencies:
     "@jest/reporters" "27.0.6"
     "@jest/test-result" "27.0.6"
-    "@nrwl/devkit" "12.6.6"
+    "@nrwl/devkit" "12.7.1"
     chalk "4.1.0"
     identity-obj-proxy "3.0.0"
     jest-config "27.0.6"
@@ -2459,46 +2459,30 @@
     rxjs "^6.5.4"
     tslib "^2.0.0"
 
-"@nrwl/linter@12.6.6":
-  version "12.6.6"
-  resolved "https://registry.yarnpkg.com/@nrwl/linter/-/linter-12.6.6.tgz#82a738c2d26b5f656a7bfdbfdb3e43569a66441b"
-  integrity sha512-y9R+i7hVMjQVm8yjs5gRp/CaKnTyolcnLk3OT1dQuBN7e+B6OMlZdxP9wXZ67CN8kgOpuSUowfQkC2ftVMV6yw==
+"@nrwl/linter@12.7.1":
+  version "12.7.1"
+  resolved "https://registry.yarnpkg.com/@nrwl/linter/-/linter-12.7.1.tgz#c5ccd17ade2b3d3f6410d18a4fd0ce8b2d3e5111"
+  integrity sha512-FUPaUhqDcXUjRW3hKYnkQ9c569TGr+zS3YDoNKSbOFBrr6MCRRPIJMRo6bDS38aMMIpOZ4tSwuvxuoVfOfW1Fg==
   dependencies:
-    "@nrwl/devkit" "12.6.6"
+    "@nrwl/devkit" "12.7.1"
     glob "7.1.4"
     minimatch "3.0.4"
     tmp "~0.2.1"
     tslib "^2.0.0"
 
-"@nrwl/storybook@12.6.6":
-  version "12.6.6"
-  resolved "https://registry.yarnpkg.com/@nrwl/storybook/-/storybook-12.6.6.tgz#667c946b0b8aec00ea863606b64532ea7fb437d4"
-  integrity sha512-99dCLD8Tnk2jr6UuWbF0Oph7Cg3M+qyaUd32R3dk+0QAjIB5WO+E2KyC60Uv7zX5ZEOoY3cTLXsu2YQL8V47nA==
+"@nrwl/storybook@12.7.1":
+  version "12.7.1"
+  resolved "https://registry.yarnpkg.com/@nrwl/storybook/-/storybook-12.7.1.tgz#7481f3f94ea767f786a9edd9688fd764dff055e3"
+  integrity sha512-yi2xTUpFYAZQL/6NRZo4AwEJpjS/5niZA6V6m3Be9MgAwzuOaQ9eac7tRm5UYkxXBZ97IFUDETCBQzN/piqSrg==
   dependencies:
-    "@nrwl/cypress" "12.6.6"
-    "@nrwl/devkit" "12.6.6"
-    "@nrwl/linter" "12.6.6"
-    "@nrwl/workspace" "12.6.6"
+    "@nrwl/cypress" "12.7.1"
+    "@nrwl/devkit" "12.7.1"
+    "@nrwl/linter" "12.7.1"
+    "@nrwl/workspace" "12.7.1"
     core-js "^3.6.5"
     semver "7.3.4"
     ts-loader "5.4.5"
     tsconfig-paths-webpack-plugin "3.4.1"
-
-"@nrwl/tao@12.6.6":
-  version "12.6.6"
-  resolved "https://registry.yarnpkg.com/@nrwl/tao/-/tao-12.6.6.tgz#cc664b04ff43e879116a321cfdd0d12d3f672241"
-  integrity sha512-PaRUIP8zwD6BV3AoX33red76xSXcZdYNDSxtmJd+Hw2eoJEi8qhpWqJhzUY4RCqIZrHoVT7HJrjq0Dsaj4z7sw==
-  dependencies:
-    chalk "4.1.0"
-    enquirer "~2.3.6"
-    fs-extra "^9.1.0"
-    jsonc-parser "3.0.0"
-    rxjs "^6.5.4"
-    rxjs-for-await "0.0.2"
-    semver "7.3.4"
-    tmp "~0.2.1"
-    tslib "^2.0.0"
-    yargs-parser "20.0.0"
 
 "@nrwl/tao@12.7.0":
   version "12.7.0"
@@ -2516,15 +2500,31 @@
     tslib "^2.0.0"
     yargs-parser "20.0.0"
 
-"@nrwl/workspace@12.6.6":
-  version "12.6.6"
-  resolved "https://registry.yarnpkg.com/@nrwl/workspace/-/workspace-12.6.6.tgz#173c7e648a0d59dd43564c1a7aa01362c122bcfb"
-  integrity sha512-Kr5Gewt9bgFw436UI9X0ePa1KjjHtSOlpIUxACuoXM4/vHAuvNxo9K+Xiie/p3ueyKNVUx36soLx9XAnyvwGhA==
+"@nrwl/tao@12.7.1":
+  version "12.7.1"
+  resolved "https://registry.yarnpkg.com/@nrwl/tao/-/tao-12.7.1.tgz#467b5b56f8e503d4a6acbd6eecd4ad51042d8d27"
+  integrity sha512-cQvrFwA+mEAiY3HwIuTjsO/yxgGEoffdUcsH6Oak3dcypkmTf4mVxqmuyzvJ5smt8cggg8qb7BEWowWs31folw==
   dependencies:
-    "@nrwl/cli" "12.6.6"
-    "@nrwl/devkit" "12.6.6"
-    "@nrwl/jest" "12.6.6"
-    "@nrwl/linter" "12.6.6"
+    chalk "4.1.0"
+    enquirer "~2.3.6"
+    fs-extra "^9.1.0"
+    jsonc-parser "3.0.0"
+    rxjs "^6.5.4"
+    rxjs-for-await "0.0.2"
+    semver "7.3.4"
+    tmp "~0.2.1"
+    tslib "^2.0.0"
+    yargs-parser "20.0.0"
+
+"@nrwl/workspace@12.7.1":
+  version "12.7.1"
+  resolved "https://registry.yarnpkg.com/@nrwl/workspace/-/workspace-12.7.1.tgz#b140311473a2a45776674665bffb5eb001ce3465"
+  integrity sha512-84XRqtRc4pfO8agQqEX984w5HUyN+xWhz3EZv88w8QQfHdIooARj8wRb2lyKu7wHdaKaYNzx0pG9LLuVQYq6GQ==
+  dependencies:
+    "@nrwl/cli" "12.7.1"
+    "@nrwl/devkit" "12.7.1"
+    "@nrwl/jest" "12.7.1"
+    "@nrwl/linter" "12.7.1"
     chalk "4.1.0"
     chokidar "^3.5.1"
     cosmiconfig "^4.0.0"
@@ -2709,31 +2709,31 @@
   dependencies:
     defer-to-connect "^1.0.1"
 
-"@taiga-ui/addon-commerce@^2.13.1":
-  version "2.13.1"
-  resolved "https://registry.yarnpkg.com/@taiga-ui/addon-commerce/-/addon-commerce-2.13.1.tgz#34eb9f2ff9e16a6a56296dd59b9ee9d6f4b1b770"
-  integrity sha512-9t81Q8DwDwBBNicZhXINo0pcKpTy2nHt4m8+l5O/zJHwT/dT0Of0uDKPkW4TeKYsA/ixBFtRYc5ODijnRJjN0g==
+"@taiga-ui/addon-commerce@^2.14.0":
+  version "2.14.0"
+  resolved "https://registry.yarnpkg.com/@taiga-ui/addon-commerce/-/addon-commerce-2.14.0.tgz#ba0a53c5a2f8a075e53d498248da57ae331fae60"
+  integrity sha512-whRx/5DZ3BCSyzR4a9EMyivrAakTVV6MVUYouisx6HzS2ROl74Hn2LwgTH7LdhWfdtH1ABjmuxKpC6MPaOnJaw==
   dependencies:
     tslib "^1.10.0"
 
-"@taiga-ui/addon-editor@^2.13.1":
-  version "2.13.1"
-  resolved "https://registry.yarnpkg.com/@taiga-ui/addon-editor/-/addon-editor-2.13.1.tgz#b7d3375a0848f06b1545a2db7bffd17cf2696f90"
-  integrity sha512-yESTIhy4VmlUkTU/Fk+L5FA8F9mmyby4FL4JLQdmglbag+brsYUNjtI7b5acuQ9I9+plmPpm4MLE88GEAdsudg==
+"@taiga-ui/addon-editor@^2.14.0":
+  version "2.14.0"
+  resolved "https://registry.yarnpkg.com/@taiga-ui/addon-editor/-/addon-editor-2.14.0.tgz#20a09ed204a570ddacb6c2498bd02070c5d5bca4"
+  integrity sha512-cK04H+76XYhcpZnM6SE3DXQrFmEXZuO860UGiYd/0t77RQkCkwuIBchvW/6JFC3LppcgAWHk2BEwaH1iKzcnKA==
   dependencies:
     tslib "^1.10.0"
 
-"@taiga-ui/addon-table@^2.13.1":
-  version "2.13.1"
-  resolved "https://registry.yarnpkg.com/@taiga-ui/addon-table/-/addon-table-2.13.1.tgz#41f0738c644afbd1fd073c73071c58b26128bf8b"
-  integrity sha512-66qFxuk/yD2xgh+On/70ChAQOlWy/AKnpdRC6iu+iPdE/3Lkh5oepsWwY4avweX/xPhj2IVm3UwRL26OQPFhLw==
+"@taiga-ui/addon-table@^2.14.0":
+  version "2.14.0"
+  resolved "https://registry.yarnpkg.com/@taiga-ui/addon-table/-/addon-table-2.14.0.tgz#930f559d022c04a72efeabff681996d99617ccfe"
+  integrity sha512-qaZuGo+uFfKKb69EXHCwYsD+qfkEAdV1H4G4rHbYuJBMz4rejDw322zFHDzZOzJujyOjjDPWRFujF6pXZ1lGfA==
   dependencies:
     tslib "^1.10.0"
 
-"@taiga-ui/cdk@^2.13.1":
-  version "2.13.1"
-  resolved "https://registry.yarnpkg.com/@taiga-ui/cdk/-/cdk-2.13.1.tgz#aa71ceb3fe9c3c65941096492e95c6e548445037"
-  integrity sha512-fslDDjhygeHyxAxIatw11Rqp0InFeie017BkzLMb/zEC+LbHdQTylTmDGRumf18hFpxsUI3LrSjwSVDQi/XwtA==
+"@taiga-ui/cdk@^2.14.0":
+  version "2.14.0"
+  resolved "https://registry.yarnpkg.com/@taiga-ui/cdk/-/cdk-2.14.0.tgz#2d3d6b2c43bdfdaecb22dfd26cfc48485ad55797"
+  integrity sha512-UTENM8qbr7rHbDp1Ng0Bbadz4Aoc5+5xlWQ9ROYT0NlckyjOtfn8xSJrSRJWduA7BYG4jlNTADUvP54HEf2TbQ==
   dependencies:
     "@ng-web-apis/common" "1.11.0"
     "@ng-web-apis/mutation-observer" "1.1.0"
@@ -2743,32 +2743,32 @@
     "@types/resize-observer-browser" "0.1.5"
     tslib "^1.10.0"
 
-"@taiga-ui/core@^2.13.1":
-  version "2.13.1"
-  resolved "https://registry.yarnpkg.com/@taiga-ui/core/-/core-2.13.1.tgz#5422b35c038a53fb4bdb4415b32747c086dfd3c1"
-  integrity sha512-azC9Ird1sWHNj6+gayQ0ZCDDMez3UjxGVySd+G6+0F3dYm6rnmPQqBgBEsZCf2FtCGUf7R6PtYah7CunVgoFZA==
+"@taiga-ui/core@^2.14.0":
+  version "2.14.0"
+  resolved "https://registry.yarnpkg.com/@taiga-ui/core/-/core-2.14.0.tgz#b1b64150919d0d00edea317e65bee87a01806503"
+  integrity sha512-9W+lgVjheMBTXO5oMteK80EXgQCUJ1Dx6FWSTG+TSGPJw2khuAKodQgMiToORkx5actLWerqu4cYcU9djRkhiw==
   dependencies:
-    "@taiga-ui/i18n" "2.13.1"
+    "@taiga-ui/i18n" "2.14.0"
     tslib "^1.10.0"
 
-"@taiga-ui/i18n@2.13.1", "@taiga-ui/i18n@^2.13.1":
-  version "2.13.1"
-  resolved "https://registry.yarnpkg.com/@taiga-ui/i18n/-/i18n-2.13.1.tgz#d6d49120bad23227c49f691d89fe2987aa0d8691"
-  integrity sha512-28pwouls+rs23ebdFPGHHvb2tQlnZPHEyabo4tCfgIv12mBOVvNKxH+EAROP9K1jxcfxDNKgLifx8BKXR2OMUg==
-  dependencies:
-    tslib "^1.10.0"
-
-"@taiga-ui/icons@^2.13.1":
-  version "2.13.1"
-  resolved "https://registry.yarnpkg.com/@taiga-ui/icons/-/icons-2.13.1.tgz#62651c93b1dc09bae1cb38d5efd6fe64ec24ae15"
-  integrity sha512-AZ7TIr5h5jlOuG1cxaZluOuWMNzslMO4HQP7f1yqvl7FL/r4tCMVkuVyjfWKI692fcZUj30QerA8RiOjcYjmQg==
+"@taiga-ui/i18n@2.14.0", "@taiga-ui/i18n@^2.14.0":
+  version "2.14.0"
+  resolved "https://registry.yarnpkg.com/@taiga-ui/i18n/-/i18n-2.14.0.tgz#1d520a9c8a0fde80bf8a2035c85500852c1665ca"
+  integrity sha512-6SSeuPdD04O7+ddFw7JsSYxrdHG5PV9vAXhoLR6qo8gboozm02X1szlUUnHj8nDSYOLqr6qG/vB4wGRUjDg/iA==
   dependencies:
     tslib "^1.10.0"
 
-"@taiga-ui/kit@^2.13.1":
-  version "2.13.1"
-  resolved "https://registry.yarnpkg.com/@taiga-ui/kit/-/kit-2.13.1.tgz#5369899efca73c3fcc8ca707a6abc3076b90b53a"
-  integrity sha512-Ce7ozwe6VFjCf3PfcOablQVz4Z7Zekf2VwC+I+TMMI1C3pBpAgNZLDPSV1JQ6mduxkDGZJrVc3vjlvzxtxKpQA==
+"@taiga-ui/icons@^2.14.0":
+  version "2.14.0"
+  resolved "https://registry.yarnpkg.com/@taiga-ui/icons/-/icons-2.14.0.tgz#76165cfb7974361f6347430d3d7dd7a2f3b7fb69"
+  integrity sha512-kvKMkY6FxDHDzDNqdE6jc8C+j2/rZoUbDso5wP3sBqI3l1ITkwNRn67u7uuAvteQCE5Ize6YPi4xJtqZ+oGM1g==
+  dependencies:
+    tslib "^1.10.0"
+
+"@taiga-ui/kit@^2.14.0":
+  version "2.14.0"
+  resolved "https://registry.yarnpkg.com/@taiga-ui/kit/-/kit-2.14.0.tgz#f30edf368f8cfa5be32a0f79b33b99d6a3f78b15"
+  integrity sha512-gMVbi7PAtyLpqwzFmkBknTwazTsYpzzGiFR7vAZo6Tzm73tM9TVVqBysLfXabckxLqkIt0HYAjM0/GsoJR/5Nw==
   dependencies:
     "@ng-web-apis/intersection-observer" "2.0.1"
     angular2-text-mask "9.0.0"
@@ -6349,12 +6349,7 @@ dot-case@^3.0.4:
     no-case "^3.0.4"
     tslib "^2.0.3"
 
-dotenv@8.2.0:
-  version "8.2.0"
-  resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-8.2.0.tgz#97e619259ada750eea3e4ea3e26bceea5424b16a"
-  integrity sha512-8sJ78ElpbDJBHNeBzUbUVLsqKdccaa/BXF1uPTw3GrvQTBgrQrtObr2mUrE38vzYd8cEv+m/JBfDLioYcfXoaw==
-
-dotenv@^10.0.0, dotenv@~10.0.0:
+dotenv@10.0.0, dotenv@^10.0.0, dotenv@~10.0.0:
   version "10.0.0"
   resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-10.0.0.tgz#3d4227b8fb95f81096cdd2b66653fb2c7085ba81"
   integrity sha512-rlBi9d8jpv9Sf1klPjNfFAuWDjKLwTIJJ/VxtoTwIR6hnZxcEOQCZg2oIL3MWBYw5GpUDKOEnND7LXTbIpQ03Q==

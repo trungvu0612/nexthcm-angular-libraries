@@ -1,32 +1,24 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AuthService } from '@nexthcm/auth';
-import { BaseResponse, PagingResponse, PromptService } from '@nexthcm/cdk';
-import { TranslocoService } from '@ngneat/transloco';
+import { ACCOUNT_API_PATH, BaseResponse, MY_TIME_API_PATH, PagingResponse } from '@nexthcm/cdk';
 import { RxState } from '@rx-angular/state';
 import { TuiTime } from '@taiga-ui/cdk';
-import { from, iif, Observable, of } from 'rxjs';
-import { map, switchMap, tap } from 'rxjs/operators';
-import { SweetAlertOptions } from 'sweetalert2';
+import { Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { DurationHoldsEnum, PartialDaysEnum } from '../enums';
 import { HalfDaysEnum } from '../enums/half-days';
 import {
   DurationValues,
   LeavesRemaining,
   LeaveSubmit,
-  MyLeave,
   PartialDayType,
-  Requests,
   SentToUser,
   SubmitLeavePayLoad,
 } from '../models';
 
-const MY_TIME_PATH = '/mytimeapp/v1.0';
-const MY_ACCOUNT_PATH = '/accountapp/v1.0';
-
 interface MyLeaveState {
   leaveTypeRemain: LeavesRemaining[];
-  sendToUsers: SentToUser[];
   partialDayTypes: PartialDayType[];
 }
 
@@ -34,15 +26,10 @@ interface MyLeaveState {
 export class MyLeaveService extends RxState<MyLeaveState> {
   readonly loggedInUserId = this.authService.get('userInfo', 'userId');
 
-  constructor(private authService: AuthService,
-              private http: HttpClient,
-              private promptService: PromptService,
-              private translocoService: TranslocoService
-  ) {
+  constructor(private authService: AuthService, private http: HttpClient) {
     super();
     this.connect('leaveTypeRemain', this.getLeaveTypes());
     this.connect('partialDayTypes', this.getPartialTypes());
-    this.connect('sendToUsers', this.getSendToUsers().pipe(map((res) => res.data.items)));
   }
 
   durationValues: DurationValues[] = [
@@ -134,8 +121,6 @@ export class MyLeaveService extends RxState<MyLeaveState> {
       condition = condition.substring(1);
     }
     const strategy = this.strategies.get(condition.trim());
-    console.log('condition', condition);
-    console.log('strategy', strategy);
 
     let items: any[] | null = [];
 
@@ -235,18 +220,15 @@ export class MyLeaveService extends RxState<MyLeaveState> {
         time = new TuiTime(objCaculateHours.hours, 0, 0);
         arrayTime.push({
           value: i,
-          label:
-            time.toString('HH:MM') > '12' ? time.toString('HH:MM') : time.toString('HH:MM'),
+          label: time.toString('HH:MM') > '12' ? time.toString('HH:MM') : time.toString('HH:MM'),
           time: time,
           conVertToSecond: time.toAbsoluteMilliseconds() / 1000,
         });
       } else {
-        const increasedTime = time.shift({ hours: 0, minutes: objCaculateHours.addMinute, seconds: 0 });
-        time = increasedTime;
+        time = time.shift({ hours: 0, minutes: objCaculateHours.addMinute, seconds: 0 });
         arrayTime.push({
           value: i,
-          label:
-            time.toString('HH:MM') > '12' ? time.toString('HH:MM') : time.toString('HH:MM'),
+          label: time.toString('HH:MM') > '12' ? time.toString('HH:MM') : time.toString('HH:MM'),
           time: time,
           conVertToSecond: time.toAbsoluteMilliseconds() / 1000,
         });
@@ -255,61 +237,34 @@ export class MyLeaveService extends RxState<MyLeaveState> {
     return arrayTime;
   }
 
-  getMyLeaves(pageIndex: number, pageSize: number): Observable<PagingResponse<MyLeave>> {
-    const httpParams = new HttpParams();
-    return this.http.get<PagingResponse<MyLeave>>(`${MY_TIME_PATH}/leaves`, {
-      params: httpParams
-        .set('page', pageIndex ? pageIndex.toString() : '')
-        .set('size', pageSize ? pageSize.toString() : '')
-        .set('sort', 'createdDate')
-        .set('createdDate.dir', 'des'),
-    });
-  }
-
-
-  getLeaves(params: HttpParams): Observable<PagingResponse<MyLeave>> {
-    return this.http.get<PagingResponse<MyLeave>>(`${MY_TIME_PATH}/leaves/`, { params });
-  }
-
   getLeaveTypes(): Observable<LeavesRemaining[]> {
     return this.http
-      .get<any>(`${MY_TIME_PATH}/leaves/remaining-entitlement-by-user-id/${this.loggedInUserId}`)
-      .pipe(map((res) => res.data as LeavesRemaining[]));
+      .get<BaseResponse<LeavesRemaining[]>>(
+        `${MY_TIME_API_PATH}/leaves/remaining-entitlement-by-user-id/${this.loggedInUserId}`
+      )
+      .pipe(map((res) => res.data));
   }
 
   getPartialTypes(): Observable<PartialDayType[]> {
     return this.http
-      .get<BaseResponse<PartialDayType[]>>(`${MY_TIME_PATH}/partial-day-type/`)
+      .get<BaseResponse<PartialDayType[]>>(`${MY_TIME_API_PATH}/partial-day-type/`)
       .pipe(map((res) => res.data));
   }
 
-  cancelRequest(id: string, callback?: () => void): Observable<unknown> {
-    return from(
-      this.promptService.open({
-        icon: 'warning',
-        showCancelButton: true,
-        html: this.translocoService.translate('cancelRequestWarning'),
-      } as SweetAlertOptions)
-    ).pipe(
-      switchMap((result) => iif(() => result.isConfirmed, this.editLeave(id, { status: 2 }))),
-      tap(this.promptService.handleResponse('cancelSuccessfully', callback))
-    );
-  }
-
   getSendToUsers(): Observable<PagingResponse<SentToUser>> {
-    return this.http.get<PagingResponse<SentToUser>>(`${MY_ACCOUNT_PATH}/users`);
+    return this.http.get<PagingResponse<SentToUser>>(`${ACCOUNT_API_PATH}/users`);
   }
 
   createLeave(body: SubmitLeavePayLoad): Observable<unknown> {
-    return this.http.post<unknown>(`${MY_TIME_PATH}/leaves`, body);
+    return this.http.post<unknown>(`${MY_TIME_API_PATH}/leaves`, body);
   }
 
   editLeave(id: string | undefined, body: any): Observable<any> {
-    return this.http.put<any>(`${MY_TIME_PATH}/leaves/${id}`, body);
+    return this.http.put<any>(`${MY_TIME_API_PATH}/leaves/${id}`, body);
   }
 
   deleteLeave(id: string): Observable<any> {
-    return this.http.delete<any>(`${MY_TIME_PATH}/leaves/${id}`);
+    return this.http.delete<any>(`${MY_TIME_API_PATH}/leaves/${id}`);
   }
 
   getdurationValues(): Observable<any[]> {
@@ -322,9 +277,5 @@ export class MyLeaveService extends RxState<MyLeaveState> {
 
   getHalfTime(): Observable<any[]> {
     return of(this.halfTime);
-  }
-
-  getRequestDetail(id?: string): Observable<any> {
-    return this.http.get<Requests>(`${MY_TIME_PATH}/leaves/` + id);
   }
 }

@@ -22,7 +22,7 @@ import { EveryoneWorkingHoursListComponent } from './modules/working-hours/compo
 import { OnlyMeWorkingHoursListComponent } from './modules/working-hours/components/only-me-working-hours-list/only-me-working-hours-list.component';
 import { WorkingHoursComponent } from './modules/working-hours/working-hours.component';
 import { WorkingHoursModule } from './modules/working-hours/working-hours.module';
-import { MyLeaveService, MyRequestService, MyTimeService, WorkingHoursService } from './services';
+import { MyTimeService } from './services';
 
 export const MY_TIME_ROUTES: Routes = [
   {
@@ -83,6 +83,6 @@ export const MY_TIME_ROUTES: Routes = [
     RequestManagementModule,
     WorkingHoursModule,
   ],
-  providers: [MyLeaveService, MyTimeService, WorkingHoursService, MyRequestService],
+  providers: [MyTimeService],
 })
 export class MyTimeModule {}

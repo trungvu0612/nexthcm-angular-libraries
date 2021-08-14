@@ -82,7 +82,7 @@ export class MyLeaveComponent extends AbstractRequestListComponent<LeaveRequest>
         this.promptService
           .open({
             icon: 'success',
-            html: this.translocoService.translate('submitSuccessfully'),
+            html: this.translocoService.translate('submitRequestSuccessfully'),
           })
           .then(() => this.queryParams$.next(this.queryParams$.value));
       });

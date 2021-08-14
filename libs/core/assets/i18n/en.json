@@ -11,7 +11,6 @@
   "editOffice": "Edit office",
   "editSeatMap": "Edit seat map",
   "employees": "Employees",
-  "myLeave": "My Leave",
   "myRequest": "My Request",
   "requestManagement": "Request management",
   "name": "Name",
@@ -368,32 +367,6 @@
     "dateRange": "Date range",
     "workFromHome": "Work from home"
   },
-  "MY_TIME": {
-    "leaveDetail": "Request Detail",
-    "reject": "Reject",
-    "approve": "Approve",
-    "staffName": "Staff Name",
-    "leaveType": "Leave Type",
-    "type": "Type",
-    "duration": "Duration",
-    "sendTo": "Sent to",
-    "reason": "Reason",
-    "Comment": "Comment",
-    "history": "History",
-    "close": "Close",
-    "status": "Status",
-    "cancel": "Cancel",
-    "requestSuccess": "Request Work For Home Successfully!",
-    "submitSuccessfully": "Request Successfully!",
-    "approveLeave": "Approve Leave Successfully!",
-    "rejectLeave": "Reject Leave Successfully!",
-    "dateFrom": "Date from",
-    "dateTo": "Date to",
-    "asignStaff": "Assign Staff",
-    "office": "Office",
-    "toDayOfDay": "Today of day",
-    "leaveNotFound": "Leave not found"
-  },
   "OVERVIEW": {
     "viewDetail": "View Detail"
   },
@@ -544,5 +517,10 @@
   "enterNumberOfWorkingDays": "Enter number of working days",
   "enterTotalWorkingHours": "Enter total working hours",
   "newInTime": "New check-in time",
-  "newOutTime": "New check-out time"
+  "newOutTime": "New check-out time",
+  "requestType": "Request type",
+  "requestUpdateTimesheet": "Request update timesheet",
+  "chooseADate": "Choose a date",
+  "enterNewInTime": "Enter new in-time",
+  "enterNewOutTime": "Enter new out-time"
 }

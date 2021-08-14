@@ -21,14 +21,14 @@
           </div>
         </div>
         <div class="table-row">
-          <div class="table-label">{{ t('type') }}:</div>
+          <div class="table-label">{{ t('requestType') }}:</div>
           <div class="table-value">{{ t(RequestTypeAPIUrlPath[requestTypeAPIUrlPath]) }}</div>
         </div>
         <div class="table-row">
           <div class="table-label">{{ t('assignee') }}:</div>
           <div *tuiLet="data.escalateDTO || data.escalateInfo as escalateUser" class="table-value">
             <div *ngIf="escalateUser && isMyRequest" class="flex items-center">
-              <ng-container *ngTemplateOutlet="value; context: { $implicit: data.escalateInfo }"></ng-container>
+              <ng-container *ngTemplateOutlet="value; context: { $implicit: escalateUser }"></ng-container>
             </div>
             <div *ngIf="!isMyRequest">
               <tui-combo-box
@@ -80,11 +80,13 @@
             </div>
             <div class="table-row">
               <div class="table-label">{{ t('dateRange') }}:</div>
-              <div class="table-value">{{ data.dateRange }}</div>
+              <div class="table-value">
+                <hcm-leave-request-date-range [request]="$any(data)"></hcm-leave-request-date-range>
+              </div>
             </div>
             <div class="table-row">
               <div class="table-label">{{ t('days') }}:</div>
-              <div class="table-value">{{ data.durationInDay }}</div>
+              <div class="table-value">{{ data.durationInDay! | translocoDecimal }}</div>
             </div>
           </ng-container>
           <ng-container *ngSwitchCase="RequestTypeAPIUrlPath.updateTimesheet">
@@ -143,7 +145,11 @@
         </div>
       </div>
     </section>
-    <section [class.grid-cols-2]="!isMyRequest" class="grid gap-8 py-5 border-b">
+    <section
+      *ngIf="data.status === RequestStatus.waiting"
+      [class.grid-cols-2]="!isMyRequest"
+      class="grid gap-8 py-5 border-b"
+    >
       <ng-container *ngIf="isMyRequest">
         <button (click)="onCancelRequest(data.id)" appearance="secondary" class="mx-auto" tuiButton>
           {{ t('cancel') }}

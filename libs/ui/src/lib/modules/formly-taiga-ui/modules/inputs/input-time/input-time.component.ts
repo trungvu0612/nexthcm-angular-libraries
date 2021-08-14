@@ -11,7 +11,6 @@ export class InputTimeComponent extends FieldType {
     templateOptions: {
       textfieldSize: 'l',
       mode: 'HH:MM',
-      items: [],
       strict: false,
       itemSize: 'm',
     },

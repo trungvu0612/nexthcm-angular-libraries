@@ -1060,12 +1060,6 @@
             "jestConfig": "libs/form/jest.config.js",
             "passWithNoTests": true
           }
-        },
-        "publish": {
-          "builder": "@nrwl/workspace:run-commands",
-          "options": {
-            "command": "yarn publish dist/libs/form"
-          }
         }
       }
     },

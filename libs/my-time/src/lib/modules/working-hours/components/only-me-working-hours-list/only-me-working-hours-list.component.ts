@@ -12,7 +12,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { filter, map, share, startWith, switchMap, takeUntil } from 'rxjs/operators';
 import { WorkingHours } from '../../../../models';
 import { WorkingHoursService } from '../../../../services';
-import { RequestUpdateTimeComponent } from '../../request-update-time/request-update-time.component';
+import { SubmitUpdateTimesheetRequestDialogComponent } from '../submit-update-timesheet-request-dialog/submit-update-timesheet-request-dialog.component';
 import { WorkingHoursDetailDialogComponent } from '../working-hour-detail-dialog/working-hours-detail-dialog.component';
 
 @Component({
@@ -76,8 +76,8 @@ export class OnlyMeWorkingHoursListComponent extends AbstractServerPaginationTab
 
   requestUpdateTime(id: string): void {
     this.dialogService
-      .open(new PolymorpheusComponent(RequestUpdateTimeComponent, this.injector), {
-        label: 'Request Update Time',
+      .open(new PolymorpheusComponent(SubmitUpdateTimesheetRequestDialogComponent, this.injector), {
+        label: this.translocoService.translate('requestUpdateTimesheet'),
         data: id,
       })
       .pipe(takeUntil(this.destroy$))

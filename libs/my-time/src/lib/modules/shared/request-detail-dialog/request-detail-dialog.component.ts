@@ -19,8 +19,9 @@ import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { filter, switchMap, takeUntil } from 'rxjs/operators';
 import { RequestStatus } from '../../../enums';
-import { GeneralRequest } from '../../../models/interfaces/general-request';
+import { GeneralRequest } from '../../../models';
 import { MyTimeService, RequestTypeAPIUrlPath } from '../../../services';
+import { LeaveRequestDateRangeComponentModule } from '../leave-request-date-range/leave-request-date-range.component';
 
 @Component({
   selector: 'hcm-request-detail-dialog',
@@ -40,7 +41,10 @@ export class RequestDetailDialogComponent {
 
   constructor(
     @Inject(POLYMORPHEUS_CONTEXT)
-    public context: TuiDialogContext<unknown, { type: RequestTypeAPIUrlPath; value: GeneralRequest; userId?: string }>,
+    readonly context: TuiDialogContext<
+      unknown,
+      { type: RequestTypeAPIUrlPath; value: GeneralRequest; userId?: string }
+    >,
     private myTimeService: MyTimeService,
     private destroy$: TuiDestroyService
   ) {}
@@ -118,6 +122,7 @@ export class RequestDetailDialogComponent {
     TuiHighlightModule,
     FormsModule,
     TuiTextfieldControllerModule,
+    LeaveRequestDateRangeComponentModule,
   ],
   exports: [RequestDetailDialogComponent],
 })

@@ -6,7 +6,6 @@ import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { takeUntil } from 'rxjs/operators';
 import { SweetAlertResult } from 'sweetalert2';
-import { MyRequestService } from '../../services';
 import { SubmitOvertimeRequestDialogComponent } from './components/submit-overtime-request-dialog/submit-overtime-request-dialog.component';
 import { SubmitWorkFromHomeRequestDialogComponent } from './components/submit-work-from-home-request-dialog/submit-work-from-home-request-dialog.component';
 import { SubmitWorkingOutsideRequestDialogComponent } from './components/submit-working-outside-request-dialog/submit-working-outside-request-dialog.component';
@@ -22,7 +21,6 @@ export class MyRequestsComponent {
   activeItemIndex = 0;
 
   constructor(
-    private myRequestService: MyRequestService,
     private dialogService: TuiDialogService,
     private injector: Injector,
     private translocoService: TranslocoService,
@@ -60,7 +58,7 @@ export class MyRequestsComponent {
   private successPrompt(): Promise<SweetAlertResult> {
     return this.promptService.open({
       icon: 'success',
-      html: this.translocoService.translate('submitSuccessfully'),
+      html: this.translocoService.translate('submitRequestSuccessfully'),
     });
   }
 }

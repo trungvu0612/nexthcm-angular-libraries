@@ -8,6 +8,8 @@
   }
 
   .month-working-days {
+    @apply flex flex-col justify-center items-center text-center p-5 space-y-3 bg-white rounded-xl shadow-md;
+
     height: calc(100% + 1.25rem);
   }
 }

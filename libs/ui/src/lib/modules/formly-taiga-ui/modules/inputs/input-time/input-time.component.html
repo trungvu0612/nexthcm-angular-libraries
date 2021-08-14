@@ -2,7 +2,7 @@
   [formControl]="$any(formControl)"
   [formlyAttributes]="field"
   [itemSize]="to.itemSize"
-  [items]="to.item"
+  [items]="to.item || []"
   [mode]="to.mode"
   [readOnly]="!!to.readonly"
   [strict]="to.strict"

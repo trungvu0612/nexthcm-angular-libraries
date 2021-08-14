@@ -18,7 +18,7 @@
         <td>{{ item.ot ? (item.ot | translocoDecimal: { maximumFractionDigits: 1 }) : '-' }}</td>
         <td>{{ item.onsiteDay ? (item.onsiteDay | translocoDecimal: { maximumFractionDigits: 1 }) : '-' }}</td>
         <td>{{ item.wfh ? (item.wfh | translocoDecimal: { maximumFractionDigits: 1 }) : '-' }}</td>
-        <td></td>
+        <td>{{ item.leaveType }}</td>
       </ng-container>
     </ng-template>
   </ngx-table>
