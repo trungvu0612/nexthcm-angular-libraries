@@ -84,7 +84,7 @@ export class SubmitWorkingOutsideRequestDialogComponent {
       const formModel = this.form.value;
       if (formModel.fromTo) {
         formModel.fromDate = formModel.fromTo.from.toLocalNativeDate().valueOf();
-        formModel.toDate = formModel.fromTo.from.toLocalNativeDate().valueOf();
+        formModel.toDate = formModel.fromTo.to.toLocalNativeDate().valueOf();
       }
       delete formModel.fromTo;
       this.myTimeService

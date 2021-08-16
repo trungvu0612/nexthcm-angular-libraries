@@ -6,7 +6,7 @@ import { TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { BaseComponent, Columns } from 'ngx-easy-table';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { filter, map, share, startWith, switchMap } from 'rxjs/operators';
 import { WorkingAfterHoursRequest } from '../../../../models';
 import { MyTimeService, RequestTypeAPIUrlPath } from '../../../../services';
@@ -17,7 +17,7 @@ import { AbstractRequestListComponent } from '../../../shared/abstract-component
   templateUrl: './my-working-after-hours-requests.component.html',
   styleUrls: ['./my-working-after-hours-requests.component.scss'],
   providers: [RxState, TuiDestroyService],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MyWorkingAfterHoursRequestsComponent extends AbstractRequestListComponent<WorkingAfterHoursRequest> {
   @ViewChild('table') table!: BaseComponent;
@@ -32,20 +32,19 @@ export class MyWorkingAfterHoursRequestsComponent extends AbstractRequestListCom
         { key: 'status', title: result.type },
         { key: 'type', title: result.status },
         { key: 'reason', title: result.Comment },
-        { key: 'functions', title: result.functions },
+        { key: 'functions', title: result.functions }
       ])
     );
   readonly queryParams$ = new BehaviorSubject(
     new HttpParams().set('page', 0).set('size', 10).set('userId', this.userId)
   );
-  private readonly request$ = this.queryParams$.pipe(
-    switchMap(() =>
-      this.myTimeService
-        .getRequests<WorkingAfterHoursRequest>(this.requestTypeUrlPath, this.queryParams$.value)
-        .pipe(startWith(null))
-    ),
-    share()
-  );
+  private readonly request$ = combineLatest(
+    [this.queryParams$, this.myTimeService.refresh$.pipe(filter(type => type === this.requestTypeUrlPath), startWith(null))])
+    .pipe(
+      switchMap(() => this.myTimeService.getRequests(this.requestTypeUrlPath, this.queryParams$.value).pipe(startWith(null))),
+      share()
+    ) as any;
+
   readonly loading$ = this.request$.pipe(map((value) => !value));
 
   constructor(
