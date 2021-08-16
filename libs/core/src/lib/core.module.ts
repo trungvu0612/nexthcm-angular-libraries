@@ -9,7 +9,6 @@ import { iconsPathFactory, TUI_ICONS_PATH, TUI_SANITIZER, TuiDialogModule } from
 import { NgDompurifySanitizer } from '@tinkoff/ng-dompurify';
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { APP_CONFIG } from './app-config.token';
-import { GraphqlModule } from './graphql/graphql.module';
 import { API_PREFIX_INTERCEPTOR_PROVIDER } from './interceptors';
 import { AppConfig } from './models';
 import { FORMLY_CONFIG_TRANSLATION_PROVIDER } from './providers/formly-config-translation.provider';
@@ -27,7 +26,6 @@ registerLocaleData(localeVi);
     FormlyModule.forRoot({ extras: { lazyRender: true, resetFieldOnHide: true } }),
     TuiDialogModule,
     SweetAlert2Module.forRoot(),
-    GraphqlModule,
     NgxPermissionsModule.forRoot(),
     SvgIconsModule.forRoot({ defaultSize: 'lg' }),
   ],

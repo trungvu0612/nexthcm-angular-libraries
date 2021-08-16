@@ -16,10 +16,10 @@ import { AppComponent } from './app.component';
     RouterModule.forRoot(
       [
         {
-          path: 'admin/processes',
-          loadChildren: () => import('@nexthcm/admin-processes').then((m) => m.AdminProcessesModule),
+          path: 'admin/workflow',
+          loadChildren: () => import('@nexthcm/admin-workflow').then((m) => m.AdminWorkflowModule),
         },
-        { path: '', redirectTo: 'admin/processes', pathMatch: 'full' },
+        { path: '', redirectTo: 'admin/workflow', pathMatch: 'full' },
       ],
       { initialNavigation: 'enabled' }
     ),

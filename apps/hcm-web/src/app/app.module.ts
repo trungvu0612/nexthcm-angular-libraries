@@ -34,7 +34,6 @@ import { AppComponent } from './app.component';
         path: 'knowledge-base',
         loadChildren: () => import('@nexthcm/knowledge-base').then((m) => m.KnowledgeBaseModule),
       },
-      { path: 'chat', loadChildren: () => import('@nexthcm/chat').then((m) => m.ChatModule) },
       {
         path: 'admin',
         children: [

@@ -61,7 +61,7 @@ export class SidebarComponent implements OnInit {
     },
     {
       label: 'workflowManagement',
-      link: '/admin/processes',
+      link: '/admin/workflow',
       icon: 'process',
       permissions: 'VIEW_WORKFLOW',
     },
@@ -223,7 +223,7 @@ export class SidebarComponent implements OnInit {
           },
           {
             label: 'workflowManagement',
-            link: '/admin/processes',
+            link: '/admin/workflow',
             icon: 'process',
             permissions: 'VIEW_WORKFLOW',
           },

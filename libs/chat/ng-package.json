@@ -3,5 +3,6 @@
   "dest": "../../dist/libs/chat",
   "lib": {
     "entryFile": "src/index.ts"
-  }
+  },
+  "allowedNonPeerDependencies": ["."]
 }
