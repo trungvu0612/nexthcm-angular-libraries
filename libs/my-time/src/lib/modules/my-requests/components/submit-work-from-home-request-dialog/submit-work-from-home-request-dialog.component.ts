@@ -68,7 +68,7 @@ export class SubmitWorkFromHomeRequestDialogComponent {
 
   onSubmit(): void {
     if (this.form.valid) {
-      const formModel = this.form.value;
+      const formModel = { ...this.form.value };
       if (formModel.fromTo) {
         formModel.fromDate = formModel.fromTo.from.toLocalNativeDate().valueOf();
         formModel.toDate = formModel.fromTo.to.toLocalNativeDate().valueOf();

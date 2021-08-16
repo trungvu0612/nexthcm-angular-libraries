@@ -508,5 +508,9 @@
   "chooseADate": "Chọn một ngày",
   "enterNewInTime": "Nhập giờ vào mới",
   "enterNewOutTime": "Nhập giờ ra mới",
-  "submitRequestSuccessfully": "<b>Đã Gửi Đơn Thành Công!</b>"
+  "submitRequestSuccessfully": "<b>Đã Gửi Đơn Thành Công!</b>",
+  "MY_TIME": {
+    "outTimeAfterInTime": "Giờ ra phải sau giờ vào!",
+    "inTimeBeforeOutTime": "Giờ vào phải trước giờ ra!"
+  }
 }

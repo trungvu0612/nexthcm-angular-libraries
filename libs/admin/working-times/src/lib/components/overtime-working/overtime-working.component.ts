@@ -287,7 +287,7 @@ export class OvertimeWorkingComponent implements OnInit {
   }
 
   onSubmit(): void {
-    const formModel = this.form.value;
+    const formModel = { ...this.form.value };
     formModel.minStart = (formModel?.minStart as TuiTime).toAbsoluteMilliseconds().valueOf();
     formModel.applyFor = Object.keys(formModel.applyFor).filter((key) => formModel.applyFor[key]);
     const workingItems: any[] = [

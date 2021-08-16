@@ -41,9 +41,9 @@ export class MyWorkingOutsideRequestsComponent extends AbstractRequestListCompon
   private readonly request$ = combineLatest(
     [this.queryParams$, this.myTimeService.refresh$.pipe(filter(type => type === this.requestTypeUrlPath), startWith(null))])
     .pipe(
-      switchMap(() => this.myTimeService.getRequests(this.requestTypeUrlPath, this.queryParams$.value).pipe(startWith(null))),
+      switchMap(() => this.myTimeService.getRequests<WorkingOutsideRequest>(this.requestTypeUrlPath, this.queryParams$.value).pipe(startWith(null))),
       share()
-    ) as any;
+    );
 
   readonly loading$ = this.request$.pipe(map((value) => !value));
 

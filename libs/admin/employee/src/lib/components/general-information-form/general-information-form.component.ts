@@ -225,7 +225,7 @@ export class GeneralInformationFormComponent {
 
   onSubmit(): void {
     if (this.form.valid) {
-      const formModel = this.form.value;
+      const formModel = { ...this.form.value };
       formModel.status = formModel.status ? 1 : 0;
       this.submitted.emit(formModel);
     }

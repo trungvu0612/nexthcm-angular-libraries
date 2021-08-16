@@ -17,7 +17,7 @@ import { AbstractRequestListComponent } from '../../../shared/abstract-component
   templateUrl: './my-work-from-home-requests.component.html',
   styleUrls: ['./my-work-from-home-requests.component.scss'],
   providers: [RxState, TuiDestroyService],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MyWorkFromHomeRequestsComponent extends AbstractRequestListComponent<WorkFromHomeRequest> {
   @ViewChild('table') table!: BaseComponent;
@@ -32,18 +32,26 @@ export class MyWorkFromHomeRequestsComponent extends AbstractRequestListComponen
         { key: 'totalDay', title: result.days },
         { key: 'status', title: result.status },
         { key: 'comment', title: result.Comment },
-        { key: 'functions', title: result.functions }
+        { key: 'functions', title: result.functions },
       ])
     );
   readonly queryParams$ = new BehaviorSubject(
     new HttpParams().set('page', 0).set('size', 10).set('userId', this.userId)
   );
-  private readonly request$ = combineLatest(
-    [this.queryParams$, this.myTimeService.refresh$.pipe(filter(type => type === this.requestTypeUrlPath), startWith(null))])
-    .pipe(
-      switchMap(() => this.myTimeService.getRequests(this.requestTypeUrlPath, this.queryParams$.value).pipe(startWith(null))),
-      share()
-    ) as any;
+  private readonly request$ = combineLatest([
+    this.queryParams$,
+    this.myTimeService.refresh$.pipe(
+      filter((type) => type === this.requestTypeUrlPath),
+      startWith(null)
+    ),
+  ]).pipe(
+    switchMap(() =>
+      this.myTimeService
+        .getRequests<WorkFromHomeRequest>(this.requestTypeUrlPath, this.queryParams$.value)
+        .pipe(startWith(null))
+    ),
+    share()
+  );
 
   readonly loading$ = this.request$.pipe(map((value) => !value));
 

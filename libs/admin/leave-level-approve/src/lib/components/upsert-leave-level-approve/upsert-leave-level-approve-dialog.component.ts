@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
+import { AuthService } from '@nexthcm/auth';
 import { FormBuilder } from '@ngneat/reactive-forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { LevelApprove } from '../../models/level-approve';
 import { AdminLeaveLevelApproveService } from '../../services/admin-leave-level-approve.service';
-import { AuthService } from '@nexthcm/auth';
 
 @Component({
   selector: 'hcm-upsert-leave-level-approve-dialog',
@@ -81,7 +81,7 @@ export class UpsertLeaveLevelApproveDialogComponent implements OnInit {
 
   onSubmit(): void {
     if (this.form.valid) {
-      const formModel = this.form.value;
+      const formModel = { ...this.form.value };
       if (formModel.jobTitleDTOList) {
         formModel.jobTitle = formModel.jobTitleDTOList.map((jobTitleDTO) => jobTitleDTO.id);
       }

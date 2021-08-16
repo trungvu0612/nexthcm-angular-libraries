@@ -3,16 +3,16 @@ import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '@nexthcm/auth';
 import { PromptService, secondsToTime } from '@nexthcm/cdk';
+import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDay, TuiDestroyService, TuiTime } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
 import { DefaultConfig } from 'ngx-easy-table';
-import { BehaviorSubject, of } from 'rxjs';
+import { of } from 'rxjs';
 import { catchError, filter, mapTo, switchMap, takeUntil } from 'rxjs/operators';
 import { SweetAlertOptions } from 'sweetalert2';
 import { WORKING_TIMES, WorkingTimes } from '../../models/working-times';
 import { WorkingTimesService } from '../../services/working-times.service';
-import { TranslocoService } from '@ngneat/transloco';
 
 @Component({
   selector: 'hcm-working-time-settings',
@@ -610,7 +610,7 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
   }
 
   saveSettings() {
-    const formModel = this.form.value;
+    const formModel = { ...this.form.value };
     const items = [];
     const dayTime = [
       formModel.sundayTime,

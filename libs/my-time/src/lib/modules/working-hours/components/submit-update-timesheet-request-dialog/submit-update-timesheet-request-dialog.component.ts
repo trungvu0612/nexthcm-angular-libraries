@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
-import { PromptService } from '@nexthcm/cdk';
+import { PromptService, tuiTimeAfter, tuiTimeBefore } from '@nexthcm/cdk';
 import { FormBuilder } from '@ngneat/reactive-forms';
+import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDay, TuiTime } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
@@ -49,6 +50,10 @@ export class SubmitUpdateTimesheetRequestDialogComponent {
             required: true,
             textfieldLabelOutside: true,
           },
+          validators: { validation: [tuiTimeBefore('newOutTime')] },
+          validation: {
+            messages: { tuiTimeBefore: () => this.translocoService.translate('MY_TIME.inTimeBeforeOutTime') },
+          },
         },
         {
           key: 'newOutTime',
@@ -60,6 +65,10 @@ export class SubmitUpdateTimesheetRequestDialogComponent {
             placeholder: 'enterNewOutTime',
             required: true,
             textfieldLabelOutside: true,
+          },
+          validators: { validation: [tuiTimeAfter('newInTime')] },
+          validation: {
+            messages: { tuiTimeAfter: () => this.translocoService.translate('MY_TIME.outTimeAfterInTime') },
           },
         },
       ],
@@ -96,12 +105,13 @@ export class SubmitUpdateTimesheetRequestDialogComponent {
     private fb: FormBuilder,
     @Inject(POLYMORPHEUS_CONTEXT) readonly context: TuiDialogContext<boolean, string>,
     private myTimeService: MyTimeService,
-    private promptService: PromptService
+    private promptService: PromptService,
+    private translocoService: TranslocoService
   ) {}
 
   onSubmit(): void {
     if (this.form.valid) {
-      const formModel = this.form.value;
+      const formModel = { ...this.form.value };
       formModel.createdDate = (formModel.createdDate as TuiDay).toLocalNativeDate().valueOf();
       formModel.newInTime = (formModel.newInTime as TuiTime).toAbsoluteMilliseconds() / 1000;
       formModel.newOutTime = (formModel.newOutTime as TuiTime).toAbsoluteMilliseconds() / 1000;

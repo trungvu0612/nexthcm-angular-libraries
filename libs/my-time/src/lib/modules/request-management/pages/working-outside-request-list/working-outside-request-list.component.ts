@@ -4,7 +4,7 @@ import { TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { BaseComponent, Columns } from 'ngx-easy-table';
-import { combineLatest, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { filter, map, share, startWith, switchMap } from 'rxjs/operators';
 import { WorkingOutsideRequest } from '../../../../models';
 import { MyTimeService, RequestTypeAPIUrlPath } from '../../../../services';
@@ -19,6 +19,7 @@ import { AbstractRequestListComponent } from '../../../shared/abstract-component
 })
 export class WorkingOutsideRequestListComponent extends AbstractRequestListComponent<WorkingOutsideRequest> {
   @ViewChild('table') table!: BaseComponent;
+
   readonly requestTypeUrlPath = RequestTypeAPIUrlPath.workingOutside;
   readonly columns$: Observable<Columns[]> = this.translocoService
     .selectTranslateObject('MY_TIME_REQUEST_LIST_COLUMNS')
@@ -33,13 +34,14 @@ export class WorkingOutsideRequestListComponent extends AbstractRequestListCompo
         { key: 'functions', title: result.functions },
       ])
     );
-
-  private readonly request$ = combineLatest([this.queryParams$, this.myTimeService.refresh$.pipe(
-    filter(type => type == this.requestTypeUrlPath))]).pipe(
+  private readonly request$ = this.queryParams$.pipe(
     switchMap(() =>
-      this.myTimeService.getRequests(this.requestTypeUrlPath, this.queryParams$.value).pipe(startWith(null))),
+      this.myTimeService
+        .getRequests<WorkingOutsideRequest>(this.requestTypeUrlPath, this.queryParams$.value)
+        .pipe(startWith(null))
+    ),
     share()
-  ) as any;
+  );
   readonly loading$ = this.request$.pipe(map((value) => !value));
 
   constructor(

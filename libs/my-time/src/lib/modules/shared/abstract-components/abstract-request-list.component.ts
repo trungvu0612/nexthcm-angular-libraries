@@ -17,7 +17,7 @@ export abstract class AbstractRequestListComponent<T> extends AbstractServerPagi
 
   onViewEmployeeRequestDetail(id: string, userId?: string): void {
     this.myTimeService
-      .viewEmployeeRequestDetail(this.requestTypeUrlPath, id, userId)
+      .viewRequestDetail(this.requestTypeUrlPath, id, userId)
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         () => null,

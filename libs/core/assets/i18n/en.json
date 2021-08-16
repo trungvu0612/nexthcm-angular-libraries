@@ -522,5 +522,9 @@
   "requestUpdateTimesheet": "Request update timesheet",
   "chooseADate": "Choose a date",
   "enterNewInTime": "Enter new in-time",
-  "enterNewOutTime": "Enter new out-time"
+  "enterNewOutTime": "Enter new out-time",
+  "MY_TIME": {
+    "outTimeAfterInTime": "The out-time must be after the in-time!",
+    "inTimeBeforeOutTime": "The in-time must be before the out-time!"
+  }
 }

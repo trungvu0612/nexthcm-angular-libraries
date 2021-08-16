@@ -7,7 +7,7 @@ import {
   MY_TIME_API_PATH,
   Pagination,
   PagingResponse,
-  PromptService
+  PromptService,
 } from '@nexthcm/cdk';
 import { TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
@@ -17,8 +17,7 @@ import { from, iif, Observable, Subject } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
 import { SweetAlertOptions } from 'sweetalert2';
 import { RequestStatus } from '../enums';
-import { SubmitRequestPayload, UpdateRequestPayload } from '../models';
-import { GeneralRequest } from '../models/requests/general-request';
+import { GeneralRequest, SubmitRequestPayload, UpdateRequestPayload } from '../models';
 import { RejectRequestDialogComponent } from '../modules/request-management/components/reject-leave-request-dialog/reject-request-dialog.component';
 import { RequestDetailDialogComponent } from '../modules/shared/request-detail-dialog/request-detail-dialog.component';
 
@@ -45,6 +44,7 @@ export enum RequestTypeComment {
 @Injectable()
 export class MyTimeService extends RxState<ServiceState> {
   private refreshSubject = new Subject<RequestTypeAPIUrlPath>();
+  refresh$ = this.refreshSubject.asObservable();
 
   constructor(
     private http: HttpClient,
@@ -55,10 +55,6 @@ export class MyTimeService extends RxState<ServiceState> {
   ) {
     super();
     this.connect('sendToUsers', this.getSendToUsers());
-  }
-
-  get refresh$() {
-    return this.refreshSubject.asObservable();
   }
 
   getSendToUsers(): Observable<EmployeeInfo[]> {
@@ -77,12 +73,9 @@ export class MyTimeService extends RxState<ServiceState> {
   }
 
   submitRequest(type: RequestTypeAPIUrlPath, payload: SubmitRequestPayload): Observable<unknown> {
-    return this.http.post<unknown>(`${MY_TIME_API_PATH}/${type}`, payload).pipe(
-      tap(() => {
-        this.refreshSubject.next(type);
-        console.log(type);
-      })
-    );
+    return this.http
+      .post<unknown>(`${MY_TIME_API_PATH}/${type}`, payload)
+      .pipe(tap(() => this.refreshSubject.next(type)));
   }
 
   updateRequest(type: RequestTypeAPIUrlPath, id: string, payload: UpdateRequestPayload): Observable<unknown> {
@@ -98,7 +91,7 @@ export class MyTimeService extends RxState<ServiceState> {
       this.promptService.open({
         icon: 'warning',
         showCancelButton: true,
-        html: this.translocoService.translate('approveRequestWarning')
+        html: this.translocoService.translate('approveRequestWarning'),
       } as SweetAlertOptions)
     ).pipe(
       switchMap((result) =>
@@ -122,7 +115,7 @@ export class MyTimeService extends RxState<ServiceState> {
       this.promptService.open({
         icon: 'warning',
         showCancelButton: true,
-        html: this.translocoService.translate('cancelRequestWarning')
+        html: this.translocoService.translate('cancelRequestWarning'),
       } as SweetAlertOptions)
     ).pipe(
       switchMap((result) =>
@@ -132,16 +125,15 @@ export class MyTimeService extends RxState<ServiceState> {
     );
   }
 
-  viewEmployeeRequestDetail(type: RequestTypeAPIUrlPath, id: string, userId?: string): Observable<unknown> {
+  viewRequestDetail(type: RequestTypeAPIUrlPath, id: string, userId?: string): Observable<unknown> {
     return this.getRequest(type, id).pipe(
       switchMap((res) =>
         this.dialogService.open(new PolymorpheusComponent(RequestDetailDialogComponent, this.injector), {
           data: {
             type,
             value: res.data,
-            userId
+            userId,
           },
-          required: true
         })
       )
     );
