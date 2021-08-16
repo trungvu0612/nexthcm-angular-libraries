@@ -258,7 +258,11 @@
   "WORKING_HOUR": {
     "addCalendar": "Thêm Mới Giờ Làm Việc",
     "addOverTime": "Thêm Mới Giờ Làm Việc ngoài Giờ",
-    "updateCalendar": "Cập Nhật Giờ Làm Việc"
+    "updateCalendar": "Cập Nhật Giờ Làm Việc",
+    "mainShift": "Giờ làm chính",
+    "holiday": "Ngày nghỉ",
+    "addHoliday": "Thêm ngày nghỉ",
+    "chooseHoliday": "Chọn ngày"
   },
   "applyFor": "Tùy chọn",
   "officeOnsite": "Văn phòng làm việc cho khách hàng",

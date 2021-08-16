@@ -257,7 +257,11 @@
   "WORKING_HOUR": {
     "addCalendar": "Add Calendar",
     "addOverTime": "Add Working After Time",
-    "updateCalendar": "Update Calendar"
+    "updateCalendar": "Update Calendar",
+    "mainShift": "Main shift",
+    "holiday": "Holiday",
+    "addHoliday": "Add holidays",
+    "chooseHoliday": "Choose a date"
   },
   "applyFor": "Apply for",
   "officeOnsite": "Office onsite",
