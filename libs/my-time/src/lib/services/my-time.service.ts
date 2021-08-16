@@ -7,13 +7,13 @@ import {
   MY_TIME_API_PATH,
   Pagination,
   PagingResponse,
-  PromptService,
+  PromptService
 } from '@nexthcm/cdk';
 import { TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
-import { from, iif, Observable } from 'rxjs';
+import { from, iif, Observable, Subject } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
 import { SweetAlertOptions } from 'sweetalert2';
 import { RequestStatus } from '../enums';
@@ -44,6 +44,8 @@ export enum RequestTypeComment {
 
 @Injectable()
 export class MyTimeService extends RxState<ServiceState> {
+  private refreshSubject = new Subject<RequestTypeAPIUrlPath>();
+
   constructor(
     private http: HttpClient,
     private dialogService: TuiDialogService,
@@ -53,6 +55,10 @@ export class MyTimeService extends RxState<ServiceState> {
   ) {
     super();
     this.connect('sendToUsers', this.getSendToUsers());
+  }
+
+  get refresh$() {
+    return this.refreshSubject.asObservable();
   }
 
   getSendToUsers(): Observable<EmployeeInfo[]> {
@@ -71,7 +77,12 @@ export class MyTimeService extends RxState<ServiceState> {
   }
 
   submitRequest(type: RequestTypeAPIUrlPath, payload: SubmitRequestPayload): Observable<unknown> {
-    return this.http.post<unknown>(`${MY_TIME_API_PATH}/${type}`, payload);
+    return this.http.post<unknown>(`${MY_TIME_API_PATH}/${type}`, payload).pipe(
+      tap(() => {
+        this.refreshSubject.next(type);
+        console.log(type);
+      })
+    );
   }
 
   updateRequest(type: RequestTypeAPIUrlPath, id: string, payload: UpdateRequestPayload): Observable<unknown> {
@@ -87,7 +98,7 @@ export class MyTimeService extends RxState<ServiceState> {
       this.promptService.open({
         icon: 'warning',
         showCancelButton: true,
-        html: this.translocoService.translate('approveRequestWarning'),
+        html: this.translocoService.translate('approveRequestWarning')
       } as SweetAlertOptions)
     ).pipe(
       switchMap((result) =>
@@ -111,7 +122,7 @@ export class MyTimeService extends RxState<ServiceState> {
       this.promptService.open({
         icon: 'warning',
         showCancelButton: true,
-        html: this.translocoService.translate('cancelRequestWarning'),
+        html: this.translocoService.translate('cancelRequestWarning')
       } as SweetAlertOptions)
     ).pipe(
       switchMap((result) =>
@@ -128,9 +139,9 @@ export class MyTimeService extends RxState<ServiceState> {
           data: {
             type,
             value: res.data,
-            userId,
+            userId
           },
-          required: true,
+          required: true
         })
       )
     );
