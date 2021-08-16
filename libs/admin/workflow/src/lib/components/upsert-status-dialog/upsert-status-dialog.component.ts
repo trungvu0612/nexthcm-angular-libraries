@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
-import { FormGroup } from '@ngneat/reactive-forms';
+import { FormBuilder } from '@ngneat/reactive-forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { v4 as uuidv4 } from 'uuid';
-import { State } from '../../models/workflow';
+import { State } from '../../models';
 import { WorkflowService } from '../../services/workflow.service';
 
 @Component({
@@ -14,10 +14,10 @@ import { WorkflowService } from '../../services/workflow.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UpsertStatusDialogComponent implements OnInit {
-  readonly statusTypes$ = this.workflowService.select('statusTypes');
-  form = new FormGroup<Partial<State>>({});
+  form = this.fb.group<State>({} as State);
+  model = {} as State;
   fields: FormlyFieldConfig[] = [
-    { key: 'id' },
+    { key: 'id', defaultValue: uuidv4() },
     {
       className: 'tui-form__row block',
       key: 'name',
@@ -25,7 +25,7 @@ export class UpsertStatusDialogComponent implements OnInit {
       templateOptions: {
         required: true,
         translate: true,
-        label: 'ADMIN_PROCESSES.name',
+        label: 'name',
         textfieldLabelOutside: true,
       },
     },
@@ -46,19 +46,16 @@ export class UpsertStatusDialogComponent implements OnInit {
       templateOptions: {
         translate: true,
         required: true,
-        options: this.statusTypes$,
-        label: 'ADMIN_PROCESSES.stateType',
+        options: this.workflowService.select('statusTypes'),
+        label: 'stateType',
         labelProp: 'name',
       },
     },
   ];
-  model: State = {
-    id: uuidv4(),
-    name: '',
-  };
 
   constructor(
     @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<State, State>,
+    private fb: FormBuilder,
     private workflowService: WorkflowService
   ) {}
 

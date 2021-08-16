@@ -1,8 +1,8 @@
 <main class="main-page">
   <header *transloco="let t">
     <h1>{{ t('workflowManagement') }}</h1>
-    <button (click)="onCreateProcess()" class="tui-space_right-3 tui-space_bottom-3" size="m" tuiButton>
-      {{ t('ADMIN_PROCESSES.createNewProcess') }}
+    <button (click)="onCreateWorkflow()" class="tui-space_right-3 tui-space_bottom-3" size="m" tuiButton>
+      {{ t('createNewProcess') }}
     </button>
   </header>
   <section class="main-section">
@@ -12,49 +12,43 @@
         [columns]="(columns$ | async) || []"
         [configuration]="configuration"
         [data]="(data$ | async) || []"
-        [selectAllTemplate]="selectAllTemplate"
       >
         <ng-template let-row>
-          <td>
-            <tui-checkbox
-              (ngModelChange)="rowSelected(row, $event)"
-              [ngModel]="selected.has(process(row).id || '')"
-              size="l"
-            ></tui-checkbox>
-          </td>
-          <td>{{ process(row).name }}</td>
-          <td>{{ process(row).description }}</td>
-          <td></td>
-          <td>
-            <div class="flex items-center">
-              <button
-                appearance="flat"
-                class="tui-space_right-3"
-                icon="tuiIconEditLarge"
-                [routerLink]="[process(row).id, 'edit']"
-                size="m"
-                tuiIconButton
-                type="button"
-              ></button>
-              <button
-                appearance="flat"
-                class="tui-space_right-3"
-                icon="tuiIconShowLarge"
-                [routerLink]="[process(row).id, 'view']"
-                size="m"
-                tuiIconButton
-                type="button"
-              ></button>
-              <button
-                (click)="onRemoveProcess(process(row).id)"
-                appearance="flat"
-                icon="tuiIconTrashLarge"
-                size="m"
-                tuiIconButton
-                type="button"
-              ></button>
-            </div>
-          </td>
+          <ng-container *tuiLet="item(row) as item">
+            <td>{{ item.name }}</td>
+            <td>{{ item.description }}</td>
+            <td></td>
+            <td>
+              <div class="flex items-center">
+                <button
+                  [routerLink]="[item.id, 'edit']"
+                  appearance="flat"
+                  class="tui-space_right-3"
+                  icon="tuiIconEditLarge"
+                  size="m"
+                  tuiIconButton
+                  type="button"
+                ></button>
+                <button
+                  [routerLink]="[item.id, 'view']"
+                  appearance="flat"
+                  class="tui-space_right-3"
+                  icon="tuiIconShowLarge"
+                  size="m"
+                  tuiIconButton
+                  type="button"
+                ></button>
+                <button
+                  (click)="onRemoveWorkflow(item.id)"
+                  appearance="flat"
+                  icon="tuiIconTrashLarge"
+                  size="m"
+                  tuiIconButton
+                  type="button"
+                ></button>
+              </div>
+            </td>
+          </ng-container>
         </ng-template>
       </ngx-table>
     </tui-loader>
@@ -65,7 +59,3 @@
     ></tui-table-pagination>
   </section>
 </main>
-
-<ng-template #selectAllTemplate let-changeEvent>
-  <tui-checkbox (ngModelChange)="changeEvent()" [(ngModel)]="allSelected" size="l"></tui-checkbox>
-</ng-template>

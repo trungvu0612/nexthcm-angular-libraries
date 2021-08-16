@@ -256,9 +256,8 @@ export class IndividualFormComponent {
 
   onSubmit(): void {
     if (this.form.valid) {
-      const formModel = parseDateFields(this.form.value, ['birthDate', 'issueOn']);
       this.adminEmployeeService
-        .updateEmployeeInformation<EmployeeIndividual>(formModel)
+        .updateEmployeeInformation<EmployeeIndividual>(parseDateFields(this.form.value, ['birthDate', 'issueOn']))
         .pipe(takeUntil(this.destroy$))
         .subscribe(this.promptService.handleResponse('updateSuccessful'));
     }

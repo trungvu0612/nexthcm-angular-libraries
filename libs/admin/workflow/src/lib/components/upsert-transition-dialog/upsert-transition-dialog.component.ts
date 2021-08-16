@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
+import { FormBuilder } from '@ngneat/reactive-forms';
 import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { RxwebValidators } from '@rxweb/reactive-form-validators';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { v4 as uuidv4 } from 'uuid';
-import { Transition } from '../../models/workflow';
+import { Transition } from '../../models';
 
 @Component({
   selector: 'hcm-upsert-transition-dialog',
@@ -15,7 +15,7 @@ import { Transition } from '../../models/workflow';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UpsertTransitionDialogComponent implements OnInit {
-  form: FormGroup<Transition> = this.fb.group({} as Transition);
+  form = this.fb.group<Transition>({} as Transition);
   options: FormlyFormOptions = {
     formState: {
       isNew: true,
@@ -34,7 +34,7 @@ export class UpsertTransitionDialogComponent implements OnInit {
       type: 'select',
       templateOptions: {
         translate: true,
-        label: 'ADMIN_PROCESSES.fromStatus',
+        label: 'fromStatus',
         options: this.data.states,
         labelProp: 'name',
         valueProp: 'id',
@@ -56,7 +56,7 @@ export class UpsertTransitionDialogComponent implements OnInit {
       templateOptions: {
         translate: true,
         required: true,
-        label: 'ADMIN_PROCESSES.toStatus',
+        label: 'toStatus',
         options: this.data.states,
         labelProp: 'name',
         valueProp: 'id',
@@ -78,7 +78,7 @@ export class UpsertTransitionDialogComponent implements OnInit {
       templateOptions: {
         required: true,
         translate: true,
-        label: 'ADMIN_PROCESSES.name',
+        label: 'name',
         textfieldLabelOutside: true,
       },
     },
@@ -96,7 +96,7 @@ export class UpsertTransitionDialogComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<any, Transition>,
+    @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<Transition, any>,
     private translocoService: TranslocoService
   ) {}
 

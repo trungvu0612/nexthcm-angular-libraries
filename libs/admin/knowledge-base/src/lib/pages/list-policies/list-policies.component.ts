@@ -82,7 +82,7 @@ export class ListPoliciesComponent implements OnInit {
       from(
         this.promptService.open({
           icon: 'question',
-          html: this.translocoService.translate('ADMIN_PROCESSES.MESSAGES.deleteProcess'),
+          html: this.translocoService.translate('MESSAGES.deleteWorkflow'),
           showCancelButton: true,
         })
       )

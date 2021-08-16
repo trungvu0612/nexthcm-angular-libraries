@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
-import { LayoutComponent, LayoutModule } from '@nexthcm/ui';
+import { BaseFormComponentModule, LayoutComponent, LayoutModule } from '@nexthcm/ui';
 import { WorkflowDesignerModule } from '@nexthcm/workflow-designer';
 import { TranslocoModule } from '@ngneat/transloco';
 import { FormlyModule } from '@ngx-formly/core';
@@ -65,6 +65,7 @@ export const ADMIN_PROCESSES_ROUTES: Routes = [
     LetModule,
     TranslocoModule,
     TuiLabelModule,
+    BaseFormComponentModule,
   ],
   declarations: [
     AdminWorkflowComponent,

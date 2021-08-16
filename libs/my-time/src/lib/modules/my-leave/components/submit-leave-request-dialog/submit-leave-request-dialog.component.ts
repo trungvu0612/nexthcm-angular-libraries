@@ -367,7 +367,7 @@ export class SubmitLeaveRequestDialogComponent implements OnInit {
 
   onSubmit(): void {
     if (this.form.valid) {
-      const leaveRequestModel = this.form.value;
+      const leaveRequestModel = { ...this.form.value };
       const body = {} as SubmitLeavePayLoad;
 
       body.fromDate = getTime((this.model.fromTo?.from as TuiDay).toLocalNativeDate());

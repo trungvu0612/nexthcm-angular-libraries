@@ -241,6 +241,7 @@ export class DurationFormComponent {
         'indefiniteTermContractDate',
         'resignationAgreementDate',
       ]);
+
       formModel.probationDate = new DateRange(formModel.probationDate as TuiDayRange);
       this.adminEmployeeService
         .updateEmployeeInformation<EmployeeDuration>(formModel)

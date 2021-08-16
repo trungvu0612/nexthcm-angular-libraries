@@ -1,9 +1,12 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
-import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
+import { PromptService } from '@nexthcm/cdk';
+import { FormBuilder } from '@ngneat/reactive-forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
+import { TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
-import { InitWorkflow } from '../../models/workflow';
+import { takeUntil, tap } from 'rxjs/operators';
+import { InitWorkflow } from '../../models';
 import { WorkflowService } from '../../services/workflow.service';
 
 @Component({
@@ -11,10 +14,11 @@ import { WorkflowService } from '../../services/workflow.service';
   templateUrl: './create-workflow-dialog.component.html',
   styleUrls: ['./create-workflow-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [TuiDestroyService],
 })
 export class CreateWorkflowDialogComponent {
-  readonly statusTypes$ = this.workflowService.select('statusTypes');
-  form: FormGroup<InitWorkflow> = this.fb.group({} as InitWorkflow);
+  form = this.fb.group<InitWorkflow>({} as InitWorkflow);
+  model = {} as InitWorkflow;
   fields: FormlyFieldConfig[] = [
     {
       className: 'tui-form__row block',
@@ -23,7 +27,7 @@ export class CreateWorkflowDialogComponent {
       templateOptions: {
         required: true,
         translate: true,
-        label: 'ADMIN_PROCESSES.name',
+        label: 'name',
         textfieldLabelOutside: true,
       },
     },
@@ -44,7 +48,7 @@ export class CreateWorkflowDialogComponent {
       templateOptions: {
         translate: true,
         required: true,
-        label: 'ADMIN_PROCESSES.initStatus',
+        label: 'initStatus',
         textfieldLabelOutside: true,
       },
     },
@@ -54,7 +58,7 @@ export class CreateWorkflowDialogComponent {
       type: 'input',
       templateOptions: {
         translate: true,
-        label: 'ADMIN_PROCESSES.initStatusDescription',
+        label: 'initStatusDescription',
         textfieldLabelOutside: true,
       },
     },
@@ -65,19 +69,20 @@ export class CreateWorkflowDialogComponent {
       templateOptions: {
         translate: true,
         required: true,
-        options: this.statusTypes$,
-        label: 'ADMIN_PROCESSES.stateType',
+        options: this.workflowService.select('statusTypes'),
+        label: 'stateType',
         labelProp: 'name',
         matcherBy: 'id',
       },
     },
   ];
-  model = {} as InitWorkflow;
 
   constructor(
     private fb: FormBuilder,
-    @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<unknown, InitWorkflow>,
-    private workflowService: WorkflowService
+    @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<boolean, InitWorkflow>,
+    private workflowService: WorkflowService,
+    private destroy$: TuiDestroyService,
+    private promptService: PromptService
   ) {}
 
   onCancel(): void {
@@ -86,7 +91,13 @@ export class CreateWorkflowDialogComponent {
 
   onSubmit(): void {
     if (this.form.valid) {
-      this.context.completeWith(this.model);
+      this.workflowService
+        .initWorkflow(this.form.value)
+        .pipe(
+          tap(() => this.promptService.handleResponse()),
+          takeUntil(this.destroy$)
+        )
+        .subscribe(() => this.context.completeWith(true));
     }
   }
 }

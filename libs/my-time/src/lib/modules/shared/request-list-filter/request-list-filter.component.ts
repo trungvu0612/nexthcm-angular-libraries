@@ -11,6 +11,7 @@ import { TuiDataListModule } from '@taiga-ui/core';
 import { TuiTagModule } from '@taiga-ui/kit';
 import { endOfMonth, endOfYear, setMonth, setYear, startOfMonth, startOfYear } from 'date-fns';
 import { BehaviorSubject, combineLatest, Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { RequestStatus } from '../../../enums';
 
 @Component({
@@ -36,8 +37,12 @@ export class RequestListFilterComponent implements OnInit {
     private translocoService: TranslocoService,
     private activatedRoute: ActivatedRoute
   ) {
-    state.hold(combineLatest([this.year$, this.month$]), () => this.httpParams$.next(this.filterByYearMonth()));
-    state.hold(this.search$, (search) => this.httpParams$.next(this.onFilter('search', search)));
+    state.hold(combineLatest([this.year$.pipe(debounceTime(1000), distinctUntilChanged()), this.month$]), () =>
+      this.httpParams$.next(this.filterByYearMonth())
+    );
+    state.hold(this.search$.pipe(debounceTime(1000), distinctUntilChanged()), (search) =>
+      this.httpParams$.next(this.onFilter('search', search))
+    );
     state.hold(this.status$, (status) => this.httpParams$.next(this.onFilter('status', status)));
   }
 
@@ -76,7 +81,7 @@ export class RequestListFilterComponent implements OnInit {
 
   private filterByYearMonth(): HttpParams {
     let httpParams = this.httpParams$.value;
-    if (this.year$.value === null) {
+    if (!this.year$.value) {
       httpParams = httpParams.delete('fromDate').delete('toDate');
     } else {
       let fromDate: number;

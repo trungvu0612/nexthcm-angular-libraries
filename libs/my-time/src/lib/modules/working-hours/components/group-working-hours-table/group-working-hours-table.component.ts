@@ -20,9 +20,9 @@ export class GroupWorkingHoursTableComponent
   extends AbstractServerPaginationTableComponent<WorkingHours>
   implements OnChanges
 {
-  @Input() @tuiDefaultProp() userId = '223c4cc3-4320-47b6-ab7d-3aeab7af5d9d';
-  @Input() @tuiDefaultProp() fromDate = 1609434000000;
-  @Input() @tuiDefaultProp() toDate = 1640969999999;
+  @Input() @tuiDefaultProp() userId!: string;
+  @Input() @tuiDefaultProp() fromDate!: number;
+  @Input() @tuiDefaultProp() toDate!: number;
 
   @ViewChild('table') table!: BaseComponent;
 

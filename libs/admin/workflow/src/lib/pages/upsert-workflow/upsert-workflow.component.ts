@@ -16,13 +16,12 @@ import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import * as clone_ from 'rfdc';
-import { of, Subject } from 'rxjs';
-import { catchError, filter, map, mapTo, startWith, switchMap, takeUntil } from 'rxjs/operators';
-import { SweetAlertOptions } from 'sweetalert2';
+import { Subject } from 'rxjs';
+import { filter, map, startWith, switchMap, takeUntil } from 'rxjs/operators';
 import { v4 as uuidv4 } from 'uuid';
 import { UpsertStatusDialogComponent } from '../../components/upsert-status-dialog/upsert-status-dialog.component';
 import { UpsertTransitionDialogComponent } from '../../components/upsert-transition-dialog/upsert-transition-dialog.component';
-import { State, Transition, Workflow } from '../../models/workflow';
+import { State, Transition, Workflow } from '../../models';
 import { WorkflowService } from '../../services/workflow.service';
 import { createWorkflowTransition } from '../../utils/create-workflow-transition';
 import { slice } from '../../utils/slice';
@@ -49,7 +48,7 @@ export class UpsertWorkflowComponent implements AfterViewInit {
   editMode: boolean = this.activatedRoute.snapshot.data.edit;
   form: FormGroup<Workflow> = this.fb.group({ removingStates: [], removingTransitions: [] });
   fields: FormlyFieldConfig[] = [
-    { key: 'id' },
+    { key: 'id', defaultValue: this.processId },
     {
       className: 'tui-text_h3 tui-form__header tui-form__header_margin-top_none block',
       key: 'name',
@@ -60,7 +59,7 @@ export class UpsertWorkflowComponent implements AfterViewInit {
         disabled: !this.editMode,
       },
       expressionProperties: {
-        'templateOptions.iconTitle': this.translocoService.selectTranslate('ADMIN_PROCESSES.editName'),
+        'templateOptions.iconTitle': this.translocoService.selectTranslate('editName'),
       },
     },
     {
@@ -74,7 +73,7 @@ export class UpsertWorkflowComponent implements AfterViewInit {
       },
     },
   ];
-  model: Workflow = { id: this.processId };
+  model = {} as Workflow;
   readonly selectCell$ = new Subject<State | Transition | null>();
   readonly init$ = new Subject<string>();
   readonly upsertStatus$ = new Subject<State>();
@@ -83,7 +82,7 @@ export class UpsertWorkflowComponent implements AfterViewInit {
   readonly deleteTransitions$ = new Subject<string[]>();
   readonly initHandler$ = this.init$.pipe(
     stateful(
-      switchMap((id) => this.workflowService.getProcess(id)),
+      switchMap((id) => this.workflowService.getWorkflow(id)),
       map((res) => res.data)
     )
   );
@@ -165,11 +164,10 @@ export class UpsertWorkflowComponent implements AfterViewInit {
   onUpsertStatus(state?: State, isNew = true): void {
     this.dialogService
       .open<State>(new PolymorpheusComponent(UpsertStatusDialogComponent, this.injector), {
-        label: this.translocoService.translate(
-          isNew ? 'ADMIN_PROCESSES.createNewStatus' : 'ADMIN_PROCESSES.editStatus'
-        ),
+        label: this.translocoService.translate(isNew ? 'createNewStatus' : 'editStatus'),
         data: state,
       })
+      .pipe(takeUntil(this.destroy$))
       .subscribe((state) => {
         const workflowStatus = new WorkflowStatus(state.id, state.name, state.stateType?.color, state.stateType?.color);
         if (isNew) {
@@ -185,9 +183,7 @@ export class UpsertWorkflowComponent implements AfterViewInit {
   onUpsertTransition(transition?: Transition, isNew = true): void {
     this.dialogService
       .open<Transition>(new PolymorpheusComponent(UpsertTransitionDialogComponent, this.injector), {
-        label: this.translocoService.translate(
-          isNew ? 'ADMIN_PROCESSES.createNewTransition' : 'ADMIN_PROCESSES.editTransition'
-        ),
+        label: this.translocoService.translate(isNew ? 'createNewTransition' : 'editTransition'),
         data: { states: dictionaryToArray(this.state.get('addedStates')), transition, isNew },
       })
       .subscribe((transition) => {
@@ -237,6 +233,7 @@ export class UpsertWorkflowComponent implements AfterViewInit {
 
   onEditCell(): void {
     const selectedCell = this.state.get('selectedCell');
+
     if (selectedCell) {
       if ('toStateId' in selectedCell) {
         this.onUpsertTransition(selectedCell, false);
@@ -248,6 +245,7 @@ export class UpsertWorkflowComponent implements AfterViewInit {
 
   onRemoveCell(): void {
     const selectedCell = this.state.get('selectedCell');
+
     if (selectedCell) {
       let cellId: string;
       if ('toStateId' in selectedCell) {
@@ -267,33 +265,21 @@ export class UpsertWorkflowComponent implements AfterViewInit {
 
   onSubmit(): void {
     if (this.form.valid) {
-      const processModel = this.form.value;
+      const processModel = { ...this.form.value };
+
       processModel.states = dictionaryToArray(this.state.get('addedStates'));
       processModel.transitions = dictionaryToArray(this.state.get('addedTransitions'));
       processModel.template = this.workflowDesigner.apiEvent({ type: WorkflowAPI.getXML });
       this.workflowService
-        .upsertProcess(this.processId, processModel)
-        .pipe(
-          mapTo({ icon: 'success', text: 'Updating this process successfully!' } as SweetAlertOptions),
-          takeUntil(this.destroy$),
-          catchError((err) =>
-            of({
-              icon: 'error',
-              text: err.error.message,
-              showCancelButton: true,
-              showConfirmButton: false,
-            } as SweetAlertOptions)
-          ),
-          switchMap((options) => this.promptService.open(options)),
-          filter((result) => result.isConfirmed),
-          takeUntil(this.destroy$)
-        )
-        .subscribe(() => this.router.navigate(['../..'], { relativeTo: this.activatedRoute }));
+        .upsertWorkflow(this.processId, processModel)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(this.promptService.handleResponse('updateWorkflowSuccessfully'));
     }
   }
 
   private drawInitialState(initialState: State): void {
     const initialTransition: Transition = { id: uuidv4(), name: 'Create', toStateId: initialState.id };
+
     this.workflowDesigner.apiEvent({ type: WorkflowAPI.setInitial });
     this.workflowDesigner.apiEvent({
       type: WorkflowAPI.drawStatus,
@@ -313,18 +299,20 @@ export class UpsertWorkflowComponent implements AfterViewInit {
     previousId: string;
   }): void {
     let direction = '';
-    const newTransition = clone({ proto: true })(this.state.get('addedTransitions')[value.transitionId]);
     let newStatusId = '';
+    const newTransition = clone({ proto: true })(this.state.get('addedTransitions')[value.transitionId]);
+
     if (newTransition.fromStateId === value.previousId) {
-      direction = 'ADMIN_PROCESSES.MESSAGES.changeSourceOfTransition';
+      direction = 'MESSAGES.changeSourceOfTransition';
       newTransition.fromStateId = value.sourceId;
       newStatusId = value.sourceId;
     } else if (newTransition.toStateId === value.previousId) {
-      direction = 'ADMIN_PROCESSES.MESSAGES.changeTargetOfTransition';
+      direction = 'MESSAGES.changeTargetOfTransition';
       newTransition.toStateId = value.targetId;
       newStatusId = value.targetId;
     }
     const nextStatus = this.state.get('addedStates')[newStatusId];
+
     if (nextStatus) {
       this.promptService
         .open({

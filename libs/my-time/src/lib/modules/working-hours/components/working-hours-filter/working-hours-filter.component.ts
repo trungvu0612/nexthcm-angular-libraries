@@ -20,7 +20,7 @@ import {
   startOfYear,
 } from 'date-fns';
 import { BehaviorSubject, combineLatest, Subject } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 
 @Component({
   selector: 'hcm-working-hours-filter',
@@ -49,10 +49,12 @@ export class WorkingHoursFilterComponent implements OnInit {
     private translocoService: TranslocoService,
     private activatedRoute: ActivatedRoute
   ) {
-    this.state.hold(this.year$, () => this.httpParams$.next(this.generateDateRange()));
+    this.state.hold(this.year$.pipe(debounceTime(1000), distinctUntilChanged()), () =>
+      this.httpParams$.next(this.generateDateRange())
+    );
     this.state.hold(this.month$, () => this.httpParams$.next(this.generateDateRange()));
     this.state.hold(this.week$, (week) => this.httpParams$.next(this.generateDateRange(week)));
-    this.state.hold(this.search$, (search) => this.onSearch(search));
+    this.state.hold(this.search$.pipe(debounceTime(1000), distinctUntilChanged()), (search) => this.onSearch(search));
   }
 
   private _initYear?: string;

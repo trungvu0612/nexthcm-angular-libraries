@@ -5,7 +5,7 @@ import { RxState } from '@rx-angular/state';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { API, BaseComponent, Columns, Config, DefaultConfig } from 'ngx-easy-table';
 import { Observable } from 'rxjs';
-import { filter, map, share, startWith, switchMap } from 'rxjs/operators';
+import { filter, map, share, startWith, switchMap, tap } from 'rxjs/operators';
 import { WorkingHoursGroup } from '../../../../models';
 import { WorkingHoursService } from '../../../../services';
 
@@ -47,7 +47,12 @@ export class EveryoneWorkingHoursListComponent
       ])
     );
   private readonly request$ = this.queryParams$.pipe(
-    switchMap(() => this.workingHoursService.getWorkingHoursOfEveryone(this.queryParams$.value).pipe(startWith(null))),
+    switchMap(() =>
+      this.workingHoursService.getWorkingHoursOfEveryone(this.queryParams$.value).pipe(
+        tap(() => this.toggledRows.clear()),
+        startWith(null)
+      )
+    ),
     share()
   );
   readonly loading$ = this.request$.pipe(map((value) => !value));

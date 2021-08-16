@@ -11,7 +11,6 @@ import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { BaseComponent, Columns } from 'ngx-easy-table';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { filter, map, share, startWith, switchMap, takeUntil } from 'rxjs/operators';
-import { RequestStatus } from '../../enums';
 import { LeaveRequest } from '../../models';
 import { MyTimeService, RequestTypeAPIUrlPath } from '../../services';
 import { AbstractRequestListComponent } from '../shared/abstract-components/abstract-request-list.component';
@@ -40,12 +39,8 @@ export class MyLeaveComponent extends AbstractRequestListComponent<LeaveRequest>
     ])
   );
   readonly queryParams$ = new BehaviorSubject(
-    new HttpParams()
-      .set('page', 0)
-      .set('size', 10)
-      .set('orgId', this.authService.get('userInfo', 'orgId') as string)
+    new HttpParams().set('page', 0).set('size', 10).set('userId', this.authService.get('userInfo', 'userId'))
   );
-  readonly RequestStatus = RequestStatus;
   private readonly request$ = this.queryParams$.pipe(
     switchMap(() =>
       this.myTimeService
@@ -73,18 +68,15 @@ export class MyLeaveComponent extends AbstractRequestListComponent<LeaveRequest>
 
   showDialogSubmit(): void {
     this.dialogService
-      .open<boolean>(new PolymorpheusComponent(SubmitLeaveRequestDialogComponent, this.injector), {
+      .open(new PolymorpheusComponent(SubmitLeaveRequestDialogComponent, this.injector), {
         label: this.translocoService.translate('submitLeaveRequest'),
         size: 'l',
       })
       .pipe(takeUntil(this.destroy$))
-      .subscribe(() => {
-        this.promptService
-          .open({
-            icon: 'success',
-            html: this.translocoService.translate('submitRequestSuccessfully'),
-          })
-          .then(() => this.queryParams$.next(this.queryParams$.value));
-      });
+      .subscribe(
+        this.promptService.handleResponse('submitRequestSuccessfully', () =>
+          this.queryParams$.next(this.queryParams$.value)
+        )
+      );
   }
 }

@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, NgModule, Outp
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormGroup } from '@ngneat/reactive-forms';
 import { TranslocoModule } from '@ngneat/transloco';
-import { FormlyFieldConfig, FormlyModule } from '@ngx-formly/core';
+import { FormlyFieldConfig, FormlyFormOptions, FormlyModule } from '@ngx-formly/core';
 import { tuiDefaultProp } from '@taiga-ui/cdk';
 import { TuiButtonModule } from '@taiga-ui/core';
 
@@ -17,6 +17,7 @@ export class BaseFormComponent<T extends Record<string, any>> {
   @Input() @tuiDefaultProp() form!: FormGroup<T>;
   @Input() model = {} as T;
   @Input() fields: FormlyFieldConfig[] = [];
+  @Input() options: FormlyFormOptions = {};
 
   @Output() submitForm = new EventEmitter();
   @Output() cancel = new EventEmitter();

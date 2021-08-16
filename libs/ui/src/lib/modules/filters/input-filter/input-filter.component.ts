@@ -48,10 +48,8 @@ export class InputFilterComponent implements AfterViewInit {
     }
   }
 
-  onChangeValue(connector: PropertyRouteConnectorDirective<string>): void {
-    if (this.numberValue && isNaN(Number(connector.propertyValue))) {
-      connector.propertyValue = null;
-    }
+  onChangeValue(connector: PropertyRouteConnectorDirective<string>, value: string): void {
+    connector.propertyValue = this.numberValue && isNaN(Number(value)) ? null : value;
     connector.setQueryParam(connector.propertyValue);
     this.valueChange.emit(connector.propertyValue);
   }

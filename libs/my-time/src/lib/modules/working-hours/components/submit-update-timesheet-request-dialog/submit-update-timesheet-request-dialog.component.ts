@@ -3,10 +3,10 @@ import { PromptService, tuiTimeAfter, tuiTimeBefore } from '@nexthcm/cdk';
 import { FormBuilder } from '@ngneat/reactive-forms';
 import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import { TuiDay, TuiTime } from '@taiga-ui/cdk';
+import { TuiDay, TuiDestroyService, TuiTime } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
-import { tap } from 'rxjs/operators';
+import { takeUntil, tap } from 'rxjs/operators';
 import { RequestStatus } from '../../../../enums';
 import { SubmitRequestPayload } from '../../../../models';
 import { MyTimeService, RequestTypeAPIUrlPath } from '../../../../services';
@@ -16,6 +16,7 @@ import { MyTimeService, RequestTypeAPIUrlPath } from '../../../../services';
   templateUrl: './submit-update-timesheet-request-dialog.component.html',
   styleUrls: ['./submit-update-timesheet-request-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [TuiDestroyService],
 })
 export class SubmitUpdateTimesheetRequestDialogComponent {
   readonly form = this.fb.group<SubmitRequestPayload>({} as SubmitRequestPayload);
@@ -106,7 +107,8 @@ export class SubmitUpdateTimesheetRequestDialogComponent {
     @Inject(POLYMORPHEUS_CONTEXT) readonly context: TuiDialogContext<boolean, string>,
     private myTimeService: MyTimeService,
     private promptService: PromptService,
-    private translocoService: TranslocoService
+    private translocoService: TranslocoService,
+    private destroy$: TuiDestroyService
   ) {}
 
   onSubmit(): void {
@@ -117,7 +119,10 @@ export class SubmitUpdateTimesheetRequestDialogComponent {
       formModel.newOutTime = (formModel.newOutTime as TuiTime).toAbsoluteMilliseconds() / 1000;
       this.myTimeService
         .submitRequest(RequestTypeAPIUrlPath.updateTimesheet, formModel)
-        .pipe(tap(() => this.promptService.handleResponse()))
+        .pipe(
+          tap(() => this.promptService.handleResponse()),
+          takeUntil(this.destroy$)
+        )
         .subscribe(() => this.context.completeWith(true));
     }
   }
