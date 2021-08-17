@@ -7,7 +7,7 @@ import {
   MY_TIME_API_PATH,
   Pagination,
   PagingResponse,
-  PromptService,
+  PromptService
 } from '@nexthcm/cdk';
 import { TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
@@ -20,6 +20,7 @@ import { RequestStatus } from '../enums';
 import { GeneralRequest, SubmitRequestPayload, UpdateRequestPayload } from '../models';
 import { RejectRequestDialogComponent } from '../modules/request-management/components/reject-leave-request-dialog/reject-request-dialog.component';
 import { RequestDetailDialogComponent } from '../modules/shared/request-detail-dialog/request-detail-dialog.component';
+import { RequestComment } from '../models/request-comment';
 
 interface ServiceState {
   sendToUsers: EmployeeInfo[];
@@ -35,7 +36,7 @@ export enum RequestTypeAPIUrlPath {
 
 export enum RequestTypeComment {
   leave = 'hcm_leave_comment' as any,
-  workingAfterHours = 'hcm_working_hours_comment' as any,
+  workingAfterHours = 'hcm_ot_comment' as any,
   updateTimesheet = 'hcm_update_time_comment' as any,
   workingOutside = 'hcm_working_onsite_comment' as any,
   workFromHome = 'hcm_wfh_comment' as any,
@@ -91,7 +92,7 @@ export class MyTimeService extends RxState<ServiceState> {
       this.promptService.open({
         icon: 'warning',
         showCancelButton: true,
-        html: this.translocoService.translate('approveRequestWarning'),
+        html: this.translocoService.translate('approveRequestWarning')
       } as SweetAlertOptions)
     ).pipe(
       switchMap((result) =>
@@ -115,7 +116,7 @@ export class MyTimeService extends RxState<ServiceState> {
       this.promptService.open({
         icon: 'warning',
         showCancelButton: true,
-        html: this.translocoService.translate('cancelRequestWarning'),
+        html: this.translocoService.translate('cancelRequestWarning')
       } as SweetAlertOptions)
     ).pipe(
       switchMap((result) =>
@@ -132,8 +133,8 @@ export class MyTimeService extends RxState<ServiceState> {
           data: {
             type,
             value: res.data,
-            userId,
-          },
+            userId
+          }
         })
       )
     );
@@ -142,4 +143,15 @@ export class MyTimeService extends RxState<ServiceState> {
   getEscalateUsers(searchQuery: string): Observable<EmployeeInfo[]> {
     return this.http.get<EmployeeInfo[]>(`${ACCOUNT_API_PATH}/users/get-manager`);
   }
+
+  getRequestComment(params: HttpParams): Observable<Pagination<RequestComment>> {
+    return this.http.get<PagingResponse<RequestComment>>(`${MY_TIME_API_PATH}/comments-common`,
+      { params }).pipe(map((res) => res.data));
+  }
+
+  submitReqComment(comment: RequestComment): Observable<BaseResponse<RequestComment>> {
+    return this.http
+      .post<BaseResponse<RequestComment>>(`${MY_TIME_API_PATH}/comments-common`, comment);
+  }
+
 }

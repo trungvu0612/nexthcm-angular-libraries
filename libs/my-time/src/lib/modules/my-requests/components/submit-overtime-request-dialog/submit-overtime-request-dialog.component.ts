@@ -11,6 +11,7 @@ import { map, takeUntil, tap } from 'rxjs/operators';
 import { WorkingAfterHoursType } from '../../../../enums';
 import { SubmitRequestPayload } from '../../../../models';
 import { MyTimeService, RequestTypeAPIUrlPath } from '../../../../services';
+import { endOfDay, getTime } from 'date-fns';
 
 @Component({
   selector: 'hcm-submit-overtime-request-dialog',
@@ -113,8 +114,8 @@ export class SubmitOvertimeRequestDialogComponent {
     if (this.form.valid) {
       const formModel = { ...this.form.value };
       if (formModel.fromTo) {
-        formModel.fromDate = formModel.fromTo.from.toLocalNativeDate().valueOf();
-        formModel.toDate = formModel.fromTo.to.toLocalNativeDate().valueOf();
+        formModel.fromDate = getTime(formModel.fromTo.from.toLocalNativeDate());
+        formModel.toDate = getTime(endOfDay(formModel.fromTo.to.toLocalNativeDate()));
       }
       delete formModel.fromTo;
       this.myTimeService
