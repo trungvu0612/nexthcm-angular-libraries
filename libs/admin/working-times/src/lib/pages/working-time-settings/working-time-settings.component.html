@@ -45,11 +45,11 @@
                 <td>{{ row?.holidayDate | date: 'dd/MM/yyyy' }}</td>
                 <td>{{ row?.name }}</td>
                 <td>
-                  <tui-svg src='tuiIconCheck'></tui-svg>
+                  <ng-container *ngIf="row?.paidHoliday===true">
+                    <tui-svg src='tuiIconCheck'></tui-svg>
+                  </ng-container>
                 </td>
-                <td>
-                Monthly
-                </td>
+                <td>{{row?.recurringType}}</td>
                 <td>
                   <button
                     (click)='removeHoliday(index, row?.id)'

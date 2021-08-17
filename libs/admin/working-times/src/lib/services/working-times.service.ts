@@ -27,12 +27,6 @@ export class WorkingTimesService {
     return this.httpClient.get<PagingResponse<Office>>(`/accountapp/v1.0/orgs`);
   }
 
-  getOvertimeConfigByOrg(orgType: string): Observable<Partial<WorkingAfterTime>[]> {
-    return this.httpClient.get<Partial<WorkingAfterTime>[]>(
-      `/accountapp/v1.0/config/times/overtime-config-by-org-id/` + orgType
-    );
-  }
-
   submitWorkingAfterTime(body: any): Observable<WorkingAfterTime> {
     return this.httpClient.post<WorkingAfterTime>(`${this.appVersion}/config/times/overtime`, body);
   }
@@ -45,11 +39,15 @@ export class WorkingTimesService {
     return this.httpClient.get<any>(`${this.appVersion}/config/times/working-hour-config-by-org-id/` + orgId);
   }
 
+  getOvertimeConfigByOrg(orgId: any): Observable<any> {
+    return this.httpClient.get<any>(`${this.appVersion}/config/times/overtime-config-by-org-id/` + orgId);
+  }
+
   getHoliday(): Observable<PagingResponse<Holiday>> {
     return this.httpClient.get<PagingResponse<Holiday>>(`${this.appVersion}/holidays`);
   }
 
-  addHoliday(dto: { recurring: any; name: any; holidayDate: number }): Observable<any> {
+  addHoliday(dto: { recurringType: any; name: any; holidayDate: number }): Observable<any> {
     return this.httpClient.post<any>(`${this.appVersion}/holidays`, dto);
   }
 

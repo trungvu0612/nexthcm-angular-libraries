@@ -2,6 +2,7 @@ export interface Holiday {
   id: string;
   name: string;
   holidayDate: number;
-  recurring: boolean;
+  recurringType: string;
+  paidHoliday: boolean;
   orgId: string;
 }

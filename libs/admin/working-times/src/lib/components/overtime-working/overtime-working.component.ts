@@ -1,15 +1,17 @@
-import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { PromptService } from '@nexthcm/cdk';
-import { TranslocoService } from '@ngneat/transloco';
-import { FormlyFieldConfig } from '@ngx-formly/core';
-import { TuiDestroyService, TuiTime } from '@taiga-ui/cdk';
-import { TuiDialogService } from '@taiga-ui/core';
-import { BehaviorSubject, of } from 'rxjs';
-import { catchError, filter, map, mapTo, switchMap, takeUntil } from 'rxjs/operators';
-import { SweetAlertOptions } from 'sweetalert2';
-import { WorkingTimesService } from '../../services/working-times.service';
+import {ChangeDetectionStrategy, Component, Inject, OnInit} from '@angular/core';
+import {FormControl, FormGroup} from '@angular/forms';
+import {ActivatedRoute, Router} from '@angular/router';
+import {AuthService} from '@nexthcm/auth';
+import {PromptService, secondsToTime} from '@nexthcm/cdk';
+import {TranslocoService} from '@ngneat/transloco';
+import {FormlyFieldConfig} from '@ngx-formly/core';
+import {TuiDestroyService, TuiTime} from '@taiga-ui/cdk';
+import {TuiDialogService} from '@taiga-ui/core';
+import {BehaviorSubject, of} from 'rxjs';
+import {catchError, filter, map, mapTo, switchMap, takeUntil} from 'rxjs/operators';
+import {SweetAlertOptions} from 'sweetalert2';
+import {WorkingAfterTime} from '../../models/working-after-time';
+import {WorkingTimesService} from '../../services/working-times.service';
 
 @Component({
   selector: 'hcm-overtime-working',
@@ -18,11 +20,12 @@ import { WorkingTimesService } from '../../services/working-times.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OvertimeWorkingComponent implements OnInit {
-  params$ = new BehaviorSubject<{ page?: number; size?: number }>({ size: 100 });
+  myOrgId = this.authService.get('userInfo').orgId;
+  overtimeWorkingId: any;
+  params$ = new BehaviorSubject<{ page?: number; size?: number }>({size: 100});
   offices$ = this.WorkingTimesService.getOffices().pipe(map((res) => res.data.items));
   dataChecking$ = this.WorkingTimesService.statusChecking().pipe(map((res) => res.data.items));
-
-  model: any = {};
+  model: any = {} as WorkingAfterTime;
   workingAfterTimeElement: any;
   workingHourElement: any;
   readonly form = new FormGroup({
@@ -58,7 +61,7 @@ export class OvertimeWorkingComponent implements OnInit {
       fieldGroup: [
         {
           className: 'block mb-5',
-          key: 'default',
+          key: 'dayDefault',
           type: 'checkbox-labeled',
           defaultValue: false,
           templateOptions: {
@@ -71,7 +74,7 @@ export class OvertimeWorkingComponent implements OnInit {
           fieldGroupClassName: 'grid grid-cols-7 gap-2',
           fieldGroup: [
             {
-              key: '2',
+              key: 'day2',
               type: 'checkbox-labeled',
               defaultValue: false,
               templateOptions: {
@@ -81,7 +84,7 @@ export class OvertimeWorkingComponent implements OnInit {
               },
             },
             {
-              key: '3',
+              key: 'day3',
               type: 'checkbox-labeled',
               defaultValue: false,
               templateOptions: {
@@ -91,7 +94,7 @@ export class OvertimeWorkingComponent implements OnInit {
               },
             },
             {
-              key: '4',
+              key: 'day4',
               type: 'checkbox-labeled',
               defaultValue: false,
               templateOptions: {
@@ -101,7 +104,7 @@ export class OvertimeWorkingComponent implements OnInit {
               },
             },
             {
-              key: '5',
+              key: 'day5',
               type: 'checkbox-labeled',
               defaultValue: false,
               templateOptions: {
@@ -111,7 +114,7 @@ export class OvertimeWorkingComponent implements OnInit {
               },
             },
             {
-              key: '6',
+              key: 'day6',
               type: 'checkbox-labeled',
               defaultValue: false,
               templateOptions: {
@@ -121,7 +124,7 @@ export class OvertimeWorkingComponent implements OnInit {
               },
             },
             {
-              key: '7',
+              key: 'day7',
               type: 'checkbox-labeled',
               defaultValue: false,
               templateOptions: {
@@ -131,7 +134,7 @@ export class OvertimeWorkingComponent implements OnInit {
               },
             },
             {
-              key: '1',
+              key: 'day1',
               type: 'checkbox-labeled',
               defaultValue: false,
               templateOptions: {
@@ -156,7 +159,7 @@ export class OvertimeWorkingComponent implements OnInit {
               defaultValue: this.dataChecking$,
               templateOptions: {
                 textfieldLabelOutside: true,
-                label: 'OT Time (Check in)',
+                label: 'OT Time (Check out)',
                 labelClassName: 'font-semibold',
                 disabled: true,
                 valueProp: 'inTime',
@@ -168,7 +171,7 @@ export class OvertimeWorkingComponent implements OnInit {
               type: 'input-time',
               templateOptions: {
                 textfieldLabelOutside: true,
-                label: 'Check out',
+                label: 'Check out OT',
                 labelClassName: 'font-semibold',
                 textfieldSize: 'l',
                 required: true,
@@ -200,7 +203,7 @@ export class OvertimeWorkingComponent implements OnInit {
               key: 'fingerPrint',
               className: 'tui-form__row block',
               type: 'toggle',
-              templateOptions: { textfieldLabelOutside: true, labelClassName: 'font-semibold' },
+              templateOptions: {textfieldLabelOutside: true, labelClassName: 'font-semibold'},
               expressionProperties: {
                 'templateOptions.label': of('Use FingerPrint'),
               },
@@ -237,8 +240,8 @@ export class OvertimeWorkingComponent implements OnInit {
               defaultValue: 1,
               templateOptions: {
                 options: [
-                  { value: 1, label: 'Hour' },
-                  { value: 2, label: 'Minute' },
+                  {value: 1, label: 'Hour'},
+                  {value: 2, label: 'Minute'},
                 ],
                 valueProp: 'value',
                 labelClassName: 'font-semibold',
@@ -279,76 +282,138 @@ export class OvertimeWorkingComponent implements OnInit {
     @Inject(TuiDialogService) private readonly dialogService: TuiDialogService,
     private destroy$: TuiDestroyService,
     private activatedRoute: ActivatedRoute,
-    private promptService: PromptService
-  ) {}
+    private promptService: PromptService,
+    private authService: AuthService
+  ) {
+  }
 
   ngOnInit(): void {
-    // console.log('dataChecking$=' + this.dataChecking$);
+    this.WorkingTimesService.getOvertimeConfigByOrg(this.myOrgId).subscribe((item) => {
+      const formModel = item?.data;
+      this.overtimeWorkingId = formModel?.id;
+      const jsonEditData = {
+        applyFor: {
+          dayDefault: false,
+          day1: false,
+          day2: true,
+          day3: true,
+          day4: true,
+          day5: true,
+          day6: true,
+          day7: false,
+        },
+        maxOtHours: Math.floor((formModel.maxOtHours) / 3600),
+        minOtHours: Math.floor((formModel.minOtHours) / 3600),
+        otBreakHours: Math.floor((formModel.otBreakHours) / 3600),
+        minOtMinutes: Math.floor((formModel.minOtMinutes) / 60),
+        maxOtMinutes: Math.floor((formModel.maxOtMinutes) / 60),
+        fingerPrint: formModel.fingerPrint,
+        weekendOt: formModel.otBreakHours > 0 ? true : false,
+        minStart: new TuiTime(
+          Number(secondsToTime(formModel.minStart).h),
+          Number(secondsToTime(formModel.minStart).m)
+        )
+      }
+      formModel.items.forEach(function (res: any) {
+        if (res.weekDayId === 1) {
+          jsonEditData.applyFor.day1 = res.values[0].minOtHours > 0 ? true : false;
+        }
+        if (res.weekDayId === 2) {
+          jsonEditData.applyFor.day2 = res.values[0].minOtHours > 0 ? true : false;
+        }
+        if (res.weekDayId === 3) {
+          jsonEditData.applyFor.day3 = res.values[0].minOtHours > 0 ? true : false;
+        }
+        if (res.weekDayId === 4) {
+          jsonEditData.applyFor.day4 = res.values[0].minOtHours > 0 ? true : false;
+        }
+        if (res.weekDayId === 5) {
+          jsonEditData.applyFor.day5 = res.values[0].minOtHours > 0 ? true : false;
+        }
+        if (res.weekDayId === 6) {
+          jsonEditData.applyFor.day6 = res.values[0].minOtHours > 0 ? true : false;
+        }
+        if (res.weekDayId === 7) {
+          jsonEditData.applyFor.day7 = res.values[0].minOtHours > 0 ? true : false;
+        }
+      });
+
+      console.log(JSON.stringify(jsonEditData));
+
+      this.model = {...this.model, ...jsonEditData};
+    })
   }
 
   onSubmit(): void {
-    const formModel = { ...this.form.value };
-    formModel.minStart = (formModel?.minStart as TuiTime).toAbsoluteMilliseconds().valueOf();
-    formModel.applyFor = Object.keys(formModel.applyFor).filter((key) => formModel.applyFor[key]);
-    const workingItems: any[] = [
-      {
-        values: [],
-        weekDayId: 7,
-      },
-      {
-        values: [],
-        weekDayId: 1,
-      },
+    const formModel = {...this.form.value};
+    console.log(JSON.stringify(formModel));
+    formModel.minStart = (formModel?.minStart as TuiTime).toAbsoluteMilliseconds().valueOf() / 1000;
+    const overtimeData = [];
+    const dayKey = [
+      formModel.applyFor.day1,
+      formModel.applyFor.day2,
+      formModel.applyFor.day3,
+      formModel.applyFor.day4,
+      formModel.applyFor.day5,
+      formModel.applyFor.day6,
+      formModel.applyFor.day7,
     ];
-
-    if (formModel.applyFor.includes('7')) {
-      // choose saturday
-      workingItems.splice(0, 1);
-    }
-    if (formModel.applyFor.includes('1')) {
-      // choose sunday
-      workingItems.splice(1, 1);
-    }
-
-    Object.keys(formModel.applyFor).forEach((item) => {
-      console.log(item); // key
-      console.log(formModel.applyFor[item]); // propertyValue
-      workingItems.push({
-        values: [
-          {
-            minOtHours: formModel.applyFor.includes('default') ? 0 : parseInt(formModel.minOtHours) * 60,
-            maxOtHours: formModel.applyFor.includes('default') ? 0 : parseInt(formModel.maxOtHours) * 3600,
-            minOtMinutes: formModel.applyFor.includes('default') ? 0 : parseInt(formModel.minOtMinutes) * 60,
-            maxOtMinutes: formModel.applyFor.includes('default') ? 0 : parseInt(formModel.maxOtMinutes) * 3600,
-            minStart: formModel.applyFor.includes('default') ? 0 : parseInt(formModel.minStart),
+    for (let i = 1; i <= 7; i++) {
+      const m: number = i - 1;
+      if (dayKey[m] == true) {
+        overtimeData.push({
+          weekDayId: i,
+          values: [{
+            minOtHours: formModel.applyFor.dayDefault === true ? 0 : parseInt(formModel.minOtHours) * 3600,
+            maxOtHours: formModel.applyFor.dayDefault === true ? 0 : parseInt(formModel.maxOtHours) * 3600,
+            minOtMinutes: formModel.applyFor.dayDefault === true ? 0 : parseInt(formModel.minOtMinutes) * 60,
+            maxOtMinutes: formModel.applyFor.dayDefault === true ? 0 : parseInt(formModel.maxOtMinutes) * 60,
+            minStart: formModel.applyFor.dayDefault === true ? 0 : parseInt(formModel.minStart),
             otBreakHours:
-              formModel.applyFor.includes('default') || formModel.weekendOt != true
+              formModel.applyFor.dayDefault === true || formModel.weekendOt != true
                 ? 0
                 : formModel.workOtType == 1
                 ? formModel.otBreakHours * 3600
                 : formModel.otBreakHours * 60,
-          },
-        ],
-        weekDayId: formModel.applyFor[item],
-      });
-    });
+          }],
+        });
+      } else {
+        overtimeData.push({
+          weekDayId: i,
+          values: [{
+            "minOtHours": 0,
+            "maxOtHours": 0,
+            "minOtMinutes": 0,
+            "maxOtMinutes": 0,
+            "otBreakHours": 0,
+            "minStart": 0
+          }],
+        });
+      }
+    }
+
+    // console.log(workingItems);
 
     this.workingAfterTimeElement = {
       orgId: formModel.orgId,
       fingerPrint: true,
-      minOtHours: formModel.applyFor.includes('default') ? formModel.minOtHours : 0,
-      maxOtHours: formModel.applyFor.includes('default') ? formModel.maxOtHours : 0,
-      minOtMinutes: formModel.applyFor.includes('default') ? formModel.minOtMinutes : 0,
-      maxOtMinutes: formModel.applyFor.includes('default') ? formModel.maxOtMinutes : 0,
-      otBreakHours: formModel.applyFor.includes('default') ? formModel.otBreakHours : 0,
-      minStart: formModel.applyFor.includes('default') ? formModel.minStart : 0,
-      items: workingItems,
+      minOtHours: formModel.applyFor.dayDefault === true ? 0 : parseInt(formModel.minOtHours) * 3600,
+      maxOtHours: formModel.applyFor.dayDefault === true ? 0 : parseInt(formModel.maxOtHours) * 3600,
+      minOtMinutes: formModel.applyFor.dayDefault === true ? 0 : parseInt(formModel.minOtMinutes) * 60,
+      maxOtMinutes: formModel.applyFor.dayDefault === true ? 0 : parseInt(formModel.maxOtMinutes) * 60,
+      otBreakHours: formModel.applyFor.dayDefault === true ? 0 : formModel.workOtType == 1 ? parseInt(formModel.otBreakHours) * 3600 : parseInt(formModel.otBreakHours) * 60,
+      minStart: formModel.applyFor.dayDefault === true ? 0 : parseInt(formModel.minStart),
+      items: overtimeData,
     };
-    console.log(JSON.stringify(this.workingAfterTimeElement));
+    // console.log(JSON.stringify(this.workingAfterTimeElement));
+
+    if (this.overtimeWorkingId) {
+      this.workingAfterTimeElement.id = this.overtimeWorkingId;
+    }
 
     this.WorkingTimesService.submitWorkingAfterTime(this.workingAfterTimeElement)
       .pipe(
-        mapTo({ icon: 'success', text: 'Add Working After Time Successfully!' } as SweetAlertOptions),
+        mapTo({icon: 'success', text: 'Update Working After Time Successfully!'} as SweetAlertOptions),
         takeUntil(this.destroy$),
         catchError((err) =>
           of({
@@ -362,6 +427,6 @@ export class OvertimeWorkingComponent implements OnInit {
         filter((result) => result.isConfirmed),
         takeUntil(this.destroy$)
       )
-      .subscribe(() => this.router.navigate(['../..'], { relativeTo: this.activatedRoute }));
+      .subscribe(() => this.router.navigate(['../..'], {relativeTo: this.activatedRoute}));
   }
 }
