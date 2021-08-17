@@ -180,14 +180,32 @@
       <tui-accordion-item [borders]="null">
         <div class="font-semibold uppercase">{{ t('Comment') }}</div>
         <ng-template tuiAccordionItemContent>
-          <p>
-            <span class="text-blue-500">Nguyen Huu Thang</span> Hello mọi người
-            <span class="text-gray-300">23/07/2021 23:56</span>
-          </p>
-          <p>
-            <span class="text-blue-500">Nguyen Huu Thang</span> Hello mọi người
-            <span class="text-gray-300">23/07/2021 23:56</span>
-          </p>
+          <ng-container *ngIf="comments$ | async as comments">
+            <p *ngFor="let comment of comments.items">
+              <span class="text-blue-500">{{comment.userInfo?.fullName}}</span> {{comment.comment}}
+              <span class="text-gray-300">{{comment.createdDate | date: 'dd/MM/yyyy HH:mm'}}</span></p>
+          </ng-container>
+          <div *ngIf="data.userInfo || data.user as sendTo" class="flex justify-between align-baseline mt-4">
+            <tui-avatar
+              [avatarUrl]="sendTo.image | getFile | async"
+              [rounded]="true"
+              [text]="sendTo.fullName"
+            ></tui-avatar>
+            <tui-input
+              [formControl]="commentControl"
+              (keyup.enter)="onSubmitComment()"
+              [tuiTextfieldLabelOutside]="true"
+              class="w-80">
+            </tui-input>
+            <button
+              tuiIconButton
+              type="button"
+              appearance="flat"
+              class="tui-space_right-3 tui-space_bottom-3"
+              icon="tuiIconRedoLarge"
+              (click)="onSubmitComment()"
+            ></button>
+          </div>
         </ng-template>
       </tui-accordion-item>
     </tui-accordion>

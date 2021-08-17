@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Inject, NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { EmployeeInfo, GetFilePipeModule } from '@nexthcm/cdk';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { EmployeeInfo, GetFilePipeModule, Pagination } from '@nexthcm/cdk';
 import { TranslocoModule } from '@ngneat/transloco';
 import { TranslocoLocaleModule } from '@ngneat/transloco-locale';
 import { TuiDestroyService, TuiIdentityMatcher, TuiLetModule, TuiStringHandler } from '@taiga-ui/cdk';
@@ -12,23 +12,28 @@ import {
   TuiComboBoxModule,
   TuiDataListWrapperModule,
   TuiHighlightModule,
+  TuiInputModule,
   TuiLazyLoadingModule,
-  TuiTagModule,
+  TuiTagModule
 } from '@taiga-ui/kit';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { filter, switchMap, takeUntil } from 'rxjs/operators';
 import { RequestStatus } from '../../../enums';
 import { GeneralRequest } from '../../../models';
-import { MyTimeService, RequestTypeAPIUrlPath } from '../../../services';
+import { MyTimeService, RequestTypeAPIUrlPath, RequestTypeComment } from '../../../services';
 import { LeaveRequestDateRangeComponentModule } from '../leave-request-date-range/leave-request-date-range.component';
+import { HttpParams } from '@angular/common/http';
+import { AuthService } from '@nexthcm/auth';
+import { RequestComment } from '../../../models/request-comment';
+import { FormControl } from '@ngneat/reactive-forms';
 
 @Component({
   selector: 'hcm-request-detail-dialog',
   templateUrl: './request-detail-dialog.component.html',
   styleUrls: ['./request-detail-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [TuiDestroyService],
+  providers: [TuiDestroyService]
 })
 export class RequestDetailDialogComponent {
   readonly RequestStatus = RequestStatus;
@@ -38,16 +43,30 @@ export class RequestDetailDialogComponent {
     filter((search) => !!search),
     switchMap((search) => this.myTimeService.getEscalateUsers(search))
   );
+  readonly commentControl = new FormControl<string>();
+  readonly commentParams$ = new BehaviorSubject(
+    new HttpParams()
+      .set('page', 0)
+      .set('size', 6666)
+      .set('type', this.requestType)
+      .set('objectId', this.context.data.value.id)
+  );
+
+  readonly comments$: Observable<Pagination<RequestComment>> = this.commentParams$.pipe(
+    switchMap(() =>
+      this.myTimeService
+        .getRequestComment(this.commentParams$.value))
+  );
 
   constructor(
     @Inject(POLYMORPHEUS_CONTEXT)
-    readonly context: TuiDialogContext<
-      unknown,
-      { type: RequestTypeAPIUrlPath; value: GeneralRequest; userId?: string }
-    >,
+    readonly context: TuiDialogContext<unknown,
+      { type: RequestTypeAPIUrlPath; value: GeneralRequest; userId?: string }>,
     private myTimeService: MyTimeService,
+    private authService: AuthService,
     private destroy$: TuiDestroyService
-  ) {}
+  ) {
+  }
 
   get data(): GeneralRequest {
     return this.context.data.value;
@@ -55,6 +74,11 @@ export class RequestDetailDialogComponent {
 
   get requestTypeAPIUrlPath(): RequestTypeAPIUrlPath {
     return this.context.data.type;
+  }
+
+  get requestType(): RequestTypeComment {
+    const key = RequestTypeAPIUrlPath[this.context.data.type] as keyof typeof RequestTypeComment;
+    return RequestTypeComment[key];
   }
 
   get isMyRequest(): boolean {
@@ -101,6 +125,18 @@ export class RequestDetailDialogComponent {
         .subscribe();
     }
   }
+
+  onSubmitComment() {
+    const comment: RequestComment = {
+      comment: this.commentControl.value,
+      type: this.requestType + '',
+      objectId: this.context.data.value.id
+    };
+    this.myTimeService.submitReqComment(comment).subscribe(() => {
+      this.commentParams$.next(this.commentParams$.value);
+      this.commentControl.reset();
+    });
+  }
 }
 
 @NgModule({
@@ -116,14 +152,18 @@ export class RequestDetailDialogComponent {
     TuiButtonModule,
     TuiAccordionModule,
     TuiComboBoxModule,
+    TuiInputModule,
+    FormsModule,
+    ReactiveFormsModule,
     TuiDataListWrapperModule,
     TuiLetModule,
     TuiDataListModule,
     TuiHighlightModule,
     FormsModule,
     TuiTextfieldControllerModule,
-    LeaveRequestDateRangeComponentModule,
+    LeaveRequestDateRangeComponentModule
   ],
-  exports: [RequestDetailDialogComponent],
+  exports: [RequestDetailDialogComponent]
 })
-export class RequestDetailDialogComponentModule {}
+export class RequestDetailDialogComponentModule {
+}
