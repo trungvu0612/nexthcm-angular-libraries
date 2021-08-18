@@ -8,7 +8,7 @@ import {FormlyFieldConfig} from '@ngx-formly/core';
 import {TuiDestroyService, TuiTime} from '@taiga-ui/cdk';
 import {TuiDialogService} from '@taiga-ui/core';
 import {BehaviorSubject, of} from 'rxjs';
-import {catchError, filter, map, mapTo, switchMap, takeUntil} from 'rxjs/operators';
+import {catchError, filter, map, mapTo, switchMap, takeUntil, tap} from 'rxjs/operators';
 import {SweetAlertOptions} from 'sweetalert2';
 import {WorkingAfterTime} from '../../models/working-after-time';
 import {WorkingTimesService} from '../../services/working-times.service';
@@ -154,15 +154,13 @@ export class OvertimeWorkingComponent implements OnInit {
           fieldGroup: [
             {
               className: 'block my-5 text-xl',
-              key: 'check-out',
-              type: 'input',
-              defaultValue: this.dataChecking$,
+              key: 'checkOut',
+              type: 'input-time',
               templateOptions: {
                 textfieldLabelOutside: true,
-                label: 'OT Time (Check out)',
+                label: ' Check out',
                 labelClassName: 'font-semibold',
                 disabled: true,
-                valueProp: 'inTime',
               },
             },
             {
@@ -171,7 +169,7 @@ export class OvertimeWorkingComponent implements OnInit {
               type: 'input-time',
               templateOptions: {
                 textfieldLabelOutside: true,
-                label: 'Check out OT',
+                label: 'OT Time Check out',
                 labelClassName: 'font-semibold',
                 textfieldSize: 'l',
                 required: true,
@@ -180,7 +178,7 @@ export class OvertimeWorkingComponent implements OnInit {
             {
               className: 'block my-5',
               key: 'minOtHours',
-              type: 'input',
+              type: 'input-time',
               templateOptions: {
                 textfieldLabelOutside: true,
                 textfieldSize: 'l',
@@ -191,7 +189,7 @@ export class OvertimeWorkingComponent implements OnInit {
             {
               className: 'block my-5',
               key: 'minOtMinutes',
-              type: 'input',
+              type: 'input-time',
               templateOptions: {
                 textfieldSize: 'l',
                 label: 'Minute Min',
@@ -215,7 +213,7 @@ export class OvertimeWorkingComponent implements OnInit {
     {
       fieldGroup: [
         {
-          fieldGroupClassName: 'grid grid-cols-5 gap-4',
+          fieldGroupClassName: 'grid grid-cols-5 gap-4 ot-breaks',
           fieldGroup: [
             {
               key: 'weekendOt',
@@ -230,8 +228,7 @@ export class OvertimeWorkingComponent implements OnInit {
             {
               className: 'block my-5',
               key: 'otBreakHours',
-              type: 'input',
-              defaultValue: 1,
+              type: 'input-time',
             },
             {
               className: 'tui-form__row block',
@@ -248,9 +245,9 @@ export class OvertimeWorkingComponent implements OnInit {
               },
             },
             {
-              className: 'block my-5',
+              className: 'block my-5 hour-label',
               key: 'maxOtHours',
-              type: 'input',
+              type: 'input-time',
               templateOptions: {
                 textfieldSize: 'l',
                 label: 'Hour Max',
@@ -259,9 +256,9 @@ export class OvertimeWorkingComponent implements OnInit {
               },
             },
             {
-              className: 'block my-5',
+              className: 'block my-5 hour-label',
               key: 'maxOtMinutes',
-              type: 'input',
+              type: 'input-time',
               templateOptions: {
                 textfieldSize: 'l',
                 label: 'Minute Max',
@@ -288,6 +285,9 @@ export class OvertimeWorkingComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.dataChecking$.subscribe((item) => {
+      this.dataChecking$ = item[0].outTime;
+    })
     this.WorkingTimesService.getOvertimeConfigByOrg(this.myOrgId).subscribe((item) => {
       const formModel = item?.data;
       this.overtimeWorkingId = formModel?.id;
@@ -302,16 +302,29 @@ export class OvertimeWorkingComponent implements OnInit {
           day6: true,
           day7: false,
         },
-        maxOtHours: Math.floor((formModel.maxOtHours) / 3600),
-        minOtHours: Math.floor((formModel.minOtHours) / 3600),
-        otBreakHours: Math.floor((formModel.otBreakHours) / 3600),
-        minOtMinutes: Math.floor((formModel.minOtMinutes) / 60),
-        maxOtMinutes: Math.floor((formModel.maxOtMinutes) / 60),
+        otBreakHours: new TuiTime(
+          Number(secondsToTime(formModel.otBreakHours).h), Number(secondsToTime(formModel.otBreakHours).m)
+        ),
+        workOtType: Math.floor((formModel.otBreakHours) / 3600) >= 1 ? 1 : 2,
         fingerPrint: formModel.fingerPrint,
         weekendOt: formModel.otBreakHours > 0 ? true : false,
+        maxOtHours: new TuiTime(
+          Number(secondsToTime(formModel.maxOtHours).h), Number(secondsToTime(formModel.maxOtHours).m)
+        ),
+        minOtHours: new TuiTime(
+          Number(secondsToTime(formModel.minOtHours).h), Number(secondsToTime(formModel.minOtHours).m)
+        ),
+        minOtMinutes: new TuiTime(
+          Number(secondsToTime(formModel.minOtMinutes).h), Number(secondsToTime(formModel.minOtMinutes).m)
+        ),
+        maxOtMinutes: new TuiTime(
+          Number(secondsToTime(formModel.maxOtMinutes).h), Number(secondsToTime(formModel.maxOtMinutes).m)
+        ),
         minStart: new TuiTime(
-          Number(secondsToTime(formModel.minStart).h),
-          Number(secondsToTime(formModel.minStart).m)
+          Number(secondsToTime(formModel.minStart).h), Number(secondsToTime(formModel.minStart).m)
+        ),
+        checkOut: new TuiTime(
+          Number(secondsToTime(this.dataChecking$).h), Number(secondsToTime(this.dataChecking$).m)
         )
       }
       formModel.items.forEach(function (res: any) {
@@ -338,7 +351,7 @@ export class OvertimeWorkingComponent implements OnInit {
         }
       });
 
-      console.log(JSON.stringify(jsonEditData));
+      // console.log(JSON.stringify(jsonEditData));
 
       this.model = {...this.model, ...jsonEditData};
     })
@@ -346,8 +359,12 @@ export class OvertimeWorkingComponent implements OnInit {
 
   onSubmit(): void {
     const formModel = {...this.form.value};
-    console.log(JSON.stringify(formModel));
     formModel.minStart = (formModel?.minStart as TuiTime).toAbsoluteMilliseconds().valueOf() / 1000;
+    formModel.minOtHours = (formModel?.minOtHours as TuiTime).toAbsoluteMilliseconds().valueOf() / 1000;
+    formModel.maxOtHours = (formModel?.maxOtHours as TuiTime).toAbsoluteMilliseconds().valueOf() / 1000;
+    formModel.minOtMinutes = (formModel?.minOtMinutes as TuiTime).toAbsoluteMilliseconds().valueOf() / 1000;
+    formModel.maxOtMinutes = (formModel?.maxOtMinutes as TuiTime).toAbsoluteMilliseconds().valueOf() / 1000;
+    formModel.otBreakHours = (formModel?.otBreakHours as TuiTime).toAbsoluteMilliseconds().valueOf() / 1000;
     const overtimeData = [];
     const dayKey = [
       formModel.applyFor.day1,
@@ -364,17 +381,14 @@ export class OvertimeWorkingComponent implements OnInit {
         overtimeData.push({
           weekDayId: i,
           values: [{
-            minOtHours: formModel.applyFor.dayDefault === true ? 0 : parseInt(formModel.minOtHours) * 3600,
-            maxOtHours: formModel.applyFor.dayDefault === true ? 0 : parseInt(formModel.maxOtHours) * 3600,
-            minOtMinutes: formModel.applyFor.dayDefault === true ? 0 : parseInt(formModel.minOtMinutes) * 60,
-            maxOtMinutes: formModel.applyFor.dayDefault === true ? 0 : parseInt(formModel.maxOtMinutes) * 60,
+            minOtHours: formModel.applyFor.dayDefault === true ? 0 : parseInt(formModel.minOtHours),
+            maxOtHours: formModel.applyFor.dayDefault === true ? 0 : parseInt(formModel.maxOtHours),
+            minOtMinutes: formModel.applyFor.dayDefault === true ? 0 : parseInt(formModel.minOtMinutes),
+            maxOtMinutes: formModel.applyFor.dayDefault === true ? 0 : parseInt(formModel.maxOtMinutes),
             minStart: formModel.applyFor.dayDefault === true ? 0 : parseInt(formModel.minStart),
             otBreakHours:
-              formModel.applyFor.dayDefault === true || formModel.weekendOt != true
-                ? 0
-                : formModel.workOtType == 1
-                ? formModel.otBreakHours * 3600
-                : formModel.otBreakHours * 60,
+              formModel.applyFor.dayDefault === true || formModel.weekendOt !== true
+                ? 0 : parseInt(formModel.otBreakHours)
           }],
         });
       } else {
@@ -392,16 +406,15 @@ export class OvertimeWorkingComponent implements OnInit {
       }
     }
 
-    // console.log(workingItems);
 
     this.workingAfterTimeElement = {
       orgId: formModel.orgId,
       fingerPrint: true,
-      minOtHours: formModel.applyFor.dayDefault === true ? 0 : parseInt(formModel.minOtHours) * 3600,
-      maxOtHours: formModel.applyFor.dayDefault === true ? 0 : parseInt(formModel.maxOtHours) * 3600,
-      minOtMinutes: formModel.applyFor.dayDefault === true ? 0 : parseInt(formModel.minOtMinutes) * 60,
-      maxOtMinutes: formModel.applyFor.dayDefault === true ? 0 : parseInt(formModel.maxOtMinutes) * 60,
-      otBreakHours: formModel.applyFor.dayDefault === true ? 0 : formModel.workOtType == 1 ? parseInt(formModel.otBreakHours) * 3600 : parseInt(formModel.otBreakHours) * 60,
+      minOtHours: formModel.applyFor.dayDefault === true ? 0 : parseInt(formModel.minOtHours),
+      maxOtHours: formModel.applyFor.dayDefault === true ? 0 : parseInt(formModel.maxOtHours),
+      minOtMinutes: formModel.applyFor.dayDefault === true ? 0 : parseInt(formModel.minOtMinutes),
+      maxOtMinutes: formModel.applyFor.dayDefault === true ? 0 : parseInt(formModel.maxOtMinutes),
+      otBreakHours: formModel.applyFor.dayDefault === true ? 0 : parseInt(formModel.otBreakHours),
       minStart: formModel.applyFor.dayDefault === true ? 0 : parseInt(formModel.minStart),
       items: overtimeData,
     };

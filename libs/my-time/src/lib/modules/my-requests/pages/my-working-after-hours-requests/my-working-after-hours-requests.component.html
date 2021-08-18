@@ -4,6 +4,7 @@
     <ng-template let-row>
       <ng-container *tuiLet="item(row) as item">
         <td>{{ item.fromDate | translocoDate }} - {{ item.toDate | translocoDate }}</td>
+        <td>{{item.duration * 1000 | date : 'HH:mm' : 'UTC'}}</td>
         <td>{{ 'WORKING_AFTER_HOURS_TYPE.' + item.type | transloco }}</td>
         <td>
           <tui-tag

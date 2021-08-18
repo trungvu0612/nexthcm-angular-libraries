@@ -1,18 +1,19 @@
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject } from '@angular/core';
-import { FormArray, FormControl, FormGroup } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { AuthService } from '@nexthcm/auth';
-import { PromptService, secondsToTime } from '@nexthcm/cdk';
-import { FormlyFieldConfig } from '@ngx-formly/core';
-import { TuiDay, TuiDestroyService, TuiTime } from '@taiga-ui/cdk';
-import { TuiDialogService } from '@taiga-ui/core';
-import { DefaultConfig } from 'ngx-easy-table';
-import { BehaviorSubject, of } from 'rxjs';
-import { catchError, filter, mapTo, switchMap, takeUntil } from 'rxjs/operators';
-import { SweetAlertOptions } from 'sweetalert2';
-import { WORKING_TIMES, WorkingTimes, WORKING_HOLIDAY } from '../../models/working-times';
-import { WorkingTimesService } from '../../services/working-times.service';
-import { TranslocoService } from '@ngneat/transloco';
+import {AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject} from '@angular/core';
+import {FormArray, FormControl, FormGroup} from '@angular/forms';
+import {ActivatedRoute, Router} from '@angular/router';
+import {AuthService} from '@nexthcm/auth';
+import {PromptService, secondsToTime} from '@nexthcm/cdk';
+import {FormlyFieldConfig} from '@ngx-formly/core';
+import {TuiDay, TuiDestroyService, TuiTime} from '@taiga-ui/cdk';
+import {TuiDialogService} from '@taiga-ui/core';
+import {DefaultConfig} from 'ngx-easy-table';
+import {BehaviorSubject, of} from 'rxjs';
+import {catchError, filter, mapTo, switchMap, takeUntil} from 'rxjs/operators';
+import {SweetAlertOptions} from 'sweetalert2';
+import {WORKING_TIMES, WorkingTimes, WORKING_HOLIDAY} from '../../models/working-times';
+import {WorkingTimesService} from '../../services/working-times.service';
+import {TranslocoService} from '@ngneat/transloco';
+import {Holiday} from '../../models/holiday';
 
 @Component({
   selector: 'hcm-working-time-settings',
@@ -60,9 +61,7 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
     sundayTime: [{}]
   } as WorkingTimes;
 
-  modelHoliday: any = {
-    paidHoliday: new FormControl(true)
-  };
+  modelHoliday: any = {} as Holiday;
 
   fields: FormlyFieldConfig[] = [
     {
@@ -113,7 +112,7 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
           {
             key: 'workShift',
             type: 'toggle',
-            templateOptions: { textfieldLabelOutside: true, size: 'm' },
+            templateOptions: {textfieldLabelOutside: true, size: 'm'},
             defaultValue: true
           }
         ]
@@ -167,7 +166,7 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
           {
             key: 'workShift',
             type: 'toggle',
-            templateOptions: { textfieldLabelOutside: true, size: 'm' },
+            templateOptions: {textfieldLabelOutside: true, size: 'm'},
             defaultValue: true
           }
         ]
@@ -221,7 +220,7 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
           {
             key: 'workShift',
             type: 'toggle',
-            templateOptions: { textfieldLabelOutside: true, size: 'm' },
+            templateOptions: {textfieldLabelOutside: true, size: 'm'},
             defaultValue: true
           }
         ]
@@ -275,7 +274,7 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
           {
             key: 'workShift',
             type: 'toggle',
-            templateOptions: { textfieldLabelOutside: true, size: 'm' },
+            templateOptions: {textfieldLabelOutside: true, size: 'm'},
             defaultValue: true
           }
         ]
@@ -329,7 +328,7 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
           {
             key: 'workShift',
             type: 'toggle',
-            templateOptions: { textfieldLabelOutside: true, size: 'm' },
+            templateOptions: {textfieldLabelOutside: true, size: 'm'},
             defaultValue: true
           }
         ]
@@ -383,7 +382,7 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
           {
             key: 'workShift',
             type: 'toggle',
-            templateOptions: { textfieldLabelOutside: true, size: 'm' },
+            templateOptions: {textfieldLabelOutside: true, size: 'm'},
             defaultValue: false
           }
         ]
@@ -437,7 +436,7 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
           {
             key: 'workShift',
             type: 'toggle',
-            templateOptions: { textfieldLabelOutside: true, size: 'm' },
+            templateOptions: {textfieldLabelOutside: true, size: 'm'},
             defaultValue: false
           }
         ]
@@ -495,7 +494,7 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
       key: 'fingerPrint',
       className: 'tui-form__row block',
       type: 'toggle',
-      templateOptions: { textfieldLabelOutside: true, labelClassName: 'font-semibold' },
+      templateOptions: {textfieldLabelOutside: true, labelClassName: 'font-semibold'},
       expressionProperties: {
         'templateOptions.label': of('Use FingerPrint')
       }
@@ -586,26 +585,27 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
   }
 
   ngAfterViewInit() {
+    this.configuration = {...DefaultConfig, paginationEnabled: false};
+    this.columns = [
+      {key: 'holidayDate', title: 'Date'},
+      {key: 'name', title: 'Holiday'},
+      {key: 'paidHoliday', title: 'Paid holiday'},
+      {key: 'recurringType', title: 'Repeat'},
+      {key: 'action', title: ''}
+    ];
+
     this.workingTimesService.getHoliday().subscribe((item) => {
       item.data.items.forEach((item) => {
         this.dataHoliday.push({
           holidayDate: item.holidayDate,
           name: item.name,
           recurringType: item.recurringType,
+          paidHoliday: item.paidHoliday,
           id: item.id
         });
       });
+      this.cdr.detectChanges();
     });
-    this.configuration = { ...DefaultConfig };
-    this.configuration.searchEnabled = true;
-
-    this.columns = [
-      { key: 'holidayDate', title: 'Date' },
-      { key: 'name', title: 'Holiday' },
-      { key: 'paidHoliday', title: 'Paid holiday' },
-      { key: 'recurringType', title: 'Repeat' },
-      { key: 'action', title: '' }
-    ];
 
     this.workingTimesService.getWorkingHourConfigByOrg(this.myOrgId).subscribe((item) => {
       if (item?.code === 'SUCCESS') {
@@ -629,8 +629,8 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
           timePaidLeave: formModel.timePaidLeave
         };
 
-        const DayDefault = [{ from: '', to: '', workShift: false }];
-        formModel.items.forEach(function(res: any) {
+        const DayDefault = [{from: '', to: '', workShift: false}];
+        formModel.items.forEach(function (res: any) {
           if (res.weekDayId === 2) {
             jsonEditData.mondayTime = res.totalTime > 0 ? res.values : DayDefault;
           }
@@ -653,7 +653,7 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
             jsonEditData.sundayTime = res.totalTime > 0 ? res.values : DayDefault;
           }
         });
-        this.model = { ...this.model, ...jsonEditData };
+        this.model = {...this.model, ...jsonEditData};
       }
     });
     this.cdr.detectChanges();
@@ -714,7 +714,7 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
     this.workingTimesService
       .saveSettings(this.settingsElement)
       .pipe(
-        mapTo({ icon: 'success', text: 'Update Settings Time Successfully!' } as SweetAlertOptions),
+        mapTo({icon: 'success', text: 'Update Settings Time Successfully!'} as SweetAlertOptions),
         takeUntil(this.destroy$),
         catchError((err) =>
           of({
@@ -728,28 +728,30 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
         filter((result) => result.isConfirmed),
         takeUntil(this.destroy$)
       )
-      .subscribe(() => this.router.navigate(['../..'], { relativeTo: this.activatedRoute }));
+      .subscribe(() => this.router.navigate(['../..'], {relativeTo: this.activatedRoute}));
   }
 
   addHolidayTime() {
-    const dataAddHoliday = {
-      holidayDate: (this.formHoliday.controls['holidayDate'].value as TuiDay).toLocalNativeDate().valueOf(),
-      name: this.formHoliday.controls['name'].value,
-      recurringType: this.formHoliday.controls['recurringType'].value,
-      paidHoliday: this.formHoliday.controls['paidHoliday'].value
-    };
+    if (this.formHoliday?.controls['holidayDate'].value && this.formHoliday?.controls['name'].value) {
+      const dataAddHoliday = {
+        holidayDate: (this.formHoliday?.controls['holidayDate'].value as TuiDay).toLocalNativeDate().valueOf(),
+        name: this.formHoliday?.controls['name'].value,
+        recurringType: this.formHoliday?.controls['recurringType'].value,
+        paidHoliday: this.formHoliday?.controls['paidHoliday'].value
+      };
 
-    this.workingTimesService.addHoliday(dataAddHoliday).subscribe((item) => {
-      this.dataHoliday.push({
-        holidayDate: item.data.holidayDate,
-        name: item.data.name,
-        recurringType: item.data.recurringType,
-        paidHoliday: item.data.paidHoliday,
-        id: item.data.id
+      this.workingTimesService.addHoliday(dataAddHoliday).subscribe((item) => {
+        this.dataHoliday.push({
+          holidayDate: item.data.holidayDate,
+          name: item.data.name,
+          recurringType: item.data.recurringType,
+          paidHoliday: item.data.paidHoliday,
+          id: item.data.id
+        });
+        this.dataHoliday = [...this.dataHoliday];
+        this.cdr.detectChanges();
       });
-      this.dataHoliday = [...this.dataHoliday];
-      this.cdr.detectChanges();
-    });
+    }
   }
 
   removeHoliday(index: number, id: any) {

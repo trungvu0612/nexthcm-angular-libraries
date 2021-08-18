@@ -3,6 +3,7 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnInit }
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '@nexthcm/auth';
 import { PromptService } from '@nexthcm/cdk';
+import { TranslocoService } from '@ngneat/transloco';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
 import { differenceInSeconds, endOfToday, startOfToday, startOfYesterday } from 'date-fns';
@@ -42,7 +43,8 @@ export class OverviewComponent implements OnInit {
     private destroy$: TuiDestroyService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private promptService: PromptService
+    private promptService: PromptService,
+    private translocoService: TranslocoService
   ) {}
 
   ngOnInit(): void {
@@ -92,12 +94,22 @@ export class OverviewComponent implements OnInit {
 
         this.cdr.detectChanges();
       });
+
+    //get minstart & maxstart today from setting time
     this.overviewService.getTimeWorkingHour(this.orgId).subscribe((item) => {
-      const toDay = new Date();
-      if (this.nowInMiliseconds < item.data?.minStart || this.nowInMiliseconds > item.data?.maxStart) {
-        this.fingerCheck = false;
-        this.checkingBtn = false;
-      }
+      item.data.items.forEach((res: any) => {
+        if (res.weekDayId === new Date().getDay() + 1) {
+          const checkInOutStart = res.values;
+          if (
+            this.nowInMiliseconds < checkInOutStart[0].from ||
+            this.nowInMiliseconds > checkInOutStart[checkInOutStart.length - 1].to
+          ) {
+            console.log('hahaha');
+            this.fingerCheck = false;
+            this.checkingBtn = false;
+          }
+        }
+      });
       this.cdr.detectChanges();
     });
   }
