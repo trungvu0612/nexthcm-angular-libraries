@@ -8,6 +8,7 @@ export interface LeaveType {
   deleted: number;
   createdDate?: string;
   status?: number;
+  paidLeave?: boolean;
   createBy?: string;
   lastModifiedDate?: string;
   lastModifiedBy?: string;

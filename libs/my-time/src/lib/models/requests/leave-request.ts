@@ -1,4 +1,5 @@
 import { EmployeeInfo } from '@nexthcm/cdk';
+import { PartialDayType } from '../partial-day-type';
 import { BaseRequest } from './base-request';
 
 export interface LeaveRequest extends BaseRequest {
@@ -6,6 +7,7 @@ export interface LeaveRequest extends BaseRequest {
   duration: number;
   fromDate: number;
   toDate: number;
+  partialDayType: PartialDayType;
   leaveType: LeaveRequestLeaveType;
   items: Type[];
   durationInDay: number;

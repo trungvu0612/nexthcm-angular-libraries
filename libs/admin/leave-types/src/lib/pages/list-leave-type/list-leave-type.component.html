@@ -20,6 +20,12 @@
           <td>{{ item(row).description }}</td>
           <td>{{ item(row).createdDate | date: 'dd/MM/yyyy' }}</td>
           <td>
+            <tui-tag
+              [value]="'PAIDLEAVE_STATUS.' + PaidLeaveStatus[item(row).paidLeave ? 1 : 0] | transloco"
+              class="{{ PaidLeaveStatus[item(row).paidLeave ? 1 : 0] }}-tag"
+            ></tui-tag>
+          </td>
+          <td>
             <div class="flex items-center">
               <button
                 [routerLink]="[item(row).id, 'edit']"

@@ -8,6 +8,7 @@ import { TuiDestroyService } from '@taiga-ui/cdk';
 import { BaseComponent, Columns, Config, DefaultConfig } from 'ngx-easy-table';
 import { BehaviorSubject, from, Observable } from 'rxjs';
 import { catchError, filter, map, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { PaidLeaveStatus } from '../../enums/paid-leave-status';
 import { LeaveTypesService } from '../../leave-types.service';
 import { LeaveType } from '../../models/leave-type';
 
@@ -20,7 +21,7 @@ import { LeaveType } from '../../models/leave-type';
 })
 export class ListLeaveTypeComponent {
   @ViewChild('table') table!: BaseComponent;
-
+  readonly PaidLeaveStatus = PaidLeaveStatus;
   readonly loading$ = this.state.$.pipe(map((value) => !value));
   readonly data$ = this.state.select('items');
   readonly total$ = this.state.select('totalElements');
@@ -38,6 +39,7 @@ export class ListLeaveTypeComponent {
         { key: 'name', title: result.name },
         { key: 'description', title: result.description },
         { key: 'createdDate', title: result.createdDate },
+        { key: 'paidLeave', title: result.paidLeave },
         { key: 'operations', title: result.operations },
       ])
     );

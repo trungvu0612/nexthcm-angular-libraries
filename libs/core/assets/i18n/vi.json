@@ -169,6 +169,7 @@
       "name": "Tên",
       "description": "Mô tả",
       "status": "Tình trạng",
+      "paidLeave": "Tính phép",
       "process": "Quy trình",
       "operations": "Hoạt động"
     },
@@ -511,5 +512,12 @@
   "MY_TIME": {
     "outTimeAfterInTime": "Giờ ra phải sau giờ vào!",
     "inTimeBeforeOutTime": "Giờ vào phải trước giờ ra!"
-  }
+  },
+  "PAIDLEAVE_STATUS": {
+    "notPaidLeave": "Không phép",
+    "isPaidLeave": "Có phép"
+  },
+  "fullDay": "Nguyên ngày",
+  "halfDay": "Nữa ngày",
+  "allHalfDay": "Tất cả nữa ngày"
 }
