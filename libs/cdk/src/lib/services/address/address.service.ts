@@ -10,7 +10,7 @@ export class AddressService {
 
   getPlaces(parendId?: string): Observable<Partial<Address>[]> {
     return this.http
-    .get<Partial<Address>[]>(`${PUBLIC_API_PATH}/address`, { params: { uuid: parendId || '' } })
+    .get<BaseResponse<Partial<Address>[]>>(`${PUBLIC_API_PATH}/address`, { params: { uuid: parendId || '' } })
     .pipe(map((response) => response.data));
   }
   getAddress(id: string): Observable<Address> {
