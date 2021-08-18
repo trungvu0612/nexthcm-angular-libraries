@@ -39,7 +39,7 @@ export class LeaveTypesService {
     return this.httpClient.get<PagingResponse<Process>>(`/${WORKFLOWS_PATH}/process`, { params });
   }
 
-  getProcess(processId: string): Observable<BaseResponse<Process>> {
-    return this.httpClient.get<BaseResponse<Process>>(`/${WORKFLOWS_PATH}/process/${processId}`);
+  getProcess(workflowId: string): Observable<BaseResponse<Process>> {
+    return this.httpClient.get<BaseResponse<Process>>(`/${WORKFLOWS_PATH}/process/${workflowId}`);
   }
 }

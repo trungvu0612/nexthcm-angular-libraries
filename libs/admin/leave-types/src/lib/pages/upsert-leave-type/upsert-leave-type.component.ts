@@ -41,7 +41,7 @@ export class UpsertLeaveTypeComponent implements OnInit {
       fieldGroupClassName: 'grid md:grid-cols-1 gap-6 mb-4',
       fieldGroup: [
         {
-          key: 'processId',
+          key: 'workflowId',
           type: 'select',
           templateOptions: {
             options: this.dataProcesses$,
@@ -112,7 +112,7 @@ export class UpsertLeaveTypeComponent implements OnInit {
       .pipe(
         map((type) => {
           const leaveType: LeaveType = { ...type.data };
-          this.leaveTypeService.getProcess(type?.data?.processId || '').subscribe((res) => {
+          this.leaveTypeService.getProcess(type?.data?.workflowId || '').subscribe((res) => {
             leaveType.process = res?.data;
           });
           return leaveType;

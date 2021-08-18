@@ -13,7 +13,7 @@
           <label label="{{ 'description' | transloco }}" tuiLabel>{{ model.description }}</label>
         </ng-template>
       </ng-container>
-      <div *transloco="let t" class="my-4 flex justify-end">
+      <div *transloco="let t" class="mb-4 tui-form__buttons tui-form__buttons_align_end">
         <button appearance="secondary" class="tui-form__button" routerLink="../.." size="m" tuiButton type="button">
           {{ t('cancel') }}
         </button>
@@ -23,17 +23,7 @@
       <section class="bg-white flex flex-col border workflow-designer-container">
         <ng-container *ngIf="editMode">
           <div *transloco="let t" class="flex items-center p-3 bg-gray-100 border-b">
-            <button
-              (click)="onUpsertStatus()"
-              appearance="flat"
-              class="mr-3"
-              icon="tuiIconPlus"
-              size="s"
-              tuiButton
-              type="button"
-            >
-              {{ t('addStatus') }}
-            </button>
+            <hcm-add-status-dropdown-button></hcm-add-status-dropdown-button>
             <button
               (click)="onUpsertTransition()"
               appearance="flat"

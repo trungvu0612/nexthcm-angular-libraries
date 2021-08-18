@@ -8,18 +8,31 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { FormlyModule } from '@ngx-formly/core';
 import { LetModule } from '@rx-angular/template';
 import { TuiTablePaginationModule } from '@taiga-ui/addon-table';
-import { TuiLetModule } from '@taiga-ui/cdk';
-import { TuiButtonModule, TuiLabelModule, TuiLoaderModule } from '@taiga-ui/core';
-import { TuiCheckboxModule, TuiIslandModule } from '@taiga-ui/kit';
+import { TuiActiveZoneModule, TuiLetModule } from '@taiga-ui/cdk';
+import {
+  TuiButtonModule,
+  TuiDataListModule,
+  TuiHostedDropdownModule,
+  TuiLabelModule,
+  TuiLoaderModule,
+} from '@taiga-ui/core';
+import {
+  TuiCheckboxModule,
+  TuiComboBoxModule,
+  TuiDataListWrapperModule,
+  TuiIslandModule,
+  TuiStringifyContentPipeModule,
+} from '@taiga-ui/kit';
 import { TableModule } from 'ngx-easy-table';
 import { NgxPermissionsGuard } from 'ngx-permissions';
 import { AdminWorkflowComponent } from './admin-workflow.component';
+import { AddStatusDropdownButtonComponent } from './components/add-status-button-dropdown/add-status-dropdown-button.component';
 import { CreateWorkflowDialogComponent } from './components/create-workflow-dialog/create-workflow-dialog.component';
 import { UpsertStatusDialogComponent } from './components/upsert-status-dialog/upsert-status-dialog.component';
 import { UpsertTransitionDialogComponent } from './components/upsert-transition-dialog/upsert-transition-dialog.component';
 import { UpsertWorkflowComponent } from './pages/upsert-workflow/upsert-workflow.component';
 import { WorkflowManagementComponent } from './pages/workflow-management/workflow-management.component';
-import { WorkflowService } from './services/workflow.service';
+import { AdminWorkflowService } from './services/admin-workflow.service';
 
 export const ADMIN_PROCESSES_ROUTES: Routes = [
   {
@@ -33,9 +46,9 @@ export const ADMIN_PROCESSES_ROUTES: Routes = [
         data: { permissions: { only: 'VIEW_WORKFLOW', redirectTo: '/' } },
         children: [
           { path: '', component: WorkflowManagementComponent },
-          { path: ':processId/view', component: UpsertWorkflowComponent },
+          { path: ':workflowId/view', component: UpsertWorkflowComponent },
           {
-            path: ':processId/edit',
+            path: ':workflowId/edit',
             component: UpsertWorkflowComponent,
             canActivate: [NgxPermissionsGuard],
             data: { edit: true, permissions: { only: 'UPDATE_WORKFLOW', redirectTo: '/' } },
@@ -66,6 +79,12 @@ export const ADMIN_PROCESSES_ROUTES: Routes = [
     TranslocoModule,
     TuiLabelModule,
     BaseFormComponentModule,
+    TuiHostedDropdownModule,
+    TuiComboBoxModule,
+    TuiDataListWrapperModule,
+    TuiActiveZoneModule,
+    TuiDataListModule,
+    TuiStringifyContentPipeModule,
   ],
   declarations: [
     AdminWorkflowComponent,
@@ -74,7 +93,8 @@ export const ADMIN_PROCESSES_ROUTES: Routes = [
     UpsertTransitionDialogComponent,
     WorkflowManagementComponent,
     CreateWorkflowDialogComponent,
+    AddStatusDropdownButtonComponent,
   ],
-  providers: [WorkflowService],
+  providers: [AdminWorkflowService],
 })
 export class AdminWorkflowModule {}

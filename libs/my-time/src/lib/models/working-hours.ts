@@ -42,7 +42,7 @@ export interface WorkingHourLeaveLeaveType {
   id: string;
   name: string;
   description: string;
-  processId: string;
+  workflowId: string;
   status: number;
   orgId: string;
 }

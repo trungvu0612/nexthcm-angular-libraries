@@ -5,7 +5,7 @@ import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { v4 as uuidv4 } from 'uuid';
 import { State } from '../../models';
-import { WorkflowService } from '../../services/workflow.service';
+import { AdminWorkflowService } from '../../services/admin-workflow.service';
 
 @Component({
   selector: 'hcm-upsert-status-dialog',
@@ -56,7 +56,7 @@ export class UpsertStatusDialogComponent implements OnInit {
   constructor(
     @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<State, State>,
     private fb: FormBuilder,
-    private workflowService: WorkflowService
+    private workflowService: AdminWorkflowService
   ) {}
 
   get data(): State {

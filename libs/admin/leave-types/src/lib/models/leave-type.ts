@@ -11,7 +11,7 @@ export interface LeaveType {
   createBy?: string;
   lastModifiedDate?: string;
   lastModifiedBy?: string;
-  processId?: string;
+  workflowId?: string;
   process?: Process;
 }
 

@@ -123,33 +123,28 @@
     "email": "Địa chỉ email không hợp lệ.",
     "numeric": "Bạn phải nhập số vào ô này."
   },
-  "ADMIN_PROCESSES": {
+  "initStatus": "Trạng thái ban đầu",
+  "initStatusDescription": "Mô tả trạng thái ban đầu",
+  "stateType": "Loại trạng thái",
+  "fromStatus": "Điểm nguồn",
+  "toStatus": "Điểm đích",
+  "createNewWorkflow": "Tạo quy trình",
+  "addStatus": "Thêm trạng thái",
+  "addTransition": "Thêm chuyển tiếp",
+  "editName": "Sửa tên",
+  "createNewStatus": "Tạo trạng thái",
+  "editStatus": "Chỉnh sửa trạng thái",
+  "createNewTransition": "Tạo chuyển tiếp",
+  "editTransition": "Chỉnh sửa chuyển tiếp",
+  "deleteWorkflow": "Bạn có chắc chắn muốn xóa quy trình này không?",
+  "updateWorkflowSuccessfully": "Cập nhật quy trình thành công!",
+  "changeSourceOfTransition": "Bạn có chắc chắn muốn thay đổi nguồn của '{{transition}}' thành '{{status}}'?",
+  "changeTargetOfTransition": "Bạn có chắc chắn muốn thay đổi đích của '{{transition}}' thành '{{status}}'?",
+  "ADMIN_WORKFLOW_TABLE_COLUMNS": {
     "name": "Tên",
-    "initStatus": "Trạng thái ban đầu",
-    "initStatusDescription": "Mô tả trạng thái ban đầu",
-    "stateType": "Loại trạng thái",
-    "fromStatus": "Điểm nguồn",
-    "toStatus": "Điểm đích",
-    "createNewProcess": "Tạo quy trình",
-    "addStatus": "Thêm trạng thái",
-    "addTransition": "Thêm chuyển tiếp",
-    "editName": "Sửa tên",
-    "createNewStatus": "Tạo trạng thái",
-    "editStatus": "Chỉnh sửa trạng thái",
-    "createNewTransition": "Tạo chuyển tiếp",
-    "editTransition": "Chỉnh sửa chuyển tiếp",
-    "PROCESSES_MANAGEMENT_COLUMNS": {
-      "name": "Tên quy trình",
-      "description": "Mô tả",
-      "createdBy": "Tạo bởi",
-      "operations": "Hoạt động"
-    },
-    "MESSAGES": {
-      "deleteProcess": "Bạn có chắc chắn muốn xóa quy trình này không?",
-      "successfulUpdateProcess": "Cập nhật quy trình thành công!",
-      "changeSourceOfTransition": "Bạn có chắc chắn muốn thay đổi nguồn của '{{transition}}' thành '{{status}}'?",
-      "changeTargetOfTransition": "Bạn có chắc chắn muốn thay đổi đích của '{{transition}}' thành '{{status}}'?"
-    }
+    "description": "Mô tả",
+    "createdBy": "Tạo bởi",
+    "functions": "Chức năng"
   },
   "ADMIN_POLICIES": {
     "name": "Tên",

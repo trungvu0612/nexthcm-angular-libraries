@@ -122,33 +122,28 @@
     "email": "This is an invalid email.",
     "numeric": "You must enter a number in this cell."
   },
-  "ADMIN_PROCESSES": {
+  "initStatus": "Initial status",
+  "initStatusDescription": "Initial status description",
+  "stateType": "State type",
+  "fromStatus": "From status",
+  "toStatus": "To status",
+  "createNewWorkflow": "Create new workflow",
+  "addStatus": "Add status",
+  "addTransition": "Add a transition",
+  "editName": "Edit name",
+  "createNewStatus": "Create new status",
+  "editStatus": "Edit status",
+  "createNewTransition": "Create new transition",
+  "editTransition": "Edit transition",
+  "deleteWorkflow": "Are you sure you want to delete this workflow?",
+  "updateWorkflowSuccessfully": "Updating this workflow successfully!",
+  "changeSourceOfTransition": "Are you sure you want to change the source of '{{transition}}' to '{{status}}'?",
+  "changeTargetOfTransition": "Are you sure you want to change the destination of '{{transition}}' to '{{status}}'?",
+  "ADMIN_WORKFLOW_TABLE_COLUMNS": {
     "name": "Name",
-    "initStatus": "Initial status",
-    "initStatusDescription": "Initial status description",
-    "stateType": "State type",
-    "fromStatus": "From status",
-    "toStatus": "To status",
-    "createNewProcess": "Create new process",
-    "addStatus": "Add status",
-    "addTransition": "Add a transition",
-    "editName": "Edit name",
-    "createNewStatus": "Create new status",
-    "editStatus": "Edit status",
-    "createNewTransition": "Create new transition",
-    "editTransition": "Edit transition",
-    "PROCESSES_MANAGEMENT_COLUMNS": {
-      "name": "Process name",
-      "description": "Description",
-      "createdBy": "Create by",
-      "operations": "Operators"
-    },
-    "MESSAGES": {
-      "deleteProcess": "Are you sure you want to delete this process?",
-      "successfulUpdateProcess": "Updating this process successfully!",
-      "changeSourceOfTransition": "Are you sure you want to change the source of '{{transition}}' to '{{status}}'?",
-      "changeTargetOfTransition": "Are you sure you want to change the destination of '{{transition}}' to '{{status}}'?"
-    }
+    "description": "Description",
+    "createdBy": "Create by",
+    "functions": "Functions"
   },
   "ADMIN_POLICIES": {
     "name": "Name",

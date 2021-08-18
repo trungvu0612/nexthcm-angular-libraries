@@ -1,0 +1,26 @@
+<tui-hosted-dropdown *transloco="let t" [(open)]="open" [content]="dropdown">
+  <button appearance="flat" class="mr-3" icon="tuiIconPlus" size="s" tuiButton tuiHostedDropdownHost type="button">
+    {{ t('addStatus') }}
+  </button>
+</tui-hosted-dropdown>
+
+<ng-template #dropdown let-activeZone>
+  <p class="m-4">
+    There is <code>let-activeZone</code> in dropdown template context to
+    work with nested dropdowns
+  </p>
+  <tui-combo-box
+    (ngModelChange)="onValueChange($event)"
+    (searchChange)="search$.next($event)"
+    *tuiLet="items$ | async as items"
+    [ngModel]="value"
+    [stringify]="stringify"
+    [tuiActiveZoneParent]="activeZone"
+  >
+    <tui-data-list-wrapper
+      *tuiDataList
+      [itemContent]="stringify | tuiStringifyContent"
+      [items]="items"
+    ></tui-data-list-wrapper>
+  </tui-combo-box>
+</ng-template>
