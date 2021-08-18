@@ -8,7 +8,7 @@
     ".stylelintrc.json": "*"
   },
   "affected": {
-    "defaultBase": "develop"
+    "defaultBase": "HEAD~"
   },
   "npmScope": "next-hcm",
   "tasksRunnerOptions": {
