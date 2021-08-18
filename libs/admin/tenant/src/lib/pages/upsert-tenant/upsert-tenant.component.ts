@@ -1,12 +1,11 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Router } from '@angular/router';
 import { Address, AddressService, ContactDTO, PromptService, UploadFileService } from '@nexthcm/cdk';
 import { FormBuilder } from '@ngneat/reactive-forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { NumericValueType, RxwebValidators } from '@rxweb/reactive-form-validators';
+import { TuiDestroyService } from '@taiga-ui/cdk';
 import { iif, of } from 'rxjs';
-import { catchError, distinctUntilChanged, filter, mapTo, startWith, switchMap, tap } from 'rxjs/operators';
-import { SweetAlertOptions } from 'sweetalert2';
+import { distinctUntilChanged, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { Tenant } from '../../models/tenant';
 import { AdminTenantService } from '../../services/admin-tenant.service';
 
@@ -15,11 +14,11 @@ import { AdminTenantService } from '../../services/admin-tenant.service';
   templateUrl: './upsert-tenant.component.html',
   styleUrls: ['./upsert-tenant.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [TuiDestroyService],
 })
 export class UpsertTenantComponent {
   readonly form = this.formBuilder.group<Tenant>({} as Tenant);
-  model: Partial<Tenant> = {};
-  readonly country$ = this.addressService.getPlaces();
+  model = {} as Tenant;
   readonly fields: FormlyFieldConfig[] = [
     {
       key: 'tenantName',
@@ -80,7 +79,7 @@ export class UpsertTenantComponent {
                 translate: true,
                 label: 'country',
                 placeholder: 'chooseCountry',
-                options: this.country$,
+                options: this.addressService.select('countries'),
                 valueProp: 'id',
                 labelProp: 'name',
               },
@@ -103,7 +102,8 @@ export class UpsertTenantComponent {
                     tap(() => field?.formControl?.setValue(null)),
                     startWith(countryControl.value as string),
                     distinctUntilChanged(),
-                    switchMap((countryId) => (countryId ? this.addressService.getPlaces(countryId) : of([])))
+                    switchMap((countryId) => (countryId ? this.addressService.getPlaces(countryId) : of([]))),
+                    takeUntil(this.destroy$)
                   );
                 },
               },
@@ -131,7 +131,8 @@ export class UpsertTenantComponent {
                     tap(() => field?.formControl?.setValue(null)),
                     startWith(cityControl.value as string),
                     distinctUntilChanged(),
-                    switchMap((cityId) => (cityId ? this.addressService.getPlaces(cityId) : of([])))
+                    switchMap((cityId) => (cityId ? this.addressService.getPlaces(cityId) : of([]))),
+                    takeUntil(this.destroy$)
                   );
                 },
               },
@@ -227,40 +228,36 @@ export class UpsertTenantComponent {
   ];
   readonly sign$ = iif(
     () => !!this.adminTenantService.get('id'),
-    this.adminTenantService.getTenant().pipe(tap((tenant) => (this.model = tenant))),
+    this.adminTenantService.getTenant().pipe(
+      tap((tenant) => {
+        if (tenant.addresses) {
+          tenant.addresses = (tenant.addresses as Address[])[0];
+        }
+        this.model = { ...this.model, ...tenant };
+      })
+    ),
     of(true)
   );
 
   constructor(
-    private readonly adminTenantService: AdminTenantService,
-    private readonly addressService: AddressService,
-    private readonly promptService: PromptService,
-    private readonly uploadFileService: UploadFileService,
-    private readonly router: Router,
+    private adminTenantService: AdminTenantService,
+    private addressService: AddressService,
+    private promptService: PromptService,
+    private uploadFileService: UploadFileService,
+    private destroy$: TuiDestroyService,
     private formBuilder: FormBuilder
   ) {}
 
   submitTenant() {
     if (this.form.valid) {
-      this.model.addresses = [this.model.addresses as Address];
-      this.model.contacts = [this.model.contacts as ContactDTO];
-      this.adminTenantService[this.model.id ? 'editTenant' : 'createTenant'](this.model)
-        .pipe(
-          mapTo({ icon: 'success', text: 'Successfully!' } as SweetAlertOptions),
-          catchError((error) => {
-            this.model.addresses = (this.model.addresses as Address[])[0];
-            this.model.contacts = (this.model.contacts as ContactDTO[])[0];
-            return of({
-              icon: 'error',
-              text: error.error.message,
-              showCancelButton: true,
-              showConfirmButton: false,
-            } as SweetAlertOptions);
-          }),
-          switchMap((option) => this.promptService.open(option)),
-          filter((result) => result.isConfirmed)
-        )
-        .subscribe(() => this.router.navigateByUrl('/admin/tenant'));
+      const formModel = { ...this.form.value };
+      formModel.addresses = [formModel.addresses as Address];
+      formModel.contacts = [formModel.contacts as ContactDTO];
+      this.adminTenantService[formModel.id ? 'editTenant' : 'createTenant'](formModel)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(
+          this.promptService.handleResponse(formModel.id ? 'updateTenantSuccessfully' : 'createTenantSuccessfully')
+        );
     }
   }
 }

@@ -99,25 +99,15 @@ export interface ContactDTO {
   website: string;
 }
 
-// export interface Address {
-//   id: string;
-//   address1: string;
-//   address2: string;
-//   countryId: string;
-//   state: string;
-//   city: string;
-//   postalCode: number;
-//   zipCode: number;
-// }
 export interface Address {
-  createdDate:      number;
+  createdDate: number;
   lastModifiedDate: number;
-  optCounter:       number;
-  id:               string;
-  status:           number;
-  type:             string;
-  name:             string;
-  children:         any[];
+  optCounter: number;
+  id: string;
+  status: number;
+  type: string;
+  name: string;
+  children: any[];
 }
 export interface UserDto {
   createdDate: number;
