@@ -42,7 +42,7 @@ export class MyLeaveComponent extends AbstractRequestListComponent<LeaveRequest>
     new HttpParams().set('page', 0).set('size', 10).set('userId', this.authService.get('userInfo', 'userId'))
   );
   private readonly request$ = this.queryParams$.pipe(
-    skip(1),
+    // skip(1),
     switchMap(() =>
       this.myTimeService
         .getRequests<LeaveRequest>(this.requestTypeUrlPath, this.queryParams$.value)

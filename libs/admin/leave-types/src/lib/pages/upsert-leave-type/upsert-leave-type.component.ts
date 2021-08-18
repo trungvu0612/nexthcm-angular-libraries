@@ -71,6 +71,20 @@ export class UpsertLeaveTypeComponent implements OnInit {
       ],
     },
     {
+      fieldGroupClassName: 'grid md:grid-cols-2 gap-6 mb-4',
+      fieldGroup: [
+        {
+          key: 'paidLeave',
+          type: 'toggle',
+          templateOptions: {
+            required: true,
+            translate: true,
+            description: 'ADMIN_LEAVE_TYPES.LEAVE_TYPES_COLUMNS.paidLeave',
+          },
+        },
+      ],
+    },
+    {
       fieldGroupClassName: 'grid md:grid-cols-1 gap-6 mb-4',
       fieldGroup: [
         {

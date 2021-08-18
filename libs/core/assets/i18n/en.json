@@ -167,6 +167,7 @@
     "LEAVE_TYPES_COLUMNS": {
       "name": "Name",
       "description": "Description",
+      "paidLeave": "Paid Leave",
       "status": "Status",
       "process": "Process",
       "operations": "Operators"
@@ -522,8 +523,16 @@
   "chooseADate": "Choose a date",
   "enterNewInTime": "Enter new in-time",
   "enterNewOutTime": "Enter new out-time",
+  "submitRequestSuccessfully": "<b>Submit is successfully!</b>",
   "MY_TIME": {
     "outTimeAfterInTime": "The out-time must be after the in-time!",
     "inTimeBeforeOutTime": "The in-time must be before the out-time!"
-  }
+  },
+  "PAIDLEAVE_STATUS": {
+    "notPaidLeave": "Not paid leave",
+    "isPaidLeave": "Is paid leave"
+  },
+  "fullDay": "Full day",
+  "halfDay": "Half day",
+  "allHalfDay": "All half day"
 }
