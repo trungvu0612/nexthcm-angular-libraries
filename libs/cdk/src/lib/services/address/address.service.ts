@@ -1,9 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Address, BaseResponse, PUBLIC_API_PATH } from '@nexthcm/cdk';
 import { RxState } from '@rx-angular/state';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { PUBLIC_API_PATH } from '../../constants';
+import { Address, BaseResponse } from '../../models';
 
 interface AddressState {
   countries: Address[];
