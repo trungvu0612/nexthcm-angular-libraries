@@ -8,10 +8,11 @@ import { map } from 'rxjs/operators';
 export class AddressService {
   constructor(private http: HttpClient) {}
 
-  getPlaces(parendId?: string): Observable<Address[]> {
-    return this.http.get<Address[]>(`${PUBLIC_API_PATH}/address`, { params: { uuid: parendId || '' } });
+  getPlaces(parendId?: string): Observable<Partial<Address>[]> {
+    return this.http
+    .get<Partial<Address>[]>(`${PUBLIC_API_PATH}/address`, { params: { uuid: parendId || '' } })
+    .pipe(map((response) => response.data));
   }
-
   getAddress(id: string): Observable<Address> {
     return this.http
       .get<BaseResponse<Address>>('/publicapp/v1.0/address/' + id)
