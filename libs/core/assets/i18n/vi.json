@@ -258,7 +258,10 @@
     "mainShift": "Giờ làm chính",
     "holiday": "Ngày nghỉ",
     "addHoliday": "Thêm ngày nghỉ",
-    "chooseHoliday": "Chọn ngày"
+    "chooseHoliday": "Chọn ngày",
+    "workingDay": "Ngày làm việc",
+    "yesterday": "Ngày hôm qua",
+    "today": "Ngày hôm nay"
   },
   "applyFor": "Tùy chọn",
   "officeOnsite": "Văn phòng làm việc cho khách hàng",
@@ -435,7 +438,8 @@
     "date": "Ngày",
     "updateTotalTime": "Tổng thời gian làm việc",
     "updateWorkingDay": "Số ngày công",
-    "type": "Loại"
+    "type": "Loại",
+    "spentTime": "Thời gian"
   },
   "WORKING_AFTER_HOURS_TYPE": {
     "WORKING_AFTERTIME": "Làm việc ngoài giờ",

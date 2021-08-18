@@ -45,7 +45,7 @@
                 <td>{{ row?.holidayDate | date: 'dd/MM/yyyy' }}</td>
                 <td>{{ row?.name }}</td>
                 <td>
-                  <ng-container *ngIf="row?.paidHoliday===true">
+                  <ng-container *ngIf="row.paidHoliday">
                     <tui-svg src='tuiIconCheck'></tui-svg>
                   </ng-container>
                 </td>

@@ -257,7 +257,10 @@
     "mainShift": "Main shift",
     "holiday": "Holiday",
     "addHoliday": "Add holidays",
-    "chooseHoliday": "Choose a date"
+    "chooseHoliday": "Choose a date",
+    "workingDay": "Working days",
+    "yesterday": "Yesterday",
+    "today": "Today"
   },
   "applyFor": "Apply for",
   "officeOnsite": "Office onsite",
@@ -437,7 +440,8 @@
     "date": "Date",
     "updateTotalTime": "Updated total time",
     "updateWorkingDay": "Updated working day",
-    "type": "Type"
+    "type": "Type",
+    "spentTime": "Spend time"
   },
   "WORKING_OUTSIDE_MANAGEMENT": {
     "fromDate": "From Date",
