@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
-import { GetStatusPipeModule } from '@nexthcm/cdk';
+import { AddressService, GetStatusPipeModule } from '@nexthcm/cdk';
 import { LayoutComponent } from '@nexthcm/ui';
 import { TranslocoModule } from '@ngneat/transloco';
 import { FormlyModule } from '@ngx-formly/core';
@@ -79,5 +79,6 @@ export const adminTenantRoutes: Routes = [
     HeroIconModule.withIcons({ pencilAlt, trash, zoomIn }),
     TuiSliderModule,
   ],
+  providers: [AddressService],
 })
 export class AdminTenantModule {}

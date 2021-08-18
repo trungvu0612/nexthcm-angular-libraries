@@ -1,12 +1,11 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Router } from '@angular/router';
-import { Address, ContactDTO, PromptService, UploadFileService } from '@nexthcm/cdk';
-import { FormGroup } from '@ngneat/reactive-forms';
+import { Address, AddressService, ContactDTO, PromptService, UploadFileService } from '@nexthcm/cdk';
+import { FormBuilder } from '@ngneat/reactive-forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { NumericValueType, RxwebValidators } from '@rxweb/reactive-form-validators';
+import { TuiDestroyService } from '@taiga-ui/cdk';
 import { iif, of } from 'rxjs';
-import { catchError, filter, map, mapTo, startWith, switchMap, tap } from 'rxjs/operators';
-import { SweetAlertOptions } from 'sweetalert2';
+import { distinctUntilChanged, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { Tenant } from '../../models/tenant';
 import { AdminTenantService } from '../../services/admin-tenant.service';
 
@@ -15,10 +14,11 @@ import { AdminTenantService } from '../../services/admin-tenant.service';
   templateUrl: './upsert-tenant.component.html',
   styleUrls: ['./upsert-tenant.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [TuiDestroyService],
 })
 export class UpsertTenantComponent {
-  readonly form = new FormGroup<Partial<Tenant>>({});
-  model: Partial<Tenant> = {};
+  readonly form = this.formBuilder.group<Tenant>({} as Tenant);
+  model = {} as Tenant;
   readonly fields: FormlyFieldConfig[] = [
     {
       key: 'tenantName',
@@ -70,17 +70,6 @@ export class UpsertTenantComponent {
           },
         },
         {
-          key: 'addresses.address3',
-          type: 'input',
-          templateOptions: {
-            translate: true,
-            label: 'addresses',
-            placeholder: 'enterAddress',
-            labelParams: { value: 3 },
-            textfieldLabelOutside: true,
-          },
-        },
-        {
           fieldGroupClassName: 'grid grid-cols-2 gap-4',
           fieldGroup: [
             {
@@ -90,37 +79,32 @@ export class UpsertTenantComponent {
                 translate: true,
                 label: 'country',
                 placeholder: 'chooseCountry',
-                options: [{ id: '1', name: 'Viet Nam' }],
+                options: this.addressService.select('countries'),
                 valueProp: 'id',
                 labelProp: 'name',
               },
             },
             {
-              key: 'addresses.state',
+              key: 'addresses.cityId',
               type: 'select',
               templateOptions: {
                 translate: true,
                 label: 'province',
                 placeholder: 'chooseProvince',
+                options: [],
                 valueProp: 'id',
                 labelProp: 'name',
               },
               hooks: {
                 onInit: (field) => {
-                  if (field) {
-                    const cities = [
-                      { id: '1', name: 'TP. Hồ Chí Minh', countryId: '1' },
-                      { id: '2', name: 'TP. Hà Nội', countryId: '1' },
-                    ];
-                    const countryControl = this.form.get('addresses.countryId');
-                    if (field.templateOptions) {
-                      field.templateOptions.options = countryControl?.valueChanges.pipe(
-                        startWith(countryControl.value as string),
-                        map((countryId) => cities.filter((city) => city.countryId === countryId)),
-                        tap(() => field.formControl?.setValue(null))
-                      );
-                    }
-                  }
+                  const countryControl = this.form.get('addresses.countryId');
+                  field!.templateOptions!.options = countryControl?.valueChanges.pipe(
+                    tap(() => field?.formControl?.setValue(null)),
+                    startWith(countryControl.value as string),
+                    distinctUntilChanged(),
+                    switchMap((countryId) => (countryId ? this.addressService.getPlaces(countryId) : of([]))),
+                    takeUntil(this.destroy$)
+                  );
                 },
               },
             },
@@ -130,32 +114,26 @@ export class UpsertTenantComponent {
           fieldGroupClassName: 'grid grid-cols-2 gap-4',
           fieldGroup: [
             {
-              key: 'addresses.city',
+              key: 'addresses.districtId',
               type: 'select',
               templateOptions: {
                 translate: true,
-                label: 'city',
-                placeholder: 'chooseCity',
+                label: 'ward',
+                placeholder: 'chooseWard',
+                options: [],
                 valueProp: 'id',
                 labelProp: 'name',
               },
               hooks: {
                 onInit: (field) => {
-                  if (field) {
-                    const districts = [
-                      { id: '1', name: 'Quận 1', cityId: '1' },
-                      { id: '2', name: 'Quận 2', cityId: '1' },
-                      { id: '3', name: 'Quận Hoàng Mai', cityId: '2' },
-                      { id: '4', name: 'Quận Ba Đình', cityId: '2' },
-                    ];
-                    const provinceControl = this.form.get('addresses.state');
-                    if (field.templateOptions)
-                      field.templateOptions.options = provinceControl?.valueChanges.pipe(
-                        startWith(provinceControl.value as string),
-                        map((cityId) => districts.filter((province) => province.cityId === cityId)),
-                        tap(() => field.formControl?.setValue(null))
-                      );
-                  }
+                  const cityControl = this.form.get('addresses.cityId');
+                  field!.templateOptions!.options = cityControl?.valueChanges.pipe(
+                    tap(() => field?.formControl?.setValue(null)),
+                    startWith(cityControl.value as string),
+                    distinctUntilChanged(),
+                    switchMap((cityId) => (cityId ? this.addressService.getPlaces(cityId) : of([]))),
+                    takeUntil(this.destroy$)
+                  );
                 },
               },
             },
@@ -250,38 +228,36 @@ export class UpsertTenantComponent {
   ];
   readonly sign$ = iif(
     () => !!this.adminTenantService.get('id'),
-    this.adminTenantService.getTenant().pipe(tap((tenant) => (this.model = tenant))),
+    this.adminTenantService.getTenant().pipe(
+      tap((tenant) => {
+        if (tenant.addresses) {
+          tenant.addresses = (tenant.addresses as Address[])[0];
+        }
+        this.model = { ...this.model, ...tenant };
+      })
+    ),
     of(true)
   );
 
   constructor(
-    private readonly adminTenantService: AdminTenantService,
-    private readonly promptService: PromptService,
-    private readonly uploadFileService: UploadFileService,
-    private readonly router: Router
+    private adminTenantService: AdminTenantService,
+    private addressService: AddressService,
+    private promptService: PromptService,
+    private uploadFileService: UploadFileService,
+    private destroy$: TuiDestroyService,
+    private formBuilder: FormBuilder
   ) {}
 
   submitTenant() {
     if (this.form.valid) {
-      this.model.addresses = [this.model.addresses as Address];
-      this.model.contacts = [this.model.contacts as ContactDTO];
-      this.adminTenantService[this.model.id ? 'editTenant' : 'createTenant'](this.model)
-        .pipe(
-          mapTo({ icon: 'success', text: 'Successfully!' } as SweetAlertOptions),
-          catchError((error) => {
-            this.model.addresses = (this.model.addresses as Address[])[0];
-            this.model.contacts = (this.model.contacts as ContactDTO[])[0];
-            return of({
-              icon: 'error',
-              text: error.error.message,
-              showCancelButton: true,
-              showConfirmButton: false,
-            } as SweetAlertOptions);
-          }),
-          switchMap((option) => this.promptService.open(option)),
-          filter((result) => result.isConfirmed)
-        )
-        .subscribe(() => this.router.navigateByUrl('/admin/tenant'));
+      const formModel = { ...this.form.value };
+      formModel.addresses = [formModel.addresses as Address];
+      formModel.contacts = [formModel.contacts as ContactDTO];
+      this.adminTenantService[formModel.id ? 'editTenant' : 'createTenant'](formModel)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(
+          this.promptService.handleResponse(formModel.id ? 'updateTenantSuccessfully' : 'createTenantSuccessfully')
+        );
     }
   }
 }

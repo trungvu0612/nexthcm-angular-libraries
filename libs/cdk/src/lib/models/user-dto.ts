@@ -100,17 +100,15 @@ export interface ContactDTO {
 }
 
 export interface Address {
+  createdDate: number;
+  lastModifiedDate: number;
+  optCounter: number;
   id: string;
-  address1: string;
-  address2: string;
-  address3: string;
-  countryId: string;
-  state: string;
-  city: string;
-  postalCode: number;
-  zipCode: number;
+  status: number;
+  type: string;
+  name: string;
+  children: any[];
 }
-
 export interface UserDto {
   createdDate: number;
   createdBy: string;
