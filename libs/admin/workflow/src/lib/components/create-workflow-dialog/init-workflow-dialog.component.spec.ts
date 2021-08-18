@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CreateWorkflowDialogComponent } from './create-workflow-dialog.component';
+import { InitWorkflowDialogComponent } from './init-workflow-dialog.component';
 
 describe('CreateProcessDialogComponent', () => {
-  let component: CreateWorkflowDialogComponent;
-  let fixture: ComponentFixture<CreateWorkflowDialogComponent>;
+  let component: InitWorkflowDialogComponent;
+  let fixture: ComponentFixture<InitWorkflowDialogComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [CreateWorkflowDialogComponent],
+      declarations: [InitWorkflowDialogComponent],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CreateWorkflowDialogComponent);
+    fixture = TestBed.createComponent(InitWorkflowDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

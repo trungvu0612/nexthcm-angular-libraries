@@ -1,0 +1,19 @@
+<tui-combo-box
+  (ngModelChange)="onValueChange($event)"
+  (searchChange)="search$.next($event)"
+  *tuiLet="items$ | async as items"
+  [ngModel]="value"
+  [strictMatcher]="strictMatcher"
+  [stringify]="stringify"
+  [tuiActiveZoneParent]="activeZone"
+  [tuiTextfieldLabelOutside]="true"
+  [valueContent]="valueContent"
+  class="mt-4"
+>
+  <tui-data-list-wrapper *tuiDataList [itemContent]="content" [items]="items"></tui-data-list-wrapper>
+  <ng-template #content let-item>
+    <ng-container *ngIf="item.id; else newStatus">{{ item.name }}</ng-container>
+    <ng-template #newStatus>{{ item.name }} ({{ 'newStatus' | transloco }})</ng-template>
+  </ng-template>
+</tui-combo-box>
+<ng-template #valueContent let-item>{{ item.name }}</ng-template>

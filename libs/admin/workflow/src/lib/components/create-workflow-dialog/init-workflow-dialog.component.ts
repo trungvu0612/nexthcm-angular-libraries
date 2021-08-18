@@ -10,13 +10,13 @@ import { InitWorkflow } from '../../models';
 import { AdminWorkflowService } from '../../services/admin-workflow.service';
 
 @Component({
-  selector: 'hcm-create-process-dialog',
-  templateUrl: './create-workflow-dialog.component.html',
-  styleUrls: ['./create-workflow-dialog.component.scss'],
+  selector: 'hcm-init-workflow-dialog',
+  templateUrl: './init-workflow-dialog.component.html',
+  styleUrls: ['./init-workflow-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [TuiDestroyService],
 })
-export class CreateWorkflowDialogComponent {
+export class InitWorkflowDialogComponent {
   form = this.fb.group<InitWorkflow>({} as InitWorkflow);
   model = {} as InitWorkflow;
   fields: FormlyFieldConfig[] = [
@@ -45,8 +45,8 @@ export class CreateWorkflowDialogComponent {
     },
     {
       className: 'tui-form__row block',
-      key: 'stateName',
-      type: 'input',
+      key: 'initStatus',
+      type: 'status-combobox',
       templateOptions: {
         translate: true,
         required: true,
@@ -65,6 +65,7 @@ export class CreateWorkflowDialogComponent {
         labelClassName: 'font-semibold',
         textfieldLabelOutside: true,
       },
+      hideExpression: '!model.initStatus || model.initStatus?.id',
     },
     {
       className: 'tui-form__row block',
@@ -79,6 +80,7 @@ export class CreateWorkflowDialogComponent {
         labelProp: 'name',
         matcherBy: 'id',
       },
+      hideExpression: '!model.initStatus || model.initStatus?.id',
     },
   ];
 
@@ -96,8 +98,14 @@ export class CreateWorkflowDialogComponent {
 
   onSubmit(): void {
     if (this.form.valid) {
+      const formModel = { ...this.model };
+      formModel.stateName = formModel.initStatus.name;
+      if (formModel.initStatus.id) {
+        formModel.stateDescription = formModel.initStatus.description;
+        formModel.stateType = formModel.initStatus.stateType;
+      }
       this.workflowService
-        .initWorkflow(this.form.value)
+        .initWorkflow(formModel)
         .pipe(
           tap(() => this.promptService.handleResponse()),
           takeUntil(this.destroy$)

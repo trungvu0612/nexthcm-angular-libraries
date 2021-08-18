@@ -35,6 +35,7 @@ export class UpsertTransitionDialogComponent implements OnInit {
       templateOptions: {
         translate: true,
         label: 'fromStatus',
+        labelClassName: 'font-semibold',
         options: this.data.states,
         labelProp: 'name',
         valueProp: 'id',
@@ -57,6 +58,7 @@ export class UpsertTransitionDialogComponent implements OnInit {
         translate: true,
         required: true,
         label: 'toStatus',
+        labelClassName: 'font-semibold',
         options: this.data.states,
         labelProp: 'name',
         valueProp: 'id',
@@ -79,6 +81,7 @@ export class UpsertTransitionDialogComponent implements OnInit {
         required: true,
         translate: true,
         label: 'name',
+        labelClassName: 'font-semibold',
         textfieldLabelOutside: true,
       },
     },
@@ -89,6 +92,7 @@ export class UpsertTransitionDialogComponent implements OnInit {
       templateOptions: {
         translate: true,
         label: 'description',
+        labelClassName: 'font-semibold',
         textfieldLabelOutside: true,
       },
     },

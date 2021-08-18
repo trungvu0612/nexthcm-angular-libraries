@@ -1,26 +1,20 @@
-<tui-hosted-dropdown *transloco="let t" [(open)]="open" [content]="dropdown">
+<tui-hosted-dropdown *transloco="let t" [(open)]="open" [content]="dropdown" tuiDropdownAlign="left">
   <button appearance="flat" class="mr-3" icon="tuiIconPlus" size="s" tuiButton tuiHostedDropdownHost type="button">
     {{ t('addStatus') }}
   </button>
 </tui-hosted-dropdown>
 
 <ng-template #dropdown let-activeZone>
-  <p class="m-4">
-    There is <code>let-activeZone</code> in dropdown template context to
-    work with nested dropdowns
-  </p>
-  <tui-combo-box
-    (ngModelChange)="onValueChange($event)"
-    (searchChange)="search$.next($event)"
-    *tuiLet="items$ | async as items"
-    [ngModel]="value"
-    [stringify]="stringify"
-    [tuiActiveZoneParent]="activeZone"
-  >
-    <tui-data-list-wrapper
-      *tuiDataList
-      [itemContent]="stringify | tuiStringifyContent"
-      [items]="items"
-    ></tui-data-list-wrapper>
-  </tui-combo-box>
+  <div class="p-4">
+    <p>Search for an existing status or name a new one.</p>
+    <hcm-status-combobox
+      (valueChange)="value = $event"
+      [activeZone]="activeZone"
+      [addedStatuses]="addedStatus"
+    ></hcm-status-combobox>
+    <div *transloco="let t" class="mt-4 flex justify-end space-x-2">
+      <button (click)="onAdd(value)" [disabled]="!value" size="s" tuiButton type="button">{{ t('add') }}</button>
+      <button (click)="open = false" appearance="flat" size="s" tuiButton type="button">{{ t('cancel') }}</button>
+    </div>
+  </div>
 </ng-template>

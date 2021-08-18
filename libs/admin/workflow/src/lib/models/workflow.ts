@@ -1,6 +1,6 @@
 import { StatusType } from './status-type';
 
-export interface State {
+export interface Status {
   id: string;
   name: string;
   stateType: StatusType;
@@ -46,7 +46,7 @@ export interface Workflow {
   name: string;
   description: string;
   template: string;
-  states: State[];
+  states: Status[];
   transitions: Transition[];
   removingStates: string[];
   removingTransitions: string[];
@@ -56,6 +56,7 @@ export interface InitWorkflow {
   processName: string;
   processDescription: string;
   stateName: string;
-  stateDescription: string;
+  stateDescription?: string;
   stateType: StatusType;
+  initStatus: Status;
 }

@@ -1,10 +1,13 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
+import { PromptService } from '@nexthcm/cdk';
 import { FormBuilder } from '@ngneat/reactive-forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
+import { TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
+import { takeUntil, tap } from 'rxjs/operators';
 import { v4 as uuidv4 } from 'uuid';
-import { State } from '../../models';
+import { Status } from '../../models';
 import { AdminWorkflowService } from '../../services/admin-workflow.service';
 
 @Component({
@@ -12,10 +15,12 @@ import { AdminWorkflowService } from '../../services/admin-workflow.service';
   templateUrl: './upsert-status-dialog.component.html',
   styleUrls: ['./upsert-status-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [TuiDestroyService],
 })
 export class UpsertStatusDialogComponent implements OnInit {
-  form = this.fb.group<State>({} as State);
-  model = {} as State;
+  editMode = false;
+  form = this.fb.group<Status>({} as Status);
+  model = {} as Status;
   fields: FormlyFieldConfig[] = [
     { key: 'id', defaultValue: uuidv4() },
     {
@@ -26,6 +31,7 @@ export class UpsertStatusDialogComponent implements OnInit {
         required: true,
         translate: true,
         label: 'name',
+        labelClassName: 'font-semibold',
         textfieldLabelOutside: true,
       },
     },
@@ -36,6 +42,7 @@ export class UpsertStatusDialogComponent implements OnInit {
       templateOptions: {
         translate: true,
         label: 'description',
+        labelClassName: 'font-semibold',
         textfieldLabelOutside: true,
       },
     },
@@ -46,25 +53,29 @@ export class UpsertStatusDialogComponent implements OnInit {
       templateOptions: {
         translate: true,
         required: true,
-        options: this.workflowService.select('statusTypes'),
+        options: this.adminWorkflowService.select('statusTypes'),
         label: 'stateType',
+        labelClassName: 'font-semibold',
         labelProp: 'name',
       },
     },
   ];
 
   constructor(
-    @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<State, State>,
+    @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<Status, Status>,
     private fb: FormBuilder,
-    private workflowService: AdminWorkflowService
+    private adminWorkflowService: AdminWorkflowService,
+    private promptService: PromptService,
+    private destroy$: TuiDestroyService
   ) {}
 
-  get data(): State {
+  get data(): Status {
     return this.context.data;
   }
 
   ngOnInit(): void {
     if (this.data) {
+      this.editMode = !!this.data.id;
       this.model = { ...this.model, ...this.data };
     }
   }
@@ -75,7 +86,12 @@ export class UpsertStatusDialogComponent implements OnInit {
 
   onSubmit(): void {
     if (this.form.valid) {
-      this.context.completeWith(this.model);
+      this.adminWorkflowService[this.editMode ? 'updateStatus' : 'createStatus'](this.model)
+        .pipe(
+          tap((res) => this.context.completeWith(res)),
+          takeUntil(this.destroy$)
+        )
+        .subscribe(this.promptService.handleResponse());
     }
   }
 }

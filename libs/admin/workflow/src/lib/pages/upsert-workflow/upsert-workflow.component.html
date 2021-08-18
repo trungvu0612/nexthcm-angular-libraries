@@ -23,7 +23,10 @@
       <section class="bg-white flex flex-col border workflow-designer-container">
         <ng-container *ngIf="editMode">
           <div *transloco="let t" class="flex items-center p-3 bg-gray-100 border-b">
-            <hcm-add-status-dropdown-button></hcm-add-status-dropdown-button>
+            <hcm-add-status-dropdown-button
+              (selectStatus)="onAddStatus($event)"
+              [addedStatus]="(addedStatuses$ | async) || []"
+            ></hcm-add-status-dropdown-button>
             <button
               (click)="onUpsertTransition()"
               appearance="flat"

@@ -1,53 +1,83 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BaseResponse, Pagination, PagingResponse, WORKFLOWS_API_PATH } from '@nexthcm/cdk';
-import { RxState } from '@rx-angular/state';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { InitWorkflow, State, StatusType, Workflow } from '../models';
+import { ACCOUNT_API_PATH, BaseResponse, Pagination, PagingResponse } from '@nexthcm/cdk';
+import { insert, RxState, update } from '@rx-angular/state';
+import { Observable, Subject } from 'rxjs';
+import { map, startWith, switchMap, tap } from 'rxjs/operators';
+import { InitWorkflow, Status, StatusType, Workflow } from '../models';
 
 interface WorkflowState {
   statusTypes: StatusType[];
+  statuses: Status[];
 }
 
 @Injectable()
 export class AdminWorkflowService extends RxState<WorkflowState> {
+  private readonly updateStatus$ = new Subject<Status>();
+  private readonly createStatus$ = new Subject<Status>();
+  private readonly initStatus$ = new Subject();
+
   constructor(private http: HttpClient) {
     super();
-    this.connect('statusTypes', this.getStatusTypes().pipe(map((res) => res.data.items)));
+    this.connect('statusTypes', this.getStatusTypes());
+    this.connect(
+      'statuses',
+      this.initStatus$.pipe(
+        startWith(null),
+        switchMap(() => this.getStatuses())
+      )
+    );
+    this.connect('statuses', this.updateStatus$, (state, status) =>
+      update(state.statuses, status, (a, b) => a.id === b.id)
+    );
+    this.connect('statuses', this.createStatus$, (state, status) => insert(state.statuses, status));
   }
 
-  getStatusTypes(): Observable<PagingResponse<StatusType>> {
-    return this.http.get<PagingResponse<StatusType>>(`${WORKFLOWS_API_PATH}/states/types`);
+  getStatusTypes(): Observable<StatusType[]> {
+    return this.http.get<StatusType[]>(`${ACCOUNT_API_PATH}/states/types`);
   }
 
   getWorkflow(workflowId: string): Observable<Workflow> {
     return this.http
-      .get<BaseResponse<Workflow>>(`${WORKFLOWS_API_PATH}/process/${workflowId}`)
+      .get<BaseResponse<Workflow>>(`${ACCOUNT_API_PATH}/process/${workflowId}`)
       .pipe(map((res) => res.data));
   }
 
   getWorkflows(params: HttpParams): Observable<Pagination<Workflow>> {
     return this.http
-      .get<PagingResponse<Workflow>>(`${WORKFLOWS_API_PATH}/process`, { params })
+      .get<PagingResponse<Workflow>>(`${ACCOUNT_API_PATH}/process`, { params })
       .pipe(map((res) => res.data));
   }
 
   upsertWorkflow(workflowId: string, payload: Workflow): Observable<BaseResponse<Workflow>> {
-    return this.http.put<BaseResponse<Workflow>>(`${WORKFLOWS_API_PATH}/process/${workflowId}`, payload);
+    return this.http.put<BaseResponse<Workflow>>(`${ACCOUNT_API_PATH}/process/${workflowId}`, payload);
   }
 
   initWorkflow(payload: InitWorkflow): Observable<BaseResponse<Workflow>> {
-    return this.http.post<BaseResponse<Workflow>>(`${WORKFLOWS_API_PATH}/process/init`, payload);
+    return this.http
+      .post<BaseResponse<Workflow>>(`${ACCOUNT_API_PATH}/process/init`, payload)
+      .pipe(tap(() => this.initStatus$.next()));
   }
 
   deleteWorkflow(workflowId: string): Observable<unknown> {
-    return this.http.delete<unknown>(`/process/${workflowId}`);
+    return this.http.delete<unknown>(`${ACCOUNT_API_PATH}/process/${workflowId}`);
   }
 
-  getStatuses(search: string | null): Observable<State[]> {
-    return this.http
-      .get<PagingResponse<State>>(`${WORKFLOWS_API_PATH}/states${search ? `?name=${search}` : ''}`)
-      .pipe(map((res) => res.data.items));
+  getStatuses(): Observable<Status[]> {
+    return this.http.get<Status[]>(`${ACCOUNT_API_PATH}/states`);
+  }
+
+  createStatus(payload: Status): Observable<Status> {
+    return this.http.post<BaseResponse<Status>>(`${ACCOUNT_API_PATH}/states`, payload).pipe(
+      map((res) => res.data),
+      tap((data) => this.createStatus$.next(data))
+    );
+  }
+
+  updateStatus(payload: Status): Observable<Status> {
+    return this.http.put<BaseResponse<Status>>(`${ACCOUNT_API_PATH}/states/${payload.id}`, payload).pipe(
+      map((res) => res.data),
+      tap(() => this.updateStatus$.next(payload))
+    );
   }
 }

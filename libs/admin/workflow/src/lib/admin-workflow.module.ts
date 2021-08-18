@@ -12,22 +12,19 @@ import { TuiActiveZoneModule, TuiLetModule } from '@taiga-ui/cdk';
 import {
   TuiButtonModule,
   TuiDataListModule,
+  TuiDropdownControllerModule,
   TuiHostedDropdownModule,
   TuiLabelModule,
   TuiLoaderModule,
+  TuiTextfieldControllerModule,
 } from '@taiga-ui/core';
-import {
-  TuiCheckboxModule,
-  TuiComboBoxModule,
-  TuiDataListWrapperModule,
-  TuiIslandModule,
-  TuiStringifyContentPipeModule,
-} from '@taiga-ui/kit';
+import { TuiCheckboxModule, TuiComboBoxModule, TuiDataListWrapperModule, TuiIslandModule } from '@taiga-ui/kit';
 import { TableModule } from 'ngx-easy-table';
 import { NgxPermissionsGuard } from 'ngx-permissions';
 import { AdminWorkflowComponent } from './admin-workflow.component';
 import { AddStatusDropdownButtonComponent } from './components/add-status-button-dropdown/add-status-dropdown-button.component';
-import { CreateWorkflowDialogComponent } from './components/create-workflow-dialog/create-workflow-dialog.component';
+import { InitWorkflowDialogComponent } from './components/create-workflow-dialog/init-workflow-dialog.component';
+import { StatusComboboxComponent } from './components/status-combobox/status-combobox.component';
 import { UpsertStatusDialogComponent } from './components/upsert-status-dialog/upsert-status-dialog.component';
 import { UpsertTransitionDialogComponent } from './components/upsert-transition-dialog/upsert-transition-dialog.component';
 import { UpsertWorkflowComponent } from './pages/upsert-workflow/upsert-workflow.component';
@@ -67,7 +64,9 @@ export const ADMIN_PROCESSES_ROUTES: Routes = [
     TuiButtonModule,
     TuiIslandModule,
     ReactiveFormsModule,
-    FormlyModule,
+    FormlyModule.forChild({
+      types: [{ name: 'status-combobox', component: StatusComboboxComponent, wrappers: ['form-field'] }],
+    }),
     LayoutModule,
     TableModule,
     TuiTablePaginationModule,
@@ -84,7 +83,8 @@ export const ADMIN_PROCESSES_ROUTES: Routes = [
     TuiDataListWrapperModule,
     TuiActiveZoneModule,
     TuiDataListModule,
-    TuiStringifyContentPipeModule,
+    TuiTextfieldControllerModule,
+    TuiDropdownControllerModule,
   ],
   declarations: [
     AdminWorkflowComponent,
@@ -92,8 +92,9 @@ export const ADMIN_PROCESSES_ROUTES: Routes = [
     UpsertStatusDialogComponent,
     UpsertTransitionDialogComponent,
     WorkflowManagementComponent,
-    CreateWorkflowDialogComponent,
+    InitWorkflowDialogComponent,
     AddStatusDropdownButtonComponent,
+    StatusComboboxComponent,
   ],
   providers: [AdminWorkflowService],
 })

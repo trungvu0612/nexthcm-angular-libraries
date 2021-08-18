@@ -9,7 +9,7 @@ import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { BaseComponent, Columns } from 'ngx-easy-table';
 import { from, Observable } from 'rxjs';
 import { filter, map, share, startWith, switchMap, takeUntil } from 'rxjs/operators';
-import { CreateWorkflowDialogComponent } from '../../components/create-workflow-dialog/create-workflow-dialog.component';
+import { InitWorkflowDialogComponent } from '../../components/create-workflow-dialog/init-workflow-dialog.component';
 import { Workflow } from '../../models';
 import { AdminWorkflowService } from '../../services/admin-workflow.service';
 
@@ -56,7 +56,7 @@ export class WorkflowManagementComponent extends AbstractServerPaginationTableCo
 
   onCreateWorkflow(): void {
     this.dialogService
-      .open<string>(new PolymorpheusComponent(CreateWorkflowDialogComponent, this.injector), {
+      .open<string>(new PolymorpheusComponent(InitWorkflowDialogComponent, this.injector), {
         label: this.translocoService.translate('createNewWorkflow'),
       })
       .pipe(takeUntil(this.destroy$))
