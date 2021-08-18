@@ -8,7 +8,7 @@ import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { takeUntil, tap } from 'rxjs/operators';
 import { RequestStatus } from '../../../../enums';
-import { SubmitRequestPayload } from '../../../../models';
+import { SubmitRequestPayload, WorkingHours } from '../../../../models';
 import { MyTimeService, RequestTypeAPIUrlPath } from '../../../../services';
 
 @Component({
@@ -22,12 +22,13 @@ export class SubmitUpdateTimesheetRequestDialogComponent {
   readonly form = this.fb.group<SubmitRequestPayload>({} as SubmitRequestPayload);
   model = {} as SubmitRequestPayload;
   readonly fields: FormlyFieldConfig[] = [
-    { key: 'timeSheetId', defaultValue: this.context.data },
+    { key: 'timeSheetId', defaultValue: this.context.data.id },
     { key: 'status', defaultValue: RequestStatus.waiting },
     {
       key: 'createdDate',
       className: 'tui-form__row block',
       type: 'input-date',
+      defaultValue: TuiDay.fromLocalNativeDate(new Date(this.context.data.trackingDate)),
       templateOptions: {
         translate: true,
         label: 'date',
@@ -104,7 +105,7 @@ export class SubmitUpdateTimesheetRequestDialogComponent {
 
   constructor(
     private fb: FormBuilder,
-    @Inject(POLYMORPHEUS_CONTEXT) readonly context: TuiDialogContext<boolean, string>,
+    @Inject(POLYMORPHEUS_CONTEXT) readonly context: TuiDialogContext<boolean, WorkingHours>,
     private myTimeService: MyTimeService,
     private promptService: PromptService,
     private translocoService: TranslocoService,

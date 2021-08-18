@@ -3,7 +3,6 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnInit }
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '@nexthcm/auth';
 import { PromptService } from '@nexthcm/cdk';
-import { TranslocoService } from '@ngneat/transloco';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
 import { differenceInSeconds, endOfToday, startOfToday, startOfYesterday } from 'date-fns';
@@ -43,12 +42,10 @@ export class OverviewComponent implements OnInit {
     private destroy$: TuiDestroyService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private promptService: PromptService,
-    private translocoService: TranslocoService
+    private promptService: PromptService
   ) {}
 
   ngOnInit(): void {
-    console.log(this.authService.get('userInfo'));
     this.getWorkingHourTime();
     this.checkingStatus();
   }
@@ -106,7 +103,7 @@ export class OverviewComponent implements OnInit {
   }
 
   fingerStatus() {
-    if (this.checkingBtn == true) {
+    if (this.checkingBtn) {
       this.fingerCheck = !this.fingerCheck;
     }
   }

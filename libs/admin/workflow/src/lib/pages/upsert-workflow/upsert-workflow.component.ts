@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, Injector, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Injector, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PromptService } from '@nexthcm/cdk';
 import {
@@ -8,22 +8,22 @@ import {
   WorkflowEventType,
   WorkflowStatus,
 } from '@nexthcm/workflow-designer';
-import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
+import { FormBuilder } from '@ngneat/reactive-forms';
 import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import { deleteProp, dictionaryToArray, patch, RxState, setProp, stateful, toDictionary } from '@rx-angular/state';
+import { deleteProp, dictionaryToArray, patch, RxState, setProp, toDictionary } from '@rx-angular/state';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import * as clone_ from 'rfdc';
 import { Subject } from 'rxjs';
-import { filter, map, startWith, switchMap, takeUntil } from 'rxjs/operators';
+import { filter, map, share, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { v4 as uuidv4 } from 'uuid';
 import { UpsertStatusDialogComponent } from '../../components/upsert-status-dialog/upsert-status-dialog.component';
 import { UpsertTransitionDialogComponent } from '../../components/upsert-transition-dialog/upsert-transition-dialog.component';
 import { State, Transition, Workflow } from '../../models';
-import { WorkflowService } from '../../services/workflow.service';
-import { createWorkflowTransition } from '../../utils/create-workflow-transition';
+import { AdminWorkflowService } from '../../services/admin-workflow.service';
+import { generateWorkflowTransition } from '../../utils/generate-workflow-transition';
 import { slice } from '../../utils/slice';
 
 const clone = clone_;
@@ -41,14 +41,17 @@ interface WorkflowState {
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [RxState, TuiDestroyService],
 })
-export class UpsertWorkflowComponent implements AfterViewInit {
-  @ViewChild('workflowDesigner') workflowDesigner!: WorkflowAPIDefinition;
+export class UpsertWorkflowComponent implements OnInit {
+  @ViewChild('workflowDesigner', { static: true }) workflowDesigner!: WorkflowAPIDefinition;
 
-  processId: string = this.activatedRoute.snapshot.params.processId;
-  editMode: boolean = this.activatedRoute.snapshot.data.edit;
-  form: FormGroup<Workflow> = this.fb.group({ removingStates: [], removingTransitions: [] });
+  workflowId = this.activatedRoute.snapshot.params.workflowId as string;
+  editMode = this.activatedRoute.snapshot.data.edit as boolean;
+  form = this.fb.group<Workflow>({
+    removingStates: new Array<string>(),
+    removingTransitions: new Array<string>(),
+  } as Workflow);
   fields: FormlyFieldConfig[] = [
-    { key: 'id', defaultValue: this.processId },
+    { key: 'id', defaultValue: this.workflowId },
     {
       className: 'tui-text_h3 tui-form__header tui-form__header_margin-top_none block',
       key: 'name',
@@ -75,52 +78,34 @@ export class UpsertWorkflowComponent implements AfterViewInit {
   ];
   model = {} as Workflow;
   readonly selectCell$ = new Subject<State | Transition | null>();
-  readonly init$ = new Subject<string>();
+  readonly workflowId$ = new Subject<string>();
   readonly upsertStatus$ = new Subject<State>();
   readonly upsertTransition$ = new Subject<Transition>();
   readonly deleteStatus$ = new Subject<string>();
   readonly deleteTransitions$ = new Subject<string[]>();
-  readonly initHandler$ = this.init$.pipe(
-    stateful(
-      switchMap((id) => this.workflowService.getWorkflow(id)),
-      map((res) => res.data)
-    )
-  );
-  readonly state$ = this.state.select();
-  readonly loading$ = this.state.$.pipe(
-    startWith(undefined),
-    map((value) => !value)
-  );
   readonly selectedCell$ = this.state.select('selectedCell');
+  readonly state$ = this.state.select();
+  private readonly request$ = this.workflowId$.pipe(
+    switchMap((id) => this.workflowService.getWorkflow(id).pipe(startWith(null))),
+    share()
+  );
+  readonly initHandler$ = this.request$.pipe(filter(isPresent));
+  readonly loading$ = this.request$.pipe(map((value) => !value));
 
   constructor(
     private fb: FormBuilder,
     private readonly dialogService: TuiDialogService,
     private readonly injector: Injector,
     private activatedRoute: ActivatedRoute,
-    private workflowService: WorkflowService,
+    private workflowService: AdminWorkflowService,
     private state: RxState<WorkflowState>,
     private destroy$: TuiDestroyService,
     private router: Router,
     private translocoService: TranslocoService,
     private promptService: PromptService
   ) {
-    state.connect(
-      'addedStates',
-      this.initHandler$.pipe(
-        map((data) => data.states),
-        filter(isPresent)
-      ),
-      (_, states) => toDictionary(states, 'id')
-    );
-    state.connect(
-      'addedTransitions',
-      this.initHandler$.pipe(
-        map((data) => data.transitions),
-        filter(isPresent)
-      ),
-      (_, transitions) => toDictionary(transitions, 'id')
-    );
+    state.connect('addedStates', this.initHandler$, (_, data) => toDictionary(data.states, 'id'));
+    state.connect('addedTransitions', this.initHandler$, (_, data) => toDictionary(data.transitions, 'id'));
     state.connect('selectedCell', this.selectCell$);
     state.connect(this.upsertStatus$, (state, status) =>
       setProp(state, 'addedStates', patch(state.addedStates, { [status.id]: status }))
@@ -128,18 +113,27 @@ export class UpsertWorkflowComponent implements AfterViewInit {
     state.connect(this.upsertTransition$, (state, transition) =>
       setProp(state, 'addedTransitions', patch(state.addedTransitions, { [transition.id]: transition }))
     );
-    state.connect(this.deleteStatus$, (state, status) =>
-      setProp(state, 'addedStates', deleteProp(state.addedStates, status))
+    state.connect(
+      this.deleteStatus$.pipe(
+        tap((status) => this.form.controls.removingStates.setValue(this.form.value.removingStates.concat(status)))
+      ),
+      (state, status) => setProp(state, 'addedStates', deleteProp(state.addedStates, status))
     );
-    state.connect(this.deleteTransitions$, (state, transitions) =>
-      setProp(
-        state,
-        'addedTransitions',
-        slice(
-          state.addedTransitions,
-          Object.keys(state.addedTransitions).filter((key) => !transitions.includes(key))
+    state.connect(
+      this.deleteTransitions$.pipe(
+        tap((transition) =>
+          this.form.controls.removingTransitions.setValue(this.form.value.removingTransitions.concat(transition))
         )
-      )
+      ),
+      (state, transitions) =>
+        setProp(
+          state,
+          'addedTransitions',
+          slice(
+            state.addedTransitions,
+            Object.keys(state.addedTransitions).filter((key) => !transitions.includes(key))
+          )
+        )
     );
     state.hold(this.initHandler$, (data) => {
       this.model = { ...this.model, ...data };
@@ -149,33 +143,24 @@ export class UpsertWorkflowComponent implements AfterViewInit {
         this.drawInitialState(data.states[0]);
       }
     });
-    state.hold(this.deleteStatus$, (status) =>
-      this.form.controls.removingStates?.setValue((this.form.value.removingStates || []).concat(status))
-    );
-    state.hold(this.deleteTransitions$, (transitions) =>
-      this.form.controls.removingTransitions?.setValue((this.form.value.removingTransitions || []).concat(transitions))
-    );
   }
 
-  ngAfterViewInit(): void {
-    this.init$.next(this.processId);
+  ngOnInit(): void {
+    this.workflowId$.next(this.workflowId);
   }
 
-  onUpsertStatus(state?: State, isNew = true): void {
+  onUpsertStatus(data?: State, isNew = true): void {
     this.dialogService
       .open<State>(new PolymorpheusComponent(UpsertStatusDialogComponent, this.injector), {
         label: this.translocoService.translate(isNew ? 'createNewStatus' : 'editStatus'),
-        data: state,
+        data,
       })
       .pipe(takeUntil(this.destroy$))
       .subscribe((state) => {
-        const workflowStatus = new WorkflowStatus(state.id, state.name, state.stateType?.color, state.stateType?.color);
-        if (isNew) {
-          this.workflowDesigner.apiEvent({ type: WorkflowAPI.drawStatus, value: workflowStatus });
-        } else {
-          this.selectCell$.next(state);
-          this.workflowDesigner.apiEvent({ type: WorkflowAPI.updateStatus, value: workflowStatus });
-        }
+        this.workflowDesigner.apiEvent({
+          type: isNew ? WorkflowAPI.drawStatus : WorkflowAPI.updateStatus,
+          value: new WorkflowStatus(state.id, state.name, state.stateType.color, state.stateType.color),
+        });
         this.upsertStatus$.next(state);
       });
   }
@@ -187,13 +172,10 @@ export class UpsertWorkflowComponent implements AfterViewInit {
         data: { states: dictionaryToArray(this.state.get('addedStates')), transition, isNew },
       })
       .subscribe((transition) => {
-        const workflowTransition = createWorkflowTransition(transition);
-        if (isNew) {
-          this.workflowDesigner.apiEvent({ type: WorkflowAPI.drawTransition, value: workflowTransition });
-        } else {
-          this.selectCell$.next(transition);
-          this.workflowDesigner.apiEvent({ type: WorkflowAPI.updateTransition, value: workflowTransition });
-        }
+        this.workflowDesigner.apiEvent({
+          type: isNew ? WorkflowAPI.drawTransition : WorkflowAPI.updateTransition,
+          value: generateWorkflowTransition(transition),
+        });
         this.upsertTransition$.next(transition);
       });
   }
@@ -210,15 +192,12 @@ export class UpsertWorkflowComponent implements AfterViewInit {
         this.selectCell$.next(null);
         break;
       case WorkflowEvent.onAddTransition:
-        this.onUpsertTransition(
-          {
-            id: uuidv4(),
-            name: '',
-            fromStateId: $event.value.sourceId,
-            toStateId: $event.value.targetId,
-          },
-          true
-        );
+        this.onUpsertTransition({
+          id: uuidv4(),
+          name: '',
+          fromStateId: $event.value.sourceId,
+          toStateId: $event.value.targetId,
+        });
         break;
       case WorkflowEvent.onChangeTransition:
         this.onChangeTransition($event.value);
@@ -271,7 +250,7 @@ export class UpsertWorkflowComponent implements AfterViewInit {
       processModel.transitions = dictionaryToArray(this.state.get('addedTransitions'));
       processModel.template = this.workflowDesigner.apiEvent({ type: WorkflowAPI.getXML });
       this.workflowService
-        .upsertWorkflow(this.processId, processModel)
+        .upsertWorkflow(this.workflowId, processModel)
         .pipe(takeUntil(this.destroy$))
         .subscribe(this.promptService.handleResponse('updateWorkflowSuccessfully'));
     }
@@ -288,7 +267,7 @@ export class UpsertWorkflowComponent implements AfterViewInit {
     this.upsertTransition$.next(initialTransition);
     this.workflowDesigner.apiEvent({
       type: WorkflowAPI.drawTransition,
-      value: createWorkflowTransition(initialTransition),
+      value: generateWorkflowTransition(initialTransition),
     });
   }
 
@@ -327,7 +306,7 @@ export class UpsertWorkflowComponent implements AfterViewInit {
             this.workflowDesigner.apiEvent({ type: WorkflowAPI.removeCell, value: value.transitionId });
             this.workflowDesigner.apiEvent({
               type: WorkflowAPI.drawTransition,
-              value: createWorkflowTransition(this.state.get('addedTransitions')[value.transitionId]),
+              value: generateWorkflowTransition(this.state.get('addedTransitions')[value.transitionId]),
             });
           }
         });

@@ -135,7 +135,7 @@ export const WORKING_TIMES = [
   {value: 86400, name: '24:00'}
 ];
 export const WORKING_HOLIDAY = [
-  {value: 1, name: 'Yearly'},
-  {value: 2, name: 'Monthly'},
-  {value: 3, name: 'Weekly'}
+  {value: 'NONE', name: 'None'},
+  {value: 'MONTHLY', name: 'Monthly'},
+  {value: 'YEARLY', name: 'Yearly'},
 ];

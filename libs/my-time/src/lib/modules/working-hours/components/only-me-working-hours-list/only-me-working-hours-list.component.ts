@@ -74,11 +74,11 @@ export class OnlyMeWorkingHoursListComponent extends AbstractServerPaginationTab
       .subscribe();
   }
 
-  requestUpdateTime(id: string): void {
+  requestUpdateTime(data: WorkingHours): void {
     this.dialogService
       .open(new PolymorpheusComponent(SubmitUpdateTimesheetRequestDialogComponent, this.injector), {
         label: this.translocoService.translate('requestUpdateTimesheet'),
-        data: id,
+        data,
       })
       .pipe(takeUntil(this.destroy$))
       .subscribe();

@@ -7,7 +7,7 @@ import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { takeUntil, tap } from 'rxjs/operators';
 import { InitWorkflow } from '../../models';
-import { WorkflowService } from '../../services/workflow.service';
+import { AdminWorkflowService } from '../../services/admin-workflow.service';
 
 @Component({
   selector: 'hcm-create-process-dialog',
@@ -28,6 +28,7 @@ export class CreateWorkflowDialogComponent {
         required: true,
         translate: true,
         label: 'name',
+        labelClassName: 'font-semibold',
         textfieldLabelOutside: true,
       },
     },
@@ -38,6 +39,7 @@ export class CreateWorkflowDialogComponent {
       templateOptions: {
         translate: true,
         label: 'description',
+        labelClassName: 'font-semibold',
         textfieldLabelOutside: true,
       },
     },
@@ -49,6 +51,7 @@ export class CreateWorkflowDialogComponent {
         translate: true,
         required: true,
         label: 'initStatus',
+        labelClassName: 'font-semibold',
         textfieldLabelOutside: true,
       },
     },
@@ -59,6 +62,7 @@ export class CreateWorkflowDialogComponent {
       templateOptions: {
         translate: true,
         label: 'initStatusDescription',
+        labelClassName: 'font-semibold',
         textfieldLabelOutside: true,
       },
     },
@@ -71,6 +75,7 @@ export class CreateWorkflowDialogComponent {
         required: true,
         options: this.workflowService.select('statusTypes'),
         label: 'stateType',
+        labelClassName: 'font-semibold',
         labelProp: 'name',
         matcherBy: 'id',
       },
@@ -79,8 +84,8 @@ export class CreateWorkflowDialogComponent {
 
   constructor(
     private fb: FormBuilder,
-    @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<boolean, InitWorkflow>,
-    private workflowService: WorkflowService,
+    @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<string, InitWorkflow>,
+    private workflowService: AdminWorkflowService,
     private destroy$: TuiDestroyService,
     private promptService: PromptService
   ) {}
@@ -97,7 +102,7 @@ export class CreateWorkflowDialogComponent {
           tap(() => this.promptService.handleResponse()),
           takeUntil(this.destroy$)
         )
-        .subscribe(() => this.context.completeWith(true));
+        .subscribe((res) => this.context.completeWith(res.data.id));
     }
   }
 }
