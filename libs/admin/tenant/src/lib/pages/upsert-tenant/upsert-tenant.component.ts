@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { Address, ContactDTO, PromptService, UploadFileService } from '@nexthcm/cdk';
+import { Address, AddressService, ContactDTO, PromptService, UploadFileService } from '@nexthcm/cdk';
 import { FormBuilder } from '@ngneat/reactive-forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { NumericValueType, RxwebValidators } from '@rxweb/reactive-form-validators';
@@ -9,7 +9,6 @@ import { catchError, distinctUntilChanged, filter, mapTo, startWith, switchMap, 
 import { SweetAlertOptions } from 'sweetalert2';
 import { Tenant } from '../../models/tenant';
 import { AdminTenantService } from '../../services/admin-tenant.service';
-import { AddressService } from '../../../../../../cdk/src/lib/services/address/address.service';
 
 @Component({
   selector: 'hcm-upsert-tenant',
@@ -100,13 +99,14 @@ export class UpsertTenantComponent {
               hooks: {
                 onInit: (field) => {
                   const countryControl = this.form.get('addresses.countryId');
-                  field!.templateOptions!.options = countryControl!.valueChanges.pipe(
+                  field!.templateOptions!.options = countryControl?.valueChanges.pipe(
                     tap(() => field?.formControl?.setValue(null)),
                     startWith(countryControl.value as string),
                     distinctUntilChanged(),
-                    switchMap((countryId) => countryId ? this.addressService.getPlaces(countryId) : of([])))
-                }
-              }
+                    switchMap((countryId) => (countryId ? this.addressService.getPlaces(countryId) : of([])))
+                  );
+                },
+              },
             },
           ],
         },
@@ -127,13 +127,14 @@ export class UpsertTenantComponent {
               hooks: {
                 onInit: (field) => {
                   const cityControl = this.form.get('addresses.cityId');
-                  field!.templateOptions!.options = cityControl!.valueChanges.pipe(
+                  field!.templateOptions!.options = cityControl?.valueChanges.pipe(
                     tap(() => field?.formControl?.setValue(null)),
                     startWith(cityControl.value as string),
                     distinctUntilChanged(),
-                    switchMap((cityId) => cityId ? this.addressService.getPlaces(cityId) : of([])))
-                }
-              }
+                    switchMap((cityId) => (cityId ? this.addressService.getPlaces(cityId) : of([])))
+                  );
+                },
+              },
             },
             {
               key: 'addresses.postalCode',
