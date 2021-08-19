@@ -164,17 +164,15 @@
     <tui-accordion [closeOthers]="false" [rounded]="false">
       <tui-accordion-item [borders]="null" class="border-b-2">
         <div class="font-semibold uppercase">{{ t('history') }}</div>
+
         <ng-template tuiAccordionItemContent>
-          <p>
-            <span class="text-blue-500">Nguyen Huu Thang</span> was approved by
-            <span class="text-blue-500">Le Thi Thu Thuy</span>
-            <span class="text-gray-300">23/07/2021 23:56</span>
-          </p>
-          <p>
-            <span class="text-blue-500">Nguyen Huu Thang</span> was approved by
-            <span class="text-blue-500">Le Thi Thu Thuy</span>
-            <span class="text-gray-300">23/07/2021 23:56</span>
-          </p>
+          <ng-container *ngIf="tracking$ | async as trackings">
+            <p *ngFor="let tracking of trackings">
+              <span class="text-blue-500">{{employee.fullName}}</span> was approved by
+              <span class="text-blue-500">{{tracking.authorUsername}}</span>
+              <span class="text-gray-300">&nbsp;{{tracking.time | date: 'dd/MM/yyyy HH:mm'}}</span>
+            </p>
+          </ng-container>
         </ng-template>
       </tui-accordion-item>
       <tui-accordion-item [borders]="null">
@@ -185,7 +183,8 @@
               <span class="text-blue-500">{{comment.userInfo?.fullName}}</span> {{comment.comment}}
               <span class="text-gray-300">{{comment.createdDate | date: 'dd/MM/yyyy HH:mm'}}</span></p>
           </ng-container>
-          <div *ngIf="data.userInfo || data.user as sendTo" class="flex justify-between align-baseline mt-4">
+          <div *ngIf="data.employeeDTO || data.userInfo || data.user as sendTo"
+               class="flex justify-between align-baseline mt-4">
             <tui-avatar
               [avatarUrl]="sendTo.image | getFile | async"
               [rounded]="true"

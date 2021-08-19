@@ -27,6 +27,7 @@ import { HttpParams } from '@angular/common/http';
 import { AuthService } from '@nexthcm/auth';
 import { RequestComment } from '../../../models/request-comment';
 import { FormControl } from '@ngneat/reactive-forms';
+import { Tracking } from '../../../models/requests/tracking';
 
 @Component({
   selector: 'hcm-request-detail-dialog',
@@ -56,6 +57,12 @@ export class RequestDetailDialogComponent {
     switchMap(() =>
       this.myTimeService
         .getRequestComment(this.commentParams$.value))
+  );
+
+  readonly tracking$: Observable<Tracking[]> = this.commentParams$.pipe(
+    switchMap(() =>
+      this.myTimeService
+        .getRequestTracking(this.requestTypeAPIUrlPath, this.context.data.value.id))
   );
 
   constructor(
