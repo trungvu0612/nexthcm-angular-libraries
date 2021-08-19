@@ -21,6 +21,7 @@ import { GeneralRequest, SubmitRequestPayload, UpdateRequestPayload } from '../m
 import { RejectRequestDialogComponent } from '../modules/request-management/components/reject-leave-request-dialog/reject-request-dialog.component';
 import { RequestDetailDialogComponent } from '../modules/shared/request-detail-dialog/request-detail-dialog.component';
 import { RequestComment } from '../models/request-comment';
+import { Tracking } from '../models/requests/tracking';
 
 interface ServiceState {
   sendToUsers: EmployeeInfo[];
@@ -152,6 +153,10 @@ export class MyTimeService extends RxState<ServiceState> {
   submitReqComment(comment: RequestComment): Observable<BaseResponse<RequestComment>> {
     return this.http
       .post<BaseResponse<RequestComment>>(`${MY_TIME_API_PATH}/comments-common`, comment);
+  }
+
+  getRequestTracking(type: RequestTypeAPIUrlPath, reqId: string): Observable<Tracking[]> {
+    return this.http.get<BaseResponse<Tracking[]>>(`${MY_TIME_API_PATH}/${type}/tracking-history/${reqId}`).pipe(map((res) => res.data));
   }
 
 }
