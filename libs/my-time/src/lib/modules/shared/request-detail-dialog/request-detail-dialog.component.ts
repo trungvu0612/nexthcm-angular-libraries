@@ -92,6 +92,10 @@ export class RequestDetailDialogComponent {
     return !!this.context.data.userId;
   }
 
+  get userId(): string {
+    return this.context.data.userId || '';
+  }
+
   readonly identityMatcher: TuiIdentityMatcher<any> = (item1: EmployeeInfo, item2: EmployeeInfo) =>
     item1.id === item2.id;
 

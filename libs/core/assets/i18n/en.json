@@ -536,7 +536,16 @@
     "notPaidLeave": "Not paid leave",
     "isPaidLeave": "Is paid leave"
   },
+  "REQUEST_TYPE": {
+    "leaves": "Leave request",
+    "ot-requests": "Overtime request",
+    "timesheet-updates": "Timesheet update request",
+    "outside": "Work outside request",
+    "wfh": "Work from home request"
+  },
   "fullDay": "Full day",
   "halfDay": "Half day",
-  "allHalfDay": "All half day"
+  "allHalfDay": "All half day",
+  "created": "Created a",
+  "updatedStatusTo": "Updated status to"
 }

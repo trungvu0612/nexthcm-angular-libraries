@@ -167,11 +167,23 @@
 
         <ng-template tuiAccordionItemContent>
           <ng-container *ngIf="tracking$ | async as trackings">
-            <p *ngFor="let tracking of trackings">
-              <span class="text-blue-500">{{employee.fullName}}</span> was approved by
-              <span class="text-blue-500">{{tracking.authorUsername}}</span>
-              <span class="text-gray-300">&nbsp;{{tracking.time | date: 'dd/MM/yyyy HH:mm'}}</span>
-            </p>
+            <ng-container *ngFor="let tracking of trackings">
+              <p>
+                <span class="text-blue-500">{{tracking.authorUsername}}</span>
+                {{t('updatedStatusTo')}}
+                <tui-tag
+                  [value]="t('REQUEST_STATUS.' + RequestStatus[tracking.right])"
+                  class="{{ RequestStatus[tracking.right] }}-tag"
+                ></tui-tag>
+                <span class="text-gray-300">&nbsp;{{tracking.time | date: 'dd/MM/yyyy HH:mm'}}</span>
+              </p>
+              <p *ngIf="+tracking.right === 0">
+                <span class="text-blue-500">{{tracking.authorUsername}}&nbsp;</span>
+                <span>{{t('created')}}&nbsp;</span>
+                <span>{{t('REQUEST_TYPE.' + requestTypeAPIUrlPath)}}</span>
+                <span class="text-gray-300">&nbsp;{{tracking.time | date: 'dd/MM/yyyy HH:mm'}}</span>
+              </p>
+            </ng-container>
           </ng-container>
         </ng-template>
       </tui-accordion-item>
@@ -183,12 +195,11 @@
               <span class="text-blue-500">{{comment.userInfo?.fullName}}</span> {{comment.comment}}
               <span class="text-gray-300">{{comment.createdDate | date: 'dd/MM/yyyy HH:mm'}}</span></p>
           </ng-container>
-          <div *ngIf="data.employeeDTO || data.userInfo || data.user as sendTo"
+          <div *ngIf="userId"
                class="flex justify-between align-baseline mt-4">
             <tui-avatar
-              [avatarUrl]="sendTo.image | getFile | async"
               [rounded]="true"
-              [text]="sendTo.fullName"
+              [text]="'A'"
             ></tui-avatar>
             <tui-input
               [formControl]="commentControl"

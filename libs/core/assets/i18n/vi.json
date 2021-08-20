@@ -521,7 +521,16 @@
     "notPaidLeave": "Không phép",
     "isPaidLeave": "Có phép"
   },
+  "REQUEST_TYPE": {
+    "leaves": "Yêu cầu nghỉ phép",
+    "ot-requests": "Yêu cầu làm thêm giờ",
+    "timesheet-updates": "Yêu cầu cập nhật bảng ghi thời gian",
+    "outside": "Yêu cầu làm bên ngoài",
+    "wfh": "Yêu cầu làm tại nha"
+  },
   "fullDay": "Nguyên ngày",
   "halfDay": "Nữa ngày",
-  "allHalfDay": "Tất cả nữa ngày"
+  "allHalfDay": "Tất cả nữa ngày",
+  "created": "tạo một",
+  "updatedStatusTo": "cập nhật trạng thái"
 }
