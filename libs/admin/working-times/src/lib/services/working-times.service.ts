@@ -1,11 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BaseResponse, PagingResponse } from '@nexthcm/cdk';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 import { Holiday } from '../models/holiday';
 import { Office } from '../models/offices';
-import { Orgs } from '../models/orgs';
+import { Organization } from '../models/organization';
 import { WorkingAfterTime } from '../models/working-after-time';
 import { WorkingTimes } from '../models/working-times';
 
@@ -29,8 +29,8 @@ export class WorkingTimesService {
     return this.httpClient.get<PagingResponse<Office>>(`/accountapp/v1.0/offices`);
   }
 
-  getOrgs(): Observable<PagingResponse<Orgs>> {
-    return this.httpClient.get<PagingResponse<Orgs>>(`/accountapp/v1.0/orgs`);
+  getOrgs(): Observable<PagingResponse<Organization>> {
+    return this.httpClient.get<PagingResponse<Organization>>(`/accountapp/v1.0/orgs`);
   }
 
   submitWorkingAfterTime(body: any): Observable<WorkingAfterTime> {
@@ -48,7 +48,31 @@ export class WorkingTimesService {
   getOvertimeConfigByOrg(orgId: string): Observable<any> {
     return this.httpClient
       .get<BaseResponse<any>>(`${this.appVersion}/config/times/overtime-config-by-org-id/` + orgId)
-      .pipe(map((res) => res.data));
+      .pipe(
+        map((res) => res.data),
+        catchError(() =>
+          of({
+            checkInAfter: {},
+            checkOutBefore: {},
+            endLunch: {},
+            fingerPrint: {},
+            items: [],
+            lunchHours: {},
+            maxOtHours: {},
+            maxOtMinutes: {},
+            minOtHours: {},
+            minOMinutes: {},
+            minStart: {},
+            orgId: {},
+            otBreakHours: {},
+            startLunch: {},
+            timePaidLeave: {},
+            timePayroll: {},
+            totalWorkinghour: {},
+            workingHour: {},
+          })
+        )
+      );
   }
 
   getHoliday(): Observable<PagingResponse<Holiday>> {

@@ -1,13 +1,19 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl } from '@ngneat/reactive-forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '@nexthcm/auth';
 import { PromptService, secondsToTime } from '@nexthcm/cdk';
 import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import { isPresent, TuiDestroyService, TuiTime } from '@taiga-ui/cdk';
+import {
+  isPresent,
+  TuiContextWithImplicit,
+  TuiDestroyService,
+  tuiPure,
+  TuiStringHandler,
+  TuiTime,
+} from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
-import { BehaviorSubject, of } from 'rxjs';
 import {
   catchError,
   distinctUntilChanged,
@@ -18,10 +24,13 @@ import {
   startWith,
   switchMap,
   takeUntil,
+  tap,
 } from 'rxjs/operators';
 import { SweetAlertOptions } from 'sweetalert2';
 import { WorkingAfterTime } from '../../models/working-after-time';
 import { WorkingTimesService } from '../../services/working-times.service';
+import { Organization } from '../../models/organization';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'hcm-overtime-working',
@@ -30,35 +39,18 @@ import { WorkingTimesService } from '../../services/working-times.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OvertimeWorkingComponent implements OnInit {
-  myOrgId = this.authService.get('userInfo').orgId;
+  readonly myOrgId = this.authService.get('userInfo').orgId;
+  readonly orgIdControl = new FormControl<string>(this.myOrgId);
   overtimeWorkingId: any;
-  params$ = new BehaviorSubject<{ page?: number; size?: number }>({ size: 100 });
   orgs$ = this.workingTimesService.getOrgs().pipe(map((res) => res.data.items));
-  // offices$ = this.WorkingTimesService.getOffices().pipe(map((res) => res.data.items));
   dataChecking$ = this.workingTimesService.statusChecking().pipe(map((res) => res.data.items));
-  model: any = {} as WorkingAfterTime;
+  model = {} as any;
+
   workingAfterTimeElement: any;
   workingHourElement: any;
-  readonly form = new FormGroup({
-    filters: new FormControl([]),
-    orgId: new FormControl([]),
-  });
-
+  readonly form = this.fb.group<WorkingAfterTime>({} as WorkingAfterTime);
   fields: FormlyFieldConfig[] = [
-    {
-      className: 'tui-form__row block small-input',
-      key: 'orgId',
-      type: 'select',
-      defaultValue: this.myOrgId,
-      templateOptions: {
-        options: this.orgs$,
-        label: 'Org',
-        labelProp: 'orgName',
-        valueProp: 'id',
-        labelClassName: 'font-semibold',
-        required: true,
-      },
-    },
+    { key: 'orgId' },
     // {
     //   className: 'tui-form__row block small-input',
     //   key: 'officeId',
@@ -76,7 +68,7 @@ export class OvertimeWorkingComponent implements OnInit {
       expressionProperties: {
         template: this.translocoService
           .selectTranslate<string>('applyFor')
-          .pipe(map((result) => `<div class='font-semibold mt-5'>${result}</div>`)),
+          .pipe(map((result) => `<div class="font-semibold mt-5">${result}</div>`)),
       },
     },
     {
@@ -296,8 +288,7 @@ export class OvertimeWorkingComponent implements OnInit {
     },
   ];
 
-  private readonly request$ = this.form.controls.orgId.valueChanges.pipe(
-    startWith(this.myOrgId),
+  private readonly request$ = this.orgIdControl.value$.pipe(
     filter(isPresent),
     distinctUntilChanged(),
     switchMap((orgId) => this.workingTimesService.getOvertimeConfigByOrg(orgId).pipe(startWith(null))),
@@ -313,24 +304,36 @@ export class OvertimeWorkingComponent implements OnInit {
     private destroy$: TuiDestroyService,
     private activatedRoute: ActivatedRoute,
     private promptService: PromptService,
-    private authService: AuthService
+    private authService: AuthService,
+    private fb: FormBuilder
   ) {}
+
+  @tuiPure
+  stringify(items: ReadonlyArray<Organization>): TuiStringHandler<TuiContextWithImplicit<string>> {
+    const map = new Map(items.map(({ id, orgName }) => [id, orgName]));
+    return ({ $implicit }: TuiContextWithImplicit<string>) => map.get($implicit) || '';
+  }
 
   ngOnInit(): void {
     this.dataChecking$.pipe(takeUntil(this.destroy$)).subscribe((item) => {
-      this.dataChecking$ = item[0].outTime;
+      this.dataChecking$ = item[0]?.outTime;
     });
-    this.request$.pipe(filter(isPresent), takeUntil(this.destroy$)).subscribe((data) => this.patchFormValue(data));
+    if (this.request$) {
+      this.request$.pipe(filter(isPresent), takeUntil(this.destroy$)).subscribe((data) => {
+        this.patchFormValue(data);
+      });
+    }
   }
 
   onSubmit(): void {
-    const formModel = { ...this.form.value };
+    const formModel = { ...this.form.value } as any;
     formModel.minStart = (formModel?.minStart as TuiTime).toAbsoluteMilliseconds().valueOf() / 1000;
     formModel.minOtHours = (formModel?.minOtHours as TuiTime).toAbsoluteMilliseconds().valueOf() / 1000;
     formModel.maxOtHours = (formModel?.maxOtHours as TuiTime).toAbsoluteMilliseconds().valueOf() / 1000;
     formModel.minOtMinutes = (formModel?.minOtMinutes as TuiTime).toAbsoluteMilliseconds().valueOf() / 1000;
     formModel.maxOtMinutes = (formModel?.maxOtMinutes as TuiTime).toAbsoluteMilliseconds().valueOf() / 1000;
     formModel.otBreakHours = (formModel?.otBreakHours as TuiTime).toAbsoluteMilliseconds().valueOf() / 1000;
+    formModel.orgId = this.orgIdControl.value;
     const overtimeData = [];
     const dayKey = [
       formModel.applyFor.day1,
@@ -376,7 +379,6 @@ export class OvertimeWorkingComponent implements OnInit {
     }
 
     this.workingAfterTimeElement = {
-      orgId: formModel.orgId,
       fingerPrint: true,
       minOtHours: formModel.applyFor.dayDefault ? 0 : parseInt(formModel.minOtHours),
       maxOtHours: formModel.applyFor.dayDefault ? 0 : parseInt(formModel.maxOtHours),
@@ -385,9 +387,8 @@ export class OvertimeWorkingComponent implements OnInit {
       otBreakHours: formModel.applyFor.dayDefault ? 0 : parseInt(formModel.otBreakHours),
       minStart: formModel.applyFor.dayDefault ? 0 : parseInt(formModel.minStart),
       items: overtimeData,
+      orgId: formModel.orgId,
     };
-    console.log(JSON.stringify(this.workingAfterTimeElement));
-
     if (this.overtimeWorkingId) {
       this.workingAfterTimeElement.id = this.overtimeWorkingId;
     }
@@ -427,32 +428,32 @@ export class OvertimeWorkingComponent implements OnInit {
       },
       orgId: this.myOrgId,
       otBreakHours: new TuiTime(
-        Number(secondsToTime(formModel.otBreakHours).h),
-        Number(secondsToTime(formModel.otBreakHours).m)
+        Number(secondsToTime(formModel?.otBreakHours).h),
+        Number(secondsToTime(formModel?.otBreakHours).m)
       ),
-      workOtType: Math.floor(formModel.otBreakHours / 3600) >= 1 ? 1 : 2,
+      workOtType: Math.floor(formModel?.otBreakHours / 3600) >= 1 ? 1 : 2,
       fingerPrint: formModel.fingerPrint,
       weekendOt: formModel.otBreakHours > 0,
       maxOtHours: new TuiTime(
-        Number(secondsToTime(formModel.maxOtHours).h),
-        Number(secondsToTime(formModel.maxOtHours).m)
+        Number(secondsToTime(formModel?.maxOtHours).h),
+        Number(secondsToTime(formModel?.maxOtHours).m)
       ),
       minOtHours: new TuiTime(
-        Number(secondsToTime(formModel.minOtHours).h),
-        Number(secondsToTime(formModel.minOtHours).m)
+        Number(secondsToTime(formModel?.minOtHours).h),
+        Number(secondsToTime(formModel?.minOtHours).m)
       ),
       minOtMinutes: new TuiTime(
-        Number(secondsToTime(formModel.minOtMinutes).h),
-        Number(secondsToTime(formModel.minOtMinutes).m)
+        Number(secondsToTime(formModel?.minOtMinutes).h),
+        Number(secondsToTime(formModel?.minOtMinutes).m)
       ),
       maxOtMinutes: new TuiTime(
-        Number(secondsToTime(formModel.maxOtMinutes).h),
-        Number(secondsToTime(formModel.maxOtMinutes).m)
+        Number(secondsToTime(formModel?.maxOtMinutes).h),
+        Number(secondsToTime(formModel?.maxOtMinutes).m)
       ),
-      minStart: new TuiTime(Number(secondsToTime(formModel.minStart).h), Number(secondsToTime(formModel.minStart).m)),
-      checkOut: new TuiTime(Number(secondsToTime(this.dataChecking$).h), Number(secondsToTime(this.dataChecking$).m)),
+      minStart: new TuiTime(Number(secondsToTime(formModel?.minStart).h), Number(secondsToTime(formModel?.minStart).m)),
+      checkOut: new TuiTime(Number(secondsToTime(this?.dataChecking$).h), Number(secondsToTime(this?.dataChecking$).m)),
     };
-    formModel.items.forEach(function (res: any) {
+    formModel?.items.forEach(function (res: any) {
       if (res.weekDayId === 1) {
         jsonEditData.applyFor.day1 = res.values[0].minOtHours > 0;
       }
@@ -475,9 +476,6 @@ export class OvertimeWorkingComponent implements OnInit {
         jsonEditData.applyFor.day7 = res.values[0].minOtHours > 0;
       }
     });
-
-    // console.log(JSON.stringify(jsonEditData));
-
     this.model = { ...this.model, ...jsonEditData };
   }
 }

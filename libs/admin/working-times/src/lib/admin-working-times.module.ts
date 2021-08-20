@@ -15,7 +15,7 @@ import {
   TuiDataListWrapperModule,
   TuiInputCountModule,
   TuiInputDateModule,
-  TuiInputModule, TuiInputTimeModule,
+  TuiInputModule, TuiInputTimeModule, TuiSelectModule,
   TuiTabsModule,
   TuiToggleModule
 } from '@taiga-ui/kit';
@@ -24,6 +24,7 @@ import { NgxPermissionsGuard } from 'ngx-permissions';
 import { OvertimeWorkingComponent } from './components/overtime-working/overtime-working.component';
 import { RepeatSectionComponent } from './components/repeat-section/repeat-section.component';
 import { WorkingTimeSettingsComponent } from './pages/working-time-settings/working-time-settings.component';
+import { TuiLetModule } from '@taiga-ui/cdk';
 
 export const adminWorkingTimesRoutes: Routes = [
   {
@@ -40,7 +41,7 @@ export const adminWorkingTimesRoutes: Routes = [
     CommonModule,
     RouterModule.forChild(adminWorkingTimesRoutes),
     FormlyModule.forRoot({
-      types: [{ name: 'repeat', component: RepeatSectionComponent }]
+      types: [{ name: 'repeat', component: RepeatSectionComponent }],
     }),
     ReactiveFormsModule,
     TuiLabelModule,
@@ -60,7 +61,9 @@ export const adminWorkingTimesRoutes: Routes = [
     TuiDataListWrapperModule,
     TuiSvgModule,
     TuiButtonModule,
-    TuiLoaderModule
+    TuiLoaderModule,
+    TuiSelectModule,
+    TuiLetModule,
   ],
   declarations: [WorkingTimeSettingsComponent, RepeatSectionComponent, OvertimeWorkingComponent],
 })

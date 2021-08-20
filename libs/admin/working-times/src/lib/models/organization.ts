@@ -1,4 +1,4 @@
-export interface Orgs {
+export interface Organization {
 	createdDate: number;
 	lastModifiedDate: number;
 	optCounter: number;
