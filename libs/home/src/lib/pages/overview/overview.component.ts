@@ -48,6 +48,7 @@ export class OverviewComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    console.log(this.authService.get('userInfo'));
     this.getWorkingHourTime();
     this.checkingStatus();
   }
@@ -94,17 +95,11 @@ export class OverviewComponent implements OnInit {
 
         this.cdr.detectChanges();
       });
-
-    //get minstart & maxstart today from setting time
     this.overviewService.getTimeWorkingHour(this.orgId).subscribe((item) => {
       item.data.items.forEach((res: any) => {
         if (res.weekDayId === new Date().getDay() + 1) {
           const checkInOutStart = res.values;
-          if (
-            this.nowInMiliseconds < checkInOutStart[0].from ||
-            this.nowInMiliseconds > checkInOutStart[checkInOutStart.length - 1].to
-          ) {
-            console.log('hahaha');
+          if (this.nowInMiliseconds < checkInOutStart[0].from || this.nowInMiliseconds > (checkInOutStart[checkInOutStart.length - 1]).to) {
             this.fingerCheck = false;
             this.checkingBtn = false;
           }
@@ -115,7 +110,7 @@ export class OverviewComponent implements OnInit {
   }
 
   fingerStatus() {
-    if (this.checkingBtn) {
+    if (this.checkingBtn == true) {
       this.fingerCheck = !this.fingerCheck;
     }
   }

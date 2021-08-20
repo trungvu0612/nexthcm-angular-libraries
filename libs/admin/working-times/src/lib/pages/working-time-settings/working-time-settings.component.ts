@@ -612,6 +612,7 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
         this.workingHourId = item?.data?.id;
         const formModel = item.data;
         const jsonEditData = {
+          orgId: formModel.myOrgId,
           mondayTime: {},
           tuesdayTime: {},
           wednesdayTime: {},
@@ -695,7 +696,7 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
       }
     }
     this.settingsElement = {
-      orgId: this.myOrgId,
+      orgId: formModel.OrgId,
       checkInAfter: ((formModel?.checkInAfter as TuiTime).toAbsoluteMilliseconds().valueOf()) / 1000,
       checkOutBefore: ((formModel?.checkOutBefore as TuiTime).toAbsoluteMilliseconds().valueOf()) / 1000,
       workingHour: ((formModel?.workingHour as TuiTime).toAbsoluteMilliseconds().valueOf()) / 1000,

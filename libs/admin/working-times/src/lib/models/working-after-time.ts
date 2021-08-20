@@ -1,5 +1,6 @@
 export interface WorkingAfterTime {
 	id: string;
+  orgId: string;
 	checkInAfter: number;
 	checkOutBefore: number;
 	workingHour: number;

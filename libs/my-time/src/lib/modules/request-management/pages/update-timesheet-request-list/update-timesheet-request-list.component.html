@@ -12,7 +12,7 @@
         <td>{{ item.newInTime ? (item.newInTime * 1000 | date: 'HH:mm':'UTC') : '-' }}</td>
         <td>{{ item.newOutTime ? (item.newOutTime * 1000 | date: 'HH:mm':'UTC') : '-' }}</td>
         <td>
-          {{ item.totalHourUpdate ? (item.totalHourUpdate | translocoDecimal) : '-' }}
+          {{ item.updateTotalTime ? (item.updateTotalTime * 1000 | date: 'HH:mm':'UTC') : '-' }}
         </td>
         <td>{{ item.updateWorkingDay ? (item.updateWorkingDay | translocoDecimal) : '-' }}</td>
         <td>
