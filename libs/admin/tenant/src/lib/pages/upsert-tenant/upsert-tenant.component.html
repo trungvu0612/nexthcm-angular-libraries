@@ -1,14 +1,16 @@
-<main *transloco="let t" class="main-page">
-  <header>
-    <h1>{{ t(model.id ? 'createTenant' : 'information') }}</h1>
-  </header>
-  <section class="main-section">
-    <form (ngSubmit)="submitTenant()" *ngIf="sign$ | async" [formGroup]="$any(form)">
-      <formly-form [fields]="fields" [form]="$any(form)" [model]="model" class="formly-gap"></formly-form>
-      <div class="flex justify-center gap-6 mt-8">
-        <button appearance="outline" routerLink="../" tuiButton type="button">{{ t('cancel') }}</button>
-        <button tuiButton>{{ t('save') }}</button>
-      </div>
-    </form>
-  </section>
-</main>
+<ng-container *transloco="let t">
+  <main *ngIf="sign$ | async" class="main-page">
+    <header>
+      <h1>{{ t(model.id ? 'createTenant' : 'information') }}</h1>
+    </header>
+    <section class="main-section">
+      <form (ngSubmit)="submitTenant()" [formGroup]="form">
+        <formly-form [fields]="fields" [form]="form" [model]="model" class="formly-gap"></formly-form>
+        <div class="flex justify-center gap-6 mt-8">
+          <button tuiButton>{{ t('save') }}</button>
+          <button appearance="outline" routerLink="../" tuiButton type="button">{{ t('cancel') }}</button>
+        </div>
+      </form>
+    </section>
+  </main>
+</ng-container>

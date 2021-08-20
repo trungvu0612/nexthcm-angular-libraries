@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Address, AddressService, ContactDTO, PromptService, UploadFileService } from '@nexthcm/cdk';
-import { FormBuilder } from '@ngneat/reactive-forms';
+import { FormGroup } from '@ngneat/reactive-forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { NumericValueType, RxwebValidators } from '@rxweb/reactive-form-validators';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { iif, of } from 'rxjs';
-import { distinctUntilChanged, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { Tenant } from '../../models/tenant';
 import { AdminTenantService } from '../../services/admin-tenant.service';
 
@@ -17,19 +17,37 @@ import { AdminTenantService } from '../../services/admin-tenant.service';
   providers: [TuiDestroyService],
 })
 export class UpsertTenantComponent {
-  readonly form = this.formBuilder.group<Tenant>({} as Tenant);
-  model = {} as Tenant;
+  readonly form = new FormGroup({});
+  model!: Partial<Tenant>;
   readonly fields: FormlyFieldConfig[] = [
     {
-      key: 'tenantName',
-      type: 'input',
-      templateOptions: {
-        required: true,
-        translate: true,
-        label: 'companyName',
-        placeholder: 'enterCompanyName',
-        textfieldLabelOutside: true,
-      },
+      fieldGroupClassName: 'flex gap-6',
+      fieldGroup: [
+        {
+          key: 'tenantName',
+          type: 'input',
+          className: 'flex-1',
+          templateOptions: {
+            required: true,
+            translate: true,
+            label: 'companyName',
+            placeholder: 'enterCompanyName',
+            textfieldLabelOutside: true,
+          },
+        },
+        {
+          key: 'user.username',
+          type: 'input',
+          templateOptions: {
+            readonly: true,
+            translate: true,
+            label: 'username',
+            textfieldLabelOutside: true,
+          },
+          hideExpression: '!model.id',
+          expressionProperties: { className: (model) => (model.id ? 'flex-1' : 'hidden') },
+        },
+      ],
     },
     {
       key: 'image',
@@ -45,7 +63,7 @@ export class UpsertTenantComponent {
       },
     },
     {
-      fieldGroupClassName: 'grid grid-flow-col grid-rows-5 grid-cols-2 gap-x-6 gap-y-4',
+      fieldGroupClassName: 'grid grid-cols-2 gap-x-6 gap-y-4',
       fieldGroup: [
         {
           key: 'addresses.address1',
@@ -59,6 +77,18 @@ export class UpsertTenantComponent {
           },
         },
         {
+          key: 'tax',
+          type: 'input',
+          templateOptions: {
+            required: true,
+            translate: true,
+            label: 'taxCode',
+            placeholder: 'enterTaxCode',
+            textfieldLabelOutside: true,
+          },
+          validators: { validation: [RxwebValidators.numeric({ acceptValue: NumericValueType.PositiveNumber })] },
+        },
+        {
           key: 'addresses.address2',
           type: 'input',
           templateOptions: {
@@ -68,6 +98,18 @@ export class UpsertTenantComponent {
             labelParams: { value: 2 },
             textfieldLabelOutside: true,
           },
+        },
+        {
+          key: 'contacts.phone',
+          type: 'input',
+          templateOptions: {
+            required: true,
+            translate: true,
+            label: 'phone',
+            placeholder: 'enterPhoneNumber',
+            textfieldLabelOutside: true,
+          },
+          validators: { validation: [RxwebValidators.numeric({ acceptValue: NumericValueType.PositiveNumber })] },
         },
         {
           fieldGroupClassName: 'grid grid-cols-2 gap-4',
@@ -91,24 +133,34 @@ export class UpsertTenantComponent {
                 translate: true,
                 label: 'province',
                 placeholder: 'chooseProvince',
-                options: [],
                 valueProp: 'id',
                 labelProp: 'name',
               },
               hooks: {
                 onInit: (field) => {
                   const countryControl = this.form.get('addresses.countryId');
-                  field!.templateOptions!.options = countryControl?.valueChanges.pipe(
-                    tap(() => field?.formControl?.setValue(null)),
-                    startWith(countryControl.value as string),
-                    distinctUntilChanged(),
-                    switchMap((countryId) => (countryId ? this.addressService.getPlaces(countryId) : of([]))),
-                    takeUntil(this.destroy$)
-                  );
+                  if (field?.templateOptions && countryControl)
+                    field.templateOptions.options = countryControl.valueChanges.pipe(
+                      tap(() => field.formControl?.setValue(null)),
+                      switchMap((countryId) => (countryId ? this.addressService.getPlaces(countryId) : of([]))),
+                      startWith([])
+                    );
                 },
               },
             },
           ],
+        },
+        {
+          key: 'contacts.email',
+          type: 'input',
+          templateOptions: {
+            required: true,
+            translate: true,
+            label: 'email',
+            placeholder: 'enterEmail',
+            textfieldLabelOutside: true,
+          },
+          validators: { validation: [RxwebValidators.email()] },
         },
         {
           fieldGroupClassName: 'grid grid-cols-2 gap-4',
@@ -118,22 +170,20 @@ export class UpsertTenantComponent {
               type: 'select',
               templateOptions: {
                 translate: true,
-                label: 'ward',
-                placeholder: 'chooseWard',
-                options: [],
+                label: 'district',
+                placeholder: 'chooseDistrict',
                 valueProp: 'id',
                 labelProp: 'name',
               },
               hooks: {
                 onInit: (field) => {
                   const cityControl = this.form.get('addresses.cityId');
-                  field!.templateOptions!.options = cityControl?.valueChanges.pipe(
-                    tap(() => field?.formControl?.setValue(null)),
-                    startWith(cityControl.value as string),
-                    distinctUntilChanged(),
-                    switchMap((cityId) => (cityId ? this.addressService.getPlaces(cityId) : of([]))),
-                    takeUntil(this.destroy$)
-                  );
+                  if (field?.templateOptions && cityControl)
+                    field.templateOptions.options = cityControl.valueChanges.pipe(
+                      tap(() => field.formControl?.setValue(null)),
+                      switchMap((cityId) => (cityId ? this.addressService.getPlaces(cityId) : of([]))),
+                      startWith([])
+                    );
                 },
               },
             },
@@ -151,69 +201,6 @@ export class UpsertTenantComponent {
           ],
         },
         {
-          fieldGroupClassName: 'grid grid-cols-2 gap-4',
-          fieldGroup: [
-            {
-              key: 'user.profile.firstName',
-              type: 'input',
-              templateOptions: {
-                required: true,
-                translate: true,
-                label: 'firstName',
-                placeholder: 'enterFirstName',
-                textfieldLabelOutside: true,
-              },
-              expressionProperties: { 'templateOptions.disabled': 'model.id' },
-            },
-            {
-              key: 'user.profile.lastName',
-              type: 'input',
-              templateOptions: {
-                required: true,
-                translate: true,
-                label: 'lastName',
-                placeholder: 'enterLastName',
-                textfieldLabelOutside: true,
-              },
-              expressionProperties: { 'templateOptions.disabled': 'model.id' },
-            },
-          ],
-        },
-
-        {
-          key: 'tax',
-          type: 'input',
-          templateOptions: {
-            translate: true,
-            label: 'taxCode',
-            placeholder: 'enterTaxCode',
-            textfieldLabelOutside: true,
-          },
-          validators: { validation: [RxwebValidators.numeric({ acceptValue: NumericValueType.PositiveNumber })] },
-        },
-        {
-          key: 'contacts.phone',
-          type: 'input',
-          templateOptions: {
-            translate: true,
-            label: 'phone',
-            placeholder: 'enterPhoneNumber',
-            textfieldLabelOutside: true,
-          },
-          validators: { validation: [RxwebValidators.numeric({ acceptValue: NumericValueType.PositiveNumber })] },
-        },
-        {
-          key: 'contacts.email',
-          type: 'input',
-          templateOptions: {
-            translate: true,
-            label: 'email',
-            placeholder: 'enterEmail',
-            textfieldLabelOutside: true,
-          },
-          validators: { validation: [RxwebValidators.email()] },
-        },
-        {
           key: 'contacts.website',
           type: 'input',
           templateOptions: {
@@ -228,29 +215,27 @@ export class UpsertTenantComponent {
   ];
   readonly sign$ = iif(
     () => !!this.adminTenantService.get('id'),
-    this.adminTenantService.getTenant().pipe(
-      tap((tenant) => {
-        if (tenant.addresses) {
-          tenant.addresses = (tenant.addresses as Address[])[0];
-        }
-        this.model = { ...this.model, ...tenant };
-      })
-    ),
-    of(true)
+    this.adminTenantService.getTenant(),
+    of({} as Tenant)
+  ).pipe(
+    tap((tenant) => {
+      if (tenant.addresses) tenant.addresses = (tenant.addresses as Address[])[0];
+      if (tenant.contacts) tenant.contacts = (tenant.contacts as ContactDTO[])[0];
+      this.model = tenant;
+    })
   );
 
   constructor(
     private adminTenantService: AdminTenantService,
     private addressService: AddressService,
-    private promptService: PromptService,
     private uploadFileService: UploadFileService,
-    private destroy$: TuiDestroyService,
-    private formBuilder: FormBuilder
+    private promptService: PromptService,
+    private destroy$: TuiDestroyService
   ) {}
 
   submitTenant() {
     if (this.form.valid) {
-      const formModel = { ...this.form.value };
+      const formModel = { ...this.model };
       formModel.addresses = [formModel.addresses as Address];
       formModel.contacts = [formModel.contacts as ContactDTO];
       this.adminTenantService[formModel.id ? 'editTenant' : 'createTenant'](formModel)
