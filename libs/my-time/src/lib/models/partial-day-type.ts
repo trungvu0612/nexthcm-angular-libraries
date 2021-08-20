@@ -1,6 +1,6 @@
 export interface PartialDayType{
-  id?: string;
+  id: string;
   status?: number;
   name?: string;
-  type?: number;
+  type: number;
 }
