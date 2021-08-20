@@ -32,11 +32,11 @@ export class AdminTenantService extends RxState<{ id: string }> {
       .pipe(map((response) => response.data));
   }
 
-  createTenant(body: Tenant): Observable<unknown> {
+  createTenant(body: Partial<Tenant>): Observable<unknown> {
     return this.http.post('/accountapp/v1.0/tenants', body);
   }
 
-  editTenant(body: Tenant): Observable<unknown> {
+  editTenant(body: Partial<Tenant>): Observable<unknown> {
     return this.http.put('/accountapp/v1.0/tenants/' + body.id, body);
   }
 
