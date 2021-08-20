@@ -710,8 +710,6 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
     if (this.workingHourId) {
       this.settingsElement.id = this.workingHourId;
     }
-    // console.log(JSON.stringify(this.settingsElement));
-
     this.workingTimesService
       .saveSettings(this.settingsElement)
       .pipe(
