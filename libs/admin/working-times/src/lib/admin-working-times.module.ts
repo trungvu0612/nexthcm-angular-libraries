@@ -5,9 +5,11 @@ import { RouterModule, Routes } from '@angular/router';
 import { FormlyTaigaUiModule, LayoutComponent } from '@nexthcm/ui';
 import { TranslocoModule } from '@ngneat/transloco';
 import { FormlyModule } from '@ngx-formly/core';
-import { TuiButtonModule, TuiDataListModule,
+import {
+  TuiButtonModule, TuiDataListModule,
   TuiHostedDropdownModule,
-  TuiLabelModule, TuiSvgModule, TuiTextfieldControllerModule } from '@taiga-ui/core';
+  TuiLabelModule, TuiLoaderModule, TuiSvgModule, TuiTextfieldControllerModule
+} from '@taiga-ui/core';
 import {
   TuiCheckboxLabeledModule,
   TuiDataListWrapperModule,
@@ -57,7 +59,8 @@ export const adminWorkingTimesRoutes: Routes = [
     TuiDataListModule,
     TuiDataListWrapperModule,
     TuiSvgModule,
-    TuiButtonModule
+    TuiButtonModule,
+    TuiLoaderModule
   ],
   declarations: [WorkingTimeSettingsComponent, RepeatSectionComponent, OvertimeWorkingComponent],
 })

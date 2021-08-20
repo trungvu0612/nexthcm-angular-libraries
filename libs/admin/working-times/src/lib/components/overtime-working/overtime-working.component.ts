@@ -1,17 +1,27 @@
-import {ChangeDetectionStrategy, Component, Inject, OnInit} from '@angular/core';
-import {FormControl, FormGroup} from '@angular/forms';
-import {ActivatedRoute, Router} from '@angular/router';
-import {AuthService} from '@nexthcm/auth';
-import {PromptService, secondsToTime} from '@nexthcm/cdk';
-import {TranslocoService} from '@ngneat/transloco';
-import {FormlyFieldConfig} from '@ngx-formly/core';
-import {TuiDestroyService, TuiTime} from '@taiga-ui/cdk';
-import {TuiDialogService} from '@taiga-ui/core';
-import {BehaviorSubject, of} from 'rxjs';
-import {catchError, filter, map, mapTo, switchMap, takeUntil, tap} from 'rxjs/operators';
-import {SweetAlertOptions} from 'sweetalert2';
-import {WorkingAfterTime} from '../../models/working-after-time';
-import {WorkingTimesService} from '../../services/working-times.service';
+import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AuthService } from '@nexthcm/auth';
+import { PromptService, secondsToTime } from '@nexthcm/cdk';
+import { TranslocoService } from '@ngneat/transloco';
+import { FormlyFieldConfig } from '@ngx-formly/core';
+import { isPresent, TuiDestroyService, TuiTime } from '@taiga-ui/cdk';
+import { TuiDialogService } from '@taiga-ui/core';
+import { BehaviorSubject, of } from 'rxjs';
+import {
+  catchError,
+  distinctUntilChanged,
+  filter,
+  map,
+  mapTo,
+  share,
+  startWith,
+  switchMap,
+  takeUntil,
+} from 'rxjs/operators';
+import { SweetAlertOptions } from 'sweetalert2';
+import { WorkingAfterTime } from '../../models/working-after-time';
+import { WorkingTimesService } from '../../services/working-times.service';
 
 @Component({
   selector: 'hcm-overtime-working',
@@ -22,14 +32,16 @@ import {WorkingTimesService} from '../../services/working-times.service';
 export class OvertimeWorkingComponent implements OnInit {
   myOrgId = this.authService.get('userInfo').orgId;
   overtimeWorkingId: any;
-  params$ = new BehaviorSubject<{ page?: number; size?: number }>({size: 100});
-  offices$ = this.WorkingTimesService.getOffices().pipe(map((res) => res.data.items));
-  dataChecking$ = this.WorkingTimesService.statusChecking().pipe(map((res) => res.data.items));
+  params$ = new BehaviorSubject<{ page?: number; size?: number }>({ size: 100 });
+  orgs$ = this.workingTimesService.getOrgs().pipe(map((res) => res.data.items));
+  // offices$ = this.WorkingTimesService.getOffices().pipe(map((res) => res.data.items));
+  dataChecking$ = this.workingTimesService.statusChecking().pipe(map((res) => res.data.items));
   model: any = {} as WorkingAfterTime;
   workingAfterTimeElement: any;
   workingHourElement: any;
   readonly form = new FormGroup({
     filters: new FormControl([]),
+    orgId: new FormControl([]),
   });
 
   fields: FormlyFieldConfig[] = [
@@ -37,17 +49,29 @@ export class OvertimeWorkingComponent implements OnInit {
       className: 'tui-form__row block small-input',
       key: 'orgId',
       type: 'select',
+      defaultValue: this.myOrgId,
       templateOptions: {
-        options: this.offices$,
-        label: 'Office',
+        options: this.orgs$,
+        label: 'Org',
         labelProp: 'orgName',
         valueProp: 'id',
-        subLabelProp: 'orgType',
-        matcherBy: 'id',
         labelClassName: 'font-semibold',
         required: true,
       },
     },
+    // {
+    //   className: 'tui-form__row block small-input',
+    //   key: 'officeId',
+    //   type: 'select',
+    //   templateOptions: {
+    //     options: this.offices$,
+    //     label: 'Office',
+    //     labelProp: 'name',
+    //     valueProp: 'id',
+    //     labelClassName: 'font-semibold',
+    //     required: true,
+    //   },
+    // },
     {
       expressionProperties: {
         template: this.translocoService
@@ -201,7 +225,7 @@ export class OvertimeWorkingComponent implements OnInit {
               key: 'fingerPrint',
               className: 'tui-form__row block',
               type: 'toggle',
-              templateOptions: {textfieldLabelOutside: true, labelClassName: 'font-semibold'},
+              templateOptions: { textfieldLabelOutside: true, labelClassName: 'font-semibold' },
               expressionProperties: {
                 'templateOptions.label': of('Use FingerPrint'),
               },
@@ -237,8 +261,8 @@ export class OvertimeWorkingComponent implements OnInit {
               defaultValue: 1,
               templateOptions: {
                 options: [
-                  {value: 1, label: 'Hour'},
-                  {value: 2, label: 'Minute'},
+                  { value: 1, label: 'Hour' },
+                  { value: 2, label: 'Minute' },
                 ],
                 valueProp: 'value',
                 labelClassName: 'font-semibold',
@@ -272,93 +296,35 @@ export class OvertimeWorkingComponent implements OnInit {
     },
   ];
 
+  private readonly request$ = this.form.controls.orgId.valueChanges.pipe(
+    startWith(this.myOrgId),
+    filter(isPresent),
+    distinctUntilChanged(),
+    switchMap((orgId) => this.workingTimesService.getOvertimeConfigByOrg(orgId).pipe(startWith(null))),
+    share()
+  );
+  readonly loading$ = this.request$.pipe(map((value) => !value));
+
   constructor(
     private translocoService: TranslocoService,
-    private WorkingTimesService: WorkingTimesService,
+    private workingTimesService: WorkingTimesService,
     private router: Router,
     @Inject(TuiDialogService) private readonly dialogService: TuiDialogService,
     private destroy$: TuiDestroyService,
     private activatedRoute: ActivatedRoute,
     private promptService: PromptService,
     private authService: AuthService
-  ) {
-  }
+  ) {}
 
   ngOnInit(): void {
-    this.dataChecking$.subscribe((item) => {
+    this.dataChecking$.pipe(takeUntil(this.destroy$)).subscribe((item) => {
       this.dataChecking$ = item[0].outTime;
-    })
-    this.WorkingTimesService.getOvertimeConfigByOrg(this.myOrgId).subscribe((item) => {
-      const formModel = item?.data;
-      this.overtimeWorkingId = formModel?.id;
-      const jsonEditData = {
-        applyFor: {
-          dayDefault: false,
-          day1: false,
-          day2: true,
-          day3: true,
-          day4: true,
-          day5: true,
-          day6: true,
-          day7: false,
-        },
-        otBreakHours: new TuiTime(
-          Number(secondsToTime(formModel.otBreakHours).h), Number(secondsToTime(formModel.otBreakHours).m)
-        ),
-        workOtType: Math.floor((formModel.otBreakHours) / 3600) >= 1 ? 1 : 2,
-        fingerPrint: formModel.fingerPrint,
-        weekendOt: formModel.otBreakHours > 0 ? true : false,
-        maxOtHours: new TuiTime(
-          Number(secondsToTime(formModel.maxOtHours).h), Number(secondsToTime(formModel.maxOtHours).m)
-        ),
-        minOtHours: new TuiTime(
-          Number(secondsToTime(formModel.minOtHours).h), Number(secondsToTime(formModel.minOtHours).m)
-        ),
-        minOtMinutes: new TuiTime(
-          Number(secondsToTime(formModel.minOtMinutes).h), Number(secondsToTime(formModel.minOtMinutes).m)
-        ),
-        maxOtMinutes: new TuiTime(
-          Number(secondsToTime(formModel.maxOtMinutes).h), Number(secondsToTime(formModel.maxOtMinutes).m)
-        ),
-        minStart: new TuiTime(
-          Number(secondsToTime(formModel.minStart).h), Number(secondsToTime(formModel.minStart).m)
-        ),
-        checkOut: new TuiTime(
-          Number(secondsToTime(this.dataChecking$).h), Number(secondsToTime(this.dataChecking$).m)
-        )
-      }
-      formModel.items.forEach(function (res: any) {
-        if (res.weekDayId === 1) {
-          jsonEditData.applyFor.day1 = res.values[0].minOtHours > 0 ? true : false;
-        }
-        if (res.weekDayId === 2) {
-          jsonEditData.applyFor.day2 = res.values[0].minOtHours > 0 ? true : false;
-        }
-        if (res.weekDayId === 3) {
-          jsonEditData.applyFor.day3 = res.values[0].minOtHours > 0 ? true : false;
-        }
-        if (res.weekDayId === 4) {
-          jsonEditData.applyFor.day4 = res.values[0].minOtHours > 0 ? true : false;
-        }
-        if (res.weekDayId === 5) {
-          jsonEditData.applyFor.day5 = res.values[0].minOtHours > 0 ? true : false;
-        }
-        if (res.weekDayId === 6) {
-          jsonEditData.applyFor.day6 = res.values[0].minOtHours > 0 ? true : false;
-        }
-        if (res.weekDayId === 7) {
-          jsonEditData.applyFor.day7 = res.values[0].minOtHours > 0 ? true : false;
-        }
-      });
-
-      // console.log(JSON.stringify(jsonEditData));
-
-      this.model = {...this.model, ...jsonEditData};
-    })
+    });
+    this.request$.pipe(filter(isPresent), takeUntil(this.destroy$)).subscribe((data) => this.patchFormValue(data));
   }
 
   onSubmit(): void {
-    const formModel = {...this.form.value};
+    const formModel = { ...this.form.value };
     formModel.minStart = (formModel?.minStart as TuiTime).toAbsoluteMilliseconds().valueOf() / 1000;
     formModel.minOtHours = (formModel?.minOtHours as TuiTime).toAbsoluteMilliseconds().valueOf() / 1000;
     formModel.maxOtHours = (formModel?.maxOtHours as TuiTime).toAbsoluteMilliseconds().valueOf() / 1000;
@@ -377,56 +343,59 @@ export class OvertimeWorkingComponent implements OnInit {
     ];
     for (let i = 1; i <= 7; i++) {
       const m: number = i - 1;
-      if (dayKey[m] == true) {
+      if (dayKey[m]) {
         overtimeData.push({
           weekDayId: i,
-          values: [{
-            minOtHours: formModel.applyFor.dayDefault === true ? 0 : parseInt(formModel.minOtHours),
-            maxOtHours: formModel.applyFor.dayDefault === true ? 0 : parseInt(formModel.maxOtHours),
-            minOtMinutes: formModel.applyFor.dayDefault === true ? 0 : parseInt(formModel.minOtMinutes),
-            maxOtMinutes: formModel.applyFor.dayDefault === true ? 0 : parseInt(formModel.maxOtMinutes),
-            minStart: formModel.applyFor.dayDefault === true ? 0 : parseInt(formModel.minStart),
-            otBreakHours:
-              formModel.applyFor.dayDefault === true || formModel.weekendOt !== true
-                ? 0 : parseInt(formModel.otBreakHours)
-          }],
+          values: [
+            {
+              minOtHours: formModel.applyFor.dayDefault ? 0 : parseInt(formModel.minOtHours),
+              maxOtHours: formModel.applyFor.dayDefault ? 0 : parseInt(formModel.maxOtHours),
+              minOtMinutes: formModel.applyFor.dayDefault ? 0 : parseInt(formModel.minOtMinutes),
+              maxOtMinutes: formModel.applyFor.dayDefault ? 0 : parseInt(formModel.maxOtMinutes),
+              minStart: formModel.applyFor.dayDefault ? 0 : parseInt(formModel.minStart),
+              otBreakHours:
+                formModel.applyFor.dayDefault || !formModel.weekendOt ? 0 : parseInt(formModel.otBreakHours),
+            },
+          ],
         });
       } else {
         overtimeData.push({
           weekDayId: i,
-          values: [{
-            "minOtHours": 0,
-            "maxOtHours": 0,
-            "minOtMinutes": 0,
-            "maxOtMinutes": 0,
-            "otBreakHours": 0,
-            "minStart": 0
-          }],
+          values: [
+            {
+              minOtHours: 0,
+              maxOtHours: 0,
+              minOtMinutes: 0,
+              maxOtMinutes: 0,
+              otBreakHours: 0,
+              minStart: 0,
+            },
+          ],
         });
       }
     }
 
-
     this.workingAfterTimeElement = {
       orgId: formModel.orgId,
       fingerPrint: true,
-      minOtHours: formModel.applyFor.dayDefault === true ? 0 : parseInt(formModel.minOtHours),
-      maxOtHours: formModel.applyFor.dayDefault === true ? 0 : parseInt(formModel.maxOtHours),
-      minOtMinutes: formModel.applyFor.dayDefault === true ? 0 : parseInt(formModel.minOtMinutes),
-      maxOtMinutes: formModel.applyFor.dayDefault === true ? 0 : parseInt(formModel.maxOtMinutes),
-      otBreakHours: formModel.applyFor.dayDefault === true ? 0 : parseInt(formModel.otBreakHours),
-      minStart: formModel.applyFor.dayDefault === true ? 0 : parseInt(formModel.minStart),
+      minOtHours: formModel.applyFor.dayDefault ? 0 : parseInt(formModel.minOtHours),
+      maxOtHours: formModel.applyFor.dayDefault ? 0 : parseInt(formModel.maxOtHours),
+      minOtMinutes: formModel.applyFor.dayDefault ? 0 : parseInt(formModel.minOtMinutes),
+      maxOtMinutes: formModel.applyFor.dayDefault ? 0 : parseInt(formModel.maxOtMinutes),
+      otBreakHours: formModel.applyFor.dayDefault ? 0 : parseInt(formModel.otBreakHours),
+      minStart: formModel.applyFor.dayDefault ? 0 : parseInt(formModel.minStart),
       items: overtimeData,
     };
-    // console.log(JSON.stringify(this.workingAfterTimeElement));
+    console.log(JSON.stringify(this.workingAfterTimeElement));
 
     if (this.overtimeWorkingId) {
       this.workingAfterTimeElement.id = this.overtimeWorkingId;
     }
 
-    this.WorkingTimesService.submitWorkingAfterTime(this.workingAfterTimeElement)
+    this.workingTimesService
+      .submitWorkingAfterTime(this.workingAfterTimeElement)
       .pipe(
-        mapTo({icon: 'success', text: 'Update Working After Time Successfully!'} as SweetAlertOptions),
+        mapTo({ icon: 'success', text: 'Update Working After Time Successfully!' } as SweetAlertOptions),
         takeUntil(this.destroy$),
         catchError((err) =>
           of({
@@ -440,6 +409,75 @@ export class OvertimeWorkingComponent implements OnInit {
         filter((result) => result.isConfirmed),
         takeUntil(this.destroy$)
       )
-      .subscribe(() => this.router.navigate(['../..'], {relativeTo: this.activatedRoute}));
+      .subscribe(() => this.router.navigate(['../..'], { relativeTo: this.activatedRoute }));
+  }
+
+  private patchFormValue(formModel: any): void {
+    this.overtimeWorkingId = formModel?.id;
+    const jsonEditData = {
+      applyFor: {
+        dayDefault: false,
+        day1: false,
+        day2: true,
+        day3: true,
+        day4: true,
+        day5: true,
+        day6: true,
+        day7: false,
+      },
+      orgId: this.myOrgId,
+      otBreakHours: new TuiTime(
+        Number(secondsToTime(formModel.otBreakHours).h),
+        Number(secondsToTime(formModel.otBreakHours).m)
+      ),
+      workOtType: Math.floor(formModel.otBreakHours / 3600) >= 1 ? 1 : 2,
+      fingerPrint: formModel.fingerPrint,
+      weekendOt: formModel.otBreakHours > 0,
+      maxOtHours: new TuiTime(
+        Number(secondsToTime(formModel.maxOtHours).h),
+        Number(secondsToTime(formModel.maxOtHours).m)
+      ),
+      minOtHours: new TuiTime(
+        Number(secondsToTime(formModel.minOtHours).h),
+        Number(secondsToTime(formModel.minOtHours).m)
+      ),
+      minOtMinutes: new TuiTime(
+        Number(secondsToTime(formModel.minOtMinutes).h),
+        Number(secondsToTime(formModel.minOtMinutes).m)
+      ),
+      maxOtMinutes: new TuiTime(
+        Number(secondsToTime(formModel.maxOtMinutes).h),
+        Number(secondsToTime(formModel.maxOtMinutes).m)
+      ),
+      minStart: new TuiTime(Number(secondsToTime(formModel.minStart).h), Number(secondsToTime(formModel.minStart).m)),
+      checkOut: new TuiTime(Number(secondsToTime(this.dataChecking$).h), Number(secondsToTime(this.dataChecking$).m)),
+    };
+    formModel.items.forEach(function (res: any) {
+      if (res.weekDayId === 1) {
+        jsonEditData.applyFor.day1 = res.values[0].minOtHours > 0;
+      }
+      if (res.weekDayId === 2) {
+        jsonEditData.applyFor.day2 = res.values[0].minOtHours > 0;
+      }
+      if (res.weekDayId === 3) {
+        jsonEditData.applyFor.day3 = res.values[0].minOtHours > 0;
+      }
+      if (res.weekDayId === 4) {
+        jsonEditData.applyFor.day4 = res.values[0].minOtHours > 0;
+      }
+      if (res.weekDayId === 5) {
+        jsonEditData.applyFor.day5 = res.values[0].minOtHours > 0;
+      }
+      if (res.weekDayId === 6) {
+        jsonEditData.applyFor.day6 = res.values[0].minOtHours > 0;
+      }
+      if (res.weekDayId === 7) {
+        jsonEditData.applyFor.day7 = res.values[0].minOtHours > 0;
+      }
+    });
+
+    // console.log(JSON.stringify(jsonEditData));
+
+    this.model = { ...this.model, ...jsonEditData };
   }
 }
