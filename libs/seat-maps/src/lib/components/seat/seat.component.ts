@@ -28,7 +28,7 @@ export class SeatComponent {
   model: Partial<Seat> = {};
   readonly fields: FormlyFieldConfig[] = [
     {
-      key: 'assignedUser.id',
+      key: 'assignedUser',
       type: 'combo-box',
       templateOptions: {
         required: true,
@@ -38,7 +38,7 @@ export class SeatComponent {
         subLabelProp: 'code',
         stringify: (item: UserDto) => item.username,
         serverRequest: (search: string): Observable<Partial<UserDto>[]> =>
-          this.seatMapsService.select('users').pipe(map((users) => filterBySearch<UserDto>(users, search, 'username'))),
+          this.seatMapsService.select('users').pipe(map((users) => filterBySearch<UserDto>(users, search, 'username')))
       },
     },
   ];
