@@ -12,8 +12,8 @@ export class OverviewService {
 
   constructor(private httpClient: HttpClient) {}
 
-  checkIn(dto: CheckingTime): Observable<CheckingTime> {
-    return this.httpClient.post<CheckingTime>(this.appVersion + `/check-in`, dto);
+  checkIn(dto: CheckingTime, idChecking: string): Observable<CheckingTime> {
+    return this.httpClient.put<CheckingTime>(this.appVersion + `/check-in/` + idChecking, dto);
   }
 
   checkOut(dto: CheckingTime, idChecking: string): Observable<CheckingTime> {

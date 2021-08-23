@@ -56,14 +56,14 @@ export class OverviewComponent implements OnInit {
   checkingStatus() {
     this.myWorkingHour.timeToday = new Date();
     this.overviewService.statusChecking().subscribe((item) => {
-      if (item.data?.items.length > 0) {
+      if (item.data?.items.length > 0 && item.data?.items[0].inTime > 0) {
         // show check-out button
         this.checkingAction = 'checked-out';
-        this.idChecking = item.data?.items[0]?.id;
-        if (item.data?.items[0]?.inTime) {
+        this.idChecking = item?.data?.items[0]?.id;
+        if (item?.data?.items[0]?.inTime) {
           this.myWorkingHour.inTimeToday = item.data?.items[0]?.inTime;
         }
-        if (item.data?.items[0]?.outTime) {
+        if (item?.data?.items[0]?.outTime) {
           this.myWorkingHour.outTimeToday = item.data?.items[0]?.outTime;
         }
       } else {
@@ -99,7 +99,10 @@ export class OverviewComponent implements OnInit {
       item.data.items.forEach((res: any) => {
         if (res.weekDayId === new Date().getDay() + 1) {
           const checkInOutStart = res.values;
-          if (this.nowInMiliseconds < checkInOutStart[0].from || this.nowInMiliseconds > (checkInOutStart[checkInOutStart.length - 1]).to) {
+          if (
+            this.nowInMiliseconds < checkInOutStart[0].from ||
+            this.nowInMiliseconds > checkInOutStart[checkInOutStart.length - 1].to
+          ) {
             this.fingerCheck = false;
             this.checkingBtn = false;
           }
@@ -124,14 +127,17 @@ export class OverviewComponent implements OnInit {
       this.dataChecking.checkinFrom = 'web-app';
       this.dataChecking.inTime = this.nowInMiliseconds;
       this.overviewService
-        .checkIn(this.dataChecking)
+        .checkIn(this.dataChecking, this.idChecking)
         .pipe(
-          mapTo({ icon: 'success', text: 'Check In Successfully!' } as SweetAlertOptions),
+          mapTo({
+            icon: 'success',
+            text: this.translocoService.translate(`WORKING_HOUR.CheckoutSuccess`),
+          } as SweetAlertOptions),
           takeUntil(this.destroy$),
           catchError((err) =>
             of({
               icon: 'error',
-              text: err.error.message,
+              text: this.translocoService.translate(`WORKING_HOUR.${err.error.message}`),
               showCancelButton: true,
               showConfirmButton: false,
             } as SweetAlertOptions)
@@ -152,7 +158,10 @@ export class OverviewComponent implements OnInit {
       this.overviewService
         .checkOut(this.dataChecking, this.idChecking)
         .pipe(
-          mapTo({ icon: 'success', text: 'Check Out Successfully!' } as SweetAlertOptions),
+          mapTo({
+            icon: 'success',
+            text: this.translocoService.translate(`WORKING_HOUR.CheckoutSuccess`),
+          } as SweetAlertOptions),
           takeUntil(this.destroy$),
           catchError((err) =>
             of({

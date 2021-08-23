@@ -260,7 +260,12 @@
     "chooseHoliday": "Choose a date",
     "workingDay": "Working days",
     "yesterday": "Yesterday",
-    "today": "Today"
+    "today": "Today",
+    "YOU_HAVE_ALREADY_CHECKED_IN_THANKS_YOU": "You have already checked in! Thanks you",
+    "CHECKIN": "Check in",
+    "CHECKOUT": "Check out",
+    "CheckinSuccess": "Check In Successfully!",
+    "CheckoutSuccess": "Check Out Successfully!"
   },
   "applyFor": "Apply for",
   "officeOnsite": "Office onsite",
