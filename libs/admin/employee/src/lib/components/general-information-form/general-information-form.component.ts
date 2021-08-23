@@ -37,7 +37,7 @@ export class GeneralInformationFormComponent {
             {
               key: 'cif',
               className: 'mt-5 block',
-              type: 'input-number',
+              type: 'input',
               templateOptions: {
                 translate: true,
                 label: 'cifNumber',
@@ -45,6 +45,7 @@ export class GeneralInformationFormComponent {
                 textfieldLabelOutside: true,
                 labelClassName: 'font-semibold',
                 placeholder: 'enterCifNumber',
+                disabled: true,
               },
               hideExpression: `!formState.editMode`,
             },

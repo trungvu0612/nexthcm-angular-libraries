@@ -23,7 +23,7 @@ import { EditEmployeeComponent } from './pages/edit-employee/edit-employee.compo
 import { EmployeeManagementComponent } from './pages/employee-management/employee-management.component';
 import { AdminEmployeeService } from './services/admin-employee.service';
 
-export const adminEmployeeRoutes: Routes = [
+export const ADMIN_EMPLOYEE_ROUTES: Routes = [
   {
     path: '',
     component: LayoutComponent,
@@ -44,7 +44,7 @@ export const adminEmployeeRoutes: Routes = [
 @NgModule({
   imports: [
     CommonModule,
-    RouterModule.forChild(adminEmployeeRoutes),
+    RouterModule.forChild(ADMIN_EMPLOYEE_ROUTES),
     ReactiveFormsModule,
     FormlyModule.forChild({ types: [{ name: 'repeat', component: FormlyRepeatSectionComponent }] }),
     TuiTabsModule,

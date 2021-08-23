@@ -13,13 +13,13 @@
         <hero-icon class="w-6 h-6 tui-space_right-2" name="identification"></hero-icon> {{ t('individual') }}
       </button>
       <button [queryParams]="{ i: 2 }" routerLink="." routerLinkActive tuiTab>
-        <tui-svg class="tui-space_right-2" src="tuiIconCompanyLarge"></tui-svg> {{ t('employeeDuration') }}
+        <tui-svg class="w-6 h-6 tui-space_right-2" src="tuiIconCompanyLarge"></tui-svg> {{ t('employeeDuration') }}
       </button>
       <button [queryParams]="{ i: 3 }" routerLink="." routerLinkActive tuiTab>
         <hero-icon class="w-6 h-6 tui-space_right-2" name="academic-cap"></hero-icon> {{ t('education') }}
       </button>
       <button [queryParams]="{ i: 4 }" routerLink="." routerLinkActive tuiTab>
-        <tui-svg class="tui-space_right-2" src="tuiIconStarLarge"></tui-svg> SHUI
+        <tui-svg class="w-6 h-6 tui-space_right-2" src="tuiIconStarLarge"></tui-svg> SHUI
       </button>
     </tui-tabs>
     <div [ngSwitch]="activeItemIndex" class="mt-5">

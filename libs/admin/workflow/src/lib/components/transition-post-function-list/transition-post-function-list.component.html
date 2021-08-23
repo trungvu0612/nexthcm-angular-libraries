@@ -1,4 +1,4 @@
-<button (click)="onAddPostFunction()" appearance="flat" class="mt-2" size="s" tuiButton>
+<button (click)="onAddPostFunction()" appearance="secondary" class="mt-2" icon="tuiIconPlus" size="s" tuiButton>
   {{ 'addPostFunction' | transloco }}
 </button>
 <ngx-table [columns]="(columns$ | async) || []" [configuration]="configuration" [data]="data"></ngx-table>

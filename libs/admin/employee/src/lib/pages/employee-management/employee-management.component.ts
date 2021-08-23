@@ -8,7 +8,7 @@ import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { BaseComponent, Columns } from 'ngx-easy-table';
 import { from, Observable } from 'rxjs';
-import { filter, map, share, startWith, switchMap, takeUntil } from 'rxjs/operators';
+import { filter, map, share, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { InitEmployeeDialogComponent } from '../../components/init-employee-dialog/init-employee-dialog.component';
 import { EmployeeGeneralInformation } from '../../models';
 import { AdminEmployeeService } from '../../services/admin-employee.service';
@@ -22,6 +22,7 @@ import { AdminEmployeeService } from '../../services/admin-employee.service';
 })
 export class EmployeeManagementComponent extends AbstractServerPaginationTableComponent<EmployeeInfo> {
   @ViewChild('table') table!: BaseComponent;
+
   readonly columns$: Observable<Columns[]> = this.translocoService
     .selectTranslateObject('ADMIN_EMPLOYEE_MANAGEMENT_COLUMNS')
     .pipe(
@@ -66,40 +67,29 @@ export class EmployeeManagementComponent extends AbstractServerPaginationTableCo
       })
       .pipe(
         switchMap((data) => this.adminEmployeesService.initEmployee(data)),
+        tap((res) => this.router.navigate([res.data.id, 'edit'], { relativeTo: this.activatedRoute })),
+        takeUntil(this.destroy$)
+      )
+      .subscribe(this.promptService.handleResponse(''));
+  }
+
+  onRemoveEmployee(id: string): void {
+    from(
+      this.promptService.open({
+        icon: 'question',
+        html: this.translocoService.translate('deleteEmployee'),
+        showCancelButton: true,
+      })
+    )
+      .pipe(
+        filter((result) => result.isConfirmed),
+        switchMap(() => this.adminEmployeesService.removeEmployee(id)),
         takeUntil(this.destroy$)
       )
       .subscribe(
-        this.promptService.handleResponse('initEmployeeSuccessfully', () =>
+        this.promptService.handleResponse('removeEmployeeSuccessfully', () =>
           this.queryParams$.next(this.queryParams$.value)
         )
       );
-  }
-
-  tableEventEmitted(tableEvent: { event: string; value: any }): void {
-    if (tableEvent.event === 'onOrder') {
-      this.queryParams$.next(this.queryParams$.value.set('sort', `${tableEvent.value.key},${tableEvent.value.order}`));
-    }
-  }
-
-  onRemoveEmployee(id?: string): void {
-    if (id) {
-      from(
-        this.promptService.open({
-          icon: 'question',
-          html: this.translocoService.translate('deleteEmployee'),
-          showCancelButton: true,
-        })
-      )
-        .pipe(
-          filter((result) => result.isConfirmed),
-          switchMap(() => this.adminEmployeesService.removeEmployee(id)),
-          takeUntil(this.destroy$)
-        )
-        .subscribe(
-          this.promptService.handleResponse('removeEmployeeSuccessfully', () =>
-            this.queryParams$.next(this.queryParams$.value)
-          )
-        );
-    }
   }
 }

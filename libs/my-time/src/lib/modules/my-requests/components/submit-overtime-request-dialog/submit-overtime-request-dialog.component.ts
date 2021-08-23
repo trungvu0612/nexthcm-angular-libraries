@@ -70,6 +70,7 @@ export class SubmitOvertimeRequestDialogComponent {
         placeholder: 'enterTotalWorkingHours',
         required: true,
         textfieldLabelOutside: true,
+        precision: 1,
       },
     },
     {
