@@ -35,6 +35,8 @@
   "delete": "Xoá",
   "detail": "Chi tiết",
   "createTenant": "Tạo Tenant",
+  "createTenantSuccessfully": "Tạo Tenant thành công",
+  "updateTenantSuccessfully": "Cập nhật Tenant thành công",
   "companyCode": "Mã công ty",
   "companyName": "Tên công ty",
   "deactivate": "Không hoạt động",
@@ -121,7 +123,8 @@
     "differentSource": "Điểm đích và điểm nguồn không được giống nhau.",
     "differentTarget": "Điểm nguồn và điểm đích không được giống nhau.",
     "email": "Địa chỉ email không hợp lệ.",
-    "numeric": "Bạn phải nhập số vào ô này."
+    "numeric": "Bạn phải nhập số vào ô này.",
+    "shortnameExists": "Tên viết tắt này đã tồn tại."
   },
   "initStatus": "Trạng thái ban đầu",
   "initStatusDescription": "Mô tả trạng thái ban đầu",
@@ -274,6 +277,8 @@
   "chooseOfficeOnsite": "Chọn văn phòng làm việc cho khách hàng",
   "companyEmail": "Địa chỉ email công ty",
   "enterCompanyEmail": "Nhập địa chỉ email công ty",
+  "shortname": "Tên viết tắt",
+  "enterShortname": "Nhập tên viết tắt",
   "personalEmail": "Địa chỉ email cá nhân",
   "enterPersonalEmail": "Nhập địa chỉ email cá nhân",
   "phoneNumber": "Số điện thoại",

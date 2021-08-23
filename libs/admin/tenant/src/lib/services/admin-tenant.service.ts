@@ -32,6 +32,10 @@ export class AdminTenantService extends RxState<{ id: string }> {
       .pipe(map((response) => response.data));
   }
 
+  checkShortname(body: Partial<Tenant>): Observable<unknown> {
+    return this.http.post('/accountapp/v1.0/tenants/check-existing', body);
+  }
+
   createTenant(body: Partial<Tenant>): Observable<unknown> {
     return this.http.post('/accountapp/v1.0/tenants', body);
   }

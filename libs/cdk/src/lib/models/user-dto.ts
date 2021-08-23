@@ -107,8 +107,8 @@ export interface Address {
   status: number;
   type: string;
   name: string;
-  children: any[];
 }
+
 export interface UserDto {
   createdDate: number;
   createdBy: string;
