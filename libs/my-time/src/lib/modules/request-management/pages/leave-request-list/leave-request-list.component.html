@@ -12,10 +12,12 @@
           <td>{{ item.employeeDTO.cif }}</td>
           <td class="font-bold uppercase">{{ item.employeeDTO.fullName }}</td>
           <td *tuiLet="item.items as type">
-            <hcm-leave-request-date-range [request]="item"></hcm-leave-request-date-range>
+            <hcm-leave-request-date-range [data]="item"></hcm-leave-request-date-range>
           </td>
           <td>{{ item.leaveType.name }}</td>
-          <td>{{ item.durationInDay }}</td>
+          <td>
+            {{ item.durationInDay ? (item.durationInDay | translocoDecimal: { maximumFractionDigits: 1 }) : '-' }}
+          </td>
           <td>
             <tui-tag
               [value]="'REQUEST_STATUS.' + RequestStatus[item.status] | transloco"

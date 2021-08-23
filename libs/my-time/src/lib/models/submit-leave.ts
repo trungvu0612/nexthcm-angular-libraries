@@ -1,5 +1,5 @@
 import { TuiDay, TuiDayRange, TuiTime } from '@taiga-ui/cdk';
-import { PartialDayType } from './partial-day-type';
+import { PartialDayType } from './requests';
 
 export interface LeaveSubmit {
   leaveTypes?: LeavesRemaining[]; // for form

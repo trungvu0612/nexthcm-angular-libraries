@@ -6,7 +6,7 @@ import { RxState } from '@rx-angular/state';
 import { TuiTime } from '@taiga-ui/cdk';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { DurationHoldsEnum, PartialDaysEnum } from '../enums';
+import { DurationHoldsEnum, PartialDay } from '../enums';
 import { HalfDaysEnum } from '../enums/half-days';
 import {
   DurationValues,
@@ -73,30 +73,30 @@ export class MyLeaveService extends RxState<MyLeaveState> {
     [`${DurationHoldsEnum.SpecialTime}`, 'ONLY_TIME'],
 
     //!==
-    [`${PartialDaysEnum.None}_${PartialDaysEnum.None}`, 'NONE'],
+    [`${PartialDay.None}_${PartialDay.None}`, 'NONE'],
 
-    [`${PartialDaysEnum.AllDays}_${HalfDaysEnum.Morning}`, 'ONLY_MORNING'],
-    [`${PartialDaysEnum.AllDays}_${HalfDaysEnum.Afternoon}`, 'ONLY_AFTERNOON'],
-    [`${PartialDaysEnum.AllDays}_${DurationHoldsEnum.SpecialTime}`, 'ONLY_TIME'],
+    [`${PartialDay.AllDays}_${HalfDaysEnum.Morning}`, 'ONLY_MORNING'],
+    [`${PartialDay.AllDays}_${HalfDaysEnum.Afternoon}`, 'ONLY_AFTERNOON'],
+    [`${PartialDay.AllDays}_${DurationHoldsEnum.SpecialTime}`, 'ONLY_TIME'],
 
-    [`${PartialDaysEnum.StartDayOnly}_${HalfDaysEnum.Morning}`, 'ONLY_MORNING'],
-    [`${PartialDaysEnum.StartDayOnly}_${HalfDaysEnum.Afternoon}`, 'ONLY_AFTERNOON'],
-    [`${PartialDaysEnum.StartDayOnly}_${DurationHoldsEnum.SpecialTime}`, 'ONLY_TIME'],
+    [`${PartialDay.StartDayOnly}_${HalfDaysEnum.Morning}`, 'ONLY_MORNING'],
+    [`${PartialDay.StartDayOnly}_${HalfDaysEnum.Afternoon}`, 'ONLY_AFTERNOON'],
+    [`${PartialDay.StartDayOnly}_${DurationHoldsEnum.SpecialTime}`, 'ONLY_TIME'],
 
-    [`${PartialDaysEnum.EndDayOnly}_${HalfDaysEnum.Morning}`, 'ONLY_MORNING'],
-    [`${PartialDaysEnum.EndDayOnly}_${HalfDaysEnum.Afternoon}`, 'ONLY_AFTERNOON'],
-    [`${PartialDaysEnum.EndDayOnly}_${DurationHoldsEnum.SpecialTime}`, 'ONLY_TIME'],
+    [`${PartialDay.EndDayOnly}_${HalfDaysEnum.Morning}`, 'ONLY_MORNING'],
+    [`${PartialDay.EndDayOnly}_${HalfDaysEnum.Afternoon}`, 'ONLY_AFTERNOON'],
+    [`${PartialDay.EndDayOnly}_${DurationHoldsEnum.SpecialTime}`, 'ONLY_TIME'],
 
-    [`${PartialDaysEnum.StartEndDay}_${HalfDaysEnum.Morning}_${HalfDaysEnum.Morning}`, 'TWO_MORNING'],
-    [`${PartialDaysEnum.StartEndDay}_${HalfDaysEnum.Morning}_${HalfDaysEnum.Afternoon}`, 'MORNING_AFTERNOON'],
-    [`${PartialDaysEnum.StartEndDay}_${HalfDaysEnum.Afternoon}_${HalfDaysEnum.Afternoon}`, 'TWO_AFTERNOON'],
-    [`${PartialDaysEnum.StartEndDay}_${HalfDaysEnum.Afternoon}_${HalfDaysEnum.Morning}`, 'AFTERNOON_MORNING'],
+    [`${PartialDay.StartEndDay}_${HalfDaysEnum.Morning}_${HalfDaysEnum.Morning}`, 'TWO_MORNING'],
+    [`${PartialDay.StartEndDay}_${HalfDaysEnum.Morning}_${HalfDaysEnum.Afternoon}`, 'MORNING_AFTERNOON'],
+    [`${PartialDay.StartEndDay}_${HalfDaysEnum.Afternoon}_${HalfDaysEnum.Afternoon}`, 'TWO_AFTERNOON'],
+    [`${PartialDay.StartEndDay}_${HalfDaysEnum.Afternoon}_${HalfDaysEnum.Morning}`, 'AFTERNOON_MORNING'],
 
-    [`${PartialDaysEnum.StartEndDay}_${HalfDaysEnum.Morning}_${DurationHoldsEnum.SpecialTime}`, 'MORNING_TIME'],
-    [`${PartialDaysEnum.StartEndDay}_${HalfDaysEnum.Afternoon}_${DurationHoldsEnum.SpecialTime}`, 'AFTERNOON_TIME'],
-    [`${PartialDaysEnum.StartEndDay}_${DurationHoldsEnum.SpecialTime}_${HalfDaysEnum.Morning}`, 'TIME_MORNING'],
-    [`${PartialDaysEnum.StartEndDay}_${DurationHoldsEnum.SpecialTime}_${HalfDaysEnum.Afternoon}`, 'TIME_AFTERNOON'],
-    [`${PartialDaysEnum.StartEndDay}_${DurationHoldsEnum.SpecialTime}_${DurationHoldsEnum.SpecialTime}`, 'TIME_TIME'],
+    [`${PartialDay.StartEndDay}_${HalfDaysEnum.Morning}_${DurationHoldsEnum.SpecialTime}`, 'MORNING_TIME'],
+    [`${PartialDay.StartEndDay}_${HalfDaysEnum.Afternoon}_${DurationHoldsEnum.SpecialTime}`, 'AFTERNOON_TIME'],
+    [`${PartialDay.StartEndDay}_${DurationHoldsEnum.SpecialTime}_${HalfDaysEnum.Morning}`, 'TIME_MORNING'],
+    [`${PartialDay.StartEndDay}_${DurationHoldsEnum.SpecialTime}_${HalfDaysEnum.Afternoon}`, 'TIME_AFTERNOON'],
+    [`${PartialDay.StartEndDay}_${DurationHoldsEnum.SpecialTime}_${DurationHoldsEnum.SpecialTime}`, 'TIME_TIME'],
   ]);
 
   action(leaveSubmit: LeaveSubmit): [] | null {

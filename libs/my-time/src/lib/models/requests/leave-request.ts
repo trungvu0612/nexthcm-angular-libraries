@@ -1,5 +1,5 @@
 import { EmployeeInfo } from '@nexthcm/cdk';
-import { PartialDayType } from '../partial-day-type';
+import { PartialDay } from '../../enums';
 import { BaseRequest } from './base-request';
 
 export interface LeaveRequest extends BaseRequest {
@@ -7,9 +7,9 @@ export interface LeaveRequest extends BaseRequest {
   duration: number;
   fromDate: number;
   toDate: number;
-  partialDayType: PartialDayType;
+  partialDayType?: PartialDayType;
   leaveType: LeaveRequestLeaveType;
-  items: Type[];
+  items: TimeItem[];
   durationInDay: number;
   employeeDTO: EmployeeInfo;
   sendToDTO: EmployeeInfo;
@@ -26,10 +26,17 @@ export interface LeaveRequestLeaveType {
   orgId: string;
 }
 
-export interface Type {
+export interface TimeItem {
   morning?: boolean;
   afternoon?: boolean;
   fullDay?: boolean;
   fromTime?: number;
   toTime?: number;
+}
+
+export interface PartialDayType {
+  id: string;
+  status: number;
+  name: string;
+  type: PartialDay;
 }

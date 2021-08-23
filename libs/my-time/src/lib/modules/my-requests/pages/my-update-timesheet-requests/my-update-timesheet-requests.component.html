@@ -12,7 +12,9 @@
         <td>
           {{ item.updateTotalTime ? (item.updateTotalTime * 1000 | date: 'HH:mm':'UTC') : '-' }}
         </td>
-        <td>{{item.updateWorkingDay ? (item.updateWorkingDay | translocoDecimal) : '-' }}</td>
+        <td>
+          {{ item.updateWorkingDay ? (item.updateWorkingDay | translocoDecimal: { maximumFractionDigits: 1 }) : '-' }}
+        </td>
         <td>
           <tui-tag
             [value]="'REQUEST_STATUS.' + RequestStatus[item.status] | transloco"
