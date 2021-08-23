@@ -41,34 +41,46 @@
         </ng-container>
 
         <div class="relative flex-1">
-          <div class="absolute top-3 right-3 z-50">
-            <tui-island *ngIf="selectedCell$ | async as selectedCell" [hoverable]="true">
-              <h3 class="tui-island__title">{{ selectedCell.name }}</h3>
-              <p *ngIf="selectedCell.description" class="tui-island__paragraph">
-                {{ selectedCell.description }}
+          <div *transloco="let t" class="absolute top-3 right-3 z-50">
+            <tui-island *ngIf="selectedCell$ | async as selectedCell" [hoverable]="true" size="l">
+              <h3 class="tui-island__title">{{ selectedCell.cell.name }}</h3>
+              <p *ngIf="selectedCell.cell.description" class="tui-island__paragraph">
+                {{ selectedCell.cell.description }}
               </p>
-              <ng-container *ngIf="editMode">
-                <p *transloco="let t" class="tui-island__paragraph tui-island__paragraph_link">
+              <p *ngIf="editMode" class="tui-island__paragraph tui-island__paragraph_button flex space-x-2">
+                <button
+                  (click)="onEditCell()"
+                  appearance="secondary"
+                  icon="tuiIconEdit"
+                  size="s"
+                  tuiButton
+                  type="button"
+                >
+                  {{ t('edit') }}
+                </button>
+                <button (click)="onRemoveCell()" appearance="flat" icon="tuiIconTrash" size="s" tuiButton type="button">
+                  {{ t('remove') }}
+                </button>
+              </p>
+              <ng-container *ngIf="selectedCell.type === CellType.Transition">
+                <hr class="mt-6" />
+                <p class="tui-island__paragraph tui-island__paragraph_link">
                   <button
-                    (click)="onEditCell()"
-                    appearance="secondary"
-                    class="mr-3"
-                    icon="tuiIconEdit"
-                    size="s"
-                    tuiButton
+                    (click)="onViewTransitionConditions(selectedCell.cell, TransitionOptionIndex.Conditions)"
                     type="button"
+                    tuiLink
                   >
-                    {{ t('edit') }}
+                    {{ t('conditions') }} ({{ selectedCell.cell.conditions?.length || 0 }})
                   </button>
-                  <button
-                    (click)="onRemoveCell()"
-                    appearance="flat"
-                    icon="tuiIconTrash"
-                    size="s"
-                    tuiButton
-                    type="button"
-                  >
-                    {{ t('remove') }}
+                </p>
+                <p class="tui-island__paragraph tui-island__paragraph_link">
+                  <button tuiLink type="button">
+                    {{ t('validators') }} ({{ selectedCell.cell.validators?.length || 0 }})
+                  </button>
+                </p>
+                <p class="tui-island__paragraph tui-island__paragraph_link">
+                  <button tuiLink type="button">
+                    {{ t('postFunctions') }} ({{ selectedCell.cell.postFunctions?.length || 0 }})
                   </button>
                 </p>
               </ng-container>

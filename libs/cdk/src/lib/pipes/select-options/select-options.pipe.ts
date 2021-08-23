@@ -5,11 +5,11 @@ import { Observable, of } from 'rxjs';
   name: 'selectOptions',
 })
 export class SelectOptionsPipe implements PipeTransform {
-  transform(options: any): Observable<any> {
+  transform<T = any>(options: any): Observable<T> {
     if (!(options instanceof Observable)) {
       options = of(options);
     }
-    return options as Observable<any>;
+    return options as Observable<T>;
   }
 }
 

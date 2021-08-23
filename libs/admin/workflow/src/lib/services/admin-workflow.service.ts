@@ -4,11 +4,15 @@ import { ACCOUNT_API_PATH, BaseResponse, Pagination, PagingResponse } from '@nex
 import { insert, RxState, update } from '@rx-angular/state';
 import { Observable, Subject } from 'rxjs';
 import { map, startWith, switchMap, tap } from 'rxjs/operators';
-import { InitWorkflow, Status, StatusType, Workflow } from '../models';
+import { ConditionType, PostFunctionType, ValidatorType } from '../enums';
+import { InitWorkflow, Status, TransitionOption, Workflow } from '../models';
 
 interface WorkflowState {
-  statusTypes: StatusType[];
+  statusTypes: Status[];
   statuses: Status[];
+  conditionTypes: TransitionOption<ConditionType>[];
+  validatorTypes: TransitionOption<ValidatorType>[];
+  postFunctionTypes: TransitionOption<PostFunctionType>[];
 }
 
 @Injectable()
@@ -20,6 +24,9 @@ export class AdminWorkflowService extends RxState<WorkflowState> {
   constructor(private http: HttpClient) {
     super();
     this.connect('statusTypes', this.getStatusTypes());
+    this.connect('conditionTypes', this.getConditionTypes());
+    this.connect('validatorTypes', this.getValidatorTypes());
+    this.connect('postFunctionTypes', this.getPostFunctionTypes());
     this.connect(
       'statuses',
       this.initStatus$.pipe(
@@ -33,8 +40,8 @@ export class AdminWorkflowService extends RxState<WorkflowState> {
     this.connect('statuses', this.createStatus$, (state, status) => insert(state.statuses, status));
   }
 
-  getStatusTypes(): Observable<StatusType[]> {
-    return this.http.get<StatusType[]>(`${ACCOUNT_API_PATH}/states/types`);
+  getStatusTypes(): Observable<Status[]> {
+    return this.http.get<Status[]>(`${ACCOUNT_API_PATH}/states/types`);
   }
 
   getWorkflow(workflowId: string): Observable<Workflow> {
@@ -79,5 +86,17 @@ export class AdminWorkflowService extends RxState<WorkflowState> {
       map((res) => res.data),
       tap(() => this.updateStatus$.next(payload))
     );
+  }
+
+  getConditionTypes(): Observable<TransitionOption<ConditionType>[]> {
+    return this.http.get<TransitionOption<ConditionType>[]>(`${ACCOUNT_API_PATH}/conditions/types`);
+  }
+
+  getValidatorTypes(): Observable<TransitionOption<ValidatorType>[]> {
+    return this.http.get<TransitionOption<ValidatorType>[]>(`${ACCOUNT_API_PATH}/validators/types`);
+  }
+
+  getPostFunctionTypes(): Observable<TransitionOption<PostFunctionType>[]> {
+    return this.http.get<TransitionOption<PostFunctionType>[]>(`${ACCOUNT_API_PATH}/pfs/types`);
   }
 }

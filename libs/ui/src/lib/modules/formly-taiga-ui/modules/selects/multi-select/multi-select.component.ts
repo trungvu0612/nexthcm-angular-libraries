@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FieldType } from '@ngx-formly/core';
-import { TuiIdentityMatcher } from '@taiga-ui/cdk/types';
 import { TUI_DEFAULT_IDENTITY_MATCHER } from '@taiga-ui/cdk';
+import { TuiIdentityMatcher } from '@taiga-ui/cdk/types';
 
 @Component({
   selector: 'formly-multi-select',
@@ -19,8 +19,8 @@ export class MultiSelectComponent extends FieldType {
     },
   };
 
-  readonly matcher: { [p: string]: TuiIdentityMatcher<unknown> } = {
+  readonly matcher: { [p: string]: TuiIdentityMatcher<any> } = {
     default: TUI_DEFAULT_IDENTITY_MATCHER,
-    id: (i1: any, i2: any) => i1.id === i2.id,
+    id: (i1, i2) => i1.id === i2.id,
   };
 }

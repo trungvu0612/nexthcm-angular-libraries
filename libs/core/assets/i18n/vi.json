@@ -529,8 +529,13 @@
     "wfh": "Yêu cầu làm tại nha"
   },
   "fullDay": "Nguyên ngày",
-  "halfDay": "Nữa ngày",
-  "allHalfDay": "Tất cả nữa ngày",
+  "halfDay": "Nửa ngày",
+  "allHalfDay": "Toàn bộ nửa ngày",
   "created": "tạo một",
-  "updatedStatusTo": "cập nhật trạng thái"
+  "updatedStatusTo": "cập nhật trạng thái",
+  "WORKFLOW_TRANSITION_OPTION_COLUMNS": {
+    "name": "Tên",
+    "description": "Mô tả",
+    "functions": "Chức năng"
+  }
 }

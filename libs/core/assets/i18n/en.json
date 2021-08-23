@@ -547,5 +547,10 @@
   "halfDay": "Half day",
   "allHalfDay": "All half day",
   "created": "Created a",
-  "updatedStatusTo": "Updated status to"
+  "updatedStatusTo": "Updated status to",
+  "WORKFLOW_TRANSITION_OPTION_COLUMNS": {
+    "name": "Name",
+    "description": "Description",
+    "functions": "Functions"
+  }
 }

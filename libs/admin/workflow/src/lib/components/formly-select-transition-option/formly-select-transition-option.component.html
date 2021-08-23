@@ -1,0 +1,11 @@
+<ngx-table #table [columns]="(columns$ | async) || []" [configuration]="configuration" [data]="data">
+  <ng-template let-row>
+    <ng-container *tuiLet="item(row) as item">
+      <td>
+        <tui-radio [formControl]="$any(formControl)" [identityMatcher]="identityMatcher" [item]="item"></tui-radio>
+      </td>
+      <td>{{ item.name }}</td>
+      <td>{{ item.description | transloco }}</td>
+    </ng-container>
+  </ng-template>
+</ngx-table>

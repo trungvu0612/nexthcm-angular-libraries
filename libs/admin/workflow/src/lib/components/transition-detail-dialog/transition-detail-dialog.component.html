@@ -1,0 +1,19 @@
+<section *rxLet="state$; let state">
+  <tui-tabs *transloco="let t" [(activeItemIndex)]="activeItemIndex">
+    <button tuiTab>
+      {{ t('conditions') }}<tui-badge [value]="state.conditions?.length || 0" class="ml-2"></tui-badge>
+    </button>
+    <button tuiTab>
+      {{ t('validators') }}<tui-badge [value]="state.validators?.length || 0" class="ml-2"></tui-badge>
+    </button>
+    <button tuiTab>
+      {{ t('postFunctions') }}<tui-badge [value]="state.postFunctions?.length || 0" class="ml-2"></tui-badge>
+    </button>
+  </tui-tabs>
+  <div [ngSwitch]="activeItemIndex">
+    <hcm-transition-condition-list
+      *ngSwitchCase="TransitionOptionIndex.Conditions"
+      [data]="state.conditions || []"
+    ></hcm-transition-condition-list>
+  </div>
+</section>

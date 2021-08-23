@@ -4,14 +4,14 @@ import { BaseOption, PromptService } from '@nexthcm/cdk';
 import { FormBuilder } from '@ngneat/reactive-forms';
 import { HashMap, TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import { TuiDestroyService, TuiTime } from '@taiga-ui/cdk';
+import { TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
+import { endOfDay, getTime, hoursToSeconds } from 'date-fns';
 import { map, takeUntil, tap } from 'rxjs/operators';
 import { WorkingAfterHoursType } from '../../../../enums';
 import { SubmitRequestPayload } from '../../../../models';
 import { MyTimeService, RequestTypeAPIUrlPath } from '../../../../services';
-import { endOfDay, getTime } from 'date-fns';
 
 @Component({
   selector: 'hcm-submit-overtime-request-dialog',
@@ -62,7 +62,7 @@ export class SubmitOvertimeRequestDialogComponent {
     {
       key: 'duration',
       className: 'tui-form__row block',
-      type: 'input-time',
+      type: 'input-number',
       templateOptions: {
         translate: true,
         label: 'totalWorkingTimeH',
@@ -116,7 +116,7 @@ export class SubmitOvertimeRequestDialogComponent {
       if (formModel.fromTo) {
         formModel.fromDate = getTime(formModel.fromTo.from.toLocalNativeDate());
         formModel.toDate = getTime(endOfDay(formModel.fromTo.to.toLocalNativeDate()));
-        formModel.duration = (formModel?.duration as TuiTime).toAbsoluteMilliseconds().valueOf() / 1000;
+        formModel.duration = hoursToSeconds(formModel.duration || 0);
       }
       delete formModel.fromTo;
       this.myTimeService

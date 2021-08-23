@@ -15,16 +15,29 @@ import {
   TuiDropdownControllerModule,
   TuiHostedDropdownModule,
   TuiLabelModule,
+  TuiLinkModule,
   TuiLoaderModule,
   TuiTextfieldControllerModule,
 } from '@taiga-ui/core';
-import { TuiCheckboxModule, TuiComboBoxModule, TuiDataListWrapperModule, TuiIslandModule } from '@taiga-ui/kit';
+import {
+  TuiBadgeModule,
+  TuiCheckboxModule,
+  TuiComboBoxModule,
+  TuiDataListWrapperModule,
+  TuiIslandModule,
+  TuiRadioModule,
+  TuiTabsModule,
+} from '@taiga-ui/kit';
 import { TableModule } from 'ngx-easy-table';
 import { NgxPermissionsGuard } from 'ngx-permissions';
 import { AdminWorkflowComponent } from './admin-workflow.component';
+import { AddConditionToTransitionDialogComponent } from './components/add-condition-to-transition-dialog/add-condition-to-transition-dialog.component';
 import { AddStatusDropdownButtonComponent } from './components/add-status-button-dropdown/add-status-dropdown-button.component';
 import { InitWorkflowDialogComponent } from './components/create-workflow-dialog/init-workflow-dialog.component';
+import { FormlySelectTransitionOptionComponent } from './components/formly-select-transition-option/formly-select-transition-option.component';
 import { StatusComboboxComponent } from './components/status-combobox/status-combobox.component';
+import { TransitionConditionListComponent } from './components/transition-condition-list/transition-condition-list.component';
+import { TransitionDetailDialogComponent } from './components/transition-detail-dialog/transition-detail-dialog.component';
 import { UpsertStatusDialogComponent } from './components/upsert-status-dialog/upsert-status-dialog.component';
 import { UpsertTransitionDialogComponent } from './components/upsert-transition-dialog/upsert-transition-dialog.component';
 import { UpsertWorkflowComponent } from './pages/upsert-workflow/upsert-workflow.component';
@@ -65,7 +78,14 @@ export const ADMIN_PROCESSES_ROUTES: Routes = [
     TuiIslandModule,
     ReactiveFormsModule,
     FormlyModule.forChild({
-      types: [{ name: 'status-combobox', component: StatusComboboxComponent, wrappers: ['form-field'] }],
+      types: [
+        { name: 'status-combobox', component: StatusComboboxComponent, wrappers: ['form-field'] },
+        {
+          name: 'select-transition-option',
+          component: FormlySelectTransitionOptionComponent,
+          wrappers: ['form-field'],
+        },
+      ],
     }),
     LayoutModule,
     TableModule,
@@ -85,6 +105,10 @@ export const ADMIN_PROCESSES_ROUTES: Routes = [
     TuiDataListModule,
     TuiTextfieldControllerModule,
     TuiDropdownControllerModule,
+    TuiLinkModule,
+    TuiTabsModule,
+    TuiBadgeModule,
+    TuiRadioModule,
   ],
   declarations: [
     AdminWorkflowComponent,
@@ -95,6 +119,10 @@ export const ADMIN_PROCESSES_ROUTES: Routes = [
     InitWorkflowDialogComponent,
     AddStatusDropdownButtonComponent,
     StatusComboboxComponent,
+    TransitionDetailDialogComponent,
+    TransitionConditionListComponent,
+    AddConditionToTransitionDialogComponent,
+    FormlySelectTransitionOptionComponent,
   ],
   providers: [AdminWorkflowService],
 })

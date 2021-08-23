@@ -6,7 +6,13 @@ import { RxwebValidators } from '@rxweb/reactive-form-validators';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { v4 as uuidv4 } from 'uuid';
-import { Transition } from '../../models';
+import {
+  Transition,
+  TransitionCondition,
+  TransitionPostFunction,
+  TransitionValidator,
+  UpsertTransitionData,
+} from '../../models';
 
 @Component({
   selector: 'hcm-upsert-transition-dialog',
@@ -21,13 +27,13 @@ export class UpsertTransitionDialogComponent implements OnInit {
       isNew: true,
     },
   };
-  model: Transition = {
-    id: uuidv4(),
-    name: '',
-    toStateId: '',
-  };
+  model = {
+    conditions: new Array<TransitionCondition>(),
+    validators: new Array<TransitionValidator>(),
+    postFunctions: new Array<TransitionPostFunction>(),
+  } as Transition;
   fields: FormlyFieldConfig[] = [
-    { key: 'id' },
+    { key: 'id', defaultValue: uuidv4() },
     {
       className: 'tui-form__row block',
       key: 'fromStateId',
@@ -36,9 +42,10 @@ export class UpsertTransitionDialogComponent implements OnInit {
         translate: true,
         label: 'fromStatus',
         labelClassName: 'font-semibold',
-        options: this.data.states,
+        options: this.data.addedStatuses,
         labelProp: 'name',
         valueProp: 'id',
+        matcherBy: 'id',
       },
       hideExpression: '!formState.isNew',
       validators: {
@@ -59,9 +66,10 @@ export class UpsertTransitionDialogComponent implements OnInit {
         required: true,
         label: 'toStatus',
         labelClassName: 'font-semibold',
-        options: this.data.states,
+        options: this.data.addedStatuses,
         labelProp: 'name',
         valueProp: 'id',
+        matcherBy: 'id',
       },
       hideExpression: '!formState.isNew',
       validators: {
@@ -100,11 +108,11 @@ export class UpsertTransitionDialogComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<Transition, any>,
+    @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<Transition, UpsertTransitionData>,
     private translocoService: TranslocoService
   ) {}
 
-  get data(): any {
+  get data(): UpsertTransitionData {
     return this.context.data;
   }
 
