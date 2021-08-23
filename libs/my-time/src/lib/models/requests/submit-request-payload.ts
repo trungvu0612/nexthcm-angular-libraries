@@ -6,7 +6,7 @@ export interface SubmitRequestPayload {
   toDate: number | TuiDay;
   comment: string;
   userId?: string;
-  duration?: any;
+  duration?: number;
   sendTo?: string;
   reason?: string;
   fromTo?: TuiDayRange;

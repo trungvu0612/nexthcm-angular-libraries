@@ -1,2 +1,4 @@
-<button (click)="onAddCondition()" appearance="flat" tuiButton>{{ 'addCondition' | transloco }}</button>
+<button (click)="onAddCondition()" appearance="flat" class="mt-2" size="s" tuiButton>
+  {{ 'addCondition' | transloco }}
+</button>
 <ngx-table [columns]="(columns$ | async) || []" [configuration]="configuration" [data]="data"></ngx-table>

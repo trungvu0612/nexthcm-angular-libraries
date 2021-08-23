@@ -5,18 +5,17 @@ import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { takeUntil } from 'rxjs/operators';
 import { AbstractTransitionOptionListComponent } from '../../abstract-components/abstract-transition-option-list.component';
-import { TransitionCondition } from '../../models';
-import { AddConditionToTransitionDialogComponent } from '../add-condition-to-transition-dialog/add-condition-to-transition-dialog.component';
+import { TransitionPostFunction } from '../../models';
+import { AddPostFunctionToTransitionDialogComponent } from '../add-post-function-to-transition-dialog/add-post-function-to-transition-dialog.component';
 
 @Component({
-  selector: 'hcm-transition-condition-list',
-  templateUrl: './transition-condition-list.component.html',
-  styleUrls: ['./transition-condition-list.component.scss'],
+  selector: 'hcm-transition-post-function-list',
+  templateUrl: './transition-post-function-list.component.html',
+  styleUrls: ['./transition-post-function-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [TuiDestroyService],
 })
-export class TransitionConditionListComponent extends AbstractTransitionOptionListComponent<TransitionCondition> {
-  @Input() data: TransitionCondition[] = [];
+export class TransitionPostFunctionListComponent extends AbstractTransitionOptionListComponent<TransitionPostFunction> {
+  @Input() data: TransitionPostFunction[] = [];
 
   constructor(
     readonly translocoService: TranslocoService,
@@ -27,9 +26,9 @@ export class TransitionConditionListComponent extends AbstractTransitionOptionLi
     super(translocoService);
   }
 
-  onAddCondition(): void {
+  onAddPostFunction(): void {
     this.dialogService
-      .open(new PolymorpheusComponent(AddConditionToTransitionDialogComponent, this.injector), { size: 'l' })
+      .open(new PolymorpheusComponent(AddPostFunctionToTransitionDialogComponent, this.injector), { size: 'l' })
       .pipe(takeUntil(this.destroy$))
       .subscribe();
   }

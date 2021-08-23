@@ -5,18 +5,17 @@ import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { takeUntil } from 'rxjs/operators';
 import { AbstractTransitionOptionListComponent } from '../../abstract-components/abstract-transition-option-list.component';
-import { TransitionCondition } from '../../models';
-import { AddConditionToTransitionDialogComponent } from '../add-condition-to-transition-dialog/add-condition-to-transition-dialog.component';
+import { TransitionValidator } from '../../models';
+import { AddValidatorToTransitionDialogComponent } from '../add-validator-to-transition-dialog/add-validator-to-transition-dialog.component';
 
 @Component({
-  selector: 'hcm-transition-condition-list',
-  templateUrl: './transition-condition-list.component.html',
-  styleUrls: ['./transition-condition-list.component.scss'],
+  selector: 'hcm-transition-validator-list',
+  templateUrl: './transition-validator-list.component.html',
+  styleUrls: ['./transition-validator-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [TuiDestroyService],
 })
-export class TransitionConditionListComponent extends AbstractTransitionOptionListComponent<TransitionCondition> {
-  @Input() data: TransitionCondition[] = [];
+export class TransitionValidatorListComponent extends AbstractTransitionOptionListComponent<TransitionValidator> {
+  @Input() data: TransitionValidator[] = [];
 
   constructor(
     readonly translocoService: TranslocoService,
@@ -27,9 +26,9 @@ export class TransitionConditionListComponent extends AbstractTransitionOptionLi
     super(translocoService);
   }
 
-  onAddCondition(): void {
+  onAddValidator(): void {
     this.dialogService
-      .open(new PolymorpheusComponent(AddConditionToTransitionDialogComponent, this.injector), { size: 'l' })
+      .open(new PolymorpheusComponent(AddValidatorToTransitionDialogComponent, this.injector), { size: 'l' })
       .pipe(takeUntil(this.destroy$))
       .subscribe();
   }

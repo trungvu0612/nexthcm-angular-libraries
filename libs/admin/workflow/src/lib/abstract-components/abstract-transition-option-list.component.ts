@@ -1,11 +1,11 @@
-import { Directive } from '@angular/core';
+import { Directive, OnInit } from '@angular/core';
 import { HashMap, TranslocoService } from '@ngneat/transloco';
 import { Columns, Config, DefaultConfig } from 'ngx-easy-table';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Directive()
-export abstract class AbstractTransitionOptionListComponent<T> {
+export abstract class AbstractTransitionOptionListComponent<T> implements OnInit {
   data!: T[];
 
   configuration: Config = {
@@ -25,6 +25,10 @@ export abstract class AbstractTransitionOptionListComponent<T> {
     );
 
   protected constructor(readonly translocoService: TranslocoService) {}
+
+  ngOnInit(): void {
+    this.setTableRowsAmount();
+  }
 
   setTableRowsAmount(): void {
     this.configuration.rows = this.data?.length || 0;

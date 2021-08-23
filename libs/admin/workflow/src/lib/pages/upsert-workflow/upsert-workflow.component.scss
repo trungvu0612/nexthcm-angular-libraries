@@ -4,4 +4,10 @@
   .workflow-designer-container {
     height: 640px;
   }
+
+  ::ng-deep {
+    .tui-island_hoverable {
+      @apply cursor-auto;
+    }
+  }
 }

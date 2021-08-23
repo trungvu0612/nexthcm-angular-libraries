@@ -32,12 +32,16 @@ import { TableModule } from 'ngx-easy-table';
 import { NgxPermissionsGuard } from 'ngx-permissions';
 import { AdminWorkflowComponent } from './admin-workflow.component';
 import { AddConditionToTransitionDialogComponent } from './components/add-condition-to-transition-dialog/add-condition-to-transition-dialog.component';
+import { AddPostFunctionToTransitionDialogComponent } from './components/add-post-function-to-transition-dialog/add-post-function-to-transition-dialog.component';
 import { AddStatusDropdownButtonComponent } from './components/add-status-button-dropdown/add-status-dropdown-button.component';
+import { AddValidatorToTransitionDialogComponent } from './components/add-validator-to-transition-dialog/add-validator-to-transition-dialog.component';
 import { InitWorkflowDialogComponent } from './components/create-workflow-dialog/init-workflow-dialog.component';
 import { FormlySelectTransitionOptionComponent } from './components/formly-select-transition-option/formly-select-transition-option.component';
 import { StatusComboboxComponent } from './components/status-combobox/status-combobox.component';
 import { TransitionConditionListComponent } from './components/transition-condition-list/transition-condition-list.component';
 import { TransitionDetailDialogComponent } from './components/transition-detail-dialog/transition-detail-dialog.component';
+import { TransitionPostFunctionListComponent } from './components/transition-post-function-list/transition-post-function-list.component';
+import { TransitionValidatorListComponent } from './components/transition-validator-list/transition-validator-list.component';
 import { UpsertStatusDialogComponent } from './components/upsert-status-dialog/upsert-status-dialog.component';
 import { UpsertTransitionDialogComponent } from './components/upsert-transition-dialog/upsert-transition-dialog.component';
 import { UpsertWorkflowComponent } from './pages/upsert-workflow/upsert-workflow.component';
@@ -123,6 +127,10 @@ export const ADMIN_PROCESSES_ROUTES: Routes = [
     TransitionConditionListComponent,
     AddConditionToTransitionDialogComponent,
     FormlySelectTransitionOptionComponent,
+    AddValidatorToTransitionDialogComponent,
+    AddPostFunctionToTransitionDialogComponent,
+    TransitionValidatorListComponent,
+    TransitionPostFunctionListComponent,
   ],
   providers: [AdminWorkflowService],
 })

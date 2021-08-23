@@ -15,5 +15,13 @@
       *ngSwitchCase="TransitionOptionIndex.Conditions"
       [data]="state.conditions || []"
     ></hcm-transition-condition-list>
+    <hcm-transition-validator-list
+      *ngSwitchCase="TransitionOptionIndex.Validators"
+      [data]="state.validators || []"
+    ></hcm-transition-validator-list>
+    <hcm-transition-post-function-list
+      *ngSwitchCase="TransitionOptionIndex.PostFunctions"
+      [data]="state.postFunctions || []"
+    ></hcm-transition-post-function-list>
   </div>
 </section>

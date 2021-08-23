@@ -74,12 +74,20 @@
                   </button>
                 </p>
                 <p class="tui-island__paragraph tui-island__paragraph_link">
-                  <button tuiLink type="button">
+                  <button
+                    (click)="onViewTransitionConditions(selectedCell.cell, TransitionOptionIndex.Validators)"
+                    tuiLink
+                    type="button"
+                  >
                     {{ t('validators') }} ({{ selectedCell.cell.validators?.length || 0 }})
                   </button>
                 </p>
                 <p class="tui-island__paragraph tui-island__paragraph_link">
-                  <button tuiLink type="button">
+                  <button
+                    (click)="onViewTransitionConditions(selectedCell.cell, TransitionOptionIndex.PostFunctions)"
+                    tuiLink
+                    type="button"
+                  >
                     {{ t('postFunctions') }} ({{ selectedCell.cell.postFunctions?.length || 0 }})
                   </button>
                 </p>

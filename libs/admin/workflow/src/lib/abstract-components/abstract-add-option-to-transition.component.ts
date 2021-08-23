@@ -1,39 +1,34 @@
-import { OnInit } from '@angular/core';
-import { HashMap, TranslocoService } from '@ngneat/transloco';
-import { API, APIDefinition, Columns, Config, DefaultConfig } from 'ngx-easy-table';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Directive, Inject, OnInit } from '@angular/core';
+import { FormBuilder } from '@ngneat/reactive-forms';
+import { TuiDialogContext } from '@taiga-ui/core';
+import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
+import { TransitionOption } from '../models';
+import { AdminWorkflowService } from '../services/admin-workflow.service';
 
+@Directive()
 export abstract class AbstractAddOptionToTransitionComponent<T> implements OnInit {
-  table!: APIDefinition;
-  data!: T[];
+  readonly form = this.fb.group<TransitionOption<T>>({} as TransitionOption<T>);
+  model = {} as TransitionOption<T>;
 
-  configuration: Config = {
-    ...DefaultConfig,
-    paginationEnabled: false,
-    paginationRangeEnabled: false,
-    fixedColumnWidth: false,
-    checkboxes: true,
-  };
-  readonly columns$: Observable<Columns[]> = this.translocoService
-    .selectTranslateObject<HashMap<string>>('WORKFLOW_TRANSITION_OPTION_COLUMNS')
-    .pipe(
-      map((result) => [
-        { key: 'name', title: result.name },
-        { key: 'description', title: result.description },
-      ])
-    );
-
-  protected constructor(readonly translocoService: TranslocoService) {}
+  protected constructor(
+    readonly fb: FormBuilder,
+    @Inject(POLYMORPHEUS_CONTEXT) readonly context: TuiDialogContext<TransitionOption<T>, TransitionOption<T>>,
+    readonly adminWorkflowService: AdminWorkflowService
+  ) {}
 
   ngOnInit(): void {
-    this.setTableRowsAmount();
+    if (this.context.data) {
+      this.model = { ...this.model, ...this.context.data };
+    }
   }
 
-  private setTableRowsAmount(): void {
-    this.table.apiEvent({
-      type: API.setPaginationDisplayLimit,
-      value: this.data.length,
-    });
+  onSubmit(): void {
+    if (this.form.valid) {
+      this.context.completeWith(this.form.value);
+    }
+  }
+
+  onCancel(): void {
+    this.context.$implicit.complete();
   }
 }

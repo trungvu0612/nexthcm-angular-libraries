@@ -1,0 +1,4 @@
+<button (click)="onAddValidator()" appearance="flat" class="mt-2" size="s" tuiButton>
+  {{ 'addValidator' | transloco }}
+</button>
+<ngx-table [columns]="(columns$ | async) || []" [configuration]="configuration" [data]="data"></ngx-table>
