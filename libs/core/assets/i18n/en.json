@@ -34,6 +34,8 @@
   "delete": "Delete",
   "detail": "Detail",
   "createTenant": "Create tenant",
+  "createTenantSuccessfully": "Create tenant successfully",
+  "updateTenantSuccessfully": "Update tenant successfully",
   "companyCode": "Company code",
   "companyName": "Company name",
   "deactivate": "Deactivate",
@@ -120,7 +122,8 @@
     "differentSource": "The target and the source should not be the same.",
     "differentTarget": "The source and the target should not be the same.",
     "email": "This is an invalid email.",
-    "numeric": "You must enter a number in this cell."
+    "numeric": "You must enter a number in this cell.",
+    "shortnameExists": "This shortname already exists."
   },
   "initStatus": "Initial status",
   "initStatusDescription": "Initial status description",
@@ -272,6 +275,8 @@
   "chooseOfficeOnsite": "Choose an office onsite",
   "companyEmail": "Company email",
   "enterCompanyEmail": "Enter company email",
+  "shortname": "Shortname",
+  "enterShortname": "Enter shortname",
   "personalEmail": "Personal email",
   "enterPersonalEmail": "Enter person email",
   "phoneNumber": "Phone number",

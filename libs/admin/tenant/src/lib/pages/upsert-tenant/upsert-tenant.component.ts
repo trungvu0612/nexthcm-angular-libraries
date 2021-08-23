@@ -1,11 +1,13 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Address, AddressService, ContactDTO, PromptService, UploadFileService } from '@nexthcm/cdk';
-import { FormGroup } from '@ngneat/reactive-forms';
+import { Router } from '@angular/router';
+import { AddressService, PromptService, UploadFileService } from '@nexthcm/cdk';
+import { AbstractControl, FormGroup } from '@ngneat/reactive-forms';
+import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { NumericValueType, RxwebValidators } from '@rxweb/reactive-form-validators';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { iif, of } from 'rxjs';
-import { startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { catchError, delay, mapTo, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { Tenant } from '../../models/tenant';
 import { AdminTenantService } from '../../services/admin-tenant.service';
 
@@ -21,22 +23,46 @@ export class UpsertTenantComponent {
   model!: Partial<Tenant>;
   readonly fields: FormlyFieldConfig[] = [
     {
+      key: 'tenantName',
+      type: 'input',
+      className: 'flex-1',
+      templateOptions: {
+        required: true,
+        translate: true,
+        label: 'companyName',
+        placeholder: 'enterCompanyName',
+        textfieldLabelOutside: true,
+      },
+    },
+    {
       fieldGroupClassName: 'flex gap-6',
       fieldGroup: [
         {
-          key: 'tenantName',
+          key: 'shortname',
           type: 'input',
           className: 'flex-1',
           templateOptions: {
             required: true,
             translate: true,
-            label: 'companyName',
-            placeholder: 'enterCompanyName',
+            label: 'shortname',
+            placeholder: 'enterShortname',
             textfieldLabelOutside: true,
+          },
+          asyncValidators: {
+            shortname: {
+              expression: (control: AbstractControl) =>
+                of(control.value).pipe(
+                  delay(300),
+                  switchMap((shortname: string) => this.adminTenantService.checkShortname({ shortname })),
+                  mapTo(true),
+                  catchError(() => of(false))
+                ),
+              message: () => this.translocoService.selectTranslate('VALIDATION.shortnameExists'),
+            },
           },
         },
         {
-          key: 'user.username',
+          key: 'username',
           type: 'input',
           templateOptions: {
             readonly: true,
@@ -100,7 +126,7 @@ export class UpsertTenantComponent {
           },
         },
         {
-          key: 'contacts.phone',
+          key: 'phone',
           type: 'input',
           templateOptions: {
             required: true,
@@ -151,7 +177,7 @@ export class UpsertTenantComponent {
           ],
         },
         {
-          key: 'contacts.email',
+          key: 'email',
           type: 'input',
           templateOptions: {
             required: true,
@@ -201,7 +227,7 @@ export class UpsertTenantComponent {
           ],
         },
         {
-          key: 'contacts.website',
+          key: 'website',
           type: 'input',
           templateOptions: {
             translate: true,
@@ -213,16 +239,9 @@ export class UpsertTenantComponent {
       ],
     },
   ];
-  readonly sign$ = iif(
-    () => !!this.adminTenantService.get('id'),
-    this.adminTenantService.getTenant(),
-    of({} as Tenant)
-  ).pipe(
-    tap((tenant) => {
-      if (tenant.addresses) tenant.addresses = (tenant.addresses as Address[])[0];
-      if (tenant.contacts) tenant.contacts = (tenant.contacts as ContactDTO[])[0];
-      this.model = tenant;
-    })
+  readonly sign$ = iif(() => !!this.adminTenantService.get('id'), this.adminTenantService.getTenant()).pipe(
+    startWith({} as Tenant),
+    tap((tenant) => (this.model = tenant))
   );
 
   constructor(
@@ -230,18 +249,20 @@ export class UpsertTenantComponent {
     private addressService: AddressService,
     private uploadFileService: UploadFileService,
     private promptService: PromptService,
-    private destroy$: TuiDestroyService
+    private translocoService: TranslocoService,
+    private destroy$: TuiDestroyService,
+    private router: Router
   ) {}
 
   submitTenant() {
     if (this.form.valid) {
-      const formModel = { ...this.model };
-      formModel.addresses = [formModel.addresses as Address];
-      formModel.contacts = [formModel.contacts as ContactDTO];
-      this.adminTenantService[formModel.id ? 'editTenant' : 'createTenant'](formModel)
+      this.adminTenantService[this.model.id ? 'editTenant' : 'createTenant'](this.model)
         .pipe(takeUntil(this.destroy$))
         .subscribe(
-          this.promptService.handleResponse(formModel.id ? 'updateTenantSuccessfully' : 'createTenantSuccessfully')
+          this.promptService.handleResponse(
+            this.model.id ? 'updateTenantSuccessfully' : 'createTenantSuccessfully',
+            () => this.router.navigateByUrl('/admin/tenant')
+          )
         );
     }
   }

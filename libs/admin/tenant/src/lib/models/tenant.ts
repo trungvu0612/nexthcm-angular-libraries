@@ -1,17 +1,17 @@
-import { Address, ContactDTO, UserDto } from '@nexthcm/cdk';
+import { Address } from '@nexthcm/cdk';
 
 export interface Tenant {
   createdDate: number;
   lastModifiedDate: number;
   id: string;
-  user: UserDto;
   tenantCode: string;
   tenantName: string;
   state: number;
   image: string;
   tax: string;
-  contacts: ContactDTO | ContactDTO[];
-  addresses: Address | Address[];
+  addresses: Address;
+  shortname: string;
+  username: string;
 }
 
 export interface Domain {
