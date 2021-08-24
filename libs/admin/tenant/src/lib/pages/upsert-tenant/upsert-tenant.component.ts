@@ -53,13 +53,16 @@ export class UpsertTenantComponent {
               expression: (control: AbstractControl) =>
                 of(control.value).pipe(
                   delay(300),
-                  switchMap((shortname: string) => this.adminTenantService.checkShortname({ shortname })),
+                  switchMap((shortname: string) =>
+                    this.model.id ? of(true) : this.adminTenantService.checkShortname({ shortname })
+                  ),
                   mapTo(true),
                   catchError(() => of(false))
                 ),
               message: () => this.translocoService.selectTranslate('VALIDATION.shortnameExists'),
             },
           },
+          expressionProperties: { 'templateOptions.readonly': 'model.id' },
         },
         {
           key: 'username',

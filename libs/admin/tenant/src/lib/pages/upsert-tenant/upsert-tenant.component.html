@@ -1,7 +1,7 @@
 <ng-container *transloco="let t">
   <main *ngIf="sign$ | async" class="main-page">
     <header>
-      <h1>{{ t(model.id ? 'createTenant' : 'information') }}</h1>
+      <h1>{{ t(model.id ? 'information' : 'createTenant') }}</h1>
     </header>
     <section class="main-section">
       <form (ngSubmit)="submitTenant()" [formGroup]="form">
