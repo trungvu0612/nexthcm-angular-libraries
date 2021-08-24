@@ -48,7 +48,6 @@ export class OverviewComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log(this.authService.get('userInfo'));
     this.getWorkingHourTime();
     this.checkingStatus();
   }
@@ -56,10 +55,10 @@ export class OverviewComponent implements OnInit {
   checkingStatus() {
     this.myWorkingHour.timeToday = new Date();
     this.overviewService.statusChecking().subscribe((item) => {
-      if (item.data?.items.length > 0 && item.data?.items[0].inTime > 0) {
+      this.idChecking = item?.data?.items[0]?.id;
+      if (item.data?.items[0].inTime > 0) {
         // show check-out button
         this.checkingAction = 'checked-out';
-        this.idChecking = item?.data?.items[0]?.id;
         if (item?.data?.items[0]?.inTime) {
           this.myWorkingHour.inTimeToday = item.data?.items[0]?.inTime;
         }
@@ -131,7 +130,7 @@ export class OverviewComponent implements OnInit {
         .pipe(
           mapTo({
             icon: 'success',
-            text: this.translocoService.translate(`WORKING_HOUR.CheckoutSuccess`),
+            text: this.translocoService.translate(`WORKING_HOUR.CheckinSuccess`),
           } as SweetAlertOptions),
           takeUntil(this.destroy$),
           catchError((err) =>

@@ -7,11 +7,11 @@ import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
-import { endOfDay, getTime, hoursToSeconds } from 'date-fns';
 import { map, takeUntil, tap } from 'rxjs/operators';
 import { WorkingAfterHoursType } from '../../../../enums';
 import { SubmitRequestPayload } from '../../../../models';
 import { MyTimeService, RequestTypeAPIUrlPath } from '../../../../services';
+import { endOfDay, getTime } from 'date-fns';
 
 @Component({
   selector: 'hcm-submit-overtime-request-dialog',
@@ -117,7 +117,7 @@ export class SubmitOvertimeRequestDialogComponent {
       if (formModel.fromTo) {
         formModel.fromDate = getTime(formModel.fromTo.from.toLocalNativeDate());
         formModel.toDate = getTime(endOfDay(formModel.fromTo.to.toLocalNativeDate()));
-        formModel.duration = hoursToSeconds(formModel.duration || 0);
+        formModel.duration = Number(formModel?.duration) * 3600;
       }
       delete formModel.fromTo;
       this.myTimeService
