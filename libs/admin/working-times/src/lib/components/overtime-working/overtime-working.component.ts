@@ -478,4 +478,8 @@ export class OvertimeWorkingComponent implements OnInit {
     });
     this.model = { ...this.model, ...jsonEditData };
   }
+
+  cancel() {
+    this.router.navigate(['../..'], { relativeTo: this.activatedRoute });
+  }
 }

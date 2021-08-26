@@ -1,4 +1,7 @@
-<div class="p-12">
+<main class="main-page" *transloco="let t">
+  <header>
+    <h1>{{ t(id ? 'Edit Job Level' : 'Add Job Level') }}</h1>
+  </header>
   <div class="tui-container my-8">
     <formly-form
       [fields]="fields"
@@ -11,4 +14,4 @@
     <button (click)="submit()" [disabled]="!form.valid" class="blue-button ml-8">Save</button>
     <button (click)="cancel()" class="btn-blue">Cancel</button>
   </div>
-</div>
+</main>
