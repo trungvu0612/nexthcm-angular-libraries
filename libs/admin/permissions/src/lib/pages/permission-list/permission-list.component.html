@@ -1,7 +1,7 @@
 <main class="main-page">
   <header *transloco="let t">
     <h1>{{ t('permissionManagement') }}</h1>
-    <button routerLink="./create" tuiButton> {{ t('addPermission') }}</button>
+    <button routerLink="./create" tuiButton>{{ t('addPermission') }}</button>
   </header>
   <section *tuiLet="data$ | async as data" class="main-section">
     <ngx-table [columns]="(columns$ | async) || []" [configuration]="configuration" [data]="data || []">
@@ -17,7 +17,7 @@
             size="m"
             tuiIconButton
           ></button>
-          <button appearance="flat" (click)="delete(row.id)" icon="tuiIconTrashLarge" size="m" tuiIconButton></button>
+          <button (click)="delete(row.id)" appearance="flat" icon="tuiIconTrashLarge" size="m" tuiIconButton></button>
         </td>
       </ng-template>
     </ngx-table>

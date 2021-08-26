@@ -12,13 +12,16 @@ export interface Tenant {
   addresses: Address;
   shortname: string;
   username: string;
+  domains: Domain[];
 }
 
 export interface Domain {
   id: string;
   tenant: Partial<Tenant>;
   domainUrl: string;
+  name: string;
   image: string;
+  status: string;
 }
 
 export interface OrganizationalLevel {

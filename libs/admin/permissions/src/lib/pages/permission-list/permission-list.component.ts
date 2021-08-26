@@ -1,21 +1,21 @@
+import { HttpParams } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
+import { Policy } from '@nexthcm/admin-permissions';
+import { Pagination, PromptService } from '@nexthcm/cdk';
+import { TranslocoService } from '@ngneat/transloco';
+import { RxState } from '@rx-angular/state';
+import { TuiDestroyService } from '@taiga-ui/cdk';
+import { BaseComponent, Config, DefaultConfig } from 'ngx-easy-table';
 import { BehaviorSubject, from } from 'rxjs';
 import { catchError, filter, map, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { AdminPermissionsService } from '../../services/admin-permissions.service';
-import { BaseComponent, Config, DefaultConfig } from 'ngx-easy-table';
-import { TranslocoService } from '@ngneat/transloco';
-import { HttpParams } from '@angular/common/http';
-import { RxState } from '@rx-angular/state';
-import { Pagination, PromptService } from '@nexthcm/cdk';
-import { TuiDestroyService } from '@taiga-ui/cdk';
-import { Policy } from '@nexthcm/admin-permissions';
 
 @Component({
   selector: 'hcm-permission-list',
   templateUrl: './permission-list.component.html',
   styleUrls: ['./permission-list.component.scss'],
   providers: [RxState, TuiDestroyService],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PermissionListComponent {
   @ViewChild('table') table!: BaseComponent;
@@ -27,14 +27,14 @@ export class PermissionListComponent {
     checkboxes: false,
     paginationEnabled: false,
     paginationRangeEnabled: false,
-    fixedColumnWidth: false
+    fixedColumnWidth: false,
   };
   readonly columns$ = this.translocoService.selectTranslateObject('PERMISSION_TABLE').pipe(
     map((translate) => [
       { key: 'name', title: translate.name },
       { key: 'code', title: translate.code },
       { key: 'description', title: translate.description },
-      { key: 'action', title: translate.action }
+      { key: 'action', title: translate.action },
     ])
   );
   private readonly queryParams$ = new BehaviorSubject(new HttpParams().set('page', 0).set('size', 10));
@@ -74,7 +74,7 @@ export class PermissionListComponent {
       this.promptService.open({
         icon: 'question',
         html: this.translocoService.translate('PERMISSION_TABLE.MESSAGES.deletePermission'),
-        showCancelButton: true
+        showCancelButton: true,
       })
     )
       .pipe(
@@ -85,7 +85,7 @@ export class PermissionListComponent {
         catchError((err) =>
           this.promptService.open({
             icon: 'error',
-            html: this.translocoService.translate(`ERRORS.${err.error.message}`)
+            html: this.translocoService.translate(`ERRORS.${err.error.message}`),
           })
         ),
         takeUntil(this.destroy$)

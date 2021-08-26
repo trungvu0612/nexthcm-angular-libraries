@@ -7,18 +7,18 @@ import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
+import { endOfDay, getTime } from 'date-fns';
 import { map, takeUntil } from 'rxjs/operators';
 import { WorkingAfterHoursType } from '../../../../enums';
 import { SubmitRequestPayload } from '../../../../models';
 import { MyTimeService, RequestTypeAPIUrlPath } from '../../../../services';
-import { endOfDay, getTime } from 'date-fns';
 
 @Component({
   selector: 'hcm-submit-overtime-request-dialog',
   templateUrl: './submit-overtime-request-dialog.component.html',
   styleUrls: ['./submit-overtime-request-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [TuiDestroyService]
+  providers: [TuiDestroyService],
 })
 export class SubmitOvertimeRequestDialogComponent {
   readonly form = this.fb.group<SubmitRequestPayload>({} as SubmitRequestPayload);
@@ -40,11 +40,11 @@ export class SubmitOvertimeRequestDialogComponent {
             (result) =>
               [
                 { label: result.OVERTIME, value: WorkingAfterHoursType.Overtime },
-                { label: result.WORKING_AFTERTIME, value: WorkingAfterHoursType.WorkingAfterHours }
+                { label: result.WORKING_AFTERTIME, value: WorkingAfterHoursType.WorkingAfterHours },
               ] as BaseOption<number>[]
           )
-        )
-      }
+        ),
+      },
     },
     {
       key: 'fromTo',
@@ -56,8 +56,8 @@ export class SubmitOvertimeRequestDialogComponent {
         labelClassName: 'font-semibold',
         placeholder: 'chooseDateRange',
         required: true,
-        textfieldLabelOutside: true
-      }
+        textfieldLabelOutside: true,
+      },
     },
     {
       key: 'duration',
@@ -70,8 +70,8 @@ export class SubmitOvertimeRequestDialogComponent {
         placeholder: 'enterTotalWorkingHours',
         required: true,
         textfieldLabelOutside: true,
-        precision: 1
-      }
+        precision: 1,
+      },
     },
     {
       key: 'comment',
@@ -82,8 +82,8 @@ export class SubmitOvertimeRequestDialogComponent {
         label: 'Comment',
         labelClassName: 'font-semibold',
         required: true,
-        textfieldLabelOutside: true
-      }
+        textfieldLabelOutside: true,
+      },
     },
     {
       key: 'sendTo',
@@ -96,9 +96,9 @@ export class SubmitOvertimeRequestDialogComponent {
         placeholder: 'chooseAPerson',
         options: this.myTimeService.select('sendToUsers'),
         labelProp: 'username',
-        valueProp: 'id'
-      }
-    }
+        valueProp: 'id',
+      },
+    },
   ];
 
   constructor(
@@ -109,8 +109,7 @@ export class SubmitOvertimeRequestDialogComponent {
     private translocoService: TranslocoService,
     private authService: AuthService,
     private destroy$: TuiDestroyService
-  ) {
-  }
+  ) {}
 
   onSubmit(): void {
     if (this.form.valid) {
@@ -123,11 +122,11 @@ export class SubmitOvertimeRequestDialogComponent {
       delete formModel.fromTo;
       this.myTimeService
         .submitRequest(RequestTypeAPIUrlPath.workingAfterHours, formModel)
-        .pipe(
-          takeUntil(this.destroy$)
-        )
-        .subscribe(() => this.context.completeWith(true),
-          (error) => this.promptService.open({ icon: 'error', html: error.error.message }));
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(
+          () => this.context.completeWith(true),
+          (error) => this.promptService.open({ icon: 'error', html: error.error.message })
+        );
     }
   }
 

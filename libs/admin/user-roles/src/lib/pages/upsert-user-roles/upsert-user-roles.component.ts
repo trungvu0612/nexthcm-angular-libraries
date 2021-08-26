@@ -1,3 +1,4 @@
+import { HttpParams } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
 import { AdminPermissionsService, Policy } from '@nexthcm/admin-permissions';
 import { FormGroup } from '@ngneat/reactive-forms';
@@ -8,13 +9,12 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AdminUserRole } from '../../models/admin-user-role';
 import { AdminUserRolesService } from '../../services/admin-user-roles.service';
-import { HttpParams } from '@angular/common/http';
 
 @Component({
   selector: 'hcm-upsert-user-roles',
   templateUrl: './upsert-user-roles.component.html',
   styleUrls: ['./upsert-user-roles.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UpsertUserRolesComponent implements OnInit {
   columns = ['name', 'description', 'action'];

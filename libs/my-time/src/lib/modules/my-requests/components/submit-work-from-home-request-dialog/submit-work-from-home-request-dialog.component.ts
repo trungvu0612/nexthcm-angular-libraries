@@ -2,20 +2,20 @@ import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { PromptService } from '@nexthcm/cdk';
 import { FormBuilder } from '@ngneat/reactive-forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
+import { TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
+import { endOfDay, getTime } from 'date-fns';
 import { takeUntil, tap } from 'rxjs/operators';
 import { SubmitRequestPayload } from '../../../../models';
 import { MyTimeService, RequestTypeAPIUrlPath } from '../../../../services';
-import { endOfDay, getTime } from 'date-fns';
-import { TuiDestroyService } from '@taiga-ui/cdk';
 
 @Component({
   selector: 'hcm-submit-work-from-home-request-dialog',
   templateUrl: './submit-work-from-home-request-dialog.component.html',
   styleUrls: ['./submit-work-from-home-request-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [TuiDestroyService]
+  providers: [TuiDestroyService],
 })
 export class SubmitWorkFromHomeRequestDialogComponent {
   readonly form = this.fb.group<SubmitRequestPayload>({} as SubmitRequestPayload);
@@ -80,9 +80,14 @@ export class SubmitWorkFromHomeRequestDialogComponent {
       delete formModel.fromTo;
       this.myTimeService
         .submitRequest(RequestTypeAPIUrlPath.workFromHome, formModel)
-        .pipe(tap(() => this.promptService.handleResponse()), takeUntil(this.destroy$))
-        .subscribe(() => this.context.completeWith(true),
-          (error) => this.promptService.open({ icon: 'error', html: error.error.message }));
+        .pipe(
+          tap(() => this.promptService.handleResponse()),
+          takeUntil(this.destroy$)
+        )
+        .subscribe(
+          () => this.context.completeWith(true),
+          (error) => this.promptService.open({ icon: 'error', html: error.error.message })
+        );
     }
   }
 

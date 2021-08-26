@@ -8,7 +8,13 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { FormlyModule } from '@ngx-formly/core';
 import { TuiTableModule, TuiTablePaginationModule } from '@taiga-ui/addon-table';
 import { TuiLetModule } from '@taiga-ui/cdk';
-import { TuiButtonModule, TuiScrollbarModule, TuiSvgModule, TuiTextfieldControllerModule } from '@taiga-ui/core';
+import {
+  TuiButtonModule,
+  TuiLoaderModule,
+  TuiScrollbarModule,
+  TuiSvgModule,
+  TuiTextfieldControllerModule,
+} from '@taiga-ui/core';
 import { TuiAvatarModule, TuiInputModule, TuiIslandModule, TuiSliderModule, TuiTagModule } from '@taiga-ui/kit';
 import { HeroIconModule, pencilAlt, trash, zoomIn } from 'ng-heroicon';
 import { TableModule } from 'ngx-easy-table';
@@ -78,6 +84,7 @@ export const adminTenantRoutes: Routes = [
     TuiLetModule,
     HeroIconModule.withIcons({ pencilAlt, trash, zoomIn }),
     TuiSliderModule,
+    TuiLoaderModule,
   ],
   providers: [AddressService],
 })

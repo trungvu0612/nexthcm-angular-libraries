@@ -48,8 +48,16 @@ export class AdminTenantService extends RxState<{ id: string }> {
     return this.http.delete('/accountapp/v1.0/tenants/' + id);
   }
 
+  getTenantDetail(id: string): Observable<Tenant> {
+    return this.http.get<BaseResponse<Tenant>>(`/accountapp/v1.0/tenants/${id}`).pipe(map((res) => res.data));
+  }
+
   getDomains(): Observable<Partial<Domain>[]> {
     return this.http.get<Partial<Domain>[]>('/accountapp/v1.0/domains');
+  }
+
+  createDomain(body: Partial<Domain>): Observable<unknown> {
+    return this.http.post('/accountapp/v1.0/domains', body);
   }
 
   getOrganizationalStructure(): Observable<Partial<OrganizationalLevel>[]> {

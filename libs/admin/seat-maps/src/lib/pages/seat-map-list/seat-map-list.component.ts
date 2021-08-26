@@ -1,21 +1,21 @@
-import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
-import { BaseComponent, DefaultConfig } from 'ngx-easy-table';
-import { catchError, filter, map, switchMap, takeUntil, tap } from 'rxjs/operators';
-import { TranslocoService } from '@ngneat/transloco';
-import { AdminSeatMapsService } from '../../services/admin-seat-maps.service';
-import { BehaviorSubject, from } from 'rxjs';
-import { Pagination, PromptService, Zone } from '@nexthcm/cdk';
-import { TuiDestroyService } from '@taiga-ui/cdk';
-import { RxState } from '@rx-angular/state';
-import { LeaveType } from '../../../../../leave-types/src/lib/models/leave-type';
 import { HttpParams } from '@angular/common/http';
+import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
+import { Pagination, PromptService, Zone } from '@nexthcm/cdk';
+import { TranslocoService } from '@ngneat/transloco';
+import { RxState } from '@rx-angular/state';
+import { TuiDestroyService } from '@taiga-ui/cdk';
+import { BaseComponent, DefaultConfig } from 'ngx-easy-table';
+import { BehaviorSubject, from } from 'rxjs';
+import { catchError, filter, map, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { LeaveType } from '../../../../../leave-types/src/lib/models/leave-type';
+import { AdminSeatMapsService } from '../../services/admin-seat-maps.service';
 
 @Component({
   selector: 'hcm-seat-map-list',
   templateUrl: './seat-map-list.component.html',
   styleUrls: ['./seat-map-list.component.scss'],
   providers: [RxState, TuiDestroyService],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SeatMapListComponent {
   @ViewChild('table') table!: BaseComponent;
@@ -27,7 +27,7 @@ export class SeatMapListComponent {
     map((translate) => [
       { key: 'name', title: translate.name },
       { key: 'office', title: translate.office },
-      { key: 'action', title: translate.action }
+      { key: 'action', title: translate.action },
     ])
   );
   private readonly queryParams$ = new BehaviorSubject(new HttpParams().set('page', 0).set('size', 10));
@@ -67,7 +67,7 @@ export class SeatMapListComponent {
       this.promptService.open({
         icon: 'question',
         html: this.translocoService.translate('ZONE_TABLE.MESSAGES.deleteSeatMap'),
-        showCancelButton: true
+        showCancelButton: true,
       })
     )
       .pipe(
@@ -78,12 +78,11 @@ export class SeatMapListComponent {
         catchError((err) =>
           this.promptService.open({
             icon: 'error',
-            html: this.translocoService.translate(`ERRORS.${err.error.message}`)
+            html: this.translocoService.translate(`ERRORS.${err.error.message}`),
           })
         ),
         takeUntil(this.destroy$)
       )
       .subscribe();
   }
-
 }
