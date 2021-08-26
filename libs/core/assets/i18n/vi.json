@@ -93,7 +93,7 @@
     "category": "Thể loại",
     "description": "Mô tả",
     "status": "Trạng thái",
-    "action": "Action"
+    "action": "Chức năng"
   },
   "ZONE_TABLE": {
     "name": "Tên",
@@ -101,6 +101,8 @@
     "address": "Địa chỉ",
     "description": "Mô tả",
     "action": "Thao tác",
+    "domainUrl": "Tên miền",
+    "status": "Trạng thái",
     "MESSAGES": {
       "deleteSeatMap": "Bạn có chắc chắn muốn xóa sơ đồ chỗ ngồi này không?"
     }

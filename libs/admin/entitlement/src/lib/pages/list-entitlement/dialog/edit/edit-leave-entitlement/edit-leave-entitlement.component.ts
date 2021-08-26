@@ -15,10 +15,9 @@ import { AdminEntitlementService } from '../../../../../services/admin-entitleme
   selector: 'hcm-edit-leave-entitlement',
   templateUrl: './edit-leave-entitlement.component.html',
   styleUrls: ['./edit-leave-entitlement.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EditLeaveEntitlementComponent implements OnInit {
-
   form = new FormGroup({});
 
   params$ = new BehaviorSubject<{ page?: number; size?: number }>({ size: 100 });
@@ -30,12 +29,9 @@ export class EditLeaveEntitlementComponent implements OnInit {
     .getLeaveTypes(this.params$.value)
     .pipe(map((data) => data.items));
 
-  orgs$: Observable<any[]> = this.adminEntitlementService
-    .getOrgs(this.params$.value)
-    .pipe(map((data) => data.items));
+  orgs$: Observable<any[]> = this.adminEntitlementService.getOrgs(this.params$.value).pipe(map((data) => data.items));
 
-  emp$: Observable<any[]> = this.adminEntitlementService
-    .getUserSameOrgAndChildOrg(this.params$.value);
+  emp$: Observable<any[]> = this.adminEntitlementService.getUserSameOrgAndChildOrg(this.params$.value);
 
   period$: Observable<any[]> = this.adminEntitlementService
     .getPeriods(this.params$.value)
@@ -60,8 +56,8 @@ export class EditLeaveEntitlementComponent implements OnInit {
           map((value) => value?.status),
           distinctUntilChanged(),
           switchMap((status) => this.translocoService.selectTranslate(`${status ? 'active' : 'inactive'}`))
-        )
-      }
+        ),
+      },
     },
     {
       key: 'employeeId',
@@ -74,12 +70,11 @@ export class EditLeaveEntitlementComponent implements OnInit {
         required: true,
         options: this.emp$,
         labelProp: 'username',
-        matcherBy: 'id'
+        matcherBy: 'id',
       },
       hideExpression: '(model.statusCov)',
       expressionProperties: {
-        className:
-          '(model.statusCov)  ?  "hidden" : ""',
+        className: '(model.statusCov)  ?  "hidden" : ""',
       },
     },
     {
@@ -92,12 +87,11 @@ export class EditLeaveEntitlementComponent implements OnInit {
         placeholder: 'Organization',
         options: this.orgs$,
         labelProp: 'name',
-        matcherBy: 'id'
+        matcherBy: 'id',
       },
       hideExpression: '!(model.statusCov)',
       expressionProperties: {
-        className:
-          '!(model.statusCov)  ?  "hidden" : ""',
+        className: '!(model.statusCov)  ?  "hidden" : ""',
       },
     },
     {
@@ -111,12 +105,11 @@ export class EditLeaveEntitlementComponent implements OnInit {
         labelClassName: 'font-semibold',
         placeholder: 'chooseRoles',
         options: this.jobTitles$,
-        matcherBy: 'id'
+        matcherBy: 'id',
       },
       hideExpression: '!(model.statusCov)',
       expressionProperties: {
-        className:
-          '!(model.statusCov)  ?  "hidden" : ""',
+        className: '!(model.statusCov)  ?  "hidden" : ""',
       },
     },
     {
@@ -130,8 +123,8 @@ export class EditLeaveEntitlementComponent implements OnInit {
         required: true,
         options: this.leaveTypes$,
         labelProp: 'name',
-        matcherBy: 'id'
-      }
+        matcherBy: 'id',
+      },
     },
     {
       key: 'period',
@@ -144,8 +137,8 @@ export class EditLeaveEntitlementComponent implements OnInit {
         required: true,
         options: this.period$,
         labelProp: 'name',
-        matcherBy: 'id'
-      }
+        matcherBy: 'id',
+      },
     },
     {
       key: 'entitlement',
@@ -155,11 +148,10 @@ export class EditLeaveEntitlementComponent implements OnInit {
         translate: true,
         label: 'Entitlements',
         placeholder: 'Total leave can approve',
-        textfieldLabelOutside: true
+        textfieldLabelOutside: true,
       },
-      validators: { validation: [RxwebValidators.numeric({ acceptValue: NumericValueType.PositiveNumber })] }
-    }
-
+      validators: { validation: [RxwebValidators.numeric({ acceptValue: NumericValueType.PositiveNumber })] },
+    },
   ];
 
   readonly loggedInUserId = this.authService.get('userInfo', 'userId');
@@ -168,121 +160,114 @@ export class EditLeaveEntitlementComponent implements OnInit {
     @Inject(POLYMORPHEUS_CONTEXT) public context: TuiDialogContext<unknown, LeaveEntitlement>,
     private adminEntitlementService: AdminEntitlementService,
     private translocoService: TranslocoService,
-    private authService: AuthService,
-  ) {
-  }
+    private authService: AuthService
+  ) {}
 
   ngOnInit(): void {
-      if (this.data){
-        this.adminEntitlementService.getAdminEntitlementId(this.data).subscribe(
-          (item) => {
-            console.log('item.dataaaaaaa', item.data)
-            this.model = {...this.model, ...item.data};
-            this.model.jobTitle = item.data.jobTitleDTOList
-            // this.model.org = this.model.org?.map((item) => item.orgId)
-          })
-      }
+    if (this.data) {
+      this.adminEntitlementService.getAdminEntitlementId(this.data).subscribe((item) => {
+        console.log('item.dataaaaaaa', item.data);
+        this.model = { ...this.model, ...item.data };
+        this.model.jobTitle = item.data.jobTitleDTOList;
+        // this.model.org = this.model.org?.map((item) => item.orgId)
+      });
+    }
   }
 
-  ngAfterViewInit() {
-  }
+  ngAfterViewInit() {}
 
   submit() {
-
-
-    if (this.data){
-
-      if (this.model.statusCov){
-        if (this.model.entitlement){
-          this.model.entitlement = +this.model.entitlement
-          const arrayTitle = []
-          if (this.model.jobTitle){
+    if (this.data) {
+      if (this.model.statusCov) {
+        if (this.model.entitlement) {
+          this.model.entitlement = +this.model.entitlement;
+          const arrayTitle = [];
+          if (this.model.jobTitle) {
             for (const value of this.model.jobTitle) {
-              arrayTitle.push(value.id)
+              arrayTitle.push(value.id);
             }
           }
           const body = {
             status: 1,
-            fromDate: 1609434000000, /*API have but not used => hard code*/
-            toDate: 1640969999000, /*API have but not used => hard code*/
+            fromDate: 1609434000000 /*API have but not used => hard code*/,
+            toDate: 1640969999000 /*API have but not used => hard code*/,
             orgId: this.model.org?.orgId ? this.model.org?.orgId : '',
             entitlement: this.model.entitlement,
             leaveType: this.model.leaveType,
             period: this.model.period,
             jobTitle: arrayTitle,
-          }
+          };
           this.context.completeWith(body);
         }
-      } else if (!this.model.statusCov){
-        if (this.model.entitlement){
-          this.model.entitlement = +this.model.entitlement
-          const arrayTitle = []
-          if (this.model.jobTitle){
+      } else if (!this.model.statusCov) {
+        if (this.model.entitlement) {
+          this.model.entitlement = +this.model.entitlement;
+          const arrayTitle = [];
+          if (this.model.jobTitle) {
             for (const value of this.model.jobTitle) {
-              arrayTitle.push(value.id)
+              arrayTitle.push(value.id);
             }
           }
           const body = {
             status: 0,
-            fromDate: 1609434000000, /*API have but not used => hard code*/
-            toDate: 1640969999000, /*API have but not used => hard code*/
+            fromDate: 1609434000000 /*API have but not used => hard code*/,
+            toDate: 1640969999000 /*API have but not used => hard code*/,
             entitlement: this.model.entitlement,
             leaveType: this.model.leaveType,
             period: this.model.period,
             employeeId: this.loggedInUserId,
             jobTitle: arrayTitle,
-          }
+          };
           this.context.completeWith(body);
         }
       }
     } else {
-      if (this.model){
-        if (this.model.statusCov){
-          if (this.model.entitlement){
-            this.model.entitlement = +this.model.entitlement
-            const arrayTitle = []
-            if (this.model.jobTitle){
+      if (this.model) {
+        if (this.model.statusCov) {
+          if (this.model.entitlement) {
+            this.model.entitlement = +this.model.entitlement;
+            const arrayTitle = [];
+            if (this.model.jobTitle) {
               for (const value of this.model.jobTitle) {
-                arrayTitle.push(value.id)
+                arrayTitle.push(value.id);
               }
             }
             const body = {
               status: 1,
-              fromDate: 1609434000000, /*API have but not used => hard code*/
-              toDate: 1640969999000, /*API have but not used => hard code*/
+              fromDate: 1609434000000 /*API have but not used => hard code*/,
+              toDate: 1640969999000 /*API have but not used => hard code*/,
               orgId: this.model.org?.orgId ? this.model.org?.orgId : '',
               entitlement: this.model.entitlement,
               leaveType: this.model.leaveType,
               period: this.model.period,
               jobTitle: arrayTitle,
-            }
+            };
             this.context.completeWith(body);
           }
-        } else if (!this.model.statusCov){
-          if (this.model.entitlement){
-            this.model.entitlement = +this.model.entitlement
-            const arrayTitle = []
-            if (this.model.jobTitle){
+        } else if (!this.model.statusCov) {
+          if (this.model.entitlement) {
+            this.model.entitlement = +this.model.entitlement;
+            const arrayTitle = [];
+            if (this.model.jobTitle) {
               for (const value of this.model.jobTitle) {
-                arrayTitle.push(value.id)
+                arrayTitle.push(value.id);
               }
             }
             const body = {
               status: 0,
-              fromDate: 1609434000000, /*API have but not used => hard code*/
-              toDate: 1640969999000, /*API have but not used => hard code*/
+              fromDate: 1609434000000 /*API have but not used => hard code*/,
+              toDate: 1640969999000 /*API have but not used => hard code*/,
               entitlement: this.model.entitlement,
               leaveType: this.model.leaveType,
               period: this.model.period,
               employeeId: this.loggedInUserId,
               jobTitle: arrayTitle,
-            }
+            };
             this.context.completeWith(body);
           }
         }
       }
     }
-
   }
 
   cancel() {

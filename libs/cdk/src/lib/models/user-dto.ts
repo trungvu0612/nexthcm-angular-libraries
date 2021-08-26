@@ -25,6 +25,13 @@ export interface Tenant {
   tenantCode: string;
   tenantName: string;
   state: number;
+  domains: Domain;
+}
+
+export interface Domain {
+  domainUrl: string;
+  status: string;
+  name: string;
 }
 
 export interface Org {
