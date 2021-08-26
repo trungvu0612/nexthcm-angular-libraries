@@ -4,16 +4,18 @@ import { FormBuilder } from '@ngneat/reactive-forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
-import { tap } from 'rxjs/operators';
+import { takeUntil, tap } from 'rxjs/operators';
 import { SubmitRequestPayload } from '../../../../models';
 import { MyTimeService, RequestTypeAPIUrlPath } from '../../../../services';
 import { endOfDay, getTime } from 'date-fns';
+import { TuiDestroyService } from '@taiga-ui/cdk';
 
 @Component({
   selector: 'hcm-submit-work-from-home-request-dialog',
   templateUrl: './submit-work-from-home-request-dialog.component.html',
   styleUrls: ['./submit-work-from-home-request-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [TuiDestroyService]
 })
 export class SubmitWorkFromHomeRequestDialogComponent {
   readonly form = this.fb.group<SubmitRequestPayload>({} as SubmitRequestPayload);
@@ -64,6 +66,7 @@ export class SubmitWorkFromHomeRequestDialogComponent {
     private fb: FormBuilder,
     @Inject(POLYMORPHEUS_CONTEXT) readonly context: TuiDialogContext<boolean>,
     private myTimeService: MyTimeService,
+    private destroy$: TuiDestroyService,
     private promptService: PromptService
   ) {}
 
@@ -77,8 +80,9 @@ export class SubmitWorkFromHomeRequestDialogComponent {
       delete formModel.fromTo;
       this.myTimeService
         .submitRequest(RequestTypeAPIUrlPath.workFromHome, formModel)
-        .pipe(tap(() => this.promptService.handleResponse()))
-        .subscribe(() => this.context.completeWith(true));
+        .pipe(tap(() => this.promptService.handleResponse()), takeUntil(this.destroy$))
+        .subscribe(() => this.context.completeWith(true),
+          (error) => this.promptService.open({ icon: 'error', html: error.error.message }));
     }
   }
 

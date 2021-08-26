@@ -98,7 +98,7 @@ export class ListLeaveTypeComponent {
         catchError((err) =>
           this.promptService.open({
             icon: 'error',
-            html: this.translocoService.translate(`ADMIN_LEAVE_TYPES.ERRORS.${err.error.message}`),
+            html: this.translocoService.translate(`ERRORS.${err.error.message}`)
           })
         ),
         takeUntil(this.destroy$)

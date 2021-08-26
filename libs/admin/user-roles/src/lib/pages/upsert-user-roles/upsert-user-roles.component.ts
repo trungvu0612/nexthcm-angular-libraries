@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
-import { AdminPermissionsService } from '@nexthcm/admin-permissions';
+import { AdminPermissionsService, Policy } from '@nexthcm/admin-permissions';
 import { FormGroup } from '@ngneat/reactive-forms';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { TuiDialogContext } from '@taiga-ui/core';
@@ -8,19 +8,20 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AdminUserRole } from '../../models/admin-user-role';
 import { AdminUserRolesService } from '../../services/admin-user-roles.service';
+import { HttpParams } from '@angular/common/http';
 
 @Component({
   selector: 'hcm-upsert-user-roles',
   templateUrl: './upsert-user-roles.component.html',
   styleUrls: ['./upsert-user-roles.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UpsertUserRolesComponent implements OnInit {
   columns = ['name', 'description', 'action'];
-  params$ = new BehaviorSubject<{ page?: number; size?: number }>({ size: 100 });
-  permissions$: Observable<any[]> = this.adminPermissionsService
-    .getPermissions(this.params$.value)
-    .pipe(map((data) => data.items));
+  private readonly queryParams$ = new BehaviorSubject(new HttpParams().set('page', 0).set('size', 6666));
+  permissions$: Observable<Policy[]> = this.adminPermissionsService
+    .getPermissions(this.queryParams$.value)
+    .pipe(map((data) => data.data.items));
 
   data = this.context.data || '';
 
