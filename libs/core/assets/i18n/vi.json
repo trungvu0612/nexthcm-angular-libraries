@@ -100,13 +100,19 @@
     "office": "Văn phòng",
     "address": "Địa chỉ",
     "description": "Mô tả",
-    "action": "Thao tác"
+    "action": "Thao tác",
+    "MESSAGES": {
+      "deleteSeatMap": "Bạn có chắc chắn muốn xóa sơ đồ chỗ ngồi này không?"
+    }
   },
   "PERMISSION_TABLE": {
     "name": "Tên",
     "code": "Mã",
     "description": "Mô tả",
-    "action": "Thao tác"
+    "action": "Thao tác",
+    "MESSAGES": {
+      "deletePermission": "Bạn có chắc chắn muốn xóa phân quyền này không?"
+    }
   },
   "TENANT_TABLE": {
     "ordinalNumber": "STT",
@@ -209,8 +215,8 @@
   "employeeDuration": "Thời gian làm việc",
   "duration": "Khoảng thời gian",
   "education": "Học vấn",
-  "cifNumber": "Mã số nhân viên",
-  "enterCifNumber": "Nhập mã số nhân viên",
+  "cifNumber": "Mã nhân viên",
+  "enterCifNumber": "Nhập mã nhân viên",
   "enterName": "Nhập tên",
   "firstName": "Tên",
   "enterFirstName": "Nhập tên",
@@ -240,8 +246,8 @@
   "enterTemporaryAddress": "Nhập địa chỉ tạm trú",
   "DOB": "Ngày sinh",
   "enterDOB": "Nhập ngày sinh",
-  "idNumber": "Số CMND",
-  "enterIDNumber": "Nhập số CMND",
+  "idNumber": "Số CMND/CCCD",
+  "enterIDNumber": "Nhập số CMND/CCCD",
   "issueOn": "Ngày cấp",
   "enterIssueOn": "Nhập ngày cấp",
   "issueAt": "Nơi cấp",
@@ -289,14 +295,14 @@
   "selectBank": "Chọn ngân hàng",
   "accountNumber": "Số tài khoản",
   "enterAccountNumber": "Nhập số tài khoản",
-  "onboardingDate": "Ngày tham gia",
-  "enterOnboardingDate": "Nhập ngày tham gia",
+  "onboardingDate": "Ngày bắt đầu làm việc",
+  "enterOnboardingDate": "Nhập ngày bắt đầu làm việc",
   "probationDates": "Thời gian thử việc",
   "enterProbationDates": "Nhập thời gian thử việc",
   "officialStartDate": "Ngày bắt đầu chính thức",
   "enterOfficialStartDate": "Nhập ngày bắt đầu chính thức",
-  "terminationDate": "Ngày kết thúc",
-  "enterTerminationDate": "Nhập ngày kết thúc",
+  "terminationDate": "Ngày nghỉ việc",
+  "enterTerminationDate": "Nhập ngày nghỉ việc",
   "probationNumber": "Mã số tập sự",
   "enterProbationNumber": "Nhập mã số tập sự",
   "emergencyContactList": "Danh sách liên hệ khẩn cấp",
@@ -350,7 +356,7 @@
     "days": "Số ngày",
     "status": "Trạng thái",
     "Comment": "Bình luận",
-    "sendTo": "Gửi đến",
+    "sendTo": "Gửi tới",
     "functions": "Chức năng"
   },
   "ADMIN_EMPLOYEE_MANAGEMENT_COLUMNS": {
@@ -459,8 +465,8 @@
   "REQUEST_STATUS": {
     "all": "Tất cả",
     "rejected": "Từ chối",
-    "cancelled": "Huỷ bỏ",
-    "approved": "Chấp thuận",
+    "cancelled": "Đã đóng",
+    "approved": "Đã duyệt",
     "waiting": "Đang chờ",
     "taken": "Đã nhận",
     "weekend": "Cuối tuần",
@@ -492,7 +498,7 @@
   "leaveType": "Loại nghỉ phép",
   "dateRange": "Khoảng thời gian",
   "days": "Số ngày",
-  "sendTo": "Gửi cho",
+  "sendTo": "Gửi tới",
   "Comment": "Bình luận",
   "reject": "Từ chối",
   "approve": "Chấp thuận",
@@ -501,8 +507,8 @@
   "newTimeIn": "Giờ vào mới",
   "newTimeOut": "Giờ ra mới",
   "date": "Ngày",
-  "inTime": "Giờ vào",
-  "outTime": "Giờ ra",
+  "inTime": "Thời gian vào",
+  "outTime": "Thời gian ra",
   "totalWorkingTimeH": "Số giờ làm việc",
   "workingDay": "Số ngày công",
   "overtime": "Ngoài giờ",
@@ -523,7 +529,7 @@
   "chooseADate": "Chọn một ngày",
   "enterNewInTime": "Nhập giờ vào mới",
   "enterNewOutTime": "Nhập giờ ra mới",
-  "submitRequestSuccessfully": "<b>Đã Gửi Đơn Thành Công!</b>",
+  "submitRequestSuccessfully": "<b>Đã Gửi Duyệt Thành Công!</b>",
   "MY_TIME": {
     "outTimeAfterInTime": "Giờ ra phải sau giờ vào!",
     "inTimeBeforeOutTime": "Giờ vào phải trước giờ ra!"
@@ -553,6 +559,7 @@
   "validators": "Xác nhận",
   "postFunctions": "Hậu chức năng",
   "addCondition": "Thêm điều kiện",
+  "addPermission": "Thêm phân quyền",
   "addValidator": "Thêm xác nhận",
   "addPostFunction": "Thêm hậu chức năng",
   "WORKFLOW": {

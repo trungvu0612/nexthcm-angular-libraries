@@ -99,13 +99,19 @@
     "office": "Office",
     "address": "Address",
     "description": "Description",
-    "action": "Action"
+    "action": "Action",
+    "MESSAGES": {
+      "deleteSeatMap": "Are you sure you want to delete this seat map?"
+    }
   },
   "PERMISSION_TABLE": {
     "name": "Name",
     "code": "Code",
     "description": "Description",
-    "action": "Action"
+    "action": "Action",
+    "MESSAGES": {
+      "deletePermission": "Are you sure you want to delete this seat map?"
+    }
   },
   "TENANT_TABLE": {
     "ordinalNumber": "Ordinal number",
@@ -170,7 +176,7 @@
     "LEAVE_TYPES_COLUMNS": {
       "name": "Name",
       "description": "Description",
-      "paidLeave": "Paid Leave",
+      "paidLeave": "Payable",
       "status": "Status",
       "process": "Process",
       "operations": "Operators"
@@ -567,6 +573,7 @@
   "validators": "Validators",
   "postFunctions": "Post functions",
   "addCondition": "Add condition",
+  "addPermission": "Add permission",
   "addValidator": "Add validator",
   "addPostFunction": "Add post function",
   "WORKFLOW": {

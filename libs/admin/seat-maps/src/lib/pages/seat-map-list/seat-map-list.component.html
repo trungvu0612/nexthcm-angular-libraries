@@ -6,7 +6,7 @@
     </button>
   </header>
   <section *tuiLet="data$ | async as data" class="main-section">
-    <ngx-table [columns]="(columns$ | async) || []" [configuration]="configuration" [data]="data?.items || []">
+    <ngx-table [columns]="(columns$ | async) || []" [configuration]="configuration" [data]="data || []">
       <ng-template let-row>
         <td>{{ row.name }}</td>
         <td>{{ row.office.name }}</td>
@@ -29,9 +29,10 @@
       </ng-template>
     </ngx-table>
     <tui-table-pagination
-      (pageChange)="changePagination('page', $event)"
-      (sizeChange)="changePagination('size', $event)"
-      [total]="data?.totalElements || 0"
+      (pageChange)="onPage($event)"
+      (sizeChange)="onSize($event)"
+      [total]="(total$ | async) || 0"
+      class="tui-space_top-2"
     ></tui-table-pagination>
   </section>
 </main>

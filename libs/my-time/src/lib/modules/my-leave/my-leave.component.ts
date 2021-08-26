@@ -10,7 +10,7 @@ import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { BaseComponent, Columns } from 'ngx-easy-table';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { filter, map, share, startWith, switchMap, takeUntil } from 'rxjs/operators';
+import { catchError, filter, map, share, startWith, switchMap, takeUntil } from 'rxjs/operators';
 import { LeaveRequest } from '../../models';
 import { MyTimeService, RequestTypeAPIUrlPath } from '../../services';
 import { AbstractRequestListComponent } from '../shared/abstract-components/abstract-request-list.component';
@@ -71,9 +71,16 @@ export class MyLeaveComponent extends AbstractRequestListComponent<LeaveRequest>
     this.dialogService
       .open(new PolymorpheusComponent(SubmitLeaveRequestDialogComponent, this.injector), {
         label: this.translocoService.translate('submitLeaveRequest'),
-        size: 'l',
+        size: 'l'
       })
-      .pipe(takeUntil(this.destroy$))
+      .pipe(
+        catchError((err) =>
+          this.promptService.open({
+            icon: 'error',
+            html: this.translocoService.translate(`ERRORS.${err.error.message}`)
+          })
+        ),
+        takeUntil(this.destroy$))
       .subscribe(
         this.promptService.handleResponse('submitRequestSuccessfully', () =>
           this.queryParams$.next(this.queryParams$.value)
