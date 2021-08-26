@@ -496,50 +496,6 @@
         }
       }
     },
-    "admin-workflow": {
-      "projectType": "library",
-      "root": "libs/admin/workflow",
-      "sourceRoot": "libs/admin/workflow/src",
-      "prefix": "hcm",
-      "architect": {
-        "build": {
-          "builder": "@nrwl/angular:package",
-          "outputs": ["dist/libs/admin/workflow"],
-          "options": {
-            "project": "libs/admin/workflow/ng-package.json"
-          },
-          "configurations": {
-            "production": {
-              "tsConfig": "libs/admin/workflow/tsconfig.lib.prod.json"
-            },
-            "development": {
-              "tsConfig": "libs/admin/workflow/tsconfig.lib.json"
-            }
-          },
-          "defaultConfiguration": "production"
-        },
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/admin/workflow"],
-          "options": {
-            "jestConfig": "libs/admin/workflow/jest.config.js",
-            "passWithNoTests": true
-          }
-        },
-        "lint": {
-          "builder": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": ["libs/admin/workflow/src/**/*.ts", "libs/admin/workflow/src/**/*.html"]
-          }
-        },
-        "publish": {
-          "builder": "@nrwl/workspace:run-commands",
-          "options": {
-            "command": "yarn publish dist/libs/admin/workflow"
-          }
-        }
-      }
-    },
     "admin-seat-maps": {
       "projectType": "library",
       "root": "libs/admin/seat-maps",
@@ -715,6 +671,50 @@
           "builder": "@nrwl/workspace:run-commands",
           "options": {
             "command": "yarn publish dist/libs/admin/user-roles"
+          }
+        }
+      }
+    },
+    "admin-workflow": {
+      "projectType": "library",
+      "root": "libs/admin/workflow",
+      "sourceRoot": "libs/admin/workflow/src",
+      "prefix": "hcm",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/angular:package",
+          "outputs": ["dist/libs/admin/workflow"],
+          "options": {
+            "project": "libs/admin/workflow/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "libs/admin/workflow/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "libs/admin/workflow/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/admin/workflow"],
+          "options": {
+            "jestConfig": "libs/admin/workflow/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/admin/workflow/src/**/*.ts", "libs/admin/workflow/src/**/*.html"]
+          }
+        },
+        "publish": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "command": "yarn publish dist/libs/admin/workflow"
           }
         }
       }

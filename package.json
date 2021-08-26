@@ -54,7 +54,7 @@
     "@ngneat/transloco": "^2.22.0",
     "@ngneat/transloco-locale": "^1.4.0",
     "@ngx-formly/core": "^5.10.22",
-    "@nrwl/angular": "12.7.2",
+    "@nrwl/angular": "12.8.0",
     "@rx-angular/cdk": "^1.0.0-alpha.9",
     "@rx-angular/state": "^1.4.4",
     "@rx-angular/template": "^1.0.0-beta.28",
@@ -106,13 +106,13 @@
     "@ngneat/svg-generator": "^3.2.0",
     "@ngneat/tailwind": "^7.0.3",
     "@ngneat/transloco-optimize": "^1.0.2",
-    "@nrwl/cli": "12.7.2",
-    "@nrwl/cypress": "12.7.2",
-    "@nrwl/eslint-plugin-nx": "12.7.2",
-    "@nrwl/jest": "12.7.2",
-    "@nrwl/linter": "12.7.2",
-    "@nrwl/tao": "12.7.2",
-    "@nrwl/workspace": "12.7.2",
+    "@nrwl/cli": "12.8.0",
+    "@nrwl/cypress": "12.8.0",
+    "@nrwl/eslint-plugin-nx": "12.8.0",
+    "@nrwl/jest": "12.8.0",
+    "@nrwl/linter": "12.8.0",
+    "@nrwl/tao": "12.8.0",
+    "@nrwl/workspace": "12.8.0",
     "@typed-mxgraph/typed-mxgraph": "^1.0.4",
     "@types/dompurify": "^2.2.3",
     "@types/jest": "26.0.8",
@@ -162,3 +162,4 @@
     }
   }
 }
+
