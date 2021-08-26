@@ -45,7 +45,6 @@ export class UpsertLeaveLevelApproveDialogComponent implements OnInit {
         labelClassName: 'font-semibold',
         placeholder: 'chooseRoles',
         options: this.levelApproveService.select('jobTitles'),
-        labelProp: 'name',
         matcherBy: 'id',
       },
     },
@@ -75,7 +74,7 @@ export class UpsertLeaveLevelApproveDialogComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.context.data) {
-      this.model = {...this.model, ...this.context.data};
+      this.model = { ...this.model, ...this.context.data };
     }
   }
 

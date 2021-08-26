@@ -31,10 +31,12 @@ export class AddPostFunctionToTransitionDialogComponent extends AbstractAddOptio
       type: 'multi-select',
       templateOptions: {
         translate: true,
-        label: 'users',
+        label: 'jobTitles',
         labelClassName: 'font-semibold',
+        textfieldLabelOutside: true,
         required: true,
-        options: [],
+        matcherBy: 'id',
+        options: this.adminWorkflowService.select('jobTitles'),
       },
       hideExpression: (model: TransitionPostFunction) =>
         ![

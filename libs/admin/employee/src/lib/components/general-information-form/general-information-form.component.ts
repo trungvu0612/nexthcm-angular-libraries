@@ -151,7 +151,6 @@ export class GeneralInformationFormComponent {
                 labelClassName: 'font-semibold',
                 placeholder: 'chooseRoles',
                 options: this.adminEmployeeService.select('roles'),
-                labelProp: 'name',
                 matcherBy: 'id',
               },
             },

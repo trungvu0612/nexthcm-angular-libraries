@@ -1,4 +1,47 @@
-<button (click)="onAddPostFunction()" appearance="secondary" class="mt-2" icon="tuiIconPlus" size="s" tuiButton>
-  {{ 'addPostFunction' | transloco }}
-</button>
-<ngx-table [columns]="(columns$ | async) || []" [configuration]="configuration" [data]="data"></ngx-table>
+<ng-container *transloco="let t">
+  <div class="flex justify-end my-2">
+    <button (click)="onAddOption()" icon="tuiIconPlus" size="s" tuiButton>
+      {{ t('addPostFunction') }}
+    </button>
+  </div>
+  <ngx-table
+    #table
+    *tuiLet="columns$ | async as columns"
+    [columns]="columns || []"
+    [configuration]="configuration"
+    [data]="data"
+    [noResultsTemplate]="noResultsTemplate"
+  >
+    <ng-template let-index="index" let-row>
+      <ng-container *tuiLet="item(row) as item">
+        <td>{{ t(item.postFunctionType.name) }}</td>
+        <td>{{ t(item.postFunctionType.description) }}</td>
+        <td>
+          <div class="flex items-center">
+            <button
+              (click)="onEditOption(index)"
+              appearance="flat"
+              icon="tuiIconEditLarge"
+              size="m"
+              tuiIconButton
+              type="button"
+            ></button>
+            <button
+              (click)="onRemoveOption(index)"
+              appearance="flat"
+              icon="tuiIconTrashLarge"
+              size="m"
+              tuiIconButton
+              type="button"
+            ></button>
+          </div>
+        </td>
+      </ng-container>
+    </ng-template>
+    <ng-template #noResultsTemplate>
+      <td [attr.colspan]="columns?.length" class="text-center text-blue-500">
+        {{ t('noPostFunctions') }}
+      </td>
+    </ng-template>
+  </ngx-table>
+</ng-container>

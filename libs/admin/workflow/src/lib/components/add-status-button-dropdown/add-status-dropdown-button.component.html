@@ -5,14 +5,14 @@
 </tui-hosted-dropdown>
 
 <ng-template #dropdown let-activeZone>
-  <div class="p-4">
-    <p>Search for an existing status or name a new one.</p>
+  <div *transloco="let t" class="p-4">
+    <p>{{ t('searchStatusOrNameNewOne') }}</p>
     <hcm-status-combobox
       (valueChange)="value = $event"
       [activeZone]="activeZone"
       [addedStatuses]="addedStatus"
     ></hcm-status-combobox>
-    <div *transloco="let t" class="mt-4 flex justify-end space-x-2">
+    <div class="mt-4 flex justify-end space-x-2">
       <button (click)="onAdd(value)" [disabled]="!value" size="s" tuiButton type="button">{{ t('add') }}</button>
       <button (click)="open = false" appearance="flat" size="s" tuiButton type="button">{{ t('cancel') }}</button>
     </div>

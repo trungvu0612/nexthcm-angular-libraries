@@ -1,3 +1,4 @@
+import { BaseObject } from '@nexthcm/cdk';
 import { ConditionType, PostFunctionType, TransitionOptionIndex, ValidatorType } from '../enums';
 import { Status } from './status';
 
@@ -7,6 +8,7 @@ export interface Transition {
   description?: string;
   fromStateId?: string;
   toStateId: string;
+  conditionsOperator: 'OR' | 'AND';
   conditions: TransitionCondition[];
   validators: TransitionValidator[];
   postFunctions: TransitionPostFunction[];
@@ -14,18 +16,19 @@ export interface Transition {
 
 export interface TransitionCondition {
   conditionType: TransitionOption<ConditionType>;
-  conditionOperator: 'OR' | 'AND';
-  values: any[];
+  conditionOperator?: 'OR' | 'AND';
+  values?: BaseObject[];
 }
 
 export interface TransitionValidator {
   validatorType: TransitionOption<ValidatorType>;
-  values: any[];
+  users: BaseObject[];
+  permissions: BaseObject[];
 }
 
 export interface TransitionPostFunction {
   postFunctionType: TransitionOption<PostFunctionType>;
-  values: any[];
+  values?: BaseObject[];
 }
 
 export interface TransitionOption<T> {

@@ -5,7 +5,7 @@ import { RxState } from '@rx-angular/state';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { BaseComponent, Columns } from 'ngx-easy-table';
 import { Observable } from 'rxjs';
-import { filter, map, share, startWith, switchMap } from 'rxjs/operators';
+import { filter, map, shareReplay, startWith, switchMap } from 'rxjs/operators';
 import { WorkFromHomeRequest } from '../../../../models';
 import { MyTimeService, RequestTypeAPIUrlPath } from '../../../../services';
 import { AbstractRequestListComponent } from '../../../shared/abstract-components/abstract-request-list.component';
@@ -40,7 +40,7 @@ export class WorkFormHomeRequestListComponent extends AbstractRequestListCompone
         .getRequests<WorkFromHomeRequest>(this.requestTypeUrlPath, this.queryParams$.value)
         .pipe(startWith(null))
     ),
-    share()
+    shareReplay(1)
   );
   readonly loading$ = this.request$.pipe(map((value) => !value));
 

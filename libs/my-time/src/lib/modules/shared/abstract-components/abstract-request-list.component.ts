@@ -6,9 +6,9 @@ import { RequestStatus } from '../../../enums';
 import { MyTimeService, RequestTypeAPIUrlPath } from '../../../services';
 
 export abstract class AbstractRequestListComponent<T> extends AbstractServerPaginationTableComponent<T> {
-  requestTypeUrlPath!: RequestTypeAPIUrlPath;
-  myTimeService!: MyTimeService;
-  destroy$!: TuiDestroyService;
+  abstract requestTypeUrlPath: RequestTypeAPIUrlPath;
+  abstract myTimeService: MyTimeService;
+  abstract destroy$: TuiDestroyService;
   readonly RequestStatus = RequestStatus;
 
   protected constructor(public state: RxState<Pagination<T>>) {

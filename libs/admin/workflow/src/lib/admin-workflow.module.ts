@@ -26,6 +26,7 @@ import {
   TuiDataListWrapperModule,
   TuiIslandModule,
   TuiRadioModule,
+  TuiSelectModule,
   TuiTabsModule,
 } from '@taiga-ui/kit';
 import { TableModule } from 'ngx-easy-table';
@@ -113,6 +114,7 @@ export const ADMIN_PROCESSES_ROUTES: Routes = [
     TuiTabsModule,
     TuiBadgeModule,
     TuiRadioModule,
+    TuiSelectModule,
   ],
   declarations: [
     AdminWorkflowComponent,

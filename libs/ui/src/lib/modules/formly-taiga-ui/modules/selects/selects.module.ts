@@ -15,12 +15,13 @@ import {
 import { TuiAvatarModule, TuiMultiSelectModule, TuiSelectModule } from '@taiga-ui/kit';
 import { PolymorpheusModule } from '@tinkoff/ng-polymorpheus';
 import { FormFieldModule } from '../form-field/form-field.module';
+import { MultiSelectSearchComponent } from './multi-select-search/multi-select-search.component';
 import { MultiSelectComponent } from './multi-select/multi-select.component';
 import { SelectSearchComponent } from './select-search/select-search.component';
 import { SelectComponent } from './select/select.component';
 
 @NgModule({
-  declarations: [SelectComponent, MultiSelectComponent, SelectSearchComponent],
+  declarations: [SelectComponent, MultiSelectComponent, SelectSearchComponent, MultiSelectSearchComponent],
   imports: [
     CommonModule,
     FormFieldModule,
@@ -29,6 +30,7 @@ import { SelectComponent } from './select/select.component';
         { name: 'select', component: SelectComponent, wrappers: ['form-field'] },
         { name: 'multi-select', component: MultiSelectComponent, wrappers: ['form-field'] },
         { name: 'select-search', component: SelectSearchComponent, wrappers: ['form-field'] },
+        { name: 'multi-select-search', component: MultiSelectSearchComponent, wrappers: ['form-field'] },
       ],
     }),
     TuiSelectModule,

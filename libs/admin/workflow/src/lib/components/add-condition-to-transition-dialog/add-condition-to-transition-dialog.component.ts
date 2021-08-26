@@ -3,6 +3,7 @@ import { FormBuilder } from '@ngneat/reactive-forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
+import { map } from 'rxjs/operators';
 import { AbstractAddOptionToTransitionComponent } from '../../abstract-components/abstract-add-option-to-transition.component';
 import { ConditionType } from '../../enums';
 import { TransitionCondition, TransitionOption } from '../../models';
@@ -28,15 +29,39 @@ export class AddConditionToTransitionDialogComponent extends AbstractAddOptionTo
     {
       key: 'values',
       className: 'tui-form__row block',
-      type: 'multi-select',
+      type: 'multi-select-search',
       templateOptions: {
         translate: true,
         label: 'permissions',
         labelClassName: 'font-semibold',
+        placeholder: 'searchPermissions',
+        textfieldLabelOutside: true,
         required: true,
-        options: [],
+        serverRequest: (searchQuery: string) => this.adminWorkflowService.getPermissions(searchQuery),
       },
       hideExpression: (model: TransitionCondition) => model.conditionType?.code !== ConditionType.Permission,
+    },
+    {
+      key: 'values',
+      className: 'tui-form__row block',
+      type: 'multi-select-search',
+      templateOptions: {
+        translate: true,
+        label: 'jobTitles',
+        labelClassName: 'font-semibold',
+        textfieldLabelOutside: true,
+        placeholder: 'searchJobTitles',
+        required: true,
+        serverRequest: (searchQuery: string) =>
+          this.adminWorkflowService
+            .select('jobTitles')
+            .pipe(
+              map((jobTitles) =>
+                jobTitles.filter((jobTitle) => jobTitle.name.toLowerCase().indexOf(searchQuery.toLowerCase()) !== -1)
+              )
+            ),
+      },
+      hideExpression: (model: TransitionCondition) => model.conditionType?.code !== ConditionType.UserInTitles,
     },
   ];
 

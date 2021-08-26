@@ -1,27 +1,52 @@
-<section *rxLet="state$; let state">
-  <tui-tabs *transloco="let t" [(activeItemIndex)]="activeItemIndex">
+<section *transloco="let t">
+  <tui-tabs [(activeItemIndex)]="activeItemIndex">
     <button tuiTab>
-      {{ t('conditions') }}<tui-badge [value]="state.conditions?.length || 0" class="ml-2"></tui-badge>
+      {{ t('conditions') }}
+      <tui-badge [value]="transition.conditions.length" class="ml-2"></tui-badge>
     </button>
     <button tuiTab>
-      {{ t('validators') }}<tui-badge [value]="state.validators?.length || 0" class="ml-2"></tui-badge>
+      {{ t('validators') }}
+      <tui-badge [value]="transition.validators.length" class="ml-2"></tui-badge>
     </button>
     <button tuiTab>
-      {{ t('postFunctions') }}<tui-badge [value]="state.postFunctions?.length || 0" class="ml-2"></tui-badge>
+      {{ t('postFunctions') }}
+      <tui-badge [value]="transition.postFunctions.length" class="ml-2"></tui-badge>
     </button>
   </tui-tabs>
-  <div [ngSwitch]="activeItemIndex">
-    <hcm-transition-condition-list
-      *ngSwitchCase="TransitionOptionIndex.Conditions"
-      [data]="state.conditions || []"
-    ></hcm-transition-condition-list>
+  <div [ngSwitch]="activeItemIndex" class="mt-4">
+    <ng-container *ngSwitchCase="TransitionOptionIndex.Conditions">
+      <div *ngIf="transition.conditions.length">
+        <tui-select
+          *tuiLet="conditionsOperators$ | async as items"
+          [(ngModel)]="transition.conditionsOperator"
+          [tuiTextfieldLabelOutside]="true"
+          [valueContent]="stringify(items || [])"
+        >
+          <ng-template tuiDataList>
+            <tui-data-list>
+              <button *ngFor="let item of items" [value]="item.value" tuiOption>
+                {{ item.label }}
+              </button>
+            </tui-data-list>
+          </ng-template>
+        </tui-select>
+      </div>
+      <hcm-transition-condition-list
+        (dataChange)="transition.conditions = $event"
+        [data]="transition.conditions"
+      ></hcm-transition-condition-list>
+    </ng-container>
+
     <hcm-transition-validator-list
+      (dataChange)="transition.validators = $event"
       *ngSwitchCase="TransitionOptionIndex.Validators"
-      [data]="state.validators || []"
+      [data]="transition.validators"
     ></hcm-transition-validator-list>
+
     <hcm-transition-post-function-list
+      (dataChange)="transition.postFunctions = $event"
       *ngSwitchCase="TransitionOptionIndex.PostFunctions"
-      [data]="state.postFunctions || []"
+      [data]="transition.postFunctions"
     ></hcm-transition-post-function-list>
   </div>
 </section>

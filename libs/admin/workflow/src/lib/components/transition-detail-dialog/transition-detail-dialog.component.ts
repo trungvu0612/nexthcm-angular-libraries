@@ -1,8 +1,11 @@
-import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
-import { RxState } from '@rx-angular/state';
+import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
+import { BaseOption } from '@nexthcm/cdk';
+import { HashMap, TranslocoService } from '@ngneat/transloco';
+import { TuiContextWithImplicit, tuiPure, TuiStringHandler } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
-import { Subject } from 'rxjs';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { TransitionOptionIndex } from '../../enums';
 import { Transition, TransitionDetailData } from '../../models';
 
@@ -11,22 +14,32 @@ import { Transition, TransitionDetailData } from '../../models';
   templateUrl: './transition-detail-dialog.component.html',
   styleUrls: ['./transition-detail-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [RxState],
 })
-export class TransitionDetailDialogComponent implements OnInit {
+export class TransitionDetailDialogComponent {
   activeItemIndex = this.context.data.index;
-  readonly initHandler$ = new Subject<Transition>();
-  readonly state$ = this.state.select();
   readonly TransitionOptionIndex = TransitionOptionIndex;
+  readonly conditionsOperators$: Observable<BaseOption<string>[]> = this.translocoService
+    .selectTranslateObject<HashMap<string>>('WORKFLOW_CONDITIONS_OPERATORS')
+    .pipe(
+      map((result) => [
+        { label: result.or, value: 'OR' },
+        { label: result.and, value: 'AND' },
+      ])
+    );
 
   constructor(
     @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<Transition, TransitionDetailData>,
-    private readonly state: RxState<Transition>
-  ) {
-    state.connect(this.initHandler$);
+    private readonly translocoService: TranslocoService
+  ) {}
+
+  get transition(): Transition {
+    return this.context.data.transition;
   }
 
-  ngOnInit(): void {
-    this.initHandler$.next(this.context.data.transition);
+  @tuiPure
+  stringify(items: BaseOption<string>[]): TuiStringHandler<TuiContextWithImplicit<string>> {
+    const map = new Map(items.map(({ value, label }) => [value, label]));
+
+    return ({ $implicit }: TuiContextWithImplicit<string>) => map.get($implicit) || '';
   }
 }

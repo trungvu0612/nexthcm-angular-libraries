@@ -26,7 +26,7 @@ export class AddValidatorToTransitionDialogComponent extends AbstractAddOptionTo
       },
     },
     {
-      key: 'values',
+      key: 'users',
       className: 'tui-form__row block',
       type: 'multi-select',
       templateOptions: {
@@ -36,19 +36,23 @@ export class AddValidatorToTransitionDialogComponent extends AbstractAddOptionTo
         required: true,
         options: [],
       },
-      hideExpression: (model: TransitionValidator) => model.validatorType.code !== ValidatorType.UserPermission,
+      hideExpression: (model: TransitionValidator) => model.validatorType?.code !== ValidatorType.UserPermission,
     },
     {
-      key: 'values',
+      key: 'permissions',
       className: 'tui-form__row block',
-      type: 'multi-select',
+      type: 'multi-select-search',
       templateOptions: {
         translate: true,
         label: 'permissions',
         labelClassName: 'font-semibold',
+        textfieldLabelOutside: true,
+        placeholder: 'searchPermissions',
         required: true,
-        options: [],
+        serverRequest: (searchQuery: string) => this.adminWorkflowService.getPermissions(searchQuery),
       },
+      hideExpression: (model: TransitionValidator) =>
+        ![ValidatorType.Permission, ValidatorType.UserPermission].includes(model.validatorType?.code),
     },
   ];
 

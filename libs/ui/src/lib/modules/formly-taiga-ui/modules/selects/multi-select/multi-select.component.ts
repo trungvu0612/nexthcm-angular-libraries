@@ -12,10 +12,11 @@ export class MultiSelectComponent extends FieldType {
   defaultOptions = {
     templateOptions: {
       textfieldSize: 'l',
-      labelProp: 'label',
+      labelProp: 'name',
       textfieldLabelOutside: true,
       matcherBy: 'default',
       stringify: (item: any) => item.name,
+      editable: false,
     },
   };
 

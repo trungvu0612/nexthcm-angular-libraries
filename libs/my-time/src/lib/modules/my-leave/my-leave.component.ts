@@ -42,7 +42,6 @@ export class MyLeaveComponent extends AbstractRequestListComponent<LeaveRequest>
     new HttpParams().set('page', 0).set('size', 10).set('userId', this.authService.get('userInfo', 'userId'))
   );
   private readonly request$ = this.queryParams$.pipe(
-    // skip(1),
     switchMap(() =>
       this.myTimeService
         .getRequests<LeaveRequest>(this.requestTypeUrlPath, this.queryParams$.value)
@@ -71,16 +70,17 @@ export class MyLeaveComponent extends AbstractRequestListComponent<LeaveRequest>
     this.dialogService
       .open(new PolymorpheusComponent(SubmitLeaveRequestDialogComponent, this.injector), {
         label: this.translocoService.translate('submitLeaveRequest'),
-        size: 'l'
+        size: 'l',
       })
       .pipe(
         catchError((err) =>
           this.promptService.open({
             icon: 'error',
-            html: this.translocoService.translate(`ERRORS.${err.error.message}`)
+            html: this.translocoService.translate(`ERRORS.${err.error.message}`),
           })
         ),
-        takeUntil(this.destroy$))
+        takeUntil(this.destroy$)
+      )
       .subscribe(
         this.promptService.handleResponse('submitRequestSuccessfully', () =>
           this.queryParams$.next(this.queryParams$.value)

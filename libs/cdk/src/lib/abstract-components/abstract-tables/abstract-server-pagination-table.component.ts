@@ -5,7 +5,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { Pagination } from '../../models';
 
 export abstract class AbstractServerPaginationTableComponent<T> {
-  table!: BaseComponent;
+  abstract table: BaseComponent;
   configuration: Config = {
     ...DefaultConfig,
     paginationEnabled: false,

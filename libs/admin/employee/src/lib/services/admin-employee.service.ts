@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BaseObject, BaseResponse, EmployeeInfo, Pagination, PagingResponse } from '@nexthcm/cdk';
+import { ACCOUNT_API_PATH, BaseObject, BaseResponse, EmployeeInfo, Pagination, PagingResponse } from '@nexthcm/cdk';
 import { RxState } from '@rx-angular/state';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -23,7 +23,7 @@ export class AdminEmployeeService extends RxState<AdminEmployeeState> {
     super();
     this.connect('organizations', this.getOrganizations().pipe(map((res) => res.data.items)));
     this.connect('roles', this.getRoles().pipe(map((res) => res.data.items)));
-    this.connect('jobTitles', this.getJobTitles().pipe(map((res) => res.data.items)));
+    this.connect('jobTitles', this.getJobTitles());
     this.connect('jobLevels', this.getJobLevels().pipe(map((res) => res.data.items)));
     this.connect('users', this.getUsers().pipe(map((res) => res.data.items)));
     this.connect('offices', this.getOffices().pipe(map((res) => res.data.items)));
@@ -47,8 +47,8 @@ export class AdminEmployeeService extends RxState<AdminEmployeeState> {
     return this.http.get<PagingResponse<BaseObject>>(`${ADMIN_EMPLOYEE_PATH}/orgs/v2`);
   }
 
-  getJobTitles(): Observable<PagingResponse<BaseObject>> {
-    return this.http.get<PagingResponse<BaseObject>>(`${ADMIN_EMPLOYEE_PATH}/titles/v2`);
+  getJobTitles(): Observable<BaseObject[]> {
+    return this.http.get<BaseObject[]>(`${ACCOUNT_API_PATH}/titles/v2`);
   }
 
   getRoles(): Observable<PagingResponse<BaseObject>> {

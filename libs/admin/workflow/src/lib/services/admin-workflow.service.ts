@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ACCOUNT_API_PATH, BaseResponse, Pagination, PagingResponse } from '@nexthcm/cdk';
+import { ACCOUNT_API_PATH, BaseObject, BaseResponse, Pagination, PagingResponse } from '@nexthcm/cdk';
 import { insert, RxState, update } from '@rx-angular/state';
 import { Observable, Subject } from 'rxjs';
 import { map, startWith, switchMap, tap } from 'rxjs/operators';
@@ -13,6 +13,7 @@ interface WorkflowState {
   conditionTypes: TransitionOption<ConditionType>[];
   validatorTypes: TransitionOption<ValidatorType>[];
   postFunctionTypes: TransitionOption<PostFunctionType>[];
+  jobTitles: BaseObject[];
 }
 
 @Injectable()
@@ -38,6 +39,7 @@ export class AdminWorkflowService extends RxState<WorkflowState> {
       update(state.statuses, status, (a, b) => a.id === b.id)
     );
     this.connect('statuses', this.createStatus$, (state, status) => insert(state.statuses, status));
+    this.connect('jobTitles', this.getJobTitles());
   }
 
   getStatusTypes(): Observable<Status[]> {
@@ -98,5 +100,13 @@ export class AdminWorkflowService extends RxState<WorkflowState> {
 
   getPostFunctionTypes(): Observable<TransitionOption<PostFunctionType>[]> {
     return this.http.get<TransitionOption<PostFunctionType>[]>(`${ACCOUNT_API_PATH}/pfs/types`);
+  }
+
+  getJobTitles(): Observable<BaseObject[]> {
+    return this.http.get<BaseObject[]>(`${ACCOUNT_API_PATH}/titles/v2`);
+  }
+
+  getPermissions(searchQuery: string): Observable<BaseObject[]> {
+    return this.http.get<BaseObject[]>(`${ACCOUNT_API_PATH}/permissions/search?name=${searchQuery}`);
   }
 }
