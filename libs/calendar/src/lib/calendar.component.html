@@ -7,6 +7,6 @@
   </header>
 
   <section class="main-section">
-    <full-calendar [options]="calendarOptions"></full-calendar>
+    <full-calendar [options]="(calendarOptions$ | async) || undefined"></full-calendar>
   </section>
 </main>

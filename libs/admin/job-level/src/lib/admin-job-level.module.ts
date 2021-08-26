@@ -11,6 +11,7 @@ import { NgxPermissionsGuard } from 'ngx-permissions';
 import { JobLevelComponent } from './job-level.component';
 import { ListJobLevelComponent } from './list-job-level/list-job-level.component';
 import { UpsertJobLevelComponent } from './upsert-job-level/upsert-job-level.component';
+import { TranslocoModule } from '@ngneat/transloco';
 
 export const adminJobLevelRoutes: Route[] = [
   {
@@ -56,6 +57,7 @@ export const adminJobLevelRoutes: Route[] = [
     ReactiveFormsModule,
     RouterModule.forChild(adminJobLevelRoutes),
     RouterModule,
+    TranslocoModule
   ],
 })
 export class AdminJobLevelModule {}

@@ -456,7 +456,7 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
       key: 'checkOutBefore',
       type: 'input-time',
       templateOptions: {
-        label: 'Employee is off in morning',
+        label: 'Employee is off in afternoon',
         textfieldLabelOutside: true,
         required: true,
         placeholder: 'Check out before'

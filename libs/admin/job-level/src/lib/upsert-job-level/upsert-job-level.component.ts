@@ -85,6 +85,6 @@ export class UpsertJobLevelComponent implements OnInit {
   }
 
   cancel() {
-    console.log('cancel')
+    this.router.navigateByUrl('/admin/job-level');
   }
 }
