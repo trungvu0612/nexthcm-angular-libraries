@@ -81,8 +81,8 @@ export class AdminWorkflowService extends RxState<WorkflowState> {
     );
   }
 
-  updateStatus(payload: Status): Observable<Status> {
-    return this.http.put<BaseResponse<Status>>(`${ACCOUNT_API_PATH}/states/${payload.id}`, payload).pipe(
+  updateStatus(payload: Status): Observable<unknown> {
+    return this.http.put<BaseResponse<unknown>>(`${ACCOUNT_API_PATH}/states/${payload.id}`, payload).pipe(
       map((res) => res.data),
       tap(() => this.updateStatus$.next(payload))
     );

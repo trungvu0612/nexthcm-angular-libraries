@@ -8,3 +8,4 @@ export * from './job-title';
 export * from './permission-response';
 export * from './base-object';
 export * from './employee-info';
+export * from './holiday';

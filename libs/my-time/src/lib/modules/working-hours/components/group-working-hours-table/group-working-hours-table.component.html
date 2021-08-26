@@ -5,7 +5,7 @@
         <td><button class="invisible" tuiIconButton></button></td>
         <td>{{ item.userInfo.cif }}</td>
         <td>{{ item.userInfo.fullName }}</td>
-        <td>{{ item.userInfo.office.name }}</td>
+        <td>{{ item.userInfo.office?.name }}</td>
         <td>{{ item.trackingDate | translocoDate }}</td>
         <td>
           {{

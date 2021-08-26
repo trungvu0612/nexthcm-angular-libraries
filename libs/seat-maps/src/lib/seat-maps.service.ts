@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { PagingResponse, Seat, UserDto, Zone } from '@nexthcm/cdk';
+import { ACCOUNT_API_PATH, MY_TIME_API_PATH, PagingResponse, Seat, UserDto, Zone } from '@nexthcm/cdk';
 import { RxState } from '@rx-angular/state';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -22,22 +22,21 @@ export class SeatMapsService extends RxState<SeatMapsState> {
 
   getUsers(): Observable<Partial<UserDto>[]> {
     return this.http
-      .get<PagingResponse<UserDto>>('/accountapp/v1.0/users', { params: { size: 999 } })
+      .get<PagingResponse<UserDto>>(`${ACCOUNT_API_PATH}/users`, { params: { size: 999 } })
       .pipe(map((response) => response.data.items));
   }
 
   getSeatMaps(): Observable<Partial<Zone>[]> {
     return this.http
-      .get<PagingResponse<Zone>>('/mytimeapp/v1.0/seats-map', { params: { size: 999 } })
+      .get<PagingResponse<Zone>>(`${MY_TIME_API_PATH}/seats-map`, { params: { size: 999 } })
       .pipe(map((response) => response.data.items));
   }
 
   getSeatMap(id?: string): Observable<Partial<Zone>> {
-    const path = id ? `/seats-map/${id}` : '/my-seats-map';
-    return this.http.get<Partial<Zone>>('/mytimeapp/v1.0' + path);
+    return this.http.get<Partial<Zone>>(`${MY_TIME_API_PATH}${id ? `/seats-map/${id}` : `/my-seats-map`}`);
   }
 
   assignedUser(seatId: string, body: Partial<Seat>): Observable<Partial<Seat>> {
-    return this.http.put('/mytimeapp/v1.0/seats-map/assign-seat/' + seatId, body);
+    return this.http.put(`${MY_TIME_API_PATH}/seats-map/assign-seat/${seatId}`, body);
   }
 }

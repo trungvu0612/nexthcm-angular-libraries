@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { PromptComponentModule, SkipNavigationDirectiveModule } from '@nexthcm/cdk';
-import { SvgIconsModule } from '@ngneat/svg-icon';
+import { SvgIconRegistry, SvgIconsModule } from '@ngneat/svg-icon';
 import { TranslocoModule } from '@ngneat/transloco';
 import {
   TuiButtonModule,
@@ -32,7 +32,7 @@ import { SidebarComponent } from './sidebar/sidebar.component';
     TranslocoModule,
     TuiHostedDropdownModule,
     TuiButtonModule,
-    SvgIconsModule.forChild(sidebarIcons),
+    SvgIconsModule,
     TuiScrollbarModule,
     SkipNavigationDirectiveModule,
     NgxPermissionsModule,
@@ -40,4 +40,8 @@ import { SidebarComponent } from './sidebar/sidebar.component';
   ],
   exports: [LayoutComponent],
 })
-export class LayoutModule {}
+export class LayoutModule {
+  constructor(private registry: SvgIconRegistry) {
+    registry.register(sidebarIcons);
+  }
+}

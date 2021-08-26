@@ -6,8 +6,7 @@ import { RxState } from '@rx-angular/state';
 import { TuiTime } from '@taiga-ui/cdk';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { DurationHoldsEnum, PartialDay } from '../enums';
-import { HalfDaysEnum } from '../enums/half-days';
+import { DurationHoldsEnum, HalfDaysEnum, PartialDay } from '../enums';
 import {
   DurationValues,
   LeavesRemaining,

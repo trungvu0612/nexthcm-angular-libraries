@@ -1,6 +1,9 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Holiday, MY_TIME_API_PATH, PagingResponse } from '@nexthcm/cdk';
 import { RxState } from '@rx-angular/state';
 import { Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { CalendarBuilding, ExternalEmail, InvitePerson } from './models/calendar';
 
 interface CalendarState {
@@ -8,12 +11,14 @@ interface CalendarState {
   rooms: CalendarBuilding[];
   invitePeople: InvitePerson[];
   externalEmails: ExternalEmail[];
+  holidays: Holiday[];
 }
 
 @Injectable()
 export class CalendarService extends RxState<CalendarState> {
-  constructor() {
+  constructor(private http: HttpClient) {
     super();
+    this.connect('holidays', this.getHoliday());
     this.connect('buildings', this.getBuildings());
     this.connect('rooms', this.getRooms());
     this.connect('invitePeople', this.getPeople());
@@ -72,5 +77,9 @@ export class CalendarService extends RxState<CalendarState> {
       { id: '1', name: 'tran.ngo-nam@gmail.com' },
       { id: '2', name: 'nguyen.tran-thao@gmail.com' },
     ]);
+  }
+
+  getHoliday(): Observable<Holiday[]> {
+    return this.http.get<PagingResponse<Holiday>>(`${MY_TIME_API_PATH}/holidays`).pipe(map((res) => res.data.items));
   }
 }

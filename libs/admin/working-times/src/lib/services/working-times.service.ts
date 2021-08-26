@@ -1,9 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BaseResponse, PagingResponse } from '@nexthcm/cdk';
+import { BaseResponse, Holiday, MY_TIME_API_PATH, PagingResponse } from '@nexthcm/cdk';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { Holiday } from '../models/holiday';
 import { Office } from '../models/offices';
 import { Organization } from '../models/organization';
 import { WorkingAfterTime } from '../models/working-after-time';
@@ -13,16 +12,14 @@ import { WorkingTimes } from '../models/working-times';
   providedIn: 'root',
 })
 export class WorkingTimesService {
-  appVersion = '/mytimeapp/v1.0';
-
   constructor(private httpClient: HttpClient) {}
 
   getSettings(): Observable<PagingResponse<WorkingTimes>> {
-    return this.httpClient.get<PagingResponse<WorkingTimes>>(`${this.appVersion}/config/times`);
+    return this.httpClient.get<PagingResponse<WorkingTimes>>(`${MY_TIME_API_PATH}/config/times`);
   }
 
   saveSettings(dto: WorkingTimes): Observable<WorkingTimes> {
-    return this.httpClient.post<WorkingTimes>(`${this.appVersion}/config/times`, dto);
+    return this.httpClient.post<WorkingTimes>(`${MY_TIME_API_PATH}/config/times`, dto);
   }
 
   getOffices(): Observable<PagingResponse<Office>> {
@@ -34,20 +31,20 @@ export class WorkingTimesService {
   }
 
   submitWorkingAfterTime(body: any): Observable<WorkingAfterTime> {
-    return this.httpClient.post<WorkingAfterTime>(`${this.appVersion}/config/times/overtime`, body);
+    return this.httpClient.post<WorkingAfterTime>(`${MY_TIME_API_PATH}/config/times/overtime`, body);
   }
 
   statusChecking(): Observable<any> {
-    return this.httpClient.get<any>(this.appVersion + '/check-in-out');
+    return this.httpClient.get<any>(MY_TIME_API_PATH + '/check-in-out');
   }
 
   getWorkingHourConfigByOrg(orgId: any): Observable<any> {
-    return this.httpClient.get<any>(`${this.appVersion}/config/times/working-hour-config-by-org-id/` + orgId);
+    return this.httpClient.get<any>(`${MY_TIME_API_PATH}/config/times/working-hour-config-by-org-id/` + orgId);
   }
 
   getOvertimeConfigByOrg(orgId: string): Observable<any> {
     return this.httpClient
-      .get<BaseResponse<any>>(`${this.appVersion}/config/times/overtime-config-by-org-id/` + orgId)
+      .get<BaseResponse<any>>(`${MY_TIME_API_PATH}/config/times/overtime-config-by-org-id/` + orgId)
       .pipe(
         map((res) => res.data),
         catchError(() =>
@@ -76,14 +73,14 @@ export class WorkingTimesService {
   }
 
   getHoliday(): Observable<PagingResponse<Holiday>> {
-    return this.httpClient.get<PagingResponse<Holiday>>(`${this.appVersion}/holidays`);
+    return this.httpClient.get<PagingResponse<Holiday>>(`${MY_TIME_API_PATH}/holidays`);
   }
 
   addHoliday(dto: { recurringType: any; name: any; holidayDate: number }): Observable<any> {
-    return this.httpClient.post<any>(`${this.appVersion}/holidays`, dto);
+    return this.httpClient.post<any>(`${MY_TIME_API_PATH}/holidays`, dto);
   }
 
   deleteHoliday(id: string): Observable<Holiday> {
-    return this.httpClient.delete<Holiday>(`${this.appVersion}/holidays/` + id);
+    return this.httpClient.delete<Holiday>(`${MY_TIME_API_PATH}/holidays/` + id);
   }
 }

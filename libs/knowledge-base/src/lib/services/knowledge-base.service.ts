@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Pagination, PagingResponse } from '@nexthcm/cdk';
+import { MY_TIME_API_PATH, Pagination, PagingResponse } from '@nexthcm/cdk';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Category, Knowledge } from '../models/knowledge';
@@ -13,33 +13,33 @@ export class KnowledgeBaseService {
 
   getKnowledgeBase(params: { longDescription?: string; size: number }): Observable<Pagination<Partial<Knowledge>>> {
     return this.http
-      .get<PagingResponse<Partial<Knowledge>>>('/mytimeapp/v1.0/policies', { params })
+      .get<PagingResponse<Partial<Knowledge>>>(`${MY_TIME_API_PATH}/policies`, { params })
       .pipe(map((response) => response.data));
   }
 
   getKnowledge(id: string): Observable<Partial<Knowledge>> {
-    return this.http.get<Partial<Knowledge>>('/mytimeapp/v1.0/policies/' + id);
+    return this.http.get<Partial<Knowledge>>(`${MY_TIME_API_PATH}/policies/${id}`);
   }
 
   getCategories(params: { [key: string]: number }): Observable<Pagination<Partial<Category>>> {
     return this.http
-      .get<PagingResponse<Partial<Category>>>('/mytimeapp/v1.0/policy-category', { params })
+      .get<PagingResponse<Partial<Category>>>(`${MY_TIME_API_PATH}/policy-category`, { params })
       .pipe(map((response) => response.data));
   }
 
   getCategory(id: string): Observable<Partial<Category>> {
-    return this.http.get<Partial<Category>>('/mytimeapp/v1.0/policy-category/' + id);
+    return this.http.get<Partial<Category>>(`${MY_TIME_API_PATH}/policy-category/` + id);
   }
 
   createCategory(category: Partial<Category>): Observable<unknown> {
-    return this.http.post('/mytimeapp/v1.0/policy-category', category);
+    return this.http.post(`${MY_TIME_API_PATH}/policy-category`, category);
   }
 
   editCategory(category: Partial<Category>): Observable<unknown> {
-    return this.http.put('/mytimeapp/v1.0/policy-category/' + category.id, category);
+    return this.http.put(`${MY_TIME_API_PATH}/policy-category/${category.id}`, category);
   }
 
   deleteCategory(id: string): Observable<unknown> {
-    return this.http.delete('/mytimeapp/v1.0/policy-category/' + id);
+    return this.http.delete(`${MY_TIME_API_PATH}/policy-category/${id}`);
   }
 }

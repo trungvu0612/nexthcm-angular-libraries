@@ -34,6 +34,9 @@ export class UpsertTransitionDialogComponent implements OnInit {
   } as Transition;
   fields: FormlyFieldConfig[] = [
     { key: 'id', defaultValue: uuidv4() },
+    { key: 'conditions' },
+    { key: 'validators' },
+    { key: 'postFunctions' },
     {
       className: 'tui-form__row block',
       key: 'fromStateId',

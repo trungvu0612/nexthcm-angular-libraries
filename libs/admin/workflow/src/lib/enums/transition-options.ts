@@ -1,7 +1,7 @@
 export enum ConditionType {
   Permission = 'C-001',
   UserInGroup = 'C-002',
-  UserInAnyGroup = 'C-003',
+  UserInTitles = 'C-003',
   OnlyReporter = 'C-004',
   OnlyAssignee = 'C-005',
 }
@@ -13,14 +13,14 @@ export enum ValidatorType {
 
 export enum PostFunctionType {
   AssignToDirectLeader = 'P-001',
-  SendEmailAndNotificationToTheLeaderWithASpecifiedTitle = 'P-002',
-  SendEmailAndNotificationToTheNewAssignee = 'P-003',
-  SendEmailAndNotificationToTheReporter = 'P-004',
-  SetIssueStatusToTheLinkedStatusOfTheDestinationWorkflowStatus = 'P-005',
-  UpdateChangeHistoryForAnIssueAndStoreTheIssueInIheDatabase = 'P-006',
-  AddACommentToAnIssueIfOneIsEnteredDuringATransition = 'P-007',
-  AssignToReporter = 'P-008',
-  AssignToTheNearestLeaderWithASpecifiedTitle = 'P-009',
+  AssignToTheNearestLeaderWithASpecifiedTitle = 'P-002',
+  AssignToReporter = 'P-003',
+  CreateComment = 'P-004',
+  UpdateChangeHistoryForAnIssueAndStoreTheIssueInIheDatabase = 'P-005',
+  SetIssueStatusToTheLinkedStatusOfTheDestinationWorkflowStatus = 'P-006',
+  SendEmailAndNotificationToTheReporter = 'P-007',
+  SendEmailAndNotificationToTheLeaderWithASpecifiedTitle = 'P-008',
+  SendEmailAndNotificationToTheNewAssignee = 'P-009',
 }
 
 export enum TransitionOptionIndex {

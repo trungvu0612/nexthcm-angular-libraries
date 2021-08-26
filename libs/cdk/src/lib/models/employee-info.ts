@@ -18,5 +18,5 @@ export interface EmployeeInfo {
   jobLevel?: BaseObject;
   directReport: BaseObject;
   fullName: string;
-  office: BaseObject;
+  office?: BaseObject;
 }

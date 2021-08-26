@@ -122,6 +122,7 @@ export class WorkflowDesignerComponent implements OnInit {
     const cell = this.graphModel.getCell(status.id);
     cell.getValue().setAttribute('label', status.label);
     this.graphModel.setStyle(cell, setCellStyle(cell, status));
+    this.graphSelectionModel.setCell(cell);
   }
 
   private drawTransition(transition: WorkflowTransition): void {

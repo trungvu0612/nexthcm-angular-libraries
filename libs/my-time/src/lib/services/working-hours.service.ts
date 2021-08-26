@@ -3,7 +3,14 @@ import { Injectable } from '@angular/core';
 import { BaseResponse, MY_TIME_API_PATH, Pagination, PagingResponse } from '@nexthcm/cdk';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { WorkingHours, WorkingHoursGroup, WorkingInfoCurrentMonth } from '../models';
+import {
+  CheckInPayload,
+  CheckOutPayload,
+  TimeKeepingLog,
+  WorkingHours,
+  WorkingHoursGroup,
+  WorkingInfoCurrentMonth,
+} from '../models';
 
 @Injectable()
 export class WorkingHoursService {
@@ -27,5 +34,17 @@ export class WorkingHoursService {
         `${MY_TIME_API_PATH}/working-hours/display-total-working-day-per-month`
       )
       .pipe(map((res) => res.data));
+  }
+
+  getTimekeepingLog(): Observable<TimeKeepingLog> {
+    return this.http.get<BaseResponse<TimeKeepingLog>>(`${MY_TIME_API_PATH}/check-in-out`).pipe(map((res) => res.data));
+  }
+
+  checkIn(payload: CheckInPayload): Observable<unknown> {
+    return this.http.put<unknown>(`${MY_TIME_API_PATH}/check-in`, payload);
+  }
+
+  checkOut(payload: CheckOutPayload): Observable<unknown> {
+    return this.http.put<unknown>(`${MY_TIME_API_PATH}/check-out`, payload);
   }
 }

@@ -5,7 +5,7 @@ import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
-import { takeUntil, tap } from 'rxjs/operators';
+import { mapTo, tap } from 'rxjs/operators';
 import { v4 as uuidv4 } from 'uuid';
 import { Status } from '../../models';
 import { AdminWorkflowService } from '../../services/admin-workflow.service';
@@ -86,11 +86,11 @@ export class UpsertStatusDialogComponent implements OnInit {
 
   onSubmit(): void {
     if (this.form.valid) {
-      this.adminWorkflowService[this.editMode ? 'updateStatus' : 'createStatus'](this.model)
-        .pipe(
-          tap((res) => this.context.completeWith(res)),
-          takeUntil(this.destroy$)
-        )
+      (this.editMode
+        ? this.adminWorkflowService.updateStatus(this.model).pipe(mapTo(this.model))
+        : this.adminWorkflowService.createStatus(this.model)
+      )
+        .pipe(tap((res) => this.context.completeWith(res)))
         .subscribe(this.promptService.handleResponse());
     }
   }

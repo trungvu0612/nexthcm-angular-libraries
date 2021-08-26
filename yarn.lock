@@ -1467,6 +1467,13 @@
   resolved "https://registry.yarnpkg.com/@csstools/convert-colors/-/convert-colors-1.4.0.tgz#ad495dc41b12e75d588c6db8b9834f08fa131eb7"
   integrity sha512-5a6wqoJV/xEdbRNKVo6I4hO3VjyDq//8q2f9I6PBAvMesJHFauXDorcNCsr9RzvsZnaWi5NYCcfyqP1QeFHFbw==
 
+"@ctrl/ngx-emoji-mart@^6.0.0":
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/@ctrl/ngx-emoji-mart/-/ngx-emoji-mart-6.0.0.tgz#5e8e2fe532ebed3236865ce27f0c06e6e0c7f2ad"
+  integrity sha512-+6n3SVZGanmsntUjCG3ED/We3FH9gJ0l4BEsT5BnhC9SDc4YiBGq9UfiqJwG2eKJSseSTVGKn6vh+DsoVnec0w==
+  dependencies:
+    tslib "^2.1.0"
+
 "@cypress/request@^2.88.5":
   version "2.88.5"
   resolved "https://registry.yarnpkg.com/@cypress/request/-/request-2.88.5.tgz#8d7ecd17b53a849cfd5ab06d5abe7d84976375d7"

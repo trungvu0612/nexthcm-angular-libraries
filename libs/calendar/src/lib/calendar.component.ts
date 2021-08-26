@@ -2,10 +2,10 @@ import { ChangeDetectionStrategy, Component, Injector } from '@angular/core';
 import { CalendarOptions } from '@fullcalendar/angular';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
-import { CreateCalendarEventDialogComponent } from './components/create-calendar-event-dialog/create-calendar-event-dialog.component';
-import { WorkingTimesService } from '../../../admin/working-times/src/lib/services/working-times.service';
-import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { CalendarService } from './calendar.service';
+import { CreateCalendarEventDialogComponent } from './components/create-calendar-event-dialog/create-calendar-event-dialog.component';
 
 @Component({
   selector: 'hcm-calendar',
@@ -14,17 +14,17 @@ import { Observable } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CalendarComponent {
-  readonly calendarOptions$: Observable<CalendarOptions> = this.workingTimesService.getHoliday().pipe(
-    map((res) => ({
+  readonly calendarOptions$: Observable<CalendarOptions> = this.calendarService.select('holidays').pipe(
+    map((holidays) => ({
       initialView: 'dayGridMonth',
-      events: res.data.items.map(({ name, holidayDate }) => ({ title: name, date: holidayDate, allDay: true })),
+      events: holidays.map(({ name, holidayDate }) => ({ title: name, date: holidayDate, allDay: true })),
     }))
   );
 
   constructor(
     private dialogService: TuiDialogService,
     private injector: Injector,
-    private workingTimesService: WorkingTimesService
+    private calendarService: CalendarService
   ) {}
 
   onCreateMeeting(): void {

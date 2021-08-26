@@ -4,7 +4,7 @@
   <ngx-table #table [columns]="(columns$ | async) || []" [configuration]="configuration" [data]="(data$ | async) || []">
     <ng-template let-row>
       <ng-container *tuiLet="item(row) as item">
-        <td>{{ item.userInfo.office.name }}</td>
+        <td>{{ item.userInfo.office?.name }}</td>
         <td>{{ item.trackingDate | translocoDate: { weekday: 'long' } }}, {{ item.trackingDate | translocoDate }}</td>
         <td>{{ item.inTime * 1000 | date: 'HH:mm':'UTC' }}</td>
         <td>{{ item.outTime * 1000 | date: 'HH:mm':'UTC' }}</td>
