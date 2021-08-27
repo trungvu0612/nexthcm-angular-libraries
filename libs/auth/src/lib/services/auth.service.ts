@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { ACCOUNT_API_PATH } from '@nexthcm/cdk';
 import { APP_CONFIG, AppConfig, PermissionsService } from '@nexthcm/core';
 import { RxState } from '@rx-angular/state';
 import { CookieService } from 'ngx-cookie';
@@ -35,7 +36,7 @@ export class AuthService extends RxState<AuthState> {
     private http: HttpClient,
     private cookieService: CookieService,
     private router: Router,
-    private permissionsService: PermissionsService
+    private permissionsService: PermissionsService,
   ) {
     super();
     this.set('userInfo', () => createState(cookieService.get('access_token')));
@@ -56,7 +57,7 @@ export class AuthService extends RxState<AuthState> {
   }
 
   private login(payload: LoginPayload): Observable<AuthInfo> {
-    return this.http.post<AuthInfo>('/accountapp/v1.0/auth', payload).pipe(
+    return this.http.post<AuthInfo>(`${ACCOUNT_API_PATH}/auth`, payload).pipe(
       tap((authInfo) => {
         this.cookieService.put('access_token', authInfo.access_token, {
           path: '/',

@@ -1,5 +1,5 @@
 :host {
-  display: block;
+  @apply block p-6;
 
   .shadow-tmp {
     @apply absolute left-3 -bottom-5 z-0 m-auto h-5 bg-indigo-500 rounded-br-xl rounded-bl-xl;
@@ -7,9 +7,7 @@
     width: calc(100% - 1.5rem);
   }
 
-  .month-working-days {
-    @apply flex flex-col justify-center items-center text-center p-5 space-y-3 bg-white rounded-xl shadow-md;
-
-    height: calc(100% + 1.25rem);
+  .right-column {
+    @apply flex relative flex-col justify-center space-y-3 text-center bg-white cursor-auto;
   }
 }

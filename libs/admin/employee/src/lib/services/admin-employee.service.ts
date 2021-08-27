@@ -15,8 +15,6 @@ interface AdminEmployeeState {
   offices: BaseObject[];
 }
 
-const ADMIN_EMPLOYEE_PATH = '/accountapp/v1.0';
-
 @Injectable()
 export class AdminEmployeeService extends RxState<AdminEmployeeState> {
   constructor(private http: HttpClient) {
@@ -31,20 +29,20 @@ export class AdminEmployeeService extends RxState<AdminEmployeeState> {
 
   getEmployees(params: HttpParams): Observable<Pagination<EmployeeInfo>> {
     return this.http
-      .get<PagingResponse<EmployeeInfo>>(`${ADMIN_EMPLOYEE_PATH}/employees`, { params })
+      .get<PagingResponse<EmployeeInfo>>(`${ACCOUNT_API_PATH}/employees`, { params })
       .pipe(map((res) => res.data));
   }
 
   initEmployee(payload: EmployeeGeneralInformation): Observable<BaseResponse<EmployeeGeneralInformation>> {
-    return this.http.post<BaseResponse<EmployeeGeneralInformation>>(`${ADMIN_EMPLOYEE_PATH}/employees`, payload);
+    return this.http.post<BaseResponse<EmployeeGeneralInformation>>(`${ACCOUNT_API_PATH}/employees`, payload);
   }
 
   removeEmployee(id: string): Observable<unknown> {
-    return this.http.delete<unknown>(`${ADMIN_EMPLOYEE_PATH}/employees/${id}`);
+    return this.http.delete<unknown>(`${ACCOUNT_API_PATH}/employees/${id}`);
   }
 
   getOrganizations(): Observable<PagingResponse<BaseObject>> {
-    return this.http.get<PagingResponse<BaseObject>>(`${ADMIN_EMPLOYEE_PATH}/orgs/v2`);
+    return this.http.get<PagingResponse<BaseObject>>(`${ACCOUNT_API_PATH}/orgs/v2`);
   }
 
   getJobTitles(): Observable<BaseObject[]> {
@@ -52,36 +50,36 @@ export class AdminEmployeeService extends RxState<AdminEmployeeState> {
   }
 
   getRoles(): Observable<PagingResponse<BaseObject>> {
-    return this.http.get<PagingResponse<BaseObject>>(`${ADMIN_EMPLOYEE_PATH}/roles/v2`);
+    return this.http.get<PagingResponse<BaseObject>>(`${ACCOUNT_API_PATH}/roles/v2`);
   }
 
   getUsers(): Observable<PagingResponse<BaseObject>> {
-    return this.http.get<PagingResponse<BaseObject>>(`${ADMIN_EMPLOYEE_PATH}/users/v2`);
+    return this.http.get<PagingResponse<BaseObject>>(`${ACCOUNT_API_PATH}/users/v2`);
   }
 
   getJobLevels(): Observable<PagingResponse<BaseObject>> {
-    return this.http.get<PagingResponse<BaseObject>>(`${ADMIN_EMPLOYEE_PATH}/levels/v2`);
+    return this.http.get<PagingResponse<BaseObject>>(`${ACCOUNT_API_PATH}/levels/v2`);
   }
 
   getOffices(): Observable<PagingResponse<BaseObject>> {
-    return this.http.get<PagingResponse<BaseObject>>(`${ADMIN_EMPLOYEE_PATH}/offices/v2`);
+    return this.http.get<PagingResponse<BaseObject>>(`${ACCOUNT_API_PATH}/offices/v2`);
   }
 
   getEmployeeGeneralInformation(id: string): Observable<BaseResponse<EmployeeGeneralInformation>> {
-    return this.http.get<BaseResponse<EmployeeGeneralInformation>>(`${ADMIN_EMPLOYEE_PATH}/employees/${id}`);
+    return this.http.get<BaseResponse<EmployeeGeneralInformation>>(`${ACCOUNT_API_PATH}/employees/${id}`);
   }
 
   updateEmployeeGeneralInformation(
     payload: EmployeeGeneralInformation
   ): Observable<BaseResponse<EmployeeGeneralInformation>> {
-    return this.http.post<BaseResponse<EmployeeGeneralInformation>>(`${ADMIN_EMPLOYEE_PATH}/employees`, payload);
+    return this.http.post<BaseResponse<EmployeeGeneralInformation>>(`${ACCOUNT_API_PATH}/employees`, payload);
   }
 
   getEmployeeInformation<T>(id: string, apiType: EmployeeInformationType): Observable<BaseResponse<T>> {
-    return this.http.get<BaseResponse<T>>(`${ADMIN_EMPLOYEE_PATH}/info/employees/${apiType}/${id}`);
+    return this.http.get<BaseResponse<T>>(`${ACCOUNT_API_PATH}/info/employees/${apiType}/${id}`);
   }
 
   updateEmployeeInformation<T>(payload: T): Observable<BaseResponse<T>> {
-    return this.http.post<BaseResponse<T>>(`${ADMIN_EMPLOYEE_PATH}/info/employees`, payload);
+    return this.http.post<BaseResponse<T>>(`${ACCOUNT_API_PATH}/info/employees`, payload);
   }
 }

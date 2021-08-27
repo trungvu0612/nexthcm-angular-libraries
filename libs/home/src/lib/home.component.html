@@ -1,11 +1,11 @@
-<main *transloco="let t" class="p-6">
-  <header class="mb-10">
-    <p class="text-2xl font-medium">{{ t(greeting) }},</p>
-    <h1 class="text-3xl font-bold">
-      {{ t('welcomeBack') }}, <span class="text-blue-500">{{ username }}</span>
-      <ngx-emoji [size]="32" class="ml-2" emoji="wave" set="apple"></ngx-emoji>
-    </h1>
-  </header>
+<header *transloco="let t" class="mb-10">
+  <p class="text-2xl font-medium">{{ t(greeting) }},</p>
+  <h1 class="text-3xl font-bold">
+    {{ t('welcomeBack') }}, <span class="text-blue-500">{{ username }}</span>
+    <ngx-emoji [size]="32" class="ml-2" emoji="wave" set="apple"></ngx-emoji>
+  </h1>
+</header>
+<main *transloco="let t">
   <section *rxLet="myWorkingDays$; let myWorkingDays" class="grid grid-cols-1 gap-6 my-10 md:grid-cols-3">
     <div class="relative col-span-2 p-8 text-base text-center text-white bg-indigo-700 rounded-xl">
       <div class="shadow-tmp"></div>
@@ -37,25 +37,23 @@
         </div>
         <div class="flex justify-center pt-8">
           <span tuiMode="onDark">
-            <a routerLink="/my-time/working-hours/only-me" tuiLink>{{ t('viewDetail') }}</a>
+            <a routerLink="/my-time/working-hours/only-me" tuiLink>{{ t('viewDetails') }}</a>
           </span>
         </div>
       </tui-loader>
     </div>
 
-    <div *rxLet="shouldCheckedIn$; let isCheckedIn" class="month-working-days relative">
-      <ng-container *ngIf="isCheckedIn === null">
-        <div class="text-2xl font-semibold">{{ t('yourWorkingDaysThisMonth') }}</div>
+    <tui-island *rxLet="shouldCheckedIn$; let shouldCheckedIn" [hoverable]="true" class="right-column" size="l">
+      <ng-container *ngIf="shouldCheckedIn === null">
+        <div class="font-semibold tui-island__title">{{ t('yourWorkingDaysThisMonth') }}</div>
         <div *rxLet="monthWorkingTime$; let monthWorkingTime">
-          <span class="text-8xl font-bold text-blue-500">
-            {{ monthWorkingTime?.workingDay }}
-          </span>
-          <span class="text-4xl font-bold text-gray-400">
-            /{{ monthWorkingTime?.totalWorkingDay ? monthWorkingTime.totalWorkingDay : '-' }}
-          </span>
+          <span class="text-8xl font-bold text-blue-500">{{ monthWorkingTime?.workingDay }}</span
+          ><span class="text-4xl font-bold text-gray-400"
+            >/{{ monthWorkingTime?.totalWorkingDay ? monthWorkingTime.totalWorkingDay : '-' }}</span
+          >
         </div>
       </ng-container>
-      <ng-container *ngIf="isCheckedIn !== null">
+      <ng-container *ngIf="shouldCheckedIn !== null">
         <div class="absolute top-0 right-0">
           <button
             (click)="shouldCheckedIn$.next(null)"
@@ -67,11 +65,11 @@
         </div>
         <div class="flex flex-col items-center space-y-6">
           <svg-icon fontSize="130px" key="fingerprint"></svg-icon>
-          <button tuiButton type="button">
-            {{ isCheckedIn ? 'checkOut' : 'checkIn' }}
+          <button (click)="checkInOut$.next()" tuiButton type="button">
+            {{ shouldCheckedIn ? 'checkIn' : 'checkOut' }}
           </button>
         </div>
       </ng-container>
-    </div>
+    </tui-island>
   </section>
 </main>

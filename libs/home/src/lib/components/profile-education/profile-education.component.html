@@ -1,0 +1,24 @@
+<ng-container *rxLet="profile$; let profile">
+  <div *transloco="let t" class="table w-full">
+    <div class="table-row">
+      <div class="table-label">{{ t('university') }}:</div>
+      <div class="table-value">{{ profile.university }}</div>
+    </div>
+    <div class="table-row">
+      <div class="table-label">{{ t('major') }}:</div>
+      <div class="table-value">{{ profile.major }}</div>
+    </div>
+    <div class="table-row">
+      <div class="table-label">{{ t('highestCertificate') }}:</div>
+      <div class="table-value">{{ profile.highestCertificate }}</div>
+    </div>
+    <div class="table-row">
+      <div class="table-label">{{ t('graduationYear') }}:</div>
+      <div class="table-value">{{ profile.graduationYear }}</div>
+    </div>
+    <div class="table-row">
+      <div class="table-label">{{ t('description') }}:</div>
+      <div class="table-value">{{ profile.description }}</div>
+    </div>
+  </div>
+</ng-container>

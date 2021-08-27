@@ -15,7 +15,7 @@ import { FormlyModule } from '@ngx-formly/core';
 import { TuiTablePaginationModule } from '@taiga-ui/addon-table';
 import { TuiLetModule } from '@taiga-ui/cdk';
 import { TuiButtonModule, TuiDataListModule, TuiLoaderModule, TuiSvgModule } from '@taiga-ui/core';
-import { TuiDataListWrapperModule, TuiTabsModule } from '@taiga-ui/kit';
+import { TuiDataListWrapperModule, TuiIslandModule, TuiTabsModule } from '@taiga-ui/kit';
 import { TableModule } from 'ngx-easy-table';
 import { WorkingHoursService } from '../../services';
 import { EveryoneWorkingHoursListComponent } from './components/everyone-working-hours-list/everyone-working-hours-list.component';
@@ -57,6 +57,7 @@ import { WorkingHoursComponent } from './working-hours.component';
     SelectFilterComponentModule,
     RouterModule,
     BaseFormComponentModule,
+    TuiIslandModule,
   ],
   providers: [WorkingHoursService],
 })

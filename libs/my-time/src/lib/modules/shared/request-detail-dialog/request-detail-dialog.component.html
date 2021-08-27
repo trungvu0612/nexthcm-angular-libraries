@@ -1,7 +1,7 @@
 <ng-container *transloco="let t">
   <ng-container *ngIf="data.employeeDTO || data.user || data.userInfo as employee">
     <section *ngIf="!isMyRequest" class="flex flex-col items-center py-5 border-b">
-      <img [src]="(employee.image | getFile | async) || ''" alt class="mb-8 w-40 h-40 rounded-full" loading="lazy" />
+      <hcm-avatar [image]="employee.image" [text]="employee.username" rounded size="xxl"></hcm-avatar>
       <div class="mb-3 font-semibold text-blue-500 tui-text_h5">{{ employee.fullName }}</div>
       <div class="text-lg">{{ employee.jobTitle?.name }}</div>
     </section>
@@ -98,11 +98,11 @@
             </div>
             <div class="table-row">
               <div class="table-label">{{ t('newInTime') }}:</div>
-              <div class="table-value">{{ data.newInTime ? ( data.newInTime * 1000 | date: 'HH:mm':'UTC') : '' }}</div>
+              <div class="table-value">{{ data.newInTime ? (data.newInTime * 1000 | date: 'HH:mm':'UTC') : '' }}</div>
             </div>
             <div class="table-row">
               <div class="table-label">{{ t('newOutTime') }}:</div>
-              <div class="table-value">{{ data.newOutTime ? ( data.newOutTime * 1000 | date: 'HH:mm':'UTC') : '' }}</div>
+              <div class="table-value">{{ data.newOutTime ? (data.newOutTime * 1000 | date: 'HH:mm':'UTC') : '' }}</div>
             </div>
           </ng-container>
           <ng-container *ngSwitchCase="RequestTypeAPIUrlPath.workingOutside">
@@ -206,11 +206,11 @@
             >
             </tui-input>
             <button
-              tuiIconButton
               (click)="onSubmitComment()"
               appearance="flat"
               class="tui-space_right-3 tui-space_bottom-3"
               icon="tuiIconRedoLarge"
+              tuiIconButton
               type="button"
             ></button>
           </div>

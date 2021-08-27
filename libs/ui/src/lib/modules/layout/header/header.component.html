@@ -10,30 +10,33 @@
         <button [iconRight]="icon" appearance="flat" tuiButton type="button">
           <tui-svg src="assets/icons/languages.svg"></tui-svg>
         </button>
+        <ng-template #icon>
+          <tui-svg [class.rotate-180]="open" class="transition transform" src="tuiIconChevronDown"></tui-svg>
+        </ng-template>
       </tui-hosted-dropdown>
+      <ng-template #langsDropdown>
+        <tui-data-list>
+          <button (click)="changeLang(lang)" *ngFor="let lang of languages" class="font-normal language" tuiOption>
+            {{ lang }}
+          </button>
+        </tui-data-list>
+      </ng-template>
+
       <div class="relative cursor-pointer w-8 h-8">
         <tui-svg class="absolute bottom-0 left-0" src="tuiIconBellLarge"></tui-svg>
         <div *ngIf="notification" class="badge">{{ notification }}</div>
       </div>
-      <tui-hosted-dropdown [content]="avatarDropdown" class="mx-8">
-        <tui-avatar [rounded]="true" avatarUrl="assets/icons/cake.svg" class="cursor-pointer" size="s"></tui-avatar>
+      <tui-hosted-dropdown *rxLet="userProfile$; let userProfile" [content]="avatarDropdown" class="mx-8">
+        <button>
+          <hcm-avatar [image]="userProfile.image" [text]="userProfile.username" rounded size="s"></hcm-avatar>
+        </button>
       </tui-hosted-dropdown>
+      <ng-template #avatarDropdown>
+        <tui-data-list>
+          <button class="font-normal" routerLink="/profile" tuiOption>{{ t('profile') }}</button>
+          <button class="font-normal" routerLink="/auth/logout" tuiOption>{{ t('signOut') }}</button>
+        </tui-data-list>
+      </ng-template>
     </div>
   </header>
-
-  <ng-template #icon>
-    <tui-svg [class.rotate-180]="open" class="transition transform" src="tuiIconChevronDown"></tui-svg>
-  </ng-template>
-  <ng-template #langsDropdown>
-    <tui-data-list>
-      <button (click)="changeLang(lang)" *ngFor="let lang of languages" class="font-normal language" tuiOption>
-        {{ lang }}
-      </button>
-    </tui-data-list>
-  </ng-template>
-  <ng-template #avatarDropdown>
-    <tui-data-list>
-      <button class="font-normal" routerLink="/auth/logout" tuiOption>{{ t('signOut') }}</button>
-    </tui-data-list>
-  </ng-template>
 </ng-container>

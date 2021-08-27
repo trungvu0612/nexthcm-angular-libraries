@@ -1,0 +1,59 @@
+<ng-container *transloco="let t">
+  <header class="flex justify-between items-center mb-6">
+    <h1 class="m-0 text-3xl font-semibold">{{ t('profile') }}</h1>
+  </header>
+  <main *rxLet="profile$; let profile" class="grid grid-cols-3 space-x-8 text-base">
+    <section class="p-6 bg-white rounded-xl shadow-xl">
+      <div class="flex justify-center mb-6">
+        <hcm-avatar [image]="profile.image" [text]="profile.username" size="xxl"></hcm-avatar>
+      </div>
+      <div class="text-2xl font-bold text-center">{{ profile.fullName }}</div>
+      <div class="text-center">{{ profile.cif }}</div>
+      <div *ngIf="isBirthday$ | async" class="flex justify-between items-center border-b">
+        <svg-icon key="cake" size="xxl"></svg-icon>
+        <svg-icon key="fireworks" size="xxl"></svg-icon>
+      </div>
+      <div class="table mt-6 w-full">
+        <div class="table-row">
+          <div class="table-label">{{ t('organization') }}:</div>
+          <div class="table-value">{{ profile.organization.name }}</div>
+        </div>
+        <div class="table-row">
+          <div class="table-label">{{ t('jobTitle') }}:</div>
+          <div class="table-value">{{ profile.jobTitle?.name }}</div>
+        </div>
+        <div class="table-row">
+          <div class="table-label">{{ t('jobLevel') }}:</div>
+          <div class="table-value">{{ profile.jobLevel?.name }}</div>
+        </div>
+        <div class="table-row">
+          <div class="table-label">{{ t('directReport') }}:</div>
+          <div class="table-value">{{ profile.directReport.name }}</div>
+        </div>
+      </div>
+    </section>
+    <section class="col-span-2 p-6 bg-white rounded-xl shadow-xl">
+      <tui-tabs [(activeItemIndex)]="activeItemIndex">
+        <button routerLink="/profile/individual" routerLinkActive tuiTab>
+          <hero-icon class="mr-2 w-6 h-6" name="identification"></hero-icon>
+          {{ t('individual') }}
+        </button>
+        <button routerLink="/profile/duration" routerLinkActive tuiTab>
+          <tui-svg class="mr-2 w-6 h-6" src="tuiIconCompanyLarge"></tui-svg>
+          {{ t('employeeDuration') }}
+        </button>
+        <button routerLink="/profile/education" routerLinkActive tuiTab>
+          <hero-icon class="mr-2 w-6 h-6" name="academic-cap"></hero-icon>
+          {{ t('education') }}
+        </button>
+        <button routerLink="/profile/shui" routerLinkActive tuiTab>
+          <tui-svg class="mr-2 w-6 h-6" src="tuiIconStarLarge"></tui-svg>
+          SHUI
+        </button>
+      </tui-tabs>
+      <div class="mt-5">
+        <router-outlet></router-outlet>
+      </div>
+    </section>
+  </main>
+</ng-container>

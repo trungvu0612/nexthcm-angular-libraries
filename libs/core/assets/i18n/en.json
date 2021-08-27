@@ -414,7 +414,6 @@
     "description": "Description",
     "functions": "Functions"
   },
-
   "jobTitleManagement": "Job Title Management",
   "addNewJobTitle": "Create new job title",
   "editJobTitle": "Edit new job title",
@@ -422,8 +421,6 @@
   "addNewJobTitleSuccessfully": "Create new job title successfully",
   "deleteJobTitle": "Are you sure you want to remove this job title?",
   "deleteJobTitleSuccessfully": "Remove this job title successfully",
-
-
   "userRoleManagement": "User Role Management",
   "addNewUserRole": "Create new user role",
   "editUserRole": "Edit new user role",
@@ -658,5 +655,17 @@
   "jobTitles": "Job Titles",
   "searchStatusOrNameNewOne": "Search for an existing status or name a new one.",
   "searchPermissions": "Search for permissions",
-  "searchJobTitles": "Search for job titles"
+  "searchJobTitles": "Search for job titles",
+  "goodMorning": "Good morning",
+  "goodAfternoon": "Good afternoon",
+  "goodEvening": "Good evening",
+  "goodNight": "Good night",
+  "welcomeBack": "Welcome back",
+  "workingDays": "Working days",
+  "today": "Today",
+  "yesterday": "Yesterday",
+  "viewDetails": "View details",
+  "checkIn": "Check in",
+  "checkOut": "Check out",
+  "profile": "Profile"
 }

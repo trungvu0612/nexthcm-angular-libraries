@@ -12,7 +12,7 @@ export class GetFilePipe implements PipeTransform {
 
   transform(value: string): Observable<string> {
     return this.http
-      .get('/fileapp/store/file/get', { params: { subPath: value }, responseType: 'blob' })
+      .get(`/fileapp/store/file/get?subPath=${value}`, { responseType: 'blob' })
       .pipe(map((blob) => this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob)) as string));
   }
 }

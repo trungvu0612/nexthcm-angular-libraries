@@ -644,5 +644,17 @@
   "jobTitles": "Chức vụ",
   "searchStatusOrNameNewOne": "Tìm kiếm trạng thái hiện có hoặc đặt tên cho trạng thái mới.",
   "searchPermissions": "Tìm kiếm phân quyền",
-  "searchJobTitles": "Tìm kiếm chức vụ"
+  "searchJobTitles": "Tìm kiếm chức vụ",
+  "goodMorning": "Chào buổi sáng",
+  "goodAfternoon": "Chào buổi chiều",
+  "goodEvening": "Chào buổi tối",
+  "goodNight": "Chúc ngủ ngon",
+  "welcomeBack": "Chào mừng quay trở lại",
+  "workingDays": "Ngày làm việc",
+  "today": "Hôm nay",
+  "yesterday": "Hôm qua",
+  "viewDetails": "Xem chi tiết",
+  "checkIn": "Ghi giờ vào",
+  "checkOut": "Ghi giờ ra",
+  "profile": "Hồ sơ"
 }

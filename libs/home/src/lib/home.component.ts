@@ -1,25 +1,27 @@
 import { HttpParams } from '@angular/common/http';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { AuthService } from '@nexthcm/auth';
 import { PromptService } from '@nexthcm/cdk';
 import { CheckInPayload, CheckOutPayload, WorkingHours, WorkingHoursService } from '@nexthcm/my-time';
+import { TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
-import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
+import { isPresent } from '@taiga-ui/cdk';
 import { differenceInSeconds, endOfToday, startOfToday, startOfYesterday } from 'date-fns';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { filter, map, share, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { BehaviorSubject, from, Observable, Subject } from 'rxjs';
+import { filter, map, share, startWith, switchMap, tap } from 'rxjs/operators';
+
+interface HomeState {
+  checkingId: string;
+}
 
 @Component({
   selector: 'hcm-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [TuiDestroyService, RxState],
+  providers: [RxState],
 })
-export class HomeComponent implements OnInit {
-  readonly monthWorkingTime$ = this.workingHoursService.getWorkingTimeCurrentMonth();
-  readonly shouldCheckedIn$ = new BehaviorSubject<boolean | null>(null);
-
+export class HomeComponent {
   readonly queryParams$ = new BehaviorSubject(
     new HttpParams()
       .set('userId', this.authService.get('userInfo', 'userId'))
@@ -36,15 +38,31 @@ export class HomeComponent implements OnInit {
     share()
   );
   readonly loading$ = this.myWorkingDaysRequest$.pipe(map((value) => !value));
+  readonly monthWorkingTime$ = this.workingHoursService.getWorkingTimeCurrentMonth();
   readonly myWorkingDays$: Observable<WorkingHours[]> = this.myWorkingDaysRequest$.pipe(filter(isPresent));
+  readonly shouldCheckedIn$ = new BehaviorSubject<boolean | null>(true);
+  readonly checkInOut$ = new Subject();
+  readonly checkedId$ = this.workingHoursService.getTimekeepingLog().pipe(
+    tap((items) => this.shouldCheckedIn$.next(items.length === 0 ? null : items.length === 1 && !items[0].inTime)),
+    map((items) => items[0]?.id),
+    filter(isPresent)
+  );
 
   constructor(
     private readonly workingHoursService: WorkingHoursService,
     private readonly authService: AuthService,
-    private readonly destroy$: TuiDestroyService,
     private readonly promptService: PromptService,
-    private readonly state: RxState<Record<string, unknown>>
-  ) {}
+    private readonly state: RxState<HomeState>,
+    private readonly translocoService: TranslocoService
+  ) {
+    this.state.connect('checkingId', this.checkedId$)
+    this.state.hold(
+      this.checkInOut$.pipe(
+        switchMap(() => this.checkedId$),
+        switchMap((checkedId) => (this.shouldCheckedIn$.value ? this.checkOut(checkedId) : this.checkIn(checkedId)))
+      )
+    );
+  }
 
   get greeting(): string {
     const time = new Date().getHours();
@@ -61,31 +79,43 @@ export class HomeComponent implements OnInit {
     return this.authService.get('userInfo', 'preferred_username');
   }
 
-  ngOnInit(): void {
-    this.workingHoursService.getTimekeepingLog().pipe(takeUntil(this.destroy$)).subscribe();
-  }
-
-  checkIn(): Observable<unknown> {
+  private checkIn(id: string): Observable<unknown> {
     const checkInPayload: CheckInPayload = {
       trackingDate: new Date().getTime(),
       inTime: differenceInSeconds(new Date(), startOfToday()),
       checkinFrom: 'web-app',
       lastAction: 'checked-in',
     };
-    return this.workingHoursService
-      .checkIn(checkInPayload)
-      .pipe(tap(this.promptService.handleResponse('checkInSuccessfully', () => this.shouldCheckedIn$.next(true))));
+    return from(
+      this.promptService.open({
+        icon: 'question',
+        html: this.translocoService.translate('checkInConfirm'),
+        showCancelButton: true,
+      })
+    ).pipe(
+      filter((result) => result.isConfirmed),
+      switchMap(() => this.workingHoursService.checkIn(id, checkInPayload)),
+      tap(() => this.promptService.handleResponse('checkInSuccessfully', () => this.shouldCheckedIn$.next(true)))
+    );
   }
 
-  checkOut(): Observable<unknown> {
+  private checkOut(id: string): Observable<unknown> {
     const checkOutPayload: CheckOutPayload = {
       trackingDate: new Date().getTime(),
       outTime: differenceInSeconds(new Date(), startOfToday()),
       checkoutFrom: 'web-app',
       lastAction: 'checked-out',
     };
-    return this.workingHoursService
-      .checkOut(checkOutPayload)
-      .pipe(tap(this.promptService.handleResponse('checkOutSuccessfully')));
+    return from(
+      this.promptService.open({
+        icon: 'question',
+        html: this.translocoService.translate('checkOutConfirm'),
+        showCancelButton: true,
+      })
+    ).pipe(
+      filter((result) => result.isConfirmed),
+      switchMap(() => this.workingHoursService.checkOut(id, checkOutPayload)),
+      tap(() => this.promptService.handleResponse('checkOutSuccessfully'))
+    );
   }
 }
