@@ -5,11 +5,13 @@ import { Route, RouterModule } from '@angular/router';
 import { AdminPermissionsService } from '@nexthcm/admin-permissions';
 import { SelectOptionsModule } from '@nexthcm/cdk';
 import { LayoutComponent } from '@nexthcm/ui';
+import { TranslocoModule } from '@ngneat/transloco';
 import { FormlyModule } from '@ngx-formly/core';
 import { TuiTableModule, TuiTablePaginationModule } from '@taiga-ui/addon-table';
 import { TuiLetModule } from '@taiga-ui/cdk';
-import { TuiDataListModule, TuiSvgModule } from '@taiga-ui/core';
+import { TuiButtonModule, TuiDataListModule, TuiLoaderModule, TuiSvgModule } from '@taiga-ui/core';
 import { TuiDataListWrapperModule, TuiMultiSelectModule } from '@taiga-ui/kit';
+import { TableModule } from 'ngx-easy-table';
 import { NgxPermissionsGuard } from 'ngx-permissions';
 import { AdminUserRolesComponent } from './admin-user-roles.component';
 import { FormlySelectPermissionsComponent } from './components/formly-select-permissions/formly-select-permissions.component';
@@ -47,7 +49,11 @@ export const adminUserRolesRoutes: Route[] = [
     SelectOptionsModule,
     TuiTableModule,
     TuiSvgModule,
+    TuiLoaderModule,
+    TableModule,
     TuiTablePaginationModule,
+    TranslocoModule,
+    TuiButtonModule,
   ],
   declarations: [
     ListUserRolesComponent,

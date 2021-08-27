@@ -1,4 +1,6 @@
 {
+  "cancelled": "Hủy bỏ",
+  "approved": "Chấp thuận",
   "action": "Thao tác",
   "adder": "Người tạo",
   "createOffice": "Thêm văn phòng",
@@ -392,6 +394,14 @@
   "OVERVIEW": {
     "viewDetail": "Chi tiết"
   },
+  "ADMIN_JOB_TITLE_COLUMNS": {
+    "name": "Tên",
+    "createdBy": "Tạo bởi",
+    "createdDate": "Tạo ngày",
+    "lastModifiedDate": "Ngày chỉnh sửa",
+    "state": "Trạng thái",
+    "functions": "Chức năng"
+  },
   "ADMIN_LEAVE_LEVEL_APPROVE_MANAGEMENT_COLUMNS": {
     "name": "Tên",
     "leaveType": "Loại nghỉ phép",
@@ -399,6 +409,28 @@
     "totalLeave": "Số ngày nghỉ",
     "functions": "Chức năng"
   },
+  "ADMIN_USER_ROLE_COLUMNS": {
+    "name": "Tên",
+    "description": "Mô tả",
+    "functions": "Chức năng"
+  },
+
+  "jobTitleManagement": "Quản lý chức vụ",
+  "addNewJobTitle": "Tạo mới chức vụ",
+  "editJobTitle": "Chỉnh sửa chức vụ",
+  "updateJobTitleSuccessfully": "Chỉnh sửa chức vụ thành công",
+  "addNewJobTitleSuccessfully": "Tạo mới chức vụ thành công",
+  "deleteJobTitle": "Bạn có muốn xóa chức vụ này không?",
+  "deleteJobTitleSuccessfully": "Xóa chức vụ này thành công",
+
+
+  "userRoleManagement": "Quản lý vai trò",
+  "addNewUserRole": "Tạo mới vai trò",
+  "editUserRole": "Chỉnh sửa vai trò",
+  "updateUserRoleSuccessfully": "Cập nhật vai trò thành công",
+  "addNewUserRoleSuccessfully": "Tạo mới vai trò thành công",
+  "deleteUserRole": "Bạn có muốn xóa vai trò này ?",
+  "deleteUserRoleSuccessfully": "Xóa vai trò thành công",
   "addNewEmployee": "Thêm nhân viên mới",
   "overview": "Tổng quan",
   "myTime": "Thời gian",
@@ -423,7 +455,6 @@
   "workflowManagement": "Quản lý quy trình",
   "branchManagement": "Quản lý chi nhánh",
   "departmentManagement": "Quản lý phòng ban",
-  "jobTitleManagement": "Quản lý chức danh công việc",
   "entitlementManagement": "Quản lý quyền lợi",
   "leaveTypeManagement": "Quản lý phân loại nghỉ phép",
   "workingTimeManagement": "Quản lý thời gian làm việc",

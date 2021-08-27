@@ -1,6 +1,5 @@
-import { HttpParams } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
-import { AdminPermissionsService, Policy } from '@nexthcm/admin-permissions';
+import { AdminUserRolesService, Policy } from '@nexthcm/admin-user-roles';
 import { FormGroup } from '@ngneat/reactive-forms';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { TuiDialogContext } from '@taiga-ui/core';
@@ -8,7 +7,6 @@ import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AdminUserRole } from '../../models/admin-user-role';
-import { AdminUserRolesService } from '../../services/admin-user-roles.service';
 
 @Component({
   selector: 'hcm-upsert-user-roles',
@@ -17,23 +15,21 @@ import { AdminUserRolesService } from '../../services/admin-user-roles.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UpsertUserRolesComponent implements OnInit {
-  columns = ['name', 'description', 'action'];
-  private readonly queryParams$ = new BehaviorSubject(new HttpParams().set('page', 0).set('size', 6666));
-  permissions$: Observable<Policy[]> = this.adminPermissionsService
-    .getPermissions(this.queryParams$.value)
-    .pipe(map((data) => data.data.items));
+  params$ = new BehaviorSubject<{ page?: number; size?: number }>({ size: 100 });
+  permissions$: Observable<Policy[]> = this.adminUserRolesService
+    .getPermissions(this.params$.value)
+    .pipe(map((data) => data.items));
 
-  data = this.context.data || '';
-
-  //Affter view init
-  arrayTemp: any[] = [];
-  count = 0;
-  removeArray = [];
+  //After view init
+  readonly arrayTemp: never[] = [];
+  readonly count = 0;
+  private removeArray = [];
 
   readonly adminUserRoleForm = new FormGroup({});
   model: Partial<AdminUserRole> = {};
   options: FormlyFormOptions = {};
   fields: FormlyFieldConfig[] = [
+    { key: 'id' },
     {
       className: 'my-8',
       key: 'name',
@@ -62,6 +58,7 @@ export class UpsertUserRolesComponent implements OnInit {
       type: 'select-permissions',
       templateOptions: {
         options: this.permissions$,
+        required: true,
         label: 'Permissions',
         labelProp: 'name',
         valueProp: 'id',
@@ -72,75 +69,53 @@ export class UpsertUserRolesComponent implements OnInit {
 
   constructor(
     @Inject(POLYMORPHEUS_CONTEXT) public context: TuiDialogContext<unknown, AdminUserRole>,
-    private adminPermissionsService: AdminPermissionsService,
     private adminUserRolesService: AdminUserRolesService
   ) {}
 
   ngOnInit(): void {
-    console.log('iddddd data', this.data);
-
-    if (this.data !== '') {
-      this.adminUserRolesService.getAdminUserRolesId(this.data).subscribe((item) => {
-        console.log('aaaaaaaaaaa', item.data.policies);
-        this.model = { ...this.model, ...item.data };
-
-        this.arrayTemp = item.data.policies;
-        this.count = item.data.policies.length;
-      });
+    if (this.context.data) {
+      this.model = { ...this.model, ...this.context.data };
     }
   }
 
+  /*Todo: fix never type*/
   ngAfterViewInit() {
-    // const policiesControl = this.adminUserRoleForm.get('policies');
-
-    if (this.data !== '') {
+    if (this.context.data) {
       const policiesControl = this.adminUserRoleForm.controls.policies;
-
       if (policiesControl) {
         policiesControl.valueChanges.subscribe((data) => {
-          console.log('---------------------------');
-          console.log('init', this.arrayTemp);
-
           const difference = data
-            .filter((x: any) => !this.arrayTemp.includes(x))
+            .filter((x: never) => !this.arrayTemp.includes(x))
             .concat(this.arrayTemp.filter((x) => !data.includes(x)));
-          console.log('difference', difference);
 
-          const intersection = data.filter((x: any) => this.arrayTemp.includes(x));
-          console.log('Intersection', intersection);
+          const intersection = data.filter((x: never) => this.arrayTemp.includes(x));
 
-          const difference1 = data.filter((x: any) => !this.arrayTemp.includes(x));
-          console.log('difference11111', difference1);
+          const differenceIn = data.filter((x: never) => !this.arrayTemp.includes(x));
 
-          if (intersection.concat(difference1).length < this.arrayTemp.length) {
-            this.removeArray = difference.filter((x: any) => this.arrayTemp.includes(x));
-            // result = result.filter((x: any) => this.arrayTemp.includes(x));
+          if (intersection.concat(differenceIn).length < this.arrayTemp.length) {
+            this.removeArray = difference.filter((x: never) => this.arrayTemp.includes(x));
           }
-          // this.model.policy = intersection.concat(difference1)
-          console.log('remove[]', this.removeArray);
-          console.log('result[]', intersection.concat(difference1));
-          console.log('****************************');
         });
       }
     }
   }
 
-  submit() {
-    if (this.data !== '') {
-      const body = {
-        id: this.data,
-        ...this.model,
-        policyRemoves: this.removeArray,
-      };
-      this.context.completeWith(body);
-      console.log('modelllll edit', body);
-    } else {
-      this.context.completeWith(this.model);
-      console.log('modelllll post', this.model);
+  onSubmit() {
+    if (this.adminUserRoleForm.valid) {
+      if (this.context.data) {
+        const body = {
+          id: this.context.data,
+          ...this.model,
+          policyRemoves: this.removeArray,
+        };
+        this.context.completeWith(body);
+      } else {
+        this.context.completeWith(this.model);
+      }
     }
   }
 
-  cancel() {
-    this.context.completeWith(false);
+  onCancel(): void {
+    this.context.$implicit.complete();
   }
 }

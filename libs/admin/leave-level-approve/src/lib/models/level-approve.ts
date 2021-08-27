@@ -8,8 +8,6 @@ export interface LevelApprove {
   jobTitle?: string[];
   jobTitleDTOList: JobTitle[];
   createdUserDTO?: UserDto;
-
-  // Frontend attribute
   jobTitlesName?: string;
 }
 

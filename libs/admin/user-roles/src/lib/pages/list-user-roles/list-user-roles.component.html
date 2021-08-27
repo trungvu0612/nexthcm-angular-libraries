@@ -1,54 +1,49 @@
-<main class='main-page'>
-  <header>
-    <h1>Role List</h1>
-    <button (click)='showDialog()' class='blue-button' tuiButton>Add Roles</button>
+<main class="main-page" *transloco="let t">
+  <header >
+    <h1>{{ t('userRoleManagement') }}</h1>
+    <button (click)="onAddUserRole()" class="tui-space_right-3 tui-space_bottom-3" size="m" tuiButton>
+      {{ t('addNewUserRole') }}
+    </button>
   </header>
-  <section class='main-section'>
-    <table *ngIf="data" [columns]='columns' class='hcm-tui-table' tuiTable>
-      <thead>
-      <tr class='text-left' tuiThGroup>
-        <th *tuiHead="'name'"  tuiTh>Tên</th>
-        <th *tuiHead="'description'"  tuiTh>Mô Tả</th>
-        <th *tuiHead="'action'"  tuiTh>Thao Tác</th>
-      </tr>
-      </thead>
 
-      <tbody [data]='data' tuiTbody>
-      <tr *tuiRow='let item of data' tuiTr>
-
-        <td *tuiCell="'name'" tuiTd>
-          {{ item.name }}
-        </td>
-
-        <td *tuiCell="'description'" tuiTd>
-          {{ item.description }}
-        </td>
-
-        <td *tuiCell="'action'" tuiTd>
-          <div class='flex text-gray-400'>
-            <button (click)='showDialogEdit(item.id)'>
-              <tui-svg src='tuiIconEdit'></tui-svg>
-            </button>
-            <button (click)='delete(item.id)'>
-              <tui-svg src='tuiIconTrash'></tui-svg>
-            </button>
-          </div>
-        </td>
-      </tr>
-      </tbody>
-
-      <tfoot>
-      <tr>
-        <td [colSpan]='columns.length' class='px-5 py-3'>
-          <tui-table-pagination
-            (pageChange)="onPage($event)"
-            (sizeChange)="onSize($event)"
-            [(page)]='page'
-            [(size)]='size'
-            [total]='totalElements'></tui-table-pagination>
-        </td>
-      </tr>
-      </tfoot>
-    </table>
+  <section class="main-section">
+    <tui-loader [overlay]="true" [showLoader]="(loading$ | async) === true">
+      <ngx-table
+        #table
+        [columns]="(columns$ | async) || []"
+        [configuration]="configuration"
+        [data]="(data$ | async) || []"
+      >
+        <ng-template let-row>
+          <td>{{ item(row).name }}</td>
+          <td>{{ item(row).description }}</td>
+          <td>
+            <div class="flex items-center">
+              <button
+                (click)="onEditUserRole(item(row))"
+                appearance="flat"
+                class="tui-space_right-3"
+                icon="tuiIconEditLarge"
+                size="m"
+                tuiIconButton
+              ></button>
+              <button
+                (click)="onRemoveUserRole(item(row).id)"
+                appearance="flat"
+                icon="tuiIconTrashLarge"
+                size="m"
+                tuiIconButton
+              ></button>
+            </div>
+          </td>
+        </ng-template>
+      </ngx-table>
+    </tui-loader>
+    <tui-table-pagination
+      (pageChange)="onPage($event)"
+      (sizeChange)="onSize($event)"
+      [total]="(total$ | async) || 0"
+    ></tui-table-pagination>
   </section>
 </main>
+

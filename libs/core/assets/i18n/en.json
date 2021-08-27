@@ -1,4 +1,6 @@
 {
+  "cancelled": "Cancelled",
+  "approved": "Approved",
   "action": "Action",
   "adder": "Adder",
   "createOffice": "Create Office",
@@ -391,6 +393,14 @@
   "OVERVIEW": {
     "viewDetail": "View Detail"
   },
+  "ADMIN_JOB_TITLE_COLUMNS": {
+    "name": "Name",
+    "createdBy": "Created By",
+    "createdDate": "Created Date",
+    "lastModifiedDate": "Last Modified Date",
+    "state": "Status",
+    "functions": "Functions"
+  },
   "ADMIN_LEAVE_LEVEL_APPROVE_MANAGEMENT_COLUMNS": {
     "name": "Name",
     "leaveType": "Leave Types",
@@ -398,6 +408,28 @@
     "totalLeave": "Total Leaves",
     "functions": "Functions"
   },
+  "ADMIN_USER_ROLE_COLUMNS": {
+    "name": "Name",
+    "description": "Description",
+    "functions": "Functions"
+  },
+
+  "jobTitleManagement": "Job Title Management",
+  "addNewJobTitle": "Create new job title",
+  "editJobTitle": "Edit new job title",
+  "updateJobTitleSuccessfully": "Update job title successfully",
+  "addNewJobTitleSuccessfully": "Create new job title successfully",
+  "deleteJobTitle": "Are you sure you want to remove this job title?",
+  "deleteJobTitleSuccessfully": "Remove this job title successfully",
+
+
+  "userRoleManagement": "User Role Management",
+  "addNewUserRole": "Create new user role",
+  "editUserRole": "Edit new user role",
+  "updateUserRoleSuccessfully": "Update user role successfully",
+  "addNewUserRoleSuccessfully": "Create new user role successfully",
+  "deleteUserRole": "Are you sure you want to remove this role?",
+  "deleteUserRoleSuccessfully": "Remove this role successfully",
   "addNewEmployee": "Add new employee",
   "addNewLeaveLevelApprove": "Add new leave level approve",
   "overview": "Overview",
@@ -423,7 +455,6 @@
   "workflowManagement": "Workflow Management",
   "branchManagement": "Branch Management",
   "departmentManagement": "Department Management",
-  "jobTitleManagement": "Job Title Management",
   "entitlementManagement": "Entitlement Management",
   "leaveTypeManagement": "Leave Type Management",
   "workingTimeManagement": "Working Time Management",
