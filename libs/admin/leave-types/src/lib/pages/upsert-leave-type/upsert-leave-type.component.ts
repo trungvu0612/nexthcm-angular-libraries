@@ -8,7 +8,6 @@ import { BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { LeaveTypesService } from '../../leave-types.service';
 import { LeaveType } from '../../models/leave-type';
-import { Process } from '../../models/process';
 
 @Component({
   selector: 'hcm-upsert-leave-type',
@@ -32,29 +31,33 @@ export class UpsertLeaveTypeComponent implements OnInit {
           templateOptions: {
             required: true,
             translate: true,
-            label: 'ADMIN_LEAVE_TYPES.LEAVE_TYPES_COLUMNS.name',
-          },
+            label: 'ADMIN_LEAVE_TYPES.LEAVE_TYPES_COLUMNS.name'
+          }
         },
       ],
     },
+    // {
+    //   fieldGroupClassName: 'grid md:grid-cols-1 gap-6 mb-4',
+    //   fieldGroup: [
+    //     {
+    //       key: 'processId',
+    //       type: 'select',
+    //       templateOptions: {
+    //         options: this.dataProcesses$,
+    //         labelProp: 'name',
+    //         valueProp: 'id',
+    //         label: 'ADMIN_LEAVE_TYPES.LEAVE_TYPES_COLUMNS.process',
+    //         required: true,
+    //         translate: true,
+    //         multiple: true,
+    //         compareWith: (item1: Process, item2: Process) => item1.id === item2.id,
+    //       },
+    //     },
+    //   ],
+    // },
     {
-      fieldGroupClassName: 'grid md:grid-cols-1 gap-6 mb-4',
-      fieldGroup: [
-        {
-          key: 'workflowId',
-          type: 'select',
-          templateOptions: {
-            options: this.dataProcesses$,
-            labelProp: 'name',
-            valueProp: 'id',
-            label: 'ADMIN_LEAVE_TYPES.LEAVE_TYPES_COLUMNS.process',
-            required: true,
-            translate: true,
-            multiple: true,
-            compareWith: (item1: Process, item2: Process) => item1.id === item2.id,
-          },
-        },
-      ],
+      key: 'processId',
+      defaultValue: 'c2b30bfe-0708-11ec-9a03-0242ac130003'
     },
     {
       fieldGroupClassName: 'grid md:grid-cols-2 gap-6 mb-4',

@@ -1,13 +1,11 @@
-import { HttpParams } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
-import { Pagination, PromptService, Zone } from '@nexthcm/cdk';
+import { AbstractServerPaginationTableComponent, Pagination, PromptService, Zone } from '@nexthcm/cdk';
 import { TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
-import { TuiDestroyService } from '@taiga-ui/cdk';
-import { BaseComponent, DefaultConfig } from 'ngx-easy-table';
-import { BehaviorSubject, from } from 'rxjs';
-import { catchError, filter, map, switchMap, takeUntil, tap } from 'rxjs/operators';
-import { LeaveType } from '../../../../../leave-types/src/lib/models/leave-type';
+import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
+import { BaseComponent } from 'ngx-easy-table';
+import { from } from 'rxjs';
+import { catchError, filter, map, share, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { AdminSeatMapsService } from '../../services/admin-seat-maps.service';
 
 @Component({
@@ -15,51 +13,39 @@ import { AdminSeatMapsService } from '../../services/admin-seat-maps.service';
   templateUrl: './seat-map-list.component.html',
   styleUrls: ['./seat-map-list.component.scss'],
   providers: [RxState, TuiDestroyService],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SeatMapListComponent {
+export class SeatMapListComponent extends AbstractServerPaginationTableComponent<Zone> {
   @ViewChild('table') table!: BaseComponent;
   readonly loading$ = this.state.$.pipe(map((value) => !value));
-  readonly data$ = this.state.select('items');
-  readonly total$ = this.state.select('totalElements');
-  readonly configuration = { ...DefaultConfig, paginationEnabled: false, fixedColumnWidth: false };
   readonly columns$ = this.translocoService.selectTranslateObject('ZONE_TABLE').pipe(
     map((translate) => [
       { key: 'name', title: translate.name },
       { key: 'office', title: translate.office },
-      { key: 'action', title: translate.action },
+      { key: 'action', title: translate.action }
     ])
   );
-  private readonly queryParams$ = new BehaviorSubject(new HttpParams().set('page', 0).set('size', 10));
+
   private readonly request$ = this.queryParams$.pipe(
-    switchMap(() => this.adminSeatMapService.getSeatMaps(this.queryParams$.value)),
-    map((res) => res.data)
+    switchMap(() => this.adminSeatMapService.getSeatMaps(this.queryParams$.value).pipe(startWith(null))),
+    share()
   );
 
   constructor(
     private readonly adminSeatMapService: AdminSeatMapsService,
     private promptService: PromptService,
     private destroy$: TuiDestroyService,
-    private state: RxState<Pagination<Zone>>,
+    state: RxState<Pagination<Zone>>,
     private readonly translocoService: TranslocoService
   ) {
-    state.connect(this.request$);
+    super(state);
+    state.connect(this.request$.pipe(filter(isPresent)));
   }
-
-  readonly item = (item: LeaveType) => item;
 
   tableEventEmitted(tableEvent: { event: string; value: any }): void {
     if (tableEvent.event === 'onOrder') {
       this.queryParams$.next(this.queryParams$.value.set('sort', `${tableEvent.value.key},${tableEvent.value.order}`));
     }
-  }
-
-  onSize(size: number): void {
-    this.queryParams$.next(this.queryParams$.value.set('size', size.toString()));
-  }
-
-  onPage(page: number): void {
-    this.queryParams$.next(this.queryParams$.value.set('page', page.toString()));
   }
 
   deleteSeatMap(id: string) {

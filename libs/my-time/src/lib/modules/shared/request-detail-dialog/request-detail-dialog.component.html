@@ -196,7 +196,7 @@
               <span class="text-gray-300">{{ comment.createdDate | date: 'dd/MM/yyyy HH:mm' }}</span>
             </p>
           </ng-container>
-          <div *ngIf="userId" class="flex justify-between align-baseline mt-4">
+          <div class="flex justify-between align-baseline mt-4">
             <tui-avatar [rounded]="true" [text]="'A'"></tui-avatar>
             <tui-input
               (keyup.enter)="onSubmitComment()"
