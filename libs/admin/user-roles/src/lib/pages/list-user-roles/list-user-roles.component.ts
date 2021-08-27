@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, Injector, ViewChild } from '@angular/core';
-import { AdminUserRole } from '@nexthcm/admin-user-roles';
 import { AbstractServerPaginationTableComponent, Pagination, PromptService } from '@nexthcm/cdk';
 import { TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
@@ -9,6 +8,7 @@ import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { BaseComponent, Columns } from 'ngx-easy-table';
 import { from, Observable } from 'rxjs';
 import { filter, map, switchMap, takeUntil } from 'rxjs/operators';
+import { AdminUserRole } from '../../models/admin-user-role';
 import { AdminUserRolesService } from '../../services/admin-user-roles.service';
 import { UpsertUserRolesComponent } from '../upsert-user-roles/upsert-user-roles.component';
 
@@ -106,6 +106,4 @@ export class ListUserRolesComponent extends AbstractServerPaginationTableCompone
       data,
     });
   }
-
-
 }

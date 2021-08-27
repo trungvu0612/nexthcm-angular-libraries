@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
-import { AdminUserRolesService, Policy } from '@nexthcm/admin-user-roles';
 import { FormGroup } from '@ngneat/reactive-forms';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { AdminUserRole } from '../../models/admin-user-role';
+import { AdminUserRole, Policy } from '../../models/admin-user-role';
+import { AdminUserRolesService } from '../../services/admin-user-roles.service';
 
 @Component({
   selector: 'hcm-upsert-user-roles',
