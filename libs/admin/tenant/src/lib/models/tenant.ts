@@ -16,7 +16,7 @@ export interface Tenant {
 }
 
 export interface Domain {
-  id: string;
+  id?: string;
   tenant: Partial<Tenant>;
   domainUrl: string;
   name: string;

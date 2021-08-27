@@ -105,7 +105,8 @@
     "domainUrl": "Domain Url",
     "status": "Status",
     "MESSAGES": {
-      "deleteSeatMap": "Are you sure you want to delete this seat map?"
+      "deleteSeatMap": "Are you sure you want to delete this seat map?",
+      "deleteDomain": "Are you sure you want to delete this domain?"
     }
   },
   "PERMISSION_TABLE": {

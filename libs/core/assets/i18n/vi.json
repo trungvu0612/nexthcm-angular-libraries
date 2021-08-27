@@ -106,7 +106,8 @@
     "domainUrl": "Tên miền",
     "status": "Trạng thái",
     "MESSAGES": {
-      "deleteSeatMap": "Bạn có chắc chắn muốn xóa sơ đồ chỗ ngồi này không?"
+      "deleteSeatMap": "Bạn có chắc chắn muốn xóa sơ đồ chỗ ngồi này không?",
+      "deleteDomain": "Bạn có chắc chắn muốn xóa tên miền này không?"
     }
   },
   "PERMISSION_TABLE": {
