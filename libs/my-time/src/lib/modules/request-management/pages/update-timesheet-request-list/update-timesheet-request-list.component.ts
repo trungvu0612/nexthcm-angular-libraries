@@ -14,7 +14,7 @@ import { AbstractRequestListComponent } from '../../../shared/abstract-component
   selector: 'hcm-update-timesheet-request-list',
   templateUrl: './update-timesheet-request-list.component.html',
   styleUrls: ['./update-timesheet-request-list.component.scss'],
-  providers: [TuiDestroyService, RxState],
+  providers: [TuiDestroyService, RxState]
 })
 export class UpdateTimesheetRequestListComponent extends AbstractRequestListComponent<UpdateTimesheetRequest> {
   @ViewChild('table') table!: BaseComponent;
@@ -33,7 +33,7 @@ export class UpdateTimesheetRequestListComponent extends AbstractRequestListComp
         { key: 'updateWorkingDay', title: result.updateWorkingDay },
         { key: 'status', title: result.status },
         { key: 'comment', title: result.Comment },
-        { key: 'functions', title: result.functions },
+        { key: 'functions', title: result.functions }
       ])
     );
   private readonly request$ = this.queryParams$.pipe(
