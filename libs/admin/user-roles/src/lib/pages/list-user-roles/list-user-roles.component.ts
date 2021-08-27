@@ -1,9 +1,14 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
-import { TuiDestroyService } from '@taiga-ui/cdk';
+import { ChangeDetectionStrategy, Component, Injector, ViewChild } from '@angular/core';
+import { AdminUserRole } from '@nexthcm/admin-user-roles';
+import { AbstractServerPaginationTableComponent, Pagination, PromptService } from '@nexthcm/cdk';
+import { TranslocoService } from '@ngneat/transloco';
+import { RxState } from '@rx-angular/state';
+import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
-import { BehaviorSubject, combineLatest } from 'rxjs';
-import { debounceTime, switchMap, takeUntil } from 'rxjs/operators';
+import { BaseComponent, Columns } from 'ngx-easy-table';
+import { from, Observable } from 'rxjs';
+import { filter, map, switchMap, takeUntil } from 'rxjs/operators';
 import { AdminUserRolesService } from '../../services/admin-user-roles.service';
 import { UpsertUserRolesComponent } from '../upsert-user-roles/upsert-user-roles.component';
 
@@ -11,96 +16,96 @@ import { UpsertUserRolesComponent } from '../upsert-user-roles/upsert-user-roles
   selector: 'hcm-list-user-roles',
   templateUrl: './list-user-roles.component.html',
   styleUrls: ['./list-user-roles.component.scss'],
-  providers: [TuiDestroyService],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [TuiDestroyService, RxState],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ListUserRolesComponent implements OnInit {
+export class ListUserRolesComponent extends AbstractServerPaginationTableComponent<AdminUserRole> {
+  @ViewChild('table') table!: BaseComponent;
+  readonly columns$: Observable<Columns[]> = this.translocoService
+    .selectTranslateObject('ADMIN_USER_ROLE_COLUMNS')
+    .pipe(
+      map((result) => [
+        { key: 'name', title: result.name },
+        { key: 'description', title: result.description },
+        { key: 'functions', title: result.functions }
+      ])
+    );
 
-  readonly columns = ['name', 'description', 'action'];
-  id!: string;
-  data: any = [];
+  private readonly request$ = this.queryParams$.pipe(
+    switchMap(() => this.adminUserRolesService.getAdminUserRoles(this.queryParams$.value)),
+    map((res) => res.data)
+  );
 
-  page$ = new BehaviorSubject<number>(1);
-  size$ = 10;
-
-  perPageSubject = new BehaviorSubject<number>(this.size$);
-  totalElements = 0;
-  page = 0;
-  size = 10;
-
+  readonly loading$ = this.request$.pipe(map((value) => !value));
 
   constructor(
-    private dialogService: TuiDialogService,
-    private injector: Injector,
+    public state: RxState<Pagination<AdminUserRole>>,
     private adminUserRolesService: AdminUserRolesService,
     private destroy$: TuiDestroyService,
-    private cdr: ChangeDetectorRef
-) {}
+    private dialogService: TuiDialogService,
+    private injector: Injector,
+    private translocoService: TranslocoService,
+    private promptService: PromptService
+  ) {
+    super(state);
+    state.connect(this.request$.pipe(filter(isPresent)));
+  }
 
-  ngOnInit(): void {
-    const request$ = combineLatest([this.page$, this.perPageSubject])
+  onAddUserRole(): void {
+    this.openDialog('addNewUserRole')
       .pipe(
-        debounceTime(0),
-        switchMap(([page, perpage]) => {
-          return this.adminUserRolesService.getAdminUserRoles(page - 1, perpage);
-        }),
+        switchMap((data) => this.adminUserRolesService.createAdminUserRole(data)),
         takeUntil(this.destroy$)
       )
-      .subscribe((item) => {
-        this.data = item.data.items;
-        console.log('dataa', this.data);
-        this.totalElements = item.data.totalElements;
-        this.cdr.detectChanges();
-      });
+      .subscribe(
+        this.promptService.handleResponse('addUserRoleSuccessfully', () =>
+          this.queryParams$.next(this.queryParams$.value)
+        )
+      );
   }
 
-  showDialog(): void {
-    this.dialogService
-      .open<boolean>(new PolymorpheusComponent(UpsertUserRolesComponent, this.injector), {
-        size: 'l',
-        // data: id,
-      })
-      .subscribe((result) => {
-        if (result) {
-          console.log('dataaaaaaa', result);
-          this.adminUserRolesService.createAdminUserRole(result).subscribe((data) => {
-            console.log('Success Post');
-          });
-        }
-      });
+  onRemoveUserRole(id: string): void {
+    if (id) {
+      from(
+        this.promptService.open({
+          icon: 'question',
+          html: this.translocoService.translate('deleteUserRole'),
+          showCancelButton: true,
+        })
+      )
+        .pipe(
+          filter((result) => result.isConfirmed),
+          switchMap(() => this.adminUserRolesService.deleteAdminUserRoleId(id)),
+          takeUntil(this.destroy$)
+        )
+        .subscribe(
+          this.promptService.handleResponse('deleteUserRoleSuccessfully', () =>
+            this.queryParams$.next(this.queryParams$.value)
+          )
+        );
+    }
   }
 
-  showDialogEdit(id: string): void {
-    this.id = id;
-    this.dialogService
-      .open<boolean>(new PolymorpheusComponent(UpsertUserRolesComponent, this.injector), {
-        size: 'l',
-        data: this.id,
-      })
-      .subscribe((result) => {
-        if (result) {
-          this.adminUserRolesService.editAdminUserRoleId(this.id, result).subscribe((data) => {
-            console.log('Edit Edit');
-          });
-        }
-      });
+  onEditUserRole(adminUserRole: AdminUserRole): void {
+    this.openDialog('editUserRole', adminUserRole)
+      .pipe(
+        switchMap((data) => this.adminUserRolesService.createAdminUserRole(data)),
+        takeUntil(this.destroy$)
+      )
+      .subscribe(
+        this.promptService.handleResponse('updateUserRoleSuccessfully', () =>
+          this.queryParams$.next(this.queryParams$.value)
+        )
+      );
   }
 
-  onPage(page: number) {
-    this.page$.next(page + 1);
-  }
-
-  onSize(size: number) {
-    this.perPageSubject.next(size);
-  }
-
-  cancel(): void {
-    console.log('cancel');
-  }
-
-  delete(id: string) {
-    this.adminUserRolesService.deleteAdminUserRoleId(id).subscribe((data) => {
-      console.log('delete delete');
+  private openDialog(label: string, data?: AdminUserRole): Observable<AdminUserRole> {
+    return this.dialogService.open<AdminUserRole>(new PolymorpheusComponent(UpsertUserRolesComponent, this.injector), {
+      label: this.translocoService.translate(label),
+      size: 'l',
+      data,
     });
   }
+
+
 }

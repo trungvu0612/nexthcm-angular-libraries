@@ -1,9 +1,9 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { PagingResponse } from '@nexthcm/cdk';
+import { Pagination, PagingResponse } from '@nexthcm/cdk';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { AdminUserRole } from '../models/admin-user-role';
+import { AdminUserRole, Policy } from '../models/admin-user-role';
 
 const MY_ACCOUNT_PATH = '/accountapp/v1.0';
 
@@ -11,34 +11,32 @@ const MY_ACCOUNT_PATH = '/accountapp/v1.0';
   providedIn: 'root',
 })
 export class AdminUserRolesService {
-  constructor(private http: HttpClient) {}
-
-  getAdminUserRoles(pageIndex: number, pageSize: number): Observable<PagingResponse<AdminUserRole>> {
-    const httpParams = new HttpParams();
-    return this.http.get<PagingResponse<AdminUserRole>>(`${MY_ACCOUNT_PATH}/roles`, {
-      params: httpParams
-        .set('page', pageIndex ? pageIndex.toString() : '')
-        .set('size', pageSize ? pageSize.toString() : ''),
-    });
+  constructor(private http: HttpClient) {
   }
 
-  getAdminUserRolesId(id: AdminUserRole | string): Observable<any> {
-    if (id === undefined || id === '') {
-      return this.http.get<any>(`${MY_ACCOUNT_PATH}/roles/`, {}).pipe(map((res) => res as any));
-    } else {
-      return this.http.get<any>(`${MY_ACCOUNT_PATH}/roles/${id}`, {}).pipe(map((res) => res as any));
-    }
+  getAdminUserRoles(params: HttpParams): Observable<PagingResponse<AdminUserRole>> {
+    return this.http.get<PagingResponse<AdminUserRole>>(`${MY_ACCOUNT_PATH}/roles`, { params });
   }
 
-  createAdminUserRole(body: any): Observable<AdminUserRole> {
-    return this.http.post<AdminUserRole>(`${MY_ACCOUNT_PATH}/roles`, body);
+  getAdminUserRolesId(id: AdminUserRole): Observable<any> {
+    return this.http.get<any>(`${MY_ACCOUNT_PATH}/roles/${id.id}`, {}).pipe(map((res) => res as any));
   }
 
-  editAdminUserRoleId(id: string | undefined, body: any): Observable<AdminUserRole> {
-    return this.http.post<AdminUserRole>(`${MY_ACCOUNT_PATH}/roles/`, body);
+  createAdminUserRole(payload: AdminUserRole): Observable<AdminUserRole> {
+    return this.http.post<AdminUserRole>(`${MY_ACCOUNT_PATH}/roles`, payload);
+  }
+
+  editAdminUserRoleId(payload: AdminUserRole): Observable<AdminUserRole> {
+    return this.http.post<AdminUserRole>(`${MY_ACCOUNT_PATH}/roles/${payload.id}`, payload);
   }
 
   deleteAdminUserRoleId(id: string): Observable<AdminUserRole> {
     return this.http.delete<AdminUserRole>(`${MY_ACCOUNT_PATH}/roles/${id}`);
+  }
+
+  getPermissions(params: { [key: string]: number }): Observable<Pagination<Policy>> {
+    return this.http
+      .get<PagingResponse<Policy>>(`${MY_ACCOUNT_PATH}/permissions`, { params })
+      .pipe(map((response) => response.data));
   }
 }

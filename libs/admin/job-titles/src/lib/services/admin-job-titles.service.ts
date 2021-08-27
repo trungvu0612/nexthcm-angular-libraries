@@ -2,7 +2,6 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { PagingResponse } from '@nexthcm/cdk';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { JobTitle } from '../models/job-title';
 
 const MY_ACCOUNT_PATH = '/accountapp/v1.0';
@@ -13,34 +12,19 @@ const MY_ACCOUNT_PATH = '/accountapp/v1.0';
 export class AdminJobTitlesService {
   constructor(private http: HttpClient) {}
 
-  getAdminJobTitles(pageIndex: number, pageSize: number): Observable<PagingResponse<JobTitle>> {
-    const httpParams = new HttpParams();
-    return this.http.get<PagingResponse<JobTitle>>(`${MY_ACCOUNT_PATH}/titles`, {
-      params: httpParams
-        .set('page', pageIndex ? pageIndex.toString() : '')
-        .set('size', pageSize ? pageSize.toString() : ''),
-    });
+  getAdminJobTitles(params: HttpParams): Observable<PagingResponse<JobTitle>> {
+    return this.http.get<PagingResponse<JobTitle>>(`${MY_ACCOUNT_PATH}/titles/`, { params });
   }
 
-  getAdminJobTitleId(id: JobTitle | string): Observable<JobTitle> {
-    if (id === undefined || id === '') {
-      return this.http.get<JobTitle>(`${MY_ACCOUNT_PATH}/titles/`, {}).pipe(map((res) => res as any));
-    } else {
-      return this.http
-        .get<JobTitle>(`${MY_ACCOUNT_PATH}/titles/${id}`, {})
-        .pipe(map((res) => res as any));
-    }
+  createAdminJobTitle(payload: JobTitle): Observable<JobTitle> {
+    return this.http.post<JobTitle>(`${MY_ACCOUNT_PATH}/titles`, payload);
   }
 
-  createAdminJobTitleId(body: any): Observable<JobTitle> {
-    return this.http.post<JobTitle>(`${MY_ACCOUNT_PATH}/titles`, body);
+  updateAdminJobTitle(payload: JobTitle): Observable<JobTitle> {
+    return this.http.put<JobTitle>(`${MY_ACCOUNT_PATH}/titles/${payload.id}`, payload);
   }
 
-  editAdminJobTitleId(id: string | undefined, body: any): Observable<JobTitle> {
-    return this.http.put<JobTitle>(`${MY_ACCOUNT_PATH}/titles/${id}`, body);
-  }
-
-  deleteAdminJobTitleId(id: string): Observable<JobTitle> {
+  deleteAdminJobTitle(id: string): Observable<JobTitle> {
     return this.http.delete<JobTitle>(`${MY_ACCOUNT_PATH}/titles/${id}`);
   }
 }

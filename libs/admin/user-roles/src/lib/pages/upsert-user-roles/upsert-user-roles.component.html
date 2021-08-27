@@ -1,10 +1,9 @@
-<form [formGroup]="$any(adminUserRoleForm)" class="m-8">
-  <h1 class="text-center font-semibold text-blue-700">Add Roles</h1>
-  <formly-form [fields]="fields" [form]="$any(adminUserRoleForm)" [model]="model" class="formly-gap"></formly-form>
-  <div class="flex justify-center gap-4 mt-8">
-    <button (click)="submit()" class="blue-button">Save</button>
-    <button (click)="cancel()" class="btn-red">Cancel</button>
+<form (ngSubmit)="onSubmit()" [formGroup]="$any(adminUserRoleForm)">
+  <formly-form [fields]="fields" [form]="$any(adminUserRoleForm)" [model]="model"></formly-form>
+  <div *transloco="let t" class="tui-form__buttons">
+    <button class="tui-form__button" size="l" tuiButton>{{ t('save') }}</button>
+    <button (click)="onCancel()" appearance="flat" class="tui-form__button" size="l" tuiButton type="button">
+      {{ t('cancel') }}
+    </button>
   </div>
 </form>
-
-<!--<pre>{{model | json}}</pre>-->

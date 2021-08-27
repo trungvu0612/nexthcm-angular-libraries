@@ -5,7 +5,7 @@
       <button
         class="tui-space_right-3 tui-space_bottom-3 ml-auto"
         icon="tuiIconPlusLarge"
-        [routerLink]="['../job-level/add']"
+        [routerLink]="['add']"
         tuiButton
         type="button"
       >
@@ -14,12 +14,12 @@
     </div>
   </header>
   <section class="main-section">
-    <!--    <formly-form-->
-    <!--      [fields]="fields"-->
-    <!--      [form]="$any(searchForm)"-->
-    <!--      [model]="model"-->
-    <!--      class="grid grid-cols-4 border-start border-end"-->
-    <!--    ></formly-form>-->
+<!--    <formly-form-->
+<!--      [fields]="fields"-->
+<!--      [form]="$any(searchForm)"-->
+<!--      [model]="model"-->
+<!--      class="grid grid-cols-4 border-start border-end"-->
+<!--    ></formly-form>-->
     <article>
       <table [columns]="columns" class="hcm-tui-table" tuiTable>
         <thead>
@@ -36,7 +36,7 @@
             <td *tuiCell="'action'" tuiTd>
               <button
                 [icon]="'tuiIconEditLarge'"
-                [routerLink]="['../job-level/edit/' + level.id]"
+                [routerLink]="['../edit/' + level.id]"
                 [shape]="$any('rounded')"
                 appearance="flat"
                 size="s"

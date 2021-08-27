@@ -1,4 +1,5 @@
 export interface AdminUserRole {
+  id: string;
   name?: string;
   description?: string;
   policy?: Policy;

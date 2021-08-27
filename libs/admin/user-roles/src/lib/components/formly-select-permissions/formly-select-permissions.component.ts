@@ -1,9 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { AdminPermissionsService } from '@nexthcm/admin-permissions';
 import { FieldType } from '@ngx-formly/core';
 import { TuiContextWithImplicit, TuiIdentityMatcher, TuiStringHandler } from '@taiga-ui/cdk';
 import { BehaviorSubject } from 'rxjs';
-import { AdminUserRolesService } from '../../services/admin-user-roles.service';
 
 @Component({
   selector: 'hcm-formly-select-permissions',
@@ -16,9 +14,7 @@ export class FormlySelectPermissionsComponent extends FieldType implements OnIni
   columns = ['name', 'code', 'description', 'action'];
   params$ = new BehaviorSubject<{ page?: number; size?: number }>({ size: 100 });
 
-  constructor(
-    private adminUserRolesService: AdminUserRolesService,
-    private adminPermissionsService: AdminPermissionsService) {
+  constructor() {
     super();
   }
 
@@ -37,9 +33,5 @@ export class FormlySelectPermissionsComponent extends FieldType implements OnIni
     const result = (this.formControl.value as any[]).slice();
     result.splice(index, 1);
     this.formControl.setValue(result);
-  }
-
-  tranfer() {
-    //Thang nay goi ve services de lay data policies[] lan dau, luu lai
   }
 }
