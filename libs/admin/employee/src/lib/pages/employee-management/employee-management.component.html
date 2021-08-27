@@ -15,7 +15,7 @@
           <td>{{ (item(row).status ? 'active' : 'inactive') | transloco }}</td>
           <td>{{ item(row).roles[0].name }}</td>
           <td>{{ item(row).organization.name }}</td>
-          <td>{{ item(row).jobTitle.name }}</td>
+          <td>{{ item(row).jobTitle?.name }}</td>
           <td>{{ item(row).directReport.name }}</td>
           <td>
             <div class="flex items-center">
