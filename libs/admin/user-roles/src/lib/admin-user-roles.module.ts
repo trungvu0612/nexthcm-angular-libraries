@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Route, RouterModule } from '@angular/router';
-import { AdminPermissionsService } from '@nexthcm/admin-permissions';
 import { SelectOptionsModule } from '@nexthcm/cdk';
 import { LayoutComponent } from '@nexthcm/ui';
 import { TranslocoModule } from '@ngneat/transloco';
@@ -61,6 +60,5 @@ export const adminUserRolesRoutes: Route[] = [
     AdminUserRolesComponent,
     FormlySelectPermissionsComponent,
   ],
-  providers: [AdminPermissionsService],
 })
 export class AdminUserRolesModule {}
