@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { PermissionsResponse } from '@nexthcm/cdk';
 import { NgxPermissionsService, NgxRolesService } from 'ngx-permissions';
 import { Observable, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
+import { PermissionsResponse } from '../models';
 
 @Injectable({
   providedIn: 'root',

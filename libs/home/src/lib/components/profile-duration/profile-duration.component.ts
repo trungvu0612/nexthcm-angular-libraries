@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { UserProfileStore } from '@nexthcm/cdk';
+import { UserProfileService } from '@nexthcm/cdk';
 
 @Component({
   selector: 'hcm-profile-duration',
@@ -8,7 +8,7 @@ import { UserProfileStore } from '@nexthcm/cdk';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProfileDurationComponent {
-  readonly profile$ = this.userProfileStore.select('duration');
+  readonly profile$ = this.userProfileState.select('duration');
 
-  constructor(private readonly userProfileStore: UserProfileStore) {}
+  constructor(private readonly userProfileState: UserProfileService) {}
 }

@@ -1,1 +1,1 @@
-export * from './user-profile/user-profile.store';
+export * from './user-profile/user-profile.service';

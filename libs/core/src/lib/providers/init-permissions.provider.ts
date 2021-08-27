@@ -1,6 +1,6 @@
 import { APP_INITIALIZER, Provider } from '@angular/core';
-import { PermissionsResponse } from '@nexthcm/cdk';
 import { Observable } from 'rxjs';
+import { PermissionsResponse } from '../models';
 import { PermissionsService } from '../services/permissions.service';
 
 export const INIT_PERMISSIONS_PROVIDER: Provider = {

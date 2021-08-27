@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { AuthService } from '@nexthcm/auth';
-import { EmployeesService } from '@nexthcm/cdk';
 import { RxState } from '@rx-angular/state';
 import { isSameDay, isSameMonth } from 'date-fns';
 import { filter, map, switchMap } from 'rxjs/operators';
@@ -11,6 +10,7 @@ import {
   EmployeeIndividual,
   EmployeeSHUI,
 } from '../../models';
+import { EmployeesService } from '../../services';
 
 interface UserProfileState {
   general: EmployeeGeneralInformation;
@@ -21,7 +21,7 @@ interface UserProfileState {
 }
 
 @Injectable({ providedIn: 'root' })
-export class UserProfileStore extends RxState<UserProfileState> {
+export class UserProfileService extends RxState<UserProfileState> {
   readonly userId$ = this.authService.select('userInfo', 'userId').pipe(filter((value) => !!value));
   readonly isBirthday$ = this.select('individual', 'birthDate').pipe(
     map((dateOfBirth) => {

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { UserProfileStore } from '@nexthcm/cdk';
+import { UserProfileService } from '@nexthcm/cdk';
 
 @Component({
   selector: 'hcm-profile-individual',
@@ -8,8 +8,8 @@ import { UserProfileStore } from '@nexthcm/cdk';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProfileIndividualComponent {
-  readonly profile$ = this.userProfileStore.select('individual');
-  readonly isBirthday$ = this.userProfileStore.isBirthday$;
+  readonly profile$ = this.userProfileState.select('individual');
+  readonly isBirthday$ = this.userProfileState.isBirthday$;
 
-  constructor(private readonly userProfileStore: UserProfileStore) {}
+  constructor(private readonly userProfileState: UserProfileService) {}
 }

@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
-import { Policy } from '@nexthcm/admin-permissions';
 import { AbstractServerPaginationTableComponent, Pagination, PromptService } from '@nexthcm/cdk';
 import { TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
@@ -7,6 +6,7 @@ import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { BaseComponent } from 'ngx-easy-table';
 import { from } from 'rxjs';
 import { catchError, filter, map, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { Policy } from '../../models/policy';
 import { AdminPermissionsService } from '../../services/admin-permissions.service';
 
 @Component({
@@ -14,7 +14,7 @@ import { AdminPermissionsService } from '../../services/admin-permissions.servic
   templateUrl: './permission-list.component.html',
   styleUrls: ['./permission-list.component.scss'],
   providers: [RxState, TuiDestroyService],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PermissionListComponent extends AbstractServerPaginationTableComponent<Policy> {
   @ViewChild('table') table!: BaseComponent;
@@ -24,7 +24,7 @@ export class PermissionListComponent extends AbstractServerPaginationTableCompon
       { key: 'name', title: translate.name },
       { key: 'code', title: translate.code },
       { key: 'description', title: translate.description },
-      { key: 'action', title: translate.action }
+      { key: 'action', title: translate.action },
     ])
   );
   private readonly request$ = this.queryParams$.pipe(
