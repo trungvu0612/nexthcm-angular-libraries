@@ -7,7 +7,7 @@ import { map } from 'rxjs/operators';
 import { Domain, OrganizationalLevel, OrganizationalUnit, OrganizationalUnitForm, Tenant } from '../models/tenant';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class AdminTenantService extends RxState<{ id: string }> {
   constructor(private readonly http: HttpClient) {
@@ -56,8 +56,20 @@ export class AdminTenantService extends RxState<{ id: string }> {
     return this.http.get<Partial<Domain>[]>('/accountapp/v1.0/domains');
   }
 
+  editDomain(body: Partial<Domain>): Observable<unknown> {
+    return this.http.put('/accountapp/v1.0/domains/' + body.id, body);
+  }
+
+  getDomainDetail(id: string): Observable<Domain> {
+    return this.http.get<BaseResponse<Domain>>(`/accountapp/v1.0/domains/${id}`).pipe(map((res) => res.data));
+  }
+
   createDomain(body: Partial<Domain>): Observable<unknown> {
     return this.http.post('/accountapp/v1.0/domains', body);
+  }
+
+  deleteDomain(id: string): Observable<unknown> {
+    return this.http.delete('/accountapp/v1.0/domains/' + id);
   }
 
   getOrganizationalStructure(): Observable<Partial<OrganizationalLevel>[]> {
@@ -83,7 +95,7 @@ export class AdminTenantService extends RxState<{ id: string }> {
   getParentLevel(orgType: string): Observable<Partial<OrganizationalUnit>[]> {
     return this.http
       .get<BaseResponse<Partial<OrganizationalUnit>[]>>('/accountapp/v1.0/orgs/parent-org-by-org-type', {
-        params: { orgType, tenantId: this.get('id') },
+        params: { orgType, tenantId: this.get('id') }
       })
       .pipe(map((response) => response.data));
   }

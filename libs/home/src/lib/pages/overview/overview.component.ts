@@ -31,7 +31,7 @@ export class OverviewComponent implements OnInit {
   fingerCheck = true;
   idChecking: any;
   dataChecking: any;
-  checkingAction: any;
+  checkingAction = 'checked-in';
   myWorkingHour = { timeToday: new Date(), inTimeToday: 0, outTimeToday: 0, inTimeYesterday: 0, outTimeYesterday: 0 };
 
   constructor(
@@ -56,7 +56,7 @@ export class OverviewComponent implements OnInit {
     this.myWorkingHour.timeToday = new Date();
     this.overviewService.statusChecking().subscribe((item) => {
       this.idChecking = item?.data?.items[0]?.id;
-      if (item.data?.items[0].inTime > 0) {
+      if (item.data?.items[0]?.inTime > 0) {
         // show check-out button
         this.checkingAction = 'checked-out';
         if (item?.data?.items[0]?.inTime) {
@@ -65,9 +65,6 @@ export class OverviewComponent implements OnInit {
         if (item?.data?.items[0]?.outTime) {
           this.myWorkingHour.outTimeToday = item.data?.items[0]?.outTime;
         }
-      } else {
-        //show check-in button
-        this.checkingAction = 'checked-in';
       }
       this.cdr.detectChanges();
     });
