@@ -57,6 +57,11 @@ export class AdminEmployeeService extends RxState<AdminEmployeeState> {
     return this.http.get<PagingResponse<BaseObject>>(`${ACCOUNT_API_PATH}/users/v2`);
   }
 
+  searchUsers(searchQuery: string): Observable<BaseObject[]> {
+    return this.http.get<BaseResponse<BaseObject[]>>(`${ACCOUNT_API_PATH}/users/v2?search=${searchQuery}`)
+      .pipe(map((res) => res.data));
+  }
+
   getJobLevels(): Observable<PagingResponse<BaseObject>> {
     return this.http.get<PagingResponse<BaseObject>>(`${ACCOUNT_API_PATH}/levels/v2`);
   }
