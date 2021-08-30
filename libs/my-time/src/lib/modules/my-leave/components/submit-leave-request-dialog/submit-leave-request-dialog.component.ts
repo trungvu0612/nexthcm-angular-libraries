@@ -8,17 +8,18 @@ import { TuiDialogContext, TuiDialogService } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT, PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { endOfDay, getTime } from 'date-fns';
 import { Observable } from 'rxjs';
-import { distinctUntilChanged, filter, map, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { catchError, distinctUntilChanged, filter, map, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { LeaveSubmit, SubmitLeavePayLoad } from '../../../../models';
 import { MyLeaveService, MyTimeService } from '../../../../services';
 import { DurationConfirmDialogComponent } from '../duaration-comfirm-dialog/duration-confirm-dialog.component';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'hcm-submit-leave-request-dialog',
   templateUrl: './submit-leave-request-dialog.component.html',
   styleUrls: ['./submit-leave-request-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [TuiDestroyService],
+  providers: [TuiDestroyService]
 })
 export class SubmitLeaveRequestDialogComponent implements OnInit {
   timeValues$: Observable<any[]> = this.myLeaveService.getTimeValues();
@@ -41,7 +42,7 @@ export class SubmitLeaveRequestDialogComponent implements OnInit {
     specialTimeFrom: undefined,
     specialTimeTo: undefined,
     startTime: undefined,
-    status: 0,
+    status: 0
   };
   fields: FormlyFieldConfig[] = [
     {
@@ -55,8 +56,8 @@ export class SubmitLeaveRequestDialogComponent implements OnInit {
         labelPropEntitlement: 'remainingEntitlement',
         size: 'm',
         single: true,
-        required: true,
-      },
+        required: true
+      }
     },
     {
       className: 'tui-form__row block',
@@ -68,8 +69,8 @@ export class SubmitLeaveRequestDialogComponent implements OnInit {
         required: true,
         translate: true,
         label: 'Date range',
-        placeholder: 'Choose dates',
-      },
+        placeholder: 'Choose dates'
+      }
     },
     {
       fieldGroupClassName: 'grid grid-cols-1 gap-4 mt-4',
@@ -85,14 +86,14 @@ export class SubmitLeaveRequestDialogComponent implements OnInit {
             label: 'Partial Days All',
             size: 's',
             single: true,
-            required: true,
+            required: true
           },
           hideExpression: 'model.fromTo?.isSingleDay',
           expressionProperties: {
-            className: '!model.fromTo || model.fromTo.isSingleDay ? "hidden" : "col-span-full mt-4"',
-          },
-        },
-      ],
+            className: '!model.fromTo || model.fromTo.isSingleDay ? "hidden" : "col-span-full mt-4"'
+          }
+        }
+      ]
     },
     {
       fieldGroupClassName: 'grid grid-cols-3 gap-4 mt-4',
@@ -106,37 +107,37 @@ export class SubmitLeaveRequestDialogComponent implements OnInit {
             placeholder: 'Duration Start',
             label: 'Duration Start',
             valueProp: 'value',
-            required: true,
+            required: true
           },
           hideExpression: 'model.partialDays?.type === 0',
           expressionProperties: {
             className: 'model.partialDays?.type === 0  ?  "hidden" : ""',
-            'templateOptions.disabled': '!model.fromTo',
+            'templateOptions.disabled': '!model.fromTo'
           },
           hooks: {
             onInit: (field) => {
               const options: { [p: number]: BaseOption<number>[] } = {
                 1: [
                   { value: 1, label: 'Half Day' },
-                  { value: 2, label: 'Special Time' },
+                  { value: 2, label: 'Special Time' }
                 ],
                 2: [
                   { value: 1, label: 'Half Day' },
-                  { value: 2, label: 'Special Time' },
+                  { value: 2, label: 'Special Time' }
                 ],
                 3: [
                   { value: 1, label: 'Half Day' },
-                  { value: 2, label: 'Special Time' },
+                  { value: 2, label: 'Special Time' }
                 ],
                 4: [
                   { value: 1, label: 'Half Day' },
-                  { value: 2, label: 'Special Time' },
-                ],
+                  { value: 2, label: 'Special Time' }
+                ]
               };
               const defaultOption: BaseOption<number>[] = [
                 { value: 0, label: 'Full Day' },
                 { value: 1, label: 'Half Day' },
-                { value: 2, label: 'Special Time' },
+                { value: 2, label: 'Special Time' }
               ];
 
               field!.templateOptions!.options = this.form.valueChanges.pipe(
@@ -145,8 +146,8 @@ export class SubmitLeaveRequestDialogComponent implements OnInit {
                 map((value) => (value ? options[value] : defaultOption)),
                 tap(() => field?.formControl?.setValue(null, { emitEvent: false }))
               );
-            },
-          },
+            }
+          }
         },
         {
           key: 'halfDay',
@@ -158,12 +159,12 @@ export class SubmitLeaveRequestDialogComponent implements OnInit {
             labelClassName: 'font-semibold',
             valueProp: 'value',
             placeholder: 'halfDay or Afternoon',
-            required: true,
+            required: true
           },
           hideExpression: 'model.durationHold !== 1',
           expressionProperties: {
-            className: 'model.durationHold !== 1  ?  "hidden" : "col-span-2"',
-          },
+            className: 'model.durationHold !== 1  ?  "hidden" : "col-span-2"'
+          }
         },
         {
           key: 'specialTimeFrom',
@@ -175,12 +176,12 @@ export class SubmitLeaveRequestDialogComponent implements OnInit {
             valueProp: 'conVertToSecond',
             placeholder: 'Special time from',
             label: 'Special time from',
-            required: true,
+            required: true
           },
           hideExpression: 'model.durationHold !== 2',
           expressionProperties: {
-            className: 'model.durationHold !== 2  ?  "hidden" : ""',
-          },
+            className: 'model.durationHold !== 2  ?  "hidden" : ""'
+          }
         },
         {
           key: 'specialTimeTo',
@@ -192,14 +193,14 @@ export class SubmitLeaveRequestDialogComponent implements OnInit {
             valueProp: 'conVertToSecond',
             placeholder: 'Special time to',
             label: 'Special time to',
-            required: true,
+            required: true
           },
           hideExpression: 'model.durationHold !== 2',
           expressionProperties: {
-            className: 'model.durationHold !== 2  ?  "hidden" : ""',
-          },
-        },
-      ],
+            className: 'model.durationHold !== 2  ?  "hidden" : ""'
+          }
+        }
+      ]
     },
     {
       fieldGroupClassName: 'grid grid-cols-3 gap-4 mt-4',
@@ -213,36 +214,36 @@ export class SubmitLeaveRequestDialogComponent implements OnInit {
             valueProp: 'value',
             placeholder: 'Duration End',
             label: 'Duration End',
-            required: true,
+            required: true
           },
           hideExpression: 'model.partialDays?.type !== 4 ',
           expressionProperties: {
-            className: 'model.partialDays?.type !== 4 ?  "hidden" : ""',
+            className: 'model.partialDays?.type !== 4 ?  "hidden" : ""'
           },
           hooks: {
             onInit: (field) => {
               const options: { [p: number]: BaseOption<number>[] } = {
                 1: [
                   { value: 1, label: 'Half Day' },
-                  { value: 2, label: 'Special Time' },
+                  { value: 2, label: 'Special Time' }
                 ],
                 2: [
                   { value: 1, label: 'Half Day' },
-                  { value: 2, label: 'Special Time' },
+                  { value: 2, label: 'Special Time' }
                 ],
                 3: [
                   { value: 1, label: 'Half Day' },
-                  { value: 2, label: 'Special Time' },
+                  { value: 2, label: 'Special Time' }
                 ],
                 4: [
                   { value: 1, label: 'Half Day' },
-                  { value: 2, label: 'Special Time' },
-                ],
+                  { value: 2, label: 'Special Time' }
+                ]
               };
               const defaultOption: BaseOption<number>[] = [
                 { value: 0, label: 'Full Day' },
                 { value: 1, label: 'Half Day' },
-                { value: 2, label: 'Special Time' },
+                { value: 2, label: 'Special Time' }
               ];
               field!.templateOptions!.options = this.form.valueChanges.pipe(
                 map((formValue) => formValue.partialDays?.type),
@@ -250,8 +251,8 @@ export class SubmitLeaveRequestDialogComponent implements OnInit {
                 map((value) => (value ? options[value] : defaultOption)),
                 tap(() => field?.formControl?.setValue(null, { emitEvent: false }))
               );
-            },
-          },
+            }
+          }
         },
         {
           key: 'halfDay2',
@@ -262,12 +263,12 @@ export class SubmitLeaveRequestDialogComponent implements OnInit {
             placeholder: 'halfDay or Afternoon 2',
             valueProp: 'value',
             label: 'Half Day 2',
-            required: true,
+            required: true
           },
           hideExpression: 'model.durationEnd !== 1',
           expressionProperties: {
-            className: 'model.durationEnd !== 1  ?  "hidden" : "col-span-2"',
-          },
+            className: 'model.durationEnd !== 1  ?  "hidden" : "col-span-2"'
+          }
         },
         {
           key: 'specialTimeFrom2',
@@ -279,12 +280,12 @@ export class SubmitLeaveRequestDialogComponent implements OnInit {
             valueProp: 'conVertToSecond',
             placeholder: 'Special time from2',
             label: 'Special time from 2',
-            required: true,
+            required: true
           },
           hideExpression: 'model.durationEnd !== 2 || model.partialDays?.type !== 4',
           expressionProperties: {
-            className: 'model.durationEnd !== 2 || model.partialDays?.type !== 4 ?  "hidden" : ""',
-          },
+            className: 'model.durationEnd !== 2 || model.partialDays?.type !== 4 ?  "hidden" : ""'
+          }
         },
         {
           key: 'specialTimeTo2',
@@ -296,14 +297,14 @@ export class SubmitLeaveRequestDialogComponent implements OnInit {
             valueProp: 'conVertToSecond',
             placeholder: 'Special time to2',
             label: 'Special time to 2',
-            required: true,
+            required: true
           },
           hideExpression: 'model.durationEnd !== 2 || model.partialDays?.type !== 4',
           expressionProperties: {
-            className: 'model.durationEnd !== 2 || model.partialDays?.type !== 4 ?  "hidden" : ""',
-          },
-        },
-      ],
+            className: 'model.durationEnd !== 2 || model.partialDays?.type !== 4 ?  "hidden" : ""'
+          }
+        }
+      ]
     },
     {
       fieldGroupClassName: 'grid grid-cols-1 gap-4',
@@ -319,8 +320,8 @@ export class SubmitLeaveRequestDialogComponent implements OnInit {
             valueProp: 'id',
             placeholder: 'Send to',
             label: 'Send to',
-            textfieldLabelOutside: true,
-          },
+            textfieldLabelOutside: true
+          }
         },
 
         {
@@ -334,11 +335,11 @@ export class SubmitLeaveRequestDialogComponent implements OnInit {
             rows: 4,
             textfieldLabelOutside: true,
             label: 'Comments',
-            required: true,
-          },
-        },
-      ],
-    },
+            required: true
+          }
+        }
+      ]
+    }
   ];
 
   constructor(
@@ -350,8 +351,10 @@ export class SubmitLeaveRequestDialogComponent implements OnInit {
     private fb: FormBuilder,
     private destroy$: TuiDestroyService,
     private promptService: PromptService,
-    private myTimeService: MyTimeService
-  ) {}
+    private myTimeService: MyTimeService,
+    private sanitizer: DomSanitizer
+  ) {
+  }
 
   ngOnInit(): void {
     this.myLeaveService
@@ -404,18 +407,31 @@ export class SubmitLeaveRequestDialogComponent implements OnInit {
     return this.dialogService
       .open<boolean>(new PolymorpheusComponent(DurationConfirmDialogComponent, this.injector), {
         data: resultDays,
-        size: 's',
+        size: 's'
       })
       .pipe(
         filter((result) => result),
         switchMap(() => this.myLeaveService.createLeave(resultDays)),
-        tap(() => this.promptService.handleResponse()),
+        tap(() => this.promptService.handleResponse('submitRequestSuccessfully')),
         takeUntil(this.destroy$)
       )
-      .subscribe(() => this.context.completeWith(true));
+      .subscribe(() => this.context.completeWith(true),
+        (err) => this.promptService.open({
+          icon: 'error',
+          html: JSON.parse(err.error.message) ? this.errorSubmitLeave(JSON.parse(err.error.message)) : err.error.message
+        }));
   }
 
   onCancel(): void {
     this.context.$implicit.complete();
+  }
+
+  errorSubmitLeave(dataLeave: any) {
+    let dataLeaveType = '<ul class="mt-3 text-left">';
+    dataLeave.forEach(function(value: any) {
+      dataLeaveType += '<li><p><strong>' + value.leaveType.name + '</strong> from ' + '<strong>' + new Date(value.fromDate).toLocaleDateString('en-GB') + '</strong> to ' + '<strong>' + new Date(value.toDate).toLocaleDateString('en-GB') + '</strong></p></li>';
+    });
+    dataLeaveType += '</ul>';
+    return ('<strong class="text-xl">Leave is already existed at:</strong>' + dataLeaveType);
   }
 }
