@@ -15,7 +15,23 @@
     <ng-template let-index="index" let-row>
       <ng-container *tuiLet="item(row) as item">
         <td>{{ t(item.validatorType.name) }}</td>
-        <td>{{ t(item.validatorType.description) }}</td>
+        <td *tuiLet="item.permissions?.length as hasPermissions">
+          <p>{{ t(item.validatorType.description) }}<span *ngIf="hasPermissions">:</span></p>
+          <ul *ngIf="hasPermissions" class="tui-list tui-list_small">
+            <li *ngIf="item.users?.length" class="tui-list__item">
+              {{ t('users') }}:
+              <span *ngFor="let user of item.users; last as isLast"
+                >{{ user.name }}<span *ngIf="!isLast">, </span>
+              </span>
+            </li>
+            <li class="tui-list__item">
+              {{ t('permissions') }}:
+              <span *ngFor="let permission of item.permissions; last as isLast"
+                >{{ permission.name }}<span *ngIf="!isLast">, </span>
+              </span>
+            </li>
+          </ul>
+        </td>
         <td>
           <div class="flex items-center">
             <button

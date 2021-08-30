@@ -24,7 +24,7 @@ import { AppComponent } from './app.component';
       },
       {
         path: 'admin/workflow',
-        loadChildren: () => import('@nexthcm/admin-workflow').then((m) => m.AdminWorkflowModule),
+        loadChildren: () => import('@nexthcm/admin-workflows').then((m) => m.AdminWorkflowsModule),
       },
       { path: '', redirectTo: 'admin/workflow', pathMatch: 'full' },
     ]),

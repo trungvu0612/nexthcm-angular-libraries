@@ -8,7 +8,7 @@ import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { mapTo, tap } from 'rxjs/operators';
 import { v4 as uuidv4 } from 'uuid';
 import { Status } from '../../models';
-import { AdminWorkflowService } from '../../services/admin-workflow.service';
+import { AdminWorkflowsService } from '../../services/admin-workflows.service';
 
 @Component({
   selector: 'hcm-upsert-status-dialog',
@@ -53,7 +53,7 @@ export class UpsertStatusDialogComponent implements OnInit {
       templateOptions: {
         translate: true,
         required: true,
-        options: this.adminWorkflowService.select('statusTypes'),
+        options: this.adminWorkflowsService.select('statusTypes'),
         label: 'stateType',
         labelClassName: 'font-semibold',
         labelProp: 'name',
@@ -64,7 +64,7 @@ export class UpsertStatusDialogComponent implements OnInit {
   constructor(
     @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<Status, Status>,
     private fb: FormBuilder,
-    private adminWorkflowService: AdminWorkflowService,
+    private adminWorkflowsService: AdminWorkflowsService,
     private promptService: PromptService,
     private destroy$: TuiDestroyService
   ) {}
@@ -87,8 +87,8 @@ export class UpsertStatusDialogComponent implements OnInit {
   onSubmit(): void {
     if (this.form.valid) {
       (this.editMode
-        ? this.adminWorkflowService.updateStatus(this.model).pipe(mapTo(this.model))
-        : this.adminWorkflowService.createStatus(this.model)
+        ? this.adminWorkflowsService.updateStatus(this.model).pipe(mapTo(this.model))
+        : this.adminWorkflowsService.createStatus(this.model)
       )
         .pipe(tap((res) => this.context.completeWith(res)))
         .subscribe(this.promptService.handleResponse());

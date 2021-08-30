@@ -149,10 +149,10 @@
   "editStatus": "Edit status",
   "createNewTransition": "Create new transition",
   "editTransition": "Edit transition",
-  "deleteWorkflow": "Are you sure you want to delete this workflow?",
-  "updateWorkflowSuccessfully": "Updating this workflow successfully!",
-  "changeSourceOfTransition": "Are you sure you want to change the source of '{{transition}}' to '{{status}}'?",
-  "changeTargetOfTransition": "Are you sure you want to change the destination of '{{transition}}' to '{{status}}'?",
+  "deleteWorkflow": "<b>Are you sure you want to delete this workflow?</b>",
+  "updateWorkflowSuccessfully": "<b>Updating this workflow successfully!</b>",
+  "changeSourceOfTransition": "<b>Are you sure you want to change the source of '{{transition}}' to '{{status}}'?</b>",
+  "changeTargetOfTransition": "<b>Are you sure you want to change the destination of '{{transition}}' to '{{status}}'?</b>",
   "ADMIN_WORKFLOW_TABLE_COLUMNS": {
     "name": "Name",
     "description": "Description",
@@ -654,8 +654,8 @@
   "add": "Add",
   "jobTitles": "Job Titles",
   "searchStatusOrNameNewOne": "Search for an existing status or name a new one.",
-  "searchPermissions": "Search for permissions",
-  "searchJobTitles": "Search for job titles",
+  "searchPermissions": "Search for permissions...",
+  "searchJobTitles": "Search for job titles...",
   "goodMorning": "Good morning",
   "goodAfternoon": "Good afternoon",
   "goodEvening": "Good evening",
@@ -667,5 +667,6 @@
   "viewDetails": "View details",
   "checkIn": "Check in",
   "checkOut": "Check out",
-  "profile": "Profile"
+  "profile": "Profile",
+  "searchUsers": "Search for users..."
 }

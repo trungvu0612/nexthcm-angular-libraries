@@ -32,7 +32,7 @@ import {
   UpsertTransitionData,
   Workflow,
 } from '../../models';
-import { AdminWorkflowService } from '../../services/admin-workflow.service';
+import { AdminWorkflowsService } from '../../services/admin-workflows.service';
 import { generateWorkflowStatus, generateWorkflowTransition } from '../../utils';
 
 const clone = clone_;
@@ -107,7 +107,7 @@ export class UpsertWorkflowComponent implements OnInit {
     private readonly dialogService: TuiDialogService,
     private readonly injector: Injector,
     private readonly activatedRoute: ActivatedRoute,
-    private readonly workflowService: AdminWorkflowService,
+    private readonly workflowService: AdminWorkflowsService,
     private readonly state: RxState<WorkflowState>,
     private readonly destroy$: TuiDestroyService,
     private readonly router: Router,
@@ -353,18 +353,18 @@ export class UpsertWorkflowComponent implements OnInit {
     let newStatus: Status | null = null;
 
     if (newTransition.fromStateId === value.previousId) {
-      changeTransitionMessage = 'MESSAGES.changeSourceOfTransition';
+      changeTransitionMessage = 'changeSourceOfTransition';
       newStatus = addedStatuses[value.sourceId];
       newTransition.fromStateId = value.sourceId;
     } else if (newTransition.toStateId === value.previousId) {
-      changeTransitionMessage = 'MESSAGES.changeTargetOfTransition';
+      changeTransitionMessage = 'changeTargetOfTransition';
       newStatus = addedStatuses[value.targetId];
       newTransition.toStateId = value.targetId;
     }
 
     if (newStatus) {
       const result = await this.promptService.open({
-        icon: 'warning',
+        icon: 'question',
         html: this.translocoService.translate(changeTransitionMessage, {
           transition: newTransition.name,
           status: newStatus.name,

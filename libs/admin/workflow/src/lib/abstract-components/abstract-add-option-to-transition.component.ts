@@ -3,7 +3,7 @@ import { FormBuilder } from '@ngneat/reactive-forms';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { TransitionOption } from '../models';
-import { AdminWorkflowService } from '../services/admin-workflow.service';
+import { AdminWorkflowsService } from '../services/admin-workflows.service';
 
 @Directive()
 export abstract class AbstractAddOptionToTransitionComponent<T> implements OnInit {
@@ -13,7 +13,7 @@ export abstract class AbstractAddOptionToTransitionComponent<T> implements OnIni
   protected constructor(
     readonly fb: FormBuilder,
     @Inject(POLYMORPHEUS_CONTEXT) readonly context: TuiDialogContext<TransitionOption<T>, TransitionOption<T>>,
-    readonly adminWorkflowService: AdminWorkflowService
+    readonly adminWorkflowsService: AdminWorkflowsService
   ) {}
 
   ngOnInit(): void {

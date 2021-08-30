@@ -6,7 +6,7 @@
     </div>
     <div class="table-row">
       <div class="table-label">{{ t('probationDates') }}:</div>
-      <div *tuiLet="$any(profile.probationDate) as probationDate" class="table-value">
+      <div *ngIf="$any(profile.probationDate) as probationDate" class="table-value">
         {{ probationDate.from | translocoDate }} - {{ probationDate.to | translocoDate }}
       </div>
     </div>

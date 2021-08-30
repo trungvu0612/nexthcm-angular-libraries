@@ -1,1 +1,1 @@
-export * from './lib/admin-workflow.module';
+export * from './lib/admin-workflows.module';

@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { AdminWorkflowService } from './admin-workflow.service';
+import { AdminWorkflowsService } from './admin-workflows.service';
 
 describe('AdminWorkflowService', () => {
-  let service: AdminWorkflowService;
+  let service: AdminWorkflowsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(AdminWorkflowService);
+    service = TestBed.inject(AdminWorkflowsService);
   });
 
   it('should be created', () => {

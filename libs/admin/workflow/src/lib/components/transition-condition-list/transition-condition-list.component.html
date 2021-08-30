@@ -15,7 +15,15 @@
     <ng-template let-index="index" let-row>
       <ng-container *tuiLet="item(row) as item">
         <td>{{ t(item.conditionType.name) }}</td>
-        <td>{{ t(item.conditionType.description) }}</td>
+        <td>
+          <span>{{ t(item.conditionType.description) }}</span>
+          <ng-container *ngIf="item.values?.length"
+            >:
+            <span *ngFor="let value of item.values; last as isLast"
+              >{{ value.name }}<span *ngIf="!isLast">, </span>
+            </span>
+          </ng-container>
+        </td>
         <td>
           <div class="flex items-center">
             <button

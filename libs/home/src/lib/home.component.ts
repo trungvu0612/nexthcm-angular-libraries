@@ -22,6 +22,7 @@ interface HomeState {
   providers: [RxState],
 })
 export class HomeComponent {
+  greeting = '';
   readonly queryParams$ = new BehaviorSubject(
     new HttpParams()
       .set('userId', this.authService.get('userInfo', 'userId'))
@@ -40,13 +41,14 @@ export class HomeComponent {
   readonly loading$ = this.myWorkingDaysRequest$.pipe(map((value) => !value));
   readonly monthWorkingTime$ = this.workingHoursService.getWorkingTimeCurrentMonth();
   readonly myWorkingDays$: Observable<WorkingHours[]> = this.myWorkingDaysRequest$.pipe(filter(isPresent));
-  readonly shouldCheckedIn$ = new BehaviorSubject<boolean | null>(true);
+  readonly shouldCheckedOut$ = new BehaviorSubject<boolean | null>(false);
   readonly checkInOut$ = new Subject();
   readonly checkedId$ = this.workingHoursService.getTimekeepingLog().pipe(
-    tap((items) => this.shouldCheckedIn$.next(items.length === 0 ? null : items.length === 1 && !items[0].inTime)),
+    tap((items) => this.shouldCheckedOut$.next(!!items.length)),
     map((items) => items[0]?.id),
     filter(isPresent)
   );
+  readonly username = this.authService.get('userInfo', 'preferred_username');
 
   constructor(
     private readonly workingHoursService: WorkingHoursService,
@@ -59,24 +61,21 @@ export class HomeComponent {
     this.state.hold(
       this.checkInOut$.pipe(
         switchMap(() => this.checkedId$),
-        switchMap((checkedId) => (this.shouldCheckedIn$.value ? this.checkOut(checkedId) : this.checkIn(checkedId)))
+        switchMap((checkedId) => (this.shouldCheckedOut$.value ? this.checkOut(checkedId) : this.checkIn(checkedId)))
       )
     );
+    this.getGreeting();
   }
 
-  get greeting(): string {
+  getGreeting(): void {
     const time = new Date().getHours();
-    return time < 12
+    this.greeting = time < 12
       ? 'goodMorning'
       : time >= 12 && time < 17
       ? 'goodAfternoon'
       : time >= 17 && time < 21
       ? 'goodEvening'
       : 'goodNight';
-  }
-
-  get username(): string | undefined {
-    return this.authService.get('userInfo', 'preferred_username');
   }
 
   private checkIn(id: string): Observable<unknown> {
@@ -95,7 +94,7 @@ export class HomeComponent {
     ).pipe(
       filter((result) => result.isConfirmed),
       switchMap(() => this.workingHoursService.checkIn(id, checkInPayload)),
-      tap(() => this.promptService.handleResponse('checkInSuccessfully', () => this.shouldCheckedIn$.next(true)))
+      tap(() => this.promptService.handleResponse('checkInSuccessfully', () => this.shouldCheckedOut$.next(true)))
     );
   }
 

@@ -6,7 +6,7 @@ import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { AbstractAddOptionToTransitionComponent } from '../../abstract-components/abstract-add-option-to-transition.component';
 import { PostFunctionType } from '../../enums';
 import { TransitionOption, TransitionPostFunction } from '../../models';
-import { AdminWorkflowService } from '../../services/admin-workflow.service';
+import { AdminWorkflowsService } from '../../services/admin-workflows.service';
 
 @Component({
   selector: 'hcm-add-post-function-to-transition-dialog',
@@ -17,26 +17,26 @@ import { AdminWorkflowService } from '../../services/admin-workflow.service';
 export class AddPostFunctionToTransitionDialogComponent extends AbstractAddOptionToTransitionComponent<PostFunctionType> {
   fields: FormlyFieldConfig[] = [
     {
-      key: 'validatorType',
+      key: 'postFunctionType',
       className: 'tui-form__row block',
       type: 'select-transition-option',
       templateOptions: {
-        options: this.adminWorkflowService.select('postFunctionTypes'),
+        options: this.adminWorkflowsService.select('postFunctionTypes'),
         required: true,
       },
     },
     {
       key: 'values',
       className: 'tui-form__row block',
-      type: 'multi-select',
+      type: 'multi-select-search',
       templateOptions: {
         translate: true,
         label: 'jobTitles',
         labelClassName: 'font-semibold',
         textfieldLabelOutside: true,
+        placeholder: 'searchJobTitles',
         required: true,
-        matcherBy: 'id',
-        options: this.adminWorkflowService.select('jobTitles'),
+        serverRequest: (searchQuery: string) => this.adminWorkflowsService.searchJobTitles(searchQuery),
       },
       hideExpression: (model: TransitionPostFunction) =>
         ![
@@ -50,8 +50,8 @@ export class AddPostFunctionToTransitionDialogComponent extends AbstractAddOptio
     readonly fb: FormBuilder,
     @Inject(POLYMORPHEUS_CONTEXT)
     readonly context: TuiDialogContext<TransitionOption<PostFunctionType>, TransitionOption<PostFunctionType>>,
-    readonly adminWorkflowService: AdminWorkflowService
+    readonly adminWorkflowsService: AdminWorkflowsService
   ) {
-    super(fb, context, adminWorkflowService);
+    super(fb, context, adminWorkflowsService);
   }
 }

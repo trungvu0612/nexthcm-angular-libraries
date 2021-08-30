@@ -150,10 +150,10 @@
   "editStatus": "Chỉnh sửa trạng thái",
   "createNewTransition": "Tạo chuyển tiếp",
   "editTransition": "Chỉnh sửa chuyển tiếp",
-  "deleteWorkflow": "Bạn có chắc chắn muốn xóa quy trình này không?",
-  "updateWorkflowSuccessfully": "Cập nhật quy trình thành công!",
-  "changeSourceOfTransition": "Bạn có chắc chắn muốn thay đổi nguồn của '{{transition}}' thành '{{status}}'?",
-  "changeTargetOfTransition": "Bạn có chắc chắn muốn thay đổi đích của '{{transition}}' thành '{{status}}'?",
+  "deleteWorkflow": "<b>Bạn có chắc chắn muốn xóa quy trình này không?</b>",
+  "updateWorkflowSuccessfully": "<b>Cập nhật quy trình thành công!</b>",
+  "changeSourceOfTransition": "<b>Bạn có chắc chắn muốn thay đổi nguồn của '{{transition}}' thành '{{status}}'?</b>",
+  "changeTargetOfTransition": "<b>Bạn có chắc chắn muốn thay đổi đích của '{{transition}}' thành '{{status}}'?</b>",
   "ADMIN_WORKFLOW_TABLE_COLUMNS": {
     "name": "Tên",
     "description": "Mô tả",
@@ -610,7 +610,7 @@
     "permissionValidator": "Trình xác thực về phân quyền",
     "permissionValidatorDescription": "Xác thực rằng người dùng có quyền hạn",
     "userPermissionValidator": "Trình xác thực về người dùng & phân quyền",
-    "userPermissionValidatorDescription": "Xác thực rằng người dùng nhất định có quyền hạn",
+    "userPermissionValidatorDescription": "Xác thực rằng những người dùng với các quyền hạn",
     "assignToDirectLeader": "Chỉ định người lãnh đạo trực tiếp",
     "assignToDirectLeaderDescription": "Chỉ định người lãnh đạo trực tiếp của người được chỉ định hiện tại",
     "assignToTheNearestLeaderWithASpecifiedTitle": "Chỉ định người lãnh đạo gần nhất với chức vụ nhất định",
@@ -656,5 +656,6 @@
   "viewDetails": "Xem chi tiết",
   "checkIn": "Ghi giờ vào",
   "checkOut": "Ghi giờ ra",
-  "profile": "Hồ sơ"
+  "profile": "Hồ sơ",
+  "searchUsers": "Tìm kiếm người dùng..."
 }

@@ -31,7 +31,7 @@ import {
 } from '@taiga-ui/kit';
 import { TableModule } from 'ngx-easy-table';
 import { NgxPermissionsGuard } from 'ngx-permissions';
-import { AdminWorkflowComponent } from './admin-workflow.component';
+import { AdminWorkflowsComponent } from './admin-workflows.component';
 import { AddConditionToTransitionDialogComponent } from './components/add-condition-to-transition-dialog/add-condition-to-transition-dialog.component';
 import { AddPostFunctionToTransitionDialogComponent } from './components/add-post-function-to-transition-dialog/add-post-function-to-transition-dialog.component';
 import { AddStatusDropdownButtonComponent } from './components/add-status-button-dropdown/add-status-dropdown-button.component';
@@ -47,16 +47,16 @@ import { UpsertStatusDialogComponent } from './components/upsert-status-dialog/u
 import { UpsertTransitionDialogComponent } from './components/upsert-transition-dialog/upsert-transition-dialog.component';
 import { UpsertWorkflowComponent } from './pages/upsert-workflow/upsert-workflow.component';
 import { WorkflowManagementComponent } from './pages/workflow-management/workflow-management.component';
-import { AdminWorkflowService } from './services/admin-workflow.service';
+import { AdminWorkflowsService } from './services/admin-workflows.service';
 
-export const ADMIN_PROCESSES_ROUTES: Routes = [
+export const ADMIN_WORKFLOWS_ROUTES: Routes = [
   {
     path: '',
     component: LayoutComponent,
     children: [
       {
         path: '',
-        component: AdminWorkflowComponent,
+        component: AdminWorkflowsComponent,
         canActivate: [NgxPermissionsGuard],
         data: { permissions: { only: 'VIEW_WORKFLOW', redirectTo: '/' } },
         children: [
@@ -77,7 +77,7 @@ export const ADMIN_PROCESSES_ROUTES: Routes = [
 @NgModule({
   imports: [
     CommonModule,
-    RouterModule.forChild(ADMIN_PROCESSES_ROUTES),
+    RouterModule.forChild(ADMIN_WORKFLOWS_ROUTES),
     WorkflowDesignerModule,
     TuiButtonModule,
     TuiIslandModule,
@@ -117,7 +117,7 @@ export const ADMIN_PROCESSES_ROUTES: Routes = [
     TuiSelectModule,
   ],
   declarations: [
-    AdminWorkflowComponent,
+    AdminWorkflowsComponent,
     UpsertWorkflowComponent,
     UpsertStatusDialogComponent,
     UpsertTransitionDialogComponent,
@@ -134,6 +134,6 @@ export const ADMIN_PROCESSES_ROUTES: Routes = [
     TransitionValidatorListComponent,
     TransitionPostFunctionListComponent,
   ],
-  providers: [AdminWorkflowService],
+  providers: [AdminWorkflowsService],
 })
-export class AdminWorkflowModule {}
+export class AdminWorkflowsModule {}

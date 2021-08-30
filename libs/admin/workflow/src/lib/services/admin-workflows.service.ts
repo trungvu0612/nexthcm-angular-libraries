@@ -7,7 +7,7 @@ import { map, startWith, switchMap, tap } from 'rxjs/operators';
 import { ConditionType, PostFunctionType, ValidatorType } from '../enums';
 import { InitWorkflow, Status, TransitionOption, Workflow } from '../models';
 
-interface WorkflowState {
+interface WorkflowsState {
   statusTypes: Status[];
   statuses: Status[];
   conditionTypes: TransitionOption<ConditionType>[];
@@ -17,7 +17,7 @@ interface WorkflowState {
 }
 
 @Injectable()
-export class AdminWorkflowService extends RxState<WorkflowState> {
+export class AdminWorkflowsService extends RxState<WorkflowsState> {
   private readonly updateStatus$ = new Subject<Status>();
   private readonly createStatus$ = new Subject<Status>();
   private readonly initStatus$ = new Subject();
@@ -104,6 +104,18 @@ export class AdminWorkflowService extends RxState<WorkflowState> {
 
   getJobTitles(): Observable<BaseObject[]> {
     return this.http.get<BaseObject[]>(`${ACCOUNT_API_PATH}/titles/v2`);
+  }
+
+  searchJobTitles(searchQuery: string): Observable<BaseObject[]> {
+    return this.select('jobTitles').pipe(
+      map((jobTitles) =>
+        jobTitles.filter((jobTitle) => jobTitle.name.toLowerCase().indexOf(searchQuery.toLowerCase()) !== -1)
+      )
+    );
+  }
+
+  getUsers(searchQuery: string): Observable<BaseObject[]> {
+    return this.http.get<BaseResponse<BaseObject[]>>(`${ACCOUNT_API_PATH}/users/v2?search=${searchQuery}`).pipe(map((res) => res.data));
   }
 
   getPermissions(searchQuery: string): Observable<BaseObject[]> {

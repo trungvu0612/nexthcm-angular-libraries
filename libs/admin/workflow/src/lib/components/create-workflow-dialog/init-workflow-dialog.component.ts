@@ -7,7 +7,7 @@ import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { takeUntil, tap } from 'rxjs/operators';
 import { InitWorkflow } from '../../models';
-import { AdminWorkflowService } from '../../services/admin-workflow.service';
+import { AdminWorkflowsService } from '../../services/admin-workflows.service';
 
 @Component({
   selector: 'hcm-init-workflow-dialog',
@@ -87,7 +87,7 @@ export class InitWorkflowDialogComponent {
   constructor(
     private fb: FormBuilder,
     @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<string, InitWorkflow>,
-    private workflowService: AdminWorkflowService,
+    private workflowService: AdminWorkflowsService,
     private destroy$: TuiDestroyService,
     private promptService: PromptService
   ) {}

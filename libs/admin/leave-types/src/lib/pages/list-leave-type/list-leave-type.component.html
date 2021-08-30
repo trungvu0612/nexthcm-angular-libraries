@@ -1,13 +1,10 @@
-<main class="main-page bg-white">
-  <ng-container *transloco="let t">
-    <h2 class="tui-text_h3">{{ t('ADMIN_LEAVE_TYPES.leaveTypesManagement') }}</h2>
-    <section class="flex justify-end">
+<ng-container *transloco="let t">
+  <hcm-page [title]="t('ADMIN_LEAVE_TYPES.leaveTypesManagement')">
+    <ng-container ngProjectAs="pageHeader">
       <button class="tui-space_right-3 tui-space_bottom-3" icon="tuiIconPlusLarge" routerLink="add" size="m" tuiButton>
         {{ t('ADMIN_LEAVE_TYPES.addLeaveType') }}
       </button>
-    </section>
-  </ng-container>
-  <section class="main-section">
+    </ng-container>
     <tui-loader [overlay]="true" [showLoader]="(loading$ | async) === true">
       <ngx-table
         #table
@@ -55,5 +52,5 @@
       [total]="(total$ | async) || 0"
       class="tui-space_top-2"
     ></tui-table-pagination>
-  </section>
-</main>
+  </hcm-page>
+</ng-container>

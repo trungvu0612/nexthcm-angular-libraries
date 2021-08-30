@@ -11,7 +11,7 @@ import { from, Observable } from 'rxjs';
 import { filter, map, share, startWith, switchMap, takeUntil } from 'rxjs/operators';
 import { InitWorkflowDialogComponent } from '../../components/create-workflow-dialog/init-workflow-dialog.component';
 import { Workflow } from '../../models';
-import { AdminWorkflowService } from '../../services/admin-workflow.service';
+import { AdminWorkflowsService } from '../../services/admin-workflows.service';
 
 @Component({
   selector: 'hcm-workflow-management',
@@ -45,7 +45,7 @@ export class WorkflowManagementComponent extends AbstractServerPaginationTableCo
     private injector: Injector,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private workflowService: AdminWorkflowService,
+    private workflowService: AdminWorkflowsService,
     private destroy$: TuiDestroyService,
     private translocoService: TranslocoService,
     private promptService: PromptService

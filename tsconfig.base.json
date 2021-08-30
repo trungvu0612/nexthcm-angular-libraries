@@ -29,7 +29,7 @@
       "@nexthcm/admin-team-building-allowance": ["libs/admin/team-building-allowance/src/index.ts"],
       "@nexthcm/admin-tenant": ["libs/admin/tenant/src/index.ts"],
       "@nexthcm/admin-user-roles": ["libs/admin/user-roles/src/index.ts"],
-      "@nexthcm/admin-workflow": ["libs/admin/workflow/src/index.ts"],
+      "@nexthcm/admin-workflows": ["libs/admin/workflow/src/index.ts"],
       "@nexthcm/admin-working-times": ["libs/admin/working-times/src/index.ts"],
       "@nexthcm/auth": ["libs/auth/src/index.ts"],
       "@nexthcm/calendar": ["libs/calendar/src/index.ts"],

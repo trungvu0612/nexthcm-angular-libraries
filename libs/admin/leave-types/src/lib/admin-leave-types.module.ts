@@ -2,10 +2,10 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Route, RouterModule } from '@angular/router';
-import { FormlyTaigaUiModule, LayoutComponent } from '@nexthcm/ui';
+import { FormlyTaigaUiModule, LayoutComponent, LayoutModule } from '@nexthcm/ui';
 import { TranslocoModule } from '@ngneat/transloco';
 import { FormlyModule } from '@ngx-formly/core';
-import { TuiTableModule, TuiTablePaginationModule } from '@taiga-ui/addon-table';
+import { TuiTablePaginationModule } from '@taiga-ui/addon-table';
 import { TuiButtonModule, TuiLoaderModule } from '@taiga-ui/core';
 import { TuiMarkerIconModule, TuiTagModule } from '@taiga-ui/kit';
 import { TableModule } from 'ngx-easy-table';
@@ -50,9 +50,7 @@ export const adminLeaveTypesRoutes: Route[] = [
   declarations: [LeaveTypesComponent, ListLeaveTypeComponent, UpsertLeaveTypeComponent],
   imports: [
     CommonModule,
-    RouterModule,
     RouterModule.forChild(adminLeaveTypesRoutes),
-    TuiTableModule,
     TuiTablePaginationModule,
     TuiButtonModule,
     TableModule,
@@ -63,6 +61,7 @@ export const adminLeaveTypesRoutes: Route[] = [
     TuiMarkerIconModule,
     TranslocoModule,
     ReactiveFormsModule,
+    LayoutModule
   ],
 })
 export class AdminLeaveTypesModule {}

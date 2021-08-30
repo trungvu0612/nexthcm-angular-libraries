@@ -10,7 +10,7 @@ import {
 import { BehaviorSubject } from 'rxjs';
 import { distinctUntilChanged, filter, map } from 'rxjs/operators';
 import { Status } from '../../models';
-import { AdminWorkflowService } from '../../services/admin-workflow.service';
+import { AdminWorkflowsService } from '../../services/admin-workflows.service';
 
 @Component({
   selector: 'hcm-status-combobox',
@@ -31,7 +31,7 @@ export class StatusComboboxComponent extends FieldType {
     map((search) => this.getStatusList(search))
   );
 
-  constructor(private adminWorkflowService: AdminWorkflowService) {
+  constructor(private adminWorkflowsService: AdminWorkflowsService) {
     super();
   }
 
@@ -44,7 +44,7 @@ export class StatusComboboxComponent extends FieldType {
   ) => !!item.id && stringify(item).toLowerCase() === search.toLowerCase();
 
   getStatusList(searchQuery: string): Status[] {
-    const statusList = (this.adminWorkflowService.get('statuses') || []).filter(
+    const statusList = (this.adminWorkflowsService.get('statuses') || []).filter(
       (status) =>
         status.name.toLowerCase().indexOf(searchQuery.toLowerCase()) !== -1 &&
         !this.addedStatuses.find((addedStatus) => addedStatus.id === status.id)

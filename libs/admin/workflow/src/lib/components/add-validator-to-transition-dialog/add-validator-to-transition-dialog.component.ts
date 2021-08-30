@@ -6,7 +6,7 @@ import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { AbstractAddOptionToTransitionComponent } from '../../abstract-components/abstract-add-option-to-transition.component';
 import { ValidatorType } from '../../enums';
 import { TransitionOption, TransitionValidator } from '../../models';
-import { AdminWorkflowService } from '../../services/admin-workflow.service';
+import { AdminWorkflowsService } from '../../services/admin-workflows.service';
 
 @Component({
   selector: 'hcm-add-validator-to-transition-dialog',
@@ -21,20 +21,22 @@ export class AddValidatorToTransitionDialogComponent extends AbstractAddOptionTo
       className: 'tui-form__row block',
       type: 'select-transition-option',
       templateOptions: {
-        options: this.adminWorkflowService.select('validatorTypes'),
+        options: this.adminWorkflowsService.select('validatorTypes'),
         required: true,
       },
     },
     {
       key: 'users',
       className: 'tui-form__row block',
-      type: 'multi-select',
+      type: 'multi-select-search',
       templateOptions: {
         translate: true,
         label: 'users',
         labelClassName: 'font-semibold',
+        textfieldLabelOutside: true,
+        placeholder: 'searchUsers',
         required: true,
-        options: [],
+        serverRequest: (searchQuery: string) => this.adminWorkflowsService.getUsers(searchQuery),
       },
       hideExpression: (model: TransitionValidator) => model.validatorType?.code !== ValidatorType.UserPermission,
     },
@@ -49,7 +51,7 @@ export class AddValidatorToTransitionDialogComponent extends AbstractAddOptionTo
         textfieldLabelOutside: true,
         placeholder: 'searchPermissions',
         required: true,
-        serverRequest: (searchQuery: string) => this.adminWorkflowService.getPermissions(searchQuery),
+        serverRequest: (searchQuery: string) => this.adminWorkflowsService.getPermissions(searchQuery),
       },
       hideExpression: (model: TransitionValidator) =>
         ![ValidatorType.Permission, ValidatorType.UserPermission].includes(model.validatorType?.code),
@@ -60,8 +62,8 @@ export class AddValidatorToTransitionDialogComponent extends AbstractAddOptionTo
     readonly fb: FormBuilder,
     @Inject(POLYMORPHEUS_CONTEXT)
     readonly context: TuiDialogContext<TransitionOption<ValidatorType>, TransitionOption<ValidatorType>>,
-    readonly adminWorkflowService: AdminWorkflowService
+    readonly adminWorkflowsService: AdminWorkflowsService
   ) {
-    super(fb, context, adminWorkflowService);
+    super(fb, context, adminWorkflowsService);
   }
 }

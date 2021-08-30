@@ -3,11 +3,10 @@ import { FormBuilder } from '@ngneat/reactive-forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
-import { map } from 'rxjs/operators';
 import { AbstractAddOptionToTransitionComponent } from '../../abstract-components/abstract-add-option-to-transition.component';
 import { ConditionType } from '../../enums';
 import { TransitionCondition, TransitionOption } from '../../models';
-import { AdminWorkflowService } from '../../services/admin-workflow.service';
+import { AdminWorkflowsService } from '../../services/admin-workflows.service';
 
 @Component({
   selector: 'hcm-add-condition-to-transition-dialog',
@@ -22,7 +21,7 @@ export class AddConditionToTransitionDialogComponent extends AbstractAddOptionTo
       className: 'tui-form__row block',
       type: 'select-transition-option',
       templateOptions: {
-        options: this.adminWorkflowService.select('conditionTypes'),
+        options: this.adminWorkflowsService.select('conditionTypes'),
         required: true,
       },
     },
@@ -37,7 +36,7 @@ export class AddConditionToTransitionDialogComponent extends AbstractAddOptionTo
         placeholder: 'searchPermissions',
         textfieldLabelOutside: true,
         required: true,
-        serverRequest: (searchQuery: string) => this.adminWorkflowService.getPermissions(searchQuery),
+        serverRequest: (searchQuery: string) => this.adminWorkflowsService.getPermissions(searchQuery),
       },
       hideExpression: (model: TransitionCondition) => model.conditionType?.code !== ConditionType.Permission,
     },
@@ -52,14 +51,7 @@ export class AddConditionToTransitionDialogComponent extends AbstractAddOptionTo
         textfieldLabelOutside: true,
         placeholder: 'searchJobTitles',
         required: true,
-        serverRequest: (searchQuery: string) =>
-          this.adminWorkflowService
-            .select('jobTitles')
-            .pipe(
-              map((jobTitles) =>
-                jobTitles.filter((jobTitle) => jobTitle.name.toLowerCase().indexOf(searchQuery.toLowerCase()) !== -1)
-              )
-            ),
+        serverRequest: (searchQuery: string) => this.adminWorkflowsService.searchJobTitles(searchQuery),
       },
       hideExpression: (model: TransitionCondition) => model.conditionType?.code !== ConditionType.UserInTitles,
     },
@@ -69,8 +61,8 @@ export class AddConditionToTransitionDialogComponent extends AbstractAddOptionTo
     readonly fb: FormBuilder,
     @Inject(POLYMORPHEUS_CONTEXT)
     readonly context: TuiDialogContext<TransitionOption<ConditionType>, TransitionOption<ConditionType>>,
-    readonly adminWorkflowService: AdminWorkflowService
+    readonly adminWorkflowsService: AdminWorkflowsService
   ) {
-    super(fb, context, adminWorkflowService);
+    super(fb, context, adminWorkflowsService);
   }
 }
