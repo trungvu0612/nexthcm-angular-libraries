@@ -614,7 +614,7 @@
     "assignToDirectLeader": "Chỉ định người lãnh đạo trực tiếp",
     "assignToDirectLeaderDescription": "Chỉ định người lãnh đạo trực tiếp của người được chỉ định hiện tại",
     "assignToTheNearestLeaderWithASpecifiedTitle": "Chỉ định người lãnh đạo gần nhất với chức vụ nhất định",
-    "assignToTheNearestLeaderWithASpecifiedTitleDescription": "Chỉ định người lãnh đạo gần nhất với một trong những chức vụ nhất định.",
+    "assignToTheNearestLeaderWithASpecifiedTitleDescription": "Chỉ định người lãnh đạo gần nhất với một trong những chức vụ nhất định",
     "assignToReporter": "Chỉ định người báo cáo",
     "assignToReporterDescription": "Chỉ định vấn đề cho người báo cáo",
     "createComment": "Tạo bình luận",
@@ -657,5 +657,10 @@
   "checkIn": "Ghi giờ vào",
   "checkOut": "Ghi giờ ra",
   "profile": "Hồ sơ",
-  "searchUsers": "Tìm kiếm người dùng..."
+  "searchUsers": "Tìm kiếm người dùng...",
+  "checkInConfirm": "<b>Bạn đang muốn ghi giờ vào?</b>",
+  "checkOutConfirm": "<b>Bạn đang muốn ghi giờ ra?</b>",
+  "checkInSuccessfully": "<b>Ghi giờ vào thành công!</b>",
+  "checkOutSuccessfully": "<b>Ghi giờ ra thành công!</b>",
+  "newStatus": "trạng thái mới"
 }

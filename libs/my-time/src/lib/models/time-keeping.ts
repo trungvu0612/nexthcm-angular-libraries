@@ -1,4 +1,4 @@
-export interface TimeKeepingAction {
+export interface TimeKeepingLog {
   id: string;
   inTime?: number;
 }

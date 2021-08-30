@@ -12,15 +12,15 @@ export enum ValidatorType {
 }
 
 export enum PostFunctionType {
-  AssignToDirectLeader = 'P-001',
-  AssignToTheNearestLeaderWithASpecifiedTitle = 'P-002',
-  AssignToReporter = 'P-003',
-  CreateComment = 'P-004',
-  UpdateChangeHistoryForAnIssueAndStoreTheIssueInIheDatabase = 'P-005',
-  SetIssueStatusToTheLinkedStatusOfTheDestinationWorkflowStatus = 'P-006',
-  SendEmailAndNotificationToTheReporter = 'P-007',
-  SendEmailAndNotificationToTheLeaderWithASpecifiedTitle = 'P-008',
-  SendEmailAndNotificationToTheNewAssignee = 'P-009',
+  AssignToDirectLeader = 'PF-001',
+  AssignToTheNearestLeaderWithASpecifiedTitle = 'PF-002',
+  AssignToReporter = 'PF-003',
+  SendEmailAndNotificationToTheLeaderWithASpecifiedTitle = 'PF-004',
+  SendEmailAndNotificationToTheReporter = 'PF-990',
+  SendEmailAndNotificationToTheNewAssignee = 'PF-991',
+  CreateComment = 'PF-992',
+  UpdateChangeHistoryForAnIssueAndStoreTheIssueInIheDatabase = 'PF-993',
+  SetIssueStatusToTheLinkedStatusOfTheDestinationWorkflowStatus = 'PF-994',
 }
 
 export enum TransitionOptionIndex {

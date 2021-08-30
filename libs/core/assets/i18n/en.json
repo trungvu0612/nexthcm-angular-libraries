@@ -668,5 +668,10 @@
   "checkIn": "Check in",
   "checkOut": "Check out",
   "profile": "Profile",
-  "searchUsers": "Search for users..."
+  "searchUsers": "Search for users...",
+  "checkInConfirm": "<b>Are you sure you want to check in?</b>",
+  "checkOutConfirm": "<b>Are you sure you want to check out?</b>",
+  "checkInSuccessfully": "<b>Check in successfully!</b>",
+  "checkOutSuccessfully": "<b>Check out successfully!</b>",
+  "newStatus": "new status"
 }

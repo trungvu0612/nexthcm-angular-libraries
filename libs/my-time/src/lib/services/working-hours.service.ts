@@ -6,7 +6,7 @@ import { map } from 'rxjs/operators';
 import {
   CheckInPayload,
   CheckOutPayload,
-  TimeKeepingAction,
+  TimeKeepingLog,
   WorkingHours,
   WorkingHoursGroup,
   WorkingInfoCurrentMonth,
@@ -36,10 +36,8 @@ export class WorkingHoursService {
       .pipe(map((res) => res.data));
   }
 
-  getTimekeepingLog(): Observable<TimeKeepingAction[]> {
-    return this.http
-      .get<PagingResponse<TimeKeepingAction>>(`${MY_TIME_API_PATH}/check-in-out`)
-      .pipe(map((res) => res.data.items));
+  getTimekeepingLog(): Observable<TimeKeepingLog> {
+    return this.http.get<BaseResponse<TimeKeepingLog>>(`${MY_TIME_API_PATH}/check-in-out`).pipe(map((res) => res.data));
   }
 
   checkIn(id: string, payload: CheckInPayload): Observable<unknown> {

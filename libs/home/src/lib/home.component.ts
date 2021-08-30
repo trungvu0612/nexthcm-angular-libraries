@@ -1,5 +1,5 @@
 import { HttpParams } from '@angular/common/http';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { AuthService } from '@nexthcm/auth';
 import { PromptService } from '@nexthcm/cdk';
 import { CheckInPayload, CheckOutPayload, WorkingHours, WorkingHoursService } from '@nexthcm/my-time';
@@ -21,13 +21,22 @@ interface HomeState {
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [RxState],
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
   greeting = '';
   readonly queryParams$ = new BehaviorSubject(
     new HttpParams()
       .set('userId', this.authService.get('userInfo', 'userId'))
       .set('fromDate', startOfYesterday().getTime())
       .set('toDate', endOfToday().getTime())
+  );
+  readonly username = this.authService.get('userInfo', 'preferred_username');
+  readonly monthWorkingTime$ = this.workingHoursService.getWorkingTimeCurrentMonth();
+  readonly shouldCheckedOut$ = new BehaviorSubject<boolean | null>(false);
+  readonly checkInOut$ = new Subject();
+  readonly checkedId$ = this.workingHoursService.getTimekeepingLog().pipe(
+    tap((item) => this.shouldCheckedOut$.next(item.id ? !!item.inTime : null)),
+    map((item) => item.id),
+    filter(isPresent)
   );
   private readonly myWorkingDaysRequest$ = this.queryParams$.pipe(
     switchMap((params) =>
@@ -39,16 +48,7 @@ export class HomeComponent {
     share()
   );
   readonly loading$ = this.myWorkingDaysRequest$.pipe(map((value) => !value));
-  readonly monthWorkingTime$ = this.workingHoursService.getWorkingTimeCurrentMonth();
   readonly myWorkingDays$: Observable<WorkingHours[]> = this.myWorkingDaysRequest$.pipe(filter(isPresent));
-  readonly shouldCheckedOut$ = new BehaviorSubject<boolean | null>(false);
-  readonly checkInOut$ = new Subject();
-  readonly checkedId$ = this.workingHoursService.getTimekeepingLog().pipe(
-    tap((items) => this.shouldCheckedOut$.next(!!items.length)),
-    map((items) => items[0]?.id),
-    filter(isPresent)
-  );
-  readonly username = this.authService.get('userInfo', 'preferred_username');
 
   constructor(
     private readonly workingHoursService: WorkingHoursService,
@@ -57,25 +57,30 @@ export class HomeComponent {
     private readonly state: RxState<HomeState>,
     private readonly translocoService: TranslocoService
   ) {
-    this.state.connect('checkingId', this.checkedId$)
+    this.state.connect('checkingId', this.checkedId$);
     this.state.hold(
       this.checkInOut$.pipe(
         switchMap(() => this.checkedId$),
-        switchMap((checkedId) => (this.shouldCheckedOut$.value ? this.checkOut(checkedId) : this.checkIn(checkedId)))
+        switchMap((checkedId) => (this.shouldCheckedOut$.value ? this.checkOut(checkedId) : this.checkIn(checkedId))),
+        tap(() => this.queryParams$.next(this.queryParams$.value))
       )
     );
+  }
+
+  ngOnInit(): void {
     this.getGreeting();
   }
 
   getGreeting(): void {
     const time = new Date().getHours();
-    this.greeting = time < 12
-      ? 'goodMorning'
-      : time >= 12 && time < 17
-      ? 'goodAfternoon'
-      : time >= 17 && time < 21
-      ? 'goodEvening'
-      : 'goodNight';
+    this.greeting =
+      time < 12
+        ? 'goodMorning'
+        : time >= 12 && time < 17
+        ? 'goodAfternoon'
+        : time >= 17 && time < 21
+        ? 'goodEvening'
+        : 'goodNight';
   }
 
   private checkIn(id: string): Observable<unknown> {
@@ -94,7 +99,7 @@ export class HomeComponent {
     ).pipe(
       filter((result) => result.isConfirmed),
       switchMap(() => this.workingHoursService.checkIn(id, checkInPayload)),
-      tap(() => this.promptService.handleResponse('checkInSuccessfully', () => this.shouldCheckedOut$.next(true)))
+      tap(this.promptService.handleResponse('checkInSuccessfully', () => this.shouldCheckedOut$.next(true)))
     );
   }
 
@@ -114,7 +119,7 @@ export class HomeComponent {
     ).pipe(
       filter((result) => result.isConfirmed),
       switchMap(() => this.workingHoursService.checkOut(id, checkOutPayload)),
-      tap(() => this.promptService.handleResponse('checkOutSuccessfully'))
+      tap(this.promptService.handleResponse('checkOutSuccessfully'))
     );
   }
 }

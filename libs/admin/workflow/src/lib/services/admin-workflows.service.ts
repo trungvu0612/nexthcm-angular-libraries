@@ -2,8 +2,8 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ACCOUNT_API_PATH, BaseObject, BaseResponse, Pagination, PagingResponse } from '@nexthcm/cdk';
 import { insert, RxState, update } from '@rx-angular/state';
-import { Observable, Subject } from 'rxjs';
-import { map, startWith, switchMap, tap } from 'rxjs/operators';
+import { Observable, of, Subject } from 'rxjs';
+import { catchError, map, startWith, switchMap, tap } from 'rxjs/operators';
 import { ConditionType, PostFunctionType, ValidatorType } from '../enums';
 import { InitWorkflow, Status, TransitionOption, Workflow } from '../models';
 
@@ -43,7 +43,7 @@ export class AdminWorkflowsService extends RxState<WorkflowsState> {
   }
 
   getStatusTypes(): Observable<Status[]> {
-    return this.http.get<Status[]>(`${ACCOUNT_API_PATH}/states/types`);
+    return this.http.get<Status[]>(`${ACCOUNT_API_PATH}/states/types`).pipe(catchError(() => of([])));
   }
 
   getWorkflow(workflowId: string): Observable<Workflow> {
@@ -73,7 +73,7 @@ export class AdminWorkflowsService extends RxState<WorkflowsState> {
   }
 
   getStatuses(): Observable<Status[]> {
-    return this.http.get<Status[]>(`${ACCOUNT_API_PATH}/states`);
+    return this.http.get<Status[]>(`${ACCOUNT_API_PATH}/states`).pipe(catchError(() => of([])));
   }
 
   createStatus(payload: Status): Observable<Status> {
@@ -91,11 +91,15 @@ export class AdminWorkflowsService extends RxState<WorkflowsState> {
   }
 
   getConditionTypes(): Observable<TransitionOption<ConditionType>[]> {
-    return this.http.get<TransitionOption<ConditionType>[]>(`${ACCOUNT_API_PATH}/conditions/types`);
+    return this.http
+      .get<TransitionOption<ConditionType>[]>(`${ACCOUNT_API_PATH}/conditions/types`)
+      .pipe(catchError(() => of([])));
   }
 
   getValidatorTypes(): Observable<TransitionOption<ValidatorType>[]> {
-    return this.http.get<TransitionOption<ValidatorType>[]>(`${ACCOUNT_API_PATH}/validators/types`);
+    return this.http
+      .get<TransitionOption<ValidatorType>[]>(`${ACCOUNT_API_PATH}/validators/types`)
+      .pipe(catchError(() => of([])));
   }
 
   getPostFunctionTypes(): Observable<TransitionOption<PostFunctionType>[]> {
@@ -103,7 +107,7 @@ export class AdminWorkflowsService extends RxState<WorkflowsState> {
   }
 
   getJobTitles(): Observable<BaseObject[]> {
-    return this.http.get<BaseObject[]>(`${ACCOUNT_API_PATH}/titles/v2`);
+    return this.http.get<BaseObject[]>(`${ACCOUNT_API_PATH}/titles/v2`).pipe(catchError(() => of([])));
   }
 
   searchJobTitles(searchQuery: string): Observable<BaseObject[]> {
@@ -115,10 +119,15 @@ export class AdminWorkflowsService extends RxState<WorkflowsState> {
   }
 
   getUsers(searchQuery: string): Observable<BaseObject[]> {
-    return this.http.get<BaseResponse<BaseObject[]>>(`${ACCOUNT_API_PATH}/users/v2?search=${searchQuery}`).pipe(map((res) => res.data));
+    return this.http.get<BaseResponse<BaseObject[]>>(`${ACCOUNT_API_PATH}/users/v2?search=${searchQuery}`).pipe(
+      map((res) => res.data),
+      catchError(() => of([]))
+    );
   }
 
   getPermissions(searchQuery: string): Observable<BaseObject[]> {
-    return this.http.get<BaseObject[]>(`${ACCOUNT_API_PATH}/permissions/search?name=${searchQuery}`);
+    return this.http
+      .get<BaseObject[]>(`${ACCOUNT_API_PATH}/permissions/search?name=${searchQuery}`)
+      .pipe(catchError(() => of([])));
   }
 }
