@@ -41,11 +41,11 @@ export class TransitionConditionListComponent extends AbstractTransitionOptionLi
     super(translocoService, changeDetectorRef);
   }
 
-  openAddOptionToTransitionDialog(data?: TransitionCondition): Observable<TransitionCondition> {
+  openAddOptionToTransitionDialog(item?: TransitionCondition): Observable<TransitionCondition> {
     return this.dialogService
       .open<TransitionCondition>(new PolymorpheusComponent(AddConditionToTransitionDialogComponent, this.injector), {
         size: 'l',
-        data,
+        data: { items: this.data, item },
       })
       .pipe(takeUntil(this.destroy$));
   }

@@ -40,13 +40,13 @@ export class TransitionPostFunctionListComponent extends AbstractTransitionOptio
     super(translocoService, changeDetectorRef);
   }
 
-  openAddOptionToTransitionDialog(data?: TransitionPostFunction): Observable<TransitionPostFunction> {
+  openAddOptionToTransitionDialog(item?: TransitionPostFunction): Observable<TransitionPostFunction> {
     return this.dialogService
       .open<TransitionPostFunction>(
         new PolymorpheusComponent(AddPostFunctionToTransitionDialogComponent, this.injector),
         {
           size: 'l',
-          data,
+          data: { items: this.data, item },
         }
       )
       .pipe(takeUntil(this.destroy$));

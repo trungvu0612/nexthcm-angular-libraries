@@ -40,11 +40,11 @@ export class TransitionValidatorListComponent extends AbstractTransitionOptionLi
     super(translocoService, changeDetectorRef);
   }
 
-  openAddOptionToTransitionDialog(data?: TransitionValidator): Observable<TransitionValidator> {
+  openAddOptionToTransitionDialog(item?: TransitionValidator): Observable<TransitionValidator> {
     return this.dialogService
       .open<TransitionValidator>(new PolymorpheusComponent(AddValidatorToTransitionDialogComponent, this.injector), {
         size: 'l',
-        data,
+        data: { items: this.data, item },
       })
       .pipe(takeUntil(this.destroy$));
   }

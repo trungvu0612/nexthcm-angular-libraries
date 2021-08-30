@@ -3,9 +3,10 @@ import { FormBuilder } from '@ngneat/reactive-forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
+import { map } from 'rxjs/operators';
 import { AbstractAddOptionToTransitionComponent } from '../../abstract-components/abstract-add-option-to-transition.component';
 import { PostFunctionType } from '../../enums';
-import { TransitionOption, TransitionPostFunction } from '../../models';
+import { TransitionOption, TransitionOptionsDialogData, TransitionPostFunction } from '../../models';
 import { AdminWorkflowsService } from '../../services/admin-workflows.service';
 
 @Component({
@@ -14,14 +15,23 @@ import { AdminWorkflowsService } from '../../services/admin-workflows.service';
   styleUrls: ['./add-post-function-to-transition-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AddPostFunctionToTransitionDialogComponent extends AbstractAddOptionToTransitionComponent<PostFunctionType> {
+export class AddPostFunctionToTransitionDialogComponent extends AbstractAddOptionToTransitionComponent<
+  PostFunctionType,
+  TransitionPostFunction
+> {
   fields: FormlyFieldConfig[] = [
     {
       key: 'postFunctionType',
       className: 'tui-form__row block',
       type: 'select-transition-option',
       templateOptions: {
-        options: this.adminWorkflowsService.select('postFunctionTypes'),
+        options: this.adminWorkflowsService
+          .select('postFunctionTypes')
+          .pipe(
+            map((types) =>
+              types.filter((type) => this.context.data.items.every((item) => item.postFunctionType.id !== type.id))
+            )
+          ),
         required: true,
       },
     },
@@ -49,7 +59,10 @@ export class AddPostFunctionToTransitionDialogComponent extends AbstractAddOptio
   constructor(
     readonly fb: FormBuilder,
     @Inject(POLYMORPHEUS_CONTEXT)
-    readonly context: TuiDialogContext<TransitionOption<PostFunctionType>, TransitionOption<PostFunctionType>>,
+    readonly context: TuiDialogContext<
+      TransitionOption<PostFunctionType>,
+      TransitionOptionsDialogData<PostFunctionType, TransitionPostFunction>
+    >,
     readonly adminWorkflowsService: AdminWorkflowsService
   ) {
     super(fb, context, adminWorkflowsService);

@@ -3,9 +3,10 @@ import { FormBuilder } from '@ngneat/reactive-forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
+import { map } from 'rxjs/operators';
 import { AbstractAddOptionToTransitionComponent } from '../../abstract-components/abstract-add-option-to-transition.component';
 import { ValidatorType } from '../../enums';
-import { TransitionOption, TransitionValidator } from '../../models';
+import { TransitionOption, TransitionOptionsDialogData, TransitionValidator } from '../../models';
 import { AdminWorkflowsService } from '../../services/admin-workflows.service';
 
 @Component({
@@ -14,14 +15,23 @@ import { AdminWorkflowsService } from '../../services/admin-workflows.service';
   styleUrls: ['./add-validator-to-transition-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AddValidatorToTransitionDialogComponent extends AbstractAddOptionToTransitionComponent<ValidatorType> {
+export class AddValidatorToTransitionDialogComponent extends AbstractAddOptionToTransitionComponent<
+  ValidatorType,
+  TransitionValidator
+> {
   fields: FormlyFieldConfig[] = [
     {
       key: 'validatorType',
       className: 'tui-form__row block',
       type: 'select-transition-option',
       templateOptions: {
-        options: this.adminWorkflowsService.select('validatorTypes'),
+        options: this.adminWorkflowsService
+          .select('validatorTypes')
+          .pipe(
+            map((types) =>
+              types.filter((type) => this.context.data.items.every((item) => item.validatorType.id !== type.id))
+            )
+          ),
         required: true,
       },
     },
@@ -61,7 +71,10 @@ export class AddValidatorToTransitionDialogComponent extends AbstractAddOptionTo
   constructor(
     readonly fb: FormBuilder,
     @Inject(POLYMORPHEUS_CONTEXT)
-    readonly context: TuiDialogContext<TransitionOption<ValidatorType>, TransitionOption<ValidatorType>>,
+    readonly context: TuiDialogContext<
+      TransitionOption<ValidatorType>,
+      TransitionOptionsDialogData<ValidatorType, TransitionValidator>
+    >,
     readonly adminWorkflowsService: AdminWorkflowsService
   ) {
     super(fb, context, adminWorkflowsService);

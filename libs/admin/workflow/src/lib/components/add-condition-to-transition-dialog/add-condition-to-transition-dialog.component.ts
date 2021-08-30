@@ -3,9 +3,10 @@ import { FormBuilder } from '@ngneat/reactive-forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
+import { map } from 'rxjs/operators';
 import { AbstractAddOptionToTransitionComponent } from '../../abstract-components/abstract-add-option-to-transition.component';
 import { ConditionType } from '../../enums';
-import { TransitionCondition, TransitionOption } from '../../models';
+import { TransitionCondition, TransitionOption, TransitionOptionsDialogData } from '../../models';
 import { AdminWorkflowsService } from '../../services/admin-workflows.service';
 
 @Component({
@@ -14,14 +15,23 @@ import { AdminWorkflowsService } from '../../services/admin-workflows.service';
   styleUrls: ['./add-condition-to-transition-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AddConditionToTransitionDialogComponent extends AbstractAddOptionToTransitionComponent<ConditionType> {
+export class AddConditionToTransitionDialogComponent extends AbstractAddOptionToTransitionComponent<
+  ConditionType,
+  TransitionCondition
+> {
   fields: FormlyFieldConfig[] = [
     {
       key: 'conditionType',
       className: 'tui-form__row block',
       type: 'select-transition-option',
       templateOptions: {
-        options: this.adminWorkflowsService.select('conditionTypes'),
+        options: this.adminWorkflowsService
+          .select('conditionTypes')
+          .pipe(
+            map((types) =>
+              types.filter((type) => this.context.data.items.every((item) => item.conditionType.id !== type.id))
+            )
+          ),
         required: true,
       },
     },
@@ -60,7 +70,10 @@ export class AddConditionToTransitionDialogComponent extends AbstractAddOptionTo
   constructor(
     readonly fb: FormBuilder,
     @Inject(POLYMORPHEUS_CONTEXT)
-    readonly context: TuiDialogContext<TransitionOption<ConditionType>, TransitionOption<ConditionType>>,
+    readonly context: TuiDialogContext<
+      TransitionOption<ConditionType>,
+      TransitionOptionsDialogData<ConditionType, TransitionCondition>
+    >,
     readonly adminWorkflowsService: AdminWorkflowsService
   ) {
     super(fb, context, adminWorkflowsService);

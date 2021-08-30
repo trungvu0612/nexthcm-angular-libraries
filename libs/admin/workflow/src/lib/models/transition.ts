@@ -2,6 +2,9 @@ import { BaseObject } from '@nexthcm/cdk';
 import { ConditionType, PostFunctionType, TransitionOptionIndex, ValidatorType } from '../enums';
 import { Status } from './status';
 
+export type TransitionOptionType = ConditionType | ValidatorType | PostFunctionType;
+export type TransitionOptions = TransitionCondition | TransitionValidator | TransitionPostFunction;
+
 export interface Transition {
   id: string;
   name: string;
@@ -31,7 +34,7 @@ export interface TransitionPostFunction {
   values?: BaseObject[];
 }
 
-export interface TransitionOption<T> {
+export interface TransitionOption<T extends TransitionOptionType> {
   id: string;
   name: string;
   description: string;
@@ -47,4 +50,9 @@ export interface UpsertTransitionData {
 export interface TransitionDetailData {
   index: TransitionOptionIndex;
   transition: Transition;
+}
+
+export interface TransitionOptionsDialogData<T extends TransitionOptionType, G extends TransitionOptions> {
+  items: G[];
+  item: T;
 }

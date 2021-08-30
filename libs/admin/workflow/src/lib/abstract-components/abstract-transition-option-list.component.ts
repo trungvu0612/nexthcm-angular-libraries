@@ -30,7 +30,7 @@ export abstract class AbstractTransitionOptionListComponent<T> implements AfterV
 
   readonly item = (item: T) => item;
 
-  abstract openAddOptionToTransitionDialog(data?: T): Observable<T>;
+  abstract openAddOptionToTransitionDialog(item?: T): Observable<T>;
 
   ngAfterViewInit(): void {
     this.table?.apiEvent({ type: API.setPaginationDisplayLimit, value: this.data.length });
