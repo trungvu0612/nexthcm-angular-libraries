@@ -186,17 +186,17 @@ export class GeneralInformationFormComponent {
             {
               key: 'directReport',
               className: 'tui-form__row block',
-              type: 'select',
+              type: 'select-search',
               templateOptions: {
                 translate: true,
                 required: true,
                 label: 'directReport',
                 labelClassName: 'font-semibold',
                 placeholder: 'chooseDirectReport',
-                options: this.adminEmployeeService.select('users'),
+                serverRequest: (searchQuery: string) => this.adminEmployeeService.searchUsers(searchQuery),
                 labelProp: 'name',
-                matcherBy: 'id',
-              },
+                matcherBy: 'id'
+              }
             },
           ],
         },
