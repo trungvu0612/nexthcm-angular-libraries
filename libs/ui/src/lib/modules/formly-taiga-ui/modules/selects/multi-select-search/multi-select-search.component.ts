@@ -1,7 +1,8 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef } from '@angular/core';
 import { FieldType } from '@ngx-formly/core';
-import { isPresent, TUI_DEFAULT_IDENTITY_MATCHER, TuiContextWithImplicit } from '@taiga-ui/cdk';
+import { isNativeFocused, isPresent, TUI_DEFAULT_IDENTITY_MATCHER, TuiContextWithImplicit } from '@taiga-ui/cdk';
 import { TuiStringHandler } from '@taiga-ui/cdk/types';
+import { TuiValueContentContext } from '@taiga-ui/core';
 import { Observable, of, Subject } from 'rxjs';
 import { catchError, debounceTime, distinctUntilChanged, filter, map, startWith, switchMap } from 'rxjs/operators';
 
@@ -37,4 +38,8 @@ export class MultiSelectSearchComponent extends FieldType {
           map.get($implicit) || ''
     )
   );
+
+  getContext($implicit: any, { nativeElement }: ElementRef<HTMLElement>): TuiValueContentContext<any> {
+    return { $implicit, active: isNativeFocused(nativeElement) };
+  }
 }

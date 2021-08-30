@@ -14,12 +14,21 @@
   <ng-template tuiDataList>
     <tui-data-list *ngIf="items$ | async as items; else loading" tuiMultiSelectGroup>
       <button
+        #elementRef="elementRef"
+        automation-id="tui-data-list-wrapper__option"
+        tuiElement
         *ngFor="let item of items"
         [disabled]="!!item.disabled"
         [value]="to.valueProp ? item[to.valueProp] : item"
         tuiOption
       >
-        {{ item[to.labelProp] }}
+        <span
+          [content]="to.customContent || itemContent"
+          [context]="getContext(item, elementRef)"
+          class="content"
+          polymorpheus-outlet
+        ></span>
+        <ng-template #itemContent>{{ item[to.labelProp] }}</ng-template>
       </button>
     </tui-data-list>
   </ng-template>

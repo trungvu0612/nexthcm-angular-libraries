@@ -29,6 +29,7 @@ import {
   TuiSelectModule,
   TuiTabsModule,
 } from '@taiga-ui/kit';
+import { PolymorpheusModule } from '@tinkoff/ng-polymorpheus';
 import { TableModule } from 'ngx-easy-table';
 import { NgxPermissionsGuard } from 'ngx-permissions';
 import { AdminWorkflowsComponent } from './admin-workflows.component';
@@ -115,6 +116,7 @@ export const ADMIN_WORKFLOWS_ROUTES: Routes = [
     TuiBadgeModule,
     TuiRadioModule,
     TuiSelectModule,
+    PolymorpheusModule,
   ],
   declarations: [
     AdminWorkflowsComponent,

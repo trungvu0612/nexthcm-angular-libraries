@@ -4,7 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { SelectOptionsModule } from '@nexthcm/cdk';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormlyModule } from '@ngx-formly/core';
-import { TuiLetModule } from '@taiga-ui/cdk';
+import { TuiElementModule, TuiLetModule } from '@taiga-ui/cdk';
 import {
   TuiDataListModule,
   TuiHintControllerModule,
@@ -46,6 +46,7 @@ import { SelectComponent } from './select/select.component';
     PolymorpheusModule,
     TuiAvatarModule,
     TuiMultiSelectModule,
+    TuiElementModule,
   ],
 })
 export class SelectsModule {}
