@@ -9,6 +9,7 @@ import { endOfDay, getTime } from 'date-fns';
 import { takeUntil, tap } from 'rxjs/operators';
 import { SubmitRequestPayload } from '../../../../models';
 import { MyTimeService, RequestTypeAPIUrlPath } from '../../../../services';
+import { TranslocoService } from '@ngneat/transloco';
 
 @Component({
   selector: 'hcm-submit-work-from-home-request-dialog',
@@ -66,6 +67,7 @@ export class SubmitWorkFromHomeRequestDialogComponent {
     private fb: FormBuilder,
     @Inject(POLYMORPHEUS_CONTEXT) readonly context: TuiDialogContext<boolean>,
     private myTimeService: MyTimeService,
+    private translocoService: TranslocoService,
     private destroy$: TuiDestroyService,
     private promptService: PromptService
   ) {}
@@ -86,7 +88,8 @@ export class SubmitWorkFromHomeRequestDialogComponent {
         )
         .subscribe(
           () => this.context.completeWith(true),
-          (error) => this.promptService.open({ icon: 'error', html: error.error.message })
+          (error) => this.promptService.open(
+            { icon: 'error', text: this.translocoService.translate(`ERRORS.${error.error.message}`) })
         );
     }
   }

@@ -31,8 +31,9 @@ export class UpsertTenantComponent {
         translate: true,
         label: 'companyName',
         placeholder: 'enterCompanyName',
-        textfieldLabelOutside: true,
+        textfieldLabelOutside: true
       },
+      expressionProperties: { 'templateOptions.readonly': 'model.hasLDAPUser' }
     },
     {
       fieldGroupClassName: 'flex gap-6',
@@ -71,11 +72,14 @@ export class UpsertTenantComponent {
             readonly: true,
             translate: true,
             label: 'username',
-            textfieldLabelOutside: true,
+            textfieldLabelOutside: true
           },
           hideExpression: '!model.id',
-          expressionProperties: { className: (model) => (model.id ? 'flex-1' : 'hidden') },
-        },
+          expressionProperties: {
+            className: (model) => (model.id ? 'flex-1' : 'hidden'),
+            'templateOptions.readonly': '(model.hasLDAPUser)'
+          }
+        }
       ],
     },
     {

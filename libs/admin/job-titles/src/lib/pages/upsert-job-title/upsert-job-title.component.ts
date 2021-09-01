@@ -34,9 +34,10 @@ export class UpsertJobTitleComponent implements OnInit {
           templateOptions: {
             translate: true,
             required: true,
-            textfieldLabelOutside: true,
+            textfieldLabelOutside: true
           },
-        },
+          expressionProperties: { 'templateOptions.readonly': 'model.hasLDAPUser' }
+        }
       ],
     },
 
