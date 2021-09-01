@@ -48,7 +48,7 @@
                 <p class="sub-name text-gray-500">{{ unit.code }}</p>
               </div>
               <div *ngIf="hovering === unit" class="icons flex absolute">
-                <hero-icon (click)="upsertUnit(content, unit)" name="pencil-alt" type="solid"></hero-icon>
+                <hero-icon (click)="upsertUnit(dialog, unit)" name="pencil-alt" type="solid"></hero-icon>
                 <hero-icon (click)="deleteUnit(unit.id)" *ngIf="!children" name="trash" type="solid"></hero-icon>
               </div>
             </div>

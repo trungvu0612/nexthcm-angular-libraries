@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { PromptService } from '@nexthcm/cdk';
 import { FormBuilder } from '@ngneat/reactive-forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import { TuiDestroyService } from '@taiga-ui/cdk';
+import { TuiDestroyService, TuiTime } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { endOfDay, getTime } from 'date-fns';
@@ -15,11 +15,25 @@ import { MyTimeService, RequestTypeAPIUrlPath } from '../../../../services';
   templateUrl: './submit-working-outside-request-dialog.component.html',
   styleUrls: ['./submit-working-outside-request-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [TuiDestroyService],
+  providers: [TuiDestroyService]
 })
 export class SubmitWorkingOutsideRequestDialogComponent {
   readonly form = this.fb.group<SubmitRequestPayload>({} as SubmitRequestPayload);
-  model = {} as SubmitRequestPayload;
+  model:SubmitRequestPayload = {
+    fromDate: undefined,
+    toDate: undefined,
+    comment: '',
+    userId: undefined,
+    duration: undefined,
+    sendTo: undefined,
+    reason: undefined,
+    fromTo: undefined,
+    status: undefined,
+    createdDate: undefined,
+    newInTime: undefined,
+    newOutTime: undefined
+}
+
   readonly fields: FormlyFieldConfig[] = [
     {
       key: 'fromTo',
@@ -31,20 +45,22 @@ export class SubmitWorkingOutsideRequestDialogComponent {
         labelClassName: 'font-semibold',
         placeholder: 'chooseDateRange',
         required: true,
-        textfieldLabelOutside: true,
+        textfieldLabelOutside: true
       },
     },
     {
       key: 'duration',
-      className: 'tui-form__row block',
-      type: 'input-number',
+      type: 'input-time',
       templateOptions: {
         translate: true,
-        label: 'days',
+        label: 'Estimate Time',
         labelClassName: 'font-semibold',
-        placeholder: 'enterNumberOfWorkingDays',
-        required: true,
-        textfieldLabelOutside: true,
+        placeholder: 'HH:MM',
+        textfieldLabelOutside: true
+      },
+      hideExpression: '!model.fromTo?.isSingleDay',
+      expressionProperties: {
+        className: '!model.fromTo || !model.fromTo.isSingleDay ? "hidden" : "col-span-full block mt-4"',
       },
     },
     {
@@ -56,8 +72,8 @@ export class SubmitWorkingOutsideRequestDialogComponent {
         label: 'Comment',
         labelClassName: 'font-semibold',
         required: true,
-        textfieldLabelOutside: true,
-      },
+        textfieldLabelOutside: true
+      }
     },
     {
       key: 'sendTo',
@@ -70,9 +86,9 @@ export class SubmitWorkingOutsideRequestDialogComponent {
         placeholder: 'chooseAPerson',
         options: this.myTimeService.select('sendToUsers'),
         labelProp: 'username',
-        valueProp: 'id',
-      },
-    },
+        valueProp: 'id'
+      }
+    }
   ];
 
   constructor(
@@ -81,15 +97,17 @@ export class SubmitWorkingOutsideRequestDialogComponent {
     private myTimeService: MyTimeService,
     private destroy$: TuiDestroyService,
     private promptService: PromptService
-  ) {}
+  ) {
+  }
 
   onSubmit(): void {
     if (this.form.valid) {
-      const formModel = { ...this.form.value };
+      const formModel = { ...this.form.value } as any;
       if (formModel.fromTo) {
         formModel.fromDate = getTime(formModel.fromTo.from.toLocalNativeDate());
         formModel.toDate = getTime(endOfDay(formModel.fromTo.to.toLocalNativeDate()));
       }
+      formModel.duration = (formModel.duration as TuiTime).toAbsoluteMilliseconds().valueOf() / 1000;
       delete formModel.fromTo;
       this.myTimeService
         .submitRequest(RequestTypeAPIUrlPath.workingOutside, formModel)
