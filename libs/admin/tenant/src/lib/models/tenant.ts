@@ -12,6 +12,7 @@ export interface Tenant {
   addresses: Address;
   shortname: string;
   username: string;
+  hasLDAPUser: boolean;
   domains: Domain[];
 }
 

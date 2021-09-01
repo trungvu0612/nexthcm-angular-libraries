@@ -125,7 +125,8 @@ export class SubmitOvertimeRequestDialogComponent {
         .pipe(takeUntil(this.destroy$))
         .subscribe(
           () => this.context.completeWith(true),
-          (error) => this.promptService.open({ icon: 'error', html: error.error.message })
+          (error) => this.promptService.open(
+            { icon: 'error', text: this.translocoService.translate(`ERRORS.${error.error.message}`) })
         );
     }
   }

@@ -8,6 +8,7 @@ export interface JobTitle {
   createdBy?: string;
   createdDate?: string;
   lastModifiedDate?: number;
+  hasLDAPUser: boolean;
   infoUserCreated?: InfoUserCreated;
 }
 

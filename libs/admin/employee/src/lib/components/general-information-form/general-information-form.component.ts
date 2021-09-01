@@ -59,8 +59,11 @@ export class GeneralInformationFormComponent {
                 required: true,
                 textfieldLabelOutside: true,
                 labelClassName: 'font-semibold',
-                placeholder: 'enterFirstName',
+                placeholder: 'enterFirstName'
               },
+              expressionProperties: {
+                'templateOptions.readonly': '(model.registerType === "LDAP")'
+              }
             },
             {
               key: 'lastName',
@@ -72,8 +75,10 @@ export class GeneralInformationFormComponent {
                 required: true,
                 textfieldLabelOutside: true,
                 labelClassName: 'font-semibold',
-                placeholder: 'enterLastName',
-              },
+                placeholder: 'enterLastName'
+              }, expressionProperties: {
+                'templateOptions.readonly': '(model.registerType === "LDAP")'
+              }
             },
             {
               key: 'otherName',
