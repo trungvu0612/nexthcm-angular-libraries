@@ -2,7 +2,7 @@
   <div *transloco="let t" class="table w-full">
     <div class="table-row">
       <div class="table-label">{{ t('office') }}:</div>
-      <div class="table-value">{{ $any(profile.office).name }}</div>
+      <div class="table-value">{{ $any(profile.office)?.name }}</div>
     </div>
     <div class="table-row">
       <div class="table-label">{{ t('DOB') }}:</div>

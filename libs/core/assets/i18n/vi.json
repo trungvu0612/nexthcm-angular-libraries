@@ -840,5 +840,6 @@
   "checkOutConfirm": "<b>Bạn đang muốn ghi giờ ra?</b>",
   "checkInSuccessfully": "<b>Ghi giờ vào thành công!</b>",
   "checkOutSuccessfully": "<b>Ghi giờ ra thành công!</b>",
-  "newStatus": "trạng thái mới"
+  "newStatus": "trạng thái mới",
+  "invalidCredential": "Tên đăng nhập hoặc mật khẩu không đúng."
 }

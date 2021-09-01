@@ -2,7 +2,8 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { EmojiModule } from '@ctrl/ngx-emoji-mart/ngx-emoji';
-import { GetFilePipeModule } from '@nexthcm/cdk';
+import { AkitaNgEffectsModule } from '@datorama/akita-ng-effects';
+import { GetFilePipeModule, UserProfileEffects } from '@nexthcm/cdk';
 import { WorkingHoursService } from '@nexthcm/my-time';
 import { AvatarComponentModule, LayoutComponent, LayoutModule } from '@nexthcm/ui';
 import { SvgIconsModule } from '@ngneat/svg-icon';
@@ -76,6 +77,7 @@ export const HOME_ROUTES: Routes = [
     HeroIconModule.withIcons({ academicCap, identification }),
     TuiLetModule,
     TuiIslandModule,
+    AkitaNgEffectsModule.forFeature([UserProfileEffects]),
   ],
   providers: [WorkingHoursService],
 })

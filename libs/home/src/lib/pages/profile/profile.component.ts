@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { UserProfileService } from '@nexthcm/cdk';
+import { Actions } from '@datorama/akita-ng-effects';
+import { loadProfileIndividualInformation, ProfileGeneralQuery, ProfileIndividualQuery } from '@nexthcm/cdk';
 
 @Component({
   selector: 'hcm-profile',
@@ -8,9 +9,15 @@ import { UserProfileService } from '@nexthcm/cdk';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProfileComponent {
-  readonly profile$ = this.userProfileState.select('general');
-  readonly isBirthday$ = this.userProfileState.isBirthday$;
   activeItemIndex = 0;
+  readonly profile$ = this.profileGeneralQuery.select();
+  readonly isBirthday$ = this.profileIndividualQuery.isBirthday$;
 
-  constructor(private readonly userProfileState: UserProfileService) {}
+  constructor(
+    private readonly profileGeneralQuery: ProfileGeneralQuery,
+    private readonly profileIndividualQuery: ProfileIndividualQuery,
+    private readonly actions: Actions
+  ) {
+    this.actions.dispatch(loadProfileIndividualInformation());
+  }
 }

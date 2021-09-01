@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
+import { AkitaNgDevtools } from '@datorama/akita-ngdevtools';
 import { AuthModule, LoginComponent, LogoutComponent } from '@nexthcm/auth';
 import { CoreModule } from '@nexthcm/core';
 import { FormlyTaigaUiModule } from '@nexthcm/ui';
@@ -23,16 +24,17 @@ import { AppComponent } from './app.component';
         ],
       },
       {
-        path: 'admin/workflow',
+        path: 'admin/workflows',
         loadChildren: () => import('@nexthcm/admin-workflows').then((m) => m.AdminWorkflowsModule),
       },
-      { path: '', redirectTo: 'admin/workflow', pathMatch: 'full' },
+      { path: '', redirectTo: 'admin/workflows', pathMatch: 'full' },
     ]),
     BrowserAnimationsModule,
     TuiRootModule,
     CoreModule.forRoot(environment),
     FormlyTaigaUiModule,
     AuthModule,
+    environment.production ? [] : AkitaNgDevtools.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent],

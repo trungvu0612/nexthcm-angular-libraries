@@ -1,16 +1,31 @@
-import { ChangeDetectionStrategy, Component, Injector, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Injector, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AbstractServerPaginationTableComponent, EmployeeInfo, Pagination, PromptService } from '@nexthcm/cdk';
+import {
+  AbstractServerPaginationTableComponent,
+  EmployeeGeneralInformation,
+  EmployeeInfo,
+  Pagination,
+  PromptService,
+} from '@nexthcm/cdk';
 import { TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { BaseComponent, Columns } from 'ngx-easy-table';
-import { from, Observable } from 'rxjs';
-import { filter, map, share, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { from, Observable, Subject } from 'rxjs';
+import {
+  debounceTime,
+  distinctUntilChanged,
+  filter,
+  map,
+  share,
+  startWith,
+  switchMap,
+  takeUntil,
+  tap,
+} from 'rxjs/operators';
 import { InitEmployeeDialogComponent } from '../../components/init-employee-dialog/init-employee-dialog.component';
-import { EmployeeGeneralInformation } from '../../models';
 import { AdminEmployeeService } from '../../services/admin-employee.service';
 
 @Component({
@@ -20,7 +35,10 @@ import { AdminEmployeeService } from '../../services/admin-employee.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [TuiDestroyService, RxState],
 })
-export class EmployeeManagementComponent extends AbstractServerPaginationTableComponent<EmployeeInfo> {
+export class EmployeeManagementComponent
+  extends AbstractServerPaginationTableComponent<EmployeeInfo>
+  implements OnInit
+{
   @ViewChild('table') table!: BaseComponent;
 
   readonly columns$: Observable<Columns[]> = this.translocoService
@@ -43,6 +61,7 @@ export class EmployeeManagementComponent extends AbstractServerPaginationTableCo
     share()
   );
   readonly loading$ = this.request$.pipe(map((value) => !value));
+  readonly search$ = new Subject<string | null>();
 
   constructor(
     public state: RxState<Pagination<EmployeeInfo>>,
@@ -57,6 +76,21 @@ export class EmployeeManagementComponent extends AbstractServerPaginationTableCo
   ) {
     super(state);
     state.connect(this.request$.pipe(filter(isPresent)));
+    state.hold(
+      this.search$.pipe(
+        filter(isPresent),
+        debounceTime(1000),
+        distinctUntilChanged(),
+        tap((searchQuery) => this.queryParams$.next(this.queryParams$.value.set('search', searchQuery)))
+      )
+    );
+  }
+
+  ngOnInit(): void {
+    const searchParam = this.activatedRoute.snapshot.queryParams.search;
+    if (searchParam) {
+      this.search$.next(searchParam);
+    }
   }
 
   onAddEmployee(): void {

@@ -1,1 +1,2 @@
-export * from './user-profile/user-profile.service';
+export * from './user-profile';
+export * from './images';

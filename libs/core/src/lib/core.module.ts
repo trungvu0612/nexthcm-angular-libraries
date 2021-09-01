@@ -2,6 +2,7 @@ import { CommonModule, registerLocaleData } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import localeVi from '@angular/common/locales/vi';
 import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
+import { akitaConfig } from '@datorama/akita';
 import { SvgIconsModule } from '@ngneat/svg-icon';
 import { FormlyModule } from '@ngx-formly/core';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
@@ -23,6 +24,7 @@ import { LANGUAGE_PROVIDER } from './providers/language.provider';
 import { TranslocoRootModule } from './transloco/transloco-root.module';
 
 registerLocaleData(localeVi);
+akitaConfig({ resettable: true });
 
 @NgModule({
   imports: [

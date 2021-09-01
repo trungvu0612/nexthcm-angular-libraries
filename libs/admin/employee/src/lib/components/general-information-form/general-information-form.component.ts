@@ -1,13 +1,12 @@
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { UploadFileService } from '@nexthcm/cdk';
+import { EmployeeGeneralInformation, EmployeesService, UploadFileService } from '@nexthcm/cdk';
 import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { of } from 'rxjs';
 import { distinctUntilChanged, map, startWith, switchMap, tap } from 'rxjs/operators';
-import { EmployeeGeneralInformation } from '../../models';
 import { AdminEmployeeService } from '../../services/admin-employee.service';
 
 @Component({
@@ -200,8 +199,8 @@ export class GeneralInformationFormComponent {
                 placeholder: 'chooseDirectReport',
                 serverRequest: (searchQuery: string) => this.adminEmployeeService.searchUsers(searchQuery),
                 labelProp: 'name',
-                matcherBy: 'id'
-              }
+                matcherBy: 'id',
+              },
             },
           ],
         },
@@ -209,9 +208,9 @@ export class GeneralInformationFormComponent {
     },
   ];
   private readonly request$ = this.activatedRoute.snapshot.params.employeeId
-    ? this.adminEmployeeService
+    ? this.employeesService
         .getEmployeeGeneralInformation(this.activatedRoute.snapshot.params.employeeId)
-        .pipe(tap((res) => (this.model = { ...this.model, ...res.data })))
+        .pipe(tap((data) => (this.model = { ...this.model, ...data })))
     : of({});
   readonly loading$ = this.request$.pipe(map((value) => !value));
 
@@ -219,6 +218,7 @@ export class GeneralInformationFormComponent {
     private fb: FormBuilder,
     private uploadFileService: UploadFileService,
     private translocoService: TranslocoService,
+    private employeesService: EmployeesService,
     private adminEmployeeService: AdminEmployeeService,
     private activatedRoute: ActivatedRoute
   ) {}

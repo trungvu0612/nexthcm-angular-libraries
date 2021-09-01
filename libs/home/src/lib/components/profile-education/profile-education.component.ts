@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { UserProfileService } from '@nexthcm/cdk';
+import { Actions } from '@datorama/akita-ng-effects';
+import { loadProfileEducationInformation, ProfileEducationQuery } from '@nexthcm/cdk';
 
 @Component({
   selector: 'hcm-profile-education',
@@ -8,7 +9,9 @@ import { UserProfileService } from '@nexthcm/cdk';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProfileEducationComponent {
-  readonly profile$ = this.userProfileState.select('education');
+  readonly profile$ = this.profileEducationQuery.select();
 
-  constructor(private readonly userProfileState: UserProfileService) {}
+  constructor(private readonly profileEducationQuery: ProfileEducationQuery, private readonly actions: Actions) {
+    this.actions.dispatch(loadProfileEducationInformation());
+  }
 }

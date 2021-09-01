@@ -19,19 +19,35 @@
           <div class="table-row-group">
             <div class="table-cell py-8">{{ t('today') }}</div>
             <div class="table-cell py-8 border-r border-l">
-              {{ myWorkingDays[0]?.inTime ? (myWorkingDays[0].inTime * 1000 | date: 'HH:mm':'UTC') : '-:-' }}
+              {{
+                myWorkingDays && myWorkingDays[0]?.inTime
+                  ? (myWorkingDays[0].inTime * 1000 | date: 'HH:mm':'UTC')
+                  : '-:-'
+              }}
             </div>
             <div class="table-cell py-8">
-              {{ myWorkingDays[0]?.outTime ? (myWorkingDays[0].outTime * 1000 | date: 'HH:mm':'UTC') : '-:-' }}
+              {{
+                myWorkingDays && myWorkingDays[0]?.outTime
+                  ? (myWorkingDays[0].outTime * 1000 | date: 'HH:mm':'UTC')
+                  : '-:-'
+              }}
             </div>
           </div>
           <div class="table-row-group">
             <div class="table-cell">{{ t('yesterday') }}</div>
             <div class="table-cell border-r border-l">
-              {{ myWorkingDays[1]?.inTime ? (myWorkingDays[1].inTime * 1000 | date: 'HH:mm':'UTC') : '-:-' }}
+              {{
+                myWorkingDays && myWorkingDays[1]?.inTime
+                  ? (myWorkingDays[1].inTime * 1000 | date: 'HH:mm':'UTC')
+                  : '-:-'
+              }}
             </div>
             <div class="table-cell">
-              {{ myWorkingDays[1]?.outTime ? (myWorkingDays[1].outTime * 1000 | date: 'HH:mm':'UTC') : '-:-' }}
+              {{
+                myWorkingDays && myWorkingDays[1]?.outTime
+                  ? (myWorkingDays[1].outTime * 1000 | date: 'HH:mm':'UTC')
+                  : '-:-'
+              }}
             </div>
           </div>
         </div>
@@ -48,7 +64,7 @@
         <div class="font-semibold tui-island__title">{{ t('yourWorkingDaysThisMonth') }}</div>
         <div *rxLet="monthWorkingTime$; let monthWorkingTime">
           <span class="text-8xl font-bold text-blue-500">{{
-            (monthWorkingTime?.workingDay || 0) | translocoDecimal: { maximumFractionDigits: 1 }
+            monthWorkingTime?.workingDay || 0 | translocoDecimal: { maximumFractionDigits: 1 }
           }}</span
           ><span class="text-4xl font-bold text-gray-400"
             >/{{ monthWorkingTime?.totalWorkingDay ? monthWorkingTime.totalWorkingDay : '-' }}</span

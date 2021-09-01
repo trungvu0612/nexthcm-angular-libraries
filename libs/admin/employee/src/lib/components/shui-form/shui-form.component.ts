@@ -1,11 +1,10 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { PromptService } from '@nexthcm/cdk';
+import { EmployeeSHUI, EmployeesService, PromptService } from '@nexthcm/cdk';
 import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { map, takeUntil, tap } from 'rxjs/operators';
-import { EmployeeSHUI } from '../../models';
 import { AdminEmployeeService } from '../../services/admin-employee.service';
 
 @Component({
@@ -142,15 +141,9 @@ export class ShuiFormComponent {
       ],
     },
   ];
-  private readonly request$ = this.adminEmployeeService
-    .getEmployeeInformation<EmployeeSHUI>(this.activatedRoute.snapshot.params.employeeId, 'shui')
-    .pipe(
-      tap((res) => {
-        const data = res.data;
-        data.healthCares = JSON.parse(data.healthCares as string);
-        this.model = { ...this.model, ...data };
-      })
-    );
+  private readonly request$ = this.employeesService
+    .getEmployeeInformation(this.activatedRoute.snapshot.params.employeeId, 'shui')
+    .pipe(tap((data) => (this.model = { ...this.model, ...data })));
   readonly loading$ = this.request$.pipe(map((value) => !value));
 
   constructor(
@@ -158,6 +151,7 @@ export class ShuiFormComponent {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private adminEmployeeService: AdminEmployeeService,
+    private employeesService: EmployeesService,
     private destroy$: TuiDestroyService,
     private promptService: PromptService
   ) {}

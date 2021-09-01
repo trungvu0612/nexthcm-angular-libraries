@@ -851,5 +851,6 @@
   "checkOutConfirm": "<b>Are you sure you want to check out?</b>",
   "checkInSuccessfully": "<b>Check in successfully!</b>",
   "checkOutSuccessfully": "<b>Check out successfully!</b>",
-  "newStatus": "new status"
+  "newStatus": "new status",
+  "invalidCredential": "The username or password is incorrect."
 }

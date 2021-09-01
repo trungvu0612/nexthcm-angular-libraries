@@ -3,10 +3,11 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { PromptComponentModule } from '@nexthcm/cdk';
-import { LayoutComponent } from '@nexthcm/ui';
+import { InputFilterComponentModule, LayoutComponent, LayoutModule } from '@nexthcm/ui';
 import { TranslocoModule } from '@ngneat/transloco';
 import { FormlyModule } from '@ngx-formly/core';
 import { TuiTablePaginationModule } from '@taiga-ui/addon-table';
+import { TuiLetModule } from '@taiga-ui/cdk';
 import { TuiButtonModule, TuiLabelModule, TuiLoaderModule, TuiSvgModule } from '@taiga-ui/core';
 import { TuiCheckboxModule, TuiTabsModule } from '@taiga-ui/kit';
 import { academicCap, HeroIconModule, identification, informationCircle } from 'ng-heroicon';
@@ -59,6 +60,9 @@ export const ADMIN_EMPLOYEE_ROUTES: Routes = [
     FormsModule,
     TuiTablePaginationModule,
     HeroIconModule.withIcons({ academicCap, informationCircle, identification }),
+    LayoutModule,
+    TuiLetModule,
+    InputFilterComponentModule,
   ],
   declarations: [
     EditEmployeeComponent,

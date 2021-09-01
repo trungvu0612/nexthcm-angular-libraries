@@ -675,46 +675,46 @@
         }
       }
     },
-    "admin-workflow": {
+    "admin-workflows": {
       "projectType": "library",
-      "root": "libs/admin/workflow",
-      "sourceRoot": "libs/admin/workflow/src",
+      "root": "libs/admin/workflows",
+      "sourceRoot": "libs/admin/workflows/src",
       "prefix": "hcm",
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": ["dist/libs/admin/workflow"],
+          "outputs": ["dist/libs/admin/workflows"],
           "options": {
-            "project": "libs/admin/workflow/ng-package.json"
+            "project": "libs/admin/workflows/ng-package.json"
           },
           "configurations": {
             "production": {
-              "tsConfig": "libs/admin/workflow/tsconfig.lib.prod.json"
+              "tsConfig": "libs/admin/workflows/tsconfig.lib.prod.json"
             },
             "development": {
-              "tsConfig": "libs/admin/workflow/tsconfig.lib.json"
+              "tsConfig": "libs/admin/workflows/tsconfig.lib.json"
             }
           },
           "defaultConfiguration": "production"
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/admin/workflow"],
+          "outputs": ["coverage/libs/admin/workflows"],
           "options": {
-            "jestConfig": "libs/admin/workflow/jest.config.js",
+            "jestConfig": "libs/admin/workflows/jest.config.js",
             "passWithNoTests": true
           }
         },
         "lint": {
           "builder": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": ["libs/admin/workflow/src/**/*.ts", "libs/admin/workflow/src/**/*.html"]
+            "lintFilePatterns": ["libs/admin/workflows/src/**/*.ts", "libs/admin/workflows/src/**/*.html"]
           }
         },
         "publish": {
           "builder": "@nrwl/workspace:run-commands",
           "options": {
-            "command": "yarn publish dist/libs/admin/workflow"
+            "command": "yarn publish dist/libs/admin/workflows"
           }
         }
       }

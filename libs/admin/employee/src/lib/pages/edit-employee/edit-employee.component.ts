@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { PromptService } from '@nexthcm/cdk';
-import { EmployeeGeneralInformation } from '../../models';
+import { EmployeeGeneralInformation, PromptService } from '@nexthcm/cdk';
 import { AdminEmployeeService } from '../../services/admin-employee.service';
 
 @Component({

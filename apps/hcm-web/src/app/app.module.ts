@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
+import { AkitaNgDevtools } from '@datorama/akita-ngdevtools';
 import { AuthModule, LoginComponent, LogoutComponent } from '@nexthcm/auth';
 import { CoreModule } from '@nexthcm/core';
 import { FormlyTaigaUiModule } from '@nexthcm/ui';
@@ -96,6 +97,7 @@ import { AppComponent } from './app.component';
     FormlyTaigaUiModule,
     CoreModule.forRoot(environment),
     AuthModule,
+    environment.production ? [] : AkitaNgDevtools.forRoot(),
   ],
   bootstrap: [AppComponent],
 })

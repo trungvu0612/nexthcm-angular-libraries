@@ -1,6 +1,10 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormBuilder } from '@ngneat/reactive-forms';
+import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
+import { RxState } from '@rx-angular/state';
+import { EMPTY } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { LoginPayload } from '../../models';
 import { AuthService } from '../../services/auth.service';
 
@@ -9,6 +13,7 @@ import { AuthService } from '../../services/auth.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [RxState],
 })
 export class LoginComponent {
   loginForm = this.fb.group<LoginPayload>({} as LoginPayload);
@@ -36,6 +41,7 @@ export class LoginComponent {
         textfieldLabelOutside: true,
         labelClassName: 'font-semibold',
       },
+      validation: { messages: { invalidCredential: () => this.translocoService.translate('invalidCredential') } },
     },
     {
       className: 'block mt-5',
@@ -50,11 +56,24 @@ export class LoginComponent {
     },
   ];
 
-  constructor(private fb: FormBuilder, private authService: AuthService) {}
+  constructor(
+    private readonly fb: FormBuilder,
+    private readonly authService: AuthService,
+    private readonly translocoService: TranslocoService
+  ) {}
 
   onSubmit(): void {
+    this.loginForm.controls.password.setErrors(null);
     if (this.loginForm.valid) {
-      this.authService.loginPayload$.next(this.loginForm.value);
+      this.authService
+        .login(this.loginForm.value)
+        .pipe(
+          catchError(() => {
+            this.loginForm.controls.password.setErrors({ invalidCredential: true });
+            return EMPTY;
+          })
+        )
+        .subscribe();
     }
   }
 }

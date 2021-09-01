@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { UserProfileService } from '@nexthcm/cdk';
+import { Actions } from '@datorama/akita-ng-effects';
+import { loadProfileSHUIInformation, ProfileSHUIQuery } from '@nexthcm/cdk';
 
 @Component({
   selector: 'hcm-profile-shui',
@@ -8,7 +9,9 @@ import { UserProfileService } from '@nexthcm/cdk';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProfileShuiComponent {
-  readonly profile$ = this.userProfileState.select('shui');
+  readonly profile$ = this.profileSHUIQuery.select();
 
-  constructor(private readonly userProfileState: UserProfileService) {}
+  constructor(private readonly profileSHUIQuery: ProfileSHUIQuery, private readonly actions: Actions) {
+    this.actions.dispatch(loadProfileSHUIInformation());
+  }
 }

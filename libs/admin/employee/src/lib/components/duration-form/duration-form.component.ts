@@ -1,11 +1,17 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DateRange, parseDateFields, parseTuiDayFields, PromptService } from '@nexthcm/cdk';
+import {
+  DateRange,
+  EmployeeDuration,
+  EmployeesService,
+  parseDateFields,
+  parseTuiDayFields,
+  PromptService,
+} from '@nexthcm/cdk';
 import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDayRange, TuiDestroyService } from '@taiga-ui/cdk';
 import { map, takeUntil, tap } from 'rxjs/operators';
-import { EmployeeDuration } from '../../models';
 import { AdminEmployeeService } from '../../services/admin-employee.service';
 
 @Component({
@@ -201,11 +207,11 @@ export class DurationFormComponent {
       ],
     },
   ];
-  private readonly request$ = this.adminEmployeeService
-    .getEmployeeInformation<EmployeeDuration>(this.activatedRoute.snapshot.params.employeeId, 'duration')
+  private readonly request$ = this.employeesService
+    .getEmployeeInformation(this.activatedRoute.snapshot.params.employeeId, 'duration')
     .pipe(
       tap((res) => {
-        const data = parseTuiDayFields(res.data, [
+        const data = parseTuiDayFields(res, [
           'onboardDate',
           'officialStartDate',
           'terminationDate',
@@ -214,21 +220,21 @@ export class DurationFormComponent {
           'resignationAgreementDate',
         ]);
         data.probationDate = data.probationDate
-          ? DateRange.toTuiDayRange(JSON.parse(data.probationDate as string))
+          ? DateRange.toTuiDayRange(data.probationDate as DateRange)
           : undefined;
-        data.emergencyContacts = JSON.parse(data.emergencyContacts as string);
         this.model = { ...this.model, ...data };
       })
     );
   readonly loading$ = this.request$.pipe(map((value) => !value));
 
   constructor(
-    private fb: FormBuilder,
-    private router: Router,
-    private activatedRoute: ActivatedRoute,
-    private adminEmployeeService: AdminEmployeeService,
-    private destroy$: TuiDestroyService,
-    private promptService: PromptService
+    private readonly fb: FormBuilder,
+    private readonly router: Router,
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly adminEmployeeService: AdminEmployeeService,
+    private readonly employeesService: EmployeesService,
+    private readonly destroy$: TuiDestroyService,
+    private readonly promptService: PromptService
   ) {}
 
   onSubmit(): void {

@@ -1,49 +1,54 @@
-<main class="main-page">
-  <header *transloco="let t">
-    <h1>{{ t('employeeManagement') }}</h1>
-    <button (click)="onAddEmployee()" class="tui-space_right-3 tui-space_bottom-3" size="m" tuiButton>
-      {{ t('addNewEmployee') }}
-    </button>
-  </header>
-  <section class="main-section">
+<ng-container *transloco="let t">
+  <hcm-page [title]="t('employeeManagement')">
+    <ng-container ngProjectAs="pageHeader">
+      <button (click)="onAddEmployee()" tuiButton>
+        {{ t('addNewEmployee') }}
+      </button>
+    </ng-container>
+    <hcm-input-filter
+      (valueChange)="search$.next($event)"
+      [label]="t('searchByCifFullNameOffice')"
+      class="mb-5"
+      icon="tuiIconSearchLarge"
+      propertyName="search"
+    ></hcm-input-filter>
     <tui-loader [overlay]="true" [showLoader]="(loading$ | async) === true">
-      <ngx-table #table [columns]="(columns$ | async) || []" [configuration]="configuration" [data]="(data$ | async) || []">
+      <ngx-table
+        #table
+        [columns]="(columns$ | async) || []"
+        [configuration]="configuration"
+        [data]="(data$ | async) || []"
+      >
         <ng-template let-row>
-          <td>{{ item(row).cif }}</td>
-          <td>{{ item(row).firstName + ' ' + item(row).lastName }}</td>
-          <td>{{ item(row).username }}</td>
-          <td>{{ (item(row).status ? 'active' : 'inactive') | transloco }}</td>
-          <td>{{ item(row).roles[0].name }}</td>
-          <td>{{ item(row).organization.name }}</td>
-          <td>{{ item(row).jobTitle?.name }}</td>
-          <td>{{ item(row).directReport.name }}</td>
-          <td>
-            <div class="flex items-center">
-              <button
-                [routerLink]="[item(row).id, 'edit']"
-                appearance="flat"
-                class="tui-space_right-3"
-                icon="tuiIconEditLarge"
-                size="m"
-                tuiIconButton
-              ></button>
-              <!--<button
-                [routerLink]="[item(row).id, 'view']"
-                appearance="flat"
-                class="tui-space_right-3"
-                icon="tuiIconShowLarge"
-                size="m"
-                tuiIconButton
-              ></button>-->
-              <button
-                (click)="onRemoveEmployee(item(row).id)"
-                appearance="flat"
-                icon="tuiIconTrashLarge"
-                size="m"
-                tuiIconButton
-              ></button>
-            </div>
-          </td>
+          <ng-container *tuiLet="item(row) as item">
+            <td>{{ item.cif }}</td>
+            <td>{{ item.firstName + ' ' + item.lastName }}</td>
+            <td>{{ item.username }}</td>
+            <td>{{ t(item.status ? 'active' : 'inactive') }}</td>
+            <td>{{ item.roles[0].name }}</td>
+            <td>{{ item.organization.name }}</td>
+            <td>{{ item.jobTitle?.name }}</td>
+            <td>{{ item.directReport.name }}</td>
+            <td>
+              <div class="flex items-center">
+                <button
+                  [routerLink]="[item.id, 'edit']"
+                  appearance="flat"
+                  class="tui-space_right-3"
+                  icon="tuiIconEditLarge"
+                  size="m"
+                  tuiIconButton
+                ></button>
+                <button
+                  (click)="onRemoveEmployee(item.id)"
+                  appearance="flat"
+                  icon="tuiIconTrashLarge"
+                  size="m"
+                  tuiIconButton
+                ></button>
+              </div>
+            </td>
+          </ng-container>
         </ng-template>
       </ngx-table>
     </tui-loader>
@@ -52,5 +57,5 @@
       (sizeChange)="onSize($event)"
       [total]="(total$ | async) || 0"
     ></tui-table-pagination>
-  </section>
-</main>
+  </hcm-page>
+</ng-container>

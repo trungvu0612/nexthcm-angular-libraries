@@ -16,7 +16,7 @@
       <div class="table mt-6 w-full">
         <div class="table-row">
           <div class="table-label">{{ t('organization') }}:</div>
-          <div class="table-value">{{ profile.organization.name }}</div>
+          <div class="table-value">{{ profile.organization?.name }}</div>
         </div>
         <div class="table-row">
           <div class="table-label">{{ t('jobTitle') }}:</div>
@@ -28,7 +28,7 @@
         </div>
         <div class="table-row">
           <div class="table-label">{{ t('directReport') }}:</div>
-          <div class="table-value">{{ profile.directReport.name }}</div>
+          <div class="table-value">{{ profile.directReport?.name }}</div>
         </div>
       </div>
     </section>

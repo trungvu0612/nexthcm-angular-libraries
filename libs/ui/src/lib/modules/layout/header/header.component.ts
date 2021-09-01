@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { UserProfileService } from '@nexthcm/cdk';
+import { Actions } from '@datorama/akita-ng-effects';
+import { loadProfileGeneralInformation, ProfileGeneralQuery } from '@nexthcm/cdk';
 import { TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
 import { filter, map } from 'rxjs/operators';
@@ -56,13 +57,14 @@ export class HeaderComponent {
   notification = 13;
   readonly languages = (this.translocoService.getAvailableLangs() as string[]).map((lang) => LANGS[lang]);
   readonly tabs$ = this.state.select('tabs');
-  readonly userProfile$ = this.userProfileState.select('general');
+  readonly userProfile$ = this.profileGeneralQuery.select();
 
   constructor(
     private readonly translocoService: TranslocoService,
     private readonly router: Router,
     private readonly state: RxState<any>,
-    private readonly userProfileState: UserProfileService
+    private readonly profileGeneralQuery: ProfileGeneralQuery,
+    private readonly actions: Actions
   ) {
     this.state.set({ root: '', tabs: [] });
     this.state.connect(
@@ -80,6 +82,7 @@ export class HeaderComponent {
         })
       )
     );
+    this.actions.dispatch(loadProfileGeneralInformation());
   }
 
   changeLang(lang: string) {

@@ -1,5 +1,5 @@
 import { HttpParams } from '@angular/common/http';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { AuthService } from '@nexthcm/auth';
 import { PromptService } from '@nexthcm/cdk';
 import { CheckInPayload, CheckOutPayload, WorkingHours, WorkingHoursService } from '@nexthcm/my-time';
@@ -21,8 +21,7 @@ interface HomeState {
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [RxState],
 })
-export class HomeComponent implements OnInit {
-  greeting = '';
+export class HomeComponent {
   readonly queryParams$ = new BehaviorSubject(
     new HttpParams()
       .set('userId', this.authService.get('userInfo', 'userId'))
@@ -67,20 +66,15 @@ export class HomeComponent implements OnInit {
     );
   }
 
-  ngOnInit(): void {
-    this.getGreeting();
-  }
-
-  getGreeting(): void {
+  get greeting(): string {
     const time = new Date().getHours();
-    this.greeting =
-      time < 12
-        ? 'goodMorning'
-        : time >= 12 && time < 17
-        ? 'goodAfternoon'
-        : time >= 17 && time < 21
-        ? 'goodEvening'
-        : 'goodNight';
+    return time < 12
+      ? 'goodMorning'
+      : time >= 12 && time < 17
+      ? 'goodAfternoon'
+      : time >= 17 && time < 21
+      ? 'goodEvening'
+      : 'goodNight';
   }
 
   private checkIn(id: string): Observable<unknown> {

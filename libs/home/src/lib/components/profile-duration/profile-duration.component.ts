@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { UserProfileService } from '@nexthcm/cdk';
+import { Actions } from '@datorama/akita-ng-effects';
+import { loadProfileDurationInformation, ProfileDurationQuery } from '@nexthcm/cdk';
 
 @Component({
   selector: 'hcm-profile-duration',
@@ -8,7 +9,9 @@ import { UserProfileService } from '@nexthcm/cdk';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProfileDurationComponent {
-  readonly profile$ = this.userProfileState.select('duration');
+  readonly profile$ = this.profileDurationQuery.select();
 
-  constructor(private readonly userProfileState: UserProfileService) {}
+  constructor(private readonly profileDurationQuery: ProfileDurationQuery, private readonly actions: Actions) {
+    this.actions.dispatch(loadProfileDurationInformation());
+  }
 }
