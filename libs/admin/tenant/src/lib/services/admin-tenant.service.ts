@@ -114,7 +114,7 @@ export class AdminTenantService extends RxState<{ id: string }> {
     return this.http.post(`${ACCOUNT_API_PATH}/orgs`, body);
   }
 
-  editOrganizationUnit(body: Partial<OrganizationalUnit>): Observable<unknown> {
+  editOrganizationUnit(body: Partial<OrganizationalUnitForm>): Observable<unknown> {
     return this.http.put(`${ACCOUNT_API_PATH}/orgs/` + body.id, body);
   }
 

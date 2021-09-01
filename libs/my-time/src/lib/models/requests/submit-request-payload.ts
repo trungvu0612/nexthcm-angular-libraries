@@ -2,8 +2,8 @@ import { TuiDay, TuiDayRange, TuiTime } from '@taiga-ui/cdk';
 import { RequestStatus } from '../../enums';
 
 export interface SubmitRequestPayload {
-  fromDate: number | TuiDay;
-  toDate: number | TuiDay;
+  fromDate: number | TuiDay | undefined;
+  toDate: number | TuiDay | undefined;
   comment: string;
   userId?: string;
   duration?: number;

@@ -49,10 +49,14 @@ export interface OrganizationalUnit {
 }
 
 export interface OrganizationalUnitForm {
-  id: string;
+  id?: string;
   orgName: string;
   orgType: string;
   description: string;
-  ancestor: { id: string };
-  user: { id: string };
+  ancestor: Ancestor;
+  user?: { id?: string | undefined } | undefined;
+}
+
+export interface Ancestor {
+  id: string;
 }

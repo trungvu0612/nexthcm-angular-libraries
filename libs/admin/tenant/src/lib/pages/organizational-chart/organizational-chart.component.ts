@@ -183,7 +183,8 @@ export class OrganizationalChartComponent {
     else return 1;
   }
 
-  upsertUnit(content: PolymorpheusContent<TuiDialogContext>, unit?: Partial<OrganizationalUnit>) {
+  upsertUnit(content: PolymorpheusContent<TuiDialogContext>, unit?: Partial<OrganizationalUnitForm>) {
+    console.log(this.model);
     this.model = unit || {};
     this.dialogService
       .open(content, {
