@@ -25,6 +25,7 @@ import { OrganizationalChartComponent } from './pages/organizational-chart/organ
 import { OrganizationalStructureComponent } from './pages/organizational-structure/organizational-structure.component';
 import { TenantListComponent } from './pages/tenant-list/tenant-list.component';
 import { UpsertTenantComponent } from './pages/upsert-tenant/upsert-tenant.component';
+import { PolymorpheusModule } from '@tinkoff/ng-polymorpheus';
 
 export const adminTenantRoutes: Routes = [
   {
@@ -85,6 +86,7 @@ export const adminTenantRoutes: Routes = [
     HeroIconModule.withIcons({ pencilAlt, trash, zoomIn }),
     TuiSliderModule,
     TuiLoaderModule,
+    PolymorpheusModule
   ],
   providers: [AddressService],
 })
