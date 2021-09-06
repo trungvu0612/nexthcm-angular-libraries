@@ -1,8 +1,8 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BaseResponse, MY_TIME_API_PATH, Pagination, PagingResponse } from '@nexthcm/cdk';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 import {
   CheckInPayload,
   CheckOutPayload,
@@ -37,7 +37,10 @@ export class WorkingHoursService {
   }
 
   getTimekeepingLog(): Observable<TimeKeepingLog> {
-    return this.http.get<BaseResponse<TimeKeepingLog>>(`${MY_TIME_API_PATH}/check-in-out`).pipe(map((res) => res.data));
+    return this.http.get<BaseResponse<TimeKeepingLog>>(`${MY_TIME_API_PATH}/check-in-out`).pipe(
+      map((res) => res.data),
+      catchError(() => of({} as TimeKeepingLog))
+    );
   }
 
   checkIn(id: string, payload: CheckInPayload): Observable<unknown> {

@@ -3,13 +3,18 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { PromptComponentModule } from '@nexthcm/cdk';
-import { InputFilterComponentModule, LayoutComponent, LayoutModule } from '@nexthcm/ui';
+import {
+  FormlyUserComboBoxComponentModule,
+  InputFilterComponentModule,
+  LayoutComponent,
+  LayoutModule,
+} from '@nexthcm/ui';
 import { TranslocoModule } from '@ngneat/transloco';
 import { FormlyModule } from '@ngx-formly/core';
 import { TuiTablePaginationModule } from '@taiga-ui/addon-table';
 import { TuiLetModule } from '@taiga-ui/cdk';
 import { TuiButtonModule, TuiLabelModule, TuiLoaderModule, TuiSvgModule } from '@taiga-ui/core';
-import { TuiCheckboxModule, TuiTabsModule } from '@taiga-ui/kit';
+import { TuiCheckboxModule, TuiTabsModule, TuiToggleModule } from '@taiga-ui/kit';
 import { PolymorpheusModule } from '@tinkoff/ng-polymorpheus';
 import { academicCap, HeroIconModule, identification, informationCircle } from 'ng-heroicon';
 import { TableModule } from 'ngx-easy-table';
@@ -65,6 +70,8 @@ export const ADMIN_EMPLOYEE_ROUTES: Routes = [
     TuiLetModule,
     InputFilterComponentModule,
     PolymorpheusModule,
+    TuiToggleModule,
+    FormlyUserComboBoxComponentModule,
   ],
   declarations: [
     EditEmployeeComponent,

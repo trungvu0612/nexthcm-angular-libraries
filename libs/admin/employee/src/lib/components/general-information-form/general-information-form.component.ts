@@ -1,14 +1,14 @@
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { EmployeeGeneralInformation, EmployeesService, UploadFileService } from '@nexthcm/cdk';
 import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
+import { PolymorpheusTemplate } from '@tinkoff/ng-polymorpheus';
 import { of } from 'rxjs';
 import { distinctUntilChanged, map, startWith, switchMap, tap } from 'rxjs/operators';
 import { AdminEmployeeService } from '../../services/admin-employee.service';
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { PolymorpheusTemplate } from '@tinkoff/ng-polymorpheus';
 
 @Component({
   selector: 'hcm-general-information-form',
@@ -137,9 +137,9 @@ export class GeneralInformationFormComponent {
               type: 'select',
               templateOptions: {
                 translate: true,
-                label: 'organization',
+                label: 'department',
                 labelClassName: 'font-semibold',
-                placeholder: 'chooseOrganization',
+                placeholder: 'chooseDepartment',
                 required: true,
                 options: this.adminEmployeeService.select('organizations'),
                 labelProp: 'name',
@@ -192,17 +192,13 @@ export class GeneralInformationFormComponent {
             {
               key: 'directReport',
               className: 'tui-form__row block',
-              type: 'combo-box',
+              type: 'user-combo-box',
               templateOptions: {
                 translate: true,
                 required: true,
                 label: 'directReport',
                 labelClassName: 'font-semibold',
                 placeholder: 'chooseDirectReport',
-                customContent: this.userContent,
-                serverRequest: (searchQuery: string) => this.adminEmployeeService.searchUsers(searchQuery),
-                labelProp: 'name',
-                matcherBy: 'id'
               }
             },
           ],

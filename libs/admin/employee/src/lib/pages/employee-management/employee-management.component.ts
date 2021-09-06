@@ -46,13 +46,12 @@ export class EmployeeManagementComponent
     .pipe(
       map((result) => [
         { key: 'cif', title: result.cif },
-        { key: 'name', title: result.name },
-        { key: 'username', title: result.username },
-        { key: 'currentStatus', title: result.currentStatus },
-        { key: 'roles', title: result.roles },
-        { key: 'organization', title: result.organization },
+        { key: 'fullName', title: result.fullName },
+        { key: 'department', title: result.department },
         { key: 'jobTitle', title: result.jobTitle },
         { key: 'directReport', title: result.directReport },
+        { key: 'roles', title: result.roles },
+        { key: 'activeStatus', title: result.activeStatus },
         { key: 'actions', title: result.functions },
       ])
     );

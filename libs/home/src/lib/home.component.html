@@ -1,7 +1,7 @@
 <header *transloco="let t" class="mb-10">
   <p class="text-2xl font-medium">{{ t(greeting) }},</p>
   <h1 class="text-3xl font-bold">
-    {{ t('welcomeBack') }}, <span class="text-blue-500">{{ username }}</span>
+    {{ t('welcomeBack') }}, <span class="text-blue-500">{{ fullName$ | async }}</span>
     <ngx-emoji [size]="32" class="ml-2" emoji="wave" set="apple"></ngx-emoji>
   </h1>
 </header>

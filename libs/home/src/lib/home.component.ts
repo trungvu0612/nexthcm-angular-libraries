@@ -1,7 +1,7 @@
 import { HttpParams } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { AuthService } from '@nexthcm/auth';
-import { PromptService } from '@nexthcm/cdk';
+import { ProfileGeneralQuery, PromptService } from '@nexthcm/cdk';
 import { CheckInPayload, CheckOutPayload, WorkingHours, WorkingHoursService } from '@nexthcm/my-time';
 import { TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
@@ -28,7 +28,7 @@ export class HomeComponent {
       .set('fromDate', startOfYesterday().getTime())
       .set('toDate', endOfToday().getTime())
   );
-  readonly username = this.authService.get('userInfo', 'preferred_username');
+  readonly fullName$ = this.profileGeneralQuery.select('fullName');
   readonly monthWorkingTime$ = this.workingHoursService.getWorkingTimeCurrentMonth();
   readonly shouldCheckedOut$ = new BehaviorSubject<boolean | null>(false);
   readonly checkInOut$ = new Subject();
@@ -54,7 +54,8 @@ export class HomeComponent {
     private readonly authService: AuthService,
     private readonly promptService: PromptService,
     private readonly state: RxState<HomeState>,
-    private readonly translocoService: TranslocoService
+    private readonly translocoService: TranslocoService,
+    private readonly profileGeneralQuery: ProfileGeneralQuery
   ) {
     this.state.connect('checkingId', this.checkedId$);
     this.state.hold(

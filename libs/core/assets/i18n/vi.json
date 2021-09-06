@@ -366,15 +366,16 @@
   },
   "ADMIN_EMPLOYEE_MANAGEMENT_COLUMNS": {
     "cif": "CIF",
-    "name": "Tên",
-    "username": "Tên đăng nhập",
-    "currentStatus": "Tình trạng hiện tại",
+    "fullName": "Họ tên",
+    "activeStatus": "Trạng thái hoạt động",
     "roles": "Vai trò",
-    "organization": "Tổ chức",
+    "department": "Phòng ban",
     "jobTitle": "Chức danh",
     "directReport": "Báo cáo trực tiếp",
     "functions": "Chức năng"
   },
+  "department": "Phòng ban",
+  "chooseDepartment": "Chọn phòng ban",
   "WORKING_HOURS_TABLE_COLUMNS": {
     "office": "Văn phòng",
     "date": "Ngày",

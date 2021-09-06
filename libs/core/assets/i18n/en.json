@@ -364,15 +364,16 @@
   },
   "ADMIN_EMPLOYEE_MANAGEMENT_COLUMNS": {
     "cif": "CIF",
-    "name": "Name",
-    "username": "Username",
-    "currentStatus": "Current Status",
+    "fullName": "Full Name",
+    "activeStatus": "Active Status",
     "roles": "Roles",
-    "organization": "Organization",
+    "department": "Department",
     "jobTitle": "Job Title",
     "directReport": "Direct Report",
     "functions": "Functions"
   },
+  "department": "Department",
+  "chooseDepartment": "Choose department",
   "WORKING_HOURS_TABLE_COLUMNS": {
     "office": "Office",
     "date": "Date",
@@ -853,8 +854,7 @@
   "checkInSuccessfully": "<b>Check in successfully!</b>",
   "checkOutSuccessfully": "<b>Check out successfully!</b>",
   "newStatus": "new status",
-  "invalidCredential": "The username or password is incorrect."
-  "newStatus": "new status",
+  "invalidCredential": "The username or password is incorrect.",
   "ADMIN_PERIOD_MANAGEMENT_COLUMNS": {
     "startDate": "Start Date",
     "endDate": "End Date",

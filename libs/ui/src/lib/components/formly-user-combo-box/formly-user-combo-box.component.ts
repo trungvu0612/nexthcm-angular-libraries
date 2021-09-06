@@ -21,6 +21,7 @@ export class FormlyUserComboBoxComponent extends FieldType {
   defaultOptions = {
     templateOptions: {
       textfieldSize: 'l',
+      textfieldLabelOutside: true,
     },
   };
   readonly search$ = new Subject<string | null>();
