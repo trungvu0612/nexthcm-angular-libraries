@@ -8,6 +8,7 @@ import { TuiTablePaginationModule } from '@taiga-ui/addon-table';
 import { TuiLetModule } from '@taiga-ui/cdk';
 import { TuiButtonModule, TuiLoaderModule } from '@taiga-ui/core';
 import { TuiTagModule } from '@taiga-ui/kit';
+import { PolymorpheusModule } from '@tinkoff/ng-polymorpheus';
 import { TableModule } from 'ngx-easy-table';
 import { MyLeaveService } from '../../services';
 import { LeaveRequestDateRangeComponentModule } from '../shared/leave-request-date-range/leave-request-date-range.component';
@@ -32,6 +33,7 @@ import { MyLeaveComponent } from './my-leave.component';
     LeaveRequestDateRangeComponentModule,
     RequestListFilterComponentModule,
     BaseFormComponentModule,
+    PolymorpheusModule,
   ],
   providers: [MyLeaveService],
 })

@@ -9,7 +9,6 @@ import { LeaveStatus } from '../../../../enums/status';
 import { AdminEntitlementService } from '../../../../services/admin-entitlement.service';
 import { AdminPeriodService } from '../../../../services/admin-period.service';
 import { CreateLeavePeriodComponent } from '../../dialog/create-leave-period/create-leave-period.component';
-import { EditLeaveEntitlementComponent } from '../../dialog/edit/edit-leave-entitlement/edit-leave-entitlement.component';
 import { EditLeavePeriodComponent } from '../../dialog/edit/edit-leave-period/edit-leave-period.component';
 
 @Component({

@@ -24,6 +24,7 @@
       "@nexthcm/admin-leave-level-approve": ["libs/admin/leave-level-approve/src/index.ts"],
       "@nexthcm/admin-leave-types": ["libs/admin/leave-types/src/index.ts"],
       "@nexthcm/admin-offices": ["libs/admin/offices/src/index.ts"],
+      "@nexthcm/admin-period": ["libs/admin/period/src/index.ts"],
       "@nexthcm/admin-permissions": ["libs/admin/permissions/src/index.ts"],
       "@nexthcm/admin-seat-maps": ["libs/admin/seat-maps/src/index.ts"],
       "@nexthcm/admin-team-building-allowance": ["libs/admin/team-building-allowance/src/index.ts"],

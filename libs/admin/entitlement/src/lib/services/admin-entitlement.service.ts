@@ -1,76 +1,82 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ACCOUNT_API_PATH, BaseResponse, MY_TIME_API_PATH, Pagination, PagingResponse, UserDto } from '@nexthcm/cdk';
+import { ACCOUNT_API_PATH, JobTitle, MY_TIME_API_PATH, PagingResponse, UserDto } from '@nexthcm/cdk';
+import { RxState } from '@rx-angular/state';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { LeaveEntitlement, ResLeaveEntitlement } from '../models/leave-entitlement';
+import { LeaveEntitlement, LeaveType, Org } from '../models/leave-entitlement';
+import { LeavePeriod } from '../models/leave-period';
 
-@Injectable({
-  providedIn: 'root',
-})
-export class AdminEntitlementService {
-  constructor(private http: HttpClient) {}
+interface ServiceState {
+  jobTitles: JobTitle[];
+  leaveTypes: LeaveType[];
+  leavePeriod: LeavePeriod[];
+  org: Org[];
+  emp: UserDto[];
+}
 
-  getJobTitles(params: { [key: string]: number }): Observable<Pagination<any>> {
+@Injectable()
+export class AdminEntitlementService extends RxState<ServiceState> {
+  constructor(private http: HttpClient) {
+    super();
+    this.connect('jobTitles', this.getJobTitles());
+    this.connect('leaveTypes', this.getLeaveTypes());
+    this.connect('leavePeriod', this.getPeriods());
+    this.connect('org', this.getOrgs());
+    this.connect('emp', this.getUserSameOrgAndChildOrg());
+  }
+
+  getJobTitles(): Observable<JobTitle[]> {
     return this.http
-      .get<PagingResponse<any>>('/accountapp/v1.0/titles', { params })
-      .pipe(map((response) => response.data));
+      .get<PagingResponse<JobTitle>>(`/accountapp/v1.0/titles`, { params: new HttpParams().set('size', 999) })
+      .pipe(map((response) => response.data.items));
   }
 
-  getLeaveTypes(params: { [key: string]: number }): Observable<Pagination<any>> {
+  getLeaveTypes(): Observable<LeaveType[]> {
     return this.http
-      .get<PagingResponse<any>>(`${MY_TIME_API_PATH}/leaveTypes`, { params })
-      .pipe(map((response) => response.data));
+      .get<PagingResponse<LeaveType>>(`${MY_TIME_API_PATH}/leaveTypes`, { params: new HttpParams().set('size', 999) })
+      .pipe(map((response) => response.data.items));
   }
 
-  getPeriods(params: { [key: string]: number }): Observable<Pagination<any>> {
+  getPeriods(): Observable<LeavePeriod[]> {
     return this.http
-      .get<PagingResponse<any>>(`${MY_TIME_API_PATH}/leave-periods`, { params })
-      .pipe(map((response) => response.data));
+      .get<PagingResponse<LeavePeriod>>(`${MY_TIME_API_PATH}/leave-periods`, {
+        params: new HttpParams().set('size', 999),
+      })
+      .pipe(map((response) => response.data.items));
   }
 
-  getOrgs(params: { [key: string]: number }): Observable<Pagination<any>> {
+  getOrgs(): Observable<Org[]> {
     return this.http
-      .get<PagingResponse<any>>(`${ACCOUNT_API_PATH}/orgs/v2`, { params })
-      .pipe(map((response) => response.data));
+      .get<PagingResponse<Org>>(`${ACCOUNT_API_PATH}/orgs/v2`, { params: new HttpParams().set('size', 999) })
+      .pipe(map((response) => response.data.items ));
   }
 
-  getUserSameOrgAndChildOrg(params: { [key: string]: number }): Observable<Array<UserDto>> {
+  getUserSameOrgAndChildOrg(): Observable<UserDto[]> {
     return this.http
-      .get<BaseResponse<Array<UserDto>>>(`${ACCOUNT_API_PATH}/users/get-user-same-org-and-child-org`, { params })
-      .pipe(map((response) => response.data));
+      .get<PagingResponse<UserDto>>(`${ACCOUNT_API_PATH}/users/get-user-same-org-and-child-org`, {
+        params: new HttpParams().set('size', 999),
+      })
+      .pipe(map((response) => response.data.items));
   }
 
-  getAdminEntitlements(pageIndex: number, pageSize: number): Observable<PagingResponse<LeaveEntitlement>> {
-    const httpParams = new HttpParams();
-    return this.http.get<PagingResponse<LeaveEntitlement>>(`${MY_TIME_API_PATH}/leave-entitlements/`, {
-      params: httpParams
-        .set('page', pageIndex ? pageIndex.toString() : '')
-        .set('size', pageSize ? pageSize.toString() : ''),
-    });
+  getAdminEntitlements(params: HttpParams): Observable<PagingResponse<LeaveEntitlement>> {
+    return this.http.get<PagingResponse<LeaveEntitlement>>(`${MY_TIME_API_PATH}/leave-entitlements/`, { params });
   }
 
-  getAdminEntitlementId(id: LeaveEntitlement | string): Observable<ResLeaveEntitlement> {
-    if (id === undefined || id === '') {
-      return this.http.get<ResLeaveEntitlement>(`${MY_TIME_API_PATH}/leave-entitlements/`, {});
-    } else {
-      return this.http.get<ResLeaveEntitlement>(`${MY_TIME_API_PATH}/leave-entitlements/${id}`, {});
-    }
-  }
-
-  createAdminEntitlementOrg(body: any): Observable<LeaveEntitlement> {
+  createAdminEntitlementOrg(body: LeaveEntitlement): Observable<LeaveEntitlement> {
     return this.http.post<LeaveEntitlement>(`${MY_TIME_API_PATH}/leave-entitlements`, body);
   }
 
-  createAdminEntitlementEmp(body: any): Observable<LeaveEntitlement> {
+  createAdminEntitlementEmp(body: LeaveEntitlement): Observable<LeaveEntitlement> {
     return this.http.post<LeaveEntitlement>(`${MY_TIME_API_PATH}/leave-entitlements`, body);
   }
 
-  editAdminEntitlementId(id: LeaveEntitlement | string, body: any): Observable<LeaveEntitlement> {
-    return this.http.put<LeaveEntitlement>(`${MY_TIME_API_PATH}/leave-entitlements/${id}`, body);
+  editAdminEntitlement(body: LeaveEntitlement): Observable<LeaveEntitlement> {
+    return this.http.put<LeaveEntitlement>(`${MY_TIME_API_PATH}/leave-entitlements/${body.id}`, body);
   }
 
-  deleteAdminEntitlementId(id: string): Observable<LeaveEntitlement> {
+  deleteAdminEntitlement(id: string): Observable<LeaveEntitlement> {
     return this.http.delete<LeaveEntitlement>(`${MY_TIME_API_PATH}/leave-entitlements/${id}`);
   }
 }

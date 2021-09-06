@@ -457,6 +457,7 @@
   "branchManagement": "Quản lý chi nhánh",
   "departmentManagement": "Quản lý phòng ban",
   "entitlementManagement": "Quản lý quyền lợi",
+  "periodManagement": "Quản lý khoảng thời gian",
   "leaveTypeManagement": "Quản lý phân loại nghỉ phép",
   "workingTimeManagement": "Quản lý thời gian làm việc",
   "leaveLevelApprove": "Quản lý cấp độ nghỉ phép",

@@ -1,37 +1,30 @@
-import { HttpParams } from '@angular/common/http';
-import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
-import { Pagination, PromptService } from '@nexthcm/cdk';
-import { FormBuilder } from '@ngneat/reactive-forms';
+import { ChangeDetectionStrategy, Component, Injector, ViewChild } from '@angular/core';
+import { AbstractServerPaginationTableComponent, Pagination, PromptService } from '@nexthcm/cdk';
 import { TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
-import { TuiDestroyService } from '@taiga-ui/cdk';
-import { BaseComponent, Columns, Config, DefaultConfig } from 'ngx-easy-table';
-import { BehaviorSubject, from, Observable } from 'rxjs';
+import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
+import { TuiDialogService } from '@taiga-ui/core';
+import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
+import { BaseComponent, Columns } from 'ngx-easy-table';
+import { from, Observable } from 'rxjs';
 import { catchError, filter, map, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { UpsertLeaveLevelApproveDialogComponent } from '../../../../../leave-level-approve/src/lib/components/upsert-leave-level-approve/upsert-leave-level-approve-dialog.component';
+import { LevelApprove } from '../../../../../leave-level-approve/src/lib/models/level-approve';
 import { PaidLeaveStatus } from '../../enums/paid-leave-status';
 import { LeaveTypesService } from '../../leave-types.service';
 import { LeaveType } from '../../models/leave-type';
+import { UpsertLeaveTypeComponent } from '../upsert-leave-type/upsert-leave-type.component';
 
 @Component({
   selector: 'hcm-list-leave-type',
   templateUrl: './list-leave-type.component.html',
   styleUrls: ['./list-leave-type.component.scss'],
-  providers: [RxState, TuiDestroyService],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [TuiDestroyService, RxState],
 })
-export class ListLeaveTypeComponent {
+export class ListLeaveTypeComponent extends AbstractServerPaginationTableComponent<LeaveType> {
   @ViewChild('table') table!: BaseComponent;
   readonly PaidLeaveStatus = PaidLeaveStatus;
-  readonly loading$ = this.state.$.pipe(map((value) => !value));
-  readonly data$ = this.state.select('items');
-  readonly total$ = this.state.select('totalElements');
-  configuration: Config = {
-    ...DefaultConfig,
-    checkboxes: false,
-    paginationEnabled: false,
-    paginationRangeEnabled: false,
-    fixedColumnWidth: false,
-  };
   columns$: Observable<Columns[]> = this.translocoService
     .selectTranslateObject('ADMIN_LEAVE_TYPES.LEAVE_TYPES_COLUMNS')
     .pipe(
@@ -43,66 +36,82 @@ export class ListLeaveTypeComponent {
         { key: 'operations', title: result.operations },
       ])
     );
-  leaveTypes!: LeaveType[];
 
-  private readonly queryParams$ = new BehaviorSubject(new HttpParams().set('page', 0).set('size', 10));
   private readonly request$ = this.queryParams$.pipe(
     switchMap(() => this.leaveTypeService.getLeaveTypes(this.queryParams$.value)),
     map((res) => res.data)
   );
+  readonly loading$ = this.request$.pipe(map((value) => !value));
 
   constructor(
+    public state: RxState<Pagination<LeaveType>>,
     private leaveTypeService: LeaveTypesService,
-    private formBuilder: FormBuilder,
-    private state: RxState<Pagination<LeaveType>>,
     private destroy$: TuiDestroyService,
+    private dialogService: TuiDialogService,
+    private injector: Injector,
     private translocoService: TranslocoService,
     private promptService: PromptService
   ) {
-    state.connect(this.request$);
+    super(state);
+    state.connect(this.request$.pipe(filter(isPresent)));
   }
 
-  readonly item = (item: LeaveType) => item;
-
-  tableEventEmitted(tableEvent: { event: string; value: any }): void {
-    if (tableEvent.event === 'onOrder') {
-      this.queryParams$.next(this.queryParams$.value.set('sort', `${tableEvent.value.key},${tableEvent.value.order}`));
-    }
-  }
-
-  onSize(size: number): void {
-    this.queryParams$.next(this.queryParams$.value.set('size', size.toString()));
-  }
-
-  onPage(page: number): void {
-    this.queryParams$.next(this.queryParams$.value.set('page', page.toString()));
-  }
-
-  delete(id: string): void {
-    if (!id) {
-      console.error(`Id = ${id}, cannot delete`);
-    }
-    // if (id) {
-    from(
-      this.promptService.open({
-        icon: 'question',
-        html: this.translocoService.translate('ADMIN_LEAVE_TYPES.MESSAGES.deleteLeaveType'),
-        showCancelButton: true,
-      })
-    )
+  onAddLeaveLevel(): void {
+    this.openDialog('addLeaveLevelApprove')
       .pipe(
-        filter((result) => result.isConfirmed),
-        switchMap(() =>
-          this.leaveTypeService.delete(id).pipe(tap(() => this.queryParams$.next(this.queryParams$.value)))
-        ),
-        catchError((err) =>
-          this.promptService.open({
-            icon: 'error',
-            html: this.translocoService.translate(`ERRORS.${err.error.message}`),
-          })
-        ),
+        switchMap((data) => this.leaveTypeService.createLeaveType(data)),
         takeUntil(this.destroy$)
       )
-      .subscribe();
+      .subscribe(
+        this.promptService.handleResponse('addLeaveLevelApproveSuccessfully', () =>
+          this.queryParams$.next(this.queryParams$.value)
+        )
+      );
+  }
+
+  onRemoveLeaveLevel(id: string): void {
+    if (id) {
+      from(
+        this.promptService.open({
+          icon: 'question',
+          html: this.translocoService.translate('deleteLeaveLevelApprove'),
+          showCancelButton: true,
+        })
+      )
+        .pipe(
+          filter((result) => result.isConfirmed),
+          switchMap(() => this.leaveTypeService.delete(id)),
+          takeUntil(this.destroy$)
+        )
+        .subscribe(
+          this.promptService.handleResponse('removeEmployeeSuccessfully', () =>
+            this.queryParams$.next(this.queryParams$.value)
+          )
+        );
+    }
+  }
+
+  onEditLeaveLevelApprove(leaveType: LeaveType): void {
+    this.openDialog('editLeaveLevelApprove', leaveType)
+      .pipe(
+        switchMap((data) => this.leaveTypeService.editLeaveType(data)),
+        takeUntil(this.destroy$)
+      )
+      .subscribe(
+        this.promptService.handleResponse('updateLeaveLevelApproveSuccessfully', () =>
+          this.queryParams$.next(this.queryParams$.value)
+        )
+      );
+  }
+
+  private openDialog(label: string, data?: LeaveType): Observable<LeaveType> {
+    return this.dialogService.open<LeaveType>(
+      new PolymorpheusComponent(UpsertLeaveTypeComponent, this.injector),
+      {
+        label: this.translocoService.translate(label),
+        size: 'l',
+        data,
+      }
+    );
   }
 }

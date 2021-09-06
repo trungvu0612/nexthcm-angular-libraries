@@ -10,6 +10,7 @@ import { TuiTablePaginationModule } from '@taiga-ui/addon-table';
 import { TuiLetModule } from '@taiga-ui/cdk';
 import { TuiButtonModule, TuiLabelModule, TuiLoaderModule, TuiSvgModule } from '@taiga-ui/core';
 import { TuiCheckboxModule, TuiTabsModule } from '@taiga-ui/kit';
+import { PolymorpheusModule } from '@tinkoff/ng-polymorpheus';
 import { academicCap, HeroIconModule, identification, informationCircle } from 'ng-heroicon';
 import { TableModule } from 'ngx-easy-table';
 import { NgxPermissionsGuard } from 'ngx-permissions';
@@ -63,6 +64,7 @@ export const ADMIN_EMPLOYEE_ROUTES: Routes = [
     LayoutModule,
     TuiLetModule,
     InputFilterComponentModule,
+    PolymorpheusModule,
   ],
   declarations: [
     EditEmployeeComponent,

@@ -1,9 +1,10 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef } from '@angular/core';
 import { FieldType } from '@ngx-formly/core';
-import { TUI_DEFAULT_IDENTITY_MATCHER } from '@taiga-ui/cdk';
-import { TuiIdentityMatcher } from '@taiga-ui/cdk/types';
-import { Observable, Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, startWith, switchMap } from 'rxjs/operators';
+import { isNativeFocused, isPresent, TUI_DEFAULT_IDENTITY_MATCHER, TuiContextWithImplicit } from '@taiga-ui/cdk';
+import { TuiStringHandler } from '@taiga-ui/cdk/types';
+import { TuiValueContentContext } from '@taiga-ui/core';
+import { Observable, of, Subject } from 'rxjs';
+import { catchError, debounceTime, distinctUntilChanged, filter, map, startWith, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'formly-combo-box',
@@ -16,32 +17,30 @@ export class ComboBoxComponent extends FieldType {
     templateOptions: {
       textfieldSize: 'l',
       labelProp: 'name',
-      imageProp: 'image',
-      matcherBy: 'default',
+      identityMatcher: TUI_DEFAULT_IDENTITY_MATCHER,
       stringify: (item: any) => item.name,
     },
   };
-  readonly search$ = new Subject<string>();
-  readonly items$: Observable<ReadonlyArray<any> | null> = this.search$.pipe(
-    startWith(''),
-    debounceTime(300),
+  readonly search$ = new Subject<string | null>();
+  readonly items$: Observable<any[] | null> = this.search$.pipe(
+    filter((value) => !!value),
+    debounceTime(500),
     distinctUntilChanged(),
-    switchMap((search) => this.to.serverRequest(search).pipe(startWith(null)) as Observable<ReadonlyArray<any> | null>)
+    switchMap((search) => this.to.serverRequest(search).pipe(startWith(null)) as Observable<any[] | null>),
+    catchError(() => of([])),
+    startWith([])
+  );
+  stringify$: Observable<TuiStringHandler<any>> = this.items$.pipe(
+    filter(isPresent),
+    map((items) => new Map(items.map((item) => [item[this.to.valueProp], item[this.to.labelProp]]))),
+    map(
+      (map) =>
+        ({ $implicit }: TuiContextWithImplicit<any>) =>
+          map.get($implicit) || ''
+    )
   );
 
-  readonly matcher: { [p: string]: TuiIdentityMatcher<unknown> } = {
-    default: TUI_DEFAULT_IDENTITY_MATCHER,
-    id: (i1: any, i2: any) => i1.id === i2.id,
-  };
-
-  constructor() {
-    super();
-  }
-
-  getSubLabel(item: any): string | undefined {
-    return (
-      this.to.subLabelProp &&
-      this.to.subLabelProp.split('.').reduce((acc: any, cur: any) => (acc && acc[cur]) || null, item)
-    );
+  getContext($implicit: any, { nativeElement }: ElementRef<HTMLElement>): TuiValueContentContext<any> {
+    return { $implicit, active: isNativeFocused(nativeElement) };
   }
 }

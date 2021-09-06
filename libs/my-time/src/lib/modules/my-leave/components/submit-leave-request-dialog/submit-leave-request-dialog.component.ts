@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Inject, Injector, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, Injector, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { BaseOption, PromptService } from '@nexthcm/cdk';
 import { FormBuilder } from '@ngneat/reactive-forms';
@@ -6,7 +6,7 @@ import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDay, TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogContext, TuiDialogService } from '@taiga-ui/core';
-import { POLYMORPHEUS_CONTEXT, PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
+import { POLYMORPHEUS_CONTEXT, PolymorpheusComponent, PolymorpheusTemplate } from '@tinkoff/ng-polymorpheus';
 import { endOfDay, getTime } from 'date-fns';
 import { Observable } from 'rxjs';
 import { distinctUntilChanged, filter, map, switchMap, takeUntil, tap } from 'rxjs/operators';
@@ -22,6 +22,9 @@ import { DurationConfirmDialogComponent } from '../duaration-comfirm-dialog/dura
   providers: [TuiDestroyService],
 })
 export class SubmitLeaveRequestDialogComponent implements OnInit {
+  @ViewChild('userContent', { static: true }) userContent!: PolymorpheusTemplate<LeaveSubmit>;
+  readonly userContext!: { $implicit: LeaveSubmit };
+
   timeValues$: Observable<any[]> = this.myLeaveService.getTimeValues();
   halfTimeValues$: Observable<any[]> = this.myLeaveService.getHalfTime();
 
@@ -312,15 +315,16 @@ export class SubmitLeaveRequestDialogComponent implements OnInit {
         {
           className: 'mt-4',
           key: 'sendTo',
-          type: 'select',
+          type: 'combo-box',
           templateOptions: {
-            options: this.myTimeService.select('sendToUsers'),
             labelClassName: 'font-semibold',
-            labelProp: 'username',
-            valueProp: 'id',
             placeholder: 'Send to',
             label: 'Send to',
             textfieldLabelOutside: true,
+            customContent: this.userContent,
+            serverRequest: (searchQuery: string) => this.myLeaveService.searchUsers(searchQuery),
+            labelProp: 'name',
+            matcherBy: 'id'
           },
         },
 

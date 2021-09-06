@@ -9,3 +9,7 @@
     </div>
   </form>
 </tui-loader>
+
+<ng-template #userContent="polymorpheus" [polymorpheus]="userContext" let-user>
+  <b>{{ user.fullName }}</b> ({{ user.username }})
+</ng-template>

@@ -84,6 +84,12 @@ export class SidebarComponent implements OnInit {
       permissions: 'VIEW_ALLOWANCE_TYPE',
     },
     {
+      label: 'periodManagement',
+      link: '/admin/period',
+      icon: 'period',
+      permissions: 'ADMIN', // TODO need fix
+    },
+    {
       label: 'leaveTypeManagement',
       link: '/admin/leave-types',
       icon: 'leave-type',

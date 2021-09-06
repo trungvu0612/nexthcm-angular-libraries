@@ -23,8 +23,8 @@ export class LeaveTypesService {
     return this.httpClient.post<LeaveType>(`${MY_TIME_API_PATH}/leaveTypes`, dto);
   }
 
-  editLeaveType(dto: LeaveType, id: string): Observable<LeaveType> {
-    return this.httpClient.put<LeaveType>(`${MY_TIME_API_PATH}/leaveTypes/${id}`, dto);
+  editLeaveType(dto: LeaveType): Observable<LeaveType> {
+    return this.httpClient.put<LeaveType>(`${MY_TIME_API_PATH}/leaveTypes/${dto.id}`, dto);
   }
 
   delete(id: string): Observable<any> {
