@@ -1,0 +1,12 @@
+POST https://qa-nexthcm-api.banvien.com.vn/accountapp/v1.0/auth
+Content-Type: application/json
+
+{
+  "username": "ban.vien.solutions.admin",
+  "password": "1234567",
+  "rememberMe": false
+}
+
+> {% client.global.set("auth_token", response.body.access_token); %}
+
+

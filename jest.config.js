@@ -29,7 +29,7 @@ module.exports = {
     '<rootDir>/libs/admin/entitlement',
     '<rootDir>/libs/admin/job-titles',
     '<rootDir>/libs/chat',
-    '<rootDir>/libs/admin/leave-types',
+    '<rootDir>/libs/admin/leave-configs',
     '<rootDir>/libs/admin/employee',
     '<rootDir>/libs/admin/user-roles',
     '<rootDir>/libs/admin/working-times',

@@ -36,6 +36,7 @@ export class ListEntitlementComponent extends AbstractServerPaginationTableCompo
     map((res) => res.data)
   );
   readonly loading$ = this.request$.pipe(map((value) => !value));
+  activeItemIndex = 0;
 
   constructor(
     public state: RxState<Pagination<LeaveEntitlement>>,
@@ -51,13 +52,13 @@ export class ListEntitlementComponent extends AbstractServerPaginationTableCompo
   }
 
   onAddLeaveLevel(): void {
-    this.openDialog('addLeaveLevelApprove')
+    this.openDialog('addLeaveEntitlementApprove')
       .pipe(
         switchMap((data) => this.adminEntitlementService.createAdminEntitlementEmp(data)),
         takeUntil(this.destroy$)
       )
       .subscribe(
-        this.promptService.handleResponse('addLeaveLevelApproveSuccessfully', () =>
+        this.promptService.handleResponse('addLeaveEntitlementApproveSuccessfully', () =>
           this.queryParams$.next(this.queryParams$.value)
         )
       );

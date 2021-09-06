@@ -9,7 +9,13 @@ import { FormlyModule } from '@ngx-formly/core';
 import { TuiTableModule, TuiTablePaginationModule } from '@taiga-ui/addon-table';
 import { TuiLetModule } from '@taiga-ui/cdk';
 import { TuiButtonModule, TuiDataListModule, TuiLoaderModule, TuiSvgModule } from '@taiga-ui/core';
-import { TuiDataListWrapperModule, TuiInputMonthModule, TuiMultiSelectModule, TuiTagModule } from '@taiga-ui/kit';
+import {
+  TuiDataListWrapperModule,
+  TuiInputMonthModule,
+  TuiMultiSelectModule,
+  TuiTabsModule,
+  TuiTagModule,
+} from '@taiga-ui/kit';
 import { TableModule } from 'ngx-easy-table';
 import { NgxPermissionsGuard } from 'ngx-permissions';
 import { ListEntitlementComponent } from './pages/list-entitlement/list-entitlement.component';
@@ -50,6 +56,7 @@ export const adminEntitlementRoutes: Route[] = [
     TuiLoaderModule,
     TableModule,
     TranslocoModule,
+    TuiTabsModule,
   ],
   declarations: [ListEntitlementComponent, UpsertEntitlementComponent],
   providers: [AdminEntitlementService],

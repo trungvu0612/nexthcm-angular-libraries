@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { PromptService } from '@nexthcm/cdk';
 import { FormBuilder } from '@ngneat/reactive-forms';
+import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDestroyService, TuiTime } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
@@ -9,7 +10,6 @@ import { endOfDay, getTime } from 'date-fns';
 import { takeUntil, tap } from 'rxjs/operators';
 import { SubmitRequestPayload } from '../../../../models';
 import { MyTimeService, RequestTypeAPIUrlPath } from '../../../../services';
-import { TranslocoService } from '@ngneat/transloco';
 
 @Component({
   selector: 'hcm-submit-working-outside-request-dialog',
@@ -79,13 +79,12 @@ export class SubmitWorkingOutsideRequestDialogComponent {
     {
       key: 'sendTo',
       className: 'tui-form__row block',
-      type: 'select',
+      type: 'user-combo-box',
       templateOptions: {
         translate: true,
         label: 'sendTo',
         labelClassName: 'font-semibold',
         placeholder: 'chooseAPerson',
-        options: this.myTimeService.select('sendToUsers'),
         labelProp: 'username',
         valueProp: 'id'
       }

@@ -9,8 +9,9 @@
     <tui-loader [overlay]="true" [showLoader]="(loading$ | async) === true">
       <ngx-table #table [columns]="(columns$ | async) || []" [configuration]="configuration" [data]="(data$ | async) || []">
         <ng-template let-row>
-          <td>{{ item(row).startDate }}</td>
-          <td>{{ item(row).endDate }}</td>
+          <td>{{ item(row).name }}</td>
+<!--          <td>{{ item(row).startDate }}</td>-->
+<!--          <td>{{ item(row). endDate}}</td>-->
           <td>
             <tui-tag
               [class]="PeriodStatus[item(row).status] + '-tag'"

@@ -1,0 +1,5 @@
+GET https://qa-nexthcm-api.banvien.com.vn/accountapp/v1.0/employees
+Authorization: Bearer {{auth_token}}
+
+
+

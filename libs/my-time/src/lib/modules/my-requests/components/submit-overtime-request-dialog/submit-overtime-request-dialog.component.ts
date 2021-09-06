@@ -88,15 +88,16 @@ export class SubmitOvertimeRequestDialogComponent {
     {
       key: 'sendTo',
       className: 'tui-form__row block',
-      type: 'select',
+      type: 'user-combo-box',
       templateOptions: {
         translate: true,
         label: 'sendTo',
         labelClassName: 'font-semibold',
         placeholder: 'chooseAPerson',
-        options: this.myTimeService.select('sendToUsers'),
-        labelProp: 'username',
+        labelProp: 'name',
         valueProp: 'id',
+        matcherBy: 'id',
+        textfieldLabelOutside: true,
       },
     },
   ];

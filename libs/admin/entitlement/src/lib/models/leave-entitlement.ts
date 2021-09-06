@@ -6,7 +6,7 @@ export interface LeaveEntitlement {
   leaveType?: LeaveType;
   period?: Period;
   employeeId?: string;
-  jobTitle?: JobTitle[];
+  jobTitle?: string[];
   orgId: string;
   org?: Org;
   jobTitleDTOList?: JobTitle[];
@@ -20,7 +20,7 @@ export interface Org {
 }
 
 export interface JobTitle {
-  id?: string;
+  id: string;
 }
 
 export interface LeaveType {
