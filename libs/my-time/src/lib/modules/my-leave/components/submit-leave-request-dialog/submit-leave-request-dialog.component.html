@@ -6,3 +6,7 @@
   [model]="model"
   class="mt-5"
 ></hcm-base-form>
+
+<ng-template #userContent="polymorpheus" [polymorpheus]="userContext" let-user>
+  <b>{{ user.name }}</b> ({{ user.userName }})
+</ng-template>

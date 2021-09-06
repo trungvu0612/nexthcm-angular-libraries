@@ -1,12 +1,12 @@
 import { TuiDay } from '@taiga-ui/cdk';
 
 export interface LeavePeriod {
+  id: string;
   orgId?: string;
   name?: string;
-  startDate?: number;
-  endDate?: number;
-  startDateEdit?: TuiDay | number;
-  endDateEdit?: TuiDay | number;
+  startDate: TuiDay | number;
+  endDate: TuiDay | number;
+  status: number;
 }
 
 export interface ResLeavePeriod {

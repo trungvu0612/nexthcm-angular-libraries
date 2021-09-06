@@ -454,6 +454,7 @@
   "branchManagement": "Branch Management",
   "departmentManagement": "Department Management",
   "entitlementManagement": "Entitlement Management",
+  "periodManagement": "Period Management",
   "leaveTypeManagement": "Leave Type Management",
   "workingTimeManagement": "Working Time Management",
   "leaveLevelApprove": "Level Approve Management",
@@ -853,4 +854,11 @@
   "checkOutSuccessfully": "<b>Check out successfully!</b>",
   "newStatus": "new status",
   "invalidCredential": "The username or password is incorrect."
+  "newStatus": "new status",
+  "ADMIN_PERIOD_MANAGEMENT_COLUMNS": {
+    "startDate": "Start Date",
+    "endDate": "End Date",
+    "status": "Status",
+    "functions": "Functions"
+  }
 }

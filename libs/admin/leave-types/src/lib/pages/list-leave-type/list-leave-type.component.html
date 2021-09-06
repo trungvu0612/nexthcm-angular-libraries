@@ -1,7 +1,7 @@
 <ng-container *transloco="let t">
   <hcm-page [title]="t('ADMIN_LEAVE_TYPES.leaveTypesManagement')">
     <ng-container ngProjectAs="pageHeader">
-      <button class="tui-space_right-3 tui-space_bottom-3" icon="tuiIconPlusLarge" routerLink="add" size="m" tuiButton>
+      <button (click)="onAddLeaveLevel()" class="tui-space_right-3 tui-space_bottom-3" icon="tuiIconPlusLarge" size="m" tuiButton>
         {{ t('ADMIN_LEAVE_TYPES.addLeaveType') }}
       </button>
     </ng-container>
@@ -25,7 +25,7 @@
           <td>
             <div class="flex items-center">
               <button
-                [routerLink]="[item(row).id, 'edit']"
+                (click)="onEditLeaveLevelApprove(item(row))"
                 appearance="flat"
                 class="tui-space_right-3"
                 icon="tuiIconEditLarge"
@@ -34,7 +34,7 @@
                 type="button"
               ></button>
               <button
-                (click)="delete($any(item(row).id))"
+                (click)="onRemoveLeaveLevel($any(item(row).id))"
                 appearance="flat"
                 icon="tuiIconTrashLarge"
                 size="m"

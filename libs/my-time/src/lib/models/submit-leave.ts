@@ -13,22 +13,15 @@ export interface LeaveSubmit {
   fromTo?: TuiDayRange;
   startTime?: TuiDay | number;
   endTime?: TuiDay | number;
-
-  //
   specialTimeTo?: TuiTime | number;
   specialTimeFrom?: TuiTime | number;
   specialTimeTo2?: TuiTime | number;
   specialTimeFrom2?: TuiTime | number;
-
-  //for convert
-  coSpecialTimeTo?: number;
-  coSpecialTimeFrom?: number;
-  coSpecialTimeTo2?: number;
-  coSpecialTimeFrom2?: number;
-
   halfDay?: number;
   halfDay2?: number;
   partialDays?: PartialDayType;
+  name?: string;
+  userName?: string
 }
 
 export interface Body {

@@ -1,40 +1,33 @@
 <tui-combo-box
-  (searchChange)="search$.next($event || '')"
+  (searchChange)="search$.next($event)"
   [formControl]="$any(formControl)"
   [formlyAttributes]="field"
-  [identityMatcher]="matcher[to.matcherBy]"
-  [stringify]="to.stringify"
+  [identityMatcher]="to.identityMatcher"
+  [stringify]="to.valueProp ? (stringify$ | async) : to.stringify"
   [style.maxWidth]="to.maxWidth"
-  [tuiHintContent]="to.description || null"
-  [tuiTextfieldCustomContent]="to.icon || null"
-  [tuiTextfieldExampleText]="to.placeholder || ''"
+  [tuiTextfieldCleaner]="to.textfieldCleaner"
   [tuiTextfieldLabelOutside]="to.textfieldLabelOutside"
   [tuiTextfieldSize]="to.textfieldSize"
-  [valueContent]="content"
 >
   {{ to.textfieldLabelOutside ? to.placeholder : to.label }}
   <span *ngIf="to.required && !to.textfieldLabelOutside" class="tui-required"></span>
-  <ng-template #content let-item> {{ item[to.labelProp] }} </ng-template>
   <ng-template tuiDataList>
     <tui-data-list *ngIf="items$ | async as items; else loading">
       <button
+        #elementRef="elementRef"
+        tuiElement
         *ngFor="let item of items"
         [disabled]="!!item.disabled"
         [value]="to.valueProp ? item[to.valueProp] : item"
         tuiOption
       >
-        <div class="flex items-center gap-2 my-1">
-          <tui-avatar
-            *ngIf="to.showImage"
-            [avatarUrl]="item[to.imageProp] ? to.imagePath + item[to.imageProp] : null"
-            [text]="item[to.labelProp]"
-            class="rounded-full my-1"
-          ></tui-avatar>
-          <div>
-            <p [class.font-semibold]="to.subLabelProp" class="text-base">{{ item[to.labelProp] }}</p>
-            <p class="text-sm font-normal">{{ getSubLabel(item) }}</p>
-          </div>
-        </div>
+        <span
+          [content]="to.customContent || itemContent"
+          [context]="getContext(item, elementRef)"
+          class="content"
+          polymorpheus-outlet
+        ></span>
+        <ng-template #itemContent>{{ item[to.labelProp] }}</ng-template>
       </button>
     </tui-data-list>
   </ng-template>

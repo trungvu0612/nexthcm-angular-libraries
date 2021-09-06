@@ -1,27 +1,21 @@
-
-
-export interface ResLeaveEntitlement {
-  code?: string;
-  data: LeaveEntitlement;
-}
-
 export interface LeaveEntitlement {
-  status?: number;
+  id: string;
+  status: boolean | number;
   statusCov?: boolean;
-  entitlement?: number
-  fromDate?: number;
-  toData?: number;
+  entitlement: number;
   leaveType?: LeaveType;
   period?: Period;
   employeeId?: string;
   jobTitle?: JobTitle[];
-  orgId?: string;
+  orgId: string;
   org?: Org;
   jobTitleDTOList?: JobTitle[];
+  fromDate: number;
+  toDate: number;
 }
 
 export interface Org {
-  orgId?: string;
+  orgId: string;
   name?: string;
 }
 
@@ -30,9 +24,11 @@ export interface JobTitle {
 }
 
 export interface LeaveType {
-  id?: string;
+  id: string;
+  name: string;
 }
 
 export interface Period {
-  id?: string;
+  id: string;
+  name: string;
 }

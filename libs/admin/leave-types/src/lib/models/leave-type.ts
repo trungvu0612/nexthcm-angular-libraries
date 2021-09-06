@@ -1,7 +1,7 @@
 import { Process } from './process';
 
 export interface LeaveType {
-  id?: string;
+  id: string;
   orgId?: string;
   name?: string | undefined;
   description?: string;

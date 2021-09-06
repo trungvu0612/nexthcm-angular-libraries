@@ -10,8 +10,8 @@ import {
   PagingResponse,
 } from '@nexthcm/cdk';
 import { RxState } from '@rx-angular/state';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 
 interface AdminEmployeeState {
   organizations: BaseObject[];
@@ -65,8 +65,10 @@ export class AdminEmployeeService extends RxState<AdminEmployeeState> {
   }
 
   searchUsers(searchQuery: string): Observable<BaseObject[]> {
-    return this.http.get<BaseResponse<BaseObject[]>>(`${ACCOUNT_API_PATH}/users/v2?search=${searchQuery}`)
-      .pipe(map((res) => res.data));
+    return this.http.get<BaseResponse<BaseObject[]>>(`${ACCOUNT_API_PATH}/users/v2?search=${searchQuery}`).pipe(
+      map((res) => res.data),
+      catchError(() => of([]))
+    );
   }
 
   getJobLevels(): Observable<PagingResponse<BaseObject>> {

@@ -1,11 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AuthService } from '@nexthcm/auth';
-import { ACCOUNT_API_PATH, BaseResponse, MY_TIME_API_PATH, PagingResponse } from '@nexthcm/cdk';
+import { ACCOUNT_API_PATH, BaseObject, BaseResponse, MY_TIME_API_PATH, PagingResponse } from '@nexthcm/cdk';
 import { RxState } from '@rx-angular/state';
 import { TuiTime } from '@taiga-ui/cdk';
 import { Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import { DurationHoldsEnum, HalfDaysEnum, PartialDay } from '../enums';
 import {
   DurationValues,
@@ -250,8 +250,11 @@ export class MyLeaveService extends RxState<MyLeaveState> {
       .pipe(map((res) => res.data));
   }
 
-  getSendToUsers(): Observable<PagingResponse<SentToUser>> {
-    return this.http.get<PagingResponse<SentToUser>>(`${ACCOUNT_API_PATH}/users`);
+  searchUsers(searchQuery: string): Observable<BaseObject[]> {
+    return this.http.get<BaseResponse<BaseObject[]>>(`${ACCOUNT_API_PATH}/users/v2?search=${searchQuery}`).pipe(
+      map((res) => res.data),
+      catchError(() => of([]))
+    );
   }
 
   createLeave(body: SubmitLeavePayLoad): Observable<unknown> {

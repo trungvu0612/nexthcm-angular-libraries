@@ -1,18 +1,43 @@
 <main class="main-page">
+  <header *transloco="let t">
+    <h1>{{ t('leaveEntitlementManagement') }}</h1>
+    <button (click)="onAddLeaveLevel()" class="tui-space_right-3 tui-space_bottom-3" size="m" tuiButton>
+      {{ t('addNewLeaveEntitlement') }}
+    </button>
+  </header>
   <section class="main-section">
-    <article>
-      <tui-tabs [(activeItemIndex)]="activeItemIndex">
-        <button tuiRipple="var(--tui-text-01)" tuiTab>Leave Entitlement</button>
-        <button tuiRipple="var(--tui-text-01)" tuiTab>Leave Period</button>
-      </tui-tabs>
-      <ng-container [ngSwitch]="activeItemIndex">
-        <ng-container *ngSwitchCase="0">
-          <hcm-table-overview-entitlement></hcm-table-overview-entitlement>
-        </ng-container>
-        <ng-container *ngSwitchCase="1">
-          <hcm-table-leave-period></hcm-table-leave-period>
-        </ng-container>
-      </ng-container>
-    </article>
+    <tui-loader [overlay]="true" [showLoader]="(loading$ | async) === true">
+      <ngx-table #table [columns]="(columns$ | async) || []" [configuration]="configuration" [data]="(data$ | async) || []">
+        <ng-template let-row>
+          <td>{{ item(row).period?.name}}</td>
+          <td>{{ item(row).leaveType?.name}}</td>
+          <td>{{ item(row).entitlement}}</td>
+          <td>
+            <div class="flex items-center">
+              <button
+                (click)="onEditLeaveLevelApprove(item(row))"
+                appearance="flat"
+                class="tui-space_right-3"
+                icon="tuiIconEditLarge"
+                size="m"
+                tuiIconButton
+              ></button>
+              <button
+                (click)="onRemoveLeaveLevel(item(row).id)"
+                appearance="flat"
+                icon="tuiIconTrashLarge"
+                size="m"
+                tuiIconButton
+              ></button>
+            </div>
+          </td>
+        </ng-template>
+      </ngx-table>
+    </tui-loader>
+    <tui-table-pagination
+      (pageChange)="onPage($event)"
+      (sizeChange)="onSize($event)"
+      [total]="(total$ | async) || 0"
+    ></tui-table-pagination>
   </section>
 </main>

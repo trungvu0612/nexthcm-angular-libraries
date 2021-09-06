@@ -1,11 +1,10 @@
-<main class="main-page bg-white">
-  <form (ngSubmit)="submit()" [formGroup]="$any(form)" class="max-w-4xl mx-auto">
-    <formly-form
-      [fields]="fields"
-      [form]="$any(form)"
-      [model]="model"
-      class="col-6 border-start border-end"
-    ></formly-form>
-    <button class="cancel blue-button mt-5">Submit</button>
-  </form>
-</main>
+<form (ngSubmit)="onSubmit()" [formGroup]="$any(form)">
+  <formly-form [fields]="fields" [form]="$any(form)" [model]="model"></formly-form>
+  <div *transloco="let t" class="tui-form__buttons">
+    <button class="tui-form__button" size="l" tuiButton>{{ t('save') }}</button>
+    <button (click)="onCancel()" appearance="flat" class="tui-form__button" size="l" tuiButton type="button">
+      {{ t('cancel') }}
+    </button>
+  </div>
+</form>
+

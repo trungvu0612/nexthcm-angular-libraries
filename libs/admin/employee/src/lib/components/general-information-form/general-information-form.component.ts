@@ -1,5 +1,4 @@
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { EmployeeGeneralInformation, EmployeesService, UploadFileService } from '@nexthcm/cdk';
 import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
@@ -8,6 +7,8 @@ import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { of } from 'rxjs';
 import { distinctUntilChanged, map, startWith, switchMap, tap } from 'rxjs/operators';
 import { AdminEmployeeService } from '../../services/admin-employee.service';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { PolymorpheusTemplate } from '@tinkoff/ng-polymorpheus';
 
 @Component({
   selector: 'hcm-general-information-form',
@@ -16,9 +17,10 @@ import { AdminEmployeeService } from '../../services/admin-employee.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GeneralInformationFormComponent {
+  @ViewChild('userContent', { static: true }) userContent!: PolymorpheusTemplate<EmployeeGeneralInformation>;
   @Output() submitted = new EventEmitter<EmployeeGeneralInformation>();
   @Output() cancel = new EventEmitter();
-
+  readonly userContext!: { $implicit: EmployeeGeneralInformation };
   form: FormGroup<EmployeeGeneralInformation> = this.fb.group({} as EmployeeGeneralInformation);
   model = {} as EmployeeGeneralInformation;
   options: FormlyFormOptions = {
@@ -190,17 +192,18 @@ export class GeneralInformationFormComponent {
             {
               key: 'directReport',
               className: 'tui-form__row block',
-              type: 'select-search',
+              type: 'combo-box',
               templateOptions: {
                 translate: true,
                 required: true,
                 label: 'directReport',
                 labelClassName: 'font-semibold',
                 placeholder: 'chooseDirectReport',
+                customContent: this.userContent,
                 serverRequest: (searchQuery: string) => this.adminEmployeeService.searchUsers(searchQuery),
                 labelProp: 'name',
-                matcherBy: 'id',
-              },
+                matcherBy: 'id'
+              }
             },
           ],
         },
@@ -209,8 +212,8 @@ export class GeneralInformationFormComponent {
   ];
   private readonly request$ = this.activatedRoute.snapshot.params.employeeId
     ? this.employeesService
-        .getEmployeeGeneralInformation(this.activatedRoute.snapshot.params.employeeId)
-        .pipe(tap((data) => (this.model = { ...this.model, ...data })))
+      .getEmployeeGeneralInformation(this.activatedRoute.snapshot.params.employeeId)
+      .pipe(tap((data) => (this.model = { ...this.model, ...data })))
     : of({});
   readonly loading$ = this.request$.pipe(map((value) => !value));
 

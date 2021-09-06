@@ -452,6 +452,44 @@
         }
       }
     },
+    "admin-period": {
+      "projectType": "library",
+      "root": "libs/admin/period",
+      "sourceRoot": "libs/admin/period/src",
+      "prefix": "hcm",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/angular:package",
+          "outputs": ["dist/libs/admin/period"],
+          "options": {
+            "project": "libs/admin/period/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "libs/admin/period/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "libs/admin/period/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/admin/period"],
+          "options": {
+            "jestConfig": "libs/admin/period/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/admin/period/src/**/*.ts", "libs/admin/period/src/**/*.html"]
+          }
+        }
+      }
+    },
     "admin-permissions": {
       "projectType": "library",
       "root": "libs/admin/permissions",

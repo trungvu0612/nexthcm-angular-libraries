@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormlyModule } from '@ngx-formly/core';
-import { TuiLetModule } from '@taiga-ui/cdk';
+import { TuiElementModule, TuiLetModule } from '@taiga-ui/cdk';
 import {
   TuiDataListModule,
   TuiHintControllerModule,
@@ -10,7 +10,7 @@ import {
   TuiLoaderModule,
   TuiTextfieldControllerModule,
 } from '@taiga-ui/core';
-import { TuiAvatarModule, TuiComboBoxModule } from '@taiga-ui/kit';
+import { TuiAvatarModule, TuiComboBoxModule, TuiMultiSelectModule } from '@taiga-ui/kit';
 import { PolymorpheusModule } from '@tinkoff/ng-polymorpheus';
 import { FormFieldModule } from '../form-field/form-field.module';
 import { ComboBoxComponent } from './combo-box/combo-box.component';
@@ -33,6 +33,8 @@ import { ComboBoxComponent } from './combo-box/combo-box.component';
     }),
     PolymorpheusModule,
     FormFieldModule,
+    TuiElementModule,
+    TuiMultiSelectModule,
   ],
 })
 export class ComboBoxModule {}

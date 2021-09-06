@@ -4,26 +4,17 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { Route, RouterModule } from '@angular/router';
 import { SelectOptionsModule } from '@nexthcm/cdk';
 import { LayoutComponent } from '@nexthcm/ui';
+import { TranslocoModule } from '@ngneat/transloco';
 import { FormlyModule } from '@ngx-formly/core';
 import { TuiTableModule, TuiTablePaginationModule } from '@taiga-ui/addon-table';
 import { TuiLetModule } from '@taiga-ui/cdk';
-import { TuiButtonModule, TuiDataListModule, TuiSvgModule } from '@taiga-ui/core';
-import {
-  TuiDataListWrapperModule,
-  TuiInputMonthModule,
-  TuiMultiSelectModule,
-  TuiTabsModule,
-  TuiTagModule,
-} from '@taiga-ui/kit';
+import { TuiButtonModule, TuiDataListModule, TuiLoaderModule, TuiSvgModule } from '@taiga-ui/core';
+import { TuiDataListWrapperModule, TuiInputMonthModule, TuiMultiSelectModule, TuiTagModule } from '@taiga-ui/kit';
+import { TableModule } from 'ngx-easy-table';
 import { NgxPermissionsGuard } from 'ngx-permissions';
-import { CreateLeaveEntitlementComponent } from './pages/list-entitlement/dialog/create-leave-entitlement/create-leave-entitlement.component';
-import { CreateLeavePeriodComponent } from './pages/list-entitlement/dialog/create-leave-period/create-leave-period.component';
-import { EditLeaveEntitlementComponent } from './pages/list-entitlement/dialog/edit/edit-leave-entitlement/edit-leave-entitlement.component';
-import { EditLeavePeriodComponent } from './pages/list-entitlement/dialog/edit/edit-leave-period/edit-leave-period.component';
 import { ListEntitlementComponent } from './pages/list-entitlement/list-entitlement.component';
-import { TableLeavePeriodComponent } from './pages/list-entitlement/tab/table-leave-period/table-leave-period.component';
-import { TableOverviewComponent } from './pages/list-entitlement/tab/table-overview/table-overview.component';
 import { UpsertEntitlementComponent } from './pages/upsert-entitlement/upsert-entitlement.component';
+import { AdminEntitlementService } from './services/admin-entitlement.service';
 
 export const adminEntitlementRoutes: Route[] = [
   {
@@ -34,7 +25,7 @@ export const adminEntitlementRoutes: Route[] = [
     data: { permissions: { only: 'ADMIN', redirectTo: '/' } },
     children: [
       { path: '', component: ListEntitlementComponent },
-      { path: 'period', component: ListEntitlementComponent },
+      // { path: 'period', component: ListEntitlementComponent },
     ],
   },
 ];
@@ -47,7 +38,6 @@ export const adminEntitlementRoutes: Route[] = [
     TuiTableModule,
     TuiTablePaginationModule,
     TuiSvgModule,
-    TuiTabsModule,
     TuiInputMonthModule,
     TuiTagModule,
     TuiButtonModule,
@@ -57,17 +47,11 @@ export const adminEntitlementRoutes: Route[] = [
     TuiDataListModule,
     TuiLetModule,
     SelectOptionsModule,
+    TuiLoaderModule,
+    TableModule,
+    TranslocoModule,
   ],
-  declarations: [
-    ListEntitlementComponent,
-    UpsertEntitlementComponent,
-    TableOverviewComponent,
-    TableLeavePeriodComponent,
-    CreateLeaveEntitlementComponent,
-    CreateLeavePeriodComponent,
-    EditLeavePeriodComponent,
-    EditLeaveEntitlementComponent,
-  ],
-  providers: [],
+  declarations: [ListEntitlementComponent, UpsertEntitlementComponent],
+  providers: [AdminEntitlementService],
 })
 export class AdminEntitlementModule {}
