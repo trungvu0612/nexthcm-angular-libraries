@@ -45,6 +45,9 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
     totalWorkingHour: new FormControl(),
     lunchHours: new FormControl(),
     fingerPrint: new FormControl(true),
+    startTimeInWorkingDay: new FormControl(),
+    endTimeInWorkingDay: new FormControl(),
+    ingerPrint: new FormControl(),
     timePayroll: new FormControl(true),
     timePaidLeave: new FormControl(false),
   });
@@ -499,6 +502,26 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
       },
     },
     {
+      key: 'startTimeInWorkingDay',
+      type: 'input-time',
+      templateOptions: {
+        label: 'The time is start working time',
+        textfieldLabelOutside: true,
+        required: true,
+        placeholder: 'Start working time',
+      },
+    },
+    {
+      key: 'endTimeInWorkingDay',
+      type: 'input-time',
+      templateOptions: {
+        label: 'The time is  end working time',
+        textfieldLabelOutside: true,
+        required: true,
+        placeholder: 'End working time',
+      },
+    },
+    {
       className: 'block mb-5',
       key: 'timePayroll',
       type: 'checkbox-labeled',
@@ -638,6 +661,14 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
             Number(secondsToTime(formModel.totalWorkingHour).h),
             Number(secondsToTime(formModel.totalWorkingHour).m)
           ),
+          startTimeInWorkingDay: new TuiTime(
+            Number(secondsToTime(formModel.startTimeInWorkingDay).h),
+            Number(secondsToTime(formModel.startTimeInWorkingDay).m)
+          ),
+          endTimeInWorkingDay: new TuiTime(
+            Number(secondsToTime(formModel.endTimeInWorkingDay).h),
+            Number(secondsToTime(formModel.endTimeInWorkingDay).m)
+          ),
           fingerPrint: formModel.fingerPrint,
           timePayroll: formModel.timePayroll,
           timePaidLeave: formModel.timePaidLeave,
@@ -715,6 +746,8 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
       workingHour: (formModel?.workingHour as TuiTime).toAbsoluteMilliseconds().valueOf() / 1000,
       lunchHours: (formModel?.lunchHours as TuiTime).toAbsoluteMilliseconds().valueOf() / 1000,
       totalWorkingHour: (formModel?.totalWorkingHour as TuiTime).toAbsoluteMilliseconds().valueOf() / 1000,
+      startTimeInWorkingDay: (formModel?.startTimeInWorkingDay as TuiTime).toAbsoluteMilliseconds().valueOf() / 1000,
+      endTimeInWorkingDay: (formModel?.endTimeInWorkingDay as TuiTime).toAbsoluteMilliseconds().valueOf() / 1000,
       fingerPrint: formModel.fingerPrint,
       timePayroll: formModel.timePayroll,
       timePaidLeave: formModel.timePaidLeave,

@@ -1,16 +1,17 @@
-import { ChangeDetectionStrategy, Component, ElementRef, HostListener, ViewChild } from '@angular/core';
-import { PromptService, UserDto } from '@nexthcm/cdk';
+import { ChangeDetectionStrategy, Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
+import { BaseUser, PromptService, UserDto } from '@nexthcm/cdk';
 import { FormGroup } from '@ngneat/reactive-forms';
 import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { RxState } from '@rx-angular/state';
 import { TuiDialogContext, TuiDialogService } from '@taiga-ui/core';
-import { PolymorpheusContent } from '@tinkoff/ng-polymorpheus';
+import { PolymorpheusContent, PolymorpheusTemplate } from '@tinkoff/ng-polymorpheus';
 import { from, iif, of, Subscriber } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { SweetAlertOptions } from 'sweetalert2';
 import { OrganizationalUnit, OrganizationalUnitForm } from '../../models/tenant';
 import { AdminTenantService } from '../../services/admin-tenant.service';
+import { TuiDestroyService } from '@taiga-ui/cdk';
 
 interface State {
   users: Partial<UserDto>[];
@@ -26,9 +27,11 @@ interface State {
   templateUrl: './organizational-chart.component.html',
   styleUrls: ['./organizational-chart.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [RxState],
+  providers: [RxState, TuiDestroyService]
 })
-export class OrganizationalChartComponent {
+export class OrganizationalChartComponent implements OnInit {
+  @ViewChild('userContent', { static: true }) userContent!: PolymorpheusTemplate<OrganizationalUnitForm>;
+  readonly userContext!: { $implicit: BaseUser };
   @ViewChild('scrollbar') scrollbar!: ElementRef;
   canZoom = false;
   hovering: OrganizationalUnit | null = null;
@@ -46,84 +49,13 @@ export class OrganizationalChartComponent {
         'three-quarter': 12 * factor + 'px',
         half: 8 * factor + 'px',
         quarter: 4 * factor + 'px',
-        bar: 0.5 * factor + 'px',
+        bar: 0.5 * factor + 'px'
       };
     })
   );
   readonly form = new FormGroup<Partial<OrganizationalUnitForm>>({});
   model!: Partial<OrganizationalUnitForm>;
-  readonly fields: FormlyFieldConfig[] = [
-    {
-      key: 'orgName',
-      type: 'input',
-      templateOptions: {
-        required: true,
-        translate: true,
-        label: 'name',
-        placeholder: 'enterName',
-        textfieldLabelOutside: true,
-      },
-    },
-    {
-      key: 'orgType',
-      type: 'select',
-      templateOptions: {
-        required: true,
-        translate: true,
-        label: 'organizationalLevel',
-        placeholder: 'chooseOrganizationalLevel',
-        options: this.state.select('levels'),
-      },
-    },
-    {
-      key: 'ancestor',
-      type: 'select',
-      templateOptions: {
-        required: true,
-        translate: true,
-        label: 'parentLevel',
-        placeholder: 'chooseParentLevel',
-        labelProp: 'orgName',
-        subLabelProp: 'orgType',
-        matcherBy: 'id',
-      },
-      expressionProperties: { 'templateOptions.disabled': '!model.orgType' },
-      hideExpression: 'model.id',
-      hooks: {
-        onInit: (field?: FormlyFieldConfig) => {
-          if (field?.templateOptions) {
-            field.templateOptions.options = this.form.controls.orgType?.valueChanges.pipe(
-              switchMap((orgType) => (orgType ? this.adminTenantService.getParentLevel(orgType) : of([])))
-            );
-          }
-        },
-      },
-    },
-    {
-      key: 'user',
-      type: 'select',
-      templateOptions: {
-        translate: true,
-        label: 'manager',
-        placeholder: 'chooseManager',
-        labelProp: 'username',
-        subLabelProp: 'code',
-        textfieldCleaner: true,
-        options: this.state.select('users'),
-        matcherBy: 'id',
-      },
-      hideExpression: 'model.id',
-    },
-    {
-      key: 'description',
-      type: 'text-area',
-      templateOptions: {
-        translate: true,
-        label: 'description',
-        textfieldLabelOutside: true,
-      },
-    },
-  ];
+  fields!: FormlyFieldConfig[];
 
   constructor(
     private readonly adminTenantService: AdminTenantService,
@@ -177,29 +109,123 @@ export class OrganizationalChartComponent {
     }
   }
 
+  ngOnInit(): void {
+    this.fields = [
+      {
+        key: 'orgName',
+        type: 'input',
+        templateOptions: {
+          required: true,
+          translate: true,
+          label: 'name',
+          placeholder: 'enterName',
+          textfieldLabelOutside: true
+        }
+      },
+      {
+        key: 'orgType',
+        type: 'select',
+        templateOptions: {
+          required: true,
+          translate: true,
+          label: 'organizationalLevel',
+          placeholder: 'chooseOrganizationalLevel',
+          options: this.state.select('levels')
+        }
+      },
+      {
+        key: 'ancestor',
+        type: 'select',
+        templateOptions: {
+          required: true,
+          translate: true,
+          label: 'parentLevel',
+          placeholder: 'chooseParentLevel',
+          labelProp: 'orgName',
+          subLabelProp: 'orgType',
+          matcherBy: 'id'
+        },
+        expressionProperties: { 'templateOptions.disabled': '!model.orgType' },
+        hooks: {
+          onInit: (field?: FormlyFieldConfig) => {
+            if (field?.templateOptions) {
+              field.templateOptions.options = this.form.controls.orgType?.valueChanges.pipe(
+                switchMap((orgType) => (orgType ? this.adminTenantService.getParentLevel(orgType) : of([])))
+              );
+            }
+          }
+        }
+      },
+      {
+        key: 'user',
+        type: 'combo-box',
+        templateOptions: {
+          translate: true,
+          labelClassName: 'font-semibold',
+          placeholder: 'Choose manager',
+          label: 'Manager',
+          textfieldLabelOutside: true,
+          customContent: this.userContent,
+          serverRequest: (searchQuery: string) => this.adminTenantService.searchUsers(searchQuery),
+          labelProp: 'name',
+          matcherBy: 'id'
+        },
+      },
+      {
+        key: 'description',
+        type: 'text-area',
+        templateOptions: {
+          translate: true,
+          label: 'description',
+          textfieldLabelOutside: true
+        }
+      }
+    ];
+  }
+
   getSpan(item: Partial<OrganizationalUnit>): number {
     if (item.descendants?.length)
       return item.descendants.map((i) => this.getSpan(i)).reduce((a: number, b: number) => a + b);
     else return 1;
   }
 
-  upsertUnit(content: PolymorpheusContent<TuiDialogContext>, unit?: Partial<OrganizationalUnitForm>) {
-    console.log(this.model);
-    this.model = unit || {};
+  upsertUnit(content: PolymorpheusContent<TuiDialogContext>, id?: string) {
+    if (id) {
+      this.adminTenantService.getOrgDetail(id).subscribe((result) => {
+        if (result) {
+          this.model = result || {};
+        }
+      });
+    } else {
+      this.model = {};
+    }
     this.dialogService
       .open(content, {
-        label: this.translocoService.translate(this.model.id ? 'editOrganizationalUnit' : 'addOrganizationalUnit'),
+        label: this.translocoService.translate(id ? 'editOrganizationalUnit' : 'addOrganizationalUnit')
       })
       .subscribe();
   }
 
   submitUnit(observer: Subscriber<unknown>) {
     if (this.form.valid) {
-      observer.complete();
+      const formModel = this.form.value;
+      const jsonSubmit = {
+        orgName: formModel.orgName,
+        orgType: formModel.orgType,
+        ancestor: { id: formModel?.ancestor?.id },
+        description: formModel.description
+      } as any;
+
+      if (this.model?.id) {
+        jsonSubmit.user.id = formModel?.user?.id;
+        jsonSubmit.id = formModel.id;
+      }
+
       this.form.markAsUntouched();
-      this.adminTenantService[this.model.id ? 'editOrganizationUnit' : 'createOrganizationUnit'](this.model)
+      this.adminTenantService[this.model?.id ? 'editOrganizationUnit' : 'createOrganizationUnit'](jsonSubmit)
         .pipe(switchMap(() => this.promptService.open({ icon: 'success' } as SweetAlertOptions)))
         .subscribe(() => this.state.connect('chart', this.adminTenantService.getOrganizationChart()));
+      observer.complete();
     }
   }
 

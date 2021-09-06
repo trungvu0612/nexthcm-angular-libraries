@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ACCOUNT_API_PATH, BaseResponse, Pagination, PagingResponse, UserDto } from '@nexthcm/cdk';
+import { ACCOUNT_API_PATH, BaseObject, BaseResponse, Pagination, PagingResponse, UserDto } from '@nexthcm/cdk';
 import { RxState } from '@rx-angular/state';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 import { Domain, OrganizationalLevel, OrganizationalUnit, OrganizationalUnitForm, Tenant } from '../models/tenant';
 
 @Injectable({
@@ -16,8 +16,15 @@ export class AdminTenantService extends RxState<{ id: string }> {
 
   getUsers(): Observable<Partial<UserDto>[]> {
     return this.http
-      .get<PagingResponse<UserDto>>(`${ACCOUNT_API_PATH}/users`, { params: { size: 999 } })
+      .get<PagingResponse<UserDto>>(`${ACCOUNT_API_PATH}/users/v2`, { params: { size: 999 } })
       .pipe(map((response) => response.data.items));
+  }
+
+  searchUsers(searchQuery: string): Observable<BaseObject[]> {
+    return this.http.get<BaseResponse<BaseObject[]>>(`${ACCOUNT_API_PATH}/users/v2?search=${searchQuery}`).pipe(
+      map((res) => res.data),
+      catchError(() => of([]))
+    );
   }
 
   getTenants(params: { [key: string]: number }): Observable<Pagination<Partial<Tenant>>> {
@@ -92,6 +99,10 @@ export class AdminTenantService extends RxState<{ id: string }> {
     return this.http
       .get<BaseResponse<string[]>>(`${ACCOUNT_API_PATH}/orgs/get-org-type`)
       .pipe(map((response) => response.data));
+  }
+
+  getOrgDetail(id: string | undefined): Observable<OrganizationalUnitForm> {
+    return this.http.get<BaseResponse<OrganizationalUnitForm>>(`${ACCOUNT_API_PATH}/orgs/${id}`).pipe(map((res) => res.data));
   }
 
   getParentLevel(orgType: string): Observable<Partial<OrganizationalUnit>[]> {

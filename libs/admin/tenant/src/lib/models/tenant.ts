@@ -50,14 +50,13 @@ export interface OrganizationalUnit {
 }
 
 export interface OrganizationalUnitForm {
-  id?: string;
-  orgName: string;
-  orgType: string;
-  description: string;
-  ancestor: Ancestor;
-  user?: { id?: string | undefined } | undefined;
+  id?: string | undefined;
+  orgName: string | undefined;
+  orgType: string | undefined;
+  description: string | undefined;
+  ancestor: { id?: string | undefined };
+  user: { id?: string | undefined };
 }
 
-export interface Ancestor {
-  id: string;
-}
+
+
