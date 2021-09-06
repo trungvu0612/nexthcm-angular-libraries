@@ -1,0 +1,37 @@
+<tui-combo-box
+  (searchChange)="search$.next($event)"
+  [formControl]="$any(formControl)"
+  [formlyAttributes]="field"
+  [identityMatcher]="to.identityMatcher"
+  [stringify]="to.valueProp ? (stringify$ | async) : to.stringify"
+  [style.maxWidth]="to.maxWidth"
+  [tuiTextfieldCleaner]="to.textfieldCleaner"
+  [tuiTextfieldLabelOutside]="to.textfieldLabelOutside"
+  [tuiTextfieldSize]="to.textfieldSize"
+>
+  {{ to.textfieldLabelOutside ? to.placeholder : to.label }}
+  <span *ngIf="to.required && !to.textfieldLabelOutside" class="tui-required"></span>
+  <ng-template tuiDataList>
+    <tui-data-list *ngIf="items$ | async as items; else loading">
+      <button
+        #elementRef="elementRef"
+        *ngFor="let item of items"
+        [disabled]="!!item.disabled"
+        [value]="to.valueProp ? item[to.valueProp] : item"
+        tuiElement
+        tuiOption
+      >
+        <span
+          [content]="to.customContent || itemContent"
+          [context]="getContext(item, elementRef)"
+          class="content"
+          polymorpheus-outlet
+        ></span>
+        <ng-template #itemContent>{{ item[to.labelProp] }}</ng-template>
+      </button>
+    </tui-data-list>
+  </ng-template>
+  <ng-template #loading>
+    <tui-loader class="tui-space_vertical-4"></tui-loader>
+  </ng-template>
+</tui-combo-box>

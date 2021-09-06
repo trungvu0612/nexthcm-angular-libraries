@@ -20,6 +20,15 @@ const TABS = [
     ],
   },
   {
+    root: 'admin/leave-configs/',
+    tabs: [
+      { path: 'leave-type', tabName: 'leaveType' },
+      { path: 'leave-period', tabName: 'leavePeriod' },
+      { path: 'leave-entitlement', tabName: 'leaveEntitlement' },
+      { path: 'leave-level-approve', tabName: 'leaveLeveApprove' },
+    ],
+  },
+  {
     root: 'my-time',
     tabs: [
       { path: 'my-leave', tabName: 'myLeave' },

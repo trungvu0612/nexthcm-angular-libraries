@@ -69,8 +69,8 @@ import { AppComponent } from './app.component';
             loadChildren: () => import('@nexthcm/admin-job-titles').then((m) => m.AdminJobTitlesModule),
           },
           {
-            path: 'leave-types',
-            loadChildren: () => import('@nexthcm/admin-leave-types').then((m) => m.AdminLeaveTypesModule),
+            path: 'leave-configs',
+            loadChildren: () => import('@nexthcm/admin-leave-configs').then((m) => m.AdminLeaveConfigsModule),
           },
           {
             path: 'user-roles',

@@ -91,7 +91,7 @@ export class SidebarComponent implements OnInit {
     },
     {
       label: 'leaveTypeManagement',
-      link: '/admin/leave-types',
+      link: '/admin/leave-configs',
       icon: 'leave-type',
       permissions: 'VIEW_LEAVE_TYPE',
     },
@@ -253,7 +253,7 @@ export class SidebarComponent implements OnInit {
           },
           {
             label: 'leaveTypeManagement',
-            link: '/admin/leave-types',
+            link: '/admin/leave-configs',
             icon: 'leave-type',
             permissions: 'VIEW_LEAVE_TYPE',
           },

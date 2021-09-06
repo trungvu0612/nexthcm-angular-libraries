@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { PropertyRouteConnectorDirectiveModule } from '@nexthcm/cdk';
 import {
   BaseFormComponentModule,
+  FormlyUserComboBoxComponentModule,
   InputFilterComponentModule,
   SelectFilterComponentModule,
   SelectMonthFilterComponentModule,
@@ -58,6 +59,7 @@ import { WorkingHoursComponent } from './working-hours.component';
     RouterModule,
     BaseFormComponentModule,
     TuiIslandModule,
+    FormlyUserComboBoxComponentModule,
   ],
   providers: [WorkingHoursService],
 })

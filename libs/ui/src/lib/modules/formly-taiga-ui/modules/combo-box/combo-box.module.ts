@@ -13,7 +13,7 @@ import {
 import { TuiAvatarModule, TuiComboBoxModule, TuiMultiSelectModule } from '@taiga-ui/kit';
 import { PolymorpheusModule } from '@tinkoff/ng-polymorpheus';
 import { FormFieldModule } from '../form-field/form-field.module';
-import { ComboBoxComponent } from './combo-box/combo-box.component';
+import { ComboBoxComponent } from './combo-box.component';
 
 @NgModule({
   declarations: [ComboBoxComponent],

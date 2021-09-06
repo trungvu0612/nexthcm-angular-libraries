@@ -6,8 +6,7 @@ import { FormlyFieldConfig } from '@ngx-formly/core';
 import { NumericValueType, RxwebValidators } from '@rxweb/reactive-form-validators';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
-import { startWith } from 'rxjs/internal/operators/startWith';
-import { distinctUntilChanged, map, switchMap } from 'rxjs/operators';
+import { distinctUntilChanged, map, startWith, switchMap } from 'rxjs/operators';
 import { LeaveEntitlement } from '../../models/leave-entitlement';
 import { AdminEntitlementService } from '../../services/admin-entitlement.service';
 
@@ -21,9 +20,8 @@ export class UpsertEntitlementComponent implements OnInit {
   form = this.fb.group<LeaveEntitlement>({} as LeaveEntitlement);
   model = {} as LeaveEntitlement;
   fields: FormlyFieldConfig[] = [
-    // { key: 'fromDate', defaultValue: 1609434000000 },
-    // { key: 'toDate', defaultValue: 1640969999000 },
-    // { key: 'orgId', defaultValue: '' },
+    { key: 'fromDate', defaultValue: 1609434000000 },
+    { key: 'toDate', defaultValue: 1640969999000 },
     {
       key: 'status',
       type: 'toggle',
@@ -39,24 +37,60 @@ export class UpsertEntitlementComponent implements OnInit {
         ),
       },
     },
+    // {
+    //   key: 'employeeId',
+    //   type: 'select',
+    //   templateOptions: {
+    //     translate: true,
+    //     label: 'Employee',
+    //     labelClassName: 'font-semibold',
+    //     placeholder: 'Employee',
+    //     required: true,
+    //     options: this.adminEntitlementService.select('emp'),
+    //     labelProp: 'username',
+    //     matcherBy: 'id',
+    //   },
+    //   hideExpression: '(model.status)',
+    //   expressionProperties: {
+    //     className: '(model.status)  ?  "hidden" : ""',
+    //   },
+    // },
+
+    // {
+    //   key: 'employeeId',
+    //   className: 'tui-form__row block',
+    //   type: 'user-combo-box',
+    //   templateOptions: {
+    //     translate: true,
+    //     label: 'Employee',
+    //     labelClassName: 'font-semibold',
+    //     placeholder: 'Employee',
+    //     required: true,
+    //     labelProp: 'username',
+    //     matcherBy: 'id',
+    //   },
+    //   hideExpression: '(model.status)',
+    //   expressionProperties: {
+    //     className: '(model.status)  ?  "hidden" : ""',
+    //   },
+    // },
+
     {
       key: 'employeeId',
-      type: 'select',
+      className: 'tui-form__row block',
+      type: 'user-combo-box',
       templateOptions: {
         translate: true,
-        label: 'Employee',
+        label: 'sendTo',
         labelClassName: 'font-semibold',
-        placeholder: 'Employee',
-        required: true,
-        options: this.adminEntitlementService.select('emp'),
-        labelProp: 'username',
+        placeholder: 'chooseAPerson',
+        labelProp: 'name',
+        // valueProp: 'id',
         matcherBy: 'id',
-      },
-      hideExpression: '(model.status)',
-      expressionProperties: {
-        className: '(model.status)  ?  "hidden" : ""',
+        textfieldLabelOutside: true,
       },
     },
+
     {
       key: 'orgId',
       type: 'select',
@@ -68,6 +102,7 @@ export class UpsertEntitlementComponent implements OnInit {
         options: this.adminEntitlementService.select('org'),
         labelProp: 'name',
         matcherBy: 'id',
+        valueProp: 'id',
       },
       hideExpression: '!(model.status)',
       expressionProperties: {
@@ -75,7 +110,7 @@ export class UpsertEntitlementComponent implements OnInit {
       },
     },
     {
-      key: 'jobTitle',
+      key: 'jobTitleDTOList',
       className: 'tui-form__row block',
       type: 'multi-select',
       templateOptions: {
@@ -149,7 +184,7 @@ export class UpsertEntitlementComponent implements OnInit {
         this.model.status = false;
       }
       this.model = { ...this.model, ...this.context.data };
-      this.model.jobTitle = this.context.data.jobTitleDTOList;
+      this.model.jobTitleDTOList = this.context.data.jobTitleDTOList;
     }
   }
 
@@ -160,8 +195,14 @@ export class UpsertEntitlementComponent implements OnInit {
       } else {
         this.form.value.status = this.form.value.status = 0 as number;
       }
+      const arrayTitle = [];
+      if (this.model.jobTitleDTOList) {
+        for (const item of this.model.jobTitleDTOList) {
+          arrayTitle.push(item.id);
+        }
+        this.form.value.jobTitle = arrayTitle;
+      }
       this.form.value.entitlement = +this.model.entitlement;
-      this.form.value.orgId = this.model.org?.orgId as string
       const formModel = { ...this.form.value };
       this.context.completeWith(formModel);
     }

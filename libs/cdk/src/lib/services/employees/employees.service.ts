@@ -1,10 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 import { ACCOUNT_API_PATH } from '../../constants';
 import {
   BaseResponse,
+  BaseUser,
   EmployeeDuration,
   EmployeeEducation,
   EmployeeGeneralInformation,
@@ -20,6 +21,13 @@ import { parseJsonStringFields } from '../../utils';
 })
 export class EmployeesService {
   constructor(private readonly http: HttpClient) {}
+
+  searchEmployees(searchQuery: string): Observable<BaseUser[]> {
+    return this.http.get<BaseResponse<BaseUser[]>>(`${ACCOUNT_API_PATH}/users/v2?search=${searchQuery}`).pipe(
+      map((res) => res.data),
+      catchError(() => of([]))
+    );
+  }
 
   getEmployeeGeneralInformation(id: string): Observable<EmployeeGeneralInformation> {
     return this.http

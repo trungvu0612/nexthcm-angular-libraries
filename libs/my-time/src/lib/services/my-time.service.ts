@@ -7,10 +7,9 @@ import {
   MY_TIME_API_PATH,
   Pagination,
   PagingResponse,
-  PromptService
+  PromptService,
 } from '@nexthcm/cdk';
 import { TranslocoService } from '@ngneat/transloco';
-import { RxState } from '@rx-angular/state';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { from, iif, Observable, Subject } from 'rxjs';
@@ -18,14 +17,10 @@ import { map, switchMap, tap } from 'rxjs/operators';
 import { SweetAlertOptions } from 'sweetalert2';
 import { RequestStatus } from '../enums';
 import { GeneralRequest, SubmitRequestPayload, UpdateRequestPayload } from '../models';
-import { RejectRequestDialogComponent } from '../modules/request-management/components/reject-leave-request-dialog/reject-request-dialog.component';
-import { RequestDetailDialogComponent } from '../modules/shared/request-detail-dialog/request-detail-dialog.component';
 import { RequestComment } from '../models/request-comment';
 import { Tracking } from '../models/requests/tracking';
-
-interface ServiceState {
-  sendToUsers: EmployeeInfo[];
-}
+import { RejectRequestDialogComponent } from '../modules/request-management/components/reject-leave-request-dialog/reject-request-dialog.component';
+import { RequestDetailDialogComponent } from '../modules/shared/request-detail-dialog/request-detail-dialog.component';
 
 export enum RequestTypeAPIUrlPath {
   leave = 'leaves' as any,
@@ -44,7 +39,7 @@ export enum RequestTypeComment {
 }
 
 @Injectable()
-export class MyTimeService extends RxState<ServiceState> {
+export class MyTimeService {
   private refreshSubject = new Subject<RequestTypeAPIUrlPath>();
   refresh$ = this.refreshSubject.asObservable();
 
@@ -54,13 +49,12 @@ export class MyTimeService extends RxState<ServiceState> {
     private injector: Injector,
     private promptService: PromptService,
     private translocoService: TranslocoService
-  ) {
-    super();
-    this.connect('sendToUsers', this.getSendToUsers());
-  }
+  ) {}
 
   getSendToUsers(): Observable<EmployeeInfo[]> {
-    return this.http.get<PagingResponse<EmployeeInfo>>(`${ACCOUNT_API_PATH}/users`).pipe(map((res) => res.data.items));
+    return this.http
+      .get<PagingResponse<EmployeeInfo>>(`${ACCOUNT_API_PATH}/employees`)
+      .pipe(map((res) => res.data.items));
   }
 
   getComments(objectId?: string): Observable<PagingResponse<any>> {
@@ -93,7 +87,7 @@ export class MyTimeService extends RxState<ServiceState> {
       this.promptService.open({
         icon: 'warning',
         showCancelButton: true,
-        html: this.translocoService.translate('approveRequestWarning')
+        html: this.translocoService.translate('approveRequestWarning'),
       } as SweetAlertOptions)
     ).pipe(
       switchMap((result) =>
@@ -117,7 +111,7 @@ export class MyTimeService extends RxState<ServiceState> {
       this.promptService.open({
         icon: 'warning',
         showCancelButton: true,
-        html: this.translocoService.translate('cancelRequestWarning')
+        html: this.translocoService.translate('cancelRequestWarning'),
       } as SweetAlertOptions)
     ).pipe(
       switchMap((result) =>
@@ -134,8 +128,8 @@ export class MyTimeService extends RxState<ServiceState> {
           data: {
             type,
             value: res.data,
-            userId
-          }
+            userId,
+          },
         })
       )
     );
@@ -146,17 +140,18 @@ export class MyTimeService extends RxState<ServiceState> {
   }
 
   getRequestComment(params: HttpParams): Observable<Pagination<RequestComment>> {
-    return this.http.get<PagingResponse<RequestComment>>(`${MY_TIME_API_PATH}/comments-common`,
-      { params }).pipe(map((res) => res.data));
+    return this.http
+      .get<PagingResponse<RequestComment>>(`${MY_TIME_API_PATH}/comments-common`, { params })
+      .pipe(map((res) => res.data));
   }
 
   submitReqComment(comment: RequestComment): Observable<BaseResponse<RequestComment>> {
-    return this.http
-      .post<BaseResponse<RequestComment>>(`${MY_TIME_API_PATH}/comments-common`, comment);
+    return this.http.post<BaseResponse<RequestComment>>(`${MY_TIME_API_PATH}/comments-common`, comment);
   }
 
   getRequestTracking(type: RequestTypeAPIUrlPath, reqId: string): Observable<Tracking[]> {
-    return this.http.get<BaseResponse<Tracking[]>>(`${MY_TIME_API_PATH}/${type}/tracking-history/${reqId}`).pipe(map((res) => res.data));
+    return this.http
+      .get<BaseResponse<Tracking[]>>(`${MY_TIME_API_PATH}/${type}/tracking-history/${reqId}`)
+      .pipe(map((res) => res.data));
   }
-
 }
