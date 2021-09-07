@@ -437,8 +437,8 @@
   "addNewJobTitleSuccessfully": "Tạo mới chức vụ thành công",
   "deleteJobTitle": "Bạn có muốn xóa chức vụ này không?",
   "deleteJobTitleSuccessfully": "Xóa chức vụ này thành công",
-
-
+  "deleteJobLevel": "Bạn có muốn xóa cấp độ công việc này không?",
+  "deleteJobLevelSuccessfully": "Xóa cấp độ công việc này thành công",
   "userRoleManagement": "Quản lý vai trò",
   "addNewUserRole": "Tạo mới vai trò",
   "editUserRole": "Chỉnh sửa vai trò",

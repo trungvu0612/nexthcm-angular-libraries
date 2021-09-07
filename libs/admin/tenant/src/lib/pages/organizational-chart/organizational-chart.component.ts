@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
-import { BaseUser, PromptService, UserDto } from '@nexthcm/cdk';
+import { PromptService, UserDto } from '@nexthcm/cdk';
 import { FormGroup } from '@ngneat/reactive-forms';
 import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { RxState } from '@rx-angular/state';
 import { TuiDialogContext, TuiDialogService } from '@taiga-ui/core';
-import { PolymorpheusContent, PolymorpheusTemplate } from '@tinkoff/ng-polymorpheus';
+import { PolymorpheusContent } from '@tinkoff/ng-polymorpheus';
 import { from, iif, of, Subscriber } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { SweetAlertOptions } from 'sweetalert2';
@@ -30,8 +30,6 @@ interface State {
   providers: [RxState, TuiDestroyService]
 })
 export class OrganizationalChartComponent implements OnInit {
-  @ViewChild('userContent', { static: true }) userContent!: PolymorpheusTemplate<OrganizationalUnitForm>;
-  readonly userContext!: { $implicit: BaseUser };
   @ViewChild('scrollbar') scrollbar!: ElementRef;
   canZoom = false;
   hovering: OrganizationalUnit | null = null;
@@ -158,18 +156,19 @@ export class OrganizationalChartComponent implements OnInit {
       },
       {
         key: 'user',
-        type: 'combo-box',
+        className: 'tui-form__row block',
+        type: 'user-combo-box',
         templateOptions: {
           translate: true,
+          label: 'Manager',
           labelClassName: 'font-semibold',
           placeholder: 'Choose manager',
-          label: 'Manager',
-          textfieldLabelOutside: true,
-          customContent: this.userContent,
-          serverRequest: (searchQuery: string) => this.adminTenantService.searchUsers(searchQuery),
           labelProp: 'name',
-          matcherBy: 'id'
+          valueProp: 'id',
+          matcherBy: 'id',
+          textfieldLabelOutside: true
         },
+        hideExpression: '!model.id'
       },
       {
         key: 'description',
@@ -189,40 +188,26 @@ export class OrganizationalChartComponent implements OnInit {
     else return 1;
   }
 
-  upsertUnit(content: PolymorpheusContent<TuiDialogContext>, id?: string) {
-    if (id) {
-      this.adminTenantService.getOrgDetail(id).subscribe((result) => {
+  upsertUnit(content: PolymorpheusContent<TuiDialogContext>, unit?: Partial<OrganizationalUnitForm>) {
+    this.model = {};
+    if (unit?.id) {
+      this.adminTenantService.getOrgDetail(unit?.id).subscribe((result) => {
         if (result) {
           this.model = result || {};
         }
       });
-    } else {
-      this.model = {};
     }
     this.dialogService
       .open(content, {
-        label: this.translocoService.translate(id ? 'editOrganizationalUnit' : 'addOrganizationalUnit')
+        label: this.translocoService.translate(unit?.id ? 'editOrganizationalUnit' : 'addOrganizationalUnit')
       })
       .subscribe();
   }
 
   submitUnit(observer: Subscriber<unknown>) {
     if (this.form.valid) {
-      const formModel = this.form.value;
-      const jsonSubmit = {
-        orgName: formModel.orgName,
-        orgType: formModel.orgType,
-        ancestor: { id: formModel?.ancestor?.id },
-        description: formModel.description
-      } as any;
-
-      if (this.model?.id) {
-        jsonSubmit.user.id = formModel?.user?.id;
-        jsonSubmit.id = formModel.id;
-      }
-
       this.form.markAsUntouched();
-      this.adminTenantService[this.model?.id ? 'editOrganizationUnit' : 'createOrganizationUnit'](jsonSubmit)
+      this.adminTenantService[this.model?.id ? 'editOrganizationUnit' : 'createOrganizationUnit'](this.model)
         .pipe(switchMap(() => this.promptService.open({ icon: 'success' } as SweetAlertOptions)))
         .subscribe(() => this.state.connect('chart', this.adminTenantService.getOrganizationChart()));
       observer.complete();

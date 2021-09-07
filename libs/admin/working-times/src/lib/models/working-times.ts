@@ -4,7 +4,6 @@ export interface WorkingTimes {
   checkOutBefore: any;
   workingHour: any;
   totalWorkingHour: any;
-  lunchHours: any;
   fingerPrint: boolean;
   timePayroll: boolean;
   timePaidLeave: boolean;
