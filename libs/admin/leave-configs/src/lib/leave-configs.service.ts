@@ -6,14 +6,15 @@ import {
   BaseResponse,
   JobTitle,
   MY_TIME_API_PATH,
+  Org,
   PagingResponse,
   UserDto,
 } from '@nexthcm/cdk';
 import { RxState } from '@rx-angular/state';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { LeaveType, Org } from '../../../entitlement/src/lib/models/leave-entitlement';
-import { LeavePeriod } from '../../../entitlement/src/lib/models/leave-period';
+import { LeaveType } from './models/leave-entitlement';
+import { LeavePeriod } from './models/leave-period';
 
 export enum LeaveConfigAPIUrlPath {
   leaveType = 'leaveTypes' as any,

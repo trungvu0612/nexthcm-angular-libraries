@@ -4,8 +4,8 @@ import { FormBuilder } from '@ngneat/reactive-forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
-import { LevelApprove } from '../../../../../leave-level-approve/src/lib/models/level-approve';
 import { LeaveConfigsService } from '../../leave-configs.service';
+import { LevelApprove } from '../../models/level-approve';
 
 @Component({
   selector: 'hcm-upsert-leave-level-approve',
