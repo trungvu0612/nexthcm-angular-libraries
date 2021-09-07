@@ -315,15 +315,14 @@ export class SubmitLeaveRequestDialogComponent implements OnInit {
         {
           className: 'mt-4',
           key: 'sendTo',
-          type: 'combo-box',
+          type: 'user-combo-box',
           templateOptions: {
             labelClassName: 'font-semibold',
             placeholder: 'Send to',
             label: 'Send to',
             textfieldLabelOutside: true,
-            customContent: this.userContent,
-            serverRequest: (searchQuery: string) => this.myLeaveService.searchUsers(searchQuery),
             labelProp: 'name',
+            valueProp: 'id',
             matcherBy: 'id'
           },
         },
