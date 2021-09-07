@@ -15,7 +15,7 @@ import { deleteProp, dictionaryToArray, patch, RxState, setProp, slice, toDictio
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
-import * as clone_ from 'rfdc';
+import clone from 'rfdc';
 import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { catchError, filter, map, share, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { v4 as uuidv4 } from 'uuid';
@@ -34,8 +34,6 @@ import {
 } from '../../models';
 import { AdminWorkflowsService } from '../../services/admin-workflows.service';
 import { generateWorkflowStatus, generateWorkflowTransition } from '../../utils';
-
-const clone = clone_;
 
 interface WorkflowState {
   addedStatuses: Record<string, Status>;

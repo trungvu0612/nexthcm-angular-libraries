@@ -1,59 +1,61 @@
-<main *transloco='let t' class='main-page'>
-  <tui-tabs [(activeItemIndex)]='activeItemIndex'>
+<main *transloco="let t" class="main-page">
+  <tui-tabs [(activeItemIndex)]="activeItemIndex">
     <button tuiTab>
-      <ng-container *ngIf='!this.workingHourId'>{{ t('WORKING_HOUR.addCalendar') }}</ng-container>
-      <ng-container *ngIf='this.workingHourId'>{{ t('WORKING_HOUR.updateCalendar') }}</ng-container>
+      <ng-container *ngIf="!this.workingHourId">{{ t('WORKING_HOUR.addCalendar') }}</ng-container>
+      <ng-container *ngIf="this.workingHourId">{{ t('WORKING_HOUR.updateCalendar') }}</ng-container>
     </button>
     <button tuiTab>
       {{ t('WORKING_HOUR.addOverTime') }}
     </button>
   </tui-tabs>
 
-  <ng-container [ngSwitch]='activeItemIndex'>
-    <div class='mt-5'>
-      <ng-container *ngSwitchCase='0'>
-        <div class='max-w-3xl'>
-          <div class='grid grid-cols-2'>
-            <div class='text-xl font-bold text-blue-500'>
-              <ng-container *ngIf='!this.workingHourId'>{{ t('WORKING_HOUR.addCalendar') }}</ng-container>
-              <ng-container *ngIf='this.workingHourId'>{{ t('WORKING_HOUR.updateCalendar') }}</ng-container>
+  <ng-container [ngSwitch]="activeItemIndex">
+    <div class="mt-5">
+      <ng-container *ngSwitchCase="0">
+        <div class="max-w-3xl">
+          <div class="grid grid-cols-2">
+            <div class="text-xl font-bold text-blue-500">
+              <ng-container *ngIf="!this.workingHourId">{{ t('WORKING_HOUR.addCalendar') }}</ng-container>
+              <ng-container *ngIf="this.workingHourId">{{ t('WORKING_HOUR.updateCalendar') }}</ng-container>
             </div>
-            <div class='work-shift text-center'>{{ t('WORKING_HOUR.mainShift') }}</div>
           </div>
 
-          <form [formGroup]='$any(form)'>
-            <formly-form [fields]='fields' [form]='form' [model]='model' class='grid grid-cols-3 gap-4'>
-            </formly-form>
+          <form [formGroup]="$any(form)">
+            <formly-form [fields]="fields" [form]="form" [model]="model" class="grid grid-cols-3 gap-4"></formly-form>
           </form>
 
-          <div class='my-5'>
-            <div class='font-bold text-xl mb-5'>{{ t('WORKING_HOUR.addHoliday') }}</div>
-            <form [formGroup]='$any(formHoliday)'>
-              <formly-form [fields]='fieldsHoliday' [form]='formHoliday' [model]='modelHoliday'
-                           class='grid grid-cols-4 gap-4'>
+          <div class="my-5">
+            <div class="font-bold text-xl mb-5">{{ t('WORKING_HOUR.addHoliday') }}</div>
+            <form [formGroup]="$any(formHoliday)">
+              <formly-form
+                [fields]="fieldsHoliday"
+                [form]="formHoliday"
+                [model]="modelHoliday"
+                class="grid grid-cols-4 gap-4"
+              >
               </formly-form>
               <button
-                (click)='addHolidayTime()'
-                class='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-5'
+                (click)="addHolidayTime()"
+                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-5"
               >
                 Add
               </button>
             </form>
 
-            <ngx-table class='my-5' [columns]='columns' [configuration]='configuration' [data]='dataHoliday'>
-              <ng-template let-index='index' let-row>
+            <ngx-table [columns]="columns" [configuration]="configuration" [data]="dataHoliday" class="my-5">
+              <ng-template let-index="index" let-row>
                 <td>{{ row?.holidayDate | date: 'dd/MM/yyyy' }}</td>
                 <td>{{ row?.name }}</td>
                 <td>
-                  <ng-container *ngIf='row.paidHoliday'>
-                    <tui-svg src='tuiIconCheck'></tui-svg>
+                  <ng-container *ngIf="row.paidHoliday">
+                    <tui-svg src="tuiIconCheck"></tui-svg>
                   </ng-container>
                 </td>
-                <td>{{row?.recurringType}}</td>
+                <td>{{ row?.recurringType }}</td>
                 <td>
                   <button
-                    (click)='removeHoliday(index, row?.id)'
-                    class='
+                    (click)="removeHoliday(index, row?.id)"
+                    class="
                       text-sm
                       bg-transparent
                       hover:bg-blue-500
@@ -65,7 +67,7 @@
                       border border-blue-500
                       hover:border-transparent
                       rounded
-                    '
+                    "
                   >
                     Delete
                   </button>
@@ -73,13 +75,14 @@
               </ng-template>
             </ngx-table>
           </div>
-          <div class='my-10 text-right'>
-            <button (click)='saveSettings()' [disabled]='!form.valid'
-                    class='blue-button mt-5 mx-auto'>{{t('save')}}</button>
+          <div class="my-10 text-right">
+            <button (click)="saveSettings()" [disabled]="!form.valid" class="blue-button mt-5 mx-auto">
+              {{ t('save') }}
+            </button>
           </div>
         </div>
       </ng-container>
-      <ng-container *ngSwitchCase='1'>
+      <ng-container *ngSwitchCase="1">
         <hcm-overtime-working></hcm-overtime-working>
       </ng-container>
     </div>

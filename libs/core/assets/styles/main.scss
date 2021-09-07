@@ -5,6 +5,9 @@
 @import 'modules/my-time';
 @import '~@ng-select/ng-select/scss/default.theme';
 @import '~ngx-easy-table/style';
+@import '~quill/dist/quill.core.css';
+@import '~quill/dist/quill.bubble.css';
+@import '~quill/dist/quill.snow.css';
 
 .cdk-drag-dragging {
   z-index: 1 !important;

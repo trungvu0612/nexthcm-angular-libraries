@@ -13,6 +13,8 @@ import {
   TuiButtonModule,
   TuiDataListModule,
   TuiDropdownControllerModule,
+  TuiErrorModule,
+  TuiHintModule,
   TuiHostedDropdownModule,
   TuiLabelModule,
   TuiLinkModule,
@@ -32,12 +34,15 @@ import {
 import { PolymorpheusModule } from '@tinkoff/ng-polymorpheus';
 import { TableModule } from 'ngx-easy-table';
 import { NgxPermissionsGuard } from 'ngx-permissions';
+import { QuillModule } from 'ngx-quill';
+import Quill from 'quill';
 import { AdminWorkflowsComponent } from './admin-workflows.component';
 import { AddConditionToTransitionDialogComponent } from './components/add-condition-to-transition-dialog/add-condition-to-transition-dialog.component';
 import { AddPostFunctionToTransitionDialogComponent } from './components/add-post-function-to-transition-dialog/add-post-function-to-transition-dialog.component';
 import { AddStatusDropdownButtonComponent } from './components/add-status-button-dropdown/add-status-dropdown-button.component';
 import { AddValidatorToTransitionDialogComponent } from './components/add-validator-to-transition-dialog/add-validator-to-transition-dialog.component';
 import { InitWorkflowDialogComponent } from './components/create-workflow-dialog/init-workflow-dialog.component';
+import { FormlyQuillTemplateVariableComponent } from './components/formly-quill-template-variable/formly-quill-template-variable.component';
 import { FormlySelectTransitionOptionComponent } from './components/formly-select-transition-option/formly-select-transition-option.component';
 import { StatusComboboxComponent } from './components/status-combobox/status-combobox.component';
 import { TransitionConditionListComponent } from './components/transition-condition-list/transition-condition-list.component';
@@ -46,9 +51,16 @@ import { TransitionPostFunctionListComponent } from './components/transition-pos
 import { TransitionValidatorListComponent } from './components/transition-validator-list/transition-validator-list.component';
 import { UpsertStatusDialogComponent } from './components/upsert-status-dialog/upsert-status-dialog.component';
 import { UpsertTransitionDialogComponent } from './components/upsert-transition-dialog/upsert-transition-dialog.component';
+import { EmailTemplateManagementComponent } from './pages/email-template-management/email-template-management.component';
+import { UpsertEmailTemplateComponent } from './pages/upsert-email-template/upsert-email-template.component';
 import { UpsertWorkflowComponent } from './pages/upsert-workflow/upsert-workflow.component';
 import { WorkflowManagementComponent } from './pages/workflow-management/workflow-management.component';
+import { TemplateVariable } from './quill/formats/template-variable';
 import { AdminWorkflowsService } from './services/admin-workflows.service';
+
+TemplateVariable.blotName = 'TemplateVariable';
+TemplateVariable.tagName = 'span';
+Quill.register({ 'formats/TemplateVariable': TemplateVariable });
 
 export const ADMIN_WORKFLOWS_ROUTES: Routes = [
   {
@@ -68,6 +80,14 @@ export const ADMIN_WORKFLOWS_ROUTES: Routes = [
             component: UpsertWorkflowComponent,
             canActivate: [NgxPermissionsGuard],
             data: { edit: true, permissions: { only: 'UPDATE_WORKFLOW', redirectTo: '/' } },
+          },
+          {
+            path: 'email-templates',
+            children: [
+              { path: '', component: EmailTemplateManagementComponent },
+              { path: 'create', component: UpsertEmailTemplateComponent },
+              { path: ':templateId/edit', component: UpsertEmailTemplateComponent },
+            ],
           },
         ],
       },
@@ -91,6 +111,7 @@ export const ADMIN_WORKFLOWS_ROUTES: Routes = [
           component: FormlySelectTransitionOptionComponent,
           wrappers: ['form-field'],
         },
+        { name: 'quill-template-variable', component: FormlyQuillTemplateVariableComponent },
       ],
     }),
     LayoutModule,
@@ -117,6 +138,9 @@ export const ADMIN_WORKFLOWS_ROUTES: Routes = [
     TuiRadioModule,
     TuiSelectModule,
     PolymorpheusModule,
+    QuillModule,
+    TuiErrorModule,
+    TuiHintModule,
   ],
   declarations: [
     AdminWorkflowsComponent,
@@ -135,6 +159,9 @@ export const ADMIN_WORKFLOWS_ROUTES: Routes = [
     AddPostFunctionToTransitionDialogComponent,
     TransitionValidatorListComponent,
     TransitionPostFunctionListComponent,
+    EmailTemplateManagementComponent,
+    UpsertEmailTemplateComponent,
+    FormlyQuillTemplateVariableComponent,
   ],
   providers: [AdminWorkflowsService],
 })

@@ -4,7 +4,7 @@ export interface BaseWorkingHours {
   userId: string;
   totalWorkingTime: number;
   workingDay: number;
-  userInfo: EmployeeInfo;
+  userInfo?: EmployeeInfo;
   ot: number;
   wfh: number;
   onsiteDay: number;

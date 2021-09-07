@@ -1,0 +1,38 @@
+<label [label]="label" tuiLabel>
+  <span *tuiLet="templateVariables$ | async as templateVariables" class="flex flex-wrap mb-2 space-x-2">
+    <button
+      (click)="onAddTemplateVariable(variable)"
+      *ngFor="let variable of templateVariables"
+      [tuiHint]="variable.description | transloco"
+      appearance="secondary"
+      size="s"
+      tuiButton
+      tuiHintDirection="bottom-left"
+      tuiHintMode="onDark"
+    >
+      {{ variable.name }}
+    </button>
+  </span>
+  <quill-editor
+    #editor
+    (onEditorChanged)="onEditorChanged($event)"
+    [formControl]="$any(formControl)"
+    [formlyAttributes]="field"
+    format="json"
+  ></quill-editor>
+  <ng-container *ngTemplateOutlet="errorTpl"></ng-container>
+</label>
+
+<ng-template #errorTpl>
+  <tui-error *ngIf="showError" [error]="error"></tui-error>
+</ng-template>
+
+<ng-template #label>
+  <p class="mb-1 font-semibold">
+    <span>{{ to.label }}</span> <span class="tui-required"></span>
+  </p>
+</ng-template>
+
+<ng-template #errorContent="polymorpheus" [polymorpheus]="context">
+  <formly-validation-message [field]="field"></formly-validation-message>
+</ng-template>

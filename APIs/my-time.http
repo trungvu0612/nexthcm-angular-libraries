@@ -1,0 +1,2 @@
+https://dev-nexthcm-api.banvien.com.vn/mytimeapp/v1.0/working-hours?userId=f29b9342-a537-4815-8859-4b8650775f37&fromDate=1630774800000&toDate=1630947599999
+Authorization: Bearer {{auth_token}}

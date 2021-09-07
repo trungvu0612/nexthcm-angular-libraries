@@ -10,7 +10,7 @@ const LANGS: { [key: string]: string } = { en: 'English', vi: 'Tiếng Việt' }
 
 const TABS = [
   {
-    root: 'admin/tenant/',
+    root: 'admin/tenant',
     exclude: 'create',
     tabs: [
       { path: 'detail', tabName: 'information' },
@@ -20,7 +20,7 @@ const TABS = [
     ],
   },
   {
-    root: 'admin/leave-configs/',
+    root: 'admin/leave-configs',
     tabs: [
       { path: 'leave-type', tabName: 'leaveType' },
       { path: 'leave-period', tabName: 'leavePeriod' },
@@ -50,6 +50,13 @@ const TABS = [
       { path: 'summary', tabName: 'knowledgeBase' },
       { path: 'updated', tabName: 'updated' },
       { path: 'category', tabName: 'category' },
+    ],
+  },
+  {
+    root: 'admin/workflows',
+    tabs: [
+      { path: '', tabName: 'workflows' },
+      { path: 'email-templates', tabName: 'email-templates' },
     ],
   },
 ];

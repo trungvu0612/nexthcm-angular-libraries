@@ -5,7 +5,7 @@ import { insert, RxState, update } from '@rx-angular/state';
 import { Observable, of, Subject } from 'rxjs';
 import { catchError, map, startWith, switchMap, tap } from 'rxjs/operators';
 import { ConditionType, PostFunctionType, ValidatorType } from '../enums';
-import { InitWorkflow, Status, TransitionOption, Workflow } from '../models';
+import { InitWorkflow, Status, TemplateVariableModel, TransitionOption, Workflow } from '../models';
 
 interface WorkflowsState {
   statusTypes: Status[];
@@ -13,7 +13,7 @@ interface WorkflowsState {
   conditionTypes: TransitionOption<ConditionType>[];
   validatorTypes: TransitionOption<ValidatorType>[];
   postFunctionTypes: TransitionOption<PostFunctionType>[];
-  jobTitles: BaseObject[];
+  templateVariables: TemplateVariableModel[];
 }
 
 @Injectable()
@@ -28,6 +28,7 @@ export class AdminWorkflowsService extends RxState<WorkflowsState> {
     this.connect('conditionTypes', this.getConditionTypes());
     this.connect('validatorTypes', this.getValidatorTypes());
     this.connect('postFunctionTypes', this.getPostFunctionTypes());
+    this.connect('templateVariables', this.getTemplateVariables());
     this.connect(
       'statuses',
       this.initStatus$.pipe(
@@ -39,7 +40,6 @@ export class AdminWorkflowsService extends RxState<WorkflowsState> {
       update(state.statuses, status, (a, b) => a.id === b.id)
     );
     this.connect('statuses', this.createStatus$, (state, status) => insert(state.statuses, status));
-    this.connect('jobTitles', this.getJobTitles());
   }
 
   getStatusTypes(): Observable<Status[]> {
@@ -106,18 +106,6 @@ export class AdminWorkflowsService extends RxState<WorkflowsState> {
     return this.http.get<TransitionOption<PostFunctionType>[]>(`${ACCOUNT_API_PATH}/pfs/types`);
   }
 
-  getJobTitles(): Observable<BaseObject[]> {
-    return this.http.get<BaseObject[]>(`${ACCOUNT_API_PATH}/titles/v2`).pipe(catchError(() => of([])));
-  }
-
-  searchJobTitles(searchQuery: string): Observable<BaseObject[]> {
-    return this.select('jobTitles').pipe(
-      map((jobTitles) =>
-        jobTitles.filter((jobTitle) => jobTitle.name.toLowerCase().indexOf(searchQuery.toLowerCase()) !== -1)
-      )
-    );
-  }
-
   getUsers(searchQuery: string): Observable<BaseObject[]> {
     return this.http.get<BaseResponse<BaseObject[]>>(`${ACCOUNT_API_PATH}/users/v2?search=${searchQuery}`).pipe(
       map((res) => res.data),
@@ -129,5 +117,14 @@ export class AdminWorkflowsService extends RxState<WorkflowsState> {
     return this.http
       .get<BaseObject[]>(`${ACCOUNT_API_PATH}/permissions/search?name=${searchQuery}`)
       .pipe(catchError(() => of([])));
+  }
+
+  getTemplateVariables(): Observable<TemplateVariableModel[]> {
+    return of([
+      { name: 'employee', marker: '${employee}', description: 'WORKFLOW_EMAIL_TEMPLATE.employee' },
+      { name: 'beforeStatus', marker: '${beforeStatus}', description: 'WORKFLOW_EMAIL_TEMPLATE.beforeStatus' },
+      { name: 'afterStatus', marker: '${afterStatus}', description: 'WORKFLOW_EMAIL_TEMPLATE.afterStatus' },
+      { name: 'modifiedTime', marker: '${modifiedTime}', description: 'WORKFLOW_EMAIL_TEMPLATE.modifiedTime' },
+    ]);
   }
 }

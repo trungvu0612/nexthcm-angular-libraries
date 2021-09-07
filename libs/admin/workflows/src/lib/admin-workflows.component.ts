@@ -2,7 +2,8 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
   selector: 'hcm-admin-workflows',
-  template: '<router-outlet></router-outlet>',
+  templateUrl: './admin-workflows.component.html',
+  styleUrls: ['./admin-workflows.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdminWorkflowsComponent {}

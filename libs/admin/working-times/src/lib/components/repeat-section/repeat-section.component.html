@@ -1,15 +1,5 @@
-<div *ngFor='let field of field.fieldGroup; let i = index' class='grid grid-flow-col auto-cols-max my-2'>
-  <formly-field [field]='field'></formly-field>
-  <button (click)='add()' *ngIf='i === 0'
-          tuiButton
-          type='button'
-          class='add-btn text-sm'
-  >+
-  </button>
-  <button (click)='remove(i)' *ngIf='i !== 0'
-          tuiButton
-          type='button'
-          class='add-btn text-sm'
-  >-
-  </button>
+<div *ngFor="let field of field.fieldGroup; let i = index" class="grid grid-flow-col auto-cols-max my-2">
+  <formly-field [field]="field"></formly-field>
+  <!--  <button (click)="add()" *ngIf="i === 0" tuiButton type="button" class="add-btn text-sm">+</button>-->
+  <!--  <button (click)="remove(i)" *ngIf="i !== 0" tuiButton type="button" class="add-btn text-sm">-</button>-->
 </div>

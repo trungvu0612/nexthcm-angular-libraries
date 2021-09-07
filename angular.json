@@ -87,7 +87,8 @@
           "builder": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": ["libs/admin/contracts/src/**/*.ts", "libs/admin/contracts/src/**/*.html"]
-          }
+          },
+          "outputs": ["{options.outputFile}"]
         },
         "publish": {
           "builder": "@nrwl/workspace:run-commands",
@@ -131,7 +132,8 @@
           "builder": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": ["libs/admin/employee/src/**/*.ts", "libs/admin/employee/src/**/*.html"]
-          }
+          },
+          "outputs": ["{options.outputFile}"]
         },
         "publish": {
           "builder": "@nrwl/workspace:run-commands",
@@ -175,7 +177,8 @@
           "builder": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": ["libs/admin/entitlement/src/**/*.ts", "libs/admin/entitlement/src/**/*.html"]
-          }
+          },
+          "outputs": ["{options.outputFile}"]
         },
         "publish": {
           "builder": "@nrwl/workspace:run-commands",
@@ -219,7 +222,8 @@
           "builder": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": ["libs/admin/job-level/src/**/*.ts", "libs/admin/job-level/src/**/*.html"]
-          }
+          },
+          "outputs": ["{options.outputFile}"]
         },
         "publish": {
           "builder": "@nrwl/workspace:run-commands",
@@ -263,7 +267,8 @@
           "builder": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": ["libs/admin/job-titles/src/**/*.ts", "libs/admin/job-titles/src/**/*.html"]
-          }
+          },
+          "outputs": ["{options.outputFile}"]
         },
         "publish": {
           "builder": "@nrwl/workspace:run-commands",
@@ -307,12 +312,58 @@
           "builder": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": ["libs/admin/knowledge-base/src/**/*.ts", "libs/admin/knowledge-base/src/**/*.html"]
-          }
+          },
+          "outputs": ["{options.outputFile}"]
         },
         "publish": {
           "builder": "@nrwl/workspace:run-commands",
           "options": {
             "command": "yarn publish dist/libs/admin/knowledge-base"
+          }
+        }
+      }
+    },
+    "admin-leave-configs": {
+      "projectType": "library",
+      "root": "libs/admin/leave-configs",
+      "sourceRoot": "libs/admin/leave-configs/src",
+      "prefix": "hcm",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/angular:package",
+          "outputs": ["dist/libs/admin/leave-configs"],
+          "options": {
+            "project": "libs/admin/leave-configs/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "libs/admin/leave-configs/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "libs/admin/leave-configs/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/admin/leave-configs"],
+          "options": {
+            "jestConfig": "libs/admin/leave-configs/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/admin/leave-configs/src/**/*.ts", "libs/admin/leave-configs/src/**/*.html"]
+          },
+          "outputs": ["{options.outputFile}"]
+        },
+        "publish": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "command": "yarn publish dist/libs/admin/leave-configs"
           }
         }
       }
@@ -354,56 +405,13 @@
               "libs/admin/leave-level-approve/src/**/*.ts",
               "libs/admin/leave-level-approve/src/**/*.html"
             ]
-          }
+          },
+          "outputs": ["{options.outputFile}"]
         },
         "publish": {
           "builder": "@nrwl/workspace:run-commands",
           "options": {
             "command": "yarn publish dist/libs/admin/leave-level-approve"
-          }
-        }
-      }
-    },
-    "admin-leave-configs": {
-      "projectType": "library",
-      "root": "libs/admin/leave-configs",
-      "sourceRoot": "libs/admin/leave-configs/src",
-      "prefix": "hcm",
-      "architect": {
-        "build": {
-          "builder": "@nrwl/angular:package",
-          "outputs": ["dist/libs/admin/leave-configs"],
-          "options": {
-            "project": "libs/admin/leave-configs/ng-package.json"
-          },
-          "configurations": {
-            "production": {
-              "tsConfig": "libs/admin/leave-configs/tsconfig.lib.prod.json"
-            },
-            "development": {
-              "tsConfig": "libs/admin/leave-configs/tsconfig.lib.json"
-            }
-          },
-          "defaultConfiguration": "production"
-        },
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/admin/leave-configs"],
-          "options": {
-            "jestConfig": "libs/admin/leave-configs/jest.config.js",
-            "passWithNoTests": true
-          }
-        },
-        "lint": {
-          "builder": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": ["libs/admin/leave-configs/src/**/*.ts", "libs/admin/leave-configs/src/**/*.html"]
-          }
-        },
-        "publish": {
-          "builder": "@nrwl/workspace:run-commands",
-          "options": {
-            "command": "yarn publish dist/libs/admin/leave-configs"
           }
         }
       }
@@ -442,7 +450,8 @@
           "builder": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": ["libs/admin/offices/src/**/*.ts", "libs/admin/offices/src/**/*.html"]
-          }
+          },
+          "outputs": ["{options.outputFile}"]
         },
         "publish": {
           "builder": "@nrwl/workspace:run-commands",
@@ -486,7 +495,8 @@
           "builder": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": ["libs/admin/permissions/src/**/*.ts", "libs/admin/permissions/src/**/*.html"]
-          }
+          },
+          "outputs": ["{options.outputFile}"]
         },
         "publish": {
           "builder": "@nrwl/workspace:run-commands",
@@ -530,7 +540,8 @@
           "builder": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": ["libs/admin/seat-map/src/**/*.ts", "libs/admin/seat-map/src/**/*.html"]
-          }
+          },
+          "outputs": ["{options.outputFile}"]
         },
         "publish": {
           "builder": "@nrwl/workspace:run-commands",
@@ -577,7 +588,8 @@
               "libs/admin/team-building-allowance/src/**/*.ts",
               "libs/admin/team-building-allowance/src/**/*.html"
             ]
-          }
+          },
+          "outputs": ["{options.outputFile}"]
         },
         "publish": {
           "builder": "@nrwl/workspace:run-commands",
@@ -621,7 +633,8 @@
           "builder": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": ["libs/admin/tenant/src/**/*.ts", "libs/admin/tenant/src/**/*.html"]
-          }
+          },
+          "outputs": ["{options.outputFile}"]
         },
         "publish": {
           "builder": "@nrwl/workspace:run-commands",
@@ -665,7 +678,8 @@
           "builder": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": ["libs/admin/user-roles/src/**/*.ts", "libs/admin/user-roles/src/**/*.html"]
-          }
+          },
+          "outputs": ["{options.outputFile}"]
         },
         "publish": {
           "builder": "@nrwl/workspace:run-commands",
@@ -709,7 +723,8 @@
           "builder": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": ["libs/admin/workflows/src/**/*.ts", "libs/admin/workflows/src/**/*.html"]
-          }
+          },
+          "outputs": ["{options.outputFile}"]
         },
         "publish": {
           "builder": "@nrwl/workspace:run-commands",
@@ -753,7 +768,8 @@
           "builder": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": ["libs/admin/working-times/src/**/*.ts", "libs/admin/working-times/src/**/*.html"]
-          }
+          },
+          "outputs": ["{options.outputFile}"]
         },
         "publish": {
           "builder": "@nrwl/workspace:run-commands",
@@ -786,7 +802,8 @@
           "builder": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": ["libs/auth/src/**/*.ts", "libs/auth/src/**/*.html"]
-          }
+          },
+          "outputs": ["{options.outputFile}"]
         },
         "test": {
           "builder": "@nrwl/jest:jest",
@@ -838,7 +855,8 @@
           "builder": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": ["libs/calendar/src/**/*.ts", "libs/calendar/src/**/*.html"]
-          }
+          },
+          "outputs": ["{options.outputFile}"]
         },
         "publish": {
           "builder": "@nrwl/workspace:run-commands",
@@ -882,7 +900,8 @@
           "builder": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": ["libs/cdk/src/**/*.ts", "libs/cdk/src/**/*.html"]
-          }
+          },
+          "outputs": ["{options.outputFile}"]
         },
         "publish": {
           "builder": "@nrwl/workspace:run-commands",
@@ -926,7 +945,8 @@
           "builder": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": ["libs/chat/src/**/*.ts", "libs/chat/src/**/*.html"]
-          }
+          },
+          "outputs": ["{options.outputFile}"]
         },
         "publish": {
           "builder": "@nrwl/workspace:run-commands",
@@ -969,7 +989,8 @@
           "builder": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": ["libs/configurations/src/**/*.ts", "libs/configurations/src/**/*.html"]
-          }
+          },
+          "outputs": ["{options.outputFile}"]
         },
         "test": {
           "builder": "@nrwl/jest:jest",
@@ -1010,7 +1031,8 @@
           "builder": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": ["libs/core/src/**/*.ts", "libs/core/src/**/*.html"]
-          }
+          },
+          "outputs": ["{options.outputFile}"]
         },
         "test": {
           "builder": "@nrwl/jest:jest",
@@ -1051,7 +1073,8 @@
           "builder": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": ["libs/form/src/**/*.ts", "libs/form/src/**/*.html"]
-          }
+          },
+          "outputs": ["{options.outputFile}"]
         },
         "test": {
           "builder": "@nrwl/jest:jest",
@@ -1153,7 +1176,8 @@
           "builder": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": ["apps/hcm-web/src/**/*.ts", "apps/hcm-web/src/**/*.html"]
-          }
+          },
+          "outputs": ["{options.outputFile}"]
         },
         "test": {
           "builder": "@nrwl/jest:jest",
@@ -1194,7 +1218,8 @@
           "builder": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": ["apps/hcm-web-e2e/**/*.{js,ts}"]
-          }
+          },
+          "outputs": ["{options.outputFile}"]
         }
       }
     },
@@ -1297,7 +1322,8 @@
           "builder": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": ["apps/hcm-workflows/src/**/*.ts", "apps/hcm-workflows/src/**/*.html"]
-          }
+          },
+          "outputs": ["{options.outputFile}"]
         },
         "test": {
           "builder": "@nrwl/jest:jest",
@@ -1331,7 +1357,8 @@
           "builder": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": ["apps/hcm-workflows-e2e/**/*.{js,ts}"]
-          }
+          },
+          "outputs": ["{options.outputFile}"]
         }
       }
     },
@@ -1358,7 +1385,8 @@
           "builder": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": ["libs/home/src/**/*.ts", "libs/home/src/**/*.html"]
-          }
+          },
+          "outputs": ["{options.outputFile}"]
         },
         "test": {
           "builder": "@nrwl/jest:jest",
@@ -1399,7 +1427,8 @@
           "builder": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": ["libs/human-resource/src/**/*.ts", "libs/human-resource/src/**/*.html"]
-          }
+          },
+          "outputs": ["{options.outputFile}"]
         },
         "test": {
           "builder": "@nrwl/jest:jest",
@@ -1440,7 +1469,8 @@
           "builder": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": ["libs/knowledge-base/src/**/*.ts", "libs/knowledge-base/src/**/*.html"]
-          }
+          },
+          "outputs": ["{options.outputFile}"]
         },
         "test": {
           "builder": "@nrwl/jest:jest",
@@ -1481,7 +1511,8 @@
           "builder": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": ["libs/my-time/src/**/*.ts", "libs/my-time/src/**/*.html"]
-          }
+          },
+          "outputs": ["{options.outputFile}"]
         },
         "test": {
           "builder": "@nrwl/jest:jest",
@@ -1522,7 +1553,8 @@
           "builder": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": ["libs/notifications/src/**/*.ts", "libs/notifications/src/**/*.html"]
-          }
+          },
+          "outputs": ["{options.outputFile}"]
         },
         "test": {
           "builder": "@nrwl/jest:jest",
@@ -1563,7 +1595,8 @@
           "builder": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": ["libs/payslip/src/**/*.ts", "libs/payslip/src/**/*.html"]
-          }
+          },
+          "outputs": ["{options.outputFile}"]
         },
         "test": {
           "builder": "@nrwl/jest:jest",
@@ -1604,7 +1637,8 @@
           "builder": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": ["libs/report/src/**/*.ts", "libs/report/src/**/*.html"]
-          }
+          },
+          "outputs": ["{options.outputFile}"]
         },
         "test": {
           "builder": "@nrwl/jest:jest",
@@ -1656,7 +1690,8 @@
           "builder": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": ["libs/seat-maps/src/**/*.ts", "libs/seat-maps/src/**/*.html"]
-          }
+          },
+          "outputs": ["{options.outputFile}"]
         },
         "publish": {
           "builder": "@nrwl/workspace:run-commands",
@@ -1689,7 +1724,8 @@
           "builder": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": ["libs/ui/src/**/*.ts", "libs/ui/src/**/*.html"]
-          }
+          },
+          "outputs": ["{options.outputFile}"]
         },
         "test": {
           "builder": "@nrwl/jest:jest",
@@ -1741,7 +1777,8 @@
           "builder": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": ["libs/workflow-designer/src/**/*.ts", "libs/workflow-designer/src/**/*.html"]
-          }
+          },
+          "outputs": ["{options.outputFile}"]
         },
         "publish": {
           "builder": "@nrwl/workspace:run-commands",

@@ -33,9 +33,9 @@
             ></tui-svg>
           </ng-template>
         </td>
-        <td class="font-semibold">{{ item.userInfo.cif }}</td>
-        <td class="font-semibold">{{ item.userInfo.fullName }}</td>
-        <td class="font-semibold">{{ item.userInfo.office?.name }}</td>
+        <td class="font-semibold">{{ item.userInfo?.cif }}</td>
+        <td class="font-semibold">{{ item.userInfo?.fullName }}</td>
+        <td class="font-semibold">{{ item.userInfo?.office?.name }}</td>
         <td class="font-semibold">{{ fromDateForGroupBy | translocoDate }} - {{ toDateForGroupBy | translocoDate }}</td>
         <td class="font-semibold">
           {{

@@ -23,7 +23,6 @@ export interface WorkingTimes {
 export interface WorkingTimesItemsValues {
   from: number;
   to: number;
-  workShift: boolean;
 }
 
 export interface WorkingTimesItems {

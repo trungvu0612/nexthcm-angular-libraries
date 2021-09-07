@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
+import { Actions } from '@datorama/akita-ng-effects';
+import { JobTitlesQuery, loadJobTitles } from '@nexthcm/cdk';
 import { FormBuilder } from '@ngneat/reactive-forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDialogContext } from '@taiga-ui/core';
@@ -61,7 +63,7 @@ export class AddConditionToTransitionDialogComponent extends AbstractAddOptionTo
         textfieldLabelOutside: true,
         placeholder: 'searchJobTitles',
         required: true,
-        serverRequest: (searchQuery: string) => this.adminWorkflowsService.searchJobTitles(searchQuery),
+        serverRequest: (searchQuery: string) => this.jobTitlesQuery.searchJobTitles(searchQuery),
       },
       hideExpression: (model: TransitionCondition) => model.conditionType?.code !== ConditionType.UserInTitles,
     },
@@ -74,8 +76,11 @@ export class AddConditionToTransitionDialogComponent extends AbstractAddOptionTo
       TransitionOption<ConditionType>,
       TransitionOptionsDialogData<ConditionType, TransitionCondition>
     >,
-    readonly adminWorkflowsService: AdminWorkflowsService
+    readonly adminWorkflowsService: AdminWorkflowsService,
+    private readonly jobTitlesQuery: JobTitlesQuery,
+    private readonly actions: Actions
   ) {
     super(fb, context, adminWorkflowsService);
+    this.actions.dispatch(loadJobTitles());
   }
 }
