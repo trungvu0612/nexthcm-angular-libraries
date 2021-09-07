@@ -10,7 +10,7 @@ import { from, Observable } from 'rxjs';
 import { filter, map, switchMap, takeUntil } from 'rxjs/operators';
 import { UpsertLeaveConfigComponent } from '../../components/upsert-leave-configs/upsert-leave-configs.component';
 import { PaidLeaveStatus } from '../../enums/paid-leave-status';
-import { LeaveConfigsService } from '../../leave-configs.service';
+import { LeaveConfigAPIUrlPath, LeaveConfigsService } from '../../leave-configs.service';
 import { LeaveConfig } from '../../models/leave-config';
 
 @Component({
@@ -21,6 +21,7 @@ import { LeaveConfig } from '../../models/leave-config';
   providers: [TuiDestroyService, RxState],
 })
 export class ListLeaveConfigsComponent extends AbstractServerPaginationTableComponent<LeaveConfig> {
+  readonly leaveConfigAPIUrlPath = LeaveConfigAPIUrlPath.leaveType;
   @ViewChild('table') table!: BaseComponent;
   readonly PaidLeaveStatus = PaidLeaveStatus;
   columns$: Observable<Columns[]> = this.translocoService
@@ -36,13 +37,16 @@ export class ListLeaveConfigsComponent extends AbstractServerPaginationTableComp
     );
   activeItemIndex = 0;
   private readonly request$ = this.queryParams$.pipe(
-    switchMap(() => this.leaveTypeService.getLeaveTypes(this.queryParams$.value)),
+    switchMap(() =>
+      this.leaveConfigsService.getConfig<LeaveConfig>(this.leaveConfigAPIUrlPath, this.queryParams$.value)
+    ),
     map((res) => res.data)
   );
   readonly loading$ = this.request$.pipe(map((value) => !value));
 
   constructor(
     public state: RxState<Pagination<LeaveConfig>>,
+    private leaveConfigsService: LeaveConfigsService,
     private leaveTypeService: LeaveConfigsService,
     private destroy$: TuiDestroyService,
     private dialogService: TuiDialogService,
@@ -57,7 +61,7 @@ export class ListLeaveConfigsComponent extends AbstractServerPaginationTableComp
   onAddLeaveLevel(): void {
     this.openDialog('addLeaveLevelApprove')
       .pipe(
-        switchMap((data) => this.leaveTypeService.createLeaveType(data)),
+        switchMap((data) => this.leaveConfigsService.create<LeaveConfig>(this.leaveConfigAPIUrlPath, data)),
         takeUntil(this.destroy$)
       )
       .subscribe(
@@ -78,7 +82,7 @@ export class ListLeaveConfigsComponent extends AbstractServerPaginationTableComp
       )
         .pipe(
           filter((result) => result.isConfirmed),
-          switchMap(() => this.leaveTypeService.delete(id)),
+          switchMap(() => this.leaveConfigsService.delete(this.leaveConfigAPIUrlPath, id)),
           takeUntil(this.destroy$)
         )
         .subscribe(
@@ -92,7 +96,7 @@ export class ListLeaveConfigsComponent extends AbstractServerPaginationTableComp
   onEditLeaveLevelApprove(leaveType: LeaveConfig): void {
     this.openDialog('editLeaveLevelApprove', leaveType)
       .pipe(
-        switchMap((data) => this.leaveTypeService.editLeaveType(data)),
+        switchMap((data) => this.leaveConfigsService.edit<LeaveConfig>(this.leaveConfigAPIUrlPath, data)),
         takeUntil(this.destroy$)
       )
       .subscribe(

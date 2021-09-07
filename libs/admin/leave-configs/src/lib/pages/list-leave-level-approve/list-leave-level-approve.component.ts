@@ -8,9 +8,9 @@ import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { BaseComponent, Columns } from 'ngx-easy-table';
 import { from, Observable } from 'rxjs';
 import { filter, map, switchMap, takeUntil } from 'rxjs/operators';
-import { UpsertLeaveLevelApproveDialogComponent } from '../../../../../leave-level-approve/src/lib/components/upsert-leave-level-approve/upsert-leave-level-approve-dialog.component';
-import { LevelApprove } from '../../../../../leave-level-approve/src/lib/models/level-approve';
-import { AdminLeaveLevelApproveService } from '../../../../../leave-level-approve/src/lib/services/admin-leave-level-approve.service';
+import { UpsertLeaveLevelApproveComponent } from '../../components/upsert-leave-level-approve/upsert-leave-level-approve.component';
+import { LeaveConfigAPIUrlPath, LeaveConfigsService } from '../../leave-configs.service';
+import { LevelApprove } from '../../models/level-approve';
 
 @Component({
   selector: 'hcm-list-leave-level-approve',
@@ -20,6 +20,7 @@ import { AdminLeaveLevelApproveService } from '../../../../../leave-level-approv
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ListLeaveLevelApproveComponent extends AbstractServerPaginationTableComponent<LevelApprove> {
+  readonly leaveConfigAPIUrlPath = LeaveConfigAPIUrlPath.leaveLevelApprove;
   @ViewChild('table') table!: BaseComponent;
   readonly columns$: Observable<Columns[]> = this.translocoService
     .selectTranslateObject('ADMIN_LEAVE_LEVEL_APPROVE_MANAGEMENT_COLUMNS')
@@ -32,7 +33,9 @@ export class ListLeaveLevelApproveComponent extends AbstractServerPaginationTabl
       ])
     );
   private readonly request$ = this.queryParams$.pipe(
-    switchMap(() => this.levelApproveService.getAdminLevelApproves(this.queryParams$.value)),
+    switchMap(() =>
+      this.leaveConfigsService.getConfig<LevelApprove>(this.leaveConfigAPIUrlPath, this.queryParams$.value)
+    ),
     map((res) => res.data)
   );
   readonly loading$ = this.request$.pipe(map((value) => !value));
@@ -40,11 +43,11 @@ export class ListLeaveLevelApproveComponent extends AbstractServerPaginationTabl
   constructor(
     public state: RxState<Pagination<LevelApprove>>,
     private destroy$: TuiDestroyService,
+    private leaveConfigsService: LeaveConfigsService,
     private dialogService: TuiDialogService,
     private injector: Injector,
     private translocoService: TranslocoService,
-    private promptService: PromptService,
-    private levelApproveService: AdminLeaveLevelApproveService
+    private promptService: PromptService
   ) {
     super(state);
     state.connect(this.request$, (state, data) =>
@@ -70,7 +73,7 @@ export class ListLeaveLevelApproveComponent extends AbstractServerPaginationTabl
   onAddLeaveLevel(): void {
     this.openDialog('addLeaveLevelApprove')
       .pipe(
-        switchMap((data) => this.levelApproveService.createAdminLevelApprove(data)),
+        switchMap((data) => this.leaveConfigsService.create<LevelApprove>(this.leaveConfigAPIUrlPath, data)),
         takeUntil(this.destroy$)
       )
       .subscribe(
@@ -91,7 +94,7 @@ export class ListLeaveLevelApproveComponent extends AbstractServerPaginationTabl
       )
         .pipe(
           filter((result) => result.isConfirmed),
-          switchMap(() => this.levelApproveService.deleteAdminLevelApprove(id)),
+          switchMap(() => this.leaveConfigsService.delete<LevelApprove>(this.leaveConfigAPIUrlPath, id)),
           takeUntil(this.destroy$)
         )
         .subscribe(
@@ -105,7 +108,7 @@ export class ListLeaveLevelApproveComponent extends AbstractServerPaginationTabl
   onEditLeaveLevelApprove(levelApprove: LevelApprove): void {
     this.openDialog('editLeaveLevelApprove', levelApprove)
       .pipe(
-        switchMap((data) => this.levelApproveService.updateAdminLevelApprove(data)),
+        switchMap((data) => this.leaveConfigsService.edit<LevelApprove>(this.leaveConfigAPIUrlPath, data)),
         takeUntil(this.destroy$)
       )
       .subscribe(
@@ -117,7 +120,7 @@ export class ListLeaveLevelApproveComponent extends AbstractServerPaginationTabl
 
   private openDialog(label: string, data?: LevelApprove): Observable<LevelApprove> {
     return this.dialogService.open<LevelApprove>(
-      new PolymorpheusComponent(UpsertLeaveLevelApproveDialogComponent, this.injector),
+      new PolymorpheusComponent(UpsertLeaveLevelApproveComponent, this.injector),
       {
         label: this.translocoService.translate(label),
         size: 'l',

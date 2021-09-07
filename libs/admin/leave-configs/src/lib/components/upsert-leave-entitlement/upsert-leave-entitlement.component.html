@@ -1,1 +1,13 @@
-<p>upsert-leave-entitlement works!</p>
+<form (ngSubmit)="onSubmit()" [formGroup]="$any(form)">
+  <formly-form [fields]="fields" [form]="$any(form)" [model]="model"></formly-form>
+  <div *transloco="let t" class="tui-form__buttons">
+    <button class="tui-form__button" size="l" tuiButton>{{ t('save') }}</button>
+    <button (click)="onCancel()" appearance="flat" class="tui-form__button" size="l" tuiButton type="button">
+      {{ t('cancel') }}
+    </button>
+  </div>
+</form>
+
+<ng-template #userContent="polymorpheus" [polymorpheus]="userContext" let-user>
+  <b>{{ user.name }}</b> ({{ user.username }})
+</ng-template>

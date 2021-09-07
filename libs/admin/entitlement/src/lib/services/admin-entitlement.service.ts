@@ -1,9 +1,17 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ACCOUNT_API_PATH, JobTitle, MY_TIME_API_PATH, PagingResponse, UserDto } from '@nexthcm/cdk';
+import {
+  ACCOUNT_API_PATH,
+  BaseObject,
+  BaseResponse,
+  JobTitle,
+  MY_TIME_API_PATH,
+  PagingResponse,
+  UserDto,
+} from '@nexthcm/cdk';
 import { RxState } from '@rx-angular/state';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 import { LeaveEntitlement, LeaveType, Org } from '../models/leave-entitlement';
 import { LeavePeriod } from '../models/leave-period';
 
@@ -24,6 +32,13 @@ export class AdminEntitlementService extends RxState<ServiceState> {
     this.connect('leavePeriod', this.getPeriods());
     this.connect('org', this.getOrgs());
     this.connect('emp', this.getUserSameOrgAndChildOrg());
+  }
+
+  searchUsers(searchQuery: string): Observable<BaseObject[]> {
+    return this.http.get<BaseResponse<BaseObject[]>>(`${ACCOUNT_API_PATH}/users/v2?search=${searchQuery}`).pipe(
+      map((res) => res.data),
+      catchError(() => of([]))
+    );
   }
 
   getJobTitles(): Observable<JobTitle[]> {

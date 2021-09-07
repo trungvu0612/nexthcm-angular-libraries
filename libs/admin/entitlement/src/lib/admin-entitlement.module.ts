@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Route, RouterModule } from '@angular/router';
 import { SelectOptionsModule } from '@nexthcm/cdk';
-import { LayoutComponent } from '@nexthcm/ui';
+import { FormlyUserComboBoxComponentModule, LayoutComponent } from '@nexthcm/ui';
 import { TranslocoModule } from '@ngneat/transloco';
 import { FormlyModule } from '@ngx-formly/core';
 import { TuiTableModule, TuiTablePaginationModule } from '@taiga-ui/addon-table';
@@ -16,6 +16,7 @@ import {
   TuiTabsModule,
   TuiTagModule,
 } from '@taiga-ui/kit';
+import { PolymorpheusModule } from '@tinkoff/ng-polymorpheus';
 import { TableModule } from 'ngx-easy-table';
 import { NgxPermissionsGuard } from 'ngx-permissions';
 import { ListEntitlementComponent } from './pages/list-entitlement/list-entitlement.component';
@@ -51,12 +52,14 @@ export const adminEntitlementRoutes: Route[] = [
     TuiMultiSelectModule,
     TuiDataListWrapperModule,
     TuiDataListModule,
+    FormlyUserComboBoxComponentModule,
     TuiLetModule,
     SelectOptionsModule,
     TuiLoaderModule,
     TableModule,
     TranslocoModule,
     TuiTabsModule,
+    PolymorpheusModule,
   ],
   declarations: [ListEntitlementComponent, UpsertEntitlementComponent],
   providers: [AdminEntitlementService],

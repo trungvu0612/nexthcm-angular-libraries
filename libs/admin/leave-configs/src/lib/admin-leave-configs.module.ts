@@ -2,20 +2,21 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Route, RouterModule } from '@angular/router';
-import { FormlyTaigaUiModule, LayoutComponent, LayoutModule } from '@nexthcm/ui';
+import { FormlyTaigaUiModule, FormlyUserComboBoxComponentModule, LayoutComponent, LayoutModule } from '@nexthcm/ui';
 import { TranslocoModule } from '@ngneat/transloco';
 import { FormlyModule } from '@ngx-formly/core';
 import { TuiTablePaginationModule } from '@taiga-ui/addon-table';
 import { TuiButtonModule, TuiLoaderModule } from '@taiga-ui/core';
 import { TuiMarkerIconModule, TuiTabsModule, TuiTagModule } from '@taiga-ui/kit';
+import { PolymorpheusModule } from '@tinkoff/ng-polymorpheus';
 import { TableModule } from 'ngx-easy-table';
 import { NgxPermissionsGuard } from 'ngx-permissions';
-import { AdminLeaveLevelApproveService } from '../../../leave-level-approve/src/lib/services/admin-leave-level-approve.service';
 import { UpsertLeaveConfigComponent } from './components/upsert-leave-configs/upsert-leave-configs.component';
 import { UpsertLeaveEntitlementComponent } from './components/upsert-leave-entitlement/upsert-leave-entitlement.component';
 import { UpsertLeaveLevelApproveComponent } from './components/upsert-leave-level-approve/upsert-leave-level-approve.component';
 import { UpsertLeavePeriodComponent } from './components/upsert-leave-period/upsert-leave-period.component';
 import { LeaveConfigsComponent } from './leave-configs.component';
+import { LeaveConfigsService } from './leave-configs.service';
 import { ListLeaveConfigsComponent } from './pages/list-leave-configs/list-leave-configs.component';
 import { ListLeaveEntitlementComponent } from './pages/list-leave-entitlement/list-leave-entitlement.component';
 import { ListLeaveLevelApproveComponent } from './pages/list-leave-level-approve/list-leave-level-approve.component';
@@ -90,7 +91,9 @@ export const adminLeaveTypesRoutes: Route[] = [
     ReactiveFormsModule,
     LayoutModule,
     TuiTabsModule,
+    PolymorpheusModule,
+    FormlyUserComboBoxComponentModule
   ],
-  providers: [AdminLeaveLevelApproveService],
+  providers: [LeaveConfigsService]
 })
 export class AdminLeaveConfigsModule {}

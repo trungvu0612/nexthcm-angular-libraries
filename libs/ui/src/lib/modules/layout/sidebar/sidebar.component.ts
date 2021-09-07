@@ -78,22 +78,10 @@ export class SidebarComponent implements OnInit {
       permissions: 'VIEW_JOB_TITLE',
     },
     {
-      label: 'entitlementManagement',
-      link: '/admin/entitlements',
-      icon: 'entitlement',
-      permissions: 'VIEW_ALLOWANCE_TYPE',
-    },
-    {
-      label: 'periodManagement',
-      link: '/admin/period',
-      icon: 'period',
+      label: 'leaveConfigManagement',
+      link: '/admin/leave-configs/',
+      icon: 'leaveConfig',
       permissions: 'ADMIN', // TODO need fix
-    },
-    {
-      label: 'leaveTypeManagement',
-      link: '/admin/leave-configs',
-      icon: 'leave-type',
-      permissions: 'VIEW_LEAVE_TYPE',
     },
     {
       label: 'workingTimeManagement',
@@ -105,12 +93,6 @@ export class SidebarComponent implements OnInit {
       label: 'contractManagement',
       link: '/admin/contracts',
       icon: 'contracts',
-      permissions: 'ADMIN', // TODO need fix
-    },
-    {
-      label: 'leaveLevelApprove',
-      link: '/admin/leave-level-approve',
-      icon: 'leave-level-approve',
       permissions: 'ADMIN', // TODO need fix
     },
   ];
