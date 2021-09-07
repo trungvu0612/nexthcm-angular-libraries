@@ -5,7 +5,7 @@ import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { LevelApprove } from '../../../../../leave-level-approve/src/lib/models/level-approve';
-import { AdminLeaveLevelApproveService } from '../../../../../leave-level-approve/src/lib/services/admin-leave-level-approve.service';
+import { LeaveConfigsService } from '../../leave-configs.service';
 
 @Component({
   selector: 'hcm-upsert-leave-level-approve',
@@ -29,7 +29,7 @@ export class UpsertLeaveLevelApproveComponent implements OnInit {
         labelClassName: 'font-semibold',
         placeholder: 'chooseLeaveType',
         required: true,
-        options: this.levelApproveService.select('leaveTypes'),
+        options: this.leaveConfigsService.select('leaveTypes'),
         labelProp: 'name',
         matcherBy: 'id',
       },
@@ -44,7 +44,7 @@ export class UpsertLeaveLevelApproveComponent implements OnInit {
         label: 'Job Titles',
         labelClassName: 'font-semibold',
         placeholder: 'chooseRoles',
-        options: this.levelApproveService.select('jobTitles'),
+        options: this.leaveConfigsService.select('jobTitles'),
         matcherBy: 'id',
       },
     },
@@ -67,9 +67,9 @@ export class UpsertLeaveLevelApproveComponent implements OnInit {
 
   constructor(
     @Inject(POLYMORPHEUS_CONTEXT) public context: TuiDialogContext<LevelApprove, LevelApprove>,
-    private levelApproveService: AdminLeaveLevelApproveService,
     private fb: FormBuilder,
-    private authService: AuthService
+    private authService: AuthService,
+    private leaveConfigsService: LeaveConfigsService
   ) {}
 
   ngOnInit(): void {

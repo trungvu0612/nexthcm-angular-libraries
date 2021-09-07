@@ -7,5 +7,8 @@
     </button>
   </div>
 </form>
-<pre>{{model | json}}</pre>
+
+<ng-template #userContent="polymorpheus" [polymorpheus]="userContext" let-user>
+  <b>{{ user.name }}</b> ({{ user.username }})
+</ng-template>
 

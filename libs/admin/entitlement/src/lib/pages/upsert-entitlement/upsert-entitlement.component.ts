@@ -1,11 +1,12 @@
-import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { AuthService } from '@nexthcm/auth';
+import { BaseUser } from '@nexthcm/cdk';
 import { FormBuilder } from '@ngneat/reactive-forms';
 import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { NumericValueType, RxwebValidators } from '@rxweb/reactive-form-validators';
 import { TuiDialogContext } from '@taiga-ui/core';
-import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
+import { POLYMORPHEUS_CONTEXT, PolymorpheusTemplate } from '@tinkoff/ng-polymorpheus';
 import { distinctUntilChanged, map, startWith, switchMap } from 'rxjs/operators';
 import { LeaveEntitlement } from '../../models/leave-entitlement';
 import { AdminEntitlementService } from '../../services/admin-entitlement.service';
@@ -17,6 +18,9 @@ import { AdminEntitlementService } from '../../services/admin-entitlement.servic
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UpsertEntitlementComponent implements OnInit {
+  @ViewChild('userContent', { static: true }) userContent!: PolymorpheusTemplate<BaseUser>;
+  readonly userContext!: { $implicit: BaseUser };
+
   form = this.fb.group<LeaveEntitlement>({} as LeaveEntitlement);
   model = {} as LeaveEntitlement;
   fields: FormlyFieldConfig[] = [
@@ -39,42 +43,25 @@ export class UpsertEntitlementComponent implements OnInit {
     },
     // {
     //   key: 'employeeId',
-    //   type: 'select',
-    //   templateOptions: {
-    //     translate: true,
-    //     label: 'Employee',
-    //     labelClassName: 'font-semibold',
-    //     placeholder: 'Employee',
-    //     required: true,
-    //     options: this.adminEntitlementService.select('emp'),
-    //     labelProp: 'username',
-    //     matcherBy: 'id',
-    //   },
-    //   hideExpression: '(model.status)',
-    //   expressionProperties: {
-    //     className: '(model.status)  ?  "hidden" : ""',
-    //   },
-    // },
-
-    // {
-    //   key: 'employeeId',
     //   className: 'tui-form__row block',
     //   type: 'user-combo-box',
     //   templateOptions: {
     //     translate: true,
-    //     label: 'Employee',
+    //     label: 'sendTo',
     //     labelClassName: 'font-semibold',
-    //     placeholder: 'Employee',
-    //     required: true,
+    //     placeholder: 'chooseAPerson',
+    //     customContent: this.userContent,
+    //     serverRequest: (searchQuery: string) => this.adminEntitlementService.searchUsers(searchQuery),
     //     labelProp: 'username',
+    //     valueProp: 'id',
     //     matcherBy: 'id',
+    //     textfieldLabelOutside: true,
     //   },
     //   hideExpression: '(model.status)',
     //   expressionProperties: {
     //     className: '(model.status)  ?  "hidden" : ""',
     //   },
     // },
-
     {
       key: 'employeeId',
       className: 'tui-form__row block',
@@ -84,13 +71,16 @@ export class UpsertEntitlementComponent implements OnInit {
         label: 'sendTo',
         labelClassName: 'font-semibold',
         placeholder: 'chooseAPerson',
-        labelProp: 'name',
-        // valueProp: 'id',
+        labelProp: 'username',
+        valueProp: 'id',
         matcherBy: 'id',
         textfieldLabelOutside: true,
       },
+      hideExpression: '(model.status)',
+      expressionProperties: {
+        className: '(model.status)  ?  "hidden" : ""',
+      },
     },
-
     {
       key: 'orgId',
       type: 'select',
@@ -184,9 +174,21 @@ export class UpsertEntitlementComponent implements OnInit {
         this.model.status = false;
       }
       this.model = { ...this.model, ...this.context.data };
+      console.log('aaaaaaaaaaaa', this.context.data);
       this.model.jobTitleDTOList = this.context.data.jobTitleDTOList;
     }
   }
+
+  // private static getJobTitleName(levelApprove: LevelApprove): LevelApprove {
+  //   if (!levelApprove.jobTitleDTOList) {
+  //     return levelApprove;
+  //   }
+  //   levelApprove.jobTitlesName = levelApprove.jobTitleDTOList
+  //     .map((jobTitle) => jobTitle.name)
+  //     .filter(isPresent)
+  //     .join(', ');
+  //   return levelApprove;
+  // }
 
   onSubmit(): void {
     if (this.form.valid) {
@@ -202,6 +204,7 @@ export class UpsertEntitlementComponent implements OnInit {
         }
         this.form.value.jobTitle = arrayTitle;
       }
+
       this.form.value.entitlement = +this.model.entitlement;
       const formModel = { ...this.form.value };
       this.context.completeWith(formModel);

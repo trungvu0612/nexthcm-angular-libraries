@@ -364,6 +364,19 @@
     "sendTo": "Gửi tới",
     "functions": "Chức năng"
   },
+  "ADMIN_LEAVE_ENTITLEMENT_MANAGEMENT_COLUMNS": {
+    "period": "Khoản thời gian",
+    "jobTitle": "Chức vụ",
+    "totalLeave": "Số ngày nghỉ",
+    "functions": "Chức năng"
+  },
+  "leaveEntitlementManagement": "Quản lý quyền lợi",
+  "addLeaveEntitlementApprove": "Tạo quyền lợi",
+  "addLeaveEntitlementApproveSuccessfully": "Add quyền lợi thành công",
+  "deleteLeaveEntitlement": "Xóa quyền lợi",
+  "removeLeaveEntitlementSuccessfully": "Xóa quyền lợi thành công",
+  "editLeaveEntitlement": "Sửa quyền lợi",
+  "updateLeaveEntitlementSuccessfully": "Sửa quyền lợi thành công",
   "ADMIN_EMPLOYEE_MANAGEMENT_COLUMNS": {
     "cif": "CIF",
     "fullName": "Họ tên",
@@ -843,5 +856,22 @@
   "checkInSuccessfully": "<b>Ghi giờ vào thành công!</b>",
   "checkOutSuccessfully": "<b>Ghi giờ ra thành công!</b>",
   "newStatus": "trạng thái mới",
-  "invalidCredential": "Tên đăng nhập hoặc mật khẩu không đúng."
+  "invalidCredential": "Tên đăng nhập hoặc mật khẩu không đúng.",
+  "ADMIN_PERIOD_MANAGEMENT_COLUMNS": {
+    "startDate": "Ngày bắt đầu",
+    "endDate": "Ngày kết thúc",
+    "status": "Trạng thái",
+    "functions": "Chức năng"
+  },
+  "leavePeriodManagement": "Quản lý khoảng thời gian",
+  "addLeavePeriod": "Tạo khoảng thời gian",
+  "addLeavePeriodSuccessfully": "Add khoảng thời gian thành công",
+  "deleteLeavePeriod": "Xóa khoảng thời gian",
+  "removeLeavePeriodSuccessfully": "Xóa khoảng thời gian thành công",
+  "editLeavePeriod": "Chỉnh sửa khoảng thời gian",
+  "updateLeavePeriodSuccessfully": "Chỉnh sửa khoảng thời gian thành công",
+  "leavePeriod": "Khoản thời gian",
+  "leaveEntitlement": "Quyền lợi",
+  "leaveLeveApprove": "Cấp bậc",
+  "leaveConfigManagement": "Quản lý thiết lập ngày nghỉ"
 }

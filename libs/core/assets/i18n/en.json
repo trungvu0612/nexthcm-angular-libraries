@@ -362,6 +362,19 @@
     "sendTo": "Send To",
     "functions": "Functions"
   },
+  "ADMIN_LEAVE_ENTITLEMENT_MANAGEMENT_COLUMNS": {
+    "period": "Period",
+    "jobTitle": "Job Title",
+    "totalLeave": "Total Leave",
+    "functions": "Functions"
+  },
+  "leaveEntitlementManagement": "Leave entitlement management",
+  "addLeaveEntitlementApprove": "Add leave entitlement",
+  "addLeaveEntitlementApproveSuccessfully": "Add leave entitlement successfully",
+  "deleteLeaveEntitlement": "Delete leave entitlement",
+  "removeLeaveEntitlementSuccessfully": "Delete leave entitlement successfully",
+  "editLeaveEntitlement": "Edit leave entitlement",
+  "updateLeaveEntitlementSuccessfully": "Edit leave entitlement successfully",
   "ADMIN_EMPLOYEE_MANAGEMENT_COLUMNS": {
     "cif": "CIF",
     "fullName": "Full Name",
@@ -857,8 +870,18 @@
   "invalidCredential": "The username or password is incorrect.",
   "ADMIN_PERIOD_MANAGEMENT_COLUMNS": {
     "startDate": "Start Date",
-    "endDate": "End Date",
     "status": "Status",
     "functions": "Functions"
-  }
+  },
+  "leavePeriodManagement": "Leave period management",
+  "addLeavePeriod": "Add leave entitlement",
+  "addLeavePeriodSuccessfully": "Add leave entitlement successfully",
+  "deleteLeavePeriod": "Delete leave entitlement",
+  "removeLeavePeriodSuccessfully": "Delete leave entitlement successfully",
+  "editLeavePeriod": "Edit leave entitlement",
+  "updateLeavePeriodSuccessfully": "Edit leave entitlement successfully",
+  "leavePeriod": "leave Period",
+  "leaveEntitlement": "Leave Entitlement",
+  "leaveLeveApprove": "Leave Leve Approve",
+  "leaveConfigManagement": "Leave Config Management"
 }
