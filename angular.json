@@ -364,46 +364,46 @@
         }
       }
     },
-    "admin-leave-types": {
+    "admin-leave-configs": {
       "projectType": "library",
-      "root": "libs/admin/leave-types",
-      "sourceRoot": "libs/admin/leave-types/src",
+      "root": "libs/admin/leave-configs",
+      "sourceRoot": "libs/admin/leave-configs/src",
       "prefix": "hcm",
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": ["dist/libs/admin/leave-types"],
+          "outputs": ["dist/libs/admin/leave-configs"],
           "options": {
-            "project": "libs/admin/leave-types/ng-package.json"
+            "project": "libs/admin/leave-configs/ng-package.json"
           },
           "configurations": {
             "production": {
-              "tsConfig": "libs/admin/leave-types/tsconfig.lib.prod.json"
+              "tsConfig": "libs/admin/leave-configs/tsconfig.lib.prod.json"
             },
             "development": {
-              "tsConfig": "libs/admin/leave-types/tsconfig.lib.json"
+              "tsConfig": "libs/admin/leave-configs/tsconfig.lib.json"
             }
           },
           "defaultConfiguration": "production"
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/admin/leave-types"],
+          "outputs": ["coverage/libs/admin/leave-configs"],
           "options": {
-            "jestConfig": "libs/admin/leave-types/jest.config.js",
+            "jestConfig": "libs/admin/leave-configs/jest.config.js",
             "passWithNoTests": true
           }
         },
         "lint": {
           "builder": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": ["libs/admin/leave-types/src/**/*.ts", "libs/admin/leave-types/src/**/*.html"]
+            "lintFilePatterns": ["libs/admin/leave-configs/src/**/*.ts", "libs/admin/leave-configs/src/**/*.html"]
           }
         },
         "publish": {
           "builder": "@nrwl/workspace:run-commands",
           "options": {
-            "command": "yarn publish dist/libs/admin/leave-types"
+            "command": "yarn publish dist/libs/admin/leave-configs"
           }
         }
       }
@@ -448,44 +448,6 @@
           "builder": "@nrwl/workspace:run-commands",
           "options": {
             "command": "yarn publish dist/libs/admin/offices"
-          }
-        }
-      }
-    },
-    "admin-period": {
-      "projectType": "library",
-      "root": "libs/admin/period",
-      "sourceRoot": "libs/admin/period/src",
-      "prefix": "hcm",
-      "architect": {
-        "build": {
-          "builder": "@nrwl/angular:package",
-          "outputs": ["dist/libs/admin/period"],
-          "options": {
-            "project": "libs/admin/period/ng-package.json"
-          },
-          "configurations": {
-            "production": {
-              "tsConfig": "libs/admin/period/tsconfig.lib.prod.json"
-            },
-            "development": {
-              "tsConfig": "libs/admin/period/tsconfig.lib.json"
-            }
-          },
-          "defaultConfiguration": "production"
-        },
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/admin/period"],
-          "options": {
-            "jestConfig": "libs/admin/period/jest.config.js",
-            "passWithNoTests": true
-          }
-        },
-        "lint": {
-          "builder": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": ["libs/admin/period/src/**/*.ts", "libs/admin/period/src/**/*.html"]
           }
         }
       }

@@ -6,7 +6,7 @@ import { TuiDay } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { toDate } from 'date-fns';
-import { LeavePeriod } from '../../../../../entitlement/src/lib/models/leave-period';
+import { LeavePeriod } from '../../models/leave-period';
 
 @Component({
   selector: 'hcm-upsert-leave-period',

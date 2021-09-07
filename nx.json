@@ -41,13 +41,10 @@
     "admin-leave-level-approve": {
       "tags": []
     },
-    "admin-leave-types": {
+    "admin-leave-configs": {
       "tags": []
     },
     "admin-offices": {
-      "tags": []
-    },
-    "admin-period": {
       "tags": []
     },
     "admin-permissions": {
