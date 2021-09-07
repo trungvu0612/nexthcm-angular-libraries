@@ -1,56 +1,65 @@
-<main class="main-page">
+<main class='main-page'>
   <header>
-    <h1 class="text-4xl">Job Level</h1>
-    <div class="flex gap-4">
+    <h1 class='text-4xl'>Job Level</h1>
+    <div class='flex gap-4'>
       <button
-        class="tui-space_right-3 tui-space_bottom-3 ml-auto"
-        icon="tuiIconPlusLarge"
+        class='tui-space_right-3 tui-space_bottom-3 ml-auto'
+        icon='tuiIconPlusLarge'
         [routerLink]="['add']"
         tuiButton
-        type="button"
+        type='button'
       >
         Add Job Level
       </button>
     </div>
   </header>
-  <section class="main-section">
-<!--    <formly-form-->
-<!--      [fields]="fields"-->
-<!--      [form]="$any(searchForm)"-->
-<!--      [model]="model"-->
-<!--      class="grid grid-cols-4 border-start border-end"-->
-<!--    ></formly-form>-->
+  <section class='main-section'>
+    <!--    <formly-form-->
+    <!--      [fields]="fields"-->
+    <!--      [form]="$any(searchForm)"-->
+    <!--      [model]="model"-->
+    <!--      class="grid grid-cols-4 border-start border-end"-->
+    <!--    ></formly-form>-->
     <article>
-      <table [columns]="columns" class="hcm-tui-table" tuiTable>
+      <table [columns]='columns' class='hcm-tui-table' tuiTable>
         <thead>
-          <tr tuiThGroup>
-            <th *tuiHead="'name'" tuiTh>Name</th>
-            <th *tuiHead="'description'" tuiTh>Description</th>
-            <th *tuiHead="'action'" class="w-32" tuiTh>Action</th>
-          </tr>
+        <tr tuiThGroup>
+          <th *tuiHead="'name'" tuiTh>Name</th>
+          <th *tuiHead="'description'" tuiTh>Description</th>
+          <th *tuiHead="'action'" class='w-32' tuiTh>Action</th>
+        </tr>
         </thead>
-        <tbody [data]="levels" tuiTbody>
-          <tr *tuiRow="let level of levels; let index = index" tuiTr>
-            <td *tuiCell="'name'" tuiTd>{{ level.name }}</td>
-            <td *tuiCell="'description'" tuiTd>{{ level.description }}</td>
-            <td *tuiCell="'action'" tuiTd>
+        <tbody [data]='levels' tuiTbody>
+        <tr *tuiRow='let level of levels; let index = index' tuiTr>
+          <td *tuiCell="'name'" tuiTd>{{ level.name }}</td>
+          <td *tuiCell="'description'" tuiTd>{{ level.description }}</td>
+          <td *tuiCell="'action'" tuiTd>
+            <div class='flex items-center'>
               <button
-                [icon]="'tuiIconEditLarge'"
-                [routerLink]="['../edit/' + level.id]"
-                [shape]="$any('rounded')"
-                appearance="flat"
-                size="s"
+                [routerLink]="['../job-level/edit/' + level.id]"
+                appearance='flat'
+                class='tui-space_right-3'
+                icon='tuiIconEditLarge'
+                size='m'
                 tuiIconButton
               ></button>
-            </td>
-          </tr>
+              <button
+                (click)='onRemoveJobLevel(level.id)'
+                appearance='flat'
+                icon='tuiIconTrashLarge'
+                size='m'
+                tuiIconButton
+              ></button>
+            </div>
+          </td>
+        </tr>
         </tbody>
       </table>
       <tui-table-pagination
-        (pageChange)="onPage($event)"
-        (sizeChange)="onSize($event)"
-        [size]="size$"
-        [total]="totalLength"
+        (pageChange)='onPage($event)'
+        (sizeChange)='onSize($event)'
+        [size]='size$'
+        [total]='totalLength'
       ></tui-table-pagination>
       <p>Current page: {{ page$ | async }}</p>
     </article>

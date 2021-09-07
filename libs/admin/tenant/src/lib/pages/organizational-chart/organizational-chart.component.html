@@ -45,7 +45,7 @@
                 <p class='sub-name text-gray-500'>{{ unit.code }}</p>
               </div>
               <div *ngIf='hovering === unit' class='icons flex absolute'>
-                <hero-icon (click)='upsertUnit(dialog, unit.id)' name='pencil-alt' type='solid'></hero-icon>
+                <hero-icon (click)='upsertUnit(dialog, unit)' name='pencil-alt' type='solid'></hero-icon>
                 <hero-icon (click)='deleteUnit(unit.id)' *ngIf='!children' name='trash' type='solid'></hero-icon>
               </div>
             </div>
@@ -81,7 +81,3 @@
     </form>
   </ng-template>
 </main>
-
-<ng-template #userContent="polymorpheus" [polymorpheus]="userContext" let-user>
-  <b>{{ user?.name }}</b> ({{ user?.username }})
-</ng-template>
