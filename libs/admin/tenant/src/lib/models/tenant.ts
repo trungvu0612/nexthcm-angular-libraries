@@ -55,7 +55,7 @@ export interface OrganizationalUnitForm {
   orgType: string | undefined;
   description: string | undefined;
   ancestor: { id?: string | undefined };
-  user: { id?: string | undefined };
+  user: { id?: any | undefined };
 }
 
 

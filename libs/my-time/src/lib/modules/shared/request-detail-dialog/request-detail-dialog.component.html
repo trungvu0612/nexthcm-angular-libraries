@@ -86,7 +86,7 @@
             </div>
             <div class="table-row">
               <div class="table-label">{{ t('days') }}:</div>
-              <div class="table-value">{{ data.durationInDay! | translocoDecimal }}</div>
+              <div class="table-value">{{ data.totalDay ? (data.totalDay | translocoDecimal: { maximumFractionDigits: 1 }) : '-' }}</div>
             </div>
           </ng-container>
           <ng-container *ngSwitchCase="RequestTypeAPIUrlPath.updateTimesheet">
@@ -108,7 +108,7 @@
           <ng-container *ngSwitchCase="RequestTypeAPIUrlPath.workingOutside">
             <div class="table-row">
               <div class="table-label">{{ t('days') }}:</div>
-              <div class="table-value">{{ data.duration }}</div>
+              <div class="table-value">{{ data.totalDay ? (data.totalDay | translocoDecimal: { maximumFractionDigits: 1 }) : '-' }}</div>
             </div>
           </ng-container>
           <ng-container *ngSwitchDefault>
@@ -140,8 +140,12 @@
           </div>
         </div>
         <div class="table-row">
+          <div class="table-label">{{ t('Comment') }}:</div>
+          <div class="table-value">{{ data?.comment }}</div>
+        </div>
+        <div *ngIf="data.status===3" class="table-row">
           <div class="table-label">{{ t('reason') }}:</div>
-          <div class="table-value">{{ data.comment }}</div>
+          <div class="table-value">{{ data?.reason }}</div>
         </div>
       </div>
     </section>

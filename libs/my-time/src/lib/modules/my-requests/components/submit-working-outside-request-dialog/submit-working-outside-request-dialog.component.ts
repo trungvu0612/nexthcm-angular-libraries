@@ -20,7 +20,7 @@ import { MyTimeService, RequestTypeAPIUrlPath } from '../../../../services';
 })
 export class SubmitWorkingOutsideRequestDialogComponent {
   readonly form = this.fb.group<SubmitRequestPayload>({} as SubmitRequestPayload);
-  model:SubmitRequestPayload = {
+  model: SubmitRequestPayload = {
     fromDate: undefined,
     toDate: undefined,
     comment: '',
@@ -33,7 +33,7 @@ export class SubmitWorkingOutsideRequestDialogComponent {
     createdDate: undefined,
     newInTime: undefined,
     newOutTime: undefined
-}
+  };
 
   readonly fields: FormlyFieldConfig[] = [
     {
@@ -47,7 +47,7 @@ export class SubmitWorkingOutsideRequestDialogComponent {
         placeholder: 'chooseDateRange',
         required: true,
         textfieldLabelOutside: true
-      },
+      }
     },
     {
       key: 'duration',
@@ -61,8 +61,8 @@ export class SubmitWorkingOutsideRequestDialogComponent {
       },
       hideExpression: '!model.fromTo?.isSingleDay',
       expressionProperties: {
-        className: '!model.fromTo || !model.fromTo.isSingleDay ? "hidden" : "col-span-full block mt-4"',
-      },
+        className: '!model.fromTo || !model.fromTo.isSingleDay ? "hidden" : "col-span-full block mt-4"'
+      }
     },
     {
       key: 'comment',
@@ -108,7 +108,9 @@ export class SubmitWorkingOutsideRequestDialogComponent {
         formModel.fromDate = getTime(formModel.fromTo.from.toLocalNativeDate());
         formModel.toDate = getTime(endOfDay(formModel.fromTo.to.toLocalNativeDate()));
       }
-      formModel.duration = (formModel.duration as TuiTime).toAbsoluteMilliseconds().valueOf() / 1000;
+      if (formModel.duration) {
+        formModel.duration = (formModel?.duration as TuiTime).toAbsoluteMilliseconds().valueOf() / 1000;
+      }
       delete formModel.fromTo;
       this.myTimeService
         .submitRequest(RequestTypeAPIUrlPath.workingOutside, formModel)

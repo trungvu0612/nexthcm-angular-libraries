@@ -12,6 +12,7 @@ export interface GeneralRequest extends BaseRequest {
   sendToDTO?: EmployeeInfo;
   sendToUser?: EmployeeInfo;
   durationInDay?: number;
+  totalDay?: number;
   duration?: number;
   fromDate: number;
   toDate: number;

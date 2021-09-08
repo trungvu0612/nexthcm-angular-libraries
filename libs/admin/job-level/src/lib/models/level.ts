@@ -3,7 +3,7 @@ export interface Level {
   orgId?: string;
   name?: string;
   description?: string;
-  status?: number;
+  state?: number;
 }
 
 export interface SearchLevel {
