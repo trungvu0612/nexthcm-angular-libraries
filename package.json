@@ -34,15 +34,15 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "12.2.0",
+    "@angular/animations": "~12.2.0",
     "@angular/cdk": "~12.2.0",
-    "@angular/common": "12.2.0",
-    "@angular/compiler": "12.2.0",
-    "@angular/core": "12.2.0",
-    "@angular/forms": "12.2.0",
-    "@angular/platform-browser": "12.2.0",
-    "@angular/platform-browser-dynamic": "12.2.0",
-    "@angular/router": "12.2.0",
+    "@angular/common": "~12.2.0",
+    "@angular/compiler": "~12.2.0",
+    "@angular/core": "~12.2.0",
+    "@angular/forms": "~12.2.0",
+    "@angular/platform-browser": "~12.2.0",
+    "@angular/platform-browser-dynamic": "~12.2.0",
+    "@angular/router": "~12.2.0",
     "@apollo/client": "^3.3.20",
     "@auth0/angular-jwt": "^5.0.2",
     "@ctrl/ngx-emoji-mart": "^6.0.1",
@@ -95,13 +95,13 @@
     "zone.js": "~0.11.4"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "12.2.4",
+    "@angular-devkit/build-angular": "~12.2.0",
     "@angular-eslint/eslint-plugin": "~12.3.1",
     "@angular-eslint/eslint-plugin-template": "~12.3.1",
     "@angular-eslint/template-parser": "~12.3.1",
-    "@angular/cli": "12.2.4",
-    "@angular/compiler-cli": "12.2.0",
-    "@angular/language-service": "12.2.0",
+    "@angular/cli": "~12.2.0",
+    "@angular/compiler-cli": "~12.2.0",
+    "@angular/language-service": "~12.2.0",
     "@datorama/akita-ngdevtools": "^6.0.1",
     "@graphql-codegen/cli": "^2.0.1",
     "@graphql-codegen/typescript-apollo-angular": "^3.0.0",
@@ -143,7 +143,7 @@
     "postcss-import": "^14.0.2",
     "postcss-loader": "^6.1.1",
     "postcss-scss": "^4.0.0",
-    "prettier": "2.3.2",
+    "prettier": "^2.3.2",
     "stylelint": "^13.13.1",
     "stylelint-config-idiomatic-order": "^8.1.0",
     "stylelint-config-prettier": "^8.0.2",
@@ -167,4 +167,3 @@
     }
   }
 }
-
