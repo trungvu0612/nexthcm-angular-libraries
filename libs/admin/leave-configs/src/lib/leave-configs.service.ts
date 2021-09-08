@@ -3,43 +3,39 @@ import { Injectable } from '@angular/core';
 import {
   ACCOUNT_API_PATH,
   BaseObject,
-  BaseResponse,
   JobTitle,
   MY_TIME_API_PATH,
   Org,
+  Pagination,
   PagingResponse,
-  UserDto,
 } from '@nexthcm/cdk';
 import { RxState } from '@rx-angular/state';
-import { Observable, of } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
-import { LeaveType } from './models/leave-entitlement';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { LeavePeriod } from './models/leave-period';
 
 export enum LeaveConfigAPIUrlPath {
-  leaveType = 'leaveTypes' as any,
-  leavePeriods = 'leave-periods' as any,
-  leaveEntitlements = 'leave-entitlements' as any,
-  leaveLevelApprove = 'leave-level-approve' as any,
+  Type = 'leaveTypes' as any,
+  Period = 'leave-periods' as any,
+  Entitlement = 'leave-entitlements' as any,
+  ApprovalLevel = 'leave-level-approve' as any,
+}
+
+interface LeaveConfigState {
+  jobTitles: JobTitle[];
+  leaveTypes: BaseObject[];
+  leavePeriod: LeavePeriod[];
+  org: Org[];
 }
 
 @Injectable()
-export class LeaveConfigsService extends RxState<any> {
-
+export class LeaveConfigsService extends RxState<LeaveConfigState> {
   constructor(private http: HttpClient) {
     super();
     this.connect('jobTitles', this.getJobTitles());
     this.connect('leaveTypes', this.getLeaveTypes());
     this.connect('leavePeriod', this.getPeriods());
     this.connect('org', this.getOrgs());
-    this.connect('emp', this.getUserSameOrgAndChildOrg());
-  }
-
-  searchUsers(searchQuery: string): Observable<BaseObject[]> {
-    return this.http.get<BaseResponse<BaseObject[]>>(`${ACCOUNT_API_PATH}/users/v2?search=${searchQuery}`).pipe(
-      map((res) => res.data),
-      catchError(() => of([]))
-    );
   }
 
   getJobTitles(): Observable<JobTitle[]> {
@@ -48,9 +44,9 @@ export class LeaveConfigsService extends RxState<any> {
       .pipe(map((response) => response.data.items));
   }
 
-  getLeaveTypes(): Observable<LeaveType[]> {
+  getLeaveTypes(): Observable<BaseObject[]> {
     return this.http
-      .get<PagingResponse<LeaveType>>(`${MY_TIME_API_PATH}/leaveTypes`, { params: new HttpParams().set('size', 999) })
+      .get<PagingResponse<BaseObject>>(`${MY_TIME_API_PATH}/leaveTypes`, { params: new HttpParams().set('size', 999) })
       .pipe(map((response) => response.data.items));
   }
 
@@ -65,19 +61,11 @@ export class LeaveConfigsService extends RxState<any> {
   getOrgs(): Observable<Org[]> {
     return this.http
       .get<PagingResponse<Org>>(`${ACCOUNT_API_PATH}/orgs/v2`, { params: new HttpParams().set('size', 999) })
-      .pipe(map((response) => response.data.items ));
-  }
-
-  getUserSameOrgAndChildOrg(): Observable<UserDto[]> {
-    return this.http
-      .get<PagingResponse<UserDto>>(`${ACCOUNT_API_PATH}/users/get-user-same-org-and-child-org`, {
-        params: new HttpParams().set('size', 999),
-      })
       .pipe(map((response) => response.data.items));
   }
 
-  getConfig<T>(type: LeaveConfigAPIUrlPath, params: HttpParams): Observable<PagingResponse<T>> {
-    return this.http.get<PagingResponse<T>>(`${MY_TIME_API_PATH}/${type}/`, { params });
+  getConfig<T>(type: LeaveConfigAPIUrlPath, params: HttpParams): Observable<Pagination<T>> {
+    return this.http.get<PagingResponse<T>>(`${MY_TIME_API_PATH}/${type}/`, { params }).pipe(map((res) => res.data));
   }
 
   create<T>(type: LeaveConfigAPIUrlPath, body: T): Observable<T> {
@@ -91,5 +79,4 @@ export class LeaveConfigsService extends RxState<any> {
   delete<T>(type: LeaveConfigAPIUrlPath, id: string): Observable<T> {
     return this.http.delete<T>(`${MY_TIME_API_PATH}/${type}/${id}`);
   }
-
 }

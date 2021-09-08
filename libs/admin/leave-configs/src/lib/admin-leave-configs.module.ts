@@ -2,25 +2,30 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Route, RouterModule } from '@angular/router';
-import { FormlyTaigaUiModule, FormlyUserComboBoxComponentModule, LayoutComponent, LayoutModule } from '@nexthcm/ui';
+import {
+  BaseFormComponentModule,
+  FormlyUserComboBoxComponentModule,
+  HEADER_TABS,
+  LayoutComponent,
+  LayoutModule,
+  MenuItem,
+} from '@nexthcm/ui';
 import { TranslocoModule } from '@ngneat/transloco';
-import { FormlyModule } from '@ngx-formly/core';
 import { TuiTablePaginationModule } from '@taiga-ui/addon-table';
+import { TuiLetModule } from '@taiga-ui/cdk';
 import { TuiButtonModule, TuiLoaderModule } from '@taiga-ui/core';
-import { TuiMarkerIconModule, TuiTabsModule, TuiTagModule } from '@taiga-ui/kit';
-import { PolymorpheusModule } from '@tinkoff/ng-polymorpheus';
+import { TuiTabsModule, TuiTagModule } from '@taiga-ui/kit';
 import { TableModule } from 'ngx-easy-table';
 import { NgxPermissionsGuard } from 'ngx-permissions';
-import { UpsertLeaveConfigComponent } from './components/upsert-leave-configs/upsert-leave-configs.component';
-import { UpsertLeaveEntitlementComponent } from './components/upsert-leave-entitlement/upsert-leave-entitlement.component';
-import { UpsertLeaveLevelApproveComponent } from './components/upsert-leave-level-approve/upsert-leave-level-approve.component';
-import { UpsertLeavePeriodComponent } from './components/upsert-leave-period/upsert-leave-period.component';
-import { LeaveConfigsComponent } from './leave-configs.component';
+import { UpsertLeaveApprovalLevelDialogComponent } from './components/upsert-leave-approval-level-dialog/upsert-leave-approval-level-dialog.component';
+import { UpsertLeaveEntitlementDialogComponent } from './components/upsert-leave-entitlement/upsert-leave-entitlement-dialog.component';
+import { UpsertLeavePeriodDialogComponent } from './components/upsert-leave-period-dialog/upsert-leave-period-dialog.component';
+import { UpsertLeaveTypeDialogComponent } from './components/upsert-leave-type-dialog/upsert-leave-type-dialog.component';
 import { LeaveConfigsService } from './leave-configs.service';
-import { ListLeaveConfigsComponent } from './pages/list-leave-configs/list-leave-configs.component';
-import { ListLeaveEntitlementComponent } from './pages/list-leave-entitlement/list-leave-entitlement.component';
-import { ListLeaveLevelApproveComponent } from './pages/list-leave-level-approve/list-leave-level-approve.component';
-import { ListLeavePeriodComponent } from './pages/list-leave-period/list-leave-period.component';
+import { LeaveApprovalLevelManagementComponent } from './pages/leave-approval-level-management/leave-approval-level-management.component';
+import { LeaveEntitlementManagementComponent } from './pages/leave-entitlement-management/leave-entitlement-management.component';
+import { LeavePeriodManagementComponent } from './pages/leave-period-management/leave-period-management.component';
+import { LeaveTypeManagementComponent } from './pages/leave-type-management/leave-type-management.component';
 
 export const adminLeaveTypesRoutes: Route[] = [
   {
@@ -29,52 +34,51 @@ export const adminLeaveTypesRoutes: Route[] = [
     canActivate: [NgxPermissionsGuard],
     data: { permissions: { only: 'VIEW_LEAVE_TYPE', redirectTo: '/' } },
     children: [
+      { path: '', pathMatch: 'full', redirectTo: 'types' },
       {
-        path: '',
-        component: LeaveConfigsComponent,
-        children: [
-          { path: '', pathMatch: 'full', redirectTo: 'leave-type' },
-          {
-            path: 'leave-type',
-            component: ListLeaveConfigsComponent,
-            canActivate: [NgxPermissionsGuard],
-            data: { permissions: { only: 'ADMIN', redirectTo: '/' } },
-          },
-          {
-            path: 'leave-period',
-            component: ListLeavePeriodComponent,
-            canActivate: [NgxPermissionsGuard],
-            data: { permissions: { only: 'ADMIN', redirectTo: '/' } },
-          },
-          {
-            path: 'leave-entitlement',
-            component: ListLeaveEntitlementComponent,
-            canActivate: [NgxPermissionsGuard],
-            data: { permissions: { only: 'ADMIN', redirectTo: '/' } },
-          },
-          {
-            path: 'leave-level-approve',
-            component: ListLeaveLevelApproveComponent,
-            canActivate: [NgxPermissionsGuard],
-            data: { permissions: { only: 'ADMIN', redirectTo: '/' } },
-          },
-        ],
+        path: 'types',
+        component: LeaveTypeManagementComponent,
+        canActivate: [NgxPermissionsGuard],
+        data: { permissions: { only: 'ADMIN', redirectTo: '/' } },
+      },
+      {
+        path: 'periods',
+        component: LeavePeriodManagementComponent,
+        canActivate: [NgxPermissionsGuard],
+        data: { permissions: { only: 'ADMIN', redirectTo: '/' } },
+      },
+      {
+        path: 'entitlements',
+        component: LeaveEntitlementManagementComponent,
+        canActivate: [NgxPermissionsGuard],
+        data: { permissions: { only: 'ADMIN', redirectTo: '/' } },
+      },
+      {
+        path: 'approval-levels',
+        component: LeaveApprovalLevelManagementComponent,
+        canActivate: [NgxPermissionsGuard],
+        data: { permissions: { only: 'ADMIN', redirectTo: '/' } },
       },
     ],
   },
 ];
+const TABS: MenuItem[] = [
+  { label: 'leaveTypes', link: '/admin/leave-configs/types', permissions: [] },
+  { label: 'leavePeriods', link: '/admin/leave-configs/periods', permissions: [] },
+  { label: 'leaveEntitlements', link: '/admin/leave-configs/entitlements', permissions: [] },
+  { label: 'leaveApprovalLevels', link: '/admin/leave-configs/approval-levels', permissions: [] },
+];
 
 @NgModule({
   declarations: [
-    UpsertLeaveConfigComponent,
-    LeaveConfigsComponent,
-    ListLeaveConfigsComponent,
-    UpsertLeavePeriodComponent,
-    UpsertLeaveEntitlementComponent,
-    UpsertLeaveLevelApproveComponent,
-    ListLeavePeriodComponent,
-    ListLeaveEntitlementComponent,
-    ListLeaveLevelApproveComponent,
+    UpsertLeaveTypeDialogComponent,
+    LeaveTypeManagementComponent,
+    UpsertLeavePeriodDialogComponent,
+    UpsertLeaveEntitlementDialogComponent,
+    UpsertLeaveApprovalLevelDialogComponent,
+    LeavePeriodManagementComponent,
+    LeaveEntitlementManagementComponent,
+    LeaveApprovalLevelManagementComponent,
   ],
   imports: [
     CommonModule,
@@ -84,16 +88,14 @@ export const adminLeaveTypesRoutes: Route[] = [
     TableModule,
     TuiTagModule,
     TuiLoaderModule,
-    FormlyModule,
-    FormlyTaigaUiModule,
-    TuiMarkerIconModule,
     TranslocoModule,
     ReactiveFormsModule,
     LayoutModule,
     TuiTabsModule,
-    PolymorpheusModule,
-    FormlyUserComboBoxComponentModule
+    FormlyUserComboBoxComponentModule,
+    BaseFormComponentModule,
+    TuiLetModule,
   ],
-  providers: [LeaveConfigsService]
+  providers: [LeaveConfigsService, { provide: HEADER_TABS, useValue: TABS }],
 })
 export class AdminLeaveConfigsModule {}

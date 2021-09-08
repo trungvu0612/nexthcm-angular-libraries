@@ -1,4 +1,4 @@
-<main class="main-page bg-white">
+<hcm-page>
   <tui-loader [overlay]="true" [showLoader]="(loading$ | async) === true">
     <form (ngSubmit)="onSubmit()" [formGroup]="$any(form)">
       <ng-container *rxLet="state$">
@@ -104,4 +104,4 @@
       </section>
     </form>
   </tui-loader>
-</main>
+</hcm-page>

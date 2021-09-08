@@ -368,54 +368,6 @@
         }
       }
     },
-    "admin-leave-level-approve": {
-      "projectType": "library",
-      "root": "libs/admin/leave-level-approve",
-      "sourceRoot": "libs/admin/leave-level-approve/src",
-      "prefix": "hcm",
-      "architect": {
-        "build": {
-          "builder": "@nrwl/angular:package",
-          "outputs": ["dist/libs/admin/leave-level-approve"],
-          "options": {
-            "project": "libs/admin/leave-level-approve/ng-package.json"
-          },
-          "configurations": {
-            "production": {
-              "tsConfig": "libs/admin/leave-level-approve/tsconfig.lib.prod.json"
-            },
-            "development": {
-              "tsConfig": "libs/admin/leave-level-approve/tsconfig.lib.json"
-            }
-          },
-          "defaultConfiguration": "production"
-        },
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/admin/leave-level-approve"],
-          "options": {
-            "jestConfig": "libs/admin/leave-level-approve/jest.config.js",
-            "passWithNoTests": true
-          }
-        },
-        "lint": {
-          "builder": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": [
-              "libs/admin/leave-level-approve/src/**/*.ts",
-              "libs/admin/leave-level-approve/src/**/*.html"
-            ]
-          },
-          "outputs": ["{options.outputFile}"]
-        },
-        "publish": {
-          "builder": "@nrwl/workspace:run-commands",
-          "options": {
-            "command": "yarn publish dist/libs/admin/leave-level-approve"
-          }
-        }
-      }
-    },
     "admin-offices": {
       "projectType": "library",
       "root": "libs/admin/offices",

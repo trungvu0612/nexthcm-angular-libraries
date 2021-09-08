@@ -1,0 +1,49 @@
+<ng-container *transloco="let t">
+  <hcm-page [title]="t('leaveApprovalLevelManagement')">
+    <ng-container ngProjectAs="pageHeader">
+      <button (click)="onAddLeaveLevel()" size="m" tuiButton>
+        {{ t('addLeaveApprovalLevel') }}
+      </button>
+    </ng-container>
+    <tui-loader [overlay]="true" [showLoader]="(loading$ | async) === true">
+      <ngx-table
+        #table
+        [columns]="(columns$ | async) || []"
+        [configuration]="configuration"
+        [data]="(data$ | async) || []"
+      >
+        <ng-template let-row>
+          <ng-container *tuiLet="item(row) as item">
+            <td>{{ item.leaveType?.name }}</td>
+            <td>{{ item.jobTitlesName }}</td>
+            <td>{{ item.totalLeave }}</td>
+            <td>
+              <div class="flex items-center">
+                <button
+                  (click)="onEditLeaveLevelApprove(item)"
+                  appearance="flat"
+                  class="tui-space_right-3"
+                  icon="tuiIconEditLarge"
+                  size="m"
+                  tuiIconButton
+                ></button>
+                <button
+                  (click)="onRemoveLeaveLevel(item.id)"
+                  appearance="flat"
+                  icon="tuiIconTrashLarge"
+                  size="m"
+                  tuiIconButton
+                ></button>
+              </div>
+            </td>
+          </ng-container>
+        </ng-template>
+      </ngx-table>
+    </tui-loader>
+    <tui-table-pagination
+      (pageChange)="onPage($event)"
+      (sizeChange)="onSize($event)"
+      [total]="(total$ | async) || 0"
+    ></tui-table-pagination>
+  </hcm-page>
+</ng-container>

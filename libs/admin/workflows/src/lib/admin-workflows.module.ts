@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
-import { BaseFormComponentModule, LayoutComponent, LayoutModule } from '@nexthcm/ui';
+import { BaseFormComponentModule, HEADER_TABS, LayoutComponent, LayoutModule, MenuItem } from '@nexthcm/ui';
 import { WorkflowDesignerModule } from '@nexthcm/workflow-designer';
 import { TranslocoModule } from '@ngneat/transloco';
 import { FormlyModule } from '@ngx-formly/core';
@@ -30,6 +30,7 @@ import {
   TuiRadioModule,
   TuiSelectModule,
   TuiTabsModule,
+  TuiToggleModule,
 } from '@taiga-ui/kit';
 import { PolymorpheusModule } from '@tinkoff/ng-polymorpheus';
 import { TableModule } from 'ngx-easy-table';
@@ -49,10 +50,10 @@ import { TransitionConditionListComponent } from './components/transition-condit
 import { TransitionDetailDialogComponent } from './components/transition-detail-dialog/transition-detail-dialog.component';
 import { TransitionPostFunctionListComponent } from './components/transition-post-function-list/transition-post-function-list.component';
 import { TransitionValidatorListComponent } from './components/transition-validator-list/transition-validator-list.component';
+import { UpsertEmailTemplateDialogComponent } from './components/upsert-email-template-dialog/upsert-email-template-dialog.component';
 import { UpsertStatusDialogComponent } from './components/upsert-status-dialog/upsert-status-dialog.component';
 import { UpsertTransitionDialogComponent } from './components/upsert-transition-dialog/upsert-transition-dialog.component';
 import { EmailTemplateManagementComponent } from './pages/email-template-management/email-template-management.component';
-import { UpsertEmailTemplateComponent } from './pages/upsert-email-template/upsert-email-template.component';
 import { UpsertWorkflowComponent } from './pages/upsert-workflow/upsert-workflow.component';
 import { WorkflowManagementComponent } from './pages/workflow-management/workflow-management.component';
 import { TemplateVariable } from './quill/formats/template-variable';
@@ -73,7 +74,8 @@ export const ADMIN_WORKFLOWS_ROUTES: Routes = [
         canActivate: [NgxPermissionsGuard],
         data: { permissions: { only: 'VIEW_WORKFLOW', redirectTo: '/' } },
         children: [
-          { path: '', component: WorkflowManagementComponent },
+          { path: '', redirectTo: 'list', pathMatch: 'full' },
+          { path: 'list', component: WorkflowManagementComponent },
           { path: ':workflowId/view', component: UpsertWorkflowComponent },
           {
             path: ':workflowId/edit',
@@ -85,13 +87,22 @@ export const ADMIN_WORKFLOWS_ROUTES: Routes = [
             path: 'email-templates',
             children: [
               { path: '', component: EmailTemplateManagementComponent },
-              { path: 'create', component: UpsertEmailTemplateComponent },
-              { path: ':templateId/edit', component: UpsertEmailTemplateComponent },
+              { path: 'create', component: UpsertEmailTemplateDialogComponent },
+              { path: ':templateId/edit', component: UpsertEmailTemplateDialogComponent },
             ],
           },
         ],
       },
     ],
+  },
+];
+
+const TABS: MenuItem[] = [
+  { label: 'workflows', link: '/admin/workflows/list', permissions: [] },
+  {
+    label: 'emailTemplates',
+    link: '/admin/workflows/email-templates',
+    permissions: [],
   },
 ];
 
@@ -141,6 +152,7 @@ export const ADMIN_WORKFLOWS_ROUTES: Routes = [
     QuillModule,
     TuiErrorModule,
     TuiHintModule,
+    TuiToggleModule,
   ],
   declarations: [
     AdminWorkflowsComponent,
@@ -160,9 +172,9 @@ export const ADMIN_WORKFLOWS_ROUTES: Routes = [
     TransitionValidatorListComponent,
     TransitionPostFunctionListComponent,
     EmailTemplateManagementComponent,
-    UpsertEmailTemplateComponent,
+    UpsertEmailTemplateDialogComponent,
     FormlyQuillTemplateVariableComponent,
   ],
-  providers: [AdminWorkflowsService],
+  providers: [AdminWorkflowsService, { provide: HEADER_TABS, useValue: TABS }],
 })
 export class AdminWorkflowsModule {}

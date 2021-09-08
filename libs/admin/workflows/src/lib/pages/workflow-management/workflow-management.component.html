@@ -1,11 +1,10 @@
-<main class="main-page">
-  <header *transloco="let t">
-    <h1>{{ t('workflowManagement') }}</h1>
-    <button (click)="onCreateWorkflow()" class="tui-space_right-3 tui-space_bottom-3" size="m" tuiButton>
-      {{ t('createNewWorkflow') }}
-    </button>
-  </header>
-  <section class="main-section">
+<ng-container *transloco="let t">
+  <hcm-page [title]="t('workflowManagement')">
+    <ng-container ngProjectAs="pageHeader">
+      <button (click)="onCreateWorkflow()" size="m" tuiButton>
+        {{ t('createNewWorkflow') }}
+      </button>
+    </ng-container>
     <tui-loader [overlay]="true" [showLoader]="(loading$ | async) === true">
       <ngx-table
         #table
@@ -21,19 +20,10 @@
             <td>
               <div class="flex items-center">
                 <button
-                  [routerLink]="[item.id, 'edit']"
+                  [routerLink]="['../', item.id, 'edit']"
                   appearance="flat"
                   class="tui-space_right-3"
                   icon="tuiIconEditLarge"
-                  size="m"
-                  tuiIconButton
-                  type="button"
-                ></button>
-                <button
-                  [routerLink]="[item.id, 'view']"
-                  appearance="flat"
-                  class="tui-space_right-3"
-                  icon="tuiIconShowLarge"
                   size="m"
                   tuiIconButton
                   type="button"
@@ -57,5 +47,5 @@
       (sizeChange)="onSize($event)"
       [total]="(total$ | async) || 0"
     ></tui-table-pagination>
-  </section>
-</main>
+  </hcm-page>
+</ng-container>

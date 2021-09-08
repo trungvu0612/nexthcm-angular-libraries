@@ -69,7 +69,7 @@ export class ListEntitlementComponent extends AbstractServerPaginationTableCompo
       from(
         this.promptService.open({
           icon: 'question',
-          html: this.translocoService.translate('deleteLeaveLevelApprove'),
+          html: this.translocoService.translate('deleteLeaveApprovalLevel'),
           showCancelButton: true,
         })
       )

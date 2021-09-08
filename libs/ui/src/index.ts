@@ -3,3 +3,4 @@ export * from './lib/modules/formly-taiga-ui';
 export * from './lib/modules/layout';
 export * from './lib/modules/filters';
 export * from './lib/components';
+export * from './lib/tokens';

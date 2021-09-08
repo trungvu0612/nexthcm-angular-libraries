@@ -1,1 +1,50 @@
-<p>email-templates works!</p>
+<ng-container *transloco="let t">
+  <hcm-page [title]="t('emailTemplateManagement')">
+    <ng-container ngProjectAs="pageHeader">
+      <button (click)="onUpsertEmailTemplate()" size="m" tuiButton>
+        {{ t('createEmailTemplate') }}
+      </button>
+    </ng-container>
+    <tui-loader [overlay]="true" [showLoader]="(loading$ | async) === true">
+      <ngx-table
+        #table
+        [columns]="(columns$ | async) || []"
+        [configuration]="configuration"
+        [data]="(data$ | async) || []"
+      >
+        <ng-template let-row>
+          <ng-container *tuiLet="item(row) as item">
+            <td>{{ item.name }}</td>
+            <td>
+              <tui-toggle [disabled]="true" [ngModel]="item.status" [showIcons]="true" size="l"></tui-toggle>
+            </td>
+            <td>
+              <div class="flex items-center space-x-2">
+                <button
+                  (click)="onUpsertEmailTemplate(item)"
+                  appearance="flat"
+                  class="tui-space_right-3"
+                  icon="tuiIconEditLarge"
+                  size="m"
+                  tuiIconButton
+                ></button>
+                <button
+                  (click)="onRemoveEmailTemplate(item.id)"
+                  appearance="flat"
+                  icon="tuiIconTrashLarge"
+                  size="m"
+                  tuiIconButton
+                ></button>
+              </div>
+            </td>
+          </ng-container>
+        </ng-template>
+      </ngx-table>
+    </tui-loader>
+    <tui-table-pagination
+      (pageChange)="onPage($event)"
+      (sizeChange)="onSize($event)"
+      [total]="(total$ | async) || 0"
+    ></tui-table-pagination>
+  </hcm-page>
+</ng-container>

@@ -157,6 +157,7 @@
     "name": "Name",
     "description": "Description",
     "createdBy": "Create by",
+    "status": "Status",
     "functions": "Functions"
   },
   "ADMIN_POLICIES": {
@@ -445,7 +446,7 @@
   "deleteUserRole": "Are you sure you want to remove this role?",
   "deleteUserRoleSuccessfully": "Remove this role successfully",
   "addNewEmployee": "Add new employee",
-  "addNewLeaveLevelApprove": "Add new leave level approve",
+  "addLeaveApprovalLevel": "Add leave approval level",
   "overview": "Overview",
   "myTime": "My Time",
   "helpDesk": "Help Desk",
@@ -459,7 +460,7 @@
   "workingHours": "Working Hours",
   "tenantManagement": "Tenant management",
   "employeeManagement": "Employee Management",
-  "leaveLevelApproveManagement": "Leave Level Approve Management",
+  "leaveApprovalLevelManagement": "Leave Approval Level Management",
   "roleManagement": "Role Management",
   "permissionManagement": "Permission Management",
   "officeManagement": "Office Management",
@@ -473,11 +474,9 @@
   "periodManagement": "Period Management",
   "leaveTypeManagement": "Leave Type Management",
   "workingTimeManagement": "Working Time Management",
-  "leaveLevelApprove": "Level Approve Management",
   "initEmployeeSuccessfully": "Create new employee successfully!",
-  "initLeaveLevelApproveSuccessfully": "Create new leave level approve successfully!",
   "deleteEmployee": "Are you sure you want to remove this employee?",
-  "deleteLeaveLevelApprove": "Are you sure you want to remove this leave level approve?",
+  "deleteLeaveApprovalLevel": "Are you sure you want to remove this leave approval level?",
   "updateSuccessful": "Update successfully!",
   "contractManagement": "Contract Management",
   "HTTP_RESPONSE_ERROR_MESSAGES": {
@@ -882,8 +881,22 @@
   "removeLeavePeriodSuccessfully": "Delete leave entitlement successfully",
   "editLeavePeriod": "Edit leave entitlement",
   "updateLeavePeriodSuccessfully": "Edit leave entitlement successfully",
-  "leavePeriod": "leave Period",
-  "leaveEntitlement": "Leave Entitlement",
-  "leaveLeveApprove": "Leave Leve Approve",
-  "leaveConfigManagement": "Leave Config Management"
+  "leaveTypes": "Leave types",
+  "leavePeriods": "Leave periods",
+  "leaveEntitlements": "Leave entitlements",
+  "leaveApprovalLevels": "Leave approval levels",
+  "leaveConfigManagement": "Leave Config Management",
+  "workflows": "Workflows",
+  "emailTemplates": "Email templates",
+  "emailTemplateManagement": "Email template management",
+  "createEmailTemplate": "Create email template",
+  "createEmailTemplateSuccessfully": "Create email template successfully!",
+  "updateEmailTemplateSuccessfully": "Update email template successfully!",
+  "template": "Template",
+  "WORKFLOW_EMAIL_TEMPLATE": {
+    "employee": "Employee's name",
+    "previousStatus": "Previous status",
+    "nextStatus": "Next status",
+    "modifiedTime": "Modified time"
+  }
 }

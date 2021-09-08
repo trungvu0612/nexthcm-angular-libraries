@@ -86,7 +86,9 @@
             </div>
             <div class="table-row">
               <div class="table-label">{{ t('days') }}:</div>
-              <div class="table-value">{{ data.totalDay ? (data.totalDay | translocoDecimal: { maximumFractionDigits: 1 }) : '-' }}</div>
+              <div class="table-value">
+                {{ data.totalDay ? (data.totalDay | translocoDecimal: { maximumFractionDigits: 1 }) : '-' }}
+              </div>
             </div>
           </ng-container>
           <ng-container *ngSwitchCase="RequestTypeAPIUrlPath.updateTimesheet">
@@ -108,7 +110,9 @@
           <ng-container *ngSwitchCase="RequestTypeAPIUrlPath.workingOutside">
             <div class="table-row">
               <div class="table-label">{{ t('days') }}:</div>
-              <div class="table-value">{{ data.totalDay ? (data.totalDay | translocoDecimal: { maximumFractionDigits: 1 }) : '-' }}</div>
+              <div class="table-value">
+                {{ data.totalDay ? (data.totalDay | translocoDecimal: { maximumFractionDigits: 1 }) : '-' }}
+              </div>
             </div>
           </ng-container>
           <ng-container *ngSwitchDefault>
@@ -126,7 +130,7 @@
         <div class="table-row">
           <div class="table-label">{{ t('sendTo') }}:</div>
           <div class="table-value">
-            <div *ngIf="data?.managerInfo as sendTo" class="flex items-center">
+            <div *ngIf="data.managerInfo as sendTo" class="flex items-center">
               <tui-avatar
                 [autoColor]="true"
                 [avatarUrl]="sendTo.image | getFile | async"
@@ -141,11 +145,11 @@
         </div>
         <div class="table-row">
           <div class="table-label">{{ t('Comment') }}:</div>
-          <div class="table-value">{{ data?.comment }}</div>
+          <div class="table-value">{{ data.comment }}</div>
         </div>
-        <div *ngIf="data.status===3" class="table-row">
+        <div *ngIf="data.status === RequestStatus.rejected" class="table-row">
           <div class="table-label">{{ t('reason') }}:</div>
-          <div class="table-value">{{ data?.reason }}</div>
+          <div class="table-value">{{ data.reason }}</div>
         </div>
       </div>
     </section>

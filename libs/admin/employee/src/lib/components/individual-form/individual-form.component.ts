@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   BaseOption,
+  EmployeeCurrentStatus,
   EmployeeIndividual,
   EmployeesService,
   parseDateFields,
@@ -14,7 +15,6 @@ import { FormlyFieldConfig } from '@ngx-formly/core';
 import { RxwebValidators } from '@rxweb/reactive-form-validators';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { map, takeUntil, tap } from 'rxjs/operators';
-import { EmployeeCurrentStatus } from '../../enums/employee-current-status';
 import { AdminEmployeeService } from '../../services/admin-employee.service';
 
 @Component({

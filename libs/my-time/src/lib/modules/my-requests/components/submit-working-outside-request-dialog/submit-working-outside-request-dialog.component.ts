@@ -7,7 +7,7 @@ import { TuiDestroyService, TuiTime } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { endOfDay, getTime } from 'date-fns';
-import { takeUntil, tap } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 import { SubmitRequestPayload } from '../../../../models';
 import { MyTimeService, RequestTypeAPIUrlPath } from '../../../../services';
 
@@ -16,25 +16,11 @@ import { MyTimeService, RequestTypeAPIUrlPath } from '../../../../services';
   templateUrl: './submit-working-outside-request-dialog.component.html',
   styleUrls: ['./submit-working-outside-request-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [TuiDestroyService]
+  providers: [TuiDestroyService],
 })
 export class SubmitWorkingOutsideRequestDialogComponent {
   readonly form = this.fb.group<SubmitRequestPayload>({} as SubmitRequestPayload);
-  model: SubmitRequestPayload = {
-    fromDate: undefined,
-    toDate: undefined,
-    comment: '',
-    userId: undefined,
-    duration: undefined,
-    sendTo: undefined,
-    reason: undefined,
-    fromTo: undefined,
-    status: undefined,
-    createdDate: undefined,
-    newInTime: undefined,
-    newOutTime: undefined
-  };
-
+  model = {} as SubmitRequestPayload;
   readonly fields: FormlyFieldConfig[] = [
     {
       key: 'fromTo',
@@ -46,8 +32,8 @@ export class SubmitWorkingOutsideRequestDialogComponent {
         labelClassName: 'font-semibold',
         placeholder: 'chooseDateRange',
         required: true,
-        textfieldLabelOutside: true
-      }
+        textfieldLabelOutside: true,
+      },
     },
     {
       key: 'duration',
@@ -56,13 +42,12 @@ export class SubmitWorkingOutsideRequestDialogComponent {
         translate: true,
         label: 'Estimate Time',
         labelClassName: 'font-semibold',
-        placeholder: 'HH:MM',
-        textfieldLabelOutside: true
+        textfieldLabelOutside: true,
       },
       hideExpression: '!model.fromTo?.isSingleDay',
       expressionProperties: {
-        className: '!model.fromTo || !model.fromTo.isSingleDay ? "hidden" : "col-span-full block mt-4"'
-      }
+        className: '!model.fromTo || !model.fromTo.isSingleDay ? "hidden" : "col-span-full block mt-4"',
+      },
     },
     {
       key: 'comment',
@@ -73,8 +58,8 @@ export class SubmitWorkingOutsideRequestDialogComponent {
         label: 'Comment',
         labelClassName: 'font-semibold',
         required: true,
-        textfieldLabelOutside: true
-      }
+        textfieldLabelOutside: true,
+      },
     },
     {
       key: 'sendTo',
@@ -86,9 +71,9 @@ export class SubmitWorkingOutsideRequestDialogComponent {
         labelClassName: 'font-semibold',
         placeholder: 'chooseAPerson',
         labelProp: 'username',
-        valueProp: 'id'
-      }
-    }
+        valueProp: 'id',
+      },
+    },
   ];
 
   constructor(
@@ -98,30 +83,29 @@ export class SubmitWorkingOutsideRequestDialogComponent {
     private destroy$: TuiDestroyService,
     private translocoService: TranslocoService,
     private promptService: PromptService
-  ) {
-  }
+  ) {}
 
   onSubmit(): void {
     if (this.form.valid) {
-      const formModel = { ...this.form.value } as any;
+      const formModel = { ...this.form.value };
       if (formModel.fromTo) {
         formModel.fromDate = getTime(formModel.fromTo.from.toLocalNativeDate());
         formModel.toDate = getTime(endOfDay(formModel.fromTo.to.toLocalNativeDate()));
       }
       if (formModel.duration) {
-        formModel.duration = (formModel?.duration as TuiTime).toAbsoluteMilliseconds().valueOf() / 1000;
+        formModel.duration = (formModel.duration as TuiTime).toAbsoluteMilliseconds().valueOf() / 1000;
       }
       delete formModel.fromTo;
       this.myTimeService
         .submitRequest(RequestTypeAPIUrlPath.workingOutside, formModel)
-        .pipe(
-          tap(() => this.promptService.handleResponse()),
-          takeUntil(this.destroy$)
-        )
+        .pipe(takeUntil(this.destroy$))
         .subscribe(
           () => this.context.completeWith(true),
-          (error) => this.promptService.open(
-            { icon: 'error', text: this.translocoService.translate(`ERRORS.${error.error.message}`) })
+          (error) =>
+            this.promptService.open({
+              icon: 'error',
+              text: this.translocoService.translate(`ERRORS.${error.error.message}`),
+            })
         );
     }
   }

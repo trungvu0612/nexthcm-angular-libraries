@@ -179,7 +179,7 @@ export class UpsertEntitlementComponent implements OnInit {
     }
   }
 
-  // private static getJobTitleName(levelApprove: LevelApprove): LevelApprove {
+  // private static getJobTitleName(levelApprove: LeaveApprovalLevel): LeaveApprovalLevel {
   //   if (!levelApprove.jobTitleDTOList) {
   //     return levelApprove;
   //   }

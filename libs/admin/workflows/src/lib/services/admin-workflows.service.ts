@@ -5,7 +5,7 @@ import { insert, RxState, update } from '@rx-angular/state';
 import { Observable, of, Subject } from 'rxjs';
 import { catchError, map, startWith, switchMap, tap } from 'rxjs/operators';
 import { ConditionType, PostFunctionType, ValidatorType } from '../enums';
-import { InitWorkflow, Status, TemplateVariableModel, TransitionOption, Workflow } from '../models';
+import { EmailTemplate, InitWorkflow, Status, TemplateVariableModel, TransitionOption, Workflow } from '../models';
 
 interface WorkflowsState {
   statusTypes: Status[];
@@ -122,9 +122,22 @@ export class AdminWorkflowsService extends RxState<WorkflowsState> {
   getTemplateVariables(): Observable<TemplateVariableModel[]> {
     return of([
       { name: 'employee', marker: '${employee}', description: 'WORKFLOW_EMAIL_TEMPLATE.employee' },
-      { name: 'beforeStatus', marker: '${beforeStatus}', description: 'WORKFLOW_EMAIL_TEMPLATE.beforeStatus' },
-      { name: 'afterStatus', marker: '${afterStatus}', description: 'WORKFLOW_EMAIL_TEMPLATE.afterStatus' },
+      { name: 'previousStatus', marker: '${previousStatus}', description: 'WORKFLOW_EMAIL_TEMPLATE.previousStatus' },
+      { name: 'nextStatus', marker: '${nextStatus}', description: 'WORKFLOW_EMAIL_TEMPLATE.nextStatus' },
       { name: 'modifiedTime', marker: '${modifiedTime}', description: 'WORKFLOW_EMAIL_TEMPLATE.modifiedTime' },
     ]);
+  }
+
+  getEmailTemplates(params: HttpParams): Observable<Pagination<EmailTemplate>> {
+    return of({
+      items: [],
+      page: 0,
+      size: 10,
+      totalItems: 0,
+      totalPages: 1,
+      totalElements: 0,
+      hasNext: false,
+      hasPrevious: false,
+    });
   }
 }

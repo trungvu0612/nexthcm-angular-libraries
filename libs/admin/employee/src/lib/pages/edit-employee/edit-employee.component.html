@@ -1,25 +1,25 @@
-<main *transloco="let t" class="main-page">
-  <header>
-    <h1 class="text-4xl">{{ t('editEmployee') }}</h1>
-  </header>
-
-  <section class="main-section">
+<ng-container *transloco="let t">
+  <hcm-page [title]="t('editEmployee')">
     <tui-tabs [(activeItemIndex)]="activeItemIndex">
       <button [queryParams]="{ i: 0 }" routerLink="." routerLinkActive tuiTab>
         <hero-icon class="w-6 h-6 tui-space_right-2" name="information-circle"></hero-icon>
         {{ t('generalInformation') }}
       </button>
       <button [queryParams]="{ i: 1 }" routerLink="." routerLinkActive tuiTab>
-        <hero-icon class="w-6 h-6 tui-space_right-2" name="identification"></hero-icon> {{ t('individual') }}
+        <hero-icon class="w-6 h-6 tui-space_right-2" name="identification"></hero-icon>
+        {{ t('individual') }}
       </button>
       <button [queryParams]="{ i: 2 }" routerLink="." routerLinkActive tuiTab>
-        <tui-svg class="w-6 h-6 tui-space_right-2" src="tuiIconCompanyLarge"></tui-svg> {{ t('employeeDuration') }}
+        <tui-svg class="w-6 h-6 tui-space_right-2" src="tuiIconCompanyLarge"></tui-svg>
+        {{ t('employeeDuration') }}
       </button>
       <button [queryParams]="{ i: 3 }" routerLink="." routerLinkActive tuiTab>
-        <hero-icon class="w-6 h-6 tui-space_right-2" name="academic-cap"></hero-icon> {{ t('education') }}
+        <hero-icon class="w-6 h-6 tui-space_right-2" name="academic-cap"></hero-icon>
+        {{ t('education') }}
       </button>
       <button [queryParams]="{ i: 4 }" routerLink="." routerLinkActive tuiTab>
-        <tui-svg class="w-6 h-6 tui-space_right-2" src="tuiIconStarLarge"></tui-svg> SHUI
+        <tui-svg class="w-6 h-6 tui-space_right-2" src="tuiIconStarLarge"></tui-svg>
+        SHUI
       </button>
     </tui-tabs>
     <div [ngSwitch]="activeItemIndex" class="mt-5">
@@ -34,5 +34,5 @@
       <hcm-education-form *ngSwitchCase="3"></hcm-education-form>
       <hcm-shui-form *ngSwitchCase="4"></hcm-shui-form>
     </div>
-  </section>
-</main>
+  </hcm-page>
+</ng-container>

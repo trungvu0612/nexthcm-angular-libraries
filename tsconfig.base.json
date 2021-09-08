@@ -23,7 +23,6 @@
       "@nexthcm/admin-job-titles": ["libs/admin/job-titles/src/index.ts"],
       "@nexthcm/admin-knowledge-base": ["libs/admin/knowledge-base/src/index.ts"],
       "@nexthcm/admin-leave-configs": ["libs/admin/leave-configs/src/index.ts"],
-      "@nexthcm/admin-leave-level-approve": ["libs/admin/leave-level-approve/src/index.ts"],
       "@nexthcm/admin-offices": ["libs/admin/offices/src/index.ts"],
       "@nexthcm/admin-permissions": ["libs/admin/permissions/src/index.ts"],
       "@nexthcm/admin-seat-maps": ["libs/admin/seat-maps/src/index.ts"],

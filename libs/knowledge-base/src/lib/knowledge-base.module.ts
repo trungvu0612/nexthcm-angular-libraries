@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { GetFilePipeModule } from '@nexthcm/cdk';
-import { LayoutComponent, LayoutModule } from '@nexthcm/ui';
+import { HEADER_TABS, LayoutComponent, LayoutModule, MenuItem } from '@nexthcm/ui';
 import { TranslocoModule } from '@ngneat/transloco';
 import { FormlyModule } from '@ngx-formly/core';
 import { TuiTablePaginationModule } from '@taiga-ui/addon-table';
@@ -39,6 +39,11 @@ export const KNOWLEDGE_BASE_ROUTES: Routes = [
     ],
   },
 ];
+const TABS: MenuItem[] = [
+  { label: 'knowledgeBase', link: '/knowledge-base/summary', permissions: [] },
+  { label: 'updated', link: '/knowledge-base/updated', permissions: [] },
+  { label: 'category', link: '/knowledge-base/category', permissions: [] },
+];
 
 @NgModule({
   declarations: [
@@ -70,5 +75,6 @@ export const KNOWLEDGE_BASE_ROUTES: Routes = [
     TuiTablePaginationModule,
     TuiLetModule,
   ],
+  providers: [{ provide: HEADER_TABS, useValue: TABS }],
 })
 export class KnowledgeBaseModule {}

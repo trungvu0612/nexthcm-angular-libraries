@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { AddressService, GetStatusPipeModule } from '@nexthcm/cdk';
-import { FormlyUserComboBoxComponentModule, LayoutComponent } from '@nexthcm/ui';
+import { FormlyUserComboBoxComponentModule, HEADER_TABS, LayoutComponent, MenuItem } from '@nexthcm/ui';
 import { TranslocoModule } from '@ngneat/transloco';
 import { FormlyModule } from '@ngx-formly/core';
 import { TuiTableModule, TuiTablePaginationModule } from '@taiga-ui/addon-table';
@@ -16,6 +16,7 @@ import {
   TuiTextfieldControllerModule,
 } from '@taiga-ui/core';
 import { TuiAvatarModule, TuiInputModule, TuiIslandModule, TuiSliderModule, TuiTagModule } from '@taiga-ui/kit';
+import { PolymorpheusModule } from '@tinkoff/ng-polymorpheus';
 import { HeroIconModule, pencilAlt, trash, zoomIn } from 'ng-heroicon';
 import { TableModule } from 'ngx-easy-table';
 import { NgxPermissionsGuard } from 'ngx-permissions';
@@ -25,7 +26,6 @@ import { OrganizationalChartComponent } from './pages/organizational-chart/organ
 import { OrganizationalStructureComponent } from './pages/organizational-structure/organizational-structure.component';
 import { TenantListComponent } from './pages/tenant-list/tenant-list.component';
 import { UpsertTenantComponent } from './pages/upsert-tenant/upsert-tenant.component';
-import { PolymorpheusModule } from '@tinkoff/ng-polymorpheus';
 
 export const adminTenantRoutes: Routes = [
   {
@@ -54,6 +54,12 @@ export const adminTenantRoutes: Routes = [
       },
     ],
   },
+];
+const TABS: MenuItem[] = [
+  { label: 'information', link: '/admin/tenant/detail', permissions: [] },
+  { label: 'domain', link: '/admin/tenant/domain', permissions: [] },
+  { label: 'organizationalStructure', link: '/admin/tenant/organizational-structure', permissions: [] },
+  { label: 'organizationalChart', link: '/admin/tenant/organizational-chart', permissions: [] },
 ];
 
 @NgModule({
@@ -87,8 +93,8 @@ export const adminTenantRoutes: Routes = [
     TuiSliderModule,
     TuiLoaderModule,
     PolymorpheusModule,
-    FormlyUserComboBoxComponentModule
+    FormlyUserComboBoxComponentModule,
   ],
-  providers: [AddressService],
+  providers: [AddressService, { provide: HEADER_TABS, useValue: TABS }],
 })
 export class AdminTenantModule {}

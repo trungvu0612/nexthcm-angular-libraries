@@ -1,4 +1,5 @@
 import { TuiDay, TuiDayRange } from '@taiga-ui/cdk';
+import { EmployeeCurrentStatus } from '../enums';
 import { DateRange } from './date-range';
 
 export type EmployeeInformationAPIType = 'individual' | 'duration' | 'education' | 'shui';
@@ -44,7 +45,7 @@ export interface EmployeeIndividual {
   idNumber: number;
   issueOn: string | TuiDay | Date;
   issueAt: string;
-  currentStatus: number;
+  currentStatus: EmployeeCurrentStatus;
   companyEmail: string;
   personalEmail: string;
   phoneNumber: number;

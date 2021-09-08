@@ -46,7 +46,7 @@ export class GeneralInformationFormComponent {
                 textfieldLabelOutside: true,
                 labelClassName: 'font-semibold',
                 placeholder: 'enterCifNumber',
-                disabled: true,
+                readonly: true,
               },
               hideExpression: `!formState.editMode`,
             },
@@ -60,11 +60,11 @@ export class GeneralInformationFormComponent {
                 required: true,
                 textfieldLabelOutside: true,
                 labelClassName: 'font-semibold',
-                placeholder: 'enterFirstName'
+                placeholder: 'enterFirstName',
               },
               expressionProperties: {
-                'templateOptions.readonly': '(model.registerType === "LDAP")'
-              }
+                'templateOptions.readonly': '(model.registerType === "LDAP")',
+              },
             },
             {
               key: 'lastName',
@@ -76,10 +76,11 @@ export class GeneralInformationFormComponent {
                 required: true,
                 textfieldLabelOutside: true,
                 labelClassName: 'font-semibold',
-                placeholder: 'enterLastName'
-              }, expressionProperties: {
-                'templateOptions.readonly': '(model.registerType === "LDAP")'
-              }
+                placeholder: 'enterLastName',
+              },
+              expressionProperties: {
+                'templateOptions.readonly': '(model.registerType === "LDAP")',
+              },
             },
             {
               key: 'otherName',
@@ -199,7 +200,7 @@ export class GeneralInformationFormComponent {
                 label: 'directReport',
                 labelClassName: 'font-semibold',
                 placeholder: 'chooseDirectReport',
-              }
+              },
             },
           ],
         },
@@ -208,8 +209,8 @@ export class GeneralInformationFormComponent {
   ];
   private readonly request$ = this.activatedRoute.snapshot.params.employeeId
     ? this.employeesService
-      .getEmployeeGeneralInformation(this.activatedRoute.snapshot.params.employeeId)
-      .pipe(tap((data) => (this.model = { ...this.model, ...data })))
+        .getEmployeeGeneralInformation(this.activatedRoute.snapshot.params.employeeId)
+        .pipe(tap((data) => (this.model = { ...this.model, ...data })))
     : of({});
   readonly loading$ = this.request$.pipe(map((value) => !value));
 

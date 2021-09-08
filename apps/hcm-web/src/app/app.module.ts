@@ -81,11 +81,6 @@ import { AppComponent } from './app.component';
             loadChildren: () => import('@nexthcm/admin-working-times').then((m) => m.AdminWorkingTimesModule),
           },
           {
-            path: 'leave-level-approve',
-            loadChildren: () =>
-              import('@nexthcm/admin-leave-level-approve').then((m) => m.AdminLeaveLevelApproveModule),
-          },
-          {
             path: 'contracts',
             loadChildren: () => import('@nexthcm/admin-contracts').then((m) => m.AdminContractsModule),
           },

@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { LayoutComponent } from '@nexthcm/ui';
+import { HEADER_TABS, LayoutComponent, MenuItem } from '@nexthcm/ui';
 import { NgxPermissionsGuard } from 'ngx-permissions';
 import { MyLeaveComponent } from './modules/my-leave/my-leave.component';
 import { MyLeaveModule } from './modules/my-leave/my-leave.module';
@@ -73,6 +73,13 @@ export const MY_TIME_ROUTES: Routes = [
   },
 ];
 
+const TABS: MenuItem[] = [
+  { label: 'myLeave', link: '/my-time/my-leave', permissions: [] },
+  { label: 'workingHours', link: '/my-time/working-hours', permissions: [] },
+  { label: 'myRequest', link: '/my-time/my-requests', permissions: [] },
+  { label: 'requestManagement', link: '/my-time/requests', permissions: [] },
+];
+
 @NgModule({
   declarations: [],
   imports: [
@@ -83,6 +90,6 @@ export const MY_TIME_ROUTES: Routes = [
     RequestManagementModule,
     WorkingHoursModule,
   ],
-  providers: [MyTimeService],
+  providers: [MyTimeService, { provide: HEADER_TABS, useValue: TABS }],
 })
 export class MyTimeModule {}

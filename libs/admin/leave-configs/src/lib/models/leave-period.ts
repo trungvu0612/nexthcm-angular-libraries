@@ -8,9 +8,3 @@ export interface LeavePeriod {
   endDate: TuiDay | number;
   status: number;
 }
-
-export interface ResLeavePeriod {
-  code?: string;
-  data?: LeavePeriod;
-}
-

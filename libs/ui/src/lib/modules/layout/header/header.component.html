@@ -1,8 +1,8 @@
 <ng-container *transloco="let t">
   <header class="flex justify-between">
     <tui-tabs class="flex items-center ml-3">
-      <a *ngFor="let tab of tabs$ | async; index as index" [routerLink]="[tab.path]" routerLinkActive tuiTab>
-        {{ t(tab.tabName) }}
+      <a *ngFor="let tab of headerTabs" [routerLink]="[tab.link]" routerLinkActive tuiTab>
+        {{ t(tab.label) }}
       </a>
     </tui-tabs>
     <div class="flex items-center border-l h-full">
@@ -16,8 +16,8 @@
       </tui-hosted-dropdown>
       <ng-template #langsDropdown>
         <tui-data-list>
-          <button (click)="changeLang(lang)" *ngFor="let lang of languages" class="font-normal language" tuiOption>
-            {{ lang }}
+          <button (click)="changeLang(lang.value)" *ngFor="let lang of languages" class="font-normal" tuiOption>
+            {{ lang.label }}
           </button>
         </tui-data-list>
       </ng-template>

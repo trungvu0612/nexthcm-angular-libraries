@@ -1,18 +1,18 @@
-import { BaseUser } from '@nexthcm/cdk';
+import { BaseObject, BaseUser } from '@nexthcm/cdk';
 
 export interface LeaveEntitlement {
   id: string;
   status: boolean | number;
   statusCov?: boolean;
   entitlement: number;
-  leaveType?: LeaveType;
-  period?: Period;
+  leaveType?: BaseObject;
+  period?: BaseObject;
   employee?: BaseUser;
   employeeId?: string;
   jobTitle?: string[];
   orgId: string;
   org?: Org;
-  jobTitleDTOList?: JobTitle[];
+  jobTitleDTOList?: BaseObject[];
   fromDate: number;
   toDate: number;
 }
@@ -20,18 +20,4 @@ export interface LeaveEntitlement {
 export interface Org {
   orgId: string;
   name?: string;
-}
-
-export interface JobTitle {
-  id: string;
-}
-
-export interface LeaveType {
-  id: string;
-  name: string;
-}
-
-export interface Period {
-  id: string;
-  name: string;
 }

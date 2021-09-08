@@ -158,6 +158,7 @@
     "name": "Tên",
     "description": "Mô tả",
     "createdBy": "Tạo bởi",
+    "status": "Trạng thái",
     "functions": "Chức năng"
   },
   "ADMIN_POLICIES": {
@@ -429,7 +430,6 @@
     "description": "Mô tả",
     "functions": "Chức năng"
   },
-
   "jobTitleManagement": "Quản lý chức vụ",
   "addNewJobTitle": "Tạo mới chức vụ",
   "editJobTitle": "Chỉnh sửa chức vụ",
@@ -460,7 +460,7 @@
   "workingHours": "Giờ làm việc",
   "tenantManagement": "Quản lý công ty",
   "employeeManagement": "Quản lý nhân viên",
-  "leaveLevelApproveManagement": "Quản lý cấp độ ngày nghỉ",
+  "leaveApprovalLevelManagement": "Quản lý chức vụ xét duyệt",
   "roleManagement": "Quản lý vai trò",
   "permissionManagement": "Quản lý phân quyền",
   "officeManagement": "Quản lý văn phòng",
@@ -474,11 +474,9 @@
   "periodManagement": "Quản lý khoảng thời gian",
   "leaveTypeManagement": "Quản lý phân loại nghỉ phép",
   "workingTimeManagement": "Quản lý thời gian làm việc",
-  "leaveLevelApprove": "Quản lý cấp độ nghỉ phép",
   "initEmployeeSuccessfully": "Tạo nhân viên mới thành công!",
-  "initLeaveLevelApproveSuccessfully": "Tạo Cấp độ nghỉ phép mới thành công",
   "deleteEmployee": "Bạn thật sự muốn xoá nhân viên này?",
-  "deleteLeaveLevelApprove": "Bạn thật sự muốn xóa cấp độ nghỉ phép này?",
+  "deleteLeaveApprovalLevel": "Bạn thật sự muốn xóa cấp độ xét duyệt nghỉ phép này?",
   "updateSuccessful": "Cập nhật thành công!",
   "contractManagement": "Quản lý hợp đồng",
   "HTTP_RESPONSE_ERROR_MESSAGES": {
@@ -870,8 +868,22 @@
   "removeLeavePeriodSuccessfully": "Xóa khoảng thời gian thành công",
   "editLeavePeriod": "Chỉnh sửa khoảng thời gian",
   "updateLeavePeriodSuccessfully": "Chỉnh sửa khoảng thời gian thành công",
-  "leavePeriod": "Khoản thời gian",
-  "leaveEntitlement": "Quyền lợi",
-  "leaveLeveApprove": "Cấp bậc",
-  "leaveConfigManagement": "Quản lý thiết lập ngày nghỉ"
+  "leaveTypes": "Loại ngày nghỉ",
+  "leavePeriods": "Khoảng thời gian",
+  "leaveEntitlements": "Quyền lợi",
+  "leaveApprovalLevels": "Cấp bậc xét duyệt",
+  "leaveConfigManagement": "Quản lý thiết lập ngày nghỉ",
+  "workflows": "Quy trình",
+  "emailTemplates": "Bản mẫu email",
+  "emailTemplateManagement": "Quản lý bản mẫu email",
+  "createEmailTemplate": "Tạo bản mẫu email",
+  "createEmailTemplateSuccessfully": "Tạo bản mẫu email thành công!",
+  "updateEmailTemplateSuccessfully": "Cập nhật bản mẫu email thành công!",
+  "template": "Bản mẫu",
+  "WORKFLOW_EMAIL_TEMPLATE": {
+    "employee": "Tên nhân viên",
+    "previousStatus": "Trạng thái trước",
+    "nextStatus": "Trạng thái sau",
+    "modifiedTime": "Thời gian thay đổi"
+  }
 }

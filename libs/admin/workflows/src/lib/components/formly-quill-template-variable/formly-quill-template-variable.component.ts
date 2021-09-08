@@ -33,11 +33,11 @@ export class FormlyQuillTemplateVariableComponent extends FieldType implements O
     this.error = new TuiValidationError(this.errorContent || '');
   }
 
-  onAddTemplateVariable(variable: TemplateVariableModel): void {
+  onAddTemplateVariable({ name, marker }: TemplateVariableModel): void {
     const range = this.editor.quillEditor.getSelection(true);
-    this.editor.quillEditor.insertEmbed(range.index, 'TemplateVariable', variable);
-    this.editor.quillEditor.insertText(range.index + 1, ' ', Quill.sources.USER);
-    this.editor.quillEditor.setSelection(range.index + 2, 0, Quill.sources.SILENT);
+    this.editor.quillEditor.insertEmbed(range.index, 'TemplateVariable', { name, marker });
+    this.editor.quillEditor.insertText(range.index + 1, '', Quill.sources.USER);
+    this.editor.quillEditor.setSelection(range.index + 1, 0, Quill.sources.SILENT);
   }
 
   onEditorChanged($event: EditorChangeContent | EditorChangeSelection): void {
@@ -50,7 +50,9 @@ export class FormlyQuillTemplateVariableComponent extends FieldType implements O
         }
         return '';
       });
-      this.form.controls.template.setValue(converter.convert());
+      if (this.to.onTextChange) {
+        this.to.onTextChange(converter.convert());
+      }
     }
   }
 }

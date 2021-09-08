@@ -6,7 +6,7 @@ import { FormGroup } from '@ngneat/reactive-forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { RxState } from '@rx-angular/state';
 import { BehaviorSubject, merge, Observable, Subject, timer } from 'rxjs';
-import { filter, last, map, shareReplay, startWith, switchMap, take, takeWhile, tap } from 'rxjs/operators';
+import { last, map, shareReplay, startWith, switchMap, take, takeWhile, tap } from 'rxjs/operators';
 import { SeatComponent } from './components/seat/seat.component';
 import { SeatMapsService } from './seat-maps.service';
 
@@ -52,7 +52,7 @@ export class SeatMapsComponent {
   ) {
     this.state.connect(
       'seatMap',
-      merge(this.refresh$, this.form.valueChanges.pipe(filter((value) => value.seatMap))).pipe(
+      merge(this.refresh$).pipe(
         startWith(null),
         switchMap(() => this.seatMapsService.getSeatMap(this.model.seatMap?.id || '')),
         tap((zone) => {
