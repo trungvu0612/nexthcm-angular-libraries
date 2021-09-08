@@ -53,7 +53,7 @@ export class UpsertJobLevelComponent implements OnInit {
       orgId: 'd6e6eec4-bd8c-4a34-bf3f-f2d3a11716aa',
       name: ['', Validators.required],
       description: ['', Validators.required],
-      status: [0],
+      state: [1],
     });
   }
 
