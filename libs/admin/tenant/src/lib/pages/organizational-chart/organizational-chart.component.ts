@@ -164,7 +164,6 @@ export class OrganizationalChartComponent implements OnInit {
           labelClassName: 'font-semibold',
           placeholder: 'chooseManager',
           labelProp: 'name',
-          valueProp: 'id',
           matcherBy: 'id',
           textfieldLabelOutside: true
         },
@@ -195,6 +194,7 @@ export class OrganizationalChartComponent implements OnInit {
         if (result) {
           this.model = result || {};
         }
+        console.log(this.model);
       });
     }
     this.dialogService
@@ -206,11 +206,6 @@ export class OrganizationalChartComponent implements OnInit {
 
   submitUnit(observer: Subscriber<unknown>) {
     if (this.form.valid) {
-      if (this.model?.id && this.model.user) {
-        this.model.user = {
-          id: this.model.user
-        };
-      }
       this.form.markAsUntouched();
       this.adminTenantService[this.model?.id ? 'editOrganizationUnit' : 'createOrganizationUnit'](this.model)
         .pipe(switchMap(() => this.promptService.open({ icon: 'success' } as SweetAlertOptions)))
