@@ -12,7 +12,7 @@ import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDayRange, TuiDestroyService } from '@taiga-ui/cdk';
 import { map, takeUntil, tap } from 'rxjs/operators';
-import { AdminEmployeeService } from '../../services/admin-employee.service';
+import { AdminEmployeesService } from '../../services/admin-employees.service';
 
 @Component({
   selector: 'hcm-duration-form',
@@ -219,9 +219,7 @@ export class DurationFormComponent {
           'indefiniteTermContractDate',
           'resignationAgreementDate',
         ]);
-        data.probationDate = data.probationDate
-          ? DateRange.toTuiDayRange(data.probationDate as DateRange)
-          : undefined;
+        data.probationDate = data.probationDate ? DateRange.toTuiDayRange(data.probationDate as DateRange) : undefined;
         this.model = { ...this.model, ...data };
       })
     );
@@ -231,7 +229,7 @@ export class DurationFormComponent {
     private readonly fb: FormBuilder,
     private readonly router: Router,
     private readonly activatedRoute: ActivatedRoute,
-    private readonly adminEmployeeService: AdminEmployeeService,
+    private readonly adminEmployeeService: AdminEmployeesService,
     private readonly employeesService: EmployeesService,
     private readonly destroy$: TuiDestroyService,
     private readonly promptService: PromptService

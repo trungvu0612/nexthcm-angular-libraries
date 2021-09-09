@@ -26,7 +26,7 @@ import {
   tap,
 } from 'rxjs/operators';
 import { InitEmployeeDialogComponent } from '../../components/init-employee-dialog/init-employee-dialog.component';
-import { AdminEmployeeService } from '../../services/admin-employee.service';
+import { AdminEmployeesService } from '../../services/admin-employees.service';
 
 @Component({
   selector: 'hcm-employee-management',
@@ -63,15 +63,15 @@ export class EmployeeManagementComponent
   readonly search$ = new Subject<string | null>();
 
   constructor(
-    public state: RxState<Pagination<EmployeeInfo>>,
-    private dialogService: TuiDialogService,
-    private injector: Injector,
-    private router: Router,
-    private activatedRoute: ActivatedRoute,
-    private adminEmployeesService: AdminEmployeeService,
-    private destroy$: TuiDestroyService,
-    private translocoService: TranslocoService,
-    private promptService: PromptService
+    readonly state: RxState<Pagination<EmployeeInfo>>,
+    private readonly dialogService: TuiDialogService,
+    private readonly injector: Injector,
+    private readonly router: Router,
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly adminEmployeesService: AdminEmployeesService,
+    private readonly destroy$: TuiDestroyService,
+    private readonly translocoService: TranslocoService,
+    private readonly promptService: PromptService
   ) {
     super(state);
     state.connect(this.request$.pipe(filter(isPresent)));

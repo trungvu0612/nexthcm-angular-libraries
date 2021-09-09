@@ -13,7 +13,7 @@ import { RxState } from '@rx-angular/state';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-interface AdminEmployeeState {
+interface AdminEmployeesState {
   organizations: BaseObject[];
   roles: BaseObject[];
   jobTitles: BaseObject[];
@@ -22,7 +22,7 @@ interface AdminEmployeeState {
 }
 
 @Injectable()
-export class AdminEmployeeService extends RxState<AdminEmployeeState> {
+export class AdminEmployeesService extends RxState<AdminEmployeesState> {
   constructor(private http: HttpClient) {
     super();
     this.connect('organizations', this.getOrganizations().pipe(map((res) => res.data.items)));

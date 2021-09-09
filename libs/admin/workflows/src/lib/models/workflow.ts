@@ -8,8 +8,8 @@ export interface Workflow {
   template: string;
   states: Status[];
   transitions: Transition[];
-  removingStates: string[];
-  removingTransitions: string[];
+  removingStates?: string[];
+  removingTransitions?: string[];
 }
 
 export interface InitWorkflow {

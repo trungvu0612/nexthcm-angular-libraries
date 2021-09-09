@@ -1,1 +1,1 @@
-export * from './lib/admin-employee.module';
+export * from './lib/admin-employees.module';

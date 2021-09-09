@@ -130,12 +130,13 @@
     "action": "Thao tác"
   },
   "VALIDATION": {
-    "required": "Trường này không được để trống.",
-    "differentSource": "Điểm đích và điểm nguồn không được giống nhau.",
-    "differentTarget": "Điểm nguồn và điểm đích không được giống nhau.",
-    "email": "Địa chỉ email không hợp lệ.",
-    "numeric": "Bạn phải nhập số vào ô này.",
-    "shortnameExists": "Tên viết tắt này đã tồn tại."
+    "required": "Trường này không được để trống!",
+    "differentSource": "Điểm đích và điểm nguồn không được giống nhau!",
+    "differentTarget": "Điểm nguồn và điểm đích không được giống nhau!",
+    "email": "Địa chỉ email không hợp lệ!",
+    "numeric": "Bạn phải nhập số vào ô này!",
+    "shortnameExists": "Tên viết tắt này đã tồn tại!",
+    "uniqueStatusName": "Tên trạng thái này đã tồn tại!"
   },
   "initStatus": "Trạng thái ban đầu",
   "initStatusDescription": "Mô tả trạng thái ban đầu",

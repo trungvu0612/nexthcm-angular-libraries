@@ -60,9 +60,7 @@ export class WorkflowManagementComponent extends AbstractServerPaginationTableCo
         label: this.translocoService.translate('createNewWorkflow'),
       })
       .pipe(takeUntil(this.destroy$))
-      .subscribe((res) => {
-        this.router.navigate([res, 'edit'], { relativeTo: this.activatedRoute });
-      });
+      .subscribe((res) => this.router.navigate(['..', res, 'edit'], { relativeTo: this.activatedRoute }));
   }
 
   onRemoveWorkflow(id: string): void {

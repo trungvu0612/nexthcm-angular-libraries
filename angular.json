@@ -596,6 +596,43 @@
         }
       }
     },
+    "admin-tenants": {
+      "projectType": "library",
+      "root": "libs/admin/tenants",
+      "sourceRoot": "libs/admin/tenants/src",
+      "prefix": "hcm",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/angular:package",
+          "outputs": ["dist/libs/admin/tenants"],
+          "options": {
+            "project": "libs/admin/tenants/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "libs/admin/tenants/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "libs/admin/tenants/tsconfig.lib.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/admin/tenants"],
+          "options": {
+            "jestConfig": "libs/admin/tenants/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/admin/tenants/src/**/*.ts", "libs/admin/tenants/src/**/*.html"]
+          }
+        }
+      }
+    },
     "admin-user-roles": {
       "projectType": "library",
       "root": "libs/admin/user-roles",

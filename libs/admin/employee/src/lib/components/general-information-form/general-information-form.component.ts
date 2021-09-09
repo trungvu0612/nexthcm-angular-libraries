@@ -1,14 +1,13 @@
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { EmployeeGeneralInformation, EmployeesService, UploadFileService } from '@nexthcm/cdk';
-import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
+import { FormBuilder } from '@ngneat/reactive-forms';
 import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
-import { PolymorpheusTemplate } from '@tinkoff/ng-polymorpheus';
 import { of } from 'rxjs';
 import { distinctUntilChanged, map, startWith, switchMap, tap } from 'rxjs/operators';
-import { AdminEmployeeService } from '../../services/admin-employee.service';
+import { AdminEmployeesService } from '../../services/admin-employees.service';
 
 @Component({
   selector: 'hcm-general-information-form',
@@ -17,11 +16,9 @@ import { AdminEmployeeService } from '../../services/admin-employee.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GeneralInformationFormComponent {
-  @ViewChild('userContent', { static: true }) userContent!: PolymorpheusTemplate<EmployeeGeneralInformation>;
   @Output() submitted = new EventEmitter<EmployeeGeneralInformation>();
   @Output() cancel = new EventEmitter();
-  readonly userContext!: { $implicit: EmployeeGeneralInformation };
-  form: FormGroup<EmployeeGeneralInformation> = this.fb.group({} as EmployeeGeneralInformation);
+  form = this.fb.group<EmployeeGeneralInformation>({} as EmployeeGeneralInformation);
   model = {} as EmployeeGeneralInformation;
   options: FormlyFormOptions = {
     formState: {
@@ -215,12 +212,12 @@ export class GeneralInformationFormComponent {
   readonly loading$ = this.request$.pipe(map((value) => !value));
 
   constructor(
-    private fb: FormBuilder,
-    private uploadFileService: UploadFileService,
-    private translocoService: TranslocoService,
-    private employeesService: EmployeesService,
-    private adminEmployeeService: AdminEmployeeService,
-    private activatedRoute: ActivatedRoute
+    private readonly fb: FormBuilder,
+    private readonly uploadFileService: UploadFileService,
+    private readonly translocoService: TranslocoService,
+    private readonly employeesService: EmployeesService,
+    private readonly adminEmployeeService: AdminEmployeesService,
+    private readonly activatedRoute: ActivatedRoute
   ) {}
 
   @Input()

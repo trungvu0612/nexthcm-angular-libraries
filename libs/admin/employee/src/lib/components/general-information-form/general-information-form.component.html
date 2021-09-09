@@ -1,15 +1,10 @@
 <tui-loader [overlay]="true" [showLoader]="(loading$ | async) === true">
-  <form (ngSubmit)="onSubmit()" [formGroup]="$any(form)">
-    <formly-form [fields]="fields" [form]="$any(form)" [model]="model" [options]="options"></formly-form>
-    <div *transloco="let t" class="tui-form__buttons">
-      <button class="tui-form__button" size="l" tuiButton>{{ t('save') }}</button>
-      <button (click)="onCancel()" appearance="flat" class="tui-form__button" size="l" tuiButton type="button">
-        {{ t('cancel') }}
-      </button>
-    </div>
-  </form>
+  <hcm-base-form
+    (cancel)="onCancel()"
+    (submitForm)="onSubmit()"
+    [fields]="fields"
+    [form]="form"
+    [model]="model"
+    class="mt-5"
+  ></hcm-base-form>
 </tui-loader>
-
-<ng-template #userContent="polymorpheus" [polymorpheus]="userContext" let-user>
-  <b>{{ user.fullName }}</b> ({{ user.username }})
-</ng-template>

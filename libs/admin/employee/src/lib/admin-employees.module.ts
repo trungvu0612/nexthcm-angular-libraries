@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { PromptComponentModule } from '@nexthcm/cdk';
 import {
+  BaseFormComponentModule,
   FormlyUserComboBoxComponentModule,
   InputFilterComponentModule,
   LayoutComponent,
@@ -28,7 +29,7 @@ import { InitEmployeeDialogComponent } from './components/init-employee-dialog/i
 import { ShuiFormComponent } from './components/shui-form/shui-form.component';
 import { EditEmployeeComponent } from './pages/edit-employee/edit-employee.component';
 import { EmployeeManagementComponent } from './pages/employee-management/employee-management.component';
-import { AdminEmployeeService } from './services/admin-employee.service';
+import { AdminEmployeesService } from './services/admin-employees.service';
 
 export const ADMIN_EMPLOYEE_ROUTES: Routes = [
   {
@@ -72,6 +73,7 @@ export const ADMIN_EMPLOYEE_ROUTES: Routes = [
     PolymorpheusModule,
     TuiToggleModule,
     FormlyUserComboBoxComponentModule,
+    BaseFormComponentModule,
   ],
   declarations: [
     EditEmployeeComponent,
@@ -84,6 +86,6 @@ export const ADMIN_EMPLOYEE_ROUTES: Routes = [
     EmployeeManagementComponent,
     InitEmployeeDialogComponent,
   ],
-  providers: [AdminEmployeeService],
+  providers: [AdminEmployeesService],
 })
-export class AdminEmployeeModule {}
+export class AdminEmployeesModule {}

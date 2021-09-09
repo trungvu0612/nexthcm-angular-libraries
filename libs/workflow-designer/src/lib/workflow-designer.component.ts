@@ -35,10 +35,19 @@ export class WorkflowDesignerComponent implements OnInit {
 
   originStatus!: mxCell;
   editor!: mxEditor;
-  graphParent!: mxCell;
-  graphModel!: mxGraphModel;
-  graphSelectionModel!: mxGraphSelectionModel;
   private initial = true;
+
+  get graphModel(): mxGraphModel {
+    return this.editor.graph.getModel();
+  }
+
+  get graphParent(): mxCell {
+    return this.editor.graph.getDefaultParent();
+  }
+
+  get graphSelectionModel(): mxGraphSelectionModel {
+    return this.editor.graph.getSelectionModel();
+  }
 
   @HostListener('window:resize', ['$event'])
   onResize(): void {
@@ -48,9 +57,6 @@ export class WorkflowDesignerComponent implements OnInit {
   ngOnInit(): void {
     this.configGraph();
     this.editor = createEditor('config/workflow-designer.xml', this.splash.nativeElement);
-    this.graphParent = this.editor.graph.getDefaultParent();
-    this.graphModel = this.editor.graph.getModel();
-    this.graphSelectionModel = this.editor.graph.getSelectionModel();
     this.originStatus = this.drawStatus();
     this.editor.graph.center();
     this.graphSelectionModel.addListener(mx.mxEvent.CHANGE, (sender) => this.handleSelectCell(sender));
@@ -120,7 +126,9 @@ export class WorkflowDesignerComponent implements OnInit {
 
   private updateStatus(status: WorkflowStatus): void {
     const cell = this.graphModel.getCell(status.id);
-    cell.getValue().setAttribute('label', status.label);
+    const value = cell.getValue();
+    value.setAttribute('label', status.label);
+    this.graphModel.setValue(cell, value);
     this.graphModel.setStyle(cell, setCellStyle(cell, status));
     this.graphSelectionModel.setCell(cell);
   }
@@ -157,8 +165,6 @@ export class WorkflowDesignerComponent implements OnInit {
     const decoder = new mx.mxCodec(xmlDocument);
     const node = xmlDocument.documentElement;
     decoder.decode(node, this.graphModel);
-    // reassign the default graph's parent
-    this.graphParent = this.editor.graph.getDefaultParent();
     this.editor.graph.center();
   }
 

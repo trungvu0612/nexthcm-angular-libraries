@@ -72,7 +72,6 @@ export const MY_TIME_ROUTES: Routes = [
     ],
   },
 ];
-
 const TABS: MenuItem[] = [
   { label: 'myLeave', link: '/my-time/my-leave', permissions: [] },
   { label: 'workingHours', link: '/my-time/working-hours', permissions: [] },

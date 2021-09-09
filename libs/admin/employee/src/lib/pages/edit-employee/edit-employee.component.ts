@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EmployeeGeneralInformation, PromptService } from '@nexthcm/cdk';
-import { AdminEmployeeService } from '../../services/admin-employee.service';
+import { AdminEmployeesService } from '../../services/admin-employees.service';
 
 @Component({
   selector: 'hcm-edit-employee',
@@ -13,7 +13,7 @@ export class EditEmployeeComponent {
   activeItemIndex = 0;
 
   constructor(
-    private adminEmployeeService: AdminEmployeeService,
+    private adminEmployeeService: AdminEmployeesService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private promptService: PromptService

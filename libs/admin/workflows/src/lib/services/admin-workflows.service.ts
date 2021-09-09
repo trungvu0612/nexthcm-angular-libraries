@@ -76,6 +76,13 @@ export class AdminWorkflowsService extends RxState<WorkflowsState> {
     return this.http.get<Status[]>(`${ACCOUNT_API_PATH}/states`).pipe(catchError(() => of([])));
   }
 
+  checkStatusName(payload: Pick<Status, 'name'>): Observable<boolean> {
+    return this.http.post<boolean>(`${ACCOUNT_API_PATH}/states/existing`, payload).pipe(
+      map((value) => !value),
+      catchError(() => of(false))
+    );
+  }
+
   createStatus(payload: Status): Observable<Status> {
     return this.http.post<BaseResponse<Status>>(`${ACCOUNT_API_PATH}/states`, payload).pipe(
       map((res) => res.data),

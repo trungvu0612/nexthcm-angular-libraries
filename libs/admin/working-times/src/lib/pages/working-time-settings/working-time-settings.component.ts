@@ -410,8 +410,12 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
         translate: true,
         textfieldLabelOutside: true,
         required: true,
-        label: 'SETTING_TIME.offMorning',
-        placeholder: 'SETTING_TIME.checkInAfter'
+        label: 'offMorning',
+        placeholder: 'checkInAfter'
+      },
+      expressionProperties: {
+        'templateOptions.label': this.translocoService.selectTranslate('SETTING_TIME.offMorning'),
+        'templateOptions.placeholder': this.translocoService.selectTranslate('SETTING_TIME.checkInAfter'),
       }
     },
     {
@@ -680,7 +684,7 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
 
   saveSettings() {
     const formModel = this.form.value;
-    const items = [];
+    const items: any[] = [];
     const dayTime = [
       formModel.sundayTime,
       formModel.mondayTime,

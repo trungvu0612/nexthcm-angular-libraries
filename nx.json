@@ -56,6 +56,9 @@
     "admin-tenant": {
       "tags": []
     },
+    "admin-tenants": {
+      "tags": []
+    },
     "admin-user-roles": {
       "tags": []
     },

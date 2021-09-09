@@ -53,13 +53,12 @@ export class UpsertWorkflowComponent implements OnInit {
   readonly workflowId = this.activatedRoute.snapshot.params.workflowId as string;
   readonly editMode = this.activatedRoute.snapshot.data.edit as boolean;
   readonly TransitionOptionIndex = TransitionOptionIndex;
-  form = this.fb.group<Workflow>({
-    removingStates: new Array<string>(),
-    removingTransitions: new Array<string>(),
-  } as Workflow);
+  form = this.fb.group<Workflow>({} as Workflow);
   model = {} as Workflow;
   fields: FormlyFieldConfig[] = [
     { key: 'id', defaultValue: this.workflowId },
+    { key: 'removingStates' },
+    { key: 'removingTransitions' },
     {
       className: 'tui-text_h3 tui-form__header tui-form__header_margin-top_none block',
       key: 'name',
@@ -122,14 +121,16 @@ export class UpsertWorkflowComponent implements OnInit {
     );
     state.connect(
       this.deleteStatus$.pipe(
-        tap((status) => this.form.controls.removingStates.setValue(this.form.value.removingStates.concat(status)))
+        tap((status) =>
+          this.form.controls.removingStates?.setValue((this.form.value.removingStates || []).concat(status))
+        )
       ),
       (state, status) => setProp(state, 'addedStatuses', deleteProp(state.addedStatuses, status))
     );
     state.connect(
       this.deleteTransitions$.pipe(
         tap((transition) =>
-          this.form.controls.removingTransitions.setValue(this.form.value.removingTransitions.concat(transition))
+          this.form.controls.removingTransitions?.setValue((this.form.value.removingTransitions || []).concat(transition))
         )
       ),
       (state, transitions) =>

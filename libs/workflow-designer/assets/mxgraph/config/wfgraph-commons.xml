@@ -54,7 +54,7 @@
 			function(cell, value)
 			{
 				var previous = null;
-				
+
 				if (isNaN(value.nodeType))
 				{
 					previous = cell.getAttribute('label');
@@ -65,12 +65,12 @@
 					previous = cell.value;
 					cell.value = value;
 				}
-				
+
 				return previous;
 			}
 		]]></add>
 		<root>
-			<Workflow label="MyWorkflow" description="" href="" id="0"/>
+			<Workflow label="Workflow" description="" href="" id="0"/>
 			<Layer label="Default Layer">
 				<mxCell parent="0"/>
 			</Layer>

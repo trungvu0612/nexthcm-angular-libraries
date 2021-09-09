@@ -129,12 +129,13 @@
     "action": "Action"
   },
   "VALIDATION": {
-    "required": "This field should not be blank.",
-    "differentSource": "The target and the source should not be the same.",
-    "differentTarget": "The source and the target should not be the same.",
-    "email": "This is an invalid email.",
-    "numeric": "You must enter a number in this cell.",
-    "shortnameExists": "This shortname already exists."
+    "required": "This field should not be blank!",
+    "differentSource": "The target and the source should not be the same!",
+    "differentTarget": "The source and the target should not be the same!",
+    "email": "This is an invalid email!",
+    "numeric": "You must enter a number in this cell!",
+    "shortnameExists": "This shortname already exists!",
+    "uniqueStatusName": "This status name is already exists!"
   },
   "initStatus": "Initial status",
   "initStatusDescription": "Initial status description",

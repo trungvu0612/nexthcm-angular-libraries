@@ -1,11 +1,13 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
 import { PromptService } from '@nexthcm/cdk';
-import { FormBuilder } from '@ngneat/reactive-forms';
+import { FormBuilder, FormControl } from '@ngneat/reactive-forms';
+import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
-import { mapTo, tap } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { delay, filter, mapTo, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { v4 as uuidv4 } from 'uuid';
 import { Status } from '../../models';
 import { AdminWorkflowsService } from '../../services/admin-workflows.service';
@@ -33,6 +35,17 @@ export class UpsertStatusDialogComponent implements OnInit {
         label: 'name',
         labelClassName: 'font-semibold',
         textfieldLabelOutside: true,
+      },
+      asyncValidators: {
+        uniqueStatusName: {
+          expression: (control: FormControl<string>) =>
+            of(control.value).pipe(
+              delay(500),
+              filter((name) => this.data.name !== name),
+              switchMap((name) => this.adminWorkflowsService.checkStatusName({ name }))
+            ),
+          message: () => this.translocoService.selectTranslate('VALIDATION.uniqueStatusName'),
+        },
       },
     },
     {
@@ -63,10 +76,11 @@ export class UpsertStatusDialogComponent implements OnInit {
 
   constructor(
     @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<Status, Status>,
-    private fb: FormBuilder,
-    private adminWorkflowsService: AdminWorkflowsService,
-    private promptService: PromptService,
-    private destroy$: TuiDestroyService
+    private readonly fb: FormBuilder,
+    private readonly adminWorkflowsService: AdminWorkflowsService,
+    private readonly promptService: PromptService,
+    private readonly destroy$: TuiDestroyService,
+    private readonly translocoService: TranslocoService
   ) {}
 
   get data(): Status {
@@ -90,7 +104,10 @@ export class UpsertStatusDialogComponent implements OnInit {
         ? this.adminWorkflowsService.updateStatus(this.model).pipe(mapTo(this.model))
         : this.adminWorkflowsService.createStatus(this.model)
       )
-        .pipe(tap((res) => this.context.completeWith(res)))
+        .pipe(
+          tap((res) => this.context.completeWith(res)),
+          takeUntil(this.destroy$)
+        )
         .subscribe(this.promptService.handleResponse());
     }
   }

@@ -28,6 +28,7 @@
       "@nexthcm/admin-seat-maps": ["libs/admin/seat-maps/src/index.ts"],
       "@nexthcm/admin-team-building-allowance": ["libs/admin/team-building-allowance/src/index.ts"],
       "@nexthcm/admin-tenant": ["libs/admin/tenant/src/index.ts"],
+      "@nexthcm/admin-tenants": ["libs/admin/tenants/src/index.ts"],
       "@nexthcm/admin-user-roles": ["libs/admin/user-roles/src/index.ts"],
       "@nexthcm/admin-workflows": ["libs/admin/workflows/src/index.ts"],
       "@nexthcm/admin-working-times": ["libs/admin/working-times/src/index.ts"],

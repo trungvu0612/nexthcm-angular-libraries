@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormControl } from '@ngneat/reactive-forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '@nexthcm/auth';
 import { PromptService, secondsToTime } from '@nexthcm/cdk';
+import { FormBuilder, FormControl } from '@ngneat/reactive-forms';
 import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import {
@@ -14,6 +14,7 @@ import {
   TuiTime,
 } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
+import { of } from 'rxjs';
 import {
   catchError,
   distinctUntilChanged,
@@ -24,13 +25,11 @@ import {
   startWith,
   switchMap,
   takeUntil,
-  tap,
 } from 'rxjs/operators';
 import { SweetAlertOptions } from 'sweetalert2';
+import { Organization } from '../../models/organization';
 import { WorkingAfterTime } from '../../models/working-after-time';
 import { WorkingTimesService } from '../../services/working-times.service';
-import { Organization } from '../../models/organization';
-import { of } from 'rxjs';
 
 @Component({
   selector: 'hcm-overtime-working',
@@ -334,7 +333,7 @@ export class OvertimeWorkingComponent implements OnInit {
     formModel.maxOtMinutes = (formModel?.maxOtMinutes as TuiTime).toAbsoluteMilliseconds().valueOf() / 1000;
     formModel.otBreakHours = (formModel?.otBreakHours as TuiTime).toAbsoluteMilliseconds().valueOf() / 1000;
     formModel.orgId = this.orgIdControl.value;
-    const overtimeData = [];
+    const overtimeData: any[] = [];
     const dayKey = [
       formModel.applyFor.day1,
       formModel.applyFor.day2,

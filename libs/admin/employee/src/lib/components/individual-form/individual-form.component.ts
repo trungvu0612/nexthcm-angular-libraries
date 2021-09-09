@@ -15,7 +15,7 @@ import { FormlyFieldConfig } from '@ngx-formly/core';
 import { RxwebValidators } from '@rxweb/reactive-form-validators';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { map, takeUntil, tap } from 'rxjs/operators';
-import { AdminEmployeeService } from '../../services/admin-employee.service';
+import { AdminEmployeesService } from '../../services/admin-employees.service';
 
 @Component({
   selector: 'hcm-individual-form',
@@ -254,7 +254,7 @@ export class IndividualFormComponent {
     private translocoService: TranslocoService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private adminEmployeeService: AdminEmployeeService,
+    private adminEmployeeService: AdminEmployeesService,
     private employeesService: EmployeesService,
     private destroy$: TuiDestroyService,
     private promptService: PromptService
