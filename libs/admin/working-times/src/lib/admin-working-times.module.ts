@@ -7,7 +7,6 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { FormlyModule } from '@ngx-formly/core';
 import {
   TuiButtonModule, TuiDataListModule,
-  TuiHostedDropdownModule,
   TuiLabelModule, TuiLoaderModule, TuiSvgModule, TuiTextfieldControllerModule
 } from '@taiga-ui/core';
 import {
