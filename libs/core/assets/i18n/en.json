@@ -898,5 +898,17 @@
     "previousStatus": "Previous status",
     "nextStatus": "Next status",
     "modifiedTime": "Modified time"
+  },
+  "SETTING_TIME": {
+    "monday": "Monday",
+    "tuesday": "Tuesday",
+    "wednesday": "Wednesday",
+    "thursday": "Thursday",
+    "friday": "Friday",
+    "saturday": "Saturday",
+    "sunday": "Sunday",
+    "to": "to",
+    "offMorning": "Employee is off in morning:",
+    "checkInAfter": "Check in after"
   }
 }

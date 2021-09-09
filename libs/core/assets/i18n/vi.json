@@ -885,5 +885,17 @@
     "previousStatus": "Trạng thái trước",
     "nextStatus": "Trạng thái sau",
     "modifiedTime": "Thời gian thay đổi"
+  },
+  "SETTING_TIME": {
+    "monday": "Thứ hai",
+    "tuesday": "Thứ ba",
+    "wednesday": "Thứ tư",
+    "thursday": "Thứ năm",
+    "friday": "Thứ sáu",
+    "saturday": "Thứ bảy",
+    "sunday": "Chủ nhật",
+    "to": "đến",
+    "offMorning": "Không tính công sáng sau:",
+    "checkInAfter": "Chấm công vào"
   }
 }

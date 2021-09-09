@@ -19,7 +19,7 @@ import { WorkingTimesService } from '../../services/working-times.service';
   templateUrl: './working-time-settings.component.html',
   styleUrls: ['./working-time-settings.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [TuiDestroyService],
+  providers: [TuiDestroyService]
 })
 export class WorkingTimeSettingsComponent implements AfterViewInit {
   myOrgId = this.authService.get('userInfo').orgId;
@@ -50,7 +50,7 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
     endTimeInWorkingDay: new FormControl(),
     ingerPrint: new FormControl(),
     timePayroll: new FormControl(true),
-    timePaidLeave: new FormControl(false),
+    timePaidLeave: new FormControl(false)
   });
   readonly formHoliday = new FormGroup({});
 
@@ -61,7 +61,7 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
     thursdayTime: [{}],
     fridayTime: [{}],
     saturdayTime: [{}],
-    sundayTime: [{}],
+    sundayTime: [{}]
   } as WorkingTimes;
 
   modelHoliday: any = {} as Holiday;
@@ -73,12 +73,12 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
       type: 'checkbox',
       templateOptions: {
         textfieldLabelOutside: true,
-        size: 'm',
+        size: 'm'
       },
       expressionProperties: {
-        'templateOptions.label': of('Monday'),
+        'templateOptions.label': this.translocoService.selectTranslate('SETTING_TIME.monday')
       },
-      defaultValue: true,
+      defaultValue: true
     },
     {
       className: 'col-span-2',
@@ -95,8 +95,8 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
               options: this.dataWorkingTimes,
               labelProp: 'name',
               valueProp: 'value',
-              size: 'm',
-            },
+              size: 'm'
+            }
           },
           {
             className: 'inline',
@@ -106,14 +106,14 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
               options: this.dataWorkingTimes,
               labelProp: 'name',
               valueProp: 'value',
-              size: 'm',
+              size: 'm'
             },
             expressionProperties: {
-              'templateOptions.label': of('to'),
-            },
-          },
-        ],
-      },
+              'templateOptions.label': this.translocoService.selectTranslate('SETTING_TIME.to')
+            }
+          }
+        ]
+      }
     },
     {
       className: 'checkbox-day',
@@ -121,12 +121,12 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
       type: 'checkbox',
       templateOptions: {
         textfieldLabelOutside: true,
-        size: 'm',
+        size: 'm'
       },
       expressionProperties: {
-        'templateOptions.label': of('Tuesday'),
+        'templateOptions.label': this.translocoService.selectTranslate('SETTING_TIME.tuesday')
       },
-      defaultValue: true,
+      defaultValue: true
     },
     {
       className: 'col-span-2',
@@ -143,8 +143,8 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
               options: this.dataWorkingTimes,
               labelProp: 'name',
               valueProp: 'value',
-              size: 'm',
-            },
+              size: 'm'
+            }
           },
           {
             className: 'inline',
@@ -154,14 +154,14 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
               options: this.dataWorkingTimes,
               labelProp: 'name',
               valueProp: 'value',
-              size: 'm',
+              size: 'm'
             },
             expressionProperties: {
-              'templateOptions.label': of('to'),
-            },
-          },
-        ],
-      },
+              'templateOptions.label': this.translocoService.selectTranslate('SETTING_TIME.to')
+            }
+          }
+        ]
+      }
     },
     {
       className: 'checkbox-day',
@@ -169,12 +169,12 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
       type: 'checkbox',
       templateOptions: {
         textfieldLabelOutside: true,
-        size: 'm',
+        size: 'm'
       },
       expressionProperties: {
-        'templateOptions.label': of('Wednesday'),
+        'templateOptions.label': this.translocoService.selectTranslate('SETTING_TIME.wednesday')
       },
-      defaultValue: true,
+      defaultValue: true
     },
     {
       className: 'col-span-2',
@@ -191,8 +191,8 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
               options: this.dataWorkingTimes,
               labelProp: 'name',
               valueProp: 'value',
-              size: 'm',
-            },
+              size: 'm'
+            }
           },
           {
             className: 'inline',
@@ -202,14 +202,14 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
               options: this.dataWorkingTimes,
               labelProp: 'name',
               valueProp: 'value',
-              size: 'm',
+              size: 'm'
             },
             expressionProperties: {
-              'templateOptions.label': of('to'),
-            },
-          },
-        ],
-      },
+              'templateOptions.label': this.translocoService.selectTranslate('SETTING_TIME.to')
+            }
+          }
+        ]
+      }
     },
     {
       className: 'checkbox-day',
@@ -217,12 +217,12 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
       type: 'checkbox',
       templateOptions: {
         textfieldLabelOutside: true,
-        size: 'm',
+        size: 'm'
       },
       expressionProperties: {
-        'templateOptions.label': of('Thursday'),
+        'templateOptions.label': this.translocoService.selectTranslate('SETTING_TIME.thursday')
       },
-      defaultValue: true,
+      defaultValue: true
     },
     {
       className: 'col-span-2',
@@ -239,8 +239,8 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
               options: this.dataWorkingTimes,
               labelProp: 'name',
               valueProp: 'value',
-              size: 'm',
-            },
+              size: 'm'
+            }
           },
           {
             className: 'inline',
@@ -250,14 +250,14 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
               options: this.dataWorkingTimes,
               labelProp: 'name',
               valueProp: 'value',
-              size: 'm',
+              size: 'm'
             },
             expressionProperties: {
-              'templateOptions.label': of('to'),
-            },
-          },
-        ],
-      },
+              'templateOptions.label': this.translocoService.selectTranslate('SETTING_TIME.to')
+            }
+          }
+        ]
+      }
     },
     {
       className: 'checkbox-day',
@@ -265,12 +265,12 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
       type: 'checkbox',
       templateOptions: {
         textfieldLabelOutside: true,
-        size: 'm',
+        size: 'm'
       },
       expressionProperties: {
-        'templateOptions.label': of('Friday'),
+        'templateOptions.label': this.translocoService.selectTranslate('SETTING_TIME.friday')
       },
-      defaultValue: true,
+      defaultValue: true
     },
     {
       className: 'col-span-2',
@@ -287,8 +287,8 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
               options: this.dataWorkingTimes,
               labelProp: 'name',
               valueProp: 'value',
-              size: 'm',
-            },
+              size: 'm'
+            }
           },
           {
             className: 'inline',
@@ -298,14 +298,14 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
               options: this.dataWorkingTimes,
               labelProp: 'name',
               valueProp: 'value',
-              size: 'm',
+              size: 'm'
             },
             expressionProperties: {
-              'templateOptions.label': of('to'),
-            },
-          },
-        ],
-      },
+              'templateOptions.label': this.translocoService.selectTranslate('SETTING_TIME.to')
+            }
+          }
+        ]
+      }
     },
     {
       className: 'checkbox-day',
@@ -313,12 +313,12 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
       type: 'checkbox',
       templateOptions: {
         textfieldLabelOutside: true,
-        size: 'm',
+        size: 'm'
       },
       expressionProperties: {
-        'templateOptions.label': of('Saturday'),
+        'templateOptions.label': this.translocoService.selectTranslate('SETTING_TIME.saturday')
       },
-      defaultValue: false,
+      defaultValue: false
     },
     {
       className: 'col-span-2',
@@ -335,8 +335,8 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
               options: this.dataWorkingTimes,
               labelProp: 'name',
               valueProp: 'value',
-              size: 'm',
-            },
+              size: 'm'
+            }
           },
           {
             className: 'inline',
@@ -346,14 +346,14 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
               options: this.dataWorkingTimes,
               labelProp: 'name',
               valueProp: 'value',
-              size: 'm',
+              size: 'm'
             },
             expressionProperties: {
-              'templateOptions.label': of('to'),
-            },
-          },
-        ],
-      },
+              'templateOptions.label': this.translocoService.selectTranslate('SETTING_TIME.to')
+            }
+          }
+        ]
+      }
     },
     {
       className: 'checkbox-day',
@@ -361,12 +361,12 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
       type: 'checkbox',
       templateOptions: {
         textfieldLabelOutside: true,
-        size: 'm',
+        size: 'm'
       },
       expressionProperties: {
-        'templateOptions.label': of('Sunday'),
+        'templateOptions.label': this.translocoService.selectTranslate('SETTING_TIME.sunday')
       },
-      defaultValue: false,
+      defaultValue: false
     },
     {
       className: 'col-span-2',
@@ -383,8 +383,8 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
               options: this.dataWorkingTimes,
               labelProp: 'name',
               valueProp: 'value',
-              size: 'm',
-            },
+              size: 'm'
+            }
           },
           {
             className: 'inline',
@@ -394,24 +394,25 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
               options: this.dataWorkingTimes,
               labelProp: 'name',
               valueProp: 'value',
-              size: 'm',
+              size: 'm'
             },
             expressionProperties: {
-              'templateOptions.label': of('to'),
-            },
-          },
-        ],
-      },
+              'templateOptions.label': this.translocoService.selectTranslate('SETTING_TIME.to')
+            }
+          }
+        ]
+      }
     },
     {
       key: 'checkInAfter',
       type: 'input-time',
       templateOptions: {
-        label: 'Employee is off in morning',
+        translate: true,
         textfieldLabelOutside: true,
         required: true,
-        placeholder: 'Check in after',
-      },
+        label: 'SETTING_TIME.offMorning',
+        placeholder: 'SETTING_TIME.checkInAfter'
+      }
     },
     {
       key: 'checkOutBefore',
@@ -420,8 +421,8 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
         label: 'Employee is off in afternoon',
         textfieldLabelOutside: true,
         required: true,
-        placeholder: 'Check out before',
-      },
+        placeholder: 'Check out before'
+      }
     },
     {
       key: 'workingHour',
@@ -430,8 +431,8 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
         label: 'Employee is off working',
         textfieldLabelOutside: true,
         required: true,
-        placeholder: 'Working hours less than',
-      },
+        placeholder: 'Working hours less than'
+      }
     },
     {
       key: 'startLunch',
@@ -439,8 +440,8 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
       templateOptions: {
         label: 'Start lunch',
         textfieldLabelOutside: true,
-        required: true,
-      },
+        required: true
+      }
     },
     {
       key: 'endLunch',
@@ -448,8 +449,8 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
       templateOptions: {
         label: 'End lunch',
         textfieldLabelOutside: true,
-        required: true,
-      },
+        required: true
+      }
     },
     {
       key: 'totalWorkingHour',
@@ -457,8 +458,8 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
       templateOptions: {
         label: 'Total working hours a day',
         textfieldLabelOutside: true,
-        required: true,
-      },
+        required: true
+      }
     },
     {
       key: 'startTimeInWorkingDay',
@@ -467,8 +468,8 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
         label: 'The time is start working time',
         textfieldLabelOutside: true,
         required: true,
-        placeholder: 'Start working time',
-      },
+        placeholder: 'Start working time'
+      }
     },
     {
       key: 'endTimeInWorkingDay',
@@ -477,8 +478,8 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
         label: 'The time is  end working time',
         textfieldLabelOutside: true,
         required: true,
-        placeholder: 'End working time',
-      },
+        placeholder: 'End working time'
+      }
     },
     {
       key: 'fingerPrint',
@@ -486,8 +487,8 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
       type: 'toggle',
       templateOptions: { textfieldLabelOutside: true, labelClassName: 'font-semibold' },
       expressionProperties: {
-        'templateOptions.label': of('Use FingerPrint'),
-      },
+        'templateOptions.label': of('Use FingerPrint')
+      }
     },
     {
       className: 'block mb-5',
@@ -497,8 +498,8 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
       templateOptions: {
         translate: true,
         label: 'Convert OT to payroll',
-        size: 'l',
-      },
+        size: 'l'
+      }
     },
     {
       className: 'block mb-5',
@@ -508,9 +509,9 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
       templateOptions: {
         translate: true,
         label: 'Convert OT to paid leave',
-        size: 'l',
-      },
-    },
+        size: 'l'
+      }
+    }
   ];
 
   fieldsHoliday: FormlyFieldConfig[] = [
@@ -521,8 +522,8 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
       templateOptions: {
         translate: true,
         label: '',
-        labelClassName: 'font-semibold',
-      },
+        labelClassName: 'font-semibold'
+      }
     },
     {
       key: 'name',
@@ -532,8 +533,8 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
         translate: true,
         textfieldLabelOutside: true,
         placeholder: 'Holiday name',
-        labelClassName: 'font-semibold',
-      },
+        labelClassName: 'font-semibold'
+      }
     },
     {
       className: 'inline',
@@ -545,8 +546,8 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
         options: this.dataWorkingHoliday,
         labelProp: 'name',
         valueProp: 'value',
-        size: 'm',
-      },
+        size: 'm'
+      }
     },
     {
       className: 'block mb-5',
@@ -556,9 +557,9 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
       templateOptions: {
         translate: true,
         label: 'Paid holiday',
-        size: 'l',
-      },
-    },
+        size: 'l'
+      }
+    }
   ];
 
   constructor(
@@ -571,7 +572,8 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
     private authService: AuthService,
     private promptService: PromptService,
     private translocoService: TranslocoService
-  ) {}
+  ) {
+  }
 
   ngAfterViewInit() {
     this.configuration = { ...DefaultConfig, paginationEnabled: false };
@@ -580,7 +582,7 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
       { key: 'name', title: 'Holiday' },
       { key: 'paidHoliday', title: 'Paid holiday' },
       { key: 'recurringType', title: 'Repeat' },
-      { key: 'action', title: '' },
+      { key: 'action', title: '' }
     ];
 
     this.workingTimesService.getHoliday().subscribe((item) => {
@@ -590,7 +592,7 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
           name: item.name,
           recurringType: item.recurringType,
           paidHoliday: item.paidHoliday,
-          id: item.id,
+          id: item.id
         });
       });
       this.cdr.detectChanges();
@@ -643,11 +645,11 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
           ),
           fingerPrint: formModel.fingerPrint,
           timePayroll: formModel.timePayroll,
-          timePaidLeave: formModel.timePaidLeave,
+          timePaidLeave: formModel.timePaidLeave
         };
 
         const DayDefault = [{ from: '', to: '' }];
-        formModel.items.forEach(function (res: any) {
+        formModel.items.forEach(function(res: any) {
           if (res.weekDayId === 2) {
             jsonEditData.mondayTime = res.totalTime > 0 ? res.values : DayDefault;
           }
@@ -686,7 +688,7 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
       formModel.wednesdayTime,
       formModel.thursdayTime,
       formModel.fridayTime,
-      formModel.saturdayTime,
+      formModel.saturdayTime
     ];
     const dayKey = [
       formModel.day1,
@@ -695,19 +697,19 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
       formModel.day4,
       formModel.day5,
       formModel.day6,
-      formModel.day7,
+      formModel.day7
     ];
     for (let i = 1; i <= 7; i++) {
       const m: number = i - 1;
       if (dayKey[m] == true) {
         items.push({
           weekDayId: i,
-          values: dayTime[m],
+          values: dayTime[m]
         });
       } else {
         items.push({
           weekDayId: i,
-          values: [],
+          values: []
         });
       }
     }
@@ -724,7 +726,7 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
       fingerPrint: formModel.fingerPrint,
       timePayroll: formModel.timePayroll,
       timePaidLeave: formModel.timePaidLeave,
-      items: items,
+      items: items
     };
     if (this.workingHourId) {
       this.settingsElement.id = this.workingHourId;
@@ -739,7 +741,7 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
             icon: 'error',
             text: err.error.message,
             showCancelButton: true,
-            showConfirmButton: false,
+            showConfirmButton: false
           } as SweetAlertOptions)
         ),
         switchMap((options) => this.promptService.open(options)),
@@ -755,7 +757,7 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
         holidayDate: (this.formHoliday?.controls['holidayDate'].value as TuiDay).toLocalNativeDate().valueOf(),
         name: this.formHoliday?.controls['name'].value,
         recurringType: this.formHoliday?.controls['recurringType'].value,
-        paidHoliday: this.formHoliday?.controls['paidHoliday'].value,
+        paidHoliday: this.formHoliday?.controls['paidHoliday'].value
       };
 
       this.workingTimesService.addHoliday(dataAddHoliday).subscribe((item) => {
@@ -764,7 +766,7 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
           name: item.data.name,
           recurringType: item.data.recurringType,
           paidHoliday: item.data.paidHoliday,
-          id: item.data.id,
+          id: item.data.id
         });
         this.dataHoliday = [...this.dataHoliday];
         this.cdr.detectChanges();
