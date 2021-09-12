@@ -7,9 +7,9 @@ import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDay, TuiDestroyService, TuiTime } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
-import { DefaultConfig } from 'ngx-easy-table';
-import { of } from 'rxjs';
-import { catchError, filter, mapTo, switchMap, takeUntil } from 'rxjs/operators';
+import { Columns, DefaultConfig } from 'ngx-easy-table';
+import { Observable, of } from 'rxjs';
+import { catchError, filter, map, mapTo, switchMap, takeUntil } from 'rxjs/operators';
 import { SweetAlertOptions } from 'sweetalert2';
 import { WORKING_HOLIDAY, WORKING_TIMES, WorkingTimes } from '../../models/working-times';
 import { WorkingTimesService } from '../../services/working-times.service';
@@ -27,7 +27,6 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
   settingsElement: any;
   workingHourId: any;
   public configuration?: any;
-  public columns?: any;
   public dataHoliday: any[] = [];
   dataWorkingTimes = WORKING_TIMES;
   dataWorkingHoliday = WORKING_HOLIDAY;
@@ -53,6 +52,18 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
     timePaidLeave: new FormControl(false)
   });
   readonly formHoliday = new FormGroup({});
+
+  public columns$: Observable<Columns[]> = this.translocoService
+    .selectTranslateObject('SETTING_TIME')
+    .pipe(
+      map((result) => [
+        { key: 'holidayDate', title: result.dateHoliday },
+        { key: 'name', title: result.holidayName },
+        { key: 'paidHoliday', title: result.paidHoliday },
+        { key: 'recurringType', title: result.repeat },
+        { key: 'action', title: '' }
+      ])
+    );
 
   model: any = {
     mondayTime: [{}],
@@ -415,83 +426,102 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
       },
       expressionProperties: {
         'templateOptions.label': this.translocoService.selectTranslate('SETTING_TIME.offMorning'),
-        'templateOptions.placeholder': this.translocoService.selectTranslate('SETTING_TIME.checkInAfter'),
+        'templateOptions.placeholder': this.translocoService.selectTranslate('SETTING_TIME.checkInAfter')
       }
     },
     {
       key: 'checkOutBefore',
       type: 'input-time',
       templateOptions: {
-        label: 'Employee is off in afternoon',
+        label: 'offAfternoon',
         textfieldLabelOutside: true,
         required: true,
-        placeholder: 'Check out before'
+        placeholder: 'checkOutBefore'
+      },
+      expressionProperties: {
+        'templateOptions.label': this.translocoService.selectTranslate('SETTING_TIME.offAfternoon'),
+        'templateOptions.placeholder': this.translocoService.selectTranslate('SETTING_TIME.checkOutBefore')
       }
     },
     {
       key: 'workingHour',
       type: 'input-time',
       templateOptions: {
-        label: 'Employee is off working',
+        label: 'employeeOfWorking',
         textfieldLabelOutside: true,
-        required: true,
-        placeholder: 'Working hours less than'
+        required: true
+      },
+      expressionProperties: {
+        'templateOptions.label': this.translocoService.selectTranslate('SETTING_TIME.employeeOfWorking')
       }
     },
     {
       key: 'startLunch',
       type: 'input-time',
       templateOptions: {
-        label: 'Start lunch',
+        label: 'startLunch',
         textfieldLabelOutside: true,
         required: true
+      },
+      expressionProperties: {
+        'templateOptions.label': this.translocoService.selectTranslate('SETTING_TIME.startLunch')
       }
     },
     {
       key: 'endLunch',
       type: 'input-time',
       templateOptions: {
-        label: 'End lunch',
+        label: 'endLunch',
         textfieldLabelOutside: true,
         required: true
+      },
+      expressionProperties: {
+        'templateOptions.label': this.translocoService.selectTranslate('SETTING_TIME.endLunch')
       }
     },
     {
       key: 'totalWorkingHour',
       type: 'input-time',
       templateOptions: {
-        label: 'Total working hours a day',
+        label: 'totalWorkingDay',
         textfieldLabelOutside: true,
         required: true
+      },
+      expressionProperties: {
+        'templateOptions.label': this.translocoService.selectTranslate('SETTING_TIME.totalWorkingDay')
       }
     },
     {
       key: 'startTimeInWorkingDay',
       type: 'input-time',
       templateOptions: {
-        label: 'The time is start working time',
+        label: 'startWorkingTime',
         textfieldLabelOutside: true,
-        required: true,
-        placeholder: 'Start working time'
+        required: true
+      },
+      expressionProperties: {
+        'templateOptions.label': this.translocoService.selectTranslate('SETTING_TIME.startWorkingTime')
       }
     },
     {
       key: 'endTimeInWorkingDay',
       type: 'input-time',
       templateOptions: {
-        label: 'The time is  end working time',
+        label: 'endWorkingTime',
         textfieldLabelOutside: true,
-        required: true,
-        placeholder: 'End working time'
+        required: true
+      },
+      expressionProperties: {
+        'templateOptions.label': this.translocoService.selectTranslate('SETTING_TIME.endWorkingTime')
       }
     },
     {
       key: 'fingerPrint',
       className: 'tui-form__row block',
       type: 'toggle',
-      templateOptions: { textfieldLabelOutside: true, labelClassName: 'font-semibold' },
+      templateOptions: { textfieldLabelOutside: true,   size: 'l' },
       expressionProperties: {
-        'templateOptions.label': of('Use FingerPrint')
+        'templateOptions.label': this.translocoService.selectTranslate('SETTING_TIME.fingerPrint')
       }
     },
     {
@@ -501,8 +531,11 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
       defaultValue: false,
       templateOptions: {
         translate: true,
-        label: 'Convert OT to payroll',
+        label: 'otPayroll',
         size: 'l'
+      },
+      expressionProperties: {
+        'templateOptions.label': this.translocoService.selectTranslate('SETTING_TIME.otPayroll')
       }
     },
     {
@@ -512,8 +545,11 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
       defaultValue: false,
       templateOptions: {
         translate: true,
-        label: 'Convert OT to paid leave',
+        label: 'otPaidLeave',
         size: 'l'
+      },
+      expressionProperties: {
+        'templateOptions.label': this.translocoService.selectTranslate('SETTING_TIME.otPaidLeave')
       }
     }
   ];
@@ -536,8 +572,10 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
       templateOptions: {
         translate: true,
         textfieldLabelOutside: true,
-        placeholder: 'Holiday name',
-        labelClassName: 'font-semibold'
+        placeholder: 'holidayName'
+      },
+      expressionProperties: {
+        'templateOptions.placeholder': this.translocoService.selectTranslate('SETTING_TIME.holidayName')
       }
     },
     {
@@ -545,23 +583,30 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
       key: 'recurringType',
       type: 'select',
       templateOptions: {
+        translate: true,
         textfieldLabelOutside: true,
-        placeholder: 'Repeat',
+        placeholder: 'holidayType',
         options: this.dataWorkingHoliday,
         labelProp: 'name',
         valueProp: 'value',
         size: 'm'
+      },
+      expressionProperties: {
+        'templateOptions.placeholder': this.translocoService.selectTranslate('SETTING_TIME.holidayType')
       }
     },
     {
-      className: 'block mb-5',
+      className: 'block mt-3',
       key: 'paidHoliday',
       type: 'checkbox-labeled',
       defaultValue: true,
       templateOptions: {
         translate: true,
-        label: 'Paid holiday',
+        label: 'paidHoliday',
         size: 'l'
+      },
+      expressionProperties: {
+        'templateOptions.label': this.translocoService.selectTranslate('SETTING_TIME.paidHoliday')
       }
     }
   ];
@@ -581,14 +626,6 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     this.configuration = { ...DefaultConfig, paginationEnabled: false };
-    this.columns = [
-      { key: 'holidayDate', title: 'Date' },
-      { key: 'name', title: 'Holiday' },
-      { key: 'paidHoliday', title: 'Paid holiday' },
-      { key: 'recurringType', title: 'Repeat' },
-      { key: 'action', title: '' }
-    ];
-
     this.workingTimesService.getHoliday().subscribe((item) => {
       item.data.items.forEach((item) => {
         this.dataHoliday.push({
