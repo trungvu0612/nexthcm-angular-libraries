@@ -27,6 +27,12 @@
         position: relative;
         top: -23px;
       }
+      .ot-break {
+        position: absolute;
+        left: 0;
+        top: -40px;
+        z-index: 10;
+      }
     }
   }
 }

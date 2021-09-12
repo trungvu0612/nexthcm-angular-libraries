@@ -11,7 +11,7 @@ import {
   TuiDestroyService,
   tuiPure,
   TuiStringHandler,
-  TuiTime,
+  TuiTime
 } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
 import { of } from 'rxjs';
@@ -24,7 +24,7 @@ import {
   share,
   startWith,
   switchMap,
-  takeUntil,
+  takeUntil
 } from 'rxjs/operators';
 import { SweetAlertOptions } from 'sweetalert2';
 import { Organization } from '../../models/organization';
@@ -35,7 +35,7 @@ import { WorkingTimesService } from '../../services/working-times.service';
   selector: 'hcm-overtime-working',
   templateUrl: './overtime-working.component.html',
   styleUrls: ['./overtime-working.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OvertimeWorkingComponent implements OnInit {
   readonly myOrgId = this.authService.get('userInfo').orgId;
@@ -67,8 +67,8 @@ export class OvertimeWorkingComponent implements OnInit {
       expressionProperties: {
         template: this.translocoService
           .selectTranslate<string>('applyFor')
-          .pipe(map((result) => `<div class="font-semibold mt-5">${result}</div>`)),
-      },
+          .pipe(map((result) => `<div class='font-semibold mt-5'>${result}</div>`))
+      }
     },
     {
       className: 'tui-form__row block',
@@ -81,9 +81,12 @@ export class OvertimeWorkingComponent implements OnInit {
           defaultValue: false,
           templateOptions: {
             translate: true,
-            label: 'Default',
-            size: 'l',
+            label: 'defaultDay',
+            size: 'l'
           },
+          expressionProperties: {
+            'templateOptions.label': this.translocoService.selectTranslate('SETTING_TIME.defaultDay')
+          }
         },
         {
           fieldGroupClassName: 'grid grid-cols-7 gap-2',
@@ -94,9 +97,12 @@ export class OvertimeWorkingComponent implements OnInit {
               defaultValue: false,
               templateOptions: {
                 translate: true,
-                label: 'Monday',
-                size: 'l',
+                label: 'monday',
+                size: 'l'
               },
+              expressionProperties: {
+                'templateOptions.label': this.translocoService.selectTranslate('SETTING_TIME.monday')
+              }
             },
             {
               key: 'day3',
@@ -104,9 +110,12 @@ export class OvertimeWorkingComponent implements OnInit {
               defaultValue: false,
               templateOptions: {
                 translate: true,
-                label: 'Tuesday',
-                size: 'l',
+                label: 'tuesday',
+                size: 'l'
               },
+              expressionProperties: {
+                'templateOptions.label': this.translocoService.selectTranslate('SETTING_TIME.tuesday')
+              }
             },
             {
               key: 'day4',
@@ -114,9 +123,12 @@ export class OvertimeWorkingComponent implements OnInit {
               defaultValue: false,
               templateOptions: {
                 translate: true,
-                label: 'Wednesday',
-                size: 'l',
+                label: 'wednesday',
+                size: 'l'
               },
+              expressionProperties: {
+                'templateOptions.label': this.translocoService.selectTranslate('SETTING_TIME.wednesday')
+              }
             },
             {
               key: 'day5',
@@ -124,9 +136,12 @@ export class OvertimeWorkingComponent implements OnInit {
               defaultValue: false,
               templateOptions: {
                 translate: true,
-                label: 'Thursday',
-                size: 'l',
+                label: 'thursday',
+                size: 'l'
               },
+              expressionProperties: {
+                'templateOptions.label': this.translocoService.selectTranslate('SETTING_TIME.thursday')
+              }
             },
             {
               key: 'day6',
@@ -134,9 +149,12 @@ export class OvertimeWorkingComponent implements OnInit {
               defaultValue: false,
               templateOptions: {
                 translate: true,
-                label: 'Friday',
-                size: 'l',
+                label: 'friday',
+                size: 'l'
               },
+              expressionProperties: {
+                'templateOptions.label': this.translocoService.selectTranslate('SETTING_TIME.friday')
+              }
             },
             {
               key: 'day7',
@@ -144,9 +162,12 @@ export class OvertimeWorkingComponent implements OnInit {
               defaultValue: false,
               templateOptions: {
                 translate: true,
-                label: 'Saturday',
-                size: 'l',
+                label: 'saturday',
+                size: 'l'
               },
+              expressionProperties: {
+                'templateOptions.label': this.translocoService.selectTranslate('SETTING_TIME.saturday')
+              }
             },
             {
               key: 'day1',
@@ -154,13 +175,16 @@ export class OvertimeWorkingComponent implements OnInit {
               defaultValue: false,
               templateOptions: {
                 translate: true,
-                label: 'Sunday',
-                size: 'l',
+                label: 'sunday',
+                size: 'l'
               },
-            },
-          ],
-        },
-      ],
+              expressionProperties: {
+                'templateOptions.label': this.translocoService.selectTranslate('SETTING_TIME.sunday')
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       fieldGroup: [
@@ -173,10 +197,13 @@ export class OvertimeWorkingComponent implements OnInit {
               type: 'input-time',
               templateOptions: {
                 textfieldLabelOutside: true,
-                label: ' Check out',
+                label: ' checkOutBefore',
                 labelClassName: 'font-semibold',
-                disabled: true,
+                disabled: true
               },
+              expressionProperties: {
+                'templateOptions.label': this.translocoService.selectTranslate('SETTING_TIME.checkOutBefore')
+              }
             },
             {
               className: 'block my-5',
@@ -184,11 +211,13 @@ export class OvertimeWorkingComponent implements OnInit {
               type: 'input-time',
               templateOptions: {
                 textfieldLabelOutside: true,
-                label: 'OT Time Check out',
-                labelClassName: 'font-semibold',
+                label: 'otTimeCheckOut',
                 textfieldSize: 'l',
-                required: true,
+                required: true
               },
+              expressionProperties: {
+                'templateOptions.label': this.translocoService.selectTranslate('SETTING_TIME.otTimeCheckOut')
+              }
             },
             {
               className: 'block my-5',
@@ -197,9 +226,12 @@ export class OvertimeWorkingComponent implements OnInit {
               templateOptions: {
                 textfieldLabelOutside: true,
                 textfieldSize: 'l',
-                label: 'Hour Min',
-                required: true,
+                label: 'hourMin',
+                required: true
               },
+              expressionProperties: {
+                'templateOptions.label': this.translocoService.selectTranslate('SETTING_TIME.hourMin')
+              }
             },
             {
               className: 'block my-5',
@@ -207,43 +239,56 @@ export class OvertimeWorkingComponent implements OnInit {
               type: 'input-time',
               templateOptions: {
                 textfieldSize: 'l',
-                label: 'Minute Min',
+                label: 'minuteMin',
                 required: true,
-                textfieldLabelOutside: true,
+                textfieldLabelOutside: true
               },
+              expressionProperties: {
+                'templateOptions.label': this.translocoService.selectTranslate('SETTING_TIME.minuteMin')
+              }
             },
             {
               key: 'fingerPrint',
               className: 'tui-form__row block',
               type: 'toggle',
-              templateOptions: { textfieldLabelOutside: true, labelClassName: 'font-semibold' },
+              templateOptions: { textfieldLabelOutside: true, size: 'l' },
               expressionProperties: {
-                'templateOptions.label': of('Use FingerPrint'),
-              },
-            },
-          ],
-        },
-      ],
+                'templateOptions.label': this.translocoService.selectTranslate('SETTING_TIME.fingerPrint')
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       fieldGroup: [
         {
-          fieldGroupClassName: 'grid grid-cols-5 gap-4 ot-breaks',
+          fieldGroupClassName: 'grid grid-cols-5 gap-4 ot-breaks relative',
           fieldGroup: [
             {
+              className: 'block my-5 ot-break',
               key: 'weekendOt',
               type: 'checkbox-labeled',
               defaultValue: false,
               templateOptions: {
                 translate: true,
-                label: 'Weekend OT Break',
-                size: 'l',
+                label: 'breakLunch',
+                size: 'l'
               },
+              expressionProperties: {
+                'templateOptions.label': this.translocoService.selectTranslate('SETTING_TIME.breakLunch')
+              }
             },
             {
               className: 'block my-5',
               key: 'otBreakHours',
               type: 'input-time',
+              templateOptions: {
+                placeholder: 'otBreakTime'
+              },
+              expressionProperties: {
+                'templateOptions.placeholder': this.translocoService.selectTranslate('SETTING_TIME.otBreakTime')
+              }
             },
             {
               className: 'tui-form__row block',
@@ -252,12 +297,12 @@ export class OvertimeWorkingComponent implements OnInit {
               defaultValue: 1,
               templateOptions: {
                 options: [
-                  { value: 1, label: 'Hour' },
-                  { value: 2, label: 'Minute' },
+                  { value: 1, label: this.translocoService.translate('SETTING_TIME.hourTime') },
+                  { value: 2, label: this.translocoService.translate('SETTING_TIME.minuteTime') }
                 ],
                 valueProp: 'value',
-                labelClassName: 'font-semibold',
-              },
+                labelClassName: 'font-semibold'
+              }
             },
             {
               className: 'block my-5 hour-label',
@@ -265,10 +310,13 @@ export class OvertimeWorkingComponent implements OnInit {
               type: 'input-time',
               templateOptions: {
                 textfieldSize: 'l',
-                label: 'Hour Max',
+                label: 'hourMax',
                 required: true,
-                textfieldLabelOutside: true,
+                textfieldLabelOutside: true
               },
+              expressionProperties: {
+                'templateOptions.label': this.translocoService.selectTranslate('SETTING_TIME.hourMax')
+              }
             },
             {
               className: 'block my-5 hour-label',
@@ -276,15 +324,18 @@ export class OvertimeWorkingComponent implements OnInit {
               type: 'input-time',
               templateOptions: {
                 textfieldSize: 'l',
-                label: 'Minute Max',
+                label: 'minuteMax',
                 required: true,
-                textfieldLabelOutside: true,
+                textfieldLabelOutside: true
               },
-            },
-          ],
-        },
-      ],
-    },
+              expressionProperties: {
+                'templateOptions.label': this.translocoService.selectTranslate('SETTING_TIME.minuteMax')
+              }
+            }
+          ]
+        }
+      ]
+    }
   ];
 
   private readonly request$ = this.orgIdControl.value$.pipe(
@@ -305,7 +356,8 @@ export class OvertimeWorkingComponent implements OnInit {
     private promptService: PromptService,
     private authService: AuthService,
     private fb: FormBuilder
-  ) {}
+  ) {
+  }
 
   @tuiPure
   stringify(items: ReadonlyArray<Organization>): TuiStringHandler<TuiContextWithImplicit<string>> {
@@ -341,7 +393,7 @@ export class OvertimeWorkingComponent implements OnInit {
       formModel.applyFor.day4,
       formModel.applyFor.day5,
       formModel.applyFor.day6,
-      formModel.applyFor.day7,
+      formModel.applyFor.day7
     ];
     for (let i = 1; i <= 7; i++) {
       const m: number = i - 1;
@@ -356,9 +408,9 @@ export class OvertimeWorkingComponent implements OnInit {
               maxOtMinutes: formModel.applyFor.dayDefault ? 0 : parseInt(formModel.maxOtMinutes),
               minStart: formModel.applyFor.dayDefault ? 0 : parseInt(formModel.minStart),
               otBreakHours:
-                formModel.applyFor.dayDefault || !formModel.weekendOt ? 0 : parseInt(formModel.otBreakHours),
-            },
-          ],
+                formModel.applyFor.dayDefault || !formModel.weekendOt ? 0 : parseInt(formModel.otBreakHours)
+            }
+          ]
         });
       } else {
         overtimeData.push({
@@ -370,9 +422,9 @@ export class OvertimeWorkingComponent implements OnInit {
               minOtMinutes: 0,
               maxOtMinutes: 0,
               otBreakHours: 0,
-              minStart: 0,
-            },
-          ],
+              minStart: 0
+            }
+          ]
         });
       }
     }
@@ -386,7 +438,7 @@ export class OvertimeWorkingComponent implements OnInit {
       otBreakHours: formModel.applyFor.dayDefault ? 0 : parseInt(formModel.otBreakHours),
       minStart: formModel.applyFor.dayDefault ? 0 : parseInt(formModel.minStart),
       items: overtimeData,
-      orgId: formModel.orgId,
+      orgId: formModel.orgId
     };
     if (this.overtimeWorkingId) {
       this.workingAfterTimeElement.id = this.overtimeWorkingId;
@@ -402,7 +454,7 @@ export class OvertimeWorkingComponent implements OnInit {
             icon: 'error',
             text: err.error.message,
             showCancelButton: true,
-            showConfirmButton: false,
+            showConfirmButton: false
           } as SweetAlertOptions)
         ),
         switchMap((options) => this.promptService.open(options)),
@@ -423,7 +475,7 @@ export class OvertimeWorkingComponent implements OnInit {
         day4: true,
         day5: true,
         day6: true,
-        day7: false,
+        day7: false
       },
       orgId: this.myOrgId,
       otBreakHours: new TuiTime(
@@ -450,9 +502,9 @@ export class OvertimeWorkingComponent implements OnInit {
         Number(secondsToTime(formModel?.maxOtMinutes).m)
       ),
       minStart: new TuiTime(Number(secondsToTime(formModel?.minStart).h), Number(secondsToTime(formModel?.minStart).m)),
-      checkOut: new TuiTime(Number(secondsToTime(this?.dataChecking$).h), Number(secondsToTime(this?.dataChecking$).m)),
+      checkOut: new TuiTime(Number(secondsToTime(this?.dataChecking$).h), Number(secondsToTime(this?.dataChecking$).m))
     };
-    formModel?.items.forEach(function (res: any) {
+    formModel?.items.forEach(function(res: any) {
       if (res.weekDayId === 1) {
         jsonEditData.applyFor.day1 = res.values[0].minOtHours > 0;
       }
