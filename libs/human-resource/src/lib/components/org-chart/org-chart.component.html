@@ -6,7 +6,7 @@
       <div class="border-t-4 border mb-8"></div>
       <div class="flex flex-wrap justify-center gap-4">
         <div *ngFor="let item of current">
-          <tui-hosted-dropdown [content]="content" tuiDropdownHover>
+          <tui-hosted-dropdown [content]="template" tuiDropdownHover>
             <button
               [class.hoverInfo]="item.id === idEmployee ? true : false"
               class="w-56 h-16 hover:bg-gray-300 bg-white flex justify-between py-3 px-6 pb-16 pt-4"
@@ -34,7 +34,7 @@
     <ng-template #target>
       <section class="grid grid-cols-1 justify-items-center">
         <div *ngIf="current[0].id !== idLeader; else checkFalse">
-          <tui-hosted-dropdown [content]="content" tuiDropdownHover>
+          <tui-hosted-dropdown [content]="template" tuiDropdownHover>
             <button
               class="w-56 h-16 hover:bg-gray-300 bg-white flex justify-between py-3 px-6 pb-16 pt-4 gap-4"
               (click)="changeInfoCss(current[0].id)"
@@ -93,9 +93,12 @@
       </section>
     </ng-template>
 
-    <ng-template #content>
+<!--    #content-->
+    <ng-template  #template="polymorpheus" [polymorpheus]="context" let-item>
       <main class="flex flex-col w-96 h-full p-4">
         <section class="p-8 bg-white flex justify-start -m-2">
+<!--          <div> Oke? : {{ctx}} </div>-->
+          <div> Oke? : {{item}} </div>
           <tui-avatar [autoColor]="true" [rounded]="true" [text]="current[0].username" size="l"></tui-avatar>
           <div class="ml-4">
             <div class="text-sm text-left">
@@ -145,6 +148,11 @@
         </section>
       </main>
     </ng-template>
+
+<!--    <ng-template #userContent="polymorpheus" [polymorpheus]="userContext" let-user>-->
+<!--      <b>{{ user.name }}</b> ({{ user.userName }})-->
+<!--    </ng-template>-->
+
   </ng-template>
 </main>
 

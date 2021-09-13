@@ -21,7 +21,7 @@ export interface OrgRes {
   createdDate: number;
   lastModifiedDate: number;
   optCounter: number;
-  id?: string;
+  id: string;
   tenant: Tenant;
   username: string;
   registerType: string;

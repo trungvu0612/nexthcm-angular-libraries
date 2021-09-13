@@ -20,13 +20,26 @@
     </p>
     <p *ngSwitchCase="PartialDay.StartEndDay">
       {{ data.fromDate | translocoDate }} <ng-container *ngTemplateOutlet="duration"></ng-container> -
-      {{ data.toDate | translocoDate }} <ng-container *ngTemplateOutlet="duration"></ng-container>
+      {{ data.toDate | translocoDate }} <ng-container *ngTemplateOutlet="durationEndDay"></ng-container>
     </p>
   </ng-container>
 </div>
 
 <ng-template #duration>
   <ng-container *ngIf="data.items[0] as timeItem">
+    <span *ngIf="timeItem.fromTime && timeItem.toTime; else halfDay">
+      <span *tuiLet="timeItem.fromTime as fromTime">({{ fromTime * 1000 | date: 'HH:mm':'UTC' }} - </span>
+      <span *tuiLet="timeItem.toTime as toTime">{{ toTime * 1000 | date: 'HH:mm':'UTC' }})</span>
+    </span>
+    <ng-template #halfDay>
+      <span *ngIf="timeItem.morning">({{ 'morning' | transloco }})</span>
+      <span *ngIf="timeItem.afternoon">({{ 'afternoon' | transloco }})</span>
+    </ng-template>
+  </ng-container>
+</ng-template>
+
+<ng-template #durationEndDay>
+  <ng-container *ngIf="data.items[1] as timeItem">
     <span *ngIf="timeItem.fromTime && timeItem.toTime; else halfDay">
       <span *tuiLet="timeItem.fromTime as fromTime">({{ fromTime * 1000 | date: 'HH:mm':'UTC' }} - </span>
       <span *tuiLet="timeItem.toTime as toTime">{{ toTime * 1000 | date: 'HH:mm':'UTC' }})</span>
