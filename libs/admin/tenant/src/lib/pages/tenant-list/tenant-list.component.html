@@ -26,8 +26,8 @@
     <ngx-table [columns]="(columns$ | async) || []" [configuration]="configuration" [data]="data?.items || []">
       <ng-template let-index="index" let-row>
         <td class="text-center">{{ index + 1 }}</td>
-        <td>{{ row.tenantCode }}</td>
         <td>{{ row.tenantName }}</td>
+        <td>{{ row.shortname }}</td>
         <td>
           <tui-tag
             [hoverable]="true"

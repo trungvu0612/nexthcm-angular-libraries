@@ -1,13 +1,13 @@
 <main *transloco='let t' class='main-page'>
-  <tui-tabs [(activeItemIndex)]='activeItemIndex'>
-    <button tuiTab>
-      <ng-container *ngIf='!this.workingHourId'>{{ t('WORKING_HOUR.addCalendar') }}</ng-container>
-      <ng-container *ngIf='this.workingHourId'>{{ t('WORKING_HOUR.updateCalendar') }}</ng-container>
-    </button>
-    <button tuiTab>
-      {{ t('WORKING_HOUR.addOverTime') }}
-    </button>
-  </tui-tabs>
+<!--  <tui-tabs [(activeItemIndex)]='activeItemIndex'>-->
+<!--    <button tuiTab>-->
+<!--      <ng-container *ngIf='!this.workingHourId'>{{ t('WORKING_HOUR.addCalendar') }}</ng-container>-->
+<!--      <ng-container *ngIf='this.workingHourId'>{{ t('WORKING_HOUR.updateCalendar') }}</ng-container>-->
+<!--    </button>-->
+<!--    <button tuiTab>-->
+<!--      {{ t('WORKING_HOUR.addOverTime') }}-->
+<!--    </button>-->
+<!--  </tui-tabs>-->
 
   <ng-container [ngSwitch]='activeItemIndex'>
     <div class='mt-5'>
@@ -20,6 +20,27 @@
             </div>
           </div>
 
+          <label [label]="label" tuiLabel>
+            <tui-select
+              *tuiLet="orgs$ | async as items"
+              [formControl]="$any(orgIdControl)"
+              [tuiTextfieldLabelOutside]="true"
+              [valueContent]="stringify(items || [])"
+            >
+              <ng-template tuiDataList>
+                <tui-data-list>
+                  <button *ngFor="let item of items" [value]="item.id" tuiOption>
+                    {{ item.orgName }}
+                  </button>
+                </tui-data-list>
+              </ng-template>
+            </tui-select>
+          </label>
+          <ng-template #label>
+            <div class="font-semibold mb-2 mt-4 text-base">{{ 'organization' | transloco }}</div>
+          </ng-template>
+
+          <tui-loader [overlay]="true" [showLoader]="(loading$ | async) === true"></tui-loader>
           <form [formGroup]='$any(form)'>
             <formly-form [fields]='fields' [form]='form' [model]='model' class='grid grid-cols-3 gap-4'></formly-form>
           </form>
