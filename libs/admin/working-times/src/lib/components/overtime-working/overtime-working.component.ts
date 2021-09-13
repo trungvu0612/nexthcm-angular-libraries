@@ -71,7 +71,7 @@ export class OvertimeWorkingComponent implements OnInit {
       }
     },
     {
-      className: 'tui-form__row block',
+      className: 'tui-form__row block text-base',
       key: 'applyFor', // TODO: need change
       fieldGroup: [
         {

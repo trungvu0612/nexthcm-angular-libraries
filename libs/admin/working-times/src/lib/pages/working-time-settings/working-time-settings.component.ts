@@ -1,18 +1,38 @@
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject } from '@angular/core';
-import { FormArray, FormControl, FormGroup } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { AuthService } from '@nexthcm/auth';
-import { Holiday, PromptService, secondsToTime } from '@nexthcm/cdk';
-import { TranslocoService } from '@ngneat/transloco';
-import { FormlyFieldConfig } from '@ngx-formly/core';
-import { TuiDay, TuiDestroyService, TuiTime } from '@taiga-ui/cdk';
-import { TuiDialogService } from '@taiga-ui/core';
-import { Columns, DefaultConfig } from 'ngx-easy-table';
-import { Observable, of } from 'rxjs';
-import { catchError, filter, map, mapTo, switchMap, takeUntil } from 'rxjs/operators';
-import { SweetAlertOptions } from 'sweetalert2';
-import { WORKING_HOLIDAY, WORKING_TIMES, WorkingTimes } from '../../models/working-times';
-import { WorkingTimesService } from '../../services/working-times.service';
+import {AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject} from '@angular/core';
+import {FormArray, FormGroup} from '@angular/forms';
+import {FormControl} from '@ngneat/reactive-forms';
+import {ActivatedRoute, Router} from '@angular/router';
+import {AuthService} from '@nexthcm/auth';
+import {Holiday, PromptService, secondsToTime} from '@nexthcm/cdk';
+import {TranslocoService} from '@ngneat/transloco';
+import {FormlyFieldConfig} from '@ngx-formly/core';
+import {
+  isPresent,
+  TuiContextWithImplicit,
+  TuiDay,
+  TuiDestroyService,
+  tuiPure,
+  TuiStringHandler,
+  TuiTime
+} from '@taiga-ui/cdk';
+import {TuiDialogService} from '@taiga-ui/core';
+import {Columns, DefaultConfig} from 'ngx-easy-table';
+import {Observable, of} from 'rxjs';
+import {
+  catchError,
+  distinctUntilChanged,
+  filter,
+  map,
+  mapTo,
+  share,
+  startWith,
+  switchMap,
+  takeUntil
+} from 'rxjs/operators';
+import {SweetAlertOptions} from 'sweetalert2';
+import {WORKING_HOLIDAY, WORKING_TIMES, WorkingTimes} from '../../models/working-times';
+import {WorkingTimesService} from '../../services/working-times.service';
+import {Organization} from "../../models/organization";
 
 @Component({
   selector: 'hcm-working-time-settings',
@@ -23,6 +43,8 @@ import { WorkingTimesService } from '../../services/working-times.service';
 })
 export class WorkingTimeSettingsComponent implements AfterViewInit {
   myOrgId = this.authService.get('userInfo').orgId;
+  readonly orgIdControl = new FormControl<string>(this.myOrgId);
+  orgs$ = this.workingTimesService.getOrgs().pipe(map((res) => res.data.items));
   activeItemIndex = 0;
   settingsElement: any;
   workingHourId: any;
@@ -57,11 +79,11 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
     .selectTranslateObject('SETTING_TIME')
     .pipe(
       map((result) => [
-        { key: 'holidayDate', title: result.dateHoliday },
-        { key: 'name', title: result.holidayName },
-        { key: 'paidHoliday', title: result.paidHoliday },
-        { key: 'recurringType', title: result.repeat },
-        { key: 'action', title: '' }
+        {key: 'holidayDate', title: result.dateHoliday},
+        {key: 'name', title: result.holidayName},
+        {key: 'paidHoliday', title: result.paidHoliday},
+        {key: 'recurringType', title: result.repeat},
+        {key: 'action', title: ''}
       ])
     );
 
@@ -519,7 +541,7 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
       key: 'fingerPrint',
       className: 'tui-form__row block',
       type: 'toggle',
-      templateOptions: { textfieldLabelOutside: true,   size: 'l' },
+      templateOptions: {textfieldLabelOutside: true, size: 'l'},
       expressionProperties: {
         'templateOptions.label': this.translocoService.selectTranslate('SETTING_TIME.fingerPrint')
       }
@@ -610,6 +632,13 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
       }
     }
   ];
+  private readonly request$ = this.orgIdControl.value$.pipe(
+    filter(isPresent),
+    distinctUntilChanged(),
+    switchMap((orgId) => this.workingTimesService.getWorkingHourConfigByOrg(orgId).pipe(startWith(null))),
+    share()
+  );
+  readonly loading$ = this.request$.pipe(map((value) => !value));
 
   constructor(
     private cdr: ChangeDetectorRef,
@@ -624,8 +653,20 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
   ) {
   }
 
+  @tuiPure
+  stringify(items: ReadonlyArray<Organization>): TuiStringHandler<TuiContextWithImplicit<string>> {
+    const map = new Map(items.map(({id, orgName}) => [id, orgName]));
+    return ({$implicit}: TuiContextWithImplicit<string>) => map.get($implicit) || '';
+  }
+
   ngAfterViewInit() {
-    this.configuration = { ...DefaultConfig, paginationEnabled: false };
+    this.configuration = {...DefaultConfig, paginationEnabled: false};
+
+    if (this.request$) {
+      this.request$.pipe(filter(isPresent), takeUntil(this.destroy$)).subscribe((data) => {
+        this.patchFormValue(data);
+      });
+    }
     this.workingTimesService.getHoliday().subscribe((item) => {
       item.data.items.forEach((item) => {
         this.dataHoliday.push({
@@ -637,84 +678,6 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
         });
       });
       this.cdr.detectChanges();
-    });
-
-    this.workingTimesService.getWorkingHourConfigByOrg(this.myOrgId).subscribe((item) => {
-      if (item?.code === 'SUCCESS') {
-        this.workingHourId = item?.data?.id;
-        const formModel = item.data;
-        const jsonEditData = {
-          orgId: formModel.myOrgId,
-          mondayTime: {},
-          tuesdayTime: {},
-          wednesdayTime: {},
-          thursdayTime: {},
-          fridayTime: {},
-          saturdayTime: {},
-          sundayTime: {},
-          checkInAfter: new TuiTime(
-            Number(secondsToTime(formModel.checkInAfter).h),
-            Number(secondsToTime(formModel.checkInAfter).m)
-          ),
-          checkOutBefore: new TuiTime(
-            Number(secondsToTime(formModel.checkOutBefore).h),
-            Number(secondsToTime(formModel.checkOutBefore).m)
-          ),
-          workingHour: new TuiTime(
-            Number(secondsToTime(formModel.workingHour).h),
-            Number(secondsToTime(formModel.workingHour).m)
-          ),
-          startLunch: new TuiTime(
-            Number(secondsToTime(formModel.startLunch).h),
-            Number(secondsToTime(formModel.startLunch).m)
-          ),
-          endLunch: new TuiTime(
-            Number(secondsToTime(formModel.endLunch).h),
-            Number(secondsToTime(formModel.endLunch).m)
-          ),
-          totalWorkingHour: new TuiTime(
-            Number(secondsToTime(formModel.totalWorkingHour).h),
-            Number(secondsToTime(formModel.totalWorkingHour).m)
-          ),
-          startTimeInWorkingDay: new TuiTime(
-            Number(secondsToTime(formModel.startTimeInWorkingDay).h),
-            Number(secondsToTime(formModel.startTimeInWorkingDay).m)
-          ),
-          endTimeInWorkingDay: new TuiTime(
-            Number(secondsToTime(formModel.endTimeInWorkingDay).h),
-            Number(secondsToTime(formModel.endTimeInWorkingDay).m)
-          ),
-          fingerPrint: formModel.fingerPrint,
-          timePayroll: formModel.timePayroll,
-          timePaidLeave: formModel.timePaidLeave
-        };
-
-        const DayDefault = [{ from: '', to: '' }];
-        formModel.items.forEach(function(res: any) {
-          if (res.weekDayId === 2) {
-            jsonEditData.mondayTime = res.totalTime > 0 ? res.values : DayDefault;
-          }
-          if (res.weekDayId === 3) {
-            jsonEditData.tuesdayTime = res.totalTime > 0 ? res.values : DayDefault;
-          }
-          if (res.weekDayId === 4) {
-            jsonEditData.wednesdayTime = res.totalTime > 0 ? res.values : DayDefault;
-          }
-          if (res.weekDayId === 5) {
-            jsonEditData.thursdayTime = res.totalTime > 0 ? res.values : DayDefault;
-          }
-          if (res.weekDayId === 6) {
-            jsonEditData.fridayTime = res.totalTime > 0 ? res.values : DayDefault;
-          }
-          if (res.weekDayId === 7) {
-            jsonEditData.saturdayTime = res.totalTime > 0 ? res.values : DayDefault;
-          }
-          if (res.weekDayId === 1) {
-            jsonEditData.sundayTime = res.totalTime > 0 ? res.values : DayDefault;
-          }
-        });
-        this.model = { ...this.model, ...jsonEditData };
-      }
     });
     this.cdr.detectChanges();
   }
@@ -755,7 +718,7 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
       }
     }
     this.settingsElement = {
-      orgId: formModel.OrgId,
+      orgId: this.orgIdControl.value,
       checkInAfter: (formModel?.checkInAfter as TuiTime).toAbsoluteMilliseconds().valueOf() / 1000,
       checkOutBefore: (formModel?.checkOutBefore as TuiTime).toAbsoluteMilliseconds().valueOf() / 1000,
       workingHour: (formModel?.workingHour as TuiTime).toAbsoluteMilliseconds().valueOf() / 1000,
@@ -775,7 +738,7 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
     this.workingTimesService
       .saveSettings(this.settingsElement)
       .pipe(
-        mapTo({ icon: 'success', text: 'Update Settings Time Successfully!' } as SweetAlertOptions),
+        mapTo({icon: 'success', text: 'Update Settings Time Successfully!'} as SweetAlertOptions),
         takeUntil(this.destroy$),
         catchError((err) =>
           of({
@@ -789,7 +752,7 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
         filter((result) => result.isConfirmed),
         takeUntil(this.destroy$)
       )
-      .subscribe(() => this.router.navigate(['../..'], { relativeTo: this.activatedRoute }));
+      .subscribe(() => this.router.navigate(['../..'], {relativeTo: this.activatedRoute}));
   }
 
   addHolidayTime() {
@@ -821,5 +784,83 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
       this.dataHoliday = [...this.dataHoliday];
       this.cdr.detectChanges();
     });
+  }
+
+  private patchFormValue(formData: any): void {
+    const formModel = formData.data;
+    this.workingHourId = formModel?.id;
+    const jsonEditData = {
+      orgId: formModel.myOrgId,
+      mondayTime: {},
+      tuesdayTime: {},
+      wednesdayTime: {},
+      thursdayTime: {},
+      fridayTime: {},
+      saturdayTime: {},
+      sundayTime: {},
+      checkInAfter: new TuiTime(
+        Number(secondsToTime(formModel.checkInAfter).h),
+        Number(secondsToTime(formModel.checkInAfter).m)
+      ),
+      checkOutBefore: new TuiTime(
+        Number(secondsToTime(formModel.checkOutBefore).h),
+        Number(secondsToTime(formModel.checkOutBefore).m)
+      ),
+      workingHour: new TuiTime(
+        Number(secondsToTime(formModel.workingHour).h),
+        Number(secondsToTime(formModel.workingHour).m)
+      ),
+      startLunch: new TuiTime(
+        Number(secondsToTime(formModel.startLunch).h),
+        Number(secondsToTime(formModel.startLunch).m)
+      ),
+      endLunch: new TuiTime(
+        Number(secondsToTime(formModel.endLunch).h),
+        Number(secondsToTime(formModel.endLunch).m)
+      ),
+      totalWorkingHour: new TuiTime(
+        Number(secondsToTime(formModel.totalWorkingHour).h),
+        Number(secondsToTime(formModel.totalWorkingHour).m)
+      ),
+      startTimeInWorkingDay: new TuiTime(
+        Number(secondsToTime(formModel.startTimeInWorkingDay).h),
+        Number(secondsToTime(formModel.startTimeInWorkingDay).m)
+      ),
+      endTimeInWorkingDay: new TuiTime(
+        Number(secondsToTime(formModel.endTimeInWorkingDay).h),
+        Number(secondsToTime(formModel.endTimeInWorkingDay).m)
+      ),
+      fingerPrint: formModel.fingerPrint,
+      timePayroll: formModel.timePayroll,
+      timePaidLeave: formModel.timePaidLeave
+    };
+
+    const DayDefault = [{from: '', to: ''}];
+    formModel?.items?.forEach(function (res: any) {
+      if (res.weekDayId === 2) {
+        jsonEditData.mondayTime = res.totalTime > 0 ? res.values : DayDefault;
+      }
+      if (res.weekDayId === 3) {
+        jsonEditData.tuesdayTime = res.totalTime > 0 ? res.values : DayDefault;
+      }
+      if (res.weekDayId === 4) {
+        jsonEditData.wednesdayTime = res.totalTime > 0 ? res.values : DayDefault;
+      }
+      if (res.weekDayId === 5) {
+        jsonEditData.thursdayTime = res.totalTime > 0 ? res.values : DayDefault;
+      }
+      if (res.weekDayId === 6) {
+        jsonEditData.fridayTime = res.totalTime > 0 ? res.values : DayDefault;
+      }
+      if (res.weekDayId === 7) {
+        jsonEditData.saturdayTime = res.totalTime > 0 ? res.values : DayDefault;
+      }
+      if (res.weekDayId === 1) {
+        jsonEditData.sundayTime = res.totalTime > 0 ? res.values : DayDefault;
+      }
+    });
+    console.log('patch formmmm');
+    console.log(jsonEditData);
+    this.model = {...this.model, ...jsonEditData};
   }
 }
