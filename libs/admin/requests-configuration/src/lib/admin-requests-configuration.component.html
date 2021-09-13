@@ -1,0 +1,25 @@
+<ng-container *transloco="let t">
+  <hcm-page [title]="t('requestsConfig')">
+    <tui-accordion>
+      <tui-accordion-item
+        (openChange)="onOpenChange(section.type, $event)"
+        *ngFor="let section of sections; index as index"
+        [(open)]="section.open"
+        [showArrow]="false"
+        borders="top-bottom"
+      >
+        {{ t(section.label) }}
+        <ng-template tuiAccordionItemContent>
+          <hcm-base-form
+            (cancel)="onCancel(index)"
+            (submitForm)="onSubmit()"
+            [fields]="fields"
+            [form]="form"
+            [model]="model"
+            class="mt-5"
+          ></hcm-base-form>
+        </ng-template>
+      </tui-accordion-item>
+    </tui-accordion>
+  </hcm-page>
+</ng-container>

@@ -81,8 +81,9 @@ import { AppComponent } from './app.component';
             loadChildren: () => import('@nexthcm/admin-working-times').then((m) => m.AdminWorkingTimesModule),
           },
           {
-            path: 'contracts',
-            loadChildren: () => import('@nexthcm/admin-contracts').then((m) => m.AdminContractsModule),
+            path: 'requests-config',
+            loadChildren: () =>
+              import('@nexthcm/admin-requests-configuration').then((m) => m.AdminRequestsConfigurationModule),
           },
         ],
       },

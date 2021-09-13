@@ -78,9 +78,15 @@ export class SidebarComponent implements OnInit {
       permissions: 'VIEW_JOB_TITLE',
     },
     {
-      label: 'leaveConfigManagement',
-      link: '/admin/leave-configs/',
-      icon: 'leaveConfig',
+      label: 'leaveConfigs',
+      link: '/admin/leave-configs',
+      icon: 'leave-configs',
+      permissions: 'ADMIN', // TODO need fix
+    },
+    {
+      label: 'requestsConfig',
+      link: '/admin/requests-config',
+      icon: 'requests-config',
       permissions: 'ADMIN', // TODO need fix
     },
     {
@@ -88,12 +94,6 @@ export class SidebarComponent implements OnInit {
       link: '/admin/working-times',
       icon: 'working-time',
       permissions: 'VIEW_ADMIN_CONFIG_TIME',
-    },
-    {
-      label: 'contractManagement',
-      link: '/admin/contracts',
-      icon: 'contracts',
-      permissions: 'ADMIN', // TODO need fix
     },
   ];
 
@@ -228,9 +228,15 @@ export class SidebarComponent implements OnInit {
             permissions: 'VIEW_JOB_TITLE',
           },
           {
-            label: 'leaveConfigManagement',
-            link: '/admin/leave-configs/',
-            icon: 'leaveConfig',
+            label: 'leaveConfigs',
+            link: '/admin/leave-configs',
+            icon: 'leave-configs',
+            permissions: 'ADMIN', // TODO need fix
+          },
+          {
+            label: 'requestsConfig',
+            link: '/admin/requests-config',
+            icon: 'requests-config',
             permissions: 'ADMIN', // TODO need fix
           },
           {
@@ -238,12 +244,6 @@ export class SidebarComponent implements OnInit {
             link: '/admin/working-times',
             icon: 'working-time',
             permissions: 'VIEW_ADMIN_CONFIG_TIME',
-          },
-          {
-            label: 'contractManagement',
-            link: '/admin/contracts',
-            icon: 'contracts',
-            permissions: 'ADMIN', // TODO need fix
           },
         ],
         submenu: this.adminTmp, // @bad TODO remove

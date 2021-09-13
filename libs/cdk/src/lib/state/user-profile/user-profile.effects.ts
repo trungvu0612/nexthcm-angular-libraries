@@ -34,6 +34,7 @@ export class UserProfileEffects {
       )
     )
   );
+
   @Effect()
   loadProfileIndividualInformation$ = this.actions$.pipe(
     ofType(loadProfileIndividualInformation),
@@ -49,6 +50,7 @@ export class UserProfileEffects {
       )
     )
   );
+
   @Effect()
   loadProfileDurationInformation$ = this.actions$.pipe(
     ofType(loadProfileDurationInformation),
@@ -64,6 +66,7 @@ export class UserProfileEffects {
       )
     )
   );
+
   @Effect()
   loadProfileEducationInformation$ = this.actions$.pipe(
     ofType(loadProfileEducationInformation),
@@ -79,6 +82,7 @@ export class UserProfileEffects {
       )
     )
   );
+
   @Effect()
   loadProfileSHUIInformation$ = this.actions$.pipe(
     ofType(loadProfileSHUIInformation),

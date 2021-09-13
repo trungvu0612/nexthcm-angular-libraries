@@ -47,6 +47,9 @@
     "admin-permissions": {
       "tags": []
     },
+    "admin-requests-configuration": {
+      "tags": []
+    },
     "admin-seat-maps": {
       "tags": []
     },

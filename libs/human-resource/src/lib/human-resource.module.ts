@@ -15,6 +15,8 @@ import {
 import { TuiAvatarModule, TuiDropdownHoverModule, TuiInputModule } from '@taiga-ui/kit';
 import { PolymorpheusModule } from '@tinkoff/ng-polymorpheus';
 import { NgxPermissionsGuard } from 'ngx-permissions';
+import { EmployeeNodeDetailComponent } from './components/employee-node-detail/employee-node-detail.component';
+import { EmployeeNodeComponent } from './components/employee-node/employee-node.component';
 import { OrgChartComponent } from './components/org-chart/org-chart.component';
 import { OrganizationChartComponent } from './pages/organization-chart/organization-chart.component';
 
@@ -33,7 +35,7 @@ export const humanResourceRoutes: Routes = [
 const TABS: MenuItem[] = [{ label: 'organizationChart', link: '/human-resource/organization-chart', permissions: [] }];
 
 @NgModule({
-  declarations: [OrganizationChartComponent, OrgChartComponent],
+  declarations: [OrganizationChartComponent, OrgChartComponent, EmployeeNodeComponent, EmployeeNodeDetailComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(humanResourceRoutes),
