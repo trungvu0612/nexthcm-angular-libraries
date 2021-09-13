@@ -1,3 +1,4 @@
+import { HttpParams } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
 import { AuthService } from '@nexthcm/auth';
 import { FormBuilder } from '@ngneat/reactive-forms';
@@ -111,7 +112,10 @@ export class UpsertLeaveTypeDialogComponent implements OnInit {
 
   onSubmit(): void {
     if (this.form.valid) {
-      const formModel = { ...this.form.value };
+      const formModel = {
+        ...this.form.value,
+      };
+      formModel.status = formModel.status ? 1 : 0;
       this.context.completeWith(formModel);
     }
   }
