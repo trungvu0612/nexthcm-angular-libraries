@@ -98,47 +98,47 @@
         }
       }
     },
-    "admin-employee": {
+    "admin-employees": {
       "projectType": "library",
-      "root": "libs/admin/employee",
-      "sourceRoot": "libs/admin/employee/src",
+      "root": "libs/admin/employees",
+      "sourceRoot": "libs/admin/employees/src",
       "prefix": "hcm",
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": ["dist/libs/admin/employee"],
+          "outputs": ["dist/libs/admin/employees"],
           "options": {
-            "project": "libs/admin/employee/ng-package.json"
+            "project": "libs/admin/employees/ng-package.json"
           },
           "configurations": {
             "production": {
-              "tsConfig": "libs/admin/employee/tsconfig.lib.prod.json"
+              "tsConfig": "libs/admin/employees/tsconfig.lib.prod.json"
             },
             "development": {
-              "tsConfig": "libs/admin/employee/tsconfig.lib.json"
+              "tsConfig": "libs/admin/employees/tsconfig.lib.json"
             }
           },
           "defaultConfiguration": "production"
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/admin/employee"],
+          "outputs": ["coverage/libs/admin/employees"],
           "options": {
-            "jestConfig": "libs/admin/employee/jest.config.js",
+            "jestConfig": "libs/admin/employees/jest.config.js",
             "passWithNoTests": true
           }
         },
         "lint": {
           "builder": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": ["libs/admin/employee/src/**/*.ts", "libs/admin/employee/src/**/*.html"]
+            "lintFilePatterns": ["libs/admin/employees/src/**/*.ts", "libs/admin/employees/src/**/*.html"]
           },
           "outputs": ["{options.outputFile}"]
         },
         "publish": {
           "builder": "@nrwl/workspace:run-commands",
           "options": {
-            "command": "yarn publish dist/libs/admin/employee"
+            "command": "yarn publish dist/libs/admin/employees"
           }
         }
       }
@@ -496,6 +496,12 @@
               "libs/admin/requests-configuration/src/**/*.html"
             ]
           }
+        },
+        "publish": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "command": "yarn publish dist/libs/admin/requests-configuration"
+          }
         }
       }
     },
@@ -592,51 +598,6 @@
         }
       }
     },
-    "admin-tenant": {
-      "projectType": "library",
-      "root": "libs/admin/tenant",
-      "sourceRoot": "libs/admin/tenant/src",
-      "prefix": "hcm",
-      "architect": {
-        "build": {
-          "builder": "@nrwl/angular:package",
-          "outputs": ["dist/libs/admin/tenant"],
-          "options": {
-            "project": "libs/admin/tenant/ng-package.json"
-          },
-          "configurations": {
-            "production": {
-              "tsConfig": "libs/admin/tenant/tsconfig.lib.prod.json"
-            },
-            "development": {
-              "tsConfig": "libs/admin/tenant/tsconfig.lib.json"
-            }
-          },
-          "defaultConfiguration": "production"
-        },
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/admin/tenant"],
-          "options": {
-            "jestConfig": "libs/admin/tenant/jest.config.js",
-            "passWithNoTests": true
-          }
-        },
-        "lint": {
-          "builder": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": ["libs/admin/tenant/src/**/*.ts", "libs/admin/tenant/src/**/*.html"]
-          },
-          "outputs": ["{options.outputFile}"]
-        },
-        "publish": {
-          "builder": "@nrwl/workspace:run-commands",
-          "options": {
-            "command": "yarn publish dist/libs/admin/tenant"
-          }
-        }
-      }
-    },
     "admin-tenants": {
       "projectType": "library",
       "root": "libs/admin/tenants",
@@ -656,7 +617,8 @@
             "development": {
               "tsConfig": "libs/admin/tenants/tsconfig.lib.json"
             }
-          }
+          },
+          "defaultConfiguration": "production"
         },
         "test": {
           "builder": "@nrwl/jest:jest",
@@ -670,6 +632,12 @@
           "builder": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": ["libs/admin/tenants/src/**/*.ts", "libs/admin/tenants/src/**/*.html"]
+          }
+        },
+        "publish": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "command": "yarn publish dist/libs/admin/tenants"
           }
         }
       }

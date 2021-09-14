@@ -50,7 +50,7 @@ import { AppComponent } from './app.component';
             },
             {
               path: 'employees',
-              loadChildren: () => import('@nexthcm/admin-employee').then((m) => m.AdminEmployeesModule),
+              loadChildren: () => import('@nexthcm/admin-employees').then((m) => m.AdminEmployeesModule),
             },
             { path: 'tenants', loadChildren: () => import('@nexthcm/admin-tenants').then((m) => m.AdminTenantsModule) },
             {

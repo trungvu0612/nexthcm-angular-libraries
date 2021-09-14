@@ -17,7 +17,7 @@
     "baseUrl": ".",
     "paths": {
       "@nexthcm/admin-contracts": ["libs/admin/contracts/src/index.ts"],
-      "@nexthcm/admin-employee": ["libs/admin/employee/src/index.ts"],
+      "@nexthcm/admin-employees": ["libs/admin/employees/src/index.ts"],
       "@nexthcm/admin-entitlement": ["libs/admin/entitlement/src/index.ts"],
       "@nexthcm/admin-job-level": ["libs/admin/job-level/src/index.ts"],
       "@nexthcm/admin-job-titles": ["libs/admin/job-titles/src/index.ts"],
@@ -28,7 +28,6 @@
       "@nexthcm/admin-requests-configuration": ["libs/admin/requests-configuration/src/index.ts"],
       "@nexthcm/admin-seat-maps": ["libs/admin/seat-maps/src/index.ts"],
       "@nexthcm/admin-team-building-allowance": ["libs/admin/team-building-allowance/src/index.ts"],
-      "@nexthcm/admin-tenant": ["libs/admin/tenant/src/index.ts"],
       "@nexthcm/admin-tenants": ["libs/admin/tenants/src/index.ts"],
       "@nexthcm/admin-user-roles": ["libs/admin/user-roles/src/index.ts"],
       "@nexthcm/admin-workflows": ["libs/admin/workflows/src/index.ts"],

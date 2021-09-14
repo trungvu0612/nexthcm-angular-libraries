@@ -34,7 +34,15 @@
     <div class="table-value">{{ data.ot ? data.ot : '-' }}</div>
   </div>
   <div class="table-row">
+    <div class="table-label">{{ t('workingOutside') }}:</div>
+    <div class="table-value">{{ data.onsiteDay ? data.onsiteDay : '-' }}</div>
+  </div>
+  <div class="table-row">
     <div class="table-label">{{ t('workFromHome') }}:</div>
     <div class="table-value">{{ data.wfh ? data.wfh : '-' }}</div>
+  </div>
+  <div class="table-row">
+    <div class="table-label">{{ t('leave') }}:</div>
+    <div class="table-value">{{ data.leaveType }}</div>
   </div>
 </section>

@@ -119,14 +119,16 @@
     }
   },
   "TENANT_TABLE": {
-    "ordinalNumber": "Ordinal number",
     "name": "Name",
-    "companyCode": "Company code",
+    "tenantCode": "Tenant code",
     "organizationalLevel": "Organizational level",
     "parentOrganization": "Parent organizational",
-    "companyName": "Company name",
+    "tenantName": "Tenant name",
     "status": "Status",
-    "action": "Action"
+    "functions": "Functions",
+    "email": "Email",
+    "phone": "Phone",
+    "website": "Website"
   },
   "VALIDATION": {
     "required": "This field should not be blank!",
@@ -942,5 +944,6 @@
   },
   "requestsConfig": "Requests Configuration",
   "workflow": "Workflow",
-  "chooseWorkflow": "Choose workflow"
+  "chooseWorkflow": "Choose workflow",
+  "searchTenant": "Search tenant..."
 }

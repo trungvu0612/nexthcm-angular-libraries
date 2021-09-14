@@ -23,7 +23,7 @@
     "admin-contracts": {
       "tags": []
     },
-    "admin-employee": {
+    "admin-employees": {
       "tags": []
     },
     "admin-entitlement": {
@@ -54,9 +54,6 @@
       "tags": []
     },
     "admin-team-building-allowance": {
-      "tags": []
-    },
-    "admin-tenant": {
       "tags": []
     },
     "admin-tenants": {

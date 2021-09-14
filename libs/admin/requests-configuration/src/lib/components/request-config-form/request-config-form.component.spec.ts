@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TenantListComponent } from './tenant-list.component';
+import { RequestConfigFormComponent } from './request-config-form.component';
 
-describe('TenantListComponent', () => {
-  let component: TenantListComponent;
-  let fixture: ComponentFixture<TenantListComponent>;
+describe('RequestConfigFormComponent', () => {
+  let component: RequestConfigFormComponent;
+  let fixture: ComponentFixture<RequestConfigFormComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [TenantListComponent],
+      declarations: [RequestConfigFormComponent],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TenantListComponent);
+    fixture = TestBed.createComponent(RequestConfigFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

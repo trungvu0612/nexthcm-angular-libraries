@@ -5,9 +5,11 @@ import { AkitaNgEffectsModule } from '@datorama/akita-ng-effects';
 import { WorkflowsEffects } from '@nexthcm/cdk';
 import { BaseFormComponentModule, LayoutComponent, LayoutModule } from '@nexthcm/ui';
 import { TranslocoModule } from '@ngneat/transloco';
+import { LetModule } from '@rx-angular/template';
 import { TuiLoaderModule } from '@taiga-ui/core';
 import { TuiAccordionModule } from '@taiga-ui/kit';
 import { AdminRequestsConfigurationComponent } from './admin-requests-configuration.component';
+import { RequestConfigFormComponent } from './components/request-config-form/request-config-form.component';
 
 export const adminRequestsConfigurationRoutes: Routes = [
   {
@@ -27,7 +29,8 @@ export const adminRequestsConfigurationRoutes: Routes = [
     TuiAccordionModule,
     BaseFormComponentModule,
     TuiLoaderModule,
+    LetModule,
   ],
-  declarations: [AdminRequestsConfigurationComponent],
+  declarations: [AdminRequestsConfigurationComponent, RequestConfigFormComponent],
 })
 export class AdminRequestsConfigurationModule {}

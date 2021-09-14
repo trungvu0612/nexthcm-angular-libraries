@@ -1,3 +1,4 @@
+import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, NgModule, Output } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -21,6 +22,17 @@ export class BaseFormComponent<T extends Record<string, any>> {
 
   @Output() submitForm = new EventEmitter();
   @Output() cancel = new EventEmitter();
+
+  private _hideCancelButton = false;
+
+  get hideCancelButton(): boolean {
+    return this._hideCancelButton;
+  }
+
+  @Input()
+  set hideCancelButton(value: unknown) {
+    this._hideCancelButton = coerceBooleanProperty(value);
+  }
 }
 
 @NgModule({

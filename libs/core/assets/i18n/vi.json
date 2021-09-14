@@ -120,14 +120,16 @@
     }
   },
   "TENANT_TABLE": {
-    "ordinalNumber": "STT",
     "name": "Tên",
-    "companyCode": "Mã công ty",
+    "tenantCode": "Mã công ty",
     "organizationalLevel": "Cấp tổ chức",
-    "parentLevel": "Cấp trên",
-    "companyName": "Tên công ty",
+    "parentOrganization": "Cấp trên",
+    "tenantName": "Tên công ty",
     "status": "Trạng thái",
-    "action": "Thao tác"
+    "functions": "Chức năng",
+    "email": "Email",
+    "phone": "Số điện thoại",
+    "website": "Website"
   },
   "VALIDATION": {
     "required": "Trường này không được để trống!",
@@ -929,5 +931,6 @@
   },
   "requestsConfig": "Cấu hình các yêu cầu",
   "workflow": "Quy trình làm việc",
-  "chooseWorkflow": "Chọn quy trình làm việc..."
+  "chooseWorkflow": "Chọn quy trình làm việc...",
+  "searchTenant": "Tìm công ty..."
 }

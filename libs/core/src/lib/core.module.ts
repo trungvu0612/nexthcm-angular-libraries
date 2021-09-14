@@ -2,7 +2,7 @@ import { CommonModule, registerLocaleData } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import localeVi from '@angular/common/locales/vi';
 import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
-import { akitaConfig } from '@datorama/akita';
+import { akitaConfig, enableAkitaProdMode } from '@datorama/akita';
 import { AkitaNgRouterStoreModule } from '@datorama/akita-ng-router-store';
 import { SvgIconsModule } from '@ngneat/svg-icon';
 import { FormlyModule } from '@ngx-formly/core';
@@ -57,6 +57,9 @@ export class CoreModule {
   }
 
   static forRoot(environment: AppConfig): ModuleWithProviders<CoreModule> {
+    if (environment.production) {
+      enableAkitaProdMode();
+    }
     return {
       ngModule: CoreModule,
       providers: [{ provide: APP_CONFIG, useValue: environment }],

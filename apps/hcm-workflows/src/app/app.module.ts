@@ -27,10 +27,9 @@ import { AppComponent } from './app.component';
         path: 'admin/workflows',
         loadChildren: () => import('@nexthcm/admin-workflows').then((m) => m.AdminWorkflowsModule),
       },
-      { path: 'admin/tenant', loadChildren: () => import('@nexthcm/admin-tenant').then((m) => m.AdminTenantModule) },
       {
         path: 'admin/employees',
-        loadChildren: () => import('@nexthcm/admin-employee').then((m) => m.AdminEmployeesModule),
+        loadChildren: () => import('@nexthcm/admin-employees').then((m) => m.AdminEmployeesModule),
       },
       {
         path: 'admin/working-times',

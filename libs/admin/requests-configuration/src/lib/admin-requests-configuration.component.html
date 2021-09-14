@@ -1,23 +1,29 @@
 <ng-container *transloco="let t">
   <hcm-page [title]="t('requestsConfig')">
     <tui-loader [overlay]="true" [showLoader]="(loading$ | async) === true">
-      <tui-accordion>
-        <tui-accordion-item
-          (openChange)="onOpenChange(section.type, $event)"
-          *ngFor="let section of sections; index as index"
-          [(open)]="section.open"
-          [showArrow]="false"
-          borders="top-bottom"
-        >
-          {{ t(section.label) }}
+      <tui-accordion *rxLet="state$; let state">
+        <tui-accordion-item borders="top-bottom">
+          {{ t('workingAfterHours') }}
           <ng-template tuiAccordionItemContent>
-            <hcm-base-form
-              (cancel)="onCancel(index)"
-              (submitForm)="onSubmit()"
-              [fields]="fields"
-              [form]="form"
-              [model]="model"
-            ></hcm-base-form>
+            <hcm-request-config-form [data]="state[RequestType.WorkingAfterHours]"></hcm-request-config-form>
+          </ng-template>
+        </tui-accordion-item>
+        <tui-accordion-item borders="top-bottom">
+          {{ t('updateTimesheet') }}
+          <ng-template tuiAccordionItemContent>
+            <hcm-request-config-form [data]="state[RequestType.UpdateTimesheet]"></hcm-request-config-form>
+          </ng-template>
+        </tui-accordion-item>
+        <tui-accordion-item borders="top-bottom">
+          {{ t('workingOutside') }}
+          <ng-template tuiAccordionItemContent>
+            <hcm-request-config-form [data]="state[RequestType.WorkingOutside]"></hcm-request-config-form>
+          </ng-template>
+        </tui-accordion-item>
+        <tui-accordion-item borders="top-bottom">
+          {{ t('workFromHome') }}
+          <ng-template tuiAccordionItemContent>
+            <hcm-request-config-form [data]="state[RequestType.WorkFromHome]"></hcm-request-config-form>
           </ng-template>
         </tui-accordion-item>
       </tui-accordion>
