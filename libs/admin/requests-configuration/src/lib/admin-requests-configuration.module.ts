@@ -5,6 +5,7 @@ import { AkitaNgEffectsModule } from '@datorama/akita-ng-effects';
 import { WorkflowsEffects } from '@nexthcm/cdk';
 import { BaseFormComponentModule, LayoutComponent, LayoutModule } from '@nexthcm/ui';
 import { TranslocoModule } from '@ngneat/transloco';
+import { TuiLoaderModule } from '@taiga-ui/core';
 import { TuiAccordionModule } from '@taiga-ui/kit';
 import { AdminRequestsConfigurationComponent } from './admin-requests-configuration.component';
 
@@ -25,6 +26,7 @@ export const adminRequestsConfigurationRoutes: Routes = [
     TranslocoModule,
     TuiAccordionModule,
     BaseFormComponentModule,
+    TuiLoaderModule,
   ],
   declarations: [AdminRequestsConfigurationComponent],
 })

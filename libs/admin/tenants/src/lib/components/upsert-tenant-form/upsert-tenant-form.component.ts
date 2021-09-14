@@ -22,43 +22,45 @@ export class UpsertTenantFormComponent {
   form = this.fb.group<Tenant>({} as Tenant);
   model = {} as Tenant;
   fields: FormlyFieldConfig[] = [
-    { key: 'id' },
-    { key: 'hasLDAPUser' },
     {
       key: 'tenantName',
       type: 'input',
-      className: 'flex-1',
+      className: 'tui-form__row block',
       templateOptions: {
         required: true,
         translate: true,
         label: 'companyName',
+        labelClassName: 'font-semibold',
         placeholder: 'enterCompanyName',
         textfieldLabelOutside: true,
       },
       expressionProperties: { 'templateOptions.readonly': 'model.hasLDAPUser' },
     },
     {
-      fieldGroupClassName: 'flex gap-6',
+      className: 'tui-form__row block',
+      fieldGroupClassName: 'grid grid-cols-2 gap-x-6',
       fieldGroup: [
         {
           key: 'shortname',
           type: 'input',
-          className: 'flex-1',
           templateOptions: {
             required: true,
             translate: true,
             label: 'shortname',
+            labelClassName: 'font-semibold',
             placeholder: 'enterShortname',
             textfieldLabelOutside: true,
           },
           asyncValidators: {
             shortname: {
               expression: (control: AbstractControl<string>) =>
-                of(control.value).pipe(
-                  delay(500),
-                  filter((shortname) => this.data.shortname !== shortname),
-                  switchMap((shortname: string) => this.adminTenantsService.checkTenantShortname({ shortname }))
-                ),
+                !control.valueChanges || control.pristine
+                  ? of(true)
+                  : of(control.value).pipe(
+                      delay(500),
+                      filter((shortname) => this.data.shortname !== shortname),
+                      switchMap((shortname: string) => this.adminTenantsService.checkTenantShortname({ shortname }))
+                    ),
               message: () => this.translocoService.selectTranslate('VALIDATION.shortnameExists'),
             },
           },
@@ -71,6 +73,7 @@ export class UpsertTenantFormComponent {
             readonly: true,
             translate: true,
             label: 'username',
+            labelClassName: 'font-semibold',
             textfieldLabelOutside: true,
           },
           hideExpression: '!model.id',
@@ -84,9 +87,11 @@ export class UpsertTenantFormComponent {
     {
       key: 'image',
       type: 'upload-file',
+      className: 'tui-form__row block',
       templateOptions: {
         translate: true,
         label: 'companyLogo',
+        labelClassName: 'font-semibold',
         linkText: 'chooseAnImage',
         labelText: 'orDropItHere',
         accept: 'image/*',
@@ -95,7 +100,8 @@ export class UpsertTenantFormComponent {
       },
     },
     {
-      fieldGroupClassName: 'grid grid-cols-2 gap-x-6 gap-y-4',
+      className: 'tui-form__row block',
+      fieldGroupClassName: 'grid grid-cols-2 gap-x-6 gap-y-5',
       fieldGroup: [
         {
           key: 'addresses.address1',
@@ -103,6 +109,7 @@ export class UpsertTenantFormComponent {
           templateOptions: {
             translate: true,
             label: 'addresses',
+            labelClassName: 'font-semibold',
             placeholder: 'enterAddress',
             labelParams: { value: 1 },
             textfieldLabelOutside: true,
@@ -115,6 +122,7 @@ export class UpsertTenantFormComponent {
             required: true,
             translate: true,
             label: 'taxCode',
+            labelClassName: 'font-semibold',
             placeholder: 'enterTaxCode',
             textfieldLabelOutside: true,
           },
@@ -126,6 +134,7 @@ export class UpsertTenantFormComponent {
           templateOptions: {
             translate: true,
             label: 'addresses',
+            labelClassName: 'font-semibold',
             placeholder: 'enterAddress',
             labelParams: { value: 2 },
             textfieldLabelOutside: true,
@@ -138,13 +147,14 @@ export class UpsertTenantFormComponent {
             required: true,
             translate: true,
             label: 'phone',
+            labelClassName: 'font-semibold',
             placeholder: 'enterPhoneNumber',
             textfieldLabelOutside: true,
           },
           validators: { validation: [RxwebValidators.numeric({ acceptValue: NumericValueType.PositiveNumber })] },
         },
         {
-          fieldGroupClassName: 'grid grid-cols-2 gap-4',
+          fieldGroupClassName: 'grid grid-cols-2 gap-x-4',
           fieldGroup: [
             {
               key: 'addresses.countryId',
@@ -152,6 +162,7 @@ export class UpsertTenantFormComponent {
               templateOptions: {
                 translate: true,
                 label: 'country',
+                labelClassName: 'font-semibold',
                 placeholder: 'chooseCountry',
                 options: this.addressService.select('countries'),
                 valueProp: 'id',
@@ -164,6 +175,7 @@ export class UpsertTenantFormComponent {
               templateOptions: {
                 translate: true,
                 label: 'province',
+                labelClassName: 'font-semibold',
                 placeholder: 'chooseProvince',
                 valueProp: 'id',
                 labelProp: 'name',
@@ -171,12 +183,14 @@ export class UpsertTenantFormComponent {
               hooks: {
                 onInit: (field) => {
                   const countryControl = this.form.get('addresses.countryId') as FormControl<string>;
-                  if (field?.templateOptions && countryControl)
+                  if (field?.templateOptions && countryControl) {
                     field.templateOptions.options = countryControl.valueChanges.pipe(
                       tap(() => field.formControl?.setValue(null)),
+                      startWith(countryControl.value),
                       switchMap((countryId) => (countryId ? this.addressService.getPlaces(countryId) : of([]))),
                       startWith([])
                     );
+                  }
                 },
               },
             },
@@ -189,20 +203,23 @@ export class UpsertTenantFormComponent {
             required: true,
             translate: true,
             label: 'email',
+            labelClassName: 'font-semibold',
             placeholder: 'enterEmail',
             textfieldLabelOutside: true,
           },
           validators: { validation: [RxwebValidators.email()] },
         },
         {
-          fieldGroupClassName: 'grid grid-cols-2 gap-4',
+          fieldGroupClassName: 'grid grid-cols-2 gap-x-4 gap-y-5',
           fieldGroup: [
             {
               key: 'addresses.districtId',
               type: 'select',
+              className: 'tui-form__row block',
               templateOptions: {
                 translate: true,
                 label: 'district',
+                labelClassName: 'font-semibold',
                 placeholder: 'chooseDistrict',
                 valueProp: 'id',
                 labelProp: 'name',
@@ -213,7 +230,32 @@ export class UpsertTenantFormComponent {
                   if (field?.templateOptions && cityControl)
                     field.templateOptions.options = cityControl.valueChanges.pipe(
                       tap(() => field.formControl?.setValue(null)),
+                      startWith(cityControl.value),
                       switchMap((cityId) => (cityId ? this.addressService.getPlaces(cityId) : of([]))),
+                      startWith([])
+                    );
+                },
+              },
+            },
+            {
+              key: 'addresses.wardId',
+              type: 'select',
+              templateOptions: {
+                translate: true,
+                label: 'ward',
+                labelClassName: 'font-semibold',
+                placeholder: 'chooseWard',
+                valueProp: 'id',
+                labelProp: 'name',
+              },
+              hooks: {
+                onInit: (field) => {
+                  const districtCtrl = this.form.get('addresses.districtId') as FormControl<string>;
+                  if (field?.templateOptions && districtCtrl)
+                    field.templateOptions.options = districtCtrl.valueChanges.pipe(
+                      tap(() => field.formControl?.setValue(null)),
+                      startWith(districtCtrl.value),
+                      switchMap((districtId) => (districtId ? this.addressService.getPlaces(districtId) : of([]))),
                       startWith([])
                     );
                 },
@@ -225,6 +267,7 @@ export class UpsertTenantFormComponent {
               templateOptions: {
                 translate: true,
                 label: 'postalCode',
+                labelClassName: 'font-semibold',
                 placeholder: 'enterPostalCode',
                 textfieldLabelOutside: true,
               },
@@ -238,12 +281,15 @@ export class UpsertTenantFormComponent {
           templateOptions: {
             translate: true,
             label: 'website',
+            labelClassName: 'font-semibold',
             placeholder: 'enterWebsite',
             textfieldLabelOutside: true,
           },
         },
       ],
     },
+    { key: 'id' },
+    { key: 'hasLDAPUser' },
   ];
 
   constructor(

@@ -1536,6 +1536,11 @@
     ts-action "^11.0.0"
     ts-action-operators "^9.1.1"
 
+"@datorama/akita-ng-router-store@^6.0.2":
+  version "6.0.2"
+  resolved "https://registry.yarnpkg.com/@datorama/akita-ng-router-store/-/akita-ng-router-store-6.0.2.tgz#45b4c45150d9064aa9db8ccf639fcf073e8e5e56"
+  integrity sha512-ZdSkawattGDwg9h7Irem7KyaScKdd7iPymA5V0c/TKD9MqK2krvTCn6nOGh9UkuUjrr4QPzpNvfGUjeuHIVvTQ==
+
 "@datorama/akita-ngdevtools@^6.0.1":
   version "6.0.1"
   resolved "https://registry.yarnpkg.com/@datorama/akita-ngdevtools/-/akita-ngdevtools-6.0.1.tgz#8e3a1ff00146c1e3e8c5da8e5a30445557c3c4c8"

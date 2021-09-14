@@ -1,9 +1,5 @@
-<main *transloco="let t" class="main-page">
-  <header>
-    <h1 class="text-4xl">{{ t('requestManagement') }}</h1>
-  </header>
-
-  <section class="main-section">
+<ng-container *transloco="let t">
+  <hcm-page [title]="t('requestManagement')">
     <tui-tabs [(activeItemIndex)]="activeItemIndex">
       <button routerLink="/my-time/requests/leave" routerLinkActive tuiTab>{{ t('leave') }}</button>
       <button routerLink="/my-time/requests/working-after-hours" routerLinkActive tuiTab>
@@ -18,5 +14,5 @@
     <div class="mt-5">
       <router-outlet></router-outlet>
     </div>
-  </section>
-</main>
+  </hcm-page>
+</ng-container>

@@ -1,12 +1,8 @@
-<ng-container *transloco="let t">
-  <hcm-page [title]="t('profile')">
-    <tui-loader [overlay]="true" [showLoader]="(loading$ | async) === true">
-      <hcm-upsert-tenant-form
-        (cancel)="onCancel()"
-        (submitted)="onSubmit($event)"
-        *rxLet="profile$; let profile"
-        [data]="profile"
-      ></hcm-upsert-tenant-form>
-    </tui-loader>
-  </hcm-page>
-</ng-container>
+<tui-loader [overlay]="true" [showLoader]="(loading$ | async) === true">
+  <hcm-upsert-tenant-form
+    (cancel)="onCancel()"
+    (submitted)="onSubmit($event)"
+    *rxLet="profile$; let profile"
+    [data]="profile"
+  ></hcm-upsert-tenant-form>
+</tui-loader>

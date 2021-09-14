@@ -1,3 +1,5 @@
+import { CommonStatus } from '@nexthcm/cdk';
+
 export interface BaseTenant {
   id: string;
   tenantCode: string;
@@ -29,7 +31,7 @@ export interface TenantAddresses {
 export interface TenantDomain {
   id: string;
   domainUrl: string;
-  status: boolean;
+  status: CommonStatus;
   name: string;
 }
 

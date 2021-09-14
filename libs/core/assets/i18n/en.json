@@ -459,7 +459,7 @@
   "knowledgeBase": "Knowledge Base",
   "admin": "Admin",
   "workingHours": "Working Hours",
-  "tenantManagement": "Tenant management",
+  "tenantManagement": "Tenant Management",
   "employeeManagement": "Employee Management",
   "leaveApprovalLevelManagement": "Leave Approval Level Management",
   "roleManagement": "Role Management",
@@ -886,7 +886,7 @@
   "leavePeriods": "Leave periods",
   "leaveEntitlements": "Leave entitlements",
   "leaveApprovalLevels": "Leave approval levels",
-  "leaveConfigManagement": "Leave Config Management",
+  "leaveConfigs": "Leave Configurations",
   "workflows": "Workflows",
   "emailTemplates": "Email templates",
   "emailTemplateManagement": "Email template management",
@@ -939,5 +939,8 @@
     "hourMax": "Hour max",
     "minuteMax": "Minute max",
     "otBreakTime": "OT break time"
-  }
+  },
+  "requestsConfig": "Requests Configuration",
+  "workflow": "Workflow",
+  "chooseWorkflow": "Choose workflow"
 }

@@ -1,12 +1,14 @@
+import { HttpParams } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, Injector, ViewChild } from '@angular/core';
-import { AbstractServerPaginationTableComponent, Pagination, PromptService } from '@nexthcm/cdk';
+import { RouterQuery } from '@datorama/akita-ng-router-store';
+import { AbstractServerPaginationTableComponent, CommonStatus, Pagination, PromptService } from '@nexthcm/cdk';
 import { HashMap, TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { BaseComponent, Columns } from 'ngx-easy-table';
-import { from, Observable } from 'rxjs';
+import { BehaviorSubject, from, Observable } from 'rxjs';
 import { filter, map, share, startWith, switchMap, takeUntil } from 'rxjs/operators';
 import { UpsertTenantDomainDialogComponent } from '../../components/upsert-tenant-domain-dialog/upsert-tenant-domain-dialog.component';
 import { TenantDomain } from '../../models/tenant';
@@ -32,6 +34,13 @@ export class DomainManagementComponent extends AbstractServerPaginationTableComp
         { key: 'functions', title: result.functions },
       ])
     );
+  readonly CommonStatus = CommonStatus;
+  readonly queryParams$ = new BehaviorSubject(
+    new HttpParams()
+      .set('page', 0)
+      .set('size', 10)
+      .set('tenantId', this.routerQuery.getParams('tenantId') || '')
+  );
   private readonly request$ = this.queryParams$.pipe(
     switchMap(() => this.adminTenantsService.getTenantDomains(this.queryParams$.value).pipe(startWith(null))),
     share()
@@ -45,7 +54,8 @@ export class DomainManagementComponent extends AbstractServerPaginationTableComp
     private readonly translocoService: TranslocoService,
     private readonly adminTenantsService: AdminTenantsService,
     private readonly destroy$: TuiDestroyService,
-    private readonly promptService: PromptService
+    private readonly promptService: PromptService,
+    private readonly routerQuery: RouterQuery
   ) {
     super(state);
     state.connect(this.request$.pipe(filter(isPresent)));

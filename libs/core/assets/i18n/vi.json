@@ -926,5 +926,8 @@
     "hourMax": "Giờ tối đa",
     "minuteMax": "Phút tối đa",
     "otBreakTime": "Thời gian nghỉ trưa"
-  }
+  },
+  "requestsConfig": "Cấu hình các yêu cầu",
+  "workflow": "Quy trình làm việc",
+  "chooseWorkflow": "Chọn quy trình làm việc..."
 }

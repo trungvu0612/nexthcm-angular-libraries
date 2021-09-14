@@ -13,7 +13,7 @@ export class SidebarComponent implements OnInit {
   readonly adminSubmenu: MenuItem[] = [
     {
       label: 'tenantManagement',
-      link: '/admin/tenant',
+      link: '/admin/tenants',
       icon: 'tenant',
       permissions: 'VIEW_TENANT',
     },
@@ -163,7 +163,7 @@ export class SidebarComponent implements OnInit {
         children: [
           {
             label: 'tenantManagement',
-            link: '/admin/tenant',
+            link: '/admin/tenants',
             icon: 'tenant',
             permissions: 'VIEW_TENANT',
           },

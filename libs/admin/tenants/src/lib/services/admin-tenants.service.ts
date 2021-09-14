@@ -5,7 +5,9 @@ import { EMPTY, Observable, of } from 'rxjs';
 import { catchError, map, mapTo } from 'rxjs/operators';
 import { BaseTenant, Tenant, TenantDomain } from '../models/tenant';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class AdminTenantsService {
   constructor(private readonly http: HttpClient) {}
 
@@ -17,7 +19,7 @@ export class AdminTenantsService {
   }
 
   checkTenantShortname(payload: Pick<Tenant, 'shortname'>): Observable<boolean> {
-    return this.http.post(`${ACCOUNT_API_PATH}/tenants/check-existing`, payload).pipe(
+    return this.http.post<boolean>(`${ACCOUNT_API_PATH}/tenants/check-existing`, payload).pipe(
       mapTo(true),
       catchError(() => of(false))
     );
@@ -40,7 +42,9 @@ export class AdminTenantsService {
   }
 
   getTenantDomains(params: HttpParams): Observable<Pagination<TenantDomain>> {
-    return EMPTY;
+    return this.http
+      .get<PagingResponse<TenantDomain>>(`${ACCOUNT_API_PATH}/domains`, { params })
+      .pipe(map((res) => res.data));
   }
 
   upsertTenantDomain(payload: TenantDomain): Observable<unknown> {

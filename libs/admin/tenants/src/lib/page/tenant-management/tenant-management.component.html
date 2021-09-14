@@ -32,13 +32,11 @@
             <td>
               <a href="tel:{{ item.phone }}" tuiLink>{{ item.phone }}</a>
             </td>
-            <td>
-              <a [href]="item.website" rel="nofollow" target="_blank" tuiLink>{{ item.website }}</a>
-            </td>
+            <td>{{ item.website }}</td>
             <td>
               <div class="flex items-center space-x-2">
                 <button
-                  [routerLink]="[item.id, 'edit']"
+                  [routerLink]="[item.id, 'profile']"
                   appearance="flat"
                   icon="tuiIconEditLarge"
                   size="m"

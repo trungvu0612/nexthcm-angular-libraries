@@ -3,6 +3,7 @@ import { HttpClientModule } from '@angular/common/http';
 import localeVi from '@angular/common/locales/vi';
 import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
 import { akitaConfig } from '@datorama/akita';
+import { AkitaNgRouterStoreModule } from '@datorama/akita-ng-router-store';
 import { SvgIconsModule } from '@ngneat/svg-icon';
 import { FormlyModule } from '@ngx-formly/core';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
@@ -37,6 +38,7 @@ akitaConfig({ resettable: true });
     SweetAlert2Module.forRoot(),
     NgxPermissionsModule.forRoot(),
     SvgIconsModule.forRoot({ defaultSize: 'lg' }),
+    AkitaNgRouterStoreModule,
   ],
   providers: [
     API_PREFIX_INTERCEPTOR_PROVIDER,

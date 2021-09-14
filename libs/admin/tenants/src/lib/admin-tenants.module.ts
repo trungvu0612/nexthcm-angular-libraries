@@ -1,14 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { GetStatusPipeModule } from '@nexthcm/cdk';
-import { BaseFormComponentModule, InputFilterComponentModule, LayoutModule } from '@nexthcm/ui';
+import { AddressService, GetStatusPipeModule } from '@nexthcm/cdk';
+import { BaseFormComponentModule, InputFilterComponentModule, LayoutComponent, LayoutModule } from '@nexthcm/ui';
 import { TranslocoModule } from '@ngneat/transloco';
 import { LetModule } from '@rx-angular/template';
 import { TuiTablePaginationModule } from '@taiga-ui/addon-table';
 import { TuiLetModule } from '@taiga-ui/cdk';
 import { TuiButtonModule, TuiLinkModule, TuiLoaderModule } from '@taiga-ui/core';
-import { TuiTagModule } from '@taiga-ui/kit';
+import { TuiTabsModule, TuiTagModule } from '@taiga-ui/kit';
 import { TableModule } from 'ngx-easy-table';
 import { UpsertOrganizationUnitComponent } from './components/upsert-organization-unit/upsert-organization-unit.component';
 import { UpsertTenantDialogComponent } from './components/upsert-tenant-dialog/upsert-tenant-dialog.component';
@@ -18,8 +18,26 @@ import { DomainManagementComponent } from './page/domain-management/domain-manag
 import { OrganizationalChartComponent } from './page/organizational-chart/organizational-chart.component';
 import { TenantManagementComponent } from './page/tenant-management/tenant-management.component';
 import { TenantProfileComponent } from './page/tenant-profile/tenant-profile.component';
+import { TenantDetailComponent } from './page/tenant-detail/tenant-detail.component';
 
-export const ADMIN_TENANTS_ROUTES: Routes = [];
+export const ADMIN_TENANTS_ROUTES: Routes = [
+  {
+    path: '',
+    component: LayoutComponent,
+    children: [
+      { path: '', component: TenantManagementComponent },
+      {
+        path: ':tenantId',
+        component: TenantDetailComponent,
+        children: [
+          { path: '', redirectTo: 'profile', pathMatch: 'full' },
+          { path: 'profile', component: TenantProfileComponent },
+          { path: 'domains', component: DomainManagementComponent },
+        ],
+      },
+    ],
+  },
+];
 
 @NgModule({
   imports: [
@@ -38,6 +56,7 @@ export const ADMIN_TENANTS_ROUTES: Routes = [];
     TuiLinkModule,
     BaseFormComponentModule,
     LetModule,
+    TuiTabsModule,
   ],
   declarations: [
     TenantManagementComponent,
@@ -48,6 +67,8 @@ export const ADMIN_TENANTS_ROUTES: Routes = [];
     OrganizationalChartComponent,
     UpsertTenantDomainDialogComponent,
     UpsertOrganizationUnitComponent,
+    TenantDetailComponent,
   ],
+  providers: [AddressService],
 })
 export class AdminTenantsModule {}

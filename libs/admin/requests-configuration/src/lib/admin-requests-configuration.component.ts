@@ -4,8 +4,8 @@ import { loadWorkflows, PromptService, WorkflowsQuery } from '@nexthcm/cdk';
 import { FormBuilder } from '@ngneat/reactive-forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { RxState, toDictionary } from '@rx-angular/state';
-import { TuiDestroyService } from '@taiga-ui/cdk';
-import { takeUntil } from 'rxjs/operators';
+import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
+import { filter, map, share, startWith, takeUntil } from 'rxjs/operators';
 import { AdminRequestsConfigurationService } from './admin-requests-configuration.service';
 import { RequestType } from './enums/request-type';
 import { RequestConfig } from './request-config';
@@ -37,8 +37,9 @@ export class AdminRequestsConfigurationComponent {
       type: 'select',
       templateOptions: {
         translate: true,
-        label: 'Workflow',
+        label: 'workflow',
         labelClassName: 'font-semibold',
+        placeholder: 'chooseWorkflow',
         options: this.workflowsQuery.selectAll(),
         labelProp: 'name',
         valueProp: 'processId',
@@ -53,6 +54,12 @@ export class AdminRequestsConfigurationComponent {
     { type: RequestType.WorkingOutside, label: 'workingOutside', open: false },
     { type: RequestType.WorkFromHome, label: 'workFromHome', open: false },
   ];
+  private request$ = this.adminRequestsConfigurationService.getRequestsConfig().pipe(
+    map((configs) => toDictionary(configs, 'type')),
+    startWith(null),
+    share()
+  );
+  readonly loading$ = this.request$.pipe(map((value) => !value));
 
   constructor(
     private readonly actions: Actions,
@@ -64,15 +71,13 @@ export class AdminRequestsConfigurationComponent {
     private readonly state: RxState<ComponentState>
   ) {
     this.actions.dispatch(loadWorkflows());
-    this.state.connect(this.adminRequestsConfigurationService.getRequestsConfig(), (_, configs) =>
-      toDictionary(configs, 'type')
-    );
+    this.state.connect(this.request$.pipe(filter(isPresent)));
   }
 
   onOpenChange(type: RequestType, open: boolean): void {
-    this.form.reset();
     if (open) {
-      this.model = this.state.get(type);
+      this.form.reset();
+      this.model = { ...this.state.get(type) };
     }
   }
 
