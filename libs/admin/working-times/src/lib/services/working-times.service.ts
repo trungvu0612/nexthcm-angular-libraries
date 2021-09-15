@@ -1,12 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BaseResponse, Holiday, MY_TIME_API_PATH, PagingResponse } from '@nexthcm/cdk';
+import { ACCOUNT_API_PATH, BaseResponse, Holiday, MY_TIME_API_PATH, PagingResponse } from '@nexthcm/cdk';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { Office } from '../models/offices';
 import { Organization } from '../models/organization';
 import { WorkingAfterTime } from '../models/working-after-time';
 import { WorkingTimes } from '../models/working-times';
+import { OrganizationalUnit } from '../../../../tenants/src/lib/models/tenant';
 
 @Injectable({
   providedIn: 'root',
@@ -28,6 +29,12 @@ export class WorkingTimesService {
 
   getOrgs(): Observable<PagingResponse<Organization>> {
     return this.httpClient.get<PagingResponse<Organization>>(`/accountapp/v1.0/orgs`);
+  }
+
+  getOrganizationChart(tenantId: string): Observable<Organization[]> {
+    return this.httpClient
+      .get<BaseResponse<Organization[]>>(`${ACCOUNT_API_PATH}/orgs/get-org-structure-chart/${tenantId}`)
+      .pipe(map((res) => res.data));
   }
 
   submitWorkingAfterTime(body: any): Observable<WorkingAfterTime> {

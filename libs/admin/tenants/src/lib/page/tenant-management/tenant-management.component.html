@@ -21,7 +21,7 @@
       >
         <ng-template let-row>
           <ng-container *tuiLet="item(row) as item">
-            <td>{{ item.tenantCode }}</td>
+            <td>{{ item.shortname }}</td>
             <td>{{ item.tenantName }}</td>
             <td>
               <tui-tag [value]="t(row.state | getStatus)" class="{{ row.state | getStatus }}-tag"></tui-tag>
