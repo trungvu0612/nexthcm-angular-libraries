@@ -1,26 +1,65 @@
 export interface Organization {
 	createdDate: number;
+	createdBy: string;
 	lastModifiedDate: number;
+	lastModifiedBy: string;
 	optCounter: number;
 	id: string;
 	state: number;
-	member: OrgsMember;
+	member: OrganizationMember;
 	orgType: string;
 	orgName: string;
 	code: string;
-	tenant: OrgsTenant;
+	tenant: OrganizationTenant;
+	descendants: OrganizationDescendants[];
 }
-export interface OrgsMember {
+export interface OrganizationMember {
 	id: string;
 	type: string;
-	state: number;
 }
-export interface OrgsTenant {
-	createdDate: number;
-	lastModifiedDate: number;
-	optCounter: number;
+export interface OrganizationTenant {
 	id: string;
+	username: string;
 	tenantCode: string;
 	tenantName: string;
 	state: number;
+	tax: string;
+	website: string;
+	email: string;
+	phone: string;
+	addressId: string;
+	shortname: string;
+	hasLDAPUser: boolean;
+}
+export interface OrganizationDescendantsMember {
+	id: string;
+	type: string;
+}
+export interface OrganizationDescendantsTenant {
+	id: string;
+	username: string;
+	tenantCode: string;
+	tenantName: string;
+	state: number;
+	tax: string;
+	website: string;
+	email: string;
+	phone: string;
+	addressId: string;
+	shortname: string;
+	hasLDAPUser: boolean;
+}
+export interface OrganizationDescendants {
+	createdDate: number;
+	createdBy: string;
+	lastModifiedDate: number;
+	lastModifiedBy: string;
+	optCounter: number;
+	id: string;
+	state: number;
+	member: OrganizationDescendantsMember;
+	orgType: string;
+	orgName: string;
+	code: string;
+	tenant: OrganizationDescendantsTenant;
 }

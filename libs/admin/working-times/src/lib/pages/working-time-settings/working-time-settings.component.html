@@ -1,39 +1,47 @@
-<main *transloco='let t' class='main-page'>
-<!--  <tui-tabs [(activeItemIndex)]='activeItemIndex'>-->
-<!--    <button tuiTab>-->
-<!--      <ng-container *ngIf='!this.workingHourId'>{{ t('WORKING_HOUR.addCalendar') }}</ng-container>-->
-<!--      <ng-container *ngIf='this.workingHourId'>{{ t('WORKING_HOUR.updateCalendar') }}</ng-container>-->
-<!--    </button>-->
-<!--    <button tuiTab>-->
-<!--      {{ t('WORKING_HOUR.addOverTime') }}-->
-<!--    </button>-->
-<!--  </tui-tabs>-->
+<main *transloco="let t" class="main-page">
+  <!--  <tui-tabs [(activeItemIndex)]='activeItemIndex'>-->
+  <!--    <button tuiTab>-->
+  <!--      <ng-container *ngIf='!this.workingHourId'>{{ t('WORKING_HOUR.addCalendar') }}</ng-container>-->
+  <!--      <ng-container *ngIf='this.workingHourId'>{{ t('WORKING_HOUR.updateCalendar') }}</ng-container>-->
+  <!--    </button>-->
+  <!--    <button tuiTab>-->
+  <!--      {{ t('WORKING_HOUR.addOverTime') }}-->
+  <!--    </button>-->
+  <!--  </tui-tabs>-->
 
-  <ng-container [ngSwitch]='activeItemIndex'>
-    <div class='mt-5'>
-      <ng-container *ngSwitchCase='0'>
-        <div class='max-w-3xl'>
-          <div class='grid grid-cols-2'>
-            <div class='text-xl font-bold text-blue-500'>
-              <ng-container *ngIf='!this.workingHourId'>{{ t('WORKING_HOUR.addCalendar') }}</ng-container>
-              <ng-container *ngIf='this.workingHourId'>{{ t('WORKING_HOUR.updateCalendar') }}</ng-container>
+  <ng-container [ngSwitch]="activeItemIndex">
+    <div class="mt-5">
+      <ng-container *ngSwitchCase="0">
+        <div class="max-w-3xl">
+          <div class="grid grid-cols-2">
+            <div class="text-xl font-bold text-blue-500">
+              <ng-container *ngIf="!this.workingHourId">{{ t('WORKING_HOUR.addCalendar') }}</ng-container>
+              <ng-container *ngIf="this.workingHourId">{{ t('WORKING_HOUR.updateCalendar') }}</ng-container>
             </div>
           </div>
 
           <label [label]="label" tuiLabel>
             <tui-select
-              *tuiLet="orgs$ | async as items"
+              *tuiLet="orgsLevel$ | async as items"
               [formControl]="$any(orgIdControl)"
               [tuiTextfieldLabelOutside]="true"
-              [valueContent]="stringify(items || [])"
+              [valueContent]="valueContent"
             >
               <ng-template tuiDataList>
                 <tui-data-list>
-                  <button *ngFor="let item of items" [value]="item.id" tuiOption>
-                    {{ item.orgName }}
-                  </button>
+                  <ng-container *ngFor="let item of items">
+                    <button [value]="item" tuiOption>
+                      {{ item.orgName }}
+                    </button>
+                    <ng-container *ngFor="let item of item?.descendants">
+                      <button [value]="item" tuiOption>
+                        <span class="ml-5">{{ item?.orgName }}</span>
+                      </button>
+                    </ng-container>
+                  </ng-container>
                 </tui-data-list>
               </ng-template>
+              <ng-template #valueContent let-item>{{ item.orgName }}</ng-template>
             </tui-select>
           </label>
           <ng-template #label>
@@ -41,42 +49,47 @@
           </ng-template>
 
           <tui-loader [overlay]="true" [showLoader]="(loading$ | async) === true"></tui-loader>
-          <form [formGroup]='$any(form)'>
-            <formly-form [fields]='fields' [form]='form' [model]='model' class='grid grid-cols-3 gap-4'></formly-form>
+          <form [formGroup]="$any(form)">
+            <formly-form [fields]="fields" [form]="form" [model]="model" class="grid grid-cols-3 gap-4"></formly-form>
           </form>
 
-          <div class='my-5'>
-            <div class='font-bold text-xl mb-5'>{{ t('WORKING_HOUR.addHoliday') }}</div>
-            <form [formGroup]='$any(formHoliday)'>
+          <div class="my-5">
+            <div class="font-bold text-xl mb-5">{{ t('WORKING_HOUR.addHoliday') }}</div>
+            <form [formGroup]="$any(formHoliday)">
               <formly-form
-                [fields]='fieldsHoliday'
-                [form]='formHoliday'
-                [model]='modelHoliday'
-                class='grid grid-cols-4 gap-4'
+                [fields]="fieldsHoliday"
+                [form]="formHoliday"
+                [model]="modelHoliday"
+                class="grid grid-cols-4 gap-4"
               >
               </formly-form>
               <button
-                (click)='addHolidayTime()'
-                class='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-5'
+                (click)="addHolidayTime()"
+                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-5"
               >
-                {{t('SETTING_TIME.add')}}
+                {{ t('SETTING_TIME.add') }}
               </button>
             </form>
 
-            <ngx-table [columns]="(columns$ | async) || []" [configuration]='configuration' [data]='dataHoliday' class='my-5'>
-              <ng-template let-index='index' let-row>
+            <ngx-table
+              [columns]="(columns$ | async) || []"
+              [configuration]="configuration"
+              [data]="dataHoliday"
+              class="my-5"
+            >
+              <ng-template let-index="index" let-row>
                 <td>{{ row?.holidayDate | date: 'dd/MM/yyyy' }}</td>
                 <td>{{ row?.name }}</td>
                 <td>
-                  <ng-container *ngIf='row.paidHoliday'>
-                    <tui-svg src='tuiIconCheck'></tui-svg>
+                  <ng-container *ngIf="row.paidHoliday">
+                    <tui-svg src="tuiIconCheck"></tui-svg>
                   </ng-container>
                 </td>
                 <td>{{ row?.recurringType }}</td>
                 <td>
                   <button
-                    (click)='removeHoliday(index, row?.id)'
-                    class='
+                    (click)="removeHoliday(index, row?.id)"
+                    class="
                       text-sm
                       bg-transparent
                       hover:bg-blue-500
@@ -88,7 +101,7 @@
                       border border-blue-500
                       hover:border-transparent
                       rounded
-                    '
+                    "
                   >
                     Delete
                   </button>
@@ -96,14 +109,14 @@
               </ng-template>
             </ngx-table>
           </div>
-          <div class='my-10 text-right'>
-            <button (click)='saveSettings()' [disabled]='!form.valid' class='blue-button mt-5 mx-auto'>
+          <div class="my-10 text-right">
+            <button (click)="saveSettings()" [disabled]="!form.valid" class="blue-button mt-5 mx-auto">
               {{ t('save') }}
             </button>
           </div>
         </div>
       </ng-container>
-      <ng-container *ngSwitchCase='1'>
+      <ng-container *ngSwitchCase="1">
         <hcm-overtime-working></hcm-overtime-working>
       </ng-container>
     </div>

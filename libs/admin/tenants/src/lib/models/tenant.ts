@@ -3,6 +3,7 @@ import { CommonStatus } from '@nexthcm/cdk';
 export interface BaseTenant {
   id: string;
   tenantCode: string;
+  shortname: string;
   tenantName: string;
   state: number;
   email: string;

@@ -3,7 +3,7 @@ import { PromptService } from '@nexthcm/cdk';
 import { FormBuilder } from '@ngneat/reactive-forms';
 import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import { TuiDestroyService } from '@taiga-ui/cdk';
+import { TuiDestroyService, TuiTime } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { endOfDay, getTime } from 'date-fns';
@@ -33,6 +33,22 @@ export class SubmitWorkFromHomeRequestDialogComponent {
         placeholder: 'chooseDateRange',
         required: true,
         textfieldLabelOutside: true,
+      },
+    },
+    {
+      key: 'totalDay',
+      type: 'input-number',
+      templateOptions: {
+        required: true,
+        translate: true,
+        label: 'Estimate Time (days)',
+        placeholder: 'days',
+        labelClassName: 'font-semibold',
+        textfieldLabelOutside: true,
+      },
+      hideExpression: '!model.fromTo?.isSingleDay',
+      expressionProperties: {
+        className: '!model.fromTo || !model.fromTo.isSingleDay ? "hidden" : "col-span-full block mt-4"',
       },
     },
     {

@@ -2,6 +2,11 @@
   display: block;
 
   ::ng-deep {
+    .org-child {
+      width: 100px;
+      display: block;
+    }
+
     tui-input-time {
       max-width: 250px;
       margin-bottom: 10px;
