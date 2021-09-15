@@ -1,8 +1,18 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
-import { HEADER_TABS, LayoutComponent, MenuItem } from '@nexthcm/ui';
+import {
+  BaseFormComponentModule,
+  FormlyUserComboBoxComponentModule,
+  HEADER_TABS,
+  InputFilterComponentModule,
+  LayoutComponent,
+  MenuItem,
+} from '@nexthcm/ui';
+import { SvgIconsModule } from '@ngneat/svg-icon';
+import { TranslocoModule } from '@ngneat/transloco';
+import { FormlyModule } from '@ngx-formly/core';
 import { TuiTableModule } from '@taiga-ui/addon-table';
 import { TuiActiveZoneModule, TuiLetModule } from '@taiga-ui/cdk';
 import {
@@ -10,15 +20,17 @@ import {
   TuiDataListModule,
   TuiDropdownModule,
   TuiHostedDropdownModule,
+  TuiScrollbarModule,
   TuiSvgModule,
+  TuiTextfieldControllerModule,
 } from '@taiga-ui/core';
 import { TuiAvatarModule, TuiDropdownHoverModule, TuiInputModule } from '@taiga-ui/kit';
 import { PolymorpheusModule } from '@tinkoff/ng-polymorpheus';
 import { NgxPermissionsGuard } from 'ngx-permissions';
-import { EmployeeNodeDetailComponent } from './components/employee-node-detail/employee-node-detail.component';
-import { EmployeeNodeComponent } from './components/employee-node/employee-node.component';
+import { NodeChartComponent } from './components/node-chart/node-chart.component';
 import { OrgChartComponent } from './components/org-chart/org-chart.component';
 import { OrganizationChartComponent } from './pages/organization-chart/organization-chart.component';
+import { HumanResourceService } from './services/human-resource.service';
 
 export const humanResourceRoutes: Routes = [
   {
@@ -35,7 +47,7 @@ export const humanResourceRoutes: Routes = [
 const TABS: MenuItem[] = [{ label: 'organizationChart', link: '/human-resource/organization-chart', permissions: [] }];
 
 @NgModule({
-  declarations: [OrganizationChartComponent, OrgChartComponent, EmployeeNodeComponent, EmployeeNodeDetailComponent],
+  declarations: [OrganizationChartComponent, OrgChartComponent, NodeChartComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(humanResourceRoutes),
@@ -45,6 +57,7 @@ const TABS: MenuItem[] = [{ label: 'organizationChart', link: '/human-resource/o
     TuiSvgModule,
     TuiAvatarModule,
     TuiLetModule,
+    FormlyModule,
     TuiHostedDropdownModule,
     TuiButtonModule,
     TuiDataListModule,
@@ -52,7 +65,16 @@ const TABS: MenuItem[] = [{ label: 'organizationChart', link: '/human-resource/o
     TuiDropdownModule,
     TuiDropdownHoverModule,
     PolymorpheusModule,
+    TuiTextfieldControllerModule,
+    FormsModule,
+    TranslocoModule,
+    SvgIconsModule,
+    TuiScrollbarModule,
+    FormlyUserComboBoxComponentModule,
+    InputFilterComponentModule,
+    BaseFormComponentModule
   ],
-  providers: [{ provide: HEADER_TABS, useValue: TABS }],
+  entryComponents: [OrgChartComponent, NodeChartComponent ],
+  providers: [{ provide: HEADER_TABS, useValue: TABS }, HumanResourceService],
 })
 export class HumanResourceModule {}
