@@ -7,6 +7,7 @@ export enum WorkflowEvent {
   onAddTransition = 'onAddTransition',
   onChangeTransition = 'onChangeTransition',
   onEditCell = 'onEditCell',
+  cannotRemove = 'cannotRemove',
 }
 
 export type WorkflowEventType =
@@ -20,4 +21,5 @@ export type WorkflowEventType =
       event: WorkflowEvent.onChangeTransition;
       value: { transitionId: string; sourceId: string; targetId: string; previousId: string };
     }
-  | { event: WorkflowEvent.onEditCell };
+  | { event: WorkflowEvent.onEditCell }
+  | { event: WorkflowEvent.cannotRemove };

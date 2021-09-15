@@ -23,6 +23,7 @@ import {
 } from '@taiga-ui/core';
 import {
   TuiBadgeModule,
+  TuiCheckboxLabeledModule,
   TuiCheckboxModule,
   TuiComboBoxModule,
   TuiDataListWrapperModule,
@@ -153,6 +154,7 @@ const TABS: MenuItem[] = [
     TuiErrorModule,
     TuiHintModule,
     TuiToggleModule,
+    TuiCheckboxLabeledModule,
   ],
   declarations: [
     AdminWorkflowsComponent,

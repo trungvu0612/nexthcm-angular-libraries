@@ -81,7 +81,8 @@
 			<add as="shape" value="label"/>
 			<add as="perimeter" value="rectanglePerimeter"/>
 			<add as="labelBackgroundColor" value="white"/>
-			<add as="fontSize" value="10"/>
+			<add as="fontSize" value="14"/>
+      <add as="fontStyle" value="1"/>
 			<add as="align" value="center"/>
 			<add as="verticalAlign" value="middle"/>
 			<add as="strokeColor" value="black"/>
@@ -92,7 +93,8 @@
 			<add as="rounded" value="1"/>
 			<add as="edgeStyle" value="elbowEdgeStyle"/>
 			<add as="endArrow" value="classic"/>
-			<add as="fontSize" value="10"/>
+			<add as="fontSize" value="14"/>
+			<add as="fontStyle" value="1"/>
 			<add as="align" value="center"/>
 			<add as="verticalAlign" value="middle"/>
 			<add as="strokeColor" value="black"/>
@@ -123,7 +125,7 @@
 			<add as="verticalAlign" value="top"/>
 			<add as="strokeColor" value="black"/>
 			<add as="dashed" value="1"/>
-			<add as="opacity" value="50"/>
+			<add as="opacity" value="0"/>
 		</add>
 		<add as="rounded">
 			<add as="rounded" value="1"/>
@@ -135,6 +137,10 @@
 		<add as="rhombus">
 			<add as="shape" value="rhombus"/>
 			<add as="perimeter" value="rhombusPerimeter"/>
+      <add as="fontSize" value="12"/>
+      <add as="fillColor" value="black"/>
+      <add as="labelBackgroundColor" value="none"/>
+      <add as="fontColor" value="white"/>
 		</add>
 		<add as="actor">
 			<add as="shape" value="actor"/>

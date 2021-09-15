@@ -1,5 +1,5 @@
 export enum CommonStatus {
-  deactivate = -1,
+  inactive = -1,
   pending,
   active,
   completed,

@@ -39,11 +39,13 @@ export class UpsertStatusDialogComponent implements OnInit {
       asyncValidators: {
         uniqueStatusName: {
           expression: (control: FormControl<string>) =>
-            of(control.value).pipe(
-              delay(500),
-              filter((name) => this.data.name !== name),
-              switchMap((name) => this.adminWorkflowsService.checkStatusName({ name }))
-            ),
+            !control.valueChanges || control.pristine
+              ? of(true)
+              : of(control.value).pipe(
+                  delay(500),
+                  filter((name) => this.data.name !== name),
+                  switchMap((name) => this.adminWorkflowsService.checkStatusName({ name }))
+                ),
           message: () => this.translocoService.selectTranslate('VALIDATION.uniqueStatusName'),
         },
       },

@@ -8,13 +8,17 @@
   <div *transloco="let t" class="p-4">
     <p>{{ t('searchStatusOrNameNewOne') }}</p>
     <hcm-status-combobox
-      (valueChange)="value = $event"
+      (valueChange)="data.status = $event"
+      class="tui-form__row"
       [activeZone]="activeZone"
       [addedStatuses]="addedStatus"
     ></hcm-status-combobox>
+    <tui-checkbox-labeled [(ngModel)]="data.allowAll" class="tui-form__row">
+      {{ t('allowAllStatus') }}
+    </tui-checkbox-labeled>
     <div class="mt-4 flex justify-end space-x-2">
-      <button (click)="onAdd(value)" [disabled]="!value" size="s" tuiButton type="button">{{ t('add') }}</button>
-      <button (click)="open = false" appearance="flat" size="s" tuiButton type="button">{{ t('cancel') }}</button>
+      <button (click)="onAdd()" [disabled]="!data.status" size="s" tuiButton type="button">{{ t('add') }}</button>
+      <button (click)="onCancel()" appearance="flat" size="s" tuiButton type="button">{{ t('cancel') }}</button>
     </div>
   </div>
 </ng-template>

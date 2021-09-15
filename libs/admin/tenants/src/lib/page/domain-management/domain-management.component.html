@@ -15,7 +15,7 @@
         <ng-container *tuiLet="item(row) as item">
           <td>{{ item.name }}</td>
           <td>
-            <a [href]="item.domainUrl" rel="nofollow" target="_blank" tuiLink>{{ item.domainUrl }}</a>
+            <a tuiLink>{{ item.domainUrl }}</a>
           </td>
           <td>
             <tui-tag [value]="t(CommonStatus[item.status])" class="{{ CommonStatus[item.status] }}-tag"></tui-tag>

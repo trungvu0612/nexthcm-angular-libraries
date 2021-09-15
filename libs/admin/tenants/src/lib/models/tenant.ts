@@ -33,6 +33,7 @@ export interface TenantDomain {
   domainUrl: string;
   status: CommonStatus;
   name: string;
+  statusBoolean: boolean;
 }
 
 export interface OrganizationalUnit {

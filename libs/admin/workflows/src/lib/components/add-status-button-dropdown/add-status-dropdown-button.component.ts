@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { Status } from '../../models';
+import { AddStatusData } from '../../models/add-status-data';
 
 @Component({
   selector: 'hcm-add-status-dropdown-button',
@@ -9,14 +10,19 @@ import { Status } from '../../models';
 })
 export class AddStatusDropdownButtonComponent {
   @Input() addedStatus: Status[] = [];
-  @Output() selectStatus = new EventEmitter<Status>();
+  @Output() selectStatus = new EventEmitter<AddStatusData>();
 
   open = false;
-  value: Status | null = null;
+  data: AddStatusData = { allowAll: false, status: null };
 
-  onAdd(value: Status | null): void {
-    this.value = null;
+  onAdd(): void {
     this.open = false;
-    this.selectStatus.emit(value as Status);
+    this.selectStatus.emit(this.data);
+    this.data.status = null;
+  }
+
+  onCancel(): void {
+    this.data = { allowAll: false, status: null };
+    this.open = false;
   }
 }

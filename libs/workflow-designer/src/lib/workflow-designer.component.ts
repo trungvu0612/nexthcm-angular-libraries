@@ -18,9 +18,8 @@ import {
   WorkflowStatus,
   WorkflowTransition,
 } from './models';
-import { createEditor } from './utils/create-editor';
 import mx from './utils/mxgraph';
-import { setCellStyle } from './utils/set-cell-style';
+import { WorkflowUtils } from './utils/workflow-utils';
 
 @Component({
   selector: 'hcm-workflow-designer',
@@ -56,7 +55,7 @@ export class WorkflowDesignerComponent implements OnInit {
 
   ngOnInit(): void {
     this.configGraph();
-    this.editor = createEditor('config/workflow-designer.xml', this.splash.nativeElement);
+    this.editor = WorkflowUtils.createEditor('config/workflow-designer.xml', this.splash.nativeElement);
     this.originStatus = this.drawStatus();
     this.editor.graph.center();
     this.graphSelectionModel.addListener(mx.mxEvent.CHANGE, (sender) => this.handleSelectCell(sender));
@@ -91,24 +90,33 @@ export class WorkflowDesignerComponent implements OnInit {
     mx.mxGraph.prototype.allowLoops = false;
     mx.mxGraph.prototype.setEdgeLabelsMovable(false);
     mx.mxGraph.prototype.setCellsEditable(false);
+    mx.mxGraph.prototype.foldingEnabled = false;
     mx.mxConnectionHandler.prototype.connectImage = new mx.mxImage('/images/connector.gif', 16, 16);
     mx.mxGraphSelectionModel.prototype.setSingleSelection(true);
     mx.mxTooltipHandler.prototype.setHideOnHover(true);
   }
 
-  private drawStatus(status?: WorkflowStatus): mxCell {
+  private drawStatus(status?: WorkflowStatus, targetAll?: mxCell): mxCell {
     let cell: mxCell;
+    const DEFAULT_WIDTH = 40;
+    const DEFAULT_HEIGHT = 40;
+
     if (status) {
-      cell = this.graphModel.cloneCell(this.editor.templates.task);
+      cell = this.graphModel.cloneCell(this.editor.templates.subprocess);
       cell.setId(status.id);
-      cell.setAttribute('label', status.label);
-      cell.setStyle(setCellStyle(cell, status));
-      cell.setGeometry(new mx.mxGeometry(-30, 100, 100, 40));
+      cell.setAttribute('label', status.label.toUpperCase());
+      cell.setStyle(WorkflowUtils.setCellStyle(cell, status));
+      cell.setGeometry(new mx.mxGeometry(-30, 100, 100, DEFAULT_HEIGHT));
+    } else if (targetAll) {
+      cell = this.graphModel.cloneCell(this.editor.templates.rhombus);
+      cell.setAttribute('label', 'All');
+      const targetGeometry = targetAll.getGeometry();
+      cell.setGeometry(new mx.mxGeometry(targetGeometry.x + 200, targetGeometry.y, DEFAULT_WIDTH, DEFAULT_HEIGHT));
     } else {
       // origin status
       cell = this.graphModel.cloneCell(this.editor.templates.symbol);
       cell.setAttribute('label', '');
-      cell.setGeometry(new mx.mxGeometry(0, 0, 40, 40));
+      cell.setGeometry(new mx.mxGeometry(0, 0, DEFAULT_WIDTH, DEFAULT_HEIGHT));
     }
     this.graphModel.beginUpdate();
     try {
@@ -117,6 +125,7 @@ export class WorkflowDesignerComponent implements OnInit {
       this.graphModel.endUpdate();
     }
     if (this.initial) {
+      cell.setAttribute('initial', '1'); // mark as initial status
       this.initial = false;
     } else {
       this.graphSelectionModel.setCell(cell);
@@ -127,28 +136,46 @@ export class WorkflowDesignerComponent implements OnInit {
   private updateStatus(status: WorkflowStatus): void {
     const cell = this.graphModel.getCell(status.id);
     const value = cell.getValue();
-    value.setAttribute('label', status.label);
+    value.setAttribute('label', status.label.toUpperCase());
     this.graphModel.setValue(cell, value);
-    this.graphModel.setStyle(cell, setCellStyle(cell, status));
+    this.graphModel.setStyle(cell, WorkflowUtils.setCellStyle(cell, status));
     this.graphSelectionModel.setCell(cell);
   }
 
-  private drawTransition(transition: WorkflowTransition): void {
-    const source = transition.sourceId ? this.graphModel.getCell(transition.sourceId) : this.originStatus;
+  private drawTransition(transition: WorkflowTransition, statusAll?: mxCell): void {
+    const source = transition.sourceId
+      ? this.graphModel.getCell(transition.sourceId)
+      : statusAll
+      ? statusAll
+      : this.originStatus;
     const target = this.graphModel.getCell(transition.targetId);
     const edge = this.graphModel.cloneCell(this.editor.templates.edge);
     edge.setId(transition.id);
-    edge.setAttribute('label', transition.label);
+    if (!statusAll) {
+      edge.setAttribute('label', transition.label);
+    } else {
+      statusAll.setAttribute('transitionAll', transition.id);
+    }
     this.graphModel.beginUpdate();
     try {
       this.editor.graph.addEdge(edge, this.graphParent, source, target);
     } finally {
       this.graphModel.endUpdate();
     }
-    if (transition.sourceId) {
+    if (statusAll) {
+      statusAll.setConnectable(false);
+      mx.mxGraphSelectionModel.prototype.setSingleSelection(false);
+      this.graphSelectionModel.setCells([target, edge, statusAll]);
+      const groupCells: mxCell = this.editor.groupCells();
+      this.editor.graph.setSelectionCell(groupCells);
+      statusAll.setAttribute('group', groupCells.getId());
+      target.setAttribute('group', groupCells.getId());
+      mx.mxGraphSelectionModel.prototype.setSingleSelection(true);
+    } else if (transition.sourceId) {
       this.graphSelectionModel.setCell(edge);
     } else {
       // Initial status
+      this.originStatus.setAttribute('initialTransition', edge.getId());
       this.originStatus.setConnectable(false);
     }
   }
@@ -197,15 +224,36 @@ export class WorkflowDesignerComponent implements OnInit {
   }
 
   private handleSelectCell(sender: any): void {
-    const selectedCell: mxCell = sender.cells[0];
-    if (selectedCell) {
-      this.event.emit({
-        event: selectedCell.isEdge() ? WorkflowEvent.onSelectTransition : WorkflowEvent.onSelectStatus,
-        value: selectedCell.getId(),
-      });
+    if (sender.cells.length === 1) {
+      const selectedCell: mxCell = sender.cells[0];
+      if (selectedCell) {
+        if (selectedCell.isEdge()) {
+          this.event.emit({
+            event: WorkflowEvent.onSelectTransition,
+            value: selectedCell.getId(),
+          });
+        } else {
+          const transitionAllId = selectedCell.getAttribute('transitionAll', null);
+          if (transitionAllId) {
+            const transitionAll = this.graphModel.getCell(transitionAllId);
+            this.graphSelectionModel.setCell(transitionAll);
+          } else {
+            this.event.emit({
+              event: WorkflowEvent.onSelectStatus,
+              value: selectedCell.getId(),
+            });
+          }
+        }
+      }
     } else {
       this.event.emit({ event: WorkflowEvent.onUnSelectCell });
     }
+  }
+
+  private drawIsAllTransition(transition: WorkflowTransition) {
+    const target = this.graphModel.getCell(transition.targetId);
+    const statusAll = this.drawStatus(undefined, target);
+    this.drawTransition(transition, statusAll);
   }
 
   private bindApi(api: WorkflowAPIType): string | void {
@@ -219,6 +267,9 @@ export class WorkflowDesignerComponent implements OnInit {
       case WorkflowAPI.drawTransition:
         this.drawTransition(api.value);
         break;
+      case WorkflowAPI.drawIsAllTransition:
+        this.drawIsAllTransition(api.value);
+        break;
       case WorkflowAPI.updateTransition:
         this.updateTransition(api.value);
         break;
@@ -227,8 +278,11 @@ export class WorkflowDesignerComponent implements OnInit {
       case WorkflowAPI.setInitial:
         this.initial = true;
         break;
-      case WorkflowAPI.removeCell:
-        this.graphModel.remove(this.graphModel.getCell(api.value));
+      case WorkflowAPI.removeStatus:
+        this.onRemoveCell(this.graphModel.getCell(api.value));
+        break;
+      case WorkflowAPI.removeTransition:
+        this.onRemoveTransition(this.graphModel.getCell(api.value));
         break;
       case WorkflowAPI.decodeXML:
         this.decodeXMLToGraph(api.value);
@@ -240,5 +294,25 @@ export class WorkflowDesignerComponent implements OnInit {
 
   private handleEditCell(): void {
     this.event.emit({ event: WorkflowEvent.onEditCell });
+  }
+
+  private onRemoveCell(cell: mxCell): void {
+    if (cell.hasAttribute('initial')) {
+      this.event.emit({ event: WorkflowEvent.cannotRemove });
+    } else if (cell.hasAttribute('group')) {
+      this.graphModel.remove(this.graphModel.getCell(cell.getAttribute('group', '')));
+    } else {
+      this.graphModel.remove(cell);
+    }
+  }
+
+  private onRemoveTransition(edge: mxCell): void {
+    const statusAll = this.graphModel.getTerminal(edge, true);
+    if (statusAll.hasAttribute('transitionAll')) {
+      this.graphModel.remove(statusAll);
+      this.graphSelectionModel.setCell(this.graphModel.getCell(statusAll.getAttribute('group', '')));
+      this.editor.graph.ungroupCells(null as unknown as mxCell[]);
+    }
+    this.onRemoveCell(edge);
   }
 }

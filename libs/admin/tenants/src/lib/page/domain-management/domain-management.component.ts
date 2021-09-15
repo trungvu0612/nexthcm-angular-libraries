@@ -29,7 +29,7 @@ export class DomainManagementComponent extends AbstractServerPaginationTableComp
     .pipe(
       map((result) => [
         { key: 'name', title: result.name },
-        { key: 'domainUrl', title: result.domainUrl },
+        { key: 'domain', title: result.domain },
         { key: 'status', title: result.status },
         { key: 'functions', title: result.functions },
       ])

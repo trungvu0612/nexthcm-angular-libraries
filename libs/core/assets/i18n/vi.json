@@ -129,7 +129,8 @@
     "functions": "Chức năng",
     "email": "Email",
     "phone": "Số điện thoại",
-    "website": "Website"
+    "website": "Website",
+    "domain": "Tên miền"
   },
   "VALIDATION": {
     "required": "Trường này không được để trống!",
@@ -138,7 +139,8 @@
     "email": "Địa chỉ email không hợp lệ!",
     "numeric": "Bạn phải nhập số vào ô này!",
     "shortnameExists": "Tên viết tắt này đã tồn tại!",
-    "uniqueStatusName": "Tên trạng thái này đã tồn tại!"
+    "uniqueStatusName": "Tên trạng thái này đã tồn tại!",
+    "invalidURL": "Địa chỉ URL không hợp lệ!"
   },
   "initStatus": "Trạng thái ban đầu",
   "initStatusDescription": "Mô tả trạng thái ban đầu",
@@ -875,6 +877,7 @@
   "leavePeriods": "Khoảng thời gian",
   "leaveEntitlements": "Quyền lợi",
   "leaveApprovalLevels": "Cấp bậc xét duyệt",
+  "leaveConfigs": "Cấu hình nghỉ phép",
   "leaveConfigManagement": "Quản lý thiết lập ngày nghỉ",
   "workflows": "Quy trình",
   "emailTemplates": "Bản mẫu email",
@@ -932,5 +935,14 @@
   "requestsConfig": "Cấu hình các yêu cầu",
   "workflow": "Quy trình làm việc",
   "chooseWorkflow": "Chọn quy trình làm việc...",
-  "searchTenant": "Tìm công ty..."
+  "searchTenant": "Tìm công ty...",
+  "removeWorkflowSuccessfully": "Xoá quy trình thành công!",
+  "allowAllStatus": "Cho phép tất cả trạng thái khác chuyển tiếp đến trạng thái này",
+  "readonlyStatus": "Trạng thái khởi đầu không thể bị xoá.",
+  "readonlyTransition": "Chuyển tiếp khởi đầu không thể bị xoá.",
+  "editTenant": "Cập nhật thông tin công ty",
+  "domains": "Tên miền",
+  "ward": "Phường/Xã",
+  "chooseWard": "Chọn phường/xã",
+  "enterDomain": "Nhập tên miền"
 }

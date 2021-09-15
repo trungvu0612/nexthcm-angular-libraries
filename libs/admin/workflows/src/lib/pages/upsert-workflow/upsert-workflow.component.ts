@@ -32,8 +32,9 @@ import {
   UpsertTransitionData,
   Workflow,
 } from '../../models';
+import { AddStatusData } from '../../models/add-status-data';
 import { AdminWorkflowsService } from '../../services/admin-workflows.service';
-import { generateWorkflowStatus, generateWorkflowTransition } from '../../utils';
+import { AdminWorkflowsUtils } from '../../utils/admin-workflows-utils';
 
 interface WorkflowState {
   addedStatuses: Record<string, Status>;
@@ -130,7 +131,9 @@ export class UpsertWorkflowComponent implements OnInit {
     state.connect(
       this.deleteTransitions$.pipe(
         tap((transition) =>
-          this.form.controls.removingTransitions?.setValue((this.form.value.removingTransitions || []).concat(transition))
+          this.form.controls.removingTransitions?.setValue(
+            (this.form.value.removingTransitions || []).concat(transition)
+          )
         )
       ),
       (state, transitions) =>
@@ -169,14 +172,35 @@ export class UpsertWorkflowComponent implements OnInit {
     this.workflowId$.next(this.workflowId);
   }
 
-  onAddStatus(status: Status): void {
-    (status.id ? of(status) : this.openUpsertStatusDialog(status)).pipe(takeUntil(this.destroy$)).subscribe((state) => {
-      this.upsertStatus$.next(state);
-      this.workflowDesigner.apiEvent({
-        type: WorkflowAPI.drawStatus,
-        value: new WorkflowStatus(state.id, state.name, state.stateType.color, state.stateType.color),
-      });
-    });
+  onAddStatus(data: AddStatusData): void {
+    if (data.status) {
+      (data.status.id ? of(data.status) : this.openUpsertStatusDialog(data.status))
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((state) => {
+          this.upsertStatus$.next(state);
+          this.workflowDesigner.apiEvent({
+            type: WorkflowAPI.drawStatus,
+            value: new WorkflowStatus(state.id, state.name, state.stateType.color, state.stateType.color),
+          });
+          if (data.allowAll) {
+            const transitionAll: Transition = {
+              id: uuidv4(),
+              name: state.name,
+              toStateId: state.id,
+              conditionsOperator: 'AND',
+              conditions: [],
+              validators: [],
+              postFunctions: [],
+              isAll: true,
+            };
+            this.upsertTransition$.next(transitionAll);
+            this.workflowDesigner.apiEvent({
+              type: WorkflowAPI.drawIsAllTransition,
+              value: AdminWorkflowsUtils.generateWorkflowTransition(transitionAll),
+            });
+          }
+        });
+    }
   }
 
   onEditStatus(data: Status): void {
@@ -186,7 +210,7 @@ export class UpsertWorkflowComponent implements OnInit {
         this.upsertStatus$.next(status);
         this.workflowDesigner.apiEvent({
           type: WorkflowAPI.updateStatus,
-          value: generateWorkflowStatus(status),
+          value: AdminWorkflowsUtils.generateWorkflowStatus(status),
         });
       });
   }
@@ -206,7 +230,7 @@ export class UpsertWorkflowComponent implements OnInit {
         this.upsertTransition$.next(transition);
         this.workflowDesigner.apiEvent({
           type: isNew ? WorkflowAPI.drawTransition : WorkflowAPI.updateTransition,
-          value: generateWorkflowTransition(transition),
+          value: AdminWorkflowsUtils.generateWorkflowTransition(transition),
         });
       });
   }
@@ -263,16 +287,10 @@ export class UpsertWorkflowComponent implements OnInit {
       const cellId = this.selectedCell$.value.cell.id;
 
       if (this.selectedCell$.value.type === CellType.Transition) {
-        this.deleteTransitions$.next([cellId]);
+        this.handleRemoveTransition(cellId);
       } else if (this.selectedCell$.value.type === CellType.Status) {
-        const relatedTransitions = Object.entries(this.state.get('addedTransitions'))
-          .filter(([, value]) => [value.fromStateId, value.toStateId].includes(cellId))
-          .map(([key]) => key);
-
-        this.deleteStatus$.next(cellId);
-        this.deleteTransitions$.next(relatedTransitions);
+        this.handleRemoveStatus(cellId);
       }
-      this.workflowDesigner.apiEvent({ type: WorkflowAPI.removeCell, value: cellId });
     }
   }
 
@@ -331,12 +349,12 @@ export class UpsertWorkflowComponent implements OnInit {
     this.workflowDesigner.apiEvent({ type: WorkflowAPI.setInitial });
     this.workflowDesigner.apiEvent({
       type: WorkflowAPI.drawStatus,
-      value: generateWorkflowStatus(initialState),
+      value: AdminWorkflowsUtils.generateWorkflowStatus(initialState),
     });
     this.upsertTransition$.next(initialTransition);
     this.workflowDesigner.apiEvent({
       type: WorkflowAPI.drawTransition,
-      value: generateWorkflowTransition(initialTransition),
+      value: AdminWorkflowsUtils.generateWorkflowTransition(initialTransition),
     });
   }
 
@@ -346,7 +364,7 @@ export class UpsertWorkflowComponent implements OnInit {
     targetId: string;
     previousId: string;
   }): Promise<void> {
-    const newTransition = clone({ proto: true })(this.state.get('addedTransitions')[value.transitionId]);
+    const newTransition = clone({ proto: true })(this.state.get('addedTransitions', value.transitionId));
     const addedStatuses = this.addedStatuses;
     let changeTransitionMessage = '';
     let newStatus: Status | null = null;
@@ -370,15 +388,46 @@ export class UpsertWorkflowComponent implements OnInit {
         }),
         showCancelButton: true,
       });
+
       if (result.isConfirmed) {
         this.upsertTransition$.next(newTransition);
       } else {
-        this.workflowDesigner.apiEvent({ type: WorkflowAPI.removeCell, value: value.transitionId });
+        this.workflowDesigner.apiEvent({ type: WorkflowAPI.removeTransition, value: value.transitionId });
         this.workflowDesigner.apiEvent({
           type: WorkflowAPI.drawTransition,
-          value: generateWorkflowTransition(this.state.get('addedTransitions')[value.transitionId]),
+          value: AdminWorkflowsUtils.generateWorkflowTransition(this.state.get('addedTransitions', value.transitionId)),
         });
       }
+    }
+  }
+
+  private handleRemoveTransition(transitionId: string): void {
+    if (this.isInitialTransition(transitionId)) {
+      this.promptService.open({ icon: 'error', html: this.translocoService.translate('readonlyTransition') });
+    } else {
+      this.deleteTransitions$.next([transitionId]);
+      this.workflowDesigner.apiEvent({ type: WorkflowAPI.removeTransition, value: transitionId });
+    }
+  }
+
+  private isInitialTransition(transitionId: string): boolean {
+    const transition = this.state.get('addedTransitions', transitionId);
+
+    return !transition.fromStateId && !transition.isAll;
+  }
+
+  private handleRemoveStatus(statusId: string): void {
+    const relatedTransitions = Object.entries(this.state.get('addedTransitions'))
+      .filter(([, value]) => [value.fromStateId, value.toStateId].includes(statusId))
+      .map(([key]) => key);
+    const isInitialStatus = relatedTransitions.some((transitionId) => this.isInitialTransition(transitionId));
+
+    if (isInitialStatus) {
+      this.promptService.open({ icon: 'error', html: this.translocoService.translate('readonlyStatus') });
+    } else {
+      this.deleteStatus$.next(statusId);
+      this.deleteTransitions$.next(relatedTransitions);
+      this.workflowDesigner.apiEvent({ type: WorkflowAPI.removeStatus, value: statusId });
     }
   }
 }

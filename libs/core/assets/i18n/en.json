@@ -128,7 +128,8 @@
     "functions": "Functions",
     "email": "Email",
     "phone": "Phone",
-    "website": "Website"
+    "website": "Website",
+    "domain": "Domain"
   },
   "VALIDATION": {
     "required": "This field should not be blank!",
@@ -137,7 +138,8 @@
     "email": "This is an invalid email!",
     "numeric": "You must enter a number in this cell!",
     "shortnameExists": "This shortname already exists!",
-    "uniqueStatusName": "This status name is already exists!"
+    "uniqueStatusName": "This status name is already exists!",
+    "invalidURL": "This URL is invalid!"
   },
   "initStatus": "Initial status",
   "initStatusDescription": "Initial status description",
@@ -945,5 +947,14 @@
   "requestsConfig": "Requests Configuration",
   "workflow": "Workflow",
   "chooseWorkflow": "Choose workflow",
-  "searchTenant": "Search tenant..."
+  "searchTenant": "Search tenant...",
+  "removeWorkflowSuccessfully": "Remove this workflow successfully!",
+  "allowAllStatus": "Allow all statuses to transition to this one",
+  "readonlyStatus": "The initial status cannot be deleted.",
+  "readonlyTransition": "The initial transition cannot be deleted.",
+  "editTenant": "Edit tenant",
+  "domains": "Domains",
+  "ward": "Ward",
+  "chooseWard": "Choose ward",
+  "enterDomain": "Enter domain"
 }

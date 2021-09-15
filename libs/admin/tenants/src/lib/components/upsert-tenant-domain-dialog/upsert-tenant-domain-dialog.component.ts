@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
-import { PromptService } from '@nexthcm/cdk';
+import { RouterQuery } from '@datorama/akita-ng-router-store';
+import { CommonStatus, PromptService } from '@nexthcm/cdk';
 import { FormBuilder } from '@ngneat/reactive-forms';
 import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
@@ -21,21 +22,24 @@ export class UpsertTenantDomainDialogComponent implements OnInit {
   form = this.fb.group<TenantDomain>({} as TenantDomain);
   model = {} as TenantDomain;
   fields: FormlyFieldConfig[] = [
-    { key: 'id' },
     {
       key: 'name',
+      className: 'tui-form__row block',
       type: 'input',
       templateOptions: {
         required: true,
         translate: true,
-        label: 'Domain name',
+        label: 'name',
+        labelClassName: 'font-semibold',
+        placeholder: 'enterName',
         textfieldLabelOutside: true,
       },
     },
     {
-      key: 'status',
+      key: 'statusBoolean',
       className: 'tui-form__row block',
       type: 'toggle',
+      defaultValue: true,
       templateOptions: {
         textfieldLabelOutside: true,
         labelClassName: 'font-semibold',
@@ -53,13 +57,18 @@ export class UpsertTenantDomainDialogComponent implements OnInit {
     {
       key: 'domainUrl',
       type: 'input',
+      className: 'tui-form__row block',
       templateOptions: {
         required: true,
         translate: true,
-        label: 'domainUrl',
+        label: 'domain',
+        placeholder: 'enterDomain',
+        labelClassName: 'font-semibold',
         textfieldLabelOutside: true,
       },
     },
+    { key: 'id' },
+    { key: 'tenant.id', defaultValue: this.routerQuery.getParams('tenantId') },
   ];
 
   constructor(
@@ -68,12 +77,17 @@ export class UpsertTenantDomainDialogComponent implements OnInit {
     private readonly translocoService: TranslocoService,
     private readonly adminTenantsService: AdminTenantsService,
     private readonly destroy$: TuiDestroyService,
-    private readonly promptService: PromptService
+    private readonly promptService: PromptService,
+    private readonly routerQuery: RouterQuery
   ) {}
 
   ngOnInit(): void {
     if (this.context.data) {
-      this.model = { ...this.model, ...this.context.data };
+      this.model = {
+        ...this.model,
+        ...this.context.data,
+        statusBoolean: this.context.data.status !== CommonStatus.active,
+      };
     }
   }
 
@@ -83,8 +97,10 @@ export class UpsertTenantDomainDialogComponent implements OnInit {
 
   onSubmit(): void {
     if (this.form.valid) {
+      const formModel = { ...this.form.value };
+      formModel.status = formModel.statusBoolean ? CommonStatus.active : CommonStatus.inactive;
       this.adminTenantsService
-        .upsertTenantDomain(this.form.value)
+        .upsertTenantDomain(formModel)
         .pipe(takeUntil(this.destroy$))
         .subscribe(this.promptService.handleResponse('', () => this.context.completeWith(true)));
     }

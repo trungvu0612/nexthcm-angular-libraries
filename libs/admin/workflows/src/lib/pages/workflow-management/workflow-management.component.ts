@@ -77,7 +77,7 @@ export class WorkflowManagementComponent extends AbstractServerPaginationTableCo
         takeUntil(this.destroy$)
       )
       .subscribe(
-        this.promptService.handleResponse('deleteWorkflowSuccessfully', () =>
+        this.promptService.handleResponse('removeWorkflowSuccessfully', () =>
           this.queryParams$.next(this.queryParams$.value)
         )
       );

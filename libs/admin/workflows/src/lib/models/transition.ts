@@ -15,6 +15,7 @@ export interface Transition {
   conditions: TransitionCondition[];
   validators: TransitionValidator[];
   postFunctions: TransitionPostFunction[];
+  isAll?: boolean;
 }
 
 export interface TransitionCondition {
