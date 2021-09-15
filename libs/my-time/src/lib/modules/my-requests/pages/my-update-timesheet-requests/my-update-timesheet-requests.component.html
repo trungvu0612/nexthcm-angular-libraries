@@ -12,7 +12,7 @@
         <td>
           {{ item.updateTotalTime ? (item.updateTotalTime * 1000 | date: 'HH:mm':'UTC') : '-' }}
         </td>
-        <td>
+        <td class="text-center">
           {{ item.updateWorkingDay ? (item.updateWorkingDay | translocoDecimal: { maximumFractionDigits: 1 }) : '-' }}
         </td>
         <td>
