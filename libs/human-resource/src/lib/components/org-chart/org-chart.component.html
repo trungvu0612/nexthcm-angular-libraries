@@ -6,11 +6,12 @@
       <div class="border-t-4 border mb-8"></div>
       <div class="flex flex-wrap justify-center gap-4">
         <div *ngFor="let item of current">
-          <tui-hosted-dropdown [content]="template" tuiDropdownHover>
+          <tui-hosted-dropdown [content]="content" tuiDropdownHover>
             <button
+              (click)="changeInfo(item.id)"
+              (mouseover)="clickEvent(item)"
               [class.hoverInfo]="item.id === idEmployee ? true : false"
               class="w-56 h-16 hover:bg-gray-300 bg-white flex justify-between py-3 px-6 pb-16 pt-4"
-              (click)="changeInfo(item.id)"
             >
               <div class="mr-4">
                 <div class="text-sm text-left">
@@ -34,9 +35,10 @@
     <ng-template #target>
       <section class="grid grid-cols-1 justify-items-center">
         <div *ngIf="current[0].id !== idLeader; else checkFalse">
-          <tui-hosted-dropdown [content]="template" tuiDropdownHover>
+          <tui-hosted-dropdown [content]="content" tuiDropdownHover>
             <button
               class="w-56 h-16 hover:bg-gray-300 bg-white flex justify-between py-3 px-6 pb-16 pt-4 gap-4"
+              (mouseover)="clickEvent(current[0])"
               (click)="changeInfoCss(current[0].id)"
             >
               <div class="mr-4">
@@ -93,102 +95,8 @@
       </section>
     </ng-template>
 
-<!--    #content-->
-    <ng-template  #template="polymorpheus" [polymorpheus]="context" let-item>
-      <main class="flex flex-col w-96 h-full p-4">
-        <section class="p-8 bg-white flex justify-start -m-2">
-<!--          <div> Oke? : {{ctx}} </div>-->
-          <div> Oke? : {{item}} </div>
-          <tui-avatar [autoColor]="true" [rounded]="true" [text]="current[0].username" size="l"></tui-avatar>
-          <div class="ml-4">
-            <div class="text-sm text-left">
-              <strong>{{ current[0].username }}</strong>
-            </div>
-            <div class="text-blue-500 text-left">{{ current[0].title?.name }}</div>
-          </div>
-        </section>
-
-        <section class="py-4 flex justify-start -m-2 border-b-1 gap-4">
-          <button>
-            <tui-svg class="success tui-space_left-3" src="tuiIconCallInLarge" style="color: #959595"></tui-svg>
-          </button>
-
-          <button>
-            <tui-svg class="success tui-space_left-3" src="tuiIconCameraLarge" style="color: #959595"></tui-svg>
-          </button>
-
-          <button>
-            <tui-svg class="success tui-space_left-3" src="tuiIconGeoLarge" style="color: #959595"></tui-svg>
-          </button>
-
-          <button>
-            <tui-svg class="success tui-space_left-3" src="tuiIconImgLarge" style="color: #959595"></tui-svg>
-          </button>
-        </section>
-
-        <section class="p-4 border-t-2">
-          <strong class="text-semibold text-left">Contact</strong>
-          <div class="pt-2 flex flex-row space-x-4">
-            <tui-svg class="success tui-space_left-3" src="tuiIconVideoLarge" style="color: #959595"></tui-svg>
-            <p>{{ current[0].username }}@banvien.com.vn</p>
-          </div>
-        </section>
-
-        <section class="p-4 border-t-2 flex flex-col space-y-4">
-          <strong class="text-semibold text-left">Report</strong>
-          <div class="flex flex-row space-x-4">
-            <tui-avatar [autoColor]="true" [rounded]="true" [text]="current[0].username" size="m"></tui-avatar>
-            <div class="flex flex-col">
-              <div class="text-sm text-left">
-                <strong>{{ current[0].reportTo.username }}</strong>
-              </div>
-<!--              <div class="text-blue-500 text-left">{{ current[0].reportTo.profile }}</div>-->
-            </div>
-          </div>
-        </section>
-      </main>
+    <ng-template #content="polymorpheus" [polymorpheus]="orgContext" let-org>
+      <ng-container *ngComponentOutlet="NodeChartComponent; injector: customInJector"></ng-container>
     </ng-template>
-
-<!--    <ng-template #userContent="polymorpheus" [polymorpheus]="userContext" let-user>-->
-<!--      <b>{{ user.name }}</b> ({{ user.userName }})-->
-<!--    </ng-template>-->
-
   </ng-template>
 </main>
-
-<!--<div class="flex justify-center -m-2">-->
-<!--  <tui-hosted-dropdown #dropdown [content]='content1'>-->
-<!--    <button-->
-<!--      [pseudoHovered]="dropdown.open || null"-->
-<!--      appearance="flat"-->
-<!--      icon='tuiIconMoreVer'-->
-<!--      tuiIconButton-->
-<!--      type='button'-->
-<!--    ></button>-->
-<!--  </tui-hosted-dropdown>-->
-<!--  <ng-template #content1 let-activeZone>-->
-<!--    <tui-data-list-->
-<!--      [tuiActiveZoneParent]='activeZone'-->
-<!--      class='effected-dropdown'-->
-<!--      tuiDataListDropdownManager-->
-<!--    >-->
-<!--      <button-->
-<!--        [tuiDropdownContent]='burgersTmp'-->
-<!--        [tuiDropdownSided]='true'-->
-<!--        [tuiDropdown]='true'-->
-<!--        tuiDropdownAlign='right'-->
-<!--        tuiOption-->
-<!--      >-->
-<!--        Burgers-->
-<!--      </button>-->
-<!--    </tui-data-list>-->
-<!--    <ng-template #burgersTmp>-->
-<!--      <tui-data-list-->
-<!--        [tuiActiveZoneParent]='activeZone'-->
-<!--        tuiDataListDropdownManager-->
-<!--      >-->
-<!--        <button *ngFor='let burger of burgerss' tuiOption>{{burger}}</button>-->
-<!--      </tui-data-list>-->
-<!--    </ng-template>-->
-<!--  </ng-template>-->
-<!--</div>-->

@@ -1,2 +1,19 @@
-<hcm-employee-node></hcm-employee-node>
-<hcm-employee-node-detail></hcm-employee-node-detail>
+<main *transloco="let t" class="main-page">
+  <header>
+    <h1>{{ t('humanResource') }}</h1>
+    <div class="flex gap-6">
+      <form [formGroup]="$any(searchForm)" class="w-72">
+        <formly-form [fields]="fields" [form]="$any(searchForm)" [model]="model"></formly-form>
+      </form>
+    </div>
+  </header>
+  <section>
+    <div class="bg-gray-100 pt-9" style="height: 1000px">
+      <hcm-org-chart [data]="data" [search]="search"></hcm-org-chart>
+    </div>
+  </section>
+</main>
+
+<ng-template #userContent="polymorpheus" [polymorpheus]="userContext" class="flex gap-6" let-user>
+  <b>{{ user.fullName }}</b> ({{ user.username }})
+</ng-template>

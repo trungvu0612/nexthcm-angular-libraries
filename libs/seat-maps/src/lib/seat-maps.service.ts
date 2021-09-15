@@ -22,7 +22,7 @@ export class SeatMapsService extends RxState<SeatMapsState> {
 
   getUsers(): Observable<Partial<UserDto>[]> {
     return this.http
-      .get<PagingResponse<UserDto>>(`${ACCOUNT_API_PATH}/users`, { params: { size: 999 } })
+      .get<PagingResponse<UserDto>>(`${ACCOUNT_API_PATH}/users/v2`, { params: { size: 999 } })
       .pipe(map((response) => response.data.items));
   }
 

@@ -1,11 +1,3 @@
-export interface Node {
-  id: number;
-  name: string;
-  job: string;
-  img?: string | undefined;
-  children?: Node[];
-}
-
 export interface Tenant {
   createdDate: number;
   createdBy: string;
@@ -17,13 +9,37 @@ export interface Tenant {
   state: number;
 }
 
-export interface OrgRes {
+export interface OrgChart {
+  id: string;
+  fullName: string;
+  jobTitle?: JobTitle
   createdDate: number;
   lastModifiedDate: number;
   optCounter: number;
-  id: string;
   tenant: Tenant;
   username: string;
   registerType: string;
-  descendants: OrgRes[];
+  descendants: OrgChart[];
+  reportTo?: ReportTo;
+  profile?: Profile
+}
+
+export interface JobTitle {
+  id: string;
+  name: string;
+}
+
+export interface ReportTo {
+  id: string;
+  fullName: string;
+  username: string;
+}
+
+export interface Profile {
+  companyEmail: string;
+  phone: string;
+}
+
+export interface SearchOrg {
+  name: OrgChart;
 }
