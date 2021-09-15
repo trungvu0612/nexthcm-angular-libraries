@@ -37,26 +37,26 @@
         <td class="font-semibold">{{ item.userInfo?.fullName }}</td>
         <td class="font-semibold">{{ item.userInfo?.office?.name }}</td>
         <td class="font-semibold">{{ fromDateForGroupBy | translocoDate }} - {{ toDateForGroupBy | translocoDate }}</td>
-        <td class="font-semibold">
+        <td class="font-semibold text-center">
           {{
             item.totalWorkingTime
               ? (item.totalWorkingTime / 3600 | translocoDecimal: { maximumFractionDigits: 1 })
               : '-'
           }}
         </td>
-        <td class="font-semibold">
+        <td class="font-semibold text-center">
           {{ item.workingDay ? (item.workingDay | translocoDecimal: { maximumFractionDigits: 1 }) : '-' }}
         </td>
-        <td class="font-semibold">
+        <td class="font-semibold text-center">
           {{ item.ot ? (item.ot | translocoDecimal: { maximumFractionDigits: 1 }) : '-' }}
         </td>
-        <td class="font-semibold">
+        <td class="font-semibold text-center">
           {{ item.onsiteDay ? (item.onsiteDay | translocoDecimal: { maximumFractionDigits: 1 }) : '-' }}
         </td>
-        <td class="font-semibold">
+        <td class="font-semibold text-center">
           {{ item.wfh ? (item.wfh | translocoDecimal: { maximumFractionDigits: 1 }) : '-' }}
         </td>
-        <td class="font-semibold">
+        <td class="font-semibold text-center">
           {{ item.countLeave ? (item.countLeave | translocoDecimal: { maximumFractionDigits: 1 }) : '-' }}
         </td>
       </ng-container>
