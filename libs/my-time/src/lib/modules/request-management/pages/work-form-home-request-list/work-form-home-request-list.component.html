@@ -6,7 +6,7 @@
         <td>{{ item.userInfo.cif }}</td>
         <td class="font-bold uppercase">{{ item.userInfo.fullName }}</td>
         <td>{{ item.fromDate | translocoDate }} - {{ item.toDate | translocoDate }}</td>
-        <td class="text-center">{{ item.totalDay ? item.totalDay : '-' }}</td>
+        <td>{{ item.totalDay ? (item.totalDay | translocoDecimal: { maximumFractionDigits: 1 }) : '-' }}</td>
         <td>
           <tui-tag
             [value]="'REQUEST_STATUS.' + RequestStatus[item.status] | transloco"

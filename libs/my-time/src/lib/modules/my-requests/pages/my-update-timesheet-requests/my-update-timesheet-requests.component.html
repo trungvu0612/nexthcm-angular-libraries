@@ -7,9 +7,9 @@
           {{ item.timeSheetTracking.trackingDate | translocoDate: { weekday: 'long' } }},
           {{ item.timeSheetTracking.trackingDate | translocoDate }}
         </td>
-        <td>{{ item.newInTime ? (item.newInTime * 1000 | date: 'HH:mm':'UTC') : '-' }}</td>
-        <td>{{ item.newOutTime ? (item.newOutTime * 1000 | date: 'HH:mm':'UTC') : '-' }}</td>
-        <td>
+        <td class="text-center">{{ item.newInTime ? (item.newInTime * 1000 | date: 'HH:mm':'UTC') : '-' }}</td>
+        <td class="text-center">{{ item.newOutTime ? (item.newOutTime * 1000 | date: 'HH:mm':'UTC') : '-' }}</td>
+        <td class="text-center">
           {{ item.updateTotalTime ? (item.updateTotalTime * 1000 | date: 'HH:mm':'UTC') : '-' }}
         </td>
         <td class="text-center">

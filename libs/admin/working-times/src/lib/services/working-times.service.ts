@@ -7,7 +7,6 @@ import { Office } from '../models/offices';
 import { Organization } from '../models/organization';
 import { WorkingAfterTime } from '../models/working-after-time';
 import { WorkingTimes } from '../models/working-times';
-import { OrganizationalUnit } from '../../../../tenants/src/lib/models/tenant';
 
 @Injectable({
   providedIn: 'root',

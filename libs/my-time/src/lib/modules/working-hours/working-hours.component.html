@@ -50,8 +50,12 @@
     <tui-island [hoverable]="true" class="right-column" size="l">
       <div class="font-semibold tui-island__title">{{ t('yourWorkingDaysThisMonth') }}</div>
       <div *ngIf="monthWorkingTime$ | async as monthWorkingTime">
-        <span class="text-8xl font-bold text-blue-500">{{ monthWorkingTime.workingDay }}</span>
-        <span class="text-4xl font-bold text-gray-400">/{{ monthWorkingTime.totalWorkingDay }}</span>
+        <span class="text-8xl font-bold text-blue-500">{{
+          monthWorkingTime.workingDay | translocoDecimal: { maximumFractionDigits: 1 }
+        }}</span>
+        <span class="text-4xl font-bold text-gray-400"
+          >/{{ monthWorkingTime.totalWorkingDay | translocoDecimal: { maximumFractionDigits: 1 } }}</span
+        >
       </div>
     </tui-island>
   </section>

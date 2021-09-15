@@ -38,12 +38,32 @@ export class EveryoneWorkingHoursListComponent
         { key: 'fullName', title: result.fullName, width: '9%' },
         { key: 'office', title: result.office, width: '9%' },
         { key: 'dateRange', title: result.dateRange, width: '13%' },
-        { key: 'totalWorkingTime', title: result.totalWorkingTimeH, width: '9%' },
-        { key: 'workingDay', title: result.workingDay, width: '9%' },
-        { key: 'ot', title: result.ot, width: '9%' },
-        { key: 'onsiteDay', title: result.onsiteDay, width: '9%' },
-        { key: 'wfh', title: result.workFromHome, width: '9%' },
-        { key: 'countLeave', title: result.countLeave, width: '9%' },
+        {
+          key: 'totalWorkingTime',
+          title: result.totalWorkingTimeH,
+          width: '9%',
+          cssClass: { name: 'text-center', includeHeader: true },
+        },
+        {
+          key: 'workingDay',
+          title: result.workingDay,
+          width: '9%',
+          cssClass: { name: 'text-center', includeHeader: true },
+        },
+        { key: 'ot', title: result.ot, width: '9%', cssClass: { name: 'text-center', includeHeader: true } },
+        {
+          key: 'onsiteDay',
+          title: result.onsiteDay,
+          width: '9%',
+          cssClass: { name: 'text-center', includeHeader: true },
+        },
+        { key: 'wfh', title: result.workFromHome, width: '9%', cssClass: { name: 'text-center', includeHeader: true } },
+        {
+          key: 'countLeave',
+          title: result.countLeave,
+          width: '9%',
+          cssClass: { name: 'text-center', includeHeader: true },
+        },
       ])
     );
   private readonly request$ = this.queryParams$.pipe(

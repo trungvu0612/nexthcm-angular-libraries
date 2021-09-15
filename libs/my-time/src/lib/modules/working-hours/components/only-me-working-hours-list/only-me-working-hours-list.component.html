@@ -10,16 +10,18 @@
         <td>{{ item.outTime * 1000 | date: 'HH:mm':'UTC' }}</td>
         <td class="text-center">
           {{
-            item.totalWorkingTime
-              ? (item.totalWorkingTime / 3600 | translocoDecimal: { maximumFractionDigits: 1 })
-              : '-'
+          item.totalWorkingTime
+            ? (item.totalWorkingTime / 3600 | translocoDecimal: { maximumFractionDigits: 1 })
+            : '-'
           }}
         </td>
-        <td class="text-center">{{ item.workingDay ? (item.workingDay | translocoDecimal: { maximumFractionDigits: 1 }) : '-' }}</td>
+        <td
+          class="text-center">{{ item.workingDay ? (item.workingDay | translocoDecimal: { maximumFractionDigits: 1 }) : '-' }}</td>
         <td class="text-center">{{ item.ot ? (item.ot | translocoDecimal: { maximumFractionDigits: 1 }) : '-' }}</td>
-        <td class="text-center">{{ item.onsiteDay ? (item.onsiteDay | translocoDecimal: { maximumFractionDigits: 1 }) : '-' }}</td>
+        <td
+          class="text-center">{{ item.onsiteDay ? (item.onsiteDay | translocoDecimal: { maximumFractionDigits: 1 }) : '-' }}</td>
         <td class="text-center">{{ item.wfh ? (item.wfh | translocoDecimal: { maximumFractionDigits: 1 }) : '-' }}</td>
-        <td class="text-center">{{ item.leaveType }}</td>
+        <td>{{ item.leaveType }}</td>
         <td>
           <div class="flex items-center">
             <button

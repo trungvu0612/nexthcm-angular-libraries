@@ -29,10 +29,18 @@ export class MyUpdateTimesheetRequestsComponent extends AbstractRequestListCompo
     .pipe(
       map((result) => [
         { key: 'date', title: result.date },
-        { key: 'newInTime', title: result.newInTime },
-        { key: 'newOutTime', title: result.newOutTime },
-        { key: 'updateTotalTime', title: result.updateTotalTime },
-        { key: 'updateWorkingDay', title: result.updateWorkingDay },
+        { key: 'newInTime', title: result.newInTime, cssClass: { name: 'text-center', includeHeader: true } },
+        { key: 'newOutTime', title: result.newOutTime, cssClass: { name: 'text-center', includeHeader: true } },
+        {
+          key: 'updateTotalTime',
+          title: result.updateTotalTime,
+          cssClass: { name: 'text-center', includeHeader: true },
+        },
+        {
+          key: 'updateWorkingDay',
+          title: result.updateWorkingDay,
+          cssClass: { name: 'text-center', includeHeader: true },
+        },
         { key: 'status', title: result.status },
         { key: 'comment', title: result.Comment },
         { key: 'functions', title: result.functions },

@@ -30,7 +30,7 @@ export class UpdateTimesheetRequestListComponent extends AbstractRequestListComp
         { key: 'newTimeIn', title: result.newInTime },
         { key: 'newTimeOut', title: result.newOutTime },
         { key: 'updateTotalTime', title: result.updateTotalTime },
-        { key: 'updateWorkingDay', title: result.updateWorkingDay },
+        { key: 'updateWorkingDay', title: result.updateWorkingDay, cssClass: { name: 'text-center', includeHeader: true } },
         { key: 'status', title: result.status },
         { key: 'comment', title: result.Comment },
         { key: 'functions', title: result.functions }

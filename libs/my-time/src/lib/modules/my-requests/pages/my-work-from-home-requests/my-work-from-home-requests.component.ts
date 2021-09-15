@@ -29,7 +29,7 @@ export class MyWorkFromHomeRequestsComponent extends AbstractRequestListComponen
     .pipe(
       map((result) => [
         { key: 'dateRange', title: result.dateRange },
-        { key: 'totalDay', title: result.days },
+        { key: 'totalDay', title: result.days, cssClass: { name: 'text-center', includeHeader: true } },
         { key: 'status', title: result.status },
         { key: 'comment', title: result.Comment },
         { key: 'functions', title: result.functions },

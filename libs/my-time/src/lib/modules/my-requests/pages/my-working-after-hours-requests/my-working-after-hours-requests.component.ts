@@ -29,7 +29,7 @@ export class MyWorkingAfterHoursRequestsComponent extends AbstractRequestListCom
     .pipe(
       map((result) => [
         { key: 'dateRange', title: result.dateRange },
-        { key: 'spentTime', title: result.spentTime },
+        { key: 'spentTime', title: result.spentTime, cssClass: { name: 'text-center', includeHeader: true } },
         { key: 'status', title: result.type },
         { key: 'type', title: result.status },
         { key: 'reason', title: result.Comment },

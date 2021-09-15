@@ -15,7 +15,7 @@
             <hcm-leave-request-date-range [data]="item"></hcm-leave-request-date-range>
           </td>
           <td>{{ item.leaveType.name }}</td>
-          <td class="text-center">
+          <td>
             {{ item.durationInDay ? (item.durationInDay | translocoDecimal: { maximumFractionDigits: 1 }) : '-' }}
           </td>
           <td>

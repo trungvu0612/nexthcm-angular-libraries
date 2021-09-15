@@ -32,7 +32,7 @@ export class MyLeaveComponent extends AbstractRequestListComponent<LeaveRequest>
     map((result) => [
       { key: 'dateRange', title: result.dateRange },
       { key: 'leaveType', title: result.leaveType },
-      { key: 'days', title: result.days },
+      { key: 'days', title: result.days, cssClass: { name: 'text-center', includeHeader: true } },
       { key: 'status', title: result.status },
       { key: 'comment', title: result.Comment },
       { key: 'functions', title: result.functions },
@@ -72,9 +72,7 @@ export class MyLeaveComponent extends AbstractRequestListComponent<LeaveRequest>
         label: this.translocoService.translate('submitLeaveRequest'),
         size: 'l',
       })
-      .pipe(
-        takeUntil(this.destroy$)
-      )
+      .pipe(takeUntil(this.destroy$))
       .subscribe(
         this.promptService.handleResponse('submitRequestSuccessfully', () =>
           this.queryParams$.next(this.queryParams$.value)
