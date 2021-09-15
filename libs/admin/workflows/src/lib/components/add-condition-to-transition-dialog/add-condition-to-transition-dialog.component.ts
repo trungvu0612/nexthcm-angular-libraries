@@ -8,7 +8,7 @@ import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { map } from 'rxjs/operators';
 import { AbstractAddOptionToTransitionComponent } from '../../abstract-components/abstract-add-option-to-transition.component';
 import { ConditionType } from '../../enums';
-import { TransitionCondition, TransitionOption, TransitionOptionsDialogData } from '../../models';
+import { TransitionCondition, TransitionOptionsDialogData } from '../../models';
 import { AdminWorkflowsService } from '../../services/admin-workflows.service';
 
 @Component({
@@ -17,23 +17,23 @@ import { AdminWorkflowsService } from '../../services/admin-workflows.service';
   styleUrls: ['./add-condition-to-transition-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AddConditionToTransitionDialogComponent extends AbstractAddOptionToTransitionComponent<
-  ConditionType,
-  TransitionCondition
-> {
+export class AddConditionToTransitionDialogComponent extends AbstractAddOptionToTransitionComponent<TransitionCondition> {
+  readonly conditionTypes$ = this.adminWorkflowsService
+    .select('conditionTypes')
+    .pipe(
+      map((types) =>
+        types
+          .filter((type) => this.context.data.items.every((item) => item.conditionType.id !== type.id))
+          .concat(this.context.data.item ? [this.context.data.item.conditionType] : [])
+      )
+    );
   fields: FormlyFieldConfig[] = [
     {
       key: 'conditionType',
       className: 'tui-form__row block',
       type: 'select-transition-option',
       templateOptions: {
-        options: this.adminWorkflowsService
-          .select('conditionTypes')
-          .pipe(
-            map((types) =>
-              types.filter((type) => this.context.data.items.every((item) => item.conditionType.id !== type.id))
-            )
-          ),
+        options: this.conditionTypes$,
         required: true,
       },
     },
@@ -72,10 +72,7 @@ export class AddConditionToTransitionDialogComponent extends AbstractAddOptionTo
   constructor(
     readonly fb: FormBuilder,
     @Inject(POLYMORPHEUS_CONTEXT)
-    readonly context: TuiDialogContext<
-      TransitionOption<ConditionType>,
-      TransitionOptionsDialogData<ConditionType, TransitionCondition>
-    >,
+    readonly context: TuiDialogContext<TransitionCondition, TransitionOptionsDialogData<TransitionCondition>>,
     readonly adminWorkflowsService: AdminWorkflowsService,
     private readonly jobTitlesQuery: JobTitlesQuery,
     private readonly actions: Actions

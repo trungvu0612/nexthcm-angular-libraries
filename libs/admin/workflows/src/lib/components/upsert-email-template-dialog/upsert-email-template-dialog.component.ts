@@ -1,17 +1,21 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
+import { CommonStatus, PromptService } from '@nexthcm/cdk';
 import { FormBuilder } from '@ngneat/reactive-forms';
 import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
+import { TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
-import { distinctUntilChanged, map, startWith, switchMap } from 'rxjs/operators';
+import { distinctUntilChanged, map, startWith, switchMap, takeUntil } from 'rxjs/operators';
 import { EmailTemplate } from '../../models';
+import { AdminWorkflowsService } from '../../services/admin-workflows.service';
 
 @Component({
   selector: 'hcm-upsert-email-template-dialog',
   templateUrl: './upsert-email-template-dialog.component.html',
   styleUrls: ['./upsert-email-template-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [TuiDestroyService],
 })
 export class UpsertEmailTemplateDialogComponent implements OnInit {
   form = this.fb.group<EmailTemplate>({} as EmailTemplate);
@@ -32,7 +36,7 @@ export class UpsertEmailTemplateDialogComponent implements OnInit {
       },
     },
     {
-      key: 'status',
+      key: 'statusBoolean',
       className: 'tui-form__row block',
       type: 'toggle',
       defaultValue: true,
@@ -41,7 +45,7 @@ export class UpsertEmailTemplateDialogComponent implements OnInit {
         'templateOptions.label': this.translocoService.selectTranslate('status'),
         'templateOptions.description': this.form?.valueChanges.pipe(
           startWith(null),
-          map((value) => value?.status),
+          map((value) => value?.statusBoolean),
           distinctUntilChanged(),
           switchMap((status) => this.translocoService.selectTranslate(`${status ? 'active' : 'inactive'}`))
         ),
@@ -56,17 +60,20 @@ export class UpsertEmailTemplateDialogComponent implements OnInit {
         label: 'template',
         required: true,
         onTextChange: (value: string) => {
-          this.form.controls.template.setValue(value);
+          this.form.controls.body.setValue(value);
         },
       },
     },
-    { key: 'template' },
+    { key: 'body' },
   ];
 
   constructor(
     @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<boolean, EmailTemplate>,
     private readonly fb: FormBuilder,
-    private readonly translocoService: TranslocoService
+    private readonly translocoService: TranslocoService,
+    private readonly adminWorkflowsService: AdminWorkflowsService,
+    private readonly destroy$: TuiDestroyService,
+    private readonly promptService: PromptService
   ) {}
 
   ngOnInit(): void {
@@ -77,7 +84,14 @@ export class UpsertEmailTemplateDialogComponent implements OnInit {
 
   onSubmit(): void {
     if (this.form.valid) {
-      console.log(JSON.stringify(this.form.value));
+      const formModel = { ...this.form.value };
+      formModel.status = formModel.statusBoolean ? CommonStatus.active : CommonStatus.inactive;
+      (formModel.id
+        ? this.adminWorkflowsService.updateEmailTemplate(formModel)
+        : this.adminWorkflowsService.createEmailTemplate(formModel)
+      )
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(this.promptService.handleResponse('', () => this.context.completeWith(true)));
     }
   }
 

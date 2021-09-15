@@ -8,7 +8,7 @@
   <div *transloco="let t" class="p-4">
     <p>{{ t('searchStatusOrNameNewOne') }}</p>
     <hcm-status-combobox
-      (valueChange)="data.status = $event"
+      (valueChange)="onSelectStatus($event)"
       class="tui-form__row"
       [activeZone]="activeZone"
       [addedStatuses]="addedStatus"
@@ -17,7 +17,7 @@
       {{ t('allowAllStatus') }}
     </tui-checkbox-labeled>
     <div class="mt-4 flex justify-end space-x-2">
-      <button (click)="onAdd()" [disabled]="!data.status" size="s" tuiButton type="button">{{ t('add') }}</button>
+      <button (click)="onAdd()" [disabled]="!data.status.name" size="s" tuiButton type="button">{{ t('add') }}</button>
       <button (click)="onCancel()" appearance="flat" size="s" tuiButton type="button">{{ t('cancel') }}</button>
     </div>
   </div>

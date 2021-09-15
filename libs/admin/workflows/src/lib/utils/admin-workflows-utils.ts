@@ -12,7 +12,7 @@ export class AdminWorkflowsUtils {
       transition.name,
       transition.toStateId,
       transition.fromStateId,
-      transition.isAll
+      transition.allState
     );
   }
 }

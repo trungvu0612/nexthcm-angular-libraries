@@ -1,11 +1,13 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Actions } from '@datorama/akita-ng-effects';
 import { ACCOUNT_API_PATH, BaseObject, BaseResponse, Pagination, PagingResponse } from '@nexthcm/cdk';
 import { insert, RxState, update } from '@rx-angular/state';
 import { Observable, of, Subject } from 'rxjs';
 import { catchError, map, startWith, switchMap, tap } from 'rxjs/operators';
 import { ConditionType, PostFunctionType, ValidatorType } from '../enums';
 import { EmailTemplate, InitWorkflow, Status, TemplateVariableModel, TransitionOption, Workflow } from '../models';
+import { removeEmailTemplate, upsertEmailTemplate } from '../state/email-templates.actions';
 
 interface WorkflowsState {
   statusTypes: Status[];
@@ -22,7 +24,7 @@ export class AdminWorkflowsService extends RxState<WorkflowsState> {
   private readonly createStatus$ = new Subject<Status>();
   private readonly initStatus$ = new Subject();
 
-  constructor(private http: HttpClient) {
+  constructor(private readonly http: HttpClient, private readonly actions: Actions) {
     super();
     this.connect('statusTypes', this.getStatusTypes());
     this.connect('conditionTypes', this.getConditionTypes());
@@ -127,24 +129,44 @@ export class AdminWorkflowsService extends RxState<WorkflowsState> {
   }
 
   getTemplateVariables(): Observable<TemplateVariableModel[]> {
-    return of([
-      { name: 'employee', marker: '${employee}', description: 'WORKFLOW_EMAIL_TEMPLATE.employee' },
-      { name: 'previousStatus', marker: '${previousStatus}', description: 'WORKFLOW_EMAIL_TEMPLATE.previousStatus' },
-      { name: 'nextStatus', marker: '${nextStatus}', description: 'WORKFLOW_EMAIL_TEMPLATE.nextStatus' },
-      { name: 'modifiedTime', marker: '${modifiedTime}', description: 'WORKFLOW_EMAIL_TEMPLATE.modifiedTime' },
-    ]);
+    return this.http
+      .get<BaseResponse<TemplateVariableModel[]>>(`${ACCOUNT_API_PATH}/temp-variables`)
+      .pipe(map((res) => res.data));
   }
 
   getEmailTemplates(params: HttpParams): Observable<Pagination<EmailTemplate>> {
-    return of({
-      items: [],
-      page: 0,
-      size: 10,
-      totalItems: 0,
-      totalPages: 1,
-      totalElements: 0,
-      hasNext: false,
-      hasPrevious: false,
-    });
+    return this.http
+      .get<PagingResponse<EmailTemplate>>(`${ACCOUNT_API_PATH}/templates`, { params })
+      .pipe(map((res) => res.data));
+  }
+
+  getEmailTemplate(id: string): Observable<EmailTemplate> {
+    return this.http
+      .get<BaseResponse<EmailTemplate>>(`${ACCOUNT_API_PATH}/templates/${id}`)
+      .pipe(map((res) => res.data));
+  }
+
+  createEmailTemplate(payload: EmailTemplate): Observable<BaseResponse<EmailTemplate>> {
+    return this.http
+      .post<BaseResponse<EmailTemplate>>(`${ACCOUNT_API_PATH}/template`, payload)
+      .pipe(tap(({ data }) => this.actions.dispatch(upsertEmailTemplate({ data }))));
+  }
+
+  updateEmailTemplate(payload: EmailTemplate): Observable<BaseResponse<EmailTemplate>> {
+    return this.http
+      .put<BaseResponse<EmailTemplate>>(`${ACCOUNT_API_PATH}/template`, payload)
+      .pipe(tap(({ data }) => this.actions.dispatch(upsertEmailTemplate({ data }))));
+  }
+
+  deleteEmailTemplate(id: string): Observable<unknown> {
+    return this.http
+      .delete(`${ACCOUNT_API_PATH}/template/${id}`)
+      .pipe(tap(() => this.actions.dispatch(removeEmailTemplate({ id }))));
+  }
+
+  getAllEmailTemplates(): Observable<EmailTemplate[]> {
+    return this.http
+      .get<BaseResponse<EmailTemplate[]>>(`${ACCOUNT_API_PATH}/template-list`)
+      .pipe(map((res) => res.data));
   }
 }

@@ -35,7 +35,7 @@ export class TransitionPostFunctionListComponent extends AbstractTransitionOptio
     readonly changeDetectorRef: ChangeDetectorRef,
     private readonly dialogService: TuiDialogService,
     private readonly injector: Injector,
-    private destroy$: TuiDestroyService
+    private readonly destroy$: TuiDestroyService
   ) {
     super(translocoService, changeDetectorRef);
   }

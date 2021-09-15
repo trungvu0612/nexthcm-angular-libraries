@@ -23,7 +23,7 @@
           <label [label]="label" tuiLabel>
             <tui-select
               *tuiLet="orgsLevel$ | async as items"
-              [formControl]="$any(orgIdControl)"
+              [formControl]="$any(orgControl)"
               [tuiTextfieldLabelOutside]="true"
               [valueContent]="valueContent"
             >

@@ -173,34 +173,32 @@ export class UpsertWorkflowComponent implements OnInit {
   }
 
   onAddStatus(data: AddStatusData): void {
-    if (data.status) {
-      (data.status.id ? of(data.status) : this.openUpsertStatusDialog(data.status))
-        .pipe(takeUntil(this.destroy$))
-        .subscribe((state) => {
-          this.upsertStatus$.next(state);
-          this.workflowDesigner.apiEvent({
-            type: WorkflowAPI.drawStatus,
-            value: new WorkflowStatus(state.id, state.name, state.stateType.color, state.stateType.color),
-          });
-          if (data.allowAll) {
-            const transitionAll: Transition = {
-              id: uuidv4(),
-              name: state.name,
-              toStateId: state.id,
-              conditionsOperator: 'AND',
-              conditions: [],
-              validators: [],
-              postFunctions: [],
-              isAll: true,
-            };
-            this.upsertTransition$.next(transitionAll);
-            this.workflowDesigner.apiEvent({
-              type: WorkflowAPI.drawIsAllTransition,
-              value: AdminWorkflowsUtils.generateWorkflowTransition(transitionAll),
-            });
-          }
+    (data.status.id ? of(data.status) : this.openUpsertStatusDialog(data.status))
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((state) => {
+        this.upsertStatus$.next(state);
+        this.workflowDesigner.apiEvent({
+          type: WorkflowAPI.drawStatus,
+          value: new WorkflowStatus(state.id, state.name, state.stateType.color, state.stateType.color),
         });
-    }
+        if (data.allowAll) {
+          const transitionAll: Transition = {
+            id: uuidv4(),
+            name: state.name,
+            toStateId: state.id,
+            conditionsOperator: 'AND',
+            conditions: [],
+            validators: [],
+            postFunctions: [],
+            allState: true,
+          };
+          this.upsertTransition$.next(transitionAll);
+          this.workflowDesigner.apiEvent({
+            type: WorkflowAPI.drawIsAllTransition,
+            value: AdminWorkflowsUtils.generateWorkflowTransition(transitionAll),
+          });
+        }
+      });
   }
 
   onEditStatus(data: Status): void {
@@ -413,7 +411,7 @@ export class UpsertWorkflowComponent implements OnInit {
   private isInitialTransition(transitionId: string): boolean {
     const transition = this.state.get('addedTransitions', transitionId);
 
-    return !transition.fromStateId && !transition.isAll;
+    return !transition.fromStateId && !transition.allState;
   }
 
   private handleRemoveStatus(statusId: string): void {

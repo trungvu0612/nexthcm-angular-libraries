@@ -32,7 +32,6 @@ export class RequestConfigFormComponent {
         options: this.workflowsQuery.selectAll(),
         labelProp: 'name',
         valueProp: 'processId',
-        matcherBy: 'processId',
         required: true,
       },
     },

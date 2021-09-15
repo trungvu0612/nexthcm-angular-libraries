@@ -299,9 +299,10 @@ export class WorkflowDesignerComponent implements OnInit {
   private onRemoveCell(cell: mxCell): void {
     if (cell.hasAttribute('initial')) {
       this.event.emit({ event: WorkflowEvent.cannotRemove });
-    } else if (cell.hasAttribute('group')) {
-      this.graphModel.remove(this.graphModel.getCell(cell.getAttribute('group', '')));
     } else {
+      if (cell.hasAttribute('group')) {
+        this.graphModel.remove(this.graphModel.getCell(cell.getAttribute('group', '')));
+      }
       this.graphModel.remove(cell);
     }
   }

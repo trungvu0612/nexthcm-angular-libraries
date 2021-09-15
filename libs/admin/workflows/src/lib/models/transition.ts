@@ -1,5 +1,6 @@
 import { BaseObject } from '@nexthcm/cdk';
 import { ConditionType, PostFunctionType, TransitionOptionIndex, ValidatorType } from '../enums';
+import { EmailTemplate } from './email-template';
 import { Status } from './status';
 
 export type TransitionOptionType = ConditionType | ValidatorType | PostFunctionType;
@@ -15,7 +16,7 @@ export interface Transition {
   conditions: TransitionCondition[];
   validators: TransitionValidator[];
   postFunctions: TransitionPostFunction[];
-  isAll?: boolean;
+  allState?: boolean;
 }
 
 export interface TransitionCondition {
@@ -32,7 +33,7 @@ export interface TransitionValidator {
 
 export interface TransitionPostFunction {
   postFunctionType: TransitionOption<PostFunctionType>;
-  values?: BaseObject[];
+  values: [{ jobTitle: BaseObject; emailTemplate: EmailTemplate }];
 }
 
 export interface TransitionOption<T extends TransitionOptionType> {
@@ -53,7 +54,7 @@ export interface TransitionDetailData {
   transition: Transition;
 }
 
-export interface TransitionOptionsDialogData<T extends TransitionOptionType, G extends TransitionOptions> {
-  items: G[];
-  item: T;
+export interface TransitionOptionsDialogData<T extends TransitionOptions> {
+  items: T[];
+  item?: T;
 }

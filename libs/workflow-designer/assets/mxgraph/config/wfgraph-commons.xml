@@ -93,7 +93,7 @@
 			<add as="rounded" value="1"/>
 			<add as="edgeStyle" value="elbowEdgeStyle"/>
 			<add as="endArrow" value="classic"/>
-			<add as="fontSize" value="14"/>
+			<add as="fontSize" value="12"/>
 			<add as="fontStyle" value="1"/>
 			<add as="align" value="center"/>
 			<add as="verticalAlign" value="middle"/>

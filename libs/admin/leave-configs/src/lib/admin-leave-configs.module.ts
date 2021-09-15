@@ -2,6 +2,8 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Route, RouterModule } from '@angular/router';
+import { AkitaNgEffectsModule } from '@datorama/akita-ng-effects';
+import { WorkflowsEffects } from '@nexthcm/cdk';
 import {
   BaseFormComponentModule,
   FormlyUserComboBoxComponentModule,
@@ -95,6 +97,7 @@ const TABS: MenuItem[] = [
     FormlyUserComboBoxComponentModule,
     BaseFormComponentModule,
     TuiLetModule,
+    AkitaNgEffectsModule.forFeature([WorkflowsEffects]),
   ],
   providers: [LeaveConfigsService, { provide: HEADER_TABS, useValue: TABS }],
 })

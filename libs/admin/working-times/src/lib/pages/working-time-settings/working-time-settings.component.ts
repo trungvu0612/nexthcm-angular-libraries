@@ -1,9 +1,9 @@
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject } from '@angular/core';
 import { FormArray, FormGroup } from '@angular/forms';
-import { FormControl } from '@ngneat/reactive-forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '@nexthcm/auth';
 import { Holiday, PromptService, secondsToTime } from '@nexthcm/cdk';
+import { FormControl } from '@ngneat/reactive-forms';
 import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import {
@@ -30,9 +30,9 @@ import {
   takeUntil,
 } from 'rxjs/operators';
 import { SweetAlertOptions } from 'sweetalert2';
+import { Organization } from '../../models/organization';
 import { WORKING_HOLIDAY, WORKING_TIMES, WorkingTimes } from '../../models/working-times';
 import { WorkingTimesService } from '../../services/working-times.service';
-import { Organization } from '../../models/organization';
 
 @Component({
   selector: 'hcm-working-time-settings',
@@ -44,8 +44,7 @@ import { Organization } from '../../models/organization';
 export class WorkingTimeSettingsComponent implements AfterViewInit {
   myOrgId = this.authService.get('userInfo').orgId;
   tenantId = this.authService.get('userInfo').tenantId;
-  readonly orgIdControl = new FormControl<string>(this.myOrgId);
-  orgs$ = this.workingTimesService.getOrgs().pipe(map((res) => res.data.items));
+  readonly orgControl = new FormControl<Organization>();
   orgsLevel$ = this.workingTimesService.getOrganizationChart(this.authService.get('userInfo', 'tenantId') as string);
 
   activeItemIndex = 0;
@@ -634,10 +633,11 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
       },
     },
   ];
-  private readonly request$ = this.orgIdControl.value$.pipe(
+  value = null;
+  private readonly request$ = this.orgControl.value$.pipe(
     filter(isPresent),
     distinctUntilChanged(),
-    switchMap((orgId) => this.workingTimesService.getWorkingHourConfigByOrg(orgId).pipe(startWith(null))),
+    switchMap(({ id }) => this.workingTimesService.getWorkingHourConfigByOrg(id).pipe(startWith(null))),
     share()
   );
   readonly loading$ = this.request$.pipe(map((value) => !value));
@@ -654,8 +654,6 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
     private translocoService: TranslocoService
   ) {}
 
-  value = null;
-
   @tuiPure
   stringify(items: ReadonlyArray<Organization>): TuiStringHandler<TuiContextWithImplicit<string>> {
     const map = new Map(items.map(({ id, orgName }) => [id, orgName]));
@@ -668,11 +666,17 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
     //   this.orgLevel = res.data;
     //   console.log(this.orgLevel);
     // });
-    if (this.request$) {
-      this.request$.pipe(filter(isPresent), takeUntil(this.destroy$)).subscribe((data) => {
-        this.patchFormValue(data);
-      });
-    }
+    this.workingTimesService
+      .getOrgs()
+      .pipe(
+        map((res) => res.data.items.find((org) => org.id === this.authService.get('userInfo', 'orgId'))),
+        filter(isPresent),
+        takeUntil(this.destroy$)
+      )
+      .subscribe((org) => this.orgControl.setValue(org));
+    this.request$.pipe(filter(isPresent), takeUntil(this.destroy$)).subscribe((data) => {
+      this.patchFormValue(data);
+    });
     this.workingTimesService.getHoliday().subscribe((item) => {
       item.data.items.forEach((item) => {
         this.dataHoliday.push({
@@ -724,7 +728,7 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
       }
     }
     this.settingsElement = {
-      orgId: this.orgIdControl.value,
+      orgId: this.orgControl.value,
       checkInAfter: (formModel?.checkInAfter as TuiTime).toAbsoluteMilliseconds().valueOf() / 1000,
       checkOutBefore: (formModel?.checkOutBefore as TuiTime).toAbsoluteMilliseconds().valueOf() / 1000,
       workingHour: (formModel?.workingHour as TuiTime).toAbsoluteMilliseconds().valueOf() / 1000,

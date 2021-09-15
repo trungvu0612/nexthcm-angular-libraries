@@ -48,7 +48,7 @@ export class UpsertTenantDomainDialogComponent implements OnInit {
         'templateOptions.label': this.translocoService.selectTranslate('status'),
         'templateOptions.description': this.form?.valueChanges.pipe(
           startWith(null),
-          map((value) => value?.status),
+          map((value) => value?.statusBoolean),
           distinctUntilChanged(),
           switchMap((status) => this.translocoService.selectTranslate(`${status ? 'active' : 'inactive'}`))
         ),

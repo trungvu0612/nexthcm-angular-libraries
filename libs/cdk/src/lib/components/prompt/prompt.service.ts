@@ -29,6 +29,8 @@ export class PromptService {
             icon: 'success',
             html: this.translocoService.translate(successfulText),
           }).then(() => (callback ? callback() : null));
+        } else {
+          callback ? callback() : null;
         }
       },
       error: (err: HttpErrorResponse) => {

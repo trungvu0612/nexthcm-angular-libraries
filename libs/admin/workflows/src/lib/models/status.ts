@@ -12,4 +12,5 @@ export interface Status {
   description?: string;
   previousStates?: string[];
   nextStates?: string[];
+  allState?: boolean;
 }

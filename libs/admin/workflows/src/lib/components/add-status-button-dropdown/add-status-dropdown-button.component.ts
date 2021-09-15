@@ -13,16 +13,23 @@ export class AddStatusDropdownButtonComponent {
   @Output() selectStatus = new EventEmitter<AddStatusData>();
 
   open = false;
-  data: AddStatusData = { allowAll: false, status: null };
+  data: AddStatusData = { allowAll: false, status: {} as Status };
 
   onAdd(): void {
     this.open = false;
-    this.selectStatus.emit(this.data);
-    this.data.status = null;
+    this.data.status.allState = this.data.allowAll
+    this.selectStatus.emit({ ...this.data });
+    this.data.status = {} as Status;
   }
 
   onCancel(): void {
-    this.data = { allowAll: false, status: null };
+    this.data = { allowAll: false, status: {} as Status };
     this.open = false;
+  }
+
+  onSelectStatus(value: Status | null): void {
+    if (value) {
+      this.data.status = value;
+    }
   }
 }

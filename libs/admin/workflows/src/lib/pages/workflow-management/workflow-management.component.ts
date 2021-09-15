@@ -29,7 +29,6 @@ export class WorkflowManagementComponent extends AbstractServerPaginationTableCo
       map((result) => [
         { key: 'name', title: result.name },
         { key: 'description', title: result.description },
-        { key: 'createdBy', title: result.createdBy },
         { key: 'functions', title: result.functions },
       ])
     );

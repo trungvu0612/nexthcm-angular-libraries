@@ -1,7 +1,10 @@
+import { CommonStatus } from '@nexthcm/cdk';
+
 export interface EmailTemplate {
   id: string;
   name: string;
-  status: number;
+  status: CommonStatus;
   delta: string;
-  template: string;
+  body: string;
+  statusBoolean?: boolean;
 }

@@ -7,7 +7,7 @@ import { POLYMORPHEUS_CONTEXT, PolymorpheusTemplate } from '@tinkoff/ng-polymorp
 import { map } from 'rxjs/operators';
 import { AbstractAddOptionToTransitionComponent } from '../../abstract-components/abstract-add-option-to-transition.component';
 import { ValidatorType } from '../../enums';
-import { TransitionOption, TransitionOptionsDialogData, TransitionValidator } from '../../models';
+import { TransitionOptionsDialogData, TransitionValidator } from '../../models';
 import { AdminWorkflowsService } from '../../services/admin-workflows.service';
 
 @Component({
@@ -17,7 +17,7 @@ import { AdminWorkflowsService } from '../../services/admin-workflows.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AddValidatorToTransitionDialogComponent
-  extends AbstractAddOptionToTransitionComponent<ValidatorType, TransitionValidator>
+  extends AbstractAddOptionToTransitionComponent<TransitionValidator>
   implements OnInit
 {
   @ViewChild('userContent', { static: true }) userContent!: PolymorpheusTemplate<BaseUser>;
@@ -28,10 +28,7 @@ export class AddValidatorToTransitionDialogComponent
   constructor(
     readonly fb: FormBuilder,
     @Inject(POLYMORPHEUS_CONTEXT)
-    readonly context: TuiDialogContext<
-      TransitionOption<ValidatorType>,
-      TransitionOptionsDialogData<ValidatorType, TransitionValidator>
-    >,
+    readonly context: TuiDialogContext<TransitionValidator, TransitionOptionsDialogData<TransitionValidator>>,
     readonly adminWorkflowsService: AdminWorkflowsService
   ) {
     super(fb, context, adminWorkflowsService);

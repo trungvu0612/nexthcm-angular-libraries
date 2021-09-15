@@ -2,7 +2,16 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
-import { BaseFormComponentModule, HEADER_TABS, LayoutComponent, LayoutModule, MenuItem } from '@nexthcm/ui';
+import { AkitaNgEffectsModule } from '@datorama/akita-ng-effects';
+import { JobTitlesEffects } from '@nexthcm/cdk';
+import {
+  BaseFormComponentModule,
+  FormlyFieldArraySingleItemComponentModule,
+  HEADER_TABS,
+  LayoutComponent,
+  LayoutModule,
+  MenuItem,
+} from '@nexthcm/ui';
 import { WorkflowDesignerModule } from '@nexthcm/workflow-designer';
 import { TranslocoModule } from '@ngneat/transloco';
 import { FormlyModule } from '@ngx-formly/core';
@@ -59,6 +68,8 @@ import { UpsertWorkflowComponent } from './pages/upsert-workflow/upsert-workflow
 import { WorkflowManagementComponent } from './pages/workflow-management/workflow-management.component';
 import { TemplateVariable } from './quill/formats/template-variable';
 import { AdminWorkflowsService } from './services/admin-workflows.service';
+import { EmailTemplatesEffects } from './state/email-templates.effects';
+import { EmailTemplatesQuery, EmailTemplatesStore } from './state/email-templates.state';
 
 TemplateVariable.blotName = 'TemplateVariable';
 TemplateVariable.tagName = 'span';
@@ -155,6 +166,8 @@ const TABS: MenuItem[] = [
     TuiHintModule,
     TuiToggleModule,
     TuiCheckboxLabeledModule,
+    AkitaNgEffectsModule.forFeature([EmailTemplatesEffects, JobTitlesEffects]),
+    FormlyFieldArraySingleItemComponentModule,
   ],
   declarations: [
     AdminWorkflowsComponent,
@@ -177,6 +190,11 @@ const TABS: MenuItem[] = [
     UpsertEmailTemplateDialogComponent,
     FormlyQuillTemplateVariableComponent,
   ],
-  providers: [AdminWorkflowsService, { provide: HEADER_TABS, useValue: TABS }],
+  providers: [
+    { provide: HEADER_TABS, useValue: TABS },
+    AdminWorkflowsService,
+    EmailTemplatesStore,
+    EmailTemplatesQuery,
+  ],
 })
 export class AdminWorkflowsModule {}

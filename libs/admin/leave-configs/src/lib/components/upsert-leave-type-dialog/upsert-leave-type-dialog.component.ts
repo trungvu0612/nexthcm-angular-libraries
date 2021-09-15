@@ -1,6 +1,7 @@
-import { HttpParams } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
+import { Actions } from '@datorama/akita-ng-effects';
 import { AuthService } from '@nexthcm/auth';
+import { loadWorkflows, WorkflowsQuery } from '@nexthcm/cdk';
 import { FormBuilder } from '@ngneat/reactive-forms';
 import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
@@ -38,7 +39,17 @@ export class UpsertLeaveTypeDialogComponent implements OnInit {
     },
     {
       key: 'processId',
-      defaultValue: 'c2b30bfe-0708-11ec-9a03-0242ac130003',
+      type: 'select',
+      templateOptions: {
+        translate: true,
+        label: 'workflow',
+        labelClassName: 'font-semibold',
+        placeholder: 'chooseWorkflow',
+        options: this.workflowsQuery.selectAll(),
+        labelProp: 'name',
+        valueProp: 'processId',
+        required: true,
+      },
     },
     {
       fieldGroupClassName: 'grid md:grid-cols-2 gap-6 mb-4',
@@ -97,12 +108,16 @@ export class UpsertLeaveTypeDialogComponent implements OnInit {
   ];
 
   constructor(
-    @Inject(POLYMORPHEUS_CONTEXT) public context: TuiDialogContext<LeaveType, LeaveType>,
-    private fb: FormBuilder,
-    private authService: AuthService,
-    private leaveConfigsService: LeaveConfigsService,
-    private translocoService: TranslocoService
-  ) {}
+    @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<LeaveType, LeaveType>,
+    private readonly fb: FormBuilder,
+    private readonly authService: AuthService,
+    private readonly leaveConfigsService: LeaveConfigsService,
+    private readonly translocoService: TranslocoService,
+    private readonly workflowsQuery: WorkflowsQuery,
+    actions: Actions
+  ) {
+    actions.dispatch(loadWorkflows());
+  }
 
   ngOnInit(): void {
     if (this.context.data) {
