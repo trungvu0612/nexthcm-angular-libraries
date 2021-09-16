@@ -14,5 +14,5 @@ export interface SubmitRequestPayload {
   createdDate: number | TuiDay;
   newInTime: number | TuiTime;
   newOutTime: number | TuiTime;
-  totalDay: number;
+  totalDay: number | TuiTime;
 }
