@@ -6,8 +6,8 @@ import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { BaseComponent, Columns } from 'ngx-easy-table';
-import { from, Observable } from 'rxjs';
-import { filter, map, switchMap, takeUntil } from 'rxjs/operators';
+import { from, Observable, of } from 'rxjs';
+import { catchError, filter, map, switchMap, takeUntil } from 'rxjs/operators';
 import { JobTitle } from '../../models/job-title';
 import { AdminJobTitlesService } from '../../services/admin-job-titles.service';
 import { UpsertJobTitleComponent } from '../upsert-job-title/upsert-job-title.component';
@@ -39,7 +39,7 @@ export class ListJobTitleComponent extends AbstractServerPaginationTableComponen
     map((res) => res.data)
   );
 
-  readonly loading$ = this.request$.pipe(map((value) => !value));
+  readonly loading$ = this.request$.pipe(map((value) => !value), catchError(() => of(false)));
 
   constructor(
     public state: RxState<Pagination<JobTitle>>,

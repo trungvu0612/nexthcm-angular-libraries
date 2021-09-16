@@ -11,11 +11,12 @@ const MY_ACCOUNT_PATH = '/accountapp/v1.0';
   providedIn: 'root',
 })
 export class AdminUserRolesService {
-  constructor(private http: HttpClient) {
-  }
+  constructor(private http: HttpClient) {}
 
-  getAdminUserRoles(params: HttpParams): Observable<PagingResponse<AdminUserRole>> {
-    return this.http.get<PagingResponse<AdminUserRole>>(`${MY_ACCOUNT_PATH}/roles`, { params });
+  getAdminUserRoles(params: HttpParams): Observable<Pagination<AdminUserRole>> {
+    return this.http
+      .get<PagingResponse<AdminUserRole>>(`${MY_ACCOUNT_PATH}/roles`, { params })
+      .pipe(map((res) => res.data));
   }
 
   getAdminUserRolesId(id: AdminUserRole): Observable<any> {

@@ -118,6 +118,7 @@
     "@nrwl/jest": "12.9.0",
     "@nrwl/linter": "12.9.0",
     "@nrwl/tao": "12.9.0",
+    "@nrwl/web": "^12.9.0",
     "@nrwl/workspace": "12.9.0",
     "@typed-mxgraph/typed-mxgraph": "^1.0.4",
     "@types/dompurify": "^2.2.3",

@@ -15,4 +15,8 @@ export class AdminWorkflowsUtils {
       transition.allState
     );
   }
+
+  static isAllStatuesTransition(transition: Transition, status: Status): boolean {
+    return !!(transition.allState && transition.toStateId === status.id && !transition.fromStateId);
+  }
 }

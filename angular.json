@@ -53,51 +53,6 @@
     }
   },
   "projects": {
-    "admin-contracts": {
-      "projectType": "library",
-      "root": "libs/admin/contracts",
-      "sourceRoot": "libs/admin/contracts/src",
-      "prefix": "hcm",
-      "architect": {
-        "build": {
-          "builder": "@nrwl/angular:package",
-          "outputs": ["dist/libs/admin/contracts"],
-          "options": {
-            "project": "libs/admin/contracts/ng-package.json"
-          },
-          "configurations": {
-            "production": {
-              "tsConfig": "libs/admin/contracts/tsconfig.lib.prod.json"
-            },
-            "development": {
-              "tsConfig": "libs/admin/contracts/tsconfig.lib.json"
-            }
-          },
-          "defaultConfiguration": "production"
-        },
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/admin/contracts"],
-          "options": {
-            "jestConfig": "libs/admin/contracts/jest.config.js",
-            "passWithNoTests": true
-          }
-        },
-        "lint": {
-          "builder": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": ["libs/admin/contracts/src/**/*.ts", "libs/admin/contracts/src/**/*.html"]
-          },
-          "outputs": ["{options.outputFile}"]
-        },
-        "publish": {
-          "builder": "@nrwl/workspace:run-commands",
-          "options": {
-            "command": "yarn publish dist/libs/admin/contracts"
-          }
-        }
-      }
-    },
     "admin-employees": {
       "projectType": "library",
       "root": "libs/admin/employees",
@@ -105,7 +60,7 @@
       "prefix": "hcm",
       "architect": {
         "build": {
-          "builder": "@nrwl/angular:package",
+          "builder": "@nrwl/angular:ng-packagr-lite",
           "outputs": ["dist/libs/admin/employees"],
           "options": {
             "project": "libs/admin/employees/ng-package.json"
@@ -143,51 +98,6 @@
         }
       }
     },
-    "admin-entitlement": {
-      "projectType": "library",
-      "root": "libs/admin/entitlement",
-      "sourceRoot": "libs/admin/entitlement/src",
-      "prefix": "hcm",
-      "architect": {
-        "build": {
-          "builder": "@nrwl/angular:package",
-          "outputs": ["dist/libs/admin/entitlement"],
-          "options": {
-            "project": "libs/admin/entitlement/ng-package.json"
-          },
-          "configurations": {
-            "production": {
-              "tsConfig": "libs/admin/entitlement/tsconfig.lib.prod.json"
-            },
-            "development": {
-              "tsConfig": "libs/admin/entitlement/tsconfig.lib.json"
-            }
-          },
-          "defaultConfiguration": "production"
-        },
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/admin/entitlement"],
-          "options": {
-            "jestConfig": "libs/admin/entitlement/jest.config.js",
-            "passWithNoTests": true
-          }
-        },
-        "lint": {
-          "builder": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": ["libs/admin/entitlement/src/**/*.ts", "libs/admin/entitlement/src/**/*.html"]
-          },
-          "outputs": ["{options.outputFile}"]
-        },
-        "publish": {
-          "builder": "@nrwl/workspace:run-commands",
-          "options": {
-            "command": "yarn publish dist/libs/admin/entitlement"
-          }
-        }
-      }
-    },
     "admin-job-level": {
       "projectType": "library",
       "root": "libs/admin/job-level",
@@ -195,7 +105,7 @@
       "prefix": "hcm",
       "architect": {
         "build": {
-          "builder": "@nrwl/angular:package",
+          "builder": "@nrwl/angular:ng-packagr-lite",
           "outputs": ["dist/libs/admin/job-level"],
           "options": {
             "project": "libs/admin/job-level/ng-package.json"
@@ -240,7 +150,7 @@
       "prefix": "hcm",
       "architect": {
         "build": {
-          "builder": "@nrwl/angular:package",
+          "builder": "@nrwl/angular:ng-packagr-lite",
           "outputs": ["dist/libs/admin/job-titles"],
           "options": {
             "project": "libs/admin/job-titles/ng-package.json"
@@ -285,7 +195,7 @@
       "prefix": "hcm",
       "architect": {
         "build": {
-          "builder": "@nrwl/angular:package",
+          "builder": "@nrwl/angular:ng-packagr-lite",
           "outputs": ["dist/libs/admin/knowledge-base"],
           "options": {
             "project": "libs/admin/knowledge-base/ng-package.json"
@@ -330,7 +240,7 @@
       "prefix": "hcm",
       "architect": {
         "build": {
-          "builder": "@nrwl/angular:package",
+          "builder": "@nrwl/angular:ng-packagr-lite",
           "outputs": ["dist/libs/admin/leave-configs"],
           "options": {
             "project": "libs/admin/leave-configs/ng-package.json"
@@ -375,7 +285,7 @@
       "prefix": "hcm",
       "architect": {
         "build": {
-          "builder": "@nrwl/angular:package",
+          "builder": "@nrwl/angular:ng-packagr-lite",
           "outputs": ["dist/libs/admin/offices"],
           "options": {
             "project": "libs/admin/offices/ng-package.json"
@@ -420,7 +330,7 @@
       "prefix": "hcm",
       "architect": {
         "build": {
-          "builder": "@nrwl/angular:package",
+          "builder": "@nrwl/angular:ng-packagr-lite",
           "outputs": ["dist/libs/admin/permissions"],
           "options": {
             "project": "libs/admin/permissions/ng-package.json"
@@ -465,7 +375,7 @@
       "prefix": "hcm",
       "architect": {
         "build": {
-          "builder": "@nrwl/angular:package",
+          "builder": "@nrwl/angular:ng-packagr-lite",
           "outputs": ["dist/libs/admin/requests-configuration"],
           "options": {
             "project": "libs/admin/requests-configuration/ng-package.json"
@@ -512,7 +422,7 @@
       "prefix": "hcm",
       "architect": {
         "build": {
-          "builder": "@nrwl/angular:package",
+          "builder": "@nrwl/angular:ng-packagr-lite",
           "outputs": ["dist/libs/admin/seat-maps"],
           "options": {
             "project": "libs/admin/seat-maps/ng-package.json"
@@ -557,7 +467,7 @@
       "prefix": "hcm",
       "architect": {
         "build": {
-          "builder": "@nrwl/angular:package",
+          "builder": "@nrwl/angular:ng-packagr-lite",
           "outputs": ["dist/libs/admin/team-building-allowance"],
           "options": {
             "project": "libs/admin/team-building-allowance/ng-package.json"
@@ -605,7 +515,7 @@
       "prefix": "hcm",
       "architect": {
         "build": {
-          "builder": "@nrwl/angular:package",
+          "builder": "@nrwl/angular:ng-packagr-lite",
           "outputs": ["dist/libs/admin/tenants"],
           "options": {
             "project": "libs/admin/tenants/ng-package.json"
@@ -649,7 +559,7 @@
       "prefix": "hcm",
       "architect": {
         "build": {
-          "builder": "@nrwl/angular:package",
+          "builder": "@nrwl/angular:ng-packagr-lite",
           "outputs": ["dist/libs/admin/user-roles"],
           "options": {
             "project": "libs/admin/user-roles/ng-package.json"
@@ -694,7 +604,7 @@
       "prefix": "hcm",
       "architect": {
         "build": {
-          "builder": "@nrwl/angular:package",
+          "builder": "@nrwl/angular:ng-packagr-lite",
           "outputs": ["dist/libs/admin/workflows"],
           "options": {
             "project": "libs/admin/workflows/ng-package.json"
@@ -739,7 +649,7 @@
       "prefix": "hcm",
       "architect": {
         "build": {
-          "builder": "@nrwl/angular:package",
+          "builder": "@nrwl/angular:ng-packagr-lite",
           "outputs": ["dist/libs/admin/working-times"],
           "options": {
             "project": "libs/admin/working-times/ng-package.json"
@@ -784,7 +694,7 @@
       "prefix": "hcm",
       "architect": {
         "build": {
-          "builder": "@nrwl/angular:package",
+          "builder": "@nrwl/angular:ng-packagr-lite",
           "options": {
             "tsConfig": "libs/auth/tsconfig.lib.json",
             "project": "libs/auth/ng-package.json"
@@ -826,7 +736,7 @@
       "prefix": "hcm",
       "architect": {
         "build": {
-          "builder": "@nrwl/angular:package",
+          "builder": "@nrwl/angular:ng-packagr-lite",
           "outputs": ["dist/libs/calendar"],
           "options": {
             "project": "libs/calendar/ng-package.json"
@@ -871,7 +781,7 @@
       "prefix": "hcm",
       "architect": {
         "build": {
-          "builder": "@nrwl/angular:package",
+          "builder": "@nrwl/angular:ng-packagr-lite",
           "outputs": ["dist/libs/cdk"],
           "options": {
             "project": "libs/cdk/ng-package.json"
@@ -916,7 +826,7 @@
       "prefix": "hcm",
       "architect": {
         "build": {
-          "builder": "@nrwl/angular:package",
+          "builder": "@nrwl/angular:ng-packagr-lite",
           "outputs": ["dist/libs/chat"],
           "options": {
             "project": "libs/chat/ng-package.json"
@@ -964,56 +874,24 @@
         }
       }
     },
-    "configurations": {
-      "projectType": "library",
-      "root": "libs/configurations",
-      "sourceRoot": "libs/configurations/src",
-      "prefix": "hcm",
-      "architect": {
-        "build": {
-          "builder": "@nrwl/angular:package",
-          "options": {
-            "tsConfig": "libs/configurations/tsconfig.lib.json",
-            "project": "libs/configurations/ng-package.json"
-          },
-          "configurations": {
-            "production": {
-              "tsConfig": "libs/configurations/tsconfig.lib.prod.json"
-            }
-          },
-          "defaultConfiguration": "production"
-        },
-        "lint": {
-          "builder": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": ["libs/configurations/src/**/*.ts", "libs/configurations/src/**/*.html"]
-          },
-          "outputs": ["{options.outputFile}"]
-        },
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/configurations"],
-          "options": {
-            "jestConfig": "libs/configurations/jest.config.js",
-            "passWithNoTests": true
-          }
-        },
-        "publish": {
-          "builder": "@nrwl/workspace:run-commands",
-          "options": {
-            "command": "yarn publish dist/libs/configurations"
-          }
-        }
-      }
-    },
     "core": {
       "projectType": "library",
       "root": "libs/core",
       "sourceRoot": "libs/core/src",
       "prefix": "hcm",
       "architect": {
+        "prepare": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "node ./i18n-cache-busting.js"
+              }
+            ]
+          }
+        },
         "build": {
-          "builder": "@nrwl/angular:package",
+          "builder": "@nrwl/angular:ng-packagr-lite",
           "options": {
             "tsConfig": "libs/core/tsconfig.lib.json",
             "project": "libs/core/ng-package.json"
@@ -1055,7 +933,7 @@
       "prefix": "hcm",
       "architect": {
         "build": {
-          "builder": "@nrwl/angular:package",
+          "builder": "@nrwl/angular:ng-packagr-lite",
           "options": {
             "tsConfig": "libs/form/tsconfig.lib.json",
             "project": "libs/form/ng-package.json"
@@ -1367,7 +1245,7 @@
       "prefix": "hcm",
       "architect": {
         "build": {
-          "builder": "@nrwl/angular:package",
+          "builder": "@nrwl/angular:ng-packagr-lite",
           "options": {
             "tsConfig": "libs/home/tsconfig.lib.json",
             "project": "libs/home/ng-package.json"
@@ -1409,7 +1287,7 @@
       "prefix": "hcm",
       "architect": {
         "build": {
-          "builder": "@nrwl/angular:package",
+          "builder": "@nrwl/angular:ng-packagr-lite",
           "options": {
             "tsConfig": "libs/human-resource/tsconfig.lib.json",
             "project": "libs/human-resource/ng-package.json"
@@ -1451,7 +1329,7 @@
       "prefix": "hcm",
       "architect": {
         "build": {
-          "builder": "@nrwl/angular:package",
+          "builder": "@nrwl/angular:ng-packagr-lite",
           "options": {
             "tsConfig": "libs/knowledge-base/tsconfig.lib.json",
             "project": "libs/knowledge-base/ng-package.json"
@@ -1493,7 +1371,7 @@
       "prefix": "hcm",
       "architect": {
         "build": {
-          "builder": "@nrwl/angular:package",
+          "builder": "@nrwl/angular:ng-packagr-lite",
           "options": {
             "tsConfig": "libs/my-time/tsconfig.lib.json",
             "project": "libs/my-time/ng-package.json"
@@ -1528,48 +1406,6 @@
         }
       }
     },
-    "notifications": {
-      "projectType": "library",
-      "root": "libs/notifications",
-      "sourceRoot": "libs/notifications/src",
-      "prefix": "hcm",
-      "architect": {
-        "build": {
-          "builder": "@nrwl/angular:package",
-          "options": {
-            "tsConfig": "libs/notifications/tsconfig.lib.json",
-            "project": "libs/notifications/ng-package.json"
-          },
-          "configurations": {
-            "production": {
-              "tsConfig": "libs/notifications/tsconfig.lib.prod.json"
-            }
-          },
-          "defaultConfiguration": "production"
-        },
-        "lint": {
-          "builder": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": ["libs/notifications/src/**/*.ts", "libs/notifications/src/**/*.html"]
-          },
-          "outputs": ["{options.outputFile}"]
-        },
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/notifications"],
-          "options": {
-            "jestConfig": "libs/notifications/jest.config.js",
-            "passWithNoTests": true
-          }
-        },
-        "publish": {
-          "builder": "@nrwl/workspace:run-commands",
-          "options": {
-            "command": "yarn publish dist/libs/notifications"
-          }
-        }
-      }
-    },
     "payslip": {
       "projectType": "library",
       "root": "libs/payslip",
@@ -1577,7 +1413,7 @@
       "prefix": "hcm",
       "architect": {
         "build": {
-          "builder": "@nrwl/angular:package",
+          "builder": "@nrwl/angular:ng-packagr-lite",
           "options": {
             "tsConfig": "libs/payslip/tsconfig.lib.json",
             "project": "libs/payslip/ng-package.json"
@@ -1612,48 +1448,6 @@
         }
       }
     },
-    "report": {
-      "projectType": "library",
-      "root": "libs/report",
-      "sourceRoot": "libs/report/src",
-      "prefix": "hcm",
-      "architect": {
-        "build": {
-          "builder": "@nrwl/angular:package",
-          "options": {
-            "tsConfig": "libs/report/tsconfig.lib.json",
-            "project": "libs/report/ng-package.json"
-          },
-          "configurations": {
-            "production": {
-              "tsConfig": "libs/report/tsconfig.lib.prod.json"
-            }
-          },
-          "defaultConfiguration": "production"
-        },
-        "lint": {
-          "builder": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": ["libs/report/src/**/*.ts", "libs/report/src/**/*.html"]
-          },
-          "outputs": ["{options.outputFile}"]
-        },
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/report"],
-          "options": {
-            "jestConfig": "libs/report/jest.config.js",
-            "passWithNoTests": true
-          }
-        },
-        "publish": {
-          "builder": "@nrwl/workspace:run-commands",
-          "options": {
-            "command": "yarn publish dist/libs/report"
-          }
-        }
-      }
-    },
     "seat-maps": {
       "projectType": "library",
       "root": "libs/seat-maps",
@@ -1661,7 +1455,7 @@
       "prefix": "hcm",
       "architect": {
         "build": {
-          "builder": "@nrwl/angular:package",
+          "builder": "@nrwl/angular:ng-packagr-lite",
           "outputs": ["dist/libs/seat-maps"],
           "options": {
             "project": "libs/seat-maps/ng-package.json"
@@ -1706,7 +1500,7 @@
       "prefix": "hcm",
       "architect": {
         "build": {
-          "builder": "@nrwl/angular:package",
+          "builder": "@nrwl/angular:ng-packagr-lite",
           "options": {
             "tsConfig": "libs/ui/tsconfig.lib.json",
             "project": "libs/ui/ng-package.json"
@@ -1748,7 +1542,7 @@
       "prefix": "hcm",
       "architect": {
         "build": {
-          "builder": "@nrwl/angular:package",
+          "builder": "@nrwl/angular:ng-packagr-lite",
           "outputs": ["dist/libs/workflow-designer"],
           "options": {
             "project": "libs/workflow-designer/ng-package.json"

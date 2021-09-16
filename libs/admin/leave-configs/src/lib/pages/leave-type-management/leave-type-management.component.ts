@@ -6,8 +6,8 @@ import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { BaseComponent, Columns } from 'ngx-easy-table';
-import { from, Observable } from 'rxjs';
-import { filter, map, share, startWith, switchMap, takeUntil } from 'rxjs/operators';
+import { from, Observable, of } from 'rxjs';
+import { catchError, filter, map, share, startWith, switchMap, takeUntil } from 'rxjs/operators';
 import { UpsertLeaveTypeDialogComponent } from '../../components/upsert-leave-type-dialog/upsert-leave-type-dialog.component';
 import { PaidLeaveStatus } from '../../enums/paid-leave-status';
 import { LeaveConfigAPIUrlPath, LeaveConfigsService } from '../../leave-configs.service';
@@ -43,7 +43,10 @@ export class LeaveTypeManagementComponent extends AbstractServerPaginationTableC
     ),
     share()
   );
-  readonly loading$ = this.request$.pipe(map((value) => !value));
+  readonly loading$ = this.request$.pipe(
+    map((value) => !value),
+    catchError(() => of(false))
+  );
 
   constructor(
     public state: RxState<Pagination<LeaveType>>,

@@ -20,13 +20,7 @@
     }
   },
   "projects": {
-    "admin-contracts": {
-      "tags": []
-    },
     "admin-employees": {
-      "tags": []
-    },
-    "admin-entitlement": {
       "tags": []
     },
     "admin-job-level": {
@@ -80,9 +74,6 @@
     "chat": {
       "tags": []
     },
-    "configurations": {
-      "tags": []
-    },
     "core": {
       "tags": []
     },
@@ -115,13 +106,7 @@
     "my-time": {
       "tags": []
     },
-    "notifications": {
-      "tags": []
-    },
     "payslip": {
-      "tags": []
-    },
-    "report": {
       "tags": []
     },
     "seat-maps": {

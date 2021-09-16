@@ -62,10 +62,6 @@ import { AppComponent } from './app.component';
               loadChildren: () => import('@nexthcm/admin-knowledge-base').then((m) => m.AdminKnowledgeBaseModule),
             },
             {
-              path: 'entitlements',
-              loadChildren: () => import('@nexthcm/admin-entitlement').then((m) => m.AdminEntitlementModule),
-            },
-            {
               path: 'job-titles',
               loadChildren: () => import('@nexthcm/admin-job-titles').then((m) => m.AdminJobTitlesModule),
             },

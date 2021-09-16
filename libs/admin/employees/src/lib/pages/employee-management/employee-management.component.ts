@@ -13,8 +13,9 @@ import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { BaseComponent, Columns } from 'ngx-easy-table';
-import { from, Observable, Subject } from 'rxjs';
+import { from, Observable, of, Subject } from 'rxjs';
 import {
+  catchError,
   debounceTime,
   distinctUntilChanged,
   filter,
@@ -59,7 +60,10 @@ export class EmployeeManagementComponent
     switchMap(() => this.adminEmployeesService.getEmployees(this.queryParams$.value).pipe(startWith(null))),
     share()
   );
-  readonly loading$ = this.request$.pipe(map((value) => !value));
+  readonly loading$ = this.request$.pipe(
+    map((value) => !value),
+    catchError(() => of(false))
+  );
   readonly search$ = new Subject<string | null>();
 
   constructor(

@@ -9,3 +9,4 @@ export * from './base-object';
 export * from './employee-info';
 export * from './holiday';
 export * from './employee';
+export * from './workflows';

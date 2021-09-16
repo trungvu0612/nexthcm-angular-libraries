@@ -1,14 +1,6 @@
-export interface StatusType {
-  id: string;
-  name: string;
-  description: string;
-  color: string;
-}
+import { WorkflowStatus } from '@nexthcm/cdk';
 
-export interface Status {
-  id: string;
-  name: string;
-  stateType: StatusType;
+export interface Status extends WorkflowStatus {
   description?: string;
   previousStates?: string[];
   nextStates?: string[];

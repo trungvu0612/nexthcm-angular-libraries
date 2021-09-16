@@ -6,7 +6,7 @@ import { FormBuilder } from '@ngneat/reactive-forms';
 import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { of } from 'rxjs';
-import { distinctUntilChanged, map, startWith, switchMap, tap } from 'rxjs/operators';
+import { catchError, distinctUntilChanged, map, share, startWith, switchMap, tap } from 'rxjs/operators';
 import { AdminEmployeesService } from '../../services/admin-employees.service';
 
 @Component({
@@ -205,11 +205,16 @@ export class GeneralInformationFormComponent {
     },
   ];
   private readonly request$ = this.activatedRoute.snapshot.params.employeeId
-    ? this.employeesService
-        .getEmployeeGeneralInformation(this.activatedRoute.snapshot.params.employeeId)
-        .pipe(tap((data) => (this.model = { ...this.model, ...data })))
-    : of({});
-  readonly loading$ = this.request$.pipe(map((value) => !value));
+    ? this.employeesService.getEmployeeGeneralInformation(this.activatedRoute.snapshot.params.employeeId).pipe(
+        tap((data) => (this.model = { ...this.model, ...data })),
+        startWith(null),
+        share()
+      )
+    : of({} as EmployeeGeneralInformation);
+  readonly loading$ = this.request$.pipe(
+    map((value) => !value),
+    catchError(() => of(false))
+  );
 
   constructor(
     private readonly fb: FormBuilder,

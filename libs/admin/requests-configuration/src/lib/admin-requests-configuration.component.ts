@@ -4,7 +4,8 @@ import { loadWorkflows, PromptService, WorkflowsQuery } from '@nexthcm/cdk';
 import { FormBuilder } from '@ngneat/reactive-forms';
 import { RxState, toDictionary } from '@rx-angular/state';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
-import { filter, map, share, startWith } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { catchError, filter, map, share, startWith } from 'rxjs/operators';
 import { AdminRequestsConfigurationService } from './admin-requests-configuration.service';
 import { RequestType } from './enums/request-type';
 import { RequestConfig } from './request-config';
@@ -28,7 +29,7 @@ export class AdminRequestsConfigurationComponent {
     startWith(null),
     share()
   );
-  readonly loading$ = this.request$.pipe(map((value) => !value));
+  readonly loading$ = this.request$.pipe(map((value) => !value), catchError(() => of(false)));
 
   constructor(
     private readonly actions: Actions,

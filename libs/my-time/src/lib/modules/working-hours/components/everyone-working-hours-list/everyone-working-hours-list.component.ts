@@ -4,8 +4,8 @@ import { HashMap, TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { API, BaseComponent, Columns, Config, DefaultConfig } from 'ngx-easy-table';
-import { Observable } from 'rxjs';
-import { filter, map, share, startWith, switchMap, tap } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { catchError, filter, map, share, startWith, switchMap, tap } from 'rxjs/operators';
 import { WorkingHoursGroup } from '../../../../models';
 import { WorkingHoursService } from '../../../../services';
 
@@ -75,7 +75,10 @@ export class EveryoneWorkingHoursListComponent
     ),
     share()
   );
-  readonly loading$ = this.request$.pipe(map((value) => !value));
+  readonly loading$ = this.request$.pipe(
+    map((value) => !value),
+    catchError(() => of(false))
+  );
 
   constructor(
     public workingHoursService: WorkingHoursService,

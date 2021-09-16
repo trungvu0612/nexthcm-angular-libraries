@@ -4,8 +4,8 @@ import { TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { BaseComponent, Columns } from 'ngx-easy-table';
-import { Observable } from 'rxjs';
-import { filter, map, shareReplay, startWith, switchMap } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { catchError, filter, map, shareReplay, startWith, switchMap } from 'rxjs/operators';
 import { UpdateTimesheetRequest } from '../../../../models';
 import { MyTimeService, RequestTypeAPIUrlPath } from '../../../../services';
 import { AbstractRequestListComponent } from '../../../shared/abstract-components/abstract-request-list.component';
@@ -14,7 +14,7 @@ import { AbstractRequestListComponent } from '../../../shared/abstract-component
   selector: 'hcm-update-timesheet-request-list',
   templateUrl: './update-timesheet-request-list.component.html',
   styleUrls: ['./update-timesheet-request-list.component.scss'],
-  providers: [TuiDestroyService, RxState]
+  providers: [TuiDestroyService, RxState],
 })
 export class UpdateTimesheetRequestListComponent extends AbstractRequestListComponent<UpdateTimesheetRequest> {
   @ViewChild('table') table!: BaseComponent;
@@ -30,10 +30,14 @@ export class UpdateTimesheetRequestListComponent extends AbstractRequestListComp
         { key: 'newTimeIn', title: result.newInTime },
         { key: 'newTimeOut', title: result.newOutTime },
         { key: 'updateTotalTime', title: result.updateTotalTime },
-        { key: 'updateWorkingDay', title: result.updateWorkingDay, cssClass: { name: 'text-center', includeHeader: true } },
+        {
+          key: 'updateWorkingDay',
+          title: result.updateWorkingDay,
+          cssClass: { name: 'text-center', includeHeader: true },
+        },
         { key: 'status', title: result.status },
         { key: 'comment', title: result.Comment },
-        { key: 'functions', title: result.functions }
+        { key: 'functions', title: result.functions },
       ])
     );
   private readonly request$ = this.queryParams$.pipe(
@@ -44,7 +48,10 @@ export class UpdateTimesheetRequestListComponent extends AbstractRequestListComp
     ),
     shareReplay(1)
   );
-  readonly loading$ = this.request$.pipe(map((value) => !value));
+  readonly loading$ = this.request$.pipe(
+    map((value) => !value),
+    catchError(() => of(false))
+  );
 
   constructor(
     public myTimeService: MyTimeService,

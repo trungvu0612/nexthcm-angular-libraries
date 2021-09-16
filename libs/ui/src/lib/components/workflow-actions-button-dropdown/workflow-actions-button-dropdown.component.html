@@ -1,0 +1,14 @@
+<tui-hosted-dropdown [(open)]="open" [content]="dropdown" tuiDropdownAlign="left">
+  <button appearance="flat" icon="tuiIconMoreVertLarge" tuiIconButton></button>
+</tui-hosted-dropdown>
+<ng-template #dropdown>
+  <tui-data-list>
+    <button
+      (click)="onClick(item.transition)"
+      *ngFor="let item of items"
+      tuiOption
+    >
+      {{ item.transition.name }}
+    </button>
+  </tui-data-list>
+</ng-template>

@@ -57,9 +57,6 @@ export class UpsertWorkflowComponent implements OnInit {
   form = this.fb.group<Workflow>({} as Workflow);
   model = {} as Workflow;
   fields: FormlyFieldConfig[] = [
-    { key: 'id', defaultValue: this.workflowId },
-    { key: 'removingStates' },
-    { key: 'removingTransitions' },
     {
       className: 'tui-text_h3 tui-form__header tui-form__header_margin-top_none block',
       key: 'name',
@@ -83,6 +80,7 @@ export class UpsertWorkflowComponent implements OnInit {
         disabled: !this.editMode,
       },
     },
+    { key: 'id', defaultValue: this.workflowId },
   ];
   readonly selectedCell$ = new BehaviorSubject<SelectedCell | null>(null);
   readonly workflowId$ = new Subject<string>();
@@ -91,6 +89,19 @@ export class UpsertWorkflowComponent implements OnInit {
   readonly deleteStatus$ = new Subject<string>();
   readonly deleteTransitions$ = new Subject<string[]>();
   readonly addedStatuses$ = this.state.select('addedStatuses').pipe(map((data) => dictionaryToArray(data)));
+  readonly publishWorkflow$ = new Subject<Workflow>();
+  readonly publishWorkflowHandler$ = this.publishWorkflow$.pipe(
+    switchMap((payload) =>
+      this.workflowService
+        .upsertWorkflow(this.workflowId, payload)
+        .pipe(tap(this.promptService.handleResponse('updateWorkflowSuccessfully')), startWith(null))
+    ),
+    share()
+  );
+  readonly publishingWorkflow$ = this.publishWorkflowHandler$.pipe(
+    map((value) => !value),
+    catchError(() => of(false))
+  );
   readonly state$ = this.state.select();
   readonly CellType = CellType;
   private readonly request$ = this.workflowId$.pipe(
@@ -98,7 +109,7 @@ export class UpsertWorkflowComponent implements OnInit {
     share()
   );
   readonly initHandler$ = this.request$.pipe(filter(isPresent));
-  readonly loading$ = this.request$.pipe(map((value) => !value));
+  readonly loading$ = this.request$.pipe(map((value) => !value), catchError(() => of(false)));
 
   constructor(
     private readonly fb: FormBuilder,
@@ -120,31 +131,18 @@ export class UpsertWorkflowComponent implements OnInit {
     state.connect(this.upsertTransition$, (state, transition) =>
       setProp(state, 'addedTransitions', patch(state.addedTransitions, { [transition.id]: transition }))
     );
-    state.connect(
-      this.deleteStatus$.pipe(
-        tap((status) =>
-          this.form.controls.removingStates?.setValue((this.form.value.removingStates || []).concat(status))
-        )
-      ),
-      (state, status) => setProp(state, 'addedStatuses', deleteProp(state.addedStatuses, status))
+    state.connect(this.deleteStatus$, (state, status) =>
+      setProp(state, 'addedStatuses', deleteProp(state.addedStatuses, status))
     );
-    state.connect(
-      this.deleteTransitions$.pipe(
-        tap((transition) =>
-          this.form.controls.removingTransitions?.setValue(
-            (this.form.value.removingTransitions || []).concat(transition)
-          )
+    state.connect(this.deleteTransitions$, (state, transitions) =>
+      setProp(
+        state,
+        'addedTransitions',
+        slice(
+          state.addedTransitions,
+          Object.keys(state.addedTransitions).filter((key) => !transitions.includes(key))
         )
-      ),
-      (state, transitions) =>
-        setProp(
-          state,
-          'addedTransitions',
-          slice(
-            state.addedTransitions,
-            Object.keys(state.addedTransitions).filter((key) => !transitions.includes(key))
-          )
-        )
+      )
     );
     state.hold(this.initHandler$, (data) => {
       this.model = { ...this.model, ...data };
@@ -154,6 +152,7 @@ export class UpsertWorkflowComponent implements OnInit {
         this.drawInitialState(data.states[0]);
       }
     });
+    state.hold(this.publishWorkflowHandler$);
   }
 
   get addedStatuses(): Record<string, Status> {
@@ -175,28 +174,14 @@ export class UpsertWorkflowComponent implements OnInit {
   onAddStatus(data: AddStatusData): void {
     (data.status.id ? of(data.status) : this.openUpsertStatusDialog(data.status))
       .pipe(takeUntil(this.destroy$))
-      .subscribe((state) => {
-        this.upsertStatus$.next(state);
+      .subscribe((status) => {
+        this.upsertStatus$.next(status);
         this.workflowDesigner.apiEvent({
           type: WorkflowAPI.drawStatus,
-          value: new WorkflowStatus(state.id, state.name, state.stateType.color, state.stateType.color),
+          value: new WorkflowStatus(status.id, status.name, status.stateType.color, status.stateType.color),
         });
         if (data.allowAll) {
-          const transitionAll: Transition = {
-            id: uuidv4(),
-            name: state.name,
-            toStateId: state.id,
-            conditionsOperator: 'AND',
-            conditions: [],
-            validators: [],
-            postFunctions: [],
-            allState: true,
-          };
-          this.upsertTransition$.next(transitionAll);
-          this.workflowDesigner.apiEvent({
-            type: WorkflowAPI.drawIsAllTransition,
-            value: AdminWorkflowsUtils.generateWorkflowTransition(transitionAll),
-          });
+          this.drawAllStatusesTransition(status);
         }
       });
   }
@@ -299,10 +284,7 @@ export class UpsertWorkflowComponent implements OnInit {
       processModel.states = dictionaryToArray(this.addedStatuses);
       processModel.transitions = dictionaryToArray(this.state.get('addedTransitions'));
       processModel.template = this.workflowDesigner.apiEvent({ type: WorkflowAPI.getXML });
-      this.workflowService
-        .upsertWorkflow(this.workflowId, processModel)
-        .pipe(takeUntil(this.destroy$))
-        .subscribe(this.promptService.handleResponse('updateWorkflowSuccessfully'));
+      this.publishWorkflow$.next(processModel);
     }
   }
 
@@ -324,6 +306,41 @@ export class UpsertWorkflowComponent implements OnInit {
           cell: this.addedTransitions[(this.selectedCell$.value as SelectedCell).cell.id],
         })
       );
+  }
+
+  onAllowAllStatus(allowAllStatus: boolean, status: Status): void {
+    status.allState = allowAllStatus;
+    this.upsertStatus$.next(status);
+    if (allowAllStatus) {
+      this.drawAllStatusesTransition(status);
+    } else {
+      const allStatusesTransitionId = Object.keys(this.addedTransitions).find((transitionId) =>
+        AdminWorkflowsUtils.isAllStatuesTransition(this.addedTransitions[transitionId], status)
+      );
+
+      if (allStatusesTransitionId) {
+        this.handleRemoveTransition(allStatusesTransitionId);
+      }
+    }
+    this.workflowDesigner.apiEvent({ type: WorkflowAPI.selectCell, value: status.id });
+  }
+
+  private drawAllStatusesTransition(status: Status): void {
+    const transitionAll: Transition = {
+      id: uuidv4(),
+      name: status.name,
+      toStateId: status.id,
+      conditionsOperator: 'AND',
+      conditions: [],
+      validators: [],
+      postFunctions: [],
+      allState: true,
+    };
+    this.upsertTransition$.next(transitionAll);
+    this.workflowDesigner.apiEvent({
+      type: WorkflowAPI.drawAllStatusesTransition,
+      value: AdminWorkflowsUtils.generateWorkflowTransition(transitionAll),
+    });
   }
 
   private openUpsertStatusDialog(status: Status): Observable<Status> {

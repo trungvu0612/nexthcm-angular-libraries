@@ -6,8 +6,8 @@ import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { BaseComponent, Columns } from 'ngx-easy-table';
-import { from, Observable } from 'rxjs';
-import { filter, map, switchMap, takeUntil } from 'rxjs/operators';
+import { from, Observable, of } from 'rxjs';
+import { catchError, filter, map, share, startWith, switchMap, takeUntil } from 'rxjs/operators';
 import { AdminUserRole } from '../../models/admin-user-role';
 import { AdminUserRolesService } from '../../services/admin-user-roles.service';
 import { UpsertUserRolesComponent } from '../upsert-user-roles/upsert-user-roles.component';
@@ -17,7 +17,7 @@ import { UpsertUserRolesComponent } from '../upsert-user-roles/upsert-user-roles
   templateUrl: './list-user-roles.component.html',
   styleUrls: ['./list-user-roles.component.scss'],
   providers: [TuiDestroyService, RxState],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ListUserRolesComponent extends AbstractServerPaginationTableComponent<AdminUserRole> {
   @ViewChild('table') table!: BaseComponent;
@@ -27,16 +27,19 @@ export class ListUserRolesComponent extends AbstractServerPaginationTableCompone
       map((result) => [
         { key: 'name', title: result.name },
         { key: 'description', title: result.description },
-        { key: 'functions', title: result.functions }
+        { key: 'functions', title: result.functions },
       ])
     );
 
   private readonly request$ = this.queryParams$.pipe(
-    switchMap(() => this.adminUserRolesService.getAdminUserRoles(this.queryParams$.value)),
-    map((res) => res.data)
+    switchMap(() => this.adminUserRolesService.getAdminUserRoles(this.queryParams$.value).pipe(startWith(null))),
+    share()
   );
 
-  readonly loading$ = this.request$.pipe(map((value) => !value));
+  readonly loading$ = this.request$.pipe(
+    map((value) => !value),
+    catchError(() => of(false))
+  );
 
   constructor(
     public state: RxState<Pagination<AdminUserRole>>,

@@ -17,7 +17,15 @@
         <button appearance="secondary" class="tui-form__button" routerLink="../.." size="m" tuiButton type="button">
           {{ t('cancel') }}
         </button>
-        <button *ngIf="editMode" class="tui-form__button" size="m" tuiButton>{{ t('publish') }}</button>
+        <button
+          *ngIf="editMode"
+          [showLoader]="(publishingWorkflow$ | async) === true"
+          class="tui-form__button"
+          size="m"
+          tuiButton
+        >
+          {{ t('publish') }}
+        </button>
       </div>
 
       <section class="bg-white flex flex-col border workflow-designer-container">
@@ -42,57 +50,76 @@
 
         <div class="relative flex-1">
           <div *transloco="let t" class="absolute top-3 right-3 z-50">
-            <tui-island *ngIf="selectedCell$ | async as selectedCell" [hoverable]="true" size="l">
-              <h3 class="tui-island__title">{{ selectedCell.cell.name }}</h3>
-              <p *ngIf="selectedCell.cell.description" class="tui-island__paragraph">
-                {{ selectedCell.cell.description }}
-              </p>
-              <p *ngIf="editMode" class="tui-island__paragraph tui-island__paragraph_button flex space-x-2">
-                <button
-                  (click)="onEditCell()"
-                  appearance="secondary"
-                  icon="tuiIconEdit"
-                  size="s"
-                  tuiButton
-                  type="button"
-                >
-                  {{ t('edit') }}
-                </button>
-                <button (click)="onRemoveCell()" appearance="flat" icon="tuiIconTrash" size="s" tuiButton type="button">
-                  {{ t('remove') }}
-                </button>
-              </p>
-              <ng-container *ngIf="selectedCell.type === CellType.Transition">
-                <hr class="mt-6" />
-                <p class="tui-island__paragraph tui-island__paragraph_link">
-                  <button
-                    (click)="onViewTransitionOptions(selectedCell.cell, TransitionOptionIndex.Conditions)"
-                    type="button"
-                    tuiLink
-                  >
-                    {{ t('conditions') }} ({{ selectedCell.cell.conditions?.length || 0 }})
-                  </button>
+            <ng-container *ngIf="editMode">
+              <tui-island *ngIf="selectedCell$ | async as selectedCell" [hoverable]="true" class="w-56" size="l">
+                <h3 class="tui-island__title">{{ selectedCell.cell.name }}</h3>
+                <p *ngIf="selectedCell.cell.description" class="tui-island__paragraph">
+                  {{ selectedCell.cell.description }}
                 </p>
-                <p class="tui-island__paragraph tui-island__paragraph_link">
+                <ng-container *ngIf="selectedCell.type === CellType.Status">
+                  <tui-checkbox-labeled
+                    (ngModelChange)="onAllowAllStatus($event, selectedCell.cell)"
+                    [ngModelOptions]="{ standalone: true }"
+                    [ngModel]="!!selectedCell.cell.allState"
+                    class="my-6"
+                  >
+                    {{ t('allowAllStatus') }}
+                  </tui-checkbox-labeled>
+                </ng-container>
+                <p class="tui-island__paragraph tui-island__paragraph_button flex space-x-2">
                   <button
-                    (click)="onViewTransitionOptions(selectedCell.cell, TransitionOptionIndex.Validators)"
-                    tuiLink
+                    (click)="onEditCell()"
+                    appearance="secondary"
+                    icon="tuiIconEdit"
+                    size="s"
+                    tuiButton
                     type="button"
                   >
-                    {{ t('validators') }} ({{ selectedCell.cell.validators?.length || 0 }})
+                    {{ t('edit') }}
                   </button>
-                </p>
-                <p class="tui-island__paragraph tui-island__paragraph_link">
                   <button
-                    (click)="onViewTransitionOptions(selectedCell.cell, TransitionOptionIndex.PostFunctions)"
-                    tuiLink
+                    (click)="onRemoveCell()"
+                    appearance="flat"
+                    icon="tuiIconTrash"
+                    size="s"
+                    tuiButton
                     type="button"
                   >
-                    {{ t('postFunctions') }} ({{ selectedCell.cell.postFunctions?.length || 0 }})
+                    {{ t('remove') }}
                   </button>
                 </p>
-              </ng-container>
-            </tui-island>
+                <ng-container *ngIf="selectedCell.type === CellType.Transition">
+                  <hr class="mt-6" />
+                  <p class="tui-island__paragraph tui-island__paragraph_link">
+                    <button
+                      (click)="onViewTransitionOptions(selectedCell.cell, TransitionOptionIndex.Conditions)"
+                      tuiLink
+                      type="button"
+                    >
+                      {{ t('conditions') }} ({{ selectedCell.cell.conditions?.length || 0 }})
+                    </button>
+                  </p>
+                  <p class="tui-island__paragraph tui-island__paragraph_link">
+                    <button
+                      (click)="onViewTransitionOptions(selectedCell.cell, TransitionOptionIndex.Validators)"
+                      tuiLink
+                      type="button"
+                    >
+                      {{ t('validators') }} ({{ selectedCell.cell.validators?.length || 0 }})
+                    </button>
+                  </p>
+                  <p class="tui-island__paragraph tui-island__paragraph_link">
+                    <button
+                      (click)="onViewTransitionOptions(selectedCell.cell, TransitionOptionIndex.PostFunctions)"
+                      tuiLink
+                      type="button"
+                    >
+                      {{ t('postFunctions') }} ({{ selectedCell.cell.postFunctions?.length || 0 }})
+                    </button>
+                  </p>
+                </ng-container>
+              </tui-island>
+            </ng-container>
           </div>
           <hcm-workflow-designer
             #workflowDesigner

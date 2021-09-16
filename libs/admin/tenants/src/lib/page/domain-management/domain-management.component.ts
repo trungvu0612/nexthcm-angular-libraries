@@ -8,8 +8,8 @@ import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { BaseComponent, Columns } from 'ngx-easy-table';
-import { BehaviorSubject, from, Observable } from 'rxjs';
-import { filter, map, share, startWith, switchMap, takeUntil } from 'rxjs/operators';
+import { BehaviorSubject, from, Observable, of } from 'rxjs';
+import { catchError, filter, map, share, startWith, switchMap, takeUntil } from 'rxjs/operators';
 import { UpsertTenantDomainDialogComponent } from '../../components/upsert-tenant-domain-dialog/upsert-tenant-domain-dialog.component';
 import { TenantDomain } from '../../models/tenant';
 import { AdminTenantsService } from '../../services/admin-tenants.service';
@@ -45,7 +45,10 @@ export class DomainManagementComponent extends AbstractServerPaginationTableComp
     switchMap(() => this.adminTenantsService.getTenantDomains(this.queryParams$.value).pipe(startWith(null))),
     share()
   );
-  readonly loading$ = this.request$.pipe(map((value) => !value));
+  readonly loading$ = this.request$.pipe(
+    map((value) => !value),
+    catchError(() => of(false))
+  );
 
   constructor(
     readonly state: RxState<Pagination<TenantDomain>>,

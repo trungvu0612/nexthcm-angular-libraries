@@ -1,16 +1,16 @@
 import { HttpParams } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, Injector, ViewChild } from '@angular/core';
 import { AuthService } from '@nexthcm/auth';
-import { Pagination, PromptService } from '@nexthcm/cdk';
+import { Pagination, PromptService, WorkflowTransition } from '@nexthcm/cdk';
 import { FormBuilder } from '@ngneat/reactive-forms';
 import { TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
-import { TuiDialogService } from '@taiga-ui/core';
+import { TuiDialogService, TuiHostedDropdownComponent } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { BaseComponent, Columns } from 'ngx-easy-table';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { filter, map, share, startWith, switchMap, takeUntil } from 'rxjs/operators';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { catchError, filter, map, share, startWith, switchMap, takeUntil } from 'rxjs/operators';
 import { LeaveRequest } from '../../models';
 import { MyTimeService, RequestTypeAPIUrlPath } from '../../services';
 import { AbstractRequestListComponent } from '../shared/abstract-components/abstract-request-list.component';
@@ -25,6 +25,7 @@ import { SubmitLeaveRequestDialogComponent } from './components/submit-leave-req
 })
 export class MyLeaveComponent extends AbstractRequestListComponent<LeaveRequest> {
   @ViewChild('table') table!: BaseComponent;
+  @ViewChild(TuiHostedDropdownComponent) component?: TuiHostedDropdownComponent;
 
   readonly userId = this.authService.get('userInfo', 'userId');
   readonly requestTypeUrlPath = RequestTypeAPIUrlPath.leave;
@@ -49,7 +50,11 @@ export class MyLeaveComponent extends AbstractRequestListComponent<LeaveRequest>
     ),
     share()
   );
-  readonly loading$ = this.request$.pipe(map((value) => !value));
+  readonly loading$ = this.request$.pipe(
+    map((value) => !value),
+    catchError(() => of(false))
+  );
+  open = false;
 
   constructor(
     public myTimeService: MyTimeService,
@@ -78,5 +83,10 @@ export class MyLeaveComponent extends AbstractRequestListComponent<LeaveRequest>
           this.queryParams$.next(this.queryParams$.value)
         )
       );
+  }
+
+  onChangeStatus(transition: WorkflowTransition): void {
+    this.open = false;
+    this.component?.nativeFocusableElement?.focus();
   }
 }

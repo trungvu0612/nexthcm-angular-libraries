@@ -7,8 +7,8 @@ import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { BaseComponent, Columns } from 'ngx-easy-table';
-import { Observable } from 'rxjs';
-import { filter, map, share, startWith, switchMap, takeUntil } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { catchError, filter, map, share, startWith, switchMap, takeUntil } from 'rxjs/operators';
 import { UpsertEmailTemplateDialogComponent } from '../../components/upsert-email-template-dialog/upsert-email-template-dialog.component';
 import { EmailTemplate } from '../../models';
 import { AdminWorkflowsService } from '../../services/admin-workflows.service';
@@ -37,7 +37,10 @@ export class EmailTemplateManagementComponent extends AbstractServerPaginationTa
     switchMap(() => this.adminWorkflowService.getEmailTemplates(this.queryParams$.value).pipe(startWith(null))),
     share()
   );
-  readonly loading$ = this.request$.pipe(map((value) => !value));
+  readonly loading$ = this.request$.pipe(
+    map((value) => !value),
+    catchError(() => of(false))
+  );
 
   constructor(
     readonly state: RxState<Pagination<EmailTemplate>>,
@@ -47,7 +50,7 @@ export class EmailTemplateManagementComponent extends AbstractServerPaginationTa
     private readonly destroy$: TuiDestroyService,
     private readonly translocoService: TranslocoService,
     private readonly promptService: PromptService,
-    private readonly actions: Actions,
+    private readonly actions: Actions
   ) {
     super(state);
     state.connect(this.request$.pipe(filter(isPresent)));

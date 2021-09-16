@@ -1,20 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AuthService } from '@nexthcm/auth';
-import { ACCOUNT_API_PATH, BaseObject, BaseResponse, MY_TIME_API_PATH, PagingResponse } from '@nexthcm/cdk';
+import { ACCOUNT_API_PATH, BaseObject, BaseResponse, MY_TIME_API_PATH } from '@nexthcm/cdk';
 import { RxState } from '@rx-angular/state';
 import { TuiTime } from '@taiga-ui/cdk';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { DurationHoldsEnum, HalfDaysEnum, PartialDay } from '../enums';
-import {
-  DurationValues,
-  LeavesRemaining,
-  LeaveSubmit,
-  PartialDayType,
-  SentToUser,
-  SubmitLeavePayLoad,
-} from '../models';
+import { DurationValues, LeavesRemaining, LeaveSubmit, PartialDayType, SubmitLeavePayLoad } from '../models';
 
 interface MyLeaveState {
   leaveTypeRemain: LeavesRemaining[];
@@ -204,7 +197,7 @@ export class MyLeaveService extends RxState<MyLeaveState> {
   }
 
   shiftTimeHours(): any[] {
-    const arrayTime = [];
+    const arrayTime: any[] = [];
     const objCaculateHours = {
       hours: 7,
       minutes: 45,

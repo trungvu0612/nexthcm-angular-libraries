@@ -6,8 +6,8 @@ import { TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { BaseComponent, Columns } from 'ngx-easy-table';
-import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
-import { filter, map, share, startWith, switchMap } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
+import { catchError, filter, map, share, startWith, switchMap } from 'rxjs/operators';
 import { WorkFromHomeRequest } from '../../../../models';
 import { MyTimeService, RequestTypeAPIUrlPath } from '../../../../services';
 import { AbstractRequestListComponent } from '../../../shared/abstract-components/abstract-request-list.component';
@@ -53,7 +53,10 @@ export class MyWorkFromHomeRequestsComponent extends AbstractRequestListComponen
     share()
   );
 
-  readonly loading$ = this.request$.pipe(map((value) => !value));
+  readonly loading$ = this.request$.pipe(
+    map((value) => !value),
+    catchError(() => of(false))
+  );
 
   constructor(
     public myTimeService: MyTimeService,

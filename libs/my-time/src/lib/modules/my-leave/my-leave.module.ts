@@ -10,6 +10,7 @@ import { TuiButtonModule, TuiLoaderModule } from '@taiga-ui/core';
 import { TuiTagModule } from '@taiga-ui/kit';
 import { PolymorpheusModule } from '@tinkoff/ng-polymorpheus';
 import { TableModule } from 'ngx-easy-table';
+import { WorkflowActionsButtonDropdownComponentModule } from '../../../../../ui/src/lib/components/workflow-actions-button-dropdown/workflow-actions-button-dropdown.component';
 import { MyLeaveService } from '../../services';
 import { LeaveRequestDateRangeComponentModule } from '../shared/leave-request-date-range/leave-request-date-range.component';
 import { RequestListFilterComponentModule } from '../shared/request-list-filter/request-list-filter.component';
@@ -34,6 +35,7 @@ import { MyLeaveComponent } from './my-leave.component';
     RequestListFilterComponentModule,
     BaseFormComponentModule,
     PolymorpheusModule,
+    WorkflowActionsButtonDropdownComponentModule,
   ],
   providers: [MyLeaveService],
 })

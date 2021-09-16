@@ -13,7 +13,7 @@ import {
   TuiDestroyService,
   tuiPure,
   TuiStringHandler,
-  TuiTime
+  TuiTime,
 } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
 import { Columns, DefaultConfig } from 'ngx-easy-table';
@@ -27,7 +27,7 @@ import {
   share,
   startWith,
   switchMap,
-  takeUntil
+  takeUntil,
 } from 'rxjs/operators';
 import { SweetAlertOptions } from 'sweetalert2';
 import { Organization } from '../../models/organization';
@@ -639,7 +639,7 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
     switchMap(({ id }) => this.workingTimesService.getWorkingHourConfigByOrg(id).pipe(startWith(null))),
     share()
   );
-  readonly loading$ = this.request$.pipe(map((value) => !value));
+  readonly loading$ = this.request$.pipe(map((value) => !value), catchError(() => of(false)));
 
   constructor(
     private cdr: ChangeDetectorRef,

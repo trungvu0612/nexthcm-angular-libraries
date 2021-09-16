@@ -11,7 +11,7 @@ import {
   TuiDestroyService,
   tuiPure,
   TuiStringHandler,
-  TuiTime
+  TuiTime,
 } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
 import { of } from 'rxjs';
@@ -24,7 +24,7 @@ import {
   share,
   startWith,
   switchMap,
-  takeUntil
+  takeUntil,
 } from 'rxjs/operators';
 import { SweetAlertOptions } from 'sweetalert2';
 import { Organization } from '../../models/organization';
@@ -344,7 +344,7 @@ export class OvertimeWorkingComponent implements OnInit {
     switchMap((orgId) => this.workingTimesService.getOvertimeConfigByOrg(orgId).pipe(startWith(null))),
     share()
   );
-  readonly loading$ = this.request$.pipe(map((value) => !value));
+  readonly loading$ = this.request$.pipe(map((value) => !value), catchError(() => of(false)));
 
   constructor(
     private translocoService: TranslocoService,

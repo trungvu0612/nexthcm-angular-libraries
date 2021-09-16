@@ -4,7 +4,8 @@ import { EmployeeEducation, EmployeesService, PromptService } from '@nexthcm/cdk
 import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDestroyService } from '@taiga-ui/cdk';
-import { map, takeUntil, tap } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { catchError, map, share, startWith, takeUntil, tap } from 'rxjs/operators';
 import { AdminEmployeesService } from '../../services/admin-employees.service';
 
 @Component({
@@ -84,8 +85,15 @@ export class EducationFormComponent {
   ];
   private readonly request$ = this.employeesService
     .getEmployeeInformation(this.activatedRoute.snapshot.params.employeeId, 'education')
-    .pipe(tap((data) => (this.model = { ...this.model, ...data })));
-  readonly loading$ = this.request$.pipe(map((value) => !value));
+    .pipe(
+      tap((data) => (this.model = { ...this.model, ...data })),
+      startWith(null),
+      share()
+    );
+  readonly loading$ = this.request$.pipe(
+    map((value) => !value),
+    catchError(() => of(false))
+  );
 
   constructor(
     private fb: FormBuilder,

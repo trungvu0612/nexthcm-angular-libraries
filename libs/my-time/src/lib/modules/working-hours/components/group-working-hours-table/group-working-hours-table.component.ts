@@ -4,8 +4,8 @@ import { HashMap, TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
 import { isPresent, tuiDefaultProp } from '@taiga-ui/cdk';
 import { BaseComponent, Columns, Config, DefaultConfig } from 'ngx-easy-table';
-import { Observable } from 'rxjs';
-import { filter, map, share, skip, startWith, switchMap } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { catchError, filter, map, share, skip, startWith, switchMap } from 'rxjs/operators';
 import { WorkingHours } from '../../../../models';
 import { WorkingHoursService } from '../../../../services';
 
@@ -54,7 +54,7 @@ export class GroupWorkingHoursTableComponent
     switchMap(() => this.workingHoursService.getWorkingHoursOfOnlyMe(this.queryParams$.value).pipe(startWith(null))),
     share()
   );
-  readonly loading$ = this.request$.pipe(map((value) => !value));
+  readonly loading$ = this.request$.pipe(map((value) => !value), catchError(() => of(false)));
 
   constructor(
     public state: RxState<Pagination<WorkingHours>>,

@@ -81,7 +81,7 @@ export class SidebarComponent implements OnInit {
       label: 'leaveConfigs',
       link: '/admin/leave-configs',
       icon: 'leave-configs',
-      permissions: 'ADMIN', // TODO need fix
+      permissions: 'VIEW_LEAVE_TYPE',
     },
     {
       label: 'requestsConfig',
@@ -160,92 +160,7 @@ export class SidebarComponent implements OnInit {
         link: '/admin',
         icon: 'admin',
         permissions: 'ADMIN',
-        children: [
-          {
-            label: 'tenantManagement',
-            link: '/admin/tenants',
-            icon: 'tenant',
-            permissions: 'VIEW_TENANT',
-          },
-          {
-            label: 'employeeManagement',
-            link: '/admin/employees',
-            icon: 'employee',
-            permissions: 'VIEW_EMPLOYEE',
-          },
-          {
-            label: 'roleManagement',
-            link: '/admin/user-roles',
-            icon: 'user-role',
-            permissions: 'VIEW_ROLE',
-          },
-          {
-            label: 'permissionManagement',
-            link: '/admin/permissions',
-            icon: 'permission',
-            permissions: 'VIEW_PERMISSION',
-          },
-          {
-            label: 'officeManagement',
-            link: '/admin/offices',
-            icon: 'office',
-            permissions: 'VIEW_OFFICE',
-          },
-          {
-            label: 'seatMapManagement',
-            link: '/admin/seat-maps',
-            icon: 'seat-map',
-            permissions: 'VIEW_SEAT_MAP',
-          },
-          {
-            label: 'knowledgeBaseManagement',
-            link: '/admin/knowledge-base',
-            icon: 'knowledge-base',
-            permissions: 'VIEW_ADMIN_KNOWLEDGE',
-          },
-          {
-            label: 'jobLevelManagement',
-            link: '/admin/job-level',
-            icon: 'job-level',
-            permissions: 'VIEW_JOB_LEVEL',
-          },
-          {
-            label: 'workflowManagement',
-            link: '/admin/workflows',
-            icon: 'workflows',
-            permissions: 'VIEW_WORKFLOW',
-          },
-          {
-            label: 'branchManagement',
-            link: '/admin/branches',
-            icon: 'branch',
-            permissions: 'VIEW_BRANCH',
-          },
-          {
-            label: 'jobTitleManagement',
-            link: '/admin/job-titles',
-            icon: 'job-title',
-            permissions: 'VIEW_JOB_TITLE',
-          },
-          {
-            label: 'leaveConfigs',
-            link: '/admin/leave-configs',
-            icon: 'leave-configs',
-            permissions: 'ADMIN', // TODO need fix
-          },
-          {
-            label: 'requestsConfig',
-            link: '/admin/requests-config',
-            icon: 'requests-config',
-            permissions: 'ADMIN', // TODO need fix
-          },
-          {
-            label: 'workingTimeManagement',
-            link: '/admin/working-times',
-            icon: 'working-time',
-            permissions: 'VIEW_ADMIN_CONFIG_TIME',
-          },
-        ],
+        children: [...this.adminSubmenu],
         submenu: this.adminTmp, // @bad TODO remove
       },
     ];

@@ -1,4 +1,4 @@
-import { BaseObject } from '@nexthcm/cdk';
+import { BaseObject, WorkflowTransition } from '@nexthcm/cdk';
 import { ConditionType, PostFunctionType, TransitionOptionIndex, ValidatorType } from '../enums';
 import { EmailTemplate } from './email-template';
 import { Status } from './status';
@@ -6,12 +6,8 @@ import { Status } from './status';
 export type TransitionOptionType = ConditionType | ValidatorType | PostFunctionType;
 export type TransitionOptions = TransitionCondition | TransitionValidator | TransitionPostFunction;
 
-export interface Transition {
-  id: string;
-  name: string;
+export interface Transition extends WorkflowTransition {
   description?: string;
-  fromStateId?: string;
-  toStateId: string;
   conditionsOperator: 'OR' | 'AND';
   conditions: TransitionCondition[];
   validators: TransitionValidator[];

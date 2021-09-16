@@ -250,7 +250,7 @@ export class WorkflowDesignerComponent implements OnInit {
     }
   }
 
-  private drawIsAllTransition(transition: WorkflowTransition) {
+  private drawAllStatusesTransition(transition: WorkflowTransition) {
     const target = this.graphModel.getCell(transition.targetId);
     const statusAll = this.drawStatus(undefined, target);
     this.drawTransition(transition, statusAll);
@@ -267,8 +267,8 @@ export class WorkflowDesignerComponent implements OnInit {
       case WorkflowAPI.drawTransition:
         this.drawTransition(api.value);
         break;
-      case WorkflowAPI.drawIsAllTransition:
-        this.drawIsAllTransition(api.value);
+      case WorkflowAPI.drawAllStatusesTransition:
+        this.drawAllStatusesTransition(api.value);
         break;
       case WorkflowAPI.updateTransition:
         this.updateTransition(api.value);
@@ -286,6 +286,9 @@ export class WorkflowDesignerComponent implements OnInit {
         break;
       case WorkflowAPI.decodeXML:
         this.decodeXMLToGraph(api.value);
+        break;
+      case WorkflowAPI.selectCell:
+        this.onSelectCell(api.value);
         break;
       default:
         break;
@@ -315,5 +318,9 @@ export class WorkflowDesignerComponent implements OnInit {
       this.editor.graph.ungroupCells(null as unknown as mxCell[]);
     }
     this.onRemoveCell(edge);
+  }
+
+  private onSelectCell(cellId: string): void {
+    this.graphSelectionModel.setCell(this.graphModel.getCell(cellId));
   }
 }

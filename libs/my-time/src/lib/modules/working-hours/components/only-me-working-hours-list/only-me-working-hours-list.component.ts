@@ -8,8 +8,8 @@ import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { BaseComponent, Columns } from 'ngx-easy-table';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { filter, map, share, startWith, switchMap, takeUntil } from 'rxjs/operators';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { catchError, filter, map, share, startWith, switchMap, takeUntil } from 'rxjs/operators';
 import { WorkingHours } from '../../../../models';
 import { WorkingHoursService } from '../../../../services';
 import { SubmitUpdateTimesheetRequestDialogComponent } from '../submit-update-timesheet-request-dialog/submit-update-timesheet-request-dialog.component';
@@ -53,7 +53,10 @@ export class OnlyMeWorkingHoursListComponent extends AbstractServerPaginationTab
     switchMap(() => this.workingHoursService.getWorkingHoursOfOnlyMe(this.queryParams$.value).pipe(startWith(null))),
     share()
   );
-  readonly loading$ = this.request$.pipe(map((value) => !value));
+  readonly loading$ = this.request$.pipe(
+    map((value) => !value),
+    catchError(() => of(false))
+  );
 
   constructor(
     public state: RxState<Pagination<WorkingHours>>,

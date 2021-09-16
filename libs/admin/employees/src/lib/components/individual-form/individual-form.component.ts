@@ -14,7 +14,8 @@ import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { RxwebValidators } from '@rxweb/reactive-form-validators';
 import { TuiDestroyService } from '@taiga-ui/cdk';
-import { map, takeUntil, tap } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { catchError, map, share, startWith, takeUntil, tap } from 'rxjs/operators';
 import { AdminEmployeesService } from '../../services/admin-employees.service';
 
 @Component({
@@ -245,9 +246,14 @@ export class IndividualFormComponent {
       tap((res) => {
         const data = parseTuiDayFields(res, ['birthDate', 'issueOn']);
         this.model = { ...this.model, ...data };
-      })
+      }),
+      startWith(null),
+      share()
     );
-  readonly loading$ = this.request$.pipe(map((value) => !value));
+  readonly loading$ = this.request$.pipe(
+    map((value) => !value),
+    catchError(() => of(false))
+  );
 
   constructor(
     private fb: FormBuilder,

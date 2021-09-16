@@ -6,7 +6,6 @@ export interface UpdateTimesheetRequest extends BaseRequest {
   newOutTime: number;
   oldInTime: number;
   oldOutTime: number;
-  comment: string;
   day: string;
   totalHourUpdate: number;
   updateTotalTime: number;

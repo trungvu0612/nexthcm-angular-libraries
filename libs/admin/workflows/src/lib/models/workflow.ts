@@ -1,4 +1,5 @@
-import { Status, StatusType } from './status';
+import { WorkflowStatusType } from '@nexthcm/cdk';
+import { Status } from './status';
 import { Transition } from './transition';
 
 export interface Workflow {
@@ -8,8 +9,6 @@ export interface Workflow {
   template: string;
   states: Status[];
   transitions: Transition[];
-  removingStates?: string[];
-  removingTransitions?: string[];
 }
 
 export interface InitWorkflow {
@@ -17,6 +16,6 @@ export interface InitWorkflow {
   processDescription: string;
   stateName: string;
   stateDescription?: string;
-  stateType: StatusType;
+  stateType: WorkflowStatusType;
   initStatus: Status;
 }
