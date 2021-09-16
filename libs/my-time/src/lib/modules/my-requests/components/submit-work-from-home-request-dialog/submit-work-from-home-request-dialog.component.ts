@@ -37,12 +37,11 @@ export class SubmitWorkFromHomeRequestDialogComponent {
     },
     {
       key: 'totalDay',
-      type: 'input-number',
+      type: 'input-time',
       templateOptions: {
         required: true,
         translate: true,
-        label: 'Estimate Time (days)',
-        placeholder: 'days',
+        label: 'Estimate Time',
         labelClassName: 'font-semibold',
         textfieldLabelOutside: true,
       },
@@ -94,6 +93,9 @@ export class SubmitWorkFromHomeRequestDialogComponent {
         formModel.fromDate = getTime(formModel.fromTo.from.toLocalNativeDate());
         formModel.toDate = getTime(endOfDay(formModel.fromTo.to.toLocalNativeDate()));
       }
+      if (formModel.totalDay) {
+        formModel.totalDay = (formModel.totalDay as TuiTime).toAbsoluteMilliseconds().valueOf() / 1000;
+      }
       delete formModel.fromTo;
       this.myTimeService
         .submitRequest(RequestTypeAPIUrlPath.workFromHome, formModel)
@@ -103,8 +105,11 @@ export class SubmitWorkFromHomeRequestDialogComponent {
         )
         .subscribe(
           () => this.context.completeWith(true),
-          (error) => this.promptService.open(
-            { icon: 'error', text: this.translocoService.translate(`ERRORS.${error.error.message}`) })
+          (error) =>
+            this.promptService.open({
+              icon: 'error',
+              text: this.translocoService.translate(`ERRORS.${error.error.message}`),
+            })
         );
     }
   }
