@@ -1,10 +1,10 @@
 FROM node:lts-slim as build-stage
 WORKDIR /app
-COPY package.json .yarnrc .npmrc ./
+COPY package.json .yarnrc .npmrc yarn.lock ./
 RUN yarn
 COPY . ./
-RUN yarn affected:build
-RUN yarn affected:publish
+RUN yarn nx run-many --target=build --all --exclude hcm-workflows,hcm-web,next-hcm-demo-web
+RUN yarn nx run-many --target=publish --all
 RUN yarn upgrade
 RUN yarn build -- -c qa
 
