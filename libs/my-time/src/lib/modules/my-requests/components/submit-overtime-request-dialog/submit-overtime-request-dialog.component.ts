@@ -71,6 +71,7 @@ export class SubmitOvertimeRequestDialogComponent {
         required: true,
         textfieldLabelOutside: true,
         precision: 1,
+        min: 0
       },
     },
     {

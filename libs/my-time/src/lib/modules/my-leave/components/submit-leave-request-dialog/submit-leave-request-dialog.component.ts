@@ -406,6 +406,7 @@ export class SubmitLeaveRequestDialogComponent implements OnInit {
   }
 
   showDialogConfirmDuration(resultDays: SubmitLeavePayLoad) {
+    console.log(JSON.stringify(resultDays));
     return this.dialogService
       .open<boolean>(new PolymorpheusComponent(DurationConfirmDialogComponent, this.injector), {
         data: resultDays,
