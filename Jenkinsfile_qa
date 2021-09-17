@@ -1,5 +1,5 @@
 pipeline {
-    agent {label 'server20'}
+    agent {label 'server15'}
     environment {
          ENVIRONMENT        = 'qa'
          PROJECT_NAME       = 'hrms'
@@ -9,7 +9,7 @@ pipeline {
     }
     stages {
         stage("Docker push") {
-            agent {label 'server20'}
+            agent {label 'server15'}
             steps {
                 sh 'docker build -f Dockerfile_${ENVIRONMENT} --network=host --rm=true -t docker-host.banvien.com.vn/${PROJECT_NAME}/${ENVIRONMENT}/${SERVICE_NAME}:latest .'
                 sh "docker push docker-host.banvien.com.vn/${PROJECT_NAME}/${ENVIRONMENT}/${SERVICE_NAME}:latest"
@@ -17,7 +17,7 @@ pipeline {
             }
         }
         stage("Un-deploy old build") {
-            agent {label 'server20'}
+            agent {label 'server15'}
             steps {
                 script {
                     try {
@@ -29,7 +29,7 @@ pipeline {
             }
         }
         stage("Deploy") {
-            agent {label 'server20'}
+            agent {label 'server15'}
             steps {
                 sh "kubectl apply -f ${K8S_FILE} -n ${NAMESPACE}"
             }
