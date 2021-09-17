@@ -1,6 +1,6 @@
 FROM node:lts-slim as build-stage
 WORKDIR /app
-COPY package.json .npmrc ./
+COPY package.json .yarnrc ./
 RUN yarn
 COPY . ./
 RUN yarn affected:build
