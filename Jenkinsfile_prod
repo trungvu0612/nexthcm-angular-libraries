@@ -1,0 +1,17 @@
+pipeline {
+    agent {label 'server20'}
+    environment {
+         ENVIRONMENT        = 'prod'
+         PROJECT_NAME       = 'hrms'
+         SERVICE_NAME       = 'next-hcm-demo-web'
+    }
+    stages {
+        stage("Docker push") {
+            steps {
+                sh 'docker build -f Dockerfile_${ENVIRONMENT} --network=host --rm=true -t docker-host.banvien.com.vn/${PROJECT_NAME}/${ENVIRONMENT}/${SERVICE_NAME}:${TAG} .'
+                sh "docker push docker-host.banvien.com.vn/${PROJECT_NAME}/${ENVIRONMENT}/${SERVICE_NAME}:${TAG}"
+                sh "docker rmi docker-host.banvien.com.vn/${PROJECT_NAME}/${ENVIRONMENT}/${SERVICE_NAME}:${TAG}"
+            }
+        }
+    }
+}

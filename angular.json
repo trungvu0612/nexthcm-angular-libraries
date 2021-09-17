@@ -926,42 +926,6 @@
         }
       }
     },
-    "form": {
-      "projectType": "library",
-      "root": "libs/form",
-      "sourceRoot": "libs/form/src",
-      "prefix": "hcm",
-      "architect": {
-        "build": {
-          "builder": "@nrwl/angular:ng-packagr-lite",
-          "options": {
-            "tsConfig": "libs/form/tsconfig.lib.json",
-            "project": "libs/form/ng-package.json"
-          },
-          "configurations": {
-            "production": {
-              "tsConfig": "libs/form/tsconfig.lib.prod.json"
-            }
-          },
-          "defaultConfiguration": "production"
-        },
-        "lint": {
-          "builder": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": ["libs/form/src/**/*.ts", "libs/form/src/**/*.html"]
-          },
-          "outputs": ["{options.outputFile}"]
-        },
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/form"],
-          "options": {
-            "jestConfig": "libs/form/jest.config.js",
-            "passWithNoTests": true
-          }
-        }
-      }
-    },
     "hcm-web": {
       "projectType": "application",
       "root": "apps/hcm-web",
@@ -1406,44 +1370,197 @@
         }
       }
     },
-    "payslip": {
-      "projectType": "library",
-      "root": "libs/payslip",
-      "sourceRoot": "libs/payslip/src",
+    "next-hcm-demo-web": {
+      "projectType": "application",
+      "root": "apps/next-hcm-demo-web",
+      "sourceRoot": "apps/next-hcm-demo-web/src",
       "prefix": "hcm",
       "architect": {
         "build": {
-          "builder": "@nrwl/angular:ng-packagr-lite",
+          "builder": "@angular-devkit/build-angular:browser",
+          "outputs": ["{options.outputPath}"],
           "options": {
-            "tsConfig": "libs/payslip/tsconfig.lib.json",
-            "project": "libs/payslip/ng-package.json"
+            "outputPath": "dist/apps/next-hcm-demo-web",
+            "index": "apps/next-hcm-demo-web/src/index.html",
+            "main": "apps/next-hcm-demo-web/src/main.ts",
+            "polyfills": "apps/next-hcm-demo-web/src/polyfills.ts",
+            "tsConfig": "apps/next-hcm-demo-web/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "apps/next-hcm-demo-web/src/favicon.ico",
+              "apps/next-hcm-demo-web/src/assets",
+              {
+                "glob": "**/*",
+                "input": "node_modules/@nexthcm/core/assets",
+                "output": "assets"
+              },
+              {
+                "glob": "**/*",
+                "input": "node_modules/@taiga-ui/icons/src",
+                "output": "assets/taiga-ui/icons"
+              },
+              {
+                "glob": "**/*",
+                "input": "node_modules/mxgraph/javascript/src",
+                "output": "."
+              },
+              {
+                "glob": "**/*",
+                "input": "node_modules/@nexthcm/workflow-designer/assets/mxgraph",
+                "output": "."
+              }
+            ],
+            "styles": [
+              "node_modules/@taiga-ui/core/styles/taiga-ui-global.less",
+              "apps/next-hcm-demo-web/src/styles.scss"
+            ],
+            "scripts": ["node_modules/mxgraph/javascript/mxClient.min.js"],
+            "allowedCommonJsDependencies": ["angular2-text-mask", "uuid"]
           },
           "configurations": {
             "production": {
-              "tsConfig": "libs/payslip/tsconfig.lib.prod.json"
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "apps/next-hcm-demo-web/src/environments/environment.ts",
+                  "with": "apps/next-hcm-demo-web/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "dev": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "apps/next-hcm-demo-web/src/environments/environment.ts",
+                  "with": "apps/next-hcm-demo-web/src/environments/environment.dev.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "qa": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "apps/next-hcm-demo-web/src/environments/environment.ts",
+                  "with": "apps/next-hcm-demo-web/src/environments/environment.qa.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "uat": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "apps/next-hcm-demo-web/src/environments/environment.ts",
+                  "with": "apps/next-hcm-demo-web/src/environments/environment.uat.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
             }
           },
           "defaultConfiguration": "production"
         },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "next-hcm-demo-web:build:production"
+            },
+            "development": {
+              "browserTarget": "next-hcm-demo-web:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "next-hcm-demo-web:build"
+          }
+        },
         "lint": {
           "builder": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": ["libs/payslip/src/**/*.ts", "libs/payslip/src/**/*.html"]
-          },
-          "outputs": ["{options.outputFile}"]
+            "lintFilePatterns": ["apps/next-hcm-demo-web/src/**/*.ts", "apps/next-hcm-demo-web/src/**/*.html"]
+          }
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/payslip"],
+          "outputs": ["coverage/apps/next-hcm-demo-web"],
           "options": {
-            "jestConfig": "libs/payslip/jest.config.js",
+            "jestConfig": "apps/next-hcm-demo-web/jest.config.js",
             "passWithNoTests": true
           }
-        },
-        "publish": {
-          "builder": "@nrwl/workspace:run-commands",
+        }
+      }
+    },
+    "next-hcm-demo-web-e2e": {
+      "root": "apps/next-hcm-demo-web-e2e",
+      "sourceRoot": "apps/next-hcm-demo-web-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
           "options": {
-            "command": "yarn publish dist/libs/payslip"
+            "cypressConfig": "apps/next-hcm-demo-web-e2e/cypress.json",
+            "devServerTarget": "next-hcm-demo-web:serve:development"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "next-hcm-demo-web:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["apps/next-hcm-demo-web-e2e/**/*.{js,ts}"]
           }
         }
       }

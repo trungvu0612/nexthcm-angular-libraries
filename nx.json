@@ -77,9 +77,6 @@
     "core": {
       "tags": []
     },
-    "form": {
-      "tags": []
-    },
     "hcm-web": {
       "tags": []
     },
@@ -106,8 +103,12 @@
     "my-time": {
       "tags": []
     },
-    "payslip": {
+    "next-hcm-demo-web": {
       "tags": []
+    },
+    "next-hcm-demo-web-e2e": {
+      "tags": [],
+      "implicitDependencies": ["next-hcm-demo-web"]
     },
     "seat-maps": {
       "tags": []

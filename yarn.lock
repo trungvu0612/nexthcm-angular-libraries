@@ -1494,7 +1494,7 @@
   resolved "https://registry.yarnpkg.com/@csstools/convert-colors/-/convert-colors-1.4.0.tgz#ad495dc41b12e75d588c6db8b9834f08fa131eb7"
   integrity sha512-5a6wqoJV/xEdbRNKVo6I4hO3VjyDq//8q2f9I6PBAvMesJHFauXDorcNCsr9RzvsZnaWi5NYCcfyqP1QeFHFbw==
 
-"@ctrl/ngx-emoji-mart@^6.0.1":
+"@ctrl/ngx-emoji-mart@^6.0.0", "@ctrl/ngx-emoji-mart@^6.0.1":
   version "6.0.1"
   resolved "https://registry.yarnpkg.com/@ctrl/ngx-emoji-mart/-/ngx-emoji-mart-6.0.1.tgz#66432181cde359447275409d50a325c48edd2cb6"
   integrity sha512-HL+IOBj4E8bFBUUf4Pqq7T2I1DmDDx0ZmMFD0WwUKa61nlhUsC2KJ2ROAWRE2l7PE+tt5aYAbUhrPeGlbYnKSA==
@@ -2261,7 +2261,208 @@
   resolved "https://registry.yarnpkg.com/@n1ru4l/graphql-live-query/-/graphql-live-query-0.8.1.tgz#2d6ca6157dafdc5d122a1aeb623b43e939c4b238"
   integrity sha512-x5SLY+L9/5s07OJprISXx4csNBPF74UZeTI01ZPSaxOtRz2Gljk652kSPf6OjMLtx5uATr35O0M3G0LYhHBLtg==
 
-"@ng-select/ng-select@^7.2.0":
+"@nexthcm/admin-employee@^0.0.1":
+  version "0.0.1"
+  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/admin-employee/-/admin-employee-0.0.1.tgz#7eebd8da76422ba63b1417690cd2544aa906f797"
+  integrity sha512-ZyfXwJDQOK9hJFpyKARd/VT3wwPcULQ1RPCrD0EOPM3WT/xlKsIY6YqlBqvdnWYTs6n4Y6xTqzFG4tNsS3OcTg==
+  dependencies:
+    tslib "^2.2.0"
+
+"@nexthcm/admin-job-level@^0.0.1":
+  version "0.0.1"
+  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/admin-job-level/-/admin-job-level-0.0.1.tgz#7b1a7ff13a9b3f4ffbba25ca92e028fc64ca5a73"
+  integrity sha512-zZOp53DhgRhfmfi8m1Z6qJWDBPFdUG6DBuqha8YLn19N+2S7Pou+mWP2HJF+aEG25x82F0NukOS0E6Q0fNQRiA==
+  dependencies:
+    tslib "^2.1.0"
+
+"@nexthcm/admin-job-titles@^0.0.1":
+  version "0.0.1"
+  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/admin-job-titles/-/admin-job-titles-0.0.1.tgz#37e436a0bbc880fcd090aa91398d9bdd98e00175"
+  integrity sha512-zP3O4zJSS4RYHR8QWbDn8HkoZK61QLDJPkG3BKMe2QhOKC/2m7lbgqnUDPV57rCKY2iPj5lr1a9biJL3TFLaZg==
+  dependencies:
+    tslib "^2.2.0"
+
+"@nexthcm/admin-knowledge-base@^0.0.1":
+  version "0.0.1"
+  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/admin-knowledge-base/-/admin-knowledge-base-0.0.1.tgz#5378e156743d54edd74a443311d93351d24e9ad6"
+  integrity sha512-SOtVeIPE6QXROGFDPRWnDLEZ/S/QqPzaSUMMj/jW6OonGfjkdQIGhvrBnhQiGqkKDEkWF8d4878+sJqKHDNs5w==
+  dependencies:
+    tslib "^2.1.0"
+
+"@nexthcm/admin-leave-configs@^0.0.1":
+  version "0.0.1"
+  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/admin-leave-configs/-/admin-leave-configs-0.0.1.tgz#c8068d17f7832f3e84217173021fc7c1787aed7f"
+  integrity sha512-NeYbUwvQ/8Bcl5Y6doJvVo2vuDWgEu70M7MJmkyJuVTbYqrXaHLq0ROZ6TG7v2LahR6QdGrBgYw6P8oQJbDQ7A==
+  dependencies:
+    tslib "^2.1.0"
+
+"@nexthcm/admin-offices@^0.0.1":
+  version "0.0.1"
+  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/admin-offices/-/admin-offices-0.0.1.tgz#95f0508fa26091551090570be335f85b73be0b22"
+  integrity sha512-aT7iekyrVAmDUPdtIQm4ZJCUibQfkIkmN6t/5upWeY+Ieb7shiF6akptkhy8Chzukl9fn+dlAqtoE70DfLHQzQ==
+  dependencies:
+    tslib "^2.1.0"
+
+"@nexthcm/admin-permissions@^0.0.1":
+  version "0.0.1"
+  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/admin-permissions/-/admin-permissions-0.0.1.tgz#5da52e48424d1169abbcdde869fe3ae516a7f443"
+  integrity sha512-peRElGwEctRJgKBgRGRwPyF36EX2s/2pqwqEWSSUfhN7dT7SSguGpLA+Sczx393v5Zxs6CbMp4n3eKxJ+pUyqQ==
+  dependencies:
+    tslib "^2.1.0"
+
+"@nexthcm/admin-requests-configuration@^0.0.1":
+  version "0.0.1"
+  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/admin-requests-configuration/-/admin-requests-configuration-0.0.1.tgz#678fc03c4307d8ab3998490ad5273090e831f1f4"
+  integrity sha512-As47cCiF9dm+PLCNhkUHb7j3u/iqo6i8IHXWFB5Btr43maqoc28fbzJvyUr+U252r7uwp8viTKez4Kx4G2kNrQ==
+  dependencies:
+    tslib "^2.3.0"
+
+"@nexthcm/admin-seat-maps@^0.0.1":
+  version "0.0.1"
+  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/admin-seat-maps/-/admin-seat-maps-0.0.1.tgz#fef93fca53213a63a4fce4614725fcbb9363d4ce"
+  integrity sha512-ZdzPgaePDXZIXmXhXHjorkVOBfTdsxhVBe5wYpA6WsbJ1HjrnV9nCSXBuKYoah0Oc/gJX6Tkyd/FyV3afzPeKQ==
+  dependencies:
+    tslib "^2.2.0"
+
+"@nexthcm/admin-tenants@^0.0.1":
+  version "0.0.1"
+  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/admin-tenants/-/admin-tenants-0.0.1.tgz#cc3a9eab0d63816a9d6ff55f320705ddd4a4870a"
+  integrity sha512-8QwWbFh/Siex85TXt1mTF5k8oFcqHDYBVE8gKmcjIEylxRtGTuaG7MtZRKuY2kUrCr5WzBkmOlsyglgWlGUdyQ==
+  dependencies:
+    tslib "^2.3.0"
+
+"@nexthcm/admin-user-roles@^0.0.1":
+  version "0.0.1"
+  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/admin-user-roles/-/admin-user-roles-0.0.1.tgz#b834f942f87fa06336cb534cc25fa3aca4b21773"
+  integrity sha512-M+NDBWMlrbCh8GbDDocfVenA+nsMi7bdtTD87r1W5r8PqvOEW7qLo8gjp6rz12PN7/H3YuEz32Vj9Kt7BYhkMw==
+  dependencies:
+    tslib "^2.2.0"
+
+"@nexthcm/admin-workflows@^0.0.1":
+  version "0.0.1"
+  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/admin-workflows/-/admin-workflows-0.0.1.tgz#0ace270b0e98ad10d19a803d774d1caa5c69431e"
+  integrity sha512-WTVeIbE8rwdGDTxYSEZRb3gcKt6m+tYOHPpq3+hpJ4Xi7NRRdWjo2zPt+jYVxNNr+7Khlf3mTUEUNfEq8DrtBg==
+  dependencies:
+    rfdc "^1.3.0"
+    tslib "^2.1.0"
+
+"@nexthcm/admin-working-times@^0.0.1":
+  version "0.0.1"
+  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/admin-working-times/-/admin-working-times-0.0.1.tgz#3b08423ce3427d02b595549ea32beba7238f3c46"
+  integrity sha512-hPSc8KiFuWpQaJdhV/0Xylo9cDKIaVbqIBcW19lrBNcZfaCFmTQhNsDKTuru9ghvR1669PLXaQBojUbOPRvhsA==
+  dependencies:
+    tslib "^2.1.0"
+
+"@nexthcm/auth@^0.0.1":
+  version "0.0.1"
+  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/auth/-/auth-0.0.1.tgz#8bbe593bdec98a346d4cbb47cf22d48b8f4b4bb7"
+  integrity sha512-cb4QaUjPT3bYZrtOGjhAgtTiBO85g0f8borw0WVcHGM+cc25mfiJQXiOZ+mTtdDTCDbboydw4WfTZ3ybN9+TgA==
+  dependencies:
+    "@auth0/angular-jwt" "^5.0.2"
+    ngx-cookie "^5.0.2"
+    tslib "^2.0.0"
+
+"@nexthcm/calendar@^0.0.1":
+  version "0.0.1"
+  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/calendar/-/calendar-0.0.1.tgz#58ff2b5dbe16e1f383f489f00c77a537bb3ba347"
+  integrity sha512-aZxRBjCU5lOijq0UV5SdDNOygSW5NhiOFM+RI/1JXPtN7HpcXTJpfj88JFiOfmVGAI//SEBxAxUQ7JNGG2dE5A==
+  dependencies:
+    "@fullcalendar/angular" "^5.9.0"
+    "@fullcalendar/daygrid" "^5.9.0"
+    tslib "^2.2.0"
+
+"@nexthcm/cdk@^0.0.1":
+  version "0.0.1"
+  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/cdk/-/cdk-0.0.1.tgz#b81e7d107ba2f43de0c4efaf2142a80544e92b8a"
+  integrity sha512-RGFQJICP6p+22ZGREwVvCMSR6KfMCeg+MfeZTdyjSmX7djzr89nQjKwIZKvc326BNLN1r8C+0CWcB5en9wvRxA==
+  dependencies:
+    tslib "^2.2.0"
+
+"@nexthcm/core@^0.0.1":
+  version "0.0.1"
+  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/core/-/core-0.0.1.tgz#40a1208d9716e94e97b26f7cd9c5473b85da917f"
+  integrity sha512-GLh18PzItIxdt629hxiujSr0fCr9+uhXKwE+hX4wGGFXG3VpLAkX0i2RADq5f1BaPHAoJuZxBQXj+HoxLmb7/g==
+  dependencies:
+    "@datorama/akita" "^6.2.3"
+    "@datorama/akita-ng-effects" "^1.0.5"
+    "@datorama/akita-ng-router-store" "^6.0.2"
+    "@ngneat/reactive-forms" "^1.7.3"
+    "@ngneat/svg-icon" "^3.2.0"
+    "@ngneat/transloco" "^2.21.0"
+    "@ngneat/transloco-locale" "^1.4.0"
+    "@ngx-formly/core" "^5.10.21"
+    "@rx-angular/cdk" "^1.0.0-alpha.8"
+    "@rx-angular/state" "^1.4.3"
+    "@rx-angular/template" "^1.0.0-beta.25"
+    "@rxweb/reactive-form-validators" "^2.1.3"
+    "@sweetalert2/ngx-sweetalert2" "^10.0.0"
+    "@tinkoff/ng-dompurify" "^3.0.0"
+    date-fns "^2.22.1"
+    inter-ui "^3.18.1"
+    ng-heroicon "^0.4.5"
+    ngx-cookie "^5.0.2"
+    ngx-easy-table "^15.0.0"
+    ngx-permissions "^8.1.1"
+    ngx-quill "^14.3.0"
+    quill "^1.3.7"
+    quill-delta "^4.2.2"
+    quill-delta-to-html "^0.12.0"
+    sweetalert2 "^11.0.18"
+    tslib "^2.0.0"
+
+"@nexthcm/home@^0.0.1":
+  version "0.0.1"
+  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/home/-/home-0.0.1.tgz#b306652a9c603b89f7c5bb074fce0226d42b215a"
+  integrity sha512-beOPNrGtXfrXar3JvygthwOE+/QdoFATnj/IEFV0ftpbQzsrcs3EVgKIr5/9uWLNGSMUTOnidtGYzWJ4f6A3Qg==
+  dependencies:
+    "@ctrl/ngx-emoji-mart" "^6.0.0"
+    tslib "^2.0.0"
+
+"@nexthcm/human-resource@^0.0.1":
+  version "0.0.1"
+  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/human-resource/-/human-resource-0.0.1.tgz#e0dbb8b4990659cd6be304b80a7b8527fa80d77f"
+  integrity sha512-31IGjTdekZ6u5qY6D5iMhp8/IH8CzCrVMdDK92+m1gJiLOSa6nuYHzAuM6TZwvueDJbIOoUOc5hG1/pxvnfuEw==
+  dependencies:
+    tslib "^2.0.0"
+
+"@nexthcm/knowledge-base@^0.0.1":
+  version "0.0.1"
+  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/knowledge-base/-/knowledge-base-0.0.1.tgz#695ed5c9cfc909b356213f0886e07e8c29115dbf"
+  integrity sha512-ANAhFNHeI725R0rker3MvoThS5pyDuswgAoCo2XPuKWXZ4egb/5FwYKHt5Rl8aIi5TiC1YeqNYpGnDlyfeBIKA==
+  dependencies:
+    tslib "^2.0.0"
+
+"@nexthcm/my-time@^0.0.1":
+  version "0.0.1"
+  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/my-time/-/my-time-0.0.1.tgz#3e7457d75adfafc370a0b1da0f79e8a24f070914"
+  integrity sha512-YGD6EylGEeYLO4TaMYgx8eKhGMJTONKqq/L8Q4IWzXOZ/dehnvc0X2q+NP4H074QPsRrV76uG842+WWueE+Ueg==
+  dependencies:
+    tslib "^2.0.0"
+
+"@nexthcm/seat-maps@^0.0.1":
+  version "0.0.1"
+  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/seat-maps/-/seat-maps-0.0.1.tgz#58ae1e431571272bc55a0b1efb3b0ee9c640cc95"
+  integrity sha512-e/U0HXYhit78v+HlmRW+so5wxrt6ytp6k38boC7JLOx2SmSPpqFLT+QM1hKfTdErmYD0d4g1r+Qk4B4bacAGnA==
+  dependencies:
+    tslib "^2.2.0"
+
+"@nexthcm/ui@^0.0.1":
+  version "0.0.1"
+  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/ui/-/ui-0.0.1.tgz#e9c99e37b629bda1d500bb514569396922ceee8d"
+  integrity sha512-ePw7Bbuel1Qob+76SMeV9AysWp5XJUNll7AQNcp0KZ2IqilVXEJvaoAAxpTpyD8RKo9KZtQ4rsWNd30zQ6FYJQ==
+  dependencies:
+    "@ng-select/ng-select" "^7.0.0"
+    tslib "^2.0.0"
+
+"@nexthcm/workflow-designer@^0.0.1":
+  version "0.0.1"
+  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/workflow-designer/-/workflow-designer-0.0.1.tgz#1f7707eb7c814047796f93aaa2c85c2370884c93"
+  integrity sha512-nXtoWbZBluQia9Sg6wHs/bvUwPaWamYYKF5ZiyZpqdi8qqzEMf54VX4q8JL6VWZuDzOIhWbJiTt4gIe1pxCtCQ==
+  dependencies:
+    mxgraph "^4.2.2"
+    tslib "^2.1.0"
+
+"@ng-select/ng-select@^7.0.0", "@ng-select/ng-select@^7.2.0":
   version "7.2.0"
   resolved "https://registry.yarnpkg.com/@ng-select/ng-select/-/ng-select-7.2.0.tgz#5f496fdbe1de238f49c79ff714350113c09419d7"
   integrity sha512-o4A8DAIV36lOy3xzIE0cYH5psACcIYDOfU3XzQQ+/WCKO1ChNH0cXUWtOAI1B/AF1yW/NpADxPPbFcrknAuYaA==
@@ -2304,7 +2505,7 @@
   dependencies:
     requireindex "1.1.0"
 
-"@ngneat/reactive-forms@^1.7.5":
+"@ngneat/reactive-forms@^1.7.3", "@ngneat/reactive-forms@^1.7.5":
   version "1.7.5"
   resolved "https://registry.yarnpkg.com/@ngneat/reactive-forms/-/reactive-forms-1.7.5.tgz#df30ac7f7fe5ef8a7d0a2beac36aa009c1c26336"
   integrity sha512-7hTWW7SDopCZW+sWDf7UK5lsLzeKK66iuAzxx+LntqVoU5d3lGCeR503sXCbo8TDKApSH1za9f/KKLFqUYGV/w==
@@ -2372,7 +2573,7 @@
     cosmiconfig "6.0.0"
     tslib "^1.9.0"
 
-"@ngneat/transloco@^2.22.0":
+"@ngneat/transloco@^2.21.0", "@ngneat/transloco@^2.22.0":
   version "2.23.2"
   resolved "https://registry.yarnpkg.com/@ngneat/transloco/-/transloco-2.23.2.tgz#791496e73c8cce1ef7f97edff5a174adec820f30"
   integrity sha512-qzGKJJCOuz+JeAJyEnMEzf77zW5WCRGnbvdDqMmjtqDYMQNdyluJn7MG3S7/EvBr9gkUpu5MJTeXDjE+fzw8AA==
@@ -2389,7 +2590,7 @@
   resolved "https://registry.yarnpkg.com/@ngtools/webpack/-/webpack-12.2.5.tgz#f0077e302434b00bc67924142c88a844f320f7b9"
   integrity sha512-wc+ovfJucCxAjoP3ExnJll8K3nAoNCiFyDEO8dgHkriY/IWhGdwOu1eduHgfT/mWS40Awj/inJJir9oTi4YBVg==
 
-"@ngx-formly/core@^5.10.22":
+"@ngx-formly/core@^5.10.21", "@ngx-formly/core@^5.10.22":
   version "5.10.22"
   resolved "https://registry.yarnpkg.com/@ngx-formly/core/-/core-5.10.22.tgz#e8723b932bb6f056b1b0d899179ac73dabf4f4ed"
   integrity sha512-HTgVN2xNf3TdPS10ayV4G7dvX1olHvggquhTUY/dzej1x03NVofDQulnPTxKEU1ObN92IQZNq3VL9pm3sBCR7A==
@@ -2811,21 +3012,21 @@
     estree-walker "^2.0.1"
     picomatch "^2.2.2"
 
-"@rx-angular/cdk@^1.0.0-alpha.10":
+"@rx-angular/cdk@^1.0.0-alpha.10", "@rx-angular/cdk@^1.0.0-alpha.8":
   version "1.0.0-alpha.10"
   resolved "https://registry.yarnpkg.com/@rx-angular/cdk/-/cdk-1.0.0-alpha.10.tgz#751f20df13b3299965e5cd8123eb14e02e6e4127"
   integrity sha512-QI2jtVjxBccBmcir0yfkgY/IYFgFh/sOeJNFj28DWeLWIizfdyTb8YCcelni4dbJSpQkV+d+CAhyM0IiW4R1Pw==
   dependencies:
     tslib "^2.0.0"
 
-"@rx-angular/state@^1.4.5":
+"@rx-angular/state@^1.4.3", "@rx-angular/state@^1.4.5":
   version "1.4.5"
   resolved "https://registry.yarnpkg.com/@rx-angular/state/-/state-1.4.5.tgz#df984f03c4f8d859cc73e81dddb25b43997940f4"
   integrity sha512-OT1rhiSP4k+4sXa4J7NHewgaRZIF5sx9JGcb1d8BEBDBQmru4JJZ4SygmV5n3vHDOOcAhN74StqzqTUBfHy8Vw==
   dependencies:
     tslib "^2.0.0"
 
-"@rx-angular/template@^1.0.0-beta.28":
+"@rx-angular/template@^1.0.0-beta.25", "@rx-angular/template@^1.0.0-beta.28":
   version "1.0.0-beta.28"
   resolved "https://registry.yarnpkg.com/@rx-angular/template/-/template-1.0.0-beta.28.tgz#18715b0e1852b71e5c2fc714f888be8b6d93a94a"
   integrity sha512-yM1xfLLEPOjoJ0G430GVYxS8aG9a5c15z6XYDY1+mZ8FhQhy9bCNlrhFN2qL8wFZIJMIG7WEUqfdFKmrDSIx8Q==
@@ -6583,7 +6784,7 @@ date-fns@^1.27.2:
   resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-1.30.1.tgz#2e71bf0b119153dbb4cc4e88d9ea5acfb50dc05c"
   integrity sha512-hBSVCvSmWC+QypYObzwGOd9wqdDpOt+0wl0KbU+R+uuZBS1jN8VsD1ss3irQDknRj5NvxiTF6oj/nDRnN/UQNw==
 
-date-fns@^2.23.0:
+date-fns@^2.22.1, date-fns@^2.23.0:
   version "2.23.0"
   resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-2.23.0.tgz#4e886c941659af0cf7b30fafdd1eaa37e88788a9"
   integrity sha512-5ycpauovVyAk0kXNZz6ZoB9AYMZB4DObse7P3BPWmyEjXNORTI8EJ6X0uaSAq4sCHzM1uajzrkr6HnsLQpxGXA==
@@ -9083,7 +9284,7 @@ inquirer@^7.3.3:
     strip-ansi "^6.0.0"
     through "^2.3.6"
 
-inter-ui@^3.19.3:
+inter-ui@^3.18.1, inter-ui@^3.19.3:
   version "3.19.3"
   resolved "https://registry.yarnpkg.com/inter-ui/-/inter-ui-3.19.3.tgz#cf4b4b6d30de8d5463e2462588654b325206488c"
   integrity sha512-5FG9fjuYOXocIfjzcCBhICL5cpvwEetseL3FU6tP3d6Bn7g8wODhB+I9RNGRTizCT7CUG4GOK54OPxqq3msQgg==
@@ -15817,7 +16018,7 @@ swap-case@^2.0.2:
   dependencies:
     tslib "^2.0.3"
 
-sweetalert2@^11.1.5:
+sweetalert2@^11.0.18, sweetalert2@^11.1.5:
   version "11.1.5"
   resolved "https://registry.yarnpkg.com/sweetalert2/-/sweetalert2-11.1.5.tgz#6bc0d681e8f83c744a9284a84aefbfdcc7d92bec"
   integrity sha512-5cfqUK9lLbvxtjzsvORKWj+d3tcgYlzsL60FoJFXE/+mtMa5EJ3tDax9p9MBjVnZ60gQd+WGrqDIrxoNenhUjA==

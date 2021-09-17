@@ -1,0 +1,38 @@
+pipeline {
+    agent {label 'server20'}
+    environment {
+         ENVIRONMENT        = 'qa'
+         PROJECT_NAME       = 'hrms'
+         SERVICE_NAME       = 'next-hcm-demo-web'
+         NAMESPACE          = 'bv-hcm-qa'
+         K8S_FILE           = 'kubernetes_qa.yml'
+    }
+    stages {
+        stage("Docker push") {
+            agent {label 'server20'}
+            steps {
+                sh 'docker build -f Dockerfile_${ENVIRONMENT} --network=host --rm=true -t docker-host.banvien.com.vn/${PROJECT_NAME}/${ENVIRONMENT}/${SERVICE_NAME}:latest .'
+                sh "docker push docker-host.banvien.com.vn/${PROJECT_NAME}/${ENVIRONMENT}/${SERVICE_NAME}:latest"
+                sh "docker rmi docker-host.banvien.com.vn/${PROJECT_NAME}/${ENVIRONMENT}/${SERVICE_NAME}:latest"
+            }
+        }
+        stage("Un-deploy old build") {
+            agent {label 'server20'}
+            steps {
+                script {
+                    try {
+                        sh "kubectl delete -f ${K8S_FILE} -n ${NAMESPACE}"
+                    } catch (err) {
+                        echo "No old deployment"
+                    }
+                }
+            }
+        }
+        stage("Deploy") {
+            agent {label 'server20'}
+            steps {
+                sh "kubectl apply -f ${K8S_FILE} -n ${NAMESPACE}"
+            }
+        }
+    }
+}

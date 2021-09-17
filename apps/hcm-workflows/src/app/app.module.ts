@@ -27,14 +27,6 @@ import { AppComponent } from './app.component';
         path: 'admin/workflows',
         loadChildren: () => import('@nexthcm/admin-workflows').then((m) => m.AdminWorkflowsModule),
       },
-      {
-        path: 'admin/employees',
-        loadChildren: () => import('@nexthcm/admin-employees').then((m) => m.AdminEmployeesModule),
-      },
-      {
-        path: 'admin/working-times',
-        loadChildren: () => import('@nexthcm/admin-working-times').then((m) => m.AdminWorkingTimesModule),
-      },
       { path: '', redirectTo: 'admin/workflows', pathMatch: 'full' },
     ]),
     BrowserAnimationsModule,
