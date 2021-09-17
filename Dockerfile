@@ -3,7 +3,7 @@ WORKDIR /app
 COPY package.json .yarnrc .npmrc yarn.lock ./
 RUN yarn
 COPY . ./
-RUN yarn nx run-many --target=build --all --exclude hcm-workflows,hcm-web,next-hcm-demo-web
+RUN yarn nx run-many --target=build --all --exclude hcm-workflows,hcm-web,next-hcm-demo-web,chat
 RUN yarn nx run-many --target=publish --all
 RUN yarn upgrade
 RUN yarn build -- -c dev

@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "nx",
     "preinstall": "npx only-allow yarn",
-    "postinstall": "patch-package",
+    "postinstall": "patch-package && ngcc --properties es2015 browser module main",
     "nx": "nx",
     "start": "ng serve",
     "start:workflows": "ng serve hcm-workflows --port 4201",
@@ -15,7 +15,7 @@
     "e2e": "ng e2e",
     "affected:apps": "nx affected:apps",
     "affected:libs": "nx affected:libs",
-    "affected:build": "nx affected:build --exclude hcm-workflows,hcm-web,next-hcm-demo-web",
+    "affected:build": "nx affected:build --exclude hcm-workflows,hcm-web,next-hcm-demo-web,chat",
     "affected:e2e": "nx affected:e2e",
     "affected:test": "nx affected:test",
     "affected:lint": "nx affected:lint",
