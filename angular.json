@@ -856,12 +856,6 @@
           },
           "outputs": ["{options.outputFile}"]
         },
-        "publish": {
-          "builder": "@nrwl/workspace:run-commands",
-          "options": {
-            "command": "yarn publish dist/libs/chat"
-          }
-        },
         "generate": {
           "builder": "@nrwl/workspace:run-commands",
           "options": {
