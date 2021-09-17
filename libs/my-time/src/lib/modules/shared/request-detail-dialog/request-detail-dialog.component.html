@@ -1,227 +1,242 @@
-<ng-container *transloco="let t">
-  <ng-container *ngIf="data.employeeDTO || data.user || data.userInfo as employee">
-    <section *ngIf="!isMyRequest" class="flex flex-col items-center py-5 border-b">
-      <hcm-avatar [image]="employee.image" [text]="employee.username" rounded size="xxl"></hcm-avatar>
-      <div class="mb-3 font-semibold text-blue-500 tui-text_h5">{{ employee.fullName }}</div>
-      <div class="text-lg">{{ employee.jobTitle?.name }}</div>
+<ng-container *transloco='let t'>
+  <ng-container *ngIf='data.employeeDTO || data.user || data.userInfo as employee'>
+    <section *ngIf='!isMyRequest' class='flex flex-col items-center py-5 border-b'>
+      <hcm-avatar [image]='employee.image' [text]='employee.username' rounded size='xxl'></hcm-avatar>
+      <div class='mb-3 font-semibold text-blue-500 tui-text_h5'>{{ employee.fullName }}</div>
+      <div class='text-lg'>{{ employee.jobTitle?.name }}</div>
     </section>
-    <section class="py-5 border-b">
-      <div class="table w-full">
-        <div class="table-row">
-          <div class="table-label">{{ t('cif') }}:</div>
-          <div class="table-value">{{ employee.cif }}</div>
+    <section class='py-5 border-b'>
+      <div class='table w-full'>
+        <div class='table-row'>
+          <div class='table-label'>{{ t('cif') }}:</div>
+          <div class='table-value'>{{ employee.cif }}</div>
         </div>
-        <div class="table-row">
-          <div class="table-label">{{ t('status') }}:</div>
-          <div class="table-value">
+        <div class='table-row'>
+          <div class='table-label'>{{ t('status') }}:</div>
+          <div class='table-value'>
             <tui-tag
               [value]="t('REQUEST_STATUS.' + RequestStatus[data.status])"
-              class="{{ RequestStatus[data.status] }}-tag"
+              class='{{ RequestStatus[data.status] }}-tag'
             ></tui-tag>
           </div>
         </div>
-        <div class="table-row">
-          <div class="table-label">{{ t('requestType') }}:</div>
-          <div class="table-value">{{ t(RequestTypeAPIUrlPath[requestTypeAPIUrlPath]) }}</div>
+        <div class='table-row'>
+          <div class='table-label'>{{ t('requestType') }}:</div>
+          <div class='table-value'>{{ t(RequestTypeAPIUrlPath[requestTypeAPIUrlPath]) }}</div>
         </div>
-        <div class="table-row">
-          <div class="table-label">{{ t('assignee') }}:</div>
-          <div *tuiLet="data.escalateDTO || data.escalateInfo as escalateUser" class="table-value">
-            <div *ngIf="escalateUser && isMyRequest" class="flex items-center">
-              <ng-container *ngTemplateOutlet="value; context: { $implicit: escalateUser }"></ng-container>
+        <div class='table-row'>
+          <div class='table-label'>{{ t('assignee') }}:</div>
+          <div *tuiLet='data.escalateDTO || data.escalateInfo as escalateUser' class='table-value'>
+            <div *ngIf='escalateUser && isMyRequest' class='flex items-center'>
+              <ng-container *ngTemplateOutlet='value; context: { $implicit: escalateUser }'></ng-container>
             </div>
-            <div *ngIf="!isMyRequest">
+            <div *ngIf='!isMyRequest'>
               <tui-combo-box
-                (ngModelChange)="onChangeEscalateUser($event, data.id)"
+                (ngModelChange)='onChangeEscalateUser($event, data.id)'
                 (searchChange)="search$.next($event || '')"
-                *tuiLet="items$ | async as items"
-                [identityMatcher]="identityMatcher"
-                [ngModel]="escalateUser"
-                [strict]="false"
-                [stringify]="stringify"
-                [tuiTextfieldLabelOutside]="true"
-                [valueContent]="value"
+                *tuiLet='items$ | async as items'
+                [identityMatcher]='identityMatcher'
+                [ngModel]='escalateUser'
+                [strict]='false'
+                [stringify]='stringify'
+                [tuiTextfieldLabelOutside]='true'
+                [valueContent]='value'
               >
-                <tui-data-list-wrapper *tuiDataList [itemContent]="content" [items]="items"></tui-data-list-wrapper>
+                <tui-data-list-wrapper *tuiDataList [itemContent]='content' [items]='items'></tui-data-list-wrapper>
                 <ng-template #content let-data>
-                  <div class="flex items-center">
+                  <div class='flex items-center'>
                     <tui-avatar
-                      [avatarUrl]="data.image | getFile | async"
-                      [rounded]="true"
-                      [text]="data.fullName"
-                      class="mr-2"
-                      size="s"
+                      [avatarUrl]='data.image | getFile | async'
+                      [rounded]='true'
+                      [text]='data.fullName'
+                      class='mr-2'
+                      size='s'
                     ></tui-avatar>
-                    <span [tuiHighlight]="search$.value">{{ data.fullName }}</span>
+                    <span [tuiHighlight]='search$.value'>{{ data.fullName }}</span>
                   </div>
                 </ng-template>
               </tui-combo-box>
             </div>
           </div>
           <ng-template #value let-data>
-            <div class="flex items-center">
+            <div class='flex items-center'>
               <tui-avatar
-                [avatarUrl]="data.image | getFile | async"
-                [rounded]="true"
-                [text]="data.fullName"
-                class="mr-2"
-                size="s"
+                [avatarUrl]='data.image | getFile | async'
+                [rounded]='true'
+                [text]='data.fullName'
+                class='mr-2'
+                size='s'
               ></tui-avatar>
               {{ data.fullName }}
             </div>
           </ng-template>
         </div>
-
-        <ng-container [ngSwitch]="requestTypeAPIUrlPath">
-          <ng-container *ngSwitchCase="RequestTypeAPIUrlPath.leave">
-            <div class="table-row">
-              <div class="table-label">{{ t('leaveType') }}:</div>
-              <div class="table-value">{{ data.leaveType!.name }}</div>
-            </div>
-            <div class="table-row">
-              <div class="table-label">{{ t('dateRange') }}:</div>
-              <div class="table-value">
-                <hcm-leave-request-date-range [data]="$any(data)"></hcm-leave-request-date-range>
-              </div>
-            </div>
-            <div class="table-row">
-              <div class="table-label">{{ t('days') }}:</div>
-              <div class="table-value">
-                {{ data.durationInDay ? (data.durationInDay | translocoDecimal: { maximumFractionDigits: 1 }) : '-' }}
+        <ng-container [ngSwitch]='requestTypeAPIUrlPath'>
+          <ng-container *ngSwitchCase='RequestTypeAPIUrlPath.workFromHome'>
+            <div class='table-row'>
+              <div class='table-label'>{{ t('days') }}:</div>
+              <div class='table-value'>
+                {{ data.totalDay ? data.totalDay : '-' }}
               </div>
             </div>
           </ng-container>
-          <ng-container *ngSwitchCase="RequestTypeAPIUrlPath.updateTimesheet">
-            <div class="table-row">
-              <div class="table-label">{{ t('date') }}:</div>
-              <div class="table-value">
+          <ng-container *ngSwitchCase='RequestTypeAPIUrlPath.leave'>
+            <div class='table-row'>
+              <div class='table-label'>{{ t('leaveType') }}:</div>
+              <div class='table-value'>{{ data.leaveType!.name }}</div>
+            </div>
+            <div class='table-row'>
+              <div class='table-label'>{{ t('dateRange') }}:</div>
+              <div class='table-value'>
+                <hcm-leave-request-date-range [data]='$any(data)'></hcm-leave-request-date-range>
+              </div>
+            </div>
+            <div class='table-row'>
+              <div class='table-label'>{{ t('days') }}:</div>
+              <div class='table-value'>
+                {{ data.durationInDay ? data.durationInDay : '-' }}
+              </div>
+            </div>
+          </ng-container>
+          <ng-container *ngSwitchCase='RequestTypeAPIUrlPath.updateTimesheet'>
+            <div class='table-row'>
+              <div class='table-label'>{{ t('date') }}:</div>
+              <div class='table-value'>
                 {{ data.timeSheetTracking!.trackingDate | translocoDate }}
               </div>
             </div>
-            <div class="table-row">
-              <div class="table-label">{{ t('newInTime') }}:</div>
-              <div class="table-value">{{ data.newInTime ? (data.newInTime * 1000 | date: 'HH:mm':'UTC') : '' }}</div>
+            <div class='table-row'>
+              <div class='table-label'>{{ t('newInTime') }}:</div>
+              <div class='table-value'>{{ data.newInTime ? (data.newInTime * 1000 | date: 'HH:mm':'UTC') : '' }}</div>
             </div>
-            <div class="table-row">
-              <div class="table-label">{{ t('newOutTime') }}:</div>
-              <div class="table-value">{{ data.newOutTime ? (data.newOutTime * 1000 | date: 'HH:mm':'UTC') : '' }}</div>
+            <div class='table-row'>
+              <div class='table-label'>{{ t('newOutTime') }}:</div>
+              <div class='table-value'>{{ data.newOutTime ? (data.newOutTime * 1000 | date: 'HH:mm':'UTC') : '' }}</div>
             </div>
           </ng-container>
-          <ng-container *ngSwitchCase="RequestTypeAPIUrlPath.workingOutside">
-            <div class="table-row">
-              <div class="table-label">{{ t('days') }}:</div>
-              <div class="table-value">
-                {{ data.totalDay ? (data.totalDay | translocoDecimal: { maximumFractionDigits: 1 }) : '-' }}
+          <ng-container *ngSwitchCase='RequestTypeAPIUrlPath.workingOutside'>
+            <div class='table-row'>
+              <div class='table-label'>{{ t('days') }}:</div>
+              <div class='table-value'>
+                {{ data.totalDay ? data.totalDay : '-' }}
+              </div>
+            </div>
+          </ng-container>
+          <ng-container *ngSwitchCase='RequestTypeAPIUrlPath.workingAfterHours'>
+            <div class='table-row'>
+              <div class='table-label'>{{ t('MY_TIME_REQUEST_LIST_COLUMNS.spentTime') }}:</div>
+              <div class='table-value'>
+                {{data.duration ? (data.duration / 3600 | translocoDecimal: { maximumFractionDigits: 1 }) : 0}}h
               </div>
             </div>
           </ng-container>
           <ng-container *ngSwitchDefault>
-            <div class="table-row">
-              <div class="table-label">{{ t('dateRange') }}:</div>
-              <div class="table-value">{{ data.fromDate | translocoDate }} - {{ data.toDate | translocoDate }}</div>
+            <div class='table-row'>
+              <div class='table-label'>{{ t('dateRange') }}:</div>
+              <div class='table-value'>{{ data.fromDate | translocoDate }} - {{ data.toDate | translocoDate }}</div>
             </div>
           </ng-container>
         </ng-container>
 
-        <div class="table-row">
-          <div class="table-label">{{ t('office') }}:</div>
-          <div class="table-value">{{ employee.office?.name }}</div>
+        <div class='table-row'>
+          <div class='table-label'>{{ t('office') }}:</div>
+          <div class='table-value'>{{ employee.office?.name }}</div>
         </div>
 
-        <div class="table-row">
-          <div class="table-label">{{ t('sendTo') }}:</div>
-          <div class="table-value">
-            <div *ngIf="data?.managerInfo || data?.escalateDTO as sendTo" class="flex items-center">
+        <div class='table-row'>
+          <div class='table-label'>{{ t('sendTo') }}:</div>
+          <div class='table-value'>
+            <div *ngIf='data?.managerInfo || data?.escalateDTO as sendTo' class='flex items-center'>
               <tui-avatar
-                [autoColor]="true"
-                [avatarUrl]="sendTo.image | getFile | async"
-                [rounded]="true"
-                [text]="sendTo.fullName"
-                class="mr-2"
-                size="s"
+                [autoColor]='true'
+                [avatarUrl]='sendTo.image | getFile | async'
+                [rounded]='true'
+                [text]='sendTo.fullName'
+                class='mr-2'
+                size='s'
               ></tui-avatar>
               {{ sendTo.fullName }}
             </div>
           </div>
         </div>
 
-        <div class="table-row">
-          <div class="table-label">{{ t('Comment') }}:</div>
-          <div class="table-value">{{ data.comment }}</div>
+        <div class='table-row'>
+          <div class='table-label'>{{ t('Comment') }}:</div>
+          <div class='table-value'>{{ data.comment }}</div>
         </div>
-        <div *ngIf="data.status === RequestStatus.rejected" class="table-row">
-          <div class="table-label">{{ t('reason') }}:</div>
-          <div class="table-value">{{ data.reason }}</div>
+        <div *ngIf='data.status === RequestStatus.rejected' class='table-row'>
+          <div class='table-label'>{{ t('reason') }}:</div>
+          <div class='table-value'>{{ data.reason }}</div>
         </div>
       </div>
     </section>
     <section
-      *ngIf="data.status === RequestStatus.waiting"
-      [class.grid-cols-2]="!isMyRequest"
-      class="grid gap-8 py-5 border-b"
+      *ngIf='data.status === RequestStatus.waiting'
+      [class.grid-cols-2]='!isMyRequest'
+      class='grid gap-8 py-5 border-b'
     >
-      <ng-container *ngIf="isMyRequest">
-        <button (click)="onCancelRequest(data.id)" appearance="secondary" class="mx-auto" tuiButton>
+      <ng-container *ngIf='isMyRequest'>
+        <button (click)='onCancelRequest(data.id)' appearance='secondary' class='mx-auto' tuiButton>
           {{ t('cancel') }}
         </button>
       </ng-container>
-      <ng-container *ngIf="!isMyRequest">
-        <button (click)="onRejectRequest(data.id)" appearance="secondary" tuiButton>{{ t('reject') }}</button>
-        <button (click)="onApproveRequest(data.id)" tuiButton>{{ t('approve') }}</button>
+      <ng-container *ngIf='!isMyRequest'>
+        <button (click)='onRejectRequest(data.id)' appearance='secondary' tuiButton>{{ t('reject') }}</button>
+        <button (click)='onApproveRequest(data.id)' tuiButton>{{ t('approve') }}</button>
       </ng-container>
     </section>
 
-    <tui-accordion [closeOthers]="false" [rounded]="false">
-      <tui-accordion-item [borders]="null" class="border-b-2">
-        <div class="font-semibold uppercase">{{ t('history') }}</div>
+    <tui-accordion [closeOthers]='false' [rounded]='false'>
+      <tui-accordion-item [borders]='null' class='border-b-2'>
+        <div class='font-semibold uppercase'>{{ t('history') }}</div>
 
         <ng-template tuiAccordionItemContent>
-          <ng-container *ngIf="tracking$ | async as trackings">
-            <ng-container *ngFor="let tracking of trackings">
+          <ng-container *ngIf='tracking$ | async as trackings'>
+            <ng-container *ngFor='let tracking of trackings'>
               <p>
-                <span class="text-blue-500">{{ tracking.authorUsername }}</span>
+                <span class='text-blue-500'>{{ tracking.authorUsername }}</span>
                 {{ t('updatedStatusTo') }}
                 <tui-tag
                   [value]="t('REQUEST_STATUS.' + RequestStatus[tracking.right])"
-                  class="{{ RequestStatus[tracking.right] }}-tag"
+                  class='{{ RequestStatus[tracking.right] }}-tag'
                 ></tui-tag>
-                <span class="text-gray-300">&nbsp;{{ tracking.time | date: 'dd/MM/yyyy HH:mm' }}</span>
+                <span class='text-gray-300'>&nbsp;{{ tracking.time | date: 'dd/MM/yyyy HH:mm' }}</span>
               </p>
-              <p *ngIf="+tracking.right === 0">
-                <span class="text-blue-500">{{ tracking.authorUsername }}&nbsp;</span>
+              <p *ngIf='+tracking.right === 0'>
+                <span class='text-blue-500'>{{ tracking.authorUsername }}&nbsp;</span>
                 <span>{{ t('created') }}&nbsp;</span>
                 <span>{{ t('REQUEST_TYPE.' + requestTypeAPIUrlPath) }}</span>
-                <span class="text-gray-300">&nbsp;{{ tracking.time | date: 'dd/MM/yyyy HH:mm' }}</span>
+                <span class='text-gray-300'>&nbsp;{{ tracking.time | date: 'dd/MM/yyyy HH:mm' }}</span>
               </p>
             </ng-container>
           </ng-container>
         </ng-template>
       </tui-accordion-item>
-      <tui-accordion-item [borders]="null">
-        <div class="font-semibold uppercase">{{ t('Comment') }}</div>
+      <tui-accordion-item [borders]='null'>
+        <div class='font-semibold uppercase'>{{ t('Comment') }}</div>
         <ng-template tuiAccordionItemContent>
-          <ng-container *ngIf="comments$ | async as comments">
-            <p *ngFor="let comment of comments.items">
-              <span class="text-blue-500">{{ comment.userInfo?.fullName }}</span> {{ comment.comment }}
-              <span class="text-gray-300">{{ comment.createdDate | date: 'dd/MM/yyyy HH:mm' }}</span>
+          <ng-container *ngIf='comments$ | async as comments'>
+            <p *ngFor='let comment of comments.items'>
+              <span class='text-blue-500'>{{ comment.userInfo?.fullName }}</span> {{ comment.comment }}
+              <span class='text-gray-300'>{{ comment.createdDate | date: 'dd/MM/yyyy HH:mm' }}</span>
             </p>
           </ng-container>
-          <div class="flex justify-between align-baseline mt-4">
-            <tui-avatar [rounded]="true" [text]="'A'"></tui-avatar>
+          <div class='flex justify-between align-baseline mt-4'>
+            <tui-avatar [rounded]='true' [text]="'A'"></tui-avatar>
             <tui-input
-              (keyup.enter)="onSubmitComment()"
-              [formControl]="commentControl"
-              [tuiTextfieldLabelOutside]="true"
-              class="w-80"
+              (keyup.enter)='onSubmitComment()'
+              [formControl]='commentControl'
+              [tuiTextfieldLabelOutside]='true'
+              class='w-80'
             >
             </tui-input>
             <button
-              (click)="onSubmitComment()"
-              appearance="flat"
-              class="tui-space_right-3 tui-space_bottom-3"
-              icon="tuiIconRedoLarge"
+              (click)='onSubmitComment()'
+              appearance='flat'
+              class='tui-space_right-3 tui-space_bottom-3'
+              icon='tuiIconRedoLarge'
               tuiIconButton
-              type="button"
+              type='button'
             ></button>
           </div>
         </ng-template>

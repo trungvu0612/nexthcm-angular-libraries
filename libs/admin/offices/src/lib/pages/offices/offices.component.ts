@@ -1,34 +1,60 @@
-import { ChangeDetectionStrategy, Component, Injector } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Injector, OnInit, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { PromptService, Zone } from '@nexthcm/cdk';
+import { AbstractServerPaginationTableComponent, PromptService, Zone, Pagination } from '@nexthcm/cdk';
 import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDialogContext, TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusContent } from '@tinkoff/ng-polymorpheus';
-import { DefaultConfig } from 'ngx-easy-table';
-import { BehaviorSubject, Subscriber } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { BaseComponent, DefaultConfig } from 'ngx-easy-table';
+import { BehaviorSubject, from, Observable, Subject, Subscriber } from 'rxjs';
+import {
+  catchError,
+  debounceTime,
+  distinctUntilChanged,
+  filter,
+  map,
+  share,
+  startWith,
+  switchMap, takeUntil,
+  tap
+} from 'rxjs/operators';
 import { SweetAlertOptions } from 'sweetalert2';
 import { AdminOfficesService } from '../../services/admin-offices.service';
+import { HttpParams } from '@angular/common/http';
+import { Office } from '../../models/office';
+import { RxState } from '@rx-angular/state';
+import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'hcm-offices',
   templateUrl: './offices.component.html',
   styleUrls: ['./offices.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [RxState, TuiDestroyService]
 })
-export class OfficesComponent {
+export class OfficesComponent extends AbstractServerPaginationTableComponent<Office> implements OnInit {
+  @ViewChild('table') table!: BaseComponent;
   readonly configuration = { ...DefaultConfig, paginationEnabled: false, fixedColumnWidth: false };
   readonly columns$ = this.translocoService.selectTranslateObject('ZONE_TABLE').pipe(
     map((translate) => [
       { key: 'name', title: translate.name },
       { key: 'address', title: translate.address },
       { key: 'description', title: translate.description },
-      { key: 'action', title: translate.action },
+      { key: 'action', title: translate.action }
     ])
   );
+
+
   readonly params$ = new BehaviorSubject<{ [key: string]: number }>({ size: 10 });
-  readonly data$ = this.params$.pipe(switchMap((params) => this.adminOfficesService.getOffices(params)));
+  // readonly data$ = this.params$.pipe(switchMap((params) => this.adminOfficesService.getOffices(params)));
+  readonly queryParams$ = new BehaviorSubject(new HttpParams().set('page', 0).set('size', 10));
+  readonly search$ = new Subject<string | null>();
+  private readonly request$ = this.queryParams$.pipe(
+    switchMap(() => this.adminOfficesService.getOffices(this.queryParams$.value).pipe(startWith(null))),
+    share()
+  );
+
   readonly form = new FormGroup({});
   model!: Partial<Zone>;
   readonly fields: FormlyFieldConfig[] = [
@@ -39,8 +65,8 @@ export class OfficesComponent {
         required: true,
         translate: true,
         label: 'officeName',
-        textfieldLabelOutside: true,
-      },
+        textfieldLabelOutside: true
+      }
     },
     {
       key: 'address',
@@ -49,8 +75,8 @@ export class OfficesComponent {
         required: true,
         translate: true,
         label: 'address',
-        textfieldLabelOutside: true,
-      },
+        textfieldLabelOutside: true
+      }
     },
     {
       key: 'description',
@@ -58,24 +84,45 @@ export class OfficesComponent {
       templateOptions: {
         label: 'description',
         translate: true,
-        textfieldLabelOutside: true,
-      },
-    },
+        textfieldLabelOutside: true
+      }
+    }
   ];
 
   constructor(
+    readonly state: RxState<Pagination<Office>>,
     private readonly adminOfficesService: AdminOfficesService,
     private readonly translocoService: TranslocoService,
     private readonly dialogService: TuiDialogService,
     private readonly injector: Injector,
-    private promptService: PromptService
-  ) {}
+    private promptService: PromptService,
+    private readonly activatedRoute: ActivatedRoute,
+    private destroy$: TuiDestroyService
+  ) {
+    super(state);
+    state.connect(this.request$.pipe(filter(isPresent)));
+    state.hold(
+      this.search$.pipe(
+        filter(isPresent),
+        debounceTime(1000),
+        distinctUntilChanged(),
+        tap((searchQuery) => this.queryParams$.next(this.queryParams$.value.set('search', searchQuery)))
+      )
+    );
+  }
+
+  ngOnInit(): void {
+    const searchParam = this.activatedRoute.snapshot.queryParams.search;
+    if (searchParam) {
+      this.search$.next(searchParam);
+    }
+  }
 
   upsertOffice(content: PolymorpheusContent<TuiDialogContext>, office?: Partial<Zone>): void {
     this.model = office || { status: 0, longitude: 0, latitude: 0 };
     this.dialogService
       .open(content, {
-        label: this.translocoService.translate(this.model.id ? 'editOffice' : 'createOffice'),
+        label: this.translocoService.translate(this.model.id ? 'editOffice' : 'createOffice')
       })
       .subscribe();
   }
@@ -91,7 +138,24 @@ export class OfficesComponent {
   }
 
   deleteOffice(id: string) {
-    console.log(id);
+    if (id) {
+      from(
+        this.promptService.open({
+          icon: 'question',
+          html: this.translocoService.translate('deleteOffice'),
+          showCancelButton: true
+        })
+      )
+        .pipe(
+          filter((result) => result.isConfirmed),
+          switchMap(() =>
+            this.adminOfficesService.deleteOffice(id).pipe(tap(() => this.queryParams$.next(this.queryParams$.value)))
+          ),
+          catchError((err) => this.promptService.open({ icon: 'error', text: err.error.message })),
+          takeUntil(this.destroy$)
+        )
+        .subscribe();
+    }
   }
 
   changePagination(key: 'page' | 'size', value: number): void {

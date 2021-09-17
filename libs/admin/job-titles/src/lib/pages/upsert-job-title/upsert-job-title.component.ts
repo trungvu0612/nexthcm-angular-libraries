@@ -5,12 +5,14 @@ import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { Observable } from 'rxjs';
 import { JobTitle } from '../../models/job-title';
+import { distinctUntilChanged, map, startWith, switchMap } from 'rxjs/operators';
+import { TranslocoService } from '@ngneat/transloco';
 
 @Component({
   selector: 'hcm-upsert-job-title',
   templateUrl: './upsert-job-title.component.html',
   styleUrls: ['./upsert-job-title.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UpsertJobTitleComponent implements OnInit {
   form = this.fb.group<JobTitle>({} as JobTitle);
@@ -58,10 +60,16 @@ export class UpsertJobTitleComponent implements OnInit {
               className: '',
               key: 'state',
               type: 'toggle',
-              templateOptions: { textfieldLabelOutside: true },
+              defaultValue: true,
+              templateOptions: { textfieldLabelOutside: true, labelClassName: 'font-semibold' },
               expressionProperties: {
-                'templateOptions.description': 'model.state === 1 ? "Active" : "Deactive"',
-              },
+                'templateOptions.description': this.form?.valueChanges.pipe(
+                  startWith(null),
+                  map((value) => value?.state),
+                  distinctUntilChanged(),
+                  switchMap((state) => this.translocoService.selectTranslate(`${state ? 'active' : 'inactive'}`))
+                )
+              }
             },
             {
               className: '',
@@ -119,6 +127,7 @@ export class UpsertJobTitleComponent implements OnInit {
   ];
 
   constructor(
+    private translocoService: TranslocoService,
     @Inject(POLYMORPHEUS_CONTEXT) public context: TuiDialogContext<unknown, Observable<JobTitle>>,
     private fb: FormBuilder
   ) {}
