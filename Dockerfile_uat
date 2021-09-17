@@ -1,6 +1,6 @@
 FROM node:lts-slim as build-stage
 WORKDIR /app
-COPY package.json .yarnrc .npmrc yarn.lock ./
+COPY package.json .yarnrc .npmrc yarn.lock patches/ ./
 RUN yarn
 COPY . ./
 RUN yarn nx run-many --target=build --all --exclude hcm-workflows,hcm-web,next-hcm-demo-web,chat
