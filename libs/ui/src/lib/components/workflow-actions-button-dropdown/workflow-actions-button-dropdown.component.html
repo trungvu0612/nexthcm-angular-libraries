@@ -1,10 +1,10 @@
-<tui-hosted-dropdown [(open)]="open" [content]="dropdown" tuiDropdownAlign="left">
+<tui-hosted-dropdown [(open)]="open" [content]="dropdown">
   <button appearance="flat" icon="tuiIconMoreVertLarge" tuiIconButton></button>
 </tui-hosted-dropdown>
 <ng-template #dropdown>
   <tui-data-list>
     <button
-      (click)="onClick(item.transition)"
+      (click)="onClick(item.state)"
       *ngFor="let item of items"
       tuiOption
     >

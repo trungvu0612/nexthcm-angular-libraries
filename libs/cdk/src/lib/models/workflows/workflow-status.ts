@@ -14,5 +14,6 @@ export interface WorkflowStatus<T extends WorkflowStatusType = WorkflowStatusTyp
 }
 
 export interface NextWorkflowStatus {
+  state: WorkflowStatus;
   transition: WorkflowTransition;
 }

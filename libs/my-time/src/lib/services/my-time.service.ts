@@ -78,6 +78,17 @@ export class MyTimeService {
     return this.http.put<unknown>(`${MY_TIME_API_PATH}/${type}/${id}`, payload);
   }
 
+  changeRequestStatus(
+    type: RequestTypeAPIUrlPath,
+    requestId: string,
+    nextState: string,
+    callback?: () => void
+  ): Observable<unknown> {
+    return this.http
+      .put<unknown>(`${MY_TIME_API_PATH}/${type}/${requestId}`, { request: { nextState } })
+      .pipe(tap(this.promptService.handleResponse('', callback)));
+  }
+
   getRequest(type: RequestTypeAPIUrlPath, id: string): Observable<BaseResponse<GeneralRequest>> {
     return this.http.get<BaseResponse<GeneralRequest>>(`${MY_TIME_API_PATH}/${type}/${id}`);
   }

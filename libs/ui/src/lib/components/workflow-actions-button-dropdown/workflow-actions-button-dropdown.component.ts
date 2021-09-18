@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, NgModule, Output, ViewChild } from '@angular/core';
-import { NextWorkflowStatus, WorkflowTransition } from '@nexthcm/cdk';
+import { NextWorkflowStatus, WorkflowStatus } from '@nexthcm/cdk';
 import {
   TuiButtonModule,
   TuiDataListModule,
@@ -18,14 +18,14 @@ import {
 export class WorkflowActionsButtonDropdownComponent {
   @ViewChild(TuiHostedDropdownComponent) component?: TuiHostedDropdownComponent;
   @Input() items: NextWorkflowStatus[] = [];
-  @Output() selectTransition = new EventEmitter<WorkflowTransition>();
+  @Output() selectAction = new EventEmitter<WorkflowStatus>();
 
   open = false;
 
-  onClick(transition: WorkflowTransition): void {
+  onClick(status: WorkflowStatus): void {
     this.open = false;
     this.component?.nativeFocusableElement?.focus();
-    this.selectTransition.emit(transition);
+    this.selectAction.emit(status);
   }
 }
 

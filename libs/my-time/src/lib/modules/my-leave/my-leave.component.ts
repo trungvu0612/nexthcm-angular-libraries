@@ -6,7 +6,7 @@ import { FormBuilder } from '@ngneat/reactive-forms';
 import { TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
-import { TuiDialogService, TuiHostedDropdownComponent } from '@taiga-ui/core';
+import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { BaseComponent, Columns } from 'ngx-easy-table';
 import { BehaviorSubject, Observable, of } from 'rxjs';
@@ -25,7 +25,6 @@ import { SubmitLeaveRequestDialogComponent } from './components/submit-leave-req
 })
 export class MyLeaveComponent extends AbstractRequestListComponent<LeaveRequest> {
   @ViewChild('table') table!: BaseComponent;
-  @ViewChild(TuiHostedDropdownComponent) component?: TuiHostedDropdownComponent;
 
   readonly userId = this.authService.get('userInfo', 'userId');
   readonly requestTypeUrlPath = RequestTypeAPIUrlPath.leave;
@@ -85,8 +84,5 @@ export class MyLeaveComponent extends AbstractRequestListComponent<LeaveRequest>
       );
   }
 
-  onChangeStatus(transition: WorkflowTransition): void {
-    this.open = false;
-    this.component?.nativeFocusableElement?.focus();
-  }
+  onSelectAction($event: WorkflowTransition): void {}
 }
