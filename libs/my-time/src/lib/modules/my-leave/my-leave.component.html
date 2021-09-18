@@ -1,12 +1,10 @@
-<main *transloco="let t" class="main-page">
-  <header>
-    <h1>{{ t('myLeave') }}</h1>
-    <button (click)="showDialogSubmit()" icon="tuiIconPlusLarge" size="m" tuiButton>
-      {{ t('submitLeaveRequest') }}
-    </button>
-  </header>
-
-  <section class="main-section">
+<ng-container *transloco="let t">
+  <hcm-page [title]="t('myLeave')">
+    <ng-container ngProjectAs="pageHeader">
+      <button (click)="showDialogSubmit()" icon="tuiIconPlusLarge" size="m" tuiButton>
+        {{ t('submitLeaveRequest') }}
+      </button>
+    </ng-container>
     <hcm-request-list-filter [httpParams]="queryParams$" class="mb-5"></hcm-request-list-filter>
     <tui-loader [overlay]="true" [showLoader]="(loading$ | async) === true">
       <ngx-table
@@ -40,7 +38,10 @@
                   size="m"
                   tuiIconButton
                 ></button>
-                <hcm-workflow-actions-button-dropdown [items]="item.nextStates"></hcm-workflow-actions-button-dropdown>
+                <hcm-workflow-actions-button-dropdown
+                  (selectAction)="onChangeRequestStatus(item.id, $event.id)"
+                  [items]="item.nextStates"
+                ></hcm-workflow-actions-button-dropdown>
               </div>
             </td>
           </ng-container>
@@ -52,5 +53,5 @@
       (sizeChange)="onSize($event)"
       [total]="(total$ | async) || 0"
     ></tui-table-pagination>
-  </section>
-</main>
+  </hcm-page>
+</ng-container>

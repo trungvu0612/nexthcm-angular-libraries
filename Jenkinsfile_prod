@@ -1,17 +1,39 @@
 pipeline {
-    agent {label 'server15'}
-    environment {
-         ENVIRONMENT        = 'prod'
-         PROJECT_NAME       = 'hrms'
-         SERVICE_NAME       = 'next-hcm-demo-web'
+  agent {
+    label 'server15'
+  }
+  environment {
+    ENVIRONMENT = 'prod'
+    PROJECT_NAME = 'hrms'
+    SERVICE_NAME = 'next-hcm-demo-web'
+  }
+  stages {
+    stage('Build and publish libraries') {
+      agent {
+        label 'server15'
+      }
+      steps {
+        sh 'yarn upgrade'
+        sh 'yarn'
+        sh 'yarn affected:build'
+        sh 'yarn affected:publish'
+      }
     }
-    stages {
-        stage("Docker push") {
-            steps {
-                sh 'docker build -f Dockerfile_${ENVIRONMENT} --network=host --rm=true -t docker-host.banvien.com.vn/${PROJECT_NAME}/${ENVIRONMENT}/${SERVICE_NAME}:${TAG} .'
-                sh "docker push docker-host.banvien.com.vn/${PROJECT_NAME}/${ENVIRONMENT}/${SERVICE_NAME}:${TAG}"
-                sh "docker rmi docker-host.banvien.com.vn/${PROJECT_NAME}/${ENVIRONMENT}/${SERVICE_NAME}:${TAG}"
-            }
-        }
+    stage('Build web') {
+      agent {
+        label 'server15'
+      }
+      steps {
+        sh 'yarn upgrade'
+        sh 'yarn build'
+      }
     }
+    stage('Docker push') {
+      steps {
+        sh 'docker build -f Dockerfile --network=host --rm=true -t docker-host.banvien.com.vn/${PROJECT_NAME}/${ENVIRONMENT}/${SERVICE_NAME}:${TAG} .'
+        sh "docker push docker-host.banvien.com.vn/${PROJECT_NAME}/${ENVIRONMENT}/${SERVICE_NAME}:${TAG}"
+        sh "docker rmi docker-host.banvien.com.vn/${PROJECT_NAME}/${ENVIRONMENT}/${SERVICE_NAME}:${TAG}"
+      }
+    }
+  }
 }

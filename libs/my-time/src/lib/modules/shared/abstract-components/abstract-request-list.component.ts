@@ -45,4 +45,13 @@ export abstract class AbstractRequestListComponent<T> extends AbstractServerPagi
       .pipe(takeUntil(this.destroy$))
       .subscribe();
   }
+
+  onChangeRequestStatus(requestId: string, statusId: string): void {
+    this.myTimeService
+      .changeRequestStatus(this.requestTypeUrlPath, requestId, statusId, () =>
+        this.queryParams$.next(this.queryParams$.value)
+      )
+      .pipe(takeUntil(this.destroy$))
+      .subscribe();
+  }
 }

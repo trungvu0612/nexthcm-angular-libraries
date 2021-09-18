@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { BaseFormComponentModule, WorkflowActionsButtonDropdownComponentModule } from '@nexthcm/ui';
+import { BaseFormComponentModule, LayoutModule, WorkflowActionsButtonDropdownComponentModule } from '@nexthcm/ui';
 import { TranslocoModule } from '@ngneat/transloco';
 import { TranslocoLocaleModule } from '@ngneat/transloco-locale';
 import { TuiTablePaginationModule } from '@taiga-ui/addon-table';
@@ -22,6 +22,7 @@ import { MyLeaveComponent } from './my-leave.component';
   imports: [
     CommonModule,
     RouterModule,
+    LayoutModule,
     TranslocoModule,
     TuiButtonModule,
     TuiTablePaginationModule,
