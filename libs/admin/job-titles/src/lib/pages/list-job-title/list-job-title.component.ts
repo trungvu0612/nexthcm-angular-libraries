@@ -7,7 +7,7 @@ import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { BaseComponent, Columns } from 'ngx-easy-table';
 import { from, Observable, of } from 'rxjs';
-import { catchError, filter, map, switchMap, takeUntil } from 'rxjs/operators';
+import { catchError, filter, map, share, startWith, switchMap, takeUntil } from 'rxjs/operators';
 import { JobTitle } from '../../models/job-title';
 import { AdminJobTitlesService } from '../../services/admin-job-titles.service';
 import { UpsertJobTitleComponent } from '../upsert-job-title/upsert-job-title.component';
@@ -21,6 +21,7 @@ import { UpsertJobTitleComponent } from '../upsert-job-title/upsert-job-title.co
 })
 export class ListJobTitleComponent extends AbstractServerPaginationTableComponent<JobTitle> {
   @ViewChild('table') table!: BaseComponent;
+
   readonly columns$: Observable<Columns[]> = this.translocoService
     .selectTranslateObject('ADMIN_JOB_TITLE_COLUMNS')
     .pipe(
@@ -35,11 +36,13 @@ export class ListJobTitleComponent extends AbstractServerPaginationTableComponen
     );
 
   private readonly request$ = this.queryParams$.pipe(
-    switchMap(() => this.adminJobTitlesService.getAdminJobTitles(this.queryParams$.value)),
-    map((res) => res.data)
+    switchMap(() => this.adminJobTitlesService.getAdminJobTitles(this.queryParams$.value).pipe(startWith(null))),
+    share()
   );
-
-  readonly loading$ = this.request$.pipe(map((value) => !value), catchError(() => of(false)));
+  readonly loading$ = this.request$.pipe(
+    map((value) => !value),
+    catchError(() => of(false))
+  );
 
   constructor(
     public state: RxState<Pagination<JobTitle>>,

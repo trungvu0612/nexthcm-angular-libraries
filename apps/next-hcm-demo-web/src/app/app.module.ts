@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule, Routes } from '@angular/router';
-import { AuthModule, LoginComponent, LogoutComponent } from '@nexthcm/auth';
+import { AuthModule, LoginComponent } from '@nexthcm/auth';
 import { CoreModule } from '@nexthcm/core';
 import { FormlyTaigaUiModule } from '@nexthcm/ui';
 import { TuiRootModule } from '@taiga-ui/core';
@@ -11,14 +11,7 @@ import { AppComponent } from './app.component';
 
 const ROUTES: Routes = [
   { path: '', loadChildren: () => import('@nexthcm/home').then((m) => m.HomeModule) },
-  {
-    path: 'auth',
-    children: [
-      { path: 'login', component: LoginComponent },
-      { path: 'logout', component: LogoutComponent },
-      { path: '', redirectTo: 'login', pathMatch: 'full' },
-    ],
-  },
+  { path: 'login', component: LoginComponent },
   { path: 'my-time', loadChildren: () => import('@nexthcm/my-time').then((m) => m.MyTimeModule) },
   { path: 'seat-maps', loadChildren: () => import('@nexthcm/seat-maps').then((m) => m.SeatMapsModule) },
   { path: 'calendar', loadChildren: () => import('@nexthcm/calendar').then((m) => m.CalendarModule) },

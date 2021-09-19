@@ -946,5 +946,14 @@
   "domains": "Tên miền",
   "ward": "Phường/Xã",
   "chooseWard": "Chọn phường/xã",
-  "enterDomain": "Nhập tên miền"
+  "enterDomain": "Nhập tên miền",
+  "next": "Tiếp theo",
+  "back": "Trở lại",
+  "updatePermission": "Cập nhật phân quyền",
+  "summary": "Tóm lược",
+  "mySeat": "Chỗ của tôi",
+  "notAssignedSeat": "Bạn chưa được chỉ định chỗ ngồi!",
+  "emailTemplate": "Mẫu email",
+  "chooseEmailTemplate": "Chọn một mẫu email...",
+  "createMeeting": "Tạo cuộc họp"
 }

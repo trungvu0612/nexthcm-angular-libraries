@@ -1,17 +1,11 @@
-<main class="main-page" *transloco="let t">
-  <header>
-    <h1>{{ t(id ? 'Edit Job Level' : 'Add Job Level') }}</h1>
-  </header>
-  <div class="tui-container my-8">
-    <formly-form
+<ng-container *transloco="let t">
+  <hcm-page [title]="t(id ? 'Edit Job Level' : 'Add Job Level')">
+    <hcm-base-form
       [fields]="fields"
-      [form]="$any(form)"
+      (cancel)="cancel()"
       [model]="model"
-      class="col-6 border-start border-end"
-    ></formly-form>
-  </div>
-  <div class="flex justify-center gap-4">
-    <button (click)="submit()" [disabled]="!form.valid" class="blue-button ml-8">Save</button>
-    <button (click)="cancel()" class="btn-blue">Cancel</button>
-  </div>
-</main>
+      (submitForm)="submit()"
+      [form]="form"
+    ></hcm-base-form>
+  </hcm-page>
+</ng-container>

@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
+import { Actions } from '@datorama/akita-ng-effects';
 import { CommonStatus, PromptService } from '@nexthcm/cdk';
 import { FormBuilder } from '@ngneat/reactive-forms';
 import { TranslocoService } from '@ngneat/transloco';
@@ -9,6 +10,7 @@ import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { distinctUntilChanged, map, startWith, switchMap, takeUntil } from 'rxjs/operators';
 import { EmailTemplate } from '../../models';
 import { AdminWorkflowsService } from '../../services/admin-workflows.service';
+import { loadTemplateVariables } from '../../state';
 
 @Component({
   selector: 'hcm-upsert-email-template-dialog',
@@ -73,8 +75,11 @@ export class UpsertEmailTemplateDialogComponent implements OnInit {
     private readonly translocoService: TranslocoService,
     private readonly adminWorkflowsService: AdminWorkflowsService,
     private readonly destroy$: TuiDestroyService,
-    private readonly promptService: PromptService
-  ) {}
+    private readonly promptService: PromptService,
+    actions: Actions
+  ) {
+    actions.dispatch(loadTemplateVariables());
+  }
 
   ngOnInit(): void {
     if (this.context.data) {

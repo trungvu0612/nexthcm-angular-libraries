@@ -7,6 +7,7 @@ import {
   BaseFormComponentModule,
   FormlyUserComboBoxComponentModule,
   InputFilterComponentModule,
+  LayoutModule,
   SelectFilterComponentModule,
   SelectMonthFilterComponentModule,
 } from '@nexthcm/ui';
@@ -60,6 +61,7 @@ import { WorkingHoursComponent } from './working-hours.component';
     BaseFormComponentModule,
     TuiIslandModule,
     FormlyUserComboBoxComponentModule,
+    LayoutModule,
   ],
   providers: [WorkingHoursService],
 })

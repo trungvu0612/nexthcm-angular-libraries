@@ -1,9 +1,8 @@
-<main class="main-page">
-  <header>
-    <h1>Updated</h1>
-    <tui-input-month [formControl]="inputDate" class="w-48 mr-7">Choose time</tui-input-month>
-  </header>
-  <section class="main-section">
+<ng-container *transloco="let t">
+  <hcm-page [title]="t('updated')">
+    <ng-container ngProjectAs="pageHeader">
+      <tui-input-month [formControl]="inputDate" class="w-48 mr-7">Choose time</tui-input-month>
+    </ng-container>
     <hcm-updated-knowledge></hcm-updated-knowledge>
-  </section>
-</main>
+  </hcm-page>
+</ng-container>

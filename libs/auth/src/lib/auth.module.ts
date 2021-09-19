@@ -8,10 +8,10 @@ import { TuiButtonModule, TuiSvgModule, TuiTextfieldControllerModule } from '@ta
 import { TuiCheckboxLabeledModule, TuiCheckboxModule, TuiInputModule, TuiInputPasswordModule } from '@taiga-ui/kit';
 import { CookieModule } from 'ngx-cookie';
 import { TOKEN_INTERCEPTOR_PROVIDER } from './interceptors';
-import { LoginComponent, LogoutComponent } from './pages';
+import { LoginComponent } from './pages';
 
 @NgModule({
-  declarations: [LoginComponent, LogoutComponent],
+  declarations: [LoginComponent],
   imports: [
     CommonModule,
     FormsModule,

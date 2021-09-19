@@ -1,4 +1,4 @@
-<main *transloco="let t" class="main-page">
+<hcm-page *transloco="let t">
   <!--  <tui-tabs [(activeItemIndex)]='activeItemIndex'>-->
   <!--    <button tuiTab>-->
   <!--      <ng-container *ngIf='!this.workingHourId'>{{ t('WORKING_HOUR.addCalendar') }}</ng-container>-->
@@ -118,7 +118,7 @@
             </ngx-table>
           </div>
           <div class="my-10 text-right">
-            <button (click)="saveSettings()" [disabled]="!form.valid" class="blue-button mt-5 mx-auto">
+            <button (click)="saveSettings()" [disabled]="!form.valid" tuiButton>
               {{ t('save') }}
             </button>
           </div>
@@ -129,4 +129,4 @@
       </ng-container>
     </div>
   </ng-container>
-</main>
+</hcm-page>

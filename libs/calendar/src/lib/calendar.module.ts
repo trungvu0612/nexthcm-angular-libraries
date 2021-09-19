@@ -4,7 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid';
-import { LayoutComponent } from '@nexthcm/ui';
+import { LayoutComponent, LayoutModule } from '@nexthcm/ui';
 import { TranslocoModule } from '@ngneat/transloco';
 import { FormlyModule } from '@ngx-formly/core';
 import {
@@ -56,6 +56,7 @@ export const CALENDAR_ROUTES: Routes = [
     TuiSvgModule,
     TuiLinkModule,
     FullCalendarModule,
+    LayoutModule,
   ],
   declarations: [
     CalendarComponent,

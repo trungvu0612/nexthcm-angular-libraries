@@ -7,10 +7,10 @@ import { HEADER_TABS, LayoutComponent, LayoutModule, MenuItem } from '@nexthcm/u
 import { TranslocoModule } from '@ngneat/transloco';
 import { FormlyModule } from '@ngx-formly/core';
 import { TuiTablePaginationModule } from '@taiga-ui/addon-table';
-import { TuiLetModule } from '@taiga-ui/cdk';
 import {
   TuiButtonModule,
   TuiLinkModule,
+  TuiLoaderModule,
   TuiScrollbarModule,
   TuiSvgModule,
   TuiTextfieldControllerModule,
@@ -57,10 +57,12 @@ const TABS: MenuItem[] = [
     CommonModule,
     RouterModule.forChild(KNOWLEDGE_BASE_ROUTES),
     FormsModule,
+    GetFilePipeModule,
+    LayoutModule,
     ReactiveFormsModule,
     TranslocoModule,
-    LayoutModule,
-    GetFilePipeModule,
+    FormlyModule,
+    TableModule,
     TuiSvgModule,
     TuiInputMonthModule,
     TuiAvatarModule,
@@ -68,12 +70,10 @@ const TABS: MenuItem[] = [
     TuiButtonModule,
     TuiLinkModule,
     TuiInputModule,
-    TableModule,
-    FormlyModule,
     TuiTextfieldControllerModule,
     TuiTagModule,
     TuiTablePaginationModule,
-    TuiLetModule,
+    TuiLoaderModule,
   ],
   providers: [{ provide: HEADER_TABS, useValue: TABS }],
 })

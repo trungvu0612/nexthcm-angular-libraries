@@ -1,20 +1,18 @@
-<main *transloco="let t" class="main-page">
-  <header>
-    <h1>{{ t('myRequest') }}</h1>
-    <div class="flex space-x-4">
-      <button (click)="onSubmitWorkFromHomeRequest()" icon="tuiIconPlusLarge" size="m" tuiButton>
-        {{ t('workFromHomeRequest') }}
-      </button>
-      <button (click)="onSubmitOvertimeRequest()" icon="tuiIconPlusLarge" size="m" tuiButton>
-        {{ t('overtimeRequest') }}
-      </button>
-      <button (click)="onSubmitWorkingOutsideRequest()" icon="tuiIconPlusLarge" size="m" tuiButton>
-        {{ t('workingOutsideRequest') }}
-      </button>
-    </div>
-  </header>
-
-  <section class="main-section">
+<ng-container *transloco="let t">
+  <hcm-page [title]=" t('myRequest')">
+    <ng-container ngProjectAs="pageHeader">
+      <div class="flex space-x-4">
+        <button (click)="onSubmitWorkFromHomeRequest()" icon="tuiIconPlusLarge" size="m" tuiButton>
+          {{ t('workFromHomeRequest') }}
+        </button>
+        <button (click)="onSubmitOvertimeRequest()" icon="tuiIconPlusLarge" size="m" tuiButton>
+          {{ t('overtimeRequest') }}
+        </button>
+        <button (click)="onSubmitWorkingOutsideRequest()" icon="tuiIconPlusLarge" size="m" tuiButton>
+          {{ t('workingOutsideRequest') }}
+        </button>
+      </div>
+    </ng-container>
     <tui-tabs [(activeItemIndex)]="activeItemIndex">
       <button routerLink="/my-time/my-requests/working-after-hours" routerLinkActive tuiTab>
         {{ t('workingAfterHours') }}
@@ -32,5 +30,5 @@
     <div class="mt-5">
       <router-outlet></router-outlet>
     </div>
-  </section>
-</main>
+  </hcm-page>
+</ng-container>

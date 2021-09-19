@@ -460,54 +460,6 @@
         }
       }
     },
-    "admin-team-building-allowance": {
-      "projectType": "library",
-      "root": "libs/admin/team-building-allowance",
-      "sourceRoot": "libs/admin/team-building-allowance/src",
-      "prefix": "hcm",
-      "architect": {
-        "build": {
-          "builder": "@nrwl/angular:ng-packagr-lite",
-          "outputs": ["dist/libs/admin/team-building-allowance"],
-          "options": {
-            "project": "libs/admin/team-building-allowance/ng-package.json"
-          },
-          "configurations": {
-            "production": {
-              "tsConfig": "libs/admin/team-building-allowance/tsconfig.lib.prod.json"
-            },
-            "development": {
-              "tsConfig": "libs/admin/team-building-allowance/tsconfig.lib.json"
-            }
-          },
-          "defaultConfiguration": "production"
-        },
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/admin/team-building-allowance"],
-          "options": {
-            "jestConfig": "libs/admin/team-building-allowance/jest.config.js",
-            "passWithNoTests": true
-          }
-        },
-        "lint": {
-          "builder": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": [
-              "libs/admin/team-building-allowance/src/**/*.ts",
-              "libs/admin/team-building-allowance/src/**/*.html"
-            ]
-          },
-          "outputs": ["{options.outputFile}"]
-        },
-        "publish": {
-          "builder": "@nrwl/workspace:run-commands",
-          "options": {
-            "command": "yarn publish dist/libs/admin/team-building-allowance"
-          }
-        }
-      }
-    },
     "admin-tenants": {
       "projectType": "library",
       "root": "libs/admin/tenants",
@@ -950,7 +902,7 @@
             ],
             "styles": ["node_modules/@taiga-ui/core/styles/taiga-ui-global.less", "apps/hcm-web/src/styles.scss"],
             "scripts": [],
-            "allowedCommonJsDependencies": ["angular2-text-mask"]
+            "allowedCommonJsDependencies": ["angular2-text-mask", "quill-delta-to-html"]
           },
           "configurations": {
             "production": {
@@ -1099,7 +1051,7 @@
             ],
             "styles": ["apps/hcm-workflows/src/styles.scss", "node_modules/@taiga-ui/core/styles/taiga-ui-global.less"],
             "scripts": ["node_modules/mxgraph/javascript/mxClient.min.js"],
-            "allowedCommonJsDependencies": ["angular2-text-mask"]
+            "allowedCommonJsDependencies": ["angular2-text-mask", "quill-delta-to-html"]
           },
           "configurations": {
             "production": {

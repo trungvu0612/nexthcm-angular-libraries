@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Route, RouterModule } from '@angular/router';
-import { FormlyTaigaUiModule, LayoutComponent } from '@nexthcm/ui';
+import { FormlyTaigaUiModule, LayoutComponent, LayoutModule } from '@nexthcm/ui';
 import { TranslocoModule } from '@ngneat/transloco';
 import { FormlyModule } from '@ngx-formly/core';
 import { TuiTablePaginationModule } from '@taiga-ui/addon-table';
@@ -12,6 +12,7 @@ import { TableModule } from 'ngx-easy-table';
 import { NgxPermissionsGuard } from 'ngx-permissions';
 import { ListPoliciesComponent } from './pages/list-policies/list-policies.component';
 import { UpsertPolicyComponent } from './pages/upsert-policy/upsert-policy.component';
+import { AdminKnowledgeBaseService } from './admin-knowledge-base.service';
 
 export const adminKnowledgeBaseRoutes: Route[] = [
   {
@@ -38,20 +39,22 @@ export const adminKnowledgeBaseRoutes: Route[] = [
 ];
 
 @NgModule({
+  declarations: [ListPoliciesComponent, UpsertPolicyComponent],
   imports: [
     CommonModule,
-    TuiButtonModule,
-    TuiTagModule,
-    FormlyModule,
-    TableModule,
-    TuiTablePaginationModule,
-    TuiLoaderModule,
+    RouterModule.forChild(adminKnowledgeBaseRoutes),
+    LayoutModule,
     FormlyTaigaUiModule,
-    TuiMarkerIconModule,
     ReactiveFormsModule,
     TranslocoModule,
-    RouterModule.forChild(adminKnowledgeBaseRoutes),
+    FormlyModule,
+    TableModule,
+    TuiButtonModule,
+    TuiTagModule,
+    TuiTablePaginationModule,
+    TuiLoaderModule,
+    TuiMarkerIconModule,
   ],
-  declarations: [ListPoliciesComponent, UpsertPolicyComponent],
+  providers: [AdminKnowledgeBaseService],
 })
 export class AdminKnowledgeBaseModule {}

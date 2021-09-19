@@ -1,11 +1,20 @@
 :host {
-  @apply block h-full border-r;
+  display: block;
+  height: 100%;
+  border-right-width: 1px;
 
   .sidebar-container {
     width: 255px;
 
     [role='option'] {
-      @apply p-5 font-semibold border-0 text-sm my-0 justify-start;
+      justify-content: flex-start;
+      padding: 1.25rem;
+      border: none;
+      margin-top: 0;
+      margin-bottom: 0;
+      font-size: 0.875rem;
+      font-weight: 600;
+      line-height: 1.25rem;
 
       &:hover {
         background-color: var(--tui-base-02);
@@ -33,7 +42,7 @@
 
       ::ng-deep {
         .arrow {
-          @apply hidden;
+          display: none;
         }
       }
     }
@@ -41,10 +50,16 @@
 }
 
 .submenu {
-  @apply py-2 font-semibold text-sm;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.25rem;
 
   [role='option'] {
-    @apply font-medium text-sm;
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1.25rem;
 
     &[aria-checked='true'] {
       color: var(--tui-primary);

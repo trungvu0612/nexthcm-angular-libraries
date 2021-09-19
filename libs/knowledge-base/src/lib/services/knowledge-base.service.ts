@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { MY_TIME_API_PATH, Pagination, PagingResponse } from '@nexthcm/cdk';
 import { Observable } from 'rxjs';
@@ -21,9 +21,9 @@ export class KnowledgeBaseService {
     return this.http.get<Partial<Knowledge>>(`${MY_TIME_API_PATH}/policies/${id}`);
   }
 
-  getCategories(params: { [key: string]: number }): Observable<Pagination<Partial<Category>>> {
+  getCategories(params: HttpParams): Observable<Pagination<Category>> {
     return this.http
-      .get<PagingResponse<Partial<Category>>>(`${MY_TIME_API_PATH}/policy-category`, { params })
+      .get<PagingResponse<Category>>(`${MY_TIME_API_PATH}/policy-category`, { params })
       .pipe(map((response) => response.data));
   }
 

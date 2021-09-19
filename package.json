@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "nx",
     "preinstall": "npx only-allow yarn",
-    "postinstall": "patch-package && ngcc --properties es2015 browser module main",
+    "postinstall": "node ./decorate-angular-cli.js && ngcc --properties es2015 browser module main",
     "nx": "nx",
     "start": "ng serve",
     "start:workflows": "ng serve hcm-workflows --port 4201",
@@ -31,7 +31,9 @@
     "help": "nx help",
     "prepare": "husky install",
     "generate-icons": "svg-generator",
-    "transloco-optimize": "transloco-optimize dist/libs/core/assets/i18n"
+    "transloco-optimize": "transloco-optimize dist/libs/core/assets/i18n",
+    "run-many:build": "nx run-many --target=build --all --exclude hcm-workflows,hcm-web,next-hcm-demo-web,chat",
+    "run-many:publish": "nx run-many --target=publish --all"
   },
   "private": true,
   "dependencies": {
@@ -103,6 +105,7 @@
     "date-fns": "^2.23.0",
     "dompurify": "^2.3.0",
     "graphql": "^15.5.1",
+    "immer": "^9.0.6",
     "inter-ui": "^3.19.3",
     "mxgraph": "^4.2.2",
     "ng-heroicon": "^0.4.5",
@@ -143,7 +146,7 @@
     "@nrwl/jest": "12.9.0",
     "@nrwl/linter": "12.9.0",
     "@nrwl/tao": "12.9.0",
-    "@nrwl/web": "^12.9.0",
+    "@nrwl/web": "12.9.0",
     "@nrwl/workspace": "12.9.0",
     "@typed-mxgraph/typed-mxgraph": "^1.0.4",
     "@types/dompurify": "^2.2.3",
@@ -163,9 +166,8 @@
     "jest": "27.0.3",
     "jest-preset-angular": "9.0.7",
     "lint-staged": "^11.1.2",
-    "ng-packagr": "12.0.0",
+    "ng-packagr": "~12.2.0",
     "nx-stylelint": "^12.2.0",
-    "patch-package": "^6.4.7",
     "postcss": "^8.3.6",
     "postcss-import": "^14.0.2",
     "postcss-loader": "^6.1.1",

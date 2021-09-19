@@ -2,10 +2,17 @@
   display: block;
 
   .table-label {
-    @apply table-cell py-2 font-semibold align-middle whitespace-nowrap;
+    display: table-cell;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    font-weight: 600;
+    vertical-align: middle;
+    white-space: nowrap;
   }
 
   .table-value {
-    @apply table-cell pl-8 align-middle;
+    display: table-cell;
+    padding-left: 2rem;
+    vertical-align: middle;
   }
 }

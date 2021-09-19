@@ -1,126 +1,16 @@
-main.main-page {
-  @apply p-6;
-
-  > header {
-    @apply flex justify-between items-center mb-8 font-semibold;
-
-    h1 {
-      @apply m-0 text-3xl;
-    }
-  }
-}
-
-section.main-section {
-  @apply p-6 bg-white rounded-xl shadow-xl;
-}
-
-button {
-  @apply font-semibold disabled:opacity-50;
-
-  &:hover,
-  &:not(:hover) {
-    outline: none;
-  }
-}
-
-@mixin button {
-  @apply flex justify-center items-center px-8 h-12 text-base rounded-xl shadow-md;
-}
-
-.blue-button {
-  background-color: var(--tui-primary);
-  color: white;
-  @include button;
-}
-
-.btn-blue {
-  border-color: var(--tui-primary);
-  color: var(--tui-primary);
-  @apply bg-white border-2;
-  @include button;
-}
-
-.btn-red {
-  @apply text-red-600 bg-white border-2 border-red-600;
-  @include button;
-}
-
-.btn-white {
-  color: var(--tui-primary);
-  @apply px-0 bg-white;
-  @include button;
-}
-
-.custom-link {
-  color: var(--tui-primary);
-  @apply font-semibold;
-}
-
-.hcm-tui-table {
-  width: 100%;
-
-  button.sort {
-    font-weight: 600;
-
-    .arrow {
-      opacity: 1;
-    }
-  }
-
-  th,
-  td {
-    @apply py-4 text-sm border-0 border-b;
-
-    &:not(td) {
-      font-weight: 600;
-    }
-
-    &.center-custom {
-      max-width: 100px !important;
-      @apply text-center;
-    }
-  }
-
-  tbody {
-    tr:nth-child(odd) td {
-      @apply bg-gray-50;
-    }
-  }
-
-  tfoot td {
-    border: none;
-  }
-}
-
-.detail-table {
-  @apply text-sm;
-
-  th,
-  td {
-    @apply py-2 text-left border-none;
-
-    &:not(td) {
-      @apply pr-10 align-baseline;
-    }
-  }
-}
-
-.formly-gap {
-  > formly-field {
-    @apply block mt-4;
-
-    p span:first-child {
-      font-weight: 600;
-    }
-  }
-}
-
 .table .table-row {
   .table-label {
-    @apply table-cell py-2 font-semibold align-middle whitespace-nowrap;
+    display: table-cell;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    font-weight: 600;
+    vertical-align: middle;
+    white-space: nowrap;
   }
 
   .table-value {
-    @apply table-cell pl-8 align-middle;
+    display: table-cell;
+    padding-left: 2rem;
+    vertical-align: middle;
   }
 }

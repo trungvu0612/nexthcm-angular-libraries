@@ -4,22 +4,23 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { GetFilePipeModule } from '@nexthcm/cdk';
-import { LayoutComponent } from '@nexthcm/ui';
+import { LayoutComponent, LayoutModule } from '@nexthcm/ui';
 import { TranslocoModule } from '@ngneat/transloco';
 import { FormlyModule } from '@ngx-formly/core';
-import { TuiLetModule } from '@taiga-ui/cdk';
 import {
   TuiButtonModule,
+  TuiDataListModule,
   TuiDropdownControllerModule,
   TuiHostedDropdownModule,
   TuiLoaderModule,
   TuiSvgModule,
 } from '@taiga-ui/core';
-import { TuiAvatarModule } from '@taiga-ui/kit';
+import { TuiAvatarModule, TuiComboBoxModule } from '@taiga-ui/kit';
 import { NgxPermissionsGuard } from 'ngx-permissions';
 import { SeatComponent } from './components/seat/seat.component';
 import { SeatMapsComponent } from './seat-maps.component';
 import { SeatMapsService } from './seat-maps.service';
+import { LetModule } from '@rx-angular/template';
 
 export const SEAT_MAPS_ROUTES: Routes = [
   {
@@ -35,18 +36,21 @@ export const SEAT_MAPS_ROUTES: Routes = [
   imports: [
     CommonModule,
     RouterModule.forChild(SEAT_MAPS_ROUTES),
-    TuiSvgModule,
-    ReactiveFormsModule,
-    FormlyModule,
-    TuiLetModule,
-    TuiLoaderModule,
     DragDropModule,
     GetFilePipeModule,
+    LayoutModule,
+    ReactiveFormsModule,
     TranslocoModule,
+    FormlyModule,
+    LetModule,
+    TuiLoaderModule,
     TuiHostedDropdownModule,
     TuiDropdownControllerModule,
     TuiAvatarModule,
     TuiButtonModule,
+    TuiComboBoxModule,
+    TuiDataListModule,
+    TuiSvgModule,
   ],
   declarations: [SeatMapsComponent, SeatComponent],
   providers: [SeatMapsService],

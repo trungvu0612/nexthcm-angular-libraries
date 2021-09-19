@@ -1,32 +1,33 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { MY_TIME_API_PATH, PagingResponse } from '@nexthcm/cdk';
+import { MY_TIME_API_PATH, Pagination, PagingResponse } from '@nexthcm/cdk';
 import { Observable } from 'rxjs';
 import { AdminPolicy } from './models/policies';
+import { map } from 'rxjs/operators';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class AdminKnowledgeBaseService {
-  constructor(private httpClient: HttpClient) {}
+  constructor(private http: HttpClient) {}
 
-  getPolicies(params: HttpParams): Observable<PagingResponse<AdminPolicy>> {
-    return this.httpClient.get<PagingResponse<AdminPolicy>>(`${MY_TIME_API_PATH}/policies`, { params });
+  getPolicies(params: HttpParams): Observable<Pagination<AdminPolicy>> {
+    return this.http
+      .get<PagingResponse<AdminPolicy>>(`${MY_TIME_API_PATH}/policies`, { params })
+      .pipe(map((res) => res.data));
   }
 
   getPolicy(id: string): Observable<AdminPolicy> {
-    return this.httpClient.get<AdminPolicy>(`${MY_TIME_API_PATH}/policies/${id}`);
+    return this.http.get<AdminPolicy>(`${MY_TIME_API_PATH}/policies/${id}`);
   }
 
   createPolicies(dto: AdminPolicy): Observable<AdminPolicy> {
-    return this.httpClient.post<AdminPolicy>(`${MY_TIME_API_PATH}/policies`, dto);
+    return this.http.post<AdminPolicy>(`${MY_TIME_API_PATH}/policies`, dto);
   }
 
   editPolicies(dto: AdminPolicy, id: string): Observable<AdminPolicy> {
-    return this.httpClient.put<AdminPolicy>(`${MY_TIME_API_PATH}/policies/${id}`, dto);
+    return this.http.put<AdminPolicy>(`${MY_TIME_API_PATH}/policies/${id}`, dto);
   }
 
-  delete(id: string): Observable<any> {
-    return this.httpClient.delete(`${MY_TIME_API_PATH}/policies/${id}`, {});
+  delete(id: string): Observable<unknown> {
+    return this.http.delete(`${MY_TIME_API_PATH}/policies/${id}`, {});
   }
 }

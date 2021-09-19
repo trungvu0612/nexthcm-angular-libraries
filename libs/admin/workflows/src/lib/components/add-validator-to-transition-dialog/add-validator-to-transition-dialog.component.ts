@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { Actions } from '@datorama/akita-ng-effects';
 import { BaseUser } from '@nexthcm/cdk';
 import { FormBuilder } from '@ngneat/reactive-forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
@@ -9,6 +10,7 @@ import { AbstractAddOptionToTransitionComponent } from '../../abstract-component
 import { ValidatorType } from '../../enums';
 import { TransitionOptionsDialogData, TransitionValidator } from '../../models';
 import { AdminWorkflowsService } from '../../services/admin-workflows.service';
+import { loadValidatorTypes, ValidatorTypesQuery } from '../../state';
 
 @Component({
   selector: 'hcm-add-validator-to-transition-dialog',
@@ -29,9 +31,12 @@ export class AddValidatorToTransitionDialogComponent
     readonly fb: FormBuilder,
     @Inject(POLYMORPHEUS_CONTEXT)
     readonly context: TuiDialogContext<TransitionValidator, TransitionOptionsDialogData<TransitionValidator>>,
-    readonly adminWorkflowsService: AdminWorkflowsService
+    readonly adminWorkflowsService: AdminWorkflowsService,
+    private readonly validatorTypesQuery: ValidatorTypesQuery,
+    actions: Actions
   ) {
     super(fb, context, adminWorkflowsService);
+    actions.dispatch(loadValidatorTypes());
   }
 
   ngOnInit(): void {
@@ -41,8 +46,8 @@ export class AddValidatorToTransitionDialogComponent
         className: 'tui-form__row block',
         type: 'select-transition-option',
         templateOptions: {
-          options: this.adminWorkflowsService
-            .select('validatorTypes')
+          options: this.validatorTypesQuery
+            .selectAll()
             .pipe(
               map((types) =>
                 types.filter((type) => this.context.data.items.every((item) => item.validatorType.id !== type.id))

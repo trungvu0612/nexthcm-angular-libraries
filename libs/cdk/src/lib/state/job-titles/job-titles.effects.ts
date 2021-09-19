@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { cacheable } from '@datorama/akita';
 import { Actions, Effect, ofType } from '@datorama/akita-ng-effects';
-import { switchMap, tap } from 'rxjs/operators';
+import { map, switchMap, tap } from 'rxjs/operators';
 import { JobTitlesService } from '../../services/job-titles/job-titles.service';
-import { loadJobTitles } from './job-titles.actions';
+import { loadJobTitles, refreshJobTitles } from './job-titles.actions';
 import { JobTitlesStore } from './job-titles.store';
 
 @Injectable()
@@ -17,6 +17,13 @@ export class JobTitlesEffects {
         this.jobTitlesService.getJobTitles().pipe(tap((jobTitles) => this.jobTitlesStore.set(jobTitles)))
       )
     )
+  );
+
+  @Effect()
+  refreshJobTitlesSuccess$ = this.actions$.pipe(
+    ofType(refreshJobTitles),
+    tap(() => this.jobTitlesStore.setHasCache(false)),
+    map(() => loadJobTitles())
   );
 
   constructor(

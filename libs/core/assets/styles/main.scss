@@ -19,7 +19,7 @@
 
 .ng-select,
 .ng-select.ng-select-multiple {
-  @apply max-w-full;
+  max-width: 100%;
 
   .ng-select-container {
     min-height: var(--tui-height-l) !important;
@@ -28,10 +28,12 @@
     box-shadow: 0 2px 3px rgb(0 0 0 / 10%);
 
     .ng-value-container {
-      @apply px-4;
+      padding-left: 1rem;
+      padding-right: 1rem;
 
       .ng-placeholder {
-        @apply pb-0 pl-0;
+        padding-bottom: 0px;
+        padding-left: 0px;
 
         top: unset;
         color: var(--tui-text-02);
@@ -39,14 +41,16 @@
       }
 
       .ng-input {
-        @apply top-4 pl-4;
+        top: 1rem;
+        padding-left: 1rem;
       }
     }
   }
 }
 
 .ng-dropdown-panel .ng-dropdown-panel-items .ng-option {
-  @apply px-4;
+  padding-left: 1rem;
+  padding-right: 1rem;
 }
 
 .effected-dropdown {

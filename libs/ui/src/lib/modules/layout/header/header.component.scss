@@ -1,11 +1,13 @@
 :host {
-  @apply block border-b;
+  display: block;
+  border-bottom-width: 1px;
 
   ::ng-deep {
     tui-tabs {
       a {
+        padding: 0 0.75rem;
         margin: 0 !important;
-        @apply font-semibold px-3 py-0;
+        font-weight: 600;
 
         &._active .highlight {
           color: var(--tui-primary);
@@ -19,6 +21,19 @@
   }
 
   .badge {
-    @apply flex justify-center items-center absolute top-0 right-0 bg-red-500 text-xs text-white font-semibold rounded-full w-5 h-5;
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: flex;
+    width: 1.25rem;
+    height: 1.25rem;
+    align-items: center;
+    justify-content: center;
+    background: red;
+    border-radius: 9999px;
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 600;
+    line-height: 1rem;
   }
 }

@@ -1,9 +1,8 @@
 import { HttpBackend, HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { resetStores } from '@datorama/akita';
-import { APP_CONFIG, AppConfig, PermissionsService } from '@nexthcm/core';
+import { APP_CONFIG, AppConfig, PermissionsResponse, PermissionsService } from '@nexthcm/core';
 import { RxState } from '@rx-angular/state';
 import { CookieService } from 'ngx-cookie';
 import { Observable, Subject } from 'rxjs';
@@ -34,18 +33,11 @@ export class AuthService extends RxState<AuthState> {
     @Inject(APP_CONFIG) protected env: AppConfig,
     private readonly httpBackend: HttpBackend,
     private readonly cookieService: CookieService,
-    private readonly router: Router,
     private readonly permissionsService: PermissionsService
   ) {
     super();
     this.set('userInfo', () => createState(cookieService.get('access_token')));
     this.connect('userInfo', this.newLogin$, (state, authInfo) => createState(authInfo.access_token));
-    this.hold(
-      this.newLogin$.pipe(
-        switchMap(() => this.permissionsService.getPermissions()),
-        tap(() => this.router.navigateByUrl('/'))
-      )
-    );
   }
 
   readonly userId = () => this.get('userInfo', 'userId');
@@ -55,10 +47,9 @@ export class AuthService extends RxState<AuthState> {
     this.set({ userInfo: undefined });
     this.permissionsService.flushPermissions();
     resetStores();
-    this.router.navigateByUrl('/auth');
   }
 
-  login(payload: LoginPayload): Observable<AuthInfo> {
+  login(payload: LoginPayload): Observable<PermissionsResponse> {
     return this.http.post<AuthInfo>(`${this.env.apiUrl}/accountapp/v1.0/auth`, payload).pipe(
       tap((authInfo) => {
         this.cookieService.put('access_token', authInfo.access_token, {
@@ -66,7 +57,8 @@ export class AuthService extends RxState<AuthState> {
           expires: payload.rememberMe ? new Date(new Date().getTime() + authInfo.expires_in * 1000) : undefined,
         });
         this.newLogin$.next(authInfo);
-      })
+      }),
+      switchMap(() => this.permissionsService.getPermissions())
     );
   }
 }

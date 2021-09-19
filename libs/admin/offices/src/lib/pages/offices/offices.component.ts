@@ -1,12 +1,12 @@
-import { ChangeDetectionStrategy, Component, Injector, OnInit, ViewChild } from '@angular/core';
-import { FormGroup } from '@angular/forms';
-import { AbstractServerPaginationTableComponent, PromptService, Zone, Pagination } from '@nexthcm/cdk';
+import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
+import { FormGroup } from '@ngneat/reactive-forms';
+import { AbstractServerPaginationTableComponent, Pagination, PromptService, Zone } from '@nexthcm/cdk';
 import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDialogContext, TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusContent } from '@tinkoff/ng-polymorpheus';
-import { BaseComponent, DefaultConfig } from 'ngx-easy-table';
-import { BehaviorSubject, from, Observable, Subject, Subscriber } from 'rxjs';
+import { BaseComponent } from 'ngx-easy-table';
+import { from, of, Subject, Subscriber } from 'rxjs';
 import {
   catchError,
   debounceTime,
@@ -15,12 +15,12 @@ import {
   map,
   share,
   startWith,
-  switchMap, takeUntil,
-  tap
+  switchMap,
+  takeUntil,
+  tap,
 } from 'rxjs/operators';
 import { SweetAlertOptions } from 'sweetalert2';
 import { AdminOfficesService } from '../../services/admin-offices.service';
-import { HttpParams } from '@angular/common/http';
 import { Office } from '../../models/office';
 import { RxState } from '@rx-angular/state';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
@@ -31,28 +31,27 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './offices.component.html',
   styleUrls: ['./offices.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [RxState, TuiDestroyService]
+  providers: [RxState, TuiDestroyService],
 })
 export class OfficesComponent extends AbstractServerPaginationTableComponent<Office> implements OnInit {
   @ViewChild('table') table!: BaseComponent;
-  readonly configuration = { ...DefaultConfig, paginationEnabled: false, fixedColumnWidth: false };
   readonly columns$ = this.translocoService.selectTranslateObject('ZONE_TABLE').pipe(
     map((translate) => [
       { key: 'name', title: translate.name },
       { key: 'address', title: translate.address },
       { key: 'description', title: translate.description },
-      { key: 'action', title: translate.action }
+      { key: 'action', title: translate.action },
     ])
   );
 
-
-  readonly params$ = new BehaviorSubject<{ [key: string]: number }>({ size: 10 });
-  // readonly data$ = this.params$.pipe(switchMap((params) => this.adminOfficesService.getOffices(params)));
-  readonly queryParams$ = new BehaviorSubject(new HttpParams().set('page', 0).set('size', 10));
   readonly search$ = new Subject<string | null>();
   private readonly request$ = this.queryParams$.pipe(
     switchMap(() => this.adminOfficesService.getOffices(this.queryParams$.value).pipe(startWith(null))),
     share()
+  );
+  readonly loading$ = this.request$.pipe(
+    map((value) => !value),
+    catchError(() => of(false))
   );
 
   readonly form = new FormGroup({});
@@ -65,8 +64,8 @@ export class OfficesComponent extends AbstractServerPaginationTableComponent<Off
         required: true,
         translate: true,
         label: 'officeName',
-        textfieldLabelOutside: true
-      }
+        textfieldLabelOutside: true,
+      },
     },
     {
       key: 'address',
@@ -75,8 +74,8 @@ export class OfficesComponent extends AbstractServerPaginationTableComponent<Off
         required: true,
         translate: true,
         label: 'address',
-        textfieldLabelOutside: true
-      }
+        textfieldLabelOutside: true,
+      },
     },
     {
       key: 'description',
@@ -84,19 +83,18 @@ export class OfficesComponent extends AbstractServerPaginationTableComponent<Off
       templateOptions: {
         label: 'description',
         translate: true,
-        textfieldLabelOutside: true
-      }
-    }
+        textfieldLabelOutside: true,
+      },
+    },
   ];
 
   constructor(
     readonly state: RxState<Pagination<Office>>,
-    private readonly adminOfficesService: AdminOfficesService,
-    private readonly translocoService: TranslocoService,
-    private readonly dialogService: TuiDialogService,
-    private readonly injector: Injector,
+    private adminOfficesService: AdminOfficesService,
+    private translocoService: TranslocoService,
+    private dialogService: TuiDialogService,
     private promptService: PromptService,
-    private readonly activatedRoute: ActivatedRoute,
+    private activatedRoute: ActivatedRoute,
     private destroy$: TuiDestroyService
   ) {
     super(state);
@@ -104,7 +102,7 @@ export class OfficesComponent extends AbstractServerPaginationTableComponent<Off
     state.hold(
       this.search$.pipe(
         filter(isPresent),
-        debounceTime(1000),
+        debounceTime(300),
         distinctUntilChanged(),
         tap((searchQuery) => this.queryParams$.next(this.queryParams$.value.set('search', searchQuery)))
       )
@@ -113,16 +111,14 @@ export class OfficesComponent extends AbstractServerPaginationTableComponent<Off
 
   ngOnInit(): void {
     const searchParam = this.activatedRoute.snapshot.queryParams.search;
-    if (searchParam) {
-      this.search$.next(searchParam);
-    }
+    if (searchParam) this.search$.next(searchParam);
   }
 
   upsertOffice(content: PolymorpheusContent<TuiDialogContext>, office?: Partial<Zone>): void {
     this.model = office || { status: 0, longitude: 0, latitude: 0 };
     this.dialogService
       .open(content, {
-        label: this.translocoService.translate(this.model.id ? 'editOffice' : 'createOffice')
+        label: this.translocoService.translate(this.model.id ? 'editOffice' : 'createOffice'),
       })
       .subscribe();
   }
@@ -132,8 +128,11 @@ export class OfficesComponent extends AbstractServerPaginationTableComponent<Off
       observer.complete();
       this.form.markAsUntouched();
       this.adminOfficesService[this.model.id ? 'editOffice' : 'createOffice'](this.model)
-        .pipe(switchMap(() => this.promptService.open({ icon: 'success' } as SweetAlertOptions)))
-        .subscribe(() => this.params$.next(this.params$.value));
+        .pipe(
+          switchMap(() => this.promptService.open({ icon: 'success' } as SweetAlertOptions)),
+          takeUntil(this.destroy$)
+        )
+        .subscribe(() => this.queryParams$.next(this.queryParams$.value));
     }
   }
 
@@ -143,7 +142,7 @@ export class OfficesComponent extends AbstractServerPaginationTableComponent<Off
         this.promptService.open({
           icon: 'question',
           html: this.translocoService.translate('deleteOffice'),
-          showCancelButton: true
+          showCancelButton: true,
         })
       )
         .pipe(
@@ -156,9 +155,5 @@ export class OfficesComponent extends AbstractServerPaginationTableComponent<Off
         )
         .subscribe();
     }
-  }
-
-  changePagination(key: 'page' | 'size', value: number): void {
-    this.params$.next({ ...this.params$.value, [key]: value });
   }
 }

@@ -1,45 +1,54 @@
-<main *transloco="let t" class="main-page">
-  <header>
-    <h1>{{ t('category') }}</h1>
-    <button (click)="upsertCategory(content)" tuiButton>{{ t('addCategory') }}</button>
-  </header>
-  <section *tuiLet="data$ | async as data" class="main-section">
-    <ngx-table [columns]="(columns$ | async) || []" [configuration]="configuration" [data]="data?.items || []">
-      <ng-template let-row>
-        <td>{{ row.userCreatedBy.username }}</td>
-        <td>{{ row.name }}</td>
-        <td>{{ row.description }}</td>
-        <td>
-          <tui-tag
-            [hoverable]="true"
-            [value]="t(row.status === 1 ? 'active' : 'deactivate')"
-            class="{{ (row.status === 1 ? 'active' : 'deactivate') + '-tag' }}"
-          ></tui-tag>
-        </td>
-        <td class="flex gap-2">
-          <button
-            (click)="upsertCategory(content, row.id)"
-            appearance="flat"
-            icon="tuiIconEditLarge"
-            size="m"
-            tuiIconButton
-          ></button>
-          <button
-            (click)="deleteCategory(row.id)"
-            appearance="flat"
-            icon="tuiIconTrashLarge"
-            size="m"
-            tuiIconButton
-          ></button>
-        </td>
-      </ng-template>
-    </ngx-table>
+<ng-container *transloco="let t">
+  <hcm-page [title]="t('category')">
+    <ng-container ngProjectAs="pageHeader">
+      <button (click)="upsertCategory(content)" tuiButton>{{ t('addCategory') }}</button>
+    </ng-container>
+    <tui-loader [overlay]="true" [showLoader]="(loading$ | async) === true">
+      <ngx-table
+        #table
+        [columns]="(columns$ | async) || []"
+        [configuration]="configuration"
+        [data]="(data$ | async) || []"
+      >
+        <ng-template let-row>
+          <ng-container *ngIf="item(row) as item">
+            <td>{{ item.userCreatedBy?.username }}</td>
+            <td>{{ item.name }}</td>
+            <td>{{ item.description }}</td>
+            <td>
+              <tui-tag
+                [hoverable]="true"
+                [value]="t(item.status === 1 ? 'active' : 'deactivate')"
+                class="{{ (item.status === 1 ? 'active' : 'deactivate') + '-tag' }}"
+              ></tui-tag>
+            </td>
+            <td class="flex gap-2">
+              <button
+                (click)="upsertCategory(content, item.id)"
+                appearance="flat"
+                icon="tuiIconEditLarge"
+                size="m"
+                tuiIconButton
+              ></button>
+              <button
+                (click)="deleteCategory(item.id)"
+                appearance="flat"
+                icon="tuiIconTrashLarge"
+                size="m"
+                tuiIconButton
+              ></button>
+            </td>
+          </ng-container>
+        </ng-template>
+      </ngx-table>
+    </tui-loader>
     <tui-table-pagination
-      (pageChange)="changePagination('page', $event)"
-      (sizeChange)="changePagination('size', $event)"
-      [total]="data?.totalElements || 0"
+      (pageChange)="onPage($event)"
+      (sizeChange)="onSize($event)"
+      [total]="(total$ | async) || 0"
     ></tui-table-pagination>
-  </section>
+  </hcm-page>
+
   <ng-template #content let-observer>
     <form (ngSubmit)="submitCategory(observer)" [formGroup]="$any(form)">
       <formly-form [fields]="fields" [form]="$any(form)" [model]="model" class="formly-gap"></formly-form>
@@ -49,4 +58,4 @@
       </div>
     </form>
   </ng-template>
-</main>
+</ng-container>

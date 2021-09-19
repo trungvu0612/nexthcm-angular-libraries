@@ -1,1 +1,74 @@
-<p>organizational-chart works!</p>
+<ng-container *transloco="let t">
+  <div class="flex justify-end mb-6">
+    <button (click)="upsertUnit()" size="m" tuiButton>{{ t('addOrganizationalUnit') }}</button>
+  </div>
+  <ng-container *rxLet="zoom$; let zoom">
+    <div *ngIf="zoom" class="flex justify-end gap-1">
+      <span class="font-semibold"> {{ (zoom | number: '1.0-0') + '%' }}</span>
+      <hero-icon class="w-6 h-6" name="zoom-in" type="solid"></hero-icon>
+    </div>
+    <tui-scrollbar
+      #scrollbar
+      (mouseenter)="canZoom = true"
+      (mouseleave)="canZoom = false"
+      *ngIf="chart$ | async as chart"
+      class="w-0 min-w-full"
+    >
+      <div
+        *ngIf="dimension$ | async as dim"
+        [style]="{
+          width: dim.wrap,
+          '--unit': dim.unit,
+          '--icon': dim.icon,
+          '--bar': dim.bar,
+          '--one': dim.one,
+          '--half': dim.half
+        }"
+        class="min-w-full my-4"
+      >
+        <ng-template
+          *ngTemplateOutlet="content; context: { $implicit: chart, span: (chart | getSpanChart) }"
+        ></ng-template>
+        <ng-template #content let-span="span" let-unit>
+          <ng-container *ngIf="item(unit) as unit">
+            <ng-container *tuiLet="unit.descendants?.length as children">
+              <div
+                (mouseenter)="hovering = unit"
+                (mouseleave)="hovering = null"
+                [class.ring]="hovering === unit"
+                class="unit relative border mx-auto"
+              >
+                <p class="name font-semibold">{{ unit.orgName }}</p>
+                <div *ngIf="hovering === unit" class="icons flex absolute">
+                  <hero-icon (click)="upsertUnit(unit)" name="pencil-alt" type="solid"></hero-icon>
+                  <hero-icon
+                    (click)="deleteUnit(unit.id || '')"
+                    *ngIf="!children"
+                    name="trash"
+                    type="solid"
+                  ></hero-icon>
+                </div>
+              </div>
+              <div *ngIf="(children || 0) > 1" class="vertical-bar bg-black mx-auto"></div>
+              <div *ngIf="children" class="flex">
+                <div
+                  *ngFor="let child of unit.descendants; first as first; last as last"
+                  [style.width]="((child | getSpanChart) / span) * 100 + '%'"
+                >
+                  <div class="grid grid-cols-2">
+                    <div [class.bg-black]="!first" class="horizontal-bar"></div>
+                    <div [class.bg-black]="!last" class="horizontal-bar"></div>
+                  </div>
+                  <div class="vertical-bar bg-black mx-auto"></div>
+                  <ng-template
+                    *ngTemplateOutlet="content; context: { $implicit: child, span: (child | getSpanChart) }"
+                  ></ng-template>
+                </div>
+              </div>
+            </ng-container>
+          </ng-container>
+        </ng-template>
+      </div>
+    </tui-scrollbar>
+  </ng-container>
+</ng-container>

@@ -1,27 +1,28 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { PromptService } from '@nexthcm/cdk';
+import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
+import { AbstractServerPaginationTableComponent, Pagination, PromptService } from '@nexthcm/cdk';
 import { FormGroup } from '@ngneat/reactive-forms';
 import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import { TuiDestroyService } from '@taiga-ui/cdk';
+import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogContext, TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusContent } from '@tinkoff/ng-polymorpheus';
-import { DefaultConfig } from 'ngx-easy-table';
-import { BehaviorSubject, from, iif, Subscriber } from 'rxjs';
-import { map, startWith, switchMap, takeUntil } from 'rxjs/operators';
+import { BaseComponent } from 'ngx-easy-table';
+import { from, iif, of, Subscriber } from 'rxjs';
+import { catchError, filter, map, share, startWith, switchMap, takeUntil } from 'rxjs/operators';
 import { SweetAlertOptions } from 'sweetalert2';
 import { Category } from '../../models/knowledge';
 import { KnowledgeBaseService } from '../../services/knowledge-base.service';
+import { RxState } from '@rx-angular/state';
 
 @Component({
   selector: 'hcm-category',
   templateUrl: './category.component.html',
   styleUrls: ['./category.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [TuiDestroyService],
+  providers: [RxState, TuiDestroyService],
 })
-export class CategoryComponent {
-  readonly configuration = { ...DefaultConfig, paginationEnabled: false, fixedColumnWidth: false };
+export class CategoryComponent extends AbstractServerPaginationTableComponent<Category> {
+  @ViewChild('table') table!: BaseComponent;
   readonly columns$ = this.translocoService.selectTranslateObject('KNOWLEDGE_BASE_TABLE').pipe(
     map((translate) => [
       { key: 'creator', title: translate.creator },
@@ -31,9 +32,6 @@ export class CategoryComponent {
       { key: 'action', title: translate.action },
     ])
   );
-  readonly params$ = new BehaviorSubject<{ [key: string]: number }>({ size: 10 });
-  readonly data$ = this.params$.pipe(switchMap((params) => this.knowledgeBaseService.getCategories(params)));
-
   readonly form = new FormGroup<Partial<Category>>({});
   model!: Partial<Category>;
   readonly fields: FormlyFieldConfig[] = [
@@ -77,14 +75,26 @@ export class CategoryComponent {
       },
     },
   ];
+  private readonly request$ = this.queryParams$.pipe(
+    switchMap(() => this.knowledgeBaseService.getCategories(this.queryParams$.value).pipe(startWith(null))),
+    share()
+  );
+  readonly loading$ = this.request$.pipe(
+    map((value) => !value),
+    catchError(() => of(false))
+  );
 
   constructor(
-    private readonly knowledgeBaseService: KnowledgeBaseService,
-    private readonly promptService: PromptService,
-    private readonly translocoService: TranslocoService,
-    private readonly dialogService: TuiDialogService,
-    private readonly destroy$: TuiDestroyService
-  ) {}
+    readonly state: RxState<Pagination<Category>>,
+    private knowledgeBaseService: KnowledgeBaseService,
+    private promptService: PromptService,
+    private translocoService: TranslocoService,
+    private dialogService: TuiDialogService,
+    private destroy$: TuiDestroyService
+  ) {
+    super(state);
+    state.connect(this.request$.pipe(filter(isPresent)));
+  }
 
   upsertCategory(content: PolymorpheusContent<TuiDialogContext>, id?: string) {
     if (id) this.knowledgeBaseService.getCategory(id).subscribe((category) => (this.model = category));
@@ -102,8 +112,11 @@ export class CategoryComponent {
       this.form.markAsUntouched();
       this.model.status = this.model.status ? 1 : 0;
       this.knowledgeBaseService[this.model.id ? 'editCategory' : 'createCategory'](this.model)
-        .pipe(switchMap(() => this.promptService.open({ icon: 'success' } as SweetAlertOptions)))
-        .subscribe(() => this.params$.next(this.params$.value));
+        .pipe(
+          switchMap(() => this.promptService.open({ icon: 'success' } as SweetAlertOptions)),
+          takeUntil(this.destroy$)
+        )
+        .subscribe(() => this.queryParams$.next(this.queryParams$.value));
     }
   }
 
@@ -111,12 +124,9 @@ export class CategoryComponent {
     from(this.promptService.open({ icon: 'warning', showCancelButton: true } as SweetAlertOptions))
       .pipe(
         switchMap((result) => iif(() => result.isConfirmed, this.knowledgeBaseService.deleteCategory(id))),
-        switchMap(() => this.promptService.open({ icon: 'success' } as SweetAlertOptions))
+        switchMap(() => this.promptService.open({ icon: 'success' } as SweetAlertOptions)),
+        takeUntil(this.destroy$)
       )
-      .subscribe(() => this.params$.next(this.params$.value));
-  }
-
-  changePagination(key: 'page' | 'size', value: number): void {
-    this.params$.next({ ...this.params$.value, [key]: value });
+      .subscribe(() => this.queryParams$.next(this.queryParams$.value));
   }
 }

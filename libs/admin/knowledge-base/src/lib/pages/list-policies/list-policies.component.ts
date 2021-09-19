@@ -1,13 +1,11 @@
-import { HttpParams } from '@angular/common/http';
-import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
-import { Pagination, PromptService } from '@nexthcm/cdk';
-import { FormBuilder } from '@ngneat/reactive-forms';
+import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
+import { AbstractServerPaginationTableComponent, Pagination, PromptService } from '@nexthcm/cdk';
 import { TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
-import { TuiDestroyService } from '@taiga-ui/cdk';
-import { BaseComponent, Columns, Config, DefaultConfig } from 'ngx-easy-table';
-import { BehaviorSubject, from, Observable } from 'rxjs';
-import { catchError, filter, map, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
+import { BaseComponent, Columns } from 'ngx-easy-table';
+import { from, Observable, of } from 'rxjs';
+import { catchError, filter, map, share, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { AdminKnowledgeBaseService } from '../../admin-knowledge-base.service';
 import { AdminPolicy } from '../../models/policies';
 
@@ -15,22 +13,11 @@ import { AdminPolicy } from '../../models/policies';
   selector: 'hcm-list-policies',
   templateUrl: './list-policies.component.html',
   styleUrls: ['./list-policies.component.scss'],
-  providers: [RxState, TuiDestroyService],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [RxState, TuiDestroyService],
 })
-export class ListPoliciesComponent implements OnInit {
+export class ListPoliciesComponent extends AbstractServerPaginationTableComponent<AdminPolicy> {
   @ViewChild('table') table!: BaseComponent;
-
-  readonly loading$ = this.state.$.pipe(map((value) => !value));
-  readonly data$ = this.state.select('items');
-  readonly total$ = this.state.select('totalElements');
-  configuration: Config = {
-    ...DefaultConfig,
-    checkboxes: false,
-    paginationEnabled: false,
-    paginationRangeEnabled: false,
-    fixedColumnWidth: false,
-  };
   columns$: Observable<Columns[]> = this.translocoService
     .selectTranslateObject('ADMIN_POLICIES.POLICIES_MANAGEMENT_COLUMNS')
     .pipe(
@@ -42,59 +29,42 @@ export class ListPoliciesComponent implements OnInit {
       ])
     );
 
-  private readonly queryParams$ = new BehaviorSubject(new HttpParams().set('page', 0).set('size', 10));
   private readonly request$ = this.queryParams$.pipe(
-    switchMap(() => this.policiesService.getPolicies(this.queryParams$.value)),
-    map((res) => res.data)
+    switchMap(() => this.policiesService.getPolicies(this.queryParams$.value).pipe(startWith(null))),
+    share()
+  );
+  readonly loading$ = this.request$.pipe(
+    map((value) => !value),
+    catchError(() => of(false))
   );
 
   constructor(
+    public state: RxState<Pagination<AdminPolicy>>,
     private policiesService: AdminKnowledgeBaseService,
-    private formBuilder: FormBuilder,
-    private state: RxState<Pagination<AdminPolicy>>,
-    private destroy$: TuiDestroyService,
+    private promptService: PromptService,
     private translocoService: TranslocoService,
-    private promptService: PromptService
+    private destroy$: TuiDestroyService
   ) {
-    state.connect(this.request$);
-  }
-
-  ngOnInit(): void {}
-
-  readonly policy = (item: AdminPolicy) => item;
-
-  tableEventEmitted(tableEvent: { event: string; value: any }): void {
-    if (tableEvent.event === 'onOrder') {
-      this.queryParams$.next(this.queryParams$.value.set('sort', `${tableEvent.value.key},${tableEvent.value.order}`));
-    }
-  }
-
-  onSize(size: number): void {
-    this.queryParams$.next(this.queryParams$.value.set('size', size.toString()));
-  }
-
-  onPage(page: number): void {
-    this.queryParams$.next(this.queryParams$.value.set('page', page.toString()));
+    super(state);
+    state.connect(this.request$.pipe(filter(isPresent)));
   }
 
   delete(id: string) {
-    if (id) {
-      from(
-        this.promptService.open({
-          icon: 'question',
-          html: this.translocoService.translate('MESSAGES.deleteWorkflow'),
-          showCancelButton: true,
-        })
+    from(
+      this.promptService.open({
+        icon: 'question',
+        text: this.translocoService.translate('MESSAGES.deleteWorkflow'),
+        showCancelButton: true,
+      })
+    )
+      .pipe(
+        filter((result) => result.isConfirmed),
+        switchMap(() =>
+          this.policiesService.delete(id).pipe(tap(() => this.queryParams$.next(this.queryParams$.value)))
+        ),
+        catchError((err) => this.promptService.open({ icon: 'error', text: err.error.message })),
+        takeUntil(this.destroy$)
       )
-        .pipe(
-          filter((result) => result.isConfirmed),
-          switchMap(() =>
-            this.policiesService.delete(id).pipe(tap(() => this.queryParams$.next(this.queryParams$.value)))
-          ),
-          catchError((err) => this.promptService.open({ icon: 'error', text: err.error.message })),
-          takeUntil(this.destroy$)
-        )
-        .subscribe();
-    }
+      .subscribe();
   }
 }

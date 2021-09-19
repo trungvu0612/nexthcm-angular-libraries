@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { LayoutModule } from '@nexthcm/ui';
+import { LayoutModule, WorkflowActionsButtonDropdownComponentModule } from '@nexthcm/ui';
 import { TranslocoModule } from '@ngneat/transloco';
 import { TranslocoLocaleModule } from '@ngneat/transloco-locale';
 import { FormlyModule } from '@ngx-formly/core';
@@ -49,6 +49,7 @@ import { RequestManagementComponent } from './request-management.component';
     RequestListFilterComponentModule,
     TranslocoLocaleModule,
     LeaveRequestDateRangeComponentModule,
+    WorkflowActionsButtonDropdownComponentModule,
   ],
 })
 export class RequestManagementModule {}

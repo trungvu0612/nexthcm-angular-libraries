@@ -1,5 +1,7 @@
 :host {
-  @apply block absolute cursor-pointer;
+  position: absolute;
+  display: block;
+  cursor: pointer;
 
   * {
     width: 100% !important;

@@ -958,5 +958,14 @@
   "domains": "Domains",
   "ward": "Ward",
   "chooseWard": "Choose ward",
-  "enterDomain": "Enter domain"
+  "enterDomain": "Enter domain",
+  "next": "Next",
+  "back": "Back",
+  "updatePermission": "Update permission",
+  "summary": "Summary",
+  "mySeat": "My seat",
+  "notAssignedSeat": "You have not been assigned a seat!",
+  "emailTemplate": "Email Template",
+  "chooseEmailTemplate": "Choose an email template...",
+  "createMeeting": "Create meeting"
 }

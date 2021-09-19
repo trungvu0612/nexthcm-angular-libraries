@@ -17,7 +17,6 @@ export interface Tenant extends BaseTenant {
   addresses: TenantAddresses;
   domains: TenantDomain[];
   addressId: string;
-  shortname: string;
   hasLDAPUser: boolean;
 }
 
@@ -43,6 +42,7 @@ export interface OrganizationalUnit {
   orgName: string;
   description: string;
   ancestor: OrganizationalUnitAncestor;
+  descendants: Partial<OrganizationalUnit>[];
 }
 
 export interface OrganizationalUnitAncestor {

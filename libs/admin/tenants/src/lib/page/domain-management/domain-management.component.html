@@ -1,8 +1,6 @@
 <ng-container *transloco="let t">
-  <div class="flex justify-end">
-    <button (click)="onUpsertDomain()" size="m" tuiButton>
-      {{ t('createDomain') }}
-    </button>
+  <div class="flex justify-end mb-6">
+    <button (click)="onUpsertDomain()" size="m" tuiButton>{{ t('createDomain') }}</button>
   </div>
   <tui-loader [overlay]="true" [showLoader]="(loading$ | async) === true">
     <ngx-table

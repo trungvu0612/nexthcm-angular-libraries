@@ -5,14 +5,12 @@ import {
   ComponentFactoryResolver,
   Injector,
   OnInit,
-  ViewChild,
 } from '@angular/core';
 import { FormBuilder } from '@ngneat/reactive-forms';
 import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { RxState } from '@rx-angular/state';
 import { TuiDestroyService } from '@taiga-ui/cdk';
-import { PolymorpheusTemplate } from '@tinkoff/ng-polymorpheus';
 import { OrgChart, SearchOrg } from '../../models/node';
 import { HumanResourceService } from '../../services/human-resource.service';
 
@@ -24,12 +22,8 @@ import { HumanResourceService } from '../../services/human-resource.service';
   providers: [TuiDestroyService, RxState],
 })
 export class OrganizationChartComponent implements OnInit {
-  @ViewChild('userContent', { static: true }) userContent!: PolymorpheusTemplate<OrgChart>;
-  readonly userContext!: { $implicit: OrgChart };
-
   search!: string;
   data!: OrgChart[];
-
   searchForm = this.fb.group<Partial<SearchOrg>>({});
   model: Partial<SearchOrg> = {};
   fields: FormlyFieldConfig[] = [

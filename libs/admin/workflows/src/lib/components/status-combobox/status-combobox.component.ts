@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import { Actions } from '@datorama/akita-ng-effects';
 import { FieldType } from '@ngx-formly/core';
 import {
   isPresent,
@@ -10,7 +11,7 @@ import {
 import { BehaviorSubject } from 'rxjs';
 import { distinctUntilChanged, filter, map } from 'rxjs/operators';
 import { Status } from '../../models';
-import { AdminWorkflowsService } from '../../services/admin-workflows.service';
+import { loadStatuses, StatusesQuery } from '../../state';
 
 @Component({
   selector: 'hcm-status-combobox',
@@ -31,8 +32,9 @@ export class StatusComboboxComponent extends FieldType {
     map((search) => this.getStatusList(search))
   );
 
-  constructor(private adminWorkflowsService: AdminWorkflowsService) {
+  constructor(private statusesQuery: StatusesQuery, actions: Actions) {
     super();
+    actions.dispatch(loadStatuses());
   }
 
   readonly stringify: TuiStringHandler<any> = (item: Status) => item.name;
@@ -44,7 +46,7 @@ export class StatusComboboxComponent extends FieldType {
   ) => !!item.id && stringify(item).toLowerCase() === search.toLowerCase();
 
   getStatusList(searchQuery: string): Status[] {
-    const statusList = (this.adminWorkflowsService.get('statuses') || []).filter(
+    const statusList = (this.statusesQuery.getAll() || []).filter(
       (status) =>
         status.name.toLowerCase().indexOf(searchQuery.toLowerCase()) !== -1 &&
         !this.addedStatuses.find((addedStatus) => addedStatus.id === status.id)

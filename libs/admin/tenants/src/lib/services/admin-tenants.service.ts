@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { ACCOUNT_API_PATH, BaseResponse, Pagination, PagingResponse } from '@nexthcm/cdk';
 import { EMPTY, Observable, of } from 'rxjs';
 import { catchError, map, mapTo } from 'rxjs/operators';
-import { BaseTenant, Tenant, TenantDomain } from '../models/tenant';
+import { BaseTenant, OrganizationalUnit, Tenant, TenantDomain } from '../models/tenant';
 
 @Injectable({
   providedIn: 'root',
@@ -59,5 +59,30 @@ export class AdminTenantsService {
 
   getOrganizationalLevels(): Observable<string[]> {
     return this.http.get<BaseResponse<string[]>>(`${ACCOUNT_API_PATH}/orgs/get-org-type`).pipe(map((res) => res.data));
+  }
+
+  getOrganizationChart(): Observable<Partial<OrganizationalUnit>> {
+    return of({
+      orgName: 'name',
+      descendants: [
+        { orgName: 'name' },
+        { orgName: 'name' },
+        { orgName: 'name' },
+        { orgName: 'name' },
+        { orgName: 'name' },
+      ],
+    });
+  }
+
+  upsertOrganizationUnit(payload: Partial<OrganizationalUnit>): Observable<unknown> {
+    // return payload.id
+    //   ? this.http.put(`${ACCOUNT_API_PATH}/domains/${payload.id}`, payload)
+    //   : this.http.post(`${ACCOUNT_API_PATH}/domains`, payload);
+    return of(payload);
+  }
+
+  deleteOrganizationUnit(id: string): Observable<unknown> {
+    // return this.http.delete(`${ACCOUNT_API_PATH}/domains/${id}`);
+    return of(id);
   }
 }

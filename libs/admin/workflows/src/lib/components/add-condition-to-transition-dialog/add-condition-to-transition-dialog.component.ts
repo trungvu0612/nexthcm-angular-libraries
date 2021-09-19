@@ -10,6 +10,7 @@ import { AbstractAddOptionToTransitionComponent } from '../../abstract-component
 import { ConditionType } from '../../enums';
 import { TransitionCondition, TransitionOptionsDialogData } from '../../models';
 import { AdminWorkflowsService } from '../../services/admin-workflows.service';
+import { ConditionTypesQuery, loadConditionTypes } from '../../state';
 
 @Component({
   selector: 'hcm-add-condition-to-transition-dialog',
@@ -18,8 +19,8 @@ import { AdminWorkflowsService } from '../../services/admin-workflows.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AddConditionToTransitionDialogComponent extends AbstractAddOptionToTransitionComponent<TransitionCondition> {
-  readonly conditionTypes$ = this.adminWorkflowsService
-    .select('conditionTypes')
+  readonly conditionTypes$ = this.conditionTypesQuery
+    .selectAll()
     .pipe(
       map((types) =>
         types
@@ -74,10 +75,12 @@ export class AddConditionToTransitionDialogComponent extends AbstractAddOptionTo
     @Inject(POLYMORPHEUS_CONTEXT)
     readonly context: TuiDialogContext<TransitionCondition, TransitionOptionsDialogData<TransitionCondition>>,
     readonly adminWorkflowsService: AdminWorkflowsService,
+    private readonly conditionTypesQuery: ConditionTypesQuery,
     private readonly jobTitlesQuery: JobTitlesQuery,
     private readonly actions: Actions
   ) {
     super(fb, context, adminWorkflowsService);
     this.actions.dispatch(loadJobTitles());
+    this.actions.dispatch(loadConditionTypes());
   }
 }
