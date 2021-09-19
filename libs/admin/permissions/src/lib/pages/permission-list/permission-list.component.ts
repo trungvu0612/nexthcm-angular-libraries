@@ -4,8 +4,8 @@ import { TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { BaseComponent } from 'ngx-easy-table';
-import { from } from 'rxjs';
-import { catchError, filter, map, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { from, of } from 'rxjs';
+import { catchError, filter, map, share, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { Policy } from '../../models/policy';
 import { AdminPermissionsService } from '../../services/admin-permissions.service';
 
@@ -18,7 +18,6 @@ import { AdminPermissionsService } from '../../services/admin-permissions.servic
 })
 export class PermissionListComponent extends AbstractServerPaginationTableComponent<Policy> {
   @ViewChild('table') table!: BaseComponent;
-  readonly loading$ = this.state.$.pipe(map((value) => !value));
   readonly columns$ = this.translocoService.selectTranslateObject('PERMISSION_TABLE').pipe(
     map((translate) => [
       { key: 'name', title: translate.name },
@@ -28,25 +27,23 @@ export class PermissionListComponent extends AbstractServerPaginationTableCompon
     ])
   );
   private readonly request$ = this.queryParams$.pipe(
-    switchMap(() => this.adminPermissionsService.getPermissions(this.queryParams$.value)),
-    map((res) => res.data)
+    switchMap(() => this.adminPermissionsService.getPermissions(this.queryParams$.value).pipe(startWith(null))),
+    share()
+  );
+  readonly loading$ = this.request$.pipe(
+    map((value) => !value),
+    catchError(() => of(false))
   );
 
   constructor(
+    readonly state: RxState<Pagination<Policy>>,
     private adminPermissionsService: AdminPermissionsService,
-    state: RxState<Pagination<Policy>>,
     private promptService: PromptService,
     private destroy$: TuiDestroyService,
-    private readonly translocoService: TranslocoService
+    private translocoService: TranslocoService
   ) {
     super(state);
-    state.connect(this.request$.pipe(filter(isPresent)));
-  }
-
-  tableEventEmitted(tableEvent: { event: string; value: any }): void {
-    if (tableEvent.event === 'onOrder') {
-      this.queryParams$.next(this.queryParams$.value.set('sort', `${tableEvent.value.key},${tableEvent.value.order}`));
-    }
+    this.state.connect(this.request$.pipe(filter(isPresent)));
   }
 
   delete(id: string) {
@@ -60,7 +57,9 @@ export class PermissionListComponent extends AbstractServerPaginationTableCompon
       .pipe(
         filter((result) => result.isConfirmed),
         switchMap(() =>
-          this.adminPermissionsService.delete(id).pipe(tap(() => this.queryParams$.next(this.queryParams$.value)))
+          this.adminPermissionsService
+            .deletePermission(id)
+            .pipe(tap(() => this.queryParams$.next(this.queryParams$.value)))
         ),
         catchError((err) =>
           this.promptService.open({

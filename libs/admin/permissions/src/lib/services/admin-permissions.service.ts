@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ACCOUNT_API_PATH, PagingResponse } from '@nexthcm/cdk';
+import { ACCOUNT_API_PATH, Pagination, PagingResponse } from '@nexthcm/cdk';
 import { RxState } from '@rx-angular/state';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -31,8 +31,10 @@ export class AdminPermissionsService extends RxState<StatePermissions> {
       .pipe(map((response) => response.data.items));
   }
 
-  getPermissions(params: HttpParams): Observable<PagingResponse<Policy>> {
-    return this.http.get<PagingResponse<Policy>>(`${ACCOUNT_API_PATH}/permissions`, { params });
+  getPermissions(params: HttpParams): Observable<Pagination<Policy>> {
+    return this.http
+      .get<PagingResponse<Policy>>(`${ACCOUNT_API_PATH}/permissions`, { params })
+      .pipe(map((response) => response.data));
   }
 
   getPermission(policyId: string): Observable<Partial<Policy>> {
@@ -43,7 +45,7 @@ export class AdminPermissionsService extends RxState<StatePermissions> {
     return this.http.post<Partial<Policy>>(`${ACCOUNT_API_PATH}/permissions`, body);
   }
 
-  delete(id: string): Observable<any> {
+  deletePermission(id: string): Observable<unknown> {
     return this.http.delete(`${ACCOUNT_API_PATH}/permissions/${id}`, {});
   }
 }

@@ -1,12 +1,10 @@
-<main class="main-page" *transloco="let t">
-  <header >
-    <h1>{{ t('jobTitleManagement') }}</h1>
-    <button (click)="onAddJobTitle()" class="tui-space_right-3 tui-space_bottom-3" size="m" tuiButton>
-      {{ t('addNewJobTitle') }}
-    </button>
-  </header>
-
-  <section class="main-section">
+<ng-container *transloco="let t">
+  <hcm-page [title]="t('jobTitleManagement')">
+    <ng-container ngProjectAs="pageHeader">
+      <button (click)="onAddJobTitle()" size="m" tuiButton>
+        {{ t('addNewJobTitle') }}
+      </button>
+    </ng-container>
     <tui-loader [overlay]="true" [showLoader]="(loading$ | async) === true">
       <ngx-table
         #table
@@ -15,31 +13,32 @@
         [data]="(data$ | async) || []"
       >
         <ng-template let-row>
-          <td>{{ item(row).name }}</td>
-          <td>{{ item(row).infoUserCreated?.profile?.fullName }}</td>
-          <td>{{ item(row).createdDate | date }}</td>
-          <td>{{ item(row).lastModifiedDate | date }}</td>
-          <td>{{ item(row).state === 1 ? t('approved') : t('cancelled') }}</td>
-
-          <td>
-            <div class="flex items-center">
-              <button
-                (click)="onEditJobTitle(item(row))"
-                appearance="flat"
-                class="tui-space_right-3"
-                icon="tuiIconEditLarge"
-                size="m"
-                tuiIconButton
-              ></button>
-              <button
-                (click)="onRemoveJobTitle(item(row).id)"
-                appearance="flat"
-                icon="tuiIconTrashLarge"
-                size="m"
-                tuiIconButton
-              ></button>
-            </div>
-          </td>
+          <ng-container *tuiLet="item(row) as item">
+            <td>{{ item.name }}</td>
+            <td>{{ item.infoUserCreated?.profile?.fullName }}</td>
+            <td>{{ item.createdDate | date }}</td>
+            <td>{{ item.lastModifiedDate | date }}</td>
+            <td>{{ item.state === 1 ? t('approved') : t('cancelled') }}</td>
+            <td>
+              <div class="flex items-center">
+                <button
+                  (click)="onEditJobTitle(item)"
+                  appearance="flat"
+                  class="tui-space_right-3"
+                  icon="tuiIconEditLarge"
+                  size="m"
+                  tuiIconButton
+                ></button>
+                <button
+                  (click)="onRemoveJobTitle(item.id)"
+                  appearance="flat"
+                  icon="tuiIconTrashLarge"
+                  size="m"
+                  tuiIconButton
+                ></button>
+              </div>
+            </td>
+          </ng-container>
         </ng-template>
       </ngx-table>
     </tui-loader>
@@ -48,5 +47,5 @@
       (sizeChange)="onSize($event)"
       [total]="(total$ | async) || 0"
     ></tui-table-pagination>
-  </section>
-</main>
+  </hcm-page>
+</ng-container>

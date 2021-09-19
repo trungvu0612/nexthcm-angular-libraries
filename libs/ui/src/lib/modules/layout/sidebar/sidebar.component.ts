@@ -125,7 +125,7 @@ export class SidebarComponent implements OnInit {
         icon: 'calendar',
         permissions: 'VIEW_CALENDAR',
       },
-      {
+      /*{
         label: 'payslip',
         link: '/payslip',
         icon: 'payslip',
@@ -136,19 +136,19 @@ export class SidebarComponent implements OnInit {
         link: '/report',
         icon: 'report',
         permissions: 'REPORT',
-      },
+      },*/
       {
         label: 'humanResource',
         link: '/human-resource',
         icon: 'human-resource',
         permissions: 'HUMAN_RESOURCE',
       },
-      {
+      /*{
         label: 'form',
         link: '/form',
         icon: 'form',
         permissions: 'FORM',
-      },
+      },*/
       {
         label: 'knowledgeBase',
         link: '/knowledge-base',

@@ -1,51 +1,27 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Actions } from '@datorama/akita-ng-effects';
-import { ACCOUNT_API_PATH, BaseObject, BaseResponse, Pagination, PagingResponse } from '@nexthcm/cdk';
-import { insert, RxState, update } from '@rx-angular/state';
-import { Observable, of, Subject } from 'rxjs';
-import { catchError, map, startWith, switchMap, tap } from 'rxjs/operators';
+import {
+  ACCOUNT_API_PATH,
+  BaseObject,
+  BaseResponse,
+  Pagination,
+  PagingResponse,
+  refreshWorkflows,
+  WorkflowStatusType,
+} from '@nexthcm/cdk';
+import { Observable, of } from 'rxjs';
+import { catchError, map, tap } from 'rxjs/operators';
 import { ConditionType, PostFunctionType, ValidatorType } from '../enums';
 import { EmailTemplate, InitWorkflow, Status, TemplateVariableModel, TransitionOption, Workflow } from '../models';
-import { removeEmailTemplate, upsertEmailTemplate } from '../state/email-templates.actions';
-
-interface WorkflowsState {
-  statusTypes: Status[];
-  statuses: Status[];
-  conditionTypes: TransitionOption<ConditionType>[];
-  validatorTypes: TransitionOption<ValidatorType>[];
-  postFunctionTypes: TransitionOption<PostFunctionType>[];
-  templateVariables: TemplateVariableModel[];
-}
+import { removeEmailTemplate, upsertEmailTemplate, upsertStatus } from '../state';
 
 @Injectable()
-export class AdminWorkflowsService extends RxState<WorkflowsState> {
-  private readonly updateStatus$ = new Subject<Status>();
-  private readonly createStatus$ = new Subject<Status>();
-  private readonly initStatus$ = new Subject();
+export class AdminWorkflowsService {
+  constructor(private readonly http: HttpClient, private readonly actions: Actions) {}
 
-  constructor(private readonly http: HttpClient, private readonly actions: Actions) {
-    super();
-    this.connect('statusTypes', this.getStatusTypes());
-    this.connect('conditionTypes', this.getConditionTypes());
-    this.connect('validatorTypes', this.getValidatorTypes());
-    this.connect('postFunctionTypes', this.getPostFunctionTypes());
-    this.connect('templateVariables', this.getTemplateVariables());
-    this.connect(
-      'statuses',
-      this.initStatus$.pipe(
-        startWith(null),
-        switchMap(() => this.getStatuses())
-      )
-    );
-    this.connect('statuses', this.updateStatus$, (state, status) =>
-      update(state.statuses, status, (a, b) => a.id === b.id)
-    );
-    this.connect('statuses', this.createStatus$, (state, status) => insert(state.statuses, status));
-  }
-
-  getStatusTypes(): Observable<Status[]> {
-    return this.http.get<Status[]>(`${ACCOUNT_API_PATH}/states/types`).pipe(catchError(() => of([])));
+  getStatusTypes(): Observable<WorkflowStatusType[]> {
+    return this.http.get<WorkflowStatusType[]>(`${ACCOUNT_API_PATH}/states/types`).pipe(catchError(() => of([])));
   }
 
   getWorkflow(workflowId: string): Observable<Workflow> {
@@ -61,17 +37,21 @@ export class AdminWorkflowsService extends RxState<WorkflowsState> {
   }
 
   upsertWorkflow(workflowId: string, payload: Workflow): Observable<BaseResponse<Workflow>> {
-    return this.http.put<BaseResponse<Workflow>>(`${ACCOUNT_API_PATH}/process/${workflowId}`, payload);
+    return this.http
+      .put<BaseResponse<Workflow>>(`${ACCOUNT_API_PATH}/process/${workflowId}`, payload)
+      .pipe(tap(() => this.actions.dispatch(refreshWorkflows())));
   }
 
   initWorkflow(payload: InitWorkflow): Observable<BaseResponse<Workflow>> {
     return this.http
       .post<BaseResponse<Workflow>>(`${ACCOUNT_API_PATH}/process/init`, payload)
-      .pipe(tap(() => this.initStatus$.next()));
+      .pipe(tap(() => this.actions.dispatch(refreshWorkflows())));
   }
 
   deleteWorkflow(workflowId: string): Observable<unknown> {
-    return this.http.delete<unknown>(`${ACCOUNT_API_PATH}/process/${workflowId}`);
+    return this.http
+      .delete<unknown>(`${ACCOUNT_API_PATH}/process/${workflowId}`)
+      .pipe(tap(() => this.actions.dispatch(refreshWorkflows())));
   }
 
   getStatuses(): Observable<Status[]> {
@@ -88,14 +68,14 @@ export class AdminWorkflowsService extends RxState<WorkflowsState> {
   createStatus(payload: Status): Observable<Status> {
     return this.http.post<BaseResponse<Status>>(`${ACCOUNT_API_PATH}/states`, payload).pipe(
       map((res) => res.data),
-      tap((data) => this.createStatus$.next(data))
+      tap((data) => this.actions.dispatch(upsertStatus({ data })))
     );
   }
 
   updateStatus(payload: Status): Observable<unknown> {
     return this.http.put<BaseResponse<unknown>>(`${ACCOUNT_API_PATH}/states/${payload.id}`, payload).pipe(
       map((res) => res.data),
-      tap(() => this.updateStatus$.next(payload))
+      tap(() => this.actions.dispatch(upsertStatus({ data: payload })))
     );
   }
 

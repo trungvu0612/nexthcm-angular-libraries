@@ -4,12 +4,11 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { GetFilePipeModule } from '@nexthcm/cdk';
-import { LayoutComponent } from '@nexthcm/ui';
+import { LayoutComponent, LayoutModule } from '@nexthcm/ui';
 import { TranslocoModule } from '@ngneat/transloco';
 import { FormlyModule } from '@ngx-formly/core';
 import { TuiTablePaginationModule } from '@taiga-ui/addon-table';
-import { TuiLetModule } from '@taiga-ui/cdk';
-import { TuiButtonModule, TuiSvgModule } from '@taiga-ui/core';
+import { TuiButtonModule, TuiLoaderModule, TuiSvgModule } from '@taiga-ui/core';
 import { TuiInputFileModule } from '@taiga-ui/kit';
 import { TableModule } from 'ngx-easy-table';
 import { NgxPermissionsGuard } from 'ngx-permissions';
@@ -46,17 +45,18 @@ export const adminSeatMapsRoutes: Routes = [
   imports: [
     CommonModule,
     RouterModule.forChild(adminSeatMapsRoutes),
-    TranslocoModule,
-    TuiButtonModule,
-    TableModule,
-    ReactiveFormsModule,
-    FormlyModule,
-    TuiInputFileModule,
     DragDropModule,
-    TuiSvgModule,
     GetFilePipeModule,
+    LayoutModule,
+    ReactiveFormsModule,
+    TranslocoModule,
+    FormlyModule,
+    TableModule,
+    TuiButtonModule,
+    TuiInputFileModule,
+    TuiSvgModule,
     TuiTablePaginationModule,
-    TuiLetModule,
+    TuiLoaderModule,
   ],
   providers: [AdminSeatMapsService],
 })

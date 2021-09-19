@@ -4,7 +4,7 @@ import { TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { BaseComponent } from 'ngx-easy-table';
-import { from } from 'rxjs';
+import { from, of } from 'rxjs';
 import { catchError, filter, map, share, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { AdminSeatMapsService } from '../../services/admin-seat-maps.service';
 
@@ -13,16 +13,15 @@ import { AdminSeatMapsService } from '../../services/admin-seat-maps.service';
   templateUrl: './seat-map-list.component.html',
   styleUrls: ['./seat-map-list.component.scss'],
   providers: [RxState, TuiDestroyService],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SeatMapListComponent extends AbstractServerPaginationTableComponent<Zone> {
   @ViewChild('table') table!: BaseComponent;
-  readonly loading$ = this.state.$.pipe(map((value) => !value));
   readonly columns$ = this.translocoService.selectTranslateObject('ZONE_TABLE').pipe(
     map((translate) => [
       { key: 'name', title: translate.name },
       { key: 'office', title: translate.office },
-      { key: 'action', title: translate.action }
+      { key: 'action', title: translate.action },
     ])
   );
 
@@ -30,22 +29,20 @@ export class SeatMapListComponent extends AbstractServerPaginationTableComponent
     switchMap(() => this.adminSeatMapService.getSeatMaps(this.queryParams$.value).pipe(startWith(null))),
     share()
   );
+  readonly loading$ = this.request$.pipe(
+    map((value) => !value),
+    catchError(() => of(false))
+  );
 
   constructor(
-    private readonly adminSeatMapService: AdminSeatMapsService,
+    readonly state: RxState<Pagination<Zone>>,
+    private adminSeatMapService: AdminSeatMapsService,
     private promptService: PromptService,
     private destroy$: TuiDestroyService,
-    state: RxState<Pagination<Zone>>,
     private readonly translocoService: TranslocoService
   ) {
     super(state);
     state.connect(this.request$.pipe(filter(isPresent)));
-  }
-
-  tableEventEmitted(tableEvent: { event: string; value: any }): void {
-    if (tableEvent.event === 'onOrder') {
-      this.queryParams$.next(this.queryParams$.value.set('sort', `${tableEvent.value.key},${tableEvent.value.order}`));
-    }
   }
 
   deleteSeatMap(id: string) {

@@ -4,10 +4,15 @@
   ::ng-deep {
     formly-field {
       [tuiLabel] {
-        @apply flex-row justify-start mb-4;
+        flex-direction: row;
+        justify-content: flex-start;
+        margin-bottom: 1rem;
 
         span.label {
-          @apply text-base font-semibold w-24 mr-4;
+          width: 6rem;
+          margin-right: 1rem;
+          font-size: 1rem;
+          font-weight: 600;
         }
 
         span.content {
@@ -35,7 +40,8 @@
       }
 
       .ngx-table__header-search {
-        @apply rounded-xl px-3 py-5;
+        padding: 20px 12px;
+        border-radius: 0.75rem;
       }
     }
   }

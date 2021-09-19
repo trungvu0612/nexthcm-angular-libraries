@@ -7,8 +7,9 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { LetModule } from '@rx-angular/template';
 import { TuiTablePaginationModule } from '@taiga-ui/addon-table';
 import { TuiLetModule } from '@taiga-ui/cdk';
-import { TuiButtonModule, TuiLinkModule, TuiLoaderModule } from '@taiga-ui/core';
+import { TuiButtonModule, TuiLinkModule, TuiLoaderModule, TuiScrollbarModule } from '@taiga-ui/core';
 import { TuiTabsModule, TuiTagModule } from '@taiga-ui/kit';
+import { HeroIconModule, pencilAlt, trash, zoomIn } from 'ng-heroicon';
 import { TableModule } from 'ngx-easy-table';
 import { UpsertOrganizationUnitComponent } from './components/upsert-organization-unit/upsert-organization-unit.component';
 import { UpsertTenantDialogComponent } from './components/upsert-tenant-dialog/upsert-tenant-dialog.component';
@@ -16,9 +17,10 @@ import { UpsertTenantDomainDialogComponent } from './components/upsert-tenant-do
 import { UpsertTenantFormComponent } from './components/upsert-tenant-form/upsert-tenant-form.component';
 import { DomainManagementComponent } from './page/domain-management/domain-management.component';
 import { OrganizationalChartComponent } from './page/organizational-chart/organizational-chart.component';
+import { TenantDetailComponent } from './page/tenant-detail/tenant-detail.component';
 import { TenantManagementComponent } from './page/tenant-management/tenant-management.component';
 import { TenantProfileComponent } from './page/tenant-profile/tenant-profile.component';
-import { TenantDetailComponent } from './page/tenant-detail/tenant-detail.component';
+import { GetSpanChartPipe } from './pipes/get-span-chart.pipe';
 
 export const ADMIN_TENANTS_ROUTES: Routes = [
   {
@@ -33,6 +35,7 @@ export const ADMIN_TENANTS_ROUTES: Routes = [
           { path: '', redirectTo: 'profile', pathMatch: 'full' },
           { path: 'profile', component: TenantProfileComponent },
           { path: 'domains', component: DomainManagementComponent },
+          { path: 'org-chart', component: OrganizationalChartComponent },
         ],
       },
     ],
@@ -57,6 +60,8 @@ export const ADMIN_TENANTS_ROUTES: Routes = [
     BaseFormComponentModule,
     LetModule,
     TuiTabsModule,
+    HeroIconModule.withIcons({ zoomIn, pencilAlt, trash }),
+    TuiScrollbarModule,
   ],
   declarations: [
     TenantManagementComponent,
@@ -68,6 +73,7 @@ export const ADMIN_TENANTS_ROUTES: Routes = [
     UpsertTenantDomainDialogComponent,
     UpsertOrganizationUnitComponent,
     TenantDetailComponent,
+    GetSpanChartPipe,
   ],
   providers: [AddressService],
 })

@@ -52,7 +52,7 @@ import { AddConditionToTransitionDialogComponent } from './components/add-condit
 import { AddPostFunctionToTransitionDialogComponent } from './components/add-post-function-to-transition-dialog/add-post-function-to-transition-dialog.component';
 import { AddStatusDropdownButtonComponent } from './components/add-status-button-dropdown/add-status-dropdown-button.component';
 import { AddValidatorToTransitionDialogComponent } from './components/add-validator-to-transition-dialog/add-validator-to-transition-dialog.component';
-import { InitWorkflowDialogComponent } from './components/create-workflow-dialog/init-workflow-dialog.component';
+import { CreateWorkflowDialogComponent } from './components/create-workflow-dialog/create-workflow-dialog.component';
 import { FormlyQuillTemplateVariableComponent } from './components/formly-quill-template-variable/formly-quill-template-variable.component';
 import { FormlySelectTransitionOptionComponent } from './components/formly-select-transition-option/formly-select-transition-option.component';
 import { StatusComboboxComponent } from './components/status-combobox/status-combobox.component';
@@ -68,8 +68,29 @@ import { UpsertWorkflowComponent } from './pages/upsert-workflow/upsert-workflow
 import { WorkflowManagementComponent } from './pages/workflow-management/workflow-management.component';
 import { TemplateVariable } from './quill/formats/template-variable';
 import { AdminWorkflowsService } from './services/admin-workflows.service';
-import { EmailTemplatesEffects } from './state/email-templates.effects';
-import { EmailTemplatesQuery, EmailTemplatesStore } from './state/email-templates.state';
+import {
+  ConditionTypesEffects,
+  ConditionTypesQuery,
+  ConditionTypesStore,
+  EmailTemplatesEffects,
+  EmailTemplatesQuery,
+  EmailTemplatesStore,
+  PostFunctionsTypesStore,
+  PostFunctionTypesEffects,
+  PostFunctionTypesQuery,
+  StatusesEffects,
+  StatusesQuery,
+  StatusesStore,
+  StatusTypesEffects,
+  StatusTypesQuery,
+  StatusTypesStore,
+  TemplateVariablesEffects,
+  TemplateVariablesQuery,
+  TemplateVariablesStore,
+  ValidatorTypesEffects,
+  ValidatorTypesQuery,
+  ValidatorTypesStore,
+} from './state';
 
 TemplateVariable.blotName = 'TemplateVariable';
 TemplateVariable.tagName = 'span';
@@ -166,7 +187,16 @@ const TABS: MenuItem[] = [
     TuiHintModule,
     TuiToggleModule,
     TuiCheckboxLabeledModule,
-    AkitaNgEffectsModule.forFeature([EmailTemplatesEffects, JobTitlesEffects]),
+    AkitaNgEffectsModule.forFeature([
+      EmailTemplatesEffects,
+      JobTitlesEffects,
+      ConditionTypesEffects,
+      PostFunctionTypesEffects,
+      ValidatorTypesEffects,
+      StatusesEffects,
+      StatusTypesEffects,
+      TemplateVariablesEffects,
+    ]),
     FormlyFieldArraySingleItemComponentModule,
   ],
   declarations: [
@@ -175,7 +205,7 @@ const TABS: MenuItem[] = [
     UpsertStatusDialogComponent,
     UpsertTransitionDialogComponent,
     WorkflowManagementComponent,
-    InitWorkflowDialogComponent,
+    CreateWorkflowDialogComponent,
     AddStatusDropdownButtonComponent,
     StatusComboboxComponent,
     TransitionDetailDialogComponent,
@@ -195,6 +225,18 @@ const TABS: MenuItem[] = [
     AdminWorkflowsService,
     EmailTemplatesStore,
     EmailTemplatesQuery,
+    ConditionTypesStore,
+    ConditionTypesQuery,
+    ValidatorTypesStore,
+    ValidatorTypesQuery,
+    PostFunctionsTypesStore,
+    PostFunctionTypesQuery,
+    StatusTypesStore,
+    StatusTypesQuery,
+    StatusesStore,
+    StatusesQuery,
+    TemplateVariablesStore,
+    TemplateVariablesQuery,
   ],
 })
 export class AdminWorkflowsModule {}

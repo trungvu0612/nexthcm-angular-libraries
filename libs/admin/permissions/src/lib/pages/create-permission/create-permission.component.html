@@ -1,8 +1,5 @@
-<main class="main-page">
-  <header>
-    <h1>Create Permission</h1>
-  </header>
-  <section class="main-section">
+<ng-container *transloco="let t">
+  <hcm-page [title]="t('addPermission')">
     <form (ngSubmit)="permission.submitPolicy()" [formGroup]="$any(policyForm)">
       <tui-stepper [(activeItemIndex)]="stepper" class="flex justify-center py-6 mb-8">
         <button state="pass" tuiStep type="button">Service & Resource</button>
@@ -17,15 +14,15 @@
         [servicesModel]="servicesModel"
       ></hcm-permission-detail>
       <div class="flex justify-end gap-4 mt-5">
-        <button appearance="flat" routerLink="../" size="m" tuiButton type="button">Cancel</button>
+        <button appearance="flat" routerLink="../" size="m" tuiButton type="button">{{ t('cancel') }}</button>
         <button (click)="nextStep()" *ngIf="!stepper" [disabled]="!servicesForm.valid" size="m" tuiButton type="button">
-          Next
+          {{ t('next') }}
         </button>
         <button (click)="stepper = 0" *ngIf="stepper" appearance="outline" size="m" tuiButton type="button">
-          Previous
+          {{ t('back') }}
         </button>
-        <button *ngIf="stepper" size="m" tuiButton>Create Policy</button>
+        <button *ngIf="stepper" size="m" tuiButton>{{ t('addPermission') }}</button>
       </div>
     </form>
-  </section>
-</main>
+  </hcm-page>
+</ng-container>

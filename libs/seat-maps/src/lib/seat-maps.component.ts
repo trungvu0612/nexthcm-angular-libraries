@@ -2,13 +2,13 @@ import { CdkDragStart } from '@angular/cdk/drag-drop';
 import { ChangeDetectionStrategy, Component, QueryList, ViewChildren } from '@angular/core';
 import { AuthService } from '@nexthcm/auth';
 import { filterBySearch, Zone } from '@nexthcm/cdk';
-import { FormGroup } from '@ngneat/reactive-forms';
-import { FormlyFieldConfig } from '@ngx-formly/core';
+import { FormControl } from '@ngneat/reactive-forms';
 import { RxState } from '@rx-angular/state';
-import { BehaviorSubject, merge, Observable, Subject, timer } from 'rxjs';
-import { last, map, shareReplay, startWith, switchMap, take, takeWhile, tap } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, Subject, timer } from 'rxjs';
+import { last, map, startWith, switchMap, take, takeWhile, tap } from 'rxjs/operators';
 import { SeatComponent } from './components/seat/seat.component';
 import { SeatMapsService } from './seat-maps.service';
+import { TuiStringHandler } from '@taiga-ui/cdk';
 
 @Component({
   selector: 'hcm-seat-maps',
@@ -19,31 +19,19 @@ import { SeatMapsService } from './seat-maps.service';
 })
 export class SeatMapsComponent {
   @ViewChildren(SeatComponent) seatRefs!: QueryList<SeatComponent>;
-  myId = this.authService.get('userInfo').userId;
-  ping$ = new BehaviorSubject(-1);
-  hidden$ = new BehaviorSubject(true);
-  refresh$ = new Subject();
-  seatMap$ = this.state.select('seatMap');
-  dragging$ = new Subject<boolean>();
-  seatMaps$ = this.seatMapsService.getSeatMaps().pipe(shareReplay(1));
-  form = new FormGroup({});
-  model: { seatMap?: Partial<Zone> } = {};
-  fields: FormlyFieldConfig[] = [
-    {
-      key: 'seatMap',
-      type: 'combo-box',
-      templateOptions: {
-        translate: true,
-        label: 'seatMap',
-        textfieldSize: 'm',
-        icon: 'assets/icons/office-building.svg',
-        subLabelProp: 'office.name',
-        matcherBy: 'id',
-        serverRequest: (search: string): Observable<Partial<Zone>[]> =>
-          this.seatMaps$.pipe(map((maps) => filterBySearch<Zone>(maps, search))),
-      },
-    },
-  ];
+  readonly myId = this.authService.get('userInfo').userId;
+  readonly ping$ = new BehaviorSubject(-1);
+  readonly loading$ = new BehaviorSubject(true);
+  readonly refresh$ = new Subject();
+  readonly seatMap$ = this.state.select('seatMap');
+  readonly dragging$ = new Subject<boolean>();
+  readonly search$ = new BehaviorSubject('');
+  readonly seatMaps$ = combineLatest([this.seatMapsService.select('seatMaps'), this.search$]).pipe(
+    map(([seatMaps, search]) => {
+      return search ? filterBySearch<Zone>(seatMaps, search) : seatMaps;
+    })
+  );
+  readonly seatMapControl = new FormControl<Partial<Zone>>();
 
   constructor(
     private seatMapsService: SeatMapsService,
@@ -52,17 +40,22 @@ export class SeatMapsComponent {
   ) {
     this.state.connect(
       'seatMap',
-      merge(this.refresh$).pipe(
+      this.refresh$.pipe(
         startWith(null),
-        switchMap(() => this.seatMapsService.getSeatMap(this.model.seatMap?.id || '')),
+        switchMap(() => this.seatMapsService.getSeatMap(this.seatMapControl.value?.id || '')),
         tap((zone) => {
-          if (!this.model.seatMap?.id) this.model = { seatMap: zone };
-          zone.seats?.forEach((seat) => Object.assign(seat, JSON.parse(seat.style || '')));
-          if (zone.imageUrl !== this.state.get('seatMap')?.imageUrl) this.hidden$.next(true);
+          if (zone.id) {
+            this.seatMapControl.setValue(zone, { emitEvent: false });
+            zone.seats?.forEach((seat) => Object.assign(seat, JSON.parse(seat.style || '')));
+            if (zone.imageUrl !== this.state.get('seatMap')?.imageUrl) this.loading$.next(true);
+          } else this.loading$.next(false);
         })
       )
     );
+    this.state.hold(this.seatMapControl.valueChanges, () => this.refresh$.next());
   }
+
+  readonly stringify: TuiStringHandler<Zone | string> = (item: Zone | string): string => (item as Zone).name;
 
   findMySeat(): void {
     const mySeatIndex = this.state.get('seatMap').seats?.findIndex((seat) => seat.assignedUser?.id === this.myId);
@@ -75,13 +68,12 @@ export class SeatMapsComponent {
       });
       this.state.hold(timer(1000), () => this.ping$.next(-1));
     } else {
-      this.model = { seatMap: undefined };
-      this.refresh$.next();
+      this.seatMapControl.setValue({});
       this.state.hold(
         this.state.select().pipe(
           take(3),
           last(),
-          switchMap(() => this.hidden$),
+          switchMap(() => this.loading$),
           takeWhile((hidden) => hidden, true),
           last()
         ),

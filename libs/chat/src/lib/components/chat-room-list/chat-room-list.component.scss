@@ -3,19 +3,21 @@
 
   .chat-room {
     &.unseen {
-      @apply font-bold;
+      font-weight: 700;
 
       .dot {
-        @apply inline-block;
+        display: inline-block;
       }
     }
 
     &.active {
-      @apply bg-gray-100;
+      --tw-bg-opacity: 1;
+      background-color: rgba(243, 244, 246, var(--tw-bg-opacity));
     }
 
     .avatar {
-      @apply w-14 h-14;
+      width: 3.5rem;
+      height: 3.5rem;
     }
   }
 }

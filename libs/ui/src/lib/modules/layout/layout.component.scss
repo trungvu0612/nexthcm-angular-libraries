@@ -1,5 +1,6 @@
 :host {
-  @apply flex h-screen;
+  display: flex;
+  height: 100vh;
 
   tui-scrollbar {
     background-color: #fafafb;

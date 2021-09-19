@@ -8,7 +8,7 @@ import { EditorChangeContent } from 'ngx-quill/lib/quill-editor.component';
 import Quill from 'quill';
 import { QuillDeltaToHtmlConverter } from 'quill-delta-to-html';
 import { TemplateVariableModel } from '../../models';
-import { AdminWorkflowsService } from '../../services/admin-workflows.service';
+import { TemplateVariablesQuery } from '../../state';
 
 @Component({
   selector: 'hcm-formly-quill-template-variable',
@@ -21,11 +21,11 @@ export class FormlyQuillTemplateVariableComponent extends FieldType implements O
   @ViewChild('editor', { static: true }) editor!: QuillEditorComponent;
 
   error: TuiValidationError | null = null;
-  readonly templateVariables$ = this.adminWorkflowsService.select('templateVariables');
+  readonly templateVariables$ = this.templateVariablesQuery.selectAll();
   readonly templateVariableCtrl = new FormControl<TemplateVariableModel>();
   readonly context!: { $implicit: unknown };
 
-  constructor(private readonly adminWorkflowsService: AdminWorkflowsService) {
+  constructor(private readonly templateVariablesQuery: TemplateVariablesQuery) {
     super();
   }
 

@@ -1,29 +1,31 @@
-<formly-form
-  [class.hidden]="hidden"
-  [fields]="servicesFields"
-  [form]="$any(servicesForm)"
-  [model]="servicesModel"
-></formly-form>
-<section [class.hidden]="!hidden">
-  <p class="font-semibold text-xl mb-6">Review Permission</p>
-  <formly-form [fields]="policyFields" [form]="$any(policyForm)" [model]="policyModel"></formly-form>
-  <div class="flex">
-    <span class="text-base font-semibold w-24 mr-4">Summary</span>
-    <div class="flex-auto">
-      <ngx-table [columns]="columns" [configuration]="configuration" [data]="data">
-        <ng-template let-row>
-          <td class="text-primary">{{ row.service }}</td>
-          <td>
-            <div *ngFor="let permission of row.permissions" class="mb-1">
-              <span class="font-semibold">{{ permission.action }}: </span>
-              <span>{{ permission.resource }}</span>
-            </div>
-          </td>
-        </ng-template>
-      </ngx-table>
-      <p class="italic mt-4">
-        Allow ({{ servicesModel?.policyItems?.length }} of {{ (service$ | async)?.length }} services)
-      </p>
+<ng-container *transloco="let t">
+  <formly-form
+    [class.hidden]="hidden"
+    [fields]="servicesFields"
+    [form]="$any(servicesForm)"
+    [model]="servicesModel"
+  ></formly-form>
+  <section [class.hidden]="!hidden">
+    <p class="font-semibold text-xl mb-6">Review Permission</p>
+    <formly-form [fields]="policyFields" [form]="$any(policyForm)" [model]="policyModel"></formly-form>
+    <div class="flex">
+      <div class="text-base font-semibold w-24 mr-4">{{ t('summary') }}</div>
+      <div class="flex-1">
+        <ngx-table [columns]="columns" [configuration]="configuration" [data]="data">
+          <ng-template let-row>
+            <td class="text-primary">{{ row.service }}</td>
+            <td>
+              <div *ngFor="let permission of row.permissions" class="mb-1">
+                <span class="font-semibold">{{ permission.action }}: </span>
+                <span>{{ permission.resource }}</span>
+              </div>
+            </td>
+          </ng-template>
+        </ngx-table>
+        <p class="italic mt-4">
+          Allow ({{ servicesModel?.policyItems?.length }} of {{ (service$ | async)?.length }} services)
+        </p>
+      </div>
     </div>
-  </div>
-</section>
+  </section>
+</ng-container>

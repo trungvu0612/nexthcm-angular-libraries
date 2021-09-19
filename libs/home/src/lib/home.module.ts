@@ -28,7 +28,7 @@ export const HOME_ROUTES: Routes = [
     path: '',
     component: LayoutComponent,
     canActivate: [NgxPermissionsGuard],
-    data: { permissions: { only: 'VIEW_OVERVIEW', redirectTo: '/' } },
+    data: { permissions: { only: 'VIEW_OVERVIEW', redirectTo: '/login' } },
     children: [
       { path: '', redirectTo: 'overview', pathMatch: 'full' },
       { path: 'overview', component: HomeComponent },

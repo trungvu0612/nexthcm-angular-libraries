@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
-import { LayoutComponent } from '@nexthcm/ui';
+import { LayoutComponent, LayoutModule } from '@nexthcm/ui';
 import { TranslocoModule } from '@ngneat/transloco';
 import { FormlyModule } from '@ngx-formly/core';
 import { TuiTablePaginationModule } from '@taiga-ui/addon-table';
@@ -13,6 +13,7 @@ import {
   TuiDropdownControllerModule,
   TuiExpandModule,
   TuiHostedDropdownModule,
+  TuiLoaderModule,
   TuiSvgModule,
   TuiTextfieldControllerModule,
 } from '@taiga-ui/core';
@@ -99,6 +100,8 @@ export const adminPermissionsRoutes: Routes = [
     TableModule,
     TuiTablePaginationModule,
     TuiButtonModule,
+    LayoutModule,
+    TuiLoaderModule,
   ],
   providers: [AdminPermissionsService],
 })

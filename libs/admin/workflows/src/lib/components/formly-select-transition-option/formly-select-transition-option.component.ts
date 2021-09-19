@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { HashMap, TranslocoService } from '@ngneat/transloco';
 import { FieldType } from '@ngx-formly/core';
 import { isPresent, TuiDestroyService, TuiIdentityMatcher } from '@taiga-ui/cdk';
@@ -34,7 +34,11 @@ export class FormlySelectTransitionOptionComponent extends FieldType implements 
       ])
     );
 
-  constructor(private readonly translocoService: TranslocoService, private readonly destroy$: TuiDestroyService) {
+  constructor(
+    private readonly translocoService: TranslocoService,
+    private readonly destroy$: TuiDestroyService,
+    private readonly changeDetectorRef: ChangeDetectorRef
+  ) {
     super();
   }
 
@@ -48,6 +52,7 @@ export class FormlySelectTransitionOptionComponent extends FieldType implements 
         this.data = res;
         this.configuration.rows = this.data.length;
         this.configuration = { ...this.configuration };
+        this.changeDetectorRef.markForCheck();
       });
   }
 }

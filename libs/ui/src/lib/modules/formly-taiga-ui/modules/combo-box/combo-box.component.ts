@@ -40,7 +40,7 @@ export class ComboBoxComponent extends FieldType {
     )
   );
 
-  getContext($implicit: any, { nativeElement }: ElementRef<HTMLElement>): TuiValueContentContext<any> {
+  getContext($implicit: any, { nativeElement }: ElementRef): TuiValueContentContext<any> {
     return { $implicit, active: isNativeFocused(nativeElement) };
   }
 }

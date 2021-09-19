@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, Injector, ViewChild } from '@angular/core';
-import { Actions } from '@datorama/akita-ng-effects';
 import { AbstractServerPaginationTableComponent, Pagination, PromptService } from '@nexthcm/cdk';
 import { HashMap, TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
@@ -12,7 +11,6 @@ import { catchError, filter, map, share, startWith, switchMap, takeUntil } from 
 import { UpsertEmailTemplateDialogComponent } from '../../components/upsert-email-template-dialog/upsert-email-template-dialog.component';
 import { EmailTemplate } from '../../models';
 import { AdminWorkflowsService } from '../../services/admin-workflows.service';
-import { loadEmailTemplates } from '../../state/email-templates.actions';
 
 @Component({
   selector: 'hcm-email-template-management',
@@ -49,12 +47,10 @@ export class EmailTemplateManagementComponent extends AbstractServerPaginationTa
     private readonly adminWorkflowService: AdminWorkflowsService,
     private readonly destroy$: TuiDestroyService,
     private readonly translocoService: TranslocoService,
-    private readonly promptService: PromptService,
-    private readonly actions: Actions
+    private readonly promptService: PromptService
   ) {
     super(state);
     state.connect(this.request$.pipe(filter(isPresent)));
-    this.actions.dispatch(loadEmailTemplates());
   }
 
   onUpsertEmailTemplate(data?: EmailTemplate): void {

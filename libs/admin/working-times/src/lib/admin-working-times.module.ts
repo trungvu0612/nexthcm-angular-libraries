@@ -2,9 +2,11 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
-import { FormlyTaigaUiModule, LayoutComponent } from '@nexthcm/ui';
+import { FormlyTaigaUiModule, LayoutComponent, LayoutModule } from '@nexthcm/ui';
 import { TranslocoModule } from '@ngneat/transloco';
 import { FormlyModule } from '@ngx-formly/core';
+import { LetModule } from '@rx-angular/template';
+import { TuiLetModule, TuiMapperPipeModule } from '@taiga-ui/cdk';
 import {
   TuiButtonModule,
   TuiDataListModule,
@@ -30,8 +32,6 @@ import { NgxPermissionsGuard } from 'ngx-permissions';
 import { OvertimeWorkingComponent } from './components/overtime-working/overtime-working.component';
 import { RepeatSectionComponent } from './components/repeat-section/repeat-section.component';
 import { WorkingTimeSettingsComponent } from './pages/working-time-settings/working-time-settings.component';
-import { TuiLetModule, TuiMapperPipeModule } from '@taiga-ui/cdk';
-import { LetModule } from '@rx-angular/template';
 
 export const adminWorkingTimesRoutes: Routes = [
   {
@@ -75,6 +75,7 @@ export const adminWorkingTimesRoutes: Routes = [
     TuiMapperPipeModule,
     TuiExpandModule,
     LetModule,
+    LayoutModule,
   ],
   declarations: [WorkingTimeSettingsComponent, RepeatSectionComponent, OvertimeWorkingComponent],
 })

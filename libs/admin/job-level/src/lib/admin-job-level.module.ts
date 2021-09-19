@@ -2,7 +2,8 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Route, RouterModule } from '@angular/router';
-import { FormlyTaigaUiModule, LayoutComponent } from '@nexthcm/ui';
+import { BaseFormComponentModule, FormlyTaigaUiModule, LayoutComponent, LayoutModule } from '@nexthcm/ui';
+import { TranslocoModule } from '@ngneat/transloco';
 import { FormlyModule } from '@ngx-formly/core';
 import { TuiTableModule, TuiTablePaginationModule } from '@taiga-ui/addon-table';
 import { TuiButtonModule } from '@taiga-ui/core';
@@ -11,7 +12,6 @@ import { NgxPermissionsGuard } from 'ngx-permissions';
 import { JobLevelComponent } from './job-level.component';
 import { ListJobLevelComponent } from './list-job-level/list-job-level.component';
 import { UpsertJobLevelComponent } from './upsert-job-level/upsert-job-level.component';
-import { TranslocoModule } from '@ngneat/transloco';
 
 export const adminJobLevelRoutes: Route[] = [
   {
@@ -57,7 +57,9 @@ export const adminJobLevelRoutes: Route[] = [
     ReactiveFormsModule,
     RouterModule.forChild(adminJobLevelRoutes),
     RouterModule,
-    TranslocoModule
+    TranslocoModule,
+    LayoutModule,
+    BaseFormComponentModule,
   ],
 })
 export class AdminJobLevelModule {}

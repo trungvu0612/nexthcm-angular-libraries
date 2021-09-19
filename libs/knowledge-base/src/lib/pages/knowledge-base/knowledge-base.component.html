@@ -1,19 +1,18 @@
-<main *transloco="let t" class="main-page">
-  <header>
-    <h1>{{ t('knowledgeBase') }}</h1>
-    <div class="flex gap-6">
-      <tui-input
-        (keydown.enter)="search$.next(search)"
-        [(ngModel)]="search"
-        [tuiTextfieldLabelOutside]="true"
-        class="w-72"
-        icon="tuiIconSearchLarge"
-        >{{ t('searchBy', { value: t('name').toLowerCase() + ', ' + t('description').toLowerCase() }) }}</tui-input
-      >
-      <button (click)="search$.next(search)" tuiButton>{{ t('search') }}</button>
-    </div>
-  </header>
-  <section class="main-section">
+<ng-container *transloco="let t">
+  <hcm-page [title]="t('knowledgeBase')">
+    <ng-container ngProjectAs="pageHeader">
+      <div class="flex gap-6">
+        <tui-input
+          (keydown.enter)="search$.next(search)"
+          [(ngModel)]="search"
+          [tuiTextfieldLabelOutside]="true"
+          class="w-72"
+          icon="tuiIconSearchLarge"
+          >{{ t('searchBy', { value: t('name').toLowerCase() + ', ' + t('description').toLowerCase() }) }}</tui-input
+        >
+        <button (click)="search$.next(search)" tuiButton>{{ t('search') }}</button>
+      </div>
+    </ng-container>
     <tui-scrollbar class="h-max w-full">
       <div class="flex w-max">
         <div *ngFor="let item of data; last as last" [class.mr-8]="!last" class="flex flex-col items-center p-4">
@@ -22,7 +21,7 @@
         </div>
       </div>
     </tui-scrollbar>
-    <p class="text-2xl font-semibold my-7">Updated</p>
+    <p class="text-2xl font-semibold my-7">{{ t('updated') }}</p>
     <hcm-updated-knowledge [search]="search$"></hcm-updated-knowledge>
-  </section>
-</main>
+  </hcm-page>
+</ng-container>

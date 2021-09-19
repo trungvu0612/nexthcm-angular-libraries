@@ -4,10 +4,12 @@
   ::ng-deep {
     tui-stepper {
       button {
-        @apply font-medium text-base;
+        font-size: 1rem;
+        font-weight: 500;
 
         .marker {
-          @apply w-12 h-12;
+          width: 3rem;
+          height: 3rem;
         }
       }
     }

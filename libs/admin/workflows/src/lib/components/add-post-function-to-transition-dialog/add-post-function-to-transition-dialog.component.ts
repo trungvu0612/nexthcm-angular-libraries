@@ -11,8 +11,9 @@ import { AbstractAddOptionToTransitionComponent } from '../../abstract-component
 import { PostFunctionType } from '../../enums';
 import { TransitionOption, TransitionOptionsDialogData, TransitionPostFunction } from '../../models';
 import { AdminWorkflowsService } from '../../services/admin-workflows.service';
-import { loadEmailTemplates } from '../../state/email-templates.actions';
-import { EmailTemplatesQuery } from '../../state/email-templates.state';
+import { loadPostFunctionTypes, PostFunctionTypesQuery } from '../../state';
+import { loadEmailTemplates } from '../../state/email-templates/email-templates.actions';
+import { EmailTemplatesQuery } from '../../state/email-templates/email-templates.state';
 
 @Component({
   selector: 'hcm-add-post-function-to-transition-dialog',
@@ -23,8 +24,8 @@ import { EmailTemplatesQuery } from '../../state/email-templates.state';
 })
 export class AddPostFunctionToTransitionDialogComponent extends AbstractAddOptionToTransitionComponent<TransitionPostFunction> {
   readonly form = this.fb.group<TransitionPostFunction>({} as TransitionPostFunction);
-  readonly postFunctionTypes$ = this.adminWorkflowsService
-    .select('postFunctionTypes')
+  readonly postFunctionTypes$ = this.postFunctionTypesQuery
+    .selectAll()
     .pipe(
       map((types) =>
         types
@@ -112,6 +113,7 @@ export class AddPostFunctionToTransitionDialogComponent extends AbstractAddOptio
     @Inject(POLYMORPHEUS_CONTEXT)
     readonly context: TuiDialogContext<TransitionPostFunction, TransitionOptionsDialogData<TransitionPostFunction>>,
     readonly adminWorkflowsService: AdminWorkflowsService,
+    private readonly postFunctionTypesQuery: PostFunctionTypesQuery,
     private readonly jobTitlesQuery: JobTitlesQuery,
     private readonly actions: Actions,
     private readonly emailTemplatesQuery: EmailTemplatesQuery,
@@ -120,5 +122,6 @@ export class AddPostFunctionToTransitionDialogComponent extends AbstractAddOptio
     super(fb, context, adminWorkflowsService);
     this.actions.dispatch(loadJobTitles());
     this.actions.dispatch(loadEmailTemplates());
+    this.actions.dispatch(loadPostFunctionTypes());
   }
 }

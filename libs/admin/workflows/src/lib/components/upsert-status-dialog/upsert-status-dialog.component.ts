@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
+import { Actions } from '@datorama/akita-ng-effects';
 import { PromptService } from '@nexthcm/cdk';
 import { FormBuilder, FormControl } from '@ngneat/reactive-forms';
 import { TranslocoService } from '@ngneat/transloco';
@@ -11,6 +12,7 @@ import { delay, filter, mapTo, switchMap, takeUntil, tap } from 'rxjs/operators'
 import { v4 as uuidv4 } from 'uuid';
 import { Status } from '../../models';
 import { AdminWorkflowsService } from '../../services/admin-workflows.service';
+import { loadStatusTypes, StatusTypesQuery } from '../../state';
 
 @Component({
   selector: 'hcm-upsert-status-dialog',
@@ -68,7 +70,7 @@ export class UpsertStatusDialogComponent implements OnInit {
       templateOptions: {
         translate: true,
         required: true,
-        options: this.adminWorkflowsService.select('statusTypes'),
+        options: this.statusTypesQuery.selectAll(),
         label: 'stateType',
         labelClassName: 'font-semibold',
         labelProp: 'name',
@@ -82,8 +84,12 @@ export class UpsertStatusDialogComponent implements OnInit {
     private readonly adminWorkflowsService: AdminWorkflowsService,
     private readonly promptService: PromptService,
     private readonly destroy$: TuiDestroyService,
-    private readonly translocoService: TranslocoService
-  ) {}
+    private readonly translocoService: TranslocoService,
+    private readonly statusTypesQuery: StatusTypesQuery,
+    actions: Actions
+  ) {
+    actions.dispatch(loadStatusTypes());
+  }
 
   get data(): Status {
     return this.context.data;

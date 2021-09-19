@@ -8,6 +8,7 @@ import {
   HEADER_TABS,
   InputFilterComponentModule,
   LayoutComponent,
+  LayoutModule,
   MenuItem,
 } from '@nexthcm/ui';
 import { SvgIconsModule } from '@ngneat/svg-icon';
@@ -72,9 +73,10 @@ const TABS: MenuItem[] = [{ label: 'organizationChart', link: '/human-resource/o
     TuiScrollbarModule,
     FormlyUserComboBoxComponentModule,
     InputFilterComponentModule,
-    BaseFormComponentModule
+    BaseFormComponentModule,
+    LayoutModule,
   ],
-  entryComponents: [OrgChartComponent, NodeChartComponent ],
+  entryComponents: [OrgChartComponent, NodeChartComponent],
   providers: [{ provide: HEADER_TABS, useValue: TABS }, HumanResourceService],
 })
 export class HumanResourceModule {}

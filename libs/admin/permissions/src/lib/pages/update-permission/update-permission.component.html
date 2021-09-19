@@ -1,8 +1,5 @@
-<main class="main-page">
-  <header>
-    <h1>Update Permission</h1>
-  </header>
-  <section class="main-section">
+<ng-container *transloco="let t">
+  <hcm-page [title]="t('updatePermission')">
     <form (ngSubmit)="permission.submitPolicy()" [formGroup]="$any(policyForm)">
       <tui-stepper [(activeItemIndex)]="stepperIndex" class="flex justify-center py-6 mb-8">
         <button [disabled]="stepperIndex" state="pass" tuiStep type="button">Policy Detail</button>
@@ -21,7 +18,7 @@
         [servicesModel]="servicesModel"
       ></hcm-permission-detail>
       <div class="flex justify-end gap-4 mt-5">
-        <button appearance="flat" routerLink="../../" size="m" tuiButton type="button">Cancel</button>
+        <button appearance="flat" routerLink="../../" size="m" tuiButton type="button">{{ t('cancel') }}</button>
         <button
           (click)="nextStep()"
           *ngIf="stepperIndex !== 2"
@@ -30,7 +27,7 @@
           tuiButton
           type="button"
         >
-          Next
+          {{ t('next') }}
         </button>
         <button
           (click)="stepperIndex = 1"
@@ -40,10 +37,10 @@
           tuiButton
           type="button"
         >
-          Previous
+          {{ t('back') }}
         </button>
-        <button *ngIf="stepperIndex === 2" size="m" tuiButton>Update Policy</button>
+        <button *ngIf="stepperIndex === 2" size="m" tuiButton>{{ t('updatePermission') }}</button>
       </div>
     </form>
-  </section>
-</main>
+  </hcm-page>
+</ng-container>

@@ -2,12 +2,12 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
-import { InputFilterComponentModule, LayoutComponent } from '@nexthcm/ui';
+import { InputFilterComponentModule, LayoutComponent, LayoutModule } from '@nexthcm/ui';
 import { TranslocoModule } from '@ngneat/transloco';
 import { FormlyModule } from '@ngx-formly/core';
 import { TuiTableModule, TuiTablePaginationModule } from '@taiga-ui/addon-table';
 import { TuiLetModule } from '@taiga-ui/cdk';
-import { TuiButtonModule, TuiSvgModule } from '@taiga-ui/core';
+import { TuiButtonModule, TuiLoaderModule, TuiSvgModule } from '@taiga-ui/core';
 import { TableModule } from 'ngx-easy-table';
 import { NgxPermissionsGuard } from 'ngx-permissions';
 import { OfficesComponent } from './pages/offices/offices.component';
@@ -37,7 +37,9 @@ export const adminOfficesRoutes: Routes = [
     TuiButtonModule,
     TableModule,
     TuiLetModule,
-    InputFilterComponentModule
+    InputFilterComponentModule,
+    TuiLoaderModule,
+    LayoutModule,
   ],
   providers: [AdminOfficesService],
 })

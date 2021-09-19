@@ -1,3 +1,48 @@
 :host {
   display: block;
+
+  .unit {
+    width: var(--unit);
+    padding: var(--one);
+    border-radius: var(--half);
+    gap: var(--half);
+
+    .name {
+      font-size: var(--one);
+      line-height: var(--one);
+    }
+
+    .icons {
+      right: var(--half);
+      bottom: var(--half);
+      gap: calc(var(--half) / 2);
+
+      > * {
+        display: inline-block;
+        width: var(--icon);
+        height: var(--icon);
+        box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+        cursor: pointer;
+        transform: perspective(1px) translateZ(0);
+        transition-duration: 0.5s;
+        vertical-align: middle;
+
+        &:hover,
+        &:focus,
+        &:active {
+          transform: scale(1.2);
+          transition-timing-function: cubic-bezier(0.47, 2.02, 0.31, -0.36);
+        }
+      }
+    }
+  }
+
+  .vertical-bar {
+    width: var(--bar);
+    height: var(--one);
+  }
+
+  .horizontal-bar {
+    height: var(--bar);
+  }
 }
