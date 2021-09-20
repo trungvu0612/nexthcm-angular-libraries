@@ -2275,93 +2275,93 @@
 
 "@nexthcm/admin-job-level@^0.0.1":
   version "0.0.1"
-  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/admin-job-level/-/admin-job-level-0.0.1.tgz#f972a62fbf93084ee1c8c7b2bfb94f1caf2a64d8"
-  integrity sha512-D2KcwAcgO7G5NdN/vcDJFn9t7TF/BADHzlO0z9sDfI+29yKmYlvd/wMm0hAVxEeZrs6DtCt3iAv6BPK//0pzEg==
+  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/admin-job-level/-/admin-job-level-0.0.1.tgz#ee113801fdd817ebb529a2544e60f0e812f2005d"
+  integrity sha512-QoqeQGitFoJqqNTkmgXvu0qxJ+swwXJeMsL4uVPiRzMshkD/3aGumGXNWYE7j2nkmb05Fqmz16+DiPZZtXaF1A==
   dependencies:
     tslib "^2.1.0"
 
 "@nexthcm/admin-job-titles@^0.0.1":
   version "0.0.1"
-  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/admin-job-titles/-/admin-job-titles-0.0.1.tgz#8172ed612c212af618e97e699e78a9540f541b9c"
-  integrity sha512-keodZucz6BL0hM7TpdysJwHx8OPFSHinWsVRGCJflCFhS+LgWm4H7j79VZbKZxXiSbAQy8FxqDkZ7R+s2TxLWQ==
+  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/admin-job-titles/-/admin-job-titles-0.0.1.tgz#54cb43e7b35af2b06a26e34756355493155ff6d3"
+  integrity sha512-+sYjDmuCQ0zzJ/vp7d65UoFU1x2KdO2AGVFvlJsQQAReJnUIOnVsARY16IS3OGjlBpz5QbyB0S1OngyfuETNrw==
   dependencies:
     tslib "^2.2.0"
 
 "@nexthcm/admin-knowledge-base@^0.0.1":
   version "0.0.1"
-  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/admin-knowledge-base/-/admin-knowledge-base-0.0.1.tgz#3c85245a17009beb1cc3a024bbba30f8a0f2cd8a"
-  integrity sha512-Caq9QUrHXQPKVtEYXUZ9PJqYeKmycgezgM9PPXO2PI/8iANiB3u6l1LkT6WK+zY7GJuDnPfqNd/N/SmsHQ7k3w==
+  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/admin-knowledge-base/-/admin-knowledge-base-0.0.1.tgz#f23dd6e3c4c5bbd8310195ad7d595ce4dbff938d"
+  integrity sha512-WRz2/5E7slJA78mRtZrHRXrfllyavQNfpAD5TVoD9D+4PUJ68KRnyO23taFxoXIKzLyrurmFOgIYd9xawHqnZQ==
   dependencies:
     tslib "^2.1.0"
 
 "@nexthcm/admin-leave-configs@^0.0.1":
   version "0.0.1"
-  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/admin-leave-configs/-/admin-leave-configs-0.0.1.tgz#f752eb7fb940783def41413d7fb506035f9b61c5"
-  integrity sha512-RHJjpf8I8mef+YlIken7FpiUk7uwVQqKKMBMksf+kGotKzn6900i/TZ4QEWEND6mtO0a6XDcwvobMaq+nBzwJw==
+  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/admin-leave-configs/-/admin-leave-configs-0.0.1.tgz#1e7482a15d80f3f6a1e17e78fb4ed113a602069a"
+  integrity sha512-SfRaokKNB8z29WtM7/AVhaE0Cxi9cKtjd7gK417fWZip9E5a57YTEZuZY4nhhfAopa3QIi2mQ7oNh5ALl1Ft2A==
   dependencies:
     tslib "^2.1.0"
 
 "@nexthcm/admin-offices@^0.0.1":
   version "0.0.1"
-  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/admin-offices/-/admin-offices-0.0.1.tgz#04fb099d4664fd2d6f951cc10519393f49675178"
-  integrity sha512-SEC1f//T3ynR8eHqPh9If6J4C5mijMMV60ykTp9cHky1zoYUxcqvJlHqOPRA+k45+yJvYdTdsM945Qlwmyf+IA==
+  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/admin-offices/-/admin-offices-0.0.1.tgz#53a43d7c742bdbf9d3da4361f5fa9ab1e17a3946"
+  integrity sha512-o/uOBedZ8Td6tRUy9r93HZaCM9s68avKnSP2OmoNW9ZMy+0GfFoLqYufrjAYhnYCTwKcs4TYyPV6azni8N7c7A==
   dependencies:
     tslib "^2.1.0"
 
 "@nexthcm/admin-permissions@^0.0.1":
   version "0.0.1"
-  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/admin-permissions/-/admin-permissions-0.0.1.tgz#75ab597f521827515858f1a78480e73100581419"
-  integrity sha512-UQllNo5SFRB1H1NEFsZcPjlwgzv1cYUvnqdQZnT3OddkUjTTuXVHGcXd0M6MGkOK+msWQTkuHee1IyI1QLadzw==
+  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/admin-permissions/-/admin-permissions-0.0.1.tgz#5bcc1fff39c22b9600ef73c702d1d9d25371b742"
+  integrity sha512-p8Gx7FhVhBAnIb/+NVgcrLNktDFEll3kd68x2ahyj0wP5tMQ70r+2iatRfGjfAmza9cAJ8FYHoIubLWVlwe5dw==
   dependencies:
     tslib "^2.1.0"
 
 "@nexthcm/admin-requests-configuration@^0.0.1":
   version "0.0.1"
-  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/admin-requests-configuration/-/admin-requests-configuration-0.0.1.tgz#a983ef3aa421ce5f374158bd67eb3f6d889efa24"
-  integrity sha512-CENBGVHLeBIRSf20nRM+oAHfngFmShfX4nC7+1OAcfnEyWOo1khsgqUpYxvuT+2B5fz2Ba2HCzfbNUcN7+gI/Q==
+  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/admin-requests-configuration/-/admin-requests-configuration-0.0.1.tgz#f85045efedcfeaf1fc25129f4fb9ad111dd1384d"
+  integrity sha512-ZdmbAds1+bOLc1tI7qUWhx0ZOg+SGulmq9rpLTGptpqms9HpjExwFeY/Ssi0lLg/3bYYadG1Lkrh8zGKrSd0og==
   dependencies:
     tslib "^2.3.0"
 
 "@nexthcm/admin-seat-maps@^0.0.1":
   version "0.0.1"
-  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/admin-seat-maps/-/admin-seat-maps-0.0.1.tgz#88c643cb7f2b5e9da3c82e1155aab9207468a944"
-  integrity sha512-u0rytdSXY6RByHaFHlyc03TNQPOoFpoLVbiCjxlFHX/qSFl/cnM9vAQ72qWoOR+lPfIHY9spzbCAN/UFXg6RYQ==
+  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/admin-seat-maps/-/admin-seat-maps-0.0.1.tgz#a8a2bc5cec1a3f7778999b5a253ff1824afaa5e1"
+  integrity sha512-f5YmwCoxexe4EmT2IIffUQdvWH4ASsqYY6zJDA1tweG4ztpycChsIEH+e8kl3KbC8NaDLVRQEm01M1qWLusauQ==
   dependencies:
     tslib "^2.2.0"
 
 "@nexthcm/admin-tenants@^0.0.1":
   version "0.0.1"
-  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/admin-tenants/-/admin-tenants-0.0.1.tgz#fd478e3a656bee63b68bd646de4ef2c938cb564c"
-  integrity sha512-Mh6UnC4aVKvY4johKYIrrnPrBajcAXm7w9W52jLm5PPyzWK3m1ANqnagW4y9zTm+InclKdUElGCrODFhmQPgag==
+  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/admin-tenants/-/admin-tenants-0.0.1.tgz#df85df13502119c584bb87a40dc154012f1eca85"
+  integrity sha512-Mz4fFrl98Ow/AI8pPcFP0uOpRpCgqlFjstAXLShQJMUAXpod3/ZIWyhPwntcDj9UkWdrFjpo1JXG3QA3pxK5/g==
   dependencies:
     tslib "^2.3.0"
 
 "@nexthcm/admin-user-roles@^0.0.1":
   version "0.0.1"
-  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/admin-user-roles/-/admin-user-roles-0.0.1.tgz#aee59c7e5dcdfa8191692d50113ec26828a063c6"
-  integrity sha512-pqP3kIO0UfTEd0ABOBwj/dc6H7Z8y04ETgBpaVfRYbBbKlCyjXHOcy4/2c1S2l0fBnOzr+sDK8YeqU+cUVHSOw==
+  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/admin-user-roles/-/admin-user-roles-0.0.1.tgz#e66e3c7a2d5654115bd8726c62b584b63c1d1aa8"
+  integrity sha512-16AcallrPF650JUsdRrOmBZ6eE6E9j7aVp+qA7r5MCstQ13WrkXK3M1/wM7SoDV5PNwv02adzivCa9T1Wo4eWA==
   dependencies:
     tslib "^2.2.0"
 
 "@nexthcm/admin-workflows@^0.0.1":
   version "0.0.1"
-  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/admin-workflows/-/admin-workflows-0.0.1.tgz#4362bce7cb88252a75dfb7eea0331816fedbb5fa"
-  integrity sha512-w6U6w8sHWuRaMGysxH5XCHA5j5obtbJmk3Zh/sc0D1NhpWzCO1iWfOILBwBN5So54w3WJVLIVL4xk0HUMAoVSw==
+  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/admin-workflows/-/admin-workflows-0.0.1.tgz#e4dab3638c0f3c4e1b2f0de04deeadafd465e987"
+  integrity sha512-aejDH8bVwCbwR3fwhML+CkY7CQLit/hkt1X+b+fF9XedFp6LlT2D7YkYjA+MufbpOTTEiF4Tkvsptqqcce7BiQ==
   dependencies:
     rfdc "^1.3.0"
     tslib "^2.1.0"
 
 "@nexthcm/admin-working-times@^0.0.1":
   version "0.0.1"
-  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/admin-working-times/-/admin-working-times-0.0.1.tgz#01fe3108bb884db73c041ee6cf41b9838a52f10a"
-  integrity sha512-eyydq6Gu9HNZlN+y38rG0vQqPpzO7qhPTrDpwleIP8EzLtWUuxqwhAXyiPk92jlbsUCTkqAkuXV/h/A9Xa/C3g==
+  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/admin-working-times/-/admin-working-times-0.0.1.tgz#bc53ef77f0c583bf41b5ca595d0f906486dbf923"
+  integrity sha512-YumhUTly0GEGr2jBvxxIDQ36/b7HU85x+AtkhVZyDa15FLxSU9uN+jml//VrLn9pCxlJnqsZ3bJzNSbaq7gUOg==
   dependencies:
     tslib "^2.1.0"
 
 "@nexthcm/auth@^0.0.1":
   version "0.0.1"
-  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/auth/-/auth-0.0.1.tgz#2fefa8a1dffc75acdb0636587f3b4ccf71f66c66"
-  integrity sha512-FMv/te4Yzih7UtfkNJ/TFUVGmi1+KT5X3nb/Xh2cmNWkLnSTrARVesL3xATuPDt8fQjvOEwmcf2T4MQB5IaUFw==
+  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/auth/-/auth-0.0.1.tgz#72136062acdc51250d7f77ec8fc432a1c8f5b901"
+  integrity sha512-EFkezwR0m2r1g+ksRH3C5AzhMMaPtwyAhcdZ/NWGITdPnhpyTgjxbRfa03KbSo2/h1fsm5zq4JfJ4duLfhHYoQ==
   dependencies:
     "@auth0/angular-jwt" "^5.0.2"
     ngx-cookie "^5.0.2"
@@ -2369,8 +2369,8 @@
 
 "@nexthcm/calendar@^0.0.1":
   version "0.0.1"
-  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/calendar/-/calendar-0.0.1.tgz#57d462084f0e309cad9f1a23861f4c1b936f8340"
-  integrity sha512-mlsHEyPGcLijhPZAXiKsITV63etatmdCHqYgvpPSllg9ImQIcPm6SEgHlNaaH1n1i+x2TPE2CHm+3O98QSrYHQ==
+  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/calendar/-/calendar-0.0.1.tgz#9756f1b250be8f71e19095b86c80d9530757ec7c"
+  integrity sha512-VHtLuespIhiVC+HYnQSLq/+b7MNLeawYnPSqR/D84Yrs7K5V+cLNghy/y871SblkXVZp0iDOYKQdBDDy1qu0Dw==
   dependencies:
     "@fullcalendar/angular" "^5.9.0"
     "@fullcalendar/daygrid" "^5.9.0"
@@ -2378,15 +2378,15 @@
 
 "@nexthcm/cdk@^0.0.1":
   version "0.0.1"
-  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/cdk/-/cdk-0.0.1.tgz#139da5014352db5366dee77d242aa67deb5581a3"
-  integrity sha512-gt2vNSx8UMjzV57cvfbv7FKGj8+mFNSHOshRj0hWAbvQ2ljjjrnYXbf4QbsIACLXMp8alX8UDXmRmmPBiK2pdA==
+  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/cdk/-/cdk-0.0.1.tgz#7e48e1b6367ba768905c1e69d941f290fd4f137d"
+  integrity sha512-mtayAKQ3Kpztp1JDxdCow+L238Fy7+Q49glCVVblcQJ+2fzlBl5p2CIwY4b2Yf+ISfsuxGYJOP9uglz9acwHvQ==
   dependencies:
     tslib "^2.2.0"
 
 "@nexthcm/core@^0.0.1":
   version "0.0.1"
-  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/core/-/core-0.0.1.tgz#6e661f22375354759c55b4bb924534ff1ac4ef33"
-  integrity sha512-dx71Or8dGuflHeJUdizLAh3jupp8c3dSN8JE8hdGsNQZVhFhr+09uFyTfTLKzGhZBNW5DIQLILs43ko9ku4lpA==
+  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/core/-/core-0.0.1.tgz#c06d0627e73cb3acc1acaaf280a35fd2a104508c"
+  integrity sha512-zBpVXc9UtCZ8oHZvWuqb6lkYHAhKWY8unn40GG2QvNukH5GIelOWHy3Ir0I8XVmGA2FprXVEdpBbgiH7u/8W9A==
   dependencies:
     "@datorama/akita" "^6.2.3"
     "@datorama/akita-ng-effects" "^1.0.5"
@@ -2417,52 +2417,52 @@
 
 "@nexthcm/home@^0.0.1":
   version "0.0.1"
-  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/home/-/home-0.0.1.tgz#96181adc72e2b1478edc03e549201843ac977629"
-  integrity sha512-Mmpc5JimbuWfb40Y3zeQN//tiMuSi1fqmCStZuBnqR5Nyo2YN34nX+US+RaRnnaD0Ip/iLUnEyz2UEc0OmQObg==
+  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/home/-/home-0.0.1.tgz#d2d5a3660c1d1ab0b0d4976c7b72191a95f2e3fe"
+  integrity sha512-uQJXOaJDZn3Q+s0QiAYJbwaUqN9dySItcViVzlqsYRrxH97N26PUEk/uO25kDMbS6mAmtlzI40ynEGC5DAm7nA==
   dependencies:
     "@ctrl/ngx-emoji-mart" "^6.0.0"
     tslib "^2.0.0"
 
 "@nexthcm/human-resource@^0.0.1":
   version "0.0.1"
-  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/human-resource/-/human-resource-0.0.1.tgz#028b2634c0e0ac65af53a5da856e334ac267257e"
-  integrity sha512-JopBKLcztQ0GLVlp1EtfNXI2/U6qLq+4hRPYDDL8HsBzZ+fbSYUr9q0Z6CsQBn3pMvdmD/M/L+XcM49BDA3uSg==
+  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/human-resource/-/human-resource-0.0.1.tgz#1fb7b09a7d4e725b3609218a772ce7d01064f3ff"
+  integrity sha512-0IkpQ8Og9hg59fhC7lqPgLLlifuVB3paJrDTgYBUzXEAQlk/WlV/br2loxVRecxHdE6eUCOP+nHCGHPRy4oUkQ==
   dependencies:
     tslib "^2.0.0"
 
 "@nexthcm/knowledge-base@^0.0.1":
   version "0.0.1"
-  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/knowledge-base/-/knowledge-base-0.0.1.tgz#92f924f48fe6217043c225371c96c9ff9667cab7"
-  integrity sha512-vleTtdb4szlFXT0NDsRnA4Gk/Q7wM/79766MY55doKZvQeg8cNBpRUE7rknyXogyvsZn2WW/S2ScVTnK0ByANg==
+  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/knowledge-base/-/knowledge-base-0.0.1.tgz#90b7e35e2c0d0f02260ff3366bc86437c040aca0"
+  integrity sha512-nlmPqK5A9rYvUdV7kNcvMSNF45TNkQXq/vcgdMoepvCvxJ7Bxt5ApQ0x1eROnAoSZhGvMhRyHvQ/NxlGhN09tA==
   dependencies:
     tslib "^2.0.0"
 
 "@nexthcm/my-time@^0.0.1":
   version "0.0.1"
-  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/my-time/-/my-time-0.0.1.tgz#0b12e64622829f91626c32a9a64dddffea918d25"
-  integrity sha512-VVRS1Qs27AZ8/ZufE268UGRddyA2S9L7CGHgNvPl3uEgi7iG7Np7UHi+C1+6bKEGBFv/jdbHt44k2MEgnlbE0w==
+  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/my-time/-/my-time-0.0.1.tgz#3ff6bd9695f9e2c994f04842bfe62ea3560e04d1"
+  integrity sha512-HNlmSG4AV9YCEzjAOwJfXmuc6YOhq0vEnq4esIjJ7Kio7Kc8In3+rkWMs/sCQM+KWkOLjX+6qDr5Al/DMe8j8w==
   dependencies:
     tslib "^2.0.0"
 
 "@nexthcm/seat-maps@^0.0.1":
   version "0.0.1"
-  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/seat-maps/-/seat-maps-0.0.1.tgz#b768978d5f4da51b0d4251385302f16b35634190"
-  integrity sha512-zJDGW0VjugVAe60YQfjzGM6fhUP/vo3oPqeYKNlbAuunz+qBC3SBqtbMrRNguk+jL0pMrTTHRrxSgSqM+hPG7Q==
+  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/seat-maps/-/seat-maps-0.0.1.tgz#479b049b7cde8c32fa03d2da9783e7d8be3c7414"
+  integrity sha512-wA5Qfs05XNQLSHysM9fxAudknxA0+9ikdV8IIAw1Dt134bCAdxeNUkIG2PMVLWhGGyAiSAdy6ktU1+zY0rVU7A==
   dependencies:
     tslib "^2.2.0"
 
 "@nexthcm/ui@^0.0.1":
   version "0.0.1"
-  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/ui/-/ui-0.0.1.tgz#c3ceec1fc3f9199ebb2a0afbfd1080f9d2339896"
-  integrity sha512-AvbvkWXliXN5BwJJJTIoPTZAowpCOOb7RTfFw/S3BFYuperxOaX4qhsDRyIiQ7jSa9JaMnYgcpPEMccUECzyZg==
+  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/ui/-/ui-0.0.1.tgz#061e40ca6c77327da76dc621c4cf02ac7e6cc255"
+  integrity sha512-pKZ0Oni+C7SV9yomypoBUfBgPdN6X+xHmVdTrz+2IUNM5SWXX9RdD0c/4oCj5droc85aSfmqrQ61HvEXvmYweA==
   dependencies:
     "@ng-select/ng-select" "^7.0.0"
     tslib "^2.0.0"
 
 "@nexthcm/workflow-designer@^0.0.1":
   version "0.0.1"
-  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/workflow-designer/-/workflow-designer-0.0.1.tgz#8b7013cb7168319b329b5d029eca636ef2d5ae3b"
-  integrity sha512-C4t+oVP2Ypkf/A385/NmRyvw3Jh9lJM2+I+PfMCmCjJ9GlFhl9XOYmKK70xq4IfWC+o1aVd/N/ygvaXGuho4Zg==
+  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/workflow-designer/-/workflow-designer-0.0.1.tgz#7b5c4da236b99738a685be01b2db717ac5b7c946"
+  integrity sha512-+uFUZf1rCG/jOgbs5/Wcf79D3aPqn5X8s+KwAhxsPX5iSm3UpVl5cFn3FuiyPcF89lLNE13Tpl41XglPEeC/dA==
   dependencies:
     mxgraph "^4.2.2"
     tslib "^2.1.0"
@@ -2579,9 +2579,9 @@
     tslib "^1.9.0"
 
 "@ngneat/transloco@^2.21.0", "@ngneat/transloco@^2.22.0":
-  version "2.23.2"
-  resolved "https://registry.yarnpkg.com/@ngneat/transloco/-/transloco-2.23.2.tgz#791496e73c8cce1ef7f97edff5a174adec820f30"
-  integrity sha512-qzGKJJCOuz+JeAJyEnMEzf77zW5WCRGnbvdDqMmjtqDYMQNdyluJn7MG3S7/EvBr9gkUpu5MJTeXDjE+fzw8AA==
+  version "2.23.3"
+  resolved "https://registry.yarnpkg.com/@ngneat/transloco/-/transloco-2.23.3.tgz#8ba02012f1ac1a38a18309b7165407451e02364c"
+  integrity sha512-E4/onu81/JemE1ENOwvWrJbmgYRqhxsNJZ1zzHayMEKGHpBTmFqLMIbIZw5bdjGxS14kvdDGH3EJ7YaMNVc1Yw==
   dependencies:
     "@ngneat/transloco-utils" "^1.0.6"
     flat "5.0.2"
@@ -3650,9 +3650,9 @@
   integrity sha512-jhuKLIRrhvCPLqwPcx6INqmKeiA5EWrsCOPhrlFSrbrmU4ZMPjj5Ul/oLCMDO98XRUIwVm78xICz4EPCektzeQ==
 
 "@types/node@*":
-  version "16.9.3"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-16.9.3.tgz#92230abb80a66beb10236e78a51cd9e6396f4489"
-  integrity sha512-5UmMznRvrwKqisJ458JbNoq3AyXHxlAKMkGtNe143W1SkZ1BVgvCHYBzn7wD66J+smE+BolqA1mes5BeXlWY6w==
+  version "16.9.4"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-16.9.4.tgz#a12f0ee7847cf17a97f6fdf1093cb7a9af23cca4"
+  integrity sha512-KDazLNYAGIuJugdbULwFZULF9qQ13yNWEBFnfVpqlpgAAo6H/qnM9RjBgh0A0kmHf3XxAKLdN5mTIng9iUvVLA==
 
 "@types/node@14.14.33":
   version "14.14.33"
@@ -6281,17 +6281,17 @@ copy-webpack-plugin@9.0.1:
     serialize-javascript "^6.0.0"
 
 core-js-compat@^3.14.0, core-js-compat@^3.15.0, core-js-compat@^3.16.0:
-  version "3.17.3"
-  resolved "https://registry.yarnpkg.com/core-js-compat/-/core-js-compat-3.17.3.tgz#b39c8e4dec71ecdc735c653ce5233466e561324e"
-  integrity sha512-+in61CKYs4hQERiADCJsdgewpdl/X0GhEX77pjKgbeibXviIt2oxEjTc8O2fqHX8mDdBrDvX8MYD/RYsBv4OiA==
+  version "3.18.0"
+  resolved "https://registry.yarnpkg.com/core-js-compat/-/core-js-compat-3.18.0.tgz#fb360652201e8ac8da812718c008cd0482ed9b42"
+  integrity sha512-tRVjOJu4PxdXjRMEgbP7lqWy1TWJu9a01oBkn8d+dNrhgmBwdTkzhHZpVJnEmhISLdoJI1lX08rcBcHi3TZIWg==
   dependencies:
     browserslist "^4.17.0"
     semver "7.0.0"
 
 core-js-pure@^3.16.0:
-  version "3.17.3"
-  resolved "https://registry.yarnpkg.com/core-js-pure/-/core-js-pure-3.17.3.tgz#98ea3587188ab7ef4695db6518eeb71aec42604a"
-  integrity sha512-YusrqwiOTTn8058JDa0cv9unbXdIiIgcgI9gXso0ey4WgkFLd3lYlV9rp9n7nDCsYxXsMDTjA4m1h3T348mdlQ==
+  version "3.18.0"
+  resolved "https://registry.yarnpkg.com/core-js-pure/-/core-js-pure-3.18.0.tgz#e5187347bae66448c9e2d67c01c34c4df3261dc5"
+  integrity sha512-ZnK+9vyuMhKulIGqT/7RHGRok8RtkHMEX/BGPHkHx+ouDkq+MUvf9mfIgdqhpmPDu8+V5UtRn/CbCRc9I4lX4w==
 
 core-js@3.16.0:
   version "3.16.0"
@@ -6299,9 +6299,9 @@ core-js@3.16.0:
   integrity sha512-5+5VxRFmSf97nM8Jr2wzOwLqRo6zphH2aX+7KsAUONObyzakDNq2G/bgbhinxB4PoV9L3aXQYhiDKyIKWd2c8g==
 
 core-js@^3.6.5:
-  version "3.17.3"
-  resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.17.3.tgz#8e8bd20e91df9951e903cabe91f9af4a0895bc1e"
-  integrity sha512-lyvajs+wd8N1hXfzob1LdOCCHFU4bGMbqqmLn1Q4QlCpDqWPpGf+p0nj+LNrvDDG33j0hZXw2nsvvVpHysxyNw==
+  version "3.18.0"
+  resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.18.0.tgz#9af3f4a6df9ba3428a3fb1b171f1503b3f40cc49"
+  integrity sha512-WJeQqq6jOYgVgg4NrXKL0KLQhi0CT4ZOCvFL+3CQ5o7I6J8HkT5wd53EadMfqTDp1so/MT1J+w2ujhWcCJtN7w==
 
 core-util-is@1.0.2:
   version "1.0.2"
@@ -11264,9 +11264,9 @@ mem@^8.1.1:
     mimic-fn "^3.1.0"
 
 memfs@^3.1.2, memfs@^3.2.2:
-  version "3.2.4"
-  resolved "https://registry.yarnpkg.com/memfs/-/memfs-3.2.4.tgz#1108c28d2e9137daf5a5586af856c3e18c1c64b2"
-  integrity sha512-2mDCPhuduRPOxlfgsXF9V+uqC6Jgz8zt/bNe4d4W7d5f6pCzHrWkxLNr17jKGXd4+j2kQNsAG2HARPnt74sqVQ==
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/memfs/-/memfs-3.3.0.tgz#4da2d1fc40a04b170a56622c7164c6be2c4cbef2"
+  integrity sha512-BEE62uMfKOavX3iG7GYX43QJ+hAeeWnwIAuJ/R6q96jaMtiLzhsxHJC8B1L7fK7Pt/vXDRwb3SG/yBpNGDPqzg==
   dependencies:
     fs-monkey "1.0.3"
 

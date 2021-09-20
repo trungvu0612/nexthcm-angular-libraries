@@ -12,7 +12,7 @@ export class AdminSeatMapsService extends RxState<{ offices: Partial<Zone>[] }> 
     this.connect(
       'offices',
       this.http
-        .get<PagingResponse<Zone>>(`${ACCOUNT_API_PATH}/offices`, { params: { size: 999 } })
+        .get<PagingResponse<Zone>>(`${ACCOUNT_API_PATH}/offices/v2`, { params: { size: 999 } })
         .pipe(map((response) => response.data.items))
     );
   }
