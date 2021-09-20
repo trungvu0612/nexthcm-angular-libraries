@@ -10,45 +10,44 @@ pipeline {
     K8S_FILE = 'kubernetes_qa.yml'
   }
   stages {
-    stage('Build web') {
-      agent {
-        label 'server15'
-      }
-      steps {
-        sh 'yarn upgrade'
-        sh 'yarn build -- -c qa'
-      }
-    }
-    stage('Docker push') {
-      agent {
-        label 'server15'
-      }
-      steps {
-        sh 'docker build -f Dockerfile --network=host --rm=true -t docker-host.banvien.com.vn/${PROJECT_NAME}/${ENVIRONMENT}/${SERVICE_NAME}:latest .'
-        sh "docker push docker-host.banvien.com.vn/${PROJECT_NAME}/${ENVIRONMENT}/${SERVICE_NAME}:latest"
-        sh "docker rmi docker-host.banvien.com.vn/${PROJECT_NAME}/${ENVIRONMENT}/${SERVICE_NAME}:latest"
-      }
-    }
-    stage('Un-deploy old build') {
-      agent {
-        label 'server15'
-      }
-      steps {
-        script {
-          try {
-            sh "kubectl delete -f ${K8S_FILE} -n ${NAMESPACE}"
-          } catch (err) {
-            echo 'No old deployment'
+    stage('Build') {
+      stages {
+        stage('Build web') {
+          steps {
+            sh 'yarn upgrade'
+            sh 'yarn build -- -c ${ENVIRONMENT}'
+          }
+        }
+        stage('Docker push') {
+          steps {
+            sh 'docker build -f Dockerfile --network=host --rm=true -t docker-host.banvien.com.vn/${PROJECT_NAME}/${ENVIRONMENT}/${SERVICE_NAME}:latest .'
+            sh "docker push docker-host.banvien.com.vn/${PROJECT_NAME}/${ENVIRONMENT}/${SERVICE_NAME}:latest"
+            sh "docker rmi docker-host.banvien.com.vn/${PROJECT_NAME}/${ENVIRONMENT}/${SERVICE_NAME}:latest"
           }
         }
       }
     }
     stage('Deploy') {
       agent {
-        label 'server15'
+        label 'server20'
       }
-      steps {
-        sh "kubectl apply -f ${K8S_FILE} -n ${NAMESPACE}"
+      stages {
+        stage('Un-deploy old build') {
+          steps {
+            script {
+              try {
+                sh "kubectl delete -f ${K8S_FILE} -n ${NAMESPACE}"
+              } catch (err) {
+                echo 'No old deployment'
+              }
+            }
+          }
+        }
+        stage('Deploy') {
+          steps {
+            sh "kubectl apply -f ${K8S_FILE} -n ${NAMESPACE}"
+          }
+        }
       }
     }
   }

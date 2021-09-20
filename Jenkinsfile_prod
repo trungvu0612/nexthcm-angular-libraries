@@ -9,9 +9,6 @@ pipeline {
   }
   stages {
     stage('Build web') {
-      agent {
-        label 'server15'
-      }
       steps {
         sh 'yarn upgrade'
         sh 'yarn build'
