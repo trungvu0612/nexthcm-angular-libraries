@@ -15,7 +15,7 @@ import { FormlyFieldConfig } from '@ngx-formly/core';
 import { RxwebValidators } from '@rxweb/reactive-form-validators';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { of } from 'rxjs';
-import { catchError, map, share, startWith, takeUntil, tap } from 'rxjs/operators';
+import { catchError, distinctUntilChanged, map, share, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { AdminEmployeesService } from '../../services/admin-employees.service';
 
 @Component({
@@ -70,6 +70,22 @@ export class IndividualFormComponent {
                 labelClassName: 'font-semibold',
                 textfieldLabelOutside: true,
                 placeholder: 'enterDOB',
+              },
+            },
+            {
+              key: 'gender',
+              className: 'tui-form__row block',
+              type: 'toggle',
+              defaultValue: true,
+              templateOptions: { textfieldLabelOutside: true, labelClassName: 'font-semibold' },
+              expressionProperties: {
+                'templateOptions.label': this.translocoService.selectTranslate('gender'),
+                'templateOptions.description': this.form?.valueChanges.pipe(
+                  startWith(null),
+                  map((value) => value?.gender),
+                  distinctUntilChanged(),
+                  switchMap((gender) => this.translocoService.selectTranslate(`${gender ? 'male' : 'female'}`))
+                ),
               },
             },
             {

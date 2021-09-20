@@ -3,6 +3,13 @@
     <ng-container ngProjectAs="pageHeader">
       <button routerLink="add" size="m" tuiButton>Add Policy</button>
     </ng-container>
+    <hcm-input-filter
+      (valueChange)="search$.next($event)"
+      [label]="t('searchPolicy')"
+      class="mb-5"
+      icon="tuiIconSearchLarge"
+      propertyName="search"
+    ></hcm-input-filter>
     <tui-loader [overlay]="true" [showLoader]="(loading$ | async) === true">
       <ngx-table
         #table

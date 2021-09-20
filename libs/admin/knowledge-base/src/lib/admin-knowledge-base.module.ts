@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Route, RouterModule } from '@angular/router';
-import { FormlyTaigaUiModule, LayoutComponent, LayoutModule } from '@nexthcm/ui';
+import { FormlyTaigaUiModule, InputFilterComponentModule, LayoutComponent, LayoutModule } from '@nexthcm/ui';
 import { TranslocoModule } from '@ngneat/transloco';
 import { FormlyModule } from '@ngx-formly/core';
 import { TuiTablePaginationModule } from '@taiga-ui/addon-table';
@@ -54,6 +54,7 @@ export const adminKnowledgeBaseRoutes: Route[] = [
     TuiTablePaginationModule,
     TuiLoaderModule,
     TuiMarkerIconModule,
+    InputFilterComponentModule
   ],
   providers: [AdminKnowledgeBaseService],
 })

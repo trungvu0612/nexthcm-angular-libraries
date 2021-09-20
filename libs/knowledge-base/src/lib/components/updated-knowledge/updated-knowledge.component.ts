@@ -10,7 +10,7 @@ import { map, switchMap } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UpdatedKnowledgeComponent {
-  readonly params$ = new BehaviorSubject<{ longDescription?: string; size: number }>({ size: 10 });
+  readonly params$ = new BehaviorSubject<{ search?: string; size: number }>({ size: 10 });
   readonly knowledgeBase$ = this.params$.pipe(
     switchMap((params) => this.knowledgeBaseService.getKnowledgeBase(params))
   );
@@ -18,7 +18,7 @@ export class UpdatedKnowledgeComponent {
   constructor(private readonly knowledgeBaseService: KnowledgeBaseService) {}
 
   @Input() set search(search$: Observable<string>) {
-    search$.pipe(map((search) => ({ longDescription: search, size: 0 }))).subscribe(this.params$);
+    search$.pipe(map((search) => ({ search: search, size: 0 }))).subscribe(this.params$);
   }
 
   viewMore() {

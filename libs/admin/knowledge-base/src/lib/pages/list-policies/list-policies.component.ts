@@ -4,8 +4,19 @@ import { TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { BaseComponent, Columns } from 'ngx-easy-table';
-import { from, Observable, of } from 'rxjs';
-import { catchError, filter, map, share, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { from, Observable, of, Subject } from 'rxjs';
+import {
+  catchError,
+  debounceTime,
+  distinctUntilChanged,
+  filter,
+  map,
+  share,
+  startWith,
+  switchMap,
+  takeUntil,
+  tap
+} from 'rxjs/operators';
 import { AdminKnowledgeBaseService } from '../../admin-knowledge-base.service';
 import { AdminPolicy } from '../../models/policies';
 
@@ -29,6 +40,7 @@ export class ListPoliciesComponent extends AbstractServerPaginationTableComponen
       ])
     );
 
+  readonly search$ = new Subject<string | null>();
   private readonly request$ = this.queryParams$.pipe(
     switchMap(() => this.policiesService.getPolicies(this.queryParams$.value).pipe(startWith(null))),
     share()
@@ -47,6 +59,14 @@ export class ListPoliciesComponent extends AbstractServerPaginationTableComponen
   ) {
     super(state);
     state.connect(this.request$.pipe(filter(isPresent)));
+    state.hold(
+      this.search$.pipe(
+        filter(isPresent),
+        debounceTime(300),
+        distinctUntilChanged(),
+        tap((searchQuery) => this.queryParams$.next(this.queryParams$.value.set('search', searchQuery)))
+      )
+    );
   }
 
   delete(id: string) {

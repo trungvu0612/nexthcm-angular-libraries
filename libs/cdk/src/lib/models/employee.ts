@@ -41,6 +41,7 @@ export interface EmployeeIndividual {
   type: EmployeeInformationType;
   permanentAddress: string;
   temporaryAddress: string;
+  gender: number;
   birthDate: string | TuiDay | Date;
   idNumber: number;
   issueOn: string | TuiDay | Date;

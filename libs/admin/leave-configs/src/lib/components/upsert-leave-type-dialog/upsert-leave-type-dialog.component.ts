@@ -100,7 +100,7 @@ export class UpsertLeaveTypeDialogComponent implements OnInit {
             required: true,
             translate: true,
             label: 'description',
-            placeholder: 'Short Description',
+            placeholder: 'shortDescription',
           },
         },
       ],

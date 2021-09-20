@@ -18,7 +18,6 @@ export class UpsertLeavePeriodDialogComponent implements OnInit {
   form = this.fb.group<LeavePeriod>({} as LeavePeriod);
   model = {} as LeavePeriod;
   fields: FormlyFieldConfig[] = [
-    { key: 'id' },
     { key: 'tenantId', defaultValue: this.authService.get('userInfo', 'tenantId') },
     {
       fieldGroupClassName: 'grid grid-cols-2 gap-4',
@@ -68,7 +67,8 @@ export class UpsertLeavePeriodDialogComponent implements OnInit {
 
   onSubmit(): void {
     if (this.form.valid) {
-      const formModel = { ...this.form.value };
+      const nameDate = this.model.startDate.toString() + ' - ' + this.model.endDate.toString()
+      const formModel = { ...this.form.value, name: nameDate};
       this.context.completeWith(formModel);
     }
   }
