@@ -492,7 +492,8 @@
     "412": "412 - Chưa thiết lập cấu hình điều kiện.",
     "500": "500 - Lỗi máy chủ nội bộ.",
     "503": "503 - Dịch vụ không khả dụng.",
-    "default": "Có gì đó không ổn!"
+    "default": "Có gì đó không ổn!",
+    "ACCOUNT_JOB_TITLE_IS_USED_BY_USERS": "Được tin dùng bởi người dùng"
   },
   "ERRORS": {
     "ENTITY_NOT_FOUND": "Lỗi hệ thống",
@@ -955,5 +956,30 @@
   "notAssignedSeat": "Bạn chưa được chỉ định chỗ ngồi!",
   "emailTemplate": "Mẫu email",
   "chooseEmailTemplate": "Chọn một mẫu email...",
-  "createMeeting": "Tạo cuộc họp"
+  "createMeeting": "Tạo cuộc họp",
+  "gender": "Giới tính",
+  "male": "Nam",
+  "female": "Nữ",
+  "ACCOUNT_JOB_TITLE_IS_USED_BY_USERS": "Chức danh này đã được sử dụng",
+  "ACCOUNT_JOB_LEVEL_IS_USED_BY_USERS": "Cấp độ này đã được sử dụng",
+  "SERVER_ERROR": "500 - Lỗi kết nối.",
+  "totalLeaveCanApprove": "Tổng ngày được phép nghỉ",
+  "addNewLeaveEntitlement": "Tạo số lượng ngày nghỉ",
+  "editLeaveLevelApprove": "Chỉnh sửa cấp độ nghỉ",
+  "paidLeave": "Nghỉ có phép",
+  "addLeaveLevelApprove": "Thêm cấp độ nghỉ",
+  "addNewLeavePeriod": "Tạo mới khoản nghỉ",
+  "startDate": "Ngày bắt đầu",
+  "endDate": "Ngày kết thúc",
+  "Organization": "Tổ chức",
+  "Period": "Khoản nghỉ",
+  "Entitlements": "Số ngày nghỉ",
+  "chooseLeaveType": "Chọn loại nghỉ phép",
+  "totalLeave": "Số ngày nghỉ",
+  "addToMultipleEmployees": "Thêm nhiều nhân viên",
+  "shortDescription": "mô tả",
+  "Search": "Tìm kiếm",
+  "searchPolicy": "Tìm chính sách",
+  "addUserRoleSuccessfully": "Add User Role Successfully",
+  "addOfficeSuccessfully": "Tạo văn phòng thành công"
 }

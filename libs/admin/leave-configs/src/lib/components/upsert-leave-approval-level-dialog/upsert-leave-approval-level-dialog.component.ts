@@ -41,7 +41,7 @@ export class UpsertLeaveApprovalLevelDialogComponent implements OnInit {
       templateOptions: {
         translate: true,
         required: true,
-        label: 'Job Titles',
+        label: 'jobTitles',
         labelClassName: 'font-semibold',
         placeholder: 'chooseRoles',
         options: this.leaveConfigsService.select('jobTitles'),

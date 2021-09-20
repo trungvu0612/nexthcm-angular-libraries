@@ -11,7 +11,7 @@ import { Category, Knowledge } from '../models/knowledge';
 export class KnowledgeBaseService {
   constructor(private http: HttpClient) {}
 
-  getKnowledgeBase(params: { longDescription?: string; size: number }): Observable<Pagination<Partial<Knowledge>>> {
+  getKnowledgeBase(params: { search?: string; size: number }): Observable<Pagination<Partial<Knowledge>>> {
     return this.http
       .get<PagingResponse<Partial<Knowledge>>>(`${MY_TIME_API_PATH}/policies`, { params })
       .pipe(map((response) => response.data));

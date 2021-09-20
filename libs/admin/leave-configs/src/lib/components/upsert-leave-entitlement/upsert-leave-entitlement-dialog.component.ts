@@ -33,7 +33,7 @@ export class UpsertLeaveEntitlementDialogComponent implements OnInit {
       defaultValue: true,
       templateOptions: { textfieldLabelOutside: true, labelClassName: 'font-semibold' },
       expressionProperties: {
-        'templateOptions.label': this.translocoService.selectTranslate('Add to multiple employees'),
+        'templateOptions.label': this.translocoService.selectTranslate('addToMultipleEmployees'),
         'templateOptions.description': this.form?.valueChanges.pipe(
           startWith(null),
           map((value) => value?.status),
@@ -105,7 +105,7 @@ export class UpsertLeaveEntitlementDialogComponent implements OnInit {
       type: 'multi-select',
       templateOptions: {
         translate: true,
-        label: 'Job Title',
+        label: 'jobTitle',
         labelClassName: 'font-semibold',
         placeholder: 'chooseRoles',
         options: this.leaveConfigsService.select('jobTitles'),
@@ -121,9 +121,9 @@ export class UpsertLeaveEntitlementDialogComponent implements OnInit {
       type: 'select',
       templateOptions: {
         translate: true,
-        label: 'Leave Type',
+        label: 'leaveType',
         labelClassName: 'font-semibold',
-        placeholder: 'Leave Type',
+        placeholder: 'leaveType',
         required: true,
         options: this.leaveConfigsService.select('leaveTypes'),
         labelProp: 'name',
@@ -150,8 +150,9 @@ export class UpsertLeaveEntitlementDialogComponent implements OnInit {
       templateOptions: {
         required: true,
         translate: true,
+        labelClassName: 'font-semibold',
         label: 'Entitlements',
-        placeholder: 'Total leave can approve',
+        placeholder: 'totalLeaveCanApprove',
         textfieldLabelOutside: true,
       },
       validators: { validation: [RxwebValidators.numeric({ acceptValue: NumericValueType.PositiveNumber })] },
@@ -174,7 +175,6 @@ export class UpsertLeaveEntitlementDialogComponent implements OnInit {
         this.model.status = false;
       }
       this.model = { ...this.model, ...this.context.data };
-      console.log('aaaaaaaaaaaa', this.context.data);
       this.model.jobTitleDTOList = this.context.data.jobTitleDTOList;
     }
   }

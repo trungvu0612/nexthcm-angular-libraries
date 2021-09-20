@@ -371,9 +371,9 @@
     "functions": "Functions"
   },
   "ADMIN_LEAVE_ENTITLEMENT_MANAGEMENT_COLUMNS": {
-    "period": "Period",
-    "jobTitle": "Job Title",
-    "totalLeave": "Total Leave",
+    "period": "Periods",
+    "jobTitle": "Leave Types",
+    "totalLeave": "Entitlement",
     "functions": "Functions"
   },
   "leaveEntitlementManagement": "Leave entitlement management",
@@ -493,7 +493,8 @@
     "500": "500 - Internal Server Error.",
     "503": "503 - The requested service is not available.",
     "422": "422 - Validation Error!",
-    "default": "Something went wrong!"
+    "default": "Something went wrong!",
+    "ACCOUNT_JOB_TITLE_IS_USED_BY_USERS": "This job title is used by users"
   },
   "ERRORS": {
     "ENTITY_NOT_FOUND": "System error",
@@ -877,7 +878,7 @@
   "newStatus": "new status",
   "invalidCredential": "The username or password is incorrect.",
   "ADMIN_PERIOD_MANAGEMENT_COLUMNS": {
-    "startDate": "Start Date",
+    "startDate": "Start Date - End Date",
     "status": "Status",
     "functions": "Functions"
   },
@@ -967,5 +968,29 @@
   "notAssignedSeat": "You have not been assigned a seat!",
   "emailTemplate": "Email Template",
   "chooseEmailTemplate": "Choose an email template...",
-  "createMeeting": "Create meeting"
+  "createMeeting": "Create meeting",
+  "gender": "Gender",
+  "male": "Male",
+  "female": "Female",
+  "ACCOUNT_JOB_TITLE_IS_USED_BY_USERS": "Account job title is used by users",
+  "ACCOUNT_JOB_LEVEL_IS_USED_BY_USERS": "Account job level is used by users",
+  "SERVER_ERROR": "500 - Internal Server Error.",
+  "totalLeaveCanApprove": "Total Leave Can Approve",
+  "addNewLeaveEntitlement": "Add New Leave Entitlement",
+  "editLeaveLevelApprove": "Edit Leave Level Approve",
+  "paidLeave": "Paid Leave",
+  "addLeaveLevelApprove": "Add Leave Level Approve",
+  "addNewLeavePeriod": "Add New Leave Period",
+  "startDate": "Start Date",
+  "endDate": "End Date",
+  "Organization": "Organization",
+  "Period": "Period",
+  "Entitlements": "Entitlements",
+  "chooseLeaveType": "Choose leave type",
+  "totalLeave": "Total Leave",
+  "addToMultipleEmployees": "Add To Multiple Employees",
+  "shortDescription": "Short Description",
+  "Search": "Search",
+  "searchPolicy": "Search policy",
+  "addOfficeSuccessfully": "Add office successfully"
 }

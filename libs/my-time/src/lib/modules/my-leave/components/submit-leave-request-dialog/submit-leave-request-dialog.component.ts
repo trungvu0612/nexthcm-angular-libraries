@@ -318,7 +318,7 @@ export class SubmitLeaveRequestDialogComponent implements OnInit {
           type: 'user-combo-box',
           templateOptions: {
             labelClassName: 'font-semibold',
-            placeholder: 'Send to',
+            placeholder: 'Type to search',
             label: 'Send to',
             textfieldLabelOutside: true,
             labelProp: 'name',
