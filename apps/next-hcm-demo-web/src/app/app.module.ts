@@ -73,7 +73,7 @@ const ROUTES: Routes = [
   imports: [
     BrowserModule,
     RouterModule.forRoot(ROUTES, {
-      initialNavigation: 'enabledBlocking',
+      initialNavigation: 'enabledNonBlocking',
       paramsInheritanceStrategy: 'always', // get the lazy modules routing params
     }),
     BrowserAnimationsModule,

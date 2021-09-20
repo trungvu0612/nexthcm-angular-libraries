@@ -24,6 +24,7 @@ import { AppComponent } from './app.component';
         },
       ],
       {
+        initialNavigation: 'enabledNonBlocking',
         paramsInheritanceStrategy: 'always', // get the lazy modules routing params
       }
     ),

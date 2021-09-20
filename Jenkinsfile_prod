@@ -8,17 +8,6 @@ pipeline {
     SERVICE_NAME = 'next-hcm-demo-web'
   }
   stages {
-    stage('Build and publish libraries') {
-      agent {
-        label 'server15'
-      }
-      steps {
-        sh 'yarn upgrade'
-        sh 'yarn'
-        sh 'yarn affected:build'
-        sh 'yarn affected:publish'
-      }
-    }
     stage('Build web') {
       agent {
         label 'server15'
