@@ -69,6 +69,10 @@ export class PermissionListComponent extends AbstractServerPaginationTableCompon
         ),
         takeUntil(this.destroy$)
       )
-      .subscribe();
+      .subscribe(
+        this.promptService.handleResponse('PERMISSION_TABLE.MESSAGES.deletePermissionSuccessfully', () =>
+          this.queryParams$.next(this.queryParams$.value)
+        )
+      );
   }
 }

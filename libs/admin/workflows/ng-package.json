@@ -4,5 +4,6 @@
   "lib": {
     "entryFile": "src/index.ts"
   },
-  "allowedNonPeerDependencies": ["."]
+  "allowedNonPeerDependencies": ["."],
+  "assets": ["./assets"]
 }

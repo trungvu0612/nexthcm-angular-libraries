@@ -10,7 +10,7 @@ import { AbstractAddOptionToTransitionComponent } from '../../abstract-component
 import { ConditionType } from '../../enums';
 import { TransitionCondition, TransitionOptionsDialogData } from '../../models';
 import { AdminWorkflowsService } from '../../services/admin-workflows.service';
-import { ConditionTypesQuery, loadConditionTypes } from '../../state';
+import { ConditionTypesQuery } from '../../state';
 
 @Component({
   selector: 'hcm-add-condition-to-transition-dialog',
@@ -81,6 +81,5 @@ export class AddConditionToTransitionDialogComponent extends AbstractAddOptionTo
   ) {
     super(fb, context, adminWorkflowsService);
     this.actions.dispatch(loadJobTitles());
-    this.actions.dispatch(loadConditionTypes());
   }
 }

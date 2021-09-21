@@ -3,12 +3,15 @@ import {
   ChangeDetectorRef,
   Component,
   EventEmitter,
+  Inject,
   Injector,
   Input,
   Output,
   ViewChild,
 } from '@angular/core';
-import { TranslocoService } from '@ngneat/transloco';
+import { Actions } from '@datorama/akita-ng-effects';
+import { TRANSLOCO_SCOPE, TranslocoService } from '@ngneat/transloco';
+import { TranslocoScope } from '@ngneat/transloco/lib/types';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
@@ -17,6 +20,7 @@ import { Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { AbstractTransitionOptionListComponent } from '../../abstract-components/abstract-transition-option-list.component';
 import { TransitionValidator } from '../../models';
+import { loadValidatorTypes } from '../../state';
 import { AddValidatorToTransitionDialogComponent } from '../add-validator-to-transition-dialog/add-validator-to-transition-dialog.component';
 
 @Component({
@@ -33,11 +37,14 @@ export class TransitionValidatorListComponent extends AbstractTransitionOptionLi
   constructor(
     readonly translocoService: TranslocoService,
     readonly changeDetectorRef: ChangeDetectorRef,
+    @Inject(TRANSLOCO_SCOPE) readonly scope: TranslocoScope,
     private readonly dialogService: TuiDialogService,
     private readonly injector: Injector,
-    private destroy$: TuiDestroyService
+    private destroy$: TuiDestroyService,
+    actions: Actions
   ) {
-    super(translocoService, changeDetectorRef);
+    super(translocoService, changeDetectorRef, scope);
+    actions.dispatch(loadValidatorTypes());
   }
 
   openAddOptionToTransitionDialog(item?: TransitionValidator): Observable<TransitionValidator> {

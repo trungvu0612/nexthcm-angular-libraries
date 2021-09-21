@@ -4,11 +4,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { PromptComponentModule } from '@nexthcm/cdk';
 import {
-  BaseFormComponentModule, FormlySelectOrgTreeComponentModule,
+  BaseFormComponentModule,
+  FormlySelectOrgTreeComponentModule,
+  FormlyStatusToggleComponentModule,
   FormlyUserComboBoxComponentModule,
   InputFilterComponentModule,
   LayoutComponent,
-  LayoutModule
+  LayoutModule,
 } from '@nexthcm/ui';
 import { TranslocoModule } from '@ngneat/transloco';
 import { FormlyModule } from '@ngx-formly/core';
@@ -74,7 +76,8 @@ export const ADMIN_EMPLOYEE_ROUTES: Routes = [
     TuiToggleModule,
     FormlyUserComboBoxComponentModule,
     BaseFormComponentModule,
-    FormlySelectOrgTreeComponentModule
+    FormlySelectOrgTreeComponentModule,
+    FormlyStatusToggleComponentModule,
   ],
   declarations: [
     EditEmployeeComponent,

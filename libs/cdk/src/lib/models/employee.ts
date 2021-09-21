@@ -23,7 +23,7 @@ export interface EmployeeGeneralInformation {
   profileType: string;
   registerType: string;
   registration: number;
-  organization: BaseOption;
+  organization: BaseOption | any;
   roles: BaseOption[];
   jobTitle?: BaseOption;
   jobLevel?: BaseOption;

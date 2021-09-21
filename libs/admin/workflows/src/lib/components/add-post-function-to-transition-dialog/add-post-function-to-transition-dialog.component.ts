@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
 import { Actions } from '@datorama/akita-ng-effects';
 import { JobTitlesQuery, loadJobTitles } from '@nexthcm/cdk';
 import { FormBuilder, FormControl } from '@ngneat/reactive-forms';
@@ -9,11 +9,14 @@ import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { map, startWith, takeUntil } from 'rxjs/operators';
 import { AbstractAddOptionToTransitionComponent } from '../../abstract-components/abstract-add-option-to-transition.component';
 import { PostFunctionType } from '../../enums';
-import { TransitionOption, TransitionOptionsDialogData, TransitionPostFunction } from '../../models';
+import {
+  TransitionOption,
+  TransitionOptionsDialogData,
+  TransitionPostFunction,
+  TransitionPostFunctionValue,
+} from '../../models';
 import { AdminWorkflowsService } from '../../services/admin-workflows.service';
-import { loadPostFunctionTypes, PostFunctionTypesQuery } from '../../state';
-import { loadEmailTemplates } from '../../state/email-templates/email-templates.actions';
-import { EmailTemplatesQuery } from '../../state/email-templates/email-templates.state';
+import { EmailTemplatesQuery, loadEmailTemplates, PostFunctionTypesQuery } from '../../state';
 
 @Component({
   selector: 'hcm-add-post-function-to-transition-dialog',
@@ -22,7 +25,10 @@ import { EmailTemplatesQuery } from '../../state/email-templates/email-templates
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [TuiDestroyService],
 })
-export class AddPostFunctionToTransitionDialogComponent extends AbstractAddOptionToTransitionComponent<TransitionPostFunction> {
+export class AddPostFunctionToTransitionDialogComponent
+  extends AbstractAddOptionToTransitionComponent<TransitionPostFunction>
+  implements OnInit
+{
   readonly form = this.fb.group<TransitionPostFunction>({} as TransitionPostFunction);
   readonly postFunctionTypes$ = this.postFunctionTypesQuery
     .selectAll()
@@ -122,6 +128,16 @@ export class AddPostFunctionToTransitionDialogComponent extends AbstractAddOptio
     super(fb, context, adminWorkflowsService);
     this.actions.dispatch(loadJobTitles());
     this.actions.dispatch(loadEmailTemplates());
-    this.actions.dispatch(loadPostFunctionTypes());
+  }
+
+  ngOnInit(): void {
+    if (this.context.data.item) {
+      const data = { ...this.context.data.item };
+
+      if (!data.values.length) {
+        data.values = [{}] as [TransitionPostFunctionValue];
+      }
+      this.model = { ...this.model, ...data };
+    }
   }
 }

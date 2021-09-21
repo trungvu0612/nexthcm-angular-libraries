@@ -11,6 +11,7 @@ export abstract class AbstractServerPaginationTableComponent<T> {
     paginationEnabled: false,
     paginationRangeEnabled: false,
     fixedColumnWidth: false,
+    orderEnabled: false,
   };
   data$: Observable<T[]>;
   total$: Observable<number>;

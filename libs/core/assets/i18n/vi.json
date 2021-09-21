@@ -118,7 +118,8 @@
     "description": "Mô tả",
     "action": "Thao tác",
     "MESSAGES": {
-      "deletePermission": "Bạn có chắc chắn muốn xóa phân quyền này không?"
+      "deletePermission": "Bạn có chắc chắn muốn xóa phân quyền này không?",
+      "deletePermissionSuccessfully": "Đã xóa quyền thành công!"
     }
   },
   "TENANT_TABLE": {
@@ -142,7 +143,8 @@
     "numeric": "Bạn phải nhập số vào ô này!",
     "shortnameExists": "Tên viết tắt này đã tồn tại!",
     "uniqueStatusName": "Tên trạng thái này đã tồn tại!",
-    "invalidURL": "Địa chỉ URL không hợp lệ!"
+    "invalidURL": "Địa chỉ URL không hợp lệ!",
+    "emailTemplateNameExists": "Tên bản mẫu email này đã tồn tại!"
   },
   "initStatus": "Trạng thái ban đầu",
   "initStatusDescription": "Mô tả trạng thái ban đầu",
@@ -783,11 +785,6 @@
   "allHalfDay": "Toàn bộ nửa ngày",
   "created": "tạo một",
   "updatedStatusTo": "cập nhật trạng thái",
-  "WORKFLOW_TRANSITION_OPTION_COLUMNS": {
-    "name": "Tên",
-    "description": "Mô tả",
-    "functions": "Chức năng"
-  },
   "conditions": "Điều kiện",
   "validators": "Trình xác thực",
   "postFunctions": "Hậu chức năng",
@@ -795,47 +792,9 @@
   "addPermission": "Thêm phân quyền",
   "addValidator": "Thêm trình xác thực",
   "addPostFunction": "Thêm hậu chức năng",
-  "WORKFLOW": {
-    "permissionCondition": "Điều kiện về phân quyền",
-    "permissionConditionDescription": "Chỉ cho phép người dùng với những quyền hạn nhất định được thực thi chuyển tiếp này",
-    "userInGroup": "Nhóm người dùng",
-    "userInGroupDescription": "Chỉ cho phép người dùng thuộc một nhóm nhất định được thực thi chuyển tiếp này",
-    "userInTitles": "Người dùng với các chức vụ",
-    "userInTitlesDescription": "Chỉ cho phép người dùng thuộc danh sách chức vụ nhất định được thực thi chuyển tiếp này",
-    "onlyAssignee": "Chỉ người được giao",
-    "onlyAssigneeDescription": "Chỉ cho phép người được chỉ định thực thi chuyển tiếp này",
-    "onlyReporter": "Chỉ người báo cáo",
-    "onlyReporterDescription": "Chỉ cho phép người báo cáo thực thi chuyển tiếp này",
-    "permissionValidator": "Trình xác thực về phân quyền",
-    "permissionValidatorDescription": "Xác thực rằng người dùng có quyền hạn",
-    "userPermissionValidator": "Trình xác thực về người dùng & phân quyền",
-    "userPermissionValidatorDescription": "Xác thực rằng những người dùng với các quyền hạn",
-    "assignToDirectLeader": "Chỉ định người lãnh đạo trực tiếp",
-    "assignToDirectLeaderDescription": "Chỉ định người lãnh đạo trực tiếp của người được chỉ định hiện tại",
-    "assignToTheNearestLeaderWithASpecifiedTitle": "Chỉ định người lãnh đạo gần nhất với chức vụ nhất định",
-    "assignToTheNearestLeaderWithASpecifiedTitleDescription": "Chỉ định người lãnh đạo gần nhất với một trong những chức vụ nhất định",
-    "assignToReporter": "Chỉ định người báo cáo",
-    "assignToReporterDescription": "Chỉ định vấn đề cho người báo cáo",
-    "createComment": "Tạo bình luận",
-    "createCommentDescription": "Thêm một bình luận vào một vấn đề nếu nó được nhập vào trong khi xảy ra một chuyển tiếp",
-    "updateChangeHistoryForAnIssueAndStoreTheIssueInIheDatabase": "Cập nhật lịch sử của một vấn đề và lưu vào cơ sở dữ liệu",
-    "updateChangeHistoryForAnIssueAndStoreTheIssueInIheDatabaseDescription": "Cập nhật thay đổi của một vấn đề",
-    "setIssueStatusToTheLinkedStatusOfTheDestinationWorkflowStatus": "Đặt trạng thái của vấn đề sang trạng thái liên kết của trạng thái đích trong quy trình",
-    "setIssueStatusToTheLinkedStatusOfTheDestinationWorkflowStatusDescription": "Thay đổi trạng thái của chuyển tiếp",
-    "sendEmailAndNotificationToTheReporter": "Gửi email và thông báo cho người báo cáo",
-    "sendEmailAndNotificationToTheReporterDescription": "Gửi email và thông báo cho người báo cáo. Email sẽ dựa trên mẫu của quy trình",
-    "sendEmailAndNotificationToTheNewAssignee": "Gửi email và thông báo cho người được chỉ định",
-    "sendEmailAndNotificationToTheNewAssigneeDescription": "Gửi email và thông báo cho người được chỉ định. Email sẽ dựa trên mẫu của quy trình",
-    "sendEmailAndNotificationToTheLeaderWithASpecifiedTitle": "Gửi email và thông báo cho người lãnh đạo với chức vụ nhất định",
-    "sendEmailAndNotificationToTheLeaderWithASpecifiedTitleDescription": "Gửi email và thông báo cho người lãnh đạo với chức vụ nhất định. Email sẽ dựa trên mẫu của quy trình"
-  },
   "users": "Người dùng",
   "permissions": "Phân quyền",
   "transition": "Chuyển tiếp",
-  "WORKFLOW_CONDITIONS_OPERATORS": {
-    "or": "Bất kỳ điều kiện nào sau đây",
-    "and": "Tất cả điều kiện sau đây"
-  },
   "noConditions": "Không có điều kiện nào trên chuyển tiếp này.",
   "noValidators": "Không có trình xác thực nào sẽ được thực hiện trước chuyển tiếp này.",
   "noPostFunctions": "Không có chức năng nào được thực thi sau chuyển tiếp này.",
@@ -981,5 +940,8 @@
   "Search": "Tìm kiếm",
   "searchPolicy": "Tìm chính sách",
   "addUserRoleSuccessfully": "Add User Role Successfully",
-  "addOfficeSuccessfully": "Tạo văn phòng thành công"
+  "addOfficeSuccessfully": "Tạo văn phòng thành công",
+  "subject": "Tiêu đề",
+  "content": "Nội dung",
+  "editEmailTemplate": "Sửa bản mẫu email"
 }

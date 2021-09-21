@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
-import { AddressService, UploadFileService } from '@nexthcm/cdk';
+import { AddressService, CommonStatus, UploadFileService } from '@nexthcm/cdk';
 import { AbstractControl, FormBuilder, FormControl } from '@ngneat/reactive-forms';
 import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
@@ -276,15 +276,31 @@ export class UpsertTenantFormComponent {
           ],
         },
         {
-          key: 'website',
-          type: 'input',
-          templateOptions: {
-            translate: true,
-            label: 'website',
-            labelClassName: 'font-semibold',
-            placeholder: 'enterWebsite',
-            textfieldLabelOutside: true,
-          },
+          fieldGroup: [
+            {
+              key: 'website',
+              type: 'input',
+              templateOptions: {
+                translate: true,
+                label: 'website',
+                labelClassName: 'font-semibold',
+                placeholder: 'enterWebsite',
+                textfieldLabelOutside: true,
+              },
+            },
+            {
+              key: 'statusBoolean',
+              className: 'tui-form__row block',
+              type: 'status-toggle',
+              defaultValue: true,
+              templateOptions: {
+                translate: true,
+                label: 'status',
+                textfieldLabelOutside: true,
+                labelClassName: 'font-semibold',
+              },
+            },
+          ],
         },
       ],
     },
@@ -309,14 +325,18 @@ export class UpsertTenantFormComponent {
   @Input()
   set data(value: Tenant) {
     this._data = value;
+    this._data.statusBoolean = this.data.state !== CommonStatus.inactive;
     if (value) {
-      this.model = { ...this.model, ...value };
+      this.model = { ...this.model, ...this._data };
     }
   }
 
   onSubmit(): void {
     if (this.form.valid) {
-      this.submitted.emit(this.form.value);
+      const formModel = { ...this.form.value };
+
+      formModel.state = formModel.statusBoolean ? CommonStatus.active : CommonStatus.inactive;
+      this.submitted.emit(formModel);
     }
   }
 

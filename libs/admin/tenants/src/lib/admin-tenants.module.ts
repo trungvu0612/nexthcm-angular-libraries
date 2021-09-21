@@ -2,7 +2,13 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AddressService, GetStatusPipeModule } from '@nexthcm/cdk';
-import { BaseFormComponentModule, InputFilterComponentModule, LayoutComponent, LayoutModule } from '@nexthcm/ui';
+import {
+  BaseFormComponentModule,
+  FormlyStatusToggleComponentModule,
+  InputFilterComponentModule,
+  LayoutComponent,
+  LayoutModule,
+} from '@nexthcm/ui';
 import { TranslocoModule } from '@ngneat/transloco';
 import { LetModule } from '@rx-angular/template';
 import { TuiTablePaginationModule } from '@taiga-ui/addon-table';
@@ -62,6 +68,7 @@ export const ADMIN_TENANTS_ROUTES: Routes = [
     TuiTabsModule,
     HeroIconModule.withIcons({ zoomIn, pencilAlt, trash }),
     TuiScrollbarModule,
+    FormlyStatusToggleComponentModule,
   ],
   declarations: [
     TenantManagementComponent,

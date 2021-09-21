@@ -38,8 +38,8 @@
   "delete": "Delete",
   "detail": "Detail",
   "createTenant": "Create tenant",
-  "createTenantSuccessfully": "Create tenant successfully",
-  "updateTenantSuccessfully": "Update tenant successfully",
+  "createTenantSuccessfully": "<b>Create tenant successfully!</b>",
+  "updateTenantSuccessfully": "<b>Update tenant successfully!</b>",
   "companyCode": "Company code",
   "companyName": "Company name",
   "deactivate": "Deactivate",
@@ -117,7 +117,8 @@
     "description": "Description",
     "action": "Action",
     "MESSAGES": {
-      "deletePermission": "Are you sure you want to delete this permission?"
+      "deletePermission": "Are you sure you want to delete this permission?",
+      "deletePermissionSuccessfully": "Delete permission successfully!"
     }
   },
   "TENANT_TABLE": {
@@ -141,7 +142,8 @@
     "numeric": "You must enter a number in this cell!",
     "shortnameExists": "This shortname already exists!",
     "uniqueStatusName": "This status name is already exists!",
-    "invalidURL": "This URL is invalid!"
+    "invalidURL": "This URL is invalid!",
+    "emailTemplateNameExists": "This email template's name is already exists!"
   },
   "initStatus": "Initial status",
   "initStatusDescription": "Initial status description",
@@ -797,11 +799,6 @@
   "allHalfDay": "All half day",
   "created": "Created a",
   "updatedStatusTo": "Updated status to",
-  "WORKFLOW_TRANSITION_OPTION_COLUMNS": {
-    "name": "Name",
-    "description": "Description",
-    "functions": "Functions"
-  },
   "conditions": "Conditions",
   "validators": "Validators",
   "postFunctions": "Post functions",
@@ -809,47 +806,9 @@
   "addPermission": "Add permission",
   "addValidator": "Add validator",
   "addPostFunction": "Add post function",
-  "WORKFLOW": {
-    "permissionCondition": "Permission Condition",
-    "permissionConditionDescription": "Condition to allow only users with certain permission to execute a transition",
-    "userInGroup": "User Is In Group",
-    "userInGroupDescription": "Condition to allow only users in a given group to execute a transition",
-    "userInTitles": "User with the title Is In the list of titles",
-    "userInTitlesDescription": "Condition to allow only users with title in a given list of titles to execute a transition",
-    "onlyReporter": "Only Reporter",
-    "onlyReporterDescription": "Condition to allow only the reporter to execute a transition",
-    "onlyAssignee": "Only Assignee",
-    "onlyAssigneeDescription": "Condition to allow only the assignee to execute a transition",
-    "permissionValidator": "Permission Validator",
-    "permissionValidatorDescription": "Validates that the user has a permission",
-    "userPermissionValidator": "User Permission Validator",
-    "userPermissionValidatorDescription": "Validates that the specific user has a permission",
-    "assignToDirectLeader": "Assign to direct leader",
-    "assignToDirectLeaderDescription": "Assign to direct leader of the current assignee (direct report line)",
-    "assignToTheNearestLeaderWithASpecifiedTitle": "Assign to the nearest leader with a specified title (higher leader)",
-    "assignToTheNearestLeaderWithASpecifiedTitleDescription": "Assign to a nearest higher leader with one of titles",
-    "assignToReporter": "Assign to reporter",
-    "assignToReporterDescription": "The reporter is also the assignee of this workflow's item if this item's status is 'Unassigned'",
-    "createComment": "Create comment",
-    "createCommentDescription": "Add a comment to an issue if one is entered during a transition",
-    "updateChangeHistoryForAnIssueAndStoreTheIssueInIheDatabase": "Update change history for an issue and store the issue in the database",
-    "updateChangeHistoryForAnIssueAndStoreTheIssueInIheDatabaseDescription": "Update the issue has been change (Default).",
-    "setIssueStatusToTheLinkedStatusOfTheDestinationWorkflowStatus": "Set issue status to the linked status of the destination workflow status",
-    "setIssueStatusToTheLinkedStatusOfTheDestinationWorkflowStatusDescription": "Change the status of the transition (For example: Status change from Back log to To do) (Default)",
-    "sendEmailAndNotificationToTheReporter": "Send email and notification to the reporter",
-    "sendEmailAndNotificationToTheReporterDescription": "Send the email and the notification to the reporter. The email will send depend on the template of the workflow",
-    "sendEmailAndNotificationToTheNewAssignee": "Send email and notification to the new assignee",
-    "sendEmailAndNotificationToTheNewAssigneeDescription": "Send the email and the notification to the new assignee. The email will send depend on the template of the workflow",
-    "sendEmailAndNotificationToTheLeaderWithASpecifiedTitle": "Send email and notification to the leader with a specified title",
-    "sendEmailAndNotificationToTheLeaderWithASpecifiedTitleDescription": "Send email and notification to the leader with a specified title. The email will send depend on the template of the workflow"
-  },
   "users": "Users",
   "permissions": "Permissions",
   "transition": "Transition",
-  "WORKFLOW_CONDITIONS_OPERATORS": {
-    "or": "Any of the following conditions",
-    "and": "All of the following conditions"
-  },
   "noConditions": "There are no conditions on this transition.",
   "noValidators": "There are no validators will be done before this transition.",
   "noPostFunctions": "There are no functions will be processed after the transition occurs.",
@@ -992,5 +951,8 @@
   "shortDescription": "Short Description",
   "Search": "Search",
   "searchPolicy": "Search policy",
-  "addOfficeSuccessfully": "Add office successfully"
+  "addOfficeSuccessfully": "Add office successfully",
+  "subject": "Subject",
+  "content": "Content",
+  "editEmailTemplate": "Edit email template"
 }

@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { BaseOption } from '@nexthcm/cdk';
-import { HashMap, TranslocoService } from '@ngneat/transloco';
+import { HashMap, TRANSLOCO_SCOPE, TranslocoService } from '@ngneat/transloco';
+import { ProviderScope, TranslocoScope } from '@ngneat/transloco/lib/types';
 import { TuiContextWithImplicit, tuiPure, TuiStringHandler } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
@@ -19,7 +20,7 @@ export class TransitionDetailDialogComponent {
   activeItemIndex = this.context.data.index;
   readonly TransitionOptionIndex = TransitionOptionIndex;
   readonly conditionsOperators$: Observable<BaseOption<string>[]> = this.translocoService
-    .selectTranslateObject<HashMap<string>>('WORKFLOW_CONDITIONS_OPERATORS')
+    .selectTranslateObject<HashMap<string>>('CONDITIONS_OPERATORS', {}, (this.scope as ProviderScope).scope)
     .pipe(
       map((result) => [
         { label: result.or, value: 'OR' },
@@ -29,7 +30,8 @@ export class TransitionDetailDialogComponent {
 
   constructor(
     @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<Transition, TransitionDetailData>,
-    private readonly translocoService: TranslocoService
+    private readonly translocoService: TranslocoService,
+    @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope
   ) {}
 
   get transition(): Transition {

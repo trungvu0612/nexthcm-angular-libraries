@@ -1,5 +1,6 @@
-import { AfterViewInit, ChangeDetectorRef, Directive, EventEmitter } from '@angular/core';
-import { HashMap, TranslocoService } from '@ngneat/transloco';
+import { AfterViewInit, ChangeDetectorRef, Directive, EventEmitter, Inject } from '@angular/core';
+import { HashMap, TRANSLOCO_SCOPE, TranslocoService } from '@ngneat/transloco';
+import { ProviderScope, TranslocoScope } from '@ngneat/transloco/lib/types';
 import { API, APIDefinition, Columns, Config, DefaultConfig } from 'ngx-easy-table';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -17,7 +18,7 @@ export abstract class AbstractTransitionOptionListComponent<T> implements AfterV
     fixedColumnWidth: false,
   };
   readonly columns$: Observable<Columns[]> = this.translocoService
-    .selectTranslateObject<HashMap<string>>('WORKFLOW_TRANSITION_OPTION_COLUMNS')
+    .selectTranslateObject<HashMap<string>>('TRANSITION_OPTION_COLUMNS', {}, (this.scope as ProviderScope).scope)
     .pipe(
       map((result) => [
         { key: 'name', title: result.name },
@@ -26,7 +27,11 @@ export abstract class AbstractTransitionOptionListComponent<T> implements AfterV
       ])
     );
 
-  protected constructor(readonly translocoService: TranslocoService, readonly changeDetectorRef: ChangeDetectorRef) {}
+  protected constructor(
+    readonly translocoService: TranslocoService,
+    readonly changeDetectorRef: ChangeDetectorRef,
+    @Inject(TRANSLOCO_SCOPE) readonly scope: TranslocoScope
+  ) {}
 
   readonly item = (item: T) => item;
 

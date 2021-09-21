@@ -1,11 +1,12 @@
 import { Injector, Provider } from '@angular/core';
 import { TRANSLOCO_CONFIG, translocoConfig } from '@ngneat/transloco';
 import { APP_CONFIG } from '../app-config.token';
+import { AVAILABLE_LANGS } from './availabel-langs.const';
 
 const translocoConfigFactory = (injector: Injector) => {
   const appConfig = injector.get(APP_CONFIG);
   return translocoConfig({
-    availableLangs: ['en', 'vi'],
+    availableLangs: AVAILABLE_LANGS,
     defaultLang: localStorage.getItem('lang') || appConfig.language,
     fallbackLang: appConfig.language,
     prodMode: appConfig.production,

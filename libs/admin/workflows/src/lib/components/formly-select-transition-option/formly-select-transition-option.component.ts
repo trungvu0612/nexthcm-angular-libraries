@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
-import { HashMap, TranslocoService } from '@ngneat/transloco';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { HashMap, TRANSLOCO_SCOPE, TranslocoService } from '@ngneat/transloco';
+import { ProviderScope, TranslocoScope } from '@ngneat/transloco/lib/types';
 import { FieldType } from '@ngx-formly/core';
 import { isPresent, TuiDestroyService, TuiIdentityMatcher } from '@taiga-ui/cdk';
 import { APIDefinition, Columns, Config, DefaultConfig } from 'ngx-easy-table';
@@ -23,9 +24,10 @@ export class FormlySelectTransitionOptionComponent extends FieldType implements 
     paginationEnabled: false,
     paginationRangeEnabled: false,
     fixedColumnWidth: false,
+    orderEnabled: false,
   };
   readonly columns$: Observable<Columns[]> = this.translocoService
-    .selectTranslateObject<HashMap<string>>('WORKFLOW_TRANSITION_OPTION_COLUMNS')
+    .selectTranslateObject<HashMap<string>>('TRANSITION_OPTION_COLUMNS', {}, (this.scope as ProviderScope).scope)
     .pipe(
       map((result) => [
         { key: '', title: '' },
@@ -37,7 +39,8 @@ export class FormlySelectTransitionOptionComponent extends FieldType implements 
   constructor(
     private readonly translocoService: TranslocoService,
     private readonly destroy$: TuiDestroyService,
-    private readonly changeDetectorRef: ChangeDetectorRef
+    private readonly changeDetectorRef: ChangeDetectorRef,
+    @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope
   ) {
     super();
   }

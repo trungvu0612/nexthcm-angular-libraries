@@ -8,7 +8,7 @@ import { TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { of } from 'rxjs';
-import { delay, distinctUntilChanged, filter, map, startWith, switchMap, takeUntil } from 'rxjs/operators';
+import { delay, filter, switchMap, takeUntil } from 'rxjs/operators';
 import { EmailTemplate } from '../../models';
 import { AdminWorkflowsService } from '../../services/admin-workflows.service';
 import { loadTemplateVariables } from '../../state';
@@ -54,17 +54,13 @@ export class UpsertEmailTemplateDialogComponent implements OnInit {
     {
       key: 'statusBoolean',
       className: 'tui-form__row block',
-      type: 'toggle',
+      type: 'status-toggle',
       defaultValue: true,
-      templateOptions: { textfieldLabelOutside: true, labelClassName: 'font-semibold' },
-      expressionProperties: {
-        'templateOptions.label': this.translocoService.selectTranslate('status'),
-        'templateOptions.description': this.form?.valueChanges.pipe(
-          startWith(null),
-          map((value) => value?.statusBoolean),
-          distinctUntilChanged(),
-          switchMap((status) => this.translocoService.selectTranslate(`${status ? 'active' : 'inactive'}`))
-        ),
+      templateOptions: {
+        translate: true,
+        label: 'status',
+        textfieldLabelOutside: true,
+        labelClassName: 'font-semibold',
       },
     },
     {

@@ -29,7 +29,12 @@ export interface TransitionValidator {
 
 export interface TransitionPostFunction {
   postFunctionType: TransitionOption<PostFunctionType>;
-  values: [{ jobTitle: BaseObject; emailTemplate: EmailTemplate }];
+  values: [TransitionPostFunctionValue];
+}
+
+export interface TransitionPostFunctionValue {
+  jobTitle: BaseObject;
+  emailTemplate: EmailTemplate;
 }
 
 export interface TransitionOption<T extends TransitionOptionType> {

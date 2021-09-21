@@ -4,16 +4,18 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { AkitaNgEffectsModule } from '@datorama/akita-ng-effects';
 import { JobTitlesEffects } from '@nexthcm/cdk';
+import { inlineLoaderFactory } from '@nexthcm/core';
 import {
   BaseFormComponentModule,
   FormlyFieldArraySingleItemComponentModule,
+  FormlyStatusToggleComponentModule,
   HEADER_TABS,
   LayoutComponent,
   LayoutModule,
   MenuItem,
 } from '@nexthcm/ui';
 import { WorkflowDesignerModule } from '@nexthcm/workflow-designer';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
 import { FormlyModule } from '@ngx-formly/core';
 import { LetModule } from '@rx-angular/template';
 import { TuiTablePaginationModule } from '@taiga-ui/addon-table';
@@ -198,6 +200,7 @@ const TABS: MenuItem[] = [
       TemplateVariablesEffects,
     ]),
     FormlyFieldArraySingleItemComponentModule,
+    FormlyStatusToggleComponentModule,
   ],
   declarations: [
     AdminWorkflowsComponent,
@@ -222,6 +225,14 @@ const TABS: MenuItem[] = [
   ],
   providers: [
     { provide: HEADER_TABS, useValue: TABS },
+    {
+      provide: TRANSLOCO_SCOPE,
+      useValue: {
+        scope: 'workflow',
+        alias: 'WORKFLOW',
+        loader: inlineLoaderFactory((lang) => import(`../../assets/i18n/${lang}.json`)),
+      },
+    },
     AdminWorkflowsService,
     EmailTemplatesStore,
     EmailTemplatesQuery,

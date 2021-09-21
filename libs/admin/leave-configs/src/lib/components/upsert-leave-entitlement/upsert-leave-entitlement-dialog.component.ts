@@ -83,16 +83,13 @@ export class UpsertLeaveEntitlementDialogComponent implements OnInit {
     },
     {
       key: 'orgId',
-      type: 'select',
+      type: 'select-org-tree',
       templateOptions: {
         translate: true,
         label: 'Organization',
         labelClassName: 'font-semibold',
         placeholder: 'Organization',
-        options: this.leaveConfigsService.select('org'),
         labelProp: 'name',
-        matcherBy: 'id',
-        valueProp: 'id',
       },
       hideExpression: '!model.status',
       expressionProperties: {
@@ -195,6 +192,7 @@ export class UpsertLeaveEntitlementDialogComponent implements OnInit {
       }
       this.form.value.entitlement = +this.model.entitlement;
       const formModel = { ...this.form.value };
+      formModel.orgId = formModel.orgId.id;
       this.context.completeWith(formModel);
     }
   }

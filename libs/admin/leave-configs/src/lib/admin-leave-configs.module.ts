@@ -6,6 +6,7 @@ import { AkitaNgEffectsModule } from '@datorama/akita-ng-effects';
 import { WorkflowsEffects } from '@nexthcm/cdk';
 import {
   BaseFormComponentModule,
+  FormlySelectOrgTreeComponentModule,
   FormlyUserComboBoxComponentModule,
   HEADER_TABS,
   LayoutComponent,
@@ -95,6 +96,7 @@ const TABS: MenuItem[] = [
     LayoutModule,
     TuiTabsModule,
     FormlyUserComboBoxComponentModule,
+    FormlySelectOrgTreeComponentModule,
     BaseFormComponentModule,
     TuiLetModule,
     AkitaNgEffectsModule.forFeature([WorkflowsEffects]),

@@ -5,10 +5,11 @@ export interface BaseTenant {
   tenantCode: string;
   shortname: string;
   tenantName: string;
-  state: number;
+  state: CommonStatus;
   email: string;
   phone: string;
   website: string;
+  statusBoolean?: boolean;
 }
 
 export interface Tenant extends BaseTenant {
