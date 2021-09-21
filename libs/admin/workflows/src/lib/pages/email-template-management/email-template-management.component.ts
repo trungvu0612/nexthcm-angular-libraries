@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Injector, ViewChild } from '@angular/core';
-import { AbstractServerPaginationTableComponent, Pagination, PromptService } from '@nexthcm/cdk';
+import { AbstractServerPaginationTableComponent, CommonStatus, Pagination, PromptService } from '@nexthcm/cdk';
 import { HashMap, TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
@@ -31,6 +31,7 @@ export class EmailTemplateManagementComponent extends AbstractServerPaginationTa
         { key: 'functions', title: result.functions },
       ])
     );
+  readonly CommonStatus = CommonStatus;
   private readonly request$ = this.queryParams$.pipe(
     switchMap(() => this.adminWorkflowService.getEmailTemplates(this.queryParams$.value).pipe(startWith(null))),
     share()

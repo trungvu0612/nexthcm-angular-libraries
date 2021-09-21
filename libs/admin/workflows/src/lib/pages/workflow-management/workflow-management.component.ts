@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Injector, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AbstractServerPaginationTableComponent, Pagination, PromptService } from '@nexthcm/cdk';
+import { AbstractServerSortPaginationTableComponent, Pagination, PromptService } from '@nexthcm/cdk';
 import { HashMap, TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
@@ -20,7 +20,7 @@ import { AdminWorkflowsService } from '../../services/admin-workflows.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [RxState, TuiDestroyService],
 })
-export class WorkflowManagementComponent extends AbstractServerPaginationTableComponent<Workflow> {
+export class WorkflowManagementComponent extends AbstractServerSortPaginationTableComponent<Workflow> {
   @ViewChild('table') table!: BaseComponent;
 
   columns$: Observable<Columns[]> = this.translocoService
@@ -29,7 +29,7 @@ export class WorkflowManagementComponent extends AbstractServerPaginationTableCo
       map((result) => [
         { key: 'name', title: result.name },
         { key: 'description', title: result.description },
-        { key: 'functions', title: result.functions },
+        { key: 'functions', title: result.functions, orderEnabled: false },
       ])
     );
   private readonly request$ = this.queryParams$.pipe(
@@ -43,16 +43,16 @@ export class WorkflowManagementComponent extends AbstractServerPaginationTableCo
 
   constructor(
     readonly state: RxState<Pagination<Workflow>>,
+    readonly router: Router,
+    readonly activatedRoute: ActivatedRoute,
     private dialogService: TuiDialogService,
     private injector: Injector,
-    private router: Router,
-    private activatedRoute: ActivatedRoute,
     private workflowService: AdminWorkflowsService,
     private destroy$: TuiDestroyService,
     private translocoService: TranslocoService,
     private promptService: PromptService
   ) {
-    super(state);
+    super(state, router, activatedRoute);
     state.connect(this.request$.pipe(filter(isPresent)));
   }
 

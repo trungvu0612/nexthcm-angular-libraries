@@ -1,14 +1,13 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
-import { FormGroup } from '@ngneat/reactive-forms';
-import { OrganizationalUnit } from '../../models/tenant';
-import { FormlyFieldConfig } from '@ngx-formly/core';
-import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
-import { TuiDialogContext } from '@taiga-ui/core';
-import { AdminTenantsService } from '../../services/admin-tenants.service';
-import { TuiDestroyService } from '@taiga-ui/cdk';
 import { PromptService } from '@nexthcm/cdk';
-import { switchMap, takeUntil } from 'rxjs/operators';
-import { SweetAlertOptions } from 'sweetalert2';
+import { FormBuilder } from '@ngneat/reactive-forms';
+import { FormlyFieldConfig } from '@ngx-formly/core';
+import { TuiDestroyService } from '@taiga-ui/cdk';
+import { TuiDialogContext } from '@taiga-ui/core';
+import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
+import { takeUntil, tap } from 'rxjs/operators';
+import { OrganizationalUnit } from '../../models/tenant';
+import { AdminTenantsService } from '../../services/admin-tenants.service';
 
 @Component({
   selector: 'hcm-upsert-organization-unit',
@@ -18,8 +17,8 @@ import { SweetAlertOptions } from 'sweetalert2';
   providers: [TuiDestroyService],
 })
 export class UpsertOrganizationUnitComponent {
-  readonly form = new FormGroup<Partial<OrganizationalUnit>>({});
-  model: Partial<OrganizationalUnit> = this.context.data.unit;
+  readonly form = this.fb.group<OrganizationalUnit>({} as OrganizationalUnit);
+  model = this.context.data.unit;
   readonly fields: FormlyFieldConfig[] = [
     {
       key: 'orgName',
@@ -104,8 +103,9 @@ export class UpsertOrganizationUnitComponent {
   ];
 
   constructor(
+    private readonly fb: FormBuilder,
     @Inject(POLYMORPHEUS_CONTEXT)
-    private readonly context: TuiDialogContext<boolean, { unit: Partial<OrganizationalUnit>; levels: string[] }>,
+    private readonly context: TuiDialogContext<boolean, { unit: OrganizationalUnit; levels: string[] }>,
     private readonly adminTenantsService: AdminTenantsService,
     private readonly destroy$: TuiDestroyService,
     private readonly promptService: PromptService
@@ -119,10 +119,7 @@ export class UpsertOrganizationUnitComponent {
     if (this.form.valid)
       this.adminTenantsService
         .upsertOrganizationUnit(this.model)
-        .pipe(
-          switchMap(() => this.promptService.open({ icon: 'success' } as SweetAlertOptions)),
-          takeUntil(this.destroy$)
-        )
+        .pipe(tap(this.promptService.handleResponse()), takeUntil(this.destroy$))
         .subscribe(() => this.context.completeWith(true));
   }
 }

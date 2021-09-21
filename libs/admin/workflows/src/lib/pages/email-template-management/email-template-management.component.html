@@ -16,7 +16,12 @@
           <ng-container *tuiLet="item(row) as item">
             <td>{{ item.name }}</td>
             <td>
-              <tui-toggle [disabled]="true" [ngModel]="item.status" [showIcons]="true" size="l"></tui-toggle>
+              <tui-toggle
+                [disabled]="true"
+                [ngModel]="item.status === CommonStatus.active"
+                [showIcons]="true"
+                size="l"
+              ></tui-toggle>
             </td>
             <td>
               <div class="flex items-center space-x-2">

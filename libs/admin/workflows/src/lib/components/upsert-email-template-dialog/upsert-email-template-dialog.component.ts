@@ -1,13 +1,14 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
 import { Actions } from '@datorama/akita-ng-effects';
 import { CommonStatus, PromptService } from '@nexthcm/cdk';
-import { FormBuilder } from '@ngneat/reactive-forms';
+import { AbstractControl, FormBuilder } from '@ngneat/reactive-forms';
 import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
-import { distinctUntilChanged, map, startWith, switchMap, takeUntil } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { delay, distinctUntilChanged, filter, map, startWith, switchMap, takeUntil } from 'rxjs/operators';
 import { EmailTemplate } from '../../models';
 import { AdminWorkflowsService } from '../../services/admin-workflows.service';
 import { loadTemplateVariables } from '../../state';
@@ -36,6 +37,19 @@ export class UpsertEmailTemplateDialogComponent implements OnInit {
         placeholder: 'enterName',
         required: true,
       },
+      asyncValidators: {
+        shortname: {
+          expression: (control: AbstractControl<string>) =>
+            !control.valueChanges || control.pristine
+              ? of(true)
+              : of(control.value).pipe(
+                  delay(500),
+                  filter((name) => !this.data || this.data.name !== name),
+                  switchMap((name: string) => this.adminWorkflowsService.checkEmailTemplateName({ name }))
+                ),
+          message: () => this.translocoService.selectTranslate('VALIDATION.emailTemplateNameExists'),
+        },
+      },
     },
     {
       key: 'statusBoolean',
@@ -54,16 +68,27 @@ export class UpsertEmailTemplateDialogComponent implements OnInit {
       },
     },
     {
+      key: 'subject',
+      className: 'tui-form__row block',
+      type: 'input',
+      templateOptions: {
+        textfieldLabelOutside: true,
+        translate: true,
+        label: 'subject',
+        labelClassName: 'font-semibold',
+        placeholder: 'enterSubject',
+        required: true,
+      },
+    },
+    {
       key: 'delta',
       className: 'tui-form__row block',
       type: 'quill-template-variable',
       templateOptions: {
         translate: true,
-        label: 'template',
+        label: 'content',
         required: true,
-        onTextChange: (value: string) => {
-          this.form.controls.body.setValue(value);
-        },
+        onTextChange: (value: string) => this.form.controls.body.setValue(value),
       },
     },
     { key: 'body' },
@@ -81,9 +106,17 @@ export class UpsertEmailTemplateDialogComponent implements OnInit {
     actions.dispatch(loadTemplateVariables());
   }
 
+  get data(): EmailTemplate {
+    return this.context.data;
+  }
+
   ngOnInit(): void {
     if (this.context.data) {
-      this.model = { ...this.model, ...this.context.data };
+      this.model = {
+        ...this.model,
+        ...this.data,
+        statusBoolean: this.data.status === CommonStatus.active,
+      };
     }
   }
 

@@ -11,7 +11,7 @@ import {
   WorkflowStatusType,
 } from '@nexthcm/cdk';
 import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { catchError, map, mapTo, tap } from 'rxjs/operators';
 import { ConditionType, PostFunctionType, ValidatorType } from '../enums';
 import { EmailTemplate, InitWorkflow, Status, TemplateVariableModel, TransitionOption, Workflow } from '../models';
 import { removeEmailTemplate, upsertEmailTemplate, upsertStatus } from '../state';
@@ -148,5 +148,12 @@ export class AdminWorkflowsService {
     return this.http
       .get<BaseResponse<EmailTemplate[]>>(`${ACCOUNT_API_PATH}/template-list`)
       .pipe(map((res) => res.data));
+  }
+
+  checkEmailTemplateName(payload: Pick<EmailTemplate, 'name'>): Observable<boolean> {
+    return this.http.post<boolean>(`${ACCOUNT_API_PATH}/template/check-existing`, payload).pipe(
+      mapTo(true),
+      catchError(() => of(false))
+    );
   }
 }
