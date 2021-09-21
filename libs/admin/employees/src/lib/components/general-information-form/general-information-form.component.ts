@@ -1,5 +1,5 @@
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, NgModule, Output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { EmployeeGeneralInformation, EmployeesService, UploadFileService } from '@nexthcm/cdk';
 import { FormBuilder } from '@ngneat/reactive-forms';
@@ -13,8 +13,9 @@ import { AdminEmployeesService } from '../../services/admin-employees.service';
   selector: 'hcm-general-information-form',
   templateUrl: './general-information-form.component.html',
   styleUrls: ['./general-information-form.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
+
 export class GeneralInformationFormComponent {
   @Output() submitted = new EventEmitter<EmployeeGeneralInformation>();
   @Output() cancel = new EventEmitter();
@@ -22,8 +23,8 @@ export class GeneralInformationFormComponent {
   model = {} as EmployeeGeneralInformation;
   options: FormlyFormOptions = {
     formState: {
-      editMode: false,
-    },
+      editMode: false
+    }
   };
   fields: FormlyFieldConfig[] = [
     { key: 'id' },
@@ -43,9 +44,9 @@ export class GeneralInformationFormComponent {
                 textfieldLabelOutside: true,
                 labelClassName: 'font-semibold',
                 placeholder: 'enterCifNumber',
-                readonly: true,
+                readonly: true
               },
-              hideExpression: `!formState.editMode`,
+              hideExpression: `!formState.editMode`
             },
             {
               key: 'firstName',
@@ -57,11 +58,11 @@ export class GeneralInformationFormComponent {
                 required: true,
                 textfieldLabelOutside: true,
                 labelClassName: 'font-semibold',
-                placeholder: 'enterFirstName',
+                placeholder: 'enterFirstName'
               },
               expressionProperties: {
-                'templateOptions.readonly': '(model.registerType === "LDAP")',
-              },
+                'templateOptions.readonly': '(model.registerType === "LDAP")'
+              }
             },
             {
               key: 'lastName',
@@ -73,11 +74,11 @@ export class GeneralInformationFormComponent {
                 required: true,
                 textfieldLabelOutside: true,
                 labelClassName: 'font-semibold',
-                placeholder: 'enterLastName',
+                placeholder: 'enterLastName'
               },
               expressionProperties: {
-                'templateOptions.readonly': '(model.registerType === "LDAP")',
-              },
+                'templateOptions.readonly': '(model.registerType === "LDAP")'
+              }
             },
             {
               key: 'otherName',
@@ -88,8 +89,8 @@ export class GeneralInformationFormComponent {
                 label: 'otherName',
                 placeholder: 'enterOtherName',
                 textfieldLabelOutside: true,
-                labelClassName: 'font-semibold',
-              },
+                labelClassName: 'font-semibold'
+              }
             },
             {
               key: 'image',
@@ -102,12 +103,12 @@ export class GeneralInformationFormComponent {
                 label: 'image',
                 labelClassName: 'font-semibold',
                 previewImage: true,
-                serverRequest: this.uploadFileService.uploadFile.bind(this.uploadFileService, 'employee'),
+                serverRequest: this.uploadFileService.uploadFile.bind(this.uploadFileService, 'employee')
               },
               expressionProperties: {
                 'templateOptions.linkText': this.translocoService.selectTranslate('chooseImage'),
-                'templateOptions.labelText': this.translocoService.selectTranslate('dragHere'),
-              },
+                'templateOptions.labelText': this.translocoService.selectTranslate('dragHere')
+              }
             },
             {
               key: 'status',
@@ -122,10 +123,10 @@ export class GeneralInformationFormComponent {
                   map((value) => value?.status),
                   distinctUntilChanged(),
                   switchMap((status) => this.translocoService.selectTranslate(`${status ? 'active' : 'inactive'}`))
-                ),
-              },
-            },
-          ],
+                )
+              }
+            }
+          ]
         },
         {
           fieldGroup: [
@@ -141,8 +142,8 @@ export class GeneralInformationFormComponent {
                 required: true,
                 options: this.adminEmployeeService.select('organizations'),
                 labelProp: 'name',
-                matcherBy: 'id',
-              },
+                matcherBy: 'id'
+              }
             },
             {
               key: 'roles',
@@ -155,8 +156,8 @@ export class GeneralInformationFormComponent {
                 labelClassName: 'font-semibold',
                 placeholder: 'chooseRoles',
                 options: this.adminEmployeeService.select('roles'),
-                matcherBy: 'id',
-              },
+                matcherBy: 'id'
+              }
             },
             {
               key: 'jobTitle',
@@ -170,8 +171,8 @@ export class GeneralInformationFormComponent {
                 placeholder: 'chooseJobTitle',
                 options: this.adminEmployeeService.select('jobTitles'),
                 labelProp: 'name',
-                matcherBy: 'id',
-              },
+                matcherBy: 'id'
+              }
             },
             {
               key: 'jobLevel',
@@ -184,8 +185,8 @@ export class GeneralInformationFormComponent {
                 placeholder: 'chooseJobLevel',
                 options: this.adminEmployeeService.select('jobLevels'),
                 labelProp: 'name',
-                matcherBy: 'id',
-              },
+                matcherBy: 'id'
+              }
             },
             {
               key: 'directReport',
@@ -196,20 +197,20 @@ export class GeneralInformationFormComponent {
                 required: true,
                 label: 'directReport',
                 labelClassName: 'font-semibold',
-                placeholder: 'chooseDirectReport',
-              },
-            },
-          ],
-        },
-      ],
-    },
+                placeholder: 'chooseDirectReport'
+              }
+            }
+          ]
+        }
+      ]
+    }
   ];
   private readonly request$ = this.activatedRoute.snapshot.params.employeeId
     ? this.employeesService.getEmployeeGeneralInformation(this.activatedRoute.snapshot.params.employeeId).pipe(
-        tap((data) => (this.model = { ...this.model, ...data })),
-        startWith(null),
-        share()
-      )
+      tap((data) => (this.model = { ...this.model, ...data })),
+      startWith(null),
+      share()
+    )
     : of({} as EmployeeGeneralInformation);
   readonly loading$ = this.request$.pipe(
     map((value) => !value),
@@ -223,7 +224,8 @@ export class GeneralInformationFormComponent {
     private readonly employeesService: EmployeesService,
     private readonly adminEmployeeService: AdminEmployeesService,
     private readonly activatedRoute: ActivatedRoute
-  ) {}
+  ) {
+  }
 
   @Input()
   set editMode(value: unknown) {

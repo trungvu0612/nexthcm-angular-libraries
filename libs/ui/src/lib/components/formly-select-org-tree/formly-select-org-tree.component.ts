@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FieldType } from '@ngx-formly/core';
+import { FieldType, FormlyModule } from '@ngx-formly/core';
 
 @Component({
   selector: 'hcm-formly-select-org-tree',
@@ -17,7 +17,10 @@ export class FormlySelectOrgTreeComponent extends FieldType {
 
 @NgModule({
   declarations: [FormlySelectOrgTreeComponent],
-  imports: [CommonModule],
+  imports: [CommonModule,
+    FormlyModule.forChild({
+      types: [{ name: 'select-org-tree', component: FormlySelectOrgTreeComponent }]
+    })],
   exports: [FormlySelectOrgTreeComponent]
 })
 export class FormlySelectOrgTreeComponentModule {
