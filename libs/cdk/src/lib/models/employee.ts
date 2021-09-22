@@ -29,6 +29,7 @@ export interface EmployeeGeneralInformation {
   jobLevel?: BaseOption;
   directReport: BaseOption;
   office: BaseOption;
+  addressPersonal: EmployeeAddresses;
 }
 
 export interface BankAccount {
@@ -39,8 +40,6 @@ export interface BankAccount {
 export interface EmployeeIndividual {
   employeeId: string;
   type: EmployeeInformationType;
-  permanentAddress: string;
-  temporaryAddress: string;
   gender: number;
   birthDate: string | TuiDay | Date;
   idNumber: number;
@@ -102,4 +101,13 @@ export interface EmployeeSHUI {
   familyAllowance: string;
   healthInsuranceNumber: string;
   healthCares: HealthCare[] | string;
+}
+
+export interface EmployeeAddresses {
+  address1: string;
+  address2: string;
+  countryId: string;
+  cityId: string;
+  districtId: string;
+  postalCode: string;
 }

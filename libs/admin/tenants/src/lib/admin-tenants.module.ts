@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AddressService, GetStatusPipeModule } from '@nexthcm/cdk';
+import { inlineLoaderFactory } from '@nexthcm/core';
 import {
   BaseFormComponentModule,
   FormlyStatusToggleComponentModule,
@@ -9,7 +10,7 @@ import {
   LayoutComponent,
   LayoutModule,
 } from '@nexthcm/ui';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
 import { LetModule } from '@rx-angular/template';
 import { TuiTablePaginationModule } from '@taiga-ui/addon-table';
 import { TuiLetModule } from '@taiga-ui/cdk';
@@ -21,11 +22,11 @@ import { UpsertOrganizationUnitComponent } from './components/upsert-organizatio
 import { UpsertTenantDialogComponent } from './components/upsert-tenant-dialog/upsert-tenant-dialog.component';
 import { UpsertTenantDomainDialogComponent } from './components/upsert-tenant-domain-dialog/upsert-tenant-domain-dialog.component';
 import { UpsertTenantFormComponent } from './components/upsert-tenant-form/upsert-tenant-form.component';
-import { DomainManagementComponent } from './page/domain-management/domain-management.component';
-import { OrganizationalChartComponent } from './page/organizational-chart/organizational-chart.component';
-import { TenantDetailComponent } from './page/tenant-detail/tenant-detail.component';
-import { TenantManagementComponent } from './page/tenant-management/tenant-management.component';
-import { TenantProfileComponent } from './page/tenant-profile/tenant-profile.component';
+import { DomainManagementComponent } from './pages/domain-management/domain-management.component';
+import { OrganizationalChartComponent } from './pages/organizational-chart/organizational-chart.component';
+import { TenantDetailComponent } from './pages/tenant-detail/tenant-detail.component';
+import { TenantManagementComponent } from './pages/tenant-management/tenant-management.component';
+import { TenantProfileComponent } from './pages/tenant-profile/tenant-profile.component';
 import { GetSpanChartPipe } from './pipes/get-span-chart.pipe';
 
 export const ADMIN_TENANTS_ROUTES: Routes = [
@@ -82,6 +83,15 @@ export const ADMIN_TENANTS_ROUTES: Routes = [
     TenantDetailComponent,
     GetSpanChartPipe,
   ],
-  providers: [AddressService],
+  providers: [
+    AddressService,
+    {
+      provide: TRANSLOCO_SCOPE,
+      useValue: {
+        scope: 'tenants',
+        loader: inlineLoaderFactory((lang) => import(`../../assets/i18n/${lang}.json`)),
+      },
+    },
+  ],
 })
 export class AdminTenantsModule {}

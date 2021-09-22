@@ -1,0 +1,25 @@
+{
+  "removeTenant": "<b>Are you sure you want to remove this tenant?</b>",
+  "removeTenantSuccessfully": "<b>Remove this tenant successfully!</b>",
+  "editTenant": "Edit Tenant",
+  "createTenant": "Create Tenant",
+  "createTenantSuccessfully": "<b>Create tenant successfully!</b>",
+  "updateTenantSuccessfully": "<b>Update tenant successfully!</b>",
+  "searchTenant": "Search Tenant...",
+  "TABLE_COLUMNS": {
+    "name": "Name",
+    "tenantCode": "Tenant code",
+    "organizationalLevel": "Organizational level",
+    "parentOrganization": "Parent organizational",
+    "tenantName": "Tenant name",
+    "status": "Status",
+    "functions": "Functions",
+    "email": "Email",
+    "phone": "Phone",
+    "website": "Website",
+    "domain": "Domain"
+  },
+  "tenantName": "Tenant name",
+  "tenantLogo": "Tenant logo",
+  "enterTenantName": "Enter tenant name..."
+}

@@ -61,19 +61,6 @@ export class AdminTenantsService {
     return this.http.get<BaseResponse<string[]>>(`${ACCOUNT_API_PATH}/orgs/get-org-type`).pipe(map((res) => res.data));
   }
 
-  getOrganizationChart(): Observable<Partial<OrganizationalUnit>> {
-    return of({
-      orgName: 'name',
-      descendants: [
-        { orgName: 'name' },
-        { orgName: 'name' },
-        { orgName: 'name' },
-        { orgName: 'name' },
-        { orgName: 'name' },
-      ],
-    });
-  }
-
   upsertOrganizationUnit(payload: Partial<OrganizationalUnit>): Observable<unknown> {
     // return payload.id
     //   ? this.http.put(`${ACCOUNT_API_PATH}/domains/${payload.id}`, payload)

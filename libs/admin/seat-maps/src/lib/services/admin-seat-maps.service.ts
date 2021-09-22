@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ACCOUNT_API_PATH, MY_TIME_API_PATH, Pagination, PagingResponse, Zone } from '@nexthcm/cdk';
+import { ACCOUNT_API_PATH, BaseObject, MY_TIME_API_PATH, Pagination, PagingResponse, Zone } from '@nexthcm/cdk';
 import { RxState } from '@rx-angular/state';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -12,7 +12,7 @@ export class AdminSeatMapsService extends RxState<{ offices: Partial<Zone>[] }> 
     this.connect(
       'offices',
       this.http
-        .get<PagingResponse<Zone>>(`${ACCOUNT_API_PATH}/offices/v2`, { params: { size: 999 } })
+        .get<PagingResponse<Zone>>(`${ACCOUNT_API_PATH}/offices`, { params: { size: 999 } })
         .pipe(map((response) => response.data.items))
     );
   }
@@ -37,5 +37,11 @@ export class AdminSeatMapsService extends RxState<{ offices: Partial<Zone>[] }> 
 
   delete(id: string): Observable<any> {
     return this.http.delete(`${MY_TIME_API_PATH}/seats-map/${id}`, {});
+  }
+
+  getOfficesSearch(searchQuery?: string): Observable<Pagination<Partial<BaseObject>>> {
+    return this.http
+      .get<PagingResponse<Partial<BaseObject>>>(`${ACCOUNT_API_PATH}/offices/v2?search=${searchQuery}`)
+      .pipe(map((response) => response.data.items as any));
   }
 }

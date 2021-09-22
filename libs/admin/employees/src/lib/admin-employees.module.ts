@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
-import { PromptComponentModule } from '@nexthcm/cdk';
+import { AddressService, PromptComponentModule } from '@nexthcm/cdk';
 import {
   BaseFormComponentModule,
   FormlySelectOrgTreeComponentModule,
@@ -90,6 +90,6 @@ export const ADMIN_EMPLOYEE_ROUTES: Routes = [
     EmployeeManagementComponent,
     InitEmployeeDialogComponent,
   ],
-  providers: [AdminEmployeesService],
+  providers: [AdminEmployeesService, AddressService],
 })
 export class AdminEmployeesModule {}

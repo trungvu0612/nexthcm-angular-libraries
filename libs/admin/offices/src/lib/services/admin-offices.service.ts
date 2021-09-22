@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ACCOUNT_API_PATH, MY_TIME_API_PATH, Pagination, PagingResponse, Zone } from '@nexthcm/cdk';
+import { ACCOUNT_API_PATH, Pagination, PagingResponse, Zone } from '@nexthcm/cdk';
 import { EMPTY, Observable } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { Office } from '../models/office';
@@ -14,11 +14,6 @@ export class AdminOfficesService {
   constructor(private http: HttpClient) {
   }
 
-  // getOffices(params: { [key: string]: number }): Observable<Pagination<Zone>> {
-  //   return this.http
-  //     .get<PagingResponse<Zone>>(ACCOUNT_APP_PATH + '/offices', { params })
-  //     .pipe(map((response) => response.data));
-  // }
 
   getOffices(params: HttpParams): Observable<Pagination<Office>> {
     return this.http.get<PagingResponse<Office>>(`${ACCOUNT_API_PATH}/offices/v2`, { params }).pipe(

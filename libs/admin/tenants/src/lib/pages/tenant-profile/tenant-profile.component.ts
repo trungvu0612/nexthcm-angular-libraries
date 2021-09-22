@@ -33,7 +33,7 @@ export class TenantProfileComponent {
     this.adminTenantsService
       .updateTenant(payload)
       .pipe(takeUntil(this.destroy$))
-      .subscribe(this.promptService.handleResponse('updateTenantSuccessfully'));
+      .subscribe(this.promptService.handleResponse('tenants.updateTenantSuccessfully'));
   }
 
   onCancel(): void {

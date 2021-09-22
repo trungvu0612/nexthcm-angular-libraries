@@ -17,7 +17,7 @@ export class AddStatusDropdownButtonComponent {
 
   onAdd(): void {
     this.open = false;
-    this.data.status.allState = this.data.allowAll
+    this.data.status = { ...this.data.status, allState: this.data.allowAll };
     this.selectStatus.emit({ ...this.data });
     this.data.status = {} as Status;
   }

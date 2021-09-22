@@ -1,12 +1,12 @@
 import { CdkDragEnd } from '@angular/cdk/drag-drop';
 import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Dimension, filterBySearch, PromptService, Seat, UploadFileService, Zone } from '@nexthcm/cdk';
+import { Dimension, PromptService, Seat, UploadFileService, Zone } from '@nexthcm/cdk';
 import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { iif, Observable, of } from 'rxjs';
-import { map, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { SweetAlertOptions } from 'sweetalert2';
 import { AdminSeatMapsService } from '../../services/admin-seat-maps.service';
 
@@ -65,8 +65,7 @@ export class UpsertSeatMapComponent implements AfterViewInit {
             placeholder: 'chooseOffice',
             textfieldSize: 'm',
             textfieldLabelOutside: true,
-            serverRequest: (search: string): Observable<Partial<Zone>[]> =>
-              this.offices$.pipe(map((items) => filterBySearch<Zone>(items, search))),
+            serverRequest: (searchQuery: string) => this.adminSeatMapsService.getOfficesSearch(searchQuery),
           },
         },
         {

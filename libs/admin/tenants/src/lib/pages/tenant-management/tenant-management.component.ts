@@ -1,7 +1,8 @@
-import { ChangeDetectionStrategy, Component, Injector, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, Injector, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AbstractServerPaginationTableComponent, Pagination, PromptService } from '@nexthcm/cdk';
-import { HashMap, TranslocoService } from '@ngneat/transloco';
+import { AbstractServerPaginationTableComponent, CommonStatus, Pagination, PromptService } from '@nexthcm/cdk';
+import { HashMap, TRANSLOCO_SCOPE, TranslocoService } from '@ngneat/transloco';
+import { ProviderScope, TranslocoScope } from '@ngneat/transloco/lib/types';
 import { RxState } from '@rx-angular/state';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
@@ -35,27 +36,32 @@ export class TenantManagementComponent extends AbstractServerPaginationTableComp
   @ViewChild('table') table!: BaseComponent;
 
   readonly columns$: Observable<Columns[]> = this.translocoService
-    .selectTranslateObject<HashMap<string>>('TENANT_TABLE')
+    .selectTranslateObject<HashMap<string>>('TABLE_COLUMNS', {}, (this.scope as ProviderScope).scope)
     .pipe(
       map((result) => [
         { key: 'tenantCode', title: result.tenantCode },
         { key: 'tenantName', title: result.tenantName },
-        { key: 'state', title: result.status },
         { key: 'email', title: result.email },
         { key: 'phone', title: result.phone },
         { key: 'website', title: result.website },
-        { key: 'functions', title: result.functions },
+        { key: 'state', title: result.status },
+        { key: '', title: result.functions },
       ])
     );
+  readonly CommonStatus = CommonStatus;
   readonly search$ = new Subject<string | null>();
   private readonly request$ = this.queryParams$.pipe(
     switchMap(() => this.adminTenantsService.getTenants(this.queryParams$.value).pipe(startWith(null))),
     share()
   );
-  readonly loading$ = this.request$.pipe(map((value) => !value), catchError(() => of(false)));
+  readonly loading$ = this.request$.pipe(
+    map((value) => !value),
+    catchError(() => of(false))
+  );
 
   constructor(
     readonly state: RxState<Pagination<BaseTenant>>,
+    @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope,
     private readonly dialogService: TuiDialogService,
     private readonly injector: Injector,
     private readonly translocoService: TranslocoService,
@@ -87,7 +93,7 @@ export class TenantManagementComponent extends AbstractServerPaginationTableComp
   createTenant(): void {
     this.dialogService
       .open<Tenant>(new PolymorpheusComponent(UpsertTenantDialogComponent, this.injector), {
-        label: this.translocoService.translate('createTenant'),
+        label: this.translocoService.translate('tenants.createTenant'),
         size: 'l',
       })
       .pipe(takeUntil(this.destroy$))
@@ -98,7 +104,7 @@ export class TenantManagementComponent extends AbstractServerPaginationTableComp
     from(
       this.promptService.open({
         icon: 'question',
-        html: this.translocoService.translate('removeTenant'),
+        html: this.translocoService.translate('tenants.removeTenant'),
         showCancelButton: true,
       })
     )
@@ -108,7 +114,7 @@ export class TenantManagementComponent extends AbstractServerPaginationTableComp
         takeUntil(this.destroy$)
       )
       .subscribe(
-        this.promptService.handleResponse('removeTenantSuccessfully', () =>
+        this.promptService.handleResponse('tenants.removeTenantSuccessfully', () =>
           this.queryParams$.next(this.queryParams$.value)
         )
       );

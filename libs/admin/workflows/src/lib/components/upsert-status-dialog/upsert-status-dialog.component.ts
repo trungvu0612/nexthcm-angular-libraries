@@ -8,7 +8,7 @@ import { TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { of } from 'rxjs';
-import { delay, filter, mapTo, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { debounceTime, mapTo, switchMap, take, takeUntil, tap } from 'rxjs/operators';
 import { v4 as uuidv4 } from 'uuid';
 import { Status } from '../../models';
 import { AdminWorkflowsService } from '../../services/admin-workflows.service';
@@ -39,16 +39,19 @@ export class UpsertStatusDialogComponent implements OnInit {
         textfieldLabelOutside: true,
       },
       asyncValidators: {
-        uniqueStatusName: {
+        name: {
           expression: (control: FormControl<string>) =>
             !control.valueChanges || control.pristine
               ? of(true)
-              : of(control.value).pipe(
-                  delay(500),
-                  filter((name) => this.data.name !== name),
-                  switchMap((name) => this.adminWorkflowsService.checkStatusName({ name }))
+              : control.valueChanges.pipe(
+                  debounceTime(1000),
+                  take(1),
+                  switchMap((name) =>
+                    this.data.name === name ? of(true) : this.adminWorkflowsService.checkStatusName({ name })
+                  ),
+                  tap(() => control.markAsTouched())
                 ),
-          message: () => this.translocoService.selectTranslate('VALIDATION.uniqueStatusName'),
+          message: () => this.translocoService.selectTranslate('VALIDATION.valueExisting'),
         },
       },
     },

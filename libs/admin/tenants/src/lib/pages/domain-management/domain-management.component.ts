@@ -1,8 +1,9 @@
 import { HttpParams } from '@angular/common/http';
-import { ChangeDetectionStrategy, Component, Injector, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, Injector, ViewChild } from '@angular/core';
 import { RouterQuery } from '@datorama/akita-ng-router-store';
 import { AbstractServerPaginationTableComponent, CommonStatus, Pagination, PromptService } from '@nexthcm/cdk';
-import { HashMap, TranslocoService } from '@ngneat/transloco';
+import { HashMap, TRANSLOCO_SCOPE, TranslocoService } from '@ngneat/transloco';
+import { ProviderScope, TranslocoScope } from '@ngneat/transloco/lib/types';
 import { RxState } from '@rx-angular/state';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
@@ -25,13 +26,13 @@ export class DomainManagementComponent extends AbstractServerPaginationTableComp
   @ViewChild('table') table!: BaseComponent;
 
   readonly columns$: Observable<Columns[]> = this.translocoService
-    .selectTranslateObject<HashMap<string>>('TENANT_TABLE')
+    .selectTranslateObject<HashMap<string>>('TABLE_COLUMNS', {}, (this.scope as ProviderScope).scope)
     .pipe(
       map((result) => [
         { key: 'name', title: result.name },
         { key: 'domain', title: result.domain },
         { key: 'status', title: result.status },
-        { key: 'functions', title: result.functions },
+        { key: '', title: result.functions },
       ])
     );
   readonly CommonStatus = CommonStatus;
@@ -52,6 +53,7 @@ export class DomainManagementComponent extends AbstractServerPaginationTableComp
 
   constructor(
     readonly state: RxState<Pagination<TenantDomain>>,
+    @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope,
     private readonly dialogService: TuiDialogService,
     private readonly injector: Injector,
     private readonly translocoService: TranslocoService,

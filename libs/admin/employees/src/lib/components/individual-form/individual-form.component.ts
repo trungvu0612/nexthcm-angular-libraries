@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
+  AddressService,
   BaseOption,
   EmployeeCurrentStatus,
   EmployeeIndividual,
@@ -9,10 +10,10 @@ import {
   parseTuiDayFields,
   PromptService,
 } from '@nexthcm/cdk';
-import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
+import { FormBuilder, FormControl, FormGroup } from '@ngneat/reactive-forms';
 import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import { RxwebValidators } from '@rxweb/reactive-form-validators';
+import { NumericValueType, RxwebValidators } from '@rxweb/reactive-form-validators';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { of } from 'rxjs';
 import { catchError, distinctUntilChanged, map, share, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
@@ -29,36 +30,147 @@ export class IndividualFormComponent {
   form: FormGroup<EmployeeIndividual> = this.fb.group({} as EmployeeIndividual);
   model = { bankAccounts: [{}] } as EmployeeIndividual;
   fields: FormlyFieldConfig[] = [
-    { key: 'employeeId', defaultValue: this.activatedRoute.snapshot.params.employeeId },
-    { key: 'type', defaultValue: 'INDIVIDUAL' },
     {
       fieldGroupClassName: 'grid grid-cols-2 gap-4',
       fieldGroup: [
         {
           fieldGroup: [
             {
-              key: 'permanentAddress',
+              key: 'addressPersonal.address1',
               className: 'tui-form__row block',
               type: 'input',
               templateOptions: {
                 translate: true,
-                label: 'permanentAddress',
+                label: 'addresses',
                 labelClassName: 'font-semibold',
+                placeholder: 'enterAddress',
+                labelParams: { value: 1 },
                 textfieldLabelOutside: true,
-                placeholder: 'enterPermanentAddress',
               },
             },
             {
-              key: 'temporaryAddress',
+              key: 'addressPersonal.address2',
               className: 'tui-form__row block',
               type: 'input',
               templateOptions: {
                 translate: true,
-                label: 'temporaryAddress',
+                label: 'addresses',
                 labelClassName: 'font-semibold',
+                placeholder: 'enterAddress',
+                labelParams: { value: 2 },
                 textfieldLabelOutside: true,
-                placeholder: 'enterTemporaryAddress',
               },
+            },
+            {
+              className: 'tui-form__row block',
+              fieldGroupClassName: 'grid grid-cols-2 gap-x-4',
+              fieldGroup: [
+                {
+                  key: 'addressPersonal.countryId',
+                  type: 'select',
+                  templateOptions: {
+                    translate: true,
+                    label: 'country',
+                    labelClassName: 'font-semibold',
+                    placeholder: 'chooseCountry',
+                    options: this.addressService.select('countries'),
+                    valueProp: 'id',
+                    labelProp: 'name',
+                  },
+                },
+                {
+                  key: 'addressPersonal.cityId',
+                  type: 'select',
+                  templateOptions: {
+                    translate: true,
+                    label: 'province',
+                    labelClassName: 'font-semibold',
+                    placeholder: 'chooseProvince',
+                    valueProp: 'id',
+                    labelProp: 'name',
+                  },
+                  hooks: {
+                    onInit: (field) => {
+                      const countryControl = this.form.get('addressPersonal.countryId') as FormControl<string>;
+                      if (field?.templateOptions && countryControl) {
+                        field.templateOptions.options = countryControl.valueChanges.pipe(
+                          tap(() => field.formControl?.setValue(null)),
+                          startWith(countryControl.value),
+                          switchMap((countryId) => (countryId ? this.addressService.getPlaces(countryId) : of([]))),
+                          startWith([])
+                        );
+                      }
+                    },
+                  },
+                },
+              ],
+            },
+            {
+              className: 'tui-form__row block',
+              fieldGroupClassName: 'grid grid-cols-2 gap-x-4 gap-y-5 tui-form__row',
+              fieldGroup: [
+                {
+                  key: 'addressPersonal.districtId',
+                  type: 'select',
+                  templateOptions: {
+                    translate: true,
+                    label: 'district',
+                    labelClassName: 'font-semibold',
+                    placeholder: 'chooseDistrict',
+                    valueProp: 'id',
+                    labelProp: 'name',
+                  },
+                  hooks: {
+                    onInit: (field) => {
+                      const cityControl = this.form.get('addressPersonal.cityId') as FormControl<string>;
+                      if (field?.templateOptions && cityControl)
+                        field.templateOptions.options = cityControl.valueChanges.pipe(
+                          tap(() => field.formControl?.setValue(null)),
+                          startWith(cityControl.value),
+                          switchMap((cityId) => (cityId ? this.addressService.getPlaces(cityId) : of([]))),
+                          startWith([])
+                        );
+                    },
+                  },
+                },
+                {
+                  key: 'addressPersonal.wardId',
+                  type: 'select',
+                  templateOptions: {
+                    translate: true,
+                    label: 'ward',
+                    labelClassName: 'font-semibold',
+                    placeholder: 'chooseWard',
+                    valueProp: 'id',
+                    labelProp: 'name',
+                  },
+                  hooks: {
+                    onInit: (field) => {
+                      const districtCtrl = this.form.get('addressPersonal.districtId') as FormControl<string>;
+                      if (field?.templateOptions && districtCtrl)
+                        field.templateOptions.options = districtCtrl.valueChanges.pipe(
+                          tap(() => field.formControl?.setValue(null)),
+                          startWith(districtCtrl.value),
+                          switchMap((districtId) => (districtId ? this.addressService.getPlaces(districtId) : of([]))),
+                          startWith([])
+                        );
+                    },
+                  },
+                },
+              ],
+            },
+            {
+              key: 'addressPersonal.postalCode',
+              className: 'tui-form__row block',
+              type: 'input',
+              templateOptions: {
+                translate: true,
+                label: 'postalCode',
+                labelClassName: 'font-semibold',
+                placeholder: 'enterPostalCode',
+                textfieldLabelOutside: true,
+              },
+              validators: { validation: [RxwebValidators.numeric({ acceptValue: NumericValueType.PositiveNumber })] },
             },
             {
               key: 'birthDate',
@@ -255,6 +367,8 @@ export class IndividualFormComponent {
         },
       ],
     },
+    { key: 'employeeId', defaultValue: this.activatedRoute.snapshot.params.employeeId },
+    { key: 'type', defaultValue: 'INDIVIDUAL' },
   ];
   private readonly request$ = this.employeesService
     .getEmployeeInformation(this.activatedRoute.snapshot.params.employeeId, 'individual')
@@ -279,7 +393,8 @@ export class IndividualFormComponent {
     private adminEmployeeService: AdminEmployeesService,
     private employeesService: EmployeesService,
     private destroy$: TuiDestroyService,
-    private promptService: PromptService
+    private promptService: PromptService,
+    private readonly addressService: AddressService
   ) {}
 
   onSubmit(): void {

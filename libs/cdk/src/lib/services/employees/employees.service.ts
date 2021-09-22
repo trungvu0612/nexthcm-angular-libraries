@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { AuthService } from '@nexthcm/auth';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { ACCOUNT_API_PATH } from '../../constants';
@@ -14,7 +13,6 @@ import {
   EmployeeInformationAPIType,
   EmployeeInformationType,
   EmployeeSHUI,
-  Organization,
 } from '../../models';
 import { parseJsonStringFields } from '../../utils';
 
@@ -22,9 +20,7 @@ import { parseJsonStringFields } from '../../utils';
   providedIn: 'root',
 })
 export class EmployeesService {
-  constructor(private readonly http: HttpClient, private readonly authService: AuthService) {}
-
-  readonly currentTenantId = () => this.authService.get('userInfo', 'tenantId');
+  constructor(private readonly http: HttpClient) {}
 
   searchEmployees(searchQuery: string): Observable<BaseUser[]> {
     return this.http.get<BaseResponse<BaseUser[]>>(`${ACCOUNT_API_PATH}/users/v2?search=${searchQuery}`).pipe(
@@ -57,14 +53,9 @@ export class EmployeesService {
             'probationDate',
             'emergencyContacts',
             'healthCares',
+            'addressPersonal'
           ])
         )
       );
-  }
-
-  getCurrentOrganizationStructure(): Observable<Organization[]> {
-    return this.http
-      .get<BaseResponse<Organization[]>>(`${ACCOUNT_API_PATH}/orgs/get-org-structure-chart/${this.currentTenantId()}`)
-      .pipe(map((res) => res.data));
   }
 }

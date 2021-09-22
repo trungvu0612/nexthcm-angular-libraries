@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { EmployeesService, Organization } from '@nexthcm/cdk';
+import { Organization, OrganizationsService } from '@nexthcm/cdk';
 import { TranslocoModule } from '@ngneat/transloco';
 import { FieldType, FormlyModule } from '@ngx-formly/core';
 import { LetModule } from '@rx-angular/template';
@@ -23,9 +23,9 @@ export class FormlySelectOrgTreeComponent extends FieldType {
       textfieldLabelOutside: true,
     },
   };
-  readonly orgTree$ = this.employeesService.getCurrentOrganizationStructure();
+  readonly orgTree$ = this.organizationsService.getCurrentOrganizationStructure();
 
-  constructor(private employeesService: EmployeesService) {
+  constructor(private organizationsService: OrganizationsService) {
     super();
   }
 

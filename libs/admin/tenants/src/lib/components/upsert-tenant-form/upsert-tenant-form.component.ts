@@ -5,7 +5,7 @@ import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { NumericValueType, RxwebValidators } from '@rxweb/reactive-form-validators';
 import { of } from 'rxjs';
-import { delay, filter, startWith, switchMap, tap } from 'rxjs/operators';
+import { debounceTime, startWith, switchMap, take, tap } from 'rxjs/operators';
 import { Tenant } from '../../models/tenant';
 import { AdminTenantsService } from '../../services/admin-tenants.service';
 
@@ -16,6 +16,7 @@ import { AdminTenantsService } from '../../services/admin-tenants.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UpsertTenantFormComponent {
+  @Input() submitLoading = false;
   @Output() submitted = new EventEmitter<Tenant>();
   @Output() cancel = new EventEmitter();
 
@@ -29,9 +30,9 @@ export class UpsertTenantFormComponent {
       templateOptions: {
         required: true,
         translate: true,
-        label: 'companyName',
+        label: 'tenants.tenantName',
         labelClassName: 'font-semibold',
-        placeholder: 'enterCompanyName',
+        placeholder: 'tenants.enterTenantName',
         textfieldLabelOutside: true,
       },
       expressionProperties: { 'templateOptions.readonly': 'model.hasLDAPUser' },
@@ -56,12 +57,17 @@ export class UpsertTenantFormComponent {
               expression: (control: AbstractControl<string>) =>
                 !control.valueChanges || control.pristine
                   ? of(true)
-                  : of(control.value).pipe(
-                      delay(500),
-                      filter((shortname) => this.data.shortname !== shortname),
-                      switchMap((shortname: string) => this.adminTenantsService.checkTenantShortname({ shortname }))
+                  : control.valueChanges.pipe(
+                      debounceTime(1000),
+                      take(1),
+                      switchMap((shortname: string) =>
+                        this.data.shortname === shortname
+                          ? of(true)
+                          : this.adminTenantsService.checkTenantShortname({ shortname })
+                      ),
+                      tap(() => control.markAsTouched())
                     ),
-              message: () => this.translocoService.selectTranslate('VALIDATION.shortnameExists'),
+              message: () => this.translocoService.selectTranslate('VALIDATION.valueExisting'),
             },
           },
           expressionProperties: { 'templateOptions.readonly': 'model.id' },
@@ -90,11 +96,12 @@ export class UpsertTenantFormComponent {
       className: 'tui-form__row block',
       templateOptions: {
         translate: true,
-        label: 'companyLogo',
+        label: 'tenants.tenantLogo',
         labelClassName: 'font-semibold',
         linkText: 'chooseAnImage',
         labelText: 'orDropItHere',
         accept: 'image/*',
+        required: true,
         previewImage: true,
         serverRequest: (file: File) => this.uploadFileService.uploadFile('admin-tenant', file),
       },
@@ -113,6 +120,7 @@ export class UpsertTenantFormComponent {
             placeholder: 'enterAddress',
             labelParams: { value: 1 },
             textfieldLabelOutside: true,
+            required: true
           },
         },
         {

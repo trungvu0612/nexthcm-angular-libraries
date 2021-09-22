@@ -1,20 +1,21 @@
 import { ChangeDetectionStrategy, Component, HostListener, Injector, ViewChild } from '@angular/core';
-import { PromptService } from '@nexthcm/cdk';
+import { RouterQuery } from '@datorama/akita-ng-router-store';
+import { Organization, OrganizationsService, PromptService } from '@nexthcm/cdk';
 import { TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
 import { TuiDialogService, TuiScrollbarComponent } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { combineLatest, from, iif, merge, Subject } from 'rxjs';
 import { distinctUntilChanged, map, shareReplay, startWith, switchMap } from 'rxjs/operators';
-import { OrganizationalUnit } from '../../models/tenant';
-import { AdminTenantsService } from '../../services/admin-tenants.service';
-import { GetSpanChartPipe } from '../../pipes/get-span-chart.pipe';
 import { SweetAlertOptions } from 'sweetalert2';
 import { UpsertOrganizationUnitComponent } from '../../components/upsert-organization-unit/upsert-organization-unit.component';
+import { OrganizationalUnit } from '../../models/tenant';
+import { GetSpanChartPipe } from '../../pipes/get-span-chart.pipe';
+import { AdminTenantsService } from '../../services/admin-tenants.service';
 
 interface State {
   levels: string[];
-  chart: Partial<OrganizationalUnit>;
+  chart: Organization;
   width: number;
   minZoom: number;
   zoom: number;
@@ -58,7 +59,7 @@ export class OrganizationalChartComponent {
   readonly refreshChart$ = new Subject();
   readonly chartRequest$ = this.refreshChart$.pipe(
     startWith(null),
-    switchMap(() => this.adminTenantsService.getOrganizationChart()),
+    switchMap(() => this.organizationsService.getOrganizationStructure(this.routerQuery.getParams('tenantId') || '')),
     shareReplay(1)
   );
   readonly updateWidth$ = this.chartRequest$.pipe(
@@ -84,11 +85,13 @@ export class OrganizationalChartComponent {
   constructor(
     private readonly state: RxState<State>,
     private readonly adminTenantsService: AdminTenantsService,
+    private readonly organizationsService: OrganizationsService,
     private readonly getSpanChart: GetSpanChartPipe,
     private readonly dialogService: TuiDialogService,
     private readonly injector: Injector,
     private readonly translocoService: TranslocoService,
-    private readonly promptService: PromptService
+    private readonly promptService: PromptService,
+    private readonly routerQuery: RouterQuery
   ) {
     this.state.set({ zoom: 0 });
     this.state.connect('levels', this.adminTenantsService.getOrganizationalLevels());

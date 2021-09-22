@@ -1,7 +1,7 @@
 <form (ngSubmit)="submitForm.emit()" [formGroup]="$any(form)">
   <formly-form [fields]="fields" [form]="$any(form)" [model]="model" [options]="options"></formly-form>
   <div *transloco="let t" class="tui-form__buttons">
-    <button class="tui-form__button" size="l" tuiButton>{{ t('save') }}</button>
+    <button [showLoader]="submitLoading" class="tui-form__button" size="l" tuiButton>{{ t('save') }}</button>
     <button
       (click)="cancel.emit()"
       *ngIf="!hideCancelButton"

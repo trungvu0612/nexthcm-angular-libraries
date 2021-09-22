@@ -1,0 +1,25 @@
+{
+  "removeTenant": "<b>Bạn thật sự muốn xoá tenant này?</b>",
+  "removeTenantSuccessfully": "<b>Xoá tenant thành công!</b>",
+  "editTenant": "Sửa Tenant",
+  "createTenant": "Tạo Tenant",
+  "createTenantSuccessfully": "<b<Tạo tenant thành công!</b>",
+  "updateTenantSuccessfully": "<b<Cập nhật tenant thành công!</b>",
+  "searchTenant": "Tìm kiếm Tenant...",
+  "TABLE_COLUMNS": {
+    "name": "Tên",
+    "tenantCode": "Mã Tenant",
+    "organizationalLevel": "Cấp tổ chức",
+    "parentOrganization": "Cấp trên",
+    "tenantName": "Tên Tenant",
+    "status": "Trạng thái",
+    "functions": "Chức năng",
+    "email": "Email",
+    "phone": "Số điện thoại",
+    "website": "Website",
+    "domain": "Tên miền"
+  },
+  "tenantName": "Tên tenant",
+  "tenantLogo": "Logo tenant",
+  "enterTenantName": "Nhập tên tenant..."
+}

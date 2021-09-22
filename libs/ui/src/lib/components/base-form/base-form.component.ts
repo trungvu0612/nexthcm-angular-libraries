@@ -19,6 +19,7 @@ export class BaseFormComponent<T extends Record<string, any>> {
   @Input() model = {} as T;
   @Input() fields: FormlyFieldConfig[] = [];
   @Input() options: FormlyFormOptions = {};
+  @Input() submitLoading = false;
 
   @Output() submitForm = new EventEmitter();
   @Output() cancel = new EventEmitter();

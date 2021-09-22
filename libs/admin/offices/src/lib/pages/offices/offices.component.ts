@@ -1,8 +1,11 @@
 import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
-import { FormGroup } from '@ngneat/reactive-forms';
+import { ActivatedRoute } from '@angular/router';
 import { AbstractServerPaginationTableComponent, Pagination, PromptService, Zone } from '@nexthcm/cdk';
+import { FormGroup } from '@ngneat/reactive-forms';
 import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
+import { RxState } from '@rx-angular/state';
+import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogContext, TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusContent } from '@tinkoff/ng-polymorpheus';
 import { BaseComponent } from 'ngx-easy-table';
@@ -17,14 +20,10 @@ import {
   startWith,
   switchMap,
   takeUntil,
-  tap
+  tap,
 } from 'rxjs/operators';
-import { SweetAlertOptions } from 'sweetalert2';
-import { AdminOfficesService } from '../../services/admin-offices.service';
 import { Office } from '../../models/office';
-import { RxState } from '@rx-angular/state';
-import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
-import { ActivatedRoute } from '@angular/router';
+import { AdminOfficesService } from '../../services/admin-offices.service';
 
 @Component({
   selector: 'hcm-offices',
@@ -128,10 +127,7 @@ export class OfficesComponent extends AbstractServerPaginationTableComponent<Off
       observer.complete();
       this.form.markAsUntouched();
       this.adminOfficesService[this.model.id ? 'editOffice' : 'createOffice'](this.model)
-        .pipe(
-          switchMap(() => this.promptService.open({ icon: 'success' } as SweetAlertOptions)),
-          takeUntil(this.destroy$)
-        )
+        .pipe(takeUntil(this.destroy$))
         .subscribe(
           this.promptService.handleResponse('addOfficeSuccessfully', () =>
             this.queryParams$.next(this.queryParams$.value)

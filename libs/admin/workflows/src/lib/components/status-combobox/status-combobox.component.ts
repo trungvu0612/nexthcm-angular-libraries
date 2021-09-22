@@ -46,11 +46,15 @@ export class StatusComboboxComponent extends FieldType {
   ) => !!item.id && stringify(item).toLowerCase() === search.toLowerCase();
 
   getStatusList(searchQuery: string): Status[] {
+    if (!searchQuery) {
+      return [];
+    }
     const statusList = (this.statusesQuery.getAll() || []).filter(
       (status) =>
         status.name.toLowerCase().indexOf(searchQuery.toLowerCase()) !== -1 &&
         !this.addedStatuses.find((addedStatus) => addedStatus.id === status.id)
     );
+
     return statusList.length
       ? statusList
       : searchQuery

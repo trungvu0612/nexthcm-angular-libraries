@@ -3,8 +3,10 @@ import { FormBuilder } from '@ngneat/reactive-forms';
 import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { RxwebValidators } from '@rxweb/reactive-form-validators';
+import { TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
+import { takeUntil } from 'rxjs/operators';
 import { v4 as uuidv4 } from 'uuid';
 import {
   Transition,
@@ -33,10 +35,6 @@ export class UpsertTransitionDialogComponent implements OnInit {
     postFunctions: new Array<TransitionPostFunction>(),
   } as Transition;
   fields: FormlyFieldConfig[] = [
-    { key: 'id', defaultValue: uuidv4() },
-    { key: 'conditions' },
-    { key: 'validators' },
-    { key: 'postFunctions' },
     {
       className: 'tui-form__row block',
       key: 'fromStateId',
@@ -48,15 +46,16 @@ export class UpsertTransitionDialogComponent implements OnInit {
         options: this.data.addedStatuses,
         labelProp: 'name',
         valueProp: 'id',
-        matcherBy: 'id',
       },
       hideExpression: '!formState.isNew',
-      validators: {
-        validation: [RxwebValidators.different({ fieldName: 'toStateId' })],
-      },
-      validation: {
-        messages: {
-          different: () => this.translocoService.selectTranslate('VALIDATION.differentSource'),
+      hooks: {
+        onInit: (field) => {
+          field?.formControl?.valueChanges.pipe(takeUntil(this.destroy$)).subscribe(() => {
+            if (this.form.value.toStateId) {
+              this.form.controls.toStateId.updateValueAndValidity({ emitEvent: false });
+              this.form.controls.toStateId.markAsTouched();
+            }
+          });
         },
       },
     },
@@ -72,7 +71,6 @@ export class UpsertTransitionDialogComponent implements OnInit {
         options: this.data.addedStatuses,
         labelProp: 'name',
         valueProp: 'id',
-        matcherBy: 'id',
       },
       hideExpression: '!formState.isNew',
       validators: {
@@ -83,6 +81,16 @@ export class UpsertTransitionDialogComponent implements OnInit {
           different: () => this.translocoService.selectTranslate('VALIDATION.differentTarget'),
         },
       },
+      // hooks: {
+      //   onInit: (field) => {
+      //     field?.formControl?.valueChanges
+      //       .pipe(
+      //         tap(() => field?.formControl?.markAsTouched()),
+      //         takeUntil(this.destroy$)
+      //       )
+      //       .subscribe();
+      //   },
+      // },
     },
     {
       className: 'tui-form__row block',
@@ -107,12 +115,17 @@ export class UpsertTransitionDialogComponent implements OnInit {
         textfieldLabelOutside: true,
       },
     },
+    { key: 'id', defaultValue: uuidv4() },
+    { key: 'conditions' },
+    { key: 'validators' },
+    { key: 'postFunctions' },
   ];
 
   constructor(
-    private fb: FormBuilder,
+    private readonly fb: FormBuilder,
     @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<Transition, UpsertTransitionData>,
-    private translocoService: TranslocoService
+    private readonly translocoService: TranslocoService,
+    private readonly destroy$: TuiDestroyService
   ) {}
 
   get data(): UpsertTransitionData {

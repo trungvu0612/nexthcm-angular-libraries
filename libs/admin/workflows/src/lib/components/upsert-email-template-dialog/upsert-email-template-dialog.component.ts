@@ -8,7 +8,7 @@ import { TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { of } from 'rxjs';
-import { delay, filter, switchMap, takeUntil } from 'rxjs/operators';
+import { debounceTime, switchMap, take, takeUntil, tap } from 'rxjs/operators';
 import { EmailTemplate } from '../../models';
 import { AdminWorkflowsService } from '../../services/admin-workflows.service';
 import { loadTemplateVariables } from '../../state';
@@ -38,16 +38,19 @@ export class UpsertEmailTemplateDialogComponent implements OnInit {
         required: true,
       },
       asyncValidators: {
-        shortname: {
+        name: {
           expression: (control: AbstractControl<string>) =>
             !control.valueChanges || control.pristine
               ? of(true)
-              : of(control.value).pipe(
-                  delay(500),
-                  filter((name) => !this.data || this.data.name !== name),
-                  switchMap((name: string) => this.adminWorkflowsService.checkEmailTemplateName({ name }))
+              : control.valueChanges.pipe(
+                  debounceTime(1000),
+                  take(1),
+                  switchMap((name: string) =>
+                    this.data?.name === name ? of(true) : this.adminWorkflowsService.checkEmailTemplateName({ name })
+                  ),
+                  tap(() => control.markAsTouched())
                 ),
-          message: () => this.translocoService.selectTranslate('VALIDATION.emailTemplateNameExists'),
+          message: () => this.translocoService.selectTranslate('VALIDATION.valueExisting'),
         },
       },
     },
@@ -119,6 +122,7 @@ export class UpsertEmailTemplateDialogComponent implements OnInit {
   onSubmit(): void {
     if (this.form.valid) {
       const formModel = { ...this.form.value };
+
       formModel.status = formModel.statusBoolean ? CommonStatus.active : CommonStatus.inactive;
       (formModel.id
         ? this.adminWorkflowsService.updateEmailTemplate(formModel)
