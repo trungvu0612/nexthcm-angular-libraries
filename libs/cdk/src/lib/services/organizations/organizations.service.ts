@@ -1,9 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AuthService } from '@nexthcm/auth';
-import { ACCOUNT_API_PATH, BaseResponse, Organization } from '@nexthcm/cdk';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { ACCOUNT_API_PATH } from '../../constants';
+import { BaseResponse, Organization } from '../../models';
 
 @Injectable({
   providedIn: 'root',
