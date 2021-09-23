@@ -6,18 +6,21 @@ import { inlineLoaderFactory } from '@nexthcm/core';
 import {
   BaseFormComponentModule,
   FormlyStatusToggleComponentModule,
+  HEADER_TABS,
   InputFilterComponentModule,
   LayoutComponent,
   LayoutModule,
+  MenuItem,
 } from '@nexthcm/ui';
 import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
 import { LetModule } from '@rx-angular/template';
 import { TuiTablePaginationModule } from '@taiga-ui/addon-table';
 import { TuiLetModule } from '@taiga-ui/cdk';
 import { TuiButtonModule, TuiLinkModule, TuiLoaderModule, TuiScrollbarModule } from '@taiga-ui/core';
-import { TuiTabsModule, TuiTagModule } from '@taiga-ui/kit';
-import { HeroIconModule, pencilAlt, trash, zoomIn } from 'ng-heroicon';
+import { TuiIslandModule, TuiTabsModule, TuiTagModule } from '@taiga-ui/kit';
+import { HeroIconModule, zoomIn } from 'ng-heroicon';
 import { TableModule } from 'ngx-easy-table';
+import { NgxPermissionsGuard } from 'ngx-permissions';
 import { UpsertOrganizationUnitComponent } from './components/upsert-organization-unit/upsert-organization-unit.component';
 import { UpsertTenantDialogComponent } from './components/upsert-tenant-dialog/upsert-tenant-dialog.component';
 import { UpsertTenantDomainDialogComponent } from './components/upsert-tenant-domain-dialog/upsert-tenant-domain-dialog.component';
@@ -33,11 +36,15 @@ export const ADMIN_TENANTS_ROUTES: Routes = [
   {
     path: '',
     component: LayoutComponent,
+    canActivate: [NgxPermissionsGuard],
+    data: { permissions: { only: 'VIEW_TENANT', redirectTo: '/' } },
     children: [
       { path: '', component: TenantManagementComponent },
       {
         path: ':tenantId',
         component: TenantDetailComponent,
+        canActivate: [NgxPermissionsGuard],
+        data: { permissions: { only: 'UPDATE_TENANT', redirectTo: '/' } },
         children: [
           { path: '', redirectTo: 'profile', pathMatch: 'full' },
           { path: 'profile', component: TenantProfileComponent },
@@ -48,6 +55,8 @@ export const ADMIN_TENANTS_ROUTES: Routes = [
     ],
   },
 ];
+
+const TABS: MenuItem[] = [{ label: 'tenantManagement', link: '/admin/tenants', permissions: [] }];
 
 @NgModule({
   imports: [
@@ -67,9 +76,10 @@ export const ADMIN_TENANTS_ROUTES: Routes = [
     BaseFormComponentModule,
     LetModule,
     TuiTabsModule,
-    HeroIconModule.withIcons({ zoomIn, pencilAlt, trash }),
+    HeroIconModule.withIcons({ zoomIn }),
     TuiScrollbarModule,
     FormlyStatusToggleComponentModule,
+    TuiIslandModule,
   ],
   declarations: [
     TenantManagementComponent,
@@ -92,6 +102,7 @@ export const ADMIN_TENANTS_ROUTES: Routes = [
         loader: inlineLoaderFactory((lang) => import(`../../assets/i18n/${lang}.json`)),
       },
     },
+    { provide: HEADER_TABS, useValue: TABS }
   ],
 })
 export class AdminTenantsModule {}

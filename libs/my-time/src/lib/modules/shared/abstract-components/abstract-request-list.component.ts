@@ -1,18 +1,21 @@
-import { AbstractServerPaginationTableComponent, Pagination } from '@nexthcm/cdk';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AbstractServerSortPaginationTableComponent, Pagination } from '@nexthcm/cdk';
 import { RxState } from '@rx-angular/state';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { takeUntil } from 'rxjs/operators';
-import { RequestStatus } from '../../../enums';
 import { MyTimeService, RequestTypeAPIUrlPath } from '../../../services';
 
-export abstract class AbstractRequestListComponent<T> extends AbstractServerPaginationTableComponent<T> {
+export abstract class AbstractRequestListComponent<T> extends AbstractServerSortPaginationTableComponent<T> {
   abstract requestTypeUrlPath: RequestTypeAPIUrlPath;
   abstract myTimeService: MyTimeService;
   abstract destroy$: TuiDestroyService;
-  readonly RequestStatus = RequestStatus;
 
-  protected constructor(public state: RxState<Pagination<T>>) {
-    super(state);
+  protected constructor(
+    readonly state: RxState<Pagination<T>>,
+    readonly router: Router,
+    readonly activatedRoute: ActivatedRoute
+  ) {
+    super(state, router, activatedRoute);
   }
 
   onViewEmployeeRequestDetail(id: string, userId?: string): void {
@@ -23,27 +26,6 @@ export abstract class AbstractRequestListComponent<T> extends AbstractServerPagi
         () => null,
         () => this.queryParams$.next(this.queryParams$.value)
       );
-  }
-
-  onApproveRequest(id: string): void {
-    this.myTimeService
-      .approveRequest(this.requestTypeUrlPath, id, () => this.queryParams$.next(this.queryParams$.value))
-      .pipe(takeUntil(this.destroy$))
-      .subscribe();
-  }
-
-  onRejectRequest(id: string): void {
-    this.myTimeService
-      .rejectRequest(this.requestTypeUrlPath, id, () => this.queryParams$.next(this.queryParams$.value))
-      .pipe(takeUntil(this.destroy$))
-      .subscribe();
-  }
-
-  onCancelRequest(id: string): void {
-    this.myTimeService
-      .cancelRequest(this.requestTypeUrlPath, id, () => this.queryParams$.next(this.queryParams$.value))
-      .pipe(takeUntil(this.destroy$))
-      .subscribe();
   }
 
   onChangeRequestStatus(requestId: string, statusId: string): void {

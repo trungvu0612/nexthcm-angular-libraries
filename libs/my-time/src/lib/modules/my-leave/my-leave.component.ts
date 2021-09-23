@@ -1,7 +1,7 @@
-import { HttpParams } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, Injector, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '@nexthcm/auth';
-import { Pagination, PromptService, WorkflowTransition } from '@nexthcm/cdk';
+import { Pagination, PromptService } from '@nexthcm/cdk';
 import { FormBuilder } from '@ngneat/reactive-forms';
 import { TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
@@ -9,7 +9,7 @@ import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { BaseComponent, Columns } from 'ngx-easy-table';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { catchError, filter, map, share, startWith, switchMap, takeUntil } from 'rxjs/operators';
 import { LeaveRequest } from '../../models';
 import { MyTimeService, RequestTypeAPIUrlPath } from '../../services';
@@ -25,21 +25,16 @@ import { SubmitLeaveRequestDialogComponent } from './components/submit-leave-req
 })
 export class MyLeaveComponent extends AbstractRequestListComponent<LeaveRequest> {
   @ViewChild('table') table!: BaseComponent;
-
-  readonly userId = this.authService.get('userInfo', 'userId');
-  readonly requestTypeUrlPath = RequestTypeAPIUrlPath.leave;
+  readonly requestTypeUrlPath = RequestTypeAPIUrlPath.MyLeave;
   readonly columns$: Observable<Columns[]> = this.translocoService.selectTranslateObject('MY_LEAVE_TABLE_COLUMNS').pipe(
     map((result) => [
-      { key: 'dateRange', title: result.dateRange },
+      { key: 'fromDate', title: result.dateRange },
       { key: 'leaveType', title: result.leaveType },
-      { key: 'days', title: result.days, cssClass: { name: 'text-center', includeHeader: true } },
-      { key: 'status', title: result.status },
-      { key: 'comment', title: result.Comment },
-      { key: 'functions', title: result.functions },
+      { key: 'days', title: result.days, cssClass: { name: 'text-center', includeHeader: true }, orderEnabled: false },
+      { key: 'status', title: result.status, orderEnabled: false },
+      { key: 'comment', title: result.Comment, orderEnabled: false },
+      { key: '', title: result.functions, orderEnabled: false },
     ])
-  );
-  readonly queryParams$ = new BehaviorSubject(
-    new HttpParams().set('page', 0).set('size', 10).set('userId', this.authService.get('userInfo', 'userId'))
   );
   private readonly request$ = this.queryParams$.pipe(
     switchMap(() =>
@@ -53,21 +48,26 @@ export class MyLeaveComponent extends AbstractRequestListComponent<LeaveRequest>
     map((value) => !value),
     catchError(() => of(false))
   );
-  open = false;
 
   constructor(
-    public myTimeService: MyTimeService,
-    public destroy$: TuiDestroyService,
-    public state: RxState<Pagination<LeaveRequest>>,
-    private fb: FormBuilder,
-    private injector: Injector,
-    private translocoService: TranslocoService,
-    private promptService: PromptService,
-    private authService: AuthService,
-    private dialogService: TuiDialogService
+    readonly myTimeService: MyTimeService,
+    readonly destroy$: TuiDestroyService,
+    readonly state: RxState<Pagination<LeaveRequest>>,
+    readonly router: Router,
+    readonly activatedRoute: ActivatedRoute,
+    private readonly fb: FormBuilder,
+    private readonly injector: Injector,
+    private readonly translocoService: TranslocoService,
+    private readonly promptService: PromptService,
+    private readonly authService: AuthService,
+    private readonly dialogService: TuiDialogService
   ) {
-    super(state);
+    super(state, router, activatedRoute);
     state.connect(this.request$.pipe(filter(isPresent)));
+  }
+
+  get userId(): string {
+    return this.authService.get('userInfo', 'userId');
   }
 
   showDialogSubmit(): void {
@@ -83,6 +83,4 @@ export class MyLeaveComponent extends AbstractRequestListComponent<LeaveRequest>
         )
       );
   }
-
-  onSelectAction($event: WorkflowTransition): void {}
 }

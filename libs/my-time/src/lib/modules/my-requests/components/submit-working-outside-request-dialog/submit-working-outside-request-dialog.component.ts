@@ -97,7 +97,7 @@ export class SubmitWorkingOutsideRequestDialogComponent {
       }
       delete formModel.fromTo;
       this.myTimeService
-        .submitRequest(RequestTypeAPIUrlPath.workingOutside, formModel)
+        .submitRequest(RequestTypeAPIUrlPath.WorkingOutside, formModel)
         .pipe(takeUntil(this.destroy$))
         .subscribe(
           () => this.context.completeWith(true),

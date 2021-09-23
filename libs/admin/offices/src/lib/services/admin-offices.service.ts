@@ -14,7 +14,7 @@ export class AdminOfficesService {
   constructor(private http: HttpClient) {}
 
   getOffices(params: HttpParams): Observable<Pagination<Office>> {
-    return this.http.get<PagingResponse<Office>>(`${ACCOUNT_API_PATH}/offices/v2`, { params }).pipe(
+    return this.http.get<PagingResponse<Office>>(`${ACCOUNT_API_PATH}/offices`, { params }).pipe(
       map((res) => res.data),
       catchError(() => EMPTY)
     );

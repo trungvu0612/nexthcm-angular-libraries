@@ -2,8 +2,10 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from 
 import { PromptService, WorkflowsQuery } from '@nexthcm/cdk';
 import { FormBuilder } from '@ngneat/reactive-forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import { TuiDestroyService } from '@taiga-ui/cdk';
-import { takeUntil } from 'rxjs/operators';
+import { RxState } from '@rx-angular/state';
+import { isPresent } from '@taiga-ui/cdk';
+import { Subject } from 'rxjs';
+import { filter, map, startWith, switchMap, tap } from 'rxjs/operators';
 import { AdminRequestsConfigurationService } from '../../admin-requests-configuration.service';
 import { RequestConfig } from '../../request-config';
 
@@ -12,7 +14,7 @@ import { RequestConfig } from '../../request-config';
   templateUrl: './request-config-form.component.html',
   styleUrls: ['./request-config-form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [TuiDestroyService],
+  providers: [RxState],
 })
 export class RequestConfigFormComponent {
   @Output() cancel = new EventEmitter();
@@ -36,14 +38,21 @@ export class RequestConfigFormComponent {
       },
     },
   ];
+  submit$ = new Subject<RequestConfig>();
+  submitHandler$ = this.submit$.pipe(
+    switchMap((payload) => this.adminRequestsConfigurationService.updateRequestConfig(payload).pipe(startWith(null)))
+  );
+  loading$ = this.submitHandler$.pipe(map((value) => !value));
 
   constructor(
     private readonly fb: FormBuilder,
     private readonly workflowsQuery: WorkflowsQuery,
     private readonly adminRequestsConfigurationService: AdminRequestsConfigurationService,
-    private readonly destroy$: TuiDestroyService,
-    private readonly promptService: PromptService
-  ) {}
+    private readonly promptService: PromptService,
+    state: RxState<Record<string, unknown>>
+  ) {
+    state.hold(this.submitHandler$.pipe(filter(isPresent), tap(this.promptService.handleResponse())));
+  }
 
   @Input()
   set data(data: RequestConfig) {
@@ -52,11 +61,7 @@ export class RequestConfigFormComponent {
 
   onSubmit(): void {
     if (this.form.valid) {
-      const formModel = { ...this.form.value };
-      this.adminRequestsConfigurationService
-        .updateRequestConfig(formModel)
-        .pipe(takeUntil(this.destroy$))
-        .subscribe(this.promptService.handleResponse('configSuccessfully'));
+      this.submit$.next({ ...this.form.value });
     }
   }
 }

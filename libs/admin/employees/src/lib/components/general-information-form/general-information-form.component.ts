@@ -3,6 +3,7 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from 
 import { ActivatedRoute } from '@angular/router';
 import { Actions } from '@datorama/akita-ng-effects';
 import {
+  BaseObject,
   EmployeeGeneralInformation,
   EmployeesService,
   JobTitlesQuery,
@@ -157,6 +158,7 @@ export class GeneralInformationFormComponent {
                 placeholder: 'chooseRoles',
                 options: this.adminEmployeeService.select('roles'),
                 matcherBy: 'id',
+                disabledItemHandler: (item: BaseObject) => item.isDisable,
               },
             },
             {

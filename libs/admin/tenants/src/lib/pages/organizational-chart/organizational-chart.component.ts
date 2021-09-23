@@ -6,7 +6,7 @@ import { RxState } from '@rx-angular/state';
 import { TuiDialogService, TuiScrollbarComponent } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { combineLatest, from, iif, merge, Subject } from 'rxjs';
-import { distinctUntilChanged, map, shareReplay, startWith, switchMap } from 'rxjs/operators';
+import { distinctUntilChanged, map, shareReplay, startWith, switchMap, tap } from 'rxjs/operators';
 import { SweetAlertOptions } from 'sweetalert2';
 import { UpsertOrganizationUnitComponent } from '../../components/upsert-organization-unit/upsert-organization-unit.component';
 import { OrganizationalUnit } from '../../models/tenant';
@@ -24,8 +24,7 @@ interface State {
 const DIMENSIONS = {
   wrapperPaddingX: 32,
   unitPaddingX: 10,
-  unitWith: 250,
-  icon: 24,
+  unitWith: 200,
   bar: 0.5,
   one: 16,
   zoomFactor: 25,
@@ -49,10 +48,8 @@ export class OrganizationalChartComponent {
       return {
         wrap: this.state.get('width') * factor + 'px',
         unit: DIMENSIONS.unitWith * factor + 'px',
-        icon: DIMENSIONS.icon * factor + 'px',
         bar: DIMENSIONS.bar * factor + 'px',
         one: DIMENSIONS.one * factor + 'px',
-        half: (DIMENSIONS.one / 2) * factor + 'px',
       };
     })
   );
@@ -81,6 +78,7 @@ export class OrganizationalChartComponent {
     this.updateMinZoom$.pipe(map((payload) => ({ type: 'minZoom', payload }))),
     this.mousewheel$
   );
+  readonly removeUnit$ = new Subject<string>();
 
   constructor(
     private readonly state: RxState<State>,
@@ -99,17 +97,31 @@ export class OrganizationalChartComponent {
     this.state.connect('width', this.updateWidth$);
     this.state.connect('minZoom', this.updateMinZoom$);
     this.state.connect('zoom', this.updateZoom$, ({ zoom, minZoom }, { type, payload }) => {
-      switch (type) {
-        case 'minZoom':
-          return !zoom || zoom < payload ? payload : zoom;
-        default:
-          if ((zoom < 100 && zoom > minZoom) || (zoom === 100 && payload > 0) || (zoom === minZoom && payload < 0)) {
-            const newZoom = zoom - payload / DIMENSIONS.zoomFactor;
-            return newZoom > 100 ? 100 : newZoom < minZoom ? minZoom : newZoom;
-          }
-          return zoom;
+      if (type === 'minZoom') {
+        return !zoom || zoom < payload ? payload : zoom;
+      } else {
+        if ((zoom < 100 && zoom > minZoom) || (zoom === 100 && payload > 0) || (zoom === minZoom && payload < 0)) {
+          const newZoom = zoom - payload / DIMENSIONS.zoomFactor;
+          return newZoom > 100 ? 100 : newZoom < minZoom ? minZoom : newZoom;
+        }
+        return zoom;
       }
     });
+    this.state.hold(
+      this.removeUnit$.pipe(
+        switchMap((id) =>
+          from(
+            this.promptService.open({
+              icon: 'warning',
+              showCancelButton: true,
+            } as SweetAlertOptions)
+          ).pipe(
+            switchMap((result) => iif(() => result.isConfirmed, this.adminTenantsService.deleteOrganizationUnit(id))),
+            tap(() => this.refreshChart$.next())
+          )
+        )
+      )
+    );
   }
 
   @ViewChild('scrollbar') set scrollbar(scrollbar: TuiScrollbarComponent) {
@@ -141,13 +153,9 @@ export class OrganizationalChartComponent {
       .subscribe(() => this.refreshChart$.next());
   }
 
-  deleteUnit(id: string) {
-    this.state.hold(
-      from(this.promptService.open({ icon: 'warning', showCancelButton: true } as SweetAlertOptions)).pipe(
-        switchMap((result) => iif(() => result.isConfirmed, this.adminTenantsService.deleteOrganizationUnit(id))),
-        switchMap(() => this.promptService.open({ icon: 'success' } as SweetAlertOptions))
-      ),
-      () => this.refreshChart$.next()
-    );
+  deleteUnit(id?: string) {
+    if (id) {
+      this.removeUnit$.next(id);
+    }
   }
 }

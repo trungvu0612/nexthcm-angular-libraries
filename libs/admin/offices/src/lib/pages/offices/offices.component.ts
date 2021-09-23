@@ -129,7 +129,7 @@ export class OfficesComponent extends AbstractServerPaginationTableComponent<Off
       this.adminOfficesService[this.model.id ? 'editOffice' : 'createOffice'](this.model)
         .pipe(takeUntil(this.destroy$))
         .subscribe(
-          this.promptService.handleResponse('addOfficeSuccessfully', () =>
+          this.promptService.handleResponse(this.model.id ? 'updateOfficeSuccessfully' : 'addOfficeSuccessfully', () =>
             this.queryParams$.next(this.queryParams$.value)
           )
         );
