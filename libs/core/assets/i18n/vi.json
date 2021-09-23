@@ -473,8 +473,7 @@
     "412": "412 - Chưa thiết lập cấu hình điều kiện.",
     "500": "500 - Lỗi máy chủ nội bộ.",
     "503": "503 - Dịch vụ không khả dụng.",
-    "default": "Có gì đó không ổn!",
-    "ACCOUNT_JOB_TITLE_IS_USED_BY_USERS": "Được tin dùng bởi người dùng"
+    "default": "Có gì đó không ổn!"
   },
   "ERRORS": {
     "ENTITY_NOT_FOUND": "Lỗi hệ thống",
@@ -916,6 +915,7 @@
   "shortDescription": "mô tả",
   "Search": "Tìm kiếm",
   "searchPolicy": "Tìm chính sách",
+  "updateOfficeSuccessfully": "<b>Cập nhật văn phòng thành công</b>",
   "addUserRoleSuccessfully": "<b>Tạo vai trò thành công!</b>",
   "addOfficeSuccessfully": "<b>Tạo văn phòng thành công!</b>",
   "subject": "Tiêu đề",

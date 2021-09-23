@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FieldType } from '@ngx-formly/core';
-import { TUI_DEFAULT_IDENTITY_MATCHER } from '@taiga-ui/cdk';
+import { ALWAYS_FALSE_HANDLER, TUI_DEFAULT_IDENTITY_MATCHER } from '@taiga-ui/cdk';
 import { TuiIdentityMatcher } from '@taiga-ui/cdk/types';
 
 @Component({
@@ -17,6 +17,7 @@ export class MultiSelectComponent extends FieldType {
       matcherBy: 'default',
       stringify: (item: any) => item.name,
       editable: false,
+      disabledItemHandler: ALWAYS_FALSE_HANDLER,
     },
   };
 

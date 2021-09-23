@@ -180,7 +180,8 @@
       "deleteLeaveType": "Are you sure you want to delete this leave types?"
     },
     "ERRORS": {
-      "LEAVE_TYPE_DELETE_LEAVE_ALREADY_EXIST": "You can't delete this leave type because there are leaves submitted by it."
+      "LEAVE_TYPE_DELETE_LEAVE_ALREADY_EXIST": "You can't delete this leave type because there are leaves submitted by it.",
+      "YOU_HAVE_ALREADY_CHECKED_IN_THANKS_YOU": "You have already checked in thanks you"
     }
   },
   "ADMIN_CONTRACT_MANAGEMENT_COLUMNS": {
@@ -475,8 +476,7 @@
     "500": "500 - Internal Server Error.",
     "503": "503 - The requested service is not available.",
     "422": "422 - Validation Error!",
-    "default": "Something went wrong!",
-    "ACCOUNT_JOB_TITLE_IS_USED_BY_USERS": "This job title is used by users"
+    "default": "Something went wrong!"
   },
   "ERRORS": {
     "ENTITY_NOT_FOUND": "System error",
@@ -929,6 +929,7 @@
   "shortDescription": "Short Description",
   "Search": "Search",
   "searchPolicy": "Search policy",
+  "updateOfficeSuccessfully": "<b>Update office successfully</b>",
   "addOfficeSuccessfully": "<b>Add office successfully!</b>",
   "subject": "Subject",
   "content": "Content",

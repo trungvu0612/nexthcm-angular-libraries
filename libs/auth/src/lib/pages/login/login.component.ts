@@ -4,8 +4,8 @@ import { FormBuilder } from '@ngneat/reactive-forms';
 import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { RxState } from '@rx-angular/state';
-import { EMPTY } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { Observable, of, Subject } from 'rxjs';
+import { catchError, map, mapTo, share, startWith, switchMap, tap } from 'rxjs/operators';
 import { LoginPayload } from '../../models';
 import { AuthService } from '../../services/auth.service';
 
@@ -57,14 +57,23 @@ export class LoginComponent implements OnInit {
       },
     },
   ];
+  readonly login$ = new Subject();
+  readonly loginHandler$ = this.login$.pipe(
+    switchMap(() => this.onLogin().pipe(startWith(null))),
+    share()
+  );
+  readonly loading$ = this.loginHandler$.pipe(map((value) => !value));
 
   constructor(
     private readonly fb: FormBuilder,
     private readonly authService: AuthService,
     private readonly translocoService: TranslocoService,
     private readonly activatedRoute: ActivatedRoute,
-    private readonly router: Router
-  ) {}
+    private readonly router: Router,
+    private readonly state: RxState<Record<string, unknown>>
+  ) {
+    state.hold(this.loginHandler$);
+  }
 
   ngOnInit(): void {
     // reset login status
@@ -73,18 +82,21 @@ export class LoginComponent implements OnInit {
     this.returnUrl = this.activatedRoute.snapshot.queryParams.returnUrl || '/';
   }
 
+  onLogin(): Observable<boolean> {
+    return this.authService.login(this.loginForm.value).pipe(
+      mapTo(true),
+      tap(() => this.router.navigateByUrl(this.returnUrl)),
+      catchError(() => {
+        this.loginForm.controls.password.setErrors({ invalidCredential: true });
+        return of(true);
+      })
+    );
+  }
+
   onSubmit(): void {
     this.loginForm.controls.password.setErrors(null);
     if (this.loginForm.valid) {
-      this.authService
-        .login(this.loginForm.value)
-        .pipe(
-          catchError(() => {
-            this.loginForm.controls.password.setErrors({ invalidCredential: true });
-            return EMPTY;
-          })
-        )
-        .subscribe(() => this.router.navigateByUrl(this.returnUrl));
+      this.login$.next();
     }
   }
 }

@@ -10,7 +10,7 @@
       <div [innerHTML]="t('AUTH.cantLoginInform', { url: '' })" class="mt-2"></div>
 
       <div class="text-center mt-6">
-        <button tuiButton>
+        <button [showLoader]="(loading$ | async) === true" tuiButton>
           <span class="px-16">{{ t('AUTH.login') }}</span>
         </button>
       </div>

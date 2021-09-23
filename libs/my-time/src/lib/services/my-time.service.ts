@@ -23,11 +23,12 @@ import { RejectRequestDialogComponent } from '../modules/request-management/comp
 import { RequestDetailDialogComponent } from '../modules/shared/request-detail-dialog/request-detail-dialog.component';
 
 export enum RequestTypeAPIUrlPath {
-  leave = 'leaves' as any,
-  workingAfterHours = 'ot-requests' as any,
-  updateTimesheet = 'timesheet-updates' as any,
-  workingOutside = 'outside' as any,
-  workFromHome = 'wfh' as any,
+  MyLeave = 'leaves/me' as any,
+  EveryOneLeaves = 'leaves' as any,
+  WorkingAfterHours = 'ot-requests' as any,
+  UpdateTimesheet = 'timesheet-updates' as any,
+  WorkingOutside = 'outside' as any,
+  WorkFromHome = 'wfh' as any,
 }
 
 export enum RequestTypeComment {

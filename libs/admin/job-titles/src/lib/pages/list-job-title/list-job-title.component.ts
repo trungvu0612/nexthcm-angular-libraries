@@ -7,7 +7,7 @@ import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { BaseComponent, Columns } from 'ngx-easy-table';
 import { from, Observable, of } from 'rxjs';
-import { catchError, filter, map, share, startWith, switchMap, takeUntil } from 'rxjs/operators';
+import { catchError, filter, map, share, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { JobTitle } from '../../models/job-title';
 import { AdminJobTitlesService } from '../../services/admin-job-titles.service';
 import { UpsertJobTitleComponent } from '../upsert-job-title/upsert-job-title.component';
@@ -81,7 +81,11 @@ export class ListJobTitleComponent extends AbstractServerPaginationTableComponen
       )
         .pipe(
           filter((result) => result.isConfirmed),
-          switchMap(() => this.adminJobTitlesService.deleteAdminJobTitle(id)),
+          switchMap(() =>
+            this.adminJobTitlesService
+              .deleteAdminJobTitle(id)
+              .pipe(tap(() => this.queryParams$.next(this.queryParams$.value)))
+          ),
           takeUntil(this.destroy$)
         )
         .subscribe(

@@ -3,5 +3,6 @@
   "dest": "../../dist/libs/my-time",
   "lib": {
     "entryFile": "src/index.ts"
-  }
+  },
+  "assets": ["assets"]
 }

@@ -1,6 +1,6 @@
 import { EmployeeInfo } from '@nexthcm/cdk';
 import { BaseRequest } from './base-request';
-import { LeaveRequestLeaveType, ManagerInfo } from './leave-request';
+import { LeaveRequestLeaveType } from './leave-request';
 import { UpdateTimesheetRequestTimeSheetTracking } from './update-timesheet-request';
 
 export interface GeneralRequest extends BaseRequest {
@@ -22,5 +22,4 @@ export interface GeneralRequest extends BaseRequest {
   newInTime?: number;
   newOutTime?: number;
   reason: string;
-  managerInfo: ManagerInfo
 }

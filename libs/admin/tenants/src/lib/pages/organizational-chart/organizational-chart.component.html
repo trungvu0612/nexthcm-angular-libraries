@@ -3,9 +3,9 @@
     <button (click)="upsertUnit()" size="m" tuiButton>{{ t('addOrganizationalUnit') }}</button>
   </div>
   <ng-container *rxLet="zoom$; let zoom">
-    <div *ngIf="zoom" class="flex justify-end gap-1">
+    <div *ngIf="zoom" class="flex gap-1 justify-end">
       <span class="font-semibold"> {{ (zoom | number: '1.0-0') + '%' }}</span>
-      <hero-icon class="w-6 h-6" name="zoom-in" type="solid"></hero-icon>
+      <hero-icon class="w-6 h-6" name="zoom-in" type="outline"></hero-icon>
     </div>
     <tui-scrollbar
       #scrollbar
@@ -19,12 +19,10 @@
         [style]="{
           width: dim.wrap,
           '--unit': dim.unit,
-          '--icon': dim.icon,
           '--bar': dim.bar,
-          '--one': dim.one,
-          '--half': dim.half
+          '--one': dim.one
         }"
-        class="min-w-full my-4"
+        class="my-4 min-w-full"
       >
         <ng-template
           *ngTemplateOutlet="content; context: { $implicit: chart, span: (chart | getSpanChart) }"
@@ -32,24 +30,30 @@
         <ng-template #content let-span="span" let-unit>
           <ng-container *ngIf="item(unit) as unit">
             <ng-container *tuiLet="unit.descendants?.length as children">
-              <div
-                (mouseenter)="hovering = unit"
-                (mouseleave)="hovering = null"
-                [class.ring]="hovering === unit"
-                class="unit relative border mx-auto"
-              >
-                <p class="name font-semibold">{{ unit.orgName }}</p>
-                <div *ngIf="hovering === unit" class="icons flex absolute">
-                  <hero-icon (click)="upsertUnit(unit)" name="pencil-alt" type="solid"></hero-icon>
-                  <hero-icon
-                    (click)="deleteUnit(unit.id || '')"
-                    *ngIf="!children"
-                    name="trash"
-                    type="solid"
-                  ></hero-icon>
+              <tui-island [hoverable]="true" class="box-border mx-auto unit">
+                <div class="tui-island__content">
+                  <div class="flex-col tui-island__figure">
+                    <button
+                      (click)="upsertUnit(unit)"
+                      appearance="flat"
+                      icon="tuiIconDraft"
+                      size="xs"
+                      tuiIconButton
+                    ></button>
+                    <button
+                      (click)="deleteUnit(unit.id)"
+                      appearance="flat"
+                      icon="tuiIconTrash"
+                      size="xs"
+                      tuiIconButton
+                    ></button>
+                  </div>
+                  <div>
+                    <p class="text-sm font-bold tui-island__paragraph">{{ unit.orgName }}</p>
+                  </div>
                 </div>
-              </div>
-              <div *ngIf="(children || 0) > 1" class="vertical-bar bg-black mx-auto"></div>
+              </tui-island>
+              <div *ngIf="(children || 0) > 1" class="mx-auto bg-black vertical-bar"></div>
               <div *ngIf="children" class="flex">
                 <div
                   *ngFor="let child of unit.descendants; first as first; last as last"
@@ -59,7 +63,7 @@
                     <div [class.bg-black]="!first" class="horizontal-bar"></div>
                     <div [class.bg-black]="!last" class="horizontal-bar"></div>
                   </div>
-                  <div class="vertical-bar bg-black mx-auto"></div>
+                  <div class="mx-auto bg-black vertical-bar"></div>
                   <ng-template
                     *ngTemplateOutlet="content; context: { $implicit: child, span: (child | getSpanChart) }"
                   ></ng-template>

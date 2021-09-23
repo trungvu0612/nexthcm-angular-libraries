@@ -1,58 +1,57 @@
-<ng-container *transloco="let t">
-  <hcm-page [title]="t('myLeave')">
-    <ng-container ngProjectAs="pageHeader">
-      <button (click)="showDialogSubmit()" icon="tuiIconPlusLarge" size="m" tuiButton>
-        {{ t('submitLeaveRequest') }}
-      </button>
-    </ng-container>
-    <hcm-request-list-filter [httpParams]="queryParams$" class="mb-5"></hcm-request-list-filter>
-    <tui-loader [overlay]="true" [showLoader]="(loading$ | async) === true">
-      <ngx-table
-        #table
-        [columns]="(columns$ | async) || []"
-        [configuration]="configuration"
-        [data]="(data$ | async) || []"
-      >
-        <ng-template let-row>
-          <ng-container *tuiLet="item(row) as item">
-            <td *tuiLet="item.items as type">
-              <hcm-leave-request-date-range [data]="item"></hcm-leave-request-date-range>
-            </td>
-            <td>{{ item.leaveType?.name }}</td>
-            <td class="text-center">{{ item.durationInDay | translocoDecimal: { maximumFractionDigits: 1 } }}</td>
-            <td>
-              <tui-tag
-                *ngIf="item.currentState as status"
-                [style.backgroundColor]="status.stateType.color"
-                [value]="status.name"
-                class="text-white"
-              ></tui-tag>
-            </td>
-            <td>{{ item.comment }}</td>
-            <td>
-              <div class="flex items-center">
-                <button
-                  (click)="onViewEmployeeRequestDetail(item.id, userId)"
-                  appearance="flat"
-                  icon="tuiIconShowLarge"
-                  size="m"
-                  tuiIconButton
-                ></button>
-                <hcm-workflow-actions-button-dropdown
-                  (selectAction)="onChangeRequestStatus(item.id, $event.id)"
-                  *ngIf="item.nextStates.length"
-                  [items]="item.nextStates"
-                ></hcm-workflow-actions-button-dropdown>
-              </div>
-            </td>
-          </ng-container>
-        </ng-template>
-      </ngx-table>
-    </tui-loader>
-    <tui-table-pagination
-      (pageChange)="onPage($event)"
-      (sizeChange)="onSize($event)"
-      [total]="(total$ | async) || 0"
-    ></tui-table-pagination>
-  </hcm-page>
-</ng-container>
+<hcm-page title="{{ 'myLeave' | transloco }}">
+  <ng-container ngProjectAs="pageHeader">
+    <button (click)="showDialogSubmit()" icon="tuiIconPlusLarge" size="m" tuiButton>
+      {{ 'submitLeaveRequest' | transloco }}
+    </button>
+  </ng-container>
+  <hcm-request-list-filter [httpParams]="queryParams$" class="mb-5"></hcm-request-list-filter>
+  <tui-loader [overlay]="true" [showLoader]="(loading$ | async) === true">
+    <ngx-table
+      #table
+      (event)="eventEmitted($event)"
+      [columns]="(columns$ | async) || []"
+      [configuration]="configuration"
+      [data]="(data$ | async) || []"
+    >
+      <ng-template let-row>
+        <ng-container *tuiLet="item(row) as item">
+          <td *tuiLet="item.items as type">
+            <hcm-leave-request-date-range [data]="item"></hcm-leave-request-date-range>
+          </td>
+          <td>{{ item.leaveType?.name }}</td>
+          <td class="text-center">{{ item.durationInDay | translocoDecimal: { maximumFractionDigits: 1 } }}</td>
+          <td>
+            <tui-tag
+              *ngIf="item.currentState as status"
+              [style.backgroundColor]="status.stateType.color"
+              [value]="status.name"
+              class="text-white"
+            ></tui-tag>
+          </td>
+          <td>{{ item.comment }}</td>
+          <td>
+            <div class="flex items-center">
+              <button
+                (click)="onViewEmployeeRequestDetail(item.id, userId)"
+                appearance="flat"
+                icon="tuiIconShowLarge"
+                size="m"
+                tuiIconButton
+              ></button>
+              <hcm-workflow-actions-button-dropdown
+                (selectAction)="onChangeRequestStatus(item.id, $event.id)"
+                *ngIf="item.nextStates.length"
+                [items]="item.nextStates"
+              ></hcm-workflow-actions-button-dropdown>
+            </div>
+          </td>
+        </ng-container>
+      </ng-template>
+    </ngx-table>
+  </tui-loader>
+  <tui-table-pagination
+    (pageChange)="onPage($event)"
+    (sizeChange)="onSize($event)"
+    [total]="(total$ | async) || 0"
+  ></tui-table-pagination>
+</hcm-page>

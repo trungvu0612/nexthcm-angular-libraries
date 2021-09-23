@@ -40,8 +40,3 @@ export interface PartialDayType {
   name: string;
   type: PartialDay;
 }
-
-export interface ManagerInfo {
-  fullName: string;
-  image: string;
-}

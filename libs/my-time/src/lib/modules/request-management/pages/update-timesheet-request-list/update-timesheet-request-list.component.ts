@@ -1,4 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Pagination } from '@nexthcm/cdk';
 import { TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
@@ -19,7 +20,7 @@ import { AbstractRequestListComponent } from '../../../shared/abstract-component
 export class UpdateTimesheetRequestListComponent extends AbstractRequestListComponent<UpdateTimesheetRequest> {
   @ViewChild('table') table!: BaseComponent;
 
-  readonly requestTypeUrlPath = RequestTypeAPIUrlPath.updateTimesheet;
+  readonly requestTypeUrlPath = RequestTypeAPIUrlPath.UpdateTimesheet;
   readonly columns$: Observable<Columns[]> = this.translocoService
     .selectTranslateObject('MY_TIME_REQUEST_LIST_COLUMNS')
     .pipe(
@@ -54,12 +55,14 @@ export class UpdateTimesheetRequestListComponent extends AbstractRequestListComp
   );
 
   constructor(
-    public myTimeService: MyTimeService,
-    public destroy$: TuiDestroyService,
-    public state: RxState<Pagination<UpdateTimesheetRequest>>,
-    private translocoService: TranslocoService
+    readonly myTimeService: MyTimeService,
+    readonly destroy$: TuiDestroyService,
+    readonly state: RxState<Pagination<UpdateTimesheetRequest>>,
+    readonly router: Router,
+    readonly activatedRoute: ActivatedRoute,
+    private readonly translocoService: TranslocoService
   ) {
-    super(state);
+    super(state, router, activatedRoute);
     state.connect(this.request$.pipe(filter(isPresent)));
   }
 }

@@ -71,7 +71,7 @@ export class SubmitOvertimeRequestDialogComponent {
         required: true,
         textfieldLabelOutside: true,
         precision: 1,
-        min: 0
+        min: 0,
       },
     },
     {
@@ -123,12 +123,15 @@ export class SubmitOvertimeRequestDialogComponent {
       }
       delete formModel.fromTo;
       this.myTimeService
-        .submitRequest(RequestTypeAPIUrlPath.workingAfterHours, formModel)
+        .submitRequest(RequestTypeAPIUrlPath.WorkingAfterHours, formModel)
         .pipe(takeUntil(this.destroy$))
         .subscribe(
           () => this.context.completeWith(true),
-          (error) => this.promptService.open(
-            { icon: 'error', text: this.translocoService.translate(`ERRORS.${error.error.message}`) })
+          (error) =>
+            this.promptService.open({
+              icon: 'error',
+              text: this.translocoService.translate(`ERRORS.${error.error.message}`),
+            })
         );
     }
   }

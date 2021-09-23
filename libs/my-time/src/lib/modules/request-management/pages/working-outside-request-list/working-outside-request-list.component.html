@@ -9,8 +9,10 @@
         <td>{{ item.totalDay ? (item.totalDay | translocoDecimal) : '-' }}</td>
         <td>
           <tui-tag
-            [value]="'REQUEST_STATUS.' + RequestStatus[item.status] | transloco"
-            class="{{ RequestStatus[item.status] }}-tag"
+            *ngIf="item.currentState as status"
+            [style.backgroundColor]="status.stateType.color"
+            [value]="status.name"
+            class="text-white"
           ></tui-tag>
         </td>
         <td>{{ item.comment }}</td>
@@ -23,24 +25,11 @@
               size="m"
               tuiIconButton
             ></button>
-            <ng-container *ngIf="item.status === RequestStatus.waiting">
-              <button
-                (click)="onApproveRequest(item.id)"
-                appearance="flat"
-                class="approve-mark"
-                icon="tuiIconCheckLarge"
-                size="m"
-                tuiIconButton
-              ></button>
-              <button
-                (click)="onRejectRequest(item.id)"
-                appearance="flat"
-                class="reject-mark"
-                icon="tuiIconRemoveLarge"
-                size="m"
-                tuiIconButton
-              ></button>
-            </ng-container>
+            <hcm-workflow-actions-button-dropdown
+              (selectAction)="onChangeRequestStatus(item.id, $event.id)"
+              *ngIf="item.nextStates.length"
+              [items]="item.nextStates"
+            ></hcm-workflow-actions-button-dropdown>
           </div>
         </td>
       </ng-container>

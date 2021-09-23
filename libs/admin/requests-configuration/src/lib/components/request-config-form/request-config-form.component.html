@@ -3,5 +3,6 @@
   [fields]="fields"
   [form]="form"
   [model]="model"
+  [submitLoading]="(loading$ | async) === true"
   hideCancelButton
 ></hcm-base-form>

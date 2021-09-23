@@ -183,6 +183,7 @@ export class UpsertLeaveEntitlementDialogComponent implements OnInit {
       } else {
         this.form.value.status = this.form.value.status = 0 as number;
       }
+
       const arrayTitle = [];
       if (this.model.jobTitleDTOList) {
         for (const item of this.model.jobTitleDTOList) {
@@ -192,7 +193,9 @@ export class UpsertLeaveEntitlementDialogComponent implements OnInit {
       }
       this.form.value.entitlement = +this.model.entitlement;
       const formModel = { ...this.form.value };
-      formModel.orgId = formModel.orgId.id;
+      if (formModel?.status) {
+        formModel.orgId = formModel.orgId.id;
+      }
       this.context.completeWith(formModel);
     }
   }

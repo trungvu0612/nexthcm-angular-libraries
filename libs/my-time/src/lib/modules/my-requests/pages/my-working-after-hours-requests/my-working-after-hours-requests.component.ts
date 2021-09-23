@@ -1,5 +1,6 @@
 import { HttpParams } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '@nexthcm/auth';
 import { Pagination } from '@nexthcm/cdk';
 import { TranslocoService } from '@ngneat/transloco';
@@ -23,7 +24,7 @@ export class MyWorkingAfterHoursRequestsComponent extends AbstractRequestListCom
   @ViewChild('table') table!: BaseComponent;
 
   readonly userId = this.authService.get('userInfo', 'userId');
-  readonly requestTypeUrlPath = RequestTypeAPIUrlPath.workingAfterHours;
+  readonly requestTypeUrlPath = RequestTypeAPIUrlPath.WorkingAfterHours;
   readonly columns$: Observable<Columns[]> = this.translocoService
     .selectTranslateObject('MY_TIME_REQUEST_LIST_COLUMNS')
     .pipe(
@@ -60,13 +61,15 @@ export class MyWorkingAfterHoursRequestsComponent extends AbstractRequestListCom
   );
 
   constructor(
-    public myTimeService: MyTimeService,
-    public destroy$: TuiDestroyService,
-    public state: RxState<Pagination<WorkingAfterHoursRequest>>,
-    private translocoService: TranslocoService,
-    private authService: AuthService
+    readonly myTimeService: MyTimeService,
+    readonly destroy$: TuiDestroyService,
+    readonly state: RxState<Pagination<WorkingAfterHoursRequest>>,
+    readonly router: Router,
+    readonly activatedRoute: ActivatedRoute,
+    private readonly translocoService: TranslocoService,
+    private readonly authService: AuthService
   ) {
-    super(state);
+    super(state, router, activatedRoute);
     state.connect(this.request$.pipe(filter(isPresent)));
   }
 }

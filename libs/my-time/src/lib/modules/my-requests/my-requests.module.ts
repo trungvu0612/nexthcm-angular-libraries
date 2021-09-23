@@ -3,7 +3,12 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { GetFilePipeModule } from '@nexthcm/cdk';
-import { BaseFormComponentModule, FormlyTaigaUiModule, LayoutModule } from '@nexthcm/ui';
+import {
+  BaseFormComponentModule,
+  FormlyTaigaUiModule,
+  LayoutModule,
+  WorkflowActionsButtonDropdownComponentModule,
+} from '@nexthcm/ui';
 import { TranslocoModule } from '@ngneat/transloco';
 import { TranslocoLocaleModule } from '@ngneat/transloco-locale';
 import { FormlyModule } from '@ngx-formly/core';
@@ -84,6 +89,7 @@ import { MyWorkingOutsideRequestsComponent } from './pages/my-working-outside-re
     BaseFormComponentModule,
     RequestListFilterComponentModule,
     LayoutModule,
+    WorkflowActionsButtonDropdownComponentModule,
   ],
 })
 export class MyRequestsModule {}

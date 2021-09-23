@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Pagination } from '@nexthcm/cdk';
 import { TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
@@ -20,7 +21,7 @@ import { AbstractRequestListComponent } from '../../../shared/abstract-component
 export class WorkFormHomeRequestListComponent extends AbstractRequestListComponent<WorkFromHomeRequest> {
   @ViewChild('table') table!: BaseComponent;
 
-  readonly requestTypeUrlPath = RequestTypeAPIUrlPath.workFromHome;
+  readonly requestTypeUrlPath = RequestTypeAPIUrlPath.WorkFromHome;
   readonly columns$: Observable<Columns[]> = this.translocoService
     .selectTranslateObject('MY_TIME_REQUEST_LIST_COLUMNS')
     .pipe(
@@ -42,15 +43,20 @@ export class WorkFormHomeRequestListComponent extends AbstractRequestListCompone
     ),
     shareReplay(1)
   );
-  readonly loading$ = this.request$.pipe(map((value) => !value), catchError(() => of(false)));
+  readonly loading$ = this.request$.pipe(
+    map((value) => !value),
+    catchError(() => of(false))
+  );
 
   constructor(
-    public myTimeService: MyTimeService,
-    public destroy$: TuiDestroyService,
-    public state: RxState<Pagination<WorkFromHomeRequest>>,
-    private translocoService: TranslocoService
+    readonly myTimeService: MyTimeService,
+    readonly destroy$: TuiDestroyService,
+    readonly state: RxState<Pagination<WorkFromHomeRequest>>,
+    readonly router: Router,
+    readonly activatedRoute: ActivatedRoute,
+    private readonly translocoService: TranslocoService
   ) {
-    super(state);
+    super(state, router, activatedRoute);
     state.connect(this.request$.pipe(filter(isPresent)));
   }
 }

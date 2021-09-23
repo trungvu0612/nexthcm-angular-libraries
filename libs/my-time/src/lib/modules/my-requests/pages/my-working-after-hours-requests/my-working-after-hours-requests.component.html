@@ -9,8 +9,10 @@
         <td>{{ 'WORKING_AFTER_HOURS_TYPE.' + item.type | transloco }}</td>
         <td>
           <tui-tag
-            [value]="'REQUEST_STATUS.' + RequestStatus[item.status] | transloco"
-            class="{{ RequestStatus[item.status] }}-tag"
+            *ngIf="item.currentState as status"
+            [style.backgroundColor]="status.stateType.color"
+            [value]="status.name"
+            class="text-white"
           ></tui-tag>
         </td>
         <td>{{ item?.comment }}</td>
@@ -23,15 +25,11 @@
               size="m"
               tuiIconButton
             ></button>
-            <button
-              (click)="onCancelRequest(item.id)"
-              *ngIf="item.status === RequestStatus.waiting"
-              appearance="flat"
-              class="reject-mark"
-              icon="tuiIconRemoveLarge"
-              size="m"
-              tuiIconButton
-            ></button>
+            <hcm-workflow-actions-button-dropdown
+              (selectAction)="onChangeRequestStatus(item.id, $event.id)"
+              *ngIf="item.nextStates.length"
+              [items]="item.nextStates"
+            ></hcm-workflow-actions-button-dropdown>
           </div>
         </td>
       </ng-container>

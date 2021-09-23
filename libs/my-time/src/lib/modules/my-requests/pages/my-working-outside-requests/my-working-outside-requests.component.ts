@@ -1,5 +1,6 @@
 import { HttpParams } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '@nexthcm/auth';
 import { Pagination } from '@nexthcm/cdk';
 import { TranslocoService } from '@ngneat/transloco';
@@ -23,7 +24,7 @@ export class MyWorkingOutsideRequestsComponent extends AbstractRequestListCompon
   @ViewChild('table') table!: BaseComponent;
 
   readonly userId = this.authService.get('userInfo', 'userId');
-  readonly requestTypeUrlPath = RequestTypeAPIUrlPath.workingOutside;
+  readonly requestTypeUrlPath = RequestTypeAPIUrlPath.WorkingOutside;
   readonly columns$: Observable<Columns[]> = this.translocoService
     .selectTranslateObject('MY_TIME_REQUEST_LIST_COLUMNS')
     .pipe(
@@ -52,16 +53,21 @@ export class MyWorkingOutsideRequestsComponent extends AbstractRequestListCompon
     ),
     share()
   );
-  readonly loading$ = this.request$.pipe(map((value) => !value), catchError(() => of(false)));
+  readonly loading$ = this.request$.pipe(
+    map((value) => !value),
+    catchError(() => of(false))
+  );
 
   constructor(
-    public myTimeService: MyTimeService,
-    public destroy$: TuiDestroyService,
-    public state: RxState<Pagination<WorkingOutsideRequest>>,
-    private translocoService: TranslocoService,
-    private authService: AuthService
+    readonly myTimeService: MyTimeService,
+    readonly destroy$: TuiDestroyService,
+    readonly state: RxState<Pagination<WorkingOutsideRequest>>,
+    readonly router: Router,
+    readonly activatedRoute: ActivatedRoute,
+    private readonly translocoService: TranslocoService,
+    private readonly authService: AuthService
   ) {
-    super(state);
+    super(state, router, activatedRoute);
     state.connect(this.request$.pipe(filter(isPresent)));
   }
 }
