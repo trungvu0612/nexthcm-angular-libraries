@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@ngneat/reactive-forms';
+import { FormGroup } from '@ngneat/reactive-forms';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
-import { BehaviorSubject, Observable, of } from 'rxjs';
-import { debounceTime, map, switchMap, take, tap } from 'rxjs/operators';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { AdminUserRole, Policy } from '../../models/admin-user-role';
 import { AdminUserRolesService } from '../../services/admin-user-roles.service';
 import { TranslocoService } from '@ngneat/transloco';
@@ -41,22 +41,6 @@ export class UpsertUserRolesComponent implements OnInit {
         label: 'name',
         textfieldLabelOutside: true
       },
-      asyncValidators: {
-        name: {
-          expression: (control: FormControl<string>) =>
-            !control.valueChanges || control.pristine
-              ? of(true)
-              : control.valueChanges.pipe(
-                debounceTime(1000),
-                take(1),
-                switchMap((name) =>
-                  this.data.name === name ? of(true) : this.adminUserRolesService.checkName(name)
-                ),
-                tap(() => control.markAsTouched())
-              ),
-          message: () => this.translocoService.selectTranslate('VALIDATION.valueExisting')
-        }
-      }
     },
     {
       className: 'my-8',
