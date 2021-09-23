@@ -1,17 +1,18 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Pagination, PagingResponse } from '@nexthcm/cdk';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 import { AdminUserRole, Policy } from '../models/admin-user-role';
 
 const MY_ACCOUNT_PATH = '/accountapp/v1.0';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class AdminUserRolesService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+  }
 
   getAdminUserRoles(params: HttpParams): Observable<Pagination<AdminUserRole>> {
     return this.http
@@ -40,4 +41,12 @@ export class AdminUserRolesService {
       .get<PagingResponse<Policy>>(`${MY_ACCOUNT_PATH}/permissions`, { params })
       .pipe(map((response) => response.data));
   }
+
+  checkName(search: string): Observable<boolean> {
+    return this.http.post<boolean>(`${MY_ACCOUNT_PATH}/roles-by-name`, search).pipe(
+      map((value) => !value),
+      catchError(() => of(false))
+    );
+  }
+
 }

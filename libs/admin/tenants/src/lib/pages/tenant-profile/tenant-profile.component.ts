@@ -18,7 +18,10 @@ export class TenantProfileComponent {
   private readonly request$ = this.adminTenantsService
     .getTenant(this.activatedRoute.snapshot.params.tenantId)
     .pipe(startWith(null), shareReplay(1));
-  readonly loading$ = this.request$.pipe(map((value) => !value), catchError(() => of(false)));
+  readonly loading$ = this.request$.pipe(
+    map((value) => !value),
+    catchError(() => of(false))
+  );
   readonly profile$ = this.request$.pipe(filter(isPresent));
 
   constructor(

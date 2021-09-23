@@ -1,14 +1,14 @@
 <ng-container *transloco="let t">
   <hcm-page [title]="t('humanResource')">
-    <ng-container ngProjectAs="pageHeader">
-      <div class="flex gap-6">
-        <form [formGroup]="$any(searchForm)" class="w-72">
-          <formly-form [fields]="fields" [form]="$any(searchForm)" [model]="model"></formly-form>
+    <ng-container ngProjectAs='pageHeader'>
+      <div class='flex gap-6'>
+        <form [formGroup]='$any(searchForm)' class='w-72'>
+          <formly-form [fields]='fields' [form]='$any(searchForm)' [model]='model'></formly-form>
         </form>
       </div>
     </ng-container>
-    <div class="bg-gray-100 pt-9" style="height: 1000px">
-      <hcm-org-chart [data]="data" [search]="search"></hcm-org-chart>
+    <div class='bg-gray-100 pt-9'>
+      <hcm-org-chart [userId]='userId' [data]='data' [search1]='search$'></hcm-org-chart>
     </div>
   </hcm-page>
 </ng-container>

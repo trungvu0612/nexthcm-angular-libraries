@@ -9,7 +9,7 @@ import {
   InputFilterComponentModule,
   LayoutComponent,
   LayoutModule,
-  MenuItem,
+  MenuItem
 } from '@nexthcm/ui';
 import { SvgIconsModule } from '@ngneat/svg-icon';
 import { TranslocoModule } from '@ngneat/transloco';
@@ -21,9 +21,10 @@ import {
   TuiDataListModule,
   TuiDropdownModule,
   TuiHostedDropdownModule,
+  TuiLoaderModule,
   TuiScrollbarModule,
   TuiSvgModule,
-  TuiTextfieldControllerModule,
+  TuiTextfieldControllerModule
 } from '@taiga-ui/core';
 import { TuiAvatarModule, TuiDropdownHoverModule, TuiInputModule } from '@taiga-ui/kit';
 import { PolymorpheusModule } from '@tinkoff/ng-polymorpheus';
@@ -75,6 +76,7 @@ const TABS: MenuItem[] = [{ label: 'organizationChart', link: '/human-resource/o
     InputFilterComponentModule,
     BaseFormComponentModule,
     LayoutModule,
+    TuiLoaderModule
   ],
   entryComponents: [OrgChartComponent, NodeChartComponent],
   providers: [{ provide: HEADER_TABS, useValue: TABS }, HumanResourceService],

@@ -120,7 +120,7 @@ export class UpsertTenantFormComponent {
             placeholder: 'enterAddress',
             labelParams: { value: 1 },
             textfieldLabelOutside: true,
-            required: true
+            required: true,
           },
         },
         {
