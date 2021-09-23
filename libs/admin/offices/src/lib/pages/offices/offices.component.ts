@@ -30,7 +30,7 @@ import { AdminOfficesService } from '../../services/admin-offices.service';
   templateUrl: './offices.component.html',
   styleUrls: ['./offices.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [RxState, TuiDestroyService]
+  providers: [RxState, TuiDestroyService],
 })
 export class OfficesComponent extends AbstractServerPaginationTableComponent<Office> implements OnInit {
   @ViewChild('table') table!: BaseComponent;
@@ -39,7 +39,7 @@ export class OfficesComponent extends AbstractServerPaginationTableComponent<Off
       { key: 'name', title: translate.name },
       { key: 'address', title: translate.address },
       { key: 'description', title: translate.description },
-      { key: 'action', title: translate.action }
+      { key: 'action', title: translate.action },
     ])
   );
 
@@ -63,8 +63,8 @@ export class OfficesComponent extends AbstractServerPaginationTableComponent<Off
         required: true,
         translate: true,
         label: 'officeName',
-        textfieldLabelOutside: true
-      }
+        textfieldLabelOutside: true,
+      },
     },
     {
       key: 'address',
@@ -73,8 +73,8 @@ export class OfficesComponent extends AbstractServerPaginationTableComponent<Off
         required: true,
         translate: true,
         label: 'address',
-        textfieldLabelOutside: true
-      }
+        textfieldLabelOutside: true,
+      },
     },
     {
       key: 'description',
@@ -82,9 +82,9 @@ export class OfficesComponent extends AbstractServerPaginationTableComponent<Off
       templateOptions: {
         label: 'description',
         translate: true,
-        textfieldLabelOutside: true
-      }
-    }
+        textfieldLabelOutside: true,
+      },
+    },
   ];
 
   constructor(
@@ -117,7 +117,7 @@ export class OfficesComponent extends AbstractServerPaginationTableComponent<Off
     this.model = office || { status: 0, longitude: 0, latitude: 0 };
     this.dialogService
       .open(content, {
-        label: this.translocoService.translate(this.model.id ? 'editOffice' : 'createOffice')
+        label: this.translocoService.translate(this.model.id ? 'editOffice' : 'createOffice'),
       })
       .subscribe();
   }
@@ -142,7 +142,7 @@ export class OfficesComponent extends AbstractServerPaginationTableComponent<Off
         this.promptService.open({
           icon: 'question',
           html: this.translocoService.translate('deleteOffice'),
-          showCancelButton: true
+          showCancelButton: true,
         })
       )
         .pipe(

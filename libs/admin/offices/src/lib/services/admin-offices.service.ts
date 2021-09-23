@@ -8,12 +8,10 @@ import { Office } from '../models/office';
 const ACCOUNT_APP_PATH = '/accountapp/v1.0';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AdminOfficesService {
-  constructor(private http: HttpClient) {
-  }
-
+  constructor(private http: HttpClient) {}
 
   getOffices(params: HttpParams): Observable<Pagination<Office>> {
     return this.http.get<PagingResponse<Office>>(`${ACCOUNT_API_PATH}/offices/v2`, { params }).pipe(

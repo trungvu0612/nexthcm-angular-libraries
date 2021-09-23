@@ -343,7 +343,7 @@ export class UpsertSeatMapComponent implements AfterViewInit {
       });
       Object.assign(this.seatMap, { office, name, imageUrl, dimensionX, dimensionY, seats });
       this.adminSeatMapsService[this.seatMap.id ? 'editSeatMap' : 'createSeatMap'](this.seatMap)
-        .pipe(switchMap(() => this.promptService.open({ icon: 'success' } as SweetAlertOptions)))
+        .pipe(switchMap(() => this.promptService.open({ icon: 'success', text: 'Successfully!' } as SweetAlertOptions)))
         .subscribe(() => this.router.navigateByUrl('/admin/seat-maps'));
     }
   }

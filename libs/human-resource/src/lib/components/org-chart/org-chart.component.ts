@@ -3,44 +3,52 @@ import {
   Component,
   ComponentFactoryResolver,
   ElementRef,
+  Inject,
   Injector,
   Input,
+  OnChanges,
   OnInit,
   ViewChild,
-  ViewContainerRef,
+  ViewContainerRef
 } from '@angular/core';
 import { FormBuilder } from '@ngneat/reactive-forms';
-import { TranslocoService } from '@ngneat/transloco';
-import { RxState } from '@rx-angular/state';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { PolymorpheusTemplate } from '@tinkoff/ng-polymorpheus';
-import { map } from 'rxjs/operators';
 import { OrgChart } from '../../models/node';
 import { HumanResourceService } from '../../services/human-resource.service';
 import { NodeChartComponent } from '../node-chart/node-chart.component';
-
-interface State {
-  orgChart: OrgChart[];
-}
+import { catchError, map, switchMap } from 'rxjs/operators';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 
 @Component({
   selector: 'hcm-org-chart',
   templateUrl: './org-chart.component.html',
   styleUrls: ['./org-chart.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [TuiDestroyService, RxState],
+  providers: [TuiDestroyService]
 })
-export class OrgChartComponent extends RxState<State> implements OnInit {
+export class OrgChartComponent implements OnInit, OnChanges {
+
   title = 'main component';
+  readonly params$ = new BehaviorSubject<string>('');
 
-  @Input() search!: string;
-  @Input() data!: OrgChart[];
+  employee$: Observable<OrgChart[][]> = this.params$.pipe(
+    switchMap((params) => this.humanResourceService.getOrg()),
+    map((data) => [data])
+  );
 
-  // @Input() set search(search$: Observable<string>) {
-  //   search$.pipe(map((search) => ({ longDescription: search, size: 0 }))).subscribe(this.params$);
-  // }
+  @Input() set search1(search$: Observable<string>) {
+    search$.subscribe(this.params$);
+  }
 
-  // search$.pipe(map((search) => console.log('aaaaaa', this.humanResourceService.getOrgId(search))));
+  readonly loading$ = this.employee$.pipe(
+    map((value) => !value),
+    catchError(() => of(false))
+  );
+
+  @Input() userId!: string;
+  @Input() search!: string | undefined;
+  @Input() data!: (OrgChart[])[] | undefined;
 
   @ViewChild('placeholder', { read: ViewContainerRef, static: true })
   public placeholder!: ViewContainerRef;
@@ -51,66 +59,56 @@ export class OrgChartComponent extends RxState<State> implements OnInit {
   orgContext!: { $implicit: OrgChart };
   @ViewChild('scrollbar') scrollbar!: ElementRef;
 
-  isHover?: boolean = false;
-  data$ = this.select('orgChart').pipe(map((data) => [data]));
-
-  open = true;
-
-  idLeader?: string = '';
-  idEmployee = '';
 
   constructor(
+    @Inject(ElementRef) private readonly elementRef: ElementRef<HTMLElement>,
+    @Inject(TuiDestroyService) private readonly destroy$: TuiDestroyService,
     private fb: FormBuilder,
     private resolver: ComponentFactoryResolver,
     private injector: Injector,
-    private humanResourceService: HumanResourceService,
-    private destroy$: TuiDestroyService,
-    private translocoService: TranslocoService
+    private humanResourceService: HumanResourceService
   ) {
-    super();
-    this.connect('orgChart', humanResourceService.getOrg());
-
     this.customInJector = Injector.create({
       providers: [
         {
           provide: HumanResourceService,
-          deps: [],
-        },
+          deps: []
+        }
       ],
-      parent: this.injector,
+      parent: this.injector
     });
-
-    console.log('22222', this.data)
   }
 
   ngOnInit(): void {
     const humanResourceService = this.customInJector.get(HumanResourceService);
-    humanResourceService.hovered.subscribe((item) => {});
+    humanResourceService.hovered.subscribe((item) => {
+    });
   }
 
   ngAfterViewInit() {
-    // this.search.subscribe((data) => this.humanResourceService.getOrgId(data));
   }
 
-  changeInfoCss(id: string): void {
-    if (id == this.idLeader) {
-      this.idLeader == '';
-    } else {
-      this.idLeader = id;
-      this.data$;
-    }
+  ngOnChanges() {
+    this.params$.subscribe((search) => {
+      this.search = search;
+      this.userId = '';
+      const idCat = 'cat-' + this.search;
+      let el = document.getElementById(idCat);
+      if (el) {
+        el.scrollIntoView({ block: 'center' });
+      }
+    });
   }
 
-  changeInfo(id: string): void {
-    if (id == this.idLeader) {
-      this.idLeader == '';
-    } else {
-      this.idEmployee = id;
-      this.idLeader = id;
-    }
+  hoverEvent(item: OrgChart): OrgChart {
+    return this.customInJector.get(HumanResourceService).description = item;
   }
 
-  clickEvent(item: OrgChart): OrgChart {
-    return (this.customInJector.get(HumanResourceService).description = item);
+  clickItem(id: string) {
+    this.params$.next(id);
+    this.employee$ = this.params$.pipe(
+      switchMap((params) => this.humanResourceService.getOrgId(params)),
+      map((data) => [data])
+    );
   }
 }

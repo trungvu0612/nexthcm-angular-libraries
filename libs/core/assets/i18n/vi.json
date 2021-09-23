@@ -122,10 +122,8 @@
     "differentTarget": "Điểm nguồn và điểm đích không được giống nhau!",
     "email": "Địa chỉ email không hợp lệ!",
     "numeric": "Bạn phải nhập số vào ô này!",
-    "shortnameExists": "Tên viết tắt này đã tồn tại!",
-    "uniqueStatusName": "Tên trạng thái này đã tồn tại!",
     "invalidURL": "Địa chỉ URL không hợp lệ!",
-    "emailTemplateNameExists": "Tên bản mẫu email này đã tồn tại!"
+    "valueExisting": "Giá trị này đã tồn tại!"
   },
   "initStatus": "Trạng thái ban đầu",
   "initStatusDescription": "Mô tả trạng thái ban đầu",
@@ -918,8 +916,8 @@
   "shortDescription": "mô tả",
   "Search": "Tìm kiếm",
   "searchPolicy": "Tìm chính sách",
-  "addUserRoleSuccessfully": "Add User Role Successfully",
-  "addOfficeSuccessfully": "Tạo văn phòng thành công",
+  "addUserRoleSuccessfully": "<b>Tạo vai trò thành công!</b>",
+  "addOfficeSuccessfully": "<b>Tạo văn phòng thành công!</b>",
   "subject": "Tiêu đề",
   "content": "Nội dung",
   "editEmailTemplate": "Sửa bản mẫu email"

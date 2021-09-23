@@ -121,10 +121,9 @@
     "differentTarget": "The source and the target should not be the same!",
     "email": "This is an invalid email!",
     "numeric": "You must enter a number in this cell!",
-    "shortnameExists": "This shortname already exists!",
     "uniqueStatusName": "This status name is already exists!",
     "invalidURL": "This URL is invalid!",
-    "emailTemplateNameExists": "This email template's name is already exists!"
+    "valueExisting": "This value is already exists!"
   },
   "initStatus": "Initial status",
   "initStatusDescription": "Initial status description",
@@ -930,8 +929,9 @@
   "shortDescription": "Short Description",
   "Search": "Search",
   "searchPolicy": "Search policy",
-  "addOfficeSuccessfully": "Add office successfully",
+  "addOfficeSuccessfully": "<b>Add office successfully!</b>",
   "subject": "Subject",
   "content": "Content",
-  "editEmailTemplate": "Edit email template"
+  "editEmailTemplate": "Edit email template",
+  "addUserRoleSuccessfully": "<b>Add user role successfully!</b>"
 }
