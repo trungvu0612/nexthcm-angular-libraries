@@ -20,6 +20,7 @@
           width: dim.wrap,
           '--unit': dim.unit,
           '--bar': dim.bar,
+          '--text': dim.text,
           '--one': dim.one
         }"
         class="my-4 min-w-full"
@@ -30,26 +31,12 @@
         <ng-template #content let-span="span" let-unit>
           <ng-container *ngIf="item(unit) as unit">
             <ng-container *tuiLet="unit.descendants?.length as children">
-              <tui-island [hoverable]="true" class="box-border mx-auto unit">
+              <tui-island [hoverable]="true" class="unit box-border mx-auto">
                 <div class="tui-island__content">
-                  <div class="flex-col tui-island__figure">
-                    <button
-                      (click)="upsertUnit(unit)"
-                      appearance="flat"
-                      icon="tuiIconDraft"
-                      size="xs"
-                      tuiIconButton
-                    ></button>
-                    <button
-                      (click)="deleteUnit(unit.id)"
-                      appearance="flat"
-                      icon="tuiIconTrash"
-                      size="xs"
-                      tuiIconButton
-                    ></button>
-                  </div>
-                  <div>
-                    <p class="text-sm font-bold tui-island__paragraph">{{ unit.orgName }}</p>
+                  <p class="font-bold tui-island__paragraph">{{ unit.orgName }}</p>
+                  <div class="flex flex-col">
+                    <svg-icon (click)="upsertUnit(unit)" key="tui-icon-draft"></svg-icon>
+                    <svg-icon (click)="deleteUnit(unit.id)" key="tui-icon-trash"></svg-icon>
                   </div>
                 </div>
               </tui-island>

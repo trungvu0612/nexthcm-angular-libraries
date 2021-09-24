@@ -12,6 +12,7 @@ import {
   LayoutModule,
   MenuItem,
 } from '@nexthcm/ui';
+import { SvgIconsModule } from '@ngneat/svg-icon';
 import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
 import { LetModule } from '@rx-angular/template';
 import { TuiTablePaginationModule } from '@taiga-ui/addon-table';
@@ -31,6 +32,7 @@ import { TenantDetailComponent } from './pages/tenant-detail/tenant-detail.compo
 import { TenantManagementComponent } from './pages/tenant-management/tenant-management.component';
 import { TenantProfileComponent } from './pages/tenant-profile/tenant-profile.component';
 import { GetSpanChartPipe } from './pipes/get-span-chart.pipe';
+import { tenantsIcons } from './shared/icons/tenants';
 
 export const ADMIN_TENANTS_ROUTES: Routes = [
   {
@@ -77,6 +79,7 @@ const TABS: MenuItem[] = [{ label: 'tenantManagement', link: '/admin/tenants', p
     LetModule,
     TuiTabsModule,
     HeroIconModule.withIcons({ zoomIn }),
+    SvgIconsModule.forChild(tenantsIcons),
     TuiScrollbarModule,
     FormlyStatusToggleComponentModule,
     TuiIslandModule,
