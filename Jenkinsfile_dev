@@ -12,6 +12,7 @@ pipeline {
   stages {
     stage('Build and publish libraries') {
       steps {
+        sh 'yarn up'
         sh 'yarn'
         sh 'yarn affected:build'
         sh 'yarn affected:publish'
