@@ -25,7 +25,7 @@ const ROUTES: Routes = [
         path: 'permissions',
         loadChildren: () => import('@nexthcm/admin-permissions').then((m) => m.AdminPermissionsModule),
       },
-      { path: 'employees', loadChildren: () => import('@nexthcm/admin-employee').then((m) => m.AdminEmployeeModule) },
+      { path: 'employees', loadChildren: () => import('@nexthcm/admin-employees').then((m) => m.AdminEmployeesModule) },
       { path: 'tenants', loadChildren: () => import('@nexthcm/admin-tenants').then((m) => m.AdminTenantsModule) },
       {
         path: 'workflows',
