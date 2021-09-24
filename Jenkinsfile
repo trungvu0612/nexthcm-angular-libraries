@@ -11,45 +11,25 @@ pipeline {
   }
   stages {
     stage('Build and publish libraries') {
-      agent {
-        label 'server15'
-      }
       steps {
-        sh 'yarn up'
-        sh 'yarn'
+        sh 'YARN_CHECKSUM_BEHAVIOR=update yarn'
         sh 'yarn affected:build'
         sh 'yarn affected:publish'
       }
     }
-    stage('Build web') {
-      agent {
-        label 'server15'
-      }
-      steps {
-        sh 'yarn up'
-        sh 'yarn build -- -c dev'
-      }
-    }
-    stage('Docker push') {
-      agent {
-        label 'server15'
-      }
-      steps {
-        sh 'docker build -f Dockerfile --network=host --rm=true -t docker-host.banvien.com.vn/${PROJECT_NAME}/${ENVIRONMENT}/${SERVICE_NAME}:latest .'
-        sh 'docker push docker-host.banvien.com.vn/${PROJECT_NAME}/${ENVIRONMENT}/${SERVICE_NAME}:latest'
-        sh 'docker rmi docker-host.banvien.com.vn/${PROJECT_NAME}/${ENVIRONMENT}/${SERVICE_NAME}:latest'
-      }
-    }
-    stage('Un-deploy old build') {
-      agent {
-        label 'server20'
-      }
-      steps {
-        script {
-          try {
-            sh 'kubectl delete -f ${K8S_FILE} -n ${NAMESPACE}'
-          } catch (err) {
-            echo 'No old deployment'
+    stage('Build') {
+      stages {
+        stage('Build web') {
+          steps {
+            sh 'yarn up'
+            sh 'yarn build -- -c ${ENVIRONMENT}'
+          }
+        }
+        stage('Docker push') {
+          steps {
+            sh 'docker build -f Dockerfile --network=host --rm=true -t docker-host.banvien.com.vn/${PROJECT_NAME}/${ENVIRONMENT}/${SERVICE_NAME}:latest .'
+            sh "docker push docker-host.banvien.com.vn/${PROJECT_NAME}/${ENVIRONMENT}/${SERVICE_NAME}:latest"
+            sh "docker rmi docker-host.banvien.com.vn/${PROJECT_NAME}/${ENVIRONMENT}/${SERVICE_NAME}:latest"
           }
         }
       }
@@ -58,8 +38,23 @@ pipeline {
       agent {
         label 'server20'
       }
-      steps {
-        sh 'kubectl apply -f ${K8S_FILE} -n ${NAMESPACE}'
+      stages {
+        stage('Un-deploy old build') {
+          steps {
+            script {
+              try {
+                sh "kubectl delete -f ${K8S_FILE} -n ${NAMESPACE}"
+              } catch (err) {
+                echo 'No old deployment'
+              }
+            }
+          }
+        }
+        stage('Deploy') {
+          steps {
+            sh "kubectl apply -f ${K8S_FILE} -n ${NAMESPACE}"
+          }
+        }
       }
     }
   }

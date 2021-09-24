@@ -10,7 +10,7 @@ pipeline {
   stages {
     stage('Build web') {
       steps {
-        sh 'yarn up'
+        sh 'YARN_CHECKSUM_BEHAVIOR=update yarn up'
         sh 'yarn build'
       }
     }
