@@ -22,10 +22,7 @@ export abstract class AbstractRequestListComponent<T> extends AbstractServerSort
     this.myTimeService
       .viewRequestDetail(this.requestTypeUrlPath, id, userId)
       .pipe(takeUntil(this.destroy$))
-      .subscribe(
-        () => null,
-        () => this.queryParams$.next(this.queryParams$.value)
-      );
+      .subscribe(() => this.queryParams$.next(this.queryParams$.value));
   }
 
   onChangeRequestStatus(requestId: string, statusId: string): void {

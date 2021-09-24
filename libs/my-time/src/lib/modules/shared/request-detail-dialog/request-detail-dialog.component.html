@@ -80,7 +80,7 @@
               </div>
             </div>
           </ng-container>
-          <ng-container *ngSwitchCase="RequestTypeAPIUrlPath.MyLeave">
+          <ng-container *ngSwitchCase="RequestTypeAPIUrlPath.Leave">
             <div class="table-row">
               <div class="table-label">{{ t('leaveType') }}:</div>
               <div class="table-value">{{ data.leaveType!.name }}</div>
@@ -170,7 +170,7 @@
         </div>
       </div>
     </section>
-    <section
+    <!--<section
       *ngIf="data.status === RequestStatus.waiting"
       [class.grid-cols-2]="!isMyRequest"
       class="grid gap-8 py-5 border-b"
@@ -184,7 +184,7 @@
         <button (click)="onRejectRequest(data.id)" appearance="secondary" tuiButton>{{ t('reject') }}</button>
         <button (click)="onApproveRequest(data.id)" tuiButton>{{ t('approve') }}</button>
       </ng-container>
-    </section>
+    </section>-->
 
     <tui-accordion [closeOthers]="false" [rounded]="false">
       <tui-accordion-item [borders]="null" class="border-b-2">

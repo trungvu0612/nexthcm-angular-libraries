@@ -25,7 +25,7 @@ import { SubmitLeaveRequestDialogComponent } from './components/submit-leave-req
 })
 export class MyLeaveComponent extends AbstractRequestListComponent<LeaveRequest> {
   @ViewChild('table') table!: BaseComponent;
-  readonly requestTypeUrlPath = RequestTypeAPIUrlPath.MyLeave;
+  readonly requestTypeUrlPath = RequestTypeAPIUrlPath.Leave;
   readonly columns$: Observable<Columns[]> = this.translocoService.selectTranslateObject('MY_LEAVE_TABLE_COLUMNS').pipe(
     map((result) => [
       { key: 'fromDate', title: result.dateRange },
@@ -39,7 +39,7 @@ export class MyLeaveComponent extends AbstractRequestListComponent<LeaveRequest>
   private readonly request$ = this.queryParams$.pipe(
     switchMap(() =>
       this.myTimeService
-        .getRequests<LeaveRequest>(this.requestTypeUrlPath, this.queryParams$.value)
+        .getRequests<LeaveRequest>(RequestTypeAPIUrlPath.MyLeave, this.queryParams$.value)
         .pipe(startWith(null))
     ),
     share()

@@ -54,7 +54,7 @@
     "@datorama/akita-ng-router-store": "^6.0.2",
     "@fullcalendar/angular": "^5.9.0",
     "@fullcalendar/daygrid": "^5.9.0",
-    "@nexthcm/admin-employee": "^0.0.1",
+    "@nexthcm/admin-employees": "^0.0.1",
     "@nexthcm/admin-job-level": "^0.0.1",
     "@nexthcm/admin-job-titles": "^0.0.1",
     "@nexthcm/admin-knowledge-base": "^0.0.1",

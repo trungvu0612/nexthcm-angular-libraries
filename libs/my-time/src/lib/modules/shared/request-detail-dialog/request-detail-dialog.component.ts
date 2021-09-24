@@ -119,9 +119,6 @@ export class RequestDetailDialogComponent {
     if ('escalateInfo' in this.data) {
       this.data.escalateInfo = value;
     }
-    if ('escalateInfo' in this.data) {
-      this.data.escalateInfo = value;
-    }
     if (value) {
       this.myTimeService
         .updateRequest(this.requestTypeAPIUrlPath, requestId, { escalate: value.id })
@@ -130,12 +127,13 @@ export class RequestDetailDialogComponent {
     }
   }
 
-  onSubmitComment() {
+  onSubmitComment(): void {
     const comment: RequestComment = {
       comment: this.commentControl.value,
       type: this.requestType + '',
       objectId: this.context.data.value.id,
     };
+
     this.myTimeService.submitReqComment(comment).subscribe(() => {
       this.commentParams$.next(this.commentParams$.value);
       this.commentControl.reset();

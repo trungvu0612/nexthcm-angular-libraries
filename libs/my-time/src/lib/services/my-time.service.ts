@@ -24,7 +24,7 @@ import { RequestDetailDialogComponent } from '../modules/shared/request-detail-d
 
 export enum RequestTypeAPIUrlPath {
   MyLeave = 'leaves/me' as any,
-  EveryOneLeaves = 'leaves' as any,
+  Leave = 'leaves' as any,
   WorkingAfterHours = 'ot-requests' as any,
   UpdateTimesheet = 'timesheet-updates' as any,
   WorkingOutside = 'outside' as any,
