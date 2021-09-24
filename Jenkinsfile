@@ -15,7 +15,7 @@ pipeline {
         label 'server15'
       }
       steps {
-        sh 'yarn upgrade'
+        sh 'yarn up'
         sh 'yarn'
         sh 'yarn affected:build'
         sh 'yarn affected:publish'
@@ -26,7 +26,7 @@ pipeline {
         label 'server15'
       }
       steps {
-        sh 'yarn upgrade'
+        sh 'yarn up'
         sh 'yarn build -- -c dev'
       }
     }
