@@ -26,6 +26,7 @@ const DIMENSIONS = {
   unitPaddingX: 10,
   unitWith: 200,
   bar: 0.5,
+  text: 14,
   one: 16,
   zoomFactor: 25,
 };
@@ -49,6 +50,7 @@ export class OrganizationalChartComponent {
         wrap: this.state.get('width') * factor + 'px',
         unit: DIMENSIONS.unitWith * factor + 'px',
         bar: DIMENSIONS.bar * factor + 'px',
+        text: DIMENSIONS.text * factor + 'px',
         one: DIMENSIONS.one * factor + 'px',
       };
     })
@@ -63,14 +65,18 @@ export class OrganizationalChartComponent {
     map((chart) => this.getSpanChart.transform(chart) * (DIMENSIONS.unitWith + DIMENSIONS.unitPaddingX * 2)),
     shareReplay(1)
   );
-  readonly offsetWidth$ = new Subject<number>();
+  readonly scrollbar$ = new Subject<TuiScrollbarComponent>();
   readonly resize$ = new Subject<string>();
   readonly updateMinZoom$ = combineLatest([
-    this.offsetWidth$.pipe(distinctUntilChanged()),
-    this.updateWidth$,
-    this.resize$.pipe(distinctUntilChanged()),
+    this.scrollbar$.pipe(distinctUntilChanged()),
+    this.updateWidth$.pipe(distinctUntilChanged()),
+    this.resize$.pipe(distinctUntilChanged((prev, curr) => prev === curr && curr === 'scrollbar')),
   ]).pipe(
-    map(([offsetWidth, width]) => (offsetWidth / width <= 1 ? (offsetWidth / width) * 100 : 100)),
+    map(([scrollbar, width]) => {
+      const offsetWidth = scrollbar.browserScrollRef.nativeElement.offsetWidth - DIMENSIONS.wrapperPaddingX * 2;
+      return offsetWidth / width <= 1 ? (offsetWidth / width) * 100 : 100;
+    }),
+    tap(console.log),
     shareReplay(1)
   );
   readonly mousewheel$ = new Subject<{ type: string; payload: number }>();
@@ -126,7 +132,7 @@ export class OrganizationalChartComponent {
 
   @ViewChild('scrollbar') set scrollbar(scrollbar: TuiScrollbarComponent) {
     if (scrollbar) {
-      this.offsetWidth$.next(scrollbar.browserScrollRef.nativeElement.offsetWidth - DIMENSIONS.wrapperPaddingX * 2);
+      this.scrollbar$.next(scrollbar);
       this.resize$.next('scrollbar');
     }
   }
