@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
+import { AuthService } from '@nexthcm/auth';
 import { Organization, OrganizationsService } from '@nexthcm/cdk';
 import { TranslocoModule } from '@ngneat/transloco';
 import { FieldType, FormlyModule } from '@ngx-formly/core';
@@ -14,18 +15,20 @@ import { FormFieldModule } from '../../modules/formly-taiga-ui';
   selector: 'hcm-formly-select-org-tree',
   templateUrl: './formly-select-org-tree.component.html',
   styleUrls: ['./formly-select-org-tree.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FormlySelectOrgTreeComponent extends FieldType {
   defaultOptions = {
     templateOptions: {
       textfieldSize: 'l',
-      textfieldLabelOutside: true,
-    },
+      textfieldLabelOutside: true
+    }
   };
-  readonly orgTree$ = this.organizationsService.getCurrentOrganizationStructure();
+  readonly orgTree$ = this.organizationsService.getOrganizationChart(this.authService.get('userInfo', 'tenantId') as string);
 
-  constructor(private organizationsService: OrganizationsService) {
+  constructor(
+    private organizationsService: OrganizationsService,
+    private authService: AuthService) {
     super();
   }
 
@@ -42,7 +45,7 @@ export class FormlySelectOrgTreeComponent extends FieldType {
     CommonModule,
     FormFieldModule,
     FormlyModule.forChild({
-      types: [{ name: 'select-org-tree', component: FormlySelectOrgTreeComponent, wrappers: ['form-field'] }],
+      types: [{ name: 'select-org-tree', component: FormlySelectOrgTreeComponent, wrappers: ['form-field'] }]
     }),
     TuiSelectModule,
     ReactiveFormsModule,
@@ -51,8 +54,9 @@ export class FormlySelectOrgTreeComponent extends FieldType {
     TuiLoaderModule,
     TranslocoModule,
     LetModule,
-    TuiButtonModule,
+    TuiButtonModule
   ],
-  exports: [FormlySelectOrgTreeComponent],
+  exports: [FormlySelectOrgTreeComponent]
 })
-export class FormlySelectOrgTreeComponentModule {}
+export class FormlySelectOrgTreeComponentModule {
+}

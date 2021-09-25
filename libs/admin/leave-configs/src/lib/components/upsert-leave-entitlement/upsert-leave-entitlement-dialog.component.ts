@@ -15,7 +15,7 @@ import { LeaveEntitlement } from '../../models/leave-entitlement';
   selector: 'hcm-upsert-leave-entitlement-dialog',
   templateUrl: './upsert-leave-entitlement-dialog.component.html',
   styleUrls: ['./upsert-leave-entitlement-dialog.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UpsertLeaveEntitlementDialogComponent implements OnInit {
   @ViewChild('userContent', { static: true }) userContent!: PolymorpheusTemplate<BaseUser>;
@@ -39,8 +39,8 @@ export class UpsertLeaveEntitlementDialogComponent implements OnInit {
           map((value) => value?.status),
           distinctUntilChanged(),
           switchMap((status) => this.translocoService.selectTranslate(`${status ? 'active' : 'inactive'}`))
-        ),
-      },
+        )
+      }
     },
     // {
     //   key: 'employeeId',
@@ -74,27 +74,27 @@ export class UpsertLeaveEntitlementDialogComponent implements OnInit {
         placeholder: 'chooseAPerson',
         labelProp: 'username',
         valueProp: 'id',
-        textfieldLabelOutside: true,
+        textfieldLabelOutside: true
       },
       hideExpression: 'model.status',
       expressionProperties: {
-        className: '(model.status)  ?  "hidden" : ""',
-      },
+        className: '(model.status)  ?  "hidden" : ""'
+      }
     },
     {
-      key: 'orgId',
+      key: 'orgDTO',
       type: 'select-org-tree',
       templateOptions: {
         translate: true,
         label: 'Organization',
         labelClassName: 'font-semibold',
         placeholder: 'Organization',
-        labelProp: 'name',
+        labelProp: 'name'
       },
       hideExpression: '!model.status',
       expressionProperties: {
-        className: '!(model.status)  ?  "hidden" : ""',
-      },
+        className: '!(model.status)  ?  "hidden" : ""'
+      }
     },
     {
       key: 'jobTitleDTOList',
@@ -106,12 +106,12 @@ export class UpsertLeaveEntitlementDialogComponent implements OnInit {
         labelClassName: 'font-semibold',
         placeholder: 'chooseRoles',
         options: this.leaveConfigsService.select('jobTitles'),
-        matcherBy: 'id',
+        matcherBy: 'id'
       },
       hideExpression: '!model.status',
       expressionProperties: {
-        className: '!model.status ? "hidden" : ""',
-      },
+        className: '!model.status ? "hidden" : ""'
+      }
     },
     {
       key: 'leaveType',
@@ -124,8 +124,8 @@ export class UpsertLeaveEntitlementDialogComponent implements OnInit {
         required: true,
         options: this.leaveConfigsService.select('leaveTypes'),
         labelProp: 'name',
-        matcherBy: 'id',
-      },
+        matcherBy: 'id'
+      }
     },
     {
       key: 'period',
@@ -138,8 +138,8 @@ export class UpsertLeaveEntitlementDialogComponent implements OnInit {
         required: true,
         options: this.leaveConfigsService.select('leavePeriod'),
         labelProp: 'name',
-        matcherBy: 'id',
-      },
+        matcherBy: 'id'
+      }
     },
     {
       key: 'entitlement',
@@ -150,10 +150,10 @@ export class UpsertLeaveEntitlementDialogComponent implements OnInit {
         labelClassName: 'font-semibold',
         label: 'Entitlements',
         placeholder: 'totalLeaveCanApprove',
-        textfieldLabelOutside: true,
+        textfieldLabelOutside: true
       },
-      validators: { validation: [RxwebValidators.numeric({ acceptValue: NumericValueType.PositiveNumber })] },
-    },
+      validators: { validation: [RxwebValidators.numeric({ acceptValue: NumericValueType.PositiveNumber })] }
+    }
   ];
 
   constructor(
@@ -162,7 +162,8 @@ export class UpsertLeaveEntitlementDialogComponent implements OnInit {
     private authService: AuthService,
     private translocoService: TranslocoService,
     private leaveConfigsService: LeaveConfigsService
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
     if (this.context.data) {
@@ -178,7 +179,7 @@ export class UpsertLeaveEntitlementDialogComponent implements OnInit {
 
   onSubmit(): void {
     if (this.form.valid) {
-      if (this.model.status === true) {
+      if (this.model.status === true || this.model.status === 1) {
         this.form.value.status = this.form.value.status = 1 as number;
       } else {
         this.form.value.status = this.form.value.status = 0 as number;
@@ -194,7 +195,7 @@ export class UpsertLeaveEntitlementDialogComponent implements OnInit {
       this.form.value.entitlement = +this.model.entitlement;
       const formModel = { ...this.form.value };
       if (formModel?.status) {
-        formModel.orgId = formModel.orgId.id;
+        formModel.orgId = formModel.orgDTO.id;
       }
       this.context.completeWith(formModel);
     }

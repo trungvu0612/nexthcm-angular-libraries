@@ -7,10 +7,11 @@ import { ACCOUNT_API_PATH } from '../../constants';
 import { BaseResponse, Organization } from '../../models';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class OrganizationsService {
-  constructor(private readonly http: HttpClient, private readonly authService: AuthService) {}
+  constructor(private readonly http: HttpClient, private readonly authService: AuthService) {
+  }
 
   readonly currentTenantId = () => this.authService.get('userInfo', 'tenantId') as string;
 
@@ -22,5 +23,11 @@ export class OrganizationsService {
     return this.http
       .get<BaseResponse<Organization[]>>(`${ACCOUNT_API_PATH}/orgs/get-org-structure-chart/${id}`)
       .pipe(map((res) => res.data[0] || {}));
+  }
+
+  getOrganizationChart(tenantId: string): Observable<Organization[]> {
+    return this.http
+      .get<BaseResponse<Organization[]>>(`${ACCOUNT_API_PATH}/orgs/get-org-structure-chart/${tenantId}`)
+      .pipe(map((res) => res.data));
   }
 }

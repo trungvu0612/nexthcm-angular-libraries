@@ -83,7 +83,7 @@ export class LeaveEntitlementManagementComponent extends AbstractServerPaginatio
           takeUntil(this.destroy$)
         )
         .subscribe(
-          this.promptService.handleResponse('removeEmployeeSuccessfully', () =>
+          this.promptService.handleResponse('removeLeaveEntitlementSuccessfully', () =>
             this.queryParams$.next(this.queryParams$.value)
           )
         );

@@ -11,6 +11,7 @@ export interface LeaveEntitlement {
   employeeId?: string;
   jobTitle?: string[];
   orgId: string | any;
+  orgDTO: string | any;
   org?: Org;
   jobTitleDTOList?: BaseObject[];
   fromDate: number;

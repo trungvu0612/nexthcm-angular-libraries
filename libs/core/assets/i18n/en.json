@@ -439,6 +439,7 @@
   "addLeaveApprovalLevel": "Add leave approval level",
   "overview": "Overview",
   "myTime": "My Time",
+  "time": "Time",
   "helpDesk": "Help Desk",
   "payslip": "Payslip",
   "report": "Report",
@@ -880,6 +881,8 @@
     "breakLunch": "Weekend OT Break",
     "minuteTime": "Minute",
     "hourTime": "Hour",
+    "hoursTime": "hours",
+    "days": "days",
     "hourMin": "Hour min",
     "minuteMin": "Minute min",
     "hourMax": "Hour max",
@@ -934,5 +937,9 @@
   "subject": "Subject",
   "content": "Content",
   "editEmailTemplate": "Edit email template",
-  "addUserRoleSuccessfully": "<b>Add user role successfully!</b>"
+  "addUserRoleSuccessfully": "<b>Add user role successfully!</b>",
+  "ACCOUNT_TITLE_NAME_EXISTED": "Account title name existed",
+  "ACCOUNT_TITLE_NAME_EMPTY": "Account title name empty",
+  "ACCOUNT_TITLE_NOT_FOUND": "Account title not found",
+  "ACCOUNT_UPDATE_TITLE_NOT_CHANGE_NAME": "Account update title not change name"
 }
