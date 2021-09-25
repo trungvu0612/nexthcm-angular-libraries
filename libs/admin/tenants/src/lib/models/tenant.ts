@@ -43,7 +43,7 @@ export interface OrganizationalUnit {
   orgName: string;
   description: string;
   ancestor: OrganizationalUnitAncestor;
-  descendants: Partial<OrganizationalUnit>[];
+  descendants: OrganizationalUnit[];
 }
 
 export interface OrganizationalUnitAncestor {

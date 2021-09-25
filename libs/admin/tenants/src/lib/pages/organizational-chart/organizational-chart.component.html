@@ -35,7 +35,7 @@
                 <div class="tui-island__content">
                   <p class="font-bold tui-island__paragraph">{{ unit.orgName }}</p>
                   <div class="flex flex-col">
-                    <svg-icon (click)="upsertUnit(unit)" key="tui-icon-draft"></svg-icon>
+                    <svg-icon (click)="upsertUnit(unit.id)" key="tui-icon-draft"></svg-icon>
                     <svg-icon (click)="deleteUnit(unit.id)" key="tui-icon-trash"></svg-icon>
                   </div>
                 </div>

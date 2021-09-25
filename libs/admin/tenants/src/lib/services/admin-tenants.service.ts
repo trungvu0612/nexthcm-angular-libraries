@@ -20,7 +20,7 @@ export class AdminTenantsService {
   }
 
   checkTenantShortname(payload: Pick<Tenant, 'shortname'>): Observable<boolean> {
-    return this.http.post<boolean>(`${ACCOUNT_API_PATH}/tenants/check-existing`, payload).pipe(
+    return this.http.post(`${ACCOUNT_API_PATH}/tenants/check-existing`, payload).pipe(
       mapTo(true),
       catchError(() => of(false))
     );
@@ -62,6 +62,12 @@ export class AdminTenantsService {
     return this.http.get<BaseResponse<string[]>>(`${ACCOUNT_API_PATH}/orgs/get-org-type`).pipe(map((res) => res.data));
   }
 
+  getOrganizationalUnit(id: string): Observable<OrganizationalUnit> {
+    return this.http
+      .get<BaseResponse<OrganizationalUnit>>(`${ACCOUNT_API_PATH}/orgs/${id}`)
+      .pipe(map((res) => res.data));
+  }
+
   upsertOrganizationalUnit(payload: OrganizationalUnit): Observable<unknown> {
     return payload.id ? this.editOrganizationalUnit(payload) : this.createOrganizationalUnit(payload);
   }
@@ -75,7 +81,7 @@ export class AdminTenantsService {
   }
 
   deleteOrganizationalUnit(id: string): Observable<unknown> {
-    return this.http.delete(`${ACCOUNT_API_PATH}/orgs/` + id);
+    return this.http.delete(`${ACCOUNT_API_PATH}/orgs/${id}`);
   }
 
   getStatisticByTenantStatus(): Observable<TenantStatusStatistic> {
@@ -90,5 +96,19 @@ export class AdminTenantsService {
         params: { orgType, tenantId },
       })
       .pipe(map((res) => res.data));
+  }
+
+  checkDomainUrlExisting(payload: { domainUrl: string; tenant: { id: string } }): Observable<boolean> {
+    return this.http.post(`${ACCOUNT_API_PATH}/domains/check-url-existing`, payload).pipe(
+      mapTo(true),
+      catchError(() => of(false))
+    );
+  }
+
+  checkDomainNameExisting(payload: { name: string; tenant: { id: string } }): Observable<boolean> {
+    return this.http.post(`${ACCOUNT_API_PATH}/domains/check-name-existing`, payload).pipe(
+      mapTo(true),
+      catchError(() => of(false))
+    );
   }
 }

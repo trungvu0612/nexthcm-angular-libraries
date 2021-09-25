@@ -5,11 +5,10 @@ import { TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
 import { TuiDialogService, TuiScrollbarComponent } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
-import { combineLatest, from, iif, merge, Subject } from 'rxjs';
+import { combineLatest, from, iif, merge, of, Subject } from 'rxjs';
 import { distinctUntilChanged, map, shareReplay, startWith, switchMap, tap } from 'rxjs/operators';
 import { SweetAlertOptions } from 'sweetalert2';
 import { UpsertOrganizationalUnitComponent } from '../../components/upsert-organization-unit/upsert-organizational-unit.component';
-import { OrganizationalUnit } from '../../models/tenant';
 import { GetSpanChartPipe } from '../../pipes/get-span-chart.pipe';
 import { AdminTenantsService } from '../../services/admin-tenants.service';
 
@@ -40,7 +39,6 @@ const DIMENSIONS = {
 })
 export class OrganizationalChartComponent {
   canZoom = false;
-  hovering: Partial<OrganizationalUnit> | null = null;
   readonly chart$ = this.state.select('chart');
   readonly zoom$ = this.state.select('zoom');
   readonly dimension$ = this.state.select('zoom').pipe(
@@ -76,7 +74,6 @@ export class OrganizationalChartComponent {
       const offsetWidth = scrollbar.browserScrollRef.nativeElement.offsetWidth - DIMENSIONS.wrapperPaddingX * 2;
       return offsetWidth / width <= 1 ? (offsetWidth / width) * 100 : 100;
     }),
-    tap(console.log),
     shareReplay(1)
   );
   readonly mousewheel$ = new Subject<{ type: string; payload: number }>();
@@ -137,7 +134,7 @@ export class OrganizationalChartComponent {
     }
   }
 
-  @HostListener('window:resize', ['$event']) resize() {
+  @HostListener('window:resize', ['$event']) resize(): void {
     this.resize$.next('resize');
   }
 
@@ -148,14 +145,19 @@ export class OrganizationalChartComponent {
     }
   }
 
-  readonly item = (item: OrganizationalUnit) => item;
+  readonly item = (item: Organization) => item;
 
-  upsertUnit(unit?: OrganizationalUnit): void {
-    this.dialogService
-      .open(new PolymorpheusComponent(UpsertOrganizationalUnitComponent, this.injector), {
-        label: this.translocoService.translate(unit ? 'editOrganizationalUnit' : 'addOrganizationalUnit'),
-        data: { unit: unit || {}, levels: this.state.get('levels') },
-      })
+  upsertUnit(orgId?: string): void {
+    (orgId ? this.adminTenantsService.getOrganizationalUnit(orgId) : of({}))
+      .pipe(
+        switchMap((unit) =>
+          this.dialogService.open(new PolymorpheusComponent(UpsertOrganizationalUnitComponent, this.injector), {
+            label: this.translocoService.translate(orgId ? 'editOrganizationalUnit' : 'addOrganizationalUnit'),
+            data: { unit: unit, levels: this.state.get('levels') },
+          })
+        )
+      )
+
       .subscribe(() => this.refreshChart$.next());
   }
 

@@ -1,13 +1,14 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
 import { RouterQuery } from '@datorama/akita-ng-router-store';
 import { CommonStatus, PromptService } from '@nexthcm/cdk';
-import { FormBuilder } from '@ngneat/reactive-forms';
+import { AbstractControl, FormBuilder } from '@ngneat/reactive-forms';
 import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
-import { distinctUntilChanged, map, startWith, switchMap, takeUntil } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { debounceTime, switchMap, take, takeUntil, tap } from 'rxjs/operators';
 import { TenantDomain } from '../../models/tenant';
 import { AdminTenantsService } from '../../services/admin-tenants.service';
 
@@ -34,24 +35,23 @@ export class UpsertTenantDomainDialogComponent implements OnInit {
         placeholder: 'enterName',
         textfieldLabelOutside: true,
       },
-    },
-    {
-      key: 'statusBoolean',
-      className: 'tui-form__row block',
-      type: 'toggle',
-      defaultValue: true,
-      templateOptions: {
-        textfieldLabelOutside: true,
-        labelClassName: 'font-semibold',
-      },
-      expressionProperties: {
-        'templateOptions.label': this.translocoService.selectTranslate('status'),
-        'templateOptions.description': this.form?.valueChanges.pipe(
-          startWith(null),
-          map((value) => value?.statusBoolean),
-          distinctUntilChanged(),
-          switchMap((status) => this.translocoService.selectTranslate(`${status ? 'active' : 'inactive'}`))
-        ),
+      asyncValidators: {
+        uniqueName: {
+          expression: (control: AbstractControl<string>) =>
+            !control.valueChanges || control.pristine
+              ? of(true)
+              : control.valueChanges.pipe(
+                  debounceTime(1000),
+                  take(1),
+                  switchMap((name: string) =>
+                    this.context.data.name === name
+                      ? of(true)
+                      : this.adminTenantsService.checkDomainNameExisting({ name, tenant: { id: this.model.id } })
+                  ),
+                  tap(() => control.markAsTouched())
+                ),
+          message: () => this.translocoService.selectTranslate('VALIDATION.valueExisting'),
+        },
       },
     },
     {
@@ -65,6 +65,36 @@ export class UpsertTenantDomainDialogComponent implements OnInit {
         placeholder: 'enterDomain',
         labelClassName: 'font-semibold',
         textfieldLabelOutside: true,
+      },
+      asyncValidators: {
+        uniqueUrl: {
+          expression: (control: AbstractControl<string>) =>
+            !control.valueChanges || control.pristine
+              ? of(true)
+              : control.valueChanges.pipe(
+                  debounceTime(1000),
+                  take(1),
+                  switchMap((domainUrl: string) =>
+                    this.context.data.domainUrl === domainUrl
+                      ? of(true)
+                      : this.adminTenantsService.checkDomainUrlExisting({ domainUrl, tenant: { id: this.model.id } })
+                  ),
+                  tap(() => control.markAsTouched())
+                ),
+          message: () => this.translocoService.selectTranslate('VALIDATION.valueExisting'),
+        },
+      },
+    },
+    {
+      key: 'statusBoolean',
+      className: 'tui-form__row block',
+      type: 'status-toggle',
+      defaultValue: true,
+      templateOptions: {
+        translate: true,
+        label: 'status',
+        textfieldLabelOutside: true,
+        labelClassName: 'font-semibold',
       },
     },
     { key: 'id' },
@@ -98,6 +128,7 @@ export class UpsertTenantDomainDialogComponent implements OnInit {
   onSubmit(): void {
     if (this.form.valid) {
       const formModel = { ...this.form.value };
+
       formModel.status = formModel.statusBoolean ? CommonStatus.active : CommonStatus.inactive;
       this.adminTenantsService
         .upsertTenantDomain(formModel)

@@ -17,12 +17,12 @@
         <td>{{ t(item.conditionType.name) }}</td>
         <td>
           <span>{{ t(item.conditionType.description) }}</span>
-          <ng-container *ngIf="item.values?.length"
+          <b *ngIf="item.values?.length"
             >:
             <span *ngFor="let value of item.values; last as isLast"
               >{{ value.name }}<span *ngIf="!isLast">, </span>
             </span>
-          </ng-container>
+          </b>
         </td>
         <td>
           <div class="flex items-center">

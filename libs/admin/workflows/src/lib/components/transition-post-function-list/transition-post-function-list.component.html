@@ -18,10 +18,12 @@
         <td>
           <span>{{ t(item.postFunctionType.description) }}</span>
           <ng-container *ngIf="item.values?.length"
-          >:
-            <span *ngFor="let value of item.values; last as isLast"
-            >{{ value.jobTitle?.name }}<span *ngIf="!isLast">, </span>
-            </span>
+            >:
+            <ng-container *ngFor="let value of item.values; last as isLast">
+              <b *ngIf="value.jobTitle">{{ value.jobTitle.name }}</b>
+              <b *ngIf="value.emailTemplate">{{ value.emailTemplate.name }}</b>
+              <span *ngIf="!isLast">, </span>
+            </ng-container>
           </ng-container>
         </td>
         <td>

@@ -6,6 +6,7 @@ import { inlineLoaderFactory } from '@nexthcm/core';
 import {
   BaseFormComponentModule,
   FormlyStatusToggleComponentModule,
+  FormlyUserComboBoxComponentModule,
   HEADER_TABS,
   InputFilterComponentModule,
   LayoutComponent,
@@ -83,6 +84,7 @@ const TABS: MenuItem[] = [{ label: 'tenantManagement', link: '/admin/tenants', p
     TuiScrollbarModule,
     FormlyStatusToggleComponentModule,
     TuiIslandModule,
+    FormlyUserComboBoxComponentModule,
   ],
   declarations: [
     TenantManagementComponent,
@@ -105,7 +107,7 @@ const TABS: MenuItem[] = [{ label: 'tenantManagement', link: '/admin/tenants', p
         loader: inlineLoaderFactory((lang) => import(`../../assets/i18n/${lang}.json`)),
       },
     },
-    { provide: HEADER_TABS, useValue: TABS }
+    { provide: HEADER_TABS, useValue: TABS },
   ],
 })
 export class AdminTenantsModule {}

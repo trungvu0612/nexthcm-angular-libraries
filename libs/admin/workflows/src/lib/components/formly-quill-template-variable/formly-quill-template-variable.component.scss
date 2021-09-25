@@ -3,7 +3,7 @@
 
   ::ng-deep {
     .ql-editor {
-      height: 200px;
+      height: var(--editor-height);
     }
   }
 }

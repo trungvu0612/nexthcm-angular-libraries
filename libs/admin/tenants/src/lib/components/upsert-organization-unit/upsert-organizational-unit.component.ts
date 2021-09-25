@@ -80,18 +80,14 @@ export class UpsertOrganizationalUnitComponent {
     },
     {
       key: 'user',
-      type: 'select',
       className: 'tui-form__row block',
+      type: 'user-combo-box',
       templateOptions: {
         translate: true,
+        required: true,
         label: 'manager',
         labelClassName: 'font-semibold',
         placeholder: 'chooseManager',
-        labelProp: 'username',
-        subLabelProp: 'code',
-        textfieldCleaner: true,
-        options: [],
-        matcherBy: 'id',
       },
       hideExpression: 'model.id',
     },
@@ -106,6 +102,7 @@ export class UpsertOrganizationalUnitComponent {
         textfieldLabelOutside: true,
       },
     },
+    { key: 'id' },
   ];
 
   constructor(
@@ -123,10 +120,11 @@ export class UpsertOrganizationalUnitComponent {
   }
 
   onSubmit(): void {
-    if (this.form.valid)
+    if (this.form.valid) {
       this.adminTenantsService
         .upsertOrganizationalUnit(this.model)
         .pipe(tap(this.promptService.handleResponse()), takeUntil(this.destroy$))
         .subscribe(() => this.context.completeWith(true));
+    }
   }
 }
