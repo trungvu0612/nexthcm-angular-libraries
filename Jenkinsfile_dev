@@ -12,7 +12,8 @@ pipeline {
   stages {
     stage('Build and publish libraries') {
       steps {
-        sh 'YARN_CHECKSUM_BEHAVIOR=update yarn'
+        sh 'yarn upgrade'
+        sh 'yarn'
         sh 'yarn affected:build'
         sh 'yarn affected:publish'
       }
@@ -21,7 +22,7 @@ pipeline {
       stages {
         stage('Build web') {
           steps {
-            sh 'yarn up'
+            sh 'yarn upgrade'
             sh 'yarn build -- -c ${ENVIRONMENT}'
           }
         }

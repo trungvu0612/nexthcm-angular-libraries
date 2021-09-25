@@ -8,7 +8,7 @@ import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { combineLatest, from, iif, merge, Subject } from 'rxjs';
 import { distinctUntilChanged, map, shareReplay, startWith, switchMap, tap } from 'rxjs/operators';
 import { SweetAlertOptions } from 'sweetalert2';
-import { UpsertOrganizationUnitComponent } from '../../components/upsert-organization-unit/upsert-organization-unit.component';
+import { UpsertOrganizationalUnitComponent } from '../../components/upsert-organization-unit/upsert-organizational-unit.component';
 import { OrganizationalUnit } from '../../models/tenant';
 import { GetSpanChartPipe } from '../../pipes/get-span-chart.pipe';
 import { AdminTenantsService } from '../../services/admin-tenants.service';
@@ -122,7 +122,7 @@ export class OrganizationalChartComponent {
               showCancelButton: true,
             } as SweetAlertOptions)
           ).pipe(
-            switchMap((result) => iif(() => result.isConfirmed, this.adminTenantsService.deleteOrganizationUnit(id))),
+            switchMap((result) => iif(() => result.isConfirmed, this.adminTenantsService.deleteOrganizationalUnit(id))),
             tap(() => this.refreshChart$.next())
           )
         )
@@ -148,18 +148,18 @@ export class OrganizationalChartComponent {
     }
   }
 
-  item = (item: Partial<OrganizationalUnit>) => item;
+  readonly item = (item: OrganizationalUnit) => item;
 
-  upsertUnit(unit?: Partial<OrganizationalUnit>) {
+  upsertUnit(unit?: OrganizationalUnit): void {
     this.dialogService
-      .open(new PolymorpheusComponent(UpsertOrganizationUnitComponent, this.injector), {
+      .open(new PolymorpheusComponent(UpsertOrganizationalUnitComponent, this.injector), {
         label: this.translocoService.translate(unit ? 'editOrganizationalUnit' : 'addOrganizationalUnit'),
         data: { unit: unit || {}, levels: this.state.get('levels') },
       })
       .subscribe(() => this.refreshChart$.next());
   }
 
-  deleteUnit(id?: string) {
+  deleteUnit(id?: string): void {
     if (id) {
       this.removeUnit$.next(id);
     }

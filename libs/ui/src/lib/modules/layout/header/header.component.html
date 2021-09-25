@@ -6,7 +6,7 @@
       </a>
     </tui-tabs>
     <div class="flex items-center border-l h-full">
-      <tui-hosted-dropdown [(open)]="open" [content]="langsDropdown" class="mx-6">
+      <tui-hosted-dropdown [(open)]="open" [content]="langsDropdown" class="mx-2">
         <button [iconRight]="icon" appearance="flat" tuiButton type="button">
           <tui-svg src="assets/icons/languages.svg"></tui-svg>
         </button>
@@ -22,11 +22,11 @@
         </tui-data-list>
       </ng-template>
 
-      <div class="relative cursor-pointer w-8 h-8">
+      <!--<div class="relative cursor-pointer w-8 h-8">
         <tui-svg class="absolute bottom-0 left-0" src="tuiIconBellLarge"></tui-svg>
         <div *ngIf="notification" class="badge">{{ notification }}</div>
-      </div>
-      <tui-hosted-dropdown *rxLet="userProfile$; let userProfile" [content]="avatarDropdown" class="mx-8">
+      </div>-->
+      <tui-hosted-dropdown *rxLet="userProfile$; let userProfile" [content]="avatarDropdown" class="mr-5">
         <button>
           <hcm-avatar [image]="userProfile.image" [text]="userProfile.username" rounded size="s"></hcm-avatar>
         </button>

@@ -2,6 +2,22 @@
   <ng-container ngProjectAs="pageHeader">
     <button (click)="createTenant()" size="m" tuiButton>{{ 'tenants.createTenant' | transloco }}</button>
   </ng-container>
+  <div *ngIf="statistic$ | async as statistic" class="flex gap-8 mb-8">
+    <ng-container *transloco="let t">
+      <tui-island [hoverable]="true" size="l">
+        <h3 class="tui-island__title">{{ t('active') }}</h3>
+        <p class="tui-island__paragraph text-approved text-4xl font-semibold">{{ statistic.active }}</p>
+      </tui-island>
+      <tui-island [hoverable]="true" size="l">
+        <h3 class="tui-island__title">{{ t('pending') }}</h3>
+        <p class="tui-island__paragraph text-waiting text-4xl font-semibold">{{ statistic.pending }}</p>
+      </tui-island>
+      <tui-island [hoverable]="true" size="l">
+        <h3 class="tui-island__title">{{ t('inactive') }}</h3>
+        <p class="tui-island__paragraph text-rejected text-4xl font-semibold">{{ statistic.inactive }}</p>
+      </tui-island>
+    </ng-container>
+  </div>
   <hcm-input-filter
     (valueChange)="search$.next($event)"
     class="mb-5"

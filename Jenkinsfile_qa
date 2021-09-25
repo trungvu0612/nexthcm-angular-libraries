@@ -14,7 +14,7 @@ pipeline {
       stages {
         stage('Build web') {
           steps {
-            sh 'YARN_CHECKSUM_BEHAVIOR=update yarn up'
+            sh 'yarn upgrade'
             sh 'yarn build -- -c ${ENVIRONMENT}'
           }
         }

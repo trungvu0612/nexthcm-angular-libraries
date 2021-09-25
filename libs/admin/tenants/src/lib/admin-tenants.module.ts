@@ -22,7 +22,7 @@ import { TuiIslandModule, TuiTabsModule, TuiTagModule } from '@taiga-ui/kit';
 import { HeroIconModule, zoomIn } from 'ng-heroicon';
 import { TableModule } from 'ngx-easy-table';
 import { NgxPermissionsGuard } from 'ngx-permissions';
-import { UpsertOrganizationUnitComponent } from './components/upsert-organization-unit/upsert-organization-unit.component';
+import { UpsertOrganizationalUnitComponent } from './components/upsert-organization-unit/upsert-organizational-unit.component';
 import { UpsertTenantDialogComponent } from './components/upsert-tenant-dialog/upsert-tenant-dialog.component';
 import { UpsertTenantDomainDialogComponent } from './components/upsert-tenant-domain-dialog/upsert-tenant-domain-dialog.component';
 import { UpsertTenantFormComponent } from './components/upsert-tenant-form/upsert-tenant-form.component';
@@ -92,7 +92,7 @@ const TABS: MenuItem[] = [{ label: 'tenantManagement', link: '/admin/tenants', p
     TenantProfileComponent,
     OrganizationalChartComponent,
     UpsertTenantDomainDialogComponent,
-    UpsertOrganizationUnitComponent,
+    UpsertOrganizationalUnitComponent,
     TenantDetailComponent,
     GetSpanChartPipe,
   ],

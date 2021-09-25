@@ -58,6 +58,7 @@ export class TenantManagementComponent extends AbstractServerPaginationTableComp
     map((value) => !value),
     catchError(() => of(false))
   );
+  readonly statistic$ = this.adminTenantsService.getStatisticByTenantStatus();
 
   constructor(
     readonly state: RxState<Pagination<BaseTenant>>,

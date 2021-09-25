@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { HttpParams } from '@angular/common/http';
-import { ChangeDetectionStrategy, Component, Inject, NgModule } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, NgModule, ViewChild } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from '@nexthcm/auth';
 import { EmployeeInfo, GetFilePipeModule, Pagination } from '@nexthcm/cdk';
@@ -9,7 +9,16 @@ import { FormControl } from '@ngneat/reactive-forms';
 import { TranslocoModule } from '@ngneat/transloco';
 import { TranslocoLocaleModule } from '@ngneat/transloco-locale';
 import { TuiDestroyService, TuiIdentityMatcher, TuiLetModule, TuiStringHandler } from '@taiga-ui/cdk';
-import { TuiButtonModule, TuiDataListModule, TuiDialogContext, TuiTextfieldControllerModule } from '@taiga-ui/core';
+import {
+  TuiButtonModule,
+  TuiDataListModule,
+  TuiDialogContext,
+  TuiDropdownControllerModule,
+  TuiHostedDropdownComponent,
+  TuiHostedDropdownModule,
+  TuiSvgModule,
+  TuiTextfieldControllerModule,
+} from '@taiga-ui/core';
 import {
   TuiAccordionModule,
   TuiAvatarModule,
@@ -17,6 +26,7 @@ import {
   TuiDataListWrapperModule,
   TuiHighlightModule,
   TuiInputModule,
+  TuiSelectModule,
   TuiTagModule,
 } from '@taiga-ui/kit';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
@@ -37,6 +47,8 @@ import { LeaveRequestDateRangeComponentModule } from '../leave-request-date-rang
   providers: [TuiDestroyService],
 })
 export class RequestDetailDialogComponent {
+  @ViewChild(TuiHostedDropdownComponent) component?: TuiHostedDropdownComponent;
+
   readonly RequestStatus = RequestStatus;
   readonly RequestTypeAPIUrlPath = RequestTypeAPIUrlPath;
   readonly search$ = new BehaviorSubject<string>('');
@@ -52,14 +64,13 @@ export class RequestDetailDialogComponent {
       .set('type', this.requestType)
       .set('objectId', this.context.data.value.id)
   );
-
   readonly comments$: Observable<Pagination<RequestComment>> = this.commentParams$.pipe(
     switchMap(() => this.myTimeService.getRequestComment(this.commentParams$.value))
   );
-
   readonly tracking$: Observable<Tracking[]> = this.commentParams$.pipe(
     switchMap(() => this.myTimeService.getRequestTracking(this.requestTypeAPIUrlPath, this.context.data.value.id))
   );
+  open = false;
 
   constructor(
     @Inject(POLYMORPHEUS_CONTEXT)
@@ -94,34 +105,13 @@ export class RequestDetailDialogComponent {
 
   readonly stringify: TuiStringHandler<any> = (item: EmployeeInfo) => item.fullName;
 
-  onApproveRequest(id: string): void {
-    this.myTimeService
-      .approveRequest(this.requestTypeAPIUrlPath, id)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(() => (this.context.data.value.status = RequestStatus.approved));
-  }
-
-  onRejectRequest(id: string): void {
-    this.myTimeService
-      .rejectRequest(this.requestTypeAPIUrlPath, id)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(() => (this.context.data.value.status = RequestStatus.rejected));
-  }
-
-  onCancelRequest(id: string): void {
-    this.myTimeService
-      .cancelRequest(this.requestTypeAPIUrlPath, id)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(() => (this.context.data.value.status = RequestStatus.cancelled));
-  }
-
   onChangeEscalateUser(value: EmployeeInfo | null, requestId: string): void {
     if ('escalateInfo' in this.data) {
       this.data.escalateInfo = value;
     }
-    if (value) {
+    if (value?.id) {
       this.myTimeService
-        .updateRequest(this.requestTypeAPIUrlPath, requestId, { escalate: value.id })
+        .changeEscalateUser(this.requestTypeAPIUrlPath, { objectId: requestId, escalateId: value.id })
         .pipe(takeUntil(this.destroy$))
         .subscribe();
     }
@@ -138,6 +128,15 @@ export class RequestDetailDialogComponent {
       this.commentParams$.next(this.commentParams$.value);
       this.commentControl.reset();
     });
+  }
+
+  onChangeRequestStatus(statusId: string): void {
+    this.open = false;
+    this.component?.nativeFocusableElement?.focus();
+    this.myTimeService
+      .changeRequestStatus(this.requestTypeAPIUrlPath, this.data.id, statusId)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe();
   }
 }
 
@@ -164,6 +163,10 @@ export class RequestDetailDialogComponent {
     TuiTextfieldControllerModule,
     LeaveRequestDateRangeComponentModule,
     TuiAvatarModule,
+    TuiSelectModule,
+    TuiHostedDropdownModule,
+    TuiDropdownControllerModule,
+    TuiSvgModule,
   ],
   exports: [RequestDetailDialogComponent],
 })

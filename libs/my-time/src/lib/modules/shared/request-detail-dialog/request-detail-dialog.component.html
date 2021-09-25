@@ -15,8 +15,10 @@
           <div class="table-label">{{ t('status') }}:</div>
           <div class="table-value">
             <tui-tag
-              [value]="t('REQUEST_STATUS.' + RequestStatus[data.status])"
-              class="{{ RequestStatus[data.status] }}-tag"
+              *ngIf="data.currentState as status"
+              [style.backgroundColor]="status.stateType.color"
+              [value]="status.name"
+              class="text-white"
             ></tui-tag>
           </div>
         </div>
@@ -164,27 +166,27 @@
           <div class="table-label">{{ t('Comment') }}:</div>
           <div class="table-value">{{ data.comment }}</div>
         </div>
-        <div *ngIf="data.status === RequestStatus.rejected" class="table-row">
+        <div class="table-row">
           <div class="table-label">{{ t('reason') }}:</div>
           <div class="table-value">{{ data.reason }}</div>
         </div>
       </div>
     </section>
-    <!--<section
-      *ngIf="data.status === RequestStatus.waiting"
-      [class.grid-cols-2]="!isMyRequest"
-      class="grid gap-8 py-5 border-b"
-    >
-      <ng-container *ngIf="isMyRequest">
-        <button (click)="onCancelRequest(data.id)" appearance="secondary" class="mx-auto" tuiButton>
-          {{ t('cancel') }}
-        </button>
-      </ng-container>
-      <ng-container *ngIf="!isMyRequest">
-        <button (click)="onRejectRequest(data.id)" appearance="secondary" tuiButton>{{ t('reject') }}</button>
-        <button (click)="onApproveRequest(data.id)" tuiButton>{{ t('approve') }}</button>
-      </ng-container>
-    </section>-->
+    <div class="flex justify-center py-5 border-b">
+      <tui-hosted-dropdown *ngIf="data.nextStates.length" [(open)]="open" [content]="dropdown" tuiDropdownAlign="left">
+        <button [iconRight]="icon" appearance="secondary" tuiButton type="button">{{ t('functions') }}</button>
+      </tui-hosted-dropdown>
+      <ng-template #icon>
+        <tui-svg [class.icon_rotated]="open" class="icon" src="tuiIconChevronDown"></tui-svg>
+      </ng-template>
+      <ng-template #dropdown>
+        <tui-data-list>
+          <button (click)="onChangeRequestStatus(item.state.id)" *ngFor="let item of data.nextStates" tuiOption>
+            {{ item.state.name }}
+          </button>
+        </tui-data-list>
+      </ng-template>
+    </div>
 
     <tui-accordion [closeOthers]="false" [rounded]="false">
       <tui-accordion-item [borders]="null" class="border-b-2">
@@ -221,7 +223,7 @@
               <span class="text-gray-300">{{ comment.createdDate | date: 'dd/MM/yyyy HH:mm' }}</span>
             </p>
           </ng-container>
-          <div class="flex justify-between align-baseline mt-4">
+          <div class="flex justify-between mt-4 align-baseline">
             <tui-avatar [rounded]="true" [text]="'A'"></tui-avatar>
             <tui-input
               (keyup.enter)="onSubmitComment()"

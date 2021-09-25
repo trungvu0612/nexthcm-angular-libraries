@@ -18,6 +18,7 @@ import { SweetAlertOptions } from 'sweetalert2';
 import { RequestStatus } from '../enums';
 import { GeneralRequest, SubmitRequestPayload, UpdateRequestPayload } from '../models';
 import { RequestComment } from '../models/request-comment';
+import { ChangeEscalateUserPayload } from '../models/requests/change-escalate-user-payload';
 import { Tracking } from '../models/requests/tracking';
 import { RejectRequestDialogComponent } from '../modules/request-management/components/reject-leave-request-dialog/reject-request-dialog.component';
 import { RequestDetailDialogComponent } from '../modules/shared/request-detail-dialog/request-detail-dialog.component';
@@ -76,7 +77,11 @@ export class MyTimeService {
   }
 
   updateRequest(type: RequestTypeAPIUrlPath, id: string, payload: UpdateRequestPayload): Observable<unknown> {
-    return this.http.put<unknown>(`${MY_TIME_API_PATH}/${type}/${id}`, payload);
+    return this.http.put(`${MY_TIME_API_PATH}/${type}/${id}`, payload);
+  }
+
+  changeEscalateUser(type: RequestTypeAPIUrlPath, payload: ChangeEscalateUserPayload): Observable<unknown> {
+    return this.http.post(`${MY_TIME_API_PATH}/${type}/change-assignee`, payload);
   }
 
   changeRequestStatus(
@@ -86,7 +91,7 @@ export class MyTimeService {
     callback?: () => void
   ): Observable<unknown> {
     return this.http
-      .put<unknown>(`${MY_TIME_API_PATH}/${type}/${requestId}`, { request: { nextState } })
+      .put(`${MY_TIME_API_PATH}/${type}/${requestId}`, { request: { nextState } })
       .pipe(tap(this.promptService.handleResponse('', callback)));
   }
 
@@ -148,7 +153,13 @@ export class MyTimeService {
   }
 
   getEscalateUsers(searchQuery: string): Observable<EmployeeInfo[]> {
-    return this.http.get<EmployeeInfo[]>(`${ACCOUNT_API_PATH}/users/get-manager`);
+    return this.http
+      .get<EmployeeInfo[]>(`${ACCOUNT_API_PATH}/users/get-manager`)
+      .pipe(
+        map((users) =>
+          users.filter((user) => user.fullName.toLowerCase().indexOf(searchQuery.toLowerCase()) !== -1)
+        )
+      );
   }
 
   getRequestComment(params: HttpParams): Observable<Pagination<RequestComment>> {

@@ -16,6 +16,7 @@ import {
 } from '@taiga-ui/core';
 import { NgDompurifySanitizer } from '@tinkoff/ng-dompurify';
 import { NgxPermissionsModule } from 'ngx-permissions';
+import { QuicklinkModule } from 'ngx-quicklink';
 import { APP_CONFIG } from './app-config.token';
 import { API_PREFIX_INTERCEPTOR_PROVIDER } from './interceptors';
 import { AppConfig } from './models';
@@ -39,6 +40,7 @@ akitaConfig({ resettable: true });
     NgxPermissionsModule.forRoot(),
     SvgIconsModule.forRoot({ defaultSize: 'lg' }),
     AkitaNgRouterStoreModule,
+    QuicklinkModule,
   ],
   providers: [
     API_PREFIX_INTERCEPTOR_PROVIDER,

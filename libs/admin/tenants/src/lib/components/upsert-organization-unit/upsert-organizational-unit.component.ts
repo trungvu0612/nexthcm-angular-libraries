@@ -1,22 +1,24 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
+import { RouterQuery } from '@datorama/akita-ng-router-store';
 import { PromptService } from '@nexthcm/cdk';
 import { FormBuilder } from '@ngneat/reactive-forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
-import { takeUntil, tap } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { switchMap, takeUntil, tap } from 'rxjs/operators';
 import { OrganizationalUnit } from '../../models/tenant';
 import { AdminTenantsService } from '../../services/admin-tenants.service';
 
 @Component({
-  selector: 'hcm-upsert-organization-unit',
-  templateUrl: './upsert-organization-unit.component.html',
-  styleUrls: ['./upsert-organization-unit.component.scss'],
+  selector: 'hcm-upsert-organizational-unit',
+  templateUrl: './upsert-organizational-unit.component.html',
+  styleUrls: ['./upsert-organizational-unit.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [TuiDestroyService],
 })
-export class UpsertOrganizationUnitComponent {
+export class UpsertOrganizationalUnitComponent {
   readonly form = this.fb.group<OrganizationalUnit>({} as OrganizationalUnit);
   model = this.context.data.unit;
   readonly fields: FormlyFieldConfig[] = [
@@ -63,13 +65,17 @@ export class UpsertOrganizationUnitComponent {
       expressionProperties: { 'templateOptions.disabled': '!model.orgType' },
       hideExpression: 'model.id',
       hooks: {
-        /*onInit: (field?: FormlyFieldConfig) => {
+        onInit: (field?: FormlyFieldConfig) => {
           if (field?.templateOptions) {
             field.templateOptions.options = this.form.controls.orgType?.valueChanges.pipe(
-              switchMap((orgType) => (orgType ? this.adminTenantsService.getParentLevel(orgType) : of([])))
+              switchMap((orgType) =>
+                orgType
+                  ? this.adminTenantsService.getParentLevel(orgType, this.routerQuery.getParams('tenantId') as string)
+                  : of([])
+              )
             );
           }
-        },*/
+        },
       },
     },
     {
@@ -108,17 +114,18 @@ export class UpsertOrganizationUnitComponent {
     private readonly context: TuiDialogContext<boolean, { unit: OrganizationalUnit; levels: string[] }>,
     private readonly adminTenantsService: AdminTenantsService,
     private readonly destroy$: TuiDestroyService,
-    private readonly promptService: PromptService
+    private readonly promptService: PromptService,
+    private readonly routerQuery: RouterQuery
   ) {}
 
-  onCancel() {
+  onCancel(): void {
     this.context.$implicit.complete();
   }
 
-  submitUnit() {
+  onSubmit(): void {
     if (this.form.valid)
       this.adminTenantsService
-        .upsertOrganizationUnit(this.model)
+        .upsertOrganizationalUnit(this.model)
         .pipe(tap(this.promptService.handleResponse()), takeUntil(this.destroy$))
         .subscribe(() => this.context.completeWith(true));
   }

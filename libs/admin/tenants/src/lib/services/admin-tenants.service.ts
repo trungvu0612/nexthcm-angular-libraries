@@ -4,6 +4,7 @@ import { ACCOUNT_API_PATH, BaseResponse, Pagination, PagingResponse } from '@nex
 import { EMPTY, Observable, of } from 'rxjs';
 import { catchError, map, mapTo } from 'rxjs/operators';
 import { BaseTenant, OrganizationalUnit, Tenant, TenantDomain } from '../models/tenant';
+import { TenantStatusStatistic } from '../models/tenant-status-statistic';
 
 @Injectable({
   providedIn: 'root',
@@ -61,15 +62,33 @@ export class AdminTenantsService {
     return this.http.get<BaseResponse<string[]>>(`${ACCOUNT_API_PATH}/orgs/get-org-type`).pipe(map((res) => res.data));
   }
 
-  upsertOrganizationUnit(payload: Partial<OrganizationalUnit>): Observable<unknown> {
-    // return payload.id
-    //   ? this.http.put(`${ACCOUNT_API_PATH}/domains/${payload.id}`, payload)
-    //   : this.http.post(`${ACCOUNT_API_PATH}/domains`, payload);
-    return of(payload);
+  upsertOrganizationalUnit(payload: OrganizationalUnit): Observable<unknown> {
+    return payload.id ? this.editOrganizationalUnit(payload) : this.createOrganizationalUnit(payload);
   }
 
-  deleteOrganizationUnit(id: string): Observable<unknown> {
-    // return this.http.delete(`${ACCOUNT_API_PATH}/domains/${id}`);
-    return of(id);
+  createOrganizationalUnit(payload: OrganizationalUnit): Observable<unknown> {
+    return this.http.post(`${ACCOUNT_API_PATH}/orgs`, payload);
+  }
+
+  editOrganizationalUnit(payload: OrganizationalUnit): Observable<unknown> {
+    return this.http.put(`${ACCOUNT_API_PATH}/orgs/${payload.id}`, payload);
+  }
+
+  deleteOrganizationalUnit(id: string): Observable<unknown> {
+    return this.http.delete(`${ACCOUNT_API_PATH}/orgs/` + id);
+  }
+
+  getStatisticByTenantStatus(): Observable<TenantStatusStatistic> {
+    return this.http
+      .get<BaseResponse<TenantStatusStatistic>>(`${ACCOUNT_API_PATH}/tenants-status`)
+      .pipe(map((res) => res.data));
+  }
+
+  getParentLevel(orgType: string, tenantId: string): Observable<OrganizationalUnit[]> {
+    return this.http
+      .get<BaseResponse<OrganizationalUnit[]>>(`${ACCOUNT_API_PATH}/orgs/parent-org-by-org-type`, {
+        params: { orgType, tenantId },
+      })
+      .pipe(map((res) => res.data));
   }
 }

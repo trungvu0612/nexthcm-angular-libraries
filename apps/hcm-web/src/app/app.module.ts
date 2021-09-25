@@ -4,7 +4,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { AkitaNgDevtools } from '@datorama/akita-ngdevtools';
 import { AuthModule, LoginComponent } from '@nexthcm/auth';
-import { CoreModule } from '@nexthcm/core';
+import { CoreModule, ROUTER_CONFIG } from '@nexthcm/core';
 import { FormlyTaigaUiModule } from '@nexthcm/ui';
 import { TuiRootModule } from '@taiga-ui/core';
 import { environment } from '../environments/environment';
@@ -78,10 +78,7 @@ import { AppComponent } from './app.component';
           ],
         },
       ],
-      {
-        initialNavigation: 'enabledNonBlocking',
-        paramsInheritanceStrategy: 'always', // get the lazy modules routing params
-      }
+      ROUTER_CONFIG
     ),
     BrowserAnimationsModule,
     TuiRootModule,
