@@ -8,9 +8,16 @@ pipeline {
     SERVICE_NAME = 'next-hcm-demo-web'
   }
   stages {
+    stage('Build and publish libraries') {
+      steps {
+        sh 'YARN_CHECKSUM_BEHAVIOR=update yarn'
+        sh 'yarn affected:build'
+        sh 'yarn affected:publish'
+      }
+    }
     stage('Build web') {
       steps {
-        sh 'yarn upgrade'
+        sh 'yarn up'
         sh 'yarn build'
       }
     }
