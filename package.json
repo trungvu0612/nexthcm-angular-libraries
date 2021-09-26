@@ -194,8 +194,5 @@
         }
       ]
     }
-  },
-  "installConfig": {
-    "pnp": true
   }
 }
