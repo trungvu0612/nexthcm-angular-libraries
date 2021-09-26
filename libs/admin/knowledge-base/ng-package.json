@@ -3,5 +3,6 @@
   "dest": "../../../dist/libs/admin/knowledge-base",
   "lib": {
     "entryFile": "src/index.ts"
-  }
+  },
+  "assets": ["assets"]
 }

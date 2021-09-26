@@ -1,0 +1,9 @@
+{
+  "ADMIN_JOB_LEVEL_COLUMNS": {
+    "name": "Name",
+    "code": "Code",
+    "description": "Description",
+    "permissions": "Permissions",
+    "functions": "Functions"
+  }
+}

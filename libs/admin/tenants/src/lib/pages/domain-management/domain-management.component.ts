@@ -1,7 +1,8 @@
 import { HttpParams } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, Inject, Injector, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { RouterQuery } from '@datorama/akita-ng-router-store';
-import { AbstractServerPaginationTableComponent, CommonStatus, Pagination, PromptService } from '@nexthcm/cdk';
+import { AbstractServerSortPaginationTableComponent, CommonStatus, Pagination, PromptService } from '@nexthcm/cdk';
 import { HashMap, TRANSLOCO_SCOPE, TranslocoService } from '@ngneat/transloco';
 import { ProviderScope, TranslocoScope } from '@ngneat/transloco/lib/types';
 import { RxState } from '@rx-angular/state';
@@ -22,7 +23,7 @@ import { AdminTenantsService } from '../../services/admin-tenants.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [RxState, TuiDestroyService],
 })
-export class DomainManagementComponent extends AbstractServerPaginationTableComponent<TenantDomain> {
+export class DomainManagementComponent extends AbstractServerSortPaginationTableComponent<TenantDomain> {
   @ViewChild('table') table!: BaseComponent;
 
   readonly columns$: Observable<Columns[]> = this.translocoService
@@ -32,7 +33,7 @@ export class DomainManagementComponent extends AbstractServerPaginationTableComp
         { key: 'name', title: result.name },
         { key: 'domain', title: result.domain },
         { key: 'status', title: result.status },
-        { key: '', title: result.functions },
+        { key: '', title: result.functions, orderEnabled: false },
       ])
     );
   readonly CommonStatus = CommonStatus;
@@ -53,6 +54,8 @@ export class DomainManagementComponent extends AbstractServerPaginationTableComp
 
   constructor(
     readonly state: RxState<Pagination<TenantDomain>>,
+    readonly router: Router,
+    readonly activatedRoute: ActivatedRoute,
     @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope,
     private readonly dialogService: TuiDialogService,
     private readonly injector: Injector,
@@ -62,7 +65,7 @@ export class DomainManagementComponent extends AbstractServerPaginationTableComp
     private readonly promptService: PromptService,
     private readonly routerQuery: RouterQuery
   ) {
-    super(state);
+    super(state, router, activatedRoute);
     state.connect(this.request$.pipe(filter(isPresent)));
   }
 

@@ -1,13 +1,13 @@
-import { ChangeDetectionStrategy, Component, Injector, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, Injector, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
-  AbstractServerPaginationTableComponent,
+  AbstractServerSortPaginationTableComponent,
   EmployeeGeneralInformation,
   EmployeeInfo,
   Pagination,
   PromptService,
 } from '@nexthcm/cdk';
-import { TranslocoService } from '@ngneat/transloco';
+import { ProviderScope, TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
@@ -37,13 +37,13 @@ import { AdminEmployeesService } from '../../services/admin-employees.service';
   providers: [TuiDestroyService, RxState],
 })
 export class EmployeeManagementComponent
-  extends AbstractServerPaginationTableComponent<EmployeeInfo>
+  extends AbstractServerSortPaginationTableComponent<EmployeeInfo>
   implements OnInit
 {
   @ViewChild('table') table!: BaseComponent;
 
   readonly columns$: Observable<Columns[]> = this.translocoService
-    .selectTranslateObject('ADMIN_EMPLOYEE_MANAGEMENT_COLUMNS')
+    .selectTranslateObject('ADMIN_EMPLOYEE_MANAGEMENT_COLUMNS', {}, (this.scope as ProviderScope).scope)
     .pipe(
       map((result) => [
         { key: 'cif', title: result.cif },
@@ -53,7 +53,7 @@ export class EmployeeManagementComponent
         { key: 'directReport', title: result.directReport },
         { key: 'roles', title: result.roles },
         { key: 'activeStatus', title: result.activeStatus },
-        { key: 'actions', title: result.functions },
+        { key: 'actions', title: result.functions, orderEnabled: false },
       ])
     );
   private readonly request$ = this.queryParams$.pipe(
@@ -67,17 +67,18 @@ export class EmployeeManagementComponent
   readonly search$ = new Subject<string | null>();
 
   constructor(
+    @Inject(TRANSLOCO_SCOPE) readonly scope: TranslocoScope,
     readonly state: RxState<Pagination<EmployeeInfo>>,
+    readonly router: Router,
+    readonly activatedRoute: ActivatedRoute,
     private readonly dialogService: TuiDialogService,
     private readonly injector: Injector,
-    private readonly router: Router,
-    private readonly activatedRoute: ActivatedRoute,
     private readonly adminEmployeesService: AdminEmployeesService,
     private readonly destroy$: TuiDestroyService,
     private readonly translocoService: TranslocoService,
     private readonly promptService: PromptService
   ) {
-    super(state);
+    super(state, router, activatedRoute);
     state.connect(this.request$.pipe(filter(isPresent)));
     state.hold(
       this.search$.pipe(

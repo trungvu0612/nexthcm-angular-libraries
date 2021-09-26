@@ -1,10 +1,12 @@
-<ng-container *transloco="let t">
-  <hcm-page [title]="t('permissionManagement')">
+  <hcm-page [title]="('permissionManagement' | transloco)">
     <ng-container ngProjectAs="pageHeader">
-      <button routerLink="./create" tuiButton>{{ t('addPermission') }}</button>
+      <button routerLink="./create" tuiButton>{{ ('addPermission' | transloco) }}</button>
     </ng-container>
     <tui-loader [overlay]="true" [showLoader]="(loading$ | async) === true">
-      <ngx-table [columns]="(columns$ | async) || []" [configuration]="configuration" [data]="(data$ | async) || []">
+      <ngx-table
+        #table
+        (event)="eventEmitted($event)"
+        [columns]="(columns$ | async) || []" [configuration]="configuration" [data]="(data$ | async) || []">
         <ng-template let-row>
           <ng-container *ngIf="item(row) as item">
             <td>{{ item.name }}</td>
@@ -37,4 +39,3 @@
       ></tui-table-pagination>
     </tui-loader>
   </hcm-page>
-</ng-container>

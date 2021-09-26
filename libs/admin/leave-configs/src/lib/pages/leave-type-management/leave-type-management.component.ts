@@ -1,6 +1,7 @@
-import { ChangeDetectionStrategy, Component, Injector, ViewChild } from '@angular/core';
-import { AbstractServerPaginationTableComponent, Pagination, PromptService } from '@nexthcm/cdk';
-import { TranslocoService } from '@ngneat/transloco';
+import { ChangeDetectionStrategy, Component, Inject, Injector, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AbstractServerSortPaginationTableComponent, Pagination, PromptService } from '@nexthcm/cdk';
+import { ProviderScope, TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
@@ -20,18 +21,18 @@ import { LeaveType } from '../../models/leave-type';
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [TuiDestroyService, RxState],
 })
-export class LeaveTypeManagementComponent extends AbstractServerPaginationTableComponent<LeaveType> {
+export class LeaveTypeManagementComponent extends AbstractServerSortPaginationTableComponent<LeaveType> {
   readonly leaveConfigAPIUrlPath = LeaveConfigAPIUrlPath.Type;
   @ViewChild('table') table!: BaseComponent;
   readonly PaidLeaveStatus = PaidLeaveStatus;
   columns$: Observable<Columns[]> = this.translocoService
-    .selectTranslateObject('ADMIN_LEAVE_TYPES.LEAVE_TYPES_COLUMNS')
+    .selectTranslateObject('ADMIN_LEAVE_TYPES.LEAVE_TYPES_COLUMNS', {}, (this.scope as ProviderScope).scope)
     .pipe(
       map((result) => [
         { key: 'name', title: result.name },
         { key: 'description', title: result.description },
         { key: 'paidLeave', title: result.paidLeave },
-        { key: 'operations', title: result.operations },
+        { key: 'operations', title: result.operations, orderEnabled: false },
       ])
     );
   activeItemIndex = 0;
@@ -49,7 +50,10 @@ export class LeaveTypeManagementComponent extends AbstractServerPaginationTableC
   );
 
   constructor(
-    public state: RxState<Pagination<LeaveType>>,
+    @Inject(TRANSLOCO_SCOPE) readonly scope: TranslocoScope,
+    readonly state: RxState<Pagination<LeaveType>>,
+    readonly router: Router,
+    readonly activatedRoute: ActivatedRoute,
     private leaveConfigsService: LeaveConfigsService,
     private leaveTypeService: LeaveConfigsService,
     private destroy$: TuiDestroyService,
@@ -58,7 +62,7 @@ export class LeaveTypeManagementComponent extends AbstractServerPaginationTableC
     private translocoService: TranslocoService,
     private promptService: PromptService
   ) {
-    super(state);
+    super(state, router, activatedRoute);
     state.connect(this.request$.pipe(filter(isPresent)));
   }
 

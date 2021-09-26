@@ -1,13 +1,13 @@
-<ng-container *transloco="let t">
-  <hcm-page [title]="t('jobTitleManagement')">
+  <hcm-page [title]="'jobTitleManagement' | transloco">
     <ng-container ngProjectAs="pageHeader">
       <button (click)="onAddJobTitle()" size="m" tuiButton>
-        {{ t('addNewJobTitle') }}
+        {{ 'addNewJobTitle' | transloco }}
       </button>
     </ng-container>
     <tui-loader [overlay]="true" [showLoader]="(loading$ | async) === true">
       <ngx-table
         #table
+        (event)="eventEmitted($event)"
         [columns]="(columns$ | async) || []"
         [configuration]="configuration"
         [data]="(data$ | async) || []"
@@ -18,7 +18,7 @@
             <td>{{ item.infoUserCreated?.profile?.fullName }}</td>
             <td>{{ item.createdDate | date }}</td>
             <td>{{ item.lastModifiedDate | date }}</td>
-            <td>{{ item.state === 1 ? t('approved') : t('cancelled') }}</td>
+            <td>{{ item.state === 1 ? ('approved' | transloco) : ('cancelled' | transloco) }}</td>
             <td>
               <div class="flex items-center">
                 <button
@@ -48,4 +48,3 @@
       [total]="(total$ | async) || 0"
     ></tui-table-pagination>
   </hcm-page>
-</ng-container>

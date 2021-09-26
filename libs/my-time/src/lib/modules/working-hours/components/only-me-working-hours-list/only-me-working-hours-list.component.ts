@@ -1,7 +1,8 @@
 import { HttpParams } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, Injector, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '@nexthcm/auth';
-import { AbstractServerPaginationTableComponent, Pagination } from '@nexthcm/cdk';
+import { AbstractServerSortPaginationTableComponent, Pagination } from '@nexthcm/cdk';
 import { HashMap, TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
@@ -22,7 +23,7 @@ import { WorkingHoursDetailDialogComponent } from '../working-hour-detail-dialog
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [TuiDestroyService, RxState],
 })
-export class OnlyMeWorkingHoursListComponent extends AbstractServerPaginationTableComponent<WorkingHours> {
+export class OnlyMeWorkingHoursListComponent extends AbstractServerSortPaginationTableComponent<WorkingHours> {
   @ViewChild('table') table!: BaseComponent;
 
   readonly columns$: Observable<Columns[]> = this.translocoService
@@ -59,7 +60,9 @@ export class OnlyMeWorkingHoursListComponent extends AbstractServerPaginationTab
   );
 
   constructor(
-    public state: RxState<Pagination<WorkingHours>>,
+    readonly state: RxState<Pagination<WorkingHours>>,
+    readonly router: Router,
+    readonly activatedRoute: ActivatedRoute,
     private workingHoursService: WorkingHoursService,
     private destroy$: TuiDestroyService,
     private translocoService: TranslocoService,
@@ -67,7 +70,7 @@ export class OnlyMeWorkingHoursListComponent extends AbstractServerPaginationTab
     private dialogService: TuiDialogService,
     private injector: Injector
   ) {
-    super(state);
+    super(state, router, activatedRoute);
     state.connect(this.request$.pipe(filter(isPresent)));
   }
 

@@ -4,8 +4,9 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { GetFilePipeModule } from '@nexthcm/cdk';
+import { inlineLoaderFactory } from '@nexthcm/core';
 import { LayoutComponent, LayoutModule } from '@nexthcm/ui';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
 import { FormlyModule } from '@ngx-formly/core';
 import { TuiTablePaginationModule } from '@taiga-ui/addon-table';
 import { TuiButtonModule, TuiLoaderModule, TuiSvgModule } from '@taiga-ui/core';
@@ -58,6 +59,15 @@ export const adminSeatMapsRoutes: Routes = [
     TuiTablePaginationModule,
     TuiLoaderModule,
   ],
-  providers: [AdminSeatMapsService],
+  providers: [
+    AdminSeatMapsService,
+    {
+      provide: TRANSLOCO_SCOPE,
+      useValue: {
+        scope: 'seat-maps',
+        loader: inlineLoaderFactory((lang) => import(`../../assets/i18n/${lang}.json`)),
+      },
+    },
+  ],
 })
 export class AdminSeatMapsModule {}

@@ -1,8 +1,10 @@
-import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
-import { AbstractServerPaginationTableComponent, Pagination, PromptService } from '@nexthcm/cdk';
+import { ChangeDetectionStrategy, Component, Inject, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AbstractServerSortPaginationTableComponent, Pagination, PromptService } from '@nexthcm/cdk';
 import { FormGroup } from '@ngneat/reactive-forms';
-import { TranslocoService } from '@ngneat/transloco';
+import { ProviderScope, TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
+import { RxState } from '@rx-angular/state';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogContext, TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusContent } from '@tinkoff/ng-polymorpheus';
@@ -12,7 +14,6 @@ import { catchError, filter, map, share, startWith, switchMap, takeUntil } from 
 import { SweetAlertOptions } from 'sweetalert2';
 import { Category } from '../../models/knowledge';
 import { KnowledgeBaseService } from '../../services/knowledge-base.service';
-import { RxState } from '@rx-angular/state';
 
 @Component({
   selector: 'hcm-category',
@@ -21,17 +22,19 @@ import { RxState } from '@rx-angular/state';
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [RxState, TuiDestroyService],
 })
-export class CategoryComponent extends AbstractServerPaginationTableComponent<Category> {
+export class CategoryComponent extends AbstractServerSortPaginationTableComponent<Category> {
   @ViewChild('table') table!: BaseComponent;
-  readonly columns$ = this.translocoService.selectTranslateObject('KNOWLEDGE_BASE_TABLE').pipe(
-    map((translate) => [
-      { key: 'creator', title: translate.creator },
-      { key: 'category', title: translate.category },
-      { key: 'description', title: translate.description },
-      { key: 'status', title: translate.status },
-      { key: 'action', title: translate.action },
-    ])
-  );
+  readonly columns$ = this.translocoService
+    .selectTranslateObject('KNOWLEDGE_BASE_TABLE', {}, (this.scope as ProviderScope).scope)
+    .pipe(
+      map((translate) => [
+        { key: 'creator', title: translate.creator },
+        { key: 'category', title: translate.category },
+        { key: 'description', title: translate.description },
+        { key: 'status', title: translate.status },
+        { key: 'action', title: translate.action, orderEnabled: false },
+      ])
+    );
   readonly form = new FormGroup<Partial<Category>>({});
   model!: Partial<Category>;
   readonly fields: FormlyFieldConfig[] = [
@@ -85,14 +88,17 @@ export class CategoryComponent extends AbstractServerPaginationTableComponent<Ca
   );
 
   constructor(
+    @Inject(TRANSLOCO_SCOPE) readonly scope: TranslocoScope,
     readonly state: RxState<Pagination<Category>>,
+    readonly router: Router,
+    readonly activatedRoute: ActivatedRoute,
     private knowledgeBaseService: KnowledgeBaseService,
     private promptService: PromptService,
     private translocoService: TranslocoService,
     private dialogService: TuiDialogService,
     private destroy$: TuiDestroyService
   ) {
-    super(state);
+    super(state, router, activatedRoute);
     state.connect(this.request$.pipe(filter(isPresent)));
   }
 

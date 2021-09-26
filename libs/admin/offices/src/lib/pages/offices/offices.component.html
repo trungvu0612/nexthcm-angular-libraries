@@ -1,19 +1,21 @@
-<ng-container *transloco="let t">
-  <hcm-page [title]="t('officeList')">
+  <hcm-page [title]="('officeList') | transloco">
     <ng-container ngProjectAs="pageHeader">
       <button (click)="upsertOffice(content)" size="m" tuiButton>
-        {{ t('createOffice') }}
+        {{ ('createOffice') | transloco}}
       </button>
     </ng-container>
     <hcm-input-filter
       (valueChange)="search$.next($event)"
-      [label]="t('searchOffice')"
+      [label]="('searchOffice') | transloco"
       class="mb-5"
       icon="tuiIconSearchLarge"
       propertyName="search"
     ></hcm-input-filter>
     <tui-loader [overlay]="true" [showLoader]="(loading$ | async) === true">
-      <ngx-table [columns]="(columns$ | async) || []" [configuration]="configuration" [data]="(data$ | async) || []">
+      <ngx-table
+        #table
+        (event)="eventEmitted($event)"
+        [columns]="(columns$ | async) || []" [configuration]="configuration" [data]="(data$ | async) || []">
         <ng-template let-row>
           <ng-container *ngIf="item(row) as item">
             <td>{{ item.name }}</td>
@@ -50,9 +52,8 @@
     <form (ngSubmit)="submitOffice(observer)" [formGroup]="form">
       <formly-form [fields]="fields" [form]="form" [model]="model" class="formly-gap"></formly-form>
       <div class="flex justify-center gap-6 mt-8">
-        <button (click)="observer.complete()" appearance="flat" tuiButton type="button">{{ t('cancel') }}</button>
-        <button tuiButton>{{ t('save') }}</button>
+        <button (click)="observer.complete()" appearance="flat" tuiButton type="button">{{ ('cancel') | transloco}}</button>
+        <button tuiButton>{{ ('save') | transloco }}</button>
       </div>
     </form>
   </ng-template>
-</ng-container>

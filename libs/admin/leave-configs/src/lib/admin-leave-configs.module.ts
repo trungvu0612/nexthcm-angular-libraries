@@ -4,6 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { Route, RouterModule } from '@angular/router';
 import { AkitaNgEffectsModule } from '@datorama/akita-ng-effects';
 import { WorkflowsEffects } from '@nexthcm/cdk';
+import { inlineLoaderFactory } from '@nexthcm/core';
 import {
   BaseFormComponentModule,
   FormlySelectOrgTreeComponentModule,
@@ -13,7 +14,7 @@ import {
   LayoutModule,
   MenuItem,
 } from '@nexthcm/ui';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
 import { TuiTablePaginationModule } from '@taiga-ui/addon-table';
 import { TuiLetModule } from '@taiga-ui/cdk';
 import { TuiButtonModule, TuiLoaderModule } from '@taiga-ui/core';
@@ -101,6 +102,16 @@ const TABS: MenuItem[] = [
     TuiLetModule,
     AkitaNgEffectsModule.forFeature([WorkflowsEffects]),
   ],
-  providers: [LeaveConfigsService, { provide: HEADER_TABS, useValue: TABS }],
+  providers: [
+    LeaveConfigsService,
+    {
+      provide: TRANSLOCO_SCOPE,
+      useValue: {
+        scope: 'leave-configs',
+        loader: inlineLoaderFactory((lang) => import(`../../assets/i18n/${lang}.json`)),
+      },
+    },
+    { provide: HEADER_TABS, useValue: TABS },
+  ],
 })
 export class AdminLeaveConfigsModule {}

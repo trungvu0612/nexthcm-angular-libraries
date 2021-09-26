@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
-import { AbstractServerPaginationTableComponent, Pagination } from '@nexthcm/cdk';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AbstractServerSortPaginationTableComponent, Pagination } from '@nexthcm/cdk';
 import { HashMap, TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
@@ -17,7 +18,7 @@ import { WorkingHoursService } from '../../../../services';
   providers: [TuiDestroyService, RxState],
 })
 export class EveryoneWorkingHoursListComponent
-  extends AbstractServerPaginationTableComponent<WorkingHoursGroup>
+  extends AbstractServerSortPaginationTableComponent<WorkingHoursGroup>
   implements OnInit
 {
   @ViewChild('table') table!: BaseComponent;
@@ -81,12 +82,14 @@ export class EveryoneWorkingHoursListComponent
   );
 
   constructor(
+    readonly state: RxState<Pagination<WorkingHoursGroup>>,
+    readonly router: Router,
+    readonly activatedRoute: ActivatedRoute,
     public workingHoursService: WorkingHoursService,
     public destroy$: TuiDestroyService,
-    public state: RxState<Pagination<WorkingHoursGroup>>,
     private translocoService: TranslocoService
   ) {
-    super(state);
+    super(state, router, activatedRoute);
     state.connect(this.request$.pipe(filter(isPresent)));
   }
 

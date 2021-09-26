@@ -1,15 +1,18 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
-import { FormlyFieldConfig } from '@ngx-formly/core';
-import { TuiDestroyService } from '@taiga-ui/cdk';
-import { BehaviorSubject, combineLatest, from } from 'rxjs';
-import { debounceTime, filter, switchMap, takeUntil } from 'rxjs/operators';
-import { JobLevelService } from '../job-level.service';
-import { Level, SearchLevel } from '../models/level';
-import { TranslocoService } from '@ngneat/transloco';
-import { AbstractServerPaginationTableComponent, Pagination, PromptService } from '@nexthcm/cdk';
-import { BaseComponent } from 'ngx-easy-table';
+import { ChangeDetectionStrategy, Component, Inject, Injector, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AbstractServerSortPaginationTableComponent, Pagination, PromptService } from '@nexthcm/cdk';
+import { FormBuilder } from '@ngneat/reactive-forms';
+import { ProviderScope, TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
+import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
+import { TuiDialogService } from '@taiga-ui/core';
+import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
+import { BaseComponent, Columns } from 'ngx-easy-table';
+import { from, Observable, of } from 'rxjs';
+import { catchError, filter, map, share, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { JobLevelService } from '../job-level.service';
+import { Level } from '../models/level';
+import { UpsertJobLevelComponent } from '../upsert-job-level/upsert-job-level.component';
 
 @Component({
   selector: 'hcm-list-job-level',
@@ -18,93 +21,103 @@ import { RxState } from '@rx-angular/state';
   providers: [TuiDestroyService, RxState],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ListJobLevelComponent extends AbstractServerPaginationTableComponent<Level> implements OnInit {
+export class ListJobLevelComponent extends AbstractServerSortPaginationTableComponent<Level> {
   @ViewChild('table') table!: BaseComponent;
-  page$ = new BehaviorSubject<number>(1);
-  totalLength = 0;
-  readonly columns = ['name', 'description', 'action'];
-  size$ = 10;
-  perPageSubject = new BehaviorSubject<number>(this.size$);
-  searchSubject = new BehaviorSubject<SearchLevel>({});
-  searchForm!: FormGroup<SearchLevel>;
-  levels: Level[] = [];
-  model!: SearchLevel;
-  fields: FormlyFieldConfig[] = [
-    {
-      key: 'name',
-      type: 'input',
-      defaultValue: '',
-      templateOptions: {
-        textfieldLabelOutside: true,
-        placeholder: 'Search By Name',
-      },
-    },
-  ];
+
+  readonly columns$: Observable<Columns[]> = this.translocoService
+    .selectTranslateObject('ADMIN_JOB_LEVEL_COLUMNS', {}, (this.scope as ProviderScope).scope)
+    .pipe(
+      map((result) => [
+        { key: 'name', title: result.name },
+        { key: 'description', title: result.description },
+        { key: 'functions', title: result.functions, orderEnabled: false },
+      ])
+    );
+
+  private readonly request$ = this.queryParams$.pipe(
+    switchMap(() => this.jobLevelService.getLevels(this.queryParams$.value).pipe(startWith(null))),
+    share()
+  );
+
+  readonly loading$ = this.request$.pipe(
+    map((value) => !value),
+    catchError(() => of(false))
+  );
 
   constructor(
-    public state: RxState<Pagination<Level>>,
+    @Inject(TRANSLOCO_SCOPE) readonly scope: TranslocoScope,
+    readonly state: RxState<Pagination<Level>>,
+    readonly router: Router,
+    readonly activatedRoute: ActivatedRoute,
     private jobLevelService: JobLevelService,
     private formBuilder: FormBuilder,
+    private injector: Injector,
     private destroy$: TuiDestroyService,
-    private cdr: ChangeDetectorRef,
+    private dialogService: TuiDialogService,
     private translocoService: TranslocoService,
     private promptService: PromptService
   ) {
-    super(state);
+    super(state, router, activatedRoute);
+    state.connect(this.request$.pipe(filter(isPresent)));
   }
 
-  ngOnInit(): void {
-    this.searchForm = this.formBuilder.group<SearchLevel>({});
-    combineLatest([this.page$, this.perPageSubject, this.searchSubject])
+  onAddJobTitle(): void {
+    this.openDialog('addNewJobTitle')
       .pipe(
-        debounceTime(300),
-        switchMap(([page, perpage, search]) => {
-          return this.jobLevelService.getLevels(page - 1, perpage, search);
-        }),
+        switchMap((data) => this.jobLevelService.createLevel(data)),
         takeUntil(this.destroy$)
       )
-      .subscribe((item) => {
-        this.levels = item.data.items;
-        this.totalLength = item.data.totalElements;
-        this.cdr.markForCheck();
-      });
-    this.searchForm.controls.name?.valueChanges.subscribe((value) => {
-      console.log(value);
-      this.onSearch({ name: value });
-    });
+      .subscribe(
+        this.promptService.handleResponse('addNewJobTitleSuccessfully', () =>
+          this.queryParams$.next(this.queryParams$.value)
+        )
+      );
   }
 
-  onPage(page: number) {
-    this.page$.next(page + 1);
-  }
-
-  onSize(size: number) {
-    this.perPageSubject.next(size);
-  }
-
-  onSearch(search: SearchLevel): void {
-    this.searchSubject.next(search);
-  }
-
-  onRemoveJobLevel(id: any): void {
+  onRemoveJobTitle(id: string): void {
     if (id) {
       from(
         this.promptService.open({
           icon: 'question',
-          html: this.translocoService.translate('deleteJobLevel'),
+          html: this.translocoService.translate('deleteJobTitle'),
           showCancelButton: true,
         })
       )
         .pipe(
           filter((result) => result.isConfirmed),
-          switchMap(() => this.jobLevelService.deleteAdminJobLevel(id)),
+          switchMap(() =>
+            this.jobLevelService
+              .deleteAdminJobLevel(id)
+              .pipe(tap(() => this.queryParams$.next(this.queryParams$.value)))
+          ),
           takeUntil(this.destroy$)
         )
         .subscribe(
-          this.promptService.handleResponse('deleteJobLevelSuccessfully', () =>
+          this.promptService.handleResponse('deleteJobTitleSuccessfully', () =>
             this.queryParams$.next(this.queryParams$.value)
           )
         );
     }
+  }
+
+  onEditJobTitle(level: Level): void {
+    this.openDialog('editJobTitle', level)
+      .pipe(
+        switchMap((data) => this.jobLevelService.editLevel(data)),
+        takeUntil(this.destroy$)
+      )
+      .subscribe(
+        this.promptService.handleResponse('updateJobTitleSuccessfully', () =>
+          this.queryParams$.next(this.queryParams$.value)
+        )
+      );
+  }
+
+  private openDialog(label: string, data?: Level): Observable<Level> {
+    return this.dialogService.open<Level>(new PolymorpheusComponent(UpsertJobLevelComponent, this.injector), {
+      label: this.translocoService.translate(label),
+      size: 'l',
+      data,
+    });
   }
 }

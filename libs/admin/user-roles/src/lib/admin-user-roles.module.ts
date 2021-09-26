@@ -3,12 +3,19 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Route, RouterModule } from '@angular/router';
 import { SelectOptionsModule } from '@nexthcm/cdk';
-import { LayoutComponent, LayoutModule } from '@nexthcm/ui';
-import { TranslocoModule } from '@ngneat/transloco';
+import { inlineLoaderFactory } from '@nexthcm/core';
+import { FormFieldModule, LayoutComponent, LayoutModule } from '@nexthcm/ui';
+import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
 import { FormlyModule } from '@ngx-formly/core';
 import { TuiTableModule, TuiTablePaginationModule } from '@taiga-ui/addon-table';
 import { TuiLetModule } from '@taiga-ui/cdk';
-import { TuiButtonModule, TuiDataListModule, TuiLoaderModule, TuiSvgModule } from '@taiga-ui/core';
+import {
+  TuiButtonModule,
+  TuiDataListModule,
+  TuiLoaderModule,
+  TuiSvgModule,
+  TuiTextfieldControllerModule,
+} from '@taiga-ui/core';
 import { TuiDataListWrapperModule, TuiMultiSelectModule } from '@taiga-ui/kit';
 import { TableModule } from 'ngx-easy-table';
 import { NgxPermissionsGuard } from 'ngx-permissions';
@@ -39,7 +46,15 @@ export const adminUserRolesRoutes: Route[] = [
   imports: [
     CommonModule,
     RouterModule.forChild(adminUserRolesRoutes),
-    FormlyModule.forChild({ types: [{ name: 'select-permissions', component: FormlySelectPermissionsComponent }] }),
+    FormlyModule.forChild({
+      types: [
+        {
+          name: 'select-permissions',
+          component: FormlySelectPermissionsComponent,
+          wrappers: ['form-field'],
+        },
+      ],
+    }),
     ReactiveFormsModule,
     TuiMultiSelectModule,
     TuiDataListWrapperModule,
@@ -54,12 +69,23 @@ export const adminUserRolesRoutes: Route[] = [
     TranslocoModule,
     TuiButtonModule,
     LayoutModule,
+    TuiTextfieldControllerModule,
+    FormFieldModule,
   ],
   declarations: [
     ListUserRolesComponent,
     UpsertUserRolesComponent,
     AdminUserRolesComponent,
     FormlySelectPermissionsComponent,
+  ],
+  providers: [
+    {
+      provide: TRANSLOCO_SCOPE,
+      useValue: {
+        scope: 'user-roles',
+        loader: inlineLoaderFactory((lang) => import(`../../assets/i18n/${lang}.json`)),
+      },
+    },
   ],
 })
 export class AdminUserRolesModule {}

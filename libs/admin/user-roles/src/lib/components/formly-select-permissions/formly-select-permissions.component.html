@@ -4,8 +4,11 @@
   [formControl]="$any(formControl)"
   [identityMatcher]="identityMatcher"
   [stringify]="stringify"
+  [tuiTextfieldExampleText]="to.placeholder || ''"
+  [tuiTextfieldLabelOutside]="to.textfieldLabelOutside"
 >
-  Permission name
+  {{ to.textfieldLabelOutside ? to.placeholder : to.label }}
+  <span *ngIf="to.required && !to.textfieldLabelOutside" class="tui-required"></span>
   <tui-data-list-wrapper
     *tuiDataList
     [itemContent]="stringify"
@@ -13,36 +16,19 @@
     tuiMultiSelectGroup
   ></tui-data-list-wrapper>
 </tui-multi-select>
-<div *ngIf="formControl.value">
-  <section class="main-section">
-    <table [columns]="columns" class="hcm-tui-table mt-2" tuiTable>
-      <tr tuiThGroup>
-        <th *tuiHead="'name'" tuiTh>Permission Name</th>
-        <th *tuiHead="'code'" tuiTh>Code</th>
-        <th *tuiHead="'description'" tuiTh>Description</th>
-        <th *tuiHead="'action'" [sorter]="null" tuiTh>Action</th>
-      </tr>
 
-      <tbody [data]="formControl.value" tuiTbody>
-        <tr *tuiRow="let item of formControl.value; index as index" tuiTr>
-          <td *tuiCell="'name'" tuiTd>
-            {{ item.name }}
-          </td>
-          <td *tuiCell="'code'" tuiTd>
-            {{ item.code }}
-          </td>
-          <td *tuiCell="'description'" tuiTd>
-            {{ item.description }}
-          </td>
-          <td *tuiCell="'action'" tuiTd>
-            <div class="flex text-gray-400">
-              <button (click)="delete(index)">
-                <tui-svg src="tuiIconTrash"></tui-svg>
-              </button>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </section>
-</div>
+<ng-container *transloco="let t" class="mt-8">
+  <ngx-table [columns]="(columns$ | async) || []" [configuration]="configuration" [data]="formControl.value || []">
+    <ng-template ; let-index let-row>
+      <td>{{ item(row).name }}</td>
+      <td>{{ item(row).code }}</td>
+      <td>{{ item(row).description }}</td>
+      <td>
+        <div class="flex items-center">
+          <button (click)="delete(index)" appearance="flat" icon="tuiIconTrashLarge" size="m" tuiIconButton></button>
+        </div>
+      </td>
+    </ng-template>
+  </ngx-table>
+</ng-container>
+

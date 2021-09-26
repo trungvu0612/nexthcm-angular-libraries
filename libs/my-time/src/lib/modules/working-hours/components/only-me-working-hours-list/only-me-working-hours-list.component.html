@@ -1,7 +1,9 @@
 <hcm-working-hours-filter [httpParams]="queryParams$" class="mb-5"></hcm-working-hours-filter>
 
 <tui-loader [overlay]="true" [showLoader]="(loading$ | async) === true">
-  <ngx-table #table [columns]="(columns$ | async) || []" [configuration]="configuration" [data]="(data$ | async) || []">
+  <ngx-table #table
+             (event)="eventEmitted($event)"
+             [columns]="(columns$ | async) || []" [configuration]="configuration" [data]="(data$ | async) || []">
     <ng-template let-row>
       <ng-container *tuiLet="item(row) as item">
         <td>{{ item.userInfo?.office?.name }}</td>

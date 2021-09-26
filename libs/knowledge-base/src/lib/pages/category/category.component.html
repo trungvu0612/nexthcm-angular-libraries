@@ -1,11 +1,11 @@
-<ng-container *transloco="let t">
-  <hcm-page [title]="t('category')">
+  <hcm-page [title]="('category' | transloco)">
     <ng-container ngProjectAs="pageHeader">
-      <button (click)="upsertCategory(content)" tuiButton>{{ t('addCategory') }}</button>
+      <button (click)="upsertCategory(content)" tuiButton>{{ ('addCategory' | transloco) }}</button>
     </ng-container>
     <tui-loader [overlay]="true" [showLoader]="(loading$ | async) === true">
       <ngx-table
         #table
+        (event)="eventEmitted($event)"
         [columns]="(columns$ | async) || []"
         [configuration]="configuration"
         [data]="(data$ | async) || []"
@@ -18,7 +18,7 @@
             <td>
               <tui-tag
                 [hoverable]="true"
-                [value]="t(item.status === 1 ? 'active' : 'deactivate')"
+                [value]="(item.status === 1 ? ('active' | transloco) : ('deactivate'| transloco))"
                 class="{{ (item.status === 1 ? 'active' : 'deactivate') + '-tag' }}"
               ></tui-tag>
             </td>
@@ -53,9 +53,8 @@
     <form (ngSubmit)="submitCategory(observer)" [formGroup]="$any(form)">
       <formly-form [fields]="fields" [form]="$any(form)" [model]="model" class="formly-gap"></formly-form>
       <div class="flex justify-center gap-6 mt-8">
-        <button (click)="observer.complete()" appearance="flat" tuiButton type="button">{{ t('cancel') }}</button>
-        <button tuiButton>{{ t('save') }}</button>
+        <button (click)="observer.complete()" appearance="flat" tuiButton type="button">{{ ('cancel' | transloco) }}</button>
+        <button tuiButton>{{ ('save' | transloco) }}</button>
       </div>
     </form>
   </ng-template>
-</ng-container>

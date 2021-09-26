@@ -2,8 +2,9 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Route, RouterModule } from '@angular/router';
+import { inlineLoaderFactory } from '@nexthcm/core';
 import { LayoutComponent, LayoutModule } from '@nexthcm/ui';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
 import { FormlyModule } from '@ngx-formly/core';
 import { TuiTablePaginationModule } from '@taiga-ui/addon-table';
 import { TuiLetModule } from '@taiga-ui/cdk';
@@ -39,6 +40,15 @@ export const adminJobTitlesRoutes: Route[] = [
     LayoutModule,
   ],
   declarations: [ListJobTitleComponent, UpsertJobTitleComponent],
-  providers: [AdminJobTitlesService],
+  providers: [
+    AdminJobTitlesService,
+    {
+      provide: TRANSLOCO_SCOPE,
+      useValue: {
+        scope: 'job-titles',
+        loader: inlineLoaderFactory((lang) => import(`../../assets/i18n/${lang}.json`)),
+      },
+    },
+  ],
 })
 export class AdminJobTitlesModule {}

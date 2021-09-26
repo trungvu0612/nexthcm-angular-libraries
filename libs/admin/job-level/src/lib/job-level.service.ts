@@ -1,39 +1,31 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { PagingResponse } from '@nexthcm/cdk';
+import { Pagination, PagingResponse } from '@nexthcm/cdk';
 import { Observable } from 'rxjs';
-import { Level, SearchLevel } from './models/level';
+import { map } from 'rxjs/operators';
+import { Level } from './models/level';
 
-@Injectable({
-  providedIn: 'root'
-})
+const MY_ACCOUNT_PATH = '/accountapp/v1.0';
+
+@Injectable()
 export class JobLevelService {
-  appVersion = '/accountapp/v1.0';
+  constructor(private httpClient: HttpClient) {}
 
-  constructor(private httpClient: HttpClient) {
-  }
-
-  getLevels(pageIndex: number, pageSize: number, search: SearchLevel): Observable<PagingResponse<Level>> {
-    return this.httpClient.get<PagingResponse<Level>>(this.appVersion + '/levels', {
-      params: new HttpParams()
-        .set('page', pageIndex ? pageIndex.toString() : '')
-        .set('size', pageSize ? pageSize.toString() : '')
-    });
-  }
-
-  getLevel(id: string): Observable<Level> {
-    return this.httpClient.get<Level>(this.appVersion + '/levels' + '/' + id);
+  getLevels(params: HttpParams): Observable<Pagination<Level>> {
+    return this.httpClient
+      .get<PagingResponse<Level>>(`${MY_ACCOUNT_PATH}/levels`, { params })
+      .pipe(map((res) => res.data));
   }
 
   createLevel(dto: Level): Observable<Level> {
-    return this.httpClient.post<Level>(this.appVersion + '/levels', dto);
+    return this.httpClient.post<Level>(`${MY_ACCOUNT_PATH}/levels`, dto);
   }
 
-  editLevel(dto: Level, id: string): Observable<Level> {
-    return this.httpClient.put<Level>(this.appVersion + `/levels/${id}`, dto);
+  editLevel(dto: Level): Observable<Level> {
+    return this.httpClient.put<Level>(`${MY_ACCOUNT_PATH}/levels/${dto.id}`, dto);
   }
 
   deleteAdminJobLevel(id: string): Observable<Level> {
-    return this.httpClient.delete<Level>(this.appVersion + `/levels/${id}`);
+    return this.httpClient.delete<Level>(`${MY_ACCOUNT_PATH}/levels/${id}`);
   }
 }

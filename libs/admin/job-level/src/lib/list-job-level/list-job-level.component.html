@@ -1,54 +1,49 @@
-<ng-container *transloco="let t">
-  <hcm-page [title]="t('jobLevelManagement')">
+  <hcm-page [title]="('jobLevelManagement')">
     <ng-container ngProjectAs="pageHeader">
-      <button
-        icon="tuiIconPlusLarge"
-        [routerLink]="['add']"
-        tuiButton
-        type="button"
-      >
-        Add Job Level
+      <button (click)="onAddJobTitle()" size="m" tuiButton>
+        {{ 'addNewJobLevel' | transloco }}
       </button>
     </ng-container>
-    <table [columns]="columns" class="hcm-tui-table" tuiTable>
-      <thead>
-      <tr tuiThGroup>
-        <th *tuiHead="'name'" tuiTh>Name</th>
-        <th *tuiHead="'description'" tuiTh>Description</th>
-        <th *tuiHead="'action'" class="w-32" tuiTh>Action</th>
-      </tr>
-      </thead>
-      <tbody [data]="levels" tuiTbody>
-      <tr *tuiRow="let level of levels; let index = index" tuiTr>
-        <td *tuiCell="'name'" tuiTd>{{ level.name }}</td>
-        <td *tuiCell="'description'" tuiTd>{{ level.description }}</td>
-        <td *tuiCell="'action'" tuiTd>
-          <div class="flex items-center">
-            <button
-              [routerLink]="['../job-level/edit/' + level.id]"
-              appearance="flat"
-              class="tui-space_right-3"
-              icon="tuiIconEditLarge"
-              size="m"
-              tuiIconButton
-            ></button>
-            <button
-              (click)="onRemoveJobLevel(level.id)"
-              appearance="flat"
-              icon="tuiIconTrashLarge"
-              size="m"
-              tuiIconButton
-            ></button>
-          </div>
-        </td>
-      </tr>
-      </tbody>
-    </table>
+    <tui-loader [overlay]="true" [showLoader]="(loading$ | async) === true">
+      <ngx-table
+        #table
+        (event)="eventEmitted($event)"
+        [columns]="(columns$ | async) || []"
+        [configuration]="configuration"
+        [data]="(data$ | async) || []"
+      >
+        <ng-template let-row>
+          <ng-container *tuiLet="item(row) as item">
+            <td>{{ item.name }}</td>
+            <td>{{ item.description }}</td>
+            <td>
+              <div class="flex items-center">
+                <button
+                  (click)="onEditJobTitle(item)"
+                  appearance="flat"
+                  class="tui-space_right-3"
+                  icon="tuiIconEditLarge"
+                  size="m"
+                  tuiIconButton
+                ></button>
+                <button
+                  (click)="onRemoveJobTitle(item.id)"
+                  appearance="flat"
+                  icon="tuiIconTrashLarge"
+                  size="m"
+                  tuiIconButton
+                ></button>
+              </div>
+            </td>
+          </ng-container>
+        </ng-template>
+      </ngx-table>
+    </tui-loader>
     <tui-table-pagination
       (pageChange)="onPage($event)"
       (sizeChange)="onSize($event)"
-      [size]="size$"
-      [total]="totalLength"
+      [total]="(total$ | async) || 0"
     ></tui-table-pagination>
   </hcm-page>
-</ng-container>
+
+

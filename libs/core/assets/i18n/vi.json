@@ -413,11 +413,6 @@
     "totalLeave": "Số ngày nghỉ",
     "functions": "Chức năng"
   },
-  "ADMIN_USER_ROLE_COLUMNS": {
-    "name": "Tên",
-    "description": "Mô tả",
-    "functions": "Chức năng"
-  },
   "jobTitleManagement": "Quản lý chức vụ",
   "addNewJobTitle": "Tạo mới chức vụ",
   "editJobTitle": "Chỉnh sửa chức vụ",
@@ -427,13 +422,6 @@
   "deleteJobTitleSuccessfully": "Xóa chức vụ này thành công",
   "deleteJobLevel": "Bạn có muốn xóa cấp độ công việc này không?",
   "deleteJobLevelSuccessfully": "Xóa cấp độ công việc này thành công",
-  "userRoleManagement": "Quản lý vai trò",
-  "addNewUserRole": "Tạo mới vai trò",
-  "editUserRole": "Chỉnh sửa vai trò",
-  "updateUserRoleSuccessfully": "Cập nhật vai trò thành công",
-  "addNewUserRoleSuccessfully": "Tạo mới vai trò thành công",
-  "deleteUserRole": "Bạn có muốn xóa vai trò này ?",
-  "deleteUserRoleSuccessfully": "Xóa vai trò thành công",
   "addNewEmployee": "Thêm nhân viên mới",
   "overview": "Tổng quan",
   "myTime": "Thời gian",

@@ -1,9 +1,10 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
+import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import { JobLevelService } from '../job-level.service';
+import { TuiDialogContext } from '@taiga-ui/core';
+import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
+import { Observable } from 'rxjs';
 import { Level } from '../models/level';
 
 @Component({
@@ -43,48 +44,26 @@ export class UpsertJobLevelComponent implements OnInit {
   ];
 
   constructor(
-    private formBuilder: FormBuilder,
-    private activatedRoute: ActivatedRoute,
-    private router: Router,
-    private levelService: JobLevelService
-  ) {
-    this.id = this.activatedRoute.snapshot.params.id;
-    this.form = this.formBuilder.group<Level>({
-      orgId: 'd6e6eec4-bd8c-4a34-bf3f-f2d3a11716aa',
-      name: ['', Validators.required],
-      description: ['', Validators.required],
-      state: [1],
-    });
-  }
+    private translocoService: TranslocoService,
+    @Inject(POLYMORPHEUS_CONTEXT) public context: TuiDialogContext<unknown, Observable<Level>>,
+    private fb: FormBuilder
+  ) {}
 
   ngOnInit(): void {
-    if (this.id) {
-      this.getLevel();
+    if (this.context.data) {
+      this.model = { ...this.model, ...this.context.data };
     }
   }
 
-  getLevel(): void {
-    this.levelService.getLevel(this.id).subscribe((item) => {
-      this.form.patchValue(item);
-    });
-  }
-
-  submit(): void {
-    this.form.markAllAsTouched();
+  onSubmit(): void {
     if (this.form.valid) {
-      if (this.id) {
-        this.levelService.editLevel(this.form.value, this.id).subscribe((item) => {
-          this.router.navigateByUrl('/admin/job-level');
-        });
-      } else {
-        this.levelService.createLevel(this.form.value).subscribe((item) => {
-          this.router.navigateByUrl('/admin/job-level');
-        });
-      }
+      this.form.value.state = this.model.state ? 1 : 0;
+      const formModel = { ...this.form.value };
+      this.context.completeWith(formModel);
     }
   }
 
-  cancel() {
-    this.router.navigateByUrl('/admin/job-level');
+  onCancel(): void {
+    this.context.$implicit.complete();
   }
 }

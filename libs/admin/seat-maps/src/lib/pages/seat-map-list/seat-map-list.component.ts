@@ -1,6 +1,7 @@
-import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
-import { AbstractServerPaginationTableComponent, Pagination, PromptService, Zone } from '@nexthcm/cdk';
-import { TranslocoService } from '@ngneat/transloco';
+import { ChangeDetectionStrategy, Component, Inject, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AbstractServerSortPaginationTableComponent, Pagination, PromptService, Zone } from '@nexthcm/cdk';
+import { ProviderScope, TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { BaseComponent } from 'ngx-easy-table';
@@ -15,15 +16,17 @@ import { AdminSeatMapsService } from '../../services/admin-seat-maps.service';
   providers: [RxState, TuiDestroyService],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SeatMapListComponent extends AbstractServerPaginationTableComponent<Zone> {
+export class SeatMapListComponent extends AbstractServerSortPaginationTableComponent<Zone> {
   @ViewChild('table') table!: BaseComponent;
-  readonly columns$ = this.translocoService.selectTranslateObject('ZONE_TABLE').pipe(
-    map((translate) => [
-      { key: 'name', title: translate.name },
-      { key: 'office', title: translate.office },
-      { key: 'action', title: translate.action },
-    ])
-  );
+  readonly columns$ = this.translocoService
+    .selectTranslateObject('ZONE_TABLE', {}, (this.scope as ProviderScope).scope)
+    .pipe(
+      map((translate) => [
+        { key: 'name', title: translate.name },
+        { key: 'office', title: translate.office },
+        { key: 'action', title: translate.action, orderEnabled: false },
+      ])
+    );
 
   private readonly request$ = this.queryParams$.pipe(
     switchMap(() => this.adminSeatMapService.getSeatMaps(this.queryParams$.value).pipe(startWith(null))),
@@ -35,13 +38,16 @@ export class SeatMapListComponent extends AbstractServerPaginationTableComponent
   );
 
   constructor(
+    @Inject(TRANSLOCO_SCOPE) readonly scope: TranslocoScope,
     readonly state: RxState<Pagination<Zone>>,
+    readonly router: Router,
+    readonly activatedRoute: ActivatedRoute,
     private adminSeatMapService: AdminSeatMapsService,
     private promptService: PromptService,
     private destroy$: TuiDestroyService,
     private readonly translocoService: TranslocoService
   ) {
-    super(state);
+    super(state, router, activatedRoute);
     state.connect(this.request$.pipe(filter(isPresent)));
   }
 

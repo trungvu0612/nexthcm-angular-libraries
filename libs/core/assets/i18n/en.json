@@ -414,11 +414,6 @@
     "totalLeave": "Total Leaves",
     "functions": "Functions"
   },
-  "ADMIN_USER_ROLE_COLUMNS": {
-    "name": "Name",
-    "description": "Description",
-    "functions": "Functions"
-  },
   "jobTitleManagement": "Job Title Management",
   "addNewJobTitle": "Create new job title",
   "editJobTitle": "Edit new job title",
@@ -428,13 +423,6 @@
   "deleteJobTitleSuccessfully": "Remove this job title successfully",
   "deleteJobLevel": "Are you sure you want to remove this job level?",
   "deleteJobLevelSuccessfully": "Remove this job level successfully",
-  "userRoleManagement": "User Role Management",
-  "addNewUserRole": "Create new user role",
-  "editUserRole": "Edit new user role",
-  "updateUserRoleSuccessfully": "Update user role successfully",
-  "addNewUserRoleSuccessfully": "Create new user role successfully",
-  "deleteUserRole": "Are you sure you want to remove this role?",
-  "deleteUserRoleSuccessfully": "Remove this role successfully",
   "addNewEmployee": "Add new employee",
   "addLeaveApprovalLevel": "Add leave approval level",
   "overview": "Overview",

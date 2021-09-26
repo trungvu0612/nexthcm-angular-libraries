@@ -1,10 +1,10 @@
-<ng-container *transloco="let t">
   <div class="flex justify-end mb-6">
-    <button (click)="onUpsertDomain()" size="m" tuiButton>{{ t('createDomain') }}</button>
+    <button (click)="onUpsertDomain()" size="m" tuiButton>{{ ('createDomain' | transloco) }}</button>
   </div>
   <tui-loader [overlay]="true" [showLoader]="(loading$ | async) === true">
     <ngx-table
       #table
+      (event)="eventEmitted($event)"
       [columns]="(columns$ | async) || []"
       [configuration]="configuration"
       [data]="(data$ | async) || []"
@@ -16,7 +16,7 @@
             <a tuiLink>{{ item.domainUrl }}</a>
           </td>
           <td>
-            <tui-tag [value]="t(CommonStatus[item.status])" class="{{ CommonStatus[item.status] }}-tag"></tui-tag>
+            <tui-tag [value]="(CommonStatus[item.status] | transloco)" class="{{ CommonStatus[item.status] }}-tag"></tui-tag>
           </td>
           <td>
             <div class="flex items-center space-x-2">
@@ -45,4 +45,3 @@
     (sizeChange)="onSize($event)"
     [total]="(total$ | async) || 0"
   ></tui-table-pagination>
-</ng-container>

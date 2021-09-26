@@ -1,4 +1,3 @@
-<ng-container *transloco="let t">
   <section *ngIf="knowledgeBase$ | async as data">
     <div *ngFor="let item of data.items" class="flex gap-6 border-b text-base pb-5 mb-5">
       <tui-avatar [avatarUrl]="item.thumbnail || '' | getFile | async" [rounded]="true" size="l"></tui-avatar>
@@ -14,7 +13,6 @@
       </div>
     </div>
     <button (click)="viewMore()" *ngIf="data.size < data.totalElements" class="block mx-auto" tuiButton>
-      {{ t('viewMore') }}
+      {{ ('viewMore' | transloco) }}
     </button>
   </section>
-</ng-container>

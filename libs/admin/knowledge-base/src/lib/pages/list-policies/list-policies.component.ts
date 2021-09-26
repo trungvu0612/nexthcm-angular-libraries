@@ -1,6 +1,7 @@
-import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
-import { AbstractServerPaginationTableComponent, Pagination, PromptService } from '@nexthcm/cdk';
-import { TranslocoService } from '@ngneat/transloco';
+import { ChangeDetectionStrategy, Component, Inject, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AbstractServerSortPaginationTableComponent, Pagination, PromptService } from '@nexthcm/cdk';
+import { ProviderScope, TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { BaseComponent, Columns } from 'ngx-easy-table';
@@ -15,7 +16,7 @@ import {
   startWith,
   switchMap,
   takeUntil,
-  tap
+  tap,
 } from 'rxjs/operators';
 import { AdminKnowledgeBaseService } from '../../admin-knowledge-base.service';
 import { AdminPolicy } from '../../models/policies';
@@ -27,16 +28,16 @@ import { AdminPolicy } from '../../models/policies';
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [RxState, TuiDestroyService],
 })
-export class ListPoliciesComponent extends AbstractServerPaginationTableComponent<AdminPolicy> {
+export class ListPoliciesComponent extends AbstractServerSortPaginationTableComponent<AdminPolicy> {
   @ViewChild('table') table!: BaseComponent;
   columns$: Observable<Columns[]> = this.translocoService
-    .selectTranslateObject('ADMIN_POLICIES.POLICIES_MANAGEMENT_COLUMNS')
+    .selectTranslateObject('ADMIN_POLICIES.POLICIES_MANAGEMENT_COLUMNS', {}, (this.scope as ProviderScope).scope)
     .pipe(
       map((result) => [
         { key: 'topic', title: result.topic },
         { key: 'shortDescription', title: result.shortDescription },
         { key: 'createdDate', title: result.createdDate },
-        { key: 'operations', title: result.operations },
+        { key: 'operations', title: result.operations, orderEnabled: false },
       ])
     );
 
@@ -51,13 +52,16 @@ export class ListPoliciesComponent extends AbstractServerPaginationTableComponen
   );
 
   constructor(
-    public state: RxState<Pagination<AdminPolicy>>,
+    @Inject(TRANSLOCO_SCOPE) readonly scope: TranslocoScope,
+    readonly state: RxState<Pagination<AdminPolicy>>,
+    readonly router: Router,
+    readonly activatedRoute: ActivatedRoute,
     private policiesService: AdminKnowledgeBaseService,
     private promptService: PromptService,
     private translocoService: TranslocoService,
     private destroy$: TuiDestroyService
   ) {
-    super(state);
+    super(state, router, activatedRoute);
     state.connect(this.request$.pipe(filter(isPresent)));
     state.hold(
       this.search$.pipe(

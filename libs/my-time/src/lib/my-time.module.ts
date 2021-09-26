@@ -1,7 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { inlineLoaderFactory } from '@nexthcm/core';
 import { HEADER_TABS, LayoutComponent, MenuItem } from '@nexthcm/ui';
+import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
 import { NgxPermissionsGuard } from 'ngx-permissions';
 import { MyLeaveComponent } from './modules/my-leave/my-leave.component';
 import { MyLeaveModule } from './modules/my-leave/my-leave.module';
@@ -89,6 +91,16 @@ const TABS: MenuItem[] = [
     RequestManagementModule,
     WorkingHoursModule,
   ],
-  providers: [MyTimeService, { provide: HEADER_TABS, useValue: TABS }],
+  providers: [
+    MyTimeService,
+    {
+      provide: TRANSLOCO_SCOPE,
+      useValue: {
+        scope: 'my-time',
+        loader: inlineLoaderFactory((lang) => import(`../../assets/i18n/${lang}.json`)),
+      },
+    },
+    { provide: HEADER_TABS, useValue: TABS }
+  ],
 })
 export class MyTimeModule {}

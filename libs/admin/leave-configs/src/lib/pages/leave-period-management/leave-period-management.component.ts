@@ -1,6 +1,7 @@
-import { ChangeDetectionStrategy, Component, Injector, ViewChild } from '@angular/core';
-import { AbstractServerPaginationTableComponent, Pagination, PromptService } from '@nexthcm/cdk';
-import { TranslocoService } from '@ngneat/transloco';
+import { ChangeDetectionStrategy, Component, Inject, Injector, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AbstractServerSortPaginationTableComponent, Pagination, PromptService } from '@nexthcm/cdk';
+import { ProviderScope, TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
@@ -20,17 +21,17 @@ import { LeavePeriod } from '../../models/leave-period';
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [TuiDestroyService, RxState],
 })
-export class LeavePeriodManagementComponent extends AbstractServerPaginationTableComponent<LeavePeriod> {
+export class LeavePeriodManagementComponent extends AbstractServerSortPaginationTableComponent<LeavePeriod> {
   readonly leaveConfigAPIUrlPath = LeaveConfigAPIUrlPath.Period;
   @ViewChild('table') table!: BaseComponent;
   readonly PeriodStatus = PeriodStatus;
   readonly columns$: Observable<Columns[]> = this.translocoService
-    .selectTranslateObject('ADMIN_PERIOD_MANAGEMENT_COLUMNS')
+    .selectTranslateObject('ADMIN_PERIOD_MANAGEMENT_COLUMNS', {}, (this.scope as ProviderScope).scope)
     .pipe(
       map((result) => [
         { key: 'startDate', title: result.startDate },
         { key: 'status', title: result.status },
-        { key: 'functions', title: result.functions },
+        { key: 'functions', title: result.functions, orderEnabled: false },
       ])
     );
   private readonly request$ = this.queryParams$.pipe(
@@ -47,7 +48,10 @@ export class LeavePeriodManagementComponent extends AbstractServerPaginationTabl
   );
 
   constructor(
-    public state: RxState<Pagination<LeavePeriod>>,
+    @Inject(TRANSLOCO_SCOPE) readonly scope: TranslocoScope,
+    readonly state: RxState<Pagination<LeavePeriod>>,
+    readonly router: Router,
+    readonly activatedRoute: ActivatedRoute,
     private leaveConfigsService: LeaveConfigsService,
     private destroy$: TuiDestroyService,
     private dialogService: TuiDialogService,
@@ -55,7 +59,7 @@ export class LeavePeriodManagementComponent extends AbstractServerPaginationTabl
     private translocoService: TranslocoService,
     private promptService: PromptService
   ) {
-    super(state);
+    super(state, router, activatedRoute);
     state.connect(this.request$.pipe(filter(isPresent)));
   }
 

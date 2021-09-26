@@ -1,7 +1,8 @@
-import { ChangeDetectionStrategy, Component, Injector, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, Injector, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AbstractServerSortPaginationTableComponent, Pagination, PromptService } from '@nexthcm/cdk';
-import { HashMap, TranslocoService } from '@ngneat/transloco';
+import { HashMap, TRANSLOCO_SCOPE, TranslocoService } from '@ngneat/transloco';
+import { ProviderScope, TranslocoScope } from '@ngneat/transloco/lib/types';
 import { RxState } from '@rx-angular/state';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
@@ -24,7 +25,7 @@ export class WorkflowManagementComponent extends AbstractServerSortPaginationTab
   @ViewChild('table') table!: BaseComponent;
 
   columns$: Observable<Columns[]> = this.translocoService
-    .selectTranslateObject<HashMap<string>>('ADMIN_WORKFLOW_TABLE_COLUMNS')
+    .selectTranslateObject<HashMap<string>>('ADMIN_WORKFLOW_TABLE_COLUMNS', {}, (this.scope as ProviderScope).scope)
     .pipe(
       map((result) => [
         { key: 'name', title: result.name },
@@ -42,6 +43,7 @@ export class WorkflowManagementComponent extends AbstractServerSortPaginationTab
   );
 
   constructor(
+    @Inject(TRANSLOCO_SCOPE) readonly scope: TranslocoScope,
     readonly state: RxState<Pagination<Workflow>>,
     readonly router: Router,
     readonly activatedRoute: ActivatedRoute,

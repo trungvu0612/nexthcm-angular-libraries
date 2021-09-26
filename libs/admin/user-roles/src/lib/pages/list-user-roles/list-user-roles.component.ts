@@ -1,6 +1,7 @@
-import { ChangeDetectionStrategy, Component, Injector, ViewChild } from '@angular/core';
-import { AbstractServerPaginationTableComponent, Pagination, PromptService } from '@nexthcm/cdk';
-import { TranslocoService } from '@ngneat/transloco';
+import { ChangeDetectionStrategy, Component, Inject, Injector, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AbstractServerSortPaginationTableComponent, Pagination, PromptService } from '@nexthcm/cdk';
+import { ProviderScope, TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
@@ -19,15 +20,15 @@ import { UpsertUserRolesComponent } from '../upsert-user-roles/upsert-user-roles
   providers: [TuiDestroyService, RxState],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ListUserRolesComponent extends AbstractServerPaginationTableComponent<AdminUserRole> {
+export class ListUserRolesComponent extends AbstractServerSortPaginationTableComponent<AdminUserRole> {
   @ViewChild('table') table!: BaseComponent;
   readonly columns$: Observable<Columns[]> = this.translocoService
-    .selectTranslateObject('ADMIN_USER_ROLE_COLUMNS')
+    .selectTranslateObject('ADMIN_USER_ROLE_COLUMNS', {}, (this.scope as ProviderScope).scope)
     .pipe(
       map((result) => [
         { key: 'name', title: result.name },
         { key: 'description', title: result.description },
-        { key: 'functions', title: result.functions },
+        { key: 'functions', title: result.functions, orderEnabled: false },
       ])
     );
 
@@ -42,7 +43,10 @@ export class ListUserRolesComponent extends AbstractServerPaginationTableCompone
   );
 
   constructor(
-    public state: RxState<Pagination<AdminUserRole>>,
+    @Inject(TRANSLOCO_SCOPE) readonly scope: TranslocoScope,
+    readonly state: RxState<Pagination<AdminUserRole>>,
+    readonly router: Router,
+    readonly activatedRoute: ActivatedRoute,
     private adminUserRolesService: AdminUserRolesService,
     private destroy$: TuiDestroyService,
     private dialogService: TuiDialogService,
@@ -50,7 +54,7 @@ export class ListUserRolesComponent extends AbstractServerPaginationTableCompone
     private translocoService: TranslocoService,
     private promptService: PromptService
   ) {
-    super(state);
+    super(state, router, activatedRoute);
     state.connect(this.request$.pipe(filter(isPresent)));
   }
 

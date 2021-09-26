@@ -1,39 +1,41 @@
-<ng-container *transloco="let t">
-  <hcm-page [title]="t('userRoleManagement')">
+  <hcm-page [title]="'userRoleManagement' | transloco">
     <ng-container ngProjectAs="pageHeader">
       <button (click)="onAddUserRole()" size="m" tuiButton>
-        {{ t('addNewUserRole') }}
+        {{ 'addNewUserRole' | transloco }}
       </button>
     </ng-container>
     <tui-loader [overlay]="true" [showLoader]="(loading$ | async) === true">
       <ngx-table
         #table
+        (event)="eventEmitted($event)"
         [columns]="(columns$ | async) || []"
         [configuration]="configuration"
         [data]="(data$ | async) || []"
       >
         <ng-template let-row>
-          <td>{{ item(row).name }}</td>
-          <td>{{ item(row).description }}</td>
-          <td>
-            <div class="flex items-center">
-              <button
-                (click)="onEditUserRole(item(row))"
-                appearance="flat"
-                class="tui-space_right-3"
-                icon="tuiIconEditLarge"
-                size="m"
-                tuiIconButton
-              ></button>
-              <button
-                (click)="onRemoveUserRole(item(row).id)"
-                appearance="flat"
-                icon="tuiIconTrashLarge"
-                size="m"
-                tuiIconButton
-              ></button>
-            </div>
-          </td>
+          <ng-container *tuiLet="item(row) as item">
+            <td>{{ item.name }}</td>
+            <td>{{ item.description }}</td>
+            <td>
+              <div class="flex items-center">
+                <button
+                  (click)="onEditUserRole(item)"
+                  appearance="flat"
+                  class="tui-space_right-3"
+                  icon="tuiIconEditLarge"
+                  size="m"
+                  tuiIconButton
+                ></button>
+                <button
+                  (click)="onRemoveUserRole(item.id)"
+                  appearance="flat"
+                  icon="tuiIconTrashLarge"
+                  size="m"
+                  tuiIconButton
+                ></button>
+              </div>
+            </td>
+          </ng-container>
         </ng-template>
       </ngx-table>
     </tui-loader>
@@ -43,4 +45,3 @@
       [total]="(total$ | async) || 0"
     ></tui-table-pagination>
   </hcm-page>
-</ng-container>

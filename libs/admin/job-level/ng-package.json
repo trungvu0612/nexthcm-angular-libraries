@@ -3,5 +3,6 @@
   "dest": "../../../dist/libs/admin/job-level",
   "lib": {
     "entryFile": "src/index.ts"
-  }
+  },
+  "assets": ["assets"]
 }

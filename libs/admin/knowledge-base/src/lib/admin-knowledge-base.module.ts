@@ -2,17 +2,18 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Route, RouterModule } from '@angular/router';
+import { inlineLoaderFactory } from '@nexthcm/core';
 import { FormlyTaigaUiModule, InputFilterComponentModule, LayoutComponent, LayoutModule } from '@nexthcm/ui';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
 import { FormlyModule } from '@ngx-formly/core';
 import { TuiTablePaginationModule } from '@taiga-ui/addon-table';
 import { TuiButtonModule, TuiLoaderModule } from '@taiga-ui/core';
 import { TuiMarkerIconModule, TuiTagModule } from '@taiga-ui/kit';
 import { TableModule } from 'ngx-easy-table';
 import { NgxPermissionsGuard } from 'ngx-permissions';
+import { AdminKnowledgeBaseService } from './admin-knowledge-base.service';
 import { ListPoliciesComponent } from './pages/list-policies/list-policies.component';
 import { UpsertPolicyComponent } from './pages/upsert-policy/upsert-policy.component';
-import { AdminKnowledgeBaseService } from './admin-knowledge-base.service';
 
 export const adminKnowledgeBaseRoutes: Route[] = [
   {
@@ -56,6 +57,15 @@ export const adminKnowledgeBaseRoutes: Route[] = [
     TuiMarkerIconModule,
     InputFilterComponentModule
   ],
-  providers: [AdminKnowledgeBaseService],
+  providers: [
+    AdminKnowledgeBaseService,
+    {
+      provide: TRANSLOCO_SCOPE,
+      useValue: {
+        scope: 'knowledge-base',
+        loader: inlineLoaderFactory((lang) => import(`../../assets/i18n/${lang}.json`)),
+      },
+    },
+  ],
 })
 export class AdminKnowledgeBaseModule {}

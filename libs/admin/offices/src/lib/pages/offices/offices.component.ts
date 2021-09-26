@@ -1,8 +1,8 @@
-import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { AbstractServerPaginationTableComponent, Pagination, PromptService, Zone } from '@nexthcm/cdk';
+import { ChangeDetectionStrategy, Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AbstractServerSortPaginationTableComponent, Pagination, PromptService, Zone } from '@nexthcm/cdk';
 import { FormGroup } from '@ngneat/reactive-forms';
-import { TranslocoService } from '@ngneat/transloco';
+import { ProviderScope, TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { RxState } from '@rx-angular/state';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
@@ -32,16 +32,18 @@ import { AdminOfficesService } from '../../services/admin-offices.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [RxState, TuiDestroyService],
 })
-export class OfficesComponent extends AbstractServerPaginationTableComponent<Office> implements OnInit {
+export class OfficesComponent extends AbstractServerSortPaginationTableComponent<Office> implements OnInit {
   @ViewChild('table') table!: BaseComponent;
-  readonly columns$ = this.translocoService.selectTranslateObject('ZONE_TABLE').pipe(
-    map((translate) => [
-      { key: 'name', title: translate.name },
-      { key: 'address', title: translate.address },
-      { key: 'description', title: translate.description },
-      { key: 'action', title: translate.action },
-    ])
-  );
+  readonly columns$ = this.translocoService
+    .selectTranslateObject('ZONE_TABLE', {}, (this.scope as ProviderScope).scope)
+    .pipe(
+      map((translate) => [
+        { key: 'name', title: translate.name },
+        { key: 'address', title: translate.address },
+        { key: 'description', title: translate.description },
+        { key: 'action', title: translate.action, orderEnabled: false },
+      ])
+    );
 
   readonly search$ = new Subject<string | null>();
   private readonly request$ = this.queryParams$.pipe(
@@ -88,15 +90,17 @@ export class OfficesComponent extends AbstractServerPaginationTableComponent<Off
   ];
 
   constructor(
+    @Inject(TRANSLOCO_SCOPE) readonly scope: TranslocoScope,
     readonly state: RxState<Pagination<Office>>,
+    readonly router: Router,
+    readonly activatedRoute: ActivatedRoute,
     private adminOfficesService: AdminOfficesService,
     private translocoService: TranslocoService,
     private dialogService: TuiDialogService,
     private promptService: PromptService,
-    private activatedRoute: ActivatedRoute,
     private destroy$: TuiDestroyService
   ) {
-    super(state);
+    super(state, router, activatedRoute);
     state.connect(this.request$.pipe(filter(isPresent)));
     state.hold(
       this.search$.pipe(

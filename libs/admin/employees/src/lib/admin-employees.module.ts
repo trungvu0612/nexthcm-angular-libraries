@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { AddressService, PromptComponentModule } from '@nexthcm/cdk';
+import { inlineLoaderFactory } from '@nexthcm/core';
 import {
   BaseFormComponentModule,
   FormlySelectOrgTreeComponentModule,
@@ -12,7 +13,7 @@ import {
   LayoutComponent,
   LayoutModule,
 } from '@nexthcm/ui';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
 import { FormlyModule } from '@ngx-formly/core';
 import { TuiTablePaginationModule } from '@taiga-ui/addon-table';
 import { TuiLetModule } from '@taiga-ui/cdk';
@@ -90,6 +91,15 @@ export const ADMIN_EMPLOYEE_ROUTES: Routes = [
     EmployeeManagementComponent,
     InitEmployeeDialogComponent,
   ],
-  providers: [AdminEmployeesService, AddressService],
+  providers: [
+    AdminEmployeesService, AddressService,
+    {
+      provide: TRANSLOCO_SCOPE,
+      useValue: {
+        scope: 'employees',
+        loader: inlineLoaderFactory((lang) => import(`../../assets/i18n/${lang}.json`)),
+      },
+    },
+  ],
 })
 export class AdminEmployeesModule {}

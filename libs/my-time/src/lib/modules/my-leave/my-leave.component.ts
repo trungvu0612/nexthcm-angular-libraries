@@ -1,9 +1,9 @@
-import { ChangeDetectionStrategy, Component, Injector, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, Injector, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '@nexthcm/auth';
 import { Pagination, PromptService } from '@nexthcm/cdk';
 import { FormBuilder } from '@ngneat/reactive-forms';
-import { TranslocoService } from '@ngneat/transloco';
+import { ProviderScope, TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
@@ -26,7 +26,7 @@ import { SubmitLeaveRequestDialogComponent } from './components/submit-leave-req
 export class MyLeaveComponent extends AbstractRequestListComponent<LeaveRequest> {
   @ViewChild('table') table!: BaseComponent;
   readonly requestTypeUrlPath = RequestTypeAPIUrlPath.Leave;
-  readonly columns$: Observable<Columns[]> = this.translocoService.selectTranslateObject('MY_LEAVE_TABLE_COLUMNS').pipe(
+  readonly columns$: Observable<Columns[]> = this.translocoService.selectTranslateObject('MY_LEAVE_TABLE_COLUMNS', {}, (this.scope as ProviderScope).scope).pipe(
     map((result) => [
       { key: 'fromDate', title: result.dateRange },
       { key: 'leaveType', title: result.leaveType },
@@ -50,6 +50,7 @@ export class MyLeaveComponent extends AbstractRequestListComponent<LeaveRequest>
   );
 
   constructor(
+    @Inject(TRANSLOCO_SCOPE) readonly scope: TranslocoScope,
     readonly myTimeService: MyTimeService,
     readonly destroy$: TuiDestroyService,
     readonly state: RxState<Pagination<LeaveRequest>>,

@@ -1,5 +1,4 @@
-<ng-container *transloco="let t">
-  <hcm-page [title]="t('ADMIN_LEAVE_TYPES.leaveTypesManagement')">
+  <hcm-page [title]="'ADMIN_LEAVE_TYPES.leaveTypesManagement' | transloco">
     <ng-container ngProjectAs="pageHeader">
       <button
         (click)="onAddLeaveLevel()"
@@ -8,12 +7,13 @@
         size="m"
         tuiButton
       >
-        {{ t('ADMIN_LEAVE_TYPES.addLeaveType') }}
+        {{ 'ADMIN_LEAVE_TYPES.addLeaveType' | transloco }}
       </button>
     </ng-container>
     <tui-loader [overlay]="true" [showLoader]="(loading$ | async) === true">
       <ngx-table
         #table
+        (event)="eventEmitted($event)"
         [columns]="(columns$ | async) || []"
         [configuration]="configuration"
         [data]="(data$ | async) || []"
@@ -59,4 +59,3 @@
       [total]="(total$ | async) || 0"
     ></tui-table-pagination>
   </hcm-page>
-</ng-container>

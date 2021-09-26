@@ -1,6 +1,5 @@
 <ng-container *ngIf="data$ | async as data">
-  <ng-container *transloco="let t">
-    <hcm-page [title]="t('knowledgeBase')">
+    <hcm-page [title]="('knowledgeBase' | transloco)">
       <header class="flex px-1 pb-2 mb-5">
         <img [src]="data.thumbnail || '' | getFile | async" alt="" />
         <div>
@@ -13,5 +12,4 @@
       </header>
       <div [innerHTML]="data.longDescription"></div>
     </hcm-page>
-  </ng-container>
 </ng-container>

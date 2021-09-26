@@ -1,6 +1,8 @@
-import { ChangeDetectionStrategy, Component, Injector, ViewChild } from '@angular/core';
-import { AbstractServerPaginationTableComponent, CommonStatus, Pagination, PromptService } from '@nexthcm/cdk';
-import { HashMap, TranslocoService } from '@ngneat/transloco';
+import { ChangeDetectionStrategy, Component, Inject, Injector, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AbstractServerSortPaginationTableComponent, CommonStatus, Pagination, PromptService } from '@nexthcm/cdk';
+import { HashMap, TRANSLOCO_SCOPE, TranslocoService } from '@ngneat/transloco';
+import { ProviderScope, TranslocoScope } from '@ngneat/transloco/lib/types';
 import { RxState } from '@rx-angular/state';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
@@ -19,16 +21,16 @@ import { AdminWorkflowsService } from '../../services/admin-workflows.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [RxState, TuiDestroyService],
 })
-export class EmailTemplateManagementComponent extends AbstractServerPaginationTableComponent<EmailTemplate> {
+export class EmailTemplateManagementComponent extends AbstractServerSortPaginationTableComponent<EmailTemplate> {
   @ViewChild('table') table!: BaseComponent;
 
   columns$: Observable<Columns[]> = this.translocoService
-    .selectTranslateObject<HashMap<string>>('ADMIN_WORKFLOW_TABLE_COLUMNS')
+    .selectTranslateObject<HashMap<string>>('ADMIN_WORKFLOW_TABLE_COLUMNS', {}, (this.scope as ProviderScope).scope)
     .pipe(
       map((result) => [
         { key: 'name', title: result.name },
         { key: 'status', title: result.status },
-        { key: 'functions', title: result.functions },
+        { key: 'functions', title: result.functions, orderEnabled: false },
       ])
     );
   readonly CommonStatus = CommonStatus;
@@ -42,7 +44,10 @@ export class EmailTemplateManagementComponent extends AbstractServerPaginationTa
   );
 
   constructor(
+    @Inject(TRANSLOCO_SCOPE) readonly scope: TranslocoScope,
     readonly state: RxState<Pagination<EmailTemplate>>,
+    readonly router: Router,
+    readonly activatedRoute: ActivatedRoute,
     private readonly dialogService: TuiDialogService,
     private readonly injector: Injector,
     private readonly adminWorkflowService: AdminWorkflowsService,
@@ -50,7 +55,7 @@ export class EmailTemplateManagementComponent extends AbstractServerPaginationTa
     private readonly translocoService: TranslocoService,
     private readonly promptService: PromptService
   ) {
-    super(state);
+    super(state, router, activatedRoute);
     state.connect(this.request$.pipe(filter(isPresent)));
   }
 

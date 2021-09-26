@@ -1,6 +1,7 @@
-import { ChangeDetectionStrategy, Component, Injector, ViewChild } from '@angular/core';
-import { AbstractServerPaginationTableComponent, Pagination, PromptService } from '@nexthcm/cdk';
-import { TranslocoService } from '@ngneat/transloco';
+import { ChangeDetectionStrategy, Component, Inject, Injector, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AbstractServerSortPaginationTableComponent, Pagination, PromptService } from '@nexthcm/cdk';
+import { ProviderScope, TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
 import { RxState, setProp } from '@rx-angular/state';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
@@ -19,18 +20,18 @@ import { LeaveApprovalLevel } from '../../models/leave-approval-level';
   providers: [TuiDestroyService, RxState],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LeaveApprovalLevelManagementComponent extends AbstractServerPaginationTableComponent<LeaveApprovalLevel> {
+export class LeaveApprovalLevelManagementComponent extends AbstractServerSortPaginationTableComponent<LeaveApprovalLevel> {
   readonly leaveConfigAPIUrlPath = LeaveConfigAPIUrlPath.ApprovalLevel;
   @ViewChild('table') table!: BaseComponent;
 
   readonly columns$: Observable<Columns[]> = this.translocoService
-    .selectTranslateObject('ADMIN_LEAVE_LEVEL_APPROVE_MANAGEMENT_COLUMNS')
+    .selectTranslateObject('ADMIN_LEAVE_LEVEL_APPROVE_MANAGEMENT_COLUMNS', {}, (this.scope as ProviderScope).scope)
     .pipe(
       map((result) => [
         { key: 'leaveType', title: result.leaveType },
         { key: 'jobTitle', title: result.jobTitle },
         { key: 'totalLeave', title: result.totalLeave },
-        { key: 'functions', title: result.functions },
+        { key: 'functions', title: result.functions, orderEnabled: false },
       ])
     );
   private readonly request$ = this.queryParams$.pipe(
@@ -41,10 +42,16 @@ export class LeaveApprovalLevelManagementComponent extends AbstractServerPaginat
     ),
     share()
   );
-  readonly loading$ = this.request$.pipe(map((value) => !value), catchError(() => of(false)));
+  readonly loading$ = this.request$.pipe(
+    map((value) => !value),
+    catchError(() => of(false))
+  );
 
   constructor(
-    public state: RxState<Pagination<LeaveApprovalLevel>>,
+    @Inject(TRANSLOCO_SCOPE) readonly scope: TranslocoScope,
+    readonly state: RxState<Pagination<LeaveApprovalLevel>>,
+    readonly router: Router,
+    readonly activatedRoute: ActivatedRoute,
     private destroy$: TuiDestroyService,
     private leaveConfigsService: LeaveConfigsService,
     private dialogService: TuiDialogService,
@@ -52,7 +59,7 @@ export class LeaveApprovalLevelManagementComponent extends AbstractServerPaginat
     private translocoService: TranslocoService,
     private promptService: PromptService
   ) {
-    super(state);
+    super(state, router, activatedRoute);
     state.connect(this.request$.pipe(filter(isPresent)), (state, data) =>
       setProp(
         data,

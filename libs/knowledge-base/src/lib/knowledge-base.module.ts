@@ -3,8 +3,9 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { GetFilePipeModule } from '@nexthcm/cdk';
+import { inlineLoaderFactory } from '@nexthcm/core';
 import { HEADER_TABS, LayoutComponent, LayoutModule, MenuItem } from '@nexthcm/ui';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
 import { FormlyModule } from '@ngx-formly/core';
 import { TuiTablePaginationModule } from '@taiga-ui/addon-table';
 import {
@@ -75,6 +76,15 @@ const TABS: MenuItem[] = [
     TuiTablePaginationModule,
     TuiLoaderModule,
   ],
-  providers: [{ provide: HEADER_TABS, useValue: TABS }],
+  providers: [
+    {
+      provide: TRANSLOCO_SCOPE,
+      useValue: {
+        scope: 'knowledge-base',
+        loader: inlineLoaderFactory((lang) => import(`../../assets/i18n/${lang}.json`)),
+      },
+    },
+    { provide: HEADER_TABS, useValue: TABS }
+  ],
 })
 export class KnowledgeBaseModule {}

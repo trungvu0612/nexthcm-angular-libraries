@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Inject, Injector, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AbstractServerPaginationTableComponent, CommonStatus, Pagination, PromptService } from '@nexthcm/cdk';
+import { AbstractServerSortPaginationTableComponent, CommonStatus, Pagination, PromptService } from '@nexthcm/cdk';
 import { HashMap, TRANSLOCO_SCOPE, TranslocoService } from '@ngneat/transloco';
 import { ProviderScope, TranslocoScope } from '@ngneat/transloco/lib/types';
 import { RxState } from '@rx-angular/state';
@@ -32,7 +32,10 @@ import { AdminTenantsService } from '../../services/admin-tenants.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [RxState, TuiDestroyService],
 })
-export class TenantManagementComponent extends AbstractServerPaginationTableComponent<BaseTenant> implements OnInit {
+export class TenantManagementComponent
+  extends AbstractServerSortPaginationTableComponent<BaseTenant>
+  implements OnInit
+{
   @ViewChild('table') table!: BaseComponent;
 
   readonly columns$: Observable<Columns[]> = this.translocoService
@@ -45,7 +48,7 @@ export class TenantManagementComponent extends AbstractServerPaginationTableComp
         { key: 'phone', title: result.phone },
         { key: 'website', title: result.website },
         { key: 'state', title: result.status },
-        { key: '', title: result.functions },
+        { key: '', title: result.functions, orderEnabled: false },
       ])
     );
   readonly CommonStatus = CommonStatus;
@@ -62,17 +65,17 @@ export class TenantManagementComponent extends AbstractServerPaginationTableComp
 
   constructor(
     readonly state: RxState<Pagination<BaseTenant>>,
+    readonly router: Router,
+    readonly activatedRoute: ActivatedRoute,
     @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope,
     private readonly dialogService: TuiDialogService,
     private readonly injector: Injector,
     private readonly translocoService: TranslocoService,
     private readonly adminTenantsService: AdminTenantsService,
-    private readonly activatedRoute: ActivatedRoute,
     private readonly destroy$: TuiDestroyService,
-    private readonly router: Router,
     private readonly promptService: PromptService
   ) {
-    super(state);
+    super(state, router, activatedRoute);
     state.connect(this.request$.pipe(filter(isPresent)));
     state.hold(
       this.search$.pipe(

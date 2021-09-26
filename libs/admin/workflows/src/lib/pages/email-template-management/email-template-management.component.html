@@ -1,13 +1,13 @@
-<ng-container *transloco="let t">
-  <hcm-page [title]="t('emailTemplateManagement')">
+  <hcm-page [title]="('emailTemplateManagement' | transloco)">
     <ng-container ngProjectAs="pageHeader">
       <button (click)="onUpsertEmailTemplate()" size="m" tuiButton>
-        {{ t('createEmailTemplate') }}
+        {{ ('createEmailTemplate' | transloco) }}
       </button>
     </ng-container>
     <tui-loader [overlay]="true" [showLoader]="(loading$ | async) === true">
       <ngx-table
         #table
+        (event)="eventEmitted($event)"
         [columns]="(columns$ | async) || []"
         [configuration]="configuration"
         [data]="(data$ | async) || []"
@@ -52,4 +52,3 @@
       [total]="(total$ | async) || 0"
     ></tui-table-pagination>
   </hcm-page>
-</ng-container>

@@ -639,7 +639,10 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
     switchMap(({ id }) => this.workingTimesService.getWorkingHourConfigByOrg(id).pipe(startWith(null))),
     share()
   );
-  readonly loading$ = this.request$.pipe(map((value) => !value), catchError(() => of(false)));
+  readonly loading$ = this.request$.pipe(
+    map((value) => !value),
+    catchError(() => of(false))
+  );
 
   constructor(
     private cdr: ChangeDetectorRef,

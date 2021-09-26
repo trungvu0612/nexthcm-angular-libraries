@@ -1,8 +1,6 @@
-<ng-container *transloco="let t">
-  <hcm-page [title]="t('updated')">
+  <hcm-page [title]="('updated' | transloco)">
     <ng-container ngProjectAs="pageHeader">
       <tui-input-month [formControl]="inputDate" class="w-48 mr-7">Choose time</tui-input-month>
     </ng-container>
     <hcm-updated-knowledge></hcm-updated-knowledge>
   </hcm-page>
-</ng-container>

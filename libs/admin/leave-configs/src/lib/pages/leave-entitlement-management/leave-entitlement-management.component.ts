@@ -1,6 +1,7 @@
-import { ChangeDetectionStrategy, Component, Injector, ViewChild } from '@angular/core';
-import { AbstractServerPaginationTableComponent, Pagination, PromptService } from '@nexthcm/cdk';
-import { TranslocoService } from '@ngneat/transloco';
+import { ChangeDetectionStrategy, Component, Inject, Injector, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AbstractServerSortPaginationTableComponent, Pagination, PromptService } from '@nexthcm/cdk';
+import { ProviderScope, TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
@@ -19,17 +20,17 @@ import { LeaveEntitlement } from '../../models/leave-entitlement';
   providers: [TuiDestroyService, RxState],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LeaveEntitlementManagementComponent extends AbstractServerPaginationTableComponent<LeaveEntitlement> {
+export class LeaveEntitlementManagementComponent extends AbstractServerSortPaginationTableComponent<LeaveEntitlement> {
   readonly leaveConfigAPIUrlPath = LeaveConfigAPIUrlPath.Entitlement;
   @ViewChild('table') table!: BaseComponent;
   readonly columns$: Observable<Columns[]> = this.translocoService
-    .selectTranslateObject('ADMIN_LEAVE_ENTITLEMENT_MANAGEMENT_COLUMNS')
+    .selectTranslateObject('ADMIN_LEAVE_ENTITLEMENT_MANAGEMENT_COLUMNS', {}, (this.scope as ProviderScope).scope)
     .pipe(
       map((result) => [
         { key: 'period', title: result.period },
         { key: 'jobTitle', title: result.jobTitle },
         { key: 'totalLeave', title: result.totalLeave },
-        { key: 'functions', title: result.functions },
+        { key: 'functions', title: result.functions, orderEnabled: false },
       ])
     );
   private readonly request$ = this.queryParams$.pipe(
@@ -40,10 +41,16 @@ export class LeaveEntitlementManagementComponent extends AbstractServerPaginatio
     ),
     share()
   );
-  readonly loading$ = this.request$.pipe(map((value) => !value), catchError(() => of(false)));
+  readonly loading$ = this.request$.pipe(
+    map((value) => !value),
+    catchError(() => of(false))
+  );
 
   constructor(
-    public state: RxState<Pagination<LeaveEntitlement>>,
+    @Inject(TRANSLOCO_SCOPE) readonly scope: TranslocoScope,
+    readonly state: RxState<Pagination<LeaveEntitlement>>,
+    readonly router: Router,
+    readonly activatedRoute: ActivatedRoute,
     private destroy$: TuiDestroyService,
     private leaveConfigsService: LeaveConfigsService,
     private dialogService: TuiDialogService,
@@ -51,7 +58,7 @@ export class LeaveEntitlementManagementComponent extends AbstractServerPaginatio
     private translocoService: TranslocoService,
     private promptService: PromptService
   ) {
-    super(state);
+    super(state, router, activatedRoute);
     state.connect(this.request$.pipe(filter(isPresent)));
   }
 
