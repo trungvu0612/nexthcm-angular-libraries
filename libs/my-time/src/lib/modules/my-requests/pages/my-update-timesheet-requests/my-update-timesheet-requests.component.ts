@@ -1,9 +1,9 @@
 import { HttpParams } from '@angular/common/http';
-import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '@nexthcm/auth';
 import { Pagination } from '@nexthcm/cdk';
-import { TranslocoService } from '@ngneat/transloco';
+import { ProviderScope, TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { BaseComponent, Columns } from 'ngx-easy-table';
@@ -26,7 +26,7 @@ export class MyUpdateTimesheetRequestsComponent extends AbstractRequestListCompo
   readonly userId = this.authService.get('userInfo', 'userId');
   readonly requestTypeUrlPath = RequestTypeAPIUrlPath.UpdateTimesheet;
   readonly columns$: Observable<Columns[]> = this.translocoService
-    .selectTranslateObject('MY_TIME_REQUEST_LIST_COLUMNS')
+    .selectTranslateObject('MY_TIME_REQUEST_LIST_COLUMNS', {}, (this.scope as ProviderScope).scope)
     .pipe(
       map((result) => [
         { key: 'date', title: result.date },
@@ -42,9 +42,9 @@ export class MyUpdateTimesheetRequestsComponent extends AbstractRequestListCompo
           title: result.updateWorkingDay,
           cssClass: { name: 'text-center', includeHeader: true },
         },
-        { key: 'status', title: result.status },
+        { key: 'currentState', title: result.status },
         { key: 'comment', title: result.Comment },
-        { key: 'functions', title: result.functions },
+        { key: 'functions', title: result.functions, orderEnabled: false },
       ])
     );
   readonly queryParams$ = new BehaviorSubject(
@@ -69,6 +69,7 @@ export class MyUpdateTimesheetRequestsComponent extends AbstractRequestListCompo
     readonly state: RxState<Pagination<UpdateTimesheetRequest>>,
     readonly router: Router,
     readonly activatedRoute: ActivatedRoute,
+    @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope,
     private readonly translocoService: TranslocoService,
     private readonly authService: AuthService
   ) {

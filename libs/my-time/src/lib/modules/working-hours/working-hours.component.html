@@ -1,5 +1,5 @@
 <ng-container *transloco="let t">
-  <hcm-page [title]="t('workingHours')">
+  <hcm-page [title]="t('myTime.workingHours')">
     <section class="grid grid-cols-1 gap-6 mb-10 md:grid-cols-2">
       <div
         *tuiLet="myTodayWorkingHours$ | async as myTodayWorkingHours"
@@ -11,7 +11,7 @@
             <img class="mx-auto" src="assets/images/finger-white.png" />
           </div>
           <div class="flex flex-col items-center space-y-5">
-            <div class="text-xl font-semibold">{{ t('workedTimeToday') }}</div>
+            <div class="text-xl font-semibold">{{ t('myTime.workedTimeToday') }}</div>
             <div class="text-4xl font-bold">
               <ng-container *ngIf="myTodayWorkingHours?.totalWorkingTime as totalWorkingTime; else emptyHours">
                 {{ totalWorkingTime * 1000 | date: 'HH:mm':'UTC' }}
@@ -25,7 +25,7 @@
         </div>
         <div class="grid md:grid-cols-2">
           <div class="flex flex-col items-center space-y-6">
-            <div class="text-xl">{{ t('inTime') }}</div>
+            <div class="text-xl">{{ t('myTime.inTime') }}</div>
             <div>
               <ng-container *ngIf="myTodayWorkingHours?.inTime as inTime; else emptyHours">
                 {{ inTime * 1000 | date: 'HH:mm':'UTC' }}
@@ -33,7 +33,7 @@
             </div>
           </div>
           <div class="flex flex-col items-center space-y-6 border-l">
-            <div class="text-xl">{{ t('outTime') }}</div>
+            <div class="text-xl">{{ t('myTime.outTime') }}</div>
             <div>
               <ng-container *ngIf="myTodayWorkingHours?.outTime as outTime; else emptyHours">
                 {{ outTime * 1000 | date: 'HH:mm':'UTC' }}
@@ -45,7 +45,7 @@
       </div>
 
       <tui-island [hoverable]="true" class="right-column" size="l">
-        <div class="font-semibold tui-island__title">{{ t('yourWorkingDaysThisMonth') }}</div>
+        <div class="font-semibold tui-island__title">{{ t('myTime.yourWorkingDaysThisMonth') }}</div>
         <div *ngIf="monthWorkingTime$ | async as monthWorkingTime">
           <span class="text-8xl font-bold text-blue-500">{{
             monthWorkingTime.workingDay | translocoDecimal: { maximumFractionDigits: 1 }
@@ -59,8 +59,8 @@
 
     <section>
       <tui-tabs [(activeItemIndex)]="activeItemIndex" class="mb-5">
-        <button routerLink="/my-time/working-hours/only-me" routerLinkActive tuiTab>{{ t('onlyMe') }}</button>
-        <button routerLink="/my-time/working-hours/everyone" routerLinkActive tuiTab>{{ t('everyone') }}</button>
+        <button routerLink="/my-time/working-hours/only-me" routerLinkActive tuiTab>{{ t('myTime.onlyMe') }}</button>
+        <button routerLink="/my-time/working-hours/everyone" routerLinkActive tuiTab>{{ t('myTime.everyone') }}</button>
       </tui-tabs>
       <router-outlet></router-outlet>
     </section>

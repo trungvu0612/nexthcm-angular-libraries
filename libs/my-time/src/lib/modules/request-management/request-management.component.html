@@ -1,15 +1,19 @@
 <ng-container *transloco="let t">
-  <hcm-page [title]="t('requestManagement')">
+  <hcm-page [title]="t('myTime.requestManagement')">
     <tui-tabs [(activeItemIndex)]="activeItemIndex">
-      <button routerLink="/my-time/requests/myLeave" routerLinkActive tuiTab>{{ t('leave') }}</button>
+      <button routerLink="/my-time/requests/myLeave" routerLinkActive tuiTab>{{ t('myTime.leave') }}</button>
       <button routerLink="/my-time/requests/working-after-hours" routerLinkActive tuiTab>
-        {{ t('workingAfterHours') }}
+        {{ t('myTime.workingAfterHours') }}
       </button>
       <button routerLink="/my-time/requests/update-timesheet" routerLinkActive tuiTab>
-        {{ t('updateTimesheet') }}
+        {{ t('myTime.updateTimesheet') }}
       </button>
-      <button routerLink="/my-time/requests/working-outside" routerLinkActive tuiTab>{{ t('workingOutside') }}</button>
-      <button routerLink="/my-time/requests/work-from-home" routerLinkActive tuiTab>{{ t('workFromHome') }}</button>
+      <button routerLink="/my-time/requests/working-outside" routerLinkActive tuiTab>
+        {{ t('myTime.workingOutside') }}
+      </button>
+      <button routerLink="/my-time/requests/work-from-home" routerLinkActive tuiTab>
+        {{ t('myTime.workFromHome') }}
+      </button>
     </tui-tabs>
     <div class="mt-5">
       <router-outlet></router-outlet>

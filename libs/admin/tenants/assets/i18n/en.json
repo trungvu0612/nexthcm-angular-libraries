@@ -21,5 +21,10 @@
   },
   "tenantName": "Tenant name",
   "tenantLogo": "Tenant logo",
-  "enterTenantName": "Enter tenant name..."
+  "enterTenantName": "Enter tenant name...",
+  "shortname": "Shortname",
+  "enterShortname": "Enter shortname",
+  "website": "Website",
+  "enterWebsite": "Enter website...",
+  "domains": "Domains"
 }

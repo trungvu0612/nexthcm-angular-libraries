@@ -1,7 +1,7 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, Inject, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Pagination } from '@nexthcm/cdk';
-import { TranslocoService } from '@ngneat/transloco';
+import { ProviderScope, TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { BaseComponent, Columns } from 'ngx-easy-table';
@@ -22,7 +22,7 @@ export class UpdateTimesheetRequestListComponent extends AbstractRequestListComp
 
   readonly requestTypeUrlPath = RequestTypeAPIUrlPath.UpdateTimesheet;
   readonly columns$: Observable<Columns[]> = this.translocoService
-    .selectTranslateObject('MY_TIME_REQUEST_LIST_COLUMNS')
+    .selectTranslateObject('MY_TIME_REQUEST_LIST_COLUMNS', {}, (this.scope as ProviderScope).scope)
     .pipe(
       map((result) => [
         { key: 'cif', title: result.cif },
@@ -36,9 +36,9 @@ export class UpdateTimesheetRequestListComponent extends AbstractRequestListComp
           title: result.updateWorkingDay,
           cssClass: { name: 'text-center', includeHeader: true },
         },
-        { key: 'status', title: result.status },
+        { key: 'currentStatus', title: result.status },
         { key: 'comment', title: result.Comment },
-        { key: 'functions', title: result.functions },
+        { key: 'functions', title: result.functions, orderEnabled: false },
       ])
     );
   private readonly request$ = this.queryParams$.pipe(
@@ -60,6 +60,7 @@ export class UpdateTimesheetRequestListComponent extends AbstractRequestListComp
     readonly state: RxState<Pagination<UpdateTimesheetRequest>>,
     readonly router: Router,
     readonly activatedRoute: ActivatedRoute,
+    @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope,
     private readonly translocoService: TranslocoService
   ) {
     super(state, router, activatedRoute);

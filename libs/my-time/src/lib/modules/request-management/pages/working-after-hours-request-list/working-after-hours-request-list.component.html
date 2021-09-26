@@ -6,7 +6,7 @@
         <td>{{ item.user.cif }}</td>
         <td class="font-bold uppercase">{{ item.user.fullName }}</td>
         <td>{{ item.fromDate | translocoDate }} - {{ item.toDate | translocoDate }}</td>
-        <td>{{ 'WORKING_AFTER_HOURS_TYPE.' + item.type | transloco }}</td>
+        <td>{{ 'myTime.WORKING_AFTER_HOURS_TYPE.' + item.type | transloco }}</td>
         <td>
           <tui-tag
             *ngIf="item.currentState as status"

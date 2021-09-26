@@ -152,7 +152,9 @@ export class OrganizationalChartComponent {
       .pipe(
         switchMap((unit) =>
           this.dialogService.open(new PolymorpheusComponent(UpsertOrganizationalUnitComponent, this.injector), {
-            label: this.translocoService.translate(orgId ? 'editOrganizationalUnit' : 'addOrganizationalUnit'),
+            label: this.translocoService.translate(
+              orgId ? 'tenants.editOrganizationalUnit' : 'tenants.addOrganizationalUnit'
+            ),
             data: { unit: unit, levels: this.state.get('levels') },
           })
         )

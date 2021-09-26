@@ -89,9 +89,11 @@ export class WorkingHoursFilterComponent implements OnInit {
     if (!year || month === null) {
       return [];
     }
+
     const thatMonth = setYear(setMonth(new Date(), month), Number(year));
     const startOfThatMonth = startOfMonth(thatMonth);
     const endOfThatMonth = endOfMonth(thatMonth);
+
     return eachWeekOfInterval({ start: startOfThatMonth, end: endOfThatMonth }).map((startWeek, index) => ({
       label: `${key} ${index + 1}`,
       value: startWeek.valueOf(),
@@ -105,6 +107,7 @@ export class WorkingHoursFilterComponent implements OnInit {
   @tuiPure
   weeksStringify(items: ReadonlyArray<BaseOption<number>>): TuiStringHandler<TuiContextWithImplicit<number>> {
     const map = new Map(items.map(({ value, label }) => [value, label]));
+
     return ({ $implicit }: TuiContextWithImplicit<number>) => map.get($implicit) || '';
   }
 
@@ -144,6 +147,7 @@ export class WorkingHoursFilterComponent implements OnInit {
 
   private generateDateRange(week?: number | null): HttpParams {
     let httpParams = this.httpParams$.value;
+
     if (!this.year$.value) {
       httpParams = httpParams.delete(this.fromKey).delete(this.toKey);
       return httpParams;
@@ -159,7 +163,9 @@ export class WorkingHoursFilterComponent implements OnInit {
         );
       return httpParams;
     }
+
     const NOW = new Date();
+
     if (this.month$.value !== null) {
       httpParams = httpParams
         .set(this.fromKey, startOfMonth(setMonth(setYear(NOW, Number(this.year$.value)), this.month$.value)).valueOf())

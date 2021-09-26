@@ -21,5 +21,10 @@
   },
   "tenantName": "Tên tenant",
   "tenantLogo": "Logo tenant",
-  "enterTenantName": "Nhập tên tenant..."
+  "enterTenantName": "Nhập tên tenant...",
+  "shortname": "Tên viết tắt",
+  "enterShortname": "Nhập tên viết tắt...",
+  "website": "Website",
+  "enterWebsite": "Nhập website...",
+  "domains": "Tên miền"
 }

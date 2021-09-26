@@ -1,6 +1,6 @@
-import { ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
 import { AbstractServerPaginationTableComponent, Pagination } from '@nexthcm/cdk';
-import { HashMap, TranslocoService } from '@ngneat/transloco';
+import { HashMap, ProviderScope, TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
 import { isPresent, tuiDefaultProp } from '@taiga-ui/cdk';
 import { BaseComponent, Columns, Config, DefaultConfig } from 'ngx-easy-table';
@@ -33,7 +33,7 @@ export class GroupWorkingHoursTableComponent
     detailsTemplate: true,
   };
   readonly columns$: Observable<Columns[]> = this.translocoService
-    .selectTranslateObject<HashMap<string>>('WORKING_HOURS_TABLE_COLUMNS')
+    .selectTranslateObject<HashMap<string>>('WORKING_HOURS_TABLE_COLUMNS', {}, (this.scope as ProviderScope).scope)
     .pipe(
       map((result) => [
         { key: '', title: '', width: '6%' },
@@ -54,12 +54,16 @@ export class GroupWorkingHoursTableComponent
     switchMap(() => this.workingHoursService.getWorkingHoursOfOnlyMe(this.queryParams$.value).pipe(startWith(null))),
     share()
   );
-  readonly loading$ = this.request$.pipe(map((value) => !value), catchError(() => of(false)));
+  readonly loading$ = this.request$.pipe(
+    map((value) => !value),
+    catchError(() => of(false))
+  );
 
   constructor(
-    public state: RxState<Pagination<WorkingHours>>,
-    private workingHoursService: WorkingHoursService,
-    private translocoService: TranslocoService
+    readonly state: RxState<Pagination<WorkingHours>>,
+    private readonly workingHoursService: WorkingHoursService,
+    private readonly translocoService: TranslocoService,
+    @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope
   ) {
     super(state);
     state.connect(this.request$.pipe(filter(isPresent)));

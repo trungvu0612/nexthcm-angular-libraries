@@ -75,10 +75,10 @@ export const MY_TIME_ROUTES: Routes = [
   },
 ];
 const TABS: MenuItem[] = [
-  { label: 'myLeave', link: '/my-time/my-leave', permissions: [] },
-  { label: 'workingHours', link: '/my-time/working-hours', permissions: [] },
-  { label: 'myRequest', link: '/my-time/my-requests', permissions: [] },
-  { label: 'requestManagement', link: '/my-time/requests', permissions: [] },
+  { label: 'myTime.myLeave', link: '/my-time/my-leave', permissions: [] },
+  { label: 'myTime.workingHours', link: '/my-time/working-hours', permissions: [] },
+  { label: 'myTime.myRequest', link: '/my-time/my-requests', permissions: [] },
+  { label: 'myTime.requestManagement', link: '/my-time/requests', permissions: [] },
 ];
 
 @NgModule({
@@ -96,7 +96,7 @@ const TABS: MenuItem[] = [
     {
       provide: TRANSLOCO_SCOPE,
       useValue: {
-        scope: 'my-time',
+        scope: 'myTime',
         loader: inlineLoaderFactory((lang) => import(`../../assets/i18n/${lang}.json`)),
       },
     },

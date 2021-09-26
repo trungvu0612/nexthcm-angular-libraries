@@ -1,26 +1,12 @@
-<h1 class='text-center text-xl font-semibold'>
-  Your total day off from:
-  <span class='text-red-700'>{{ data.fromDate | translocoDate }}</span> to
-  <span class='text-red-700'>{{ data.toDate | translocoDate }}</span>
-</h1>
-<h3 class='text-center text-xl font-semibold'>Do you want to continue submitting?</h3>
-<div class='flex justify-center mt-8 gap-8'>
-  <button
-    (click)='oKe()'
-    tuiButton
-    type='button'
-    class='tui-space_right-3 tui-space_bottom-3'
-    appearance='primary'
-  >
-    Yes
-  </button>
-  <button
-    (click)='cancel()'
-    tuiButton
-    type='button'
-    class='tui-space_right-3 tui-space_bottom-3'
-    appearance='secondary'
-  >
-    No
-  </button>
-</div>
+<ng-container *transloco="let t">
+  <h1 class="text-center text-xl font-semibold">
+    {{ t('myTime.yourTotalDaysOff') }}: <span class="text-red-700">{{ data.fromDate | translocoDate }}</span>
+    {{ t('to') }}
+    <span class="text-red-700">{{ data.toDate | translocoDate }}</span>
+  </h1>
+  <h3 class="text-center text-xl font-semibold">{{ t('myTime.continueSubmittingConfirmation') }}</h3>
+  <div class="flex justify-center mt-8 gap-8">
+    <button (click)="oKe()" tuiButton type="button">OK</button>
+    <button (click)="cancel()" appearance="secondary" tuiButton type="button">{{ t('cancel') }}</button>
+  </div>
+</ng-container>

@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { AuthService } from '@nexthcm/auth';
 import { BaseOption, PromptService } from '@nexthcm/cdk';
 import { FormBuilder } from '@ngneat/reactive-forms';
-import { HashMap, TranslocoService } from '@ngneat/transloco';
+import { HashMap, ProviderScope, TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
@@ -35,15 +35,17 @@ export class SubmitOvertimeRequestDialogComponent {
         label: 'type',
         labelClassName: 'font-semibold',
         valueProp: 'value',
-        options: this.translocoService.selectTranslateObject<HashMap<string>>('WORKING_AFTER_HOURS_TYPE').pipe(
-          map(
-            (result) =>
-              [
-                { label: result.OVERTIME, value: WorkingAfterHoursType.Overtime },
-                { label: result.WORKING_AFTERTIME, value: WorkingAfterHoursType.WorkingAfterHours },
-              ] as BaseOption<number>[]
-          )
-        ),
+        options: this.translocoService
+          .selectTranslateObject<HashMap<string>>('WORKING_AFTER_HOURS_TYPE', {}, (this.scope as ProviderScope).scope)
+          .pipe(
+            map(
+              (result) =>
+                [
+                  { label: result.OVERTIME, value: WorkingAfterHoursType.Overtime },
+                  { label: result.WORKING_AFTERTIME, value: WorkingAfterHoursType.WorkingAfterHours },
+                ] as BaseOption<number>[]
+            )
+          ),
       },
     },
     {
@@ -65,9 +67,9 @@ export class SubmitOvertimeRequestDialogComponent {
       type: 'input-number',
       templateOptions: {
         translate: true,
-        label: 'totalWorkingTimeH',
+        label: 'myTime.totalWorkingTimeH',
         labelClassName: 'font-semibold',
-        placeholder: 'enterTotalWorkingHours',
+        placeholder: 'myTime.enterTotalWorkingHours',
         required: true,
         textfieldLabelOutside: true,
         precision: 1,
@@ -104,18 +106,20 @@ export class SubmitOvertimeRequestDialogComponent {
   ];
 
   constructor(
-    private fb: FormBuilder,
-    @Inject(POLYMORPHEUS_CONTEXT) readonly context: TuiDialogContext<boolean>,
-    private myTimeService: MyTimeService,
-    private promptService: PromptService,
-    private translocoService: TranslocoService,
-    private authService: AuthService,
-    private destroy$: TuiDestroyService
+    private readonly fb: FormBuilder,
+    @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<boolean>,
+    private readonly myTimeService: MyTimeService,
+    private readonly promptService: PromptService,
+    private readonly translocoService: TranslocoService,
+    private readonly authService: AuthService,
+    private readonly destroy$: TuiDestroyService,
+    @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope
   ) {}
 
   onSubmit(): void {
     if (this.form.valid) {
       const formModel = { ...this.form.value };
+
       if (formModel.fromTo) {
         formModel.fromDate = getTime(formModel.fromTo.from.toLocalNativeDate());
         formModel.toDate = getTime(endOfDay(formModel.fromTo.to.toLocalNativeDate()));

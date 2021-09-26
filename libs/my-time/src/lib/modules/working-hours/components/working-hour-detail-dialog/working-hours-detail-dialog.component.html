@@ -10,15 +10,15 @@
     <div class="table-value">{{ data.userInfo?.office?.name }}</div>
   </div>
   <div class="table-row">
-    <div class="table-label">{{ t('inTime') }}:</div>
+    <div class="table-label">{{ t('myTime.inTime') }}:</div>
     <div class="table-value">{{ data.inTime * 1000 | date: 'HH:mm':'UTC' }}</div>
   </div>
   <div class="table-row">
-    <div class="table-label">{{ t('outTime') }}:</div>
+    <div class="table-label">{{ t('myTime.outTime') }}:</div>
     <div class="table-value">{{ data.outTime * 1000 | date: 'HH:mm':'UTC' }}</div>
   </div>
   <div class="table-row">
-    <div class="table-label">{{ t('totalWorkingTimeH') }}:</div>
+    <div class="table-label">{{ t('myTime.totalWorkingTimeH') }}:</div>
     <div class="table-value">
       {{
         data.totalWorkingTime ? (data.totalWorkingTime / 3600 | translocoDecimal: { maximumFractionDigits: 1 }) : '-'
@@ -26,23 +26,23 @@
     </div>
   </div>
   <div class="table-row">
-    <div class="table-label">{{ t('workingDay') }}:</div>
+    <div class="table-label">{{ t('myTime.workingDay') }}:</div>
     <div class="table-value">{{ data.workingDay ? data.workingDay : '-' }}</div>
   </div>
   <div class="table-row">
-    <div class="table-label">{{ t('overtime') }}:</div>
+    <div class="table-label">{{ t('myTime.overtime') }}:</div>
     <div class="table-value">{{ data.ot ? data.ot : '-' }}</div>
   </div>
   <div class="table-row">
-    <div class="table-label">{{ t('workingOutside') }}:</div>
+    <div class="table-label">{{ t('myTime.workingOutside') }}:</div>
     <div class="table-value">{{ data.onsiteDay ? data.onsiteDay : '-' }}</div>
   </div>
   <div class="table-row">
-    <div class="table-label">{{ t('workFromHome') }}:</div>
+    <div class="table-label">{{ t('myTime.workFromHome') }}:</div>
     <div class="table-value">{{ data.wfh ? data.wfh : '-' }}</div>
   </div>
   <div class="table-row">
-    <div class="table-label">{{ t('leave') }}:</div>
+    <div class="table-label">{{ t('myTime.leave') }}:</div>
     <div class="table-value">{{ data.leaveType }}</div>
   </div>
 </section>

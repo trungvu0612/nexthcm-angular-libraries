@@ -1,9 +1,9 @@
 import { HttpParams } from '@angular/common/http';
-import { ChangeDetectionStrategy, Component, Injector, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, Injector, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '@nexthcm/auth';
 import { AbstractServerSortPaginationTableComponent, Pagination } from '@nexthcm/cdk';
-import { HashMap, TranslocoService } from '@ngneat/transloco';
+import { HashMap, ProviderScope, TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
@@ -27,7 +27,7 @@ export class OnlyMeWorkingHoursListComponent extends AbstractServerSortPaginatio
   @ViewChild('table') table!: BaseComponent;
 
   readonly columns$: Observable<Columns[]> = this.translocoService
-    .selectTranslateObject<HashMap<string>>('WORKING_HOURS_TABLE_COLUMNS')
+    .selectTranslateObject<HashMap<string>>('WORKING_HOURS_TABLE_COLUMNS', {}, (this.scope as ProviderScope).scope)
     .pipe(
       map((result) => [
         { key: 'office', title: result.office },
@@ -44,7 +44,7 @@ export class OnlyMeWorkingHoursListComponent extends AbstractServerSortPaginatio
         { key: 'onsiteDay', title: result.onsiteDay, cssClass: { name: 'text-center', includeHeader: true } },
         { key: 'wfh', title: result.workFromHome, cssClass: { name: 'text-center', includeHeader: true } },
         { key: 'leave', title: result.leave },
-        { key: 'actions', title: result.functions },
+        { key: '', title: result.functions, orderEnabled: false },
       ])
     );
   readonly queryParams$ = new BehaviorSubject(
@@ -63,12 +63,13 @@ export class OnlyMeWorkingHoursListComponent extends AbstractServerSortPaginatio
     readonly state: RxState<Pagination<WorkingHours>>,
     readonly router: Router,
     readonly activatedRoute: ActivatedRoute,
-    private workingHoursService: WorkingHoursService,
-    private destroy$: TuiDestroyService,
-    private translocoService: TranslocoService,
-    private authService: AuthService,
-    private dialogService: TuiDialogService,
-    private injector: Injector
+    @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope,
+    private readonly workingHoursService: WorkingHoursService,
+    private readonly destroy$: TuiDestroyService,
+    private readonly translocoService: TranslocoService,
+    private readonly authService: AuthService,
+    private readonly dialogService: TuiDialogService,
+    private readonly injector: Injector
   ) {
     super(state, router, activatedRoute);
     state.connect(this.request$.pipe(filter(isPresent)));
@@ -77,7 +78,7 @@ export class OnlyMeWorkingHoursListComponent extends AbstractServerSortPaginatio
   onViewWorkingHoursDetail(data: WorkingHours): void {
     this.dialogService
       .open(new PolymorpheusComponent(WorkingHoursDetailDialogComponent, this.injector), {
-        label: this.translocoService.translate('workingHoursDetail'),
+        label: this.translocoService.translate('myTime.workingHoursDetail'),
         data,
       })
       .pipe(takeUntil(this.destroy$))
@@ -87,7 +88,7 @@ export class OnlyMeWorkingHoursListComponent extends AbstractServerSortPaginatio
   requestUpdateTime(data: WorkingHours): void {
     this.dialogService
       .open(new PolymorpheusComponent(SubmitUpdateTimesheetRequestDialogComponent, this.injector), {
-        label: this.translocoService.translate('requestUpdateTimesheet'),
+        label: this.translocoService.translate('myTime.requestUpdateTimesheet'),
         data,
       })
       .pipe(takeUntil(this.destroy$))

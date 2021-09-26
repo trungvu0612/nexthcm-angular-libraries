@@ -61,8 +61,8 @@ export class UpsertTenantDomainDialogComponent implements OnInit {
       templateOptions: {
         required: true,
         translate: true,
-        label: 'domain',
-        placeholder: 'enterDomain',
+        label: 'tenants.domain',
+        placeholder: 'tenants.enterDomain',
         labelClassName: 'font-semibold',
         textfieldLabelOutside: true,
       },

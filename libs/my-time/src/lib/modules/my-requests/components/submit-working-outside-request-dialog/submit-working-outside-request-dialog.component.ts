@@ -40,7 +40,7 @@ export class SubmitWorkingOutsideRequestDialogComponent {
       type: 'input-time',
       templateOptions: {
         translate: true,
-        label: 'Estimate Time',
+        label: 'myTime.estimateTime',
         labelClassName: 'font-semibold',
         textfieldLabelOutside: true,
       },
@@ -77,17 +77,18 @@ export class SubmitWorkingOutsideRequestDialogComponent {
   ];
 
   constructor(
-    private fb: FormBuilder,
-    @Inject(POLYMORPHEUS_CONTEXT) readonly context: TuiDialogContext<boolean>,
-    private myTimeService: MyTimeService,
-    private destroy$: TuiDestroyService,
-    private translocoService: TranslocoService,
-    private promptService: PromptService
+    private readonly fb: FormBuilder,
+    @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<boolean>,
+    private readonly myTimeService: MyTimeService,
+    private readonly destroy$: TuiDestroyService,
+    private readonly translocoService: TranslocoService,
+    private readonly promptService: PromptService
   ) {}
 
   onSubmit(): void {
     if (this.form.valid) {
       const formModel = { ...this.form.value };
+
       if (formModel.fromTo) {
         formModel.fromDate = getTime(formModel.fromTo.from.toLocalNativeDate());
         formModel.toDate = getTime(endOfDay(formModel.fromTo.to.toLocalNativeDate()));

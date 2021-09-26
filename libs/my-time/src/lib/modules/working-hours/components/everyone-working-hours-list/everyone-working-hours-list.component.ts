@@ -1,7 +1,7 @@
-import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AbstractServerSortPaginationTableComponent, Pagination } from '@nexthcm/cdk';
-import { HashMap, TranslocoService } from '@ngneat/transloco';
+import { HashMap, ProviderScope, TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { API, BaseComponent, Columns, Config, DefaultConfig } from 'ngx-easy-table';
@@ -31,7 +31,7 @@ export class EveryoneWorkingHoursListComponent
   };
   readonly toggledRows = new Set<number>();
   readonly columns$: Observable<Columns[]> = this.translocoService
-    .selectTranslateObject<HashMap<string>>('WORKING_HOURS_TABLE_COLUMNS')
+    .selectTranslateObject<HashMap<string>>('WORKING_HOURS_TABLE_COLUMNS', {}, (this.scope as ProviderScope).scope)
     .pipe(
       map((result) => [
         { key: '', title: '', width: '6%' },
@@ -85,9 +85,10 @@ export class EveryoneWorkingHoursListComponent
     readonly state: RxState<Pagination<WorkingHoursGroup>>,
     readonly router: Router,
     readonly activatedRoute: ActivatedRoute,
-    public workingHoursService: WorkingHoursService,
-    public destroy$: TuiDestroyService,
-    private translocoService: TranslocoService
+    @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope,
+    private readonly workingHoursService: WorkingHoursService,
+    private readonly destroy$: TuiDestroyService,
+    private readonly translocoService: TranslocoService
   ) {
     super(state, router, activatedRoute);
     state.connect(this.request$.pipe(filter(isPresent)));

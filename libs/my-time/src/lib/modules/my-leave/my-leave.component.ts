@@ -26,16 +26,23 @@ import { SubmitLeaveRequestDialogComponent } from './components/submit-leave-req
 export class MyLeaveComponent extends AbstractRequestListComponent<LeaveRequest> {
   @ViewChild('table') table!: BaseComponent;
   readonly requestTypeUrlPath = RequestTypeAPIUrlPath.Leave;
-  readonly columns$: Observable<Columns[]> = this.translocoService.selectTranslateObject('MY_LEAVE_TABLE_COLUMNS', {}, (this.scope as ProviderScope).scope).pipe(
-    map((result) => [
-      { key: 'fromDate', title: result.dateRange },
-      { key: 'leaveType', title: result.leaveType },
-      { key: 'days', title: result.days, cssClass: { name: 'text-center', includeHeader: true }, orderEnabled: false },
-      { key: 'status', title: result.status, orderEnabled: false },
-      { key: 'comment', title: result.Comment, orderEnabled: false },
-      { key: '', title: result.functions, orderEnabled: false },
-    ])
-  );
+  readonly columns$: Observable<Columns[]> = this.translocoService
+    .selectTranslateObject('MY_LEAVE_TABLE_COLUMNS', {}, (this.scope as ProviderScope).scope)
+    .pipe(
+      map((result) => [
+        { key: 'fromDate', title: result.dateRange },
+        { key: 'leaveType', title: result.leaveType },
+        {
+          key: 'days',
+          title: result.days,
+          cssClass: { name: 'text-center', includeHeader: true },
+          orderEnabled: false,
+        },
+        { key: 'status', title: result.status, orderEnabled: false },
+        { key: 'comment', title: result.Comment, orderEnabled: false },
+        { key: '', title: result.functions, orderEnabled: false },
+      ])
+    );
   private readonly request$ = this.queryParams$.pipe(
     switchMap(() =>
       this.myTimeService
@@ -50,12 +57,12 @@ export class MyLeaveComponent extends AbstractRequestListComponent<LeaveRequest>
   );
 
   constructor(
-    @Inject(TRANSLOCO_SCOPE) readonly scope: TranslocoScope,
     readonly myTimeService: MyTimeService,
     readonly destroy$: TuiDestroyService,
     readonly state: RxState<Pagination<LeaveRequest>>,
     readonly router: Router,
     readonly activatedRoute: ActivatedRoute,
+    @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope,
     private readonly fb: FormBuilder,
     private readonly injector: Injector,
     private readonly translocoService: TranslocoService,
@@ -74,12 +81,12 @@ export class MyLeaveComponent extends AbstractRequestListComponent<LeaveRequest>
   showDialogSubmit(): void {
     this.dialogService
       .open(new PolymorpheusComponent(SubmitLeaveRequestDialogComponent, this.injector), {
-        label: this.translocoService.translate('submitLeaveRequest'),
+        label: this.translocoService.translate('myTime.submitLeaveRequest'),
         size: 'l',
       })
       .pipe(takeUntil(this.destroy$))
       .subscribe(
-        this.promptService.handleResponse('submitRequestSuccessfully', () =>
+        this.promptService.handleResponse('myTime.submitRequestSuccessfully', () =>
           this.queryParams$.next(this.queryParams$.value)
         )
       );

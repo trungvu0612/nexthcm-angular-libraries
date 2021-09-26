@@ -41,7 +41,7 @@ export class SubmitWorkFromHomeRequestDialogComponent {
       templateOptions: {
         required: true,
         translate: true,
-        label: 'Estimate Time',
+        label: 'myTime.estimateTime',
         labelClassName: 'font-semibold',
         textfieldLabelOutside: true,
       },
@@ -78,17 +78,18 @@ export class SubmitWorkFromHomeRequestDialogComponent {
   ];
 
   constructor(
-    private fb: FormBuilder,
-    @Inject(POLYMORPHEUS_CONTEXT) readonly context: TuiDialogContext<boolean>,
-    private myTimeService: MyTimeService,
-    private translocoService: TranslocoService,
-    private destroy$: TuiDestroyService,
-    private promptService: PromptService
+    private readonly fb: FormBuilder,
+    @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<boolean>,
+    private readonly myTimeService: MyTimeService,
+    private readonly translocoService: TranslocoService,
+    private readonly destroy$: TuiDestroyService,
+    private readonly promptService: PromptService
   ) {}
 
   onSubmit(): void {
     if (this.form.valid) {
       const formModel = { ...this.form.value };
+
       if (formModel.fromTo) {
         formModel.fromDate = getTime(formModel.fromTo.from.toLocalNativeDate());
         formModel.toDate = getTime(endOfDay(formModel.fromTo.to.toLocalNativeDate()));

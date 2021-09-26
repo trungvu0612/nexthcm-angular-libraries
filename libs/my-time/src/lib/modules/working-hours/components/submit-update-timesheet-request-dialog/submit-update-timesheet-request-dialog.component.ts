@@ -46,15 +46,15 @@ export class SubmitUpdateTimesheetRequestDialogComponent {
           type: 'input-time',
           templateOptions: {
             translate: true,
-            label: 'newInTime',
+            label: 'myTime.newInTime',
             labelClassName: 'font-semibold',
-            placeholder: 'enterNewInTime',
+            placeholder: 'myTime.enterNewInTime',
             required: true,
             textfieldLabelOutside: true,
           },
           validators: { validation: [tuiTimeBefore('newOutTime')] },
           validation: {
-            messages: { tuiTimeBefore: () => this.translocoService.translate('MY_TIME.inTimeBeforeOutTime') },
+            messages: { tuiTimeBefore: () => this.translocoService.translate('myTime.inTimeBeforeOutTime') },
           },
         },
         {
@@ -62,15 +62,15 @@ export class SubmitUpdateTimesheetRequestDialogComponent {
           type: 'input-time',
           templateOptions: {
             translate: true,
-            label: 'newOutTime',
+            label: 'myTime.newOutTime',
             labelClassName: 'font-semibold',
-            placeholder: 'enterNewOutTime',
+            placeholder: 'myTime.enterNewOutTime',
             required: true,
             textfieldLabelOutside: true,
           },
           validators: { validation: [tuiTimeAfter('newInTime')] },
           validation: {
-            messages: { tuiTimeAfter: () => this.translocoService.translate('MY_TIME.outTimeAfterInTime') },
+            messages: { tuiTimeAfter: () => this.translocoService.translate('myTime.outTimeAfterInTime') },
           },
         },
       ],
@@ -114,6 +114,7 @@ export class SubmitUpdateTimesheetRequestDialogComponent {
   onSubmit(): void {
     if (this.form.valid) {
       const formModel = { ...this.form.value };
+
       formModel.createdDate = (formModel.createdDate as TuiDay).toLocalNativeDate().valueOf();
       formModel.newInTime = (formModel.newInTime as TuiTime).toAbsoluteMilliseconds() / 1000;
       formModel.newOutTime = (formModel.newOutTime as TuiTime).toAbsoluteMilliseconds() / 1000;

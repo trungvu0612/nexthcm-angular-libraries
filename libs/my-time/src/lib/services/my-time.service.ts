@@ -12,15 +12,12 @@ import {
 import { TranslocoService } from '@ngneat/transloco';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
-import { from, iif, Observable, Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
-import { SweetAlertOptions } from 'sweetalert2';
-import { RequestStatus } from '../enums';
 import { GeneralRequest, SubmitRequestPayload, UpdateRequestPayload } from '../models';
 import { RequestComment } from '../models/request-comment';
 import { ChangeEscalateUserPayload } from '../models/requests/change-escalate-user-payload';
 import { Tracking } from '../models/requests/tracking';
-import { RejectRequestDialogComponent } from '../modules/request-management/components/reject-leave-request-dialog/reject-request-dialog.component';
 import { RequestDetailDialogComponent } from '../modules/shared/request-detail-dialog/request-detail-dialog.component';
 
 export enum RequestTypeAPIUrlPath {
@@ -99,45 +96,6 @@ export class MyTimeService {
     return this.http.get<BaseResponse<GeneralRequest>>(`${MY_TIME_API_PATH}/${type}/${id}`);
   }
 
-  approveRequest(type: RequestTypeAPIUrlPath, id: string, callback?: () => void): Observable<unknown> {
-    return from(
-      this.promptService.open({
-        icon: 'warning',
-        showCancelButton: true,
-        html: this.translocoService.translate('approveRequestWarning'),
-      } as SweetAlertOptions)
-    ).pipe(
-      switchMap((result) =>
-        iif(() => result.isConfirmed, this.updateRequest(type, id, { status: RequestStatus.approved }))
-      ),
-      tap(this.promptService.handleResponse('approveSuccessfully', callback))
-    );
-  }
-
-  rejectRequest(type: RequestTypeAPIUrlPath, id: string, callback?: () => void): Observable<unknown> {
-    return this.dialogService
-      .open<UpdateRequestPayload>(new PolymorpheusComponent(RejectRequestDialogComponent, this.injector))
-      .pipe(
-        switchMap((payload) => this.updateRequest(type, id, payload)),
-        tap(this.promptService.handleResponse('rejectSuccessfully', callback))
-      );
-  }
-
-  cancelRequest(type: RequestTypeAPIUrlPath, id: string, callback?: () => void): Observable<unknown> {
-    return from(
-      this.promptService.open({
-        icon: 'warning',
-        showCancelButton: true,
-        html: this.translocoService.translate('cancelRequestWarning'),
-      } as SweetAlertOptions)
-    ).pipe(
-      switchMap((result) =>
-        iif(() => result.isConfirmed, this.updateRequest(type, id, { status: RequestStatus.cancelled }))
-      ),
-      tap(this.promptService.handleResponse('cancelSuccessfully', callback))
-    );
-  }
-
   viewRequestDetail(type: RequestTypeAPIUrlPath, id: string, userId?: string): Observable<unknown> {
     return this.getRequest(type, id).pipe(
       switchMap((res) =>
@@ -156,9 +114,7 @@ export class MyTimeService {
     return this.http
       .get<EmployeeInfo[]>(`${ACCOUNT_API_PATH}/users/get-manager`)
       .pipe(
-        map((users) =>
-          users.filter((user) => user.fullName.toLowerCase().indexOf(searchQuery.toLowerCase()) !== -1)
-        )
+        map((users) => users.filter((user) => user.fullName.toLowerCase().indexOf(searchQuery.toLowerCase()) !== -1))
       );
   }
 

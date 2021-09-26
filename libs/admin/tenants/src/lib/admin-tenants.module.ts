@@ -7,11 +7,9 @@ import {
   BaseFormComponentModule,
   FormlyStatusToggleComponentModule,
   FormlyUserComboBoxComponentModule,
-  HEADER_TABS,
   InputFilterComponentModule,
   LayoutComponent,
   LayoutModule,
-  MenuItem,
 } from '@nexthcm/ui';
 import { SvgIconsModule } from '@ngneat/svg-icon';
 import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
@@ -19,7 +17,7 @@ import { LetModule } from '@rx-angular/template';
 import { TuiTablePaginationModule } from '@taiga-ui/addon-table';
 import { TuiLetModule } from '@taiga-ui/cdk';
 import { TuiButtonModule, TuiLinkModule, TuiLoaderModule, TuiScrollbarModule } from '@taiga-ui/core';
-import { TuiIslandModule, TuiTabsModule, TuiTagModule } from '@taiga-ui/kit';
+import { TuiBreadcrumbsModule, TuiIslandModule, TuiTabsModule, TuiTagModule } from '@taiga-ui/kit';
 import { HeroIconModule, zoomIn } from 'ng-heroicon';
 import { TableModule } from 'ngx-easy-table';
 import { NgxPermissionsGuard } from 'ngx-permissions';
@@ -59,8 +57,6 @@ export const ADMIN_TENANTS_ROUTES: Routes = [
   },
 ];
 
-const TABS: MenuItem[] = [{ label: 'tenantManagement', link: '/admin/tenants', permissions: [] }];
-
 @NgModule({
   imports: [
     CommonModule,
@@ -85,6 +81,7 @@ const TABS: MenuItem[] = [{ label: 'tenantManagement', link: '/admin/tenants', p
     FormlyStatusToggleComponentModule,
     TuiIslandModule,
     FormlyUserComboBoxComponentModule,
+    TuiBreadcrumbsModule,
   ],
   declarations: [
     TenantManagementComponent,
@@ -107,7 +104,6 @@ const TABS: MenuItem[] = [{ label: 'tenantManagement', link: '/admin/tenants', p
         loader: inlineLoaderFactory((lang) => import(`../../assets/i18n/${lang}.json`)),
       },
     },
-    { provide: HEADER_TABS, useValue: TABS },
   ],
 })
 export class AdminTenantsModule {}

@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, Injector } from '@angular/core';
+import { Router } from '@angular/router';
 import { PromptService } from '@nexthcm/cdk';
 import { TranslocoService } from '@ngneat/transloco';
 import { TuiDestroyService } from '@taiga-ui/cdk';
@@ -9,7 +10,6 @@ import { SweetAlertResult } from 'sweetalert2';
 import { SubmitOvertimeRequestDialogComponent } from './components/submit-overtime-request-dialog/submit-overtime-request-dialog.component';
 import { SubmitWorkFromHomeRequestDialogComponent } from './components/submit-work-from-home-request-dialog/submit-work-from-home-request-dialog.component';
 import { SubmitWorkingOutsideRequestDialogComponent } from './components/submit-working-outside-request-dialog/submit-working-outside-request-dialog.component';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'hcm-my-requests',
@@ -33,7 +33,7 @@ export class MyRequestsComponent {
   onSubmitWorkFromHomeRequest(): void {
     this.dialogService
       .open(new PolymorpheusComponent(SubmitWorkFromHomeRequestDialogComponent, this.injector), {
-        label: this.translocoService.translate('workFromHomeRequest')
+        label: this.translocoService.translate('myTime.workFromHomeRequest')
       })
       .pipe(
         takeUntil(this.destroy$),
@@ -45,7 +45,7 @@ export class MyRequestsComponent {
   onSubmitOvertimeRequest(): void {
     this.dialogService
       .open<boolean>(new PolymorpheusComponent(SubmitOvertimeRequestDialogComponent, this.injector), {
-        label: this.translocoService.translate('overtimeRequest')
+        label: this.translocoService.translate('myTime.overtimeRequest')
       })
       .pipe(
         takeUntil(this.destroy$),
@@ -57,7 +57,7 @@ export class MyRequestsComponent {
   onSubmitWorkingOutsideRequest(): void {
     this.dialogService
       .open<boolean>(new PolymorpheusComponent(SubmitWorkingOutsideRequestDialogComponent, this.injector), {
-        label: this.translocoService.translate('workingOutsideRequest')
+        label: this.translocoService.translate('myTime.workingOutsideRequest')
       })
       .pipe(
         takeUntil(this.destroy$),
@@ -68,7 +68,7 @@ export class MyRequestsComponent {
   private successPrompt(): Promise<SweetAlertResult> {
     return this.promptService.open({
       icon: 'success',
-      html: this.translocoService.translate('submitRequestSuccessfully'),
+      html: this.translocoService.translate('myTime.submitRequestSuccessfully'),
     });
   }
 }

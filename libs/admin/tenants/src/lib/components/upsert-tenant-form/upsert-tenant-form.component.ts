@@ -47,9 +47,9 @@ export class UpsertTenantFormComponent {
           templateOptions: {
             required: true,
             translate: true,
-            label: 'shortname',
+            label: 'tenants.shortname',
             labelClassName: 'font-semibold',
-            placeholder: 'enterShortname',
+            placeholder: 'tenants.enterShortname',
             textfieldLabelOutside: true,
           },
           asyncValidators: {
@@ -290,9 +290,9 @@ export class UpsertTenantFormComponent {
               type: 'input',
               templateOptions: {
                 translate: true,
-                label: 'website',
+                label: 'tenants.website',
                 labelClassName: 'font-semibold',
-                placeholder: 'enterWebsite',
+                placeholder: 'tenants.enterWebsite',
                 textfieldLabelOutside: true,
               },
             },
