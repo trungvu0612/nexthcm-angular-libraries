@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BaseResponse, WorkflowStatus } from '@nexthcm/cdk';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ACCOUNT_API_PATH } from '../../constants';
+import { BaseResponse, WorkflowStatus } from '../../models';
 import { Workflow } from '../../models/workflow';
 
 @Injectable({
