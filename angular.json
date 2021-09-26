@@ -1361,7 +1361,7 @@
               "apps/next-hcm-demo-web/src/styles.scss"
             ],
             "scripts": ["node_modules/mxgraph/javascript/mxClient.min.js"],
-            "allowedCommonJsDependencies": ["angular2-text-mask", "uuid"]
+            "allowedCommonJsDependencies": ["angular2-text-mask", "uuid", "quill-delta-to-html"]
           },
           "configurations": {
             "production": {
