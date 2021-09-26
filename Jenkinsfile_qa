@@ -10,18 +10,11 @@ pipeline {
     K8S_FILE = 'kubernetes_qa.yml'
   }
   stages {
-    stage('Build and publish libraries') {
-      steps {
-        sh 'YARN_CHECKSUM_BEHAVIOR=update yarn'
-        sh 'yarn affected:build'
-        sh 'yarn affected:publish'
-      }
-    }
     stage('Build') {
       stages {
         stage('Build web') {
           steps {
-            sh 'yarn up'
+            sh 'yarn upgrade'
             sh 'yarn build -- -c ${ENVIRONMENT}'
           }
         }
