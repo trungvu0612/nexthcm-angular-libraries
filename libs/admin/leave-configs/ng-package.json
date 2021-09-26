@@ -3,5 +3,6 @@
   "dest": "../../../dist/libs/admin/leave-configs",
   "lib": {
     "entryFile": "src/index.ts"
-  }
+  },
+  "assets": ["assets"]
 }
