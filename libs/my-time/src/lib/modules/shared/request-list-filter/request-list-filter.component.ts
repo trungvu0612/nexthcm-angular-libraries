@@ -3,7 +3,13 @@ import { CommonModule } from '@angular/common';
 import { HttpParams } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, Input, NgModule, OnInit } from '@angular/core';
 import { ActivatedRoute, convertToParamMap, Params } from '@angular/router';
-import { InputFilterComponentModule, SelectFilterComponentModule, SelectMonthFilterComponentModule } from '@nexthcm/ui';
+import { WorkflowStatus } from '@nexthcm/cdk';
+import {
+  InputFilterComponentModule,
+  SelectFilterComponentModule,
+  SelectMonthFilterComponentModule,
+  WorkflowStatusComboBoxFilterComponentModule,
+} from '@nexthcm/ui';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
 import { tuiDefaultProp } from '@taiga-ui/cdk';
@@ -12,7 +18,6 @@ import { TuiTagModule } from '@taiga-ui/kit';
 import { endOfMonth, endOfYear, setMonth, setYear, startOfMonth, startOfYear } from 'date-fns';
 import { BehaviorSubject, combineLatest, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, skip } from 'rxjs/operators';
-import { RequestStatus } from '../../../enums';
 
 @Component({
   selector: 'hcm-request-list-filter',
@@ -27,9 +32,7 @@ export class RequestListFilterComponent implements OnInit {
   readonly year$ = new BehaviorSubject<string | null>(null);
   readonly month$ = new BehaviorSubject<number | null>(null);
   readonly search$ = new Subject<string | null>();
-  readonly status$ = new Subject<RequestStatus | null>();
-  readonly statusList = Object.values(RequestStatus).filter((value) => !isNaN(Number(value)));
-  readonly RequestStatus = RequestStatus;
+  readonly statusId$ = new Subject<string | null>();
   private httpParams$ = new BehaviorSubject<HttpParams>(new HttpParams());
 
   constructor(
@@ -43,7 +46,7 @@ export class RequestListFilterComponent implements OnInit {
     state.hold(this.search$.pipe(debounceTime(1000), distinctUntilChanged()), (search) =>
       this.httpParams$.next(this.onFilter('search', search))
     );
-    state.hold(this.status$, (status) => this.httpParams$.next(this.onFilter('status', status)));
+    state.hold(this.statusId$, (statusId) => this.httpParams$.next(this.onFilter('wfStateId', statusId)));
   }
 
   @Input()
@@ -69,7 +72,7 @@ export class RequestListFilterComponent implements OnInit {
     }
   }
 
-  onFilter(key: string, value: string | number | RequestStatus | null): HttpParams {
+  onFilter(key: string, value: string | number | null): HttpParams {
     let httpParams = this.httpParams$.value;
     if (value !== null) {
       httpParams = httpParams.set(key, value);
@@ -77,6 +80,10 @@ export class RequestListFilterComponent implements OnInit {
       httpParams = httpParams.delete(key);
     }
     return httpParams;
+  }
+
+  onFilterByWorkflowStatus(status: WorkflowStatus | null): void {
+    this.statusId$.next(status ? status.id : null);
   }
 
   private filterByYearMonth(): HttpParams {
@@ -111,9 +118,6 @@ export class RequestListFilterComponent implements OnInit {
     if (params.search) {
       this.search$.next(params.search);
     }
-    if (params.status && !isNaN(Number(params.status))) {
-      this.status$.next(params.status);
-    }
   }
 }
 
@@ -127,7 +131,9 @@ export class RequestListFilterComponent implements OnInit {
     SelectMonthFilterComponentModule,
     InputFilterComponentModule,
     SelectFilterComponentModule,
+    WorkflowStatusComboBoxFilterComponentModule
   ],
-  exports: [RequestListFilterComponent],
+  exports: [RequestListFilterComponent]
 })
-export class RequestListFilterComponentModule {}
+export class RequestListFilterComponentModule {
+}

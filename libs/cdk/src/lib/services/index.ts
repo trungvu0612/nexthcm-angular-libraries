@@ -3,3 +3,4 @@ export * from './address/address.service';
 export * from './employees/employees.service';
 export * from './images/images.service';
 export * from './organizations/organizations.service';
+export * from './workflows/workflows.service';

@@ -13,7 +13,7 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { PropertyRouteConnectorDirective, PropertyRouteConnectorDirectiveModule } from '@nexthcm/cdk';
-import { ALWAYS_FALSE_HANDLER, TuiBooleanHandler, tuiDefaultProp } from '@taiga-ui/cdk';
+import { tuiDefaultProp } from '@taiga-ui/cdk';
 import {
   TUI_DATA_LIST_HOST,
   TuiDataListHost,
@@ -38,10 +38,6 @@ import { PolymorpheusContent } from '@tinkoff/ng-polymorpheus';
 })
 export class SelectFilterComponent<T, G> implements TuiDataListHost<T> {
   @ViewChild(TuiSelectComponent) selectComponent!: TuiSelectComponent<T>;
-
-  @Input()
-  @tuiDefaultProp()
-  disabledItemHandler: TuiBooleanHandler<T> = ALWAYS_FALSE_HANDLER;
 
   @Input()
   @tuiDefaultProp()

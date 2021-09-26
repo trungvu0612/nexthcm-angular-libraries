@@ -927,5 +927,6 @@
   "ACCOUNT_TITLE_NAME_EXISTED": "Chức vụ này đã tồn tại",
   "ACCOUNT_TITLE_NAME_EMPTY": "Tên chức vụ không để trống",
   "ACCOUNT_TITLE_NOT_FOUND": "Tên chức vụ không tồn tại",
-  "ACCOUNT_UPDATE_TITLE_NOT_CHANGE_NAME": "Tên chức vụ không được thay đổi"
+  "ACCOUNT_UPDATE_TITLE_NOT_CHANGE_NAME": "Tên chức vụ không được thay đổi",
+  "findStatuses": "Tìm trạng thái..."
 }

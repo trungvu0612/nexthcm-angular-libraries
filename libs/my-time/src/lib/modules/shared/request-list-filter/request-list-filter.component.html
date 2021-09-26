@@ -14,23 +14,7 @@
     icon="tuiIconSearchLarge"
     propertyName="search"
   ></hcm-input-filter>
-  <!--<hcm-select-filter
-    (valueChange)="status$.next($event)"
-    [label]="t('status')"
-    [valueContent]="statusContent"
-    propertyName="status"
-  >
-    <tui-data-list>
-      <button *ngFor="let status of statusList" [value]="status" tuiOption>
-        <ng-container *ngTemplateOutlet="statusContent; context: { $implicit: status }"></ng-container>
-      </button>
-    </tui-data-list>
-  </hcm-select-filter>-->
+  <hcm-workflow-status-combo-box-filter
+    (valueChange)="onFilterByWorkflowStatus($event)"
+  ></hcm-workflow-status-combo-box-filter>
 </section>
-
-<!--<ng-template #statusContent let-data>
-  <tui-tag
-    [value]="'REQUEST_STATUS.' + RequestStatus[data] | transloco"
-    class="{{ RequestStatus[data] }}-tag"
-  ></tui-tag>
-</ng-template>-->

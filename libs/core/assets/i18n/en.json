@@ -941,5 +941,6 @@
   "ACCOUNT_TITLE_NAME_EXISTED": "Account title name existed",
   "ACCOUNT_TITLE_NAME_EMPTY": "Account title name empty",
   "ACCOUNT_TITLE_NOT_FOUND": "Account title not found",
-  "ACCOUNT_UPDATE_TITLE_NOT_CHANGE_NAME": "Account update title not change name"
+  "ACCOUNT_UPDATE_TITLE_NOT_CHANGE_NAME": "Account update title not change name",
+  "findStatuses": "Find statuses..."
 }

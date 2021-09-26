@@ -14,12 +14,10 @@
   <span *ngIf="to.required && !to.textfieldLabelOutside" class="tui-required"></span>
   <ng-template tuiDataList>
     <tui-data-list *ngIf="users$ | async as users; else loading">
-      <button
-        *ngFor="let user of users"
-        [value]="to.valueProp ? user[keyofUser(to.valueProp)] : user"
-        tuiOption
-      >
-        <span><b>{{user.name}}</b> ({{user.username}})</span>
+      <button *ngFor="let user of users" [value]="to.valueProp ? user[keyofUser(to.valueProp)] : user" tuiOption>
+        <span>
+          <b>{{ user.name }}</b> ({{ user.username }})
+        </span>
       </button>
     </tui-data-list>
   </ng-template>
