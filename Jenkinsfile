@@ -14,8 +14,8 @@ pipeline {
       steps {
         sh 'yarn upgrade'
         sh 'yarn'
-        sh 'yarn affected:build'
-        sh 'yarn affected:publish'
+        sh 'yarn run-many:build'
+        sh 'yarn run-many:publish'
       }
     }
     stage('Build') {

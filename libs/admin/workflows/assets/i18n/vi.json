@@ -55,9 +55,18 @@
   "editEmailTemplate": "Sửa bản mẫu email",
   "WORKFLOW_EMAIL_TEMPLATE": {
     "employee": "Tên nhân viên",
-    "previousStatus": "Trạng thái trước",
-    "nextStatus": "Trạng thái sau",
-    "modifiedTime": "Thời gian thay đổi"
+    "previousStatus": "Trạng thái trước trong quy trình",
+    "nextStatus": "Trạng thái sau trong quy trình",
+    "modifiedTime": "Thời gian thay đổi",
+    "userSubmit": "Người dùng thực hiện hoạt động (thay đổi giá trị của trường, thêm bình luận...)",
+    "action": "Hoạt động: thay đổi giá trị của trường, thêm bình luận...",
+    "type": "Loại vấn đề",
+    "fromDate": "Ngày bắt đầu",
+    "toDate": "Ngày kết thúc",
+    "userChanges": "Người dùng thực hiện thay đổi tại thời điểm hiện tại",
+    "createDate": "Ngày khởi tạo",
+    "oldField": "Giá trị cũ của trường",
+    "newField": "Giá trị mới của trường"
   },
   "createEmailTemplate": "Tạo bản mẫu email",
   "createNewWorkflow": "Tạo quy trình"

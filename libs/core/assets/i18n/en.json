@@ -677,5 +677,6 @@
   "enterDescription": "Enter description...",
   "duration": "Duration",
   "inTime": "Time in",
-  "outTime": "Time out"
+  "outTime": "Time out",
+  "enterName": "Enter name..."
 }

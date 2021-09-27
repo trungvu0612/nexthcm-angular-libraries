@@ -54,10 +54,19 @@
   "createEmailTemplateSuccessfully": "<b>Create new email template successfully!</b>",
   "editEmailTemplate": "Edit email template",
   "WORKFLOW_EMAIL_TEMPLATE": {
-    "employee": "Employee's name",
-    "previousStatus": "Previous status",
-    "nextStatus": "Next status",
-    "modifiedTime": "Modified time"
+    "employee": "The employee's name",
+    "previousStatus": "The previous status in workflow",
+    "nextStatus": "The next status in workflow",
+    "modifiedTime": "The modified time",
+    "userSubmit": "The user who does the activity (change value of field, add comment...)",
+    "action": "Activity: Change the value, add comment...",
+    "type": "The type of issue",
+    "fromDate": "The start day",
+    "toDate": "The end day",
+    "userChanges": "The user who makes changes at the current time",
+    "createDate": "The created date",
+    "oldField": "The old value of field",
+    "newField": "The new value of field"
   },
   "createEmailTemplate": "Create email template",
   "createNewWorkflow": "Create new workflow"

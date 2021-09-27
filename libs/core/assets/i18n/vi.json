@@ -678,5 +678,6 @@
   "enterDescription": "Nhập mô tả...",
   "duration": "Khoảng thời gian",
   "inTime": "Thời gian vào",
-  "outTime": "Thời gian ra"
+  "outTime": "Thời gian ra",
+  "enterName": "Nhập tên..."
 }
