@@ -20,8 +20,6 @@ export class EducationFormComponent {
   form: FormGroup<EmployeeEducation> = this.fb.group({} as EmployeeEducation);
   model = {} as EmployeeEducation;
   fields: FormlyFieldConfig[] = [
-    { key: 'employeeId', defaultValue: this.activatedRoute.snapshot.params.employeeId },
-    { key: 'type', defaultValue: 'EDUCATION' },
     {
       key: 'university',
       className: 'tui-form__row block',
@@ -87,11 +85,21 @@ export class EducationFormComponent {
         textfieldLabelOutside: true,
       },
     },
+    { key: 'employeeId' },
+    { key: 'type' },
   ];
   private readonly request$ = this.employeesService
     .getEmployeeInformation(this.activatedRoute.snapshot.params.employeeId, 'education')
     .pipe(
-      tap((data) => (this.model = { ...this.model, ...data })),
+      tap(
+        (data) =>
+          (this.model = {
+            ...this.model,
+            ...data,
+            employeeId: this.activatedRoute.snapshot.params.employeeId,
+            type: 'education',
+          })
+      ),
       startWith(null),
       share()
     );

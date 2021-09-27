@@ -20,8 +20,6 @@ export class ShuiFormComponent {
   form: FormGroup<EmployeeSHUI> = this.fb.group({} as EmployeeSHUI);
   model = { healthCares: [{}] } as EmployeeSHUI;
   fields: FormlyFieldConfig[] = [
-    { key: 'employeeId', defaultValue: this.activatedRoute.snapshot.params.employeeId },
-    { key: 'type', defaultValue: 'SHUI' },
     {
       fieldGroupClassName: 'grid grid-cols-2 gap-4',
       fieldGroup: [
@@ -151,11 +149,21 @@ export class ShuiFormComponent {
         },
       ],
     },
+    { key: 'employeeId' },
+    { key: 'type' },
   ];
   private readonly request$ = this.employeesService
     .getEmployeeInformation(this.activatedRoute.snapshot.params.employeeId, 'shui')
     .pipe(
-      tap((data) => (this.model = { ...this.model, ...data })),
+      tap(
+        (data) =>
+          (this.model = {
+            ...this.model,
+            ...data,
+            employeeId: this.activatedRoute.snapshot.params.employeeId,
+            type: 'shui',
+          })
+      ),
       startWith(null),
       share()
     );

@@ -50,8 +50,6 @@
   "onlyMe": "Only me",
   "everyone": "Everyone",
   "workedTimeToday": "Worked time today",
-  "inTime": "Time in",
-  "outTime": "Time out",
   "WORKING_HOURS_TABLE_COLUMNS": {
     "office": "Office",
     "date": "Date",

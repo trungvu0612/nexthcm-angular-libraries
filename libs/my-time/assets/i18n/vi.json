@@ -50,8 +50,6 @@
   "onlyMe": "Chỉ mình tôi",
   "everyone": "Mọi người",
   "workedTimeToday": "Thời gian đã làm hôm nay",
-  "inTime": "Thời gian vào",
-  "outTime": "Thời gian ra",
   "WORKING_HOURS_TABLE_COLUMNS": {
     "office": "Văn phòng",
     "date": "Ngày",

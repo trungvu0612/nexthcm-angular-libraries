@@ -60,7 +60,7 @@ export interface EmergencyContact {
 }
 
 export interface EmployeeDuration {
-  type?: string;
+  type: EmployeeInformationAPIType;
   emergencyContacts?: EmergencyContact[] | string;
   employeeId?: string;
   onboardDate?: string | TuiDay | Date;
@@ -78,7 +78,7 @@ export interface EmployeeDuration {
 
 export interface EmployeeEducation {
   employeeId: string;
-  type?: string;
+  type: EmployeeInformationAPIType;
   university?: string;
   major?: string;
   highestCertificate?: string;
@@ -93,7 +93,7 @@ export interface HealthCare {
 
 export interface EmployeeSHUI {
   employeeId: string;
-  type: EmployeeInformationType;
+  type: EmployeeInformationAPIType;
   taxIDNumber: string;
   socialInsuranceNumber: string;
   socialInsurancePlace: string;

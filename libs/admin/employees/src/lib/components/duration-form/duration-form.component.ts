@@ -27,8 +27,6 @@ export class DurationFormComponent {
   form: FormGroup<EmployeeDuration> = this.fb.group({} as EmployeeDuration);
   model = { emergencyContacts: [{}] } as EmployeeDuration;
   fields: FormlyFieldConfig[] = [
-    { key: 'employeeId', defaultValue: this.activatedRoute.snapshot.params.employeeId },
-    { key: 'type', defaultValue: 'DURATION' },
     {
       fieldGroupClassName: 'grid grid-cols-2 gap-4',
       fieldGroup: [
@@ -222,6 +220,8 @@ export class DurationFormComponent {
         },
       ],
     },
+    { key: 'employeeId' },
+    { key: 'type', defaultValue: 'DURATION' },
   ];
   private readonly request$ = this.employeesService
     .getEmployeeInformation(this.activatedRoute.snapshot.params.employeeId, 'duration')
@@ -236,7 +236,12 @@ export class DurationFormComponent {
           'resignationAgreementDate',
         ]);
         data.probationDate = data.probationDate ? DateRange.toTuiDayRange(data.probationDate as DateRange) : undefined;
-        this.model = { ...this.model, ...data };
+        this.model = {
+          ...this.model,
+          ...data,
+          employeeId: this.activatedRoute.snapshot.params.employeeId,
+          type: 'duration',
+        };
       }),
       startWith(null),
       share()

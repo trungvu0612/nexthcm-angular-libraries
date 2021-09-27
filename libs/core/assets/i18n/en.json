@@ -674,5 +674,8 @@
   "findStatuses": "Find statuses...",
   "to": "to",
   "functions": "Functions",
-  "enterDescription": "Enter description..."
+  "enterDescription": "Enter description...",
+  "duration": "Duration",
+  "inTime": "Time in",
+  "outTime": "Time out"
 }

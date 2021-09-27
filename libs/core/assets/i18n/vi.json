@@ -675,5 +675,8 @@
   "findStatuses": "Tìm trạng thái...",
   "to": "đến",
   "functions": "Chức năng",
-  "enterDescription": "Nhập mô tả..."
+  "enterDescription": "Nhập mô tả...",
+  "duration": "Khoảng thời gian",
+  "inTime": "Thời gian vào",
+  "outTime": "Thời gian ra"
 }
