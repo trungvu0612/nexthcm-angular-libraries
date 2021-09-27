@@ -22,7 +22,6 @@ export class JobLevelService {
   }
 
   editLevel(dto: Level): Observable<Level> {
-    console.log('dtooooooôo', dto)
     return this.httpClient.put<Level>(`${MY_ACCOUNT_PATH}/levels/${dto ? dto.id : ''}`, dto);
   }
 
