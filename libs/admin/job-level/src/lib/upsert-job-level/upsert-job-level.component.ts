@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
+import { FormBuilder } from '@ngneat/reactive-forms';
 import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDialogContext } from '@taiga-ui/core';
@@ -14,13 +14,12 @@ import { Level } from '../models/level';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UpsertJobLevelComponent implements OnInit {
-  id!: string;
-  form!: FormGroup<Level>;
-  model!: Level;
+  form = this.fb.group<Level>({} as Level);
+  model = {} as Level;
   fields: FormlyFieldConfig[] = [
     {
-      fieldGroupClassName: 'grid md:grid-cols-2 gap-6 mb-4',
       fieldGroup: [
+        { key: 'id' },
         {
           key: 'name',
           type: 'input',
@@ -44,9 +43,9 @@ export class UpsertJobLevelComponent implements OnInit {
   ];
 
   constructor(
+    private fb: FormBuilder,
     private translocoService: TranslocoService,
-    @Inject(POLYMORPHEUS_CONTEXT) public context: TuiDialogContext<unknown, Observable<Level>>,
-    private fb: FormBuilder
+    @Inject(POLYMORPHEUS_CONTEXT) public context: TuiDialogContext<unknown, Observable<Level>>
   ) {}
 
   ngOnInit(): void {
@@ -59,6 +58,7 @@ export class UpsertJobLevelComponent implements OnInit {
     if (this.form.valid) {
       this.form.value.state = this.model.state ? 1 : 0;
       const formModel = { ...this.form.value };
+      console.log('formModellllll', formModel);
       this.context.completeWith(formModel);
     }
   }
