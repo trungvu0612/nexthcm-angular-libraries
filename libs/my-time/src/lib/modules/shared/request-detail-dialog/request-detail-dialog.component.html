@@ -108,12 +108,26 @@
               </div>
             </div>
             <div class="table-row">
-              <div class="table-label">{{ t('myTime.newInTime') }}:</div>
-              <div class="table-value">{{ data.newInTime ? (data.newInTime * 1000 | date: 'HH:mm':'UTC') : '' }}</div>
+              <div class="table-label">Time:</div>
+              <div class="table-value">
+                {{ data.newInTime ? (data.newInTime * 1000 | date: 'HH:mm':'UTC') : '' }} -
+                {{ data.newOutTime ? (data.newOutTime * 1000 | date: 'HH:mm':'UTC') : '' }}
+              </div>
             </div>
             <div class="table-row">
-              <div class="table-label">{{ t('myTime.newOutTime') }}:</div>
-              <div class="table-value">{{ data.newOutTime ? (data.newOutTime * 1000 | date: 'HH:mm':'UTC') : '' }}</div>
+              <div class="table-label">Duration:</div>
+              <div class="table-value">
+                {{
+                  data.updateTotalTime
+                    ? (data.updateTotalTime / 3600 | translocoDecimal: { maximumFractionDigits: 1 })
+                    : 0
+                }}
+                {{ t('SETTING_TIME.hoursTime') }}
+              </div>
+            </div>
+            <div class="table-row">
+              <div class="table-label">Working days:</div>
+              <div class="table-value">{{ data.updateWorkingDay }}</div>
             </div>
           </ng-container>
           <ng-container *ngSwitchCase="RequestTypeAPIUrlPath.workingOutside">
@@ -126,7 +140,11 @@
           </ng-container>
           <ng-container *ngSwitchCase="RequestTypeAPIUrlPath.workingAfterHours">
             <div class="table-row">
-              <div class="table-label">{{ t('myTime.spentTime') }}:</div>
+              <div class="table-label">Date:</div>
+              <div class="table-value">{{ data.fromDate | translocoDate }} - {{ data.toDate | translocoDate }}</div>
+            </div>
+            <div class="table-row">
+              <div class="table-label">Duration:</div>
               <div class="table-value">
                 {{ data.duration ? (data.duration / 3600 | translocoDecimal: { maximumFractionDigits: 1 }) : 0 }}h
               </div>
@@ -134,7 +152,7 @@
           </ng-container>
           <ng-container *ngSwitchDefault>
             <div class="table-row">
-              <div class="table-label">{{ t('dateRange') }}:</div>
+              <div class="table-label">{{ t('date') }}:</div>
               <div class="table-value">{{ data.fromDate | translocoDate }} - {{ data.toDate | translocoDate }}</div>
             </div>
           </ng-container>
