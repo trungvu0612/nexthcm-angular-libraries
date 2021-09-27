@@ -1,30 +1,53 @@
 pipeline {
-  agent any
+  agent {
+    label 'server15'
+  }
+  environment {
+    ENVIRONMENT = 'qa'
+    PROJECT_NAME = 'hrms'
+    SERVICE_NAME = 'next-hcm-demo-web'
+    NAMESPACE = 'bv-hcm-qa'
+    K8S_FILE = 'kubernetes_qa.yml'
+  }
   stages {
-    stage('Unit Test') {
-      steps {
-        sh 'mvn clean test'
+    stage('Build') {
+      stages {
+        stage('Build web') {
+          steps {
+            sh 'yarn upgrade'
+            sh 'yarn build -c ${ENVIRONMENT}'
+          }
+        }
+        stage('Docker push') {
+          steps {
+            sh 'docker build -f Dockerfile --network=host --rm=true -t docker-host.banvien.com.vn/${PROJECT_NAME}/${ENVIRONMENT}/${SERVICE_NAME}:latest .'
+            sh "docker push docker-host.banvien.com.vn/${PROJECT_NAME}/${ENVIRONMENT}/${SERVICE_NAME}:latest"
+            sh "docker rmi docker-host.banvien.com.vn/${PROJECT_NAME}/${ENVIRONMENT}/${SERVICE_NAME}:latest"
+          }
+        }
       }
     }
-    stage('Deploy Standalone') {
-      steps {
-        sh 'mvn deploy -P standalone'
+    stage('Deploy') {
+      agent {
+        label 'server20'
       }
-    }
-    stage('Deploy AnyPoint') {
-      environment {
-        ANYPOINT_CREDENTIALS = credentials('anypoint.credentials')
-      }
-      steps {
-        sh 'mvn deploy -P arm -Darm.target.name=local-4.0.0-ee -Danypoint.username=${ANYPOINT_CREDENTIALS_USR}  -Danypoint.password=${ANYPOINT_CREDENTIALS_PSW}'
-      }
-    }
-    stage('Deploy CloudHub') {
-      environment {
-        ANYPOINT_CREDENTIALS = credentials('anypoint.credentials')
-      }
-      steps {
-        sh 'mvn deploy -P cloudhub -Dmule.version=4.0.0 -Danypoint.username=${ANYPOINT_CREDENTIALS_USR} -Danypoint.password=${ANYPOINT_CREDENTIALS_PSW}'
+      stages {
+        stage('Un-deploy old build') {
+          steps {
+            script {
+              try {
+                sh "kubectl delete -f ${K8S_FILE} -n ${NAMESPACE}"
+              } catch (err) {
+                echo 'No old deployment'
+              }
+            }
+          }
+        }
+        stage('Deploy') {
+          steps {
+            sh "kubectl apply -f ${K8S_FILE} -n ${NAMESPACE}"
+          }
+        }
       }
     }
   }
