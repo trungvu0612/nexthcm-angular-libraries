@@ -77,7 +77,7 @@ export class ListPoliciesComponent extends AbstractServerSortPaginationTableComp
     from(
       this.promptService.open({
         icon: 'question',
-        text: this.translocoService.translate('MESSAGES.deleteWorkflow'),
+        text: this.translocoService.translate(`adminKnowledgeBase.deletePolicy`),
         showCancelButton: true,
       })
     )
