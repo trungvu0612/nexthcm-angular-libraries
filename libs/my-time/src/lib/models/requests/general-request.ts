@@ -22,4 +22,6 @@ export interface GeneralRequest extends BaseRequest {
   newInTime?: number;
   newOutTime?: number;
   reason: string;
+  updateWorkingDay: number;
+  updateTotalTime: number;
 }
