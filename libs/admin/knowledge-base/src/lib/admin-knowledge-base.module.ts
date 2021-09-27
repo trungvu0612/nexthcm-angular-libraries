@@ -62,7 +62,7 @@ export const adminKnowledgeBaseRoutes: Route[] = [
     {
       provide: TRANSLOCO_SCOPE,
       useValue: {
-        scope: 'knowledge-base',
+        scope: 'adminKnowledgeBase',
         loader: inlineLoaderFactory((lang) => import(`../../assets/i18n/${lang}.json`)),
       },
     },

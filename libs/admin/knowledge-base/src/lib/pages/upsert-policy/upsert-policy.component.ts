@@ -125,11 +125,11 @@ export class UpsertPolicyComponent implements OnInit {
       this.form?.controls?.status?.patchValue(this.form.value.status ? 1 : 0);
       if (this.id) {
         this.policiesService.editPolicies(this.form.value, this.id).subscribe((item) => {
-          this.router.navigateByUrl('/admin/policies');
+          this.router.navigateByUrl('/admin/knowledge-base');
         });
       } else {
         this.policiesService.createPolicies(this.form.value).subscribe((item) => {
-          this.router.navigateByUrl('/admin/policies');
+          this.router.navigateByUrl('/admin/knowledge-base');
         });
       }
     }
