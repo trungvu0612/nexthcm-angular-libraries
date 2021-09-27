@@ -21,7 +21,7 @@ import { AbstractRequestListComponent } from '../../../shared/abstract-component
 export class WorkingOutsideRequestListComponent extends AbstractRequestListComponent<WorkingOutsideRequest> {
   @ViewChild('table') table!: BaseComponent;
 
-  readonly requestTypeUrlPath = RequestTypeAPIUrlPath.WorkingOutside;
+  readonly requestTypeUrlPath = RequestTypeAPIUrlPath.workingOutside;
   readonly columns$: Observable<Columns[]> = this.translocoService
     .selectTranslateObject('MY_TIME_REQUEST_LIST_COLUMNS', {}, (this.scope as ProviderScope).scope)
     .pipe(

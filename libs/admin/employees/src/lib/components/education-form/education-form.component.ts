@@ -1,7 +1,8 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EmployeeEducation, EmployeesService, PromptService } from '@nexthcm/cdk';
 import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
+import { TRANSLOCO_SCOPE, TranslocoScope } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { of } from 'rxjs';
@@ -31,6 +32,7 @@ export class EducationFormComponent {
         labelClassName: 'font-semibold',
         placeholder: 'enterUniversity',
         textfieldLabelOutside: true,
+        translocoScope: this.scope,
       },
     },
     {
@@ -43,6 +45,7 @@ export class EducationFormComponent {
         labelClassName: 'font-semibold',
         placeholder: 'enterMajor',
         textfieldLabelOutside: true,
+        translocoScope: this.scope,
       },
     },
     {
@@ -55,6 +58,7 @@ export class EducationFormComponent {
         labelClassName: 'font-semibold',
         placeholder: 'enterHighestCertificate',
         textfieldLabelOutside: true,
+        translocoScope: this.scope,
       },
     },
     {
@@ -68,6 +72,7 @@ export class EducationFormComponent {
         placeholder: 'enterGraduationYear',
         textfieldLabelOutside: true,
         precision: 0,
+        translocoScope: this.scope,
       },
     },
     {
@@ -96,13 +101,14 @@ export class EducationFormComponent {
   );
 
   constructor(
-    private fb: FormBuilder,
-    private router: Router,
-    private activatedRoute: ActivatedRoute,
-    private adminEmployeeService: AdminEmployeesService,
-    private employeesService: EmployeesService,
-    private destroy$: TuiDestroyService,
-    private promptService: PromptService
+    private readonly fb: FormBuilder,
+    private readonly router: Router,
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly adminEmployeeService: AdminEmployeesService,
+    private readonly employeesService: EmployeesService,
+    private readonly destroy$: TuiDestroyService,
+    private readonly promptService: PromptService,
+    @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope
   ) {}
 
   onSubmit(): void {

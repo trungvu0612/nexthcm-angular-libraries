@@ -1,6 +1,6 @@
 <hcm-page title="{{ 'workflowManagement' | transloco }}">
   <ng-container ngProjectAs="pageHeader">
-    <button (click)="onCreateWorkflow()" size="m" tuiButton>{{ 'createNewWorkflow' | transloco }}</button>
+    <button (click)="onCreateWorkflow()" size="m" tuiButton>{{ 'WORKFLOW.createNewWorkflow' | transloco }}</button>
   </ng-container>
   <tui-loader [overlay]="true" [showLoader]="(loading$ | async) === true">
     <ngx-table

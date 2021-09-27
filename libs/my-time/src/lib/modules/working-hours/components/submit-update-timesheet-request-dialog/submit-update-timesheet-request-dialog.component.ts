@@ -119,7 +119,7 @@ export class SubmitUpdateTimesheetRequestDialogComponent {
       formModel.newInTime = (formModel.newInTime as TuiTime).toAbsoluteMilliseconds() / 1000;
       formModel.newOutTime = (formModel.newOutTime as TuiTime).toAbsoluteMilliseconds() / 1000;
       this.myTimeService
-        .submitRequest(RequestTypeAPIUrlPath.UpdateTimesheet, formModel)
+        .submitRequest(RequestTypeAPIUrlPath.updateTimesheet, formModel)
         .pipe(
           tap(() => this.promptService.handleResponse()),
           takeUntil(this.destroy$)

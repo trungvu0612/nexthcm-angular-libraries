@@ -84,5 +84,7 @@
   "wfh": "Yêu cầu làm tại nhà",
   "enterTotalWorkingHours": "Nhập số giờ làm việc",
   "estimateTime": "Thời gian ước tính",
-  "totalWorkingTimeH": "Số giờ làm việc"
+  "totalWorkingTimeH": "Số giờ làm việc",
+  "requestType": "Loại yêu cầu",
+  "spentTime": "Thời gian"
 }

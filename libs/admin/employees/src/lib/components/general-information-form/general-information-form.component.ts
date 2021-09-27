@@ -1,5 +1,5 @@
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Inject, Input, Output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Actions } from '@datorama/akita-ng-effects';
 import {
@@ -11,7 +11,7 @@ import {
   UploadFileService,
 } from '@nexthcm/cdk';
 import { FormBuilder } from '@ngneat/reactive-forms';
-import { TranslocoService } from '@ngneat/transloco';
+import { TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { of } from 'rxjs';
 import { catchError, map, share, startWith, tap } from 'rxjs/operators';
@@ -50,6 +50,7 @@ export class GeneralInformationFormComponent {
                 labelClassName: 'font-semibold',
                 placeholder: 'enterCifNumber',
                 readonly: true,
+                translocoScope: this.scope,
               },
               hideExpression: `!formState.editMode`,
               expressionProperties: {
@@ -66,6 +67,7 @@ export class GeneralInformationFormComponent {
                 textfieldLabelOutside: true,
                 labelClassName: 'font-semibold',
                 placeholder: 'enterFirstName',
+                translocoScope: this.scope,
               },
               expressionProperties: {
                 'templateOptions.readonly': '(model.registerType === "LDAP")',
@@ -83,6 +85,7 @@ export class GeneralInformationFormComponent {
                 textfieldLabelOutside: true,
                 labelClassName: 'font-semibold',
                 placeholder: 'enterLastName',
+                translocoScope: this.scope,
               },
               expressionProperties: {
                 'templateOptions.readonly': '(model.registerType === "LDAP")',
@@ -98,6 +101,7 @@ export class GeneralInformationFormComponent {
                 placeholder: 'enterOtherName',
                 textfieldLabelOutside: true,
                 labelClassName: 'font-semibold',
+                translocoScope: this.scope,
               },
             },
             {
@@ -200,6 +204,7 @@ export class GeneralInformationFormComponent {
                 label: 'directReport',
                 labelClassName: 'font-semibold',
                 placeholder: 'chooseDirectReport',
+                translocoScope: this.scope,
               },
             },
           ],
@@ -228,6 +233,7 @@ export class GeneralInformationFormComponent {
     private readonly adminEmployeeService: AdminEmployeesService,
     private readonly activatedRoute: ActivatedRoute,
     private readonly jobTitlesQuery: JobTitlesQuery,
+    @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope,
     actions: Actions
   ) {
     actions.dispatch(loadJobTitles());

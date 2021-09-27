@@ -25,7 +25,7 @@ import { SubmitLeaveRequestDialogComponent } from './components/submit-leave-req
 })
 export class MyLeaveComponent extends AbstractRequestListComponent<LeaveRequest> {
   @ViewChild('table') table!: BaseComponent;
-  readonly requestTypeUrlPath = RequestTypeAPIUrlPath.Leave;
+  readonly requestTypeUrlPath = RequestTypeAPIUrlPath.leave;
   readonly columns$: Observable<Columns[]> = this.translocoService
     .selectTranslateObject('MY_LEAVE_TABLE_COLUMNS', {}, (this.scope as ProviderScope).scope)
     .pipe(

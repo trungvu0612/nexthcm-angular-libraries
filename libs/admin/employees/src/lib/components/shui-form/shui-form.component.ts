@@ -1,7 +1,8 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EmployeeSHUI, EmployeesService, PromptService } from '@nexthcm/cdk';
 import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
+import { TRANSLOCO_SCOPE, TranslocoScope } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { of } from 'rxjs';
@@ -36,6 +37,7 @@ export class ShuiFormComponent {
                 labelClassName: 'font-semibold',
                 placeholder: 'enterTaxIDNumber',
                 textfieldLabelOutside: true,
+                translocoScope: this.scope,
               },
             },
             {
@@ -48,6 +50,7 @@ export class ShuiFormComponent {
                 labelClassName: 'font-semibold',
                 placeholder: 'enterSocialInsuranceNumber',
                 textfieldLabelOutside: true,
+                translocoScope: this.scope,
               },
             },
             {
@@ -60,6 +63,7 @@ export class ShuiFormComponent {
                 labelClassName: 'font-semibold',
                 placeholder: 'enterSocialInsurancePlace',
                 textfieldLabelOutside: true,
+                translocoScope: this.scope,
               },
             },
             {
@@ -69,6 +73,7 @@ export class ShuiFormComponent {
               templateOptions: {
                 translate: true,
                 label: 'healthCareInsuranceList',
+                translocoScope: this.scope,
               },
               fieldArray: {
                 fieldGroupClassName: 'grid grid-cols-2 gap-4',
@@ -81,6 +86,7 @@ export class ShuiFormComponent {
                       translate: true,
                       label: 'healthCareCompany',
                       placeholder: 'chooseHealthCareCompany',
+                      translocoScope: this.scope,
                       options: ['PVI'],
                     },
                   },
@@ -92,6 +98,7 @@ export class ShuiFormComponent {
                       label: 'healthCareNumber',
                       placeholder: 'enterHealthCareNumber',
                       textfieldLabelOutside: true,
+                      translocoScope: this.scope,
                     },
                   },
                 ],
@@ -111,6 +118,7 @@ export class ShuiFormComponent {
                 labelClassName: 'font-semibold',
                 placeholder: 'enterFamilyHealthCarePackageNumber',
                 textfieldLabelOutside: true,
+                translocoScope: this.scope,
               },
             },
             {
@@ -123,6 +131,7 @@ export class ShuiFormComponent {
                 labelClassName: 'font-semibold',
                 placeholder: 'enterFamilyAllowance',
                 textfieldLabelOutside: true,
+                translocoScope: this.scope,
               },
             },
             {
@@ -135,6 +144,7 @@ export class ShuiFormComponent {
                 labelClassName: 'font-semibold',
                 placeholder: 'enterHealthInsuranceNumber',
                 textfieldLabelOutside: true,
+                translocoScope: this.scope,
               },
             },
           ],
@@ -155,13 +165,14 @@ export class ShuiFormComponent {
   );
 
   constructor(
-    private fb: FormBuilder,
-    private router: Router,
-    private activatedRoute: ActivatedRoute,
-    private adminEmployeeService: AdminEmployeesService,
-    private employeesService: EmployeesService,
-    private destroy$: TuiDestroyService,
-    private promptService: PromptService
+    private readonly fb: FormBuilder,
+    private readonly router: Router,
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly adminEmployeeService: AdminEmployeesService,
+    private readonly employeesService: EmployeesService,
+    private readonly destroy$: TuiDestroyService,
+    private readonly promptService: PromptService,
+    @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope
   ) {}
 
   onSubmit(): void {

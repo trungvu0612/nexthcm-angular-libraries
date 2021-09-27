@@ -24,7 +24,7 @@ export class MyWorkFromHomeRequestsComponent extends AbstractRequestListComponen
   @ViewChild('table') table!: BaseComponent;
 
   readonly userId = this.authService.get('userInfo', 'userId');
-  readonly requestTypeUrlPath = RequestTypeAPIUrlPath.WorkFromHome;
+  readonly requestTypeUrlPath = RequestTypeAPIUrlPath.workFromHome;
   readonly columns$: Observable<Columns[]> = this.translocoService
     .selectTranslateObject('MY_TIME_REQUEST_LIST_COLUMNS', {}, (this.scope as ProviderScope).scope)
     .pipe(

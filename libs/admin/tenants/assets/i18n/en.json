@@ -26,5 +26,12 @@
   "enterShortname": "Enter shortname",
   "website": "Website",
   "enterWebsite": "Enter website...",
-  "domains": "Domains"
+  "domains": "Domains",
+  "domain": "Domain",
+  "enterDomain": "Enter domain...",
+  "addOrganizationalUnit": "Add organizational unit",
+  "editOrganizationalUnit": "Edit organizational unit",
+  "deleteOrganizationalUnit": "Are you sure you want to remove this organizational unit?",
+  "chooseParentLevel": "Choose a parent level",
+  "searchDomains": "Search domains..."
 }

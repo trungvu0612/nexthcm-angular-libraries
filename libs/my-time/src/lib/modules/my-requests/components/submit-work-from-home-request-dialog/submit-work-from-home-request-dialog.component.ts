@@ -99,7 +99,7 @@ export class SubmitWorkFromHomeRequestDialogComponent {
       }
       delete formModel.fromTo;
       this.myTimeService
-        .submitRequest(RequestTypeAPIUrlPath.WorkFromHome, formModel)
+        .submitRequest(RequestTypeAPIUrlPath.workFromHome, formModel)
         .pipe(
           tap(() => this.promptService.handleResponse()),
           takeUntil(this.destroy$)

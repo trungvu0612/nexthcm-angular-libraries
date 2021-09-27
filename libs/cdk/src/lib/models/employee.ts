@@ -39,7 +39,7 @@ export interface BankAccount {
 
 export interface EmployeeIndividual {
   employeeId: string;
-  type: EmployeeInformationType;
+  type: EmployeeInformationAPIType;
   gender: number;
   birthDate: string | TuiDay | Date;
   idNumber: number;

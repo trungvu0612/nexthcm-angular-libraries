@@ -44,9 +44,12 @@ export class UpsertTenantDomainDialogComponent implements OnInit {
                   debounceTime(1000),
                   take(1),
                   switchMap((name: string) =>
-                    this.context.data.name === name
+                    this.context.data?.name === name
                       ? of(true)
-                      : this.adminTenantsService.checkDomainNameExisting({ name, tenant: { id: this.model.id } })
+                      : this.adminTenantsService.checkDomainNameExisting({
+                          name,
+                          tenant: { id: this.routerQuery.getParams('tenantId') || '' },
+                        })
                   ),
                   tap(() => control.markAsTouched())
                 ),
@@ -75,9 +78,12 @@ export class UpsertTenantDomainDialogComponent implements OnInit {
                   debounceTime(1000),
                   take(1),
                   switchMap((domainUrl: string) =>
-                    this.context.data.domainUrl === domainUrl
+                    this.context.data?.domainUrl === domainUrl
                       ? of(true)
-                      : this.adminTenantsService.checkDomainUrlExisting({ domainUrl, tenant: { id: this.model.id } })
+                      : this.adminTenantsService.checkDomainUrlExisting({
+                          domainUrl,
+                          tenant: { id: this.routerQuery.getParams('tenantId') || '' },
+                        })
                   ),
                   tap(() => control.markAsTouched())
                 ),

@@ -24,7 +24,7 @@ export class MyWorkingOutsideRequestsComponent extends AbstractRequestListCompon
   @ViewChild('table') table!: BaseComponent;
 
   readonly userId = this.authService.get('userInfo', 'userId');
-  readonly requestTypeUrlPath = RequestTypeAPIUrlPath.WorkingOutside;
+  readonly requestTypeUrlPath = RequestTypeAPIUrlPath.workingOutside;
   readonly columns$: Observable<Columns[]> = this.translocoService
     .selectTranslateObject('MY_TIME_REQUEST_LIST_COLUMNS', {}, (this.scope as ProviderScope).scope)
     .pipe(
@@ -33,7 +33,7 @@ export class MyWorkingOutsideRequestsComponent extends AbstractRequestListCompon
         { key: 'days', title: result.days },
         { key: 'status', title: result.status },
         { key: 'reason', title: result.Comment },
-        { key: 'functions', title: result.functions },
+        { key: 'functions', title: result.functions, orderEnabled: false },
       ])
     );
   readonly queryParams$ = new BehaviorSubject(

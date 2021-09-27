@@ -48,12 +48,12 @@ export class EmployeeManagementComponent
       map((result) => [
         { key: 'cif', title: result.cif },
         { key: 'fullName', title: result.fullName },
-        { key: 'department', title: result.department },
+        { key: 'organization', title: result.department },
         { key: 'jobTitle', title: result.jobTitle },
         { key: 'directReport', title: result.directReport },
         { key: 'roles', title: result.roles },
-        { key: 'activeStatus', title: result.activeStatus },
-        { key: 'actions', title: result.functions, orderEnabled: false },
+        { key: 'status', title: result.activeStatus },
+        { key: '', title: result.functions, orderEnabled: false },
       ])
     );
   private readonly request$ = this.queryParams$.pipe(
@@ -92,6 +92,7 @@ export class EmployeeManagementComponent
 
   ngOnInit(): void {
     const searchParam = this.activatedRoute.snapshot.queryParams.search;
+
     if (searchParam) {
       this.search$.next(searchParam);
     }
@@ -100,7 +101,7 @@ export class EmployeeManagementComponent
   onAddEmployee(): void {
     this.dialogService
       .open<EmployeeGeneralInformation>(new PolymorpheusComponent(InitEmployeeDialogComponent, this.injector), {
-        label: this.translocoService.translate('addNewEmployee'),
+        label: this.translocoService.translate('employees.addNewEmployee'),
         size: 'l',
       })
       .pipe(
@@ -115,7 +116,7 @@ export class EmployeeManagementComponent
     from(
       this.promptService.open({
         icon: 'question',
-        html: this.translocoService.translate('deleteEmployee'),
+        html: this.translocoService.translate('employees.deleteEmployee'),
         showCancelButton: true,
       })
     )
@@ -125,7 +126,7 @@ export class EmployeeManagementComponent
         takeUntil(this.destroy$)
       )
       .subscribe(
-        this.promptService.handleResponse('removeEmployeeSuccessfully', () =>
+        this.promptService.handleResponse('employees.removeEmployeeSuccessfully', () =>
           this.queryParams$.next(this.queryParams$.value)
         )
       );

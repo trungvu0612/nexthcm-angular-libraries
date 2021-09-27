@@ -24,10 +24,10 @@
         </div>
         <div class="table-row">
           <div class="table-label">{{ t('myTime.requestType') }}:</div>
-          <div class="table-value">{{ t(RequestTypeAPIUrlPath[requestTypeAPIUrlPath]) }}</div>
+          <div class="table-value">{{ t('myTime.' + RequestTypeAPIUrlPath[requestTypeAPIUrlPath]) }}</div>
         </div>
         <div class="table-row">
-          <div class="table-label">{{ t('myTime.assignee') }}:</div>
+          <div class="table-label">{{ t('assignee') }}:</div>
           <div *tuiLet="data.escalateDTO || data.escalateInfo as escalateUser" class="table-value">
             <div *ngIf="escalateUser && isMyRequest" class="flex items-center">
               <ng-container *ngTemplateOutlet="value; context: { $implicit: escalateUser }"></ng-container>
@@ -74,7 +74,7 @@
           </ng-template>
         </div>
         <ng-container [ngSwitch]="requestTypeAPIUrlPath">
-          <ng-container *ngSwitchCase="RequestTypeAPIUrlPath.WorkFromHome">
+          <ng-container *ngSwitchCase="RequestTypeAPIUrlPath.workFromHome">
             <div class="table-row">
               <div class="table-label">{{ t('days') }}:</div>
               <div class="table-value">
@@ -82,9 +82,9 @@
               </div>
             </div>
           </ng-container>
-          <ng-container *ngSwitchCase="RequestTypeAPIUrlPath.Leave">
+          <ng-container *ngSwitchCase="RequestTypeAPIUrlPath.leave">
             <div class="table-row">
-              <div class="table-label">{{ t('myTime.leaveType') }}:</div>
+              <div class="table-label">{{ t('leaveType') }}:</div>
               <div class="table-value">{{ data.leaveType!.name }}</div>
             </div>
             <div class="table-row">
@@ -100,7 +100,7 @@
               </div>
             </div>
           </ng-container>
-          <ng-container *ngSwitchCase="RequestTypeAPIUrlPath.UpdateTimesheet">
+          <ng-container *ngSwitchCase="RequestTypeAPIUrlPath.updateTimesheet">
             <div class="table-row">
               <div class="table-label">{{ t('date') }}:</div>
               <div class="table-value">
@@ -116,7 +116,7 @@
               <div class="table-value">{{ data.newOutTime ? (data.newOutTime * 1000 | date: 'HH:mm':'UTC') : '' }}</div>
             </div>
           </ng-container>
-          <ng-container *ngSwitchCase="RequestTypeAPIUrlPath.WorkingOutside">
+          <ng-container *ngSwitchCase="RequestTypeAPIUrlPath.workingOutside">
             <div class="table-row">
               <div class="table-label">{{ t('days') }}:</div>
               <div class="table-value">
@@ -124,7 +124,7 @@
               </div>
             </div>
           </ng-container>
-          <ng-container *ngSwitchCase="RequestTypeAPIUrlPath.WorkingAfterHours">
+          <ng-container *ngSwitchCase="RequestTypeAPIUrlPath.workingAfterHours">
             <div class="table-row">
               <div class="table-label">{{ t('myTime.spentTime') }}:</div>
               <div class="table-value">
@@ -172,8 +172,8 @@
         </div>
       </div>
     </section>
-    <div class="flex justify-center py-5 border-b">
-      <tui-hosted-dropdown *ngIf="data.nextStates.length" [(open)]="open" [content]="dropdown" tuiDropdownAlign="left">
+    <div *ngIf="data.nextStates.length" class="flex justify-center py-5 border-b">
+      <tui-hosted-dropdown [(open)]="open" [content]="dropdown" tuiDropdownAlign="left">
         <button [iconRight]="icon" appearance="secondary" tuiButton type="button">{{ t('functions') }}</button>
       </tui-hosted-dropdown>
       <ng-template #icon>

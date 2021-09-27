@@ -22,7 +22,7 @@ import { AbstractRequestListComponent } from '../../../shared/abstract-component
 export class LeaveRequestListComponent extends AbstractRequestListComponent<LeaveRequest> {
   @ViewChild('table') table!: BaseComponent;
 
-  readonly requestTypeUrlPath = RequestTypeAPIUrlPath.Leave;
+  readonly requestTypeUrlPath = RequestTypeAPIUrlPath.leave;
   readonly columns$: Observable<Columns[]> = this.translocoService
     .selectTranslateObject('MY_TIME_REQUEST_LIST_COLUMNS', {}, (this.scope as ProviderScope).scope)
     .pipe(

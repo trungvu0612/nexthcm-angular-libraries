@@ -134,7 +134,7 @@ export class AdminWorkflowsService {
 
   updateEmailTemplate(payload: EmailTemplate): Observable<BaseResponse<EmailTemplate>> {
     return this.http
-      .put<BaseResponse<EmailTemplate>>(`${ACCOUNT_API_PATH}/template`, payload)
+      .put<BaseResponse<EmailTemplate>>(`${ACCOUNT_API_PATH}/template/${payload.id}`, payload)
       .pipe(tap(({ data }) => this.actions.dispatch(upsertEmailTemplate({ data }))));
   }
 

@@ -41,5 +41,24 @@
     "name": "Tên",
     "description": "Mô tả",
     "functions": "Chức năng"
-  }
+  },
+  "ADMIN_WORKFLOW_TABLE_COLUMNS": {
+    "name": "Name",
+    "description": "Description",
+    "createdBy": "Create by",
+    "status": "Status",
+    "functions": "Functions"
+  },
+  "removeEmailTemplateSuccessfully": "<b>Xoá bản mẫu email thành công!</b>",
+  "editEmailTemplateSuccessfully": "<b>Cập nhật bản mẫu email thành công!</b>",
+  "createEmailTemplateSuccessfully": "<b>Tạo bản mẫu email thành công!</b>",
+  "editEmailTemplate": "Sửa bản mẫu email",
+  "WORKFLOW_EMAIL_TEMPLATE": {
+    "employee": "Tên nhân viên",
+    "previousStatus": "Trạng thái trước",
+    "nextStatus": "Trạng thái sau",
+    "modifiedTime": "Thời gian thay đổi"
+  },
+  "createEmailTemplate": "Tạo bản mẫu email",
+  "createNewWorkflow": "Tạo quy trình"
 }

@@ -115,7 +115,8 @@ export class OrganizationalChartComponent {
         switchMap((id) =>
           from(
             this.promptService.open({
-              icon: 'warning',
+              icon: 'question',
+              html: this.translocoService.translate('tenants.deleteOrganizationalUnit'),
               showCancelButton: true,
             } as SweetAlertOptions)
           ).pipe(

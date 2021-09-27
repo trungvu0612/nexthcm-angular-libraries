@@ -17,8 +17,8 @@ import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
 import { FormlyModule } from '@ngx-formly/core';
 import { TuiTablePaginationModule } from '@taiga-ui/addon-table';
 import { TuiLetModule } from '@taiga-ui/cdk';
-import { TuiButtonModule, TuiLabelModule, TuiLoaderModule, TuiSvgModule } from '@taiga-ui/core';
-import { TuiCheckboxModule, TuiTabsModule, TuiToggleModule } from '@taiga-ui/kit';
+import { TuiButtonModule, TuiLabelModule, TuiLinkModule, TuiLoaderModule, TuiSvgModule } from '@taiga-ui/core';
+import { TuiBreadcrumbsModule, TuiCheckboxModule, TuiTabsModule, TuiToggleModule } from '@taiga-ui/kit';
 import { PolymorpheusModule } from '@tinkoff/ng-polymorpheus';
 import { academicCap, HeroIconModule, identification, informationCircle } from 'ng-heroicon';
 import { TableModule } from 'ngx-easy-table';
@@ -27,6 +27,7 @@ import { DurationFormComponent } from './components/duration-form/duration-form.
 import { EducationFormComponent } from './components/education-form/education-form.component';
 import { FormlyRepeatSectionComponent } from './components/formly-repeat-section/formly-repeat-section.component';
 import { GeneralInformationFormComponent } from './components/general-information-form/general-information-form.component';
+import { GeneralInformationComponent } from './components/general-information/general-information.component';
 import { IndividualFormComponent } from './components/individual-form/individual-form.component';
 import { InitEmployeeDialogComponent } from './components/init-employee-dialog/init-employee-dialog.component';
 import { ShuiFormComponent } from './components/shui-form/shui-form.component';
@@ -43,10 +44,18 @@ export const ADMIN_EMPLOYEE_ROUTES: Routes = [
     children: [
       { path: '', component: EmployeeManagementComponent },
       {
-        path: ':employeeId/edit',
+        path: ':employeeId',
         component: EditEmployeeComponent,
         canActivate: [NgxPermissionsGuard],
         data: { permissions: { only: 'UPDATE_EMPLOYEE', redirectTo: '/' } },
+        children: [
+          { path: '', redirectTo: 'general', pathMatch: 'full' },
+          { path: 'general', component: GeneralInformationComponent },
+          { path: 'individual', component: IndividualFormComponent },
+          { path: 'duration', component: DurationFormComponent },
+          { path: 'education', component: EducationFormComponent },
+          { path: 'shui', component: ShuiFormComponent },
+        ],
       },
     ],
   },
@@ -79,6 +88,8 @@ export const ADMIN_EMPLOYEE_ROUTES: Routes = [
     BaseFormComponentModule,
     FormlySelectOrgTreeComponentModule,
     FormlyStatusToggleComponentModule,
+    TuiBreadcrumbsModule,
+    TuiLinkModule,
   ],
   declarations: [
     EditEmployeeComponent,
@@ -90,9 +101,11 @@ export const ADMIN_EMPLOYEE_ROUTES: Routes = [
     FormlyRepeatSectionComponent,
     EmployeeManagementComponent,
     InitEmployeeDialogComponent,
+    GeneralInformationComponent,
   ],
   providers: [
-    AdminEmployeesService, AddressService,
+    AdminEmployeesService,
+    AddressService,
     {
       provide: TRANSLOCO_SCOPE,
       useValue: {

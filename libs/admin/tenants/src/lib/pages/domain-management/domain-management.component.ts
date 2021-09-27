@@ -10,8 +10,19 @@ import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { BaseComponent, Columns } from 'ngx-easy-table';
-import { BehaviorSubject, from, Observable, of } from 'rxjs';
-import { catchError, filter, map, share, startWith, switchMap, takeUntil } from 'rxjs/operators';
+import { BehaviorSubject, from, Observable, of, Subject } from 'rxjs';
+import {
+  catchError,
+  debounceTime,
+  distinctUntilChanged,
+  filter,
+  map,
+  share,
+  startWith,
+  switchMap,
+  takeUntil,
+  tap,
+} from 'rxjs/operators';
 import { UpsertTenantDomainDialogComponent } from '../../components/upsert-tenant-domain-dialog/upsert-tenant-domain-dialog.component';
 import { TenantDomain } from '../../models/tenant';
 import { AdminTenantsService } from '../../services/admin-tenants.service';
@@ -37,6 +48,7 @@ export class DomainManagementComponent extends AbstractServerSortPaginationTable
       ])
     );
   readonly CommonStatus = CommonStatus;
+  readonly search$ = new Subject<string | null>();
   readonly queryParams$ = new BehaviorSubject(
     new HttpParams()
       .set('page', 0)
@@ -67,6 +79,14 @@ export class DomainManagementComponent extends AbstractServerSortPaginationTable
   ) {
     super(state, router, activatedRoute);
     state.connect(this.request$.pipe(filter(isPresent)));
+    state.hold(
+      this.search$.pipe(
+        filter(isPresent),
+        debounceTime(1000),
+        distinctUntilChanged(),
+        tap((searchQuery) => this.queryParams$.next(this.queryParams$.value.set('search', searchQuery)))
+      )
+    );
   }
 
   onUpsertDomain(data?: TenantDomain): void {

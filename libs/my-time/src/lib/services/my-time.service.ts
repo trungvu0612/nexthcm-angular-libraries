@@ -9,7 +9,6 @@ import {
   PagingResponse,
   PromptService,
 } from '@nexthcm/cdk';
-import { TranslocoService } from '@ngneat/transloco';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { Observable, Subject } from 'rxjs';
@@ -22,11 +21,11 @@ import { RequestDetailDialogComponent } from '../modules/shared/request-detail-d
 
 export enum RequestTypeAPIUrlPath {
   MyLeave = 'leaves/me' as any,
-  Leave = 'leaves' as any,
-  WorkingAfterHours = 'ot-requests' as any,
-  UpdateTimesheet = 'timesheet-updates' as any,
-  WorkingOutside = 'outside' as any,
-  WorkFromHome = 'wfh' as any,
+  leave = 'leaves' as any,
+  workingAfterHours = 'ot-requests' as any,
+  updateTimesheet = 'timesheet-updates' as any,
+  workingOutside = 'outside' as any,
+  workFromHome = 'wfh' as any,
 }
 
 export enum RequestTypeComment {
@@ -46,8 +45,7 @@ export class MyTimeService {
     private http: HttpClient,
     private dialogService: TuiDialogService,
     private injector: Injector,
-    private promptService: PromptService,
-    private translocoService: TranslocoService
+    private promptService: PromptService
   ) {}
 
   getSendToUsers(): Observable<EmployeeInfo[]> {
@@ -68,9 +66,7 @@ export class MyTimeService {
   }
 
   submitRequest(type: RequestTypeAPIUrlPath, payload: SubmitRequestPayload): Observable<unknown> {
-    return this.http
-      .post<unknown>(`${MY_TIME_API_PATH}/${type}`, payload)
-      .pipe(tap(() => this.refreshSubject.next(type)));
+    return this.http.post(`${MY_TIME_API_PATH}/${type}`, payload).pipe(tap(() => this.refreshSubject.next(type)));
   }
 
   updateRequest(type: RequestTypeAPIUrlPath, id: string, payload: UpdateRequestPayload): Observable<unknown> {

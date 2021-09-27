@@ -127,7 +127,7 @@ export class SubmitOvertimeRequestDialogComponent {
       }
       delete formModel.fromTo;
       this.myTimeService
-        .submitRequest(RequestTypeAPIUrlPath.WorkingAfterHours, formModel)
+        .submitRequest(RequestTypeAPIUrlPath.workingAfterHours, formModel)
         .pipe(takeUntil(this.destroy$))
         .subscribe(
           () => this.context.completeWith(true),

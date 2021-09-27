@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   AddressService,
@@ -11,12 +11,12 @@ import {
   PromptService,
 } from '@nexthcm/cdk';
 import { FormBuilder, FormControl, FormGroup } from '@ngneat/reactive-forms';
-import { TranslocoService } from '@ngneat/transloco';
+import { HashMap, ProviderScope, TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { NumericValueType, RxwebValidators } from '@rxweb/reactive-form-validators';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { of } from 'rxjs';
-import { catchError, distinctUntilChanged, map, share, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { catchError, map, share, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { AdminEmployeesService } from '../../services/admin-employees.service';
 
 @Component({
@@ -182,22 +182,7 @@ export class IndividualFormComponent {
                 labelClassName: 'font-semibold',
                 textfieldLabelOutside: true,
                 placeholder: 'enterDOB',
-              },
-            },
-            {
-              key: 'gender',
-              className: 'tui-form__row block',
-              type: 'toggle',
-              defaultValue: true,
-              templateOptions: { textfieldLabelOutside: true, labelClassName: 'font-semibold' },
-              expressionProperties: {
-                'templateOptions.label': this.translocoService.selectTranslate('gender'),
-                'templateOptions.description': this.form?.valueChanges.pipe(
-                  startWith(null),
-                  map((value) => value?.gender),
-                  distinctUntilChanged(),
-                  switchMap((gender) => this.translocoService.selectTranslate(`${gender ? 'male' : 'female'}`))
-                ),
+                translocoScope: this.scope,
               },
             },
             {
@@ -210,6 +195,7 @@ export class IndividualFormComponent {
                 labelClassName: 'font-semibold',
                 textfieldLabelOutside: true,
                 placeholder: 'enterIDNumber',
+                translocoScope: this.scope,
               },
             },
             {
@@ -222,6 +208,7 @@ export class IndividualFormComponent {
                 labelClassName: 'font-semibold',
                 textfieldLabelOutside: true,
                 placeholder: 'enterIssueOn',
+                translocoScope: this.scope,
               },
             },
             {
@@ -234,44 +221,34 @@ export class IndividualFormComponent {
                 labelClassName: 'font-semibold',
                 textfieldLabelOutside: true,
                 placeholder: 'enterIssueAt',
+                translocoScope: this.scope,
               },
             },
             {
-              key: 'currentStatus',
-              className: 'tui-form__row block',
-              type: 'select',
-              templateOptions: {
-                translate: true,
-                label: 'currentStatus',
-                labelClassName: 'font-semibold',
-                placeholder: 'chooseCurrentStatus',
-                valueProp: 'value',
-                options: this.translocoService.selectTranslateObject<{ [p: string]: string }>('INDIVIDUAL_STATUS').pipe(
-                  map(
-                    (result) =>
-                      [
-                        { value: EmployeeCurrentStatus.Working, label: result.working },
-                        { value: EmployeeCurrentStatus.Onsite, label: result.onsite },
-                        { value: EmployeeCurrentStatus.Probation, label: result.probation },
-                        { value: EmployeeCurrentStatus.Maternity, label: result.maternity },
-                        { value: EmployeeCurrentStatus.WorkFromHome, label: result.wfh },
-                      ] as BaseOption<EmployeeCurrentStatus>[]
-                  )
-                ),
-              },
-            },
-            {
-              key: 'officeOnsite',
-              className: 'tui-form__row block',
+              key: 'nationality',
               type: 'input',
+              className: 'tui-form__row block',
               templateOptions: {
                 translate: true,
-                label: 'officeOnsite',
+                label: 'nationality',
                 labelClassName: 'font-semibold',
-                placeholder: 'chooseOfficeOnsite',
                 textfieldLabelOutside: true,
+                placeholder: 'enterNationality',
+                translocoScope: this.scope,
               },
-              hideExpression: (model: EmployeeIndividual) => model.currentStatus !== EmployeeCurrentStatus.Onsite,
+            },
+            {
+              key: 'section',
+              type: 'input',
+              className: 'tui-form__row block',
+              templateOptions: {
+                translate: true,
+                label: 'section',
+                labelClassName: 'font-semibold',
+                textfieldLabelOutside: true,
+                placeholder: 'enterSection',
+                translocoScope: this.scope,
+              },
             },
           ],
         },
@@ -287,6 +264,7 @@ export class IndividualFormComponent {
                 labelClassName: 'font-semibold',
                 textfieldLabelOutside: true,
                 placeholder: 'enterCompanyEmail',
+                translocoScope: this.scope,
               },
               validators: { validation: [RxwebValidators.email()] },
             },
@@ -300,6 +278,7 @@ export class IndividualFormComponent {
                 labelClassName: 'font-semibold',
                 textfieldLabelOutside: true,
                 placeholder: 'enterPersonalEmail',
+                translocoScope: this.scope,
               },
               validators: { validation: [RxwebValidators.email()] },
             },
@@ -313,6 +292,7 @@ export class IndividualFormComponent {
                 labelClassName: 'font-semibold',
                 textfieldLabelOutside: true,
                 placeholder: 'enterPhoneNumber',
+                translocoScope: this.scope,
               },
             },
             {
@@ -327,7 +307,118 @@ export class IndividualFormComponent {
                 placeholder: 'chooseOffice',
                 labelProp: 'name',
                 matcherBy: 'id',
+                translocoScope: this.scope,
               },
+            },
+            {
+              key: 'gender',
+              className: 'tui-form__row block',
+              type: 'select',
+              templateOptions: {
+                translate: true,
+                label: 'gender',
+                labelClassName: 'font-semibold',
+                placeholder: 'chooseGender',
+                valueProp: 'value',
+                translocoScope: this.scope,
+                options: this.translocoService
+                  .selectTranslateObject<HashMap<string>>('GENDER_OPTIONS', {}, (this.scope as ProviderScope).scope)
+                  .pipe(
+                    map(
+                      (result) =>
+                        [
+                          { value: 'MALE', label: result.male },
+                          { value: 'FEMALE', label: result.female },
+                          { value: 'OTHER', label: result.other },
+                        ] as BaseOption<string>[]
+                    )
+                  ),
+              },
+            },
+            {
+              key: 'maritalStatus',
+              className: 'tui-form__row block',
+              type: 'select',
+              templateOptions: {
+                translate: true,
+                label: 'maritalStatus',
+                labelClassName: 'font-semibold',
+                placeholder: 'chooseMaritalStatus',
+                valueProp: 'value',
+                translocoScope: this.scope,
+                options: this.translocoService
+                  .selectTranslateObject<HashMap<string>>(
+                    'MARITAL_STATUS_OPTIONS',
+                    {},
+                    (this.scope as ProviderScope).scope
+                  )
+                  .pipe(
+                    map(
+                      (result) =>
+                        [
+                          { value: 'Married', label: result.married },
+                          { value: 'Widowed', label: result.widowed },
+                          { value: 'Seperated', label: result.seperated },
+                          { value: 'Divorced', label: result.divorced },
+                          { value: 'Single', label: result.single },
+                        ] as BaseOption<string>[]
+                    )
+                  ),
+              },
+            },
+            {
+              key: 'religion',
+              type: 'input',
+              className: 'tui-form__row block',
+              templateOptions: {
+                translate: true,
+                label: 'religion',
+                labelClassName: 'font-semibold',
+                textfieldLabelOutside: true,
+                placeholder: 'enterReligion',
+                translocoScope: this.scope,
+              },
+            },
+            {
+              key: 'currentStatus',
+              className: 'tui-form__row block',
+              type: 'select',
+              templateOptions: {
+                translate: true,
+                label: 'currentStatus',
+                labelClassName: 'font-semibold',
+                placeholder: 'chooseCurrentStatus',
+                valueProp: 'value',
+                translocoScope: this.scope,
+                options: this.translocoService
+                  .selectTranslateObject<HashMap<string>>('INDIVIDUAL_STATUS', {}, (this.scope as ProviderScope).scope)
+                  .pipe(
+                    map(
+                      (result) =>
+                        [
+                          { value: EmployeeCurrentStatus.Working, label: result.working },
+                          { value: EmployeeCurrentStatus.Onsite, label: result.onsite },
+                          { value: EmployeeCurrentStatus.Probation, label: result.probation },
+                          { value: EmployeeCurrentStatus.Maternity, label: result.maternity },
+                          { value: EmployeeCurrentStatus.WorkFromHome, label: result.wfh },
+                        ] as BaseOption<EmployeeCurrentStatus>[]
+                    )
+                  ),
+              },
+            },
+            {
+              key: 'officeOnsite',
+              className: 'tui-form__row block',
+              type: 'input',
+              templateOptions: {
+                translate: true,
+                label: 'officeOnsite',
+                labelClassName: 'font-semibold',
+                placeholder: 'chooseOfficeOnsite',
+                textfieldLabelOutside: true,
+                translocoScope: this.scope,
+              },
+              hideExpression: (model: EmployeeIndividual) => model.currentStatus !== EmployeeCurrentStatus.Onsite,
             },
             {
               key: 'bankAccounts',
@@ -336,6 +427,7 @@ export class IndividualFormComponent {
               templateOptions: {
                 translate: true,
                 label: 'bankAccountList',
+                translocoScope: this.scope,
               },
               fieldArray: {
                 fieldGroupClassName: 'grid grid-cols-2 gap-4',
@@ -348,6 +440,7 @@ export class IndividualFormComponent {
                       label: 'bank',
                       placeholder: 'selectBank',
                       textfieldLabelOutside: true,
+                      translocoScope: this.scope,
                     },
                   },
                   {
@@ -358,6 +451,7 @@ export class IndividualFormComponent {
                       label: 'accountNumber',
                       placeholder: 'enterAccountNumber',
                       textfieldLabelOutside: true,
+                      translocoScope: this.scope,
                     },
                   },
                 ],
@@ -368,13 +462,14 @@ export class IndividualFormComponent {
       ],
     },
     { key: 'employeeId', defaultValue: this.activatedRoute.snapshot.params.employeeId },
-    { key: 'type', defaultValue: 'INDIVIDUAL' },
+    { key: 'type' },
   ];
   private readonly request$ = this.employeesService
     .getEmployeeInformation(this.activatedRoute.snapshot.params.employeeId, 'individual')
     .pipe(
       tap((res) => {
         const data = parseTuiDayFields(res, ['birthDate', 'issueOn']);
+
         this.model = { ...this.model, ...data };
       }),
       startWith(null),
@@ -386,15 +481,16 @@ export class IndividualFormComponent {
   );
 
   constructor(
-    private fb: FormBuilder,
-    private translocoService: TranslocoService,
-    private router: Router,
-    private activatedRoute: ActivatedRoute,
-    private adminEmployeeService: AdminEmployeesService,
-    private employeesService: EmployeesService,
-    private destroy$: TuiDestroyService,
-    private promptService: PromptService,
-    private readonly addressService: AddressService
+    private readonly fb: FormBuilder,
+    private readonly translocoService: TranslocoService,
+    private readonly router: Router,
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly adminEmployeeService: AdminEmployeesService,
+    private readonly employeesService: EmployeesService,
+    private readonly destroy$: TuiDestroyService,
+    private readonly promptService: PromptService,
+    private readonly addressService: AddressService,
+    @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope
   ) {}
 
   onSubmit(): void {

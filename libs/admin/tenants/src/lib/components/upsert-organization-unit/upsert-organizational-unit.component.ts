@@ -42,9 +42,9 @@ export class UpsertOrganizationalUnitComponent {
       templateOptions: {
         required: true,
         translate: true,
-        label: 'organizationalLevel',
+        label: 'tenants.organizationalLevel',
         labelClassName: 'font-semibold',
-        placeholder: 'chooseOrganizationalLevel',
+        placeholder: 'tenants.chooseOrganizationalLevel',
         options: this.context.data?.levels,
       },
     },
@@ -55,9 +55,9 @@ export class UpsertOrganizationalUnitComponent {
       templateOptions: {
         required: true,
         translate: true,
-        label: 'parentLevel',
+        label: 'tenants.parentLevel',
         labelClassName: 'font-semibold',
-        placeholder: 'chooseParentLevel',
+        placeholder: 'tenants.chooseParentLevel',
         labelProp: 'orgName',
         subLabelProp: 'orgType',
         matcherBy: 'id',

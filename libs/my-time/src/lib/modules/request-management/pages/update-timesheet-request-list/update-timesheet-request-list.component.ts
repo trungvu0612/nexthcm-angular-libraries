@@ -20,7 +20,7 @@ import { AbstractRequestListComponent } from '../../../shared/abstract-component
 export class UpdateTimesheetRequestListComponent extends AbstractRequestListComponent<UpdateTimesheetRequest> {
   @ViewChild('table') table!: BaseComponent;
 
-  readonly requestTypeUrlPath = RequestTypeAPIUrlPath.UpdateTimesheet;
+  readonly requestTypeUrlPath = RequestTypeAPIUrlPath.updateTimesheet;
   readonly columns$: Observable<Columns[]> = this.translocoService
     .selectTranslateObject('MY_TIME_REQUEST_LIST_COLUMNS', {}, (this.scope as ProviderScope).scope)
     .pipe(

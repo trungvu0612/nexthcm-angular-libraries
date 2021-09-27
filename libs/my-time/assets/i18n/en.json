@@ -35,7 +35,7 @@
     "updateTotalTime": "Updated total time",
     "updateWorkingDay": "Updated working day",
     "type": "Type",
-    "spentTime": "Spend time"
+    "spentTime": "Spent time"
   },
   "workingOutsideRequest": "Request to work outside",
   "overtimeRequest": "Request to work overtime",
@@ -85,5 +85,7 @@
   "wfh": "Work from home request",
   "enterTotalWorkingHours": "Enter total working hours",
   "estimateTime": "Estimate time",
-  "totalWorkingTimeH": "Total working time (h)"
+  "totalWorkingTimeH": "Total working time (h)",
+  "requestType": "Request type",
+  "spentTime": "Spent time"
 }

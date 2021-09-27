@@ -24,7 +24,7 @@ export class MyWorkingAfterHoursRequestsComponent extends AbstractRequestListCom
   @ViewChild('table') table!: BaseComponent;
 
   readonly userId = this.authService.get('userInfo', 'userId');
-  readonly requestTypeUrlPath = RequestTypeAPIUrlPath.WorkingAfterHours;
+  readonly requestTypeUrlPath = RequestTypeAPIUrlPath.workingAfterHours;
   readonly columns$: Observable<Columns[]> = this.translocoService
     .selectTranslateObject('MY_TIME_REQUEST_LIST_COLUMNS', {}, (this.scope as ProviderScope).scope)
     .pipe(
@@ -34,7 +34,7 @@ export class MyWorkingAfterHoursRequestsComponent extends AbstractRequestListCom
         { key: 'status', title: result.type },
         { key: 'type', title: result.status },
         { key: 'reason', title: result.Comment },
-        { key: 'functions', title: result.functions },
+        { key: 'functions', title: result.functions, orderEnabled: false },
       ])
     );
   readonly queryParams$ = new BehaviorSubject(

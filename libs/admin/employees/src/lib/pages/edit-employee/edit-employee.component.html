@@ -1,38 +1,38 @@
 <ng-container *transloco="let t">
-  <hcm-page [title]="t('editEmployee')">
+  <hcm-page [title]="t('employees.editEmployee')">
+    <ng-container ngProjectAs="breadcrumbs">
+      <tui-breadcrumbs size="l">
+        <ng-container *ngFor="let item of items">
+          <a *tuiBreadcrumb [routerLink]="item.routerLink" tuiLink>
+            {{ t(item.caption) }}
+          </a>
+        </ng-container>
+      </tui-breadcrumbs>
+    </ng-container>
     <tui-tabs [(activeItemIndex)]="activeItemIndex">
-      <button [queryParams]="{ i: 0 }" routerLink="." routerLinkActive tuiTab>
+      <button routerLink="./general" routerLinkActive tuiTab>
         <hero-icon class="w-6 h-6 tui-space_right-2" name="information-circle"></hero-icon>
-        {{ t('generalInformation') }}
+        {{ t('employees.generalInformation') }}
       </button>
-      <button [queryParams]="{ i: 1 }" routerLink="." routerLinkActive tuiTab>
+      <button routerLink="./individual" routerLinkActive tuiTab>
         <hero-icon class="w-6 h-6 tui-space_right-2" name="identification"></hero-icon>
-        {{ t('individual') }}
+        {{ t('employees.individual') }}
       </button>
-      <button [queryParams]="{ i: 2 }" routerLink="." routerLinkActive tuiTab>
+      <button routerLink="./duration" routerLinkActive tuiTab>
         <tui-svg class="w-6 h-6 tui-space_right-2" src="tuiIconCompanyLarge"></tui-svg>
-        {{ t('employeeDuration') }}
+        {{ t('employees.employeeDuration') }}
       </button>
-      <button [queryParams]="{ i: 3 }" routerLink="." routerLinkActive tuiTab>
+      <button routerLink="./education" routerLinkActive tuiTab>
         <hero-icon class="w-6 h-6 tui-space_right-2" name="academic-cap"></hero-icon>
-        {{ t('education') }}
+        {{ t('employees.education') }}
       </button>
-      <button [queryParams]="{ i: 4 }" routerLink="." routerLinkActive tuiTab>
+      <button routerLink="./shui" routerLinkActive tuiTab>
         <tui-svg class="w-6 h-6 tui-space_right-2" src="tuiIconStarLarge"></tui-svg>
         SHUI
       </button>
     </tui-tabs>
-    <div [ngSwitch]="activeItemIndex" class="mt-5">
-      <hcm-general-information-form
-        (cancel)="onCancel()"
-        (submitted)="onSubmitGeneralInformationForm($event)"
-        *ngSwitchCase="0"
-        editMode
-      ></hcm-general-information-form>
-      <hcm-individual-form *ngSwitchCase="1"></hcm-individual-form>
-      <hcm-duration-form *ngSwitchCase="2"></hcm-duration-form>
-      <hcm-education-form *ngSwitchCase="3"></hcm-education-form>
-      <hcm-shui-form *ngSwitchCase="4"></hcm-shui-form>
+    <div class="mt-5">
+      <router-outlet></router-outlet>
     </div>
   </hcm-page>
 </ng-container>

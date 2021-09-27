@@ -62,12 +62,20 @@ export class EmailTemplateManagementComponent extends AbstractServerSortPaginati
   onUpsertEmailTemplate(data?: EmailTemplate): void {
     this.dialogService
       .open(new PolymorpheusComponent(UpsertEmailTemplateDialogComponent, this.injector), {
-        label: this.translocoService.translate(data ? 'editEmailTemplate' : 'createEmailTemplate'),
+        label: this.translocoService.translate(data ? 'WORKFLOW.editEmailTemplate' : 'WORKFLOW.createEmailTemplate'),
         data,
         size: 'l',
       })
       .pipe(takeUntil(this.destroy$))
-      .subscribe(() => this.queryParams$.next(this.queryParams$.value));
+      .subscribe(() => {
+        this.promptService.open({
+          icon: 'success',
+          html: this.translocoService.translate(
+            data ? 'WORKFLOW.editEmailTemplateSuccessfully' : 'WORKFLOW.createEmailTemplateSuccessfully'
+          ),
+        });
+        this.queryParams$.next(this.queryParams$.value);
+      });
   }
 
   onRemoveEmailTemplate(id: string): void {
@@ -75,7 +83,7 @@ export class EmailTemplateManagementComponent extends AbstractServerSortPaginati
       .deleteEmailTemplate(id)
       .pipe(takeUntil(this.destroy$))
       .subscribe(
-        this.promptService.handleResponse('removeEmailTemplateSuccessfully', () =>
+        this.promptService.handleResponse('WORKFLOW.removeEmailTemplateSuccessfully', () =>
           this.queryParams$.next(this.queryParams$.value)
         )
       );

@@ -21,7 +21,7 @@ import { AbstractRequestListComponent } from '../../../shared/abstract-component
 export class WorkingAfterHoursRequestListComponent extends AbstractRequestListComponent<WorkingAfterHoursRequest> {
   @ViewChild('table') table!: BaseComponent;
 
-  readonly requestTypeUrlPath = RequestTypeAPIUrlPath.WorkingAfterHours;
+  readonly requestTypeUrlPath = RequestTypeAPIUrlPath.workingAfterHours;
   readonly columns$: Observable<Columns[]> = this.translocoService
     .selectTranslateObject('MY_TIME_REQUEST_LIST_COLUMNS', {}, (this.scope as ProviderScope).scope)
     .pipe(

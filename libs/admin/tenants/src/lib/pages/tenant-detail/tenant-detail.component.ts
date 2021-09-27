@@ -9,7 +9,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 export class TenantDetailComponent {
   activeItemIndex = 0;
   readonly items = [
-    { caption: 'tenantManagement', routerLink: '/admin/tenant' },
+    { caption: 'tenantManagement', routerLink: '/admin/tenants' },
     { caption: 'tenants.editTenant', routerLink: [] },
   ];
 }

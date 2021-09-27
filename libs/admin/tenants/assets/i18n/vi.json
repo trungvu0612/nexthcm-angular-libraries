@@ -26,5 +26,12 @@
   "enterShortname": "Nhập tên viết tắt...",
   "website": "Website",
   "enterWebsite": "Nhập website...",
-  "domains": "Tên miền"
+  "domains": "Tên miền",
+  "domain": "Tên miền",
+  "enterDomain": "Nhập tên miền...",
+  "addOrganizationalUnit": "Thêm đơn vị tổ chức",
+  "editOrganizationalUnit": "Sửa đơn vị tổ chức",
+  "deleteOrganizationalUnit": "Bạn thật sự muốn xoá đơn vị tổ chức này?",
+  "chooseParentLevel": "Chọn cấp trên",
+  "searchDomains": "Tìm tên miền..."
 }

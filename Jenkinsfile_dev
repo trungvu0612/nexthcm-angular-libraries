@@ -23,7 +23,7 @@ pipeline {
         stage('Build web') {
           steps {
             sh 'yarn upgrade'
-            sh 'yarn build -- -c ${ENVIRONMENT}'
+            sh 'yarn build -c ${ENVIRONMENT}'
           }
         }
         stage('Docker push') {
