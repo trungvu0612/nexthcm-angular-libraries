@@ -3,38 +3,20 @@
     <tui-avatar [autoColor]="true" [rounded]="true" [text]="description.username" size="l"></tui-avatar>
     <div class="ml-4">
       <div class="text-sm text-left">
-        <strong>{{ description.username }}</strong>
+        <strong>{{ description.fullName }}</strong>
       </div>
       <div class="text-blue-500 text-left">{{ description.jobTitle?.name }}</div>
     </div>
   </section>
 
-  <section class="py-4 flex justify-start -m-2 border-b-1 gap-4">
-    <button>
-      <tui-svg class="success tui-space_left-3" src="tuiIconCallInLarge" style="color: #959595"></tui-svg>
-    </button>
-
-    <button>
-      <tui-svg class="success tui-space_left-3" src="tuiIconCameraLarge" style="color: #959595"></tui-svg>
-    </button>
-
-    <button>
-      <tui-svg class="success tui-space_left-3" src="tuiIconGeoLarge" style="color: #959595"></tui-svg>
-    </button>
-
-    <button>
-      <tui-svg class="success tui-space_left-3" src="tuiIconImgLarge" style="color: #959595"></tui-svg>
-    </button>
-  </section>
-
   <section class="p-4 border-t-2">
     <strong class="text-semibold text-left">Contact</strong>
     <div class="pt-2 flex flex-row space-x-4">
-      <tui-svg class="success tui-space_left-3" src="tuiIconVideoLarge" style="color: #959595"></tui-svg>
+      <tui-svg class="success tui-space_left-3" src="tuiIconMailLarge" style="color: #959595"></tui-svg>
       <p>{{ description.profile?.companyEmail }}</p>
     </div>
     <div class="pt-2 flex flex-row space-x-4">
-      <tui-svg class="success tui-space_left-3" src="tuiIconVideoLarge" style="color: #959595"></tui-svg>
+      <tui-svg class="success tui-space_left-3" src="tuiIconCallInLarge" style="color: #959595"></tui-svg>
       <p>{{ description.profile?.phone }}</p>
     </div>
   </section>
