@@ -9,7 +9,7 @@ import {
   OnChanges,
   OnInit,
   ViewChild,
-  ViewContainerRef
+  ViewContainerRef,
 } from '@angular/core';
 import { FormBuilder } from '@ngneat/reactive-forms';
 import { TuiDestroyService } from '@taiga-ui/cdk';
@@ -25,10 +25,9 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
   templateUrl: './org-chart.component.html',
   styleUrls: ['./org-chart.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [TuiDestroyService]
+  providers: [TuiDestroyService],
 })
 export class OrgChartComponent implements OnInit, OnChanges {
-
   title = 'main component';
   readonly params$ = new BehaviorSubject<string>('');
 
@@ -48,7 +47,7 @@ export class OrgChartComponent implements OnInit, OnChanges {
 
   @Input() userId!: string;
   @Input() search!: string | undefined;
-  @Input() data!: (OrgChart[])[] | undefined;
+  @Input() data!: OrgChart[][] | undefined;
 
   @ViewChild('placeholder', { read: ViewContainerRef, static: true })
   public placeholder!: ViewContainerRef;
@@ -58,7 +57,6 @@ export class OrgChartComponent implements OnInit, OnChanges {
   @ViewChild('userContent', { static: true }) orgContent!: PolymorpheusTemplate<OrgChart>;
   orgContext!: { $implicit: OrgChart };
   @ViewChild('scrollbar') scrollbar!: ElementRef;
-
 
   constructor(
     @Inject(ElementRef) private readonly elementRef: ElementRef<HTMLElement>,
@@ -72,21 +70,19 @@ export class OrgChartComponent implements OnInit, OnChanges {
       providers: [
         {
           provide: HumanResourceService,
-          deps: []
-        }
+          deps: [],
+        },
       ],
-      parent: this.injector
+      parent: this.injector,
     });
   }
 
   ngOnInit(): void {
     const humanResourceService = this.customInJector.get(HumanResourceService);
-    humanResourceService.hovered.subscribe((item) => {
-    });
+    humanResourceService.hovered.subscribe((item) => {});
   }
 
-  ngAfterViewInit() {
-  }
+  ngAfterViewInit() {}
 
   ngOnChanges() {
     this.params$.subscribe((search) => {
@@ -101,7 +97,7 @@ export class OrgChartComponent implements OnInit, OnChanges {
   }
 
   hoverEvent(item: OrgChart): OrgChart {
-    return this.customInJector.get(HumanResourceService).description = item;
+    return (this.customInJector.get(HumanResourceService).description = item);
   }
 
   clickItem(id: string) {
@@ -110,5 +106,9 @@ export class OrgChartComponent implements OnInit, OnChanges {
       switchMap((params) => this.humanResourceService.getOrgId(params)),
       map((data) => [data])
     );
+  }
+
+  checkCurrentItemId(item: OrgChart) {
+    return { employee: item.id === this.search || item.id === this.userId };
   }
 }
