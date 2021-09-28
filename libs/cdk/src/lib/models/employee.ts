@@ -23,13 +23,13 @@ export interface EmployeeGeneralInformation {
   profileType: string;
   registerType: string;
   registration: number;
-  organization: BaseOption | any;
+  organization: BaseOption;
   roles: BaseOption[];
   jobTitle?: BaseOption;
   jobLevel?: BaseOption;
   directReport: BaseOption;
   office: BaseOption;
-  addressPersonal: EmployeeAddresses;
+  addressPersonal: EmployeeAddress;
 }
 
 export interface BankAccount {
@@ -40,7 +40,9 @@ export interface BankAccount {
 export interface EmployeeIndividual {
   employeeId: string;
   type: EmployeeInformationAPIType;
-  gender: number;
+  permanentAddressPersonal: EmployeeAddress;
+  temporaryAddressPersonal: EmployeeAddress;
+  gender: string;
   birthDate: string | TuiDay | Date;
   idNumber: number;
   issueOn: string | TuiDay | Date;
@@ -52,6 +54,10 @@ export interface EmployeeIndividual {
   bankAccounts: BankAccount[] | string;
   office: BaseOption | string;
   officeOnsite?: string;
+  maritalStatus: string;
+  religion: string;
+  nationality: string;
+  section: string;
 }
 
 export interface EmergencyContact {
@@ -103,11 +109,11 @@ export interface EmployeeSHUI {
   healthCares: HealthCare[] | string;
 }
 
-export interface EmployeeAddresses {
-  address1: string;
-  address2: string;
+export interface EmployeeAddress {
+  address: string;
   countryId: string;
   cityId: string;
   districtId: string;
+  wardId: string;
   postalCode: string;
 }

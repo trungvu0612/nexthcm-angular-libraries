@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ACCOUNT_API_PATH, BaseObject, PagingResponse } from '@nexthcm/cdk';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
+import { ACCOUNT_API_PATH } from '../../constants';
+import { BaseObject, PagingResponse } from '../../models';
 
 @Injectable({
   providedIn: 'root',

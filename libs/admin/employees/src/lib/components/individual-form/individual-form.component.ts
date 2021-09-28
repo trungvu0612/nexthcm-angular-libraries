@@ -16,7 +16,7 @@ import {
 import { FormBuilder, FormControl, FormGroup } from '@ngneat/reactive-forms';
 import { HashMap, ProviderScope, TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import { NumericValueType, RxwebValidators } from '@rxweb/reactive-form-validators';
+import { RxwebValidators } from '@rxweb/reactive-form-validators';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { of } from 'rxjs';
 import { catchError, map, share, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
@@ -39,141 +39,274 @@ export class IndividualFormComponent {
         {
           fieldGroup: [
             {
-              key: 'addressPersonal.address1',
+              key: 'permanentAddressPersonal',
               className: 'tui-form__row block',
-              type: 'input',
-              templateOptions: {
-                translate: true,
-                label: 'addresses',
-                labelClassName: 'font-semibold',
-                placeholder: 'enterAddress',
-                labelParams: { value: 1 },
-                textfieldLabelOutside: true,
-              },
-            },
-            {
-              key: 'addressPersonal.address2',
-              className: 'tui-form__row block',
-              type: 'input',
-              templateOptions: {
-                translate: true,
-                label: 'addresses',
-                labelClassName: 'font-semibold',
-                placeholder: 'enterAddress',
-                labelParams: { value: 2 },
-                textfieldLabelOutside: true,
-              },
-            },
-            {
-              className: 'tui-form__row block',
-              fieldGroupClassName: 'grid grid-cols-2 gap-x-4',
               fieldGroup: [
                 {
-                  key: 'addressPersonal.countryId',
-                  type: 'select',
+                  key: 'address',
+                  className: 'tui-form__row block',
+                  type: 'input',
                   templateOptions: {
                     translate: true,
-                    label: 'country',
+                    label: 'permanentAddress',
                     labelClassName: 'font-semibold',
-                    placeholder: 'chooseCountry',
-                    options: this.addressService.select('countries'),
-                    valueProp: 'id',
-                    labelProp: 'name',
+                    placeholder: 'enterPermanentAddress',
+                    textfieldLabelOutside: true,
+                    translocoScope: this.scope,
                   },
                 },
                 {
-                  key: 'addressPersonal.cityId',
-                  type: 'select',
-                  templateOptions: {
-                    translate: true,
-                    label: 'province',
-                    labelClassName: 'font-semibold',
-                    placeholder: 'chooseProvince',
-                    valueProp: 'id',
-                    labelProp: 'name',
-                  },
-                  hooks: {
-                    onInit: (field) => {
-                      const countryControl = this.form.get('addressPersonal.countryId') as FormControl<string>;
-                      if (field?.templateOptions && countryControl) {
-                        field.templateOptions.options = countryControl.valueChanges.pipe(
-                          tap(() => field.formControl?.setValue(null)),
-                          startWith(countryControl.value),
-                          switchMap((countryId) => (countryId ? this.addressService.getPlaces(countryId) : of([]))),
-                          startWith([])
-                        );
-                      }
+                  className: 'tui-form__row block',
+                  fieldGroupClassName: 'grid grid-cols-2 gap-x-4',
+                  fieldGroup: [
+                    {
+                      key: 'countryId',
+                      type: 'select',
+                      templateOptions: {
+                        translate: true,
+                        label: 'country',
+                        labelClassName: 'font-semibold',
+                        placeholder: 'chooseCountry',
+                        options: this.addressService.select('countries'),
+                        valueProp: 'id',
+                        labelProp: 'name',
+                      },
                     },
-                  },
+                    {
+                      key: 'cityId',
+                      type: 'select',
+                      templateOptions: {
+                        translate: true,
+                        label: 'province',
+                        labelClassName: 'font-semibold',
+                        placeholder: 'chooseProvince',
+                        valueProp: 'id',
+                        labelProp: 'name',
+                      },
+                      hooks: {
+                        onInit: (field) => {
+                          const countryControl = this.form.get(
+                            'permanentAddressPersonal.countryId'
+                          ) as FormControl<string>;
+                          if (field?.templateOptions && countryControl) {
+                            field.templateOptions.options = countryControl.valueChanges.pipe(
+                              tap(() => field.formControl?.setValue(null)),
+                              startWith(countryControl.value),
+                              switchMap((countryId) => (countryId ? this.addressService.getPlaces(countryId) : of([]))),
+                              startWith([])
+                            );
+                          }
+                        },
+                      },
+                    },
+                  ],
+                },
+                {
+                  className: 'tui-form__row block',
+                  fieldGroupClassName: 'grid grid-cols-2 gap-x-4 tui-form__row',
+                  fieldGroup: [
+                    {
+                      key: 'districtId',
+                      type: 'select',
+                      templateOptions: {
+                        translate: true,
+                        label: 'district',
+                        labelClassName: 'font-semibold',
+                        placeholder: 'chooseDistrict',
+                        valueProp: 'id',
+                        labelProp: 'name',
+                      },
+                      hooks: {
+                        onInit: (field) => {
+                          const cityControl = this.form.get('permanentAddressPersonal.cityId') as FormControl<string>;
+                          if (field?.templateOptions && cityControl)
+                            field.templateOptions.options = cityControl.valueChanges.pipe(
+                              tap(() => field.formControl?.setValue(null)),
+                              startWith(cityControl.value),
+                              switchMap((cityId) => (cityId ? this.addressService.getPlaces(cityId) : of([]))),
+                              startWith([])
+                            );
+                        },
+                      },
+                    },
+                    {
+                      key: 'wardId',
+                      type: 'select',
+                      templateOptions: {
+                        translate: true,
+                        label: 'ward',
+                        labelClassName: 'font-semibold',
+                        placeholder: 'chooseWard',
+                        valueProp: 'id',
+                        labelProp: 'name',
+                      },
+                      hooks: {
+                        onInit: (field) => {
+                          const districtCtrl = this.form.get(
+                            'permanentAddressPersonal.districtId'
+                          ) as FormControl<string>;
+                          if (field?.templateOptions && districtCtrl)
+                            field.templateOptions.options = districtCtrl.valueChanges.pipe(
+                              tap(() => field.formControl?.setValue(null)),
+                              startWith(districtCtrl.value),
+                              switchMap((districtId) =>
+                                districtId ? this.addressService.getPlaces(districtId) : of([])
+                              ),
+                              startWith([])
+                            );
+                        },
+                      },
+                    },
+                    {
+                      key: 'postalCode',
+                      className: 'tui-form__row block',
+                      type: 'input',
+                      templateOptions: {
+                        translate: true,
+                        label: 'postalCode',
+                        labelClassName: 'font-semibold',
+                        placeholder: 'enterPostalCode',
+                        textfieldLabelOutside: true,
+                      },
+                    },
+                  ],
                 },
               ],
             },
             {
+              key: 'temporaryAddressPersonal',
               className: 'tui-form__row block',
-              fieldGroupClassName: 'grid grid-cols-2 gap-x-4 gap-y-5 tui-form__row',
               fieldGroup: [
                 {
-                  key: 'addressPersonal.districtId',
-                  type: 'select',
+                  key: 'address',
+                  className: 'tui-form__row block',
+                  type: 'input',
                   templateOptions: {
                     translate: true,
-                    label: 'district',
+                    label: 'temporaryAddress',
                     labelClassName: 'font-semibold',
-                    placeholder: 'chooseDistrict',
-                    valueProp: 'id',
-                    labelProp: 'name',
-                  },
-                  hooks: {
-                    onInit: (field) => {
-                      const cityControl = this.form.get('addressPersonal.cityId') as FormControl<string>;
-                      if (field?.templateOptions && cityControl)
-                        field.templateOptions.options = cityControl.valueChanges.pipe(
-                          tap(() => field.formControl?.setValue(null)),
-                          startWith(cityControl.value),
-                          switchMap((cityId) => (cityId ? this.addressService.getPlaces(cityId) : of([]))),
-                          startWith([])
-                        );
-                    },
+                    placeholder: 'enterTemporaryAddress',
+                    textfieldLabelOutside: true,
+                    translocoScope: this.scope,
                   },
                 },
                 {
-                  key: 'addressPersonal.wardId',
-                  type: 'select',
-                  templateOptions: {
-                    translate: true,
-                    label: 'ward',
-                    labelClassName: 'font-semibold',
-                    placeholder: 'chooseWard',
-                    valueProp: 'id',
-                    labelProp: 'name',
-                  },
-                  hooks: {
-                    onInit: (field) => {
-                      const districtCtrl = this.form.get('addressPersonal.districtId') as FormControl<string>;
-                      if (field?.templateOptions && districtCtrl)
-                        field.templateOptions.options = districtCtrl.valueChanges.pipe(
-                          tap(() => field.formControl?.setValue(null)),
-                          startWith(districtCtrl.value),
-                          switchMap((districtId) => (districtId ? this.addressService.getPlaces(districtId) : of([]))),
-                          startWith([])
-                        );
+                  className: 'tui-form__row block',
+                  fieldGroupClassName: 'grid grid-cols-2 gap-x-4',
+                  fieldGroup: [
+                    {
+                      key: 'countryId',
+                      type: 'select',
+                      templateOptions: {
+                        translate: true,
+                        label: 'country',
+                        labelClassName: 'font-semibold',
+                        placeholder: 'chooseCountry',
+                        options: this.addressService.select('countries'),
+                        valueProp: 'id',
+                        labelProp: 'name',
+                      },
                     },
-                  },
+                    {
+                      key: 'cityId',
+                      type: 'select',
+                      templateOptions: {
+                        translate: true,
+                        label: 'province',
+                        labelClassName: 'font-semibold',
+                        placeholder: 'chooseProvince',
+                        valueProp: 'id',
+                        labelProp: 'name',
+                      },
+                      hooks: {
+                        onInit: (field) => {
+                          const countryControl = this.form.get(
+                            'temporaryAddressPersonal.countryId'
+                          ) as FormControl<string>;
+                          if (field?.templateOptions && countryControl) {
+                            field.templateOptions.options = countryControl.valueChanges.pipe(
+                              tap(() => field.formControl?.setValue(null)),
+                              startWith(countryControl.value),
+                              switchMap((countryId) => (countryId ? this.addressService.getPlaces(countryId) : of([]))),
+                              startWith([])
+                            );
+                          }
+                        },
+                      },
+                    },
+                  ],
+                },
+                {
+                  className: 'tui-form__row block',
+                  fieldGroupClassName: 'grid grid-cols-2 gap-x-4 tui-form__row',
+                  fieldGroup: [
+                    {
+                      key: 'districtId',
+                      type: 'select',
+                      templateOptions: {
+                        translate: true,
+                        label: 'district',
+                        labelClassName: 'font-semibold',
+                        placeholder: 'chooseDistrict',
+                        valueProp: 'id',
+                        labelProp: 'name',
+                      },
+                      hooks: {
+                        onInit: (field) => {
+                          const cityControl = this.form.get('temporaryAddressPersonal.cityId') as FormControl<string>;
+                          if (field?.templateOptions && cityControl)
+                            field.templateOptions.options = cityControl.valueChanges.pipe(
+                              tap(() => field.formControl?.setValue(null)),
+                              startWith(cityControl.value),
+                              switchMap((cityId) => (cityId ? this.addressService.getPlaces(cityId) : of([]))),
+                              startWith([])
+                            );
+                        },
+                      },
+                    },
+                    {
+                      key: 'wardId',
+                      type: 'select',
+                      templateOptions: {
+                        translate: true,
+                        label: 'ward',
+                        labelClassName: 'font-semibold',
+                        placeholder: 'chooseWard',
+                        valueProp: 'id',
+                        labelProp: 'name',
+                      },
+                      hooks: {
+                        onInit: (field) => {
+                          const districtCtrl = this.form.get(
+                            'temporaryAddressPersonal.districtId'
+                          ) as FormControl<string>;
+                          if (field?.templateOptions && districtCtrl)
+                            field.templateOptions.options = districtCtrl.valueChanges.pipe(
+                              tap(() => field.formControl?.setValue(null)),
+                              startWith(districtCtrl.value),
+                              switchMap((districtId) =>
+                                districtId ? this.addressService.getPlaces(districtId) : of([])
+                              ),
+                              startWith([])
+                            );
+                        },
+                      },
+                    },
+                    {
+                      key: 'postalCode',
+                      className: 'tui-form__row block',
+                      type: 'input',
+                      templateOptions: {
+                        translate: true,
+                        label: 'postalCode',
+                        labelClassName: 'font-semibold',
+                        placeholder: 'enterPostalCode',
+                        textfieldLabelOutside: true,
+                      },
+                    },
+                  ],
                 },
               ],
-            },
-            {
-              key: 'addressPersonal.postalCode',
-              className: 'tui-form__row block',
-              type: 'input',
-              templateOptions: {
-                translate: true,
-                label: 'postalCode',
-                labelClassName: 'font-semibold',
-                placeholder: 'enterPostalCode',
-                textfieldLabelOutside: true,
-              },
-              validators: { validation: [RxwebValidators.numeric({ acceptValue: NumericValueType.PositiveNumber })] },
             },
             {
               key: 'birthDate',
