@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnInit, ViewChild } from '@angular/core';
-import { HashMap, TRANSLOCO_SCOPE, TranslocoService } from '@ngneat/transloco';
-import { ProviderScope, TranslocoScope } from '@ngneat/transloco/lib/types';
+import { HashMap, ProviderScope, TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
 import { FieldType } from '@ngx-formly/core';
 import { isPresent, TuiDestroyService, TuiIdentityMatcher } from '@taiga-ui/cdk';
 import { APIDefinition, Columns, Config, DefaultConfig } from 'ngx-easy-table';

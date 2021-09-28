@@ -1,8 +1,7 @@
 import { ChangeDetectionStrategy, Component, Inject, Injector, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AbstractServerSortPaginationTableComponent, Pagination, PromptService } from '@nexthcm/cdk';
-import { HashMap, TRANSLOCO_SCOPE, TranslocoService } from '@ngneat/transloco';
-import { ProviderScope, TranslocoScope } from '@ngneat/transloco/lib/types';
+import { HashMap, ProviderScope, TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
@@ -43,16 +42,16 @@ export class WorkflowManagementComponent extends AbstractServerSortPaginationTab
   );
 
   constructor(
-    @Inject(TRANSLOCO_SCOPE) readonly scope: TranslocoScope,
     readonly state: RxState<Pagination<Workflow>>,
     readonly router: Router,
     readonly activatedRoute: ActivatedRoute,
-    private dialogService: TuiDialogService,
-    private injector: Injector,
-    private workflowService: AdminWorkflowsService,
-    private destroy$: TuiDestroyService,
-    private translocoService: TranslocoService,
-    private promptService: PromptService
+    @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope,
+    private readonly dialogService: TuiDialogService,
+    private readonly injector: Injector,
+    private readonly workflowService: AdminWorkflowsService,
+    private readonly destroy$: TuiDestroyService,
+    private readonly translocoService: TranslocoService,
+    private readonly promptService: PromptService
   ) {
     super(state, router, activatedRoute);
     state.connect(this.request$.pipe(filter(isPresent)));
@@ -61,7 +60,7 @@ export class WorkflowManagementComponent extends AbstractServerSortPaginationTab
   onCreateWorkflow(): void {
     this.dialogService
       .open<string>(new PolymorpheusComponent(CreateWorkflowDialogComponent, this.injector), {
-        label: this.translocoService.translate('createNewWorkflow'),
+        label: this.translocoService.translate('WORKFLOW.createNewWorkflow'),
       })
       .pipe(takeUntil(this.destroy$))
       .subscribe((res) => this.router.navigate(['..', res, 'edit'], { relativeTo: this.activatedRoute }));
@@ -71,7 +70,7 @@ export class WorkflowManagementComponent extends AbstractServerSortPaginationTab
     from(
       this.promptService.open({
         icon: 'question',
-        html: this.translocoService.translate('deleteWorkflow'),
+        html: this.translocoService.translate('WORKFLOW.deleteWorkflow'),
         showCancelButton: true,
       })
     )
@@ -81,7 +80,7 @@ export class WorkflowManagementComponent extends AbstractServerSortPaginationTab
         takeUntil(this.destroy$)
       )
       .subscribe(
-        this.promptService.handleResponse('removeWorkflowSuccessfully', () =>
+        this.promptService.handleResponse('WORKFLOW.removeWorkflowSuccessfully', () =>
           this.queryParams$.next(this.queryParams$.value)
         )
       );

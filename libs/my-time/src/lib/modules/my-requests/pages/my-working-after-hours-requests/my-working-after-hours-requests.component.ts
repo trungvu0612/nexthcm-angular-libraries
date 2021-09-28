@@ -29,12 +29,12 @@ export class MyWorkingAfterHoursRequestsComponent extends AbstractRequestListCom
     .selectTranslateObject('MY_TIME_REQUEST_LIST_COLUMNS', {}, (this.scope as ProviderScope).scope)
     .pipe(
       map((result) => [
-        { key: 'dateRange', title: result.dateRange },
-        { key: 'spentTime', title: result.spentTime, cssClass: { name: 'text-center', includeHeader: true } },
-        { key: 'status', title: result.type },
+        { key: 'fromDate', title: result.dateRange },
+        { key: 'duration', title: result.spentTime, cssClass: { name: 'text-center', includeHeader: true } },
+        { key: 'currentState', title: result.type },
         { key: 'type', title: result.status },
-        { key: 'reason', title: result.Comment },
-        { key: 'functions', title: result.functions, orderEnabled: false },
+        { key: 'comment', title: result.Comment },
+        { key: '', title: result.functions, orderEnabled: false },
       ])
     );
   readonly queryParams$ = new BehaviorSubject(

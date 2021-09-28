@@ -13,7 +13,7 @@
   <tui-data-list-wrapper *tuiDataList [itemContent]="content" [items]="items"></tui-data-list-wrapper>
   <ng-template #content let-item>
     <ng-container *ngIf="item.id; else newStatus">{{ item.name }}</ng-container>
-    <ng-template #newStatus>{{ item.name }} ({{ 'newStatus' | transloco }})</ng-template>
+    <ng-template #newStatus>{{ item.name }} ({{ 'WORKFLOW.newStatus' | transloco }})</ng-template>
   </ng-template>
 </tui-combo-box>
 <ng-template #valueContent let-item>{{ item.name }}</ng-template>

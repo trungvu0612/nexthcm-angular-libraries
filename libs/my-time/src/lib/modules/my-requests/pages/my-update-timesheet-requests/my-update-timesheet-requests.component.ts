@@ -44,7 +44,7 @@ export class MyUpdateTimesheetRequestsComponent extends AbstractRequestListCompo
         },
         { key: 'currentState', title: result.status },
         { key: 'comment', title: result.Comment },
-        { key: 'functions', title: result.functions, orderEnabled: false },
+        { key: '', title: result.functions, orderEnabled: false },
       ])
     );
   readonly queryParams$ = new BehaviorSubject(

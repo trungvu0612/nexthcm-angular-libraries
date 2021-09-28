@@ -1,6 +1,5 @@
 import { AfterViewInit, ChangeDetectorRef, Directive, EventEmitter, Inject } from '@angular/core';
-import { HashMap, TRANSLOCO_SCOPE, TranslocoService } from '@ngneat/transloco';
-import { ProviderScope, TranslocoScope } from '@ngneat/transloco/lib/types';
+import { HashMap, ProviderScope, TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
 import { API, APIDefinition, Columns, Config, DefaultConfig } from 'ngx-easy-table';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';

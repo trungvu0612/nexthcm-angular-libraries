@@ -74,6 +74,7 @@ export class UpsertEmailTemplateDialogComponent implements OnInit {
         translate: true,
         label: 'subject',
         required: true,
+        quillModules: { toolbar: false },
         onTextChange: (value: string) => this.form.controls.subject.setValue(value),
       },
     },
@@ -87,6 +88,21 @@ export class UpsertEmailTemplateDialogComponent implements OnInit {
         label: 'content',
         required: true,
         height: '150px',
+        quillModules: {
+          /**
+           * @see https://github.com/juyeong1260/quill-auto-detect-url
+           */
+          autoDetectUrl: true,
+          toolbar: [
+            ['bold', 'italic', 'underline', 'strike'],
+            ['blockquote', 'code-block'],
+            [{ list: 'ordered' }, { list: 'bullet' }],
+            [{ header: [1, 2, 3, 4, 5, 6, false] }],
+            [{ color: [] }, { background: [] }],
+            ['link'],
+            ['clean'],
+          ],
+        },
         onTextChange: (value: string) => this.form.controls.body.setValue(value),
       },
     },

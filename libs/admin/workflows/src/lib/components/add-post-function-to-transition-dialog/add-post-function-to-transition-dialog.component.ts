@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/cor
 import { Actions } from '@datorama/akita-ng-effects';
 import { JobTitlesQuery, loadJobTitles } from '@nexthcm/cdk';
 import { FormBuilder, FormControl } from '@ngneat/reactive-forms';
+import { TRANSLOCO_SCOPE, TranslocoScope } from '@ngneat/transloco';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
@@ -57,6 +58,7 @@ export class AddPostFunctionToTransitionDialogComponent
       hooks: {
         onInit: (field) => {
           const formControl = field?.formControl as FormControl<TransitionOption<PostFunctionType>>;
+
           formControl?.valueChanges
             .pipe(startWith(formControl?.value), takeUntil(this.destroy$))
             .subscribe((postFunctionType) => (this.options.formState.postFunctionTypeCode = postFunctionType?.code));
@@ -101,6 +103,7 @@ export class AddPostFunctionToTransitionDialogComponent
               options: this.emailTemplatesQuery.selectAll(),
               matcherBy: 'id',
               labelProp: 'name',
+              translocoScope: this.scope,
             },
             hideExpression: (model, formState) =>
               ![
@@ -123,7 +126,8 @@ export class AddPostFunctionToTransitionDialogComponent
     private readonly jobTitlesQuery: JobTitlesQuery,
     private readonly actions: Actions,
     private readonly emailTemplatesQuery: EmailTemplatesQuery,
-    private readonly destroy$: TuiDestroyService
+    private readonly destroy$: TuiDestroyService,
+    @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope
   ) {
     super(fb, context, adminWorkflowsService);
     this.actions.dispatch(loadJobTitles());

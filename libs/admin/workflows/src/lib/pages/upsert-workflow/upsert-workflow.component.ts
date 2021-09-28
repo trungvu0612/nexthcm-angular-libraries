@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Injector, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, Injector, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PromptService } from '@nexthcm/cdk';
 import {
@@ -9,7 +9,7 @@ import {
   WorkflowStatus,
 } from '@nexthcm/workflow-designer';
 import { FormBuilder } from '@ngneat/reactive-forms';
-import { TranslocoService } from '@ngneat/transloco';
+import { TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { deleteProp, dictionaryToArray, patch, RxState, setProp, slice, toDictionary } from '@rx-angular/state';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
@@ -67,7 +67,7 @@ export class UpsertWorkflowComponent implements OnInit {
         disabled: !this.editMode,
       },
       expressionProperties: {
-        'templateOptions.iconTitle': this.translocoService.selectTranslate('editName'),
+        'templateOptions.iconTitle': this.translocoService.selectTranslate('editName', {}, this.scope),
       },
     },
     {
@@ -109,7 +109,10 @@ export class UpsertWorkflowComponent implements OnInit {
     share()
   );
   readonly initHandler$ = this.request$.pipe(filter(isPresent));
-  readonly loading$ = this.request$.pipe(map((value) => !value), catchError(() => of(false)));
+  readonly loading$ = this.request$.pipe(
+    map((value) => !value),
+    catchError(() => of(false))
+  );
 
   constructor(
     private readonly fb: FormBuilder,
@@ -121,7 +124,8 @@ export class UpsertWorkflowComponent implements OnInit {
     private readonly destroy$: TuiDestroyService,
     private readonly router: Router,
     private readonly translocoService: TranslocoService,
-    private readonly promptService: PromptService
+    private readonly promptService: PromptService,
+    @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope
   ) {
     state.connect('addedStatuses', this.initHandler$, (_, data) => toDictionary(data.states, 'id'));
     state.connect('addedTransitions', this.initHandler$, (_, data) => toDictionary(data.transitions, 'id'));
@@ -239,7 +243,7 @@ export class UpsertWorkflowComponent implements OnInit {
           name: '',
           fromStateId: $event.value.sourceId,
           toStateId: $event.value.targetId,
-          conditionsOperator: 'AND',
+          conditionOperator: 'AND',
           conditions: [],
           validators: [],
           postFunctions: [],
@@ -292,7 +296,7 @@ export class UpsertWorkflowComponent implements OnInit {
     this.dialogService
       .open(new PolymorpheusComponent(TransitionDetailDialogComponent, this.injector), {
         size: 'l',
-        label: `${this.translocoService.translate('transition')}: ${transition.name}`,
+        label: `${this.translocoService.translate('WORKFLOW.transition')}: ${transition.name}`,
         data: { index, transition } as TransitionDetailData,
         required: true,
       })
@@ -330,7 +334,7 @@ export class UpsertWorkflowComponent implements OnInit {
       id: uuidv4(),
       name: status.name,
       toStateId: status.id,
-      conditionsOperator: 'AND',
+      conditionOperator: 'AND',
       conditions: [],
       validators: [],
       postFunctions: [],
@@ -355,7 +359,7 @@ export class UpsertWorkflowComponent implements OnInit {
       id: uuidv4(),
       name: 'Create',
       toStateId: initialState.id,
-      conditionsOperator: 'AND',
+      conditionOperator: 'AND',
       conditions: [],
       validators: [],
       postFunctions: [],

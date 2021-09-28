@@ -1,14 +1,13 @@
 import { ChangeDetectionStrategy, Component, Inject, Injector, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AbstractServerSortPaginationTableComponent, CommonStatus, Pagination, PromptService } from '@nexthcm/cdk';
-import { HashMap, TRANSLOCO_SCOPE, TranslocoService } from '@ngneat/transloco';
-import { ProviderScope, TranslocoScope } from '@ngneat/transloco/lib/types';
+import { HashMap, ProviderScope, TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { BaseComponent, Columns } from 'ngx-easy-table';
-import { from, Observable, of, Subject } from 'rxjs';
+import { BehaviorSubject, from, Observable, of, Subject } from 'rxjs';
 import {
   catchError,
   debounceTime,
@@ -61,7 +60,10 @@ export class TenantManagementComponent
     map((value) => !value),
     catchError(() => of(false))
   );
-  readonly statistic$ = this.adminTenantsService.getStatisticByTenantStatus();
+  readonly reloadStatistic$ = new BehaviorSubject(undefined);
+  readonly statistic$ = this.reloadStatistic$.pipe(
+    switchMap(() => this.adminTenantsService.getStatisticByTenantStatus())
+  );
 
   constructor(
     readonly state: RxState<Pagination<BaseTenant>>,
@@ -89,6 +91,7 @@ export class TenantManagementComponent
 
   ngOnInit(): void {
     const searchParam = this.activatedRoute.snapshot.queryParams.search;
+
     if (searchParam) {
       this.search$.next(searchParam);
     }
@@ -100,7 +103,10 @@ export class TenantManagementComponent
         label: this.translocoService.translate('tenants.createTenant'),
         size: 'l',
       })
-      .pipe(takeUntil(this.destroy$))
+      .pipe(
+        tap(() => this.reloadStatistic$.next(undefined)),
+        takeUntil(this.destroy$)
+      )
       .subscribe((res) => this.router.navigate([res.id, 'edit']));
   }
 
@@ -115,6 +121,7 @@ export class TenantManagementComponent
       .pipe(
         filter((result) => result.isConfirmed),
         switchMap(() => this.adminTenantsService.removeTenant(id)),
+        tap(() => this.reloadStatistic$.next(undefined)),
         takeUntil(this.destroy$)
       )
       .subscribe(

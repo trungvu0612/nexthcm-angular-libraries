@@ -1,11 +1,14 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Actions } from '@datorama/akita-ng-effects';
 import {
   AddressService,
   BaseOption,
   EmployeeCurrentStatus,
   EmployeeIndividual,
   EmployeesService,
+  loadOffices,
+  OfficesQuery,
   parseDateFields,
   parseTuiDayFields,
   PromptService,
@@ -303,7 +306,7 @@ export class IndividualFormComponent {
                 translate: true,
                 label: 'office',
                 labelClassName: 'font-semibold',
-                options: this.adminEmployeeService.select('offices'),
+                options: this.officesQuery.selectAll(),
                 placeholder: 'chooseOffice',
                 labelProp: 'name',
                 matcherBy: 'id',
@@ -495,8 +498,12 @@ export class IndividualFormComponent {
     private readonly destroy$: TuiDestroyService,
     private readonly promptService: PromptService,
     private readonly addressService: AddressService,
-    @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope
-  ) {}
+    @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope,
+    private readonly officesQuery: OfficesQuery,
+    actions: Actions
+  ) {
+    actions.dispatch(loadOffices());
+  }
 
   onSubmit(): void {
     if (this.form.valid) {

@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { Actions } from '@datorama/akita-ng-effects';
 import { PromptService } from '@nexthcm/cdk';
 import { FormBuilder } from '@ngneat/reactive-forms';
+import { TRANSLOCO_SCOPE, TranslocoScope } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
@@ -31,6 +32,7 @@ export class CreateWorkflowDialogComponent {
         translate: true,
         label: 'name',
         labelClassName: 'font-semibold',
+        placeholder: 'enterName',
         textfieldLabelOutside: true,
       },
     },
@@ -43,6 +45,7 @@ export class CreateWorkflowDialogComponent {
         label: 'description',
         labelClassName: 'font-semibold',
         textfieldLabelOutside: true,
+        placeholder: 'enterDescription',
       },
     },
     {
@@ -55,6 +58,8 @@ export class CreateWorkflowDialogComponent {
         label: 'initStatus',
         labelClassName: 'font-semibold',
         textfieldLabelOutside: true,
+        placeholder: 'searchStatusOrNameNewOne',
+        translocoScope: this.scope,
       },
     },
     {
@@ -65,7 +70,9 @@ export class CreateWorkflowDialogComponent {
         translate: true,
         label: 'initStatusDescription',
         labelClassName: 'font-semibold',
+        placeholder: 'enterStatusDescription',
         textfieldLabelOutside: true,
+        translocoScope: this.scope,
       },
       hideExpression: '!model.initStatus || model.initStatus?.id',
     },
@@ -77,10 +84,12 @@ export class CreateWorkflowDialogComponent {
         translate: true,
         required: true,
         options: this.statusTypesQuery.selectAll(),
-        label: 'stateType',
+        label: 'statusType',
         labelClassName: 'font-semibold',
+        placeholder: 'chooseStatusType',
         labelProp: 'name',
         matcherBy: 'id',
+        translocoScope: this.scope,
       },
       hideExpression: '!model.initStatus || model.initStatus?.id',
     },
@@ -93,6 +102,7 @@ export class CreateWorkflowDialogComponent {
     private readonly statusTypesQuery: StatusTypesQuery,
     private readonly destroy$: TuiDestroyService,
     private readonly promptService: PromptService,
+    @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope,
     action: Actions
   ) {
     action.dispatch(loadStatuses());
@@ -106,6 +116,7 @@ export class CreateWorkflowDialogComponent {
   onSubmit(): void {
     if (this.form.valid) {
       const formModel = { ...this.model };
+
       formModel.stateName = formModel.initStatus.name;
       if (formModel.initStatus.id) {
         formModel.stateDescription = formModel.initStatus.description;

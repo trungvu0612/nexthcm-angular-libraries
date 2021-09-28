@@ -34,7 +34,7 @@ export class LeaveRequestListComponent extends AbstractRequestListComponent<Leav
         { key: 'days', title: result.days },
         { key: 'currentStatus', title: result.status },
         { key: 'comment', title: result.Comment },
-        { key: 'functions', title: result.functions, orderEnabled: false },
+        { key: '', title: result.functions, orderEnabled: false },
       ])
     );
   private readonly request$ = this.queryParams$.pipe(

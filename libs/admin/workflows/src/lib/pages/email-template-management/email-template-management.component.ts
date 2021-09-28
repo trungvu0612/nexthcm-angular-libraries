@@ -1,8 +1,7 @@
 import { ChangeDetectionStrategy, Component, Inject, Injector, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AbstractServerSortPaginationTableComponent, CommonStatus, Pagination, PromptService } from '@nexthcm/cdk';
-import { HashMap, TRANSLOCO_SCOPE, TranslocoService } from '@ngneat/transloco';
-import { ProviderScope, TranslocoScope } from '@ngneat/transloco/lib/types';
+import { HashMap, ProviderScope, TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';

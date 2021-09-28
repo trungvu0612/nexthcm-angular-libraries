@@ -10,8 +10,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { Actions } from '@datorama/akita-ng-effects';
-import { TRANSLOCO_SCOPE, TranslocoService } from '@ngneat/transloco';
-import { TranslocoScope } from '@ngneat/transloco/lib/types';
+import { TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';

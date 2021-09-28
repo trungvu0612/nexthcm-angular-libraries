@@ -49,6 +49,7 @@ import { TableModule } from 'ngx-easy-table';
 import { NgxPermissionsGuard } from 'ngx-permissions';
 import { QuillModule } from 'ngx-quill';
 import Quill from 'quill';
+import QuillAutoDetectUrl from 'quill-auto-detect-url';
 import { AdminWorkflowsComponent } from './admin-workflows.component';
 import { AddConditionToTransitionDialogComponent } from './components/add-condition-to-transition-dialog/add-condition-to-transition-dialog.component';
 import { AddPostFunctionToTransitionDialogComponent } from './components/add-post-function-to-transition-dialog/add-post-function-to-transition-dialog.component';
@@ -97,6 +98,7 @@ import {
 TemplateVariable.blotName = 'TemplateVariable';
 TemplateVariable.tagName = 'span';
 Quill.register({ 'formats/TemplateVariable': TemplateVariable });
+Quill.register('modules/autoDetectUrl', QuillAutoDetectUrl);
 
 export const ADMIN_WORKFLOWS_ROUTES: Routes = [
   {
@@ -133,9 +135,9 @@ export const ADMIN_WORKFLOWS_ROUTES: Routes = [
 ];
 
 const TABS: MenuItem[] = [
-  { label: 'workflows', link: '/admin/workflows/list', permissions: [] },
+  { label: 'WORKFLOW.workflows', link: '/admin/workflows/list', permissions: [] },
   {
-    label: 'emailTemplates',
+    label: 'WORKFLOW.emailTemplates',
     link: '/admin/workflows/email-templates',
     permissions: [],
   },

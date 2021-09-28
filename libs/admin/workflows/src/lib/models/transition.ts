@@ -8,7 +8,7 @@ export type TransitionOptions = TransitionCondition | TransitionValidator | Tran
 
 export interface Transition extends WorkflowTransition {
   description?: string;
-  conditionsOperator: 'OR' | 'AND';
+  conditionOperator: 'OR' | 'AND';
   conditions: TransitionCondition[];
   validators: TransitionValidator[];
   postFunctions: TransitionPostFunction[];
@@ -23,8 +23,7 @@ export interface TransitionCondition {
 
 export interface TransitionValidator {
   validatorType: TransitionOption<ValidatorType>;
-  users: BaseObject[];
-  permissions: BaseObject[];
+  values: [{ users: BaseObject[]; permissions: BaseObject[] }];
 }
 
 export interface TransitionPostFunction {

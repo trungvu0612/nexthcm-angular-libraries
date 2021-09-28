@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/cor
 import { Actions } from '@datorama/akita-ng-effects';
 import { PromptService } from '@nexthcm/cdk';
 import { FormBuilder, FormControl } from '@ngneat/reactive-forms';
-import { TranslocoService } from '@ngneat/transloco';
+import { TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
@@ -37,6 +37,7 @@ export class UpsertStatusDialogComponent implements OnInit {
         label: 'name',
         labelClassName: 'font-semibold',
         textfieldLabelOutside: true,
+        placeholder: 'enterName',
       },
       asyncValidators: {
         name: {
@@ -64,6 +65,7 @@ export class UpsertStatusDialogComponent implements OnInit {
         label: 'description',
         labelClassName: 'font-semibold',
         textfieldLabelOutside: true,
+        placeholder: 'enterDescription',
       },
     },
     {
@@ -77,6 +79,8 @@ export class UpsertStatusDialogComponent implements OnInit {
         label: 'stateType',
         labelClassName: 'font-semibold',
         labelProp: 'name',
+        placeholder: 'chooseStateType',
+        translocoScope: this.scope,
       },
     },
   ];
@@ -89,6 +93,7 @@ export class UpsertStatusDialogComponent implements OnInit {
     private readonly destroy$: TuiDestroyService,
     private readonly translocoService: TranslocoService,
     private readonly statusTypesQuery: StatusTypesQuery,
+    @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope,
     actions: Actions
   ) {
     actions.dispatch(loadStatusTypes());

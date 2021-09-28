@@ -33,7 +33,7 @@ export class MyWorkFromHomeRequestsComponent extends AbstractRequestListComponen
         { key: 'totalDay', title: result.days, cssClass: { name: 'text-center', includeHeader: true } },
         { key: 'status', title: result.status },
         { key: 'comment', title: result.Comment },
-        { key: 'functions', title: result.functions, orderEnabled: false },
+        { key: '', title: result.functions, orderEnabled: false },
       ])
     );
   readonly queryParams$ = new BehaviorSubject(

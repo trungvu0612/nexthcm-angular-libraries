@@ -1,15 +1,15 @@
 <section *transloco="let t">
   <tui-tabs [(activeItemIndex)]="activeItemIndex">
     <button tuiTab>
-      {{ t('conditions') }}
+      {{ t('WORKFLOW.conditions') }}
       <tui-badge [value]="transition.conditions.length" class="ml-2"></tui-badge>
     </button>
     <button tuiTab>
-      {{ t('validators') }}
+      {{ t('WORKFLOW.validators') }}
       <tui-badge [value]="transition.validators.length" class="ml-2"></tui-badge>
     </button>
     <button tuiTab>
-      {{ t('postFunctions') }}
+      {{ t('WORKFLOW.postFunctions') }}
       <tui-badge [value]="transition.postFunctions.length" class="ml-2"></tui-badge>
     </button>
   </tui-tabs>
@@ -18,7 +18,7 @@
       <div *ngIf="transition.conditions.length">
         <tui-select
           *tuiLet="conditionsOperators$ | async as items"
-          [(ngModel)]="transition.conditionsOperator"
+          [(ngModel)]="transition.conditionOperator"
           [tuiTextfieldLabelOutside]="true"
           [valueContent]="stringify(items || [])"
         >

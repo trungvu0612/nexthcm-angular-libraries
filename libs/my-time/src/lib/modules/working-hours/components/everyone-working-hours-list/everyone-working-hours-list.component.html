@@ -10,6 +10,7 @@
 <tui-loader [overlay]="true" [showLoader]="(loading$ | async) === true">
   <ngx-table
     #table
+    (event)="eventEmitted($event)"
     [columns]="(columns$ | async) || []"
     [configuration]="configuration"
     [data]="(data$ | async) || []"

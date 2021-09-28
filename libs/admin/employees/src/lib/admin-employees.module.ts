@@ -2,7 +2,16 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
-import { AddressService, PromptComponentModule } from '@nexthcm/cdk';
+import { AkitaNgEffectsModule } from '@datorama/akita-ng-effects';
+import {
+  AddressService,
+  JobLevelsEffects,
+  JobTitlesEffects,
+  OfficesEffects,
+  OrganizationsEffects,
+  PromptComponentModule,
+  RolesEffects,
+} from '@nexthcm/cdk';
 import { inlineLoaderFactory } from '@nexthcm/core';
 import {
   BaseFormComponentModule,
@@ -90,6 +99,13 @@ export const ADMIN_EMPLOYEE_ROUTES: Routes = [
     FormlyStatusToggleComponentModule,
     TuiBreadcrumbsModule,
     TuiLinkModule,
+    AkitaNgEffectsModule.forFeature([
+      JobLevelsEffects,
+      JobTitlesEffects,
+      RolesEffects,
+      OfficesEffects,
+      OrganizationsEffects,
+    ]),
   ],
   declarations: [
     EditEmployeeComponent,

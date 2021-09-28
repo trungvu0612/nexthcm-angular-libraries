@@ -1,7 +1,7 @@
 <ng-container *transloco="let t">
   <div class="flex justify-end my-2">
     <button (click)="onAddOption()" icon="tuiIconPlus" size="s" tuiButton>
-      {{ t('addPostFunction') }}
+      {{ t('WORKFLOW.addPostFunction') }}
     </button>
   </div>
   <ngx-table
@@ -50,7 +50,7 @@
     </ng-template>
     <ng-template #noResultsTemplate>
       <td [attr.colspan]="columns?.length" class="text-center text-blue-500">
-        {{ t('noPostFunctions') }}
+        {{ t('WORKFLOW.noPostFunctions') }}
       </td>
     </ng-template>
   </ngx-table>

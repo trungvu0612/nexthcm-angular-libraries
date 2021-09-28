@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder } from '@ngneat/reactive-forms';
-import { TranslocoService } from '@ngneat/transloco';
+import { TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { RxwebValidators } from '@rxweb/reactive-form-validators';
 import { TuiDestroyService } from '@taiga-ui/cdk';
@@ -43,9 +43,11 @@ export class UpsertTransitionDialogComponent implements OnInit {
         translate: true,
         label: 'fromStatus',
         labelClassName: 'font-semibold',
+        placeholder: 'chooseSourceState',
         options: this.data.addedStatuses,
         labelProp: 'name',
         valueProp: 'id',
+        translocoScope: this.scope,
       },
       hideExpression: '!formState.isNew',
       hooks: {
@@ -68,9 +70,11 @@ export class UpsertTransitionDialogComponent implements OnInit {
         required: true,
         label: 'toStatus',
         labelClassName: 'font-semibold',
+        placeholder: 'chooseTargetStatus',
         options: this.data.addedStatuses,
         labelProp: 'name',
         valueProp: 'id',
+        translocoScope: this.scope,
       },
       hideExpression: '!formState.isNew',
       validators: {
@@ -81,16 +85,6 @@ export class UpsertTransitionDialogComponent implements OnInit {
           different: () => this.translocoService.selectTranslate('VALIDATION.differentTarget'),
         },
       },
-      // hooks: {
-      //   onInit: (field) => {
-      //     field?.formControl?.valueChanges
-      //       .pipe(
-      //         tap(() => field?.formControl?.markAsTouched()),
-      //         takeUntil(this.destroy$)
-      //       )
-      //       .subscribe();
-      //   },
-      // },
     },
     {
       className: 'tui-form__row block',
@@ -101,6 +95,7 @@ export class UpsertTransitionDialogComponent implements OnInit {
         translate: true,
         label: 'name',
         labelClassName: 'font-semibold',
+        placeholder: 'enterName',
         textfieldLabelOutside: true,
       },
     },
@@ -112,6 +107,7 @@ export class UpsertTransitionDialogComponent implements OnInit {
         translate: true,
         label: 'description',
         labelClassName: 'font-semibold',
+        placeholder: 'enterDescription',
         textfieldLabelOutside: true,
       },
     },
@@ -125,7 +121,8 @@ export class UpsertTransitionDialogComponent implements OnInit {
     private readonly fb: FormBuilder,
     @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<Transition, UpsertTransitionData>,
     private readonly translocoService: TranslocoService,
-    private readonly destroy$: TuiDestroyService
+    private readonly destroy$: TuiDestroyService,
+    @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope
   ) {}
 
   get data(): UpsertTransitionData {

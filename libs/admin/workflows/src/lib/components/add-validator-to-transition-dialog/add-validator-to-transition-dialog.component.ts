@@ -1,13 +1,14 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { BaseUser } from '@nexthcm/cdk';
-import { FormBuilder } from '@ngneat/reactive-forms';
-import { FormlyFieldConfig } from '@ngx-formly/core';
+import { FormBuilder, FormControl } from '@ngneat/reactive-forms';
+import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
+import { TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT, PolymorpheusTemplate } from '@tinkoff/ng-polymorpheus';
-import { map } from 'rxjs/operators';
+import { map, startWith, takeUntil } from 'rxjs/operators';
 import { AbstractAddOptionToTransitionComponent } from '../../abstract-components/abstract-add-option-to-transition.component';
 import { ValidatorType } from '../../enums';
-import { TransitionOptionsDialogData, TransitionValidator } from '../../models';
+import { TransitionOption, TransitionOptionsDialogData, TransitionValidator } from '../../models';
 import { AdminWorkflowsService } from '../../services/admin-workflows.service';
 import { ValidatorTypesQuery } from '../../state';
 
@@ -16,6 +17,7 @@ import { ValidatorTypesQuery } from '../../state';
   templateUrl: './add-validator-to-transition-dialog.component.html',
   styleUrls: ['./add-validator-to-transition-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [TuiDestroyService],
 })
 export class AddValidatorToTransitionDialogComponent
   extends AbstractAddOptionToTransitionComponent<TransitionValidator>
@@ -25,13 +27,20 @@ export class AddValidatorToTransitionDialogComponent
 
   fields!: FormlyFieldConfig[];
   readonly userContext!: { $implicit: BaseUser };
+  model = { values: [{}] } as TransitionValidator;
+  options: FormlyFormOptions = {
+    formState: {
+      validatorTypeCode: undefined,
+    },
+  };
 
   constructor(
     readonly fb: FormBuilder,
     @Inject(POLYMORPHEUS_CONTEXT)
     readonly context: TuiDialogContext<TransitionValidator, TransitionOptionsDialogData<TransitionValidator>>,
     readonly adminWorkflowsService: AdminWorkflowsService,
-    private readonly validatorTypesQuery: ValidatorTypesQuery
+    private readonly validatorTypesQuery: ValidatorTypesQuery,
+    private readonly destroy$: TuiDestroyService
   ) {
     super(fb, context, adminWorkflowsService);
   }
@@ -52,38 +61,56 @@ export class AddValidatorToTransitionDialogComponent
             ),
           required: true,
         },
+        hooks: {
+          onInit: (field) => {
+            const formControl = field?.formControl as FormControl<TransitionOption<ValidatorType>>;
+
+            formControl?.valueChanges
+              .pipe(startWith(formControl?.value), takeUntil(this.destroy$))
+              .subscribe((validatorType) => (this.options.formState.validatorTypeCode = validatorType?.code));
+          },
+        },
       },
       {
-        key: 'users',
+        key: 'values',
         className: 'tui-form__row block',
-        type: 'multi-select-search',
-        templateOptions: {
-          translate: true,
-          label: 'users',
-          labelClassName: 'font-semibold',
-          textfieldLabelOutside: true,
-          placeholder: 'searchUsers',
-          required: true,
-          serverRequest: (searchQuery: string) => this.adminWorkflowsService.getUsers(searchQuery),
-          customContent: this.userContent,
+        type: 'field-array-single-item',
+        fieldArray: {
+          fieldGroup: [
+            {
+              key: 'users',
+              className: 'tui-form__row block',
+              type: 'multi-select-search',
+              templateOptions: {
+                translate: true,
+                label: 'users',
+                labelClassName: 'font-semibold',
+                textfieldLabelOutside: true,
+                placeholder: 'searchUsers',
+                required: true,
+                serverRequest: (searchQuery: string) => this.adminWorkflowsService.getUsers(searchQuery),
+                customContent: this.userContent,
+              },
+              hideExpression: (model, formState) => formState.validatorTypeCode !== ValidatorType.UserPermission,
+            },
+            {
+              key: 'permissions',
+              className: 'tui-form__row block',
+              type: 'multi-select-search',
+              templateOptions: {
+                translate: true,
+                label: 'permissions',
+                labelClassName: 'font-semibold',
+                textfieldLabelOutside: true,
+                placeholder: 'searchPermissions',
+                required: true,
+                serverRequest: (searchQuery: string) => this.adminWorkflowsService.getPermissions(searchQuery),
+              },
+              hideExpression: (model, formState) =>
+                ![ValidatorType.Permission, ValidatorType.UserPermission].includes(formState.validatorTypeCode),
+            },
+          ],
         },
-        hideExpression: (model: TransitionValidator) => model.validatorType?.code !== ValidatorType.UserPermission,
-      },
-      {
-        key: 'permissions',
-        className: 'tui-form__row block',
-        type: 'multi-select-search',
-        templateOptions: {
-          translate: true,
-          label: 'permissions',
-          labelClassName: 'font-semibold',
-          textfieldLabelOutside: true,
-          placeholder: 'searchPermissions',
-          required: true,
-          serverRequest: (searchQuery: string) => this.adminWorkflowsService.getPermissions(searchQuery),
-        },
-        hideExpression: (model: TransitionValidator) =>
-          ![ValidatorType.Permission, ValidatorType.UserPermission].includes(model.validatorType?.code),
       },
     ];
   }

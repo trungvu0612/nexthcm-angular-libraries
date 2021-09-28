@@ -1,17 +1,16 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AuthService } from '@nexthcm/auth';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 import { ACCOUNT_API_PATH } from '../../constants';
-import { BaseResponse, Organization } from '../../models';
+import { BaseObject, BaseResponse, Organization, PagingResponse } from '../../models';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class OrganizationsService {
-  constructor(private readonly http: HttpClient, private readonly authService: AuthService) {
-  }
+  constructor(private readonly http: HttpClient, private readonly authService: AuthService) {}
 
   readonly currentTenantId = () => this.authService.get('userInfo', 'tenantId') as string;
 
@@ -29,5 +28,12 @@ export class OrganizationsService {
     return this.http
       .get<BaseResponse<Organization[]>>(`${ACCOUNT_API_PATH}/orgs/get-org-structure-chart/${tenantId}`)
       .pipe(map((res) => res.data));
+  }
+
+  getBaseOrganizations(): Observable<BaseObject[]> {
+    return this.http.get<PagingResponse<BaseObject>>(`${ACCOUNT_API_PATH}/orgs/v2`).pipe(
+      map((res) => res.data.items),
+      catchError(() => of([]))
+    );
   }
 }

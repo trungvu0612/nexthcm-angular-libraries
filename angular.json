@@ -902,7 +902,7 @@
             ],
             "styles": ["node_modules/@taiga-ui/core/styles/taiga-ui-global.less", "apps/hcm-web/src/styles.scss"],
             "scripts": [],
-            "allowedCommonJsDependencies": ["angular2-text-mask", "quill-delta-to-html"]
+            "allowedCommonJsDependencies": ["angular2-text-mask", "quill-delta-to-html", "quill-auto-detect-url"]
           },
           "configurations": {
             "production": {
@@ -1051,7 +1051,7 @@
             ],
             "styles": ["apps/hcm-workflows/src/styles.scss", "node_modules/@taiga-ui/core/styles/taiga-ui-global.less"],
             "scripts": ["node_modules/mxgraph/javascript/mxClient.min.js"],
-            "allowedCommonJsDependencies": ["angular2-text-mask", "quill-delta-to-html"]
+            "allowedCommonJsDependencies": ["angular2-text-mask", "quill-delta-to-html", "quill-auto-detect-url"]
           },
           "configurations": {
             "production": {
@@ -1361,7 +1361,12 @@
               "apps/next-hcm-demo-web/src/styles.scss"
             ],
             "scripts": ["node_modules/mxgraph/javascript/mxClient.min.js"],
-            "allowedCommonJsDependencies": ["angular2-text-mask", "uuid", "quill-delta-to-html"]
+            "allowedCommonJsDependencies": [
+              "angular2-text-mask",
+              "uuid",
+              "quill-delta-to-html",
+              "quill-auto-detect-url"
+            ]
           },
           "configurations": {
             "production": {

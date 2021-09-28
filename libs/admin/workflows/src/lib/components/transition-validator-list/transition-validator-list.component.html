@@ -1,7 +1,7 @@
 <ng-container *transloco="let t">
   <div class="flex justify-end my-2">
     <button (click)="onAddOption()" icon="tuiIconPlus" size="s" tuiButton>
-      {{ t('addValidator') }}
+      {{ t('WORKFLOW.addValidator') }}
     </button>
   </div>
   <ngx-table
@@ -15,26 +15,30 @@
     <ng-template let-index="index" let-row>
       <ng-container *tuiLet="item(row) as item">
         <td>{{ t(item.validatorType.name) }}</td>
-        <td *tuiLet="item.permissions?.length as hasPermissions">
-          <p>{{ t(item.validatorType.description) }}<span *ngIf="hasPermissions">:</span></p>
-          <ul *ngIf="hasPermissions" class="tui-list tui-list_small">
-            <li *ngIf="item.users?.length" class="tui-list__item">
-              {{ t('users') }}:
-              <b>
-                <span *ngFor="let user of item.users; last as isLast"
-                  >{{ user.name }}<span *ngIf="!isLast">, </span>
-                </span>
-              </b>
-            </li>
-            <li class="tui-list__item">
-              {{ t('permissions') }}:
-              <b>
-                <span *ngFor="let permission of item.permissions; last as isLast"
-                  >{{ permission.name }}<span *ngIf="!isLast">, </span>
-                </span>
-              </b>
-            </li>
-          </ul>
+        <td>
+          <ng-container *ngIf="item.values[0] as value">
+            <ng-container *ngIf="value.permissions?.length as hasPermissions">
+              <p>{{ t(item.validatorType.description) }}<span *ngIf="hasPermissions">:</span></p>
+              <ul *ngIf="hasPermissions" class="tui-list tui-list_small">
+                <li *ngIf="value.users?.length" class="tui-list__item">
+                  {{ t('users') }}:
+                  <b>
+                    <span *ngFor="let user of value.users; last as isLast"
+                      >{{ user.name }}<span *ngIf="!isLast">, </span>
+                    </span>
+                  </b>
+                </li>
+                <li class="tui-list__item">
+                  {{ t('permissions') }}:
+                  <b>
+                    <span *ngFor="let permission of value.permissions; last as isLast"
+                      >{{ permission.name }}<span *ngIf="!isLast">, </span>
+                    </span>
+                  </b>
+                </li>
+              </ul>
+            </ng-container>
+          </ng-container>
         </td>
         <td>
           <div class="flex items-center">
@@ -60,7 +64,7 @@
     </ng-template>
     <ng-template #noResultsTemplate>
       <td [attr.colspan]="columns?.length" class="text-center text-blue-500">
-        {{ t('noValidators') }}
+        {{ t('WORKFLOW.noValidators') }}
       </td>
     </ng-template>
   </ngx-table>

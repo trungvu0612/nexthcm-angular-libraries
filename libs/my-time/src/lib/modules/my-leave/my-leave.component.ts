@@ -39,7 +39,7 @@ export class MyLeaveComponent extends AbstractRequestListComponent<LeaveRequest>
           orderEnabled: false,
         },
         { key: 'status', title: result.status, orderEnabled: false },
-        { key: 'comment', title: result.Comment, orderEnabled: false },
+        { key: 'comment', title: result.Comment },
         { key: '', title: result.functions, orderEnabled: false },
       ])
     );

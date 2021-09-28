@@ -1,6 +1,12 @@
 <hcm-request-list-filter [httpParams]="queryParams$" class="mb-5"></hcm-request-list-filter>
 <tui-loader [overlay]="true" [showLoader]="(loading$ | async) === true">
-  <ngx-table #table [columns]="(columns$ | async) || []" [configuration]="configuration" [data]="(data$ | async) || []">
+  <ngx-table
+    #table
+    (event)="eventEmitted($event)"
+    [columns]="(columns$ | async) || []"
+    [configuration]="configuration"
+    [data]="(data$ | async) || []"
+  >
     <ng-template let-row>
       <ng-container *tuiLet="item(row) as item">
         <td>{{ item.fromDate | translocoDate }} - {{ item.toDate | translocoDate }}</td>

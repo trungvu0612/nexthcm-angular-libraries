@@ -8,7 +8,7 @@
     [tuiHint]="variable.description ? ('WORKFLOW.' + variable.description | transloco) : null"
     appearance="secondary"
     class="mr-2 mb-1"
-    size="s"
+    size="xs"
     tuiButton
     tuiHintDirection="bottom-left"
     type="button"
@@ -24,6 +24,7 @@
   [style]="{ '--editor-height': to.height }"
   format="json"
   placeholder=""
+  [modules]="to.quillModules"
 ></quill-editor>
 <ng-container *ngTemplateOutlet="errorTpl"></ng-container>
 

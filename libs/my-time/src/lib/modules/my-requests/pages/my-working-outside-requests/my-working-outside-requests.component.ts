@@ -29,11 +29,11 @@ export class MyWorkingOutsideRequestsComponent extends AbstractRequestListCompon
     .selectTranslateObject('MY_TIME_REQUEST_LIST_COLUMNS', {}, (this.scope as ProviderScope).scope)
     .pipe(
       map((result) => [
-        { key: 'dateRange', title: result.dateRange },
+        { key: 'fromDate', title: result.dateRange },
         { key: 'days', title: result.days },
         { key: 'status', title: result.status },
-        { key: 'reason', title: result.Comment },
-        { key: 'functions', title: result.functions, orderEnabled: false },
+        { key: 'comment', title: result.Comment },
+        { key: '', title: result.functions, orderEnabled: false },
       ])
     );
   readonly queryParams$ = new BehaviorSubject(

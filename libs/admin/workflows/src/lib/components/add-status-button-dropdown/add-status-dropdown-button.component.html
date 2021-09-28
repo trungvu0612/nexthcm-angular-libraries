@@ -1,12 +1,12 @@
 <tui-hosted-dropdown *transloco="let t" [(open)]="open" [content]="dropdown" tuiDropdownAlign="left">
   <button appearance="flat" class="mr-3" icon="tuiIconPlus" size="s" tuiButton tuiHostedDropdownHost type="button">
-    {{ t('addStatus') }}
+    {{ t('WORKFLOW.addStatus') }}
   </button>
 </tui-hosted-dropdown>
 
 <ng-template #dropdown let-activeZone>
   <div *transloco="let t" class="p-4">
-    <p>{{ t('searchStatusOrNameNewOne') }}</p>
+    <p>{{ t('WORKFLOW.searchStatusOrNameNewOne') }}</p>
     <hcm-status-combobox
       (valueChange)="onSelectStatus($event)"
       class="tui-form__row"
@@ -14,7 +14,7 @@
       [addedStatuses]="addedStatus"
     ></hcm-status-combobox>
     <tui-checkbox-labeled [(ngModel)]="data.allowAll" class="tui-form__row">
-      {{ t('allowAllStatus') }}
+      {{ t('WORKFLOW.allowAllStatus') }}
     </tui-checkbox-labeled>
     <div class="mt-4 flex justify-end space-x-2">
       <button (click)="onAdd()" [disabled]="!data.status.name" size="s" tuiButton type="button">{{ t('add') }}</button>

@@ -6,8 +6,12 @@ import {
   BaseObject,
   EmployeeGeneralInformation,
   EmployeesService,
+  JobLevelsQuery,
   JobTitlesQuery,
+  loadJobLevels,
   loadJobTitles,
+  loadRoles,
+  RolesQuery,
   UploadFileService,
 } from '@nexthcm/cdk';
 import { FormBuilder } from '@ngneat/reactive-forms';
@@ -160,7 +164,7 @@ export class GeneralInformationFormComponent {
                 label: 'roles',
                 labelClassName: 'font-semibold',
                 placeholder: 'chooseRoles',
-                options: this.adminEmployeeService.select('roles'),
+                options: this.rolesQuery.selectAll(),
                 matcherBy: 'id',
                 disabledItemHandler: (item: BaseObject) => item.isDisable,
               },
@@ -168,15 +172,15 @@ export class GeneralInformationFormComponent {
             {
               key: 'jobTitle',
               className: 'tui-form__row block',
-              type: 'select',
+              type: 'combo-box',
               templateOptions: {
                 translate: true,
-                required: true,
                 label: 'jobTitle',
                 labelClassName: 'font-semibold',
-                placeholder: 'chooseJobTitle',
-                options: this.adminEmployeeService.select('jobTitles'),
-                labelProp: 'name',
+                textfieldLabelOutside: true,
+                placeholder: 'searchJobTitles',
+                required: true,
+                serverRequest: (searchQuery: string) => this.jobTitlesQuery.searchJobTitles(searchQuery),
                 matcherBy: 'id',
               },
             },
@@ -189,7 +193,7 @@ export class GeneralInformationFormComponent {
                 label: 'jobLevel',
                 labelClassName: 'font-semibold',
                 placeholder: 'chooseJobLevel',
-                options: this.jobTitlesQuery.selectAll(),
+                options: this.jobLevelsQuery.selectAll(),
                 labelProp: 'name',
                 matcherBy: 'id',
               },
@@ -233,10 +237,14 @@ export class GeneralInformationFormComponent {
     private readonly adminEmployeeService: AdminEmployeesService,
     private readonly activatedRoute: ActivatedRoute,
     private readonly jobTitlesQuery: JobTitlesQuery,
+    private readonly jobLevelsQuery: JobLevelsQuery,
+    private readonly rolesQuery: RolesQuery,
     @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope,
     actions: Actions
   ) {
     actions.dispatch(loadJobTitles());
+    actions.dispatch(loadJobLevels());
+    actions.dispatch(loadRoles());
   }
 
   @Input()

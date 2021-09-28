@@ -32,7 +32,7 @@ export class WorkingAfterHoursRequestListComponent extends AbstractRequestListCo
         { key: 'type', title: result.type },
         { key: 'status', title: result.status },
         { key: 'comment', title: result.Comment },
-        { key: 'functions', title: result.functions, orderEnabled: false },
+        { key: '', title: result.functions, orderEnabled: false },
       ])
     );
   private readonly request$ = this.queryParams$.pipe(

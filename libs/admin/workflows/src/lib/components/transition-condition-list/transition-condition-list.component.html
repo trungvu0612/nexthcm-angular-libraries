@@ -1,7 +1,7 @@
 <ng-container *transloco="let t">
   <div class="flex justify-end my-2">
     <button (click)="onAddOption()" icon="tuiIconPlus" size="s" tuiButton>
-      {{ t('addCondition') }}
+      {{ t('WORKFLOW.addCondition') }}
     </button>
   </div>
   <ngx-table
@@ -48,7 +48,7 @@
     </ng-template>
     <ng-template #noResultsTemplate>
       <td [attr.colspan]="columns?.length" class="text-center text-blue-500">
-        {{ t('noConditions') }}
+        {{ t('WORKFLOW.noConditions') }}
       </td>
     </ng-template>
   </ngx-table>
