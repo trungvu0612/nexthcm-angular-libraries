@@ -58,8 +58,6 @@
   "chooseDistrict": "Chọn quận/huyện",
   "province": "Tỉnh/Thành phố",
   "chooseProvince": "Chọn tỉnh/thành phố",
-  "createDomain": "Thêm tên miền",
-  "editDomain": "Sửa tên miền",
   "organizationalStructure": "Cơ cấu tổ chức",
   "organizationalChart": "Sơ đồ tổ chức",
   "information": "Thông tin cơ bản",
@@ -643,5 +641,7 @@
   "inTime": "Thời gian vào",
   "outTime": "Thời gian ra",
   "enterName": "Nhập tên...",
-  "yourWorkingDaysThisMonth": "Số ngày làm việc trong tháng này"
+  "yourWorkingDaysThisMonth": "Số ngày làm việc trong tháng này",
+  "phoneNumber": "Số điện thoại",
+  "enterPhoneNumber": "Nhập số điện thoại..."
 }

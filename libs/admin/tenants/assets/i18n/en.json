@@ -31,7 +31,13 @@
   "enterDomain": "Enter domain...",
   "addOrganizationalUnit": "Add organizational unit",
   "editOrganizationalUnit": "Edit organizational unit",
-  "deleteOrganizationalUnit": "Are you sure you want to remove this organizational unit?",
+  "deleteOrganizationalUnit": "<b>Are you sure you want to remove this organizational unit?</b>",
   "chooseParentLevel": "Choose a parent level",
-  "searchDomains": "Search domains..."
+  "searchDomains": "Search domains...",
+  "addDomain": "Create domain",
+  "editDomain": "Edit domain",
+  "addDomainSuccessfully": "<b>Add new domain successfully!</b>",
+  "editDomainSuccessfully": "<b>Edit this domain successfully!</b>",
+  "chooseAnImage": "Choose an image",
+  "orDropItHere": "or drop it here"
 }

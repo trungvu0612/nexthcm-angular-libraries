@@ -57,8 +57,6 @@
   "chooseDistrict": "Choose district",
   "province": "Province",
   "chooseProvince": "Choose Province",
-  "createDomain": "Create domain",
-  "editDomain": "Edit domain",
   "organizationalStructure": "Organizational structure",
   "organizationalChart": "Organizational chart",
   "information": "Information",
@@ -642,5 +640,7 @@
   "inTime": "Time in",
   "outTime": "Time out",
   "enterName": "Enter name...",
-  "yourWorkingDaysThisMonth": "Your working days this month"
+  "yourWorkingDaysThisMonth": "Your working days this month",
+  "phoneNumber": "Phone number",
+  "enterPhoneNumber": "Enter phone number..."
 }

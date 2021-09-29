@@ -117,7 +117,6 @@ export class DurationFormComponent {
                       label: 'phoneNumber',
                       placeholder: 'enterPhoneNumber',
                       textfieldLabelOutside: true,
-                      translocoScope: this.scope,
                     },
                   },
                   {

@@ -33,5 +33,11 @@
   "editOrganizationalUnit": "Sửa đơn vị tổ chức",
   "deleteOrganizationalUnit": "Bạn thật sự muốn xoá đơn vị tổ chức này?",
   "chooseParentLevel": "Chọn cấp trên",
-  "searchDomains": "Tìm tên miền..."
+  "searchDomains": "Tìm tên miền...",
+  "addDomain": "Thêm tên miền",
+  "editDomain": "Sửa tên miền",
+  "addDomainSuccessfully": "<b>Thêm tên miền thành công!</b>",
+  "editDomainSuccessfully": "<b>Sửa tên miền thành công!</b>",
+  "chooseAnImage": "Chọn hình ảnh",
+  "orDropItHere": "hoặc kéo thả vào đây"
 }

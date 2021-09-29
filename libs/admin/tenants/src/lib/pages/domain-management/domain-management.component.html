@@ -1,5 +1,5 @@
 <div class="flex justify-end mb-6">
-  <button (click)="onUpsertDomain()" size="m" tuiButton>{{ ('createDomain' | transloco) }}</button>
+  <button (click)="onUpsertDomain()" size="m" tuiButton>{{ ('tenants.addDomain' | transloco) }}</button>
 </div>
 <hcm-input-filter
   (valueChange)="search$.next($event)"

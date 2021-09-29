@@ -91,7 +91,7 @@ export class DomainManagementComponent extends AbstractServerSortPaginationTable
   onUpsertDomain(data?: TenantDomain): void {
     this.dialogService
       .open(new PolymorpheusComponent(UpsertTenantDomainDialogComponent, this.injector), {
-        label: this.translocoService.translate(data ? 'editDomain' : 'createDomain'),
+        label: this.translocoService.translate(data ? 'tenants.editDomain' : 'tenants.addDomain'),
         data,
       })
       .pipe(takeUntil(this.destroy$))
@@ -102,7 +102,7 @@ export class DomainManagementComponent extends AbstractServerSortPaginationTable
     from(
       this.promptService.open({
         icon: 'question',
-        html: this.translocoService.translate('removeDomain'),
+        html: this.translocoService.translate('tenants.removeDomain'),
         showCancelButton: true,
       })
     )
@@ -112,7 +112,7 @@ export class DomainManagementComponent extends AbstractServerSortPaginationTable
         takeUntil(this.destroy$)
       )
       .subscribe(
-        this.promptService.handleResponse('removeDomainSuccessfully', () =>
+        this.promptService.handleResponse('tenants.removeDomainSuccessfully', () =>
           this.queryParams$.next(this.queryParams$.value)
         )
       );

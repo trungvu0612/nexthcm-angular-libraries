@@ -420,7 +420,6 @@ export class IndividualFormComponent {
                 labelClassName: 'font-semibold',
                 textfieldLabelOutside: true,
                 placeholder: 'enterPhoneNumber',
-                translocoScope: this.scope,
               },
             },
             {

@@ -2,7 +2,7 @@
   <ng-container ngProjectAs="pageHeader">
     <button (click)="createTenant()" size="m" tuiButton>{{ 'tenants.createTenant' | transloco }}</button>
   </ng-container>
-  <div *rxLet="statistic$; let statistic" class="flex gap-8 mb-8">
+  <div *ngIf="statistic$ | async as statistic" class="flex gap-8 mb-8">
     <ng-container *transloco="let t">
       <tui-island [hoverable]="true" size="l">
         <h3 class="tui-island__title">{{ t('active') }}</h3>

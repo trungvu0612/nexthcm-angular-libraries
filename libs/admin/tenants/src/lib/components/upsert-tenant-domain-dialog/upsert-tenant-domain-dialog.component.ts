@@ -122,7 +122,7 @@ export class UpsertTenantDomainDialogComponent implements OnInit {
       this.model = {
         ...this.model,
         ...this.context.data,
-        statusBoolean: this.context.data.status !== CommonStatus.active,
+        statusBoolean: this.context.data.status === CommonStatus.active,
       };
     }
   }
@@ -139,7 +139,12 @@ export class UpsertTenantDomainDialogComponent implements OnInit {
       this.adminTenantsService
         .upsertTenantDomain(formModel)
         .pipe(takeUntil(this.destroy$))
-        .subscribe(this.promptService.handleResponse('', () => this.context.completeWith(true)));
+        .subscribe(
+          this.promptService.handleResponse(
+            formModel.id ? 'tenants.editDomainSuccessfully' : 'tenants.addDomainSuccessfully',
+            () => this.context.completeWith(true)
+          )
+        );
     }
   }
 }
