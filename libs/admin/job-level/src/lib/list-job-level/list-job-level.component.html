@@ -1,7 +1,8 @@
-  <hcm-page [title]="('jobLevelManagement')">
+<ng-container *transloco="let t">
+  <hcm-page [title]="t('jobLevel.jobLevelManagement')">
     <ng-container ngProjectAs="pageHeader">
       <button (click)="onAddJobTitle()" size="m" tuiButton>
-        {{ 'addNewJobLevel' | transloco }}
+        {{ t('jobLevel.addNewJobLevel')}}
       </button>
     </ng-container>
     <tui-loader [overlay]="true" [showLoader]="(loading$ | async) === true">
@@ -45,5 +46,8 @@
       [total]="(total$ | async) || 0"
     ></tui-table-pagination>
   </hcm-page>
+
+</ng-container>
+
 
 

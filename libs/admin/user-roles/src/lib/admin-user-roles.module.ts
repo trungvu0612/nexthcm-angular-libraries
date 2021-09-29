@@ -82,7 +82,7 @@ export const adminUserRolesRoutes: Route[] = [
     {
       provide: TRANSLOCO_SCOPE,
       useValue: {
-        scope: 'user-roles',
+        scope: 'userRoles',
         loader: inlineLoaderFactory((lang) => import(`../../assets/i18n/${lang}.json`)),
       },
     },

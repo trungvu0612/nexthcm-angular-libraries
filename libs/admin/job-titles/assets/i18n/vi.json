@@ -1,21 +1,10 @@
 {
-  "ADMIN_USER_ROLE_PERMISSION_COLUMNS": {
+  "ADMIN_JOB_TITLE_COLUMNS": {
     "name": "Tên",
-    "code": "Mã số",
-    "description": "Mô tả",
-    "permissions": "Phân quyền",
+    "createdBy": "Tạo bởi",
+    "createdDate": "Tạo ngày",
+    "lastModifiedDate": "Ngày chỉnh sửa",
+    "state": "Trạng thái",
     "functions": "Chức năng"
-  },
-  "ADMIN_USER_ROLE_COLUMNS": {
-    "name": "Tên",
-    "description": "Mô tả",
-    "functions": "Chức năng"
-  },
-  "userRoleManagement": "Quản lý vai trò",
-  "addNewUserRole": "Tạo mới vai trò",
-  "editUserRole": "Chỉnh sửa vai trò",
-  "updateUserRoleSuccessfully": "Cập nhật vai trò thành công",
-  "addNewUserRoleSuccessfully": "Tạo mới vai trò thành công",
-  "deleteUserRole": "Bạn có muốn xóa vai trò này ?",
-  "deleteUserRoleSuccessfully": "Xóa vai trò thành công"
+  }
 }

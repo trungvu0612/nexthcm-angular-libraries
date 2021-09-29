@@ -59,13 +59,13 @@ export class ListUserRolesComponent extends AbstractServerSortPaginationTableCom
   }
 
   onAddUserRole(): void {
-    this.openDialog('addNewUserRole')
+    this.openDialog('userRoles.addNewUserRole')
       .pipe(
         switchMap((data) => this.adminUserRolesService.createAdminUserRole(data)),
         takeUntil(this.destroy$)
       )
       .subscribe(
-        this.promptService.handleResponse('addUserRoleSuccessfully', () =>
+        this.promptService.handleResponse('userRoles.addUserRoleSuccessfully', () =>
           this.queryParams$.next(this.queryParams$.value)
         )
       );
@@ -76,7 +76,7 @@ export class ListUserRolesComponent extends AbstractServerSortPaginationTableCom
       from(
         this.promptService.open({
           icon: 'question',
-          html: this.translocoService.translate('deleteUserRole'),
+          html: this.translocoService.translate('userRoles.deleteUserRole'),
           showCancelButton: true,
         })
       )
@@ -86,7 +86,7 @@ export class ListUserRolesComponent extends AbstractServerSortPaginationTableCom
           takeUntil(this.destroy$)
         )
         .subscribe(
-          this.promptService.handleResponse('deleteUserRoleSuccessfully', () =>
+          this.promptService.handleResponse('userRoles.deleteUserRoleSuccessfully', () =>
             this.queryParams$.next(this.queryParams$.value)
           )
         );
@@ -100,7 +100,7 @@ export class ListUserRolesComponent extends AbstractServerSortPaginationTableCom
         takeUntil(this.destroy$)
       )
       .subscribe(
-        this.promptService.handleResponse('updateUserRoleSuccessfully', () =>
+        this.promptService.handleResponse('userRoles.updateUserRoleSuccessfully', () =>
           this.queryParams$.next(this.queryParams$.value)
         )
       );

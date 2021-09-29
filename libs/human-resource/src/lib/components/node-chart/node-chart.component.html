@@ -26,10 +26,10 @@
     <div class="flex flex-row space-x-4">
       <tui-avatar [autoColor]="true" [rounded]="true" [text]="description.fullName" size="m"></tui-avatar>
       <div class="flex flex-col">
+        <div class="text-blue-500 text-left">{{ description.reportTo?.fullName }}</div>
         <div class="text-sm text-left">
           <strong>{{ description.jobTitle?.name }}</strong>
         </div>
-        <div class="text-blue-500 text-left">{{ description.reportTo?.fullName }}</div>
       </div>
     </div>
   </section>

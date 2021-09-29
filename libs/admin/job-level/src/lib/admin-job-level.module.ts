@@ -41,7 +41,6 @@ export const adminJobLevelRoutes: Route[] = [
     TuiMarkerIconModule,
     ReactiveFormsModule,
     RouterModule.forChild(adminJobLevelRoutes),
-    RouterModule,
     TranslocoModule,
     LayoutModule,
     BaseFormComponentModule,
@@ -53,7 +52,7 @@ export const adminJobLevelRoutes: Route[] = [
     {
       provide: TRANSLOCO_SCOPE,
       useValue: {
-        scope: 'job-level',
+        scope: 'jobLevel',
         loader: inlineLoaderFactory((lang) => import(`../../assets/i18n/${lang}.json`)),
       },
     },

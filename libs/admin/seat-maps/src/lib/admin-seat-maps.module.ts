@@ -64,7 +64,7 @@ export const adminSeatMapsRoutes: Routes = [
     {
       provide: TRANSLOCO_SCOPE,
       useValue: {
-        scope: 'seat-maps',
+        scope: 'seatMaps',
         loader: inlineLoaderFactory((lang) => import(`../../assets/i18n/${lang}.json`)),
       },
     },

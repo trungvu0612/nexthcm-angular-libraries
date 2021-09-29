@@ -107,7 +107,7 @@ const TABS: MenuItem[] = [
     {
       provide: TRANSLOCO_SCOPE,
       useValue: {
-        scope: 'leave-configs',
+        scope: 'leaveConfigs',
         loader: inlineLoaderFactory((lang) => import(`../../assets/i18n/${lang}.json`)),
       },
     },

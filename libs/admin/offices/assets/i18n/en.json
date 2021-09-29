@@ -1,2 +1,15 @@
 {
+  "ZONE_TABLE": {
+    "name": "Name",
+    "office": "Office",
+    "address": "Address",
+    "description": "Description",
+    "action": "Action",
+    "domainUrl": "Domain Url",
+    "status": "Status",
+    "MESSAGES": {
+      "deleteSeatMap": "Are you sure you want to delete this seat map?",
+      "deleteDomain": "Are you sure you want to delete this domain?"
+    }
+  }
 }

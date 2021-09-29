@@ -5,5 +5,11 @@
     "description": "Description",
     "permissions": "Permissions",
     "functions": "Functions"
-  }
+  },
+  "jobLevelManagement": "Quản lý cấp độ công việc",
+  "jobLevel": "Cấp độ",
+  "chooseJobLevel": "Chọn cấp độ",
+  "deleteJobLevel": "Bạn có muốn xóa cấp độ công việc này không?",
+  "deleteJobLevelSuccessfully": "Xóa cấp độ công việc này thành công",
+  "addNewJobLevel": "Thêm cấp độ công việc"
 }

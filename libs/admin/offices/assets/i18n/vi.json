@@ -1,2 +1,15 @@
 {
+  "ZONE_TABLE": {
+    "name": "Tên",
+    "office": "Văn phòng",
+    "address": "Địa chỉ",
+    "description": "Mô tả",
+    "action": "Thao tác",
+    "domainUrl": "Tên miền",
+    "status": "Trạng thái",
+    "MESSAGES": {
+      "deleteSeatMap": "Bạn có chắc chắn muốn xóa sơ đồ chỗ ngồi này không?",
+      "deleteDomain": "Bạn có chắc chắn muốn xóa tên miền này không?"
+    }
+  }
 }

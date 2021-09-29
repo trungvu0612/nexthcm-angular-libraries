@@ -1,7 +1,8 @@
-  <hcm-page [title]="'userRoleManagement' | transloco">
-    <ng-container ngProjectAs="pageHeader">
+<ng-container *transloco="let t">
+  <hcm-page [title]="t('userRoles.userRoleManagement')">
+    <ng-container *transloco="let t" ngProjectAs="pageHeader">
       <button (click)="onAddUserRole()" size="m" tuiButton>
-        {{ 'addNewUserRole' | transloco }}
+        {{ t('userRoles.addNewUserRole') }}
       </button>
     </ng-container>
     <tui-loader [overlay]="true" [showLoader]="(loading$ | async) === true">
@@ -45,3 +46,6 @@
       [total]="(total$ | async) || 0"
     ></tui-table-pagination>
   </hcm-page>
+</ng-container>
+
+

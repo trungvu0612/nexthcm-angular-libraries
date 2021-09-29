@@ -45,7 +45,7 @@ export const adminJobTitlesRoutes: Route[] = [
     {
       provide: TRANSLOCO_SCOPE,
       useValue: {
-        scope: 'job-titles',
+        scope: 'jobTitles',
         loader: inlineLoaderFactory((lang) => import(`../../assets/i18n/${lang}.json`)),
       },
     },

@@ -1,8 +1,8 @@
 <ng-container *transloco="let t">
-  <hcm-page [title]="t('leaveApprovalLevelManagement')">
+  <hcm-page [title]="t('leaveConfigs.leaveApprovalLevelManagement')">
     <ng-container ngProjectAs="pageHeader">
       <button (click)="onAddLeaveLevel()" size="m" tuiButton>
-        {{ t('addLeaveApprovalLevel') }}
+        {{ t('leaveConfigs.addLeaveApprovalLevel') }}
       </button>
     </ng-container>
     <tui-loader [overlay]="true" [showLoader]="(loading$ | async) === true">
