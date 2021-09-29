@@ -9,7 +9,7 @@ import { BaseComponent, Columns } from 'ngx-easy-table';
 import { Observable, of } from 'rxjs';
 import { catchError, filter, map, shareReplay, startWith, switchMap } from 'rxjs/operators';
 import { LeaveRequest } from '../../../../models';
-import { MyTimeService, RequestTypeAPIUrlPath } from '../../../../services';
+import { MyTimeService } from '../../../../services';
 import { AbstractRequestListComponent } from '../../../shared/abstract-components/abstract-request-list.component';
 
 @Component({
@@ -22,7 +22,7 @@ import { AbstractRequestListComponent } from '../../../shared/abstract-component
 export class LeaveRequestListComponent extends AbstractRequestListComponent<LeaveRequest> {
   @ViewChild('table') table!: BaseComponent;
 
-  readonly requestTypeUrlPath = RequestTypeAPIUrlPath.leave;
+  readonly requestTypeUrlPath = 'leave';
   readonly columns$: Observable<Columns[]> = this.translocoService
     .selectTranslateObject('MY_TIME_REQUEST_LIST_COLUMNS', {}, (this.scope as ProviderScope).scope)
     .pipe(

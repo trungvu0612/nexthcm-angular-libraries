@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { RouterQuery } from '@datorama/akita-ng-router-store';
 import { PromptService } from '@nexthcm/cdk';
 import { FormBuilder } from '@ngneat/reactive-forms';
+import { TRANSLOCO_SCOPE, TranslocoScope } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
@@ -42,10 +43,11 @@ export class UpsertOrganizationalUnitComponent {
       templateOptions: {
         required: true,
         translate: true,
-        label: 'tenants.organizationalLevel',
+        label: 'organizationalLevel',
         labelClassName: 'font-semibold',
-        placeholder: 'tenants.chooseOrganizationalLevel',
+        placeholder: 'chooseOrganizationalLevel',
         options: this.context.data?.levels,
+        translocoScope: this.scope,
       },
     },
     {
@@ -55,12 +57,13 @@ export class UpsertOrganizationalUnitComponent {
       templateOptions: {
         required: true,
         translate: true,
-        label: 'tenants.parentLevel',
+        label: 'parentLevel',
         labelClassName: 'font-semibold',
-        placeholder: 'tenants.chooseParentLevel',
+        placeholder: 'chooseParentLevel',
         labelProp: 'orgName',
         subLabelProp: 'orgType',
         matcherBy: 'id',
+        translocoScope: this.scope,
       },
       expressionProperties: { 'templateOptions.disabled': '!model.orgType' },
       hideExpression: 'model.id',
@@ -112,7 +115,8 @@ export class UpsertOrganizationalUnitComponent {
     private readonly adminTenantsService: AdminTenantsService,
     private readonly destroy$: TuiDestroyService,
     private readonly promptService: PromptService,
-    private readonly routerQuery: RouterQuery
+    private readonly routerQuery: RouterQuery,
+    @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope
   ) {}
 
   onCancel(): void {

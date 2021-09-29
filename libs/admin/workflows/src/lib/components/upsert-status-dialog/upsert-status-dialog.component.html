@@ -6,3 +6,10 @@
   [model]="model"
   class="mt-5"
 ></hcm-base-form>
+
+<ng-template #statusTypeContent="polymorpheus" [polymorpheus]="statusTypeContext" let-item>
+  <div class="flex items-center space-x-2">
+    <span [style.backgroundColor]="item.color" class="dot"></span>
+    <span>{{ item.name }}</span>
+  </div>
+</ng-template>

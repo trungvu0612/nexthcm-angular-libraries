@@ -110,7 +110,7 @@ export interface EmployeeSHUI {
 }
 
 export interface EmployeeAddress {
-  address: string;
+  address1: string;
   countryId: string;
   cityId: string;
   districtId: string;

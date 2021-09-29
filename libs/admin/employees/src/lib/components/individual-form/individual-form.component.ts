@@ -43,7 +43,7 @@ export class IndividualFormComponent {
               className: 'tui-form__row block',
               fieldGroup: [
                 {
-                  key: 'address',
+                  key: 'address1',
                   className: 'tui-form__row block',
                   type: 'input',
                   templateOptions: {
@@ -174,7 +174,7 @@ export class IndividualFormComponent {
               className: 'tui-form__row block',
               fieldGroup: [
                 {
-                  key: 'address',
+                  key: 'address1',
                   className: 'tui-form__row block',
                   type: 'input',
                   templateOptions: {

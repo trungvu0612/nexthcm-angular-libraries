@@ -30,7 +30,7 @@ export class ComboBoxComponent extends FieldType {
     catchError(() => of([])),
     startWith([])
   );
-  stringify$: Observable<TuiStringHandler<any>> = this.items$.pipe(
+  readonly stringify$: Observable<TuiStringHandler<any>> = this.items$.pipe(
     filter(isPresent),
     map((items) => new Map(items.map((item) => [item[this.to.valueProp], item[this.to.labelProp]]))),
     map(

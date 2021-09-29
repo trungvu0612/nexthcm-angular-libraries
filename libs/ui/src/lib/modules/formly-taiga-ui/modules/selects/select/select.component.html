@@ -8,7 +8,7 @@
   [tuiTextfieldCleaner]="to.textfieldCleaner"
   [tuiTextfieldLabelOutside]="to.textfieldLabelOutside"
   [tuiTextfieldSize]="to.textfieldSize"
-  [valueContent]="items ? (to.valueProp ? stringify(items) : content) : loading"
+  [valueContent]="items ? (to.valueProp ? stringify(items) : to.customContent ? to.customContent : content) : loading"
 >
   {{ to.textfieldLabelOutside ? to.placeholder : to.label }}
   <span *ngIf="to.required && !to.textfieldLabelOutside" class="tui-required"></span>
@@ -16,17 +16,27 @@
   <ng-template tuiDataList>
     <tui-data-list *ngIf="items; else loading">
       <button
+        #elementRef="elementRef"
         *ngFor="let item of items"
         [disabled]="!!item.disabled"
         [value]="to.valueProp ? item[to.valueProp] : item"
+        tuiElement
         tuiOption
       >
-        <div class="my-1">
-          <p [class.font-semibold]="to.subLabelProp" class="text-base">
-            {{ item[to.labelProp] || item }}
-          </p>
-          <p class="text-sm font-normal">{{ getSubLabel(item) }}</p>
-        </div>
+        <span
+          [content]="to.customContent || itemContent"
+          [context]="getContext(item, elementRef)"
+          class="content"
+          polymorpheus-outlet
+        ></span>
+        <ng-template #itemContent>
+          <div class="my-1">
+            <p [class.font-semibold]="to.subLabelProp" class="text-base">
+              {{ item[to.labelProp] || item }}
+            </p>
+            <p class="text-sm font-normal">{{ getSubLabel(item) }}</p>
+          </div>
+        </ng-template>
       </button>
     </tui-data-list>
   </ng-template>
