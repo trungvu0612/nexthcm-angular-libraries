@@ -15,6 +15,7 @@ import {
   MenuItem,
 } from '@nexthcm/ui';
 import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
+import { FormlyModule } from '@ngx-formly/core';
 import { TuiTablePaginationModule } from '@taiga-ui/addon-table';
 import { TuiLetModule } from '@taiga-ui/cdk';
 import { TuiButtonModule, TuiLoaderModule } from '@taiga-ui/core';
@@ -30,8 +31,6 @@ import { LeaveApprovalLevelManagementComponent } from './pages/leave-approval-le
 import { LeaveEntitlementManagementComponent } from './pages/leave-entitlement-management/leave-entitlement-management.component';
 import { LeavePeriodManagementComponent } from './pages/leave-period-management/leave-period-management.component';
 import { LeaveTypeManagementComponent } from './pages/leave-type-management/leave-type-management.component';
-import { ListCategoryComponent } from '../../../knowledge-base/src/lib/pages/list-category/list-category.component';
-import { FormlyModule } from '@ngx-formly/core';
 
 export const adminLeaveTypesRoutes: Route[] = [
   {
@@ -85,7 +84,6 @@ const TABS: MenuItem[] = [
     LeavePeriodManagementComponent,
     LeaveEntitlementManagementComponent,
     LeaveApprovalLevelManagementComponent,
-    ListCategoryComponent
   ],
   imports: [
     CommonModule,
@@ -105,7 +103,6 @@ const TABS: MenuItem[] = [
     TuiLetModule,
     AkitaNgEffectsModule.forFeature([WorkflowsEffects]),
     FormlyModule,
-
   ],
   providers: [
     LeaveConfigsService,

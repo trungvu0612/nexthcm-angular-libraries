@@ -1,31 +1,25 @@
-import { Component, ViewChild, Inject } from '@angular/core';
-import { AbstractServerSortPaginationTableComponent, Pagination, PromptService } from '@nexthcm/cdk';
-import { BaseComponent } from 'ngx-easy-table';
-import {
-  ProviderScope,
-  TRANSLOCO_SCOPE,
-  TranslocoScope,
-  TranslocoService
-} from '@ngneat/transloco';
-import { catchError, filter, map, share, startWith, switchMap, takeUntil } from 'rxjs/operators';
-import { FormGroup } from '@ngneat/reactive-forms';
-import { FormlyFieldConfig } from '@ngx-formly/core';
-import { from, iif, of, Subscriber } from 'rxjs';
-import { RxState } from '@rx-angular/state';
+import { Component, Inject, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { KnowledgeBaseService } from '../../../../../../knowledge-base/src/lib/services/knowledge-base.service';
-import { TuiDialogContext, TuiDialogService } from '@taiga-ui/core';
+import { AbstractServerSortPaginationTableComponent, Pagination, PromptService } from '@nexthcm/cdk';
+import { KnowledgeBaseService } from '@nexthcm/knowledge-base';
+import { FormGroup } from '@ngneat/reactive-forms';
+import { ProviderScope, TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
+import { FormlyFieldConfig } from '@ngx-formly/core';
+import { RxState } from '@rx-angular/state';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
+import { TuiDialogContext, TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusContent } from '@tinkoff/ng-polymorpheus';
+import { BaseComponent } from 'ngx-easy-table';
+import { from, iif, of, Subscriber } from 'rxjs';
+import { catchError, filter, map, share, startWith, switchMap, takeUntil } from 'rxjs/operators';
 import { SweetAlertOptions } from 'sweetalert2';
 import { Category } from '../../models/policies';
-
 
 @Component({
   selector: 'hcm-list-category',
   templateUrl: './list-category.component.html',
   styleUrls: ['./list-category.component.scss'],
-  providers: [RxState, TuiDestroyService]
+  providers: [RxState, TuiDestroyService],
 })
 export class ListCategoryComponent extends AbstractServerSortPaginationTableComponent<Category> {
   @ViewChild('table') table!: BaseComponent;
@@ -37,7 +31,7 @@ export class ListCategoryComponent extends AbstractServerSortPaginationTableComp
         { key: 'category', title: translate.category },
         { key: 'description', title: translate.description },
         { key: 'status', title: translate.status },
-        { key: 'action', title: translate.action, orderEnabled: false }
+        { key: 'action', title: translate.action, orderEnabled: false },
       ])
     );
   readonly form = new FormGroup<Partial<Category>>({});
@@ -50,8 +44,8 @@ export class ListCategoryComponent extends AbstractServerSortPaginationTableComp
         required: true,
         translate: true,
         label: 'name',
-        textfieldLabelOutside: true
-      }
+        textfieldLabelOutside: true,
+      },
     },
     {
       key: 'status',
@@ -60,7 +54,7 @@ export class ListCategoryComponent extends AbstractServerSortPaginationTableComp
       templateOptions: {
         translate: true,
         label: 'status',
-        textfieldLabelOutside: true
+        textfieldLabelOutside: true,
       },
       hooks: {
         onInit: (field) => {
@@ -70,8 +64,8 @@ export class ListCategoryComponent extends AbstractServerSortPaginationTableComp
               startWith(field.formControl.value as boolean),
               switchMap((value) => this.translocoService.selectTranslate(value ? 'active' : 'deactivate'))
             );
-        }
-      }
+        },
+      },
     },
     {
       key: 'description',
@@ -79,9 +73,9 @@ export class ListCategoryComponent extends AbstractServerSortPaginationTableComp
       templateOptions: {
         translate: true,
         label: 'description',
-        textfieldLabelOutside: true
-      }
-    }
+        textfieldLabelOutside: true,
+      },
+    },
   ];
   private readonly request$ = this.queryParams$.pipe(
     switchMap(() => this.knowledgeBaseService.getCategories(this.queryParams$.value).pipe(startWith(null))),
@@ -112,7 +106,7 @@ export class ListCategoryComponent extends AbstractServerSortPaginationTableComp
     else this.model = {};
     this.dialogService
       .open(content, {
-        label: this.translocoService.translate(id ? 'editCategory' : 'addCategory')
+        label: this.translocoService.translate(id ? 'editCategory' : 'addCategory'),
       })
       .subscribe();
   }
@@ -124,9 +118,11 @@ export class ListCategoryComponent extends AbstractServerSortPaginationTableComp
       this.model.status = this.model.status ? 1 : 0;
       this.knowledgeBaseService[this.model.id ? 'editCategory' : 'createCategory'](this.model)
         .pipe(takeUntil(this.destroy$))
-        .subscribe(this.promptService.handleResponse('addNewCategorySuccessfully', () =>
-          this.queryParams$.next(this.queryParams$.value)
-        ));
+        .subscribe(
+          this.promptService.handleResponse('addNewCategorySuccessfully', () =>
+            this.queryParams$.next(this.queryParams$.value)
+          )
+        );
     }
   }
 
