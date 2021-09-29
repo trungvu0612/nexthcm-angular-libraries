@@ -106,7 +106,7 @@ export class EmployeeManagementComponent
       })
       .pipe(
         switchMap((data) => this.adminEmployeesService.initEmployee(data)),
-        tap((res) => this.router.navigate([res.data.id, 'edit'], { relativeTo: this.activatedRoute })),
+        tap((res) => this.router.navigate([res.data.id], { relativeTo: this.activatedRoute })),
         takeUntil(this.destroy$)
       )
       .subscribe(this.promptService.handleResponse(''));

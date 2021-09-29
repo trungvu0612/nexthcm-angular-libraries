@@ -6,6 +6,7 @@
   "createTenantSuccessfully": "<b<Tạo tenant thành công!</b>",
   "updateTenantSuccessfully": "<b<Cập nhật tenant thành công!</b>",
   "searchTenant": "Tìm kiếm Tenant...",
+  "organizationalLevel": "Cấp tổ chức",
   "TABLE_COLUMNS": {
     "name": "Tên",
     "tenantCode": "Mã Tenant",
@@ -31,7 +32,7 @@
   "enterDomain": "Nhập tên miền...",
   "addOrganizationalUnit": "Thêm đơn vị tổ chức",
   "editOrganizationalUnit": "Sửa đơn vị tổ chức",
-  "deleteOrganizationalUnit": "Bạn thật sự muốn xoá đơn vị tổ chức này?",
+  "deleteOrganizationalUnit": "<b>Bạn thật sự muốn xoá đơn vị tổ chức này?</b>",
   "chooseParentLevel": "Chọn cấp trên",
   "searchDomains": "Tìm tên miền...",
   "addDomain": "Thêm tên miền",
@@ -39,5 +40,11 @@
   "addDomainSuccessfully": "<b>Thêm tên miền thành công!</b>",
   "editDomainSuccessfully": "<b>Sửa tên miền thành công!</b>",
   "chooseAnImage": "Chọn hình ảnh",
-  "orDropItHere": "hoặc kéo thả vào đây"
+  "orDropItHere": "hoặc kéo thả vào đây",
+  "removeDomain": "<b>Bạn thật sự muốn xoá tên miền này?</b>",
+  "removeDomainSuccessfully": "<b>Xoá tên miền thành công!</b>",
+  "addOrganizationalLevel": "Thêm cấp tổ chức",
+  "editOrganizationalLevel": "Sửa cấp tổ chức",
+  "chooseOrganizationalLevel": "Chọn cấp tổ chức",
+  "parentLevel": "Cấp trên"
 }

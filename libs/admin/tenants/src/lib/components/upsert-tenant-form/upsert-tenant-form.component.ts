@@ -317,6 +317,7 @@ export class UpsertTenantFormComponent {
       ],
     },
     { key: 'id' },
+    { key: 'addressId' },
     { key: 'hasLDAPUser' },
   ];
 

@@ -6,6 +6,7 @@
   "createTenantSuccessfully": "<b>Create tenant successfully!</b>",
   "updateTenantSuccessfully": "<b>Update tenant successfully!</b>",
   "searchTenant": "Search Tenant...",
+  "organizationalLevel": "Organizational level",
   "TABLE_COLUMNS": {
     "name": "Name",
     "tenantCode": "Tenant code",
@@ -39,5 +40,11 @@
   "addDomainSuccessfully": "<b>Add new domain successfully!</b>",
   "editDomainSuccessfully": "<b>Edit this domain successfully!</b>",
   "chooseAnImage": "Choose an image",
-  "orDropItHere": "or drop it here"
+  "orDropItHere": "or drop it here",
+  "removeDomain": "<b>Are you sure you want to remove this domain?</b>",
+  "removeDomainSuccessfully": "<b>Remove the domain successfully!</b>",
+  "addOrganizationalLevel": "Add organizational level",
+  "editOrganizationalLevel": "Edit organizational level",
+  "chooseOrganizationalLevel": "Choose a organizational level",
+  "parentLevel": "Parent Level"
 }
