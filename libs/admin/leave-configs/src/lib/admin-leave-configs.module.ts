@@ -15,6 +15,7 @@ import {
   MenuItem,
 } from '@nexthcm/ui';
 import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
+import { FormlyModule } from '@ngx-formly/core';
 import { TuiTablePaginationModule } from '@taiga-ui/addon-table';
 import { TuiLetModule } from '@taiga-ui/cdk';
 import { TuiButtonModule, TuiLoaderModule } from '@taiga-ui/core';
@@ -101,6 +102,7 @@ const TABS: MenuItem[] = [
     BaseFormComponentModule,
     TuiLetModule,
     AkitaNgEffectsModule.forFeature([WorkflowsEffects]),
+    FormlyModule,
   ],
   providers: [
     LeaveConfigsService,

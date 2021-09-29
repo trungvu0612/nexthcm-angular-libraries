@@ -10,7 +10,7 @@ import { BaseComponent, Columns } from 'ngx-easy-table';
 import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
 import { catchError, filter, map, share, startWith, switchMap } from 'rxjs/operators';
 import { WorkFromHomeRequest } from '../../../../models';
-import { MyTimeService, RequestTypeAPIUrlPath } from '../../../../services';
+import { MyTimeService } from '../../../../services';
 import { AbstractRequestListComponent } from '../../../shared/abstract-components/abstract-request-list.component';
 
 @Component({
@@ -24,7 +24,7 @@ export class MyWorkFromHomeRequestsComponent extends AbstractRequestListComponen
   @ViewChild('table') table!: BaseComponent;
 
   readonly userId = this.authService.get('userInfo', 'userId');
-  readonly requestTypeUrlPath = RequestTypeAPIUrlPath.workFromHome;
+  readonly requestTypeUrlPath = 'workFromHome';
   readonly columns$: Observable<Columns[]> = this.translocoService
     .selectTranslateObject('MY_TIME_REQUEST_LIST_COLUMNS', {}, (this.scope as ProviderScope).scope)
     .pipe(
@@ -48,7 +48,7 @@ export class MyWorkFromHomeRequestsComponent extends AbstractRequestListComponen
   ]).pipe(
     switchMap(() =>
       this.myTimeService
-        .getRequests<WorkFromHomeRequest>(RequestTypeAPIUrlPath.MyWorkFromHome, this.queryParams$.value)
+        .getRequests<WorkFromHomeRequest>('myWorkFromHome', this.queryParams$.value)
         .pipe(startWith(null))
     ),
     share()

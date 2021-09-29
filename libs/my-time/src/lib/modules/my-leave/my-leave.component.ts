@@ -12,7 +12,7 @@ import { BaseComponent, Columns } from 'ngx-easy-table';
 import { Observable, of } from 'rxjs';
 import { catchError, filter, map, share, startWith, switchMap, takeUntil } from 'rxjs/operators';
 import { LeaveRequest } from '../../models';
-import { MyTimeService, RequestTypeAPIUrlPath } from '../../services';
+import { MyTimeService } from '../../services';
 import { AbstractRequestListComponent } from '../shared/abstract-components/abstract-request-list.component';
 import { SubmitLeaveRequestDialogComponent } from './components/submit-leave-request-dialog/submit-leave-request-dialog.component';
 
@@ -25,7 +25,7 @@ import { SubmitLeaveRequestDialogComponent } from './components/submit-leave-req
 })
 export class MyLeaveComponent extends AbstractRequestListComponent<LeaveRequest> {
   @ViewChild('table') table!: BaseComponent;
-  readonly requestTypeUrlPath = RequestTypeAPIUrlPath.leave;
+  readonly requestTypeUrlPath = 'leave';
   readonly columns$: Observable<Columns[]> = this.translocoService
     .selectTranslateObject('MY_LEAVE_TABLE_COLUMNS', {}, (this.scope as ProviderScope).scope)
     .pipe(
@@ -45,9 +45,7 @@ export class MyLeaveComponent extends AbstractRequestListComponent<LeaveRequest>
     );
   private readonly request$ = this.queryParams$.pipe(
     switchMap(() =>
-      this.myTimeService
-        .getRequests<LeaveRequest>(RequestTypeAPIUrlPath.MyLeave, this.queryParams$.value)
-        .pipe(startWith(null))
+      this.myTimeService.getRequests<LeaveRequest>('myLeave', this.queryParams$.value).pipe(startWith(null))
     ),
     share()
   );
