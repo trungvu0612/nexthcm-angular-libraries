@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@ngneat/reactive-forms';
 import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
@@ -15,16 +15,17 @@ import { AdminUserRolesService } from '../../services/admin-user-roles.service';
   styleUrls: ['./upsert-user-roles.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class UpsertUserRolesComponent implements OnInit {
+export class UpsertUserRolesComponent implements OnInit, AfterViewInit {
   params$ = new BehaviorSubject<{ page?: number; size?: number }>({ size: 100 });
   permissions$: Observable<Policy[]> = this.adminUserRolesService
     .getPermissions(this.params$.value)
     .pipe(map((data) => data.items));
 
-  //After view init
-  readonly arrayTemp: never[] = [];
-  readonly count = 0;
-  private removeArray = [];
+  dataTable = this.context.data;
+
+  arrayTemp: never[] = [];
+  count = 0;
+  removeArray = [];
 
   readonly adminUserRoleForm = new FormGroup({});
   model: Partial<AdminUserRole> = {};
@@ -101,8 +102,13 @@ export class UpsertUserRolesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.context.data) {
-      this.model = { ...this.model, ...this.context.data };
+    if (this.dataTable) {
+      this.adminUserRolesService.getAdminUserRolesId(this.dataTable).subscribe((item) => {
+        this.model = { ...this.model, ...item.data };
+
+        this.arrayTemp = item.data.policies;
+        this.count = item.data.policies.length;
+      });
     }
   }
 

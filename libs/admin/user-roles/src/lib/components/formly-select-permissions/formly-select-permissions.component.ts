@@ -1,10 +1,10 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { TranslocoService } from '@ngneat/transloco';
 import { FieldType } from '@ngx-formly/core';
 import { TuiContextWithImplicit, TuiIdentityMatcher, TuiStringHandler } from '@taiga-ui/cdk';
 import { Columns, Config, DefaultConfig } from 'ngx-easy-table';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, startWith } from 'rxjs/operators';
 import { Item } from '../../models/admin-user-role';
 
 @Component({
@@ -13,7 +13,7 @@ import { Item } from '../../models/admin-user-role';
   styleUrls: ['./formly-select-permissions.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FormlySelectPermissionsComponent extends FieldType {
+export class FormlySelectPermissionsComponent extends FieldType implements OnInit {
   configuration: Config = {
     ...DefaultConfig,
     paginationEnabled: false,
@@ -32,9 +32,14 @@ export class FormlySelectPermissionsComponent extends FieldType {
         { key: 'functions', title: result.functions },
       ])
     );
+  valueChange$!: Observable<Item[]>;
 
   constructor(private translocoService: TranslocoService) {
     super();
+  }
+
+  ngOnInit() {
+    this.valueChange$ = this.formControl.valueChanges.pipe(startWith(this.formControl.value as Item[]));
   }
 
   item = (item: any) => item;
