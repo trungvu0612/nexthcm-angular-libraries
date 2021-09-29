@@ -3,9 +3,11 @@ import { Actions } from '@datorama/akita-ng-effects';
 import { JobTitlesQuery, loadJobTitles } from '@nexthcm/cdk';
 import { FormBuilder } from '@ngneat/reactive-forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
+import { TUI_DEFAULT_STRINGIFY } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
-import { map } from 'rxjs/operators';
+import { iif, of } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 import { AbstractAddOptionToTransitionComponent } from '../../abstract-components/abstract-add-option-to-transition.component';
 import { ConditionType } from '../../enums';
 import { TransitionCondition, TransitionOptionsDialogData } from '../../models';
@@ -39,17 +41,24 @@ export class AddConditionToTransitionDialogComponent extends AbstractAddOptionTo
       },
     },
     {
-      key: 'values',
+      key: 'permissions',
       className: 'tui-form__row block',
       type: 'multi-select-search',
       templateOptions: {
         translate: true,
         label: 'permissions',
         labelClassName: 'font-semibold',
-        placeholder: 'searchPermissions',
         textfieldLabelOutside: true,
+        placeholder: 'searchPermissions',
         required: true,
-        serverRequest: (searchQuery: string) => this.adminWorkflowsService.getPermissions(searchQuery),
+        stringify: TUI_DEFAULT_STRINGIFY,
+        objectValue: false,
+        serverRequest: (searchQuery: string) =>
+          of(searchQuery).pipe(
+            switchMap((searchQuery) =>
+              iif(() => searchQuery.length > 2, this.adminWorkflowsService.getPermissions(searchQuery), of([]))
+            )
+          ),
       },
       hideExpression: (model: TransitionCondition) => model.conditionType?.code !== ConditionType.Permission,
     },

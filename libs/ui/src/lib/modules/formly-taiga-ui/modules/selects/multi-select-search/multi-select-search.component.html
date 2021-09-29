@@ -19,7 +19,7 @@
         tuiElement
         *ngFor="let item of items"
         [disabled]="!!item.disabled"
-        [value]="to.valueProp ? item[to.valueProp] : item"
+        [value]="to.objectValue ? item[to.valueProp] : item"
         tuiOption
       >
         <span
@@ -28,7 +28,7 @@
           class="content"
           polymorpheus-outlet
         ></span>
-        <ng-template #itemContent>{{ item[to.labelProp] }}</ng-template>
+        <ng-template #itemContent>{{ to.objectValue ? item[to.labelProp]: item }}</ng-template>
       </button>
     </tui-data-list>
   </ng-template>

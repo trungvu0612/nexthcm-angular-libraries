@@ -76,6 +76,7 @@ export class UpsertEmailTemplateDialogComponent implements OnInit {
         required: true,
         quillModules: { toolbar: false },
         onTextChange: (value: string) => this.form.controls.subject.setValue(value),
+        maxLength: 255,
       },
     },
     { key: 'subject' },

@@ -94,7 +94,7 @@ export class UpsertWorkflowComponent implements OnInit {
     switchMap((payload) =>
       this.workflowService
         .upsertWorkflow(this.workflowId, payload)
-        .pipe(tap(this.promptService.handleResponse('updateWorkflowSuccessfully')), startWith(null))
+        .pipe(tap(this.promptService.handleResponse('WORKFLOW.updateWorkflowSuccessfully')), startWith(null))
     ),
     share()
   );
@@ -205,7 +205,7 @@ export class UpsertWorkflowComponent implements OnInit {
   onUpsertTransition(transition?: Transition, isNew = true): void {
     this.dialogService
       .open<Transition>(new PolymorpheusComponent(UpsertTransitionDialogComponent, this.injector), {
-        label: this.translocoService.translate(isNew ? 'createNewTransition' : 'editTransition'),
+        label: this.translocoService.translate(isNew ? 'WORKFLOW.createNewTransition' : 'WORKFLOW.editTransition'),
         data: {
           addedStatuses: dictionaryToArray(this.addedStatuses),
           transition,
@@ -349,7 +349,7 @@ export class UpsertWorkflowComponent implements OnInit {
 
   private openUpsertStatusDialog(status: Status): Observable<Status> {
     return this.dialogService.open<Status>(new PolymorpheusComponent(UpsertStatusDialogComponent, this.injector), {
-      label: this.translocoService.translate(status.id ? 'editStatus' : 'createNewStatus'),
+      label: this.translocoService.translate(status.id ? 'WORKFLOW.editStatus' : 'WORKFLOW.createNewStatus'),
       data: status,
     });
   }
@@ -389,11 +389,11 @@ export class UpsertWorkflowComponent implements OnInit {
     let newStatus: Status | null = null;
 
     if (newTransition.fromStateId === value.previousId) {
-      changeTransitionMessage = 'changeSourceOfTransition';
+      changeTransitionMessage = 'WORKFLOW.chaWORKFLOW.ngeSourceOfTransition';
       newStatus = addedStatuses[value.sourceId];
       newTransition.fromStateId = value.sourceId;
     } else if (newTransition.toStateId === value.previousId) {
-      changeTransitionMessage = 'changeTargetOfTransition';
+      changeTransitionMessage = 'WORKFLOW.changeTargetOfTransition';
       newStatus = addedStatuses[value.targetId];
       newTransition.toStateId = value.targetId;
     }
@@ -422,7 +422,7 @@ export class UpsertWorkflowComponent implements OnInit {
 
   private handleRemoveTransition(transitionId: string): void {
     if (this.isInitialTransition(transitionId)) {
-      this.promptService.open({ icon: 'error', html: this.translocoService.translate('readonlyTransition') });
+      this.promptService.open({ icon: 'error', html: this.translocoService.translate('WORKFLOW.readonlyTransition') });
     } else {
       this.deleteTransitions$.next([transitionId]);
       this.workflowDesigner.apiEvent({ type: WorkflowAPI.removeTransition, value: transitionId });
@@ -442,7 +442,7 @@ export class UpsertWorkflowComponent implements OnInit {
     const isInitialStatus = relatedTransitions.some((transitionId) => this.isInitialTransition(transitionId));
 
     if (isInitialStatus) {
-      this.promptService.open({ icon: 'error', html: this.translocoService.translate('readonlyStatus') });
+      this.promptService.open({ icon: 'error', html: this.translocoService.translate('WORKFLOW.readonlyStatus') });
     } else {
       this.deleteStatus$.next(statusId);
       this.deleteTransitions$.next(relatedTransitions);

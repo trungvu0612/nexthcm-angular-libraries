@@ -2,10 +2,11 @@ import { ChangeDetectionStrategy, Component, Inject, OnInit, ViewChild } from '@
 import { BaseUser } from '@nexthcm/cdk';
 import { FormBuilder, FormControl } from '@ngneat/reactive-forms';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
-import { TuiDestroyService } from '@taiga-ui/cdk';
+import { TUI_DEFAULT_STRINGIFY, TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT, PolymorpheusTemplate } from '@tinkoff/ng-polymorpheus';
-import { map, startWith, takeUntil } from 'rxjs/operators';
+import { iif, of } from 'rxjs';
+import { map, startWith, switchMap, takeUntil } from 'rxjs/operators';
 import { AbstractAddOptionToTransitionComponent } from '../../abstract-components/abstract-add-option-to-transition.component';
 import { ValidatorType } from '../../enums';
 import { TransitionOption, TransitionOptionsDialogData, TransitionValidator } from '../../models';
@@ -27,7 +28,6 @@ export class AddValidatorToTransitionDialogComponent
 
   fields!: FormlyFieldConfig[];
   readonly userContext!: { $implicit: BaseUser };
-  model = { values: [{}] } as TransitionValidator;
   options: FormlyFormOptions = {
     formState: {
       validatorTypeCode: undefined,
@@ -74,44 +74,59 @@ export class AddValidatorToTransitionDialogComponent
       {
         key: 'values',
         className: 'tui-form__row block',
-        type: 'field-array-single-item',
-        fieldArray: {
-          fieldGroup: [
-            {
-              key: 'users',
-              className: 'tui-form__row block',
-              type: 'multi-select-search',
-              templateOptions: {
-                translate: true,
-                label: 'users',
-                labelClassName: 'font-semibold',
-                textfieldLabelOutside: true,
-                placeholder: 'searchUsers',
-                required: true,
-                serverRequest: (searchQuery: string) => this.adminWorkflowsService.getUsers(searchQuery),
-                customContent: this.userContent,
-              },
-              hideExpression: (model, formState) => formState.validatorTypeCode !== ValidatorType.UserPermission,
+        fieldGroup: [
+          {
+            key: 'users',
+            className: 'tui-form__row block',
+            type: 'multi-select-search',
+            templateOptions: {
+              translate: true,
+              label: 'users',
+              labelClassName: 'font-semibold',
+              textfieldLabelOutside: true,
+              placeholder: 'searchUsers',
+              required: true,
+              serverRequest: (searchQuery: string) => this.adminWorkflowsService.getUsers(searchQuery),
+              customContent: this.userContent,
             },
-            {
-              key: 'permissions',
-              className: 'tui-form__row block',
-              type: 'multi-select-search',
-              templateOptions: {
-                translate: true,
-                label: 'permissions',
-                labelClassName: 'font-semibold',
-                textfieldLabelOutside: true,
-                placeholder: 'searchPermissions',
-                required: true,
-                serverRequest: (searchQuery: string) => this.adminWorkflowsService.getPermissions(searchQuery),
-              },
-              hideExpression: (model, formState) =>
-                ![ValidatorType.Permission, ValidatorType.UserPermission].includes(formState.validatorTypeCode),
+            hideExpression: (model, formState) => formState.validatorTypeCode !== ValidatorType.UserPermission,
+          },
+          {
+            key: 'permissions',
+            className: 'tui-form__row block',
+            type: 'multi-select-search',
+            templateOptions: {
+              translate: true,
+              label: 'permissions',
+              labelClassName: 'font-semibold',
+              textfieldLabelOutside: true,
+              placeholder: 'searchPermissions',
+              required: true,
+              stringify: TUI_DEFAULT_STRINGIFY,
+              objectValue: false,
+              serverRequest: (searchQuery: string) =>
+                of(searchQuery).pipe(
+                  switchMap((searchQuery) =>
+                    iif(() => searchQuery.length > 2, this.adminWorkflowsService.getPermissions(searchQuery), of([]))
+                  )
+                ),
             },
-          ],
-        },
+            hideExpression: (model, formState) =>
+              ![ValidatorType.Permission, ValidatorType.UserPermission].includes(formState.validatorTypeCode),
+          },
+        ],
       },
     ];
+  }
+
+  onSubmit(): void {
+    if (this.form.valid) {
+      const formModel = { ...this.form.value };
+
+      if (!formModel.values.users) {
+        formModel.values.users = [];
+      }
+      this.context.completeWith(formModel);
+    }
   }
 }

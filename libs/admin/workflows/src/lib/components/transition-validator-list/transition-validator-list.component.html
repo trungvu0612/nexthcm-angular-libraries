@@ -16,28 +16,26 @@
       <ng-container *tuiLet="item(row) as item">
         <td>{{ t(item.validatorType.name) }}</td>
         <td>
-          <ng-container *ngIf="item.values[0] as value">
-            <ng-container *ngIf="value.permissions?.length as hasPermissions">
-              <p>{{ t(item.validatorType.description) }}<span *ngIf="hasPermissions">:</span></p>
-              <ul *ngIf="hasPermissions" class="tui-list tui-list_small">
-                <li *ngIf="value.users?.length" class="tui-list__item">
-                  {{ t('users') }}:
-                  <b>
-                    <span *ngFor="let user of value.users; last as isLast"
-                      >{{ user.name }}<span *ngIf="!isLast">, </span>
-                    </span>
-                  </b>
-                </li>
-                <li class="tui-list__item">
-                  {{ t('permissions') }}:
-                  <b>
-                    <span *ngFor="let permission of value.permissions; last as isLast"
-                      >{{ permission.name }}<span *ngIf="!isLast">, </span>
-                    </span>
-                  </b>
-                </li>
-              </ul>
-            </ng-container>
+          <ng-container *ngIf="item.values.permissions?.length as hasPermissions">
+            <p>{{ t(item.validatorType.description) }}<span *ngIf="hasPermissions">:</span></p>
+            <ul *ngIf="hasPermissions" class="tui-list tui-list_small">
+              <li *ngIf="item.values.users?.length" class="tui-list__item">
+                {{ t('users') }}:
+                <b>
+                  <span *ngFor="let user of item.values.users; last as isLast"
+                    >{{ user.name }}<span *ngIf="!isLast">, </span>
+                  </span>
+                </b>
+              </li>
+              <li class="tui-list__item">
+                {{ t('permissions') }}:
+                <b>
+                  <span *ngFor="let permission of item.values.permissions; last as isLast"
+                    >{{ permission }}<span *ngIf="!isLast">, </span>
+                  </span>
+                </b>
+              </li>
+            </ul>
           </ng-container>
         </td>
         <td>

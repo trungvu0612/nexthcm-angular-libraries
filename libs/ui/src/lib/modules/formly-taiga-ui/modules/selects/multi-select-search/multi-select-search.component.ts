@@ -18,6 +18,7 @@ export class MultiSelectSearchComponent extends FieldType {
       labelProp: 'name',
       identityMatcher: TUI_DEFAULT_IDENTITY_MATCHER,
       stringify: (item: any) => item.name,
+      objectValue: true,
     },
   };
   readonly search$ = new Subject<string | null>();

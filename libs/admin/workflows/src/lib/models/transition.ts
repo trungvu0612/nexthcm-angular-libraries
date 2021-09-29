@@ -23,7 +23,7 @@ export interface TransitionCondition {
 
 export interface TransitionValidator {
   validatorType: TransitionOption<ValidatorType>;
-  values: [{ users: BaseObject[]; permissions: BaseObject[] }];
+  values: { users: BaseObject[]; permissions: string[] };
 }
 
 export interface TransitionPostFunction {

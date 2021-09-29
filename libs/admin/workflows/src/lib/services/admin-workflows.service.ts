@@ -102,9 +102,9 @@ export class AdminWorkflowsService {
     );
   }
 
-  getPermissions(searchQuery: string): Observable<BaseObject[]> {
+  getPermissions(searchQuery: string): Observable<string[]> {
     return this.http
-      .get<BaseObject[]>(`${ACCOUNT_API_PATH}/permissions/search?name=${searchQuery}`)
+      .get<string[]>(`${ACCOUNT_API_PATH}/permissions/search?name=${searchQuery}`)
       .pipe(catchError(() => of([])));
   }
 
