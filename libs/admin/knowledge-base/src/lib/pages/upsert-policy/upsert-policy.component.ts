@@ -39,8 +39,8 @@ export class UpsertPolicyComponent implements OnInit {
         {
           key: 'status',
           type: 'toggle',
+          defaultValue: true,
           templateOptions: {
-            required: true,
             translate: true,
             description: 'ADMIN_POLICIES.POLICIES_MANAGEMENT_COLUMNS.status',
           },

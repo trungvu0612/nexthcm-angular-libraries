@@ -62,7 +62,7 @@ export class MyTimeService {
   }
 
   getRequests<T>(type: RequestTypeAPIUrlPath, params: HttpParams): Observable<Pagination<T>> {
-    return this.http.get<PagingResponse<T>>(`${MY_TIME_API_PATH}/${type}`, { params }).pipe(map((res) => res.data));
+    return this.http.get<PagingResponse<T>>(`${MY_TIME_API_PATH}/${type}/me`, { params }).pipe(map((res) => res.data));
   }
 
   submitRequest(type: RequestTypeAPIUrlPath, payload: SubmitRequestPayload): Observable<unknown> {
