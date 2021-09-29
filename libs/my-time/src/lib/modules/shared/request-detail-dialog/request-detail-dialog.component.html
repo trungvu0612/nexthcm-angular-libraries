@@ -211,23 +211,15 @@
 
         <ng-template tuiAccordionItemContent>
           <ng-container *ngIf="tracking$ | async as trackings">
-            <ng-container *ngFor="let tracking of trackings">
-              <p>
-                <span class="text-blue-500">{{ tracking.authorUsername }}</span>
-                {{ t('updatedStatusTo') }}
-                <tui-tag
-                  [value]="t('REQUEST_STATUS.' + RequestStatus[tracking.right])"
-                  class="{{ RequestStatus[tracking.right] }}-tag"
-                ></tui-tag>
-                <span class="text-gray-300">&nbsp;{{ tracking.time | date: 'dd/MM/yyyy HH:mm' }}</span>
-              </p>
-              <p *ngIf="+tracking.right === 0">
-                <span class="text-blue-500">{{ tracking.authorUsername }}&nbsp;</span>
-                <span>{{ t('created') }}&nbsp;</span>
-                <span>{{ t('myTime.' + requestTypeAPIUrlPath) }}</span>
-                <span class="text-gray-300">&nbsp;{{ tracking.time | date: 'dd/MM/yyyy HH:mm' }}</span>
-              </p>
-            </ng-container>
+            <p *ngFor="let tracking of trackings">
+              <span class="text-blue-500">{{ tracking.authorUsername }}</span>
+              {{ t('updatedStatusTo') }}
+              <tui-tag
+                [value]="t('REQUEST_STATUS.' + RequestStatus[tracking.right])"
+                class="{{ RequestStatus[tracking.right] }}-tag"
+              ></tui-tag>
+              <span class="text-gray-300">&nbsp;{{ tracking.time | date: 'dd/MM/yyyy HH:mm' }}</span>
+            </p>
           </ng-container>
         </ng-template>
       </tui-accordion-item>

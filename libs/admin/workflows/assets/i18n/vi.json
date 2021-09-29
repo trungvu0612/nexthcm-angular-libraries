@@ -95,6 +95,7 @@
   "searchStatusOrNameNewOne": "Tìm kiếm trạng thái hiện có hoặc đặt tên cho trạng thái mới.",
   "removeWorkflowSuccessfully": "<b>Xoá quy trình thành công!</b>",
   "allowAllStatus": "Cho phép tất cả trạng thái khác chuyển tiếp đến trạng thái này",
+  "conditions": "Điều kiện",
   "readonlyStatus": "Trạng thái khởi đầu không thể bị xoá.",
   "readonlyTransition": "Chuyển tiếp khởi đầu không thể bị xoá.",
   "validators": "Trình xác thực",
