@@ -49,7 +49,7 @@ export class MyWorkingAfterHoursRequestsComponent extends AbstractRequestListCom
   ]).pipe(
     switchMap(() =>
       this.myTimeService
-        .getRequests<WorkingAfterHoursRequest>(this.requestTypeUrlPath, this.queryParams$.value)
+        .getRequests<WorkingAfterHoursRequest>(RequestTypeAPIUrlPath.MyWorkingAfterHours, this.queryParams$.value)
         .pipe(startWith(null))
     ),
     share()

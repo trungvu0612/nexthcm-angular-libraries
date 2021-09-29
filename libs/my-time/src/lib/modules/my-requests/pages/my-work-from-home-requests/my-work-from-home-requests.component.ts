@@ -48,7 +48,7 @@ export class MyWorkFromHomeRequestsComponent extends AbstractRequestListComponen
   ]).pipe(
     switchMap(() =>
       this.myTimeService
-        .getRequests<WorkFromHomeRequest>(this.requestTypeUrlPath, this.queryParams$.value)
+        .getRequests<WorkFromHomeRequest>(RequestTypeAPIUrlPath.MyWorkFromHome, this.queryParams$.value)
         .pipe(startWith(null))
     ),
     share()

@@ -53,7 +53,7 @@ export class MyUpdateTimesheetRequestsComponent extends AbstractRequestListCompo
   private readonly request$ = this.queryParams$.pipe(
     switchMap(() =>
       this.myTimeService
-        .getRequests<UpdateTimesheetRequest>(this.requestTypeUrlPath, this.queryParams$.value)
+        .getRequests<UpdateTimesheetRequest>(RequestTypeAPIUrlPath.MyUpdateTimesheet, this.queryParams$.value)
         .pipe(startWith(null))
     ),
     share()

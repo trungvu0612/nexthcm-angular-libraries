@@ -22,9 +22,13 @@ import { RequestDetailDialogComponent } from '../modules/shared/request-detail-d
 export enum RequestTypeAPIUrlPath {
   MyLeave = 'leaves/me' as any,
   leave = 'leaves' as any,
+  MyWorkingAfterHours = 'ot-requests/me' as any,
   workingAfterHours = 'ot-requests' as any,
+  MyUpdateTimesheet = 'timesheet-updates/me' as any,
   updateTimesheet = 'timesheet-updates' as any,
+  MyWorkingOutside = 'outside/me' as any,
   workingOutside = 'outside' as any,
+  MyWorkFromHome = 'wfh/me' as any,
   workFromHome = 'wfh' as any,
 }
 
@@ -62,7 +66,7 @@ export class MyTimeService {
   }
 
   getRequests<T>(type: RequestTypeAPIUrlPath, params: HttpParams): Observable<Pagination<T>> {
-    return this.http.get<PagingResponse<T>>(`${MY_TIME_API_PATH}/${type}/me`, { params }).pipe(map((res) => res.data));
+    return this.http.get<PagingResponse<T>>(`${MY_TIME_API_PATH}/${type}`, { params }).pipe(map((res) => res.data));
   }
 
   submitRequest(type: RequestTypeAPIUrlPath, payload: SubmitRequestPayload): Observable<unknown> {

@@ -48,7 +48,7 @@ export class MyWorkingOutsideRequestsComponent extends AbstractRequestListCompon
   ]).pipe(
     switchMap(() =>
       this.myTimeService
-        .getRequests<WorkingOutsideRequest>(this.requestTypeUrlPath, this.queryParams$.value)
+        .getRequests<WorkingOutsideRequest>(RequestTypeAPIUrlPath.MyWorkingOutside, this.queryParams$.value)
         .pipe(startWith(null))
     ),
     share()
