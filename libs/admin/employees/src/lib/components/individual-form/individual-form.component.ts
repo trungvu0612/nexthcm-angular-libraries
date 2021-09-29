@@ -39,7 +39,7 @@ export class IndividualFormComponent {
         {
           fieldGroup: [
             {
-              key: 'permanentAddressPersonal',
+              key: 'permanentAddress',
               className: 'tui-form__row block',
               fieldGroup: [
                 {
@@ -85,9 +85,7 @@ export class IndividualFormComponent {
                       },
                       hooks: {
                         onInit: (field) => {
-                          const countryControl = this.form.get(
-                            'permanentAddressPersonal.countryId'
-                          ) as FormControl<string>;
+                          const countryControl = this.form.get('permanentAddress.countryId') as FormControl<string>;
                           if (field?.templateOptions && countryControl) {
                             field.templateOptions.options = countryControl.valueChanges.pipe(
                               tap(() => field.formControl?.setValue(null)),
@@ -118,7 +116,7 @@ export class IndividualFormComponent {
                       },
                       hooks: {
                         onInit: (field) => {
-                          const cityControl = this.form.get('permanentAddressPersonal.cityId') as FormControl<string>;
+                          const cityControl = this.form.get('permanentAddress.cityId') as FormControl<string>;
                           if (field?.templateOptions && cityControl)
                             field.templateOptions.options = cityControl.valueChanges.pipe(
                               tap(() => field.formControl?.setValue(null)),
@@ -142,9 +140,7 @@ export class IndividualFormComponent {
                       },
                       hooks: {
                         onInit: (field) => {
-                          const districtCtrl = this.form.get(
-                            'permanentAddressPersonal.districtId'
-                          ) as FormControl<string>;
+                          const districtCtrl = this.form.get('permanentAddress.districtId') as FormControl<string>;
                           if (field?.templateOptions && districtCtrl)
                             field.templateOptions.options = districtCtrl.valueChanges.pipe(
                               tap(() => field.formControl?.setValue(null)),
@@ -174,7 +170,7 @@ export class IndividualFormComponent {
               ],
             },
             {
-              key: 'temporaryAddressPersonal',
+              key: 'temporaryAddress',
               className: 'tui-form__row block',
               fieldGroup: [
                 {
@@ -220,9 +216,7 @@ export class IndividualFormComponent {
                       },
                       hooks: {
                         onInit: (field) => {
-                          const countryControl = this.form.get(
-                            'temporaryAddressPersonal.countryId'
-                          ) as FormControl<string>;
+                          const countryControl = this.form.get('temporaryAddress.countryId') as FormControl<string>;
                           if (field?.templateOptions && countryControl) {
                             field.templateOptions.options = countryControl.valueChanges.pipe(
                               tap(() => field.formControl?.setValue(null)),
@@ -253,7 +247,7 @@ export class IndividualFormComponent {
                       },
                       hooks: {
                         onInit: (field) => {
-                          const cityControl = this.form.get('temporaryAddressPersonal.cityId') as FormControl<string>;
+                          const cityControl = this.form.get('temporaryAddress.cityId') as FormControl<string>;
                           if (field?.templateOptions && cityControl)
                             field.templateOptions.options = cityControl.valueChanges.pipe(
                               tap(() => field.formControl?.setValue(null)),
@@ -277,9 +271,7 @@ export class IndividualFormComponent {
                       },
                       hooks: {
                         onInit: (field) => {
-                          const districtCtrl = this.form.get(
-                            'temporaryAddressPersonal.districtId'
-                          ) as FormControl<string>;
+                          const districtCtrl = this.form.get('temporaryAddress.districtId') as FormControl<string>;
                           if (field?.templateOptions && districtCtrl)
                             field.templateOptions.options = districtCtrl.valueChanges.pipe(
                               tap(() => field.formControl?.setValue(null)),

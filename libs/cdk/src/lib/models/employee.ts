@@ -40,8 +40,8 @@ export interface BankAccount {
 export interface EmployeeIndividual {
   employeeId: string;
   type: EmployeeInformationAPIType;
-  permanentAddressPersonal: EmployeeAddress;
-  temporaryAddressPersonal: EmployeeAddress;
+  permanentAddress: EmployeeAddress;
+  temporaryAddress: EmployeeAddress;
   gender: string;
   birthDate: string | TuiDay | Date;
   idNumber: number;

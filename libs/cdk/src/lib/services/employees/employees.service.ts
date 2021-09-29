@@ -53,7 +53,8 @@ export class EmployeesService {
             'probationDate',
             'emergencyContacts',
             'healthCares',
-            'addressPersonal',
+            'permanentAddress',
+            'temporaryAddress',
           ])
         )
       );
