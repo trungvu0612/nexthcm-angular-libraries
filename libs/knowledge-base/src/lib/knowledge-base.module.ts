@@ -35,7 +35,6 @@ export const KNOWLEDGE_BASE_ROUTES: Routes = [
       { path: '', pathMatch: 'full', redirectTo: 'summary' },
       { path: 'summary', component: KnowledgeBaseComponent },
       { path: 'updated', component: UpdatedComponent },
-      { path: 'category', component: CategoryComponent },
       { path: ':id', component: KnowledgeComponent },
     ],
   },
@@ -43,7 +42,6 @@ export const KNOWLEDGE_BASE_ROUTES: Routes = [
 const TABS: MenuItem[] = [
   { label: 'knowledgeBase', link: '/knowledge-base/summary', permissions: [] },
   { label: 'updated', link: '/knowledge-base/updated', permissions: [] },
-  { label: 'category', link: '/knowledge-base/category', permissions: [] },
 ];
 
 @NgModule({

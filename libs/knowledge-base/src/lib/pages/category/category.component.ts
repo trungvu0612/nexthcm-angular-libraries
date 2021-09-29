@@ -118,11 +118,10 @@ export class CategoryComponent extends AbstractServerSortPaginationTableComponen
       this.form.markAsUntouched();
       this.model.status = this.model.status ? 1 : 0;
       this.knowledgeBaseService[this.model.id ? 'editCategory' : 'createCategory'](this.model)
-        .pipe(
-          switchMap(() => this.promptService.open({ icon: 'success' } as SweetAlertOptions)),
-          takeUntil(this.destroy$)
-        )
-        .subscribe(() => this.queryParams$.next(this.queryParams$.value));
+        .pipe(takeUntil(this.destroy$))
+        .subscribe( this.promptService.handleResponse('addNewCategorySuccessfully', () =>
+          this.queryParams$.next(this.queryParams$.value)
+        ));
     }
   }
 
