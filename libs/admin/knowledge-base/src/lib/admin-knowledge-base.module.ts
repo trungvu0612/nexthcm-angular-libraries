@@ -3,7 +3,14 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Route, RouterModule } from '@angular/router';
 import { inlineLoaderFactory } from '@nexthcm/core';
-import { FormlyTaigaUiModule, InputFilterComponentModule, LayoutComponent, LayoutModule } from '@nexthcm/ui';
+import {
+  FormlyTaigaUiModule,
+  InputFilterComponentModule,
+  LayoutComponent,
+  LayoutModule,
+  HEADER_TABS,
+  MenuItem
+} from '@nexthcm/ui';
 import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
 import { FormlyModule } from '@ngx-formly/core';
 import { TuiTablePaginationModule } from '@taiga-ui/addon-table';
@@ -14,6 +21,7 @@ import { NgxPermissionsGuard } from 'ngx-permissions';
 import { AdminKnowledgeBaseService } from './admin-knowledge-base.service';
 import { ListPoliciesComponent } from './pages/list-policies/list-policies.component';
 import { UpsertPolicyComponent } from './pages/upsert-policy/upsert-policy.component';
+import { ListCategoryComponent } from './pages/list-category/list-category.component';
 
 export const adminKnowledgeBaseRoutes: Route[] = [
   {
@@ -22,21 +30,32 @@ export const adminKnowledgeBaseRoutes: Route[] = [
     canActivate: [NgxPermissionsGuard],
     data: { permissions: { only: 'VIEW_ADMIN_KNOWLEDGE', redirectTo: '/' } },
     children: [
-      { path: '', component: ListPoliciesComponent },
+      { path: '', pathMatch: 'full', redirectTo: 'knowledge' },
+      { path: 'knowledge', component: ListPoliciesComponent },
       {
-        path: 'add',
-        component: UpsertPolicyComponent,
-        canActivate: [NgxPermissionsGuard],
-        data: { permissions: { only: 'CREATE_ADMIN_KNOWLEDGE', redirectTo: '/' } },
+        path: 'category',
+        component: ListCategoryComponent,
+        canActivate: [NgxPermissionsGuard]
       },
       {
-        path: ':id/edit',
+        path: 'knowledge/add',
         component: UpsertPolicyComponent,
         canActivate: [NgxPermissionsGuard],
-        data: { permissions: { only: 'UPDATE_ADMIN_KNOWLEDGE', redirectTo: '/' } },
+        data: { permissions: { only: 'CREATE_ADMIN_KNOWLEDGE', redirectTo: '/' } }
       },
-    ],
-  },
+      {
+        path: 'knowledge/:id/edit',
+        component: UpsertPolicyComponent,
+        canActivate: [NgxPermissionsGuard],
+        data: { permissions: { only: 'UPDATE_ADMIN_KNOWLEDGE', redirectTo: '/' } }
+      }
+    ]
+  }
+];
+
+const TABS: MenuItem[] = [
+  { label: 'knowledgeBase', link: '/admin/knowledge-base/knowledge', permissions: [] },
+  { label: 'category', link: '/admin/knowledge-base/category', permissions: [] }
 ];
 
 @NgModule({
@@ -63,9 +82,11 @@ export const adminKnowledgeBaseRoutes: Route[] = [
       provide: TRANSLOCO_SCOPE,
       useValue: {
         scope: 'adminKnowledgeBase',
-        loader: inlineLoaderFactory((lang) => import(`../../assets/i18n/${lang}.json`)),
-      },
+        loader: inlineLoaderFactory((lang) => import(`../../assets/i18n/${lang}.json`))
+      }
     },
-  ],
+    { provide: HEADER_TABS, useValue: TABS }
+  ]
 })
-export class AdminKnowledgeBaseModule {}
+export class AdminKnowledgeBaseModule {
+}

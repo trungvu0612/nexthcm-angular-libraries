@@ -20,7 +20,7 @@ import { Tracking } from '../models/requests/tracking';
 import { RequestDetailDialogComponent } from '../modules/shared/request-detail-dialog/request-detail-dialog.component';
 
 export enum RequestTypeAPIUrlPath {
-  MyLeave = 'leaves/me' as any,
+  MyLeave = 'leaves' as any,
   leave = 'leaves' as any,
   workingAfterHours = 'ot-requests' as any,
   updateTimesheet = 'timesheet-updates' as any,

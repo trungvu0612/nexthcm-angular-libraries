@@ -1,1 +1,61 @@
-<p>list-category works!</p>
+<hcm-page [title]="('category' | transloco)">
+  <ng-container ngProjectAs='pageHeader'>
+    <button (click)='upsertCategory(content)' tuiButton>{{ ('addCategory' | transloco) }}</button>
+  </ng-container>
+  <tui-loader [overlay]='true' [showLoader]='(loading$ | async) === true'>
+    <ngx-table
+      #table
+      (event)='eventEmitted($event)'
+      [columns]='(columns$ | async) || []'
+      [configuration]='configuration'
+      [data]='(data$ | async) || []'
+    >
+      <ng-template let-row>
+        <ng-container *ngIf='item(row) as item'>
+          <td>{{ item.userCreatedBy?.username }}</td>
+          <td>{{ item.name }}</td>
+          <td>{{ item.description }}</td>
+          <td>
+            <tui-tag
+              [hoverable]='true'
+              [value]="(item.status === 1 ? ('active' | transloco) : ('deactivate'| transloco))"
+              class="{{ (item.status === 1 ? 'active' : 'deactivate') + '-tag' }}"
+            ></tui-tag>
+          </td>
+          <td class='flex gap-2'>
+            <button
+              (click)='upsertCategory(content, item.id)'
+              appearance='flat'
+              icon='tuiIconEditLarge'
+              size='m'
+              tuiIconButton
+            ></button>
+            <button
+              (click)='deleteCategory(item.id)'
+              appearance='flat'
+              icon='tuiIconTrashLarge'
+              size='m'
+              tuiIconButton
+            ></button>
+          </td>
+        </ng-container>
+      </ng-template>
+    </ngx-table>
+  </tui-loader>
+  <tui-table-pagination
+    (pageChange)='onPage($event)'
+    (sizeChange)='onSize($event)'
+    [total]='(total$ | async) || 0'
+  ></tui-table-pagination>
+</hcm-page>
+
+<ng-template #content let-observer>
+  <form (ngSubmit)='submitCategory(observer)' [formGroup]='$any(form)'>
+    <formly-form [fields]='fields' [form]='$any(form)' [model]='model' class='formly-gap'></formly-form>
+    <div class='flex justify-center gap-6 mt-8'>
+      <button (click)='observer.complete()' appearance='flat' tuiButton
+              type='button'>{{ ('cancel' | transloco) }}</button>
+      <button tuiButton>{{ ('save' | transloco) }}</button>
+    </div>
+  </form>
+</ng-template>

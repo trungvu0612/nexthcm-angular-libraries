@@ -30,6 +30,8 @@ import { LeaveApprovalLevelManagementComponent } from './pages/leave-approval-le
 import { LeaveEntitlementManagementComponent } from './pages/leave-entitlement-management/leave-entitlement-management.component';
 import { LeavePeriodManagementComponent } from './pages/leave-period-management/leave-period-management.component';
 import { LeaveTypeManagementComponent } from './pages/leave-type-management/leave-type-management.component';
+import { ListCategoryComponent } from '../../../knowledge-base/src/lib/pages/list-category/list-category.component';
+import { FormlyModule } from '@ngx-formly/core';
 
 export const adminLeaveTypesRoutes: Route[] = [
   {
@@ -83,6 +85,7 @@ const TABS: MenuItem[] = [
     LeavePeriodManagementComponent,
     LeaveEntitlementManagementComponent,
     LeaveApprovalLevelManagementComponent,
+    ListCategoryComponent
   ],
   imports: [
     CommonModule,
@@ -101,6 +104,8 @@ const TABS: MenuItem[] = [
     BaseFormComponentModule,
     TuiLetModule,
     AkitaNgEffectsModule.forFeature([WorkflowsEffects]),
+    FormlyModule,
+
   ],
   providers: [
     LeaveConfigsService,
