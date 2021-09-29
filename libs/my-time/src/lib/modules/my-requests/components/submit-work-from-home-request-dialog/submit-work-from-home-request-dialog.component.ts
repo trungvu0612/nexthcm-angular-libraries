@@ -9,7 +9,7 @@ import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { endOfDay, getTime } from 'date-fns';
 import { takeUntil, tap } from 'rxjs/operators';
 import { SubmitRequestPayload } from '../../../../models';
-import { MyTimeService, RequestTypeAPIUrlPath } from '../../../../services';
+import { MyTimeService } from '../../../../services';
 
 @Component({
   selector: 'hcm-submit-work-from-home-request-dialog',
@@ -99,7 +99,7 @@ export class SubmitWorkFromHomeRequestDialogComponent {
       }
       delete formModel.fromTo;
       this.myTimeService
-        .submitRequest(RequestTypeAPIUrlPath.workFromHome, formModel)
+        .submitRequest('workFromHome', formModel)
         .pipe(
           tap(() => this.promptService.handleResponse()),
           takeUntil(this.destroy$)

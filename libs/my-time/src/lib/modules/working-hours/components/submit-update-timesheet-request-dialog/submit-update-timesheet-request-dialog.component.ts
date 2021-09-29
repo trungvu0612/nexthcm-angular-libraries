@@ -9,7 +9,7 @@ import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { takeUntil, tap } from 'rxjs/operators';
 import { RequestStatus } from '../../../../enums';
 import { SubmitRequestPayload, WorkingHours } from '../../../../models';
-import { MyTimeService, RequestTypeAPIUrlPath } from '../../../../services';
+import { MyTimeService } from '../../../../services';
 
 @Component({
   selector: 'hcm-submit-update-timesheet-request-dialog',
@@ -119,7 +119,7 @@ export class SubmitUpdateTimesheetRequestDialogComponent {
       formModel.newInTime = (formModel.newInTime as TuiTime).toAbsoluteMilliseconds() / 1000;
       formModel.newOutTime = (formModel.newOutTime as TuiTime).toAbsoluteMilliseconds() / 1000;
       this.myTimeService
-        .submitRequest(RequestTypeAPIUrlPath.updateTimesheet, formModel)
+        .submitRequest('updateTimesheet', formModel)
         .pipe(
           tap(() => this.promptService.handleResponse()),
           takeUntil(this.destroy$)

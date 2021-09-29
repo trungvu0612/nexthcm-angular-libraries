@@ -13,90 +13,86 @@ import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { Observable, Subject } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
-import { GeneralRequest, SubmitRequestPayload, UpdateRequestPayload } from '../models';
+import { GeneralRequest, SubmitRequestPayload } from '../models';
 import { RequestComment } from '../models/request-comment';
+import { CombineRequestTypeUrlPath, RequestTypeUrlPath } from '../models/request-type-url-path';
 import { ChangeEscalateUserPayload } from '../models/requests/change-escalate-user-payload';
 import { Tracking } from '../models/requests/tracking';
 import { RequestDetailDialogComponent } from '../modules/shared/request-detail-dialog/request-detail-dialog.component';
 
-export enum RequestTypeAPIUrlPath {
-  MyLeave = 'leaves/me' as any,
-  leave = 'leaves' as any,
-  MyWorkingAfterHours = 'ot-requests/me' as any,
-  workingAfterHours = 'ot-requests' as any,
-  MyUpdateTimesheet = 'timesheet-updates/me' as any,
-  updateTimesheet = 'timesheet-updates' as any,
-  MyWorkingOutside = 'outside/me' as any,
-  workingOutside = 'outside' as any,
-  MyWorkFromHome = 'wfh/me' as any,
-  workFromHome = 'wfh' as any,
-}
+const REQUEST_DETAIL_URL_PATHS: Readonly<CombineRequestTypeUrlPath> = Object.freeze({
+  myWorkingAfterHours: 'ot-requests/me',
+  workingAfterHours: 'ot-requests',
+  myUpdateTimesheet: 'timesheet-updates/me',
+  updateTimesheet: 'timesheet-updates',
+  myWorkingOutside: 'outside/me',
+  workingOutside: 'outside',
+  myWorkFromHome: 'wfh/me',
+  workFromHome: 'wfh',
+  myLeave: 'leaves/me',
+  leave: 'leaves',
+});
 
-export enum RequestTypeComment {
-  leave = 'hcm_leave_comment' as any,
-  workingAfterHours = 'hcm_ot_comment' as any,
-  updateTimesheet = 'hcm_update_time_comment' as any,
-  workingOutside = 'hcm_working_onsite_comment' as any,
-  workFromHome = 'hcm_wfh_comment' as any,
-}
+const REQUEST_COMMENT_URL_PATHS: Readonly<RequestTypeUrlPath> = Object.freeze({
+  workingAfterHours: 'hcm_ot_comment',
+  updateTimesheet: 'hcm_update_time_comment',
+  workingOutside: 'hcm_working_onsite_comment',
+  workFromHome: 'hcm_wfh_comment',
+  leave: 'hcm_leave_comment',
+});
+
+const REQUEST_HISTORY_URL_PATHS: Readonly<RequestTypeUrlPath> = Object.freeze({
+  workingAfterHours: '1',
+  updateTimesheet: '2',
+  workingOutside: '3',
+  workFromHome: '4',
+  leave: '5',
+});
 
 @Injectable()
 export class MyTimeService {
-  private refreshSubject = new Subject<RequestTypeAPIUrlPath>();
+  private refreshSubject = new Subject<keyof RequestTypeUrlPath>();
   refresh$ = this.refreshSubject.asObservable();
 
   constructor(
-    private http: HttpClient,
-    private dialogService: TuiDialogService,
-    private injector: Injector,
-    private promptService: PromptService
+    private readonly http: HttpClient,
+    private readonly dialogService: TuiDialogService,
+    private readonly injector: Injector,
+    private readonly promptService: PromptService
   ) {}
 
-  getSendToUsers(): Observable<EmployeeInfo[]> {
+  getRequests<T>(type: keyof CombineRequestTypeUrlPath, params: HttpParams): Observable<Pagination<T>> {
     return this.http
-      .get<PagingResponse<EmployeeInfo>>(`${ACCOUNT_API_PATH}/employees`)
-      .pipe(map((res) => res.data.items));
+      .get<PagingResponse<T>>(`${MY_TIME_API_PATH}/${REQUEST_DETAIL_URL_PATHS[type]}`, { params })
+      .pipe(map((res) => res.data));
   }
 
-  getComments(objectId?: string): Observable<PagingResponse<any>> {
-    const typeComment = 'hcm_working_hours_comment';
-    return this.http.get<PagingResponse<any>>(
-      `${MY_TIME_API_PATH}/comments-common?objectId=${objectId}&type=` + typeComment
-    );
+  submitRequest(type: keyof RequestTypeUrlPath, payload: SubmitRequestPayload): Observable<unknown> {
+    return this.http
+      .post(`${MY_TIME_API_PATH}/${REQUEST_DETAIL_URL_PATHS[type]}`, payload)
+      .pipe(tap(() => this.refreshSubject.next(type)));
   }
 
-  getRequests<T>(type: RequestTypeAPIUrlPath, params: HttpParams): Observable<Pagination<T>> {
-    return this.http.get<PagingResponse<T>>(`${MY_TIME_API_PATH}/${type}`, { params }).pipe(map((res) => res.data));
-  }
-
-  submitRequest(type: RequestTypeAPIUrlPath, payload: SubmitRequestPayload): Observable<unknown> {
-    return this.http.post(`${MY_TIME_API_PATH}/${type}`, payload).pipe(tap(() => this.refreshSubject.next(type)));
-  }
-
-  updateRequest(type: RequestTypeAPIUrlPath, id: string, payload: UpdateRequestPayload): Observable<unknown> {
-    return this.http.put(`${MY_TIME_API_PATH}/${type}/${id}`, payload);
-  }
-
-  changeEscalateUser(type: RequestTypeAPIUrlPath, payload: ChangeEscalateUserPayload): Observable<unknown> {
-    return this.http.post(`${MY_TIME_API_PATH}/${type}/change-assignee`, payload);
+  changeEscalateUser(type: keyof RequestTypeUrlPath, payload: ChangeEscalateUserPayload): Observable<unknown> {
+    return this.http.post(`${MY_TIME_API_PATH}/${REQUEST_DETAIL_URL_PATHS[type]}/change-assignee`, payload);
   }
 
   changeRequestStatus(
-    type: RequestTypeAPIUrlPath,
+    type: keyof RequestTypeUrlPath,
     requestId: string,
     nextState: string,
     callback?: () => void
   ): Observable<unknown> {
     return this.http
-      .put(`${MY_TIME_API_PATH}/${type}/${requestId}`, { request: { nextState } })
+      .put(`${MY_TIME_API_PATH}/${REQUEST_DETAIL_URL_PATHS[type]}/${requestId}`, { request: { nextState } })
       .pipe(tap(this.promptService.handleResponse('', callback)));
   }
 
-  getRequest(type: RequestTypeAPIUrlPath, id: string): Observable<BaseResponse<GeneralRequest>> {
-    return this.http.get<BaseResponse<GeneralRequest>>(`${MY_TIME_API_PATH}/${type}/${id}`);
+  getRequest(type: keyof RequestTypeUrlPath, id: string): Observable<BaseResponse<GeneralRequest>> {
+    return this.http.get<BaseResponse<GeneralRequest>>(`${MY_TIME_API_PATH}/${REQUEST_DETAIL_URL_PATHS[type]}/${id}`);
   }
 
-  viewRequestDetail(type: RequestTypeAPIUrlPath, id: string, userId?: string): Observable<unknown> {
+  viewRequestDetail(type: keyof RequestTypeUrlPath, id: string, userId?: string): Observable<unknown> {
     return this.getRequest(type, id).pipe(
       switchMap((res) =>
         this.dialogService.open(new PolymorpheusComponent(RequestDetailDialogComponent, this.injector), {
@@ -118,19 +114,23 @@ export class MyTimeService {
       );
   }
 
-  getRequestComment(params: HttpParams): Observable<Pagination<RequestComment>> {
+  getRequestComments(type: keyof RequestTypeUrlPath, requestId: string): Observable<RequestComment[]> {
     return this.http
-      .get<PagingResponse<RequestComment>>(`${MY_TIME_API_PATH}/comments-common`, { params })
-      .pipe(map((res) => res.data));
+      .get<PagingResponse<RequestComment>>(`${MY_TIME_API_PATH}/comments-common`, {
+        params: new HttpParams().set('type', REQUEST_COMMENT_URL_PATHS[type]).set('objectId', requestId),
+      })
+      .pipe(map((res) => res.data.items));
   }
 
-  submitReqComment(comment: RequestComment): Observable<BaseResponse<RequestComment>> {
+  submitRequestComment(comment: RequestComment): Observable<BaseResponse<RequestComment>> {
     return this.http.post<BaseResponse<RequestComment>>(`${MY_TIME_API_PATH}/comments-common`, comment);
   }
 
-  getRequestTracking(type: RequestTypeAPIUrlPath, reqId: string): Observable<Tracking[]> {
+  getRequestHistory(type: keyof RequestTypeUrlPath, requestId: string): Observable<Tracking[]> {
     return this.http
-      .get<BaseResponse<Tracking[]>>(`${MY_TIME_API_PATH}/${type}/tracking-history/${reqId}`)
+      .get<BaseResponse<Tracking[]>>(`${MY_TIME_API_PATH}/tracking-history/process`, {
+        params: new HttpParams().set('type', REQUEST_HISTORY_URL_PATHS[type]).set('objectId', requestId),
+      })
       .pipe(map((res) => res.data));
   }
 }

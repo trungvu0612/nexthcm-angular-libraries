@@ -8,7 +8,7 @@ import { BaseComponent, Columns } from 'ngx-easy-table';
 import { Observable, of } from 'rxjs';
 import { catchError, filter, map, shareReplay, startWith, switchMap } from 'rxjs/operators';
 import { UpdateTimesheetRequest } from '../../../../models';
-import { MyTimeService, RequestTypeAPIUrlPath } from '../../../../services';
+import { MyTimeService } from '../../../../services';
 import { AbstractRequestListComponent } from '../../../shared/abstract-components/abstract-request-list.component';
 
 @Component({
@@ -20,7 +20,7 @@ import { AbstractRequestListComponent } from '../../../shared/abstract-component
 export class UpdateTimesheetRequestListComponent extends AbstractRequestListComponent<UpdateTimesheetRequest> {
   @ViewChild('table') table!: BaseComponent;
 
-  readonly requestTypeUrlPath = RequestTypeAPIUrlPath.updateTimesheet;
+  readonly requestTypeUrlPath = 'updateTimesheet';
   readonly columns$: Observable<Columns[]> = this.translocoService
     .selectTranslateObject('MY_TIME_REQUEST_LIST_COLUMNS', {}, (this.scope as ProviderScope).scope)
     .pipe(
@@ -38,7 +38,7 @@ export class UpdateTimesheetRequestListComponent extends AbstractRequestListComp
         },
         { key: 'currentStatus', title: result.status },
         { key: 'comment', title: result.Comment },
-        { key: 'functions', title: result.functions, orderEnabled: false },
+        { key: '', title: result.functions, orderEnabled: false },
       ])
     );
   private readonly request$ = this.queryParams$.pipe(

@@ -11,7 +11,7 @@ import { endOfDay, getTime } from 'date-fns';
 import { map, takeUntil } from 'rxjs/operators';
 import { WorkingAfterHoursType } from '../../../../enums';
 import { SubmitRequestPayload } from '../../../../models';
-import { MyTimeService, RequestTypeAPIUrlPath } from '../../../../services';
+import { MyTimeService } from '../../../../services';
 
 @Component({
   selector: 'hcm-submit-overtime-request-dialog',
@@ -127,7 +127,7 @@ export class SubmitOvertimeRequestDialogComponent {
       }
       delete formModel.fromTo;
       this.myTimeService
-        .submitRequest(RequestTypeAPIUrlPath.workingAfterHours, formModel)
+        .submitRequest('workingAfterHours', formModel)
         .pipe(takeUntil(this.destroy$))
         .subscribe(
           () => this.context.completeWith(true),

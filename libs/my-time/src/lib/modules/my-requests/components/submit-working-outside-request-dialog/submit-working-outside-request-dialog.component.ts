@@ -9,7 +9,7 @@ import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { endOfDay, getTime } from 'date-fns';
 import { takeUntil } from 'rxjs/operators';
 import { SubmitRequestPayload } from '../../../../models';
-import { MyTimeService, RequestTypeAPIUrlPath } from '../../../../services';
+import { MyTimeService } from '../../../../services';
 
 @Component({
   selector: 'hcm-submit-working-outside-request-dialog',
@@ -98,7 +98,7 @@ export class SubmitWorkingOutsideRequestDialogComponent {
       }
       delete formModel.fromTo;
       this.myTimeService
-        .submitRequest(RequestTypeAPIUrlPath.workingOutside, formModel)
+        .submitRequest('workingOutside', formModel)
         .pipe(takeUntil(this.destroy$))
         .subscribe(
           () => this.context.completeWith(true),

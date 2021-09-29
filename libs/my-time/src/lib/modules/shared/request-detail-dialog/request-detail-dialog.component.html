@@ -24,7 +24,7 @@
         </div>
         <div class="table-row">
           <div class="table-label">{{ t('myTime.requestType') }}:</div>
-          <div class="table-value">{{ t('myTime.' + RequestTypeAPIUrlPath[requestTypeAPIUrlPath]) }}</div>
+          <div class="table-value">{{ t('myTime.' + requestType) }}</div>
         </div>
         <div class="table-row">
           <div class="table-label">{{ t('assignee') }}:</div>
@@ -36,7 +36,7 @@
               <tui-combo-box
                 (ngModelChange)="onChangeEscalateUser($event, data.id)"
                 (searchChange)="search$.next($event || '')"
-                *tuiLet="items$ | async as items"
+                *tuiLet="users | async as items"
                 [identityMatcher]="identityMatcher"
                 [ngModel]="escalateUser"
                 [strict]="false"
@@ -73,8 +73,8 @@
             </div>
           </ng-template>
         </div>
-        <ng-container [ngSwitch]="requestTypeAPIUrlPath">
-          <ng-container *ngSwitchCase="RequestTypeAPIUrlPath.workFromHome">
+        <ng-container [ngSwitch]="requestType">
+          <ng-container *ngSwitchCase="'workFromHome'">
             <div class="table-row">
               <div class="table-label">{{ t('days') }}:</div>
               <div class="table-value">
@@ -82,7 +82,7 @@
               </div>
             </div>
           </ng-container>
-          <ng-container *ngSwitchCase="RequestTypeAPIUrlPath.leave">
+          <ng-container *ngSwitchCase="'leave'">
             <div class="table-row">
               <div class="table-label">{{ t('leaveType') }}:</div>
               <div class="table-value">{{ data.leaveType!.name }}</div>
@@ -100,7 +100,7 @@
               </div>
             </div>
           </ng-container>
-          <ng-container *ngSwitchCase="RequestTypeAPIUrlPath.updateTimesheet">
+          <ng-container *ngSwitchCase="'updateTimesheet'">
             <div class="table-row">
               <div class="table-label">{{ t('date') }}:</div>
               <div class="table-value">
@@ -129,7 +129,7 @@
               <div class="table-value">{{ data.updateWorkingDay }}</div>
             </div>
           </ng-container>
-          <ng-container *ngSwitchCase="RequestTypeAPIUrlPath.workingOutside">
+          <ng-container *ngSwitchCase="'workingOutside'">
             <div class="table-row">
               <div class="table-label">{{ t('days') }}:</div>
               <div class="table-value">
@@ -137,7 +137,7 @@
               </div>
             </div>
           </ng-container>
-          <ng-container *ngSwitchCase="RequestTypeAPIUrlPath.workingAfterHours">
+          <ng-container *ngSwitchCase="'workingAfterHours'">
             <div class="table-row">
               <div class="table-label">{{ t('date') }}:</div>
               <div class="table-value">{{ data.fromDate | translocoDate }} - {{ data.toDate | translocoDate }}</div>
@@ -210,15 +210,15 @@
         <div class="font-semibold uppercase">{{ t('history') }}</div>
 
         <ng-template tuiAccordionItemContent>
-          <ng-container *ngIf="tracking$ | async as trackings">
-            <p *ngFor="let tracking of trackings">
-              <span class="text-blue-500">{{ tracking.authorUsername }}</span>
+          <ng-container *ngIf="history$ | async as historyItems">
+            <p *ngFor="let item of historyItems">
+              <span class="text-blue-500">{{ item.authorUsername }}</span>
               {{ t('updatedStatusTo') }}
               <tui-tag
-                [value]="t('REQUEST_STATUS.' + RequestStatus[tracking.right])"
-                class="{{ RequestStatus[tracking.right] }}-tag"
+                [value]="t('REQUEST_STATUS.' + RequestStatus[item.right])"
+                class="{{ RequestStatus[item.right] }}-tag"
               ></tui-tag>
-              <span class="text-gray-300">&nbsp;{{ tracking.time | date: 'dd/MM/yyyy HH:mm' }}</span>
+              <span class="text-gray-300">&nbsp;{{ item.time | date: 'dd/MM/yyyy HH:mm' }}</span>
             </p>
           </ng-container>
         </ng-template>
@@ -227,7 +227,7 @@
         <div class="font-semibold uppercase">{{ t('Comment') }}</div>
         <ng-template tuiAccordionItemContent>
           <ng-container *ngIf="comments$ | async as comments">
-            <p *ngFor="let comment of comments.items">
+            <p *ngFor="let comment of comments">
               <span class="text-blue-500">{{ comment.userInfo?.fullName }}</span> {{ comment.comment }}
               <span class="text-gray-300">{{ comment.createdDate | date: 'dd/MM/yyyy HH:mm' }}</span>
             </p>
