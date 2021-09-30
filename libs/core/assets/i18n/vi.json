@@ -111,6 +111,7 @@
     "valueExisting": "Giá trị này đã tồn tại!"
   },
   "ADMIN_POLICIES": {
+    "chooseCategory": "Chọn danh mục",
     "name": "Tên",
     "policyManagement": "Quản lý chính sách",
     "POLICIES_MANAGEMENT_COLUMNS": {

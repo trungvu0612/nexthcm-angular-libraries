@@ -12,7 +12,9 @@ export interface AdminPolicy {
   topic?: string;
   longDescription?: string;
   shortDescription?: string;
+  policyCategory?: { id?: string };
 }
+
 export interface Category {
   id: string;
   userCreatedBy: UserDto;

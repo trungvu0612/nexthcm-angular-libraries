@@ -111,6 +111,7 @@
     "valueExisting": "This value is already exists!"
   },
   "ADMIN_POLICIES": {
+    "chooseCategory": "Choose category",
     "name": "Name",
     "policyManagement": "Policy Management",
     "POLICIES_MANAGEMENT_COLUMNS": {

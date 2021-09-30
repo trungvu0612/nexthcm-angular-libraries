@@ -7,18 +7,22 @@ import { map, switchMap } from 'rxjs/operators';
   selector: 'hcm-updated-knowledge',
   templateUrl: './updated-knowledge.component.html',
   styleUrls: ['./updated-knowledge.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UpdatedKnowledgeComponent {
   readonly params$ = new BehaviorSubject<{ search?: string; size: number }>({ size: 10 });
   readonly knowledgeBase$ = this.params$.pipe(
     switchMap((params) => this.knowledgeBaseService.getKnowledgeBase(params))
   );
+  readonly categoryKnowledge$ = this.params$.pipe(
+    switchMap((params) => this.knowledgeBaseService.getCategoryKnowledgeBase(params))
+  );
 
-  constructor(private readonly knowledgeBaseService: KnowledgeBaseService) {}
+  constructor(private readonly knowledgeBaseService: KnowledgeBaseService) {
+  }
 
   @Input() set search(search$: Observable<string>) {
-    search$.pipe(map((search) => ({ search: search, size: 0 }))).subscribe(this.params$);
+    search$.pipe(map((search) => ({ search: search, size: 10 }))).subscribe(this.params$);
   }
 
   viewMore() {

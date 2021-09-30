@@ -24,6 +24,7 @@ import { CategoryComponent } from './pages/category/category.component';
 import { KnowledgeBaseComponent } from './pages/knowledge-base/knowledge-base.component';
 import { KnowledgeComponent } from './pages/knowledge/knowledge.component';
 import { UpdatedComponent } from './pages/updated/updated.component';
+import { UpdatedKnowledgeCategoryComponent } from './components/updated-knowledge-category/updated-knowledge-category.component';
 
 export const KNOWLEDGE_BASE_ROUTES: Routes = [
   {
@@ -34,6 +35,7 @@ export const KNOWLEDGE_BASE_ROUTES: Routes = [
     children: [
       { path: '', pathMatch: 'full', redirectTo: 'summary' },
       { path: 'summary', component: KnowledgeBaseComponent },
+      { path: ':id/category', component: KnowledgeBaseComponent },
       { path: 'updated', component: UpdatedComponent },
       { path: ':id', component: KnowledgeComponent },
     ],
@@ -50,6 +52,7 @@ const TABS: MenuItem[] = [
     KnowledgeComponent,
     UpdatedComponent,
     UpdatedKnowledgeComponent,
+    UpdatedKnowledgeCategoryComponent,
     CategoryComponent,
   ],
   imports: [

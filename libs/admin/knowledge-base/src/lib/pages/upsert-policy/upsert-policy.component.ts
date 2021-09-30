@@ -12,7 +12,7 @@ import { AdminPolicy } from '../../models/policies';
   templateUrl: './upsert-policy.component.html',
   styleUrls: ['./upsert-policy.component.scss'],
   providers: [TuiDestroyService],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UpsertPolicyComponent implements OnInit {
   id!: string;
@@ -28,13 +28,13 @@ export class UpsertPolicyComponent implements OnInit {
           templateOptions: {
             required: true,
             translate: true,
-            label: 'ADMIN_POLICIES.POLICIES_MANAGEMENT_COLUMNS.topic',
-          },
-        },
-      ],
+            label: 'ADMIN_POLICIES.POLICIES_MANAGEMENT_COLUMNS.topic'
+          }
+        }
+      ]
     },
     {
-      fieldGroupClassName: 'grid md:grid-cols-2 gap-6 mb-4',
+      fieldGroupClassName: 'grid md:grid-cols-1 mb-4',
       fieldGroup: [
         {
           key: 'status',
@@ -42,8 +42,26 @@ export class UpsertPolicyComponent implements OnInit {
           defaultValue: true,
           templateOptions: {
             translate: true,
-            description: 'ADMIN_POLICIES.POLICIES_MANAGEMENT_COLUMNS.status',
-          },
+            description: 'ADMIN_POLICIES.POLICIES_MANAGEMENT_COLUMNS.status'
+          }
+        }
+      ]
+    },
+    {
+      fieldGroupClassName: 'grid md:grid-cols-2 gap-6 mb-4',
+      fieldGroup: [
+        {
+          key: 'policyCategory.id',
+          type: 'select',
+          templateOptions: {
+            translate: true,
+            label: 'category',
+            labelClassName: 'font-semibold',
+            placeholder: 'ADMIN_POLICIES.chooseCategory',
+            options: this.policiesService.select('categories'),
+            valueProp: 'id',
+            labelProp: 'name'
+          }
         },
         {
           className: 'attachFile',
@@ -55,10 +73,10 @@ export class UpsertPolicyComponent implements OnInit {
             translate: true,
             label: 'ADMIN_POLICIES.POLICIES_MANAGEMENT_COLUMNS.thumbnail',
             previewImage: true,
-            serverRequest: this.uploadFileService.uploadFile.bind(this.uploadFileService, 'policy'),
-          },
-        },
-      ],
+            serverRequest: this.uploadFileService.uploadFile.bind(this.uploadFileService, 'policy')
+          }
+        }
+      ]
     },
     {
       fieldGroupClassName: 'grid md:grid-cols-1 gap-6 mb-4',
@@ -70,10 +88,10 @@ export class UpsertPolicyComponent implements OnInit {
             required: true,
             translate: true,
             label: 'ADMIN_POLICIES.POLICIES_MANAGEMENT_COLUMNS.shortDescription',
-            placeholder: 'Short Description',
-          },
-        },
-      ],
+            placeholder: 'Short Description'
+          }
+        }
+      ]
     },
     {
       fieldGroupClassName: 'grid md:grid-cols-1 gap-6',
@@ -84,14 +102,14 @@ export class UpsertPolicyComponent implements OnInit {
           templateOptions: {
             required: true,
             translate: true,
-            label: 'ADMIN_POLICIES.POLICIES_MANAGEMENT_COLUMNS.longDescription',
-          },
-        },
-      ],
+            label: 'ADMIN_POLICIES.POLICIES_MANAGEMENT_COLUMNS.longDescription'
+          }
+        }
+      ]
     },
     {
-      key: 'mobileThumbnail',
-    },
+      key: 'mobileThumbnail'
+    }
   ];
 
   constructor(
