@@ -7,6 +7,7 @@ import { GetFilePipeModule } from '@nexthcm/cdk';
 import { LayoutComponent, LayoutModule } from '@nexthcm/ui';
 import { TranslocoModule } from '@ngneat/transloco';
 import { FormlyModule } from '@ngx-formly/core';
+import { LetModule } from '@rx-angular/template';
 import {
   TuiButtonModule,
   TuiDataListModule,
@@ -20,14 +21,13 @@ import { NgxPermissionsGuard } from 'ngx-permissions';
 import { SeatComponent } from './components/seat/seat.component';
 import { SeatMapsComponent } from './seat-maps.component';
 import { SeatMapsService } from './seat-maps.service';
-import { LetModule } from '@rx-angular/template';
 
 export const SEAT_MAPS_ROUTES: Routes = [
   {
     path: '',
     component: LayoutComponent,
     canActivate: [NgxPermissionsGuard],
-    data: { permissions: { only: 'VIEW_HELP_DESK', redirectTo: '/' } },
+    data: { permissions: { only: 'VIEW_SEAT', redirectTo: '/' } },
     children: [{ path: '', component: SeatMapsComponent }],
   },
 ];

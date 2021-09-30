@@ -18,7 +18,7 @@ import {
 } from '@taiga-ui/core';
 import { TuiDataListWrapperModule, TuiMultiSelectModule } from '@taiga-ui/kit';
 import { TableModule } from 'ngx-easy-table';
-import { NgxPermissionsGuard } from 'ngx-permissions';
+import { NgxPermissionsGuard, NgxPermissionsModule } from 'ngx-permissions';
 import { AdminUserRolesComponent } from './admin-user-roles.component';
 import { FormlySelectPermissionsComponent } from './components/formly-select-permissions/formly-select-permissions.component';
 import { ListUserRolesComponent } from './pages/list-user-roles/list-user-roles.component';
@@ -71,6 +71,7 @@ export const adminUserRolesRoutes: Route[] = [
     LayoutModule,
     TuiTextfieldControllerModule,
     FormFieldModule,
+    NgxPermissionsModule,
   ],
   declarations: [
     ListUserRolesComponent,
@@ -82,7 +83,7 @@ export const adminUserRolesRoutes: Route[] = [
     {
       provide: TRANSLOCO_SCOPE,
       useValue: {
-        scope: 'user-roles',
+        scope: 'userRoles',
         loader: inlineLoaderFactory((lang) => import(`../../assets/i18n/${lang}.json`)),
       },
     },

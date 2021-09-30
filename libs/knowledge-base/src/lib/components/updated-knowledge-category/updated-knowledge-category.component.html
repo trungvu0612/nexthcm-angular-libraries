@@ -1,21 +1,21 @@
-<ng-container *transloco='let t'>
-  <section *ngIf='knowledgeBase$ | async as data'>
-    <p class='text-2xl font-semibold my-7'>{{ t('updated') }}</p>
-    <div *ngFor='let item of data.items' class='flex gap-6 border-b text-base pb-5 mb-5'>
-      <tui-avatar [avatarUrl]="item.thumbnail || '' | getFile | async" [rounded]='true' size='l'></tui-avatar>
+<ng-container *transloco="let t">
+  <section *ngIf="knowledgeBase$ | async as data">
+    <p class="text-2xl font-semibold my-7">{{ t('updated') }}</p>
+    <div *ngFor="let item of data.items" class="flex gap-6 border-b text-base pb-5 mb-5">
+      <tui-avatar [avatarUrl]="item.thumbnail || '' | getFile | async" [rounded]="true" size="l"></tui-avatar>
       <div>
-        <a [routerLink]="['/knowledge-base', item.id]" class='font-semibold' tuiLink>
+        <a [routerLink]="['/knowledge-base', item.id]" class="font-semibold" tuiLink>
           {{ item.topic }}
         </a>
-        <div *ngIf='item.createdDate' class='flex items-center gap-2 text-gray-500 mt-2 mb-4'>
-          <tui-svg src='tuiIconTimeLarge'></tui-svg>
+        <div *ngIf="item.createdDate" class="flex items-center gap-2 text-gray-500 mt-2 mb-4">
+          <tui-svg src="tuiIconTimeLarge"></tui-svg>
           {{ item.createdDate | date: 'dd/MM/yyyy' }}
         </div>
         <p>{{ item.shortDescription }}</p>
       </div>
     </div>
-    <button (click)='viewMore()' *ngIf='data.size < data.totalElements' class='block mx-auto' tuiButton>
-      {{ ('viewMore' | transloco) }}
+    <button (click)="viewMore()" *ngIf="data.size < data.totalElements" class="block mx-auto" tuiButton>
+      {{ 'viewMore' | transloco }}
     </button>
   </section>
 </ng-container>

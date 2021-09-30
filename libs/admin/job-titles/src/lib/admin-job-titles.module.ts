@@ -10,7 +10,7 @@ import { TuiTablePaginationModule } from '@taiga-ui/addon-table';
 import { TuiLetModule } from '@taiga-ui/cdk';
 import { TuiButtonModule, TuiLoaderModule } from '@taiga-ui/core';
 import { TableModule } from 'ngx-easy-table';
-import { NgxPermissionsGuard } from 'ngx-permissions';
+import { NgxPermissionsGuard, NgxPermissionsModule } from 'ngx-permissions';
 import { ListJobTitleComponent } from './pages/list-job-title/list-job-title.component';
 import { UpsertJobTitleComponent } from './pages/upsert-job-title/upsert-job-title.component';
 import { AdminJobTitlesService } from './services/admin-job-titles.service';
@@ -38,6 +38,7 @@ export const adminJobTitlesRoutes: Route[] = [
     TuiTablePaginationModule,
     TranslocoModule,
     LayoutModule,
+    NgxPermissionsModule,
   ],
   declarations: [ListJobTitleComponent, UpsertJobTitleComponent],
   providers: [
@@ -45,7 +46,7 @@ export const adminJobTitlesRoutes: Route[] = [
     {
       provide: TRANSLOCO_SCOPE,
       useValue: {
-        scope: 'job-titles',
+        scope: 'jobTitles',
         loader: inlineLoaderFactory((lang) => import(`../../assets/i18n/${lang}.json`)),
       },
     },

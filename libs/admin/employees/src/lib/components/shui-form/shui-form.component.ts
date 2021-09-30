@@ -153,7 +153,7 @@ export class ShuiFormComponent {
     { key: 'type' },
   ];
   private readonly request$ = this.employeesService
-    .getEmployeeInformation(this.activatedRoute.snapshot.params.employeeId, 'shui')
+    .getEmployeeInformation(this.activatedRoute.snapshot.params.employeeId, 'SHUI')
     .pipe(
       tap(
         (data) =>
@@ -161,7 +161,7 @@ export class ShuiFormComponent {
             ...this.model,
             ...data,
             employeeId: this.activatedRoute.snapshot.params.employeeId,
-            type: 'shui',
+            type: 'SHUI',
           })
       ),
       startWith(null),

@@ -1,10 +1,10 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BaseObject, MY_TIME_API_PATH, Pagination, PagingResponse } from '@nexthcm/cdk';
-import { Observable } from 'rxjs';
-import { AdminPolicy, Category } from './models/policies';
-import { map } from 'rxjs/operators';
+import { MY_TIME_API_PATH, Pagination, PagingResponse } from '@nexthcm/cdk';
 import { RxState } from '@rx-angular/state';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { AdminPolicy, Category } from './models/policies';
 
 interface CategoryState {
   categories: Category[];
@@ -41,8 +41,9 @@ export class AdminKnowledgeBaseService extends RxState<CategoryState> {
 
   getCategories(): Observable<Category[]> {
     return this.http
-      .get<PagingResponse<Category>>(`${MY_TIME_API_PATH}/policy-category`, { params: new HttpParams().set('size', 999) })
+      .get<PagingResponse<Category>>(`${MY_TIME_API_PATH}/policy-category`, {
+        params: new HttpParams().set('size', 999),
+      })
       .pipe(map((response) => response.data.items));
   }
-
 }

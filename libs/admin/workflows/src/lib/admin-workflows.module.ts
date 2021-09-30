@@ -46,7 +46,7 @@ import {
 } from '@taiga-ui/kit';
 import { PolymorpheusModule } from '@tinkoff/ng-polymorpheus';
 import { TableModule } from 'ngx-easy-table';
-import { NgxPermissionsGuard } from 'ngx-permissions';
+import { NgxPermissionsGuard, NgxPermissionsModule } from 'ngx-permissions';
 import { QuillModule } from 'ngx-quill';
 import Quill from 'quill';
 import QuillAutoDetectUrl from 'quill-auto-detect-url';
@@ -122,11 +122,7 @@ export const ADMIN_WORKFLOWS_ROUTES: Routes = [
           },
           {
             path: 'email-templates',
-            children: [
-              { path: '', component: EmailTemplateManagementComponent },
-              { path: 'create', component: UpsertEmailTemplateDialogComponent },
-              { path: ':templateId/edit', component: UpsertEmailTemplateDialogComponent },
-            ],
+            component: EmailTemplateManagementComponent,
           },
         ],
       },
@@ -203,6 +199,7 @@ const TABS: MenuItem[] = [
     ]),
     FormlyFieldArraySingleItemComponentModule,
     FormlyStatusToggleComponentModule,
+    NgxPermissionsModule,
   ],
   declarations: [
     AdminWorkflowsComponent,

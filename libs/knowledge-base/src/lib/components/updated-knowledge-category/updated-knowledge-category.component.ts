@@ -1,13 +1,13 @@
 import { Component, Input } from '@angular/core';
-import { KnowledgeBaseService } from '../../services/knowledge-base.service';
+import { RouterQuery } from '@datorama/akita-ng-router-store';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { RouterQuery } from '@datorama/akita-ng-router-store';
+import { KnowledgeBaseService } from '../../services/knowledge-base.service';
 
 @Component({
   selector: 'hcm-updated-knowledge-category',
   templateUrl: './updated-knowledge-category.component.html',
-  styleUrls: ['./updated-knowledge-category.component.scss']
+  styleUrls: ['./updated-knowledge-category.component.scss'],
 })
 export class UpdatedKnowledgeCategoryComponent {
   readonly params$ = new BehaviorSubject<{ search?: string; size: number }>({ size: 10 });
@@ -15,9 +15,7 @@ export class UpdatedKnowledgeCategoryComponent {
     switchMap((params) => this.knowledgeBaseService.getKnowledgeBaseCategory(params, this.routerQuery.getParams('id')))
   );
 
-  constructor(private readonly knowledgeBaseService: KnowledgeBaseService,
-              private readonly routerQuery: RouterQuery) {
-  }
+  constructor(private readonly knowledgeBaseService: KnowledgeBaseService, private readonly routerQuery: RouterQuery) {}
 
   @Input() set search(search$: Observable<string>) {
     search$.pipe(map((search) => ({ search: search, size: 0 }))).subscribe(this.params$);

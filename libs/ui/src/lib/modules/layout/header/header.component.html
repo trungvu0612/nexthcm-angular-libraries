@@ -1,9 +1,11 @@
 <ng-container *transloco="let t">
   <header class="flex justify-between">
     <tui-tabs class="flex items-center ml-3">
-      <a *ngFor="let tab of headerTabs" [routerLink]="[tab.link]" routerLinkActive tuiTab>
-        {{ t(tab.label) }}
-      </a>
+      <ng-container *ngFor="let tab of headerTabs">
+        <a *ngxPermissionsOnly="tab.permissions" [routerLink]="[tab.link]" routerLinkActive tuiTab>
+          {{ t(tab.label) }}
+        </a>
+      </ng-container>
     </tui-tabs>
     <div class="flex items-center border-l h-full">
       <tui-hosted-dropdown [(open)]="open" [content]="langsDropdown" class="mx-2">

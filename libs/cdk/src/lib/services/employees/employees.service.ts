@@ -35,16 +35,16 @@ export class EmployeesService {
       .pipe(map((res) => res.data));
   }
 
-  getEmployeeInformation(id: string, apiType: 'individual'): Observable<EmployeeIndividual>;
-  getEmployeeInformation(id: string, apiType: 'duration'): Observable<EmployeeDuration>;
-  getEmployeeInformation(id: string, apiType: 'education'): Observable<EmployeeEducation>;
-  getEmployeeInformation(id: string, apiType: 'shui'): Observable<EmployeeSHUI>;
+  getEmployeeInformation(id: string, apiType: 'INDIVIDUAL'): Observable<EmployeeIndividual>;
+  getEmployeeInformation(id: string, apiType: 'DURATION'): Observable<EmployeeDuration>;
+  getEmployeeInformation(id: string, apiType: 'EDUCATION'): Observable<EmployeeEducation>;
+  getEmployeeInformation(id: string, apiType: 'SHUI'): Observable<EmployeeSHUI>;
   getEmployeeInformation<T extends EmployeeInformationType>(
     id: string,
     apiType: EmployeeInformationAPIType
   ): Observable<T> {
     return this.http
-      .get<BaseResponse<T>>(`${ACCOUNT_API_PATH}/info/employees/${apiType}/${id}`)
+      .get<BaseResponse<T>>(`${ACCOUNT_API_PATH}/info/employees/${apiType.toLowerCase()}/${id}`)
       .pipe(
         map((res) =>
           parseJsonStringFields(res.data, [

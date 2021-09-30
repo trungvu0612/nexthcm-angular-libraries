@@ -223,7 +223,7 @@ export class DurationFormComponent {
     { key: 'type', defaultValue: 'DURATION' },
   ];
   private readonly request$ = this.employeesService
-    .getEmployeeInformation(this.activatedRoute.snapshot.params.employeeId, 'duration')
+    .getEmployeeInformation(this.activatedRoute.snapshot.params.employeeId, 'DURATION')
     .pipe(
       tap((res) => {
         const data = parseTuiDayFields(res, [
@@ -239,7 +239,7 @@ export class DurationFormComponent {
           ...this.model,
           ...data,
           employeeId: this.activatedRoute.snapshot.params.employeeId,
-          type: 'duration',
+          type: 'DURATION',
         };
       }),
       startWith(null),

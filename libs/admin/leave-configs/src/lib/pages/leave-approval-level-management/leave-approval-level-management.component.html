@@ -1,8 +1,8 @@
 <ng-container *transloco="let t">
-  <hcm-page [title]="t('leaveApprovalLevelManagement')">
+  <hcm-page [title]="t('leaveConfigs.leaveApprovalLevelManagement')">
     <ng-container ngProjectAs="pageHeader">
-      <button (click)="onAddLeaveLevel()" size="m" tuiButton>
-        {{ t('addLeaveApprovalLevel') }}
+      <button (click)="onAddLeaveLevel()" *ngxPermissionsOnly="'CREATE_LEAVE_CONFIG'" size="m" tuiButton>
+        {{ t('leaveConfigs.addLeaveApprovalLevel') }}
       </button>
     </ng-container>
     <tui-loader [overlay]="true" [showLoader]="(loading$ | async) === true">
@@ -21,6 +21,7 @@
             <td>
               <div class="flex items-center">
                 <button
+                  *ngxPermissionsOnly="'UPDATE_LEAVE_CONFIG'"
                   (click)="onEditLeaveLevelApprove(item)"
                   appearance="flat"
                   class="tui-space_right-3"
@@ -29,6 +30,7 @@
                   tuiIconButton
                 ></button>
                 <button
+                  *ngxPermissionsOnly="'DELETE_LEAVE_CONFIG'"
                   (click)="onRemoveLeaveLevel(item.id)"
                   appearance="flat"
                   icon="tuiIconTrashLarge"

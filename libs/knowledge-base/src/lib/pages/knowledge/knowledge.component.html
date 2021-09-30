@@ -1,15 +1,15 @@
 <ng-container *ngIf="data$ | async as data">
-    <hcm-page [title]="('knowledgeBase' | transloco)">
-      <header class="flex px-1 pb-2 mb-5">
-        <tui-avatar class='mr-5' [avatarUrl]="data.thumbnail || '' | getFile | async" size='xl'></tui-avatar>
-        <div>
-          <h1 class="text-xl font-semibold cursor-pointer">{{ data.topic }}</h1>
-          <div *ngIf='data.createdDate' class="time">
-            <tui-svg class="mr-2" src="tuiIconTimeLarge"></tui-svg>
-            {{ data.createdDate | date: 'dd/MM/YYYY' }}
-          </div>
+  <hcm-page [title]="'knowledgeBase' | transloco">
+    <header class="flex px-1 pb-2 mb-5">
+      <tui-avatar [avatarUrl]="data.thumbnail || '' | getFile | async" class="mr-5" size="xl"></tui-avatar>
+      <div>
+        <h1 class="text-xl font-semibold cursor-pointer">{{ data.topic }}</h1>
+        <div *ngIf="data.createdDate" class="time">
+          <tui-svg class="mr-2" src="tuiIconTimeLarge"></tui-svg>
+          {{ data.createdDate | date: 'dd/MM/YYYY' }}
         </div>
-      </header>
-      <div [innerHTML]="data.longDescription"></div>
-    </hcm-page>
+      </div>
+    </header>
+    <div [innerHTML]="data.longDescription"></div>
+  </hcm-page>
 </ng-container>

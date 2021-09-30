@@ -1,7 +1,7 @@
-<hcm-page [title]="('WORKFLOW.emailTemplateManagement' | transloco)">
+<hcm-page [title]="'WORKFLOW.emailTemplateManagement' | transloco">
   <ng-container ngProjectAs="pageHeader">
-    <button (click)="onUpsertEmailTemplate()" size="m" tuiButton>
-      {{ ('WORKFLOW.createEmailTemplate' | transloco) }}
+    <button (click)="onUpsertEmailTemplate()" *ngxPermissionsOnly="'CREATE_WORKFLOW'" size="m" tuiButton>
+      {{ 'WORKFLOW.createEmailTemplate' | transloco }}
     </button>
   </ng-container>
   <tui-loader [overlay]="true" [showLoader]="(loading$ | async) === true">
@@ -26,6 +26,7 @@
           <td>
             <div class="flex items-center space-x-2">
               <button
+                *ngxPermissionsOnly="'UPDATE_WORKFLOW'"
                 (click)="onUpsertEmailTemplate(item)"
                 appearance="flat"
                 class="tui-space_right-3"
@@ -34,6 +35,7 @@
                 tuiIconButton
               ></button>
               <button
+                *ngxPermissionsOnly="'DELETE_WORKFLOW'"
                 (click)="onRemoveEmailTemplate(item.id)"
                 appearance="flat"
                 icon="tuiIconTrashLarge"

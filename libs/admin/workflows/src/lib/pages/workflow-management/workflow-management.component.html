@@ -1,6 +1,8 @@
 <hcm-page title="{{ 'workflowManagement' | transloco }}">
   <ng-container ngProjectAs="pageHeader">
-    <button (click)="onCreateWorkflow()" size="m" tuiButton>{{ 'WORKFLOW.createNewWorkflow' | transloco }}</button>
+    <button (click)="onCreateWorkflow()" *ngxPermissionsOnly="'CREATE_WORKFLOW'" size="m" tuiButton>
+      {{ 'WORKFLOW.createNewWorkflow' | transloco }}
+    </button>
   </ng-container>
   <tui-loader [overlay]="true" [showLoader]="(loading$ | async) === true">
     <ngx-table
@@ -17,6 +19,7 @@
           <td>
             <div class="flex items-center">
               <button
+                *ngxPermissionsOnly="'UPDATE_WORKFLOW'"
                 [routerLink]="['../', item.id, 'edit']"
                 appearance="flat"
                 class="tui-space_right-3"
@@ -26,6 +29,7 @@
                 type="button"
               ></button>
               <button
+                *ngxPermissionsOnly="'DELETE_WORKFLOW'"
                 (click)="onRemoveWorkflow(item.id)"
                 appearance="flat"
                 icon="tuiIconTrashLarge"

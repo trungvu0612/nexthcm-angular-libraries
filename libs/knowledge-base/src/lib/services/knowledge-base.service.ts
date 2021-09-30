@@ -6,11 +6,10 @@ import { map } from 'rxjs/operators';
 import { Category, Knowledge } from '../models/knowledge';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class KnowledgeBaseService {
-  constructor(private http: HttpClient) {
-  }
+  constructor(private http: HttpClient) {}
 
   getKnowledgeBase(params: { search?: string; size: number }): Observable<Pagination<Partial<Knowledge>>> {
     return this.http
@@ -18,7 +17,10 @@ export class KnowledgeBaseService {
       .pipe(map((response) => response.data));
   }
 
-  getKnowledgeBaseCategory(params: { search?: string; size: number }, policyId: any): Observable<Pagination<Partial<Knowledge>>> {
+  getKnowledgeBaseCategory(
+    params: { search?: string; size: number },
+    policyId: any
+  ): Observable<Pagination<Partial<Knowledge>>> {
     return this.http
       .get<PagingResponse<Partial<Knowledge>>>(`${MY_TIME_API_PATH}/policies?policyCategory.id=` + policyId, { params })
       .pipe(map((response) => response.data));

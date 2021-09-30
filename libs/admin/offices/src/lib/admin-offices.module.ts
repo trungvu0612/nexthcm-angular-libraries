@@ -10,7 +10,7 @@ import { TuiTableModule, TuiTablePaginationModule } from '@taiga-ui/addon-table'
 import { TuiLetModule } from '@taiga-ui/cdk';
 import { TuiButtonModule, TuiLoaderModule, TuiSvgModule } from '@taiga-ui/core';
 import { TableModule } from 'ngx-easy-table';
-import { NgxPermissionsGuard } from 'ngx-permissions';
+import { NgxPermissionsGuard, NgxPermissionsModule } from 'ngx-permissions';
 import { OfficesComponent } from './pages/offices/offices.component';
 import { AdminOfficesService } from './services/admin-offices.service';
 
@@ -41,6 +41,7 @@ export const adminOfficesRoutes: Routes = [
     InputFilterComponentModule,
     TuiLoaderModule,
     LayoutModule,
+    NgxPermissionsModule,
   ],
   providers: [
     AdminOfficesService,

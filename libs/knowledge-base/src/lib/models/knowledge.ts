@@ -15,5 +15,5 @@ export interface Category {
   status: number;
   name: string;
   description: string;
-  policyImage?: string
+  policyImage?: string;
 }

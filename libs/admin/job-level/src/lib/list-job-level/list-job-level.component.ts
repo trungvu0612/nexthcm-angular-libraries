@@ -62,7 +62,7 @@ export class ListJobLevelComponent extends AbstractServerSortPaginationTableComp
   }
 
   onAddJobTitle(): void {
-    this.openDialog('addNewJobTitle')
+    this.openDialog('jobLevel.addNewJobLevel')
       .pipe(
         switchMap((data) => this.jobLevelService.createLevel(data)),
         takeUntil(this.destroy$)

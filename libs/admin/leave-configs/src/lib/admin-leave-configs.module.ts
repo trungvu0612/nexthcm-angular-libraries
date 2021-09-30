@@ -21,7 +21,7 @@ import { TuiLetModule } from '@taiga-ui/cdk';
 import { TuiButtonModule, TuiLoaderModule } from '@taiga-ui/core';
 import { TuiTabsModule, TuiTagModule } from '@taiga-ui/kit';
 import { TableModule } from 'ngx-easy-table';
-import { NgxPermissionsGuard } from 'ngx-permissions';
+import { NgxPermissionsGuard, NgxPermissionsModule } from 'ngx-permissions';
 import { UpsertLeaveApprovalLevelDialogComponent } from './components/upsert-leave-approval-level-dialog/upsert-leave-approval-level-dialog.component';
 import { UpsertLeaveEntitlementDialogComponent } from './components/upsert-leave-entitlement/upsert-leave-entitlement-dialog.component';
 import { UpsertLeavePeriodDialogComponent } from './components/upsert-leave-period-dialog/upsert-leave-period-dialog.component';
@@ -37,32 +37,24 @@ export const adminLeaveTypesRoutes: Route[] = [
     path: '',
     component: LayoutComponent,
     canActivate: [NgxPermissionsGuard],
-    data: { permissions: { only: 'VIEW_LEAVE_TYPE', redirectTo: '/' } },
+    data: { permissions: { only: 'VIEW_LEAVE_CONFIG', redirectTo: '/' } },
     children: [
       { path: '', pathMatch: 'full', redirectTo: 'types' },
       {
         path: 'types',
         component: LeaveTypeManagementComponent,
-        canActivate: [NgxPermissionsGuard],
-        data: { permissions: { only: 'ADMIN', redirectTo: '/' } },
       },
       {
         path: 'periods',
         component: LeavePeriodManagementComponent,
-        canActivate: [NgxPermissionsGuard],
-        data: { permissions: { only: 'ADMIN', redirectTo: '/' } },
       },
       {
         path: 'entitlements',
         component: LeaveEntitlementManagementComponent,
-        canActivate: [NgxPermissionsGuard],
-        data: { permissions: { only: 'ADMIN', redirectTo: '/' } },
       },
       {
         path: 'approval-levels',
         component: LeaveApprovalLevelManagementComponent,
-        canActivate: [NgxPermissionsGuard],
-        data: { permissions: { only: 'ADMIN', redirectTo: '/' } },
       },
     ],
   },
@@ -103,13 +95,14 @@ const TABS: MenuItem[] = [
     TuiLetModule,
     AkitaNgEffectsModule.forFeature([WorkflowsEffects]),
     FormlyModule,
+    NgxPermissionsModule,
   ],
   providers: [
     LeaveConfigsService,
     {
       provide: TRANSLOCO_SCOPE,
       useValue: {
-        scope: 'leave-configs',
+        scope: 'leaveConfigs',
         loader: inlineLoaderFactory((lang) => import(`../../assets/i18n/${lang}.json`)),
       },
     },

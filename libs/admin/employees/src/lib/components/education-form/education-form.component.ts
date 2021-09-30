@@ -89,7 +89,7 @@ export class EducationFormComponent {
     { key: 'type' },
   ];
   private readonly request$ = this.employeesService
-    .getEmployeeInformation(this.activatedRoute.snapshot.params.employeeId, 'education')
+    .getEmployeeInformation(this.activatedRoute.snapshot.params.employeeId, 'EDUCATION')
     .pipe(
       tap(
         (data) =>
@@ -97,7 +97,7 @@ export class EducationFormComponent {
             ...this.model,
             ...data,
             employeeId: this.activatedRoute.snapshot.params.employeeId,
-            type: 'education',
+            type: 'EDUCATION',
           })
       ),
       startWith(null),

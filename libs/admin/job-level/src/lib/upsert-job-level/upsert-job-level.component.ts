@@ -22,7 +22,7 @@ export class UpsertJobLevelComponent implements OnInit {
       templateOptions: {
         textfieldLabelOutside: true,
         required: true,
-        placeholder: 'Topic',
+        placeholder: 'Name',
       },
     },
     {
@@ -31,7 +31,7 @@ export class UpsertJobLevelComponent implements OnInit {
       templateOptions: {
         required: true,
         textfieldLabelOutside: true,
-        placeholder: 'Reason',
+        placeholder: 'Description',
       },
     },
     { key: 'id' },

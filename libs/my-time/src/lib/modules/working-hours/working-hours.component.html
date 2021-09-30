@@ -57,10 +57,24 @@
       </tui-island>
     </section>
 
-    <section>
+    <section *ngxPermissionsOnly="['VIEW_WORKING_HOUR_ONLYME', 'VIEW_WORKING_HOUR_EVERYONE']">
       <tui-tabs [(activeItemIndex)]="activeItemIndex" class="mb-5">
-        <button routerLink="/my-time/working-hours/only-me" routerLinkActive tuiTab>{{ t('myTime.onlyMe') }}</button>
-        <button routerLink="/my-time/working-hours/everyone" routerLinkActive tuiTab>{{ t('myTime.everyone') }}</button>
+        <button
+          *ngxPermissionsOnly="'VIEW_WORKING_HOUR_ONLYME'"
+          routerLink="/my-time/working-hours/only-me"
+          routerLinkActive
+          tuiTab
+        >
+          {{ t('myTime.onlyMe') }}
+        </button>
+        <button
+          *ngxPermissionsOnly="'VIEW_WORKING_HOUR_EVERYONE'"
+          routerLink="/my-time/working-hours/everyone"
+          routerLinkActive
+          tuiTab
+        >
+          {{ t('myTime.everyone') }}
+        </button>
       </tui-tabs>
       <router-outlet></router-outlet>
     </section>

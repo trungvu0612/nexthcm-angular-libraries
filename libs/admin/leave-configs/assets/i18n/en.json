@@ -1,2 +1,40 @@
 {
+  "ADMIN_LEAVE_LEVEL_APPROVE_MANAGEMENT_COLUMNS": {
+    "name": "Name",
+    "leaveType": "Leave Types",
+    "jobTitle": "Job Titles",
+    "totalLeave": "Total Leaves",
+    "functions": "Functions"
+  },
+  "ADMIN_LEAVE_ENTITLEMENT_MANAGEMENT_COLUMNS": {
+    "period": "Periods",
+    "jobTitle": "Leave Types",
+    "totalLeave": "Entitlement",
+    "functions": "Functions"
+  },
+  "ADMIN_PERIOD_MANAGEMENT_COLUMNS": {
+    "startDate": "Start Date - End Date",
+    "status": "Status",
+    "functions": "Functions"
+  },
+  "ADMIN_LEAVE_TYPES": {
+    "leaveTypesManagement": "Leave type management",
+    "addLeaveType": "Add leave types",
+    "LEAVE_TYPES_COLUMNS": {
+      "name": "Name",
+      "description": "Description",
+      "paidLeave": "Payable",
+      "status": "Status",
+      "process": "Process",
+      "operations": "Operators"
+    },
+    "MESSAGES": {
+      "deleteLeaveType": "Are you sure you want to delete this leave types?"
+    },
+    "ERRORS": {
+      "LEAVE_TYPE_DELETE_LEAVE_ALREADY_EXIST": "You can't delete this leave type because there are leaves submitted by it.",
+      "YOU_HAVE_ALREADY_CHECKED_IN_THANKS_YOU": "You have already checked in thanks you"
+    }
+  },
+  "addLeaveApprovalLevel": "Add leave approval level"
 }

@@ -1,50 +1,52 @@
-  <hcm-page [title]="'jobTitleManagement' | transloco">
-    <ng-container ngProjectAs="pageHeader">
-      <button (click)="onAddJobTitle()" size="m" tuiButton>
-        {{ 'addNewJobTitle' | transloco }}
-      </button>
-    </ng-container>
-    <tui-loader [overlay]="true" [showLoader]="(loading$ | async) === true">
-      <ngx-table
-        #table
-        (event)="eventEmitted($event)"
-        [columns]="(columns$ | async) || []"
-        [configuration]="configuration"
-        [data]="(data$ | async) || []"
-      >
-        <ng-template let-row>
-          <ng-container *tuiLet="item(row) as item">
-            <td>{{ item.name }}</td>
-            <td>{{ item.infoUserCreated?.profile?.fullName }}</td>
-            <td>{{ item.createdDate | date }}</td>
-            <td>{{ item.lastModifiedDate | date }}</td>
-            <td>{{ item.state === 1 ? ('approved' | transloco) : ('cancelled' | transloco) }}</td>
-            <td>
-              <div class="flex items-center">
-                <button
-                  (click)="onEditJobTitle(item)"
-                  appearance="flat"
-                  class="tui-space_right-3"
-                  icon="tuiIconEditLarge"
-                  size="m"
-                  tuiIconButton
-                ></button>
-                <button
-                  (click)="onRemoveJobTitle(item.id)"
-                  appearance="flat"
-                  icon="tuiIconTrashLarge"
-                  size="m"
-                  tuiIconButton
-                ></button>
-              </div>
-            </td>
-          </ng-container>
-        </ng-template>
-      </ngx-table>
-    </tui-loader>
-    <tui-table-pagination
-      (pageChange)="onPage($event)"
-      (sizeChange)="onSize($event)"
-      [total]="(total$ | async) || 0"
-    ></tui-table-pagination>
-  </hcm-page>
+<hcm-page [title]="'jobTitleManagement' | transloco">
+  <ng-container ngProjectAs="pageHeader">
+    <button (click)="onAddJobTitle()" *ngxPermissionsOnly="'CREATE_JOB_TITLE'" size="m" tuiButton>
+      {{ 'addNewJobTitle' | transloco }}
+    </button>
+  </ng-container>
+  <tui-loader [overlay]="true" [showLoader]="(loading$ | async) === true">
+    <ngx-table
+      #table
+      (event)="eventEmitted($event)"
+      [columns]="(columns$ | async) || []"
+      [configuration]="configuration"
+      [data]="(data$ | async) || []"
+    >
+      <ng-template let-row>
+        <ng-container *tuiLet="item(row) as item">
+          <td>{{ item.name }}</td>
+          <td>{{ item.infoUserCreated?.profile?.fullName }}</td>
+          <td>{{ item.createdDate | date }}</td>
+          <td>{{ item.lastModifiedDate | date }}</td>
+          <td>{{ item.state === 1 ? ('approved' | transloco) : ('cancelled' | transloco) }}</td>
+          <td>
+            <div class="flex items-center">
+              <button
+                (click)="onEditJobTitle(item)"
+                *ngxPermissionsOnly="'UPDATE_JOB_TITLE'"
+                appearance="flat"
+                class="tui-space_right-3"
+                icon="tuiIconEditLarge"
+                size="m"
+                tuiIconButton
+              ></button>
+              <button
+                (click)="onRemoveJobTitle(item.id)"
+                *ngxPermissionsOnly="'DELETE_JOB_TITLE'"
+                appearance="flat"
+                icon="tuiIconTrashLarge"
+                size="m"
+                tuiIconButton
+              ></button>
+            </div>
+          </td>
+        </ng-container>
+      </ng-template>
+    </ngx-table>
+  </tui-loader>
+  <tui-table-pagination
+    (pageChange)="onPage($event)"
+    (sizeChange)="onSize($event)"
+    [total]="(total$ | async) || 0"
+  ></tui-table-pagination>
+</hcm-page>

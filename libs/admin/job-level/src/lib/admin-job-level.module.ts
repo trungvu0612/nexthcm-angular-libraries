@@ -11,7 +11,7 @@ import { TuiLetModule } from '@taiga-ui/cdk';
 import { TuiButtonModule, TuiLoaderModule } from '@taiga-ui/core';
 import { TuiMarkerIconModule, TuiTagModule } from '@taiga-ui/kit';
 import { TableModule } from 'ngx-easy-table';
-import { NgxPermissionsGuard } from 'ngx-permissions';
+import { NgxPermissionsGuard, NgxPermissionsModule } from 'ngx-permissions';
 import { JobLevelComponent } from './job-level.component';
 import { JobLevelService } from './job-level.service';
 import { ListJobLevelComponent } from './list-job-level/list-job-level.component';
@@ -41,19 +41,19 @@ export const adminJobLevelRoutes: Route[] = [
     TuiMarkerIconModule,
     ReactiveFormsModule,
     RouterModule.forChild(adminJobLevelRoutes),
-    RouterModule,
     TranslocoModule,
     LayoutModule,
     BaseFormComponentModule,
     TuiLoaderModule,
     TableModule,
+    NgxPermissionsModule,
   ],
   providers: [
     JobLevelService,
     {
       provide: TRANSLOCO_SCOPE,
       useValue: {
-        scope: 'job-level',
+        scope: 'jobLevel',
         loader: inlineLoaderFactory((lang) => import(`../../assets/i18n/${lang}.json`)),
       },
     },

@@ -8,9 +8,8 @@ describe('UpdatedKnowledgeCategoryComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ UpdatedKnowledgeCategoryComponent ]
-    })
-    .compileComponents();
+      declarations: [UpdatedKnowledgeCategoryComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

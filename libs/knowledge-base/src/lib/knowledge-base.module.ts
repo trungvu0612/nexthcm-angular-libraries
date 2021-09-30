@@ -19,12 +19,12 @@ import {
 import { TuiAvatarModule, TuiInputModule, TuiInputMonthModule, TuiTagModule } from '@taiga-ui/kit';
 import { TableModule } from 'ngx-easy-table';
 import { NgxPermissionsGuard } from 'ngx-permissions';
+import { UpdatedKnowledgeCategoryComponent } from './components/updated-knowledge-category/updated-knowledge-category.component';
 import { UpdatedKnowledgeComponent } from './components/updated-knowledge/updated-knowledge.component';
 import { CategoryComponent } from './pages/category/category.component';
 import { KnowledgeBaseComponent } from './pages/knowledge-base/knowledge-base.component';
 import { KnowledgeComponent } from './pages/knowledge/knowledge.component';
 import { UpdatedComponent } from './pages/updated/updated.component';
-import { UpdatedKnowledgeCategoryComponent } from './components/updated-knowledge-category/updated-knowledge-category.component';
 
 export const KNOWLEDGE_BASE_ROUTES: Routes = [
   {
@@ -85,7 +85,7 @@ const TABS: MenuItem[] = [
         loader: inlineLoaderFactory((lang) => import(`../../assets/i18n/${lang}.json`)),
       },
     },
-    { provide: HEADER_TABS, useValue: TABS }
+    { provide: HEADER_TABS, useValue: TABS },
   ],
 })
 export class KnowledgeBaseModule {}

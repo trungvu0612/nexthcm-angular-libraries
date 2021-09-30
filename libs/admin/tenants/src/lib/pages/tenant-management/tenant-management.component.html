@@ -1,6 +1,8 @@
 <hcm-page title="{{ 'tenantManagement' | transloco }}">
   <ng-container ngProjectAs="pageHeader">
-    <button (click)="createTenant()" size="m" tuiButton>{{ 'tenants.createTenant' | transloco }}</button>
+    <button (click)="createTenant()" *ngxPermissionsOnly="'CREATE_TENANT'" size="m" tuiButton>
+      {{ 'tenants.createTenant' | transloco }}
+    </button>
   </ng-container>
   <div *ngIf="statistic$ | async as statistic" class="flex gap-8 mb-8">
     <ng-container *transloco="let t">
@@ -53,6 +55,7 @@
           <td>
             <div class="flex items-center space-x-2">
               <button
+                *ngxPermissionsOnly="'UPDATE_TENANT'"
                 [routerLink]="[item.id, 'profile']"
                 appearance="flat"
                 icon="tuiIconEditLarge"
@@ -60,6 +63,7 @@
                 tuiIconButton
               ></button>
               <button
+                *ngxPermissionsOnly="'DELETE_TENANT'"
                 (click)="onRemoveTenant(item.id)"
                 appearance="flat"
                 icon="tuiIconTrashLarge"

@@ -1,2 +1,41 @@
 {
+  "ADMIN_LEAVE_LEVEL_APPROVE_MANAGEMENT_COLUMNS": {
+    "name": "Tên",
+    "leaveType": "Loại nghỉ phép",
+    "jobTitle": "Chức danh công việc",
+    "totalLeave": "Số ngày nghỉ",
+    "functions": "Chức năng"
+  },
+  "ADMIN_LEAVE_ENTITLEMENT_MANAGEMENT_COLUMNS": {
+    "period": "Khoản thời gian",
+    "jobTitle": "Chức vụ",
+    "totalLeave": "Số ngày nghỉ",
+    "functions": "Chức năng"
+  },
+  "ADMIN_PERIOD_MANAGEMENT_COLUMNS": {
+    "startDate": "Ngày bắt đầu",
+    "endDate": "Ngày kết thúc",
+    "status": "Trạng thái",
+    "functions": "Chức năng"
+  },
+  "ADMIN_LEAVE_TYPES": {
+    "leaveTypesManagement": "Quản lý loại ngày nghỉ",
+    "addLeaveType": "Thêm loại ngày nghỉ",
+    "LEAVE_TYPES_COLUMNS": {
+      "name": "Tên",
+      "description": "Mô tả",
+      "status": "Tình trạng",
+      "paidLeave": "Tính phép",
+      "process": "Quy trình",
+      "operations": "Hoạt động"
+    },
+    "MESSAGES": {
+      "deleteLeaveType": "Bạn có chắc chắn muốn xóa loại ngày nghỉ này không?"
+    },
+    "ERRORS": {
+      "LEAVE_TYPE_DELETE_LEAVE_ALREADY_EXIST": "Bạn không thể xoá loại ngày nghỉ này vì nó đã được sử dụng để xin nghỉ.",
+      "YOU_HAVE_ALREADY_CHECKED_IN_THANKS_YOU": "Bạn đã xác nhận giờ vào làm rồi. Xin cám ơn!"
+    }
+  },
+  "addLeaveApprovalLevel": "Add leave approval level"
 }

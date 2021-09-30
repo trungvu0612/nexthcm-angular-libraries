@@ -1,7 +1,8 @@
-  <hcm-page [title]="('jobLevelManagement')">
+<ng-container *transloco="let t">
+  <hcm-page [title]="t('jobLevel.jobLevelManagement')">
     <ng-container ngProjectAs="pageHeader">
-      <button (click)="onAddJobTitle()" size="m" tuiButton>
-        {{ 'addNewJobLevel' | transloco }}
+      <button (click)="onAddJobTitle()" *ngxPermissionsOnly="'CREATE_JOB_LEVEL'" size="m" tuiButton>
+        {{ t('jobLevel.addNewJobLevel') }}
       </button>
     </ng-container>
     <tui-loader [overlay]="true" [showLoader]="(loading$ | async) === true">
@@ -20,6 +21,7 @@
               <div class="flex items-center">
                 <button
                   (click)="onEditJobTitle(item)"
+                  *ngxPermissionsOnly="'UPDATE_JOB_LEVEL'"
                   appearance="flat"
                   class="tui-space_right-3"
                   icon="tuiIconEditLarge"
@@ -28,6 +30,7 @@
                 ></button>
                 <button
                   (click)="onRemoveJobTitle(item.id)"
+                  *ngxPermissionsOnly="'DELETE_JOB_LEVEL'"
                   appearance="flat"
                   icon="tuiIconTrashLarge"
                   size="m"
@@ -45,5 +48,4 @@
       [total]="(total$ | async) || 0"
     ></tui-table-pagination>
   </hcm-page>
-
-
+</ng-container>

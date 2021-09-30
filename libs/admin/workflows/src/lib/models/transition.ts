@@ -18,7 +18,7 @@ export interface Transition extends WorkflowTransition {
 export interface TransitionCondition {
   conditionType: TransitionOption<ConditionType>;
   conditionOperator?: 'OR' | 'AND';
-  values?: BaseObject[];
+  permissions?: string[];
 }
 
 export interface TransitionValidator {

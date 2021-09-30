@@ -1,7 +1,8 @@
-  <hcm-page [title]="'userRoleManagement' | transloco">
-    <ng-container ngProjectAs="pageHeader">
-      <button (click)="onAddUserRole()" size="m" tuiButton>
-        {{ 'addNewUserRole' | transloco }}
+<ng-container *transloco="let t">
+  <hcm-page [title]="t('userRoles.userRoleManagement')">
+    <ng-container *transloco="let t" ngProjectAs="pageHeader">
+      <button (click)="onAddUserRole()" *ngxPermissionsOnly="'CREATE_ROLE'" size="m" tuiButton>
+        {{ t('userRoles.addNewUserRole') }}
       </button>
     </ng-container>
     <tui-loader [overlay]="true" [showLoader]="(loading$ | async) === true">
@@ -19,6 +20,7 @@
             <td>
               <div class="flex items-center">
                 <button
+                  *ngxPermissionsOnly="'UPDATE_ROLE'"
                   (click)="onEditUserRole(item)"
                   appearance="flat"
                   class="tui-space_right-3"
@@ -27,6 +29,7 @@
                   tuiIconButton
                 ></button>
                 <button
+                  *ngxPermissionsOnly="'DELETE_ROLE'"
                   (click)="onRemoveUserRole(item.id)"
                   appearance="flat"
                   icon="tuiIconTrashLarge"
@@ -45,3 +48,4 @@
       [total]="(total$ | async) || 0"
     ></tui-table-pagination>
   </hcm-page>
+</ng-container>

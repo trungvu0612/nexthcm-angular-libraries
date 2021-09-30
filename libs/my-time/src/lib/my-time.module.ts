@@ -34,23 +34,31 @@ export const MY_TIME_ROUTES: Routes = [
     data: { permissions: { only: 'MY_TIME', redirectTo: '/' } },
     children: [
       { path: '', pathMatch: 'full', redirectTo: 'my-leave' },
-      { path: 'my-leave', component: MyLeaveComponent },
+      {
+        path: 'my-leave',
+        component: MyLeaveComponent,
+      },
       {
         path: 'working-hours',
         component: WorkingHoursComponent,
-        canActivate: [NgxPermissionsGuard],
-        data: { permissions: { only: 'VIEW_WORKING_HOUR', redirectTo: '/' } },
+        canActivateChild: [NgxPermissionsGuard],
         children: [
-          { path: 'only-me', component: OnlyMeWorkingHoursListComponent },
-          { path: 'everyone', component: EveryoneWorkingHoursListComponent },
-          { path: '', redirectTo: 'only-me', pathMatch: 'full' },
+          { path: '', pathMatch: 'full', redirectTo: 'only-me' },
+          {
+            path: 'only-me',
+            component: OnlyMeWorkingHoursListComponent,
+            data: { permissions: { only: 'VIEW_WORKING_HOUR_ONLYME', redirectTo: '/' } },
+          },
+          {
+            path: 'everyone',
+            component: EveryoneWorkingHoursListComponent,
+            data: { permissions: { only: 'VIEW_WORKING_HOUR_EVERYONE', redirectTo: '/' } },
+          },
         ],
       },
       {
         path: 'my-requests',
         component: MyRequestsComponent,
-        canActivate: [NgxPermissionsGuard],
-        data: { permissions: { only: 'VIEW_MY_REQUEST', redirectTo: '/' } },
         children: [
           { path: 'working-after-hours', component: MyWorkingAfterHoursRequestsComponent },
           { path: 'update-timesheet', component: MyUpdateTimesheetRequestsComponent },
@@ -62,6 +70,8 @@ export const MY_TIME_ROUTES: Routes = [
       {
         path: 'requests',
         component: RequestManagementComponent,
+        canActivate: [NgxPermissionsGuard],
+        data: { permissions: { only: 'VIEW_REQUEST_MANAGEMENT', redirectTo: '/' } },
         children: [
           { path: 'leave', component: LeaveRequestListComponent },
           { path: 'working-after-hours', component: WorkingAfterHoursRequestListComponent },
@@ -78,7 +88,7 @@ const TABS: MenuItem[] = [
   { label: 'myTime.myLeave', link: '/my-time/my-leave', permissions: [] },
   { label: 'myTime.workingHours', link: '/my-time/working-hours', permissions: [] },
   { label: 'myTime.myRequest', link: '/my-time/my-requests', permissions: [] },
-  { label: 'myTime.requestManagement', link: '/my-time/requests', permissions: [] },
+  { label: 'myTime.requestManagement', link: '/my-time/requests', permissions: ['VIEW_REQUEST_MANAGEMENT'] },
 ];
 
 @NgModule({
@@ -100,7 +110,7 @@ const TABS: MenuItem[] = [
         loader: inlineLoaderFactory((lang) => import(`../../assets/i18n/${lang}.json`)),
       },
     },
-    { provide: HEADER_TABS, useValue: TABS }
+    { provide: HEADER_TABS, useValue: TABS },
   ],
 })
 export class MyTimeModule {}

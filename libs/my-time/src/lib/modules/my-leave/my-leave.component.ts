@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Inject, Injector, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '@nexthcm/auth';
-import { Pagination, PromptService } from '@nexthcm/cdk';
+import { Pagination } from '@nexthcm/cdk';
 import { FormBuilder } from '@ngneat/reactive-forms';
 import { ProviderScope, TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
@@ -64,7 +64,6 @@ export class MyLeaveComponent extends AbstractRequestListComponent<LeaveRequest>
     private readonly fb: FormBuilder,
     private readonly injector: Injector,
     private readonly translocoService: TranslocoService,
-    private readonly promptService: PromptService,
     private readonly authService: AuthService,
     private readonly dialogService: TuiDialogService
   ) {
@@ -83,10 +82,6 @@ export class MyLeaveComponent extends AbstractRequestListComponent<LeaveRequest>
         size: 'l',
       })
       .pipe(takeUntil(this.destroy$))
-      .subscribe(
-        this.promptService.handleResponse('myTime.submitRequestSuccessfully', () =>
-          this.queryParams$.next(this.queryParams$.value)
-        )
-      );
+      .subscribe(() => this.queryParams$.next(this.queryParams$.value));
   }
 }

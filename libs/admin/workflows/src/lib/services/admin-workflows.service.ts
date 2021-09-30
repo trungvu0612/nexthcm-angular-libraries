@@ -55,7 +55,10 @@ export class AdminWorkflowsService {
   }
 
   getStatuses(): Observable<Status[]> {
-    return this.http.get<Status[]>(`${ACCOUNT_API_PATH}/states`).pipe(catchError(() => of([])));
+    return this.http.get<BaseResponse<Status[]>>(`${ACCOUNT_API_PATH}/states`).pipe(
+      map((res) => res.data),
+      catchError(() => of([]))
+    );
   }
 
   checkStatusName(payload: Pick<Status, 'name'>): Observable<boolean> {

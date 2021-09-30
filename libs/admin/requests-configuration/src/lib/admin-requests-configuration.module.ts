@@ -8,6 +8,7 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { LetModule } from '@rx-angular/template';
 import { TuiLoaderModule } from '@taiga-ui/core';
 import { TuiAccordionModule } from '@taiga-ui/kit';
+import { NgxPermissionsGuard } from 'ngx-permissions';
 import { AdminRequestsConfigurationComponent } from './admin-requests-configuration.component';
 import { RequestConfigFormComponent } from './components/request-config-form/request-config-form.component';
 
@@ -15,6 +16,8 @@ export const adminRequestsConfigurationRoutes: Routes = [
   {
     path: '',
     component: LayoutComponent,
+    canActivate: [NgxPermissionsGuard],
+    data: { permissions: { only: 'VIEW_REQUEST_CONFIG_MANAGEMENT', redirectTo: '/' } },
     children: [{ path: '', component: AdminRequestsConfigurationComponent }],
   },
 ];

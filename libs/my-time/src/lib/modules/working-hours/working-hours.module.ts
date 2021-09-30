@@ -19,6 +19,7 @@ import { TuiLetModule } from '@taiga-ui/cdk';
 import { TuiButtonModule, TuiDataListModule, TuiLoaderModule, TuiSvgModule } from '@taiga-ui/core';
 import { TuiDataListWrapperModule, TuiIslandModule, TuiTabsModule } from '@taiga-ui/kit';
 import { TableModule } from 'ngx-easy-table';
+import { NgxPermissionsModule } from 'ngx-permissions';
 import { WorkingHoursService } from '../../services';
 import { EveryoneWorkingHoursListComponent } from './components/everyone-working-hours-list/everyone-working-hours-list.component';
 import { GroupWorkingHoursTableComponent } from './components/group-working-hours-table/group-working-hours-table.component';
@@ -62,6 +63,7 @@ import { WorkingHoursComponent } from './working-hours.component';
     TuiIslandModule,
     FormlyUserComboBoxComponentModule,
     LayoutModule,
+    NgxPermissionsModule,
   ],
   providers: [WorkingHoursService],
 })

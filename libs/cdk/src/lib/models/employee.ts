@@ -2,7 +2,7 @@ import { TuiDay, TuiDayRange } from '@taiga-ui/cdk';
 import { EmployeeCurrentStatus } from '../enums';
 import { DateRange } from './date-range';
 
-export type EmployeeInformationAPIType = 'individual' | 'duration' | 'education' | 'shui';
+export type EmployeeInformationAPIType = 'INDIVIDUAL' | 'DURATION' | 'EDUCATION' | 'SHUI';
 export type EmployeeInformationType = EmployeeIndividual | EmployeeDuration | EmployeeEducation | EmployeeSHUI;
 
 interface BaseOption {

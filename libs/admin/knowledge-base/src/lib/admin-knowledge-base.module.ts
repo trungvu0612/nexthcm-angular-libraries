@@ -17,7 +17,7 @@ import { TuiTablePaginationModule } from '@taiga-ui/addon-table';
 import { TuiButtonModule, TuiLoaderModule } from '@taiga-ui/core';
 import { TuiMarkerIconModule, TuiTagModule } from '@taiga-ui/kit';
 import { TableModule } from 'ngx-easy-table';
-import { NgxPermissionsGuard } from 'ngx-permissions';
+import { NgxPermissionsGuard, NgxPermissionsModule } from 'ngx-permissions';
 import { AdminKnowledgeBaseService } from './admin-knowledge-base.service';
 import { ListCategoryComponent } from './pages/list-category/list-category.component';
 import { ListPoliciesComponent } from './pages/list-policies/list-policies.component';
@@ -36,6 +36,7 @@ export const adminKnowledgeBaseRoutes: Route[] = [
         path: 'category',
         component: ListCategoryComponent,
         canActivate: [NgxPermissionsGuard],
+        data: { permissions: { only: 'VIEW_CATEGORY_KNOWLEDGE_BASE', redirectTo: '/' } },
       },
       {
         path: 'knowledge/add',
@@ -75,6 +76,7 @@ const TABS: MenuItem[] = [
     TuiLoaderModule,
     TuiMarkerIconModule,
     InputFilterComponentModule,
+    NgxPermissionsModule,
   ],
   providers: [
     AdminKnowledgeBaseService,
