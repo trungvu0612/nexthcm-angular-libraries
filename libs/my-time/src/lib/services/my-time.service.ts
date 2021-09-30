@@ -11,13 +11,13 @@ import {
 } from '@nexthcm/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
-import { Observable, Subject } from 'rxjs';
-import { map, switchMap, tap } from 'rxjs/operators';
+import { Observable, of, Subject } from 'rxjs';
+import { catchError, map, switchMap, tap } from 'rxjs/operators';
 import { GeneralRequest, SubmitRequestPayload } from '../models';
 import { RequestComment } from '../models/request-comment';
 import { CombineRequestTypeUrlPath, RequestTypeUrlPath } from '../models/request-type-url-path';
 import { ChangeEscalateUserPayload } from '../models/requests/change-escalate-user-payload';
-import { Tracking } from '../models/requests/tracking';
+import { HistoryItem } from '../models/requests/history-item';
 import { RequestDetailDialogComponent } from '../modules/shared/request-detail-dialog/request-detail-dialog.component';
 
 const REQUEST_DETAIL_URL_PATHS: Readonly<CombineRequestTypeUrlPath> = Object.freeze({
@@ -107,11 +107,10 @@ export class MyTimeService {
   }
 
   getEscalateUsers(searchQuery: string): Observable<EmployeeInfo[]> {
-    return this.http
-      .get<EmployeeInfo[]>(`${ACCOUNT_API_PATH}/users/get-manager`)
-      .pipe(
-        map((users) => users.filter((user) => user.fullName.toLowerCase().indexOf(searchQuery.toLowerCase()) !== -1))
-      );
+    return this.http.get<EmployeeInfo[]>(`${ACCOUNT_API_PATH}/users/get-manager`).pipe(
+      map((users) => users.filter((user) => user.fullName.toLowerCase().indexOf(searchQuery.toLowerCase()) !== -1)),
+      catchError(() => of([]))
+    );
   }
 
   getRequestComments(type: keyof RequestTypeUrlPath, requestId: string): Observable<RequestComment[]> {
@@ -126,9 +125,9 @@ export class MyTimeService {
     return this.http.post<BaseResponse<RequestComment>>(`${MY_TIME_API_PATH}/comments-common`, comment);
   }
 
-  getRequestHistory(type: keyof RequestTypeUrlPath, requestId: string): Observable<Tracking[]> {
+  getRequestHistory(type: keyof RequestTypeUrlPath, requestId: string): Observable<HistoryItem[]> {
     return this.http
-      .get<BaseResponse<Tracking[]>>(`${MY_TIME_API_PATH}/tracking-history/process`, {
+      .get<BaseResponse<HistoryItem[]>>(`${MY_TIME_API_PATH}/tracking-history/process`, {
         params: new HttpParams().set('type', REQUEST_HISTORY_URL_PATHS[type]).set('objectId', requestId),
       })
       .pipe(map((res) => res.data));

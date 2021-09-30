@@ -8,7 +8,7 @@ import { FormControl } from '@ngneat/reactive-forms';
 import { TranslocoModule } from '@ngneat/transloco';
 import { TranslocoLocaleModule } from '@ngneat/transloco-locale';
 import { RxState } from '@rx-angular/state';
-import { TuiDestroyService, TuiIdentityMatcher, TuiLetModule, TuiStringHandler } from '@taiga-ui/cdk';
+import { isPresent, TuiDestroyService, TuiIdentityMatcher, TuiLetModule, TuiStringHandler } from '@taiga-ui/cdk';
 import {
   TuiButtonModule,
   TuiDataListModule,
@@ -31,17 +31,25 @@ import {
 } from '@taiga-ui/kit';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { filter, switchMap, takeUntil } from 'rxjs/operators';
+import {
+  debounceTime,
+  distinctUntilChanged,
+  filter,
+  shareReplay,
+  startWith,
+  switchMap,
+  takeUntil,
+} from 'rxjs/operators';
 import { RequestStatus } from '../../../enums';
 import { GeneralRequest } from '../../../models';
 import { RequestComment } from '../../../models/request-comment';
 import { RequestTypeUrlPath } from '../../../models/request-type-url-path';
-import { Tracking } from '../../../models/requests/tracking';
+import { HistoryItem } from '../../../models/requests/history-item';
 import { MyTimeService } from '../../../services';
 import { LeaveRequestDateRangeComponentModule } from '../leave-request-date-range/leave-request-date-range.component';
 
 interface ComponentState {
-  history: Tracking[];
+  history: HistoryItem[];
   comments: RequestComment[];
 }
 
@@ -58,8 +66,12 @@ export class RequestDetailDialogComponent implements OnInit {
   readonly RequestStatus = RequestStatus;
   readonly search$ = new BehaviorSubject<string>('');
   readonly users: Observable<EmployeeInfo[]> = this.search$.pipe(
-    filter((search) => !!search),
-    switchMap((search) => this.myTimeService.getEscalateUsers(search))
+    filter(isPresent),
+    debounceTime(500),
+    distinctUntilChanged(),
+    switchMap((search) => this.myTimeService.getEscalateUsers(search)),
+    startWith([]),
+    shareReplay(1)
   );
   readonly commentControl = new FormControl<string>();
   open = false;

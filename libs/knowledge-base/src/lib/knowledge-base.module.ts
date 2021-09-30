@@ -81,7 +81,8 @@ const TABS: MenuItem[] = [
     {
       provide: TRANSLOCO_SCOPE,
       useValue: {
-        scope: 'knowledge-base',
+        scope: 'knowledgeBase',
+        alias: 'KNOWLEDGE_BASE',
         loader: inlineLoaderFactory((lang) => import(`../../assets/i18n/${lang}.json`)),
       },
     },

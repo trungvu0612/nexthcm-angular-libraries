@@ -108,7 +108,8 @@
     "email": "Địa chỉ email không hợp lệ!",
     "numeric": "Bạn phải nhập số vào ô này!",
     "invalidURL": "Địa chỉ URL không hợp lệ!",
-    "valueExisting": "Giá trị này đã tồn tại!"
+    "valueExisting": "Giá trị này đã tồn tại!",
+    "maxLength": "Trường này không được dài hơn {{length}} kí tự!"
   },
   "ADMIN_POLICIES": {
     "chooseCategory": "Chọn danh mục",
@@ -676,5 +677,9 @@
   "familyHealthCarePackageNumber": "Mã số gói chăm sóc sức khoẻ gia đình",
   "familyAllowance": "Phụ cấp gia đình",
   "healthInsuranceNumber": "Mã số Bảo hiểm y tế",
-  "healthCareInsuranceList": "Danh sách Bảo hiểm sức khoẻ cá nhân"
+  "healthCareInsuranceList": "Danh sách Bảo hiểm sức khoẻ cá nhân",
+  "updateTimesheet": "Cập nhật bảng ghi thời gian",
+  "workingOutside": "Làm việc bên ngoài",
+  "workFromHome": "Làm tại nhà",
+  "workingAfterHours": "Làm việc ngoài giờ"
 }

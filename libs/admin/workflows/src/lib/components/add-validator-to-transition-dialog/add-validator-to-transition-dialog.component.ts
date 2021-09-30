@@ -107,7 +107,7 @@ export class AddValidatorToTransitionDialogComponent
               serverRequest: (searchQuery: string) =>
                 of(searchQuery).pipe(
                   switchMap((searchQuery) =>
-                    iif(() => searchQuery.length > 2, this.adminWorkflowsService.getPermissions(searchQuery), of([]))
+                    iif(() => searchQuery.length >= 2, this.adminWorkflowsService.getPermissions(searchQuery), of([]))
                   )
                 ),
             },

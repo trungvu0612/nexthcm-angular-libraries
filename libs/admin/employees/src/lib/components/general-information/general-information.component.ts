@@ -20,7 +20,7 @@ export class GeneralInformationComponent {
   onSubmitGeneralInformationForm(payload: EmployeeGeneralInformation): void {
     this.adminEmployeeService
       .updateEmployeeGeneralInformation(payload)
-      .subscribe(this.promptService.handleResponse('updateSuccess'));
+      .subscribe(this.promptService.handleResponse('updateSuccessful'));
   }
 
   onCancel(): void {

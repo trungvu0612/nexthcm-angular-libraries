@@ -1,4 +1,4 @@
-export interface Tracking {
+export interface HistoryItem {
   authorUUID?: string;
   propertyName?: string;
   authorUsername?: string;

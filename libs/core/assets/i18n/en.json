@@ -108,7 +108,8 @@
     "numeric": "You must enter a number in this cell!",
     "uniqueStatusName": "This status name is already exists!",
     "invalidURL": "This URL is invalid!",
-    "valueExisting": "This value is already exists!"
+    "valueExisting": "This value is already exists!",
+    "maxLength": "This field can't be longer than {{length}} characters!"
   },
   "ADMIN_POLICIES": {
     "chooseCategory": "Choose category",
@@ -675,5 +676,9 @@
   "familyHealthCarePackageNumber": "Family health care package number",
   "familyAllowance": "Family allowance",
   "healthInsuranceNumber": "Health insurance number",
-  "healthCareInsuranceList": "Health care insurance list"
+  "healthCareInsuranceList": "Health care insurance list",
+  "updateTimesheet": "Update timesheet",
+  "workingOutside": "Working outside",
+  "workFromHome": "Work from home",
+  "workingAfterHours": "Working after-hours"
 }

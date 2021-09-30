@@ -48,6 +48,11 @@ export const FORMLY_CONFIG_TRANSLATION_PROVIDER: Provider = {
         { name: 'required', message: () => translate.selectTranslate('VALIDATION.required') },
         { name: 'email', message: () => translate.selectTranslate('VALIDATION.email') },
         { name: 'numeric', message: () => translate.selectTranslate('VALIDATION.numeric') },
+        {
+          name: 'maxlength',
+          message: (error: { requiredLength: number }) =>
+            translate.selectTranslate('VALIDATION.maxLength', { length: error.requiredLength }),
+        },
       ],
     };
   },
