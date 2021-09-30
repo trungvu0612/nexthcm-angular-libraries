@@ -1,8 +1,10 @@
 export interface HistoryItem {
-  authorUUID?: string;
-  propertyName?: string;
-  authorUsername?: string;
-  left?: number;
-  right: number;
-  time?: number;
+  propertyName: string;
+  author: {
+    fullName: string;
+    avatar?: string;
+  };
+  from: string;
+  to: string;
+  time: number;
 }

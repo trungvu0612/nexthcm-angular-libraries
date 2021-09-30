@@ -79,5 +79,7 @@
   "estimateTime": "Thời gian ước tính",
   "totalWorkingTimeH": "Số giờ làm việc",
   "requestType": "Loại yêu cầu",
-  "spentTime": "Thời gian"
+  "spentTime": "Thời gian",
+  "changedStatusTo": "đã đổi trạng thái sang",
+  "submittedRequest": "đã gửi yêu cầu"
 }

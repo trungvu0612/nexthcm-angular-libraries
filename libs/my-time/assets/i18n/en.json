@@ -80,5 +80,7 @@
   "estimateTime": "Estimate time",
   "totalWorkingTimeH": "Total working time (h)",
   "requestType": "Request type",
-  "spentTime": "Spent time"
+  "spentTime": "Spent time",
+  "changedStatusTo": "changed the status to",
+  "submittedRequest": "submitted the request"
 }

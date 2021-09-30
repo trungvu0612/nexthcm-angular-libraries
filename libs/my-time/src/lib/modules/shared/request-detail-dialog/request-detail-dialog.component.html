@@ -47,13 +47,7 @@
                 <tui-data-list-wrapper *tuiDataList [itemContent]="content" [items]="items"></tui-data-list-wrapper>
                 <ng-template #content let-data>
                   <div class="flex items-center">
-                    <tui-avatar
-                      [avatarUrl]="data.image | getFile | async"
-                      [rounded]="true"
-                      [text]="data.fullName"
-                      class="mr-2"
-                      size="s"
-                    ></tui-avatar>
+                    <hcm-avatar [image]="data.image" [text]="data.fullName" class="mr-2" rounded size="s"></hcm-avatar>
                     <span [tuiHighlight]="search$.value">{{ data.fullName }}</span>
                   </div>
                 </ng-template>
@@ -62,13 +56,7 @@
           </div>
           <ng-template #value let-data>
             <div class="flex items-center">
-              <tui-avatar
-                [avatarUrl]="data.image | getFile | async"
-                [rounded]="true"
-                [text]="data.fullName"
-                class="mr-2"
-                size="s"
-              ></tui-avatar>
+              <hcm-avatar [image]="data.image" [text]="data.fullName" class="mr-2" rounded size="s"></hcm-avatar>
               {{ data.fullName }}
             </div>
           </ng-template>
@@ -166,14 +154,7 @@
           <div class="table-label">{{ t('sendTo') }}:</div>
           <div class="table-value">
             <div *ngIf="data?.sendToDTO || data?.escalateDTO as sendTo" class="flex items-center">
-              <tui-avatar
-                [autoColor]="true"
-                [avatarUrl]="sendTo.image | getFile | async"
-                [rounded]="true"
-                [text]="sendTo.fullName"
-                class="mr-2"
-                size="s"
-              ></tui-avatar>
+              <hcm-avatar [image]="sendTo.image" [text]="sendTo.fullName" class="mr-2" rounded size="s"></hcm-avatar>
               {{ sendTo.fullName }}
             </div>
           </div>
@@ -204,17 +185,24 @@
     <tui-accordion [closeOthers]="false" [rounded]="false">
       <tui-accordion-item [borders]="null" class="border-b-2">
         <div class="font-semibold uppercase">{{ t('history') }}</div>
-
         <ng-template tuiAccordionItemContent>
           <ng-container *ngIf="history$ | async as historyItems">
-            <p *ngFor="let item of historyItems">
-              <span class="text-blue-500">{{ item.authorUsername }}</span>
-              {{ t('updatedStatusTo') }}
-              <tui-tag
-                [value]="t('REQUEST_STATUS.' + RequestStatus[item.right])"
-                class="{{ RequestStatus[item.right] }}-tag"
-              ></tui-tag>
-              <span class="text-gray-300">&nbsp;{{ item.time | date: 'dd/MM/yyyy HH:mm' }}</span>
+            <p *ngFor="let item of historyItems" class="flex mb-1">
+              <hcm-avatar [image]="item.author.avatar" [text]="item.author.fullName" rounded size="xs"></hcm-avatar>
+              <span>
+                <span class="text-blue-500">&nbsp;{{ item.author.fullName }}</span>
+                <span *ngIf="item.from; else created">
+                  {{ t('myTime.changedStatusTo') }} <b>{{ item.to }}</b>
+                </span>
+                -
+                <span class="text-gray-300">
+                  {{ item.time | translocoDate: { dateStyle: 'medium', timeStyle: 'short' } }}
+                </span>
+
+                <ng-template #created>
+                  <span>&nbsp;{{ t('myTime.submittedRequest') }}</span>
+                </ng-template>
+              </span>
             </p>
           </ng-container>
         </ng-template>
@@ -229,7 +217,6 @@
             </p>
           </ng-container>
           <div class="flex justify-between mt-4 align-baseline">
-            <tui-avatar [rounded]="true" [text]="'A'"></tui-avatar>
             <tui-input
               (keyup.enter)="onSubmitComment()"
               [formControl]="commentControl"

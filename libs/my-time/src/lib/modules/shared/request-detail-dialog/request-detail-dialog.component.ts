@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Inject, NgModule, OnInit, ViewChild } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from '@nexthcm/auth';
-import { EmployeeInfo, GetFilePipeModule } from '@nexthcm/cdk';
+import { EmployeeInfo } from '@nexthcm/cdk';
 import { AvatarComponentModule } from '@nexthcm/ui';
 import { FormControl } from '@ngneat/reactive-forms';
 import { TranslocoModule } from '@ngneat/transloco';
@@ -21,12 +21,10 @@ import {
 } from '@taiga-ui/core';
 import {
   TuiAccordionModule,
-  TuiAvatarModule,
   TuiComboBoxModule,
   TuiDataListWrapperModule,
   TuiHighlightModule,
   TuiInputModule,
-  TuiSelectModule,
   TuiTagModule,
 } from '@taiga-ui/kit';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
@@ -159,7 +157,7 @@ export class RequestDetailDialogComponent implements OnInit {
     this.myTimeService
       .changeRequestStatus(this.requestType, this.data.id, statusId)
       .pipe(takeUntil(this.destroy$))
-      .subscribe();
+      .subscribe(() => this.getHistory$.next());
   }
 }
 
@@ -168,7 +166,6 @@ export class RequestDetailDialogComponent implements OnInit {
   imports: [
     CommonModule,
     TranslocoModule,
-    GetFilePipeModule,
     TuiTagModule,
     AvatarComponentModule,
     TranslocoLocaleModule,
@@ -181,15 +178,13 @@ export class RequestDetailDialogComponent implements OnInit {
     TuiDataListWrapperModule,
     TuiLetModule,
     TuiDataListModule,
-    TuiHighlightModule,
     FormsModule,
     TuiTextfieldControllerModule,
     LeaveRequestDateRangeComponentModule,
-    TuiAvatarModule,
-    TuiSelectModule,
     TuiHostedDropdownModule,
     TuiDropdownControllerModule,
     TuiSvgModule,
+    TuiHighlightModule,
   ],
   exports: [RequestDetailDialogComponent],
 })
