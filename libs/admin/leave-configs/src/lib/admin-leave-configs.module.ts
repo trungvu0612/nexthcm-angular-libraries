@@ -43,26 +43,18 @@ export const adminLeaveTypesRoutes: Route[] = [
       {
         path: 'types',
         component: LeaveTypeManagementComponent,
-        canActivate: [NgxPermissionsGuard],
-        data: { permissions: { only: 'ADMIN', redirectTo: '/' } },
       },
       {
         path: 'periods',
         component: LeavePeriodManagementComponent,
-        canActivate: [NgxPermissionsGuard],
-        data: { permissions: { only: 'ADMIN', redirectTo: '/' } },
       },
       {
         path: 'entitlements',
         component: LeaveEntitlementManagementComponent,
-        canActivate: [NgxPermissionsGuard],
-        data: { permissions: { only: 'ADMIN', redirectTo: '/' } },
       },
       {
         path: 'approval-levels',
         component: LeaveApprovalLevelManagementComponent,
-        canActivate: [NgxPermissionsGuard],
-        data: { permissions: { only: 'ADMIN', redirectTo: '/' } },
       },
     ],
   },

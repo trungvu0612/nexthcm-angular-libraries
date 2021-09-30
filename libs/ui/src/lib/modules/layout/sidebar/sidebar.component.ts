@@ -81,13 +81,13 @@ export class SidebarComponent implements OnInit {
       label: 'leaveConfigs',
       link: '/admin/leave-configs',
       icon: 'leave-configs',
-      permissions: 'VIEW_LEAVE_TYPE',
+      permissions: 'VIEW_LEAVE_CONFIG',
     },
     {
       label: 'requestsConfig',
       link: '/admin/requests-config',
       icon: 'requests-config',
-      permissions: 'ADMIN', // TODO need fix
+      permissions: 'VIEW_REQUEST_CONFIG_MANAGEMENT',
     },
     {
       label: 'workingTimeManagement',
@@ -117,13 +117,13 @@ export class SidebarComponent implements OnInit {
         label: 'seatMaps',
         link: '/seat-maps',
         icon: 'seat-map',
-        permissions: 'VIEW_HELP_DESK', // TODO need change
+        permissions: 'SEAT',
       },
       {
         label: 'calendar',
         link: '/calendar',
         icon: 'calendar',
-        permissions: 'VIEW_CALENDAR',
+        permissions: 'CALENDAR',
       },
       /*{
         label: 'payslip',

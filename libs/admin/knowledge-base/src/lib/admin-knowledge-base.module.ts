@@ -35,7 +35,6 @@ export const adminKnowledgeBaseRoutes: Route[] = [
       {
         path: 'category',
         component: ListCategoryComponent,
-        canActivate: [NgxPermissionsGuard],
       },
       {
         path: 'knowledge/add',

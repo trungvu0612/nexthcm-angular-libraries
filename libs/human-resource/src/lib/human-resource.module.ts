@@ -9,7 +9,7 @@ import {
   InputFilterComponentModule,
   LayoutComponent,
   LayoutModule,
-  MenuItem
+  MenuItem,
 } from '@nexthcm/ui';
 import { SvgIconsModule } from '@ngneat/svg-icon';
 import { TranslocoModule } from '@ngneat/transloco';
@@ -24,7 +24,7 @@ import {
   TuiLoaderModule,
   TuiScrollbarModule,
   TuiSvgModule,
-  TuiTextfieldControllerModule
+  TuiTextfieldControllerModule,
 } from '@taiga-ui/core';
 import { TuiAvatarModule, TuiDropdownHoverModule, TuiInputModule } from '@taiga-ui/kit';
 import { PolymorpheusModule } from '@tinkoff/ng-polymorpheus';
@@ -39,7 +39,7 @@ export const humanResourceRoutes: Routes = [
     path: '',
     component: LayoutComponent,
     canActivate: [NgxPermissionsGuard],
-    data: { permissions: { only: 'HUMAN_RESOURCE', redirectTo: '/' } },
+    data: { permissions: { only: 'VIEW_HUMAN_RESOURCE', redirectTo: '/' } },
     children: [
       { path: '', pathMatch: 'full', redirectTo: 'organization-chart' },
       { path: 'organization-chart', component: OrganizationChartComponent },
