@@ -37,7 +37,7 @@ export const adminLeaveTypesRoutes: Route[] = [
     path: '',
     component: LayoutComponent,
     canActivate: [NgxPermissionsGuard],
-    data: { permissions: { only: 'VIEW_LEAVE_TYPE', redirectTo: '/' } },
+    data: { permissions: { only: 'VIEW_LEAVE_CONFIG', redirectTo: '/' } },
     children: [
       { path: '', pathMatch: 'full', redirectTo: 'types' },
       {
