@@ -1,7 +1,7 @@
 <ng-container *transloco="let t">
   <hcm-page [title]="t('knowledgeBaseManagement')">
     <ng-container ngProjectAs="pageHeader">
-      <button routerLink="add" size="m" tuiButton>Add Policy</button>
+      <button *ngxPermissionsOnly="'CREATE_ADMIN_KNOWLEDGE'" routerLink="add" size="m" tuiButton>Add Policy</button>
     </ng-container>
     <hcm-input-filter
       (valueChange)="search$.next($event)"
@@ -26,6 +26,7 @@
             <td>
               <div class="flex items-center">
                 <button
+                  *ngxPermissionsOnly="'UPDATE_ADMIN_KNOWLEDGE'"
                   [routerLink]="[item.id, 'edit']"
                   appearance="flat"
                   class="tui-space_right-3"
@@ -35,6 +36,7 @@
                   type="button"
                 ></button>
                 <button
+                  *ngxPermissionsOnly="'DELETE_ADMIN_KNOWLEDGE'"
                   (click)="delete(item.id || '')"
                   appearance="flat"
                   icon="tuiIconTrashLarge"

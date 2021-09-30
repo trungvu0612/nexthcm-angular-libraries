@@ -20,7 +20,7 @@ import { TuiButtonModule, TuiLinkModule, TuiLoaderModule, TuiScrollbarModule } f
 import { TuiBreadcrumbsModule, TuiIslandModule, TuiTabsModule, TuiTagModule } from '@taiga-ui/kit';
 import { HeroIconModule, zoomIn } from 'ng-heroicon';
 import { TableModule } from 'ngx-easy-table';
-import { NgxPermissionsGuard } from 'ngx-permissions';
+import { NgxPermissionsGuard, NgxPermissionsModule } from 'ngx-permissions';
 import { UpsertOrganizationalUnitComponent } from './components/upsert-organization-unit/upsert-organizational-unit.component';
 import { UpsertTenantDialogComponent } from './components/upsert-tenant-dialog/upsert-tenant-dialog.component';
 import { UpsertTenantDomainDialogComponent } from './components/upsert-tenant-domain-dialog/upsert-tenant-domain-dialog.component';
@@ -82,6 +82,7 @@ export const ADMIN_TENANTS_ROUTES: Routes = [
     TuiIslandModule,
     FormlyUserComboBoxComponentModule,
     TuiBreadcrumbsModule,
+    NgxPermissionsModule,
   ],
   declarations: [
     TenantManagementComponent,

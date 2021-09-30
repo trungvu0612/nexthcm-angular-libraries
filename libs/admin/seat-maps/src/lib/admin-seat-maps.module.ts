@@ -12,7 +12,7 @@ import { TuiTablePaginationModule } from '@taiga-ui/addon-table';
 import { TuiButtonModule, TuiLoaderModule, TuiSvgModule } from '@taiga-ui/core';
 import { TuiInputFileModule } from '@taiga-ui/kit';
 import { TableModule } from 'ngx-easy-table';
-import { NgxPermissionsGuard } from 'ngx-permissions';
+import { NgxPermissionsGuard, NgxPermissionsModule } from 'ngx-permissions';
 import { SeatMapListComponent } from './pages/seat-map-list/seat-map-list.component';
 import { UpsertSeatMapComponent } from './pages/upsert-seat-map/upsert-seat-map.component';
 import { AdminSeatMapsService } from './services/admin-seat-maps.service';
@@ -58,6 +58,7 @@ export const adminSeatMapsRoutes: Routes = [
     TuiSvgModule,
     TuiTablePaginationModule,
     TuiLoaderModule,
+    NgxPermissionsModule,
   ],
   providers: [
     AdminSeatMapsService,

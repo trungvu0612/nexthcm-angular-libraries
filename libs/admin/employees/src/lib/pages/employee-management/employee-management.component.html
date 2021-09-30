@@ -1,6 +1,6 @@
 <hcm-page [title]="'employeeManagement' | transloco">
   <ng-container *transloco="let t" ngProjectAs="pageHeader">
-    <button (click)="onAddEmployee()" size="m" tuiButton>
+    <button (click)="onAddEmployee()" *ngxPermissionsOnly="'CREATE_EMPLOYEE'" size="m" tuiButton>
       {{ t('employees.addNewEmployee') }}
     </button>
   </ng-container>
@@ -36,6 +36,7 @@
           <td>
             <div class="flex items-center">
               <button
+                *ngxPermissionsOnly="'UPDATE_EMPLOYEE'"
                 [routerLink]="[item.id]"
                 appearance="flat"
                 class="tui-space_right-3"
@@ -45,6 +46,7 @@
               ></button>
               <button
                 (click)="onRemoveEmployee(item.id)"
+                *ngxPermissionsOnly="'DELETE_EMPLOYEE'"
                 appearance="flat"
                 icon="tuiIconTrashLarge"
                 size="m"

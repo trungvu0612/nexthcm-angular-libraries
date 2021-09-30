@@ -592,7 +592,7 @@ export class IndividualFormComponent {
     { key: 'type' },
   ];
   private readonly request$ = this.employeesService
-    .getEmployeeInformation(this.activatedRoute.snapshot.params.employeeId, 'individual')
+    .getEmployeeInformation(this.activatedRoute.snapshot.params.employeeId, 'INDIVIDUAL')
     .pipe(
       tap((res) => {
         const data = parseTuiDayFields(res, ['birthDate', 'issueOn']);
@@ -601,7 +601,7 @@ export class IndividualFormComponent {
           ...this.model,
           ...data,
           employeeId: this.activatedRoute.snapshot.params.employeeId,
-          type: 'individual',
+          type: 'INDIVIDUAL',
         };
       }),
       startWith(null),

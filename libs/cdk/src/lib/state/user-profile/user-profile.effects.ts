@@ -41,7 +41,7 @@ export class UserProfileEffects {
     switchMap(() =>
       cacheable(
         this.profileIndividualStore,
-        this.employeesService.getEmployeeInformation(this.authService.userId(), 'individual').pipe(
+        this.employeesService.getEmployeeInformation(this.authService.userId(), 'INDIVIDUAL').pipe(
           tap((res) => {
             this.profileIndividualStore.update(res);
             this.profileIndividualStore.setHasCache(true);
@@ -57,7 +57,7 @@ export class UserProfileEffects {
     switchMap(() =>
       cacheable(
         this.profileDurationStore,
-        this.employeesService.getEmployeeInformation(this.authService.userId(), 'duration').pipe(
+        this.employeesService.getEmployeeInformation(this.authService.userId(), 'DURATION').pipe(
           tap((res) => {
             this.profileDurationStore.update(res);
             this.profileDurationStore.setHasCache(true);
@@ -73,7 +73,7 @@ export class UserProfileEffects {
     switchMap(() =>
       cacheable(
         this.profileEducationStore,
-        this.employeesService.getEmployeeInformation(this.authService.userId(), 'education').pipe(
+        this.employeesService.getEmployeeInformation(this.authService.userId(), 'EDUCATION').pipe(
           tap((res) => {
             this.profileEducationStore.update(res);
             this.profileEducationStore.setHasCache(true);
@@ -89,7 +89,7 @@ export class UserProfileEffects {
     switchMap(() =>
       cacheable(
         this.profileSHUIStore,
-        this.employeesService.getEmployeeInformation(this.authService.userId(), 'shui').pipe(
+        this.employeesService.getEmployeeInformation(this.authService.userId(), 'SHUI').pipe(
           tap((res) => {
             this.profileSHUIStore.update(res);
             this.profileSHUIStore.setHasCache(true);

@@ -31,7 +31,7 @@ import { TuiBreadcrumbsModule, TuiCheckboxModule, TuiTabsModule, TuiToggleModule
 import { PolymorpheusModule } from '@tinkoff/ng-polymorpheus';
 import { academicCap, HeroIconModule, identification, informationCircle } from 'ng-heroicon';
 import { TableModule } from 'ngx-easy-table';
-import { NgxPermissionsGuard } from 'ngx-permissions';
+import { NgxPermissionsGuard, NgxPermissionsModule } from 'ngx-permissions';
 import { DurationFormComponent } from './components/duration-form/duration-form.component';
 import { EducationFormComponent } from './components/education-form/education-form.component';
 import { FormlyRepeatSectionComponent } from './components/formly-repeat-section/formly-repeat-section.component';
@@ -106,6 +106,7 @@ export const ADMIN_EMPLOYEE_ROUTES: Routes = [
       OfficesEffects,
       OrganizationsEffects,
     ]),
+    NgxPermissionsModule,
   ],
   declarations: [
     EditEmployeeComponent,

@@ -1,6 +1,8 @@
 <hcm-page [title]="'category' | transloco">
   <ng-container ngProjectAs="pageHeader">
-    <button (click)="upsertCategory(content)" tuiButton>{{ 'addCategory' | transloco }}</button>
+    <button (click)="upsertCategory(content)" *ngxPermissionsOnly="'CREATE_CATEGORY_KNOWLEDGE_BASE'" tuiButton>
+      {{ 'addCategory' | transloco }}
+    </button>
   </ng-container>
   <tui-loader [overlay]="true" [showLoader]="(loading$ | async) === true">
     <ngx-table
@@ -24,6 +26,7 @@
           </td>
           <td class="flex gap-2">
             <button
+              *ngxPermissionsOnly="'UPDATE_CATEGORY_KNOWLEDGE_BASE'"
               (click)="upsertCategory(content, item.id)"
               appearance="flat"
               icon="tuiIconEditLarge"
@@ -31,6 +34,7 @@
               tuiIconButton
             ></button>
             <button
+              *ngxPermissionsOnly="'DELETE_CATEGORY_KNOWLEDGE_BASE'"
               (click)="deleteCategory(item.id)"
               appearance="flat"
               icon="tuiIconTrashLarge"

@@ -41,17 +41,17 @@ export const MY_TIME_ROUTES: Routes = [
       {
         path: 'working-hours',
         component: WorkingHoursComponent,
+        canActivateChild: [NgxPermissionsGuard],
         children: [
+          { path: '', pathMatch: 'full', redirectTo: 'only-me' },
           {
             path: 'only-me',
             component: OnlyMeWorkingHoursListComponent,
-            canActivate: [NgxPermissionsGuard],
             data: { permissions: { only: 'VIEW_WORKING_HOUR_ONLYME', redirectTo: '/' } },
           },
           {
             path: 'everyone',
             component: EveryoneWorkingHoursListComponent,
-            canActivate: [NgxPermissionsGuard],
             data: { permissions: { only: 'VIEW_WORKING_HOUR_EVERYONE', redirectTo: '/' } },
           },
         ],

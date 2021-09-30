@@ -21,7 +21,7 @@ import { TuiLetModule } from '@taiga-ui/cdk';
 import { TuiButtonModule, TuiLoaderModule } from '@taiga-ui/core';
 import { TuiTabsModule, TuiTagModule } from '@taiga-ui/kit';
 import { TableModule } from 'ngx-easy-table';
-import { NgxPermissionsGuard } from 'ngx-permissions';
+import { NgxPermissionsGuard, NgxPermissionsModule } from 'ngx-permissions';
 import { UpsertLeaveApprovalLevelDialogComponent } from './components/upsert-leave-approval-level-dialog/upsert-leave-approval-level-dialog.component';
 import { UpsertLeaveEntitlementDialogComponent } from './components/upsert-leave-entitlement/upsert-leave-entitlement-dialog.component';
 import { UpsertLeavePeriodDialogComponent } from './components/upsert-leave-period-dialog/upsert-leave-period-dialog.component';
@@ -95,6 +95,7 @@ const TABS: MenuItem[] = [
     TuiLetModule,
     AkitaNgEffectsModule.forFeature([WorkflowsEffects]),
     FormlyModule,
+    NgxPermissionsModule,
   ],
   providers: [
     LeaveConfigsService,

@@ -1,61 +1,64 @@
-  <hcm-page [title]="'ADMIN_LEAVE_TYPES.leaveTypesManagement' | transloco">
-    <ng-container ngProjectAs="pageHeader">
-      <button
-        (click)="onAddLeaveLevel()"
-        class="tui-space_right-3 tui-space_bottom-3"
-        icon="tuiIconPlusLarge"
-        size="m"
-        tuiButton
-      >
-        {{ 'ADMIN_LEAVE_TYPES.addLeaveType' | transloco }}
-      </button>
-    </ng-container>
-    <tui-loader [overlay]="true" [showLoader]="(loading$ | async) === true">
-      <ngx-table
-        #table
-        (event)="eventEmitted($event)"
-        [columns]="(columns$ | async) || []"
-        [configuration]="configuration"
-        [data]="(data$ | async) || []"
-      >
-        <ng-template let-row>
-          <ng-container *tuiLet="item(row) as item">
-            <td>{{ item.name }}</td>
-            <td>{{ item.description }}</td>
-            <td>
-              <tui-tag
-                [value]="'PAIDLEAVE_STATUS.' + PaidLeaveStatus[item.paidLeave ? 1 : 0] | transloco"
-                class="{{ PaidLeaveStatus[item.paidLeave ? 1 : 0] }}-tag"
-              ></tui-tag>
-            </td>
-            <td>
-              <div class="flex items-center">
-                <button
-                  (click)="onEditLeaveLevelApprove(item)"
-                  appearance="flat"
-                  class="tui-space_right-3"
-                  icon="tuiIconEditLarge"
-                  size="m"
-                  tuiIconButton
-                  type="button"
-                ></button>
-                <button
-                  (click)="onRemoveLeaveLevel($any(item.id))"
-                  appearance="flat"
-                  icon="tuiIconTrashLarge"
-                  size="m"
-                  tuiIconButton
-                  type="button"
-                ></button>
-              </div>
-            </td>
-          </ng-container>
-        </ng-template>
-      </ngx-table>
-    </tui-loader>
-    <tui-table-pagination
-      (pageChange)="onPage($event)"
-      (sizeChange)="onSize($event)"
-      [total]="(total$ | async) || 0"
-    ></tui-table-pagination>
-  </hcm-page>
+<hcm-page [title]="'ADMIN_LEAVE_TYPES.leaveTypesManagement' | transloco">
+  <ng-container ngProjectAs="pageHeader">
+    <button
+      (click)="onAddLeaveLevel()"
+      *ngxPermissionsOnly="'CREATE_LEAVE_CONFIG'"
+      class="tui-space_right-3 tui-space_bottom-3"
+      icon="tuiIconPlusLarge"
+      size="m"
+      tuiButton
+    >
+      {{ 'ADMIN_LEAVE_TYPES.addLeaveType' | transloco }}
+    </button>
+  </ng-container>
+  <tui-loader [overlay]="true" [showLoader]="(loading$ | async) === true">
+    <ngx-table
+      #table
+      (event)="eventEmitted($event)"
+      [columns]="(columns$ | async) || []"
+      [configuration]="configuration"
+      [data]="(data$ | async) || []"
+    >
+      <ng-template let-row>
+        <ng-container *tuiLet="item(row) as item">
+          <td>{{ item.name }}</td>
+          <td>{{ item.description }}</td>
+          <td>
+            <tui-tag
+              [value]="'PAIDLEAVE_STATUS.' + PaidLeaveStatus[item.paidLeave ? 1 : 0] | transloco"
+              class="{{ PaidLeaveStatus[item.paidLeave ? 1 : 0] }}-tag"
+            ></tui-tag>
+          </td>
+          <td>
+            <div class="flex items-center">
+              <button
+                (click)="onEditLeaveLevelApprove(item)"
+                *ngxPermissionsOnly="'UPDATE_LEAVE_CONFIG'"
+                appearance="flat"
+                class="tui-space_right-3"
+                icon="tuiIconEditLarge"
+                size="m"
+                tuiIconButton
+                type="button"
+              ></button>
+              <button
+                (click)="onRemoveLeaveLevel($any(item.id))"
+                *ngxPermissionsOnly="'DELETE_LEAVE_CONFIG'"
+                appearance="flat"
+                icon="tuiIconTrashLarge"
+                size="m"
+                tuiIconButton
+                type="button"
+              ></button>
+            </div>
+          </td>
+        </ng-container>
+      </ng-template>
+    </ngx-table>
+  </tui-loader>
+  <tui-table-pagination
+    (pageChange)="onPage($event)"
+    (sizeChange)="onSize($event)"
+    [total]="(total$ | async) || 0"
+  ></tui-table-pagination>
+</hcm-page>

@@ -117,7 +117,7 @@ export class SidebarComponent implements OnInit {
         label: 'seatMaps',
         link: '/seat-maps',
         icon: 'seat-map',
-        permissions: 'SEAT',
+        permissions: 'VIEW_SEAT',
       },
       {
         label: 'calendar',

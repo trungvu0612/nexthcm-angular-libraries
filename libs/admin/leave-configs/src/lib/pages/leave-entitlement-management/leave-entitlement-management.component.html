@@ -1,7 +1,7 @@
 <ng-container *transloco="let t">
   <hcm-page [title]="t('leaveEntitlementManagement')">
     <ng-container ngProjectAs="pageHeader">
-      <button (click)="onAddLeaveLevel()" size="m" tuiButton>
+      <button (click)="onAddLeaveLevel()" *ngxPermissionsOnly="'CREATE_LEAVE_CONFIG'" size="m" tuiButton>
         {{ t('addNewLeaveEntitlement') }}
       </button>
     </ng-container>
@@ -21,6 +21,7 @@
             <td>
               <div class="flex items-center">
                 <button
+                  *ngxPermissionsOnly="'UPDATE_LEAVE_CONFIG'"
                   (click)="onEditLeaveLevelApprove(item)"
                   appearance="flat"
                   class="tui-space_right-3"
@@ -29,6 +30,7 @@
                   tuiIconButton
                 ></button>
                 <button
+                  *ngxPermissionsOnly="'DELETE_LEAVE_CONFIG'"
                   (click)="onRemoveLeaveLevel(item.id)"
                   appearance="flat"
                   icon="tuiIconTrashLarge"
