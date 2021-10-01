@@ -24,8 +24,8 @@ import { loadStatusTypes, StatusTypesQuery } from '../../state';
 export class UpsertStatusDialogComponent implements OnInit {
   @ViewChild('statusTypeContent', { static: true }) statusTypeContent!: PolymorpheusTemplate<BaseUser>;
 
-  fields!: FormlyFieldConfig[];
   readonly statusTypeContext!: { $implicit: WorkflowStatusType };
+  fields!: FormlyFieldConfig[];
   editMode = false;
   form = this.fb.group<Status>({} as Status);
   model = {} as Status;
