@@ -32,8 +32,11 @@
   "sendEmailAndNotificationToTheLeaderWithASpecifiedTitle": "Gửi email và thông báo cho người lãnh đạo với chức vụ nhất định",
   "sendEmailAndNotificationToTheLeaderWithASpecifiedTitleDescription": "Gửi email và thông báo cho người lãnh đạo với chức vụ nhất định. Email sẽ dựa trên mẫu của quy trình",
   "calculateEntitlement": "Tính lại quyền lợi nghỉ phép của nhân viên",
-  "calculateEntitlementDescription": "Tính lại quyền lợi nghỉ phép của nhân viên khi thay đổi trạng thái sang \"Đã chấp thuận\"","updateTimeSheet": "Cập nhật bản ghi thời gian",
+  "calculateEntitlementDescription": "Tính lại quyền lợi nghỉ phép của nhân viên khi thay đổi trạng thái sang \"Đã chấp thuận\"",
+  "updateTimeSheet": "Cập nhật bản ghi thời gian",
   "updateTimeSheetDescription": "Cập nhật bản ghi thời gian của nhân viên sau 15 phút",
+  "sendEmailAndNotificationToTheSomeoneRelated": "Gửi email và thông báo cho người liên quan",
+  "sendEmailAndNotificationToTheSomeoneRelatedDescription": "Gửi email và thông báo cho người liên quan.Email sẽ dựa trên mẫu của quy trình",
   "CONDITIONS_OPERATORS": {
     "or": "Bất kỳ điều kiện nào sau đây",
     "and": "Tất cả điều kiện sau đây"

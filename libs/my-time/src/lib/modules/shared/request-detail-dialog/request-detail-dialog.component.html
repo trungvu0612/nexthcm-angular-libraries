@@ -24,37 +24,27 @@
         </div>
         <div class="table-row">
           <div class="table-label">{{ t('myTime.requestType') }}:</div>
-          <div class="table-value">{{ t('myTime.' + requestType) }}</div>
+          <div class="table-value">{{ t(requestType) }}</div>
         </div>
         <div class="table-row">
           <div class="table-label">{{ t('assignee') }}:</div>
           <div *tuiLet="data.escalateDTO || data.escalateInfo as escalateUser" class="table-value">
             <div *ngIf="escalateUser && isMyRequest" class="flex items-center">
-              <ng-container *ngTemplateOutlet="value; context: { $implicit: escalateUser }"></ng-container>
+              <ng-container *ngTemplateOutlet="content; context: { $implicit: escalateUser }"></ng-container>
             </div>
             <div *ngIf="!isMyRequest">
-              <tui-combo-box
-                (ngModelChange)="onChangeEscalateUser($event, data.id)"
-                (searchChange)="search$.next($event || '')"
-                *tuiLet="users | async as items"
-                [identityMatcher]="identityMatcher"
+              <tui-select
+                (ngModelChange)="onChangeEscalateUser($event)"
+                *tuiLet="escalateUsers$ | async as users"
                 [ngModel]="escalateUser"
-                [strict]="false"
-                [stringify]="stringify"
                 [tuiTextfieldLabelOutside]="true"
-                [valueContent]="value"
+                [valueContent]="content"
               >
-                <tui-data-list-wrapper *tuiDataList [itemContent]="content" [items]="items"></tui-data-list-wrapper>
-                <ng-template #content let-data>
-                  <div class="flex items-center">
-                    <hcm-avatar [image]="data.image" [text]="data.fullName" class="mr-2" rounded size="s"></hcm-avatar>
-                    <span [tuiHighlight]="search$.value">{{ data.fullName }}</span>
-                  </div>
-                </ng-template>
-              </tui-combo-box>
+                <tui-data-list-wrapper *tuiDataList [itemContent]="content" [items]="users"></tui-data-list-wrapper>
+              </tui-select>
             </div>
           </div>
-          <ng-template #value let-data>
+          <ng-template #content let-data>
             <div class="flex items-center">
               <hcm-avatar [image]="data.image" [text]="data.fullName" class="mr-2" rounded size="s"></hcm-avatar>
               {{ data.fullName }}
@@ -106,9 +96,9 @@
               <div class="table-label">{{ t('duration') }}:</div>
               <div class="table-value">
                 {{
-                data.updateTotalTime
-                  ? (data.updateTotalTime / 3600 | translocoDecimal: { maximumFractionDigits: 1 })
-                  : 0
+                  data.updateTotalTime
+                    ? (data.updateTotalTime / 3600 | translocoDecimal: { maximumFractionDigits: 1 })
+                    : 0
                 }}h
               </div>
             </div>
@@ -183,6 +173,7 @@
     </div>
 
     <tui-accordion [closeOthers]="false" [rounded]="false">
+      <!-- HISTORY -->
       <tui-accordion-item [borders]="null" class="border-b-2">
         <div class="font-semibold uppercase">{{ t('history') }}</div>
         <ng-template tuiAccordionItemContent>
@@ -207,25 +198,50 @@
           </ng-container>
         </ng-template>
       </tui-accordion-item>
+      <!-- COMMENTS -->
       <tui-accordion-item [borders]="null">
         <div class="font-semibold uppercase">{{ t('Comment') }}</div>
         <ng-template tuiAccordionItemContent>
           <div *ngIf="comments$ | async as comments" [class.hidden]="inputComment" class="mb-2">
-            <p *ngFor="let comment of comments" class="flex mb-1">
-              <hcm-avatar
-                *ngIf="comment.userInfo"
-                [image]="comment.userInfo.image"
-                [text]="comment.userInfo.fullName"
-                rounded
-                size="xs"
-              ></hcm-avatar>
-              <span>
-                <span class="text-blue-500">{{ comment.userInfo?.fullName }}</span> {{ comment.comment }}
-                <span class="text-gray-300">
-                  {{ comment.createdDate | translocoDate: { dateStyle: 'medium', timeStyle: 'short' } }}
-                </span>
-              </span>
-            </p>
+            <div *ngFor="let comment of comments" class="flex justify-between mb-1">
+              <div class="flex flex-col space-y-2">
+                <div class="flex space-x-1">
+                  <hcm-avatar
+                    *ngIf="comment.userInfo"
+                    [image]="comment.userInfo.image"
+                    [text]="comment.userInfo.fullName"
+                    rounded
+                    size="xs"
+                  ></hcm-avatar>
+                  <span>
+                    <span class="text-blue-500">{{ comment.userInfo?.fullName }}</span> -
+                    <span>{{ comment.createdDate | translocoDate: { dateStyle: 'medium', timeStyle: 'short' } }} </span>
+                    <span *ngIf="comment.state === RequestCommentStatus.Edited">
+                      - <span class="text-red-500">{{ t('edited') }}</span>
+                    </span>
+                  </span>
+                </div>
+                <div>
+                  {{ comment.comment }}
+                </div>
+              </div>
+              <div *ngIf="comment.userInfo.id === currentUserId" class="flex">
+                <button
+                  (click)="onUpsertComment(comment)"
+                  appearance="flat"
+                  icon="tuiIconEdit"
+                  size="s"
+                  tuiIconButton
+                ></button>
+                <button
+                  (click)="onRemoveComment(comment.id)"
+                  appearance="flat"
+                  icon="tuiIconTrash"
+                  size="s"
+                  tuiIconButton
+                ></button>
+              </div>
+            </div>
           </div>
           <button (click)="onUpsertComment()" *ngIf="!inputComment" appearance="secondary" size="s" tuiButton>
             {{ t('addComment') }}
@@ -234,7 +250,7 @@
             <formly-form [fields]="commentFields" [form]="$any(commentForm)" [model]="commentModel"></formly-form>
             <div class="flex justify-end mt-2 space-x-2">
               <button (click)="onSubmitComment()" [disabled]="commentForm.invalid" size="s" tuiButton>
-                {{ t('add') }}
+                {{ t('save') }}
               </button>
               <button (click)="onCancelComment()" appearance="flat" size="s" tuiButton>{{ t('cancel') }}</button>
             </div>

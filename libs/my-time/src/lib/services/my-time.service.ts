@@ -13,6 +13,7 @@ import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { Observable, of, Subject } from 'rxjs';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
+import { RequestCommentStatus } from '../enums';
 import { GeneralRequest, SubmitRequestPayload } from '../models';
 import { RequestComment } from '../models/request-comment';
 import { CombineRequestTypeUrlPath, RequestTypeUrlPath } from '../models/request-type-url-path';
@@ -106,11 +107,17 @@ export class MyTimeService {
     );
   }
 
-  getEscalateUsers(searchQuery: string): Observable<EmployeeInfo[]> {
-    return this.http.get<EmployeeInfo[]>(`${ACCOUNT_API_PATH}/users/get-manager`).pipe(
-      map((users) => users.filter((user) => user.fullName.toLowerCase().indexOf(searchQuery.toLowerCase()) !== -1)),
-      catchError(() => of([]))
-    );
+  getEscalateUsers(type: keyof RequestTypeUrlPath, requestId: string): Observable<EmployeeInfo[]> {
+    return this.http
+      .get<BaseResponse<EmployeeInfo[]>>(
+        type === 'leave'
+          ? `${MY_TIME_API_PATH}/leaves/get-escalate-user-by-leave-id/${requestId}`
+          : `${ACCOUNT_API_PATH}/users/get-manager`
+      )
+      .pipe(
+        map((res) => res.data),
+        catchError(() => of([]))
+      );
   }
 
   getRequestComments(type: keyof RequestTypeUrlPath, requestId: string): Observable<RequestComment[]> {
@@ -121,8 +128,16 @@ export class MyTimeService {
       .pipe(map((res) => res.data.items));
   }
 
-  submitRequestComment(comment: RequestComment): Observable<BaseResponse<RequestComment>> {
+  addRequestComment(comment: RequestComment): Observable<BaseResponse<RequestComment>> {
     return this.http.post<BaseResponse<RequestComment>>(`${MY_TIME_API_PATH}/comments-common`, comment);
+  }
+
+  updateRequestComment(comment: RequestComment): Observable<unknown> {
+    return this.http.put(`${MY_TIME_API_PATH}/comments-common/${comment.id}`, comment);
+  }
+
+  removeRequestComment(id: string): Observable<unknown> {
+    return this.http.put(`${MY_TIME_API_PATH}/comments-common/${id}`, { state: RequestCommentStatus.Deleted });
   }
 
   getRequestHistory(type: keyof RequestTypeUrlPath, requestId: string): Observable<HistoryItem[]> {

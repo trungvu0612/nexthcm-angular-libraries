@@ -2,14 +2,14 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Inject, NgModule, OnInit, ViewChild } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from '@nexthcm/auth';
-import { EmployeeInfo } from '@nexthcm/cdk';
+import { EmployeeInfo, PromptService } from '@nexthcm/cdk';
 import { AvatarComponentModule } from '@nexthcm/ui';
 import { FormBuilder } from '@ngneat/reactive-forms';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { TranslocoLocaleModule } from '@ngneat/transloco-locale';
 import { FormlyFieldConfig, FormlyModule } from '@ngx-formly/core';
 import { RxState } from '@rx-angular/state';
-import { isPresent, TuiDestroyService, TuiIdentityMatcher, TuiLetModule, TuiStringHandler } from '@taiga-ui/cdk';
+import { TuiDestroyService, TuiIdentityMatcher, TuiLetModule, TuiStringHandler } from '@taiga-ui/cdk';
 import {
   TuiButtonModule,
   TuiDataListModule,
@@ -26,19 +26,13 @@ import {
   TuiDataListWrapperModule,
   TuiHighlightModule,
   TuiInputModule,
+  TuiSelectModule,
   TuiTagModule,
 } from '@taiga-ui/kit';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import {
-  debounceTime,
-  distinctUntilChanged,
-  filter,
-  shareReplay,
-  startWith,
-  switchMap,
-  takeUntil,
-} from 'rxjs/operators';
+import { from, iif, Subject } from 'rxjs';
+import { switchMap, takeUntil, tap } from 'rxjs/operators';
+import { RequestCommentStatus } from '../../../enums';
 import { GeneralRequest } from '../../../models';
 import { RequestComment } from '../../../models/request-comment';
 import { RequestTypeUrlPath } from '../../../models/request-type-url-path';
@@ -61,29 +55,22 @@ interface ComponentState {
 export class RequestDetailDialogComponent implements OnInit {
   @ViewChild(TuiHostedDropdownComponent) component?: TuiHostedDropdownComponent;
 
-  readonly search$ = new BehaviorSubject<string>('');
-  readonly users: Observable<EmployeeInfo[]> = this.search$.pipe(
-    filter(isPresent),
-    debounceTime(500),
-    distinctUntilChanged(),
-    switchMap((search) => this.myTimeService.getEscalateUsers(search)),
-    startWith([]),
-    shareReplay(1)
-  );
+  readonly escalateUsers$ = this.myTimeService.getEscalateUsers(this.requestType, this.data.id);
   open = false;
   inputComment = false;
+  readonly RequestCommentStatus = RequestCommentStatus;
   readonly commentForm = this.fb.group<RequestComment>({} as RequestComment);
   commentModel = {} as RequestComment;
   commentFields: FormlyFieldConfig[] = [
     {
       key: 'comment',
-      type: 'input',
+      type: 'text-area',
       templateOptions: { textfieldLabelOutside: true, required: true },
     },
     { key: 'id' },
     { key: 'objectId', defaultValue: this.data.id },
     { key: 'type', defaultValue: REQUEST_COMMENT_URL_PATHS[this.requestType] },
-    { key: 'edited' },
+    { key: 'state', defaultValue: RequestCommentStatus.Active },
   ];
 
   // READS
@@ -93,6 +80,8 @@ export class RequestDetailDialogComponent implements OnInit {
   // EVENTS
   readonly getComments$ = new Subject();
   readonly getHistory$ = new Subject();
+  readonly changeEscalateUser$ = new Subject<EmployeeInfo>();
+  readonly submitComment$ = new Subject<RequestComment>();
 
   // HANDLERS
   readonly getCommentsHandler$ = this.getComments$.pipe(
@@ -100,6 +89,16 @@ export class RequestDetailDialogComponent implements OnInit {
   );
   readonly getHistoryHandler$ = this.getHistory$.pipe(
     switchMap(() => this.myTimeService.getRequestHistory(this.requestType, this.data.id))
+  );
+  readonly submitCommentHandler$ = this.submitComment$.pipe(
+    switchMap((comment) =>
+      iif(
+        () => !!comment.id,
+        this.myTimeService.updateRequestComment(comment),
+        this.myTimeService.addRequestComment(comment)
+      )
+    ),
+    tap(this.promptService.handleResponse('', () => this.getComments$.next()))
   );
 
   constructor(
@@ -112,10 +111,39 @@ export class RequestDetailDialogComponent implements OnInit {
     private readonly authService: AuthService,
     private readonly destroy$: TuiDestroyService,
     private readonly state: RxState<ComponentState>,
-    private readonly fb: FormBuilder
+    private readonly fb: FormBuilder,
+    private readonly promptService: PromptService,
+    private readonly translocoService: TranslocoService
   ) {
     state.connect('history', this.getHistoryHandler$);
-    state.connect('comments', this.getCommentsHandler$);
+    state.connect(
+      'comments',
+      this.getCommentsHandler$.pipe(
+        tap(() => {
+          this.inputComment = false;
+          this.commentModel = { ...this.commentModel, id: '', comment: '' };
+        })
+      )
+    );
+    state.hold(this.submitCommentHandler$);
+    state.hold(
+      this.changeEscalateUser$.pipe(
+        switchMap((user) =>
+          this.myTimeService
+            .changeEscalateUser(this.requestType, {
+              objectId: this.data.id,
+              escalateId: user.id,
+            })
+            .pipe(
+              tap(() => {
+                if ('escalateInfo' in this.data) {
+                  this.data.escalateInfo = user;
+                }
+              })
+            )
+        )
+      )
+    );
   }
 
   get data(): GeneralRequest {
@@ -130,6 +158,10 @@ export class RequestDetailDialogComponent implements OnInit {
     return !!this.context.data.userId;
   }
 
+  get currentUserId(): string {
+    return this.authService.get('userInfo', 'userId');
+  }
+
   readonly identityMatcher: TuiIdentityMatcher<any> = (item1: EmployeeInfo, item2: EmployeeInfo) =>
     item1.id === item2.id;
 
@@ -140,15 +172,9 @@ export class RequestDetailDialogComponent implements OnInit {
     this.getComments$.next();
   }
 
-  onChangeEscalateUser(value: EmployeeInfo | null, requestId: string): void {
-    if ('escalateInfo' in this.data) {
-      this.data.escalateInfo = value;
-    }
-    if (value?.id) {
-      this.myTimeService
-        .changeEscalateUser(this.requestType, { objectId: requestId, escalateId: value.id })
-        .pipe(takeUntil(this.destroy$))
-        .subscribe();
+  onChangeEscalateUser(value: EmployeeInfo | null): void {
+    if (value) {
+      this.changeEscalateUser$.next(value);
     }
   }
 
@@ -157,17 +183,29 @@ export class RequestDetailDialogComponent implements OnInit {
     this.commentModel = { ...this.commentModel, ...comment };
   }
 
+  onRemoveComment(commentId: string): void {
+    from(
+      this.promptService.open({
+        icon: 'question',
+        html: this.translocoService.translate('deleteComment'),
+        showCancelButton: true,
+      })
+    )
+      .pipe(
+        switchMap((result) => iif(() => result.isConfirmed, this.myTimeService.removeRequestComment(commentId))),
+        tap(this.promptService.handleResponse('', () => this.getComments$.next())),
+        takeUntil(this.destroy$)
+      )
+      .subscribe();
+  }
+
   onSubmitComment(): void {
-    this.myTimeService.submitRequestComment(this.commentForm.value).subscribe(() => {
-      this.getComments$.next();
-      this.inputComment = false;
-      this.commentForm.reset();
-    });
+    this.submitComment$.next(this.commentForm.value);
   }
 
   onCancelComment(): void {
     this.inputComment = false;
-    this.commentForm.reset();
+    this.commentForm.controls.comment.reset();
   }
 
   onChangeRequestStatus(statusId: string): void {
@@ -205,6 +243,7 @@ export class RequestDetailDialogComponent implements OnInit {
     TuiSvgModule,
     TuiHighlightModule,
     FormlyModule,
+    TuiSelectModule,
   ],
   exports: [RequestDetailDialogComponent],
 })

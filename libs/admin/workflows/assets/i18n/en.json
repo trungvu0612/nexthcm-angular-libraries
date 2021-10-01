@@ -32,9 +32,11 @@
   "sendEmailAndNotificationToTheLeaderWithASpecifiedTitle": "Send email and notification to the leader with a specified title",
   "sendEmailAndNotificationToTheLeaderWithASpecifiedTitleDescription": "Send email and notification to the leader with a specified title. The email will send depend on the template of the workflow",
   "calculateEntitlement": "Recompute the leave entitlement of employee",
-  "calculateEntitlementDescription": "Recompute the leave entitlement of employee when  leave change status is \"Approved\"",
+  "calculateEntitlementDescription": "Recompute the leave entitlement of employee when leave change status is \"Approved\"",
   "updateTimeSheet": "Update timesheet",
   "updateTimeSheetDescription": "Update timesheet of the employee after 15 minutes",
+  "sendEmailAndNotificationToTheSomeoneRelated": "Send email and notification to someone related",
+  "sendEmailAndNotificationToTheSomeoneRelatedDescription": "Send the email and the notification to someone related. The email will send depend on the template of the workflow",
   "CONDITIONS_OPERATORS": {
     "or": "Any of the following conditions",
     "and": "All of the following conditions"

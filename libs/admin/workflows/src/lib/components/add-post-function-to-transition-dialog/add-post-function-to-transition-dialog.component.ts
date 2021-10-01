@@ -110,6 +110,7 @@ export class AddPostFunctionToTransitionDialogComponent
                 PostFunctionType.SendEmailAndNotificationToTheLeaderWithASpecifiedTitle,
                 PostFunctionType.SendEmailAndNotificationToTheNewAssignee,
                 PostFunctionType.SendEmailAndNotificationToTheReporter,
+                PostFunctionType.SendEmailAndNotificationToTheSomeoneRelated,
               ].includes(formState.postFunctionTypeCode),
           },
         ],

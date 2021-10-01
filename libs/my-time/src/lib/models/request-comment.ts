@@ -1,4 +1,5 @@
 import { EmployeeInfo } from '@nexthcm/cdk';
+import { RequestCommentStatus } from '../enums';
 
 export interface RequestComment {
   id: string;
@@ -7,4 +8,5 @@ export interface RequestComment {
   comment: string;
   type: string;
   userInfo: EmployeeInfo;
+  state: RequestCommentStatus;
 }

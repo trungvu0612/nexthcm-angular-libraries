@@ -4,11 +4,13 @@ import { BaseOption, PromptService } from '@nexthcm/cdk';
 import { FormBuilder } from '@ngneat/reactive-forms';
 import { HashMap, ProviderScope, TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import { TuiDestroyService } from '@taiga-ui/cdk';
+import { RxState } from '@rx-angular/state';
+import { isPresent } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { endOfDay, getTime } from 'date-fns';
-import { map, takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { filter, map, startWith, switchMap, tap } from 'rxjs/operators';
 import { WorkingAfterHoursType } from '../../../../enums';
 import { SubmitRequestPayload } from '../../../../models';
 import { MyTimeService } from '../../../../services';
@@ -18,7 +20,7 @@ import { MyTimeService } from '../../../../services';
   templateUrl: './submit-overtime-request-dialog.component.html',
   styleUrls: ['./submit-overtime-request-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [TuiDestroyService],
+  providers: [RxState],
 })
 export class SubmitOvertimeRequestDialogComponent {
   readonly form = this.fb.group<SubmitRequestPayload>({} as SubmitRequestPayload);
@@ -99,11 +101,15 @@ export class SubmitOvertimeRequestDialogComponent {
         placeholder: 'chooseAPerson',
         labelProp: 'name',
         valueProp: 'id',
-        matcherBy: 'id',
         textfieldLabelOutside: true,
       },
     },
   ];
+  readonly submit$ = new Subject<SubmitRequestPayload>();
+  readonly submitHandler$ = this.submit$.pipe(
+    switchMap((payload) => this.myTimeService.submitRequest('workingAfterHours', payload).pipe(startWith(null)))
+  );
+  readonly submitLoading$ = this.submitHandler$.pipe(map((value) => !value));
 
   constructor(
     private readonly fb: FormBuilder,
@@ -112,9 +118,23 @@ export class SubmitOvertimeRequestDialogComponent {
     private readonly promptService: PromptService,
     private readonly translocoService: TranslocoService,
     private readonly authService: AuthService,
-    private readonly destroy$: TuiDestroyService,
-    @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope
-  ) {}
+    @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope,
+    state: RxState<Record<string, unknown>>
+  ) {
+    state.hold(
+      this.submitHandler$.pipe(
+        filter(isPresent),
+        tap(
+          () => this.context.completeWith(true),
+          (error) =>
+            this.promptService.open({
+              icon: 'error',
+              text: this.translocoService.translate(`ERRORS.${error.error.message}`),
+            })
+        )
+      )
+    );
+  }
 
   onSubmit(): void {
     if (this.form.valid) {
@@ -126,17 +146,7 @@ export class SubmitOvertimeRequestDialogComponent {
         formModel.duration = Number(formModel?.duration) * 3600;
       }
       delete formModel.fromTo;
-      this.myTimeService
-        .submitRequest('workingAfterHours', formModel)
-        .pipe(takeUntil(this.destroy$))
-        .subscribe(
-          () => this.context.completeWith(true),
-          (error) =>
-            this.promptService.open({
-              icon: 'error',
-              text: this.translocoService.translate(`ERRORS.${error.error.message}`),
-            })
-        );
+      this.submit$.next(formModel);
     }
   }
 

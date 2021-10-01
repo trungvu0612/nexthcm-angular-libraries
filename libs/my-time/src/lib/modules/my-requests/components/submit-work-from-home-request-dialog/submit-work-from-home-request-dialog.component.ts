@@ -3,11 +3,13 @@ import { PromptService } from '@nexthcm/cdk';
 import { FormBuilder } from '@ngneat/reactive-forms';
 import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import { TuiDestroyService, TuiTime } from '@taiga-ui/cdk';
+import { RxState } from '@rx-angular/state';
+import { isPresent, TuiTime } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { endOfDay, getTime } from 'date-fns';
-import { takeUntil, tap } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { filter, map, startWith, switchMap, tap } from 'rxjs/operators';
 import { SubmitRequestPayload } from '../../../../models';
 import { MyTimeService } from '../../../../services';
 
@@ -16,7 +18,7 @@ import { MyTimeService } from '../../../../services';
   templateUrl: './submit-work-from-home-request-dialog.component.html',
   styleUrls: ['./submit-work-from-home-request-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [TuiDestroyService],
+  providers: [RxState],
 })
 export class SubmitWorkFromHomeRequestDialogComponent {
   readonly form = this.fb.group<SubmitRequestPayload>({} as SubmitRequestPayload);
@@ -76,15 +78,34 @@ export class SubmitWorkFromHomeRequestDialogComponent {
       },
     },
   ];
+  readonly submit$ = new Subject<SubmitRequestPayload>();
+  readonly submitHandler$ = this.submit$.pipe(
+    switchMap((payload) => this.myTimeService.submitRequest('workFromHome', payload).pipe(startWith(null)))
+  );
+  readonly submitLoading$ = this.submitHandler$.pipe(map((value) => !value));
 
   constructor(
     private readonly fb: FormBuilder,
     @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<boolean>,
     private readonly myTimeService: MyTimeService,
     private readonly translocoService: TranslocoService,
-    private readonly destroy$: TuiDestroyService,
-    private readonly promptService: PromptService
-  ) {}
+    private readonly promptService: PromptService,
+    state: RxState<Record<string, unknown>>
+  ) {
+    state.hold(
+      this.submitHandler$.pipe(
+        filter(isPresent),
+        tap(
+          () => this.context.completeWith(true),
+          (error) =>
+            this.promptService.open({
+              icon: 'error',
+              text: this.translocoService.translate(`ERRORS.${error.error.message}`),
+            })
+        )
+      )
+    );
+  }
 
   onSubmit(): void {
     if (this.form.valid) {
@@ -98,20 +119,7 @@ export class SubmitWorkFromHomeRequestDialogComponent {
         formModel.totalDay = (formModel.totalDay as TuiTime).toAbsoluteMilliseconds().valueOf() / 1000;
       }
       delete formModel.fromTo;
-      this.myTimeService
-        .submitRequest('workFromHome', formModel)
-        .pipe(
-          tap(() => this.promptService.handleResponse()),
-          takeUntil(this.destroy$)
-        )
-        .subscribe(
-          () => this.context.completeWith(true),
-          (error) =>
-            this.promptService.open({
-              icon: 'error',
-              text: this.translocoService.translate(`ERRORS.${error.error.message}`),
-            })
-        );
+      this.submit$.next(formModel);
     }
   }
 

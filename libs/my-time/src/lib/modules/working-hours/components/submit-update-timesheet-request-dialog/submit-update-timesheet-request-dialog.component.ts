@@ -3,10 +3,12 @@ import { PromptService, tuiTimeAfter, tuiTimeBefore } from '@nexthcm/cdk';
 import { FormBuilder } from '@ngneat/reactive-forms';
 import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import { TuiDay, TuiDestroyService, TuiTime } from '@taiga-ui/cdk';
+import { RxState } from '@rx-angular/state';
+import { isPresent, TuiDay, TuiDestroyService, TuiTime } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
-import { takeUntil, tap } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { filter, map, startWith, switchMap, tap } from 'rxjs/operators';
 import { RequestStatus } from '../../../../enums';
 import { SubmitRequestPayload, WorkingHours } from '../../../../models';
 import { MyTimeService } from '../../../../services';
@@ -101,6 +103,11 @@ export class SubmitUpdateTimesheetRequestDialogComponent {
       },
     },
   ];
+  readonly submit$ = new Subject<SubmitRequestPayload>();
+  readonly submitHandler$ = this.submit$.pipe(
+    switchMap((payload) => this.myTimeService.submitRequest('updateTimesheet', payload).pipe(startWith(null)))
+  );
+  readonly submitLoading$ = this.submitHandler$.pipe(map((value) => !value));
 
   constructor(
     private fb: FormBuilder,
@@ -108,8 +115,22 @@ export class SubmitUpdateTimesheetRequestDialogComponent {
     private myTimeService: MyTimeService,
     private promptService: PromptService,
     private translocoService: TranslocoService,
-    private destroy$: TuiDestroyService
-  ) {}
+    state: RxState<Record<string, unknown>>
+  ) {
+    state.hold(
+      this.submitHandler$.pipe(
+        filter(isPresent),
+        tap(
+          () => this.context.completeWith(true),
+          (error) =>
+            this.promptService.open({
+              icon: 'error',
+              text: this.translocoService.translate(`ERRORS.${error.error.message}`),
+            })
+        )
+      )
+    );
+  }
 
   onSubmit(): void {
     if (this.form.valid) {
@@ -118,13 +139,7 @@ export class SubmitUpdateTimesheetRequestDialogComponent {
       formModel.createdDate = (formModel.createdDate as TuiDay).toLocalNativeDate().valueOf();
       formModel.newInTime = (formModel.newInTime as TuiTime).toAbsoluteMilliseconds() / 1000;
       formModel.newOutTime = (formModel.newOutTime as TuiTime).toAbsoluteMilliseconds() / 1000;
-      this.myTimeService
-        .submitRequest('updateTimesheet', formModel)
-        .pipe(
-          tap(() => this.promptService.handleResponse()),
-          takeUntil(this.destroy$)
-        )
-        .subscribe(() => this.context.completeWith(true));
+      this.submit$.next(formModel);
     }
   }
 

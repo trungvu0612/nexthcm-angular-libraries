@@ -38,11 +38,11 @@ export class RequestConfigFormComponent {
       },
     },
   ];
-  submit$ = new Subject<RequestConfig>();
-  submitHandler$ = this.submit$.pipe(
+  readonly submit$ = new Subject<RequestConfig>();
+  readonly submitHandler$ = this.submit$.pipe(
     switchMap((payload) => this.adminRequestsConfigurationService.updateRequestConfig(payload).pipe(startWith(null)))
   );
-  loading$ = this.submitHandler$.pipe(map((value) => !value));
+  readonly loading$ = this.submitHandler$.pipe(map((value) => !value));
 
   constructor(
     private readonly fb: FormBuilder,
