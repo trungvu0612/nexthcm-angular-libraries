@@ -4,9 +4,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from '@nexthcm/auth';
 import { EmployeeInfo } from '@nexthcm/cdk';
 import { AvatarComponentModule } from '@nexthcm/ui';
-import { FormControl } from '@ngneat/reactive-forms';
+import { FormBuilder } from '@ngneat/reactive-forms';
 import { TranslocoModule } from '@ngneat/transloco';
 import { TranslocoLocaleModule } from '@ngneat/transloco-locale';
+import { FormlyFieldConfig, FormlyModule } from '@ngx-formly/core';
 import { RxState } from '@rx-angular/state';
 import { isPresent, TuiDestroyService, TuiIdentityMatcher, TuiLetModule, TuiStringHandler } from '@taiga-ui/cdk';
 import {
@@ -38,12 +39,11 @@ import {
   switchMap,
   takeUntil,
 } from 'rxjs/operators';
-import { RequestStatus } from '../../../enums';
 import { GeneralRequest } from '../../../models';
 import { RequestComment } from '../../../models/request-comment';
 import { RequestTypeUrlPath } from '../../../models/request-type-url-path';
 import { HistoryItem } from '../../../models/requests/history-item';
-import { MyTimeService } from '../../../services';
+import { MyTimeService, REQUEST_COMMENT_URL_PATHS } from '../../../services';
 import { LeaveRequestDateRangeComponentModule } from '../leave-request-date-range/leave-request-date-range.component';
 
 interface ComponentState {
@@ -61,7 +61,6 @@ interface ComponentState {
 export class RequestDetailDialogComponent implements OnInit {
   @ViewChild(TuiHostedDropdownComponent) component?: TuiHostedDropdownComponent;
 
-  readonly RequestStatus = RequestStatus;
   readonly search$ = new BehaviorSubject<string>('');
   readonly users: Observable<EmployeeInfo[]> = this.search$.pipe(
     filter(isPresent),
@@ -71,8 +70,21 @@ export class RequestDetailDialogComponent implements OnInit {
     startWith([]),
     shareReplay(1)
   );
-  readonly commentControl = new FormControl<string>();
   open = false;
+  inputComment = false;
+  readonly commentForm = this.fb.group<RequestComment>({} as RequestComment);
+  commentModel = {} as RequestComment;
+  commentFields: FormlyFieldConfig[] = [
+    {
+      key: 'comment',
+      type: 'input',
+      templateOptions: { textfieldLabelOutside: true, required: true },
+    },
+    { key: 'id' },
+    { key: 'objectId', defaultValue: this.data.id },
+    { key: 'type', defaultValue: REQUEST_COMMENT_URL_PATHS[this.requestType] },
+    { key: 'edited' },
+  ];
 
   // READS
   readonly history$ = this.state.select('history');
@@ -92,14 +104,15 @@ export class RequestDetailDialogComponent implements OnInit {
 
   constructor(
     @Inject(POLYMORPHEUS_CONTEXT)
-    readonly context: TuiDialogContext<
+    private readonly context: TuiDialogContext<
       unknown,
       { type: keyof RequestTypeUrlPath; value: GeneralRequest; userId?: string }
     >,
-    private myTimeService: MyTimeService,
-    private authService: AuthService,
-    private destroy$: TuiDestroyService,
-    private readonly state: RxState<ComponentState>
+    private readonly myTimeService: MyTimeService,
+    private readonly authService: AuthService,
+    private readonly destroy$: TuiDestroyService,
+    private readonly state: RxState<ComponentState>,
+    private readonly fb: FormBuilder
   ) {
     state.connect('history', this.getHistoryHandler$);
     state.connect('comments', this.getCommentsHandler$);
@@ -124,6 +137,7 @@ export class RequestDetailDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.getHistory$.next();
+    this.getComments$.next();
   }
 
   onChangeEscalateUser(value: EmployeeInfo | null, requestId: string): void {
@@ -138,17 +152,22 @@ export class RequestDetailDialogComponent implements OnInit {
     }
   }
 
-  onSubmitComment(): void {
-    const comment: RequestComment = {
-      comment: this.commentControl.value,
-      // type: this.requestTypeComment + '',
-      objectId: this.context.data.value.id,
-    };
+  onUpsertComment(comment?: RequestComment): void {
+    this.inputComment = true;
+    this.commentModel = { ...this.commentModel, ...comment };
+  }
 
-    this.myTimeService.submitRequestComment(comment).subscribe(() => {
-      // this.commentParams$.next(this.commentParams$.value);
-      this.commentControl.reset();
+  onSubmitComment(): void {
+    this.myTimeService.submitRequestComment(this.commentForm.value).subscribe(() => {
+      this.getComments$.next();
+      this.inputComment = false;
+      this.commentForm.reset();
     });
+  }
+
+  onCancelComment(): void {
+    this.inputComment = false;
+    this.commentForm.reset();
   }
 
   onChangeRequestStatus(statusId: string): void {
@@ -185,6 +204,7 @@ export class RequestDetailDialogComponent implements OnInit {
     TuiDropdownControllerModule,
     TuiSvgModule,
     TuiHighlightModule,
+    FormlyModule,
   ],
   exports: [RequestDetailDialogComponent],
 })

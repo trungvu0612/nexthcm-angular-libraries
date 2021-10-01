@@ -17,7 +17,9 @@ export class WorkflowsService {
   }
 
   searchWorkflowStatuses(search: string): Observable<WorkflowStatus[]> {
-    return this.http.get<WorkflowStatus[]>(`${ACCOUNT_API_PATH}/states?name=${search}`);
+    return this.http
+      .get<BaseResponse<WorkflowStatus[]>>(`${ACCOUNT_API_PATH}/states?name=${search}`)
+      .pipe(map((res) => res.data));
   }
 
   getWorkflowStatus(id: string): Observable<WorkflowStatus> {

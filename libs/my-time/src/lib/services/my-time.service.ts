@@ -33,7 +33,7 @@ const REQUEST_DETAIL_URL_PATHS: Readonly<CombineRequestTypeUrlPath> = Object.fre
   leave: 'leaves',
 });
 
-const REQUEST_COMMENT_URL_PATHS: Readonly<RequestTypeUrlPath> = Object.freeze({
+export const REQUEST_COMMENT_URL_PATHS: Readonly<RequestTypeUrlPath> = Object.freeze({
   workingAfterHours: 'hcm_ot_comment',
   updateTimesheet: 'hcm_update_time_comment',
   workingOutside: 'hcm_working_onsite_comment',

@@ -106,9 +106,9 @@
               <div class="table-label">{{ t('duration') }}:</div>
               <div class="table-value">
                 {{
-                  data.updateTotalTime
-                    ? (data.updateTotalTime / 3600 | translocoDecimal: { maximumFractionDigits: 1 })
-                    : 0
+                data.updateTotalTime
+                  ? (data.updateTotalTime / 3600 | translocoDecimal: { maximumFractionDigits: 1 })
+                  : 0
                 }}h
               </div>
             </div>
@@ -210,29 +210,35 @@
       <tui-accordion-item [borders]="null">
         <div class="font-semibold uppercase">{{ t('Comment') }}</div>
         <ng-template tuiAccordionItemContent>
-          <ng-container *ngIf="comments$ | async as comments">
-            <p *ngFor="let comment of comments">
-              <span class="text-blue-500">{{ comment.userInfo?.fullName }}</span> {{ comment.comment }}
-              <span class="text-gray-300">{{ comment.createdDate | date: 'dd/MM/yyyy HH:mm' }}</span>
+          <div *ngIf="comments$ | async as comments" [class.hidden]="inputComment" class="mb-2">
+            <p *ngFor="let comment of comments" class="flex mb-1">
+              <hcm-avatar
+                *ngIf="comment.userInfo"
+                [image]="comment.userInfo.image"
+                [text]="comment.userInfo.fullName"
+                rounded
+                size="xs"
+              ></hcm-avatar>
+              <span>
+                <span class="text-blue-500">{{ comment.userInfo?.fullName }}</span> {{ comment.comment }}
+                <span class="text-gray-300">
+                  {{ comment.createdDate | translocoDate: { dateStyle: 'medium', timeStyle: 'short' } }}
+                </span>
+              </span>
             </p>
-          </ng-container>
-          <div class="flex justify-between mt-4 align-baseline">
-            <tui-input
-              (keyup.enter)="onSubmitComment()"
-              [formControl]="commentControl"
-              [tuiTextfieldLabelOutside]="true"
-              class="w-80"
-            >
-            </tui-input>
-            <button
-              (click)="onSubmitComment()"
-              appearance="flat"
-              class="tui-space_right-3 tui-space_bottom-3"
-              icon="tuiIconRedoLarge"
-              tuiIconButton
-              type="button"
-            ></button>
           </div>
+          <button (click)="onUpsertComment()" *ngIf="!inputComment" appearance="secondary" size="s" tuiButton>
+            {{ t('addComment') }}
+          </button>
+          <form [class.hidden]="!inputComment" [formGroup]="$any(commentForm)">
+            <formly-form [fields]="commentFields" [form]="$any(commentForm)" [model]="commentModel"></formly-form>
+            <div class="flex justify-end mt-2 space-x-2">
+              <button (click)="onSubmitComment()" [disabled]="commentForm.invalid" size="s" tuiButton>
+                {{ t('add') }}
+              </button>
+              <button (click)="onCancelComment()" appearance="flat" size="s" tuiButton>{{ t('cancel') }}</button>
+            </div>
+          </form>
         </ng-template>
       </tui-accordion-item>
     </tui-accordion>

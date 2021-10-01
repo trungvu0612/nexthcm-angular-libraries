@@ -680,5 +680,6 @@
   "updateTimesheet": "Update timesheet",
   "workingOutside": "Working outside",
   "workFromHome": "Work from home",
-  "workingAfterHours": "Working after-hours"
+  "workingAfterHours": "Working after-hours",
+  "addComment": "Add a comment"
 }
