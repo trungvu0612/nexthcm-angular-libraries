@@ -17,6 +17,16 @@ export class KnowledgeBaseService {
       .pipe(map((response) => response.data));
   }
 
+  getKnowledgeBaseByDate(params: {
+    fromDate?: number;
+    toDate?: number;
+    size: number;
+  }): Observable<Pagination<Partial<Knowledge>>> {
+    return this.http
+      .get<PagingResponse<Partial<Knowledge>>>(`${MY_TIME_API_PATH}/policies`, { params })
+      .pipe(map((response) => response.data));
+  }
+
   getKnowledgeBaseCategory(
     params: { search?: string; size: number },
     policyId: any

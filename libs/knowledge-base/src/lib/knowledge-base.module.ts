@@ -20,11 +20,10 @@ import { TuiAvatarModule, TuiInputModule, TuiInputMonthModule, TuiTagModule } fr
 import { TableModule } from 'ngx-easy-table';
 import { NgxPermissionsGuard } from 'ngx-permissions';
 import { UpdatedKnowledgeCategoryComponent } from './components/updated-knowledge-category/updated-knowledge-category.component';
-import { UpdatedKnowledgeComponent } from './components/updated-knowledge/updated-knowledge.component';
 import { CategoryComponent } from './pages/category/category.component';
 import { KnowledgeBaseComponent } from './pages/knowledge-base/knowledge-base.component';
 import { KnowledgeComponent } from './pages/knowledge/knowledge.component';
-import { UpdatedComponent } from './pages/updated/updated.component';
+import { UpdatedKnowledgeComponent } from './pages/updated-knowledge/updated-knowledge.component';
 
 export const KNOWLEDGE_BASE_ROUTES: Routes = [
   {
@@ -36,7 +35,7 @@ export const KNOWLEDGE_BASE_ROUTES: Routes = [
       { path: '', pathMatch: 'full', redirectTo: 'summary' },
       { path: 'summary', component: KnowledgeBaseComponent },
       { path: ':id/category', component: KnowledgeBaseComponent },
-      { path: 'updated', component: UpdatedComponent },
+      { path: 'updated', component: UpdatedKnowledgeComponent },
       { path: ':id', component: KnowledgeComponent },
     ],
   },
@@ -50,7 +49,6 @@ const TABS: MenuItem[] = [
   declarations: [
     KnowledgeBaseComponent,
     KnowledgeComponent,
-    UpdatedComponent,
     UpdatedKnowledgeComponent,
     UpdatedKnowledgeCategoryComponent,
     CategoryComponent,
