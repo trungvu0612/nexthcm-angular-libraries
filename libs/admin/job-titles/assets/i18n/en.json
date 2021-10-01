@@ -6,5 +6,15 @@
     "lastModifiedDate": "Last Modified Date",
     "state": "Status",
     "functions": "Functions"
-  }
+  },
+  "jobTitle": "Job title",
+  "jobTitleManagement": "Job Title Management",
+  "addNewJobTitle": "Create new job title",
+  "editJobTitle": "Edit new job title",
+  "updateJobTitleSuccessfully": "Update job title successfully",
+  "addNewJobTitleSuccessfully": "Create new job title successfully",
+  "deleteJobTitle": "Are you sure you want to remove this job title?",
+  "deleteJobTitleSuccessfully": "Remove this job title successfully",
+  "searchJobTitles": "Search for job titles...",
+  "chooseJobTitle": "Choose a job title"
 }

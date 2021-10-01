@@ -6,5 +6,15 @@
     "lastModifiedDate": "Ngày chỉnh sửa",
     "state": "Trạng thái",
     "functions": "Chức năng"
-  }
+  },
+  "jobTitle": "Chức danh",
+  "chooseJobTitle": "Chọn chức danh",
+  "searchJobTitles": "Tìm kiếm chức vụ",
+  "jobTitleManagement": "Quản lý chức vụ",
+  "addNewJobTitle": "Tạo mới chức vụ",
+  "editJobTitle": "Chỉnh sửa chức vụ",
+  "updateJobTitleSuccessfully": "Chỉnh sửa chức vụ thành công",
+  "addNewJobTitleSuccessfully": "Tạo mới chức vụ thành công",
+  "deleteJobTitle": "Bạn có muốn xóa chức vụ này không?",
+  "deleteJobTitleSuccessfully": "Xóa chức vụ này thành công"
 }

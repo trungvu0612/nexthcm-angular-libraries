@@ -37,5 +37,54 @@
       "YOU_HAVE_ALREADY_CHECKED_IN_THANKS_YOU": "Bạn đã xác nhận giờ vào làm rồi. Xin cám ơn!"
     }
   },
-  "addLeaveApprovalLevel": "Add leave approval level"
+  "addLeaveApprovalLevel": "Add leave approval level",
+  "LEAVE_PERIOD_DELETE_ENTITY_DOES_NOT_EXIST": "kỳ nghỉ thực thể xóa không tồn tại",
+  "LEAVE_PERIOD_DELETE_ID_IS_NULL": "thời gian nghỉ việc delete id không được trống",
+  "LEAVE_PERIOD_UPDATE_ENTITY_DOES_NOT_EXIST": "thời gian nghỉ việc cập nhật thực thể không tồn tại",
+  "LEAVE_ENTITLEMENT_UPDATE_LEAVE_PERIOD_ID_IS_NULL": "Để lại nghỉ update hưởng kỳ id không được trống",
+  "LEAVE_ENTITLEMENT_UPDATE_LEAVE_PERIOD_DOES_NOT_EXIST": "Nghỉ hưởng khoảng thời gian cập nhật nghỉ không tồn tại",
+  "LEAVE_ENTITLEMENT_LEAVE_PERIOD_DOES_NOT_EXIST": "Nghỉ khoảng thời gian được hưởng nghỉ phép không tồn tại",
+  "LEAVE_ENTITLEMENT_LEAVE_PERIOD_ID_IS_NULL": "Để lại nghỉ hưởng kỳ id không được trống",
+  "leavePeriodManagement": "Quản lý khoảng thời gian",
+  "addLeavePeriod": "Tạo khoảng thời gian",
+  "addLeavePeriodSuccessfully": "Add khoảng thời gian thành công",
+  "deleteLeavePeriod": "Xóa khoảng thời gian",
+  "removeLeavePeriodSuccessfully": "Xóa khoảng thời gian thành công",
+  "editLeavePeriod": "Chỉnh sửa khoảng thời gian",
+  "updateLeavePeriodSuccessfully": "Chỉnh sửa khoảng thời gian thành công",
+  "leaveTypes": "Loại ngày nghỉ",
+  "leavePeriods": "Khoảng thời gian",
+  "Period": "Khoảng nghỉ",
+  "leaveApprovalLevelManagement": "Quản lý chức vụ xét duyệt",
+  "deleteLeaveApprovalLevel": "Bạn thật sự muốn xóa cấp độ xét duyệt nghỉ phép này?",
+  "leaveApprovalLevels": "Cấp bậc xét duyệt",
+
+
+  "leaveEntitlements": "Quyền lợi",
+  "Entitlements": "Số ngày nghỉ",
+  "LEAVE_GET_REMAINING_ENTITLEMENT_USER_DOES_NOT_EXIST": "Nghỉ được còn lại sử dụng quyền không tồn tại",
+  "LEAVE_GET_REMAINING_ENTITLEMENT_ORG_DOES_NOT_EXIST": "Để lại có được còn lại được hưởng org không tồn tại",
+  "LEAVE_SUBMIT_LEAVE_DURATION_EXCEED_LEAVE_ENTITLEMENT": "Để lại nộp thời gian nghỉ quá nghỉ hưởng",
+  "LEAVE_ENTITLEMENT_LEAVE_TYPE_DOES_NOT_EXIST": "Nghỉ loại quyền nghỉ không tồn tại",
+  "LEAVE_ENTITLEMENT_LEAVE_TYPE_ID_IS_NULL": "Để lại nghỉ hưởng kiểu id không được trống",
+
+  "LEAVE_ENTITLEMENT_UPDATE_LEAVE_TYPE_ID_IS_NULL": "Để lại nghỉ cập nhật quyền loại id không được trống",
+  "LEAVE_ENTITLEMENT_UPDATE_LEAVE_TYPE_DOES_NOT_EXIST": "Nghỉ hưởng loại cập nhật nghỉ không tồn tại",
+
+  "LEAVE_ENTITLEMENT_REQUEST_IS_NULL": "yêu cầu nghỉ hưởng không được trống",
+  "LEAVE_ENTITLEMENT_CREATE_LEAVE_ENTITLEMENT_ID_IS_NOT_NULL": "Nghỉ hưởng tạo id nghỉ hưởng không không được trống",
+  "LEAVE_ENTITLEMENT_UPDATE_LEAVE_ENTITLEMENT_ID_IS_NULL": "Để lại nghỉ cập nhật được hưởng quyền id không được trống",
+  "LEAVE_ENTITLEMENT_UPDATE_LEAVE_ENTITLEMENT_ENTITY_DOES_NOT_EXIST": "Nghỉ hưởng cập nhật nghỉ hưởng thực thể không tồn tại",
+  "LEAVE_ENTITLEMENT_DELETE_LEAVE_ENTITLEMENT_ID_IS_NULL": "Nghỉ hưởng xóa nghỉ hưởng id không được trống",
+  "LEAVE_ENTITLEMENT_DELETE_LEAVE_ENTITLEMENT_ENTITY_DOES_NOT_EXIST": "Nghỉ hưởng xóa nghỉ hưởng thực thể không tồn tại",
+
+  "entitlementManagement": "Quản lý quyền lợi",
+
+  "leaveEntitlementManagement": "Quản lý quyền lợi",
+  "addLeaveEntitlementApprove": "Tạo quyền lợi",
+  "addLeaveEntitlementApproveSuccessfully": "Add quyền lợi thành công",
+  "deleteLeaveEntitlement": "Xóa quyền lợi",
+  "removeLeaveEntitlementSuccessfully": "Xóa quyền lợi thành công",
+  "editLeaveEntitlement": "Sửa quyền lợi",
+  "updateLeaveEntitlementSuccessfully": "Sửa quyền lợi thành công",
 }
