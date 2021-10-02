@@ -3,7 +3,7 @@ import { AbstractServerSortPaginationTableComponent, Pagination } from '@nexthcm
 import { RxState } from '@rx-angular/state';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { Subject } from 'rxjs';
-import { switchMap, takeUntil, tap } from 'rxjs/operators';
+import { startWith, switchMap, tap } from 'rxjs/operators';
 import { RequestTypeUrlPath } from '../../../models/request-type-url-path';
 import { MyTimeService } from '../../../services';
 
@@ -11,7 +11,25 @@ export abstract class AbstractRequestListComponent<T> extends AbstractServerSort
   abstract requestTypeUrlPath: keyof RequestTypeUrlPath;
   abstract myTimeService: MyTimeService;
   abstract destroy$: TuiDestroyService;
+
+  // EVENTS
   readonly viewRequestDetail$ = new Subject<[string, string | undefined]>();
+  readonly changeStatus$ = new Subject<[string, string]>();
+
+  // HANDLERS
+  readonly changeStatusHandler$ = this.changeStatus$.pipe(
+    switchMap(([requestId, statusId]) =>
+      this.myTimeService
+        .changeRequestStatus(this.requestTypeUrlPath, requestId, statusId, () =>
+          this.queryParams$.next(this.queryParams$.value)
+        )
+        .pipe(startWith(null))
+    )
+  );
+  readonly viewRequestDetailHandler$ = this.viewRequestDetail$.pipe(
+    switchMap(([id, userId]) => this.myTimeService.viewRequestDetail(this.requestTypeUrlPath, id, userId)),
+    tap(() => this.queryParams$.next(this.queryParams$.value))
+  );
 
   protected constructor(
     readonly state: RxState<Pagination<T>>,
@@ -19,24 +37,10 @@ export abstract class AbstractRequestListComponent<T> extends AbstractServerSort
     readonly activatedRoute: ActivatedRoute
   ) {
     super(state, router, activatedRoute);
-    state.hold(
-      this.viewRequestDetail$.pipe(
-        switchMap(([id, userId]) => this.myTimeService.viewRequestDetail(this.requestTypeUrlPath, id, userId)),
-        tap(() => this.queryParams$.next(this.queryParams$.value))
-      )
-    );
+    state.hold(this.viewRequestDetailHandler$);
   }
 
   onViewEmployeeRequestDetail(id: string, userId?: string): void {
     this.viewRequestDetail$.next([id, userId]);
-  }
-
-  onChangeRequestStatus(requestId: string, statusId: string): void {
-    this.myTimeService
-      .changeRequestStatus(this.requestTypeUrlPath, requestId, statusId, () =>
-        this.queryParams$.next(this.queryParams$.value)
-      )
-      .pipe(takeUntil(this.destroy$))
-      .subscribe();
   }
 }

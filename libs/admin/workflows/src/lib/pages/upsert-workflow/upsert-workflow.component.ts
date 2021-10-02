@@ -17,7 +17,7 @@ import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import clone from 'rfdc';
 import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
-import { catchError, filter, map, share, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { catchError, filter, map, share, startWith, switchMap, takeUntil } from 'rxjs/operators';
 import { v4 as uuidv4 } from 'uuid';
 import { TransitionDetailDialogComponent } from '../../components/transition-detail-dialog/transition-detail-dialog.component';
 import { UpsertStatusDialogComponent } from '../../components/upsert-status-dialog/upsert-status-dialog.component';
@@ -91,11 +91,7 @@ export class UpsertWorkflowComponent implements OnInit {
   readonly addedStatuses$ = this.state.select('addedStatuses').pipe(map((data) => dictionaryToArray(data)));
   readonly publishWorkflow$ = new Subject<Workflow>();
   readonly publishWorkflowHandler$ = this.publishWorkflow$.pipe(
-    switchMap((payload) =>
-      this.workflowService
-        .upsertWorkflow(this.workflowId, payload)
-        .pipe(tap(this.promptService.handleResponse('WORKFLOW.updateWorkflowSuccessfully')), startWith(null))
-    ),
+    switchMap((payload) => this.workflowService.upsertWorkflow(this.workflowId, payload).pipe(startWith(null))),
     share()
   );
   readonly publishingWorkflow$ = this.publishWorkflowHandler$.pipe(

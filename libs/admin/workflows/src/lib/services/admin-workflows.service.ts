@@ -7,10 +7,11 @@ import {
   BaseResponse,
   Pagination,
   PagingResponse,
+  PromptService,
   refreshWorkflows,
   WorkflowStatusType,
 } from '@nexthcm/cdk';
-import { Observable, of } from 'rxjs';
+import { EMPTY, Observable, of } from 'rxjs';
 import { catchError, map, mapTo, tap } from 'rxjs/operators';
 import { ConditionType, PostFunctionType, ValidatorType } from '../enums';
 import { EmailTemplate, InitWorkflow, Status, TemplateVariableModel, TransitionOption, Workflow } from '../models';
@@ -18,7 +19,11 @@ import { removeEmailTemplate, upsertEmailTemplate, upsertStatus } from '../state
 
 @Injectable()
 export class AdminWorkflowsService {
-  constructor(private readonly http: HttpClient, private readonly actions: Actions) {}
+  constructor(
+    private readonly http: HttpClient,
+    private readonly actions: Actions,
+    private readonly promptService: PromptService
+  ) {}
 
   getStatusTypes(): Observable<WorkflowStatusType[]> {
     return this.http.get<WorkflowStatusType[]>(`${ACCOUNT_API_PATH}/states/types`).pipe(catchError(() => of([])));
@@ -36,10 +41,15 @@ export class AdminWorkflowsService {
       .pipe(map((res) => res.data));
   }
 
-  upsertWorkflow(workflowId: string, payload: Workflow): Observable<BaseResponse<Workflow>> {
-    return this.http
-      .put<BaseResponse<Workflow>>(`${ACCOUNT_API_PATH}/process/${workflowId}`, payload)
-      .pipe(tap(() => this.actions.dispatch(refreshWorkflows())));
+  upsertWorkflow(workflowId: string, payload: Workflow): Observable<unknown> {
+    return this.http.put<unknown>(`${ACCOUNT_API_PATH}/process/${workflowId}`, payload).pipe(
+      tap(
+        this.promptService.handleResponse('WORKFLOW.updateWorkflowSuccessfully', () =>
+          this.actions.dispatch(refreshWorkflows())
+        )
+      ),
+      catchError(() => EMPTY)
+    );
   }
 
   initWorkflow(payload: InitWorkflow): Observable<BaseResponse<Workflow>> {

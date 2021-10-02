@@ -9,7 +9,7 @@ import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { BaseComponent, Columns } from 'ngx-easy-table';
-import { Observable, of } from 'rxjs';
+import { combineLatest, Observable, of } from 'rxjs';
 import { catchError, filter, map, share, startWith, switchMap, takeUntil } from 'rxjs/operators';
 import { LeaveRequest } from '../../models';
 import { MyTimeService } from '../../services';
@@ -49,8 +49,8 @@ export class MyLeaveComponent extends AbstractRequestListComponent<LeaveRequest>
     ),
     share()
   );
-  readonly loading$ = this.request$.pipe(
-    map((value) => !value),
+  readonly loading$ = combineLatest([this.request$, this.changeStatusHandler$.pipe(startWith({}))]).pipe(
+    map((values) => values.includes(null)),
     catchError(() => of(false))
   );
 

@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { HttpParams } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, Input, NgModule, OnInit } from '@angular/core';
 import { ActivatedRoute, convertToParamMap, Params } from '@angular/router';
-import { WorkflowStatus } from '@nexthcm/cdk';
 import {
   InputFilterComponentModule,
   SelectFilterComponentModule,
@@ -82,8 +81,8 @@ export class RequestListFilterComponent implements OnInit {
     return httpParams;
   }
 
-  onFilterByWorkflowStatus(status: WorkflowStatus | null): void {
-    this.statusId$.next(status ? status.id : null);
+  onFilterByWorkflowStatuses(statuses: string): void {
+    this.statusId$.next(statuses ? statuses : null);
   }
 
   private filterByYearMonth(): HttpParams {
@@ -131,9 +130,8 @@ export class RequestListFilterComponent implements OnInit {
     SelectMonthFilterComponentModule,
     InputFilterComponentModule,
     SelectFilterComponentModule,
-    WorkflowStatusComboBoxFilterComponentModule
+    WorkflowStatusComboBoxFilterComponentModule,
   ],
-  exports: [RequestListFilterComponent]
+  exports: [RequestListFilterComponent],
 })
-export class RequestListFilterComponentModule {
-}
+export class RequestListFilterComponentModule {}

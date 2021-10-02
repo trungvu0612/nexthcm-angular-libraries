@@ -53,8 +53,8 @@ export class MyWorkingOutsideRequestsComponent extends AbstractRequestListCompon
     ),
     share()
   );
-  readonly loading$ = this.request$.pipe(
-    map((value) => !value),
+  readonly loading$ = combineLatest([this.request$, this.changeStatusHandler$.pipe(startWith({}))]).pipe(
+    map((values) => values.includes(null)),
     catchError(() => of(false))
   );
 

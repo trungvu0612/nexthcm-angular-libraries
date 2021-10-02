@@ -1,13 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, NgModule, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, NgModule, OnInit, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { WorkflowsService, WorkflowStatus } from '@nexthcm/cdk';
 import { TranslocoModule } from '@ngneat/transloco';
-import { isPresent, TuiDestroyService, TuiIdentityMatcher, TuiStringMatcher } from '@taiga-ui/cdk';
+import { isPresent, TuiContextWithImplicit, TuiDestroyService, TuiIdentityMatcher, TuiLetModule } from '@taiga-ui/cdk';
 import { TuiStringHandler } from '@taiga-ui/cdk/types';
 import { TuiDataListModule, TuiLoaderModule, TuiTextfieldControllerModule } from '@taiga-ui/core';
-import { TuiComboBoxModule, TuiTagModule } from '@taiga-ui/kit';
+import { TuiDataListWrapperModule, TuiMultiSelectModule, TuiTagModule } from '@taiga-ui/kit';
 import { Observable, Subject } from 'rxjs';
 import {
   debounceTime,
@@ -28,7 +28,7 @@ import {
   providers: [TuiDestroyService],
 })
 export class WorkflowStatusComboBoxFilterComponent implements OnInit {
-  @Output() valueChange = new EventEmitter<WorkflowStatus | null>();
+  @Output() valueChange = new EventEmitter<string>();
 
   readonly search$ = new Subject<string | null>();
   readonly statuses$: Observable<WorkflowStatus[] | null> = this.search$.pipe(
@@ -39,7 +39,7 @@ export class WorkflowStatusComboBoxFilterComponent implements OnInit {
     startWith([]),
     shareReplay(1)
   );
-  status: WorkflowStatus | null = null;
+  statuses: WorkflowStatus[] = [];
   statusId = this.activatedRoute.snapshot.queryParams.status || '';
 
   constructor(
@@ -54,29 +54,25 @@ export class WorkflowStatusComboBoxFilterComponent implements OnInit {
       this.workflowsService
         .getWorkflowStatus(this.statusId)
         .pipe(take(1), takeUntil(this.destroy$))
-        .subscribe((status) => {
-          this.status = status;
-          this.valueChange.emit(status);
+        .subscribe((statuses) => {
+          this.statuses = statuses;
+          this.valueChange.emit(statuses.map((value) => value.id).join(','));
         });
     }
   }
 
-  @Input() identityMatcher: TuiIdentityMatcher<any> = (item1: WorkflowStatus, item2: WorkflowStatus) =>
-    item1.id === item2.id;
+  identityMatcher: TuiIdentityMatcher<any> = (item1: WorkflowStatus, item2: WorkflowStatus) => item1.id === item2.id;
 
-  @Input() stringify: TuiStringHandler<any> = (item: WorkflowStatus) => item.name;
+  stringify: TuiStringHandler<WorkflowStatus | TuiContextWithImplicit<WorkflowStatus>> = (item) =>
+    'name' in item ? item.name : item.$implicit.name;
 
-  @Input() strictMatcher: TuiStringMatcher<WorkflowStatus> = (
-    item: WorkflowStatus,
-    search: string,
-    stringify: TuiStringHandler<WorkflowStatus>
-  ) => !!item.id && stringify(item).toLowerCase() === search.toLowerCase();
+  onSelectStatus(values: WorkflowStatus[]): void {
+    const ids = values.map((value) => value.id).join(',');
 
-  onSelectStatus(value: WorkflowStatus | null): void {
-    this.status = value;
-    this.valueChange.emit(value);
+    this.statuses = values;
+    this.valueChange.emit(ids);
     this.router.navigate([], {
-      queryParams: { status: value ? value.id : null },
+      queryParams: { status: values.length ? ids : null },
       queryParamsHandling: 'merge',
       replaceUrl: true,
     });
@@ -87,13 +83,15 @@ export class WorkflowStatusComboBoxFilterComponent implements OnInit {
   declarations: [WorkflowStatusComboBoxFilterComponent],
   imports: [
     CommonModule,
-    TuiComboBoxModule,
     FormsModule,
     TuiDataListModule,
     TuiTextfieldControllerModule,
     TuiLoaderModule,
     TranslocoModule,
     TuiTagModule,
+    TuiMultiSelectModule,
+    TuiDataListWrapperModule,
+    TuiLetModule,
   ],
   exports: [WorkflowStatusComboBoxFilterComponent],
 })

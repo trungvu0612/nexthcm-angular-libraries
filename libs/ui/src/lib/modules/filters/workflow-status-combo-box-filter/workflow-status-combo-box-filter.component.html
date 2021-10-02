@@ -1,28 +1,21 @@
-<tui-combo-box
+<tui-multi-select
   (ngModelChange)="onSelectStatus($event)"
   (searchChange)="search$.next($event)"
-  *transloco="let t"
+  *tuiLet="statuses$ | async as items"
   [identityMatcher]="identityMatcher"
-  [ngModel]="status"
-  [strictMatcher]="strictMatcher"
+  [ngModel]="statuses"
   [stringify]="stringify"
   [tuiTextfieldCleaner]="true"
-  [valueContent]="statusContent"
-  tuiTextfieldExampleText="{{ t('findStatuses') }}"
+  tuiTextfieldExampleText="{{ 'findStatuses' | transloco }}"
 >
-  <span class="font-semibold">{{ t('status') }}</span>
-  <ng-template tuiDataList>
-    <tui-data-list *ngIf="statuses$ | async as statuses; else loading">
-      <button *ngFor="let status of statuses" [value]="status" tuiOption>
-        <ng-container *ngTemplateOutlet="statusContent; context: { $implicit: status }"></ng-container>
-      </button>
-    </tui-data-list>
-  </ng-template>
-  <ng-template #loading>
-    <tui-loader class="tui-space_vertical-4"></tui-loader>
-  </ng-template>
-</tui-combo-box>
+  <span class="font-semibold">{{ 'status' | transloco }}</span>
+  <tui-data-list-wrapper
+    *tuiDataList
+    [itemContent]="itemContent"
+    [items]="items | tuiHideSelected"
+  ></tui-data-list-wrapper>
+</tui-multi-select>
 
-<ng-template #statusContent let-status>
-  <tui-tag [style.backgroundColor]="status.stateType.color" [value]="status.name" class="text-white"></tui-tag>
+<ng-template #itemContent let-status>
+  <tui-tag [style.backgroundColor]="status.stateType?.color" [value]="status.name" class="text-white"></tui-tag>
 </ng-template>

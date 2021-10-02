@@ -1,4 +1,4 @@
-<section *transloco="let t" class="grid grid-cols-6 gap-6">
+<section *transloco="let t" class="grid grid-cols-5 gap-4">
   <hcm-input-filter
     (valueChange)="year$.next($event)"
     [label]="t('year')"
@@ -6,15 +6,16 @@
     propertyName="year"
   ></hcm-input-filter>
   <hcm-select-month-filter (monthChange)="month$.next($event)"></hcm-select-month-filter>
+  <hcm-workflow-status-combo-box-filter
+    (valueChange)="onFilterByWorkflowStatuses($event)"
+    class="col-span-3"
+  ></hcm-workflow-status-combo-box-filter>
   <hcm-input-filter
     (valueChange)="search$.next($event)"
-    [label]="t('searchByCifFullNameOffice')"
-    class="col-span-3"
     *ngIf="includeSearch"
+    [label]="t('searchByCifFullNameOffice')"
+    class="col-span-full"
     icon="tuiIconSearchLarge"
     propertyName="search"
   ></hcm-input-filter>
-  <hcm-workflow-status-combo-box-filter
-    (valueChange)="onFilterByWorkflowStatus($event)"
-  ></hcm-workflow-status-combo-box-filter>
 </section>

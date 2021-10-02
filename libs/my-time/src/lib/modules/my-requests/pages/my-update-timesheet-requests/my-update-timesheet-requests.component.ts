@@ -7,7 +7,7 @@ import { ProviderScope, TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from
 import { RxState } from '@rx-angular/state';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { BaseComponent, Columns } from 'ngx-easy-table';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
 import { catchError, filter, map, share, startWith, switchMap } from 'rxjs/operators';
 import { UpdateTimesheetRequest } from '../../../../models';
 import { MyTimeService } from '../../../../services';
@@ -58,8 +58,8 @@ export class MyUpdateTimesheetRequestsComponent extends AbstractRequestListCompo
     ),
     share()
   );
-  readonly loading$ = this.request$.pipe(
-    map((value) => !value),
+  readonly loading$ = combineLatest([this.request$, this.changeStatusHandler$.pipe(startWith({}))]).pipe(
+    map((values) => values.includes(null)),
     catchError(() => of(false))
   );
 
