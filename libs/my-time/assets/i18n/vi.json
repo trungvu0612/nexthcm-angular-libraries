@@ -64,6 +64,7 @@
   },
   "workingHoursDetail": "Chi tiết giờ làm việc",
   "requestUpdateTimesheet": "Yêu cầu cập nhật bảng ghi thời gian",
+  "updateTimesheetSuccess": "Đã cập nhật giờ làm việc!",
   "newInTime": "Giờ vào mới",
   "newOutTime": "Giờ ra mới",
   "enterNewInTime": "Nhập giờ vào mới",

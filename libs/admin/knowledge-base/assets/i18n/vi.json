@@ -1,3 +1,10 @@
 {
-  "deletePolicy": "Bạn có muốn xóa chính sách này không?"
+  "deletePolicy": "Bạn có muốn xóa chính sách này không?",
+  "KNOWLEDGE_BASE_TABLE": {
+    "creator": "Người tạo",
+    "category": "Thể loại",
+    "description": "Mô tả",
+    "status": "Trạng thái",
+    "action": "Chức năng"
+  }
 }

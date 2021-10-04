@@ -65,6 +65,7 @@
   },
   "workingHoursDetail": "Working hours detail",
   "requestUpdateTimesheet": "Request update timesheet",
+  "updateTimesheetSuccess": "Update timesheet successfully!",
   "newInTime": "New check-in time",
   "newOutTime": "New check-out time",
   "enterNewInTime": "Enter new in-time",

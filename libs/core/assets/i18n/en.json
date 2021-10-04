@@ -70,13 +70,6 @@
   "category": "Category",
   "addCategory": "Add category",
   "editCategory": "Edit category",
-  "KNOWLEDGE_BASE_TABLE": {
-    "creator": "Creator",
-    "category": "Category",
-    "description": "Description",
-    "status": "Status",
-    "action": "Action"
-  },
   "ZONE_TABLE": {
     "name": "Name",
     "office": "Office",
@@ -622,6 +615,7 @@
   "shortDescription": "Short Description",
   "Search": "Search",
   "searchPolicy": "Search policy",
+  "searchCategory": "Search category",
   "updateOfficeSuccessfully": "<b>Update office successfully</b>",
   "addOfficeSuccessfully": "<b>Add office successfully!</b>",
   "subject": "Subject",

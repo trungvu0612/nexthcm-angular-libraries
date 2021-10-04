@@ -1,3 +1,10 @@
 {
-  "deletePolicy": "Are you sure you want to remove this policy ?"
+  "deletePolicy": "Are you sure you want to remove this policy ?",
+  "KNOWLEDGE_BASE_TABLE": {
+    "creator": "Creator",
+    "category": "Category",
+    "description": "Description",
+    "status": "Status",
+    "action": "Action"
+  }
 }

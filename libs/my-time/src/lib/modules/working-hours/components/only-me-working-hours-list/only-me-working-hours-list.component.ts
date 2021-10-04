@@ -2,7 +2,7 @@ import { HttpParams } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, Inject, Injector, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '@nexthcm/auth';
-import { AbstractServerSortPaginationTableComponent, Pagination } from '@nexthcm/cdk';
+import { AbstractServerSortPaginationTableComponent, Pagination, PromptService } from '@nexthcm/cdk';
 import { HashMap, ProviderScope, TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
@@ -21,7 +21,7 @@ import { WorkingHoursDetailDialogComponent } from '../working-hour-detail-dialog
   templateUrl: './only-me-working-hours-list.component.html',
   styleUrls: ['./only-me-working-hours-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [TuiDestroyService, RxState],
+  providers: [TuiDestroyService, RxState]
 })
 export class OnlyMeWorkingHoursListComponent extends AbstractServerSortPaginationTableComponent<WorkingHours> {
   @ViewChild('table') table!: BaseComponent;
@@ -37,14 +37,14 @@ export class OnlyMeWorkingHoursListComponent extends AbstractServerSortPaginatio
         {
           key: 'totalWorkingTime',
           title: result.totalWorkingTimeH,
-          cssClass: { name: 'text-center', includeHeader: true },
+          cssClass: { name: 'text-center', includeHeader: true }
         },
         { key: 'workingDay', title: result.workingDay, cssClass: { name: 'text-center', includeHeader: true } },
         { key: 'ot', title: result.ot },
         { key: 'onsiteDay', title: result.onsiteDay, cssClass: { name: 'text-center', includeHeader: true } },
         { key: 'wfh', title: result.workFromHome, cssClass: { name: 'text-center', includeHeader: true } },
         { key: 'leave', title: result.leave },
-        { key: '', title: result.functions, orderEnabled: false },
+        { key: '', title: result.functions, orderEnabled: false }
       ])
     );
   readonly queryParams$ = new BehaviorSubject(
@@ -69,7 +69,8 @@ export class OnlyMeWorkingHoursListComponent extends AbstractServerSortPaginatio
     private readonly translocoService: TranslocoService,
     private readonly authService: AuthService,
     private readonly dialogService: TuiDialogService,
-    private readonly injector: Injector
+    private readonly injector: Injector,
+    private readonly promptService: PromptService
   ) {
     super(state, router, activatedRoute);
     state.connect(this.request$.pipe(filter(isPresent)));
@@ -79,7 +80,7 @@ export class OnlyMeWorkingHoursListComponent extends AbstractServerSortPaginatio
     this.dialogService
       .open(new PolymorpheusComponent(WorkingHoursDetailDialogComponent, this.injector), {
         label: this.translocoService.translate('myTime.workingHoursDetail'),
-        data,
+        data
       })
       .pipe(takeUntil(this.destroy$))
       .subscribe();
@@ -89,9 +90,9 @@ export class OnlyMeWorkingHoursListComponent extends AbstractServerSortPaginatio
     this.dialogService
       .open(new PolymorpheusComponent(SubmitUpdateTimesheetRequestDialogComponent, this.injector), {
         label: this.translocoService.translate('myTime.requestUpdateTimesheet'),
-        data,
+        data
       })
       .pipe(takeUntil(this.destroy$))
-      .subscribe();
+      .subscribe(this.promptService.handleResponse('myTime.updateTimesheetSuccess'));
   }
 }

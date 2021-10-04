@@ -71,13 +71,6 @@
   "category": "Thể loại",
   "addCategory": "Thêm thể loại",
   "editCategory": "Sửa thể loại",
-  "KNOWLEDGE_BASE_TABLE": {
-    "creator": "Người tạo",
-    "category": "Thể loại",
-    "description": "Mô tả",
-    "status": "Trạng thái",
-    "action": "Chức năng"
-  },
   "ZONE_TABLE": {
     "name": "Tên",
     "office": "Văn phòng",
@@ -623,6 +616,7 @@
   "shortDescription": "mô tả",
   "Search": "Tìm kiếm",
   "searchPolicy": "Tìm chính sách",
+  "searchCategory": "Tìm danh mục",
   "updateOfficeSuccessfully": "<b>Cập nhật văn phòng thành công</b>",
   "addUserRoleSuccessfully": "<b>Tạo vai trò thành công!</b>",
   "addOfficeSuccessfully": "<b>Tạo văn phòng thành công!</b>",
