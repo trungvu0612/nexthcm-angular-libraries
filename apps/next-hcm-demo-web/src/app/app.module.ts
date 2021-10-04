@@ -33,7 +33,7 @@ const ROUTES: Routes = [
       },
       {
         path: 'job-levels',
-        loadChildren: () => import('@nexthcm/admin-job-levels').then((m) => m.AdminJobLevelModule),
+        loadChildren: () => import('@nexthcm/admin-job-levels').then((m) => m.AdminJobLevelsModule),
       },
       {
         path: 'knowledge-base',
