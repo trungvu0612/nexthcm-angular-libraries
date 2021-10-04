@@ -138,4 +138,5 @@ export interface UserDto {
   descendants: any[];
   contact: ContactDTO;
   address: Address;
+  fullName?: string;
 }
