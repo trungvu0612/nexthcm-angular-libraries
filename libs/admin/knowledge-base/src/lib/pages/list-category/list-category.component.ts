@@ -20,7 +20,8 @@ import {
   share,
   startWith,
   switchMap,
-  takeUntil, tap
+  takeUntil,
+  tap,
 } from 'rxjs/operators';
 import { SweetAlertOptions } from 'sweetalert2';
 import { Category } from '../../models/policies';
@@ -29,7 +30,7 @@ import { Category } from '../../models/policies';
   selector: 'hcm-list-category',
   templateUrl: './list-category.component.html',
   styleUrls: ['./list-category.component.scss'],
-  providers: [RxState, TuiDestroyService]
+  providers: [RxState, TuiDestroyService],
 })
 export class ListCategoryComponent extends AbstractServerSortPaginationTableComponent<Category> {
   @ViewChild('table') table!: BaseComponent;
@@ -41,7 +42,7 @@ export class ListCategoryComponent extends AbstractServerSortPaginationTableComp
         { key: 'category', title: translate.category },
         { key: 'description', title: translate.description },
         { key: 'status', title: translate.status },
-        { key: 'action', title: translate.action, orderEnabled: false }
+        { key: 'action', title: translate.action, orderEnabled: false },
       ])
     );
   readonly form = new FormGroup<Partial<Category>>({});
@@ -54,8 +55,8 @@ export class ListCategoryComponent extends AbstractServerSortPaginationTableComp
         required: true,
         translate: true,
         label: 'name',
-        textfieldLabelOutside: true
-      }
+        textfieldLabelOutside: true,
+      },
     },
     {
       key: 'status',
@@ -64,7 +65,7 @@ export class ListCategoryComponent extends AbstractServerSortPaginationTableComp
       templateOptions: {
         translate: true,
         label: 'status',
-        textfieldLabelOutside: true
+        textfieldLabelOutside: true,
       },
       hooks: {
         onInit: (field) => {
@@ -74,8 +75,8 @@ export class ListCategoryComponent extends AbstractServerSortPaginationTableComp
               startWith(field.formControl.value as boolean),
               switchMap((value) => this.translocoService.selectTranslate(value ? 'active' : 'deactivate'))
             );
-        }
-      }
+        },
+      },
     },
     {
       key: 'description',
@@ -83,9 +84,9 @@ export class ListCategoryComponent extends AbstractServerSortPaginationTableComp
       templateOptions: {
         translate: true,
         label: 'description',
-        textfieldLabelOutside: true
-      }
-    }
+        textfieldLabelOutside: true,
+      },
+    },
   ];
 
   readonly search$ = new Subject<string | null>();
@@ -126,7 +127,7 @@ export class ListCategoryComponent extends AbstractServerSortPaginationTableComp
     else this.model = {};
     this.dialogService
       .open(content, {
-        label: this.translocoService.translate(id ? 'editCategory' : 'addCategory')
+        label: this.translocoService.translate(id ? 'editCategory' : 'addCategory'),
       })
       .subscribe();
   }

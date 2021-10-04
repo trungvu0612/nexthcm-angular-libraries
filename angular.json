@@ -133,6 +133,12 @@
           "options": {
             "lintFilePatterns": ["libs/admin/job-levels/src/**/*.ts", "libs/admin/job-levels/src/**/*.html"]
           }
+        },
+        "publish": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "command": "yarn publish dist/libs/admin/job-levels"
+          }
         }
       }
     },

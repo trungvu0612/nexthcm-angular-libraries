@@ -122,7 +122,13 @@ export class SubmitUpdateTimesheetRequestDialogComponent {
       this.submitHandler$.pipe(
         filter(isPresent),
         tap(
-          () => this.context.completeWith(true),
+          () =>
+            this.promptService
+              .open({
+                icon: 'success',
+                html: this.translocoService.translate('myTime.updateTimesheetSuccess'),
+              })
+              .then(() => this.context.completeWith(true)),
           (error) =>
             this.promptService.open({
               icon: 'error',

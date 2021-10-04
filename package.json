@@ -55,7 +55,7 @@
     "@fullcalendar/angular": "^5.9.0",
     "@fullcalendar/daygrid": "^5.9.0",
     "@nexthcm/admin-employees": "^0.0.1",
-    "@nexthcm/admin-job-level": "^0.0.1",
+    "@nexthcm/admin-job-levels": "^0.0.1",
     "@nexthcm/admin-job-titles": "^0.0.1",
     "@nexthcm/admin-knowledge-base": "^0.0.1",
     "@nexthcm/admin-leave-configs": "^0.0.1",
