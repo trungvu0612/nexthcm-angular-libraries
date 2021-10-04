@@ -5,9 +5,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { RequestConfig } from './request-config';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class AdminRequestsConfigurationService {
   constructor(private readonly http: HttpClient) {}
 

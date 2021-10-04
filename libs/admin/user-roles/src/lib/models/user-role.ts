@@ -1,4 +1,4 @@
-export interface AdminUserRole {
+export interface UserRole {
   id: string;
   name: string;
   description?: string;
@@ -38,6 +38,5 @@ export interface PolicyItem {
 }
 
 export interface Policy extends Item {
-  code: string;
   policyItems: PolicyItem[];
 }

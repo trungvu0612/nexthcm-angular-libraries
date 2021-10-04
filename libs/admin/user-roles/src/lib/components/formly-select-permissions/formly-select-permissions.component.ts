@@ -1,11 +1,11 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { TranslocoService } from '@ngneat/transloco';
+import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
+import { ProviderScope, TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
 import { FieldType } from '@ngx-formly/core';
 import { TuiContextWithImplicit, TuiIdentityMatcher, TuiStringHandler } from '@taiga-ui/cdk';
 import { Columns, Config, DefaultConfig } from 'ngx-easy-table';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
-import { Item } from '../../models/admin-user-role';
+import { Item } from '../../models/user-role';
 
 @Component({
   selector: 'hcm-formly-select-permissions',
@@ -23,7 +23,7 @@ export class FormlySelectPermissionsComponent extends FieldType implements OnIni
   };
 
   readonly columns$: Observable<Columns[]> = this.translocoService
-    .selectTranslateObject('ADMIN_USER_ROLE_PERMISSION_COLUMNS')
+    .selectTranslateObject('ADMIN_USER_ROLE_PERMISSION_COLUMNS', {}, (this.scope as ProviderScope).scope)
     .pipe(
       map((result) => [
         { key: 'name', title: result.name },
@@ -34,7 +34,10 @@ export class FormlySelectPermissionsComponent extends FieldType implements OnIni
     );
   valueChange$!: Observable<Item[]>;
 
-  constructor(private translocoService: TranslocoService) {
+  constructor(
+    private readonly translocoService: TranslocoService,
+    @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope
+  ) {
     super();
   }
 

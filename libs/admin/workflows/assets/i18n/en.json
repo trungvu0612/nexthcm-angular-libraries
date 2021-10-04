@@ -92,6 +92,7 @@
   "createNewTransition": "Create new transition",
   "editTransition": "Edit transition",
   "deleteWorkflow": "<b>Are you sure you want to delete this workflow?</b>",
+  "deleteUsedWorkflow": "<b>This workflow is already in use.<br>Are you sure you want to delete this workflow?</b>",
   "updateWorkflowSuccessfully": "<b>Updating this workflow successfully!</b>",
   "changeSourceOfTransition": "<b>Are you sure you want to change the source of '{{transition}}' to '{{status}}'?</b>",
   "changeTargetOfTransition": "<b>Are you sure you want to change the destination of '{{transition}}' to '{{status}}'?</b>",

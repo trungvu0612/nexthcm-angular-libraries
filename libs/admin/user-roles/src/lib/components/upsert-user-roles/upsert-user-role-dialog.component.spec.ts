@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { UpsertUserRolesComponent } from './upsert-user-roles.component';
+import { UpsertUserRoleDialogComponent } from './upsert-user-role-dialog.component';
 
 describe('UpsertUserRolesComponent', () => {
-  let component: UpsertUserRolesComponent;
-  let fixture: ComponentFixture<UpsertUserRolesComponent>;
+  let component: UpsertUserRoleDialogComponent;
+  let fixture: ComponentFixture<UpsertUserRoleDialogComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [UpsertUserRolesComponent],
+      declarations: [UpsertUserRoleDialogComponent],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(UpsertUserRolesComponent);
+    fixture = TestBed.createComponent(UpsertUserRoleDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

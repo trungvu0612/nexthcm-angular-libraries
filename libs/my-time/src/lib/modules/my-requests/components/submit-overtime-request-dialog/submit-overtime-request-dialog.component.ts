@@ -10,7 +10,7 @@ import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { endOfDay, getTime } from 'date-fns';
 import { Subject } from 'rxjs';
-import { filter, map, startWith, switchMap, tap } from 'rxjs/operators';
+import { filter, map, share, startWith, switchMap, tap } from 'rxjs/operators';
 import { WorkingAfterHoursType } from '../../../../enums';
 import { SubmitRequestPayload } from '../../../../models';
 import { MyTimeService } from '../../../../services';
@@ -107,7 +107,8 @@ export class SubmitOvertimeRequestDialogComponent {
   ];
   readonly submit$ = new Subject<SubmitRequestPayload>();
   readonly submitHandler$ = this.submit$.pipe(
-    switchMap((payload) => this.myTimeService.submitRequest('workingAfterHours', payload).pipe(startWith(null)))
+    switchMap((payload) => this.myTimeService.submitRequest('workingAfterHours', payload).pipe(startWith(null))),
+    share()
   );
   readonly submitLoading$ = this.submitHandler$.pipe(map((value) => !value));
 

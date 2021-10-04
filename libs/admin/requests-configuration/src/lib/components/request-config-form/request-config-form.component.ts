@@ -51,7 +51,12 @@ export class RequestConfigFormComponent {
     private readonly promptService: PromptService,
     state: RxState<Record<string, unknown>>
   ) {
-    state.hold(this.submitHandler$.pipe(filter(isPresent), tap(this.promptService.handleResponse())));
+    state.hold(
+      this.submitHandler$.pipe(
+        filter(isPresent),
+        tap(this.promptService.handleResponse('requestsConfig.configureSuccessfully'))
+      )
+    );
   }
 
   @Input()

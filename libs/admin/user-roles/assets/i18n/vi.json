@@ -11,11 +11,10 @@
     "description": "Mô tả",
     "functions": "Chức năng"
   },
-  "userRoleManagement": "Quản lý vai trò",
-  "addNewUserRole": "Tạo mới vai trò",
+  "createUserRole": "Tạo mới vai trò",
   "editUserRole": "Chỉnh sửa vai trò",
-  "updateUserRoleSuccessfully": "Cập nhật vai trò thành công",
-  "addNewUserRoleSuccessfully": "Tạo mới vai trò thành công",
-  "deleteUserRole": "Bạn có muốn xóa vai trò này ?",
-  "deleteUserRoleSuccessfully": "Xóa vai trò thành công"
+  "updateUserRoleSuccessfully": "<b>Cập nhật vai trò thành công!</b>",
+  "createUserRoleSuccessfully": "<b>Tạo mới vai trò thành công!</b>",
+  "deleteUserRole": "<b>Bạn có muốn xóa vai trò này ?</b>",
+  "deleteUserRoleSuccessfully": "<b>Xóa vai trò thành công</b>!"
 }

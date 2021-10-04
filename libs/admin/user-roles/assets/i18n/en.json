@@ -11,11 +11,10 @@
     "description": "Description",
     "functions": "Functions"
   },
-  "userRoleManagement": "User Role Management",
-  "addNewUserRole": "Create new user role",
+  "createUserRole": "Create new user role",
   "editUserRole": "Edit new user role",
-  "updateUserRoleSuccessfully": "Update user role successfully",
-  "addNewUserRoleSuccessfully": "Create new user role successfully",
-  "deleteUserRole": "Are you sure you want to remove this role?",
-  "deleteUserRoleSuccessfully": "Remove this role successfully"
+  "updateUserRoleSuccessfully": "<b>Update user role successfully!</b>",
+  "createUserRoleSuccessfully": "<b>Create new user role successfully!</b>",
+  "deleteUserRole": "<b>Are you sure you want to remove this role?</b>",
+  "deleteUserRoleSuccessfully": "<b>Remove this role successfully!</b>"
 }

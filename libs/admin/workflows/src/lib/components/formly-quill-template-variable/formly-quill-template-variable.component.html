@@ -21,11 +21,12 @@
   (onEditorChanged)="onEditorChanged($event)"
   [formControl]="$any(formControl)"
   [formlyAttributes]="field"
+  [maxLength]="to.maxlength"
+  [modules]="to.quillModules"
+  [required]="!!to.required"
   [style]="{ '--editor-height': to.height }"
   format="json"
   placeholder=""
-  [modules]="to.quillModules"
-  [maxLength]="to.maxLength"
 ></quill-editor>
 <ng-container *ngTemplateOutlet="errorTpl"></ng-container>
 

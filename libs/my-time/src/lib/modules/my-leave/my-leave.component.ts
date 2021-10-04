@@ -10,7 +10,7 @@ import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { BaseComponent, Columns } from 'ngx-easy-table';
 import { combineLatest, Observable, of } from 'rxjs';
-import { catchError, filter, map, share, startWith, switchMap, takeUntil } from 'rxjs/operators';
+import { catchError, filter, map, shareReplay, startWith, switchMap, takeUntil } from 'rxjs/operators';
 import { LeaveRequest } from '../../models';
 import { MyTimeService } from '../../services';
 import { AbstractRequestListComponent } from '../shared/abstract-components/abstract-request-list.component';
@@ -25,6 +25,7 @@ import { SubmitLeaveRequestDialogComponent } from './components/submit-leave-req
 })
 export class MyLeaveComponent extends AbstractRequestListComponent<LeaveRequest> {
   @ViewChild('table') table!: BaseComponent;
+
   readonly requestTypeUrlPath = 'leave';
   readonly columns$: Observable<Columns[]> = this.translocoService
     .selectTranslateObject('MY_LEAVE_TABLE_COLUMNS', {}, (this.scope as ProviderScope).scope)
@@ -47,7 +48,7 @@ export class MyLeaveComponent extends AbstractRequestListComponent<LeaveRequest>
     switchMap(() =>
       this.myTimeService.getRequests<LeaveRequest>('myLeave', this.queryParams$.value).pipe(startWith(null))
     ),
-    share()
+    shareReplay(1)
   );
   readonly loading$ = combineLatest([this.request$, this.changeStatusHandler$.pipe(startWith({}))]).pipe(
     map((values) => values.includes(null)),

@@ -5,6 +5,7 @@ import {
   ACCOUNT_API_PATH,
   BaseObject,
   BaseResponse,
+  MY_TIME_API_PATH,
   Pagination,
   PagingResponse,
   PromptService,
@@ -168,5 +169,11 @@ export class AdminWorkflowsService {
       mapTo(true),
       catchError(() => of(false))
     );
+  }
+
+  checkWorkflowInUse(workflowId: string): Observable<boolean> {
+    return this.http
+      .get<BaseResponse<boolean>>(`${MY_TIME_API_PATH}/wf/check-before-delete/${workflowId}`)
+      .pipe(map((res) => res.data));
   }
 }

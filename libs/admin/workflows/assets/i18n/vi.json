@@ -91,6 +91,7 @@
   "editStatus": "Chỉnh sửa trạng thái",
   "createNewTransition": "Tạo chuyển tiếp",
   "editTransition": "Chỉnh sửa chuyển tiếp",
+  "deleteUsedWorkflow": "<b>Quy trình này đã được dùng.<br>Bạn có chắc chắn muốn xóa quy trình này không?</b>",
   "deleteWorkflow": "<b>Bạn có chắc chắn muốn xóa quy trình này không?</b>",
   "updateWorkflowSuccessfully": "<b>Cập nhật quy trình thành công!</b>",
   "changeSourceOfTransition": "<b>Bạn có chắc chắn muốn thay đổi nguồn của '{{transition}}' thành '{{status}}'?</b>",

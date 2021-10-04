@@ -8,7 +8,7 @@ import { RxState } from '@rx-angular/state';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { BaseComponent, Columns } from 'ngx-easy-table';
 import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
-import { catchError, filter, map, share, startWith, switchMap } from 'rxjs/operators';
+import { catchError, filter, map, shareReplay, startWith, switchMap } from 'rxjs/operators';
 import { WorkFromHomeRequest } from '../../../../models';
 import { MyTimeService } from '../../../../services';
 import { AbstractRequestListComponent } from '../../../shared/abstract-components/abstract-request-list.component';
@@ -51,7 +51,7 @@ export class MyWorkFromHomeRequestsComponent extends AbstractRequestListComponen
         .getRequests<WorkFromHomeRequest>('myWorkFromHome', this.queryParams$.value)
         .pipe(startWith(null))
     ),
-    share()
+    shareReplay(1)
   );
   readonly loading$ = combineLatest([this.request$, this.changeStatusHandler$.pipe(startWith({}))]).pipe(
     map((values) => values.includes(null)),

@@ -8,7 +8,7 @@ import { isPresent, TuiDay, TuiDestroyService, TuiTime } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { Subject } from 'rxjs';
-import { filter, map, startWith, switchMap, tap } from 'rxjs/operators';
+import { filter, map, share, startWith, switchMap, tap } from 'rxjs/operators';
 import { RequestStatus } from '../../../../enums';
 import { SubmitRequestPayload, WorkingHours } from '../../../../models';
 import { MyTimeService } from '../../../../services';
@@ -105,16 +105,17 @@ export class SubmitUpdateTimesheetRequestDialogComponent {
   ];
   readonly submit$ = new Subject<SubmitRequestPayload>();
   readonly submitHandler$ = this.submit$.pipe(
-    switchMap((payload) => this.myTimeService.submitRequest('updateTimesheet', payload).pipe(startWith(null)))
+    switchMap((payload) => this.myTimeService.submitRequest('updateTimesheet', payload).pipe(startWith(null))),
+    share()
   );
   readonly submitLoading$ = this.submitHandler$.pipe(map((value) => !value));
 
   constructor(
-    private fb: FormBuilder,
-    @Inject(POLYMORPHEUS_CONTEXT) readonly context: TuiDialogContext<boolean, WorkingHours>,
-    private myTimeService: MyTimeService,
-    private promptService: PromptService,
-    private translocoService: TranslocoService,
+    private readonly fb: FormBuilder,
+    @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<boolean, WorkingHours>,
+    private readonly myTimeService: MyTimeService,
+    private readonly promptService: PromptService,
+    private readonly translocoService: TranslocoService,
     state: RxState<Record<string, unknown>>
   ) {
     state.hold(

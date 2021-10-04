@@ -6,16 +6,16 @@ import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { debounceTime, map, switchMap, take, tap } from 'rxjs/operators';
-import { AdminUserRole, Policy } from '../../models/admin-user-role';
+import { Policy, UserRole } from '../../models/user-role';
 import { AdminUserRolesService } from '../../services/admin-user-roles.service';
 
 @Component({
-  selector: 'hcm-upsert-user-roles',
-  templateUrl: './upsert-user-roles.component.html',
-  styleUrls: ['./upsert-user-roles.component.scss'],
+  selector: 'hcm-upsert-user-role-dialog',
+  templateUrl: './upsert-user-role-dialog.component.html',
+  styleUrls: ['./upsert-user-role-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class UpsertUserRolesComponent implements OnInit, AfterViewInit {
+export class UpsertUserRoleDialogComponent implements OnInit, AfterViewInit {
   params$ = new BehaviorSubject<{ page?: number; size?: number }>({ size: 100 });
   permissions$: Observable<Policy[]> = this.adminUserRolesService
     .getPermissions(this.params$.value)
@@ -28,7 +28,7 @@ export class UpsertUserRolesComponent implements OnInit, AfterViewInit {
   removeArray = [];
 
   readonly adminUserRoleForm = new FormGroup({});
-  model: Partial<AdminUserRole> = {};
+  model: Partial<UserRole> = {};
   options: FormlyFormOptions = {};
   fields: FormlyFieldConfig[] = [
     { key: 'id' },
@@ -52,7 +52,7 @@ export class UpsertUserRolesComponent implements OnInit, AfterViewInit {
                   debounceTime(1000),
                   take(1),
                   switchMap((name) =>
-                    this.data.name === name ? of(true) : this.adminUserRolesService.checkName({ name })
+                    this.data.name === name ? of(true) : this.adminUserRolesService.checkNameExisting({ name })
                   ),
                   tap(() => control.markAsTouched())
                 ),
@@ -90,14 +90,14 @@ export class UpsertUserRolesComponent implements OnInit, AfterViewInit {
   ];
 
   constructor(
-    @Inject(POLYMORPHEUS_CONTEXT) public context: TuiDialogContext<unknown, AdminUserRole>,
+    @Inject(POLYMORPHEUS_CONTEXT) public context: TuiDialogContext<unknown, UserRole>,
     private adminUserRolesService: AdminUserRolesService,
     private translocoService: TranslocoService
   ) {}
 
-  private _data = {} as AdminUserRole;
+  private _data = {} as UserRole;
 
-  get data(): AdminUserRole {
+  get data(): UserRole {
     return this._data;
   }
 

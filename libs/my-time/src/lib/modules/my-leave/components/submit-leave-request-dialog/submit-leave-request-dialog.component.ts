@@ -10,7 +10,7 @@ import { TuiDialogContext, TuiDialogService } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT, PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { endOfDay, getTime } from 'date-fns';
 import { Observable, Subject } from 'rxjs';
-import { distinctUntilChanged, filter, map, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { distinctUntilChanged, filter, map, share, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { LeaveSubmit, SubmitLeavePayLoad } from '../../../../models';
 import { MyLeaveService, MyTimeService } from '../../../../services';
 import { DurationConfirmDialogComponent } from '../duaration-comfirm-dialog/duration-confirm-dialog.component';
@@ -343,7 +343,8 @@ export class SubmitLeaveRequestDialogComponent implements OnInit {
   ];
   readonly submit$ = new Subject<SubmitLeavePayLoad>();
   readonly submitHandler$ = this.submit$.pipe(
-    switchMap((payload) => this.myLeaveService.createLeave(payload).pipe(startWith(null)))
+    switchMap((payload) => this.myLeaveService.createLeave(payload).pipe(startWith(null))),
+    share()
   );
   readonly submitLoading$ = this.submitHandler$.pipe(map((value) => !value));
 

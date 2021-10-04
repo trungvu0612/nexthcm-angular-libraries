@@ -9,22 +9,22 @@ import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { BaseComponent, Columns } from 'ngx-easy-table';
 import { from, iif, Observable, of } from 'rxjs';
 import { catchError, filter, map, share, startWith, switchMap, takeUntil } from 'rxjs/operators';
-import { UpsertJobLevelDialogComponent } from '../../components/upsert-job-level-dialog/upsert-job-level-dialog.component';
-import { JobLevel } from '../../models/job-level';
-import { AdminJobLevelsService } from '../../services/admin-job-levels.service';
+import { UpsertUserRoleDialogComponent } from '../../components/upsert-user-roles/upsert-user-role-dialog.component';
+import { UserRole } from '../../models/user-role';
+import { AdminUserRolesService } from '../../services/admin-user-roles.service';
 
 @Component({
-  selector: 'hcm-job-level-management',
-  templateUrl: './job-level-management.component.html',
-  styleUrls: ['./job-level-management.component.scss'],
-  providers: [TuiDestroyService, RxState],
+  selector: 'hcm-user-role-management',
+  templateUrl: './user-role-management.component.html',
+  styleUrls: ['./user-role-management.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [TuiDestroyService, RxState],
 })
-export class JobLevelManagementComponent extends AbstractServerSortPaginationTableComponent<JobLevel> {
+export class UserRoleManagementComponent extends AbstractServerSortPaginationTableComponent<UserRole> {
   @ViewChild('table') table!: BaseComponent;
 
   readonly columns$: Observable<Columns[]> = this.translocoService
-    .selectTranslateObject('ADMIN_JOB_LEVEL_COLUMNS', {}, (this.scope as ProviderScope).scope)
+    .selectTranslateObject('ADMIN_USER_ROLE_COLUMNS', {}, (this.scope as ProviderScope).scope)
     .pipe(
       map((result) => [
         { key: 'name', title: result.name },
@@ -34,7 +34,7 @@ export class JobLevelManagementComponent extends AbstractServerSortPaginationTab
     );
 
   private readonly request$ = this.queryParams$.pipe(
-    switchMap(() => this.adminJobLevelsService.getJobLevels(this.queryParams$.value).pipe(startWith(null))),
+    switchMap(() => this.adminUserRolesService.getUserRoles(this.queryParams$.value).pipe(startWith(null))),
     share()
   );
   readonly loading$ = this.request$.pipe(
@@ -43,25 +43,25 @@ export class JobLevelManagementComponent extends AbstractServerSortPaginationTab
   );
 
   constructor(
-    readonly state: RxState<Pagination<JobLevel>>,
+    readonly state: RxState<Pagination<UserRole>>,
     readonly router: Router,
     readonly activatedRoute: ActivatedRoute,
     @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope,
-    private readonly adminJobLevelsService: AdminJobLevelsService,
-    private readonly injector: Injector,
-    private readonly destroy$: TuiDestroyService,
-    private readonly dialogService: TuiDialogService,
-    private readonly translocoService: TranslocoService,
-    private readonly promptService: PromptService
+    private adminUserRolesService: AdminUserRolesService,
+    private destroy$: TuiDestroyService,
+    private dialogService: TuiDialogService,
+    private injector: Injector,
+    private translocoService: TranslocoService,
+    private promptService: PromptService
   ) {
     super(state, router, activatedRoute);
     state.connect(this.request$.pipe(filter(isPresent)));
   }
 
-  onUpsertJobLevel(data?: JobLevel): void {
+  onUpsertUserRole(data?: UserRole): void {
     this.dialogService
-      .open<boolean>(new PolymorpheusComponent(UpsertJobLevelDialogComponent, this.injector), {
-        label: this.translocoService.translate(data ? 'jobLevels.editJobLevel' : 'jobLevels.createJobLevel'),
+      .open<boolean>(new PolymorpheusComponent(UpsertUserRoleDialogComponent, this.injector), {
+        label: this.translocoService.translate(data ? 'userRoles.editUserRole' : 'userRoles.createUserRole'),
         size: 'l',
         data,
       })
@@ -69,20 +69,20 @@ export class JobLevelManagementComponent extends AbstractServerSortPaginationTab
       .subscribe(() => this.queryParams$.next(this.queryParams$.value));
   }
 
-  onRemoveJobTitle(id: string): void {
+  onRemoveUserRole(id: string): void {
     from(
       this.promptService.open({
         icon: 'question',
-        html: this.translocoService.translate('jobLevels.deleteJobLevel'),
+        html: this.translocoService.translate('userRoles.deleteUserRole'),
         showCancelButton: true,
       })
     )
       .pipe(
-        switchMap((result) => iif(() => result.isConfirmed, this.adminJobLevelsService.deleteJobLevel(id))),
+        switchMap((result) => iif(() => result.isConfirmed, this.adminUserRolesService.deleteAdminUserRoleId(id))),
         takeUntil(this.destroy$)
       )
       .subscribe(
-        this.promptService.handleResponse('jobLevels.deleteJobTitleSuccessfully', () =>
+        this.promptService.handleResponse('userRoles.deleteUserRoleSuccessfully', () =>
           this.queryParams$.next(this.queryParams$.value)
         )
       );

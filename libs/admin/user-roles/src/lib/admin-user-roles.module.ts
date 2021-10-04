@@ -19,10 +19,10 @@ import {
 import { TuiDataListWrapperModule, TuiMultiSelectModule } from '@taiga-ui/kit';
 import { TableModule } from 'ngx-easy-table';
 import { NgxPermissionsGuard, NgxPermissionsModule } from 'ngx-permissions';
-import { AdminUserRolesComponent } from './admin-user-roles.component';
 import { FormlySelectPermissionsComponent } from './components/formly-select-permissions/formly-select-permissions.component';
-import { ListUserRolesComponent } from './pages/list-user-roles/list-user-roles.component';
-import { UpsertUserRolesComponent } from './pages/upsert-user-roles/upsert-user-roles.component';
+import { UpsertUserRoleDialogComponent } from './components/upsert-user-roles/upsert-user-role-dialog.component';
+import { UserRoleManagementComponent } from './pages/list-user-roles/user-role-management.component';
+import { AdminUserRolesService } from './services/admin-user-roles.service';
 
 export const adminUserRolesRoutes: Route[] = [
   {
@@ -31,10 +31,10 @@ export const adminUserRolesRoutes: Route[] = [
     canActivate: [NgxPermissionsGuard],
     data: { permissions: { only: 'VIEW_ROLE', redirectTo: '/' } },
     children: [
-      { path: '', component: ListUserRolesComponent },
+      { path: '', component: UserRoleManagementComponent },
       {
         path: 'add',
-        component: UpsertUserRolesComponent,
+        component: UpsertUserRoleDialogComponent,
         canActivate: [NgxPermissionsGuard],
         data: { permissions: { only: 'CREATE_ROLE', redirectTo: '/' } },
       },
@@ -74,12 +74,12 @@ export const adminUserRolesRoutes: Route[] = [
     NgxPermissionsModule,
   ],
   declarations: [
-    ListUserRolesComponent,
-    UpsertUserRolesComponent,
-    AdminUserRolesComponent,
+    UserRoleManagementComponent,
+    UpsertUserRoleDialogComponent,
     FormlySelectPermissionsComponent,
   ],
   providers: [
+    AdminUserRolesService,
     {
       provide: TRANSLOCO_SCOPE,
       useValue: {

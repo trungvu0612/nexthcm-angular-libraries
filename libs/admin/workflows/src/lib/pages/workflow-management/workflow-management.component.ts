@@ -7,8 +7,9 @@ import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { BaseComponent, Columns } from 'ngx-easy-table';
-import { from, Observable, of } from 'rxjs';
-import { catchError, filter, map, share, startWith, switchMap, takeUntil } from 'rxjs/operators';
+import { from, iif, Observable, of } from 'rxjs';
+import { catchError, filter, map, shareReplay, startWith, switchMap, takeUntil } from 'rxjs/operators';
+import { SweetAlertResult } from 'sweetalert2';
 import { CreateWorkflowDialogComponent } from '../../components/create-workflow-dialog/create-workflow-dialog.component';
 import { Workflow } from '../../models';
 import { AdminWorkflowsService } from '../../services/admin-workflows.service';
@@ -34,7 +35,7 @@ export class WorkflowManagementComponent extends AbstractServerSortPaginationTab
     );
   private readonly request$ = this.queryParams$.pipe(
     switchMap(() => this.workflowService.getWorkflows(this.queryParams$.value).pipe(startWith(null))),
-    share()
+    shareReplay(1)
   );
   readonly loading$ = this.request$.pipe(
     map((value) => !value),
@@ -67,16 +68,19 @@ export class WorkflowManagementComponent extends AbstractServerSortPaginationTab
   }
 
   onRemoveWorkflow(id: string): void {
-    from(
-      this.promptService.open({
-        icon: 'question',
-        html: this.translocoService.translate('WORKFLOW.deleteWorkflow'),
-        showCancelButton: true,
-      })
-    )
+    this.workflowService
+      .checkWorkflowInUse(id)
       .pipe(
-        filter((result) => result.isConfirmed),
-        switchMap(() => this.workflowService.deleteWorkflow(id)),
+        switchMap((used) =>
+          from(
+            this.promptService.open({
+              icon: used ? 'warning' : 'question',
+              html: this.translocoService.translate(used ? 'WORKFLOW.deleteUsedWorkflow' : 'WORKFLOW.deleteWorkflow'),
+              showCancelButton: true,
+            })
+          )
+        ),
+        switchMap((result: SweetAlertResult) => iif(() => result.isConfirmed, this.workflowService.deleteWorkflow(id))),
         takeUntil(this.destroy$)
       )
       .subscribe(
