@@ -21,7 +21,6 @@
       "@nexthcm/admin-contracts": ["libs/admin/contracts/src/index.ts"],
       "@nexthcm/admin-employees": ["libs/admin/employees/src/index.ts"],
       "@nexthcm/admin-entitlement": ["libs/admin/entitlement/src/index.ts"],
-      "@nexthcm/admin-job-level": ["libs/admin/job-level/src/index.ts"],
       "@nexthcm/admin-job-levels": ["libs/admin/job-levels/src/index.ts"],
       "@nexthcm/admin-job-titles": ["libs/admin/job-titles/src/index.ts"],
       "@nexthcm/admin-knowledge-base": ["libs/admin/knowledge-base/src/index.ts"],
