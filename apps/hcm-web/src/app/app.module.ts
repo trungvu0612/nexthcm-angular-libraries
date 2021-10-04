@@ -47,8 +47,8 @@ import { AppComponent } from './app.component';
             },
             { path: 'tenants', loadChildren: () => import('@nexthcm/admin-tenants').then((m) => m.AdminTenantsModule) },
             {
-              path: 'job-level',
-              loadChildren: () => import('@nexthcm/admin-job-level').then((m) => m.AdminJobLevelModule),
+              path: 'job-levels',
+              loadChildren: () => import('@nexthcm/admin-job-levels').then((m) => m.AdminJobLevelsModule),
             },
             {
               path: 'knowledge-base',

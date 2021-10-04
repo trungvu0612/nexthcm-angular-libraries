@@ -55,7 +55,7 @@ export class SidebarComponent implements OnInit {
     },
     {
       label: 'jobLevelManagement',
-      link: '/admin/job-level',
+      link: '/admin/job-levels',
       icon: 'job-level',
       permissions: 'VIEW_JOB_LEVEL',
     },

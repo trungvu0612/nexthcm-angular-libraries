@@ -98,47 +98,40 @@
         }
       }
     },
-    "admin-job-level": {
+    "admin-job-levels": {
       "projectType": "library",
-      "root": "libs/admin/job-level",
-      "sourceRoot": "libs/admin/job-level/src",
+      "root": "libs/admin/job-levels",
+      "sourceRoot": "libs/admin/job-levels/src",
       "prefix": "hcm",
       "architect": {
         "build": {
-          "builder": "@nrwl/angular:ng-packagr-lite",
-          "outputs": ["dist/libs/admin/job-level"],
+          "builder": "@nrwl/angular:package",
+          "outputs": ["dist/libs/admin/job-levels"],
           "options": {
-            "project": "libs/admin/job-level/ng-package.json"
+            "project": "libs/admin/job-levels/ng-package.json"
           },
           "configurations": {
             "production": {
-              "tsConfig": "libs/admin/job-level/tsconfig.lib.prod.json"
+              "tsConfig": "libs/admin/job-levels/tsconfig.lib.prod.json"
             },
             "development": {
-              "tsConfig": "libs/admin/job-level/tsconfig.lib.json"
+              "tsConfig": "libs/admin/job-levels/tsconfig.lib.json"
             }
           },
           "defaultConfiguration": "production"
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/admin/job-level"],
+          "outputs": ["coverage/libs/admin/job-levels"],
           "options": {
-            "jestConfig": "libs/admin/job-level/jest.config.js",
+            "jestConfig": "libs/admin/job-levels/jest.config.js",
             "passWithNoTests": true
           }
         },
         "lint": {
           "builder": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": ["libs/admin/job-level/src/**/*.ts", "libs/admin/job-level/src/**/*.html"]
-          },
-          "outputs": ["{options.outputFile}"]
-        },
-        "publish": {
-          "builder": "@nrwl/workspace:run-commands",
-          "options": {
-            "command": "yarn publish dist/libs/admin/job-level"
+            "lintFilePatterns": ["libs/admin/job-levels/src/**/*.ts", "libs/admin/job-levels/src/**/*.html"]
           }
         }
       }

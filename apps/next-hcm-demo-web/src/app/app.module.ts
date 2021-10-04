@@ -32,8 +32,8 @@ const ROUTES: Routes = [
         loadChildren: () => import('@nexthcm/admin-workflows').then((m) => m.AdminWorkflowsModule),
       },
       {
-        path: 'job-level',
-        loadChildren: () => import('@nexthcm/admin-job-level').then((m) => m.AdminJobLevelModule),
+        path: 'job-levels',
+        loadChildren: () => import('@nexthcm/admin-job-levels').then((m) => m.AdminJobLevelModule),
       },
       {
         path: 'knowledge-base',

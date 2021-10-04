@@ -1,5 +1,5 @@
 module.exports = {
-  displayName: 'admin-job-level',
+  displayName: 'admin-job-levels',
   preset: '../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   globals: {
@@ -8,7 +8,7 @@ module.exports = {
       stringifyContentPathRegex: '\\.(html|svg)$',
     },
   },
-  coverageDirectory: '../../../coverage/libs/admin/job-level',
+  coverageDirectory: '../../../coverage/libs/admin/job-levels',
   transform: {
     '^.+\\.(ts|js|html)$': 'jest-preset-angular',
   },
