@@ -684,5 +684,7 @@
   "workingAfterHours": "Làm việc ngoài giờ",
   "addComment": "Thêm bình luận",
   "leave": "Nghỉ phép",
-  "deleteComment": "<b>Bạn thật sự muốn xoá bình luận này?</b>"
+  "deleteComment": "<b>Bạn thật sự muốn xoá bình luận này?</b>",
+  "note": "Ghi chú",
+  "enterNote": "Nhập ghi chú..."
 }

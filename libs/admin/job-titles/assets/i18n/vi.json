@@ -1,20 +1,15 @@
 {
   "ADMIN_JOB_TITLE_COLUMNS": {
     "name": "Tên",
-    "createdBy": "Tạo bởi",
-    "createdDate": "Tạo ngày",
-    "lastModifiedDate": "Ngày chỉnh sửa",
-    "state": "Trạng thái",
+    "description": "Mô tả",
+    "status": "Trạng thái",
     "functions": "Chức năng"
   },
-  "jobTitle": "Chức danh",
-  "chooseJobTitle": "Chọn chức danh",
-  "searchJobTitles": "Tìm kiếm chức vụ",
-  "jobTitleManagement": "Quản lý chức vụ",
-  "addNewJobTitle": "Tạo mới chức vụ",
+  "searchJobTitles": "Tìm kiếm chức vụ...",
+  "createJobTitle": "Tạo mới chức vụ",
   "editJobTitle": "Chỉnh sửa chức vụ",
-  "updateJobTitleSuccessfully": "Chỉnh sửa chức vụ thành công",
-  "addNewJobTitleSuccessfully": "Tạo mới chức vụ thành công",
-  "deleteJobTitle": "Bạn có muốn xóa chức vụ này không?",
-  "deleteJobTitleSuccessfully": "Xóa chức vụ này thành công"
+  "updateJobTitleSuccessfully": "<b>Cập nhật chức vụ thành công!</b>",
+  "createJobTitleSuccessfully": "<b>Tạo mới chức vụ thành công!</b>",
+  "deleteJobTitle": "<b>Bạn có muốn xóa chức vụ này không?</b>",
+  "deleteJobTitleSuccessfully": "<b>Xóa chức vụ thành công!</b>"
 }

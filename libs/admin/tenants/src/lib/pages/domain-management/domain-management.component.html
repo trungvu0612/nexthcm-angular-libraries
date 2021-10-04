@@ -1,5 +1,5 @@
 <div class="flex justify-end mb-6">
-  <button (click)="onUpsertDomain()" size="m" tuiButton>{{ ('tenants.addDomain' | transloco) }}</button>
+  <button (click)="onUpsertDomain()" size="m" tuiButton>{{ 'tenants.addDomain' | transloco }}</button>
 </div>
 <hcm-input-filter
   (valueChange)="search$.next($event)"
@@ -23,8 +23,10 @@
           <a tuiLink>{{ item.domainUrl }}</a>
         </td>
         <td>
-          <tui-tag [value]="(CommonStatus[item.status] | transloco)"
-                   class="{{ CommonStatus[item.status] }}-tag"></tui-tag>
+          <tui-tag
+            [value]="CommonStatus[item.status] | transloco"
+            class="{{ CommonStatus[item.status] }}-tag"
+          ></tui-tag>
         </td>
         <td>
           <div class="flex items-center space-x-2">

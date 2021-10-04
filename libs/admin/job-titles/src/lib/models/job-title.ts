@@ -1,24 +1,10 @@
+import { CommonStatus } from '@nexthcm/cdk';
+
 export interface JobTitle {
   id: string;
-  name?: string;
-  description?: string;
-  hasLevel?: boolean;
-  stateCov?: boolean;
-  state: number | boolean;
-  createdBy?: string;
-  createdDate?: string;
-  lastModifiedDate?: number;
+  name: string;
+  description: string;
+  state: CommonStatus;
   hasLDAPUser: boolean;
-  infoUserCreated?: InfoUserCreated;
+  statusBoolean?: boolean;
 }
-
-export interface InfoUserCreated {
-  id: string;
-  profile?: Profile;
-}
-
-export interface Profile {
-  id: string;
-  fullName?: string;
-}
-

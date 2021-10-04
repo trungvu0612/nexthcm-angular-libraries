@@ -683,5 +683,7 @@
   "workingAfterHours": "Working after-hours",
   "addComment": "Add a comment",
   "leave": "Leave",
-  "deleteComment": "<b>Are you sure you want to delete this comment?</b>"
+  "deleteComment": "<b>Are you sure you want to delete this comment?</b>",
+  "note": "Note",
+  "enterNote": "Enter note..."
 }
