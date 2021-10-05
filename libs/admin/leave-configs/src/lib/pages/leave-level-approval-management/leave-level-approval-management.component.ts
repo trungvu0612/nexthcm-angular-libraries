@@ -10,37 +10,35 @@ import { BaseComponent, Columns } from 'ngx-easy-table';
 import { from, iif, Observable, of } from 'rxjs';
 import { catchError, filter, map, shareReplay, startWith, switchMap, takeUntil } from 'rxjs/operators';
 import { AdminLeaveConfigsService } from '../../admin-leave-configs.service';
-import { UpsertLeaveTypeDialogComponent } from '../../components/upsert-leave-type-dialog/upsert-leave-type-dialog.component';
-import { PaidLeaveStatus } from '../../enums/paid-leave-status';
+import { UpsertLeaveApprovalLevelDialogComponent } from '../../components/upsert-leave-approval-level-dialog/upsert-leave-approval-level-dialog.component';
 import { LeaveConfigUrlPaths } from '../../models/leave-config-url-paths';
-import { LeaveType } from '../../models/leave-type';
+import { LeaveLevelApproval } from '../../models/leave-level-approval';
 
 @Component({
-  selector: 'hcm-leave-type-management',
-  templateUrl: './leave-type-management.component.html',
-  styleUrls: ['./leave-type-management.component.scss'],
+  selector: 'hcm-leave-level-approval-management',
+  templateUrl: './leave-level-approval-management.component.html',
+  styleUrls: ['./leave-level-approval-management.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [TuiDestroyService, RxState],
 })
-export class LeaveTypeManagementComponent extends AbstractServerSortPaginationTableComponent<LeaveType> {
+export class LeaveLevelApprovalManagementComponent extends AbstractServerSortPaginationTableComponent<LeaveLevelApproval> {
   @ViewChild('table') table!: BaseComponent;
 
-  readonly leaveConfigAPIUrlPath: keyof LeaveConfigUrlPaths = 'leaveType';
-  readonly PaidLeaveStatus = PaidLeaveStatus;
+  readonly leaveConfigAPIUrlPath: keyof LeaveConfigUrlPaths = 'leaveLevelApproval';
   readonly columns$: Observable<Columns[]> = this.translocoService
-    .selectTranslateObject('LEAVE_TYPES_MANAGEMENT_COLUMNS', {}, (this.scope as ProviderScope).scope)
+    .selectTranslateObject('LEAVE_LEVEL_APPROVAL_MANAGEMENT_COLUMNS', {}, (this.scope as ProviderScope).scope)
     .pipe(
       map((result) => [
-        { key: 'name', title: result.name },
-        { key: 'description', title: result.description },
-        { key: 'paidLeave', title: result.paidLeave, cssClass: { name: 'text-center', includeHeader: true } },
+        { key: 'leaveType', title: result.leaveType },
+        { key: 'jobTitles', title: result.jobTitles, orderEnabled: false },
+        { key: 'totalLeave', title: result.entitlement, cssClass: { name: 'text-center', includeHeader: true } },
         { key: '', title: result.functions, orderEnabled: false },
       ])
     );
   private readonly request$ = this.queryParams$.pipe(
     switchMap(() =>
       this.leaveConfigsService
-        .getConfig<LeaveType>(this.leaveConfigAPIUrlPath, this.queryParams$.value)
+        .getConfig<LeaveLevelApproval>(this.leaveConfigAPIUrlPath, this.queryParams$.value)
         .pipe(startWith(null))
     ),
     shareReplay(1)
@@ -51,13 +49,12 @@ export class LeaveTypeManagementComponent extends AbstractServerSortPaginationTa
   );
 
   constructor(
-    readonly state: RxState<Pagination<LeaveType>>,
+    readonly state: RxState<Pagination<LeaveLevelApproval>>,
     readonly router: Router,
     readonly activatedRoute: ActivatedRoute,
     @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope,
-    private readonly leaveConfigsService: AdminLeaveConfigsService,
-    private readonly leaveTypeService: AdminLeaveConfigsService,
     private readonly destroy$: TuiDestroyService,
+    private readonly leaveConfigsService: AdminLeaveConfigsService,
     private readonly dialogService: TuiDialogService,
     private readonly injector: Injector,
     private readonly translocoService: TranslocoService,
@@ -67,10 +64,12 @@ export class LeaveTypeManagementComponent extends AbstractServerSortPaginationTa
     state.connect(this.request$.pipe(filter(isPresent)));
   }
 
-  onUpsertLeaveType(data?: LeaveType): void {
+  onUpsertLeaveType(data?: LeaveLevelApproval): void {
     this.dialogService
-      .open<boolean>(new PolymorpheusComponent(UpsertLeaveTypeDialogComponent, this.injector), {
-        label: this.translocoService.translate(data ? 'leaveConfigs.editLeaveType' : 'leaveConfigs.createLeaveType'),
+      .open<boolean>(new PolymorpheusComponent(UpsertLeaveApprovalLevelDialogComponent, this.injector), {
+        label: this.translocoService.translate(
+          data ? 'leaveConfigs.editLeaveLevelApproval' : 'leaveConfigs.createLeaveLevelApproval'
+        ),
         size: 'l',
         data,
       })
@@ -78,11 +77,11 @@ export class LeaveTypeManagementComponent extends AbstractServerSortPaginationTa
       .subscribe(() => this.queryParams$.next(this.queryParams$.value));
   }
 
-  onRemoveLeaveType(id: string): void {
+  onRemoveLeaveLevelApproval(id: string): void {
     from(
       this.promptService.open({
         icon: 'question',
-        html: this.translocoService.translate('leaveConfigs.removeLeaveType'),
+        html: this.translocoService.translate('leaveConfigs.removeLeaveLevelApproval'),
         showCancelButton: true,
       })
     )
@@ -93,7 +92,7 @@ export class LeaveTypeManagementComponent extends AbstractServerSortPaginationTa
         takeUntil(this.destroy$)
       )
       .subscribe(
-        this.promptService.handleResponse('leaveConfigs.removeLeaveTypeSuccessfully', () =>
+        this.promptService.handleResponse('leaveConfigs.removeLeaveLevelApprovalSuccessfully', () =>
           this.queryParams$.next(this.queryParams$.value)
         )
       );

@@ -1,0 +1,38 @@
+<hcm-page title="{{ 'leaveConfigs.employeesLeaveEntitlement' | transloco }}">
+  <hcm-input-filter
+    (valueChange)="search$.next($event)"
+    *transloco="let t"
+    [label]="t('searchByCifFullNameOffice')"
+    class="mb-5"
+    icon="tuiIconSearchLarge"
+    propertyName="search"
+  ></hcm-input-filter>
+  <tui-loader [overlay]="true" [showLoader]="(loading$ | async) === true">
+    <ngx-table
+      #table
+      [columns]="(columns$ | async) || []"
+      [configuration]="configuration"
+      [data]="(data$ | async) || []"
+    >
+      <ng-template let-row>
+        <ng-container *tuiLet="item(row) as item">
+          <td>{{ item.employee?.cif }}</td>
+          <td>
+            <div class="font-bold text-blue-500 uppercase">{{ item.employee?.fullName }}</div>
+          </td>
+          <td>{{ item.employee?.organization?.name }}</td>
+          <td>{{ item.employee?.jobTitle?.name }}</td>
+          <td>{{ item.leaveTypeName }}</td>
+          <td class="text-center">{{ item.totalEntitlement }}</td>
+          <td class="text-center">{{ item.totalUsedEntitlement }}</td>
+          <td class="text-center">{{ item.remainingEntitlement }}</td>
+        </ng-container>
+      </ng-template>
+    </ngx-table>
+  </tui-loader>
+  <tui-table-pagination
+    (pageChange)="onPage($event)"
+    (sizeChange)="onSize($event)"
+    [total]="(total$ | async) || 0"
+  ></tui-table-pagination>
+</hcm-page>

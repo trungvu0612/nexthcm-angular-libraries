@@ -121,25 +121,6 @@
       "deleteProcess": "Bạn có chắc chắn muốn xóa chính sách này không?"
     }
   },
-  "ADMIN_LEAVE_TYPES": {
-    "leaveTypesManagement": "Quản lý loại ngày nghỉ",
-    "addLeaveType": "Thêm loại ngày nghỉ",
-    "LEAVE_TYPES_COLUMNS": {
-      "name": "Tên",
-      "description": "Mô tả",
-      "status": "Tình trạng",
-      "paidLeave": "Tính phép",
-      "process": "Quy trình",
-      "operations": "Hoạt động"
-    },
-    "MESSAGES": {
-      "deleteLeaveType": "Bạn có chắc chắn muốn xóa loại ngày nghỉ này không?"
-    },
-    "ERRORS": {
-      "LEAVE_TYPE_DELETE_LEAVE_ALREADY_EXIST": "Bạn không thể xoá loại ngày nghỉ này vì nó đã được sử dụng để xin nghỉ.",
-      "YOU_HAVE_ALREADY_CHECKED_IN_THANKS_YOU": "Bạn đã xác nhận giờ vào làm rồi. Xin cám ơn!"
-    }
-  },
   "ADMIN_CONTRACT_MANAGEMENT_COLUMNS": {
     "contractManagement": "Quản lý hợp đồng",
     "addNewContract": "Thêm mới hợp đồng",
@@ -193,19 +174,6 @@
   "applyFor": "Tùy chọn",
   "morning": "Buổi sáng",
   "afternoon": "Buổi chiều",
-  "ADMIN_LEAVE_ENTITLEMENT_MANAGEMENT_COLUMNS": {
-    "period": "Khoản thời gian",
-    "jobTitle": "Chức vụ",
-    "totalLeave": "Số ngày nghỉ",
-    "functions": "Chức năng"
-  },
-  "leaveEntitlementManagement": "Quản lý quyền lợi",
-  "addLeaveEntitlementApprove": "Tạo quyền lợi",
-  "addLeaveEntitlementApproveSuccessfully": "Add quyền lợi thành công",
-  "deleteLeaveEntitlement": "Xóa quyền lợi",
-  "removeLeaveEntitlementSuccessfully": "Xóa quyền lợi thành công",
-  "editLeaveEntitlement": "Sửa quyền lợi",
-  "updateLeaveEntitlementSuccessfully": "Sửa quyền lợi thành công",
   "department": "Phòng ban",
   "chooseDepartment": "Chọn phòng ban",
   "OVERVIEW": {
@@ -219,22 +187,7 @@
     "state": "Trạng thái",
     "functions": "Chức năng"
   },
-  "ADMIN_LEAVE_LEVEL_APPROVE_MANAGEMENT_COLUMNS": {
-    "name": "Tên",
-    "leaveType": "Loại nghỉ phép",
-    "jobTitle": "Chức danh công việc",
-    "totalLeave": "Số ngày nghỉ",
-    "functions": "Chức năng"
-  },
   "jobTitleManagement": "Quản lý chức vụ",
-  "addNewJobTitle": "Tạo mới chức vụ",
-  "editJobTitle": "Chỉnh sửa chức vụ",
-  "updateJobTitleSuccessfully": "Chỉnh sửa chức vụ thành công",
-  "addNewJobTitleSuccessfully": "Tạo mới chức vụ thành công",
-  "deleteJobTitle": "Bạn có muốn xóa chức vụ này không?",
-  "deleteJobTitleSuccessfully": "Xóa chức vụ này thành công",
-  "deleteJobLevel": "Bạn có muốn xóa cấp độ công việc này không?",
-  "deleteJobLevelSuccessfully": "Xóa cấp độ công việc này thành công",
   "addNewCategorySuccessfully": "Thêm danh mục thành công",
   "overview": "Tổng quan",
   "myTime": "Thời gian",
@@ -249,7 +202,6 @@
   "admin": "Quản trị",
   "tenantManagement": "Quản lý Tenant",
   "employeeManagement": "Quản lý nhân viên",
-  "leaveApprovalLevelManagement": "Quản lý chức vụ xét duyệt",
   "roleManagement": "Quản lý vai trò",
   "permissionManagement": "Quản lý phân quyền",
   "officeManagement": "Quản lý văn phòng",
@@ -259,11 +211,8 @@
   "workflowManagement": "Quản lý quy trình",
   "branchManagement": "Quản lý chi nhánh",
   "departmentManagement": "Quản lý phòng ban",
-  "entitlementManagement": "Quản lý quyền lợi",
   "periodManagement": "Quản lý khoảng thời gian",
-  "leaveTypeManagement": "Quản lý phân loại nghỉ phép",
   "workingTimeManagement": "Quản lý thời gian làm việc",
-  "deleteLeaveApprovalLevel": "Bạn thật sự muốn xóa cấp độ xét duyệt nghỉ phép này?",
   "updateSuccessful": "<b>Cập nhật thành công!</b>",
   "contractManagement": "Quản lý hợp đồng",
   "HTTP_RESPONSE_ERROR_MESSAGES": {
@@ -519,25 +468,7 @@
   "checkInSuccessfully": "<b>Ghi giờ vào thành công!</b>",
   "checkOutSuccessfully": "<b>Ghi giờ ra thành công!</b>",
   "invalidCredential": "Tên đăng nhập hoặc mật khẩu không đúng.",
-  "ADMIN_PERIOD_MANAGEMENT_COLUMNS": {
-    "startDate": "Ngày bắt đầu",
-    "endDate": "Ngày kết thúc",
-    "status": "Trạng thái",
-    "functions": "Chức năng"
-  },
-  "leavePeriodManagement": "Quản lý khoảng thời gian",
-  "addLeavePeriod": "Tạo khoảng thời gian",
-  "addLeavePeriodSuccessfully": "Add khoảng thời gian thành công",
-  "deleteLeavePeriod": "Xóa khoảng thời gian",
-  "removeLeavePeriodSuccessfully": "Xóa khoảng thời gian thành công",
-  "editLeavePeriod": "Chỉnh sửa khoảng thời gian",
-  "updateLeavePeriodSuccessfully": "Chỉnh sửa khoảng thời gian thành công",
-  "leaveTypes": "Loại ngày nghỉ",
-  "leavePeriods": "Khoảng thời gian",
-  "leaveEntitlements": "Quyền lợi",
-  "leaveApprovalLevels": "Cấp bậc xét duyệt",
-  "leaveConfigs": "Cấu hình nghỉ phép",
-  "leaveConfigManagement": "Quản lý thiết lập ngày nghỉ",
+  "leaveConfigurations": "Cấu hình nghỉ phép",
   "template": "Bản mẫu",
   "SETTING_TIME": {
     "monday": "Thứ hai",
@@ -599,20 +530,9 @@
   "ACCOUNT_JOB_TITLE_IS_USED_BY_USERS": "Chức danh này đã được sử dụng",
   "ACCOUNT_JOB_LEVEL_IS_USED_BY_USERS": "Cấp độ này đã được sử dụng",
   "SERVER_ERROR": "500 - Lỗi kết nối.",
-  "totalLeaveCanApprove": "Tổng ngày được phép nghỉ",
-  "addNewLeaveEntitlement": "Tạo số lượng ngày nghỉ",
-  "editLeaveLevelApprove": "Chỉnh sửa cấp độ nghỉ",
-  "paidLeave": "Nghỉ có phép",
-  "addLeaveLevelApprove": "Thêm cấp độ nghỉ",
-  "addNewLeavePeriod": "Tạo mới khoản nghỉ",
   "startDate": "Ngày bắt đầu",
   "endDate": "Ngày kết thúc",
   "Organization": "Tổ chức",
-  "Period": "Khoảng nghỉ",
-  "Entitlements": "Số ngày nghỉ",
-  "chooseLeaveType": "Chọn loại nghỉ phép",
-  "totalLeave": "Số ngày nghỉ",
-  "addToMultipleEmployees": "Thêm nhiều nhân viên",
   "shortDescription": "mô tả",
   "Search": "Tìm kiếm",
   "searchPolicy": "Tìm chính sách",
@@ -680,5 +600,7 @@
   "leave": "Nghỉ phép",
   "deleteComment": "<b>Bạn thật sự muốn xoá bình luận này?</b>",
   "note": "Ghi chú",
-  "enterNote": "Nhập ghi chú..."
+  "enterNote": "Nhập ghi chú...",
+  "employee": "Nhân viên",
+  "searchEmployees": "Tìm nhân viên..."
 }

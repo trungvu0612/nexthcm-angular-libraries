@@ -34,9 +34,9 @@ import { from, iif, Subject } from 'rxjs';
 import { switchMap, takeUntil, tap } from 'rxjs/operators';
 import { RequestCommentStatus } from '../../../enums';
 import { GeneralRequest } from '../../../models';
+import { HistoryItem } from '../../../models/history-item';
 import { RequestComment } from '../../../models/request-comment';
-import { RequestTypeUrlPath } from '../../../models/request-type-url-path';
-import { HistoryItem } from '../../../models/requests/history-item';
+import { RequestTypeUrlPaths } from '../../../models/request-type-url-paths';
 import { MyTimeService, REQUEST_COMMENT_URL_PATHS } from '../../../services';
 import { LeaveRequestDateRangeComponentModule } from '../leave-request-date-range/leave-request-date-range.component';
 
@@ -105,7 +105,7 @@ export class RequestDetailDialogComponent implements OnInit {
     @Inject(POLYMORPHEUS_CONTEXT)
     private readonly context: TuiDialogContext<
       unknown,
-      { type: keyof RequestTypeUrlPath; value: GeneralRequest; userId?: string }
+      { type: keyof RequestTypeUrlPaths; value: GeneralRequest; userId?: string }
     >,
     private readonly myTimeService: MyTimeService,
     private readonly authService: AuthService,
@@ -150,7 +150,7 @@ export class RequestDetailDialogComponent implements OnInit {
     return this.context.data.value;
   }
 
-  get requestType(): keyof RequestTypeUrlPath {
+  get requestType(): keyof RequestTypeUrlPaths {
     return this.context.data.type;
   }
 

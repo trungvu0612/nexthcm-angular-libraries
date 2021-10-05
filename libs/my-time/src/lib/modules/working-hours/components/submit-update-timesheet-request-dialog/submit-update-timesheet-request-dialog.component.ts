@@ -7,8 +7,8 @@ import { RxState } from '@rx-angular/state';
 import { isPresent, TuiDay, TuiDestroyService, TuiTime } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
-import { Subject } from 'rxjs';
-import { filter, map, share, startWith, switchMap, tap } from 'rxjs/operators';
+import { of, Subject } from 'rxjs';
+import { catchError, filter, map, share, startWith, switchMap, tap } from 'rxjs/operators';
 import { RequestStatus } from '../../../../enums';
 import { SubmitRequestPayload, WorkingHours } from '../../../../models';
 import { MyTimeService } from '../../../../services';
@@ -108,7 +108,10 @@ export class SubmitUpdateTimesheetRequestDialogComponent {
     switchMap((payload) => this.myTimeService.submitRequest('updateTimesheet', payload).pipe(startWith(null))),
     share()
   );
-  readonly submitLoading$ = this.submitHandler$.pipe(map((value) => !value));
+  readonly submitLoading$ = this.submitHandler$.pipe(
+    map((value) => !value),
+    catchError(() => of(false))
+  );
 
   constructor(
     private readonly fb: FormBuilder,

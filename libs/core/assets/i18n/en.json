@@ -121,25 +121,6 @@
       "deleteProcess": "Are you sure you want to delete this policy?"
     }
   },
-  "ADMIN_LEAVE_TYPES": {
-    "leaveTypesManagement": "Leave type management",
-    "addLeaveType": "Add leave types",
-    "LEAVE_TYPES_COLUMNS": {
-      "name": "Name",
-      "description": "Description",
-      "paidLeave": "Payable",
-      "status": "Status",
-      "process": "Process",
-      "operations": "Operators"
-    },
-    "MESSAGES": {
-      "deleteLeaveType": "Are you sure you want to delete this leave types?"
-    },
-    "ERRORS": {
-      "LEAVE_TYPE_DELETE_LEAVE_ALREADY_EXIST": "You can't delete this leave type because there are leaves submitted by it.",
-      "YOU_HAVE_ALREADY_CHECKED_IN_THANKS_YOU": "You have already checked in thanks you"
-    }
-  },
   "ADMIN_CONTRACT_MANAGEMENT_COLUMNS": {
     "contractManagement": "Contract Management",
     "addNewContract": "Add New Contract",
@@ -193,19 +174,6 @@
   "applyFor": "Apply for",
   "morning": "Morning",
   "afternoon": "Afternoon",
-  "ADMIN_LEAVE_ENTITLEMENT_MANAGEMENT_COLUMNS": {
-    "period": "Periods",
-    "jobTitle": "Leave Types",
-    "totalLeave": "Entitlement",
-    "functions": "Functions"
-  },
-  "leaveEntitlementManagement": "Leave entitlement management",
-  "addLeaveEntitlementApprove": "Add leave entitlement",
-  "addLeaveEntitlementApproveSuccessfully": "Add leave entitlement successfully",
-  "deleteLeaveEntitlement": "Delete leave entitlement",
-  "removeLeaveEntitlementSuccessfully": "Delete leave entitlement successfully",
-  "editLeaveEntitlement": "Edit leave entitlement",
-  "updateLeaveEntitlementSuccessfully": "Edit leave entitlement successfully",
   "department": "Department",
   "chooseDepartment": "Choose department",
   "OVERVIEW": {
@@ -219,23 +187,7 @@
     "state": "Status",
     "functions": "Functions"
   },
-  "ADMIN_LEAVE_LEVEL_APPROVE_MANAGEMENT_COLUMNS": {
-    "name": "Name",
-    "leaveType": "Leave Types",
-    "jobTitle": "Job Titles",
-    "totalLeave": "Total Leaves",
-    "functions": "Functions"
-  },
   "jobTitleManagement": "Job Title Management",
-  "addNewJobTitle": "Create new job title",
-  "editJobTitle": "Edit new job title",
-  "updateJobTitleSuccessfully": "Update job title successfully",
-  "addNewJobTitleSuccessfully": "Create new job title successfully",
-  "deleteJobTitle": "Are you sure you want to remove this job title?",
-  "deleteJobTitleSuccessfully": "Remove this job title successfully",
-  "deleteJobLevel": "Are you sure you want to remove this job level?",
-  "deleteJobLevelSuccessfully": "Remove this job level successfully",
-  "addLeaveApprovalLevel": "Add leave approval level",
   "addNewCategorySuccessfully": "Add new category successfully",
   "overview": "Overview",
   "myTime": "My Time",
@@ -250,7 +202,6 @@
   "admin": "Admin",
   "tenantManagement": "Tenant Management",
   "employeeManagement": "Employee Management",
-  "leaveApprovalLevelManagement": "Leave Approval Level Management",
   "roleManagement": "Role Management",
   "permissionManagement": "Permission Management",
   "officeManagement": "Office Management",
@@ -262,9 +213,7 @@
   "departmentManagement": "Department Management",
   "entitlementManagement": "Entitlement Management",
   "periodManagement": "Period Management",
-  "leaveTypeManagement": "Leave Type Management",
   "workingTimeManagement": "Working Time Management",
-  "deleteLeaveApprovalLevel": "Are you sure you want to remove this leave approval level?",
   "updateSuccessful": "<b>Update successfully!</b>",
   "contractManagement": "Contract Management",
   "HTTP_RESPONSE_ERROR_MESSAGES": {
@@ -520,23 +469,7 @@
   "checkInSuccessfully": "<b>Check in successfully!</b>",
   "checkOutSuccessfully": "<b>Check out successfully!</b>",
   "invalidCredential": "The username or password is incorrect.",
-  "ADMIN_PERIOD_MANAGEMENT_COLUMNS": {
-    "startDate": "Start Date - End Date",
-    "status": "Status",
-    "functions": "Functions"
-  },
-  "leavePeriodManagement": "Leave period management",
-  "addLeavePeriod": "Add leave entitlement",
-  "addLeavePeriodSuccessfully": "Add leave entitlement successfully",
-  "deleteLeavePeriod": "Delete leave entitlement",
-  "removeLeavePeriodSuccessfully": "Delete leave entitlement successfully",
-  "editLeavePeriod": "Edit leave entitlement",
-  "updateLeavePeriodSuccessfully": "Edit leave entitlement successfully",
-  "leaveTypes": "Leave types",
-  "leavePeriods": "Leave periods",
-  "leaveEntitlements": "Leave entitlements",
-  "leaveApprovalLevels": "Leave approval levels",
-  "leaveConfigs": "Leave Configurations",
+  "leaveConfigurations": "Leave Configuration",
   "template": "Template",
   "SETTING_TIME": {
     "monday": "Monday",
@@ -598,20 +531,9 @@
   "ACCOUNT_JOB_TITLE_IS_USED_BY_USERS": "Account job title is used by users",
   "ACCOUNT_JOB_LEVEL_IS_USED_BY_USERS": "Account job level is used by users",
   "SERVER_ERROR": "500 - Internal Server Error.",
-  "totalLeaveCanApprove": "Total Leave Can Approve",
-  "addNewLeaveEntitlement": "Add New Leave Entitlement",
-  "editLeaveLevelApprove": "Edit Leave Level Approve",
-  "paidLeave": "Paid Leave",
-  "addLeaveLevelApprove": "Add Leave Level Approve",
-  "addNewLeavePeriod": "Add New Leave Period",
   "startDate": "Start Date",
   "endDate": "End Date",
   "Organization": "Organization",
-  "Period": "Period",
-  "Entitlements": "Entitlements",
-  "chooseLeaveType": "Choose leave type",
-  "totalLeave": "Total Leave",
-  "addToMultipleEmployees": "Add To Multiple Employees",
   "shortDescription": "Short Description",
   "Search": "Search",
   "searchPolicy": "Search policy",
@@ -679,5 +601,7 @@
   "leave": "Leave",
   "deleteComment": "<b>Are you sure you want to delete this comment?</b>",
   "note": "Note",
-  "enterNote": "Enter note..."
+  "enterNote": "Enter note...",
+  "employee": "Employee",
+  "searchEmployees": "Search for employees..."
 }

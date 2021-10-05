@@ -1,35 +1,41 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
+import { Actions } from '@datorama/akita-ng-effects';
 import { AuthService } from '@nexthcm/auth';
+import { JobTitlesQuery, loadJobTitles, PromptService } from '@nexthcm/cdk';
 import { FormBuilder } from '@ngneat/reactive-forms';
+import { TRANSLOCO_SCOPE, TranslocoScope } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
+import { TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
-import { LeaveConfigsService } from '../../leave-configs.service';
-import { LeaveApprovalLevel } from '../../models/leave-approval-level';
+import { takeUntil } from 'rxjs/operators';
+import { AdminLeaveConfigsService } from '../../admin-leave-configs.service';
+import { LeaveConfigUrlPaths } from '../../models/leave-config-url-paths';
+import { LeaveLevelApproval } from '../../models/leave-level-approval';
+import { LeaveTypesQuery, loadLeaveTypes } from '../../state';
 
 @Component({
   selector: 'hcm-upsert-leave-approval-level-dialog',
   templateUrl: './upsert-leave-approval-level-dialog.component.html',
   styleUrls: ['./upsert-leave-approval-level-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [TuiDestroyService],
 })
 export class UpsertLeaveApprovalLevelDialogComponent implements OnInit {
-  form = this.fb.group<LeaveApprovalLevel>({} as LeaveApprovalLevel);
-  model = {} as LeaveApprovalLevel;
+  readonly leaveConfigAPIUrlPath: keyof LeaveConfigUrlPaths = 'leaveLevelApproval';
+  form = this.fb.group<LeaveLevelApproval>({} as LeaveLevelApproval);
+  model = {} as LeaveLevelApproval;
   fields: FormlyFieldConfig[] = [
-    { key: 'id' },
-    { key: 'tenantId', defaultValue: this.authService.get('userInfo', 'tenantId') },
     {
-      className: 'tui-form__row block',
       key: 'leaveType',
       type: 'select',
       templateOptions: {
         translate: true,
         label: 'leaveType',
         labelClassName: 'font-semibold',
-        placeholder: 'chooseLeaveType',
+        placeholder: 'leaveType',
         required: true,
-        options: this.leaveConfigsService.select('leaveTypes'),
+        options: this.leaveTypesQuery.selectAll(),
         labelProp: 'name',
         matcherBy: 'id',
       },
@@ -37,15 +43,15 @@ export class UpsertLeaveApprovalLevelDialogComponent implements OnInit {
     {
       key: 'jobTitleDTOList',
       className: 'tui-form__row block',
-      type: 'multi-select',
+      type: 'multi-select-search',
       templateOptions: {
         translate: true,
-        required: true,
         label: 'jobTitles',
         labelClassName: 'font-semibold',
-        placeholder: 'chooseRoles',
-        options: this.leaveConfigsService.select('jobTitles'),
-        matcherBy: 'id',
+        textfieldLabelOutside: true,
+        placeholder: 'searchJobTitles',
+        required: true,
+        serverRequest: (searchQuery: string) => this.jobTitlesQuery.searchJobTitles(searchQuery),
       },
     },
     {
@@ -55,22 +61,34 @@ export class UpsertLeaveApprovalLevelDialogComponent implements OnInit {
       templateOptions: {
         required: true,
         translate: true,
-        label: 'totalLeave',
+        label: 'approvalDays',
         labelClassName: 'font-semibold',
-        placeholder: 'totalLeaveCanApprove',
+        placeholder: 'enterDays',
         textfieldLabelOutside: true,
         precision: 0,
-        min: 0,
+        min: 1,
+        translocoScope: this.scope,
       },
     },
+    { key: 'id' },
+    { key: 'tenantId', defaultValue: this.authService.get('userInfo', 'tenantId') },
   ];
 
   constructor(
-    @Inject(POLYMORPHEUS_CONTEXT) public context: TuiDialogContext<LeaveApprovalLevel, LeaveApprovalLevel>,
-    private fb: FormBuilder,
-    private authService: AuthService,
-    private leaveConfigsService: LeaveConfigsService
-  ) {}
+    @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<boolean, LeaveLevelApproval>,
+    @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope,
+    private readonly fb: FormBuilder,
+    private readonly authService: AuthService,
+    private readonly leaveConfigsService: AdminLeaveConfigsService,
+    private readonly destroy$: TuiDestroyService,
+    private readonly promptService: PromptService,
+    private readonly jobTitlesQuery: JobTitlesQuery,
+    private readonly leaveTypesQuery: LeaveTypesQuery,
+    actions: Actions
+  ) {
+    actions.dispatch(loadJobTitles());
+    actions.dispatch(loadLeaveTypes());
+  }
 
   ngOnInit(): void {
     if (this.context.data) {
@@ -81,10 +99,19 @@ export class UpsertLeaveApprovalLevelDialogComponent implements OnInit {
   onSubmit(): void {
     if (this.form.valid) {
       const formModel = { ...this.form.value };
-      if (formModel.jobTitleDTOList) {
-        formModel.jobTitle = formModel.jobTitleDTOList.map((jobTitleDTO) => jobTitleDTO.id);
-      }
-      this.context.completeWith(formModel);
+
+      formModel.jobTitle = formModel.jobTitleDTOList.map((jobTitle) => jobTitle.id);
+      this.leaveConfigsService
+        .upsert(this.leaveConfigAPIUrlPath, formModel)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(
+          this.promptService.handleResponse(
+            formModel.id
+              ? 'leaveConfigs.editLeaveLevelApprovalSuccessfully'
+              : 'leaveConfigs.createLeaveLevelApprovalSuccessfully',
+            () => this.context.completeWith(true)
+          )
+        );
     }
   }
 

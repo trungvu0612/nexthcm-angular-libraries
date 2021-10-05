@@ -78,7 +78,7 @@ export class SidebarComponent implements OnInit {
       permissions: 'VIEW_JOB_TITLE',
     },
     {
-      label: 'leaveConfigs',
+      label: 'leaveConfigurations',
       link: '/admin/leave-configs',
       icon: 'leave-configs',
       permissions: 'VIEW_LEAVE_CONFIG',

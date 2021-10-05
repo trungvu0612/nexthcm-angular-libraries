@@ -15,13 +15,13 @@ import { Observable, of, Subject } from 'rxjs';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
 import { RequestCommentStatus } from '../enums';
 import { GeneralRequest, SubmitRequestPayload } from '../models';
+import { HistoryItem } from '../models/history-item';
 import { RequestComment } from '../models/request-comment';
-import { CombineRequestTypeUrlPath, RequestTypeUrlPath } from '../models/request-type-url-path';
+import { CombineRequestTypeUrlPaths, RequestTypeUrlPaths } from '../models/request-type-url-paths';
 import { ChangeEscalateUserPayload } from '../models/requests/change-escalate-user-payload';
-import { HistoryItem } from '../models/requests/history-item';
 import { RequestDetailDialogComponent } from '../modules/shared/request-detail-dialog/request-detail-dialog.component';
 
-const REQUEST_DETAIL_URL_PATHS: Readonly<CombineRequestTypeUrlPath> = Object.freeze({
+const REQUEST_DETAIL_URL_PATHS: Readonly<CombineRequestTypeUrlPaths> = Object.freeze({
   myWorkingAfterHours: 'ot-requests/me',
   workingAfterHours: 'ot-requests',
   myUpdateTimesheet: 'timesheet-updates/me',
@@ -34,7 +34,7 @@ const REQUEST_DETAIL_URL_PATHS: Readonly<CombineRequestTypeUrlPath> = Object.fre
   leave: 'leaves',
 });
 
-export const REQUEST_COMMENT_URL_PATHS: Readonly<RequestTypeUrlPath> = Object.freeze({
+export const REQUEST_COMMENT_URL_PATHS: Readonly<RequestTypeUrlPaths> = Object.freeze({
   workingAfterHours: 'hcm_ot_comment',
   updateTimesheet: 'hcm_update_time_comment',
   workingOutside: 'hcm_working_onsite_comment',
@@ -42,7 +42,7 @@ export const REQUEST_COMMENT_URL_PATHS: Readonly<RequestTypeUrlPath> = Object.fr
   leave: 'hcm_leave_comment',
 });
 
-const REQUEST_HISTORY_URL_PATHS: Readonly<RequestTypeUrlPath> = Object.freeze({
+const REQUEST_HISTORY_URL_PATHS: Readonly<RequestTypeUrlPaths> = Object.freeze({
   workingAfterHours: '1',
   updateTimesheet: '2',
   workingOutside: '3',
@@ -52,7 +52,7 @@ const REQUEST_HISTORY_URL_PATHS: Readonly<RequestTypeUrlPath> = Object.freeze({
 
 @Injectable()
 export class MyTimeService {
-  private refreshSubject = new Subject<keyof RequestTypeUrlPath>();
+  private refreshSubject = new Subject<keyof RequestTypeUrlPaths>();
   refresh$ = this.refreshSubject.asObservable();
 
   constructor(
@@ -62,24 +62,24 @@ export class MyTimeService {
     private readonly promptService: PromptService
   ) {}
 
-  getRequests<T>(type: keyof CombineRequestTypeUrlPath, params: HttpParams): Observable<Pagination<T>> {
+  getRequests<T>(type: keyof CombineRequestTypeUrlPaths, params: HttpParams): Observable<Pagination<T>> {
     return this.http
       .get<PagingResponse<T>>(`${MY_TIME_API_PATH}/${REQUEST_DETAIL_URL_PATHS[type]}`, { params })
       .pipe(map((res) => res.data));
   }
 
-  submitRequest(type: keyof RequestTypeUrlPath, payload: SubmitRequestPayload): Observable<unknown> {
+  submitRequest(type: keyof RequestTypeUrlPaths, payload: SubmitRequestPayload): Observable<unknown> {
     return this.http
       .post(`${MY_TIME_API_PATH}/${REQUEST_DETAIL_URL_PATHS[type]}`, payload)
       .pipe(tap(() => this.refreshSubject.next(type)));
   }
 
-  changeEscalateUser(type: keyof RequestTypeUrlPath, payload: ChangeEscalateUserPayload): Observable<unknown> {
+  changeEscalateUser(type: keyof RequestTypeUrlPaths, payload: ChangeEscalateUserPayload): Observable<unknown> {
     return this.http.post(`${MY_TIME_API_PATH}/${REQUEST_DETAIL_URL_PATHS[type]}/change-assignee`, payload);
   }
 
   changeRequestStatus(
-    type: keyof RequestTypeUrlPath,
+    type: keyof RequestTypeUrlPaths,
     requestId: string,
     nextState: string,
     callback?: () => void
@@ -89,11 +89,11 @@ export class MyTimeService {
       .pipe(tap(this.promptService.handleResponse('', callback)));
   }
 
-  getRequest(type: keyof RequestTypeUrlPath, id: string): Observable<BaseResponse<GeneralRequest>> {
+  getRequest(type: keyof RequestTypeUrlPaths, id: string): Observable<BaseResponse<GeneralRequest>> {
     return this.http.get<BaseResponse<GeneralRequest>>(`${MY_TIME_API_PATH}/${REQUEST_DETAIL_URL_PATHS[type]}/${id}`);
   }
 
-  viewRequestDetail(type: keyof RequestTypeUrlPath, id: string, userId?: string): Observable<unknown> {
+  viewRequestDetail(type: keyof RequestTypeUrlPaths, id: string, userId?: string): Observable<unknown> {
     return this.getRequest(type, id).pipe(
       switchMap((res) =>
         this.dialogService.open(new PolymorpheusComponent(RequestDetailDialogComponent, this.injector), {
@@ -107,7 +107,7 @@ export class MyTimeService {
     );
   }
 
-  getEscalateUsers(type: keyof RequestTypeUrlPath, requestId: string): Observable<EmployeeInfo[]> {
+  getEscalateUsers(type: keyof RequestTypeUrlPaths, requestId: string): Observable<EmployeeInfo[]> {
     return this.http
       .get<BaseResponse<EmployeeInfo[]>>(
         type === 'leave'
@@ -120,7 +120,7 @@ export class MyTimeService {
       );
   }
 
-  getRequestComments(type: keyof RequestTypeUrlPath, requestId: string): Observable<RequestComment[]> {
+  getRequestComments(type: keyof RequestTypeUrlPaths, requestId: string): Observable<RequestComment[]> {
     return this.http
       .get<PagingResponse<RequestComment>>(`${MY_TIME_API_PATH}/comments-common`, {
         params: new HttpParams().set('type', REQUEST_COMMENT_URL_PATHS[type]).set('objectId', requestId),
@@ -140,7 +140,7 @@ export class MyTimeService {
     return this.http.put(`${MY_TIME_API_PATH}/comments-common/${id}`, { state: RequestCommentStatus.Deleted });
   }
 
-  getRequestHistory(type: keyof RequestTypeUrlPath, requestId: string): Observable<HistoryItem[]> {
+  getRequestHistory(type: keyof RequestTypeUrlPaths, requestId: string): Observable<HistoryItem[]> {
     return this.http
       .get<BaseResponse<HistoryItem[]>>(`${MY_TIME_API_PATH}/tracking-history/process`, {
         params: new HttpParams().set('type', REQUEST_HISTORY_URL_PATHS[type]).set('objectId', requestId),

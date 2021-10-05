@@ -9,8 +9,18 @@ import { isPresent, TuiDay, TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogContext, TuiDialogService } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT, PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { endOfDay, getTime } from 'date-fns';
-import { Observable, Subject } from 'rxjs';
-import { distinctUntilChanged, filter, map, share, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { Observable, of, Subject } from 'rxjs';
+import {
+  catchError,
+  distinctUntilChanged,
+  filter,
+  map,
+  share,
+  startWith,
+  switchMap,
+  takeUntil,
+  tap,
+} from 'rxjs/operators';
 import { LeaveSubmit, SubmitLeavePayLoad } from '../../../../models';
 import { MyLeaveService, MyTimeService } from '../../../../services';
 import { DurationConfirmDialogComponent } from '../duaration-comfirm-dialog/duration-confirm-dialog.component';
@@ -335,6 +345,7 @@ export class SubmitLeaveRequestDialogComponent implements OnInit {
             expandable: false,
             rows: 4,
             label: 'Comment',
+            textfieldLabelOutside: true,
             required: true,
           },
         },
@@ -346,7 +357,10 @@ export class SubmitLeaveRequestDialogComponent implements OnInit {
     switchMap((payload) => this.myLeaveService.createLeave(payload).pipe(startWith(null))),
     share()
   );
-  readonly submitLoading$ = this.submitHandler$.pipe(map((value) => !value));
+  readonly submitLoading$ = this.submitHandler$.pipe(
+    map((value) => !value),
+    catchError(() => of(false))
+  );
 
   constructor(
     @Inject(POLYMORPHEUS_CONTEXT) public context: TuiDialogContext<boolean>,

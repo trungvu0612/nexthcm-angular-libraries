@@ -1,44 +1,82 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
 import { Actions } from '@datorama/akita-ng-effects';
 import { AuthService } from '@nexthcm/auth';
-import { loadWorkflows, WorkflowsQuery } from '@nexthcm/cdk';
+import { CommonStatus, loadWorkflows, PromptService, WorkflowsQuery } from '@nexthcm/cdk';
 import { FormBuilder } from '@ngneat/reactive-forms';
 import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
+import { TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
-import { distinctUntilChanged, map, startWith, switchMap } from 'rxjs/operators';
-import { LeaveConfigsService } from '../../leave-configs.service';
+import { takeUntil, tap } from 'rxjs/operators';
+import { AdminLeaveConfigsService } from '../../admin-leave-configs.service';
+import { LeaveConfigUrlPaths } from '../../models/leave-config-url-paths';
 import { LeaveType } from '../../models/leave-type';
+import { refreshLeaveTypes } from '../../state';
 
 @Component({
   selector: 'hcm-upsert-leave-type-dialog',
   templateUrl: './upsert-leave-type-dialog.component.html',
   styleUrls: ['./upsert-leave-type-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [TuiDestroyService],
 })
 export class UpsertLeaveTypeDialogComponent implements OnInit {
+  readonly leaveConfigAPIUrlPath: keyof LeaveConfigUrlPaths = 'leaveType';
   form = this.fb.group<LeaveType>({} as LeaveType);
   model = {} as LeaveType;
   fields: FormlyFieldConfig[] = [
-    { key: 'id', defaultValue: '' },
-    { key: 'tenantId', defaultValue: this.authService.get('userInfo', 'tenantId') },
     {
-      fieldGroupClassName: 'grid md:grid-cols-1 gap-6 mb-4',
-      fieldGroup: [
-        {
-          key: 'name',
-          type: 'input',
-          templateOptions: {
-            required: true,
-            translate: true,
-            label: 'name',
-          },
-        },
-      ],
+      key: 'name',
+      className: 'tui-form__row block',
+      type: 'input',
+      templateOptions: {
+        required: true,
+        translate: true,
+        label: 'name',
+        labelClassName: 'font-semibold',
+        placeholder: 'enterName',
+        textfieldLabelOutside: true,
+      },
+    },
+    {
+      key: 'description',
+      className: 'tui-form__row block',
+      type: 'text-area',
+      templateOptions: {
+        translate: true,
+        label: 'description',
+        labelClassName: 'font-semibold',
+        placeholder: 'enterDescription',
+        textfieldLabelOutside: true,
+      },
+    },
+    {
+      key: 'paidLeave',
+      className: 'tui-form__row block',
+      type: 'checkbox-labeled',
+      defaultValue: true,
+      templateOptions: {
+        labelClassName: 'font-semibold',
+        translate: true,
+        label: 'paidLeave',
+      },
+    },
+    {
+      key: 'statusBoolean',
+      className: 'tui-form__row block',
+      type: 'status-toggle',
+      defaultValue: true,
+      templateOptions: {
+        translate: true,
+        label: 'status',
+        textfieldLabelOutside: true,
+        labelClassName: 'font-semibold',
+      },
     },
     {
       key: 'processId',
+      className: 'tui-form__row block',
       type: 'select',
       templateOptions: {
         translate: true,
@@ -51,87 +89,50 @@ export class UpsertLeaveTypeDialogComponent implements OnInit {
         required: true,
       },
     },
-    {
-      fieldGroupClassName: 'grid md:grid-cols-2 gap-6 mb-4',
-      fieldGroup: [
-        {
-          key: 'status',
-          type: 'toggle',
-          defaultValue: true,
-          templateOptions: {
-            textfieldLabelOutside: true,
-            labelClassName: 'font-semibold',
-          },
-          expressionProperties: {
-            'templateOptions.label': this.translocoService.selectTranslate('status'),
-            'templateOptions.description': this.form?.valueChanges.pipe(
-              startWith(null),
-              map((value) => value?.status),
-              distinctUntilChanged(),
-              switchMap((status) => this.translocoService.selectTranslate(`${status ? 'active' : 'inactive'}`))
-            ),
-          },
-        },
-      ],
-    },
-    {
-      fieldGroupClassName: 'grid md:grid-cols-2 gap-6 mb-4',
-      fieldGroup: [
-        {
-          key: 'paidLeave',
-          type: 'toggle',
-          defaultValue: true,
-          templateOptions: {
-            textfieldLabelOutside: true,
-            labelClassName: 'font-semibold',
-            translate: true,
-            label: 'paidLeave',
-          },
-        },
-      ],
-    },
-    {
-      fieldGroupClassName: 'grid md:grid-cols-1 gap-6 mb-4',
-      fieldGroup: [
-        {
-          key: 'description',
-          type: 'text-area',
-          templateOptions: {
-            required: true,
-            translate: true,
-            label: 'description',
-            placeholder: 'shortDescription',
-          },
-        },
-      ],
-    },
+    { key: 'id' },
   ];
 
   constructor(
-    @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<LeaveType, LeaveType>,
+    @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<boolean, LeaveType>,
     private readonly fb: FormBuilder,
     private readonly authService: AuthService,
-    private readonly leaveConfigsService: LeaveConfigsService,
+    private readonly leaveConfigsService: AdminLeaveConfigsService,
     private readonly translocoService: TranslocoService,
     private readonly workflowsQuery: WorkflowsQuery,
-    actions: Actions
+    private readonly destroy$: TuiDestroyService,
+    private readonly promptService: PromptService,
+    private readonly actions: Actions
   ) {
-    actions.dispatch(loadWorkflows());
+    this.actions.dispatch(loadWorkflows());
   }
 
   ngOnInit(): void {
     if (this.context.data) {
-      this.model = { ...this.model, ...this.context.data };
+      this.model = {
+        ...this.model,
+        ...this.context.data,
+        statusBoolean: this.context.data.status === CommonStatus.active,
+      };
     }
   }
 
   onSubmit(): void {
     if (this.form.valid) {
-      const formModel = {
-        ...this.form.value,
-      };
-      formModel.status = formModel.status ? 1 : 0;
-      this.context.completeWith(formModel);
+      const formModel: LeaveType = { ...this.form.value };
+
+      formModel.status = formModel.statusBoolean ? CommonStatus.active : CommonStatus.inactive;
+      this.leaveConfigsService
+        .upsert(this.leaveConfigAPIUrlPath, formModel)
+        .pipe(
+          tap(() => this.actions.dispatch(refreshLeaveTypes())),
+          takeUntil(this.destroy$)
+        )
+        .subscribe(
+          this.promptService.handleResponse(
+            formModel.id ? 'leaveConfigs.editLeaveTypeSuccessfully' : 'leaveConfigs.createLeaveTypeSuccessfully',
+            () => this.context.completeWith(true)
+          )
+        );
     }
   }
 

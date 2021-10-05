@@ -1,17 +1,12 @@
-import { BaseObject } from '@nexthcm/cdk';
+import { CommonStatus } from '@nexthcm/cdk';
 
 export interface LeaveType {
   id: string;
-  orgId?: string;
-  name?: string | undefined;
-  description?: string;
-  deleted: number;
-  createdDate?: string;
-  status?: number;
+  orgId: string;
+  name: string;
+  description: string;
+  status: CommonStatus;
   paidLeave?: boolean;
-  createBy?: string;
-  lastModifiedDate?: string;
-  lastModifiedBy?: string;
   workflowId?: string;
-  process?: BaseObject;
+  statusBoolean?: boolean;
 }

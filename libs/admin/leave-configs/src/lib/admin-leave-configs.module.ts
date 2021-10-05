@@ -1,38 +1,42 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Route, RouterModule } from '@angular/router';
 import { AkitaNgEffectsModule } from '@datorama/akita-ng-effects';
-import { WorkflowsEffects } from '@nexthcm/cdk';
+import { JobTitlesEffects, WorkflowsEffects } from '@nexthcm/cdk';
 import { inlineLoaderFactory } from '@nexthcm/core';
 import {
   BaseFormComponentModule,
   FormlySelectOrgTreeComponentModule,
+  FormlyStatusToggleComponentModule,
   FormlyUserComboBoxComponentModule,
   HEADER_TABS,
+  InputFilterComponentModule,
   LayoutComponent,
   LayoutModule,
   MenuItem,
 } from '@nexthcm/ui';
 import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
+import { TranslocoLocaleModule } from '@ngneat/transloco-locale';
 import { FormlyModule } from '@ngx-formly/core';
 import { TuiTablePaginationModule } from '@taiga-ui/addon-table';
 import { TuiLetModule } from '@taiga-ui/cdk';
 import { TuiButtonModule, TuiLoaderModule } from '@taiga-ui/core';
-import { TuiTabsModule, TuiTagModule } from '@taiga-ui/kit';
+import { TuiCheckboxModule, TuiTabsModule, TuiTagModule } from '@taiga-ui/kit';
 import { TableModule } from 'ngx-easy-table';
 import { NgxPermissionsGuard, NgxPermissionsModule } from 'ngx-permissions';
+import { AdminLeaveConfigsService } from './admin-leave-configs.service';
 import { UpsertLeaveApprovalLevelDialogComponent } from './components/upsert-leave-approval-level-dialog/upsert-leave-approval-level-dialog.component';
 import { UpsertLeaveEntitlementDialogComponent } from './components/upsert-leave-entitlement/upsert-leave-entitlement-dialog.component';
-import { UpsertLeavePeriodDialogComponent } from './components/upsert-leave-period-dialog/upsert-leave-period-dialog.component';
 import { UpsertLeaveTypeDialogComponent } from './components/upsert-leave-type-dialog/upsert-leave-type-dialog.component';
-import { LeaveConfigsService } from './leave-configs.service';
-import { LeaveApprovalLevelManagementComponent } from './pages/leave-approval-level-management/leave-approval-level-management.component';
+import { EmployeeLeaveEntitlementManagementComponent } from './pages/employee-leave-entitlement-management/employee-leave-entitlement-management.component';
 import { LeaveEntitlementManagementComponent } from './pages/leave-entitlement-management/leave-entitlement-management.component';
-import { LeavePeriodManagementComponent } from './pages/leave-period-management/leave-period-management.component';
+import { LeaveLevelApprovalManagementComponent } from './pages/leave-level-approval-management/leave-level-approval-management.component';
 import { LeaveTypeManagementComponent } from './pages/leave-type-management/leave-type-management.component';
+import { JobTitlesPipe } from './pipes/job-titles.pipe';
+import { LeaveTypesEffects, LeaveTypesQuery, LeaveTypesStore } from './state';
 
-export const adminLeaveTypesRoutes: Route[] = [
+export const ADMIN_LEAVE_CONFIGS_ROUTES: Route[] = [
   {
     path: '',
     component: LayoutComponent,
@@ -40,46 +44,38 @@ export const adminLeaveTypesRoutes: Route[] = [
     data: { permissions: { only: 'VIEW_LEAVE_CONFIG', redirectTo: '/' } },
     children: [
       { path: '', pathMatch: 'full', redirectTo: 'types' },
-      {
-        path: 'types',
-        component: LeaveTypeManagementComponent,
-      },
-      {
-        path: 'periods',
-        component: LeavePeriodManagementComponent,
-      },
-      {
-        path: 'entitlements',
-        component: LeaveEntitlementManagementComponent,
-      },
-      {
-        path: 'approval-levels',
-        component: LeaveApprovalLevelManagementComponent,
-      },
+      { path: 'types', component: LeaveTypeManagementComponent },
+      { path: 'employee-entitlements', component: EmployeeLeaveEntitlementManagementComponent },
+      { path: 'entitlements', component: LeaveEntitlementManagementComponent },
+      { path: 'levels-approval', component: LeaveLevelApprovalManagementComponent },
     ],
   },
 ];
 const TABS: MenuItem[] = [
-  { label: 'leaveTypes', link: '/admin/leave-configs/types', permissions: [] },
-  { label: 'leavePeriods', link: '/admin/leave-configs/periods', permissions: [] },
-  { label: 'leaveEntitlements', link: '/admin/leave-configs/entitlements', permissions: [] },
-  { label: 'leaveApprovalLevels', link: '/admin/leave-configs/approval-levels', permissions: [] },
+  { label: 'leaveConfigs.leaveType', link: '/admin/leave-configs/types', permissions: [] },
+  { label: 'leaveConfigs.leaveEntitlement', link: '/admin/leave-configs/entitlements', permissions: [] },
+  {
+    label: 'leaveConfigs.employeesLeaveEntitlement',
+    link: '/admin/leave-configs/employee-entitlements',
+    permissions: [],
+  },
+  { label: 'leaveConfigs.leaveLevelApproval', link: '/admin/leave-configs/levels-approval', permissions: [] },
 ];
 
 @NgModule({
   declarations: [
     UpsertLeaveTypeDialogComponent,
     LeaveTypeManagementComponent,
-    UpsertLeavePeriodDialogComponent,
     UpsertLeaveEntitlementDialogComponent,
     UpsertLeaveApprovalLevelDialogComponent,
-    LeavePeriodManagementComponent,
     LeaveEntitlementManagementComponent,
-    LeaveApprovalLevelManagementComponent,
+    LeaveLevelApprovalManagementComponent,
+    EmployeeLeaveEntitlementManagementComponent,
+    JobTitlesPipe,
   ],
   imports: [
     CommonModule,
-    RouterModule.forChild(adminLeaveTypesRoutes),
+    RouterModule.forChild(ADMIN_LEAVE_CONFIGS_ROUTES),
     TuiTablePaginationModule,
     TuiButtonModule,
     TableModule,
@@ -93,12 +89,17 @@ const TABS: MenuItem[] = [
     FormlySelectOrgTreeComponentModule,
     BaseFormComponentModule,
     TuiLetModule,
-    AkitaNgEffectsModule.forFeature([WorkflowsEffects]),
+    AkitaNgEffectsModule.forFeature([WorkflowsEffects, JobTitlesEffects, LeaveTypesEffects]),
     FormlyModule,
     NgxPermissionsModule,
+    TuiCheckboxModule,
+    FormsModule,
+    FormlyStatusToggleComponentModule,
+    InputFilterComponentModule,
+    TranslocoLocaleModule,
   ],
   providers: [
-    LeaveConfigsService,
+    AdminLeaveConfigsService,
     {
       provide: TRANSLOCO_SCOPE,
       useValue: {
@@ -107,6 +108,8 @@ const TABS: MenuItem[] = [
       },
     },
     { provide: HEADER_TABS, useValue: TABS },
+    LeaveTypesStore,
+    LeaveTypesQuery,
   ],
 })
 export class AdminLeaveConfigsModule {}

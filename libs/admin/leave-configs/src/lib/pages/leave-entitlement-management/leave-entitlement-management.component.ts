@@ -7,10 +7,11 @@ import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { BaseComponent, Columns } from 'ngx-easy-table';
-import { from, Observable, of } from 'rxjs';
-import { catchError, filter, map, share, startWith, switchMap, takeUntil } from 'rxjs/operators';
+import { from, iif, Observable, of } from 'rxjs';
+import { catchError, filter, map, shareReplay, startWith, switchMap, takeUntil } from 'rxjs/operators';
+import { AdminLeaveConfigsService } from '../../admin-leave-configs.service';
 import { UpsertLeaveEntitlementDialogComponent } from '../../components/upsert-leave-entitlement/upsert-leave-entitlement-dialog.component';
-import { LeaveConfigAPIUrlPath, LeaveConfigsService } from '../../leave-configs.service';
+import { LeaveConfigUrlPaths } from '../../models/leave-config-url-paths';
 import { LeaveEntitlement } from '../../models/leave-entitlement';
 
 @Component({
@@ -21,16 +22,20 @@ import { LeaveEntitlement } from '../../models/leave-entitlement';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LeaveEntitlementManagementComponent extends AbstractServerSortPaginationTableComponent<LeaveEntitlement> {
-  readonly leaveConfigAPIUrlPath = LeaveConfigAPIUrlPath.Entitlement;
   @ViewChild('table') table!: BaseComponent;
+
+  readonly leaveConfigAPIUrlPath: keyof LeaveConfigUrlPaths = 'leaveEntitlement';
   readonly columns$: Observable<Columns[]> = this.translocoService
-    .selectTranslateObject('ADMIN_LEAVE_ENTITLEMENT_MANAGEMENT_COLUMNS', {}, (this.scope as ProviderScope).scope)
+    .selectTranslateObject('LEAVE_ENTITLEMENT_MANAGEMENT_COLUMNS', {}, (this.scope as ProviderScope).scope)
     .pipe(
       map((result) => [
-        { key: 'period', title: result.period },
+        { key: 'leaveType', title: result.leaveType },
+        { key: 'fromDate', title: result.fromDate },
+        { key: 'toDate', title: result.toDate },
         { key: 'jobTitle', title: result.jobTitle },
-        { key: 'totalLeave', title: result.totalLeave },
-        { key: 'functions', title: result.functions, orderEnabled: false },
+        { key: 'orgDTO', title: result.department },
+        { key: 'entitlement', title: result.entitlement, cssClass: { name: 'text-center', includeHeader: true } },
+        { key: '', title: result.functions, orderEnabled: false },
       ])
     );
   private readonly request$ = this.queryParams$.pipe(
@@ -39,7 +44,7 @@ export class LeaveEntitlementManagementComponent extends AbstractServerSortPagin
         .getConfig<LeaveEntitlement>(this.leaveConfigAPIUrlPath, this.queryParams$.value)
         .pipe(startWith(null))
     ),
-    share()
+    shareReplay(1)
   );
   readonly loading$ = this.request$.pipe(
     map((value) => !value),
@@ -47,77 +52,52 @@ export class LeaveEntitlementManagementComponent extends AbstractServerSortPagin
   );
 
   constructor(
-    @Inject(TRANSLOCO_SCOPE) readonly scope: TranslocoScope,
     readonly state: RxState<Pagination<LeaveEntitlement>>,
     readonly router: Router,
     readonly activatedRoute: ActivatedRoute,
-    private destroy$: TuiDestroyService,
-    private leaveConfigsService: LeaveConfigsService,
-    private dialogService: TuiDialogService,
-    private injector: Injector,
-    private translocoService: TranslocoService,
-    private promptService: PromptService
+    @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope,
+    private readonly destroy$: TuiDestroyService,
+    private readonly leaveConfigsService: AdminLeaveConfigsService,
+    private readonly dialogService: TuiDialogService,
+    private readonly injector: Injector,
+    private readonly translocoService: TranslocoService,
+    private readonly promptService: PromptService
   ) {
     super(state, router, activatedRoute);
     state.connect(this.request$.pipe(filter(isPresent)));
   }
 
-  onAddLeaveLevel(): void {
-    this.openDialog('addLeaveEntitlementApprove')
-      .pipe(
-        switchMap((data) => this.leaveConfigsService.create<LeaveEntitlement>(this.leaveConfigAPIUrlPath, data)),
-        takeUntil(this.destroy$)
-      )
-      .subscribe(
-        this.promptService.handleResponse('addLeaveEntitlementApproveSuccessfully', () =>
-          this.queryParams$.next(this.queryParams$.value)
-        )
-      );
-  }
-
-  onRemoveLeaveLevel(id: string): void {
-    if (id) {
-      from(
-        this.promptService.open({
-          icon: 'question',
-          html: this.translocoService.translate('deleteLeaveEntitlement'),
-          showCancelButton: true,
-        })
-      )
-        .pipe(
-          filter((result) => result.isConfirmed),
-          switchMap(() => this.leaveConfigsService.delete(this.leaveConfigAPIUrlPath, id)),
-          takeUntil(this.destroy$)
-        )
-        .subscribe(
-          this.promptService.handleResponse('removeLeaveEntitlementSuccessfully', () =>
-            this.queryParams$.next(this.queryParams$.value)
-          )
-        );
-    }
-  }
-
-  onEditLeaveLevelApprove(leaveEntitlement: LeaveEntitlement): void {
-    this.openDialog('editLeaveEntitlement', leaveEntitlement)
-      .pipe(
-        switchMap((data) => this.leaveConfigsService.edit<LeaveEntitlement>(this.leaveConfigAPIUrlPath, data)),
-        takeUntil(this.destroy$)
-      )
-      .subscribe(
-        this.promptService.handleResponse('updateLeaveEntitlementSuccessfully', () =>
-          this.queryParams$.next(this.queryParams$.value)
-        )
-      );
-  }
-
-  private openDialog(label: string, data?: LeaveEntitlement): Observable<LeaveEntitlement> {
-    return this.dialogService.open<LeaveEntitlement>(
-      new PolymorpheusComponent(UpsertLeaveEntitlementDialogComponent, this.injector),
-      {
-        label: this.translocoService.translate(label),
+  onUpsertLeaveType(data?: LeaveEntitlement): void {
+    this.dialogService
+      .open<boolean>(new PolymorpheusComponent(UpsertLeaveEntitlementDialogComponent, this.injector), {
+        label: this.translocoService.translate(
+          data ? 'leaveConfigs.editLeaveEntitlement' : 'leaveConfigs.createLeaveEntitlement'
+        ),
         size: 'l',
         data,
-      }
-    );
+      })
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => this.queryParams$.next(this.queryParams$.value));
+  }
+
+  onRemoveLeaveEntitlement(id: string): void {
+    from(
+      this.promptService.open({
+        icon: 'question',
+        html: this.translocoService.translate('leaveConfigs.removeLeaveEntitlement'),
+        showCancelButton: true,
+      })
+    )
+      .pipe(
+        switchMap((result) =>
+          iif(() => result.isConfirmed, this.leaveConfigsService.delete(this.leaveConfigAPIUrlPath, id))
+        ),
+        takeUntil(this.destroy$)
+      )
+      .subscribe(
+        this.promptService.handleResponse('leaveConfigs.removeLeaveEntitlementSuccessfully', () =>
+          this.queryParams$.next(this.queryParams$.value)
+        )
+      );
   }
 }

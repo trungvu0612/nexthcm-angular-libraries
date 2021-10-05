@@ -8,8 +8,8 @@ import { isPresent, TuiTime } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { endOfDay, getTime } from 'date-fns';
-import { Subject } from 'rxjs';
-import { filter, map, share, startWith, switchMap, tap } from 'rxjs/operators';
+import { of, Subject } from 'rxjs';
+import { catchError, filter, map, share, startWith, switchMap, tap } from 'rxjs/operators';
 import { SubmitRequestPayload } from '../../../../models';
 import { MyTimeService } from '../../../../services';
 
@@ -83,7 +83,10 @@ export class SubmitWorkFromHomeRequestDialogComponent {
     switchMap((payload) => this.myTimeService.submitRequest('workFromHome', payload).pipe(startWith(null))),
     share()
   );
-  readonly submitLoading$ = this.submitHandler$.pipe(map((value) => !value));
+  readonly submitLoading$ = this.submitHandler$.pipe(
+    map((value) => !value),
+    catchError(() => of(false))
+  );
 
   constructor(
     private readonly fb: FormBuilder,

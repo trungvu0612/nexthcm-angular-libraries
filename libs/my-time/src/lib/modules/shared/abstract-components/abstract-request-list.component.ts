@@ -4,11 +4,11 @@ import { RxState } from '@rx-angular/state';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { Subject } from 'rxjs';
 import { startWith, switchMap, tap } from 'rxjs/operators';
-import { RequestTypeUrlPath } from '../../../models/request-type-url-path';
+import { RequestTypeUrlPaths } from '../../../models/request-type-url-paths';
 import { MyTimeService } from '../../../services';
 
 export abstract class AbstractRequestListComponent<T> extends AbstractServerSortPaginationTableComponent<T> {
-  abstract requestTypeUrlPath: keyof RequestTypeUrlPath;
+  abstract requestTypeUrlPath: keyof RequestTypeUrlPaths;
   abstract myTimeService: MyTimeService;
   abstract destroy$: TuiDestroyService;
 

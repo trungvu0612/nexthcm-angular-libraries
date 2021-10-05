@@ -1,4 +1,4 @@
-export interface RequestTypeUrlPath {
+export interface RequestTypeUrlPaths {
   workingAfterHours: string;
   updateTimesheet: string;
   workingOutside: string;
@@ -6,7 +6,7 @@ export interface RequestTypeUrlPath {
   leave: string;
 }
 
-export interface CombineRequestTypeUrlPath extends RequestTypeUrlPath {
+export interface CombineRequestTypeUrlPaths extends RequestTypeUrlPaths {
   myWorkingAfterHours: string;
   myUpdateTimesheet: string;
   myWorkingOutside: string;

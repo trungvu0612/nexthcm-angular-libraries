@@ -1,13 +1,7 @@
-<hcm-page title="{{ 'leaveConfigs.leaveTypeManagement' | transloco }}">
+<hcm-page title="{{ 'leaveConfigs.leaveLevelApprovalManagement' | transloco }}">
   <ng-container ngProjectAs="pageHeader">
-    <button
-      (click)="onUpsertLeaveType()"
-      *ngxPermissionsOnly="'CREATE_LEAVE_CONFIG'"
-      icon="tuiIconPlusLarge"
-      size="m"
-      tuiButton
-    >
-      {{ 'leaveConfigs.createLeaveType' | transloco }}
+    <button (click)="onUpsertLeaveType()" *ngxPermissionsOnly="'CREATE_LEAVE_CONFIG'" size="m" tuiButton>
+      {{ 'leaveConfigs.createLeaveLevelApproval' | transloco }}
     </button>
   </ng-container>
   <tui-loader [overlay]="true" [showLoader]="(loading$ | async) === true">
@@ -20,11 +14,9 @@
     >
       <ng-template let-row>
         <ng-container *tuiLet="item(row) as item">
-          <td>{{ item.name }}</td>
-          <td>{{ item.description }}</td>
-          <td>
-            <tui-checkbox [ngModel]="!!item.paidLeave" class="mx-auto" disabled size="l"></tui-checkbox>
-          </td>
+          <td>{{ item.leaveType?.name }}</td>
+          <td>{{ item.jobTitleDTOList | jobTitles }}</td>
+          <td class="text-center">{{ item.totalLeave }}</td>
           <td>
             <div class="flex items-center">
               <button
@@ -34,16 +26,14 @@
                 icon="tuiIconEditLarge"
                 size="m"
                 tuiIconButton
-                type="button"
               ></button>
               <button
-                (click)="onRemoveLeaveType(item.id)"
+                (click)="onRemoveLeaveLevelApproval(item.id)"
                 *ngxPermissionsOnly="'DELETE_LEAVE_CONFIG'"
                 appearance="flat"
                 icon="tuiIconTrashLarge"
                 size="m"
                 tuiIconButton
-                type="button"
               ></button>
             </div>
           </td>

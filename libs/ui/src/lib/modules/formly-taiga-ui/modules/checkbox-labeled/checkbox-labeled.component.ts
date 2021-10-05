@@ -12,7 +12,7 @@ import { TuiCheckboxLabeledModule } from '@taiga-ui/kit';
 export class CheckboxLabeledComponent extends FieldType {
   defaultOptions: FormlyFieldConfig = {
     templateOptions: {
-      size: 'm',
+      size: 'l',
     },
   };
 }

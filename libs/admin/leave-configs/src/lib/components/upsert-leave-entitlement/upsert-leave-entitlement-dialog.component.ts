@@ -1,120 +1,48 @@
-import { ChangeDetectionStrategy, Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
+import { Actions } from '@datorama/akita-ng-effects';
 import { AuthService } from '@nexthcm/auth';
-import { BaseUser } from '@nexthcm/cdk';
+import { JobTitlesQuery, loadJobTitles, PromptService } from '@nexthcm/cdk';
 import { FormBuilder } from '@ngneat/reactive-forms';
-import { TranslocoService } from '@ngneat/transloco';
+import { TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import { NumericValueType, RxwebValidators } from '@rxweb/reactive-form-validators';
+import { TuiDay, TuiDayRange, TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
-import { POLYMORPHEUS_CONTEXT, PolymorpheusTemplate } from '@tinkoff/ng-polymorpheus';
-import { distinctUntilChanged, map, startWith, switchMap } from 'rxjs/operators';
-import { LeaveConfigsService } from '../../leave-configs.service';
+import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
+import { endOfDay, getTime } from 'date-fns';
+import { takeUntil } from 'rxjs/operators';
+import { AdminLeaveConfigsService } from '../../admin-leave-configs.service';
+import { LeaveConfigUrlPaths } from '../../models/leave-config-url-paths';
 import { LeaveEntitlement } from '../../models/leave-entitlement';
+import { LeaveTypesQuery, loadLeaveTypes } from '../../state';
 
 @Component({
   selector: 'hcm-upsert-leave-entitlement-dialog',
   templateUrl: './upsert-leave-entitlement-dialog.component.html',
   styleUrls: ['./upsert-leave-entitlement-dialog.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [TuiDestroyService],
 })
 export class UpsertLeaveEntitlementDialogComponent implements OnInit {
-  @ViewChild('userContent', { static: true }) userContent!: PolymorpheusTemplate<BaseUser>;
-  readonly userContext!: { $implicit: BaseUser };
-
+  readonly leaveConfigAPIUrlPath: keyof LeaveConfigUrlPaths = 'leaveEntitlement';
   form = this.fb.group<LeaveEntitlement>({} as LeaveEntitlement);
   model = {} as LeaveEntitlement;
   fields: FormlyFieldConfig[] = [
-    { key: 'id' },
-    { key: 'fromDate', defaultValue: 1609434000000 },
-    { key: 'toDate', defaultValue: 1640969999000 },
     {
-      key: 'status',
-      type: 'toggle',
-      defaultValue: true,
-      templateOptions: { textfieldLabelOutside: true, labelClassName: 'font-semibold' },
-      expressionProperties: {
-        'templateOptions.label': this.translocoService.selectTranslate('addToMultipleEmployees'),
-        'templateOptions.description': this.form?.valueChanges.pipe(
-          startWith(null),
-          map((value) => value?.status),
-          distinctUntilChanged(),
-          switchMap((status) => this.translocoService.selectTranslate(`${status ? 'active' : 'inactive'}`))
-        )
-      }
-    },
-    // {
-    //   key: 'employeeId',
-    //   className: 'tui-form__row block',
-    //   type: 'user-combo-box',
-    //   templateOptions: {
-    //     translate: true,
-    //     label: 'sendTo',
-    //     labelClassName: 'font-semibold',
-    //     placeholder: 'chooseAPerson',
-    //     customContent: this.userContent,
-    //     serverRequest: (searchQuery: string) => this.adminEntitlementService.searchUsers(searchQuery),
-    //     labelProp: 'username',
-    //     valueProp: 'id',
-    //     matcherBy: 'id',
-    //     textfieldLabelOutside: true,
-    //   },
-    //   hideExpression: '(model.status)',
-    //   expressionProperties: {
-    //     className: '(model.status)  ?  "hidden" : ""',
-    //   },
-    // },
-    {
-      key: 'employeeId',
+      key: 'fromTo',
       className: 'tui-form__row block',
-      type: 'user-combo-box',
+      type: 'input-date-range',
       templateOptions: {
         translate: true,
-        label: 'sendTo',
+        label: 'dateRange',
         labelClassName: 'font-semibold',
-        placeholder: 'chooseAPerson',
-        labelProp: 'username',
-        valueProp: 'id',
-        textfieldLabelOutside: true
+        placeholder: 'chooseDateRange',
+        required: true,
+        textfieldLabelOutside: true,
       },
-      hideExpression: 'model.status',
-      expressionProperties: {
-        className: '(model.status)  ?  "hidden" : ""'
-      }
-    },
-    {
-      key: 'orgDTO',
-      type: 'select-org-tree',
-      templateOptions: {
-        translate: true,
-        label: 'Organization',
-        labelClassName: 'font-semibold',
-        placeholder: 'Organization',
-        labelProp: 'name'
-      },
-      hideExpression: '!model.status',
-      expressionProperties: {
-        className: '!(model.status)  ?  "hidden" : ""'
-      }
-    },
-    {
-      key: 'jobTitleDTOList',
-      className: 'tui-form__row block',
-      type: 'multi-select',
-      templateOptions: {
-        translate: true,
-        label: 'jobTitle',
-        labelClassName: 'font-semibold',
-        placeholder: 'chooseRoles',
-        options: this.leaveConfigsService.select('jobTitles'),
-        matcherBy: 'id'
-      },
-      hideExpression: '!model.status',
-      expressionProperties: {
-        className: '!model.status ? "hidden" : ""'
-      }
     },
     {
       key: 'leaveType',
+      className: 'tui-form__row block',
       type: 'select',
       templateOptions: {
         translate: true,
@@ -122,82 +50,140 @@ export class UpsertLeaveEntitlementDialogComponent implements OnInit {
         labelClassName: 'font-semibold',
         placeholder: 'leaveType',
         required: true,
-        options: this.leaveConfigsService.select('leaveTypes'),
+        options: this.leaveTypesQuery.selectAll(),
         labelProp: 'name',
-        matcherBy: 'id'
-      }
+        matcherBy: 'id',
+      },
     },
     {
-      key: 'period',
-      type: 'select',
+      key: 'status',
+      className: 'tui-form__row block',
+      type: 'checkbox-labeled',
+      defaultValue: true,
+      templateOptions: {
+        labelClassName: 'font-semibold',
+        translate: true,
+        label: 'multipleEmployees',
+        translocoScope: this.scope,
+      },
+    },
+    {
+      key: 'employee',
+      className: 'tui-form__row block',
+      type: 'user-combo-box',
       templateOptions: {
         translate: true,
-        label: 'Period',
+        label: 'employee',
         labelClassName: 'font-semibold',
-        placeholder: 'Period',
+        placeholder: 'searchEmployees',
+        textfieldLabelOutside: true,
+      },
+      hideExpression: 'model.status',
+    },
+    {
+      key: 'orgDTO',
+      className: 'tui-form__row block',
+      type: 'select-org-tree',
+      templateOptions: {
+        translate: true,
+        label: 'department',
+        labelClassName: 'font-semibold',
+        placeholder: 'chooseDepartment',
         required: true,
-        options: this.leaveConfigsService.select('leavePeriod'),
-        labelProp: 'name',
-        matcherBy: 'id'
-      }
+      },
+      hideExpression: '!model.status',
+    },
+    {
+      key: 'jobTitleDTOList',
+      className: 'tui-form__row block',
+      type: 'multi-select-search',
+      templateOptions: {
+        translate: true,
+        label: 'jobTitles',
+        labelClassName: 'font-semibold',
+        textfieldLabelOutside: true,
+        placeholder: 'searchJobTitles',
+        required: true,
+        serverRequest: (searchQuery: string) => this.jobTitlesQuery.searchJobTitles(searchQuery),
+      },
+      hideExpression: '!model.status',
     },
     {
       key: 'entitlement',
-      type: 'input',
+      className: 'tui-form__row block',
+      type: 'input-number',
       templateOptions: {
         required: true,
         translate: true,
         labelClassName: 'font-semibold',
-        label: 'Entitlements',
-        placeholder: 'totalLeaveCanApprove',
-        textfieldLabelOutside: true
+        label: 'entitlementDays',
+        placeholder: 'enterDays',
+        textfieldLabelOutside: true,
+        min: 1,
+        precision: 0,
+        translocoScope: this.scope,
       },
-      validators: { validation: [RxwebValidators.numeric({ acceptValue: NumericValueType.PositiveNumber })] }
-    }
+    },
+    { key: 'id' },
   ];
 
   constructor(
-    @Inject(POLYMORPHEUS_CONTEXT) public context: TuiDialogContext<LeaveEntitlement, LeaveEntitlement>,
-    private fb: FormBuilder,
-    private authService: AuthService,
-    private translocoService: TranslocoService,
-    private leaveConfigsService: LeaveConfigsService
+    @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<boolean, LeaveEntitlement>,
+    private readonly fb: FormBuilder,
+    private readonly authService: AuthService,
+    private readonly translocoService: TranslocoService,
+    private readonly leaveConfigsService: AdminLeaveConfigsService,
+    private readonly destroy$: TuiDestroyService,
+    private readonly promptService: PromptService,
+    private readonly jobTitlesQuery: JobTitlesQuery,
+    private readonly leaveTypesQuery: LeaveTypesQuery,
+    @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope,
+    actions: Actions
   ) {
+    actions.dispatch(loadJobTitles());
+    actions.dispatch(loadLeaveTypes());
   }
 
   ngOnInit(): void {
     if (this.context.data) {
-      if (this.form.value.status === 1) {
-        this.model.status = true;
-      } else {
-        this.model.status = false;
-      }
-      this.model = { ...this.model, ...this.context.data };
-      this.model.jobTitleDTOList = this.context.data.jobTitleDTOList;
+      this.model = {
+        ...this.model,
+        ...this.context.data,
+        status: !!this.context.data.status,
+        fromTo: new TuiDayRange(
+          TuiDay.fromLocalNativeDate(new Date(this.context.data.fromDate)),
+          TuiDay.fromLocalNativeDate(new Date(this.context.data.toDate))
+        ),
+      };
     }
   }
 
   onSubmit(): void {
     if (this.form.valid) {
-      if (this.model.status === true || this.model.status === 1) {
-        this.form.value.status = this.form.value.status = 1 as number;
-      } else {
-        this.form.value.status = this.form.value.status = 0 as number;
-      }
-
-      const arrayTitle = [];
-      if (this.model.jobTitleDTOList) {
-        for (const item of this.model.jobTitleDTOList) {
-          arrayTitle.push(item.id);
-        }
-        this.form.value.jobTitle = arrayTitle;
-      }
-      this.form.value.entitlement = +this.model.entitlement;
       const formModel = { ...this.form.value };
-      if (formModel?.status) {
-        formModel.orgId = formModel.orgDTO.id;
+
+      if (formModel.status) {
+        formModel.orgId = formModel.orgDTO?.id;
+      } else {
+        formModel.employeeId = formModel.employee?.id;
       }
-      this.context.completeWith(formModel);
+      formModel.status = formModel.status ? 1 : 0;
+      if (formModel.fromTo) {
+        formModel.fromDate = getTime(formModel.fromTo.from.toLocalNativeDate());
+        formModel.toDate = getTime(endOfDay(formModel.fromTo.to.toLocalNativeDate()));
+      }
+      delete formModel.fromTo;
+      this.leaveConfigsService
+        .upsert(this.leaveConfigAPIUrlPath, formModel)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(
+          this.promptService.handleResponse(
+            formModel.id
+              ? 'leaveConfigs.editLeaveEntitlementSuccessfully'
+              : 'leaveConfigs.createLeaveEntitlementSuccessfully',
+            () => this.context.completeWith(true)
+          )
+        );
     }
   }
 
