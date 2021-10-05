@@ -13,7 +13,6 @@ import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { Observable, of, Subject } from 'rxjs';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
-import { RequestCommentStatus } from '../enums';
 import { GeneralRequest, SubmitRequestPayload } from '../models';
 import { HistoryItem } from '../models/history-item';
 import { RequestComment } from '../models/request-comment';
@@ -39,7 +38,7 @@ export const REQUEST_COMMENT_URL_PATHS: Readonly<RequestTypeUrlPaths> = Object.f
   updateTimesheet: 'hcm_update_time_comment',
   workingOutside: 'hcm_working_onsite_comment',
   workFromHome: 'hcm_wfh_comment',
-  leave: 'hcm_leave_comment',
+  leave: 'hcm_leave_comment'
 });
 
 const REQUEST_HISTORY_URL_PATHS: Readonly<RequestTypeUrlPaths> = Object.freeze({
@@ -47,7 +46,7 @@ const REQUEST_HISTORY_URL_PATHS: Readonly<RequestTypeUrlPaths> = Object.freeze({
   updateTimesheet: '2',
   workingOutside: '3',
   workFromHome: '4',
-  leave: '5',
+  leave: '5'
 });
 
 @Injectable()
@@ -60,7 +59,8 @@ export class MyTimeService {
     private readonly dialogService: TuiDialogService,
     private readonly injector: Injector,
     private readonly promptService: PromptService
-  ) {}
+  ) {
+  }
 
   getRequests<T>(type: keyof CombineRequestTypeUrlPaths, params: HttpParams): Observable<Pagination<T>> {
     return this.http
@@ -100,8 +100,8 @@ export class MyTimeService {
           data: {
             type,
             value: res.data,
-            userId,
-          },
+            userId
+          }
         })
       )
     );
@@ -123,7 +123,7 @@ export class MyTimeService {
   getRequestComments(type: keyof RequestTypeUrlPaths, requestId: string): Observable<RequestComment[]> {
     return this.http
       .get<PagingResponse<RequestComment>>(`${MY_TIME_API_PATH}/comments-common`, {
-        params: new HttpParams().set('type', REQUEST_COMMENT_URL_PATHS[type]).set('objectId', requestId),
+        params: new HttpParams().set('type', REQUEST_COMMENT_URL_PATHS[type]).set('objectId', requestId)
       })
       .pipe(map((res) => res.data.items));
   }
@@ -136,14 +136,10 @@ export class MyTimeService {
     return this.http.put(`${MY_TIME_API_PATH}/comments-common/${comment.id}`, comment);
   }
 
-  removeRequestComment(id: string): Observable<unknown> {
-    return this.http.put(`${MY_TIME_API_PATH}/comments-common/${id}`, { state: RequestCommentStatus.Deleted });
-  }
-
   getRequestHistory(type: keyof RequestTypeUrlPaths, requestId: string): Observable<HistoryItem[]> {
     return this.http
       .get<BaseResponse<HistoryItem[]>>(`${MY_TIME_API_PATH}/tracking-history/process`, {
-        params: new HttpParams().set('type', REQUEST_HISTORY_URL_PATHS[type]).set('objectId', requestId),
+        params: new HttpParams().set('type', REQUEST_HISTORY_URL_PATHS[type]).set('objectId', requestId)
       })
       .pipe(map((res) => res.data));
   }

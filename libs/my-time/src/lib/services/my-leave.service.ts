@@ -27,32 +27,32 @@ export class MyLeaveService extends RxState<MyLeaveState> {
   durationValues: DurationValues[] = [
     {
       value: 0,
-      label: 'Full Day',
+      label: 'Full Day'
     },
     {
       value: 1,
-      label: 'Half Day',
+      label: 'Half Day'
     },
     {
       value: 2,
-      label: 'Special Time',
-    },
+      label: 'Special Time'
+    }
   ];
 
   durationFromPartial = [
     {
       value: 1,
-      label: 'Half Day',
+      label: 'Half Day'
     },
     {
       value: 2,
-      label: 'Special Time',
-    },
+      label: 'Special Time'
+    }
   ];
 
   halfTime = [
     { value: 0, label: 'Morning', boolValue: true },
-    { value: 1, label: 'Afternoon', boolValue: false },
+    { value: 1, label: 'Afternoon', boolValue: false }
   ];
 
   leaveSubmit: LeaveSubmit[] = [];
@@ -88,7 +88,7 @@ export class MyLeaveService extends RxState<MyLeaveState> {
     [`${PartialDay.StartEndDay}_${HalfDaysEnum.Afternoon}_${DurationHoldsEnum.SpecialTime}`, 'AFTERNOON_TIME'],
     [`${PartialDay.StartEndDay}_${DurationHoldsEnum.SpecialTime}_${HalfDaysEnum.Morning}`, 'TIME_MORNING'],
     [`${PartialDay.StartEndDay}_${DurationHoldsEnum.SpecialTime}_${HalfDaysEnum.Afternoon}`, 'TIME_AFTERNOON'],
-    [`${PartialDay.StartEndDay}_${DurationHoldsEnum.SpecialTime}_${DurationHoldsEnum.SpecialTime}`, 'TIME_TIME'],
+    [`${PartialDay.StartEndDay}_${DurationHoldsEnum.SpecialTime}_${DurationHoldsEnum.SpecialTime}`, 'TIME_TIME']
   ]);
 
   action(leaveSubmit: LeaveSubmit): [] | null {
@@ -120,21 +120,21 @@ export class MyLeaveService extends RxState<MyLeaveState> {
       if (strategy === 'ONLY_MORNING') {
         items = [
           {
-            morning: true,
-          },
+            morning: true
+          }
         ];
       } else if (strategy === 'ONLY_AFTERNOON') {
         items = [
           {
-            afternoon: true,
-          },
+            afternoon: true
+          }
         ];
       } else if (strategy === 'ONLY_TIME') {
         items = [
           {
             fromTime: leaveSubmit.specialTimeFrom,
-            toTime: leaveSubmit.specialTimeTo,
-          },
+            toTime: leaveSubmit.specialTimeTo
+          }
         ]; /*TIME BEGIN*/
       } else if (strategy === 'TWO_MORNING') {
         items = [{ morning: true }, { morning: true }];
@@ -149,43 +149,43 @@ export class MyLeaveService extends RxState<MyLeaveState> {
           { morning: true },
           {
             fromTime: leaveSubmit.specialTimeFrom2,
-            toTime: leaveSubmit.specialTimeTo2,
-          },
+            toTime: leaveSubmit.specialTimeTo2
+          }
         ];
       } else if (strategy === 'AFTERNOON_TIME') {
         items = [
           { afternoon: true },
           {
             fromTime: leaveSubmit.specialTimeFrom2,
-            toTime: leaveSubmit.specialTimeTo2,
-          },
+            toTime: leaveSubmit.specialTimeTo2
+          }
         ];
       } else if (strategy === 'TIME_MORNING') {
         items = [
           {
             fromTime: leaveSubmit.specialTimeFrom,
-            toTime: leaveSubmit.specialTimeTo,
+            toTime: leaveSubmit.specialTimeTo
           },
-          { morning: true },
+          { morning: true }
         ];
       } else if (strategy === 'TIME_AFTERNOON') {
         items = [
           {
             fromTime: leaveSubmit.specialTimeFrom,
-            toTime: leaveSubmit.specialTimeTo,
+            toTime: leaveSubmit.specialTimeTo
           },
-          { afternoon: true },
+          { afternoon: true }
         ];
       } else if (strategy === 'TIME_TIME') {
         items = [
           {
             fromTime: leaveSubmit.specialTimeFrom,
-            toTime: leaveSubmit.specialTimeTo,
+            toTime: leaveSubmit.specialTimeTo
           },
           {
             fromTime: leaveSubmit.specialTimeFrom2,
-            toTime: leaveSubmit.specialTimeTo2,
-          },
+            toTime: leaveSubmit.specialTimeTo2
+          }
         ];
       } else if (strategy === 'NONE') {
         return null;
@@ -202,7 +202,7 @@ export class MyLeaveService extends RxState<MyLeaveState> {
       hours: 7,
       minutes: 45,
       seconds: 0,
-      addMinute: 15,
+      addMinute: 15
     };
 
     let time = new TuiTime(objCaculateHours.hours, objCaculateHours.minutes, objCaculateHours.seconds);
@@ -214,7 +214,7 @@ export class MyLeaveService extends RxState<MyLeaveState> {
           value: i,
           label: time.toString('HH:MM') > '12' ? time.toString('HH:MM') : time.toString('HH:MM'),
           time: time,
-          conVertToSecond: time.toAbsoluteMilliseconds() / 1000,
+          conVertToSecond: time.toAbsoluteMilliseconds() / 1000
         });
       } else {
         time = time.shift({ hours: 0, minutes: objCaculateHours.addMinute, seconds: 0 });
@@ -222,7 +222,7 @@ export class MyLeaveService extends RxState<MyLeaveState> {
           value: i,
           label: time.toString('HH:MM') > '12' ? time.toString('HH:MM') : time.toString('HH:MM'),
           time: time,
-          conVertToSecond: time.toAbsoluteMilliseconds() / 1000,
+          conVertToSecond: time.toAbsoluteMilliseconds() / 1000
         });
       }
     }
@@ -239,7 +239,7 @@ export class MyLeaveService extends RxState<MyLeaveState> {
 
   getPartialTypes(): Observable<PartialDayType[]> {
     return this.http
-      .get<BaseResponse<PartialDayType[]>>(`${MY_TIME_API_PATH}/partial-day-type/`)
+      .get<BaseResponse<PartialDayType[]>>(`${MY_TIME_API_PATH}/partial-day-type`)
       .pipe(map((res) => res.data));
   }
 

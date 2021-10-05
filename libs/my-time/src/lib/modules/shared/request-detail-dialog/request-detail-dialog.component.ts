@@ -50,7 +50,7 @@ interface ComponentState {
   templateUrl: './request-detail-dialog.component.html',
   styleUrls: ['./request-detail-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [TuiDestroyService, RxState],
+  providers: [TuiDestroyService, RxState]
 })
 export class RequestDetailDialogComponent implements OnInit {
   @ViewChild(TuiHostedDropdownComponent) component?: TuiHostedDropdownComponent;
@@ -65,12 +65,12 @@ export class RequestDetailDialogComponent implements OnInit {
     {
       key: 'comment',
       type: 'text-area',
-      templateOptions: { textfieldLabelOutside: true, required: true },
+      templateOptions: { textfieldLabelOutside: true, required: true }
     },
     { key: 'id' },
     { key: 'objectId', defaultValue: this.data.id },
     { key: 'type', defaultValue: REQUEST_COMMENT_URL_PATHS[this.requestType] },
-    { key: 'state', defaultValue: RequestCommentStatus.Active },
+    { key: 'state', defaultValue: RequestCommentStatus.Active }
   ];
 
   // READS
@@ -103,10 +103,8 @@ export class RequestDetailDialogComponent implements OnInit {
 
   constructor(
     @Inject(POLYMORPHEUS_CONTEXT)
-    private readonly context: TuiDialogContext<
-      unknown,
-      { type: keyof RequestTypeUrlPaths; value: GeneralRequest; userId?: string }
-    >,
+    private readonly context: TuiDialogContext<unknown,
+      { type: keyof RequestTypeUrlPaths; value: GeneralRequest; userId?: string }>,
     private readonly myTimeService: MyTimeService,
     private readonly authService: AuthService,
     private readonly destroy$: TuiDestroyService,
@@ -132,7 +130,7 @@ export class RequestDetailDialogComponent implements OnInit {
           this.myTimeService
             .changeEscalateUser(this.requestType, {
               objectId: this.data.id,
-              escalateId: user.id,
+              escalateId: user.id
             })
             .pipe(
               tap(() => {
@@ -183,16 +181,19 @@ export class RequestDetailDialogComponent implements OnInit {
     this.commentModel = { ...this.commentModel, ...comment };
   }
 
-  onRemoveComment(commentId: string): void {
+  onRemoveComment(comment: RequestComment): void {
     from(
       this.promptService.open({
         icon: 'question',
         html: this.translocoService.translate('deleteComment'),
-        showCancelButton: true,
+        showCancelButton: true
       })
     )
       .pipe(
-        switchMap((result) => iif(() => result.isConfirmed, this.myTimeService.removeRequestComment(commentId))),
+        switchMap((result) => iif(() => result.isConfirmed, this.myTimeService.updateRequestComment({
+          ...comment,
+          state: RequestCommentStatus.Deleted
+        }))),
         tap(this.promptService.handleResponse('', () => this.getComments$.next())),
         takeUntil(this.destroy$)
       )
@@ -243,8 +244,9 @@ export class RequestDetailDialogComponent implements OnInit {
     TuiSvgModule,
     TuiHighlightModule,
     FormlyModule,
-    TuiSelectModule,
+    TuiSelectModule
   ],
-  exports: [RequestDetailDialogComponent],
+  exports: [RequestDetailDialogComponent]
 })
-export class RequestDetailDialogComponentModule {}
+export class RequestDetailDialogComponentModule {
+}

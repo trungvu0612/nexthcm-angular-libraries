@@ -433,7 +433,7 @@
   "type": "Type",
   "date": "Date",
   "chooseAPerson": "Choose a person",
-  "chooseDateRange": "Choose date range",
+  "chooseDateRange": "Choose date range...",
   "chooseADate": "Choose a date",
   "PAIDLEAVE_STATUS": {
     "notPaidLeave": "Not paid leave",

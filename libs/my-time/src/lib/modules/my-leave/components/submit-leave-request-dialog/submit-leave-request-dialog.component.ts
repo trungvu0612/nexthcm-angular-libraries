@@ -4,12 +4,11 @@ import { BaseOption, PromptService } from '@nexthcm/cdk';
 import { FormBuilder } from '@ngneat/reactive-forms';
 import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import { RxState } from '@rx-angular/state';
-import { isPresent, TuiDay, TuiDestroyService } from '@taiga-ui/cdk';
+import { TuiDay, TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogContext, TuiDialogService } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT, PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { endOfDay, getTime } from 'date-fns';
-import { Observable, of, Subject } from 'rxjs';
+import { from, Observable, of, Subject } from 'rxjs';
 import {
   catchError,
   distinctUntilChanged,
@@ -30,7 +29,7 @@ import { DurationConfirmDialogComponent } from '../duaration-comfirm-dialog/dura
   templateUrl: './submit-leave-request-dialog.component.html',
   styleUrls: ['./submit-leave-request-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [TuiDestroyService, RxState],
+  providers: [TuiDestroyService],
 })
 export class SubmitLeaveRequestDialogComponent implements OnInit {
   timeValues$: Observable<any[]> = this.myLeaveService.getTimeValues();
@@ -79,8 +78,8 @@ export class SubmitLeaveRequestDialogComponent implements OnInit {
         labelClassName: 'font-semibold',
         required: true,
         translate: true,
-        label: 'Date range',
-        placeholder: 'Choose dates',
+        label: 'dateRange',
+        placeholder: 'chooseDateRange',
       },
     },
     {
@@ -325,15 +324,15 @@ export class SubmitLeaveRequestDialogComponent implements OnInit {
           key: 'sendTo',
           type: 'user-combo-box',
           templateOptions: {
+            translate: true,
             labelClassName: 'font-semibold',
-            placeholder: 'Type to search',
-            label: 'Send to',
+            placeholder: 'searchUsers',
+            label: 'sendTo',
             textfieldLabelOutside: true,
             labelProp: 'name',
             valueProp: 'id',
           },
         },
-
         {
           className: 'mt-4',
           key: 'comments',
@@ -354,7 +353,28 @@ export class SubmitLeaveRequestDialogComponent implements OnInit {
   ];
   readonly submit$ = new Subject<SubmitLeavePayLoad>();
   readonly submitHandler$ = this.submit$.pipe(
-    switchMap((payload) => this.myLeaveService.createLeave(payload).pipe(startWith(null))),
+    switchMap((payload) =>
+      this.myLeaveService.createLeave(payload).pipe(
+        switchMap(() =>
+          from(
+            this.promptService.open({
+              icon: 'success',
+              html: this.translocoService.translate('myTime.submitRequestSuccessfully'),
+            })
+          )
+        ),
+        tap(() => this.context.completeWith(true)),
+        catchError((err) =>
+          from(
+            this.promptService.open({
+              icon: 'error',
+              html: this.errorSubmitLeave(err.error),
+            })
+          )
+        ),
+        startWith(null)
+      )
+    ),
     share()
   );
   readonly submitLoading$ = this.submitHandler$.pipe(
@@ -363,38 +383,17 @@ export class SubmitLeaveRequestDialogComponent implements OnInit {
   );
 
   constructor(
-    @Inject(POLYMORPHEUS_CONTEXT) public context: TuiDialogContext<boolean>,
-    private dialogService: TuiDialogService,
-    private myLeaveService: MyLeaveService,
-    private injector: Injector,
-    private router: Router,
-    private fb: FormBuilder,
-    private destroy$: TuiDestroyService,
-    private promptService: PromptService,
-    private myTimeService: MyTimeService,
-    private readonly translocoService: TranslocoService,
-    state: RxState<Record<string, unknown>>
-  ) {
-    state.hold(
-      this.submitHandler$.pipe(
-        filter(isPresent),
-        tap(
-          () =>
-            this.promptService
-              .open({
-                icon: 'success',
-                html: this.translocoService.translate('myTime.submitRequestSuccessfully'),
-              })
-              .then(() => this.context.completeWith(true)),
-          (err) =>
-            this.promptService.open({
-              icon: 'error',
-              html: this.errorSubmitLeave(err.error),
-            })
-        )
-      )
-    );
-  }
+    @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<boolean>,
+    private readonly dialogService: TuiDialogService,
+    private readonly myLeaveService: MyLeaveService,
+    private readonly injector: Injector,
+    private readonly router: Router,
+    private readonly fb: FormBuilder,
+    private readonly destroy$: TuiDestroyService,
+    private readonly promptService: PromptService,
+    private readonly myTimeService: MyTimeService,
+    private readonly translocoService: TranslocoService
+  ) {}
 
   ngOnInit(): void {
     this.myLeaveService
@@ -463,7 +462,7 @@ export class SubmitLeaveRequestDialogComponent implements OnInit {
   errorSubmitLeave(dataLeave: any) {
     let dataLeaveErr = dataLeave.message;
     if (dataLeave.message.includes('EXCEED_LEAVE')) {
-      dataLeaveErr = `<span class="bold text-xl">Leave request is exceed ${dataLeave?.errorMetadata?.exceedEntitlement} days ${dataLeave?.errorMetadata?.leaveTypeName}!</span>`;
+      dataLeaveErr = `<span class='bold text-xl'>Leave request is exceed ${dataLeave?.errorMetadata?.exceedEntitlement} days ${dataLeave?.errorMetadata?.leaveTypeName}!</span>`;
       dataLeaveErr += '<ul class="mt-3 text-base">';
       dataLeaveErr += `<li><p>Remain leave: ${dataLeave?.errorMetadata?.durationInDay} days</p></li>`;
       dataLeaveErr += '<li><p>Leave request: ' + dataLeave?.errorMetadata?.remainingEntitlement + ' days</p></li>';
