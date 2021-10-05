@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { GetFilePipeModule } from '@nexthcm/cdk';
-import { LayoutComponent, LayoutModule } from '@nexthcm/ui';
+import { FormlyUserComboBoxComponentModule, LayoutComponent, LayoutModule } from '@nexthcm/ui';
 import { TranslocoModule } from '@ngneat/transloco';
 import { FormlyModule } from '@ngx-formly/core';
 import { LetModule } from '@rx-angular/template';
@@ -51,6 +51,7 @@ export const SEAT_MAPS_ROUTES: Routes = [
     TuiComboBoxModule,
     TuiDataListModule,
     TuiSvgModule,
+    FormlyUserComboBoxComponentModule
   ],
   declarations: [SeatMapsComponent, SeatComponent],
   providers: [SeatMapsService],

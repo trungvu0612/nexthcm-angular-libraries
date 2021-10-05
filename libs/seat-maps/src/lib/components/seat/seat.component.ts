@@ -15,7 +15,7 @@ import { SeatMapsService } from '../../seat-maps.service';
   templateUrl: './seat.component.html',
   styleUrls: ['./seat.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [RxState],
+  providers: [RxState]
 })
 export class SeatComponent {
   @Input() seat!: Partial<Seat>;
@@ -28,19 +28,29 @@ export class SeatComponent {
   model: Partial<Seat> = {};
   readonly fields: FormlyFieldConfig[] = [
     {
-      key: 'assignedUser',
-      type: 'combo-box',
+      key: 'label',
+      className: 'tui-form__row block',
+      type: 'input',
       templateOptions: {
+        translate: true,
+        required: true,
+        textfieldLabelOutside: true,
+        label: 'Label',
+        labelClassName: 'font-semibold',
+        placeholder: '001',
+      },
+    },
+    {
+      key: 'assignedUser',
+      className: 'tui-form__row block',
+      type: 'user-combo-box',
+      templateOptions: {
+        labelClassName: 'font-semibold',
         required: true,
         translate: true,
         label: 'chooseUser',
-        labelProp: 'username',
-        subLabelProp: 'code',
-        stringify: (item: UserDto) => item.username,
-        serverRequest: (search: string): Observable<Partial<UserDto>[]> =>
-          this.seatMapsService.select('users').pipe(map((users) => filterBySearch<UserDto>(users, search, 'username')))
-      },
-    },
+      }
+    }
   ];
 
   constructor(
@@ -48,7 +58,8 @@ export class SeatComponent {
     private readonly dialogService: TuiDialogService,
     private readonly state: RxState<{ dragging: boolean }>,
     public readonly elementRef: ElementRef
-  ) {}
+  ) {
+  }
 
   @Input() set dragging(dragging$: Subject<boolean>) {
     this.state.connect('dragging', dragging$);
@@ -56,11 +67,11 @@ export class SeatComponent {
 
   @HostBinding('style') get style() {
     return {
-      left: this.seat.positionX + '%',
-      top: this.seat.positionY + '%',
-      width: this.seat.width + '%',
-      height: this.seat.height + '%',
-      'border-radius': this.seat.rounded + '%',
+      left: Number(this.seat.positionX)  + '%',
+      top: Number(this.seat.positionY)  + '%',
+      width: '5%',
+      height: '11.8%',
+      'border-radius': this.seat.rounded + '%'
     };
   }
 
@@ -72,9 +83,9 @@ export class SeatComponent {
     return this.status === 'none'
       ? 'NA'
       : this.status
-          .replace('in-out', 'in/out')
-          .replace(/-/g, ' ')
-          .replace(/^./, (m) => m.toUpperCase());
+        .replace('in-out', 'in/out')
+        .replace(/-/g, ' ')
+        .replace(/^./, (m) => m.toUpperCase());
   }
 
   addSeatOrDropdown(type: string, content?: PolymorpheusContent<TuiDialogContext>): void {
