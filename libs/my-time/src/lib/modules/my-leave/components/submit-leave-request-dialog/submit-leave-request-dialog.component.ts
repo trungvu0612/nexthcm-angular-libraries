@@ -375,7 +375,8 @@ export class SubmitLeaveRequestDialogComponent implements OnInit {
         startWith(null)
       )
     ),
-    share()
+    share(),
+    takeUntil(this.destroy$)
   );
   readonly submitLoading$ = this.submitHandler$.pipe(
     map((value) => !value),

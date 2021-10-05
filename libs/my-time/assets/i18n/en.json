@@ -13,7 +13,7 @@
   "myRequest": "My Request",
   "requestManagement": "Request management",
   "submitLeaveRequest": "Submit Leave Request",
-  "submitRequestSuccessfully": "<b>Submit is successfully!</b>",
+  "submitRequestSuccessfully": "<b>Request has been successfully submitted!</b>",
   "yourTotalDaysOff": "Your total days-off from",
   "continueSubmittingConfirmation": "Do you want to continue submitting?",
   "WORKING_AFTER_HOURS_TYPE": {

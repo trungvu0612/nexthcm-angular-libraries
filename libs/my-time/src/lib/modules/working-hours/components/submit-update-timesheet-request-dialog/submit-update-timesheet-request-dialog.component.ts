@@ -3,12 +3,11 @@ import { PromptService, tuiTimeAfter, tuiTimeBefore } from '@nexthcm/cdk';
 import { FormBuilder } from '@ngneat/reactive-forms';
 import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import { RxState } from '@rx-angular/state';
-import { isPresent, TuiDay, TuiDestroyService, TuiTime } from '@taiga-ui/cdk';
+import { TuiDay, TuiDestroyService, TuiTime } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
-import { of, Subject } from 'rxjs';
-import { catchError, filter, map, share, startWith, switchMap, tap } from 'rxjs/operators';
+import { from, of, Subject } from 'rxjs';
+import { catchError, map, share, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { RequestStatus } from '../../../../enums';
 import { SubmitRequestPayload, WorkingHours } from '../../../../models';
 import { MyTimeService } from '../../../../services';
@@ -97,7 +96,7 @@ export class SubmitUpdateTimesheetRequestDialogComponent {
         translate: true,
         label: 'sendTo',
         labelClassName: 'font-semibold',
-        placeholder: 'chooseAPerson',
+        placeholder: 'searchUsers',
         labelProp: 'username',
         valueProp: 'id',
       },
@@ -105,8 +104,30 @@ export class SubmitUpdateTimesheetRequestDialogComponent {
   ];
   readonly submit$ = new Subject<SubmitRequestPayload>();
   readonly submitHandler$ = this.submit$.pipe(
-    switchMap((payload) => this.myTimeService.submitRequest('updateTimesheet', payload).pipe(startWith(null))),
-    share()
+    switchMap((payload) =>
+      this.myTimeService.submitRequest('updateTimesheet', payload).pipe(
+        switchMap(() =>
+          from(
+            this.promptService.open({
+              icon: 'success',
+              html: this.translocoService.translate('myTime.submitRequestSuccessfully'),
+            })
+          )
+        ),
+        tap(() => this.context.completeWith(true)),
+        catchError((err) =>
+          from(
+            this.promptService.open({
+              icon: 'error',
+              html: this.translocoService.translate(`ERRORS.${err.error.message}`),
+            })
+          )
+        ),
+        startWith(null)
+      )
+    ),
+    share(),
+    takeUntil(this.destroy$)
   );
   readonly submitLoading$ = this.submitHandler$.pipe(
     map((value) => !value),
@@ -119,28 +140,8 @@ export class SubmitUpdateTimesheetRequestDialogComponent {
     private readonly myTimeService: MyTimeService,
     private readonly promptService: PromptService,
     private readonly translocoService: TranslocoService,
-    state: RxState<Record<string, unknown>>
-  ) {
-    state.hold(
-      this.submitHandler$.pipe(
-        filter(isPresent),
-        tap(
-          () =>
-            this.promptService
-              .open({
-                icon: 'success',
-                html: this.translocoService.translate('myTime.updateTimesheetSuccess'),
-              })
-              .then(() => this.context.completeWith(true)),
-          (error) =>
-            this.promptService.open({
-              icon: 'error',
-              text: this.translocoService.translate(`ERRORS.${error.error.message}`),
-            })
-        )
-      )
-    );
-  }
+    private readonly destroy$: TuiDestroyService
+  ) {}
 
   onSubmit(): void {
     if (this.form.valid) {

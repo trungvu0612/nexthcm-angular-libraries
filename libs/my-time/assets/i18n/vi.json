@@ -13,7 +13,7 @@
   "myRequest": "Yêu cầu của tôi",
   "requestManagement": "Quản lý yêu cầu",
   "submitLeaveRequest": "Yêu cầu nghỉ phép",
-  "submitRequestSuccessfully": "<b>Đã Gửi Duyệt Thành Công!</b>",
+  "submitRequestSuccessfully": "<b>Gửi yêu cầu thành công!</b>",
   "yourTotalDaysOff": "Tổng số ngày nghỉ phép của bạn từ",
   "continueSubmittingConfirmation": "Bạn có muốn tiếp tục gửi yêu cầu?",
   "WORKING_AFTER_HOURS_TYPE": {

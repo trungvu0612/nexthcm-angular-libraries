@@ -1,14 +1,14 @@
 import { ChangeDetectionStrategy, Component, ComponentFactoryResolver, Injector, OnInit } from '@angular/core';
+import { AuthService } from '@nexthcm/auth';
 import { FormBuilder } from '@ngneat/reactive-forms';
 import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { RxState } from '@rx-angular/state';
 import { TuiDestroyService } from '@taiga-ui/cdk';
+import { BehaviorSubject } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { OrgChart, SearchOrg } from '../../models/node';
 import { HumanResourceService } from '../../services/human-resource.service';
-import { map } from 'rxjs/operators';
-import { AuthService } from '@nexthcm/auth';
-import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'hcm-organization-chart',
@@ -38,7 +38,7 @@ export class OrganizationChartComponent implements OnInit {
         translate: true,
         label: 'Search',
         labelClassName: 'font-semibold',
-        placeholder: 'chooseAPerson',
+        placeholder: 'searchUsers',
         labelProp: 'username',
         matcherBy: 'id',
         textfieldLabelOutside: false
