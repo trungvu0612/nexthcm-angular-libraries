@@ -8,7 +8,7 @@ import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { BaseComponent, Columns } from 'ngx-easy-table';
 import { from, iif, Observable, of } from 'rxjs';
-import { catchError, filter, map, share, startWith, switchMap, takeUntil } from 'rxjs/operators';
+import { catchError, filter, map, shareReplay, startWith, switchMap, takeUntil } from 'rxjs/operators';
 import { UpsertJobTitleDialogComponent } from '../../components/upsert-job-title-dialog/upsert-job-title-dialog.component';
 import { JobTitle } from '../../models/job-title';
 import { AdminJobTitlesService } from '../../services/admin-job-titles.service';
@@ -37,7 +37,7 @@ export class JobTitleManagementComponent extends AbstractServerSortPaginationTab
 
   private readonly request$ = this.queryParams$.pipe(
     switchMap(() => this.adminJobTitlesService.getJobTitles(this.queryParams$.value).pipe(startWith(null))),
-    share()
+    shareReplay(1)
   );
   readonly loading$ = this.request$.pipe(
     map((value) => !value),

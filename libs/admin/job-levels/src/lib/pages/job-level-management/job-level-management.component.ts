@@ -8,7 +8,7 @@ import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { BaseComponent, Columns } from 'ngx-easy-table';
 import { from, iif, Observable, of } from 'rxjs';
-import { catchError, filter, map, share, startWith, switchMap, takeUntil } from 'rxjs/operators';
+import { catchError, filter, map, shareReplay, startWith, switchMap, takeUntil } from 'rxjs/operators';
 import { UpsertJobLevelDialogComponent } from '../../components/upsert-job-level-dialog/upsert-job-level-dialog.component';
 import { JobLevel } from '../../models/job-level';
 import { AdminJobLevelsService } from '../../services/admin-job-levels.service';
@@ -35,7 +35,7 @@ export class JobLevelManagementComponent extends AbstractServerSortPaginationTab
 
   private readonly request$ = this.queryParams$.pipe(
     switchMap(() => this.adminJobLevelsService.getJobLevels(this.queryParams$.value).pipe(startWith(null))),
-    share()
+    shareReplay(1)
   );
   readonly loading$ = this.request$.pipe(
     map((value) => !value),

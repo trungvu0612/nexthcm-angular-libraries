@@ -20,7 +20,7 @@ import {
   distinctUntilChanged,
   filter,
   map,
-  share,
+  shareReplay,
   startWith,
   switchMap,
   takeUntil,
@@ -58,7 +58,7 @@ export class EmployeeManagementComponent
     );
   private readonly request$ = this.queryParams$.pipe(
     switchMap(() => this.adminEmployeesService.getEmployees(this.queryParams$.value).pipe(startWith(null))),
-    share()
+    shareReplay(1)
   );
   readonly loading$ = this.request$.pipe(
     map((value) => !value),

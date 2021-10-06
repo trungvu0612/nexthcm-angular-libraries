@@ -57,7 +57,7 @@
     "onsiteDay": "Onsite day",
     "leave": "Leave",
     "countLeave": "Leave count",
-    "functions": "Action",
+    "functions": "Functions",
     "cif": "CIF",
     "fullName": "Full name",
     "dateRange": "Date range",
@@ -83,5 +83,9 @@
   "requestType": "Request type",
   "spentTime": "Spent time",
   "changedStatusTo": "changed the status to",
-  "submittedRequest": "submitted the request"
+  "submittedRequest": "submitted the request",
+  "ERRORS": {
+    "DUPLICATED_LEAVE": "<div class='font-bold'><p class='mb-4'>This request has duplicated duration with another.</p>{{metadata}}</div>",
+    "EXCEED_LEAVE_ENTITLEMENT": "<div class='font-bold'>This request has exceeded the leave entitlement by {{exceedEntitlement}} days. The remaining of your {{leaveTypeName}} is {{remainingEntitlement}} days.</div>"
+  }
 }

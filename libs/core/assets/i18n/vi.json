@@ -171,6 +171,7 @@
     "CheckinSuccess": "Chấm Công Vào Thành Công!",
     "CheckoutSuccess": "Chấm Công Ra Thành Công!"
   },
+  "workingDay": "Số ngày làm việc",
   "applyFor": "Tùy chọn",
   "morning": "Buổi sáng",
   "afternoon": "Buổi chiều",
@@ -591,6 +592,7 @@
   "familyAllowance": "Phụ cấp gia đình",
   "healthInsuranceNumber": "Mã số Bảo hiểm y tế",
   "healthCareInsuranceList": "Danh sách Bảo hiểm sức khoẻ cá nhân",
+  "overtime": "Tăng ca",
   "updateTimesheet": "Cập nhật bảng ghi thời gian",
   "workingOutside": "Làm việc bên ngoài",
   "workFromHome": "Làm tại nhà",

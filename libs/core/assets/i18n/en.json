@@ -171,6 +171,7 @@
     "CheckinSuccess": "Check In Successfully!",
     "CheckoutSuccess": "Check Out Successfully!"
   },
+  "workingDay": "Working days",
   "applyFor": "Apply for",
   "morning": "Morning",
   "afternoon": "Afternoon",
@@ -592,6 +593,7 @@
   "familyAllowance": "Family allowance",
   "healthInsuranceNumber": "Health insurance number",
   "healthCareInsuranceList": "Health care insurance list",
+  "overtime": "Overtime",
   "updateTimesheet": "Update timesheet",
   "workingOutside": "Working outside",
   "workFromHome": "Work from home",

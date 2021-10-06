@@ -21,3 +21,9 @@
   border-radius: 50%;
   display: inline-block;
 }
+
+tui-tabs {
+  [tuitab]._active {
+    font-weight: 500;
+  }
+}

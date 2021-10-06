@@ -14,7 +14,7 @@ import {
   distinctUntilChanged,
   filter,
   map,
-  share,
+  shareReplay,
   startWith,
   switchMap,
   takeUntil,
@@ -54,7 +54,7 @@ export class TenantManagementComponent
   readonly search$ = new Subject<string | null>();
   private readonly request$ = this.queryParams$.pipe(
     switchMap(() => this.adminTenantsService.getTenants(this.queryParams$.value).pipe(startWith(null))),
-    share()
+    shareReplay(1)
   );
   readonly loading$ = this.request$.pipe(
     map((value) => !value),

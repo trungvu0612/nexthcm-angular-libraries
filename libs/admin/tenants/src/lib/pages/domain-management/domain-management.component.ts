@@ -16,7 +16,7 @@ import {
   distinctUntilChanged,
   filter,
   map,
-  share,
+  shareReplay,
   startWith,
   switchMap,
   takeUntil,
@@ -56,7 +56,7 @@ export class DomainManagementComponent extends AbstractServerSortPaginationTable
   );
   private readonly request$ = this.queryParams$.pipe(
     switchMap(() => this.adminTenantsService.getTenantDomains(this.queryParams$.value).pipe(startWith(null))),
-    share()
+    shareReplay(1)
   );
   readonly loading$ = this.request$.pipe(
     map((value) => !value),

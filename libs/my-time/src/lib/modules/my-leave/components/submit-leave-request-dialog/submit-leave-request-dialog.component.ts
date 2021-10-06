@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { BaseOption, PromptService } from '@nexthcm/cdk';
 import { FormBuilder } from '@ngneat/reactive-forms';
 import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoDatePipe } from '@ngneat/transloco-locale';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDay, TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogContext, TuiDialogService } from '@taiga-ui/core';
@@ -21,6 +22,10 @@ import {
   tap,
 } from 'rxjs/operators';
 import { LeaveSubmit, SubmitLeavePayLoad } from '../../../../models';
+import {
+  LeaveDuplicated,
+  SubmitLeaveRequestHttpErrorResponse,
+} from '../../../../models/requests/submit-leave-request-http-error-response';
 import { MyLeaveService, MyTimeService } from '../../../../services';
 import { DurationConfirmDialogComponent } from '../duaration-comfirm-dialog/duration-confirm-dialog.component';
 
@@ -29,7 +34,7 @@ import { DurationConfirmDialogComponent } from '../duaration-comfirm-dialog/dura
   templateUrl: './submit-leave-request-dialog.component.html',
   styleUrls: ['./submit-leave-request-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [TuiDestroyService],
+  providers: [TuiDestroyService, TranslocoDatePipe],
 })
 export class SubmitLeaveRequestDialogComponent implements OnInit {
   timeValues$: Observable<any[]> = this.myLeaveService.getTimeValues();
@@ -368,7 +373,7 @@ export class SubmitLeaveRequestDialogComponent implements OnInit {
           from(
             this.promptService.open({
               icon: 'error',
-              html: this.errorSubmitLeave(err.error),
+              html: this.generateSubmittingLeaveRequestErrorMessage(err.error),
             })
           )
         ),
@@ -393,7 +398,8 @@ export class SubmitLeaveRequestDialogComponent implements OnInit {
     private readonly destroy$: TuiDestroyService,
     private readonly promptService: PromptService,
     private readonly myTimeService: MyTimeService,
-    private readonly translocoService: TranslocoService
+    private readonly translocoService: TranslocoService,
+    private readonly translocoDatePipe: TranslocoDatePipe
   ) {}
 
   ngOnInit(): void {
@@ -460,30 +466,22 @@ export class SubmitLeaveRequestDialogComponent implements OnInit {
     this.context.$implicit.complete();
   }
 
-  errorSubmitLeave(dataLeave: any) {
-    let dataLeaveErr = dataLeave.message;
-    if (dataLeave.message.includes('EXCEED_LEAVE')) {
-      dataLeaveErr = `<span class='bold text-xl'>Leave request is exceed ${dataLeave?.errorMetadata?.exceedEntitlement} days ${dataLeave?.errorMetadata?.leaveTypeName}!</span>`;
-      dataLeaveErr += '<ul class="mt-3 text-base">';
-      dataLeaveErr += `<li><p>Remain leave: ${dataLeave?.errorMetadata?.durationInDay} days</p></li>`;
-      dataLeaveErr += '<li><p>Leave request: ' + dataLeave?.errorMetadata?.remainingEntitlement + ' days</p></li>';
-      dataLeaveErr += '</ul>';
+  generateSubmittingLeaveRequestErrorMessage(error: SubmitLeaveRequestHttpErrorResponse): string {
+    if (error.message === 'LEAVE_IS_DUPLICATED_DURATION_WITH_ANOTHER_LEAVE') {
+      let metadata = '';
+
+      if (error.errorMetadata.leaveDuplicatedList.length) {
+        metadata = `<ul class='tui-list text-left'>${error.errorMetadata.leaveDuplicatedList.map(
+          (item: LeaveDuplicated) =>
+            `<li class='tui-list__item'>${this.translocoDatePipe.transform(
+              item.fromDate
+            )} - ${this.translocoDatePipe.transform(item.toDate)}: <b>${item.leaveTypeName}</b></li>`
+        )}</ul>`;
+      }
+      return this.translocoService.translate('myTime.ERRORS.DUPLICATED_LEAVE', { metadata });
+    } else if (error.message === 'LEAVE_SUBMIT_LEAVE_DURATION_EXCEED_LEAVE_ENTITLEMENT') {
+      return this.translocoService.translate('myTime.ERRORS.EXCEED_LEAVE_ENTITLEMENT', error.errorMetadata);
     }
-    if (dataLeave.message.includes('LEAVE_IS_DUPLICATED_DURATION')) {
-      dataLeaveErr = '<span class="bold text-xl">Leave is already existed at:</span>';
-      dataLeaveErr += '<ul class="mt-3 text-base">';
-      dataLeave?.errorMetadata?.leaveDuplicatedList.forEach(function (value: any) {
-        dataLeaveErr +=
-          '<li><strong>' +
-          value.leaveTypeName +
-          '</strong> from <strong>' +
-          new Date(value.fromDate).toLocaleDateString('en-GB') +
-          '</strong> to <strong>' +
-          new Date(value.toDate).toLocaleDateString('en-GB') +
-          '</strong></li>';
-      });
-      dataLeaveErr += '</ul>';
-    }
-    return dataLeaveErr;
+    return error.message;
   }
 }

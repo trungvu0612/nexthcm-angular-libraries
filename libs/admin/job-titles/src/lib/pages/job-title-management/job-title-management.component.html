@@ -1,7 +1,7 @@
 <hcm-page [title]="'jobTitleManagement' | transloco">
   <ng-container ngProjectAs="pageHeader">
     <button (click)="onUpsertJobLevel()" *ngxPermissionsOnly="'CREATE_JOB_TITLE'" size="m" tuiButton>
-      {{ 'addNewJobTitle' | transloco }}
+      {{ 'jobTitles.createJobTitle' | transloco }}
     </button>
   </ng-container>
   <tui-loader [overlay]="true" [showLoader]="(loading$ | async) === true">
