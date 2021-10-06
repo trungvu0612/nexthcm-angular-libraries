@@ -1,14 +1,14 @@
 import { ChangeDetectionStrategy, Component, ElementRef, HostBinding, Input } from '@angular/core';
-import { filterBySearch, Seat, UserDto } from '@nexthcm/cdk';
+import { Seat } from '@nexthcm/cdk';
 import { FormGroup } from '@ngneat/reactive-forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { RxState } from '@rx-angular/state';
 import { TuiDialogContext, TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusContent } from '@tinkoff/ng-polymorpheus';
-import { Observable, Subject, Subscriber } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Subject, Subscriber } from 'rxjs';
 import { UserState } from '../../enums/user-state';
 import { SeatMapsService } from '../../seat-maps.service';
+import { AuthService } from '@nexthcm/auth';
 
 @Component({
   selector: 'hcm-seat',
@@ -20,24 +20,24 @@ import { SeatMapsService } from '../../seat-maps.service';
 export class SeatComponent {
   @Input() seat!: Partial<Seat>;
   @Input() refresh$!: Subject<unknown>;
-  isAdmin = true;
   random = Math.round(Math.random() * 6);
   openDropdown = false;
   dragging$ = this.state.select('dragging');
   readonly form = new FormGroup({});
   model: Partial<Seat> = {};
+  readonly userInfo = this.authService.get('userInfo');
   readonly fields: FormlyFieldConfig[] = [
     {
       key: 'label',
       className: 'tui-form__row block',
-      type: 'input',
+      type: 'input-number',
       templateOptions: {
         translate: true,
         required: true,
         textfieldLabelOutside: true,
-        label: 'Label',
+        label: 'Number',
         labelClassName: 'font-semibold',
-        placeholder: '001',
+        placeholder: 'Position number',
       },
     },
     {
@@ -57,7 +57,8 @@ export class SeatComponent {
     private readonly seatMapsService: SeatMapsService,
     private readonly dialogService: TuiDialogService,
     private readonly state: RxState<{ dragging: boolean }>,
-    public readonly elementRef: ElementRef
+    public readonly elementRef: ElementRef,
+    private authService: AuthService
   ) {
   }
 
@@ -76,7 +77,12 @@ export class SeatComponent {
   }
 
   get status(): string {
-    return this.seat.assignedUser ? UserState[this.random] : '';
+    console.log(this.userInfo);
+    return this.seat.assignedUser ? UserState[this.random]+' seatmap_status' : 'seatmap_status';
+  }
+
+  statusState(statusUser: any): string {
+    return this.seat.assignedUser ? UserState[statusUser]+' seatmap_status' : 'seatmap_status';
   }
 
   get convertedStatus(): string {
@@ -84,6 +90,7 @@ export class SeatComponent {
       ? 'NA'
       : this.status
         .replace('in-out', 'in/out')
+        .replace('seatmap_status', '')
         .replace(/-/g, ' ')
         .replace(/^./, (m) => m.toUpperCase());
   }

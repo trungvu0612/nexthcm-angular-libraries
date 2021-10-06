@@ -17,7 +17,7 @@ import {
   TuiSvgModule,
 } from '@taiga-ui/core';
 import { TuiAvatarModule, TuiComboBoxModule } from '@taiga-ui/kit';
-import { NgxPermissionsGuard } from 'ngx-permissions';
+import { NgxPermissionsGuard, NgxPermissionsModule } from 'ngx-permissions';
 import { SeatComponent } from './components/seat/seat.component';
 import { SeatMapsComponent } from './seat-maps.component';
 import { SeatMapsService } from './seat-maps.service';
@@ -51,7 +51,8 @@ export const SEAT_MAPS_ROUTES: Routes = [
     TuiComboBoxModule,
     TuiDataListModule,
     TuiSvgModule,
-    FormlyUserComboBoxComponentModule
+    FormlyUserComboBoxComponentModule,
+    NgxPermissionsModule
   ],
   declarations: [SeatMapsComponent, SeatComponent],
   providers: [SeatMapsService],

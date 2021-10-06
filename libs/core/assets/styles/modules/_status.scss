@@ -1,25 +1,34 @@
 .checked-in {
-  border-color: limegreen;
+  background-color: limegreen;
 }
 
 .not-check-in-out {
-  border-color: darkorange;
+  background-color: darkorange;
+}
+
+.check-out {
+  background-color: #00A4EE;
+}
+
+.check-out-early {
+  background-color: #FFC806;
 }
 
 .check-in-late {
-  border-color: darkslategray;
+  background-color: crimson;
 }
 
 .working-outside {
-  border-color: purple;
+  background-color: sandybrown;
 }
 
 .leave {
-  border-color: crimson;
+  background-color: blueviolet;
+  opacity: 0.5;
 }
 
 .offline {
-  border-color: silver;
+  background-color: pink;
 }
 
 .none {
@@ -38,4 +47,8 @@
 
 .inactive-tag {
   background: #eb3b5a !important;
+}
+
+.none-bg {
+  background-color: transparent !important;
 }

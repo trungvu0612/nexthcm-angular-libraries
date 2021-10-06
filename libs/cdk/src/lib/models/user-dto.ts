@@ -116,6 +116,21 @@ export interface Address {
   name: string;
 }
 
+export interface OrganizationDTO {
+  id: string;
+  name: string;
+}
+
+export interface DirectReportDTO {
+  id: string;
+  name: string;
+}
+
+export interface JobTitleDTO {
+  id: string;
+  name: string;
+}
+
 export interface UserDto {
   createdDate: number;
   createdBy: string;
@@ -139,4 +154,10 @@ export interface UserDto {
   contact: ContactDTO;
   address: Address;
   fullName?: string;
+  birthDay?: string;
+  email?: string;
+  phone?: string;
+  organization?: OrganizationDTO;
+  directReport: DirectReportDTO;
+  jobTitle: JobTitleDTO;
 }
