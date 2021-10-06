@@ -9,15 +9,21 @@ import {
   PagingResponse,
   PromptService,
 } from '@nexthcm/cdk';
+import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoDatePipe } from '@ngneat/transloco-locale';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
-import { Observable, of, Subject } from 'rxjs';
+import { from, Observable, of, Subject } from 'rxjs';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
-import { GeneralRequest, SubmitRequestPayload } from '../models';
+import { GeneralRequest, SubmitLeavePayLoad, SubmitRequestPayload } from '../models';
 import { HistoryItem } from '../models/history-item';
 import { RequestComment } from '../models/request-comment';
 import { CombineRequestTypeUrlPaths, RequestTypeUrlPaths } from '../models/request-type-url-paths';
 import { ChangeEscalateUserPayload } from '../models/requests/change-escalate-user-payload';
+import {
+  LeaveDuplicated,
+  SubmitLeaveRequestHttpErrorResponse,
+} from '../models/requests/submit-leave-request-http-error-response';
 import { RequestDetailDialogComponent } from '../modules/shared/request-detail-dialog/request-detail-dialog.component';
 
 const REQUEST_DETAIL_URL_PATHS: Readonly<CombineRequestTypeUrlPaths> = Object.freeze({
@@ -38,7 +44,7 @@ export const REQUEST_COMMENT_URL_PATHS: Readonly<RequestTypeUrlPaths> = Object.f
   updateTimesheet: 'hcm_update_time_comment',
   workingOutside: 'hcm_working_onsite_comment',
   workFromHome: 'hcm_wfh_comment',
-  leave: 'hcm_leave_comment'
+  leave: 'hcm_leave_comment',
 });
 
 const REQUEST_HISTORY_URL_PATHS: Readonly<RequestTypeUrlPaths> = Object.freeze({
@@ -46,7 +52,7 @@ const REQUEST_HISTORY_URL_PATHS: Readonly<RequestTypeUrlPaths> = Object.freeze({
   updateTimesheet: '2',
   workingOutside: '3',
   workFromHome: '4',
-  leave: '5'
+  leave: '5',
 });
 
 @Injectable()
@@ -58,9 +64,10 @@ export class MyTimeService {
     private readonly http: HttpClient,
     private readonly dialogService: TuiDialogService,
     private readonly injector: Injector,
-    private readonly promptService: PromptService
-  ) {
-  }
+    private readonly promptService: PromptService,
+    private readonly translocoService: TranslocoService,
+    private readonly translocoDatePipe: TranslocoDatePipe
+  ) {}
 
   getRequests<T>(type: keyof CombineRequestTypeUrlPaths, params: HttpParams): Observable<Pagination<T>> {
     return this.http
@@ -74,19 +81,27 @@ export class MyTimeService {
       .pipe(tap(() => this.refreshSubject.next(type)));
   }
 
+  submitLeaveRequest(payload: SubmitLeavePayLoad): Observable<unknown> {
+    return this.http.post(`${MY_TIME_API_PATH}/leaves`, payload);
+  }
+
   changeEscalateUser(type: keyof RequestTypeUrlPaths, payload: ChangeEscalateUserPayload): Observable<unknown> {
     return this.http.post(`${MY_TIME_API_PATH}/${REQUEST_DETAIL_URL_PATHS[type]}/change-assignee`, payload);
   }
 
-  changeRequestStatus(
-    type: keyof RequestTypeUrlPaths,
-    requestId: string,
-    nextState: string,
-    callback?: () => void
-  ): Observable<unknown> {
+  changeRequestStatus(type: keyof RequestTypeUrlPaths, requestId: string, nextState: string): Observable<unknown> {
     return this.http
       .put(`${MY_TIME_API_PATH}/${REQUEST_DETAIL_URL_PATHS[type]}/${requestId}`, { request: { nextState } })
-      .pipe(tap(this.promptService.handleResponse('', callback)));
+      .pipe(
+        catchError((err) =>
+          from(
+            this.promptService.open({
+              icon: 'error',
+              html: this.generateSubmittingLeaveRequestErrorMessage(err.error),
+            })
+          )
+        )
+      );
   }
 
   getRequest(type: keyof RequestTypeUrlPaths, id: string): Observable<BaseResponse<GeneralRequest>> {
@@ -100,8 +115,8 @@ export class MyTimeService {
           data: {
             type,
             value: res.data,
-            userId
-          }
+            userId,
+          },
         })
       )
     );
@@ -123,7 +138,7 @@ export class MyTimeService {
   getRequestComments(type: keyof RequestTypeUrlPaths, requestId: string): Observable<RequestComment[]> {
     return this.http
       .get<PagingResponse<RequestComment>>(`${MY_TIME_API_PATH}/comments-common`, {
-        params: new HttpParams().set('type', REQUEST_COMMENT_URL_PATHS[type]).set('objectId', requestId)
+        params: new HttpParams().set('type', REQUEST_COMMENT_URL_PATHS[type]).set('objectId', requestId),
       })
       .pipe(map((res) => res.data.items));
   }
@@ -139,8 +154,27 @@ export class MyTimeService {
   getRequestHistory(type: keyof RequestTypeUrlPaths, requestId: string): Observable<HistoryItem[]> {
     return this.http
       .get<BaseResponse<HistoryItem[]>>(`${MY_TIME_API_PATH}/tracking-history/process`, {
-        params: new HttpParams().set('type', REQUEST_HISTORY_URL_PATHS[type]).set('objectId', requestId)
+        params: new HttpParams().set('type', REQUEST_HISTORY_URL_PATHS[type]).set('objectId', requestId),
       })
       .pipe(map((res) => res.data));
+  }
+
+  generateSubmittingLeaveRequestErrorMessage(error: SubmitLeaveRequestHttpErrorResponse): string {
+    if (error.message === 'LEAVE_IS_DUPLICATED_DURATION_WITH_ANOTHER_LEAVE') {
+      let metadata = '';
+
+      if (error.errorMetadata.leaveDuplicatedList.length) {
+        metadata = `<ul class='tui-list text-left'>${error.errorMetadata.leaveDuplicatedList.map(
+          (item: LeaveDuplicated) =>
+            `<li class='tui-list__item'>${this.translocoDatePipe.transform(
+              item.fromDate
+            )} - ${this.translocoDatePipe.transform(item.toDate)}: <b>${item.leaveTypeName}</b></li>`
+        )}</ul>`;
+      }
+      return this.translocoService.translate('myTime.ERRORS.DUPLICATED_LEAVE', { metadata });
+    } else if (error.message === 'LEAVE_SUBMIT_LEAVE_DURATION_EXCEED_LEAVE_ENTITLEMENT') {
+      return this.translocoService.translate('myTime.ERRORS.EXCEED_LEAVE_ENTITLEMENT', error.errorMetadata);
+    }
+    return error.message;
   }
 }

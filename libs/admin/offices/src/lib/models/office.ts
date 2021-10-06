@@ -1,7 +1,9 @@
+import { CommonStatus } from '@nexthcm/cdk';
+
 export interface Office {
   id: string;
   name: string;
-  status: number;
+  status: CommonStatus;
   address: string;
   description: string;
   longitude: number;

@@ -15,7 +15,7 @@ export class RolesEffects {
     switchMap(() => cacheable(this.store, this.rolesService.getRoles().pipe(tap((roles) => this.store.set(roles)))))
   );
 
-  @Effect()
+  @Effect({ dispatch: true })
   refreshRoles$ = this.actions$.pipe(
     ofType(refreshRoles),
     filter(() => this.query.getHasCache()),

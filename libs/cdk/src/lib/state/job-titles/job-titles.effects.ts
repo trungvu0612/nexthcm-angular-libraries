@@ -17,7 +17,7 @@ export class JobTitlesEffects {
     )
   );
 
-  @Effect()
+  @Effect({ dispatch: true })
   refreshJobTitlesSuccess$ = this.actions$.pipe(
     ofType(refreshJobTitles),
     filter(() => this.query.getHasCache()),

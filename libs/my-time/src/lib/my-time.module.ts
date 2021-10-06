@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { inlineLoaderFactory } from '@nexthcm/core';
 import { HEADER_TABS, LayoutComponent, MenuItem } from '@nexthcm/ui';
 import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
+import { TranslocoDatePipe } from '@ngneat/transloco-locale';
 import { NgxPermissionsGuard } from 'ngx-permissions';
 import { MyLeaveComponent } from './modules/my-leave/my-leave.component';
 import { MyLeaveModule } from './modules/my-leave/my-leave.module';
@@ -102,6 +103,7 @@ const TABS: MenuItem[] = [
     WorkingHoursModule,
   ],
   providers: [
+    TranslocoDatePipe,
     MyTimeService,
     {
       provide: TRANSLOCO_SCOPE,

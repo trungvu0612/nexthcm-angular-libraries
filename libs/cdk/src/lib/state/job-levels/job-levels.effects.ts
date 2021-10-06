@@ -17,7 +17,7 @@ export class JobLevelsEffects {
     )
   );
 
-  @Effect()
+  @Effect({ dispatch: true })
   refreshJobLevels$ = this.actions$.pipe(
     ofType(refreshJobLevels),
     filter(() => this.query.getHasCache()),

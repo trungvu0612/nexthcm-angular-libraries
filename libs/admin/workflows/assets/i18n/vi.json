@@ -36,7 +36,7 @@
   "updateTimeSheet": "Cập nhật bản ghi thời gian",
   "updateTimeSheetDescription": "Cập nhật bản ghi thời gian của nhân viên sau 15 phút",
   "sendEmailAndNotificationToTheSomeoneRelated": "Gửi email và thông báo cho người liên quan",
-  "sendEmailAndNotificationToTheSomeoneRelatedDescription": "Gửi email và thông báo cho người liên quan.Email sẽ dựa trên mẫu của quy trình",
+  "sendEmailAndNotificationToTheSomeoneRelatedDescription": "Gửi email và thông báo cho người liên quan. Email sẽ dựa trên mẫu của quy trình",
   "CONDITIONS_OPERATORS": {
     "or": "Bất kỳ điều kiện nào sau đây",
     "and": "Tất cả điều kiện sau đây"

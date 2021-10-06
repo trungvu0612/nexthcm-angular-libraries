@@ -84,7 +84,7 @@ export class JobTitleManagementComponent extends AbstractServerSortPaginationTab
         takeUntil(this.destroy$)
       )
       .subscribe(
-        this.promptService.handleResponse('deleteJobTitleSuccessfully', () =>
+        this.promptService.handleResponse('jobTitles.deleteJobTitleSuccessfully', () =>
           this.queryParams$.next(this.queryParams$.value)
         )
       );

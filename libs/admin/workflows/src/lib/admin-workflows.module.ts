@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { AkitaNgEffectsModule } from '@datorama/akita-ng-effects';
-import { JobTitlesEffects } from '@nexthcm/cdk';
+import { JobTitlesEffects, WorkflowsEffects } from '@nexthcm/cdk';
 import { inlineLoaderFactory } from '@nexthcm/core';
 import {
   BaseFormComponentModule,
@@ -196,6 +196,7 @@ const TABS: MenuItem[] = [
       StatusesEffects,
       StatusTypesEffects,
       TemplateVariablesEffects,
+      WorkflowsEffects,
     ]),
     FormlyFieldArraySingleItemComponentModule,
     FormlyStatusToggleComponentModule,

@@ -17,7 +17,7 @@ export class OfficesEffects {
     )
   );
 
-  @Effect()
+  @Effect({ dispatch: true })
   refreshOffices$ = this.actions$.pipe(
     ofType(refreshOffices),
     filter(() => this.query.getHasCache()),

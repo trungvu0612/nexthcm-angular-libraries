@@ -20,7 +20,7 @@ export class OrganizationsEffects {
     )
   );
 
-  @Effect()
+  @Effect({ dispatch: true })
   refreshOrganizations$ = this.actions$.pipe(
     ofType(refreshOrganizations),
     filter(() => this.query.getHasCache()),

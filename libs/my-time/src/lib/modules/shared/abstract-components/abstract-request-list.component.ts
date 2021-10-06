@@ -19,11 +19,10 @@ export abstract class AbstractRequestListComponent<T> extends AbstractServerSort
   // HANDLERS
   readonly changeStatusHandler$ = this.changeStatus$.pipe(
     switchMap(([requestId, statusId]) =>
-      this.myTimeService
-        .changeRequestStatus(this.requestTypeUrlPath, requestId, statusId, () =>
-          this.queryParams$.next(this.queryParams$.value)
-        )
-        .pipe(startWith(null))
+      this.myTimeService.changeRequestStatus(this.requestTypeUrlPath, requestId, statusId).pipe(
+        tap(() => this.queryParams$.next(this.queryParams$.value)),
+        startWith(null)
+      )
     )
   );
   readonly viewRequestDetailHandler$ = this.viewRequestDetail$.pipe(

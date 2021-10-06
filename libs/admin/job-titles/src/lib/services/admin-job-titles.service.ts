@@ -8,7 +8,7 @@ import { JobTitle } from '../models/job-title';
 
 @Injectable()
 export class AdminJobTitlesService {
-  constructor(private http: HttpClient, private readonly actions: Actions) {}
+  constructor(private readonly http: HttpClient, private readonly actions: Actions) {}
 
   getJobTitles(params: HttpParams): Observable<Pagination<JobTitle>> {
     return this.http.get<PagingResponse<JobTitle>>(`${ACCOUNT_API_PATH}/titles/`, { params }).pipe(map(res => res.data));

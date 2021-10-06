@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AkitaNgEffectsModule } from '@datorama/akita-ng-effects';
+import { JobLevelsEffects } from '@nexthcm/cdk';
 import { inlineLoaderFactory } from '@nexthcm/core';
 import { BaseFormComponentModule, LayoutComponent, LayoutModule } from '@nexthcm/ui';
 import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
@@ -37,6 +39,7 @@ export const adminJobLevelsRoutes: Routes = [
     TuiLoaderModule,
     TableModule,
     NgxPermissionsModule,
+    AkitaNgEffectsModule.forFeature([JobLevelsEffects]),
   ],
   providers: [
     AdminJobLevelsService,

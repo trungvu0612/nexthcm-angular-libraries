@@ -1,17 +1,14 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ACCOUNT_API_PATH, Pagination, PagingResponse, Zone } from '@nexthcm/cdk';
+import { Actions } from '@datorama/akita-ng-effects';
+import { ACCOUNT_API_PATH, Pagination, PagingResponse, refreshOffices } from '@nexthcm/cdk';
 import { EMPTY, Observable } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { catchError, map, tap } from 'rxjs/operators';
 import { Office } from '../models/office';
 
-const ACCOUNT_APP_PATH = '/accountapp/v1.0';
-
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class AdminOfficesService {
-  constructor(private http: HttpClient) {}
+  constructor(private readonly http: HttpClient, private readonly actions: Actions) {}
 
   getOffices(params: HttpParams): Observable<Pagination<Office>> {
     return this.http.get<PagingResponse<Office>>(`${ACCOUNT_API_PATH}/offices`, { params }).pipe(
@@ -20,15 +17,25 @@ export class AdminOfficesService {
     );
   }
 
-  createOffice(body: Partial<Zone>): Observable<Partial<Zone>> {
-    return this.http.post(ACCOUNT_APP_PATH + '/offices', body);
+  upsertOffice(payload: Office): Observable<unknown> {
+    return payload.id ? this.editOffice(payload) : this.createOffice(payload);
   }
 
-  editOffice(body: Partial<Zone>): Observable<Partial<Zone>> {
-    return this.http.put(ACCOUNT_APP_PATH + '/offices/' + body.id, body);
+  createOffice(payload: Office): Observable<unknown> {
+    return this.http
+      .post(`${ACCOUNT_API_PATH}/offices`, payload)
+      .pipe(tap(() => this.actions.dispatch(refreshOffices())));
   }
 
-  deleteOffice(id: string): Observable<any> {
-    return this.http.delete(`${ACCOUNT_APP_PATH}/offices/${id}`, {});
+  editOffice(payload: Office): Observable<unknown> {
+    return this.http
+      .put(`${ACCOUNT_API_PATH}/offices/${payload.id}`, payload)
+      .pipe(tap(() => this.actions.dispatch(refreshOffices())));
+  }
+
+  deleteOffice(id: string): Observable<unknown> {
+    return this.http
+      .delete(`${ACCOUNT_API_PATH}/offices/${id}`, {})
+      .pipe(tap(() => this.actions.dispatch(refreshOffices())));
   }
 }

@@ -63,7 +63,7 @@
   "information": "Thông tin cơ bản",
   "manager": "Người quản lí",
   "chooseManager": "Chọn người quản lí",
-  "enterAddress": "Nhập địa chỉ",
+  "enterAddress": "Nhập địa chỉ...",
   "email": "Email",
   "enterEmail": "Nhập email",
   "chooseUser": "Chọn người dùng",
@@ -71,19 +71,6 @@
   "category": "Thể loại",
   "addCategory": "Thêm thể loại",
   "editCategory": "Sửa thể loại",
-  "ZONE_TABLE": {
-    "name": "Tên",
-    "office": "Văn phòng",
-    "address": "Địa chỉ",
-    "description": "Mô tả",
-    "action": "Thao tác",
-    "domainUrl": "Tên miền",
-    "status": "Trạng thái",
-    "MESSAGES": {
-      "deleteSeatMap": "Bạn có chắc chắn muốn xóa sơ đồ chỗ ngồi này không?",
-      "deleteDomain": "Bạn có chắc chắn muốn xóa tên miền này không?"
-    }
-  },
   "PERMISSION_TABLE": {
     "name": "Tên",
     "code": "Mã",

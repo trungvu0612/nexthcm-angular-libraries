@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { BaseOption, PromptService } from '@nexthcm/cdk';
 import { FormBuilder } from '@ngneat/reactive-forms';
 import { TranslocoService } from '@ngneat/transloco';
-import { TranslocoDatePipe } from '@ngneat/transloco-locale';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDay, TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogContext, TuiDialogService } from '@taiga-ui/core';
@@ -22,10 +21,6 @@ import {
   tap,
 } from 'rxjs/operators';
 import { LeaveSubmit, SubmitLeavePayLoad } from '../../../../models';
-import {
-  LeaveDuplicated,
-  SubmitLeaveRequestHttpErrorResponse,
-} from '../../../../models/requests/submit-leave-request-http-error-response';
 import { MyLeaveService, MyTimeService } from '../../../../services';
 import { DurationConfirmDialogComponent } from '../duaration-comfirm-dialog/duration-confirm-dialog.component';
 
@@ -34,7 +29,7 @@ import { DurationConfirmDialogComponent } from '../duaration-comfirm-dialog/dura
   templateUrl: './submit-leave-request-dialog.component.html',
   styleUrls: ['./submit-leave-request-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [TuiDestroyService, TranslocoDatePipe],
+  providers: [TuiDestroyService],
 })
 export class SubmitLeaveRequestDialogComponent implements OnInit {
   timeValues$: Observable<any[]> = this.myLeaveService.getTimeValues();
@@ -359,7 +354,7 @@ export class SubmitLeaveRequestDialogComponent implements OnInit {
   readonly submit$ = new Subject<SubmitLeavePayLoad>();
   readonly submitHandler$ = this.submit$.pipe(
     switchMap((payload) =>
-      this.myLeaveService.createLeave(payload).pipe(
+      this.myTimeService.submitLeaveRequest(payload).pipe(
         switchMap(() =>
           from(
             this.promptService.open({
@@ -373,7 +368,7 @@ export class SubmitLeaveRequestDialogComponent implements OnInit {
           from(
             this.promptService.open({
               icon: 'error',
-              html: this.generateSubmittingLeaveRequestErrorMessage(err.error),
+              html: this.myTimeService.generateSubmittingLeaveRequestErrorMessage(err.error),
             })
           )
         ),
@@ -398,8 +393,7 @@ export class SubmitLeaveRequestDialogComponent implements OnInit {
     private readonly destroy$: TuiDestroyService,
     private readonly promptService: PromptService,
     private readonly myTimeService: MyTimeService,
-    private readonly translocoService: TranslocoService,
-    private readonly translocoDatePipe: TranslocoDatePipe
+    private readonly translocoService: TranslocoService
   ) {}
 
   ngOnInit(): void {
@@ -464,24 +458,5 @@ export class SubmitLeaveRequestDialogComponent implements OnInit {
 
   onCancel(): void {
     this.context.$implicit.complete();
-  }
-
-  generateSubmittingLeaveRequestErrorMessage(error: SubmitLeaveRequestHttpErrorResponse): string {
-    if (error.message === 'LEAVE_IS_DUPLICATED_DURATION_WITH_ANOTHER_LEAVE') {
-      let metadata = '';
-
-      if (error.errorMetadata.leaveDuplicatedList.length) {
-        metadata = `<ul class='tui-list text-left'>${error.errorMetadata.leaveDuplicatedList.map(
-          (item: LeaveDuplicated) =>
-            `<li class='tui-list__item'>${this.translocoDatePipe.transform(
-              item.fromDate
-            )} - ${this.translocoDatePipe.transform(item.toDate)}: <b>${item.leaveTypeName}</b></li>`
-        )}</ul>`;
-      }
-      return this.translocoService.translate('myTime.ERRORS.DUPLICATED_LEAVE', { metadata });
-    } else if (error.message === 'LEAVE_SUBMIT_LEAVE_DURATION_EXCEED_LEAVE_ENTITLEMENT') {
-      return this.translocoService.translate('myTime.ERRORS.EXCEED_LEAVE_ENTITLEMENT', error.errorMetadata);
-    }
-    return error.message;
   }
 }
