@@ -1,9 +1,10 @@
 export enum UserState {
-  'checked-in',
   'not-check-in-out',
+  'checked-in',
   'check-in-late',
-  'working-outside',
+  'check-out',
+  'check-out-early',
   'leave',
-  'offline',
-  'none',
+  'working-outside',
+  'wfh',
 }

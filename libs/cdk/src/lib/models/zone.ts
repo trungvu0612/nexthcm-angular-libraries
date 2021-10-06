@@ -16,6 +16,8 @@ export interface Seat extends StyleSeat {
   label: string;
   assignedUser: Partial<UserDto> | null;
   style: string;
+  seatStatus: 1;
+  statusOfUser: number[];
 }
 
 export interface Zone {
