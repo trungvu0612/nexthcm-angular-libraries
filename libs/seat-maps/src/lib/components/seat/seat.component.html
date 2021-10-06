@@ -1,64 +1,68 @@
-<ng-container *transloco='let t'>
+<ng-container *transloco="let t">
   <tui-hosted-dropdown
     (click)="addSeatOrDropdown('dropdown')"
-    *ngIf='seat.assignedUser as user; else icon'
-    [(open)]='openDropdown'
-    [canOpen]='(dragging$ | async) !== true'
-    [content]='content'
-    [tuiDropdownSided]='true'
-    class='bg-white'
+    *ngIf="seat.assignedUser as user; else icon"
+    [(open)]="openDropdown"
+    [canOpen]="(dragging$ | async) !== true"
+    [content]="content"
+    [tuiDropdownSided]="true"
+    class="bg-white"
   >
-    <p class='flex justify-center items-center text-center text-xs font-semibold'>
+    <p class="flex justify-center items-center text-center text-xs font-semibold">
       {{ user.username?.replace('.', ' ') | titlecase }}
     </p>
     <ng-template #content>
-      <article class='p-8'>
-        <div class='text-center'>
+      <article class="p-8">
+        <div class="text-center">
           <tui-avatar
-            class='m-auto'
+            [rounded]="true"
             [avatarUrl]="user.profile?.image || '' | getFile | async"
-            [rounded]='true'
+            class="m-auto"
             [text]="user.username || ''"
-            size='xl'
+            size="xl"
           ></tui-avatar>
         </div>
-        <div class='border-b border-gray-300 pb-3'>
-          <div class='flex-auto font-semibold text-center px-4'>
-            <h1 class='text-2xl mt-3 mb-2'>{{ user.username }}</h1>
-            <p class='text-lg text-gray-400'>{{ user?.birthDay | date: 'dd/MM/yyyy' }}</p>
+        <div class="border-b border-gray-300 pb-3">
+          <div class="flex-auto font-semibold text-center px-4">
+            <h1 class="text-2xl mt-3 mb-2">{{ user.username }}</h1>
+            <p class="text-lg text-gray-400">{{ user?.birthDay | date: 'dd/MM/yyyy' }}</p>
           </div>
         </div>
-        <table class='mt-3'>
-          <tr class='text-left mt-2 block'>
+        <table class="mt-3">
+          <tr class="text-left mt-2 block">
             <th>Status:</th>
             <td>
-              <span [class]='status' class='border-2 rounded-xl px-2 py-1 ml-1 none-bg'>{{ convertedStatus }}</span>
+              <span [class]="status" class="border-2 rounded-xl px-2 py-1 ml-1 none-bg">{{ convertedStatus }}</span>
             </td>
           </tr>
-          <tr class='text-left mt-2 block'>
+          <tr class="text-left mt-2 block">
             <th>Organization:</th>
-            <td>{{user?.organization?.name}}</td>
+            <td>{{ user?.organization?.name }}</td>
           </tr>
-          <tr class='text-left mt-2 block'>
+          <tr class="text-left mt-2 block">
             <th>Direct report:</th>
-            <td>{{user?.directReport?.name}}</td>
+            <td>{{ user?.directReport?.name }}</td>
           </tr>
-          <tr class='text-left mt-2 block'>
+          <tr class="text-left mt-2 block">
             <th>Email:</th>
-            <td>{{user?.email}}</td>
+            <td>{{ user?.email }}</td>
           </tr>
-          <tr class='text-left mt-2 block'>
+          <tr class="text-left mt-2 block">
             <th>Phone:</th>
-            <td>{{user?.phone}}</td>
+            <td>{{ user?.phone }}</td>
           </tr>
-          <tr class='text-left mt-2 block'>
+          <tr class="text-left mt-2 block">
             <th>Job title:</th>
-            <td>{{user?.jobTitle?.name}}</td>
+            <td>{{ user?.jobTitle?.name }}</td>
           </tr>
         </table>
-        <div class='flex justify-evenly mt-3'>
-          <button *ngxPermissionsOnly="'UPDATE_EMPLOYEE'" [routerLink]="['/admin/employees/'+user.id]" size='m'
-                  tuiButton>
+        <div class="flex justify-evenly mt-3">
+          <button
+            *ngxPermissionsOnly="'UPDATE_EMPLOYEE'"
+            [routerLink]="['/admin/employees/' + user.id]"
+            size="m"
+            tuiButton
+          >
             {{ t('detail') }}
           </button>
         </div>
@@ -66,22 +70,22 @@
     </ng-template>
   </tui-hosted-dropdown>
 
-  <div *ngIf='seat.assignedUser' class='grid grid-flow-col auto-cols-max gap-2'>
-    <ng-container *ngIf='seat?.statusOfUser as statusUser'>
-      <ng-container *ngFor='let seatStatus of statusUser'>
-        <span [class]='statusState(seatStatus)'></span>
+  <div *ngIf="seat.assignedUser" class="grid grid-flow-col auto-cols-max gap-2">
+    <ng-container *ngIf="seat?.statusOfUser as statusUser">
+      <ng-container *ngFor="let seatStatus of statusUser">
+        <span [class]="statusState(seatStatus)"></span>
       </ng-container>
     </ng-container>
   </div>
 
   <ng-template #icon>
-    <img (click)="addSeatOrDropdown('add', content)" class='object-contain w-full' src='assets/icons/marker.svg' />
+    <img (click)="addSeatOrDropdown('add', content)" class="object-contain w-full" src="assets/icons/marker.svg" />
   </ng-template>
   <ng-template #content let-observer>
-    <form (ngSubmit)='submitSeat(observer)' [formGroup]='form'>
-      <formly-form [fields]='fields' [form]='form' [model]='model'></formly-form>
-      <div class='flex justify-center gap-6 mt-8'>
-        <button (click)='observer.complete()' appearance='flat' tuiButton type='button'>{{ t('cancel') }}</button>
+    <form (ngSubmit)="submitSeat(observer)" [formGroup]="form">
+      <formly-form [fields]="fields" [form]="form" [model]="model"></formly-form>
+      <div class="flex justify-center gap-6 mt-8">
+        <button (click)="observer.complete()" appearance="flat" tuiButton type="button">{{ t('cancel') }}</button>
         <button tuiButton>{{ t('save') }}</button>
       </div>
     </form>

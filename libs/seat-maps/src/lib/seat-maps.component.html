@@ -1,25 +1,25 @@
-<ng-container *transloco='let t'>
+<ng-container *transloco="let t">
   <hcm-page [title]="t('seatMaps')">
-    <ng-container ngProjectAs='pageHeader'>
-      <div class='flex items-center gap-6 text-base'>
-        <button (click)='findMySeat()' class='text-primary flex justify-between items-center'>
-          <tui-svg src='assets/icons/current-location.svg'></tui-svg>
+    <ng-container ngProjectAs="pageHeader">
+      <div class="flex items-center gap-6 text-base">
+        <button (click)="findMySeat()" class="text-primary flex justify-between items-center">
+          <tui-svg src="assets/icons/current-location.svg"></tui-svg>
           {{ t('mySeat') }}
         </button>
         <tui-combo-box
           (searchChange)="search$.next($event || '')"
-          [formControl]='seatMapControl'
-          [stringify]='stringify'
-          [valueContent]='content'
-          class='w-60'
+          [formControl]="seatMapControl"
+          [stringify]="stringify"
+          [valueContent]="content"
+          class="w-60"
         >
           {{ t('seatMap') }}
           <tui-data-list *tuiDataList>
-            <ng-container *rxLet='seatMaps$; let items'>
-              <button *ngFor='let item of items' [value]='item' tuiOption>
-                <span class='flex flex-col py-1'>
+            <ng-container *rxLet="seatMaps$; let items">
+              <button *ngFor="let item of items" [value]="item" tuiOption>
+                <span class="flex flex-col py-1">
                   <span>{{ item.name }}</span>
-                  <span class='font-semibold'>{{ item.office?.name }}</span>
+                  <span class="font-semibold">{{ item.office?.name }}</span>
                 </span>
               </button>
             </ng-container>
@@ -30,60 +30,60 @@
         </tui-combo-box>
       </div>
     </ng-container>
-    <tui-loader *rxLet='loading$; let hidden' [overlay]='true' [showLoader]='hidden'>
-      <ng-container *rxLet='seatMap$; let seatMap'>
-        <article *ngIf='seatMap.id; else noData' class='relative'>
+    <tui-loader *rxLet="loading$; let hidden" [overlay]="true" [showLoader]="hidden">
+      <ng-container *rxLet="seatMap$; let seatMap">
+        <article *ngIf="seatMap.id; else noData" class="relative">
           <hcm-seat
-            (cdkDragEnded)='$event.source._dragRef.reset()'
-            (cdkDragStarted)='moveSeat($event, index)'
-            *ngFor='let seat of seatMap.seats; index as index'
-            [class.ping]='index === (ping$ | async)'
-            [dragging]='dragging$'
-            [refresh$]='refresh$'
-            [seat]='seat'
+            (cdkDragEnded)="$event.source._dragRef.reset()"
+            (cdkDragStarted)="moveSeat($event, index)"
+            *ngFor="let seat of seatMap.seats; index as index"
+            [class.ping]="index === (ping$ | async)"
+            [dragging]="dragging$"
+            [refresh$]="refresh$"
+            [seat]="seat"
             cdkDrag
           ></hcm-seat>
-          <img (load)='loading$.next(false)' [src]="seatMap.imageUrl || '' | getFile | async" class='w-full' />
+          <img (load)="loading$.next(false)" [src]="seatMap.imageUrl || '' | getFile | async" class="w-full" />
         </article>
         <ng-template #noData>
-          <p class='opacity-50 text-center text-lg py-4'>{{ t('notAssignedSeat') }}</p>
+          <p class="opacity-50 text-center text-lg py-4">{{ t('notAssignedSeat') }}</p>
         </ng-template>
       </ng-container>
     </tui-loader>
   </hcm-page>
 </ng-container>
 
-<footer class='flex justify-evenly items-center bg-white h-16'>
+<footer class="flex justify-evenly items-center bg-white h-16">
   <div>
-    <div class='checked-in'></div>
+    <div class="checked-in"></div>
     Checked in
   </div>
   <div>
-    <div class='check-in-late'></div>
+    <div class="check-in-late"></div>
     Check in late
   </div>
   <div>
-    <div class='check-out-early'></div>
+    <div class="check-out-early"></div>
     Check out early
   </div>
   <div>
-    <div class='check-out'></div>
+    <div class="check-out"></div>
     Check out
   </div>
   <div>
-    <div class='leave'></div>
+    <div class="leave"></div>
     Leave
   </div>
   <div>
-    <div class='working-outside'></div>
+    <div class="working-outside"></div>
     Working outside
   </div>
   <div>
-    <div class='offline'></div>
+    <div class="offline"></div>
     WFH
   </div>
   <div>
-    <div class='none'></div>
+    <div class="none"></div>
     Not check in/out
   </div>
 </footer>

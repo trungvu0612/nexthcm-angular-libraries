@@ -52,7 +52,7 @@ export const SEAT_MAPS_ROUTES: Routes = [
     TuiDataListModule,
     TuiSvgModule,
     FormlyUserComboBoxComponentModule,
-    NgxPermissionsModule
+    NgxPermissionsModule,
   ],
   declarations: [SeatMapsComponent, SeatComponent],
   providers: [SeatMapsService],

@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, ElementRef, HostBinding, Input } from '@angular/core';
+import { AuthService } from '@nexthcm/auth';
 import { Seat } from '@nexthcm/cdk';
 import { FormGroup } from '@ngneat/reactive-forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
@@ -8,14 +9,13 @@ import { PolymorpheusContent } from '@tinkoff/ng-polymorpheus';
 import { Subject, Subscriber } from 'rxjs';
 import { UserState } from '../../enums/user-state';
 import { SeatMapsService } from '../../seat-maps.service';
-import { AuthService } from '@nexthcm/auth';
 
 @Component({
   selector: 'hcm-seat',
   templateUrl: './seat.component.html',
   styleUrls: ['./seat.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [RxState]
+  providers: [RxState],
 })
 export class SeatComponent {
   @Input() seat!: Partial<Seat>;
@@ -49,8 +49,8 @@ export class SeatComponent {
         required: true,
         translate: true,
         label: 'chooseUser',
-      }
-    }
+      },
+    },
   ];
 
   constructor(
@@ -59,8 +59,7 @@ export class SeatComponent {
     private readonly state: RxState<{ dragging: boolean }>,
     public readonly elementRef: ElementRef,
     private authService: AuthService
-  ) {
-  }
+  ) {}
 
   @Input() set dragging(dragging$: Subject<boolean>) {
     this.state.connect('dragging', dragging$);
@@ -68,31 +67,31 @@ export class SeatComponent {
 
   @HostBinding('style') get style() {
     return {
-      left: Number(this.seat.positionX)  + '%',
-      top: Number(this.seat.positionY)  + '%',
+      left: Number(this.seat.positionX) + '%',
+      top: Number(this.seat.positionY) + '%',
       width: '5%',
       height: '11.8%',
-      'border-radius': this.seat.rounded + '%'
+      'border-radius': this.seat.rounded + '%',
     };
   }
 
   get status(): string {
     console.log(this.userInfo);
-    return this.seat.assignedUser ? UserState[this.random]+' seatmap_status' : 'seatmap_status';
-  }
-
-  statusState(statusUser: any): string {
-    return this.seat.assignedUser ? UserState[statusUser]+' seatmap_status' : 'seatmap_status';
+    return this.seat.assignedUser ? UserState[this.random] + ' seatmap_status' : 'seatmap_status';
   }
 
   get convertedStatus(): string {
     return this.status === 'none'
       ? 'NA'
       : this.status
-        .replace('in-out', 'in/out')
-        .replace('seatmap_status', '')
-        .replace(/-/g, ' ')
-        .replace(/^./, (m) => m.toUpperCase());
+          .replace('in-out', 'in/out')
+          .replace('seatmap_status', '')
+          .replace(/-/g, ' ')
+          .replace(/^./, (m) => m.toUpperCase());
+  }
+
+  statusState(statusUser: any): string {
+    return this.seat.assignedUser ? UserState[statusUser] + ' seatmap_status' : 'seatmap_status';
   }
 
   addSeatOrDropdown(type: string, content?: PolymorpheusContent<TuiDialogContext>): void {

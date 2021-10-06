@@ -618,12 +618,7 @@
     chalk "^2.0.0"
     js-tokens "^4.0.0"
 
-"@babel/parser@7.15.6":
-  version "7.15.6"
-  resolved "https://registry.yarnpkg.com/@babel/parser/-/parser-7.15.6.tgz#043b9aa3c303c0722e5377fef9197f4cf1796549"
-  integrity sha512-S/TSCcsRuCkmpUuoWijua0Snt+f3ewU/8spLo+4AXJCZfT0bVCzLD5MuOKdrx0mlAptbKzn5AdgEIIKXxXkz9Q==
-
-"@babel/parser@^7.0.0", "@babel/parser@^7.1.0", "@babel/parser@^7.14.5", "@babel/parser@^7.14.8", "@babel/parser@^7.15.4", "@babel/parser@^7.15.5", "@babel/parser@^7.7.2":
+"@babel/parser@7.15.7", "@babel/parser@^7.0.0", "@babel/parser@^7.1.0", "@babel/parser@^7.14.5", "@babel/parser@^7.14.8", "@babel/parser@^7.15.4", "@babel/parser@^7.15.5", "@babel/parser@^7.7.2":
   version "7.15.7"
   resolved "https://registry.yarnpkg.com/@babel/parser/-/parser-7.15.7.tgz#0c3ed4a2eb07b165dfa85b3cc45c727334c4edae"
   integrity sha512-rycZXvQ+xS9QyIcJ9HXeDWf1uxqlbVFAUq0Rq0dbc50Zb/+wUe/ehyfzGfm9KZZF0kBejYgxltBXocP+gKdL2g==
@@ -1775,22 +1770,22 @@
     unixify "^1.0.0"
 
 "@graphql-tools/graphql-tag-pluck@^7.1.0":
-  version "7.1.1"
-  resolved "https://registry.yarnpkg.com/@graphql-tools/graphql-tag-pluck/-/graphql-tag-pluck-7.1.1.tgz#970da5190cc424bdce3aae49f94710303f863e81"
-  integrity sha512-p+FhiiNJi02o4Y/hnT4SSRZnDvv/UcjnZJII3F4ljlteluCAwP+hPgAmbKVwOaaGfsOmMPmiAeeTWt8i23auyg==
+  version "7.1.2"
+  resolved "https://registry.yarnpkg.com/@graphql-tools/graphql-tag-pluck/-/graphql-tag-pluck-7.1.2.tgz#1f4ae8a98df3529da1dc5654469900d4c08cc3a1"
+  integrity sha512-YVvzG6UaWJQgbU+VvjFY5rZQQDvkyNX+rEbqYpJOt1muhP67dAwAGyWMyDcyEi4QAsEpSvaxfy/Km6lR/NHwWA==
   dependencies:
-    "@babel/parser" "7.15.6"
+    "@babel/parser" "7.15.7"
     "@babel/traverse" "7.15.4"
     "@babel/types" "7.15.6"
-    "@graphql-tools/utils" "^8.2.0"
+    "@graphql-tools/utils" "^8.2.5"
     tslib "~2.3.0"
 
 "@graphql-tools/import@^6.5.0":
-  version "6.5.1"
-  resolved "https://registry.yarnpkg.com/@graphql-tools/import/-/import-6.5.1.tgz#fe93a33c7416943c1f8a25134c97a7ed152c80d8"
-  integrity sha512-oJmPtkaivodgQP3e3HTz44qScY5vgd9K9I57kp4f4F322Bfao/l6uZMsUeCXCXZTYmMFfrEWzHkTL85MHOK+2g==
+  version "6.5.2"
+  resolved "https://registry.yarnpkg.com/@graphql-tools/import/-/import-6.5.2.tgz#0f1a88d415c74add711eeda78154ad3b30795fa1"
+  integrity sha512-Hi3aEWHK6B83d+mjO7CdX1xhaBwEon3ZLc9Ch1ivrU7vay84k6UQkoY/B4NdOZuLKrKlt920UtoDbGoZFFYlHA==
   dependencies:
-    "@graphql-tools/utils" "8.2.4"
+    "@graphql-tools/utils" "8.2.5"
     resolve-from "5.0.0"
     tslib "~2.3.0"
 
@@ -1926,10 +1921,10 @@
   dependencies:
     tslib "~2.3.0"
 
-"@graphql-tools/utils@8.2.4", "@graphql-tools/utils@^8.0.1", "@graphql-tools/utils@^8.1.1", "@graphql-tools/utils@^8.2.0", "@graphql-tools/utils@^8.2.2", "@graphql-tools/utils@^8.2.3", "@graphql-tools/utils@^8.2.4":
-  version "8.2.4"
-  resolved "https://registry.yarnpkg.com/@graphql-tools/utils/-/utils-8.2.4.tgz#89f92c8dc0cdb6b9f32c90e904aa90e66a2e0a58"
-  integrity sha512-uB+JL7CqTKJ2Q5zXA+a2la1cA8YYPcc0RHO/3mK54hxlZa2Z5/9k9XrNfMof4LZQefTaBM7M6QWtaxGklJln4A==
+"@graphql-tools/utils@8.2.5", "@graphql-tools/utils@^8.0.1", "@graphql-tools/utils@^8.1.1", "@graphql-tools/utils@^8.2.0", "@graphql-tools/utils@^8.2.2", "@graphql-tools/utils@^8.2.3", "@graphql-tools/utils@^8.2.4", "@graphql-tools/utils@^8.2.5":
+  version "8.2.5"
+  resolved "https://registry.yarnpkg.com/@graphql-tools/utils/-/utils-8.2.5.tgz#695e6d760c1187ad2b159d5d3c4696eff9c08a27"
+  integrity sha512-k/Rktklhy22dQfbJLKiLGfQymQCTr6Rd2BilC7g2Yk6wFSzVLYr8jeXNoTD+/p61XBQzBjTVayskvaMvNS3BDg==
   dependencies:
     tslib "~2.3.0"
 
@@ -5084,9 +5079,9 @@ caniuse-api@^3.0.0:
     lodash.uniq "^4.5.0"
 
 caniuse-lite@^1.0.0, caniuse-lite@^1.0.30000981, caniuse-lite@^1.0.30001032, caniuse-lite@^1.0.30001109, caniuse-lite@^1.0.30001264:
-  version "1.0.30001264"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001264.tgz#88f625a60efb6724c7c62ac698bc8dbd9757e55b"
-  integrity sha512-Ftfqqfcs/ePiUmyaySsQ4PUsdcYyXG2rfoBVsk3iY1ahHaJEw65vfb7Suzqm+cEkwwPIv/XWkg27iCpRavH4zA==
+  version "1.0.30001265"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001265.tgz#0613c9e6c922e422792e6fcefdf9a3afeee4f8c3"
+  integrity sha512-YzBnspggWV5hep1m9Z6sZVLOt7vrju8xWooFAgN6BA5qvy98qPAPb7vNUzypFaoh2pb3vlfzbDO8tB57UPGbtw==
 
 canonical-path@1.0.0:
   version "1.0.0"
@@ -12660,9 +12655,9 @@ prop-types@^15.7.2:
     react-is "^16.8.1"
 
 prosemirror-commands@^1.1.10:
-  version "1.1.10"
-  resolved "https://registry.yarnpkg.com/prosemirror-commands/-/prosemirror-commands-1.1.10.tgz#406a6589966e6cd80809cea2d801fb998639b37d"
-  integrity sha512-IWyBBXNAd44RM6NnBPljwq+/CM2oYCQJkF+YhKEAZNwzW0uFdGf4qComhjbKZzqFdu6Iub2ZhNsXgwPibA0lCQ==
+  version "1.1.11"
+  resolved "https://registry.yarnpkg.com/prosemirror-commands/-/prosemirror-commands-1.1.11.tgz#369252fcca5397ee7b011b963cc4da45b0b7cb70"
+  integrity sha512-uXDVkOGJbFHocdacMJihrnQCT7tHswO48ewq6ByqLxTwOrI8Y4B4aHvwUbM4epwElv/YjgC+DuqXm/gEHPym4w==
   dependencies:
     prosemirror-model "^1.0.0"
     prosemirror-state "^1.0.0"
