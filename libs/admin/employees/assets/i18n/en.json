@@ -128,5 +128,7 @@
   "section": "Section",
   "enterSection": "Enter section...",
   "religion": "Religion",
-  "enterReligion": "Enter religion..."
+  "enterReligion": "Enter religion...",
+  "attachments": "Attachments",
+  "attachmentFiles": "Attachment files"
 }

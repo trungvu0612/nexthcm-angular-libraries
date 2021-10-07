@@ -5,7 +5,8 @@ import { tuiPure } from '@taiga-ui/cdk';
 import { TuiFileLike } from '@taiga-ui/kit';
 import { Observable, of } from 'rxjs';
 import { map, share, startWith, switchMap, tap } from 'rxjs/operators';
-import { convertRejected, RejectedFile } from '../../../models';
+import { RejectedFile } from '../../../models';
+import { convertRejected } from '../../../utils/files';
 
 @Component({
   selector: 'formly-upload-file',
@@ -20,7 +21,6 @@ export class UploadFileComponent extends FieldType {
       labelText: 'or drop it here',
       linkText: 'Choose a file',
       maxFileSize: 30000000,
-      multiple: false,
       showSize: true,
       size: 'm',
       serverRequest: (file: File) => of(file),

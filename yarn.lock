@@ -2535,7 +2535,14 @@
   resolved "https://registry.yarnpkg.com/@ngtools/webpack/-/webpack-12.2.8.tgz#4e508280b98301950a81ef546b6447b633d9a9ea"
   integrity sha512-utQrOXm4eS3BEQh2/y8zt5fVF9cuakfVQSPD/pWPKLqZsGc9wB3CHkrQED0EizsBfrsn5yLc3yPh3P8yGUmdRw==
 
-"@ngx-formly/core@^5.10.21", "@ngx-formly/core@^5.10.22":
+"@ngx-formly/core@5.10.22":
+  version "5.10.22"
+  resolved "https://registry.yarnpkg.com/@ngx-formly/core/-/core-5.10.22.tgz#e8723b932bb6f056b1b0d899179ac73dabf4f4ed"
+  integrity sha512-HTgVN2xNf3TdPS10ayV4G7dvX1olHvggquhTUY/dzej1x03NVofDQulnPTxKEU1ObN92IQZNq3VL9pm3sBCR7A==
+  dependencies:
+    tslib "^1.7.1"
+
+"@ngx-formly/core@^5.10.21":
   version "5.10.23"
   resolved "https://registry.yarnpkg.com/@ngx-formly/core/-/core-5.10.23.tgz#1f6eef95cf36c978eba9789f2d1bd62a0cfb76e8"
   integrity sha512-vLyZCkCbfKTciShhJUFQEJa1d1KVXKOaEM0rTOJGmRMyGT18uM7lYV9gwswYaQeACj1bHCXad8FxldO34Tq2sQ==
@@ -7231,6 +7238,11 @@ file-entry-cache@^6.0.1:
   dependencies:
     flat-cache "^3.0.4"
 
+file-saver@^2.0.5:
+  version "2.0.5"
+  resolved "https://registry.yarnpkg.com/file-saver/-/file-saver-2.0.5.tgz#d61cfe2ce059f414d899e9dd6d4107ee25670c38"
+  integrity sha512-P9bmyZ3h/PRG+Nzga+rbdI4OEpNDzAVyy74uVO9ATgzLK6VtAsYybF/+TOCvrc0MO793d6+42lLyZTw7/ArVzA==
+
 file-uri-to-path@1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/file-uri-to-path/-/file-uri-to-path-1.0.0.tgz#553a7b8446ff6f684359c445f1e37a05dacc33dd"
@@ -10821,6 +10833,13 @@ ngx-easy-table@^15.0.0:
   dependencies:
     ngx-pagination "^5.0.0"
     tslib "^2.0.0"
+
+ngx-filesaver@^12.0.0:
+  version "12.0.0"
+  resolved "https://registry.yarnpkg.com/ngx-filesaver/-/ngx-filesaver-12.0.0.tgz#b46994d2c74a872a61fc132844dcdf0ca3aa4377"
+  integrity sha512-OHKQc0EG5Xa+ParvgsJCvzVXVDaRAPHIz7JRe/oiVbUf+N9/hT16J69wN8TWKpQzHVF5GO3m5/esiYMnJ7KeEQ==
+  dependencies:
+    tslib "^2.1.0"
 
 ngx-pagination@^5.0.0:
   version "5.1.1"

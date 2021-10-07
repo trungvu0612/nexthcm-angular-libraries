@@ -1,5 +1,5 @@
 export * from './user-profile';
-export * from './images';
+export * from './file-objects';
 export * from './job-titles';
 export * from './workflows';
 export * from './job-levels';

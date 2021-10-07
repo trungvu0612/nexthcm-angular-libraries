@@ -1,10 +1,10 @@
-<p class="mb-1 text-sm font-semibold">
+<p *ngIf="to.label" class="mb-1 text-sm font-semibold">
   <span>{{ to.label }}</span> <span *ngIf="to.required" class="tui-required"></span>
 </p>
 <tui-input-file
   *ngIf="!to.disabled"
   [accept]="to.accept"
-  [formControl]="control"
+  [formControl]="$any(formControl)"
   [label]="to.labelText"
   [link]="to.linkText"
   [loadingFiles]="$any(loading$ | async)"
@@ -15,8 +15,3 @@
   [size]="to.size"
   class="flex-1"
 ></tui-input-file>
-<img
-  *ngIf="formControl.value && to.previewImage"
-  [src]="formControl.value | getFile | async"
-  class="object-contain w-full h-36 mx-auto mt-4"
-/>

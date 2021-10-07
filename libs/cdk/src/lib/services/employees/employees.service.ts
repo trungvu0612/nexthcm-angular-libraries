@@ -57,6 +57,7 @@ export class EmployeesService {
             'healthCares',
             'permanentAddress',
             'temporaryAddress',
+            'attachmentFiles',
           ])
         )
       );

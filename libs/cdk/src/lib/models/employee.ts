@@ -1,4 +1,5 @@
 import { TuiDay, TuiDayRange } from '@taiga-ui/cdk';
+import { TuiFileLike } from '@taiga-ui/kit';
 import { EmployeeCurrentStatus } from '../enums';
 import { DateRange } from './date-range';
 
@@ -120,6 +121,12 @@ export interface EmployeeAddress {
   postalCode: string;
 }
 
+export interface Attachment {
+  file: TuiFileLike;
+  path: string;
+}
+
 export interface EmployeeAttachment extends EmployeeBaseForm {
   attachmentFiles: string[];
+  attachments?: Attachment[];
 }

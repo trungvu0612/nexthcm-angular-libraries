@@ -2,23 +2,23 @@ import { NgModule, Pipe, PipeTransform } from '@angular/core';
 import { filterNilValue } from '@datorama/akita';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { ImagesService } from '../../services';
-import { ImagesQuery } from '../../state';
+import { FilesService } from '../../services';
+import { FileObjectsQuery } from '../../state';
 
 @Pipe({
   name: 'getFile',
 })
 export class GetFilePipe implements PipeTransform {
-  constructor(private readonly imagesQuery: ImagesQuery, private readonly imagesService: ImagesService) {}
+  constructor(private readonly query: FileObjectsQuery, private readonly filesService: FilesService) {}
 
   transform(value: string): Observable<string> {
-    if (this.imagesQuery.hasEntity(value)) {
-      return this.imagesQuery.selectEntity(value).pipe(
+    if (this.query.hasEntity(value)) {
+      return this.query.selectEntity(value).pipe(
         filterNilValue(),
         map((e) => e.objectUrl)
       );
     }
-    return this.imagesService.getImage(value);
+    return this.filesService.getFileObject(value);
   }
 }
 

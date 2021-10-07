@@ -1,0 +1,10 @@
+<button
+  (click)="download$.next()"
+  [disabled]="!formControl.value"
+  [showLoader]="(loading$ | async) === true"
+  appearance="outline"
+  icon="tuiIconDownloadLarge"
+  size="m"
+  tuiIconButton
+  type="button"
+></button>

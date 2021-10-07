@@ -128,5 +128,7 @@
   "section": "Bộ phận",
   "enterSection": "Nhập tên bộ phận...",
   "religion": "Tôn giáo",
-  "enterReligion": "Nhập tôn giáo..."
+  "enterReligion": "Nhập tôn giáo...",
+  "attachments": "Đính kèm",
+  "attachmentFiles": "Tệp tin đính kèm"
 }

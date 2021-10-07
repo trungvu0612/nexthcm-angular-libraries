@@ -1,4 +1,4 @@
-export interface Image {
+export interface FileObject {
   id: string;
   objectUrl: string;
 }

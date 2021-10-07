@@ -32,8 +32,10 @@ import { PolymorpheusModule } from '@tinkoff/ng-polymorpheus';
 import { academicCap, HeroIconModule, identification, informationCircle } from 'ng-heroicon';
 import { TableModule } from 'ngx-easy-table';
 import { NgxPermissionsGuard, NgxPermissionsModule } from 'ngx-permissions';
+import { AttachmentFormComponent } from './components/attachment-form/attachment-form.component';
 import { DurationFormComponent } from './components/duration-form/duration-form.component';
 import { EducationFormComponent } from './components/education-form/education-form.component';
+import { FormlyDownloadButtonComponent } from './components/formly-download-button/formly-download-button.component';
 import { FormlyRepeatSectionComponent } from './components/formly-repeat-section/formly-repeat-section.component';
 import { GeneralInformationFormComponent } from './components/general-information-form/general-information-form.component';
 import { GeneralInformationComponent } from './components/general-information/general-information.component';
@@ -64,6 +66,7 @@ export const ADMIN_EMPLOYEE_ROUTES: Routes = [
           { path: 'duration', component: DurationFormComponent },
           { path: 'education', component: EducationFormComponent },
           { path: 'shui', component: ShuiFormComponent },
+          { path: 'attachments', component: AttachmentFormComponent },
         ],
       },
     ],
@@ -75,7 +78,10 @@ export const ADMIN_EMPLOYEE_ROUTES: Routes = [
     CommonModule,
     RouterModule.forChild(ADMIN_EMPLOYEE_ROUTES),
     ReactiveFormsModule,
-    FormlyModule.forChild({ types: [{ name: 'repeat', component: FormlyRepeatSectionComponent }] }),
+    FormlyModule.forChild({ types: [
+      { name: 'repeat', component: FormlyRepeatSectionComponent },
+      { name: 'download-button', component: FormlyDownloadButtonComponent },
+      ] }),
     TuiTabsModule,
     TranslocoModule,
     TuiButtonModule,
@@ -119,6 +125,8 @@ export const ADMIN_EMPLOYEE_ROUTES: Routes = [
     EmployeeManagementComponent,
     InitEmployeeDialogComponent,
     GeneralInformationComponent,
+    AttachmentFormComponent,
+    FormlyDownloadButtonComponent,
   ],
   providers: [
     AdminEmployeesService,

@@ -10,8 +10,9 @@ export class UploadFileService {
 
   uploadFile(subPath: string, file: File, keepName = false): Observable<string> {
     const formData = new FormData();
+
     formData.append('subPath', subPath);
-    formData.append('file', file);
+    formData.append('file', file, keepName ? file.name : undefined);
     formData.append('keepName', '' + keepName);
     return this.http.post('/fileapp/store/file/upload', formData, { responseType: 'text' });
   }

@@ -1,13 +1,14 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EmployeeAttachment, EmployeesService, PromptService, UploadFileService } from '@nexthcm/cdk';
-import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
-import { TranslocoService } from '@ngneat/transloco';
+import { FormArray, FormBuilder, FormGroup } from '@ngneat/reactive-forms';
+import { TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import { TuiDestroyService } from '@taiga-ui/cdk';
+import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { of } from 'rxjs';
 import { catchError, map, share, startWith, takeUntil, tap } from 'rxjs/operators';
 import { AdminEmployeesService } from '../../services/admin-employees.service';
+import { convertAttachment } from '../../utils/convert-attachment';
 
 @Component({
   selector: 'hcm-attachment-form',
@@ -18,23 +19,38 @@ import { AdminEmployeesService } from '../../services/admin-employees.service';
 })
 export class AttachmentFormComponent {
   form: FormGroup<EmployeeAttachment> = this.fb.group({} as EmployeeAttachment);
-  model = {} as EmployeeAttachment;
+  model = { attachments: [{}] } as EmployeeAttachment;
   fields: FormlyFieldConfig[] = [
     {
-      key: 'attachmentFiles',
-      className: 'tui-form__row block',
-      type: 'upload-file',
+      key: 'attachments',
+      type: 'repeat',
       templateOptions: {
-        required: true,
         translate: true,
         label: 'attachmentFiles',
-        labelClassName: 'font-semibold',
-        previewImage: true,
-        serverRequest: this.uploadFileService.uploadFile.bind(this.uploadFileService, 'employee'),
+        translocoScope: this.scope,
       },
-      expressionProperties: {
-        'templateOptions.linkText': this.translocoService.selectTranslate('chooseFiles'),
-        'templateOptions.labelText': this.translocoService.selectTranslate('dragHere'),
+      fieldArray: {
+        fieldGroupClassName: 'flex space-x-2 items-center',
+        fieldGroup: [
+          {
+            key: 'file',
+            className: 'flex-1',
+            type: 'sharing-file',
+            templateOptions: {
+              labelClassName: 'font-semibold',
+              serverRequest: (file: File) => this.uploadFileService.uploadFile('employee', file, true),
+            },
+            expressionProperties: {
+              'templateOptions.linkText': this.translocoService.selectTranslate('chooseFile'),
+              'templateOptions.labelText': this.translocoService.selectTranslate('dragHere'),
+              'templateOptions.onUploadedFile': (model, formState, field) => (value: string) =>
+                (
+                  (field?.parent?.form as unknown as FormArray)?.at(field?.parent?.key as number) as FormGroup
+                ).controls?.path?.setValue(value),
+            },
+          },
+          { key: 'path', type: 'download-button' },
+        ],
       },
     },
     { key: 'employeeId' },
@@ -43,15 +59,15 @@ export class AttachmentFormComponent {
   private readonly request$ = this.employeesService
     .getEmployeeInformation(this.activatedRoute.snapshot.params.employeeId, 'ATTACHMENT')
     .pipe(
-      tap(
-        (data) =>
-          (this.model = {
-            ...this.model,
-            ...data,
-            employeeId: this.activatedRoute.snapshot.params.employeeId,
-            type: 'ATTACHMENT',
-          })
-      ),
+      tap((data) => {
+        this.model = {
+          ...this.model,
+          ...data,
+          attachments: data.attachmentFiles?.map((path) => convertAttachment(path)) || [{}],
+          employeeId: this.activatedRoute.snapshot.params.employeeId,
+          type: 'ATTACHMENT',
+        };
+      }),
       startWith(null),
       share()
     );
@@ -69,13 +85,18 @@ export class AttachmentFormComponent {
     private readonly uploadFileService: UploadFileService,
     private readonly translocoService: TranslocoService,
     private readonly destroy$: TuiDestroyService,
-    private readonly promptService: PromptService
+    private readonly promptService: PromptService,
+    @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope
   ) {}
 
   onSubmit(): void {
     if (this.form.valid) {
+      const formModel = { ...this.form.value };
+
+      formModel.attachmentFiles = formModel.attachments?.map((attachment) => attachment.path).filter(isPresent) || [];
+      delete formModel.attachments;
       this.adminEmployeeService
-        .updateEmployeeInformation<EmployeeAttachment>(this.form.value)
+        .updateEmployeeInformation<EmployeeAttachment>(formModel)
         .pipe(takeUntil(this.destroy$))
         .subscribe(this.promptService.handleResponse('updateSuccessful'));
     }
