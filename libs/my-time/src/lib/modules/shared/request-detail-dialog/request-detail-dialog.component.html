@@ -54,14 +54,14 @@
         <ng-container [ngSwitch]='requestType'>
           <ng-container *ngSwitchCase="'workFromHome'">
             <div class='table-row'>
+              <div class='table-label'>{{ t('date') }}:</div>
+              <div class='table-value'>{{ data.fromDate | translocoDate }} - {{ data.toDate | translocoDate }}</div>
+            </div>
+            <div class='table-row'>
               <div class='table-label'>{{ t('days') }}:</div>
               <div class='table-value'>
                 {{ data.totalDay ? data.totalDay : '-' }}
               </div>
-            </div>
-            <div class='table-row'>
-              <div class='table-label'>{{ t('date') }}:</div>
-              <div class='table-value'>{{ data.fromDate | translocoDate }} - {{ data.toDate | translocoDate }}</div>
             </div>
           </ng-container>
           <ng-container *ngSwitchCase="'leave'">
