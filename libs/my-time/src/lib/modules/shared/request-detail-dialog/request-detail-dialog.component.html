@@ -1,190 +1,194 @@
-<ng-container *transloco="let t">
-  <ng-container *ngIf="data.employeeDTO || data.user || data.userInfo as employee">
-    <section *ngIf="!isMyRequest" class="flex flex-col items-center py-5 border-b">
-      <hcm-avatar [image]="employee.image" [text]="employee.username" rounded size="xxl"></hcm-avatar>
-      <div class="mb-3 font-semibold text-blue-500 tui-text_h5">{{ employee.fullName }}</div>
-      <div class="text-lg">{{ employee.jobTitle?.name }}</div>
+<ng-container *transloco='let t'>
+  <ng-container *ngIf='data.employeeDTO || data.user || data.userInfo as employee'>
+    <section *ngIf='!isMyRequest' class='flex flex-col items-center py-5 border-b'>
+      <hcm-avatar [image]='employee.image' [text]='employee.username' rounded size='xxl'></hcm-avatar>
+      <div class='mb-3 font-semibold text-blue-500 tui-text_h5'>{{ employee.fullName }}</div>
+      <div class='text-lg'>{{ employee.jobTitle?.name }}</div>
     </section>
-    <section class="py-5 border-b">
-      <div class="table w-full">
-        <div class="table-row">
-          <div class="table-label">{{ t('cif') }}:</div>
-          <div class="table-value">{{ employee.cif }}</div>
+    <section class='py-5 border-b'>
+      <div class='table w-full'>
+        <div class='table-row'>
+          <div class='table-label'>{{ t('cif') }}:</div>
+          <div class='table-value'>{{ employee.cif }}</div>
         </div>
-        <div class="table-row">
-          <div class="table-label">{{ t('status') }}:</div>
-          <div class="table-value">
+        <div class='table-row'>
+          <div class='table-label'>{{ t('status') }}:</div>
+          <div class='table-value'>
             <tui-tag
-              *ngIf="data.currentState as status"
-              [style.backgroundColor]="status.stateType.color"
-              [value]="status.name"
-              class="text-white"
+              *ngIf='data.currentState as status'
+              [style.backgroundColor]='status.stateType.color'
+              [value]='status.name'
+              class='text-white'
             ></tui-tag>
           </div>
         </div>
-        <div class="table-row">
-          <div class="table-label">{{ t('myTime.requestType') }}:</div>
-          <div class="table-value">{{ t(requestType) }}</div>
+        <div class='table-row'>
+          <div class='table-label'>{{ t('myTime.requestType') }}:</div>
+          <div class='table-value'>{{ t(requestType) }}</div>
         </div>
-        <div class="table-row">
-          <div class="table-label">{{ t('assignee') }}:</div>
-          <div *tuiLet="data.escalateDTO || data.escalateInfo as escalateUser" class="table-value">
-            <div *ngIf="escalateUser && isMyRequest" class="flex items-center">
-              <ng-container *ngTemplateOutlet="content; context: { $implicit: escalateUser }"></ng-container>
+        <div class='table-row'>
+          <div class='table-label'>{{ t('assignee') }}:</div>
+          <div *tuiLet='data.escalateDTO || data.escalateInfo as escalateUser' class='table-value'>
+            <div *ngIf='escalateUser && isMyRequest' class='flex items-center'>
+              <ng-container *ngTemplateOutlet='content; context: { $implicit: escalateUser }'></ng-container>
             </div>
-            <div *ngIf="!isMyRequest">
+            <div *ngIf='!isMyRequest'>
               <tui-select
-                (ngModelChange)="onChangeEscalateUser($event)"
-                *tuiLet="escalateUsers$ | async as users"
-                [ngModel]="escalateUser"
-                [tuiTextfieldLabelOutside]="true"
-                [valueContent]="content"
+                (ngModelChange)='onChangeEscalateUser($event)'
+                *tuiLet='escalateUsers$ | async as users'
+                [ngModel]='escalateUser'
+                [tuiTextfieldLabelOutside]='true'
+                [valueContent]='content'
               >
-                <tui-data-list-wrapper *tuiDataList [itemContent]="content" [items]="users"></tui-data-list-wrapper>
+                <tui-data-list-wrapper *tuiDataList [itemContent]='content' [items]='users'></tui-data-list-wrapper>
               </tui-select>
             </div>
           </div>
           <ng-template #content let-data>
-            <div class="flex items-center">
-              <hcm-avatar [image]="data.image" [text]="data.fullName" class="mr-2" rounded size="s"></hcm-avatar>
+            <div class='flex items-center'>
+              <hcm-avatar [image]='data.image' [text]='data.fullName' class='mr-2' rounded size='s'></hcm-avatar>
               {{ data.fullName }}
             </div>
           </ng-template>
         </div>
-        <ng-container [ngSwitch]="requestType">
+        <ng-container [ngSwitch]='requestType'>
           <ng-container *ngSwitchCase="'workFromHome'">
-            <div class="table-row">
-              <div class="table-label">{{ t('days') }}:</div>
-              <div class="table-value">
+            <div class='table-row'>
+              <div class='table-label'>{{ t('date') }}:</div>
+              <div class='table-value'>{{ data.fromDate | translocoDate }} - {{ data.toDate | translocoDate }}</div>
+            </div>
+            <div class='table-row'>
+              <div class='table-label'>{{ t('days') }}:</div>
+              <div class='table-value'>
                 {{ data.totalDay ? data.totalDay : '-' }}
               </div>
             </div>
           </ng-container>
           <ng-container *ngSwitchCase="'leave'">
-            <div class="table-row">
-              <div class="table-label">{{ t('leaveType') }}:</div>
-              <div class="table-value">{{ data.leaveType!.name }}</div>
+            <div class='table-row'>
+              <div class='table-label'>{{ t('leaveType') }}:</div>
+              <div class='table-value'>{{ data.leaveType!.name }}</div>
             </div>
-            <div class="table-row">
-              <div class="table-label">{{ t('dateRange') }}:</div>
-              <div class="table-value">
-                <hcm-leave-request-date-range [data]="$any(data)"></hcm-leave-request-date-range>
+            <div class='table-row'>
+              <div class='table-label'>{{ t('dateRange') }}:</div>
+              <div class='table-value'>
+                <hcm-leave-request-date-range [data]='$any(data)'></hcm-leave-request-date-range>
               </div>
             </div>
-            <div class="table-row">
-              <div class="table-label">{{ t('days') }}:</div>
-              <div class="table-value">
+            <div class='table-row'>
+              <div class='table-label'>{{ t('days') }}:</div>
+              <div class='table-value'>
                 {{ data.durationInDay ? data.durationInDay : '-' }}
               </div>
             </div>
           </ng-container>
           <ng-container *ngSwitchCase="'updateTimesheet'">
-            <div class="table-row">
-              <div class="table-label">{{ t('date') }}:</div>
-              <div class="table-value">
+            <div class='table-row'>
+              <div class='table-label'>{{ t('date') }}:</div>
+              <div class='table-value'>
                 {{ data.timeSheetTracking!.trackingDate | translocoDate }}
               </div>
             </div>
-            <div class="table-row">
-              <div class="table-label">{{ t('time') }}:</div>
-              <div class="table-value">
+            <div class='table-row'>
+              <div class='table-label'>{{ t('time') }}:</div>
+              <div class='table-value'>
                 {{ data.newInTime ? (data.newInTime * 1000 | date: 'HH:mm':'UTC') : '' }} -
                 {{ data.newOutTime ? (data.newOutTime * 1000 | date: 'HH:mm':'UTC') : '' }}
               </div>
             </div>
-            <div class="table-row">
-              <div class="table-label">{{ t('duration') }}:</div>
-              <div class="table-value">
+            <div class='table-row'>
+              <div class='table-label'>{{ t('duration') }}:</div>
+              <div class='table-value'>
                 {{
-                  data.updateTotalTime
-                    ? (data.updateTotalTime / 3600 | translocoDecimal: { maximumFractionDigits: 1 })
-                    : 0
+                data.updateTotalTime
+                  ? (data.updateTotalTime / 3600 | translocoDecimal: { maximumFractionDigits: 1 })
+                  : 0
                 }}h
               </div>
             </div>
-            <div class="table-row">
-              <div class="table-label">{{ t('workingDays') }}:</div>
-              <div class="table-value">{{ data.updateWorkingDay }}</div>
+            <div class='table-row'>
+              <div class='table-label'>{{ t('workingDays') }}:</div>
+              <div class='table-value'>{{ data.updateWorkingDay }}</div>
             </div>
           </ng-container>
           <ng-container *ngSwitchCase="'workingOutside'">
-            <div class="table-row">
-              <div class="table-label">{{ t('days') }}:</div>
-              <div class="table-value">
+            <div class='table-row'>
+              <div class='table-label'>{{ t('days') }}:</div>
+              <div class='table-value'>
                 {{ data.totalDay ? data.totalDay : '-' }}
               </div>
             </div>
+            <div class='table-row'>
+              <div class='table-label'>{{ t('date') }}:</div>
+              <div class='table-value'>{{ data.fromDate | translocoDate }} - {{ data.toDate | translocoDate }}</div>
+            </div>
           </ng-container>
           <ng-container *ngSwitchCase="'workingAfterHours'">
-            <div class="table-row">
-              <div class="table-label">{{ t('date') }}:</div>
-              <div class="table-value">{{ data.fromDate | translocoDate }} - {{ data.toDate | translocoDate }}</div>
+            <div class='table-row'>
+              <div class='table-label'>{{ t('date') }}:</div>
+              <div class='table-value'>{{ data.fromDate | translocoDate }} - {{ data.toDate | translocoDate }}</div>
             </div>
-            <div class="table-row">
-              <div class="table-label">{{ t('duration') }}:</div>
-              <div class="table-value">
+            <div class='table-row'>
+              <div class='table-label'>{{ t('duration') }}:</div>
+              <div class='table-value'>
                 {{ data.duration ? (data.duration / 3600 | translocoDecimal: { maximumFractionDigits: 1 }) : 0 }}h
               </div>
             </div>
           </ng-container>
-          <div class="table-row">
-            <div class="table-label">{{ t('date') }}:</div>
-            <div class="table-value">{{ data.fromDate | translocoDate }} - {{ data.toDate | translocoDate }}</div>
-          </div>
         </ng-container>
 
-        <div class="table-row">
-          <div class="table-label">{{ t('office') }}:</div>
-          <div class="table-value">{{ employee.office?.name }}</div>
+        <div class='table-row'>
+          <div class='table-label'>{{ t('office') }}:</div>
+          <div class='table-value'>{{ employee.office?.name }}</div>
         </div>
 
-        <div class="table-row">
-          <div class="table-label">{{ t('sendTo') }}:</div>
-          <div class="table-value">
-            <div *ngIf="data?.sendToDTO || data?.escalateDTO as sendTo" class="flex items-center">
-              <hcm-avatar [image]="sendTo.image" [text]="sendTo.fullName" class="mr-2" rounded size="s"></hcm-avatar>
+        <div class='table-row'>
+          <div class='table-label'>{{ t('sendTo') }}:</div>
+          <div class='table-value'>
+            <div *ngIf='data?.sendToDTO || data?.escalateDTO as sendTo' class='flex items-center'>
+              <hcm-avatar [image]='sendTo.image' [text]='sendTo.fullName' class='mr-2' rounded size='s'></hcm-avatar>
               {{ sendTo.fullName }}
             </div>
           </div>
         </div>
 
-        <div class="table-row">
-          <div class="table-label">{{ t('Comment') }}:</div>
-          <div class="table-value">{{ data.comment }}</div>
+        <div class='table-row'>
+          <div class='table-label'>{{ t('Comment') }}:</div>
+          <div class='table-value'>{{ data.comment }}</div>
         </div>
       </div>
     </section>
-    <div *ngIf="data.nextStates.length" class="flex justify-center py-5 border-b">
-      <tui-hosted-dropdown [(open)]="open" [content]="dropdown" tuiDropdownAlign="left">
-        <button [iconRight]="icon" appearance="secondary" tuiButton type="button">{{ t('functions') }}</button>
+    <div *ngIf='data.nextStates.length' class='flex justify-center py-5 border-b'>
+      <tui-hosted-dropdown [(open)]='open' [content]='dropdown' tuiDropdownAlign='left'>
+        <button [iconRight]='icon' appearance='secondary' tuiButton type='button'>{{ t('functions') }}</button>
       </tui-hosted-dropdown>
       <ng-template #icon>
-        <tui-svg [class.icon_rotated]="open" class="icon" src="tuiIconChevronDown"></tui-svg>
+        <tui-svg [class.icon_rotated]='open' class='icon' src='tuiIconChevronDown'></tui-svg>
       </ng-template>
       <ng-template #dropdown>
         <tui-data-list>
-          <button (click)="onChangeRequestStatus(item.state.id)" *ngFor="let item of data.nextStates" tuiOption>
+          <button (click)='onChangeRequestStatus(item.state.id)' *ngFor='let item of data.nextStates' tuiOption>
             {{ item.state.name }}
           </button>
         </tui-data-list>
       </ng-template>
     </div>
 
-    <tui-accordion [closeOthers]="false" [rounded]="false">
+    <tui-accordion [closeOthers]='false' [rounded]='false'>
       <!-- HISTORY -->
-      <tui-accordion-item [borders]="null" class="border-b-2">
-        <div class="font-semibold uppercase">{{ t('history') }}</div>
+      <tui-accordion-item [borders]='null' class='border-b-2'>
+        <div class='font-semibold uppercase'>{{ t('history') }}</div>
         <ng-template tuiAccordionItemContent>
-          <ng-container *ngIf="history$ | async as historyItems">
-            <p *ngFor="let item of historyItems" class="flex mb-1">
-              <hcm-avatar [image]="item.author.avatar" [text]="item.author.fullName" rounded size="xs"></hcm-avatar>
+          <ng-container *ngIf='history$ | async as historyItems'>
+            <p *ngFor='let item of historyItems' class='flex mb-1'>
+              <hcm-avatar [image]='item.author.avatar' [text]='item.author.fullName' rounded size='xs'></hcm-avatar>
               <span>
-                <span class="text-blue-500">&nbsp;{{ item.author.fullName }}</span>
-                <span *ngIf="item.from; else created">
+                <span class='text-blue-500'>&nbsp;{{ item.author.fullName }}</span>
+                <span *ngIf='item.from; else created'>
                   {{ t('myTime.changedStatusTo') }} <b>{{ item.to }}</b>
                 </span>
                 -
-                <span class="text-gray-300">
+                <span class='text-gray-300'>
                   {{ item.time | translocoDate: { dateStyle: 'medium', timeStyle: 'short' } }}
                 </span>
 
@@ -197,25 +201,25 @@
         </ng-template>
       </tui-accordion-item>
       <!-- COMMENTS -->
-      <tui-accordion-item [borders]="null">
-        <div class="font-semibold uppercase">{{ t('Comment') }}</div>
+      <tui-accordion-item [borders]='null'>
+        <div class='font-semibold uppercase'>{{ t('Comment') }}</div>
         <ng-template tuiAccordionItemContent>
-          <div *ngIf="comments$ | async as comments" [class.hidden]="inputComment" class="mb-2">
-            <div *ngFor="let comment of comments" class="flex justify-between mb-1">
-              <div class="flex flex-col space-y-2">
-                <div class="flex space-x-1">
+          <div *ngIf='comments$ | async as comments' [class.hidden]='inputComment' class='mb-2'>
+            <div *ngFor='let comment of comments' class='flex justify-between mb-1'>
+              <div class='flex flex-col space-y-2'>
+                <div class='flex space-x-1'>
                   <hcm-avatar
-                    *ngIf="comment.userInfo"
-                    [image]="comment.userInfo.image"
-                    [text]="comment.userInfo.fullName"
+                    *ngIf='comment.userInfo'
+                    [image]='comment.userInfo.image'
+                    [text]='comment.userInfo.fullName'
                     rounded
-                    size="xs"
+                    size='xs'
                   ></hcm-avatar>
                   <span>
-                    <span class="text-blue-500">{{ comment.userInfo?.fullName }}</span> -
+                    <span class='text-blue-500'>{{ comment.userInfo?.fullName }}</span> -
                     <span>{{ comment.createdDate | translocoDate: { dateStyle: 'medium', timeStyle: 'short' } }} </span>
-                    <span *ngIf="comment.state === RequestCommentStatus.Edited">
-                      - <span class="text-red-500">{{ t('edited') }}</span>
+                    <span *ngIf='comment.state === RequestCommentStatus.Edited'>
+                      - <span class='text-red-500'>{{ t('edited') }}</span>
                     </span>
                   </span>
                 </div>
@@ -223,34 +227,34 @@
                   {{ comment.comment }}
                 </div>
               </div>
-              <div *ngIf="comment.userInfo.id === currentUserId" class="flex">
+              <div *ngIf='comment.userInfo.id === currentUserId' class='flex'>
                 <button
-                  (click)="onUpsertComment(comment)"
-                  appearance="flat"
-                  icon="tuiIconEdit"
-                  size="s"
+                  (click)='onUpsertComment(comment)'
+                  appearance='flat'
+                  icon='tuiIconEdit'
+                  size='s'
                   tuiIconButton
                 ></button>
                 <button
-                  (click)="onRemoveComment(comment)"
-                  appearance="flat"
-                  icon="tuiIconTrash"
-                  size="s"
+                  (click)='onRemoveComment(comment)'
+                  appearance='flat'
+                  icon='tuiIconTrash'
+                  size='s'
                   tuiIconButton
                 ></button>
               </div>
             </div>
           </div>
-          <button (click)="onUpsertComment()" *ngIf="!inputComment" appearance="secondary" size="s" tuiButton>
+          <button (click)='onUpsertComment()' *ngIf='!inputComment' appearance='secondary' size='s' tuiButton>
             {{ t('addComment') }}
           </button>
-          <form [class.hidden]="!inputComment" [formGroup]="$any(commentForm)">
-            <formly-form [fields]="commentFields" [form]="$any(commentForm)" [model]="commentModel"></formly-form>
-            <div class="flex justify-end mt-2 space-x-2">
-              <button (click)="onSubmitComment()" [disabled]="commentForm.invalid" size="s" tuiButton>
+          <form [class.hidden]='!inputComment' [formGroup]='$any(commentForm)'>
+            <formly-form [fields]='commentFields' [form]='$any(commentForm)' [model]='commentModel'></formly-form>
+            <div class='flex justify-end mt-2 space-x-2'>
+              <button (click)='onSubmitComment()' [disabled]='commentForm.invalid' size='s' tuiButton>
                 {{ t('save') }}
               </button>
-              <button (click)="onCancelComment()" appearance="flat" size="s" tuiButton>{{ t('cancel') }}</button>
+              <button (click)='onCancelComment()' appearance='flat' size='s' tuiButton>{{ t('cancel') }}</button>
             </div>
           </form>
         </ng-template>
