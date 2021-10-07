@@ -160,4 +160,5 @@ export interface UserDto {
   organization?: OrganizationDTO;
   directReport: DirectReportDTO;
   jobTitle: JobTitleDTO;
+  image?: string;
 }

@@ -16,7 +16,7 @@
         <div class="text-center">
           <tui-avatar
             [rounded]="true"
-            [avatarUrl]="user.profile?.image || '' | getFile | async"
+            [avatarUrl]="user?.image || '' | getFile | async"
             class="m-auto"
             [text]="user.username || ''"
             size="xl"
