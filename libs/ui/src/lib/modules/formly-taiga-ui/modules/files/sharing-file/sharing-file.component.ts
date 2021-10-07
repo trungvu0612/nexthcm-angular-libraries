@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { RejectedFile } from '@nexthcm/ui';
 import { FieldType, FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDestroyService, tuiPure } from '@taiga-ui/cdk';
 import { TuiFileLike } from '@taiga-ui/kit';
@@ -15,6 +14,7 @@ import {
   takeUntil,
   tap,
 } from 'rxjs/operators';
+import { RejectedFile } from '../../../models';
 import { convertRejected } from '../../../utils/files';
 
 @Component({
