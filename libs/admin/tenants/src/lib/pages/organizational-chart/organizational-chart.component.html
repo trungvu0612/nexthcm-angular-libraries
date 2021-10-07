@@ -33,7 +33,10 @@
             <ng-container *tuiLet="unit.descendants?.length as children">
               <tui-island [hoverable]="true" class="box-border mx-auto border border-gray-300 unit">
                 <div class="tui-island__content">
-                  <p class="font-bold tui-island__paragraph">{{ unit.orgName }}</p>
+                  <div class="tui-island__paragraph">
+                    <p class="font-bold">{{ unit.orgName }}</p>
+                    <p class="italic">{{ unit.user?.name }}</p>
+                  </div>
                   <div class="flex flex-col">
                     <svg-icon (click)="upsertUnit(unit.id)" key="tui-icon-draft"></svg-icon>
                     <svg-icon (click)="deleteUnit(unit.id)" key="tui-icon-trash"></svg-icon>

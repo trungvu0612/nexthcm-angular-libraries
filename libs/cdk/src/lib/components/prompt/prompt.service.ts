@@ -35,16 +35,16 @@ export class PromptService {
       },
       error: (err: HttpErrorResponse) => {
         let errorMessage: string;
-        if (err.error) {
-          errorMessage = `${this.translocoService.translate('errorOccurred')}: ${this.translocoService.translate(
-            err.error.code
-          )}`;
-        }
-        if (err.message) {
-          errorMessage = `${this.translocoService.translate(err.error.message)}`;
+        if (err.error instanceof ErrorEvent) {
+          errorMessage = `${this.translocoService.translate('errorOccurred')}: ${err.error.message}`;
         } else {
           const HTTP_RESPONSE_ERROR_MESSAGES = this.translocoService.translateObject('HTTP_RESPONSE_ERROR_MESSAGES');
-          errorMessage = HTTP_RESPONSE_ERROR_MESSAGES[err.status] || HTTP_RESPONSE_ERROR_MESSAGES.default;
+          const ERRORS = this.translocoService.translateObject('ERRORS');
+
+          errorMessage =
+            ERRORS[err.error.message] ||
+            HTTP_RESPONSE_ERROR_MESSAGES[err.status] ||
+            HTTP_RESPONSE_ERROR_MESSAGES.default;
         }
         this.open({ icon: 'error', html: errorMessage });
       },

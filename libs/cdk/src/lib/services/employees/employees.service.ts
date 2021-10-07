@@ -6,6 +6,7 @@ import { ACCOUNT_API_PATH } from '../../constants';
 import {
   BaseResponse,
   BaseUser,
+  EmployeeAttachment,
   EmployeeDuration,
   EmployeeEducation,
   EmployeeGeneralInformation,
@@ -39,6 +40,7 @@ export class EmployeesService {
   getEmployeeInformation(id: string, apiType: 'DURATION'): Observable<EmployeeDuration>;
   getEmployeeInformation(id: string, apiType: 'EDUCATION'): Observable<EmployeeEducation>;
   getEmployeeInformation(id: string, apiType: 'SHUI'): Observable<EmployeeSHUI>;
+  getEmployeeInformation(id: string, apiType: 'ATTACHMENT'): Observable<EmployeeAttachment>;
   getEmployeeInformation<T extends EmployeeInformationType>(
     id: string,
     apiType: EmployeeInformationAPIType

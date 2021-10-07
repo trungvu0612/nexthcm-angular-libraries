@@ -58,6 +58,8 @@ export class UpsertOfficeDialogComponent implements OnInit {
         placeholder: 'enterDescription',
       },
     },
+    { key: 'longitude', defaultValue: 0 },
+    { key: 'latitude', defaultValue: 0 },
     { key: 'id' },
   ];
 

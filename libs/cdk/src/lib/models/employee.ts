@@ -2,8 +2,13 @@ import { TuiDay, TuiDayRange } from '@taiga-ui/cdk';
 import { EmployeeCurrentStatus } from '../enums';
 import { DateRange } from './date-range';
 
-export type EmployeeInformationAPIType = 'INDIVIDUAL' | 'DURATION' | 'EDUCATION' | 'SHUI';
-export type EmployeeInformationType = EmployeeIndividual | EmployeeDuration | EmployeeEducation | EmployeeSHUI;
+export type EmployeeInformationAPIType = 'INDIVIDUAL' | 'DURATION' | 'EDUCATION' | 'SHUI' | 'ATTACHMENT';
+export type EmployeeInformationType =
+  | EmployeeIndividual
+  | EmployeeDuration
+  | EmployeeEducation
+  | EmployeeSHUI
+  | EmployeeAttachment;
 
 interface BaseOption {
   id: string;
@@ -37,9 +42,12 @@ export interface BankAccount {
   number: number;
 }
 
-export interface EmployeeIndividual {
+export interface EmployeeBaseForm {
   employeeId: string;
   type: EmployeeInformationAPIType;
+}
+
+export interface EmployeeIndividual extends EmployeeBaseForm {
   permanentAddress: EmployeeAddress;
   temporaryAddress: EmployeeAddress;
   gender: string;
@@ -65,10 +73,8 @@ export interface EmergencyContact {
   relationship: string;
 }
 
-export interface EmployeeDuration {
-  type: EmployeeInformationAPIType;
+export interface EmployeeDuration extends EmployeeBaseForm {
   emergencyContacts?: EmergencyContact[] | string;
-  employeeId?: string;
   onboardDate?: string | TuiDay | Date;
   probationDate?: DateRange | TuiDayRange | string;
   officialStartDate?: string | TuiDay | Date;
@@ -82,9 +88,7 @@ export interface EmployeeDuration {
   resignationAgreementDate?: string | TuiDay | Date;
 }
 
-export interface EmployeeEducation {
-  employeeId: string;
-  type: EmployeeInformationAPIType;
+export interface EmployeeEducation extends EmployeeBaseForm {
   university?: string;
   major?: string;
   highestCertificate?: string;
@@ -97,9 +101,7 @@ export interface HealthCare {
   number: string;
 }
 
-export interface EmployeeSHUI {
-  employeeId: string;
-  type: EmployeeInformationAPIType;
+export interface EmployeeSHUI extends EmployeeBaseForm {
   taxIDNumber: string;
   socialInsuranceNumber: string;
   socialInsurancePlace: string;
@@ -116,4 +118,8 @@ export interface EmployeeAddress {
   districtId: string;
   wardId: string;
   postalCode: string;
+}
+
+export interface EmployeeAttachment extends EmployeeBaseForm {
+  attachmentFiles: string[];
 }

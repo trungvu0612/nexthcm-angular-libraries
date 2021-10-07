@@ -1,3 +1,5 @@
+import { BaseUser } from './base-object';
+
 export interface Organization {
   createdDate: number;
   createdBy: string;
@@ -12,6 +14,7 @@ export interface Organization {
   code: string;
   tenant: OrganizationTenant;
   descendants: Organization[];
+  user: BaseUser;
 }
 
 export interface OrganizationMember {

@@ -56,7 +56,6 @@ export class UpsertJobLevelDialogComponent implements OnInit {
       className: 'tui-form__row block',
       type: 'text-area',
       templateOptions: {
-        required: true,
         textfieldLabelOutside: true,
         translate: true,
         label: 'description',

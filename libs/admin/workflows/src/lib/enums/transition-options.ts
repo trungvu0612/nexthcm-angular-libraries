@@ -17,6 +17,7 @@ export enum PostFunctionType {
   AssignToReporter = 'PF-003',
   SendEmailAndNotificationToTheLeaderWithASpecifiedTitle = 'PF-004',
   SendEmailAndNotificationToTheSomeoneRelated = 'PF-007',
+  AddEntitlementAfterCancelLeave = 'PF-008',
   SendEmailAndNotificationToTheReporter = 'PF-990',
   SendEmailAndNotificationToTheNewAssignee = 'PF-991',
   CreateComment = 'PF-992',

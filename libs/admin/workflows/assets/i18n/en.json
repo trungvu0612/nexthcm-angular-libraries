@@ -37,6 +37,8 @@
   "updateTimeSheetDescription": "Update timesheet of the employee after 15 minutes",
   "sendEmailAndNotificationToTheSomeoneRelated": "Send email and notification to someone related",
   "sendEmailAndNotificationToTheSomeoneRelatedDescription": "Send the email and the notification to someone related. The email will send depend on the template of the workflow",
+  "AddEntitlementAfterCancelLeave": "Add entitlement after canceling a leave",
+  "AddEntitlementAfterCancelLeaveDescription": "Add entitlement equal to duration of the leave, rollback it to leave entitlement of the employee",
   "CONDITIONS_OPERATORS": {
     "or": "Any of the following conditions",
     "and": "All of the following conditions"
@@ -70,7 +72,9 @@
     "userChanges": "The user who makes changes at the current time",
     "createDate": "The created date",
     "oldField": "The old value of field",
-    "newField": "The new value of field"
+    "newField": "The new value of field",
+    "sender": "The sender of this email",
+    "recipient": "The recipient of this email"
   },
   "createEmailTemplate": "Create email template",
   "createNewWorkflow": "Create new workflow",
