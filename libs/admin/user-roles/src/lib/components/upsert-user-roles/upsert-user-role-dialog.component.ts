@@ -1,5 +1,5 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@ngneat/reactive-forms';
+import { FormBuilder, FormControl } from '@ngneat/reactive-forms';
 import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { TuiDialogContext } from '@taiga-ui/core';
@@ -27,11 +27,10 @@ export class UpsertUserRoleDialogComponent implements OnInit, AfterViewInit {
   count = 0;
   removeArray = [];
 
-  readonly adminUserRoleForm = new FormGroup({});
-  model: Partial<UserRole> = {};
+  form = this.fb.group<UserRole>({} as UserRole);
+  model = {} as UserRole;
   options: FormlyFormOptions = {};
   fields: FormlyFieldConfig[] = [
-    { key: 'id' },
     {
       className: 'tui-form__row block',
       key: 'name',
@@ -41,6 +40,7 @@ export class UpsertUserRoleDialogComponent implements OnInit, AfterViewInit {
         translate: true,
         label: 'name',
         labelClassName: 'font-semibold',
+        placeholder: 'enterName',
         textfieldLabelOutside: true,
       },
       asyncValidators: {
@@ -65,10 +65,10 @@ export class UpsertUserRoleDialogComponent implements OnInit, AfterViewInit {
       key: 'description',
       type: 'text-area',
       templateOptions: {
-        required: true,
         translate: true,
         label: 'description',
         labelClassName: 'font-semibold',
+        placeholder: 'enterDescription',
         textfieldLabelOutside: true,
       },
     },
@@ -87,12 +87,14 @@ export class UpsertUserRoleDialogComponent implements OnInit, AfterViewInit {
         textfieldLabelOutside: true,
       },
     },
+    { key: 'id' },
   ];
 
   constructor(
-    @Inject(POLYMORPHEUS_CONTEXT) public context: TuiDialogContext<unknown, UserRole>,
-    private adminUserRolesService: AdminUserRolesService,
-    private translocoService: TranslocoService
+    @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<UserRole, UserRole>,
+    private readonly fb: FormBuilder,
+    private readonly adminUserRolesService: AdminUserRolesService,
+    private readonly translocoService: TranslocoService
   ) {}
 
   private _data = {} as UserRole;
@@ -115,7 +117,7 @@ export class UpsertUserRoleDialogComponent implements OnInit, AfterViewInit {
   /*Todo: fix never type*/
   ngAfterViewInit() {
     if (this.context.data) {
-      const policiesControl = this.adminUserRoleForm.controls.policies;
+      const policiesControl = this.form.controls.policies;
       if (policiesControl) {
         policiesControl.valueChanges.subscribe((data) => {
           const difference = data
@@ -135,17 +137,11 @@ export class UpsertUserRoleDialogComponent implements OnInit, AfterViewInit {
   }
 
   onSubmit() {
-    if (this.adminUserRoleForm.valid) {
-      if (this.context.data) {
-        const body = {
-          id: this.context.data,
-          ...this.model,
-          policyRemoves: this.removeArray,
-        };
-        this.context.completeWith(body);
-      } else {
-        this.context.completeWith(this.model);
-      }
+    if (this.form.valid) {
+      const formModel = { ...this.form.value };
+
+      formModel.policyRemoves = this.removeArray;
+      this.context.completeWith(formModel);
     }
   }
 

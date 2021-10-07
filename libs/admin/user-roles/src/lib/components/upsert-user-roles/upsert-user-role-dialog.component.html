@@ -1,5 +1,5 @@
-<form (ngSubmit)="onSubmit()" [formGroup]="$any(adminUserRoleForm)">
-  <formly-form [fields]="fields" [form]="$any(adminUserRoleForm)" [model]="model"></formly-form>
+<form (ngSubmit)="onSubmit()" [formGroup]="$any(form)">
+  <formly-form [fields]="fields" [form]="$any(form)" [model]="model"></formly-form>
   <div *transloco="let t" class="tui-form__buttons">
     <button class="tui-form__button" size="l" tuiButton>{{ t('save') }}</button>
     <button (click)="onCancel()" appearance="flat" class="tui-form__button" size="l" tuiButton type="button">

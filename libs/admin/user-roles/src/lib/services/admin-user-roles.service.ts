@@ -19,12 +19,16 @@ export class AdminUserRolesService {
     return this.http.get<any>(`${ACCOUNT_API_PATH}/roles/${id.id}`, {}).pipe(map((res) => res as any));
   }
 
+  upsertUserRole(payload: UserRole): Observable<unknown> {
+    return payload.id ? this.editUserRole(payload) : this.createUserRole(payload);
+  }
+
   createUserRole(payload: UserRole): Observable<unknown> {
     return this.http.post(`${ACCOUNT_API_PATH}/roles`, payload);
   }
 
   editUserRole(payload: UserRole): Observable<unknown> {
-    return this.http.post(`${ACCOUNT_API_PATH}/roles/${payload.id}`, payload);
+    return this.http.put(`${ACCOUNT_API_PATH}/roles/${payload.id}`, payload);
   }
 
   deleteAdminUserRoleId(id: string): Observable<UserRole> {

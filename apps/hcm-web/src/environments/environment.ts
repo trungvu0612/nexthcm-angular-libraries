@@ -8,9 +8,9 @@ export const environment: AppConfig = {
   production: false,
   language: 'en',
   baseUrl: 'http://localhost:4200',
-  apiUrl: 'https://qa-nexthcm-api.banvien.com.vn',
-  orgUrl: 'https://qa-nexthcm-api.banvien.com.vn',
-  graphqlUrl: 'https://qa-nexthcm-api.banvien.com.vn/v1/graphql',
+  apiUrl: 'https://dev-nexthcm-api.banvien.com.vn',
+  orgUrl: 'https://dev-nexthcm-api.banvien.com.vn',
+  graphqlUrl: 'https://dev-nexthcm-api.banvien.com.vn/v1/graphql',
 };
 
 /*

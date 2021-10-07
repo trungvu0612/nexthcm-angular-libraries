@@ -60,12 +60,15 @@ export class UserRoleManagementComponent extends AbstractServerSortPaginationTab
 
   onUpsertUserRole(data?: UserRole): void {
     this.dialogService
-      .open<boolean>(new PolymorpheusComponent(UpsertUserRoleDialogComponent, this.injector), {
+      .open<UserRole>(new PolymorpheusComponent(UpsertUserRoleDialogComponent, this.injector), {
         label: this.translocoService.translate(data ? 'userRoles.editUserRole' : 'userRoles.createUserRole'),
         size: 'l',
         data,
       })
-      .pipe(takeUntil(this.destroy$))
+      .pipe(
+        switchMap((data) => this.adminUserRolesService.upsertUserRole(data)),
+        takeUntil(this.destroy$)
+      )
       .subscribe(() => this.queryParams$.next(this.queryParams$.value));
   }
 

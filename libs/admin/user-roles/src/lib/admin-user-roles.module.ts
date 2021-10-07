@@ -21,7 +21,7 @@ import { TableModule } from 'ngx-easy-table';
 import { NgxPermissionsGuard, NgxPermissionsModule } from 'ngx-permissions';
 import { FormlySelectPermissionsComponent } from './components/formly-select-permissions/formly-select-permissions.component';
 import { UpsertUserRoleDialogComponent } from './components/upsert-user-roles/upsert-user-role-dialog.component';
-import { UserRoleManagementComponent } from './pages/list-user-roles/user-role-management.component';
+import { UserRoleManagementComponent } from './pages/user-role-management/user-role-management.component';
 import { AdminUserRolesService } from './services/admin-user-roles.service';
 
 export const adminUserRolesRoutes: Route[] = [

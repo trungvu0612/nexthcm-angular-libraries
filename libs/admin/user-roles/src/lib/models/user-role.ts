@@ -1,8 +1,9 @@
 export interface UserRole {
   id: string;
   name: string;
-  description?: string;
-  policy?: Policy;
+  description: string;
+  policies: Policy[];
+  policyRemoves: any[];
 }
 
 export interface Item {
