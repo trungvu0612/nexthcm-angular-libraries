@@ -64,6 +64,10 @@ const ROUTES: Routes = [
         loadChildren: () =>
           import('@nexthcm/admin-requests-configuration').then((m) => m.AdminRequestsConfigurationModule),
       },
+      {
+        path: 'synchronize-data',
+        loadChildren: () => import('@nexthcm/admin-synchronize-data').then((m) => m.AdminSynchronizeDataModule),
+      },
     ],
   },
 ];

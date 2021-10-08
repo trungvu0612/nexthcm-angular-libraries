@@ -47,6 +47,9 @@
     "admin-seat-maps": {
       "tags": []
     },
+    "admin-synchronize-data": {
+      "tags": []
+    },
     "admin-tenants": {
       "tags": []
     },

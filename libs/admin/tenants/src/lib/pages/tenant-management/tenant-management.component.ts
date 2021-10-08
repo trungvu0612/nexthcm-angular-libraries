@@ -103,11 +103,8 @@ export class TenantManagementComponent
         label: this.translocoService.translate('tenants.createTenant'),
         size: 'l',
       })
-      .pipe(
-        tap(() => this.reloadStatistic$.next(undefined)),
-        takeUntil(this.destroy$)
-      )
-      .subscribe((res) => this.router.navigate([res.id, 'edit']));
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((res) => this.router.navigate([res.id]));
   }
 
   onRemoveTenant(id: string): void {

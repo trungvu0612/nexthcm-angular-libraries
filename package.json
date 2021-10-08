@@ -63,6 +63,7 @@
     "@nexthcm/admin-permissions": "^0.0.1",
     "@nexthcm/admin-requests-configuration": "^0.0.1",
     "@nexthcm/admin-seat-maps": "^0.0.1",
+    "@nexthcm/admin-synchronize-data": "^0.0.1",
     "@nexthcm/admin-tenants": "^0.0.1",
     "@nexthcm/admin-user-roles": "^0.0.1",
     "@nexthcm/admin-workflows": "^0.0.1",

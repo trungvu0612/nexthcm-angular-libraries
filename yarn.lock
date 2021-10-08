@@ -2272,6 +2272,13 @@
   dependencies:
     tslib "^2.2.0"
 
+"@nexthcm/admin-synchronize-data@^0.0.1":
+  version "0.0.1"
+  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/admin-synchronize-data/-/admin-synchronize-data-0.0.1.tgz#9a7fb74337e050cbcfa4b36154a1f6f2f35a3120"
+  integrity sha512-A9aSVwOJI96BabUAEgHbGdhOpgNkRrpoTIZumwfAuUV6fd7nOlQQ0e7QoUJ+Kk5BA4E0kZ11d3SZE+f7fhZXOw==
+  dependencies:
+    tslib "^2.3.0"
+
 "@nexthcm/admin-tenants@^0.0.1":
   version "0.0.1"
   resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/admin-tenants/-/admin-tenants-0.0.1.tgz#3229bf88cfb173a67bbe044cea09e9f3588bd185"

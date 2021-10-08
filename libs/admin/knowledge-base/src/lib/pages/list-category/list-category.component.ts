@@ -10,7 +10,7 @@ import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogContext, TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusContent } from '@tinkoff/ng-polymorpheus';
 import { BaseComponent } from 'ngx-easy-table';
-import { from, iif, of, Subject, Subscriber } from 'rxjs';
+import { from, of, Subject, Subscriber } from 'rxjs';
 import {
   catchError,
   debounceTime,
@@ -23,7 +23,6 @@ import {
   takeUntil,
   tap,
 } from 'rxjs/operators';
-import { SweetAlertOptions } from 'sweetalert2';
 import { Category } from '../../models/policies';
 
 @Component({
@@ -140,20 +139,31 @@ export class ListCategoryComponent extends AbstractServerSortPaginationTableComp
       this.knowledgeBaseService[this.model.id ? 'editCategory' : 'createCategory'](this.model)
         .pipe(takeUntil(this.destroy$))
         .subscribe(
-          this.promptService.handleResponse('addNewCategorySuccessfully', () =>
-            this.queryParams$.next(this.queryParams$.value)
+          this.promptService.handleResponse(
+            this.model.id ? 'updateNewCategorySuccessfully' : 'addNewCategorySuccessfully',
+            () => this.queryParams$.next(this.queryParams$.value)
           )
         );
     }
   }
 
   deleteCategory(id: string) {
-    from(this.promptService.open({ icon: 'warning', showCancelButton: true } as SweetAlertOptions))
+    from(
+      this.promptService.open({
+        icon: 'question',
+        html: this.translocoService.translate('deleteCategory'),
+        showCancelButton: true,
+      })
+    )
       .pipe(
-        switchMap((result) => iif(() => result.isConfirmed, this.knowledgeBaseService.deleteCategory(id))),
-        switchMap(() => this.promptService.open({ icon: 'success' } as SweetAlertOptions)),
+        filter((result) => result.isConfirmed),
+        switchMap(() => this.knowledgeBaseService.deleteCategory(id)),
         takeUntil(this.destroy$)
       )
-      .subscribe(() => this.queryParams$.next(this.queryParams$.value));
+      .subscribe(
+        this.promptService.handleResponse('deleteCategorySuccess', () =>
+          this.queryParams$.next(this.queryParams$.value)
+        )
+      );
   }
 }

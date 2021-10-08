@@ -95,6 +95,12 @@ export class SidebarComponent implements OnInit {
       icon: 'working-time',
       permissions: 'VIEW_ADMIN_CONFIG_TIME',
     },
+    {
+      label: 'syncSetting',
+      link: '/admin/synchronize-data',
+      icon: 'working-time',
+      permissions: 'VIEW_ADMIN_CONFIG_TIME',
+    },
   ];
 
   items!: MenuItem[];
