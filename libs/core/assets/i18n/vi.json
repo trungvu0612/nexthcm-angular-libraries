@@ -177,8 +177,12 @@
     "state": "Trạng thái",
     "functions": "Chức năng"
   },
+  "synchronizeData": "Đồng bộ dữ liệu",
   "jobTitleManagement": "Quản lý chức vụ",
-  "addNewCategorySuccessfully": "Thêm danh mục thành công",
+  "addNewCategorySuccessfully": "Thêm danh mục thành công!",
+  "updateNewCategorySuccessfully": "Cập nhật danh mục thành công!",
+  "deleteCategory": "<b>Bạn có muốn xóa danh mục này không?</b>",
+  "deleteCategorySuccess": "Đã xóa danh mục thành công!",
   "overview": "Tổng quan",
   "myTime": "Thời gian",
   "time": "Thời gian",
@@ -203,6 +207,7 @@
   "departmentManagement": "Quản lý phòng ban",
   "periodManagement": "Quản lý khoảng thời gian",
   "workingTimeManagement": "Quản lý thời gian làm việc",
+  "syncSetting": "Đồng bộ dữ liệu",
   "updateSuccessful": "<b>Cập nhật thành công!</b>",
   "contractManagement": "Quản lý hợp đồng",
   "HTTP_RESPONSE_ERROR_MESSAGES": {
@@ -500,6 +505,14 @@
     "hourMax": "Giờ tối đa",
     "minuteMax": "Phút tối đa",
     "otBreakTime": "Thời gian nghỉ trưa"
+  },
+  "SYNCHRONIZE": {
+    "nameFunction": "Tên  hàm",
+    "description": "Mô tả",
+    "type": "Loại",
+    "value": "Giá trị",
+    "status": "Trạng thái",
+    "action": "Thao tác"
   },
   "requestsConfig": "Cấu hình các yêu cầu",
   "workflow": "Quy trình làm việc",

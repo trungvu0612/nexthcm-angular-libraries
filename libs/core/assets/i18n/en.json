@@ -177,8 +177,12 @@
     "state": "Status",
     "functions": "Functions"
   },
+  "synchronizeData": "Synchronize Data",
   "jobTitleManagement": "Job Title Management",
-  "addNewCategorySuccessfully": "Add new category successfully",
+  "addNewCategorySuccessfully": "Add new category successfully!",
+  "updateNewCategorySuccessfully": "Update category successfully!",
+  "deleteCategory": "<b>Are you sure you want to delete this category?</b>",
+  "deleteCategorySuccess": "Delete category successfully!",
   "overview": "Overview",
   "myTime": "My Time",
   "time": "Time",
@@ -204,6 +208,7 @@
   "entitlementManagement": "Entitlement Management",
   "periodManagement": "Period Management",
   "workingTimeManagement": "Working Time Management",
+  "syncSetting": "Synchronize Data",
   "updateSuccessful": "<b>Update successfully!</b>",
   "contractManagement": "Contract Management",
   "HTTP_RESPONSE_ERROR_MESSAGES": {
@@ -501,6 +506,14 @@
     "hourMax": "Hour max",
     "minuteMax": "Minute max",
     "otBreakTime": "OT break time"
+  },
+  "SYNCHRONIZE": {
+    "nameFunction": "Name function",
+    "description": "Description",
+    "type": "Type",
+    "value": "Value",
+    "status": "Status",
+    "action": "Action"
   },
   "requestsConfig": "Requests Configuration",
   "workflow": "Workflow",

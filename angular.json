@@ -459,6 +459,50 @@
         }
       }
     },
+    "admin-synchronize-data": {
+      "projectType": "library",
+      "root": "libs/admin/synchronize-data",
+      "sourceRoot": "libs/admin/synchronize-data/src",
+      "prefix": "hcm",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/angular:ng-packagr-lite",
+          "outputs": ["dist/libs/admin/synchronize-data"],
+          "options": {
+            "project": "libs/admin/synchronize-data/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "libs/admin/synchronize-data/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "libs/admin/synchronize-data/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/admin/synchronize-data"],
+          "options": {
+            "jestConfig": "libs/admin/synchronize-data/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/admin/synchronize-data/src/**/*.ts", "libs/admin/synchronize-data/src/**/*.html"]
+          }
+        },
+        "publish": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "command": "yarn publish dist/libs/admin/synchronize-data"
+          }
+        }
+      }
+    },
     "admin-tenants": {
       "projectType": "library",
       "root": "libs/admin/tenants",

@@ -77,7 +77,7 @@ export class ShuiFormComponent {
                 fieldGroupClassName: 'grid grid-cols-2 gap-4',
                 fieldGroup: [
                   {
-                    key: 'healthCareCompany',
+                    key: 'healthcare',
                     type: 'select',
                     defaultValue: 'PVI',
                     templateOptions: {
