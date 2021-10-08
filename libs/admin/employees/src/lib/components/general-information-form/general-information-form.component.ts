@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Actions } from '@datorama/akita-ng-effects';
 import {
   BaseObject,
+  CommonStatus,
   EmployeeGeneralInformation,
   EmployeesService,
   JobLevelsQuery,
@@ -74,7 +75,7 @@ export class GeneralInformationFormComponent {
                 translocoScope: this.scope,
               },
               expressionProperties: {
-                'templateOptions.readonly': '(model.registerType === "LDAP")',
+                'templateOptions.readonly': 'model.registerType === "LDAP"',
                 className: (model, formState) => (formState.editMode ? 'tui-form__row block' : ''),
               },
             },
@@ -92,7 +93,7 @@ export class GeneralInformationFormComponent {
                 translocoScope: this.scope,
               },
               expressionProperties: {
-                'templateOptions.readonly': '(model.registerType === "LDAP")',
+                'templateOptions.readonly': 'model.registerType === "LDAP"',
               },
             },
             {
@@ -127,7 +128,7 @@ export class GeneralInformationFormComponent {
               },
             },
             {
-              key: 'status',
+              key: 'statusBoolean',
               className: 'tui-form__row block',
               type: 'status-toggle',
               defaultValue: true,
@@ -199,6 +200,20 @@ export class GeneralInformationFormComponent {
               },
             },
             {
+              key: 'syncLDAPDirectReport',
+              className: 'tui-form__row block',
+              type: 'toggle',
+              templateOptions: { textfieldLabelOutside: true, size: 'l' },
+              expressionProperties: {
+                'templateOptions.description': this.translocoService.selectTranslate(
+                  'syncLDAPDirectReport',
+                  {},
+                  this.scope
+                ),
+              },
+              hideExpression: 'model.registerType !== "LDAP"',
+            },
+            {
               key: 'directReport',
               className: 'tui-form__row block',
               type: 'user-combo-box',
@@ -210,12 +225,14 @@ export class GeneralInformationFormComponent {
                 placeholder: 'chooseDirectReport',
                 translocoScope: this.scope,
               },
+              hideExpression: 'model.syncLDAPDirectReport',
             },
           ],
         },
       ],
     },
     { key: 'id' },
+    { key: 'registerType' },
   ];
   private readonly request$ = this.activatedRoute.snapshot.params.employeeId
     ? this.employeesService.getEmployeeGeneralInformation(this.activatedRoute.snapshot.params.employeeId).pipe(
@@ -255,7 +272,8 @@ export class GeneralInformationFormComponent {
   onSubmit(): void {
     if (this.form.valid) {
       const formModel = { ...this.form.value };
-      formModel.status = formModel.status ? 1 : 0;
+
+      formModel.status = formModel.statusBoolean ? CommonStatus.active : CommonStatus.inactive;
       this.submitted.emit(formModel);
     }
   }

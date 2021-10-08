@@ -1,6 +1,6 @@
 import { TuiDay, TuiDayRange } from '@taiga-ui/cdk';
 import { TuiFileLike } from '@taiga-ui/kit';
-import { EmployeeCurrentStatus } from '../enums';
+import { CommonStatus, EmployeeCurrentStatus } from '../enums';
 import { DateRange } from './date-range';
 
 export type EmployeeInformationAPIType = 'INDIVIDUAL' | 'DURATION' | 'EDUCATION' | 'SHUI' | 'ATTACHMENT';
@@ -25,7 +25,7 @@ export interface EmployeeGeneralInformation {
   lastName: string;
   otherName?: string;
   image?: string;
-  status: number;
+  status: CommonStatus;
   profileType: string;
   registerType: string;
   registration: number;
@@ -36,6 +36,8 @@ export interface EmployeeGeneralInformation {
   directReport: BaseOption;
   office: BaseOption;
   addressPersonal: EmployeeAddress;
+  syncLDAPDirectReport: boolean;
+  statusBoolean?: boolean;
 }
 
 export interface BankAccount {

@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { EmployeeEducation, EmployeesService, PromptService } from '@nexthcm/cdk';
+import { BaseOption, EmployeeEducation, EmployeesService, PromptService } from '@nexthcm/cdk';
 import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
-import { TRANSLOCO_SCOPE, TranslocoScope } from '@ngneat/transloco';
+import { HashMap, ProviderScope, TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { of } from 'rxjs';
@@ -49,14 +49,30 @@ export class EducationFormComponent {
     {
       key: 'highestCertificate',
       className: 'tui-form__row block',
-      type: 'input',
+      type: 'select',
       templateOptions: {
         translate: true,
         label: 'highestCertificate',
         labelClassName: 'font-semibold',
-        placeholder: 'enterHighestCertificate',
-        textfieldLabelOutside: true,
+        placeholder: 'chooseHighestCertificate',
+        valueProp: 'value',
         translocoScope: this.scope,
+        options: this.translocoService
+          .selectTranslateObject<HashMap<string>>(
+            'HIGHEST_CERTIFICATE_OPTIONS',
+            {},
+            (this.scope as ProviderScope).scope
+          )
+          .pipe(
+            map(
+              (result) =>
+                [
+                  { value: 'COLLEGE', label: result.college },
+                  { value: 'BACHELOR', label: result.bachelor },
+                  { value: 'MASTER', label: result.master },
+                ] as BaseOption<string>[]
+            )
+          ),
       },
     },
     {
@@ -70,6 +86,19 @@ export class EducationFormComponent {
         placeholder: 'enterGraduationYear',
         textfieldLabelOutside: true,
         precision: 0,
+        translocoScope: this.scope,
+      },
+    },
+    {
+      key: 'otherCertificates',
+      className: 'tui-form__row block',
+      type: 'text-area',
+      templateOptions: {
+        translate: true,
+        label: 'otherCertificates',
+        labelClassName: 'font-semibold',
+        placeholder: 'enterOtherCertificates',
+        textfieldLabelOutside: true,
         translocoScope: this.scope,
       },
     },
@@ -116,7 +145,8 @@ export class EducationFormComponent {
     private readonly employeesService: EmployeesService,
     private readonly destroy$: TuiDestroyService,
     private readonly promptService: PromptService,
-    @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope
+    @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope,
+    private readonly translocoService: TranslocoService
   ) {}
 
   onSubmit(): void {

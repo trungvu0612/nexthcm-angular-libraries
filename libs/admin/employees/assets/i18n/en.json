@@ -130,5 +130,14 @@
   "religion": "Religion",
   "enterReligion": "Enter religion...",
   "attachments": "Attachments",
-  "attachmentFiles": "Attachment files"
+  "attachmentFiles": "Attachment files",
+  "HIGHEST_CERTIFICATE_OPTIONS": {
+    "college": "College",
+    "bachelor": "Bachelor",
+    "master": "Master"
+  },
+  "syncLDAPDirectReport": "Sync the direct report from LDAP",
+  "chooseHighestCertificate": "Choose a certificate...",
+  "otherCertificates": "Other certificates",
+  "enterOtherCertificates": "Enter other certificates..."
 }

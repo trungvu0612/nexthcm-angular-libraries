@@ -130,5 +130,14 @@
   "religion": "Tôn giáo",
   "enterReligion": "Nhập tôn giáo...",
   "attachments": "Đính kèm",
-  "attachmentFiles": "Tệp tin đính kèm"
+  "attachmentFiles": "Tệp tin đính kèm",
+  "HIGHEST_CERTIFICATE_OPTIONS": {
+    "college": "Cao đẳng",
+    "bachelor": "Cử nhân",
+    "master": "Thạc sĩ"
+  },
+  "syncLDAPDirectReport": "Đồng bộ người báo cáo trực tiếp từ LDAP",
+  "chooseHighestCertificate": "Chọn chứng chỉ...",
+  "otherCertificates": "Chứng chỉ khác",
+  "enterOtherCertificates": "Nhập chứng chỉ khác..."
 }
