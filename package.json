@@ -142,7 +142,7 @@
     "@ngneat/scam": "^3.0.4",
     "@ngneat/svg-generator": "^3.2.1",
     "@ngneat/tailwind": "^7.0.3",
-    "@ngneat/transloco-optimize": "^3.0.0",
+    "@ngneat/transloco-optimize": "^1.0.2",
     "@ngneat/transloco-validator": "^3.0.0",
     "@nrwl/cli": "12.9.0",
     "@nrwl/cypress": "12.9.0",
