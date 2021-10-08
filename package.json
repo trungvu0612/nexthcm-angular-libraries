@@ -88,7 +88,7 @@
     "@rx-angular/cdk": "^1.0.0-alpha.10",
     "@rx-angular/state": "^1.4.6",
     "@rx-angular/template": "^1.0.0-beta.28",
-    "@rxweb/reactive-form-validators": "^2.1.3",
+    "@rxweb/reactive-form-validators": "^2.1.4",
     "@sweetalert2/ngx-sweetalert2": "^10.0.0",
     "@taiga-ui/addon-commerce": "^2.19.0",
     "@taiga-ui/addon-editor": "^2.19.0",
