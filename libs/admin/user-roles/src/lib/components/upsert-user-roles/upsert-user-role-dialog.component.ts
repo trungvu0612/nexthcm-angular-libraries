@@ -1,19 +1,26 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
+import { PromptService } from '@nexthcm/cdk';
 import { FormBuilder, FormControl } from '@ngneat/reactive-forms';
 import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
+import { RxState } from '@rx-angular/state';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
-import { BehaviorSubject, Observable, of } from 'rxjs';
-import { debounceTime, map, switchMap, take, tap } from 'rxjs/operators';
+import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
+import { catchError, debounceTime, map, startWith, switchMap, take, tap } from 'rxjs/operators';
 import { Policy, UserRole } from '../../models/user-role';
 import { AdminUserRolesService } from '../../services/admin-user-roles.service';
+
+interface ComponentState {
+  loading: boolean;
+}
 
 @Component({
   selector: 'hcm-upsert-user-role-dialog',
   templateUrl: './upsert-user-role-dialog.component.html',
   styleUrls: ['./upsert-user-role-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [RxState],
 })
 export class UpsertUserRoleDialogComponent implements OnInit, AfterViewInit {
   params$ = new BehaviorSubject<{ page?: number; size?: number }>({ size: 100 });
@@ -89,13 +96,38 @@ export class UpsertUserRoleDialogComponent implements OnInit, AfterViewInit {
     },
     { key: 'id' },
   ];
+  // READS
+  readonly loading$ = this.state.select('loading');
+
+  // EVENTS
+  readonly submit$ = new Subject<UserRole>();
+
+  // HANDLERS
+  readonly submitHandler$ = this.submit$.pipe(
+    switchMap((payload) =>
+      this.adminUserRolesService.upsertUserRole(payload).pipe(
+        tap(
+          this.promptService.handleResponse(
+            payload.id ? 'userRoles.updateUserRoleSuccessfully' : 'userRoles.createUserRoleSuccessfully',
+            () => this.context.completeWith(true)
+          )
+        ),
+        catchError(() => of({})),
+        startWith(null)
+      )
+    )
+  );
 
   constructor(
-    @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<UserRole, UserRole>,
+    @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<boolean, UserRole>,
     private readonly fb: FormBuilder,
     private readonly adminUserRolesService: AdminUserRolesService,
-    private readonly translocoService: TranslocoService
-  ) {}
+    private readonly translocoService: TranslocoService,
+    private readonly state: RxState<ComponentState>,
+    private readonly promptService: PromptService
+  ) {
+    this.state.connect('loading', this.submitHandler$.pipe(map((value) => !value)));
+  }
 
   private _data = {} as UserRole;
 
@@ -141,7 +173,7 @@ export class UpsertUserRoleDialogComponent implements OnInit, AfterViewInit {
       const formModel = { ...this.form.value };
 
       formModel.policyRemoves = this.removeArray;
-      this.context.completeWith(formModel);
+      this.submit$.next(formModel);
     }
   }
 

@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, Inject, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { AbstractServerPaginationTableComponent, Pagination } from '@nexthcm/cdk';
 import { ProviderScope, TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
@@ -26,7 +27,10 @@ import { EmployeeLeaveEntitlement } from '../../models/leave-entitlement';
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [RxState],
 })
-export class EmployeeLeaveEntitlementManagementComponent extends AbstractServerPaginationTableComponent<EmployeeLeaveEntitlement> {
+export class EmployeeLeaveEntitlementManagementComponent
+  extends AbstractServerPaginationTableComponent<EmployeeLeaveEntitlement>
+  implements OnInit
+{
   @ViewChild('table') table!: BaseComponent;
 
   readonly columns$: Observable<Columns[]> = this.translocoService
@@ -71,7 +75,8 @@ export class EmployeeLeaveEntitlementManagementComponent extends AbstractServerP
     readonly state: RxState<Pagination<EmployeeLeaveEntitlement>>,
     private readonly translocoService: TranslocoService,
     @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope,
-    private readonly leaveConfigsService: AdminLeaveConfigsService
+    private readonly leaveConfigsService: AdminLeaveConfigsService,
+    private readonly activatedRoute: ActivatedRoute
   ) {
     super(state);
     state.connect(this.request$.pipe(filter(isPresent)));
@@ -83,5 +88,13 @@ export class EmployeeLeaveEntitlementManagementComponent extends AbstractServerP
         tap((searchQuery) => this.queryParams$.next(this.queryParams$.value.set('search', searchQuery)))
       )
     );
+  }
+
+  ngOnInit(): void {
+    const searchParam = this.activatedRoute.snapshot.queryParams.search;
+
+    if (searchParam) {
+      this.search$.next(searchParam);
+    }
   }
 }

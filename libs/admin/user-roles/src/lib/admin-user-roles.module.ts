@@ -4,7 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { Route, RouterModule } from '@angular/router';
 import { SelectOptionsModule } from '@nexthcm/cdk';
 import { inlineLoaderFactory } from '@nexthcm/core';
-import { FormFieldModule, LayoutComponent, LayoutModule } from '@nexthcm/ui';
+import { BaseFormComponentModule, FormFieldModule, LayoutComponent, LayoutModule } from '@nexthcm/ui';
 import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
 import { FormlyModule } from '@ngx-formly/core';
 import { TuiTableModule, TuiTablePaginationModule } from '@taiga-ui/addon-table';
@@ -72,12 +72,9 @@ export const adminUserRolesRoutes: Route[] = [
     TuiTextfieldControllerModule,
     FormFieldModule,
     NgxPermissionsModule,
+    BaseFormComponentModule,
   ],
-  declarations: [
-    UserRoleManagementComponent,
-    UpsertUserRoleDialogComponent,
-    FormlySelectPermissionsComponent,
-  ],
+  declarations: [UserRoleManagementComponent, UpsertUserRoleDialogComponent, FormlySelectPermissionsComponent],
   providers: [
     AdminUserRolesService,
     {
