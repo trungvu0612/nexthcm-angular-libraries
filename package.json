@@ -72,6 +72,7 @@
     "@nexthcm/calendar": "^0.0.1",
     "@nexthcm/cdk": "^0.0.1",
     "@nexthcm/core": "^0.0.1",
+    "@nexthcm/cron-builder": "^0.0.1",
     "@nexthcm/home": "^0.0.1",
     "@nexthcm/human-resource": "^0.0.1",
     "@nexthcm/knowledge-base": "^0.0.1",
