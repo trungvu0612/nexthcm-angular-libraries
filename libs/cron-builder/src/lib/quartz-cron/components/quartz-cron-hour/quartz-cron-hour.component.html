@@ -1,0 +1,57 @@
+<ng-container *ngIf="localization$ | async as localization">
+  <hcm-cron-every
+    (selected)="api.selectEvery()"
+    [checked]="api.isEverySelected()"
+    [disabled]="cronUI.isDisabled()"
+    [label]="localization.quartz.hour.every.label"
+    [segmentId]="genId(mode.EVERY)"
+    class="tui-form__row">
+  </hcm-cron-every>
+
+  <hcm-quartz-cron-increment
+    (primaryValueChanged)="api.setIncrementPrimaryValue($event)"
+    (secondaryValueChanged)="api.setIncrementSecondaryValue($event)"
+    (selected)="api.selectIncrement()"
+    [checked]="api.isIncrementSelected()"
+    [disabledControls]="api.isIncrementControlsDisabled()"
+    [disabled]="cronUI.isDisabled()"
+    [label2]="localization.quartz.hour.increment.label2"
+    [label]="localization.quartz.hour.increment.label1"
+    [primaryOptions]="hourCodes"
+    [primaryValue]="api.getIncrementPrimaryValue()"
+    [secondaryOptions]="hours"
+    [secondaryValue]="api.getIncrementSecondaryValue()"
+    [segmentId]="genId(mode.INCREMENT)"
+    class="tui-form__row">
+  </hcm-quartz-cron-increment>
+
+  <hcm-cron-and
+    (selected)="api.selectAnd()"
+    [checked]="api.isAndSelected()"
+    [disabledControls]="api.isAndControlsDisabled()"
+    [disabled]="cronUI.isDisabled()"
+    [isValueSelected]="api.isSelectedAndValue"
+    [label]="localization.quartz.hour.and.label"
+    [options]="hours"
+    [segmentId]="genId(mode.AND)"
+    [selectValue]="api.selectAndValue"
+    class="tui-form__row">
+  </hcm-cron-and>
+
+  <hcm-cron-range
+    (primaryValueChanged)="api.setRangePrimaryValue($event)"
+    (secondaryValueChanged)="api.setRangeSecondaryValue($event)"
+    (selected)="api.selectRange()"
+    [checked]="api.isRangeSelected()"
+    [disabledControls]="api.isRangeControlsDisabled()"
+    [disabled]="cronUI.isDisabled()"
+    [label2]="localization.quartz.hour.range.label2"
+    [label]="localization.quartz.hour.range.label1"
+    [primaryOptions]="hours"
+    [primaryValue]="api.getRangePrimaryValue()"
+    [secondaryOptions]="hours"
+    [secondaryValue]="api.getRangeSecondaryValue()"
+    [segmentId]="genId(mode.RANGE)"
+    class="tui-form__row">
+  </hcm-cron-range>
+</ng-container>

@@ -1,0 +1,20 @@
+<ng-container *transloco="let t">
+  <label [context]="{ $implicit: t('name') }" [label]="labelContent" class="tui-form__row" tuiLabel>
+    {{ t(model.name) }}
+  </label>
+  <label [context]="{ $implicit: t('description') }" [label]="labelContent" class="tui-form__row" tuiLabel>
+    <span [innerHTML]="t(model.description)"></span>
+  </label>
+  <hcm-base-form
+    (cancel)="onCancel()"
+    (submitForm)="onSubmit()"
+    [fields]="fields"
+    [form]="form"
+    [model]="model"
+    class="mt-5"
+  ></hcm-base-form>
+</ng-container>
+
+<ng-template #labelContent let-label>
+  <span class="font-semibold">{{ label }}</span>
+</ng-template>

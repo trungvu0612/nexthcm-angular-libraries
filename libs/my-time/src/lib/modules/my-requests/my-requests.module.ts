@@ -17,7 +17,6 @@ import { TuiLetModule } from '@taiga-ui/cdk';
 import {
   TuiButtonModule,
   TuiColorModule,
-  TuiDialogModule,
   TuiGroupModule,
   TuiLoaderModule,
   TuiSvgModule,
@@ -71,7 +70,6 @@ import { MyWorkingOutsideRequestsComponent } from './pages/my-working-outside-re
     FormlyTaigaUiModule,
     TuiGroupModule,
     TuiTabsModule,
-    TuiDialogModule,
     ReactiveFormsModule,
     TuiColorModule,
     TuiSvgModule,

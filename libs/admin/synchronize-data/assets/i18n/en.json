@@ -1,0 +1,25 @@
+{
+  "ADMIN_SYNCHRONIZATION_SETTINGS_COLUMNS": {
+    "name": "Name",
+    "description": "Description",
+    "type": "Type",
+    "value": "Value",
+    "status": "Status",
+    "functions": "Functions"
+  },
+  "syncKeycloakUser": "Sync LDAP user",
+  "syncKeycloakUserDescription": "<p>Name: \"cron.account-keycloak-sync.enabled\".</p><p>Sync all non-existent LDAP users in the system.</p>",
+  "syncKeycloakUpdateUser": "Sync manager of LDAP user",
+  "syncKeycloakUpdateUserDescription": "<p>Name: \"cron.update-account-keycloak-sync.enabled\".</p><p>Sync the manager of all synced LDAP users.</p>",
+  "syncOldHrmEmployee": "Sync information of LDAP users",
+  "syncOldHrmEmployeePDescription": "<p>Name: \"cron.info-account-old-hrm-sync.enabled\".</p><p>Sync the information of all synced LDAP users.</p>",
+  "timesheetScheduler": "Sync timesheet",
+  "timesheetSchedulerDescription": "<p>Name: \"update timesheet\".</p><p>Sync the information in module \"My Time\".</p>",
+  "synchronizationSettings": "Synchronization settings",
+  "editSynchronizationSetting": "Edit synchronization setting",
+  "editSynchronizationSettingSuccessfully": "<b>Edit synchronization setting successfully!</b>",
+  "cronExpression": "Cron expression",
+  "value": "Value (s)",
+  "enterSeconds": "Enter seconds...",
+  "startSyncing": "Start syncing!"
+}

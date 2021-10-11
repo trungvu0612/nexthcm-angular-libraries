@@ -1,0 +1,25 @@
+{
+  "ADMIN_SYNCHRONIZATION_SETTINGS_COLUMNS": {
+    "name": "Tên",
+    "description": "Mô tả",
+    "type": "Loại",
+    "value": "Giá trị",
+    "status": "Trạng thái",
+    "functions": "Chức năng"
+  },
+  "syncKeycloakUser": "Đồng bộ người dùng LDAP",
+  "syncKeycloakUserDescription": "<p>Tên: \"cron.account-keycloak-sync.enabled\".</p><p>Đồng bộ tất cả người dùng LDAP chưa tồn tại trong hệ thống.</p>",
+  "syncKeycloakUpdateUser": "Đồng bộ quản lý của người dùng LDAP",
+  "syncKeycloakUpdateUserDescription": "<p>Tên: \"cron.update-account-keycloak-sync.enabled\".</p><p>Đồng bộ các quản lý của tất cả người dùng LDAP đã đồng bộ trước đó.</p>",
+  "syncOldHrmEmployee": "Đồng bộ thông tin của người dùng LDAP",
+  "syncOldHrmEmployeePDescription": "<p>Tên: \"cron.info-account-old-hrm-sync.enabled\".</p><p>Đồng bộ thông tin của người dùng LDAP đã đồng bộ trước đó.</p>",
+  "timesheetScheduler": "Đồng bộ bản ghi thời gian",
+  "timesheetSchedulerDescription": "<p>Tên: \"update timesheet\".</p><p>Đồng bộ tất cả thông tin trong bản ghi thời gian.</p>",
+  "synchronizationSettings": "Cài đặt đồng bộ hoá",
+  "editSynchronizationSetting": "Sửa cài đặt đồng bộ hoá",
+  "editSynchronizationSettingSuccessfully": "<b>Sửa cài đặt đồng bộ hoá thành công!</b>",
+  "cronExpression": "Biểu thức cron",
+  "value": "Giá trị (giây)",
+  "enterSeconds": "Điền số giây...",
+  "startSyncing": "Bắt đầu đồng bộ hoá!"
+}

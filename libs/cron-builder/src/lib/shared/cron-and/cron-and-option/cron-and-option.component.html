@@ -1,0 +1,6 @@
+<label (click)="onSelected($event)" class="wrapper">
+  <tui-primitive-checkbox [disabled]="disabled" [value]="checked$ | async"></tui-primitive-checkbox>
+  <span [class.content_disabled]="disabled" class="content">
+    {{ label }}
+  </span>
+</label>

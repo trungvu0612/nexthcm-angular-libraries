@@ -426,6 +426,7 @@
   "approve": "Approve",
   "history": "History",
   "type": "Type",
+  "chooseType": "Choose type...",
   "date": "Date",
   "chooseDateRange": "Choose date range...",
   "chooseADate": "Choose a date",
@@ -506,14 +507,6 @@
     "hourMax": "Hour max",
     "minuteMax": "Minute max",
     "otBreakTime": "OT break time"
-  },
-  "SYNCHRONIZE": {
-    "nameFunction": "Name function",
-    "description": "Description",
-    "type": "Type",
-    "value": "Value",
-    "status": "Status",
-    "action": "Action"
   },
   "requestsConfig": "Requests Configuration",
   "workflow": "Workflow",

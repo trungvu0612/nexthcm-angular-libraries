@@ -424,6 +424,7 @@
   "approve": "Chấp thuận",
   "history": "Lịch sử",
   "type": "Loại",
+  "chooseType": "Chọn loại...",
   "date": "Ngày",
   "chooseDateRange": "Chọn khoảng thời gian...",
   "requestType": "Loại yêu cầu",
@@ -505,14 +506,6 @@
     "hourMax": "Giờ tối đa",
     "minuteMax": "Phút tối đa",
     "otBreakTime": "Thời gian nghỉ trưa"
-  },
-  "SYNCHRONIZE": {
-    "nameFunction": "Tên  hàm",
-    "description": "Mô tả",
-    "type": "Loại",
-    "value": "Giá trị",
-    "status": "Trạng thái",
-    "action": "Thao tác"
   },
   "requestsConfig": "Cấu hình các yêu cầu",
   "workflow": "Quy trình làm việc",

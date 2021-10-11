@@ -1,0 +1,174 @@
+<ng-container *ngIf="localization$ | async as localization">
+  <hcm-cron-every
+    (selected)="api.selectEvery()"
+    [checked]="api.isEverySelected()"
+    [disabled]="cronUI.isDisabled()"
+    [label]="localization.quartz.day.every.label"
+    [segmentId]="genId(mode.EVERY, segment.dayOfWeek)"
+    class="tui-form__row"
+  ></hcm-cron-every>
+
+  <hcm-quartz-cron-increment
+    (primaryValueChanged)="api.setDayOfWeekIncrementPrimary($event)"
+    (secondaryValueChanged)="api.setDayOfWeekIncrementSecondary($event)"
+    (selected)="api.selectDayOfWeekIncrement()"
+    [checked]="api.isDayOfWeekIncrementSelected()"
+    [disabledControls]="api.isDayOfWeekIncrementControlsDisabled()"
+    [disabled]="cronUI.isDisabled()"
+    [label2]="localization.quartz.day.dayOfWeekIncrement.label2"
+    [label]="localization.quartz.day.dayOfWeekIncrement.label1"
+    [primaryOptions]="daysOfWeekEvery"
+    [primaryValue]="api.getDayOfWeekIncrementPrimary()"
+    [secondaryOptions]="(localizeDaysOfWeekList$ | async) || []"
+    [secondaryValue]="api.getDayOfWeekIncrementSecondary()"
+    [segmentId]="genId(mode.INCREMENT, segment.dayOfWeek)"
+    class="tui-form__row"
+    select2WidthClass="w-32"
+  ></hcm-quartz-cron-increment>
+
+  <hcm-quartz-cron-increment
+    (primaryValueChanged)="api.setDayOfMonthIncrementPrimary($event)"
+    (secondaryValueChanged)="api.setDayOfMonthIncrementSecondary($event)"
+    (selected)="api.selectDayOfMonthIncrement()"
+    [checked]="api.isDayOfMonthIncrementSelected()"
+    [disabledControls]="api.isDayOfMonthIncrementControlsDisabled()"
+    [disabled]="cronUI.isDisabled()"
+    [label2]="localization.quartz.day.dayOfMonthIncrement.label2"
+    [label3]="localization.quartz.day.dayOfMonthIncrement.label3"
+    [label]="localization.quartz.day.dayOfMonthIncrement.label1"
+    [primaryOptions]="daysOfMonth"
+    [primaryValue]="api.getDayOfMonthIncrementPrimary()"
+    [secondaryOptions]="(localizeDaysOfMonthEveryList$ | async) || []"
+    [secondaryValue]="api.getDayOfMonthIncrementSecondary()"
+    [segmentId]="genId(mode.INCREMENT, segment.dayOfMonth)"
+    class="tui-form__row"
+    select2WidthClass="w-20"
+  ></hcm-quartz-cron-increment>
+
+  <hcm-cron-and
+    (selected)="api.selectDayOfWeekAnd()"
+    [checked]="api.isDayOfWeekAndSelected()"
+    [disabledControls]="api.isDayOfWeekAndControlsDisabled()"
+    [disabled]="cronUI.isDisabled()"
+    [isValueSelected]="api.isSelectedDayOfWeekAndValue"
+    [label]="localization.quartz.day.dayOfWeekAnd.label"
+    [options]="(localizeDaysOfWeekCodesList$ | async) || []"
+    [segmentId]="genId(mode.AND, segment.dayOfWeek)"
+    [selectValue]="api.selectDayOfWeekAndValue"
+    class="tui-form__row"
+    gridSize="grid-cols-6"
+  ></hcm-cron-and>
+
+  <hcm-cron-range
+    (primaryValueChanged)="api.setDayOfWeekRangePrimary($event)"
+    (secondaryValueChanged)="api.setDayOfWeekRangeSecondary($event)"
+    (selected)="api.selectDayOfWeekRange()"
+    *tuiLet="localizeDaysOfWeekCodesList$ | async as localizeDaysOfWeekCodesList"
+    [checked]="api.isDayOfWeekRangeSelected()"
+    [disabledControls]="api.isDayOfWeekRangeControlsDisabled()"
+    [disabled]="cronUI.isDisabled()"
+    [label2]="localization.quartz.day.dayOfWeekRange.label2"
+    [label]="localization.quartz.day.dayOfWeekRange.label1"
+    [primaryOptions]="localizeDaysOfWeekCodesList || []"
+    [primaryValue]="api.getDayOfWeekRangePrimary()"
+    [secondaryOptions]="localizeDaysOfWeekCodesList || []"
+    [secondaryValue]="api.getDayOfWeekRangeSecondary()"
+    [segmentId]="genId(mode.RANGE)"
+    class="tui-form__row"
+    select1WidthClass="w-32"
+    select2WidthClass="w-32"
+  ></hcm-cron-range>
+
+  <hcm-cron-and
+    (selected)="api.selectDayOfMonthAnd()"
+    [checked]="api.isDayOfMonthAndSelected()"
+    [disabledControls]="api.isDayOfMonthAndControlsDisabled()"
+    [disabled]="cronUI.isDisabled()"
+    [isValueSelected]="api.isSelectedDayOfMonthAndValue"
+    [label]="localization.quartz.day.dayOfMonthAnd.label"
+    [options]="daysOfMonth"
+    [segmentId]="genId(mode.AND, segment.dayOfMonth)"
+    [selectValue]="api.selectDayOfMonthAndValue"
+    class="tui-form__row"
+  ></hcm-cron-and>
+
+  <hcm-cron-every
+    (selected)="api.selectDayOfMonthLastDay()"
+    [checked]="api.isDayOfMonthLastDaySelected()"
+    [disabled]="cronUI.isDisabled()"
+    [label]="localization.quartz.day.dayOfMonthLastDay.label"
+    [segmentId]="genId(mode.LAST_DAY, segment.dayOfMonth)"
+    class="tui-form__row"
+  ></hcm-cron-every>
+
+  <hcm-cron-every
+    (selected)="api.selectDayOfMonthLastDayWeek()"
+    [checked]="api.isDayOfMonthLastDayWeekSelected()"
+    [disabled]="cronUI.isDisabled()"
+    [label]="localization.quartz.day.dayOfMonthLastDayWeek.label"
+    [segmentId]="genId(mode.LAST_DAY_WEEK, segment.dayOfMonth)"
+    class="tui-form__row"
+  ></hcm-cron-every>
+
+  <hcm-quartz-cron-increment
+    (primaryValueChanged)="api.setDayOfWeekLastNTHDayWeekValue($event)"
+    (selected)="api.selectDayOfWeekLastNTHDayWeek()"
+    [checked]="api.isDayOfWeekLastNTHDayWeekSelected()"
+    [disabledControls]="api.isDayOfWeekLastNTHDayWeekControlsDisabled()"
+    [disabled]="cronUI.isDisabled()"
+    [label2]="localization.quartz.day.dayOfWeekLastNTHDayWeek.label2"
+    [label]="localization.quartz.day.dayOfWeekLastNTHDayWeek.label1"
+    [primaryOptions]="(localizeDaysOfWeekLastList$ | async) || []"
+    [primaryValue]="api.getDayOfWeekLastNTHDayWeekValue()"
+    [segmentId]="genId(mode.LAST_NTH_DAY_WEEK, segment.dayOfWeek)"
+    class="tui-form__row"
+    select1WidthClass="w-32"
+  ></hcm-quartz-cron-increment>
+
+  <hcm-quartz-cron-increment
+    (primaryValueChanged)="api.setDayOfMonthDaysBeforeEndMonthValue($event)"
+    (selected)="api.selectDayOfMonthDaysBeforeEndMonth()"
+    [checked]="api.isDayOfMonthDaysBeforeEndMonthSelected()"
+    [disabledControls]="api.isDayOfMonthDaysBeforeEndMonthControlsDisabled()"
+    [disabled]="cronUI.isDisabled()"
+    [label2]="localization.quartz.day.dayOfMonthDaysBeforeEndMonth.label"
+    [primaryOptions]="daysBeforeEndMonth"
+    [primaryValue]="api.getDayOfMonthDaysBeforeEndMonthValue()"
+    [segmentId]="genId(mode.DAYS_BEFORE_END_MONTH, segment.dayOfMonth)"
+    class="tui-form__row"
+  ></hcm-quartz-cron-increment>
+
+  <hcm-quartz-cron-increment
+    (primaryValueChanged)="api.setDayOfMonthNearestWeekDayOfMonthValue($event)"
+    (selected)="api.selectDayOfMonthNearestWeekDayOfMonth()"
+    [checked]="api.isDayOfMonthNearestWeekDayOfMonthSelected()"
+    [disabledControls]="api.isDayOfMonthNearestWeekDayOfMonthControlsDisabled()"
+    [disabled]="cronUI.isDisabled()"
+    [label2]="localization.quartz.day.dayOfMonthNearestWeekDayOfMonth.label2"
+    [label]="localization.quartz.day.dayOfMonthNearestWeekDayOfMonth.label1"
+    [primaryOptions]="(localizeNearestWeekDayOfMonthList$ | async) || []"
+    [primaryValue]="api.getDayOfMonthNearestWeekDayOfMonthValue()"
+    [segmentId]="genId(mode.NEAREST_WEEKDAY_OF_MONTH, segment.dayOfMonth)"
+    class="tui-form__row"
+    select2WidthClass="w-20"
+  ></hcm-quartz-cron-increment>
+
+  <hcm-quartz-cron-increment
+    (primaryValueChanged)="api.setDayOfWeekNTHWeekDayOfMonthPrimaryValue($event)"
+    (secondaryValueChanged)="api.setDayOfWeekNTHWeekDayOfMonthSecondaryValue($event)"
+    (selected)="api.selectDayOfWeekNTHWeekDayOfMonth()"
+    [checked]="api.isDayOfWeekNTHWeekDayOfMonthSelected()"
+    [disabledControls]="api.isDayOfWeekNTHWeekDayOfMonthControlsDisabled()"
+    [disabled]="cronUI.isDisabled()"
+    [label2]="localization.quartz.day.dayOfWeekNTHWeekDayOfMonth.label2"
+    [label3]="localization.quartz.day.dayOfWeekNTHWeekDayOfMonth.label3"
+    [label]="localization.quartz.day.dayOfWeekNTHWeekDayOfMonth.label1"
+    [primaryOptions]="(localizeLimitedDaysOfMonthEveryList$ | async) || []"
+    [primaryValue]="api.getDayOfWeekNTHWeekDayOfMonthPrimaryValue()"
+    [secondaryOptions]="(localizeDaysOfWeekList$ | async) || []"
+    [secondaryValue]="api.getDayOfWeekNTHWeekDayOfMonthSecondaryValue()"
+    [segmentId]="genId(mode.NTH_WEEKDAY_OF_MONTH, segment.dayOfWeek)"
+    class="tui-form__row"
+    select2WidthClass="w-32"
+  ></hcm-quartz-cron-increment>
+</ng-container>

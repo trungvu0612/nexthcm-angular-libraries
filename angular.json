@@ -915,6 +915,50 @@
         }
       }
     },
+    "cron-builder": {
+      "projectType": "library",
+      "root": "libs/cron-builder",
+      "sourceRoot": "libs/cron-builder/src",
+      "prefix": "hcm",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/angular:ng-packagr-lite",
+          "outputs": ["dist/libs/cron-builder"],
+          "options": {
+            "project": "libs/cron-builder/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "libs/cron-builder/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "libs/cron-builder/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/cron-builder"],
+          "options": {
+            "jestConfig": "libs/cron-builder/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/cron-builder/src/**/*.ts", "libs/cron-builder/src/**/*.html"]
+          }
+        },
+        "publish": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "command": "yarn transloco-optimize && yarn publish dist/libs/cron-builder"
+          }
+        }
+      }
+    },
     "hcm-web": {
       "projectType": "application",
       "root": "apps/hcm-web",

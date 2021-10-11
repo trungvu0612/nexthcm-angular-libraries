@@ -3,5 +3,6 @@
   "dest": "../../../dist/libs/admin/synchronize-data",
   "lib": {
     "entryFile": "src/index.ts"
-  }
+  },
+  "assets": ["assets"]
 }

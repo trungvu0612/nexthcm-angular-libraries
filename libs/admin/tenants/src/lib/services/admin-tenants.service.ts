@@ -7,10 +7,11 @@ import { BaseTenant, OrganizationalUnit, Tenant, TenantDomain } from '../models/
 import { TenantStatusStatistic } from '../models/tenant-status-statistic';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class AdminTenantsService {
-  constructor(private readonly http: HttpClient) {}
+  constructor(private readonly http: HttpClient) {
+  }
 
   getTenants(params: HttpParams): Observable<Pagination<BaseTenant>> {
     return this.http.get<PagingResponse<BaseTenant>>(`${ACCOUNT_API_PATH}/tenants`, { params }).pipe(
@@ -27,7 +28,7 @@ export class AdminTenantsService {
   }
 
   createTenant(payload: Tenant): Observable<Tenant> {
-    return this.http.post<Tenant>(`${ACCOUNT_API_PATH}/tenants`, payload);
+    return this.http.post<BaseResponse<Tenant>>(`${ACCOUNT_API_PATH}/tenants`, payload).pipe(map(res => res.data));
   }
 
   removeTenant(id: string): Observable<unknown> {
@@ -93,7 +94,7 @@ export class AdminTenantsService {
   getParentLevel(orgType: string, tenantId: string): Observable<OrganizationalUnit[]> {
     return this.http
       .get<BaseResponse<OrganizationalUnit[]>>(`${ACCOUNT_API_PATH}/orgs/parent-org-by-org-type`, {
-        params: { orgType, tenantId },
+        params: { orgType, tenantId }
       })
       .pipe(map((res) => res.data));
   }

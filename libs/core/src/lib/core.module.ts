@@ -41,6 +41,7 @@ akitaConfig({ resettable: true });
     SvgIconsModule.forRoot({ defaultSize: 'lg' }),
     AkitaNgRouterStoreModule,
     QuicklinkModule,
+    TuiNotificationsModule,
   ],
   providers: [
     API_PREFIX_INTERCEPTOR_PROVIDER,

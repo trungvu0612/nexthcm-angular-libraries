@@ -1,0 +1,46 @@
+<hcm-page [title]="'synchronizeData' | transloco">
+  <tui-loader [overlay]="true" [showLoader]="(loading$ | async) === true">
+    <ngx-table
+      #table
+      [columns]="(columns$ | async) || []"
+      [configuration]="configuration"
+      [data]="(data$ | async) || []"
+    >
+      <ng-template let-row>
+        <ng-container *tuiLet="item(row) as item">
+          <td>{{ item.name | transloco }}</td>
+          <td>
+            <div [innerHTML]="item.description | transloco"></div>
+          </td>
+          <td>{{ item.type }}</td>
+          <td>{{ item.value }}</td>
+          <td>
+            <tui-tag
+              [value]="CommonStatus[item.status] | transloco"
+              class="{{ CommonStatus[item.status] }}-tag"
+            ></tui-tag>
+          </td>
+          <td>
+            <div *ngxPermissionsOnly="'UPDATE_SYNC_DATA_MANAGEMENT'" class="flex items-center">
+              <button
+                (click)="onEditSynchronizationSetting(item)"
+                appearance="flat"
+                class="tui-space_right-3"
+                icon="tuiIconEditLarge"
+                size="m"
+                tuiIconButton
+              ></button>
+              <button
+                (click)="onSync(item.id)"
+                appearance="flat"
+                icon="tuiIconPlayLarge"
+                size="m"
+                tuiIconButton
+              ></button>
+            </div>
+          </td>
+        </ng-container>
+      </ng-template>
+    </ngx-table>
+  </tui-loader>
+</hcm-page>

@@ -30,7 +30,7 @@ export class UpsertTenantDialogComponent {
     this.adminTenantsService
       .createTenant(value)
       .pipe(
-        tap((res) => this.context.completeWith(res)),
+        tap((data) => this.context.completeWith(data)),
         takeUntil(this.destroy$)
       )
       .subscribe(this.promptService.handleResponse(''));
