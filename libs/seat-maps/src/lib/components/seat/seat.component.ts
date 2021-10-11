@@ -76,7 +76,6 @@ export class SeatComponent {
   }
 
   get status(): string {
-    console.log(this.userInfo);
     return this.seat.assignedUser ? UserState[this.random] + ' seatmap_status' : 'seatmap_status';
   }
 

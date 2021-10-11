@@ -93,19 +93,7 @@
   "ADMIN_POLICIES": {
     "chooseCategory": "Chọn danh mục",
     "name": "Tên",
-    "policyManagement": "Quản lý chính sách",
-    "POLICIES_MANAGEMENT_COLUMNS": {
-      "topic": "Chủ đề",
-      "shortDescription": "Mô tả ngắn",
-      "status": "Trạng thái",
-      "thumbnail": "Hình",
-      "longDescription": "Mô tả dài",
-      "createdDate": "Ngày tạo",
-      "operations": "Hoạt động"
-    },
-    "MESSAGES": {
-      "deleteProcess": "Bạn có chắc chắn muốn xóa chính sách này không?"
-    }
+    "policyManagement": "Quản lý chính sách"
   },
   "ADMIN_CONTRACT_MANAGEMENT_COLUMNS": {
     "contractManagement": "Quản lý hợp đồng",

@@ -161,4 +161,5 @@ export interface UserDto {
   directReport: DirectReportDTO;
   jobTitle: JobTitleDTO;
   image?: string;
+  companyEmail?: string;
 }

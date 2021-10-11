@@ -21,8 +21,8 @@ import { TranslocoLocaleModule } from '@ngneat/transloco-locale';
 import { FormlyModule } from '@ngx-formly/core';
 import { TuiTablePaginationModule } from '@taiga-ui/addon-table';
 import { TuiLetModule } from '@taiga-ui/cdk';
-import { TuiButtonModule, TuiLoaderModule } from '@taiga-ui/core';
-import { TuiCheckboxModule, TuiTabsModule, TuiTagModule } from '@taiga-ui/kit';
+import { TuiButtonModule, TuiLoaderModule, TuiPrimitiveCheckboxModule } from '@taiga-ui/core';
+import { TuiTabsModule, TuiTagModule } from '@taiga-ui/kit';
 import { TableModule } from 'ngx-easy-table';
 import { NgxPermissionsGuard, NgxPermissionsModule } from 'ngx-permissions';
 import { AdminLeaveConfigsService } from './admin-leave-configs.service';
@@ -92,11 +92,11 @@ const TABS: MenuItem[] = [
     AkitaNgEffectsModule.forFeature([WorkflowsEffects, JobTitlesEffects, LeaveTypesEffects]),
     FormlyModule,
     NgxPermissionsModule,
-    TuiCheckboxModule,
     FormsModule,
     FormlyStatusToggleComponentModule,
     InputFilterComponentModule,
     TranslocoLocaleModule,
+    TuiPrimitiveCheckboxModule,
   ],
   providers: [
     AdminLeaveConfigsService,

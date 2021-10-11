@@ -3,7 +3,7 @@ import { Actions } from '@datorama/akita-ng-effects';
 import { AuthService } from '@nexthcm/auth';
 import { CommonStatus, loadWorkflows, PromptService, WorkflowsQuery } from '@nexthcm/cdk';
 import { FormBuilder } from '@ngneat/reactive-forms';
-import { TranslocoService } from '@ngneat/transloco';
+import { TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
@@ -60,6 +60,7 @@ export class UpsertLeaveTypeDialogComponent implements OnInit {
         labelClassName: 'font-semibold',
         translate: true,
         label: 'paidLeave',
+        translocoScope: this.scope,
       },
     },
     {
@@ -101,7 +102,8 @@ export class UpsertLeaveTypeDialogComponent implements OnInit {
     private readonly workflowsQuery: WorkflowsQuery,
     private readonly destroy$: TuiDestroyService,
     private readonly promptService: PromptService,
-    private readonly actions: Actions
+    private readonly actions: Actions,
+    @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope
   ) {
     this.actions.dispatch(loadWorkflows());
   }

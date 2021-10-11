@@ -19,7 +19,7 @@ import { AdminSeatMapsService } from '../../services/admin-seat-maps.service';
 export class SeatMapListComponent extends AbstractServerSortPaginationTableComponent<Zone> {
   @ViewChild('table') table!: BaseComponent;
   readonly columns$ = this.translocoService
-    .selectTranslateObject('ZONE_TABLE', {}, (this.scope as ProviderScope).scope)
+    .selectTranslateObject('ADMIN_SEAT_MAPS_COLUMNS', {}, (this.scope as ProviderScope).scope)
     .pipe(
       map((translate) => [
         { key: 'name', title: translate.name },
@@ -55,7 +55,7 @@ export class SeatMapListComponent extends AbstractServerSortPaginationTableCompo
     from(
       this.promptService.open({
         icon: 'question',
-        html: this.translocoService.translate('ZONE_TABLE.MESSAGES.deleteSeatMap'),
+        html: this.translocoService.translate('seatMaps.deleteSeatMap'),
         showCancelButton: true,
       })
     )

@@ -1,10 +1,28 @@
 {
-  "deletePolicy": "Are you sure you want to remove this policy ?",
   "KNOWLEDGE_BASE_TABLE": {
     "creator": "Creator",
     "category": "Category",
     "description": "Description",
     "status": "Status",
-    "action": "Action"
-  }
+    "functions": "Functions"
+  },
+  "deletePolicy": "<b>Are you sure you want to remove this policy?</b>",
+  "deletePolicySuccessfully": "<b>Delete policy successfully!</b>",
+  "updatePolicySuccessfully": "<b>Update policy successfully!</b>",
+  "createPolicySuccessfully": "<b>Create policy successfully!</b>",
+  "POLICIES_MANAGEMENT_COLUMNS": {
+    "topic": "Topic",
+    "shortDescription": "Short Description",
+    "status": "Status",
+    "thumbnail": "Thumbnail",
+    "longDescription": "Long Description",
+    "createdDate": "Created Date",
+    "functions": "Functions"
+  },
+  "topic": "Topic",
+  "shortDescription": "Short Description",
+  "status": "Status",
+  "thumbnail": "Thumbnail",
+  "longDescription": "Long Description",
+  "operations": "Operators"
 }

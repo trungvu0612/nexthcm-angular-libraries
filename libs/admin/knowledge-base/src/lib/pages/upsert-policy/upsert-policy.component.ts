@@ -1,7 +1,8 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { UploadFileService } from '@nexthcm/cdk';
+import { PromptService, UploadFileService } from '@nexthcm/cdk';
 import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
+import { TRANSLOCO_SCOPE, TranslocoScope } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { AdminKnowledgeBaseService } from '../../admin-knowledge-base.service';
@@ -28,7 +29,8 @@ export class UpsertPolicyComponent implements OnInit {
           templateOptions: {
             required: true,
             translate: true,
-            label: 'ADMIN_POLICIES.POLICIES_MANAGEMENT_COLUMNS.topic',
+            label: 'topic',
+            translocoScope: this.scope,
           },
         },
       ],
@@ -42,7 +44,8 @@ export class UpsertPolicyComponent implements OnInit {
           defaultValue: true,
           templateOptions: {
             translate: true,
-            description: 'ADMIN_POLICIES.POLICIES_MANAGEMENT_COLUMNS.status',
+            description: 'status',
+            translocoScope: this.scope,
           },
         },
       ],
@@ -71,9 +74,10 @@ export class UpsertPolicyComponent implements OnInit {
             accept: 'image/*',
             textfieldSize: 's',
             translate: true,
-            label: 'ADMIN_POLICIES.POLICIES_MANAGEMENT_COLUMNS.thumbnail',
+            label: 'thumbnail',
             previewImage: true,
             serverRequest: this.uploadFileService.uploadFile.bind(this.uploadFileService, 'policy'),
+            translocoScope: this.scope,
           },
         },
       ],
@@ -87,8 +91,9 @@ export class UpsertPolicyComponent implements OnInit {
           templateOptions: {
             required: true,
             translate: true,
-            label: 'ADMIN_POLICIES.POLICIES_MANAGEMENT_COLUMNS.shortDescription',
+            label: 'shortDescription',
             placeholder: 'Short Description',
+            translocoScope: this.scope,
           },
         },
       ],
@@ -102,14 +107,13 @@ export class UpsertPolicyComponent implements OnInit {
           templateOptions: {
             required: true,
             translate: true,
-            label: 'ADMIN_POLICIES.POLICIES_MANAGEMENT_COLUMNS.longDescription',
+            label: 'longDescription',
+            translocoScope: this.scope,
           },
         },
       ],
     },
-    {
-      key: 'mobileThumbnail',
-    },
+    { key: 'mobileThumbnail' },
   ];
 
   constructor(
@@ -119,7 +123,9 @@ export class UpsertPolicyComponent implements OnInit {
     private uploadFileService: UploadFileService,
     private cdr: ChangeDetectorRef,
     private destroy$: TuiDestroyService,
-    private policiesService: AdminKnowledgeBaseService
+    private policiesService: AdminKnowledgeBaseService,
+    @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope,
+    private readonly promptService: PromptService
   ) {
     this.id = this.activatedRoute.snapshot.params.id;
     this.form = this.formBuilder.group<AdminPolicy>({});
@@ -142,13 +148,21 @@ export class UpsertPolicyComponent implements OnInit {
       this.form?.controls?.mobileThumbnail?.patchValue(this.form?.controls?.thumbnail?.value);
       this.form?.controls?.status?.patchValue(this.form.value.status ? 1 : 0);
       if (this.id) {
-        this.policiesService.editPolicies(this.form.value, this.id).subscribe((item) => {
-          this.router.navigateByUrl('/admin/knowledge-base');
-        });
+        this.policiesService
+          .editPolicies(this.form.value, this.id)
+          .subscribe(
+            this.promptService.handleResponse('adminKnowledgeBase.updatePolicySuccessfully', () =>
+              this.router.navigateByUrl('/admin/knowledge-base')
+            )
+          );
       } else {
-        this.policiesService.createPolicies(this.form.value).subscribe((item) => {
-          this.router.navigateByUrl('/admin/knowledge-base');
-        });
+        this.policiesService
+          .createPolicies(this.form.value)
+          .subscribe(
+            this.promptService.handleResponse('adminKnowledgeBase.createPolicySuccessfully', () =>
+              this.router.navigateByUrl('/admin/knowledge-base')
+            )
+          );
       }
     }
   }

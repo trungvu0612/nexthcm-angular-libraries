@@ -23,7 +23,7 @@
           <td>{{ item.name }}</td>
           <td>{{ item.description }}</td>
           <td>
-            <tui-checkbox [ngModel]="!!item.paidLeave" class="mx-auto" disabled size="l"></tui-checkbox>
+            <tui-primitive-checkbox [value]="!!item.paidLeave" class="mx-auto" size="l"></tui-primitive-checkbox>
           </td>
           <td>
             <div class="flex items-center">

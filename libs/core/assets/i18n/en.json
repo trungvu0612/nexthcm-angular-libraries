@@ -93,19 +93,7 @@
   "ADMIN_POLICIES": {
     "chooseCategory": "Choose category",
     "name": "Name",
-    "policyManagement": "Policy Management",
-    "POLICIES_MANAGEMENT_COLUMNS": {
-      "topic": "Topic",
-      "shortDescription": "Short Description",
-      "status": "Status",
-      "thumbnail": "Thumbnail",
-      "longDescription": "Long Description",
-      "createdDate": "Created Date",
-      "operations": "Operators"
-    },
-    "MESSAGES": {
-      "deleteProcess": "Are you sure you want to delete this policy?"
-    }
+    "policyManagement": "Policy Management"
   },
   "ADMIN_CONTRACT_MANAGEMENT_COLUMNS": {
     "contractManagement": "Contract Management",
@@ -510,7 +498,7 @@
   },
   "requestsConfig": "Requests Configuration",
   "workflow": "Workflow",
-  "chooseWorkflow": "Choose workflow",
+  "chooseWorkflow": "Choose workflow...",
   "ward": "Ward",
   "chooseWard": "Choose ward",
   "next": "Next",

@@ -1,10 +1,28 @@
 {
-  "deletePolicy": "Bạn có muốn xóa chính sách này không?",
   "KNOWLEDGE_BASE_TABLE": {
     "creator": "Người tạo",
     "category": "Thể loại",
     "description": "Mô tả",
     "status": "Trạng thái",
-    "action": "Chức năng"
-  }
+    "functions": "Chức năng"
+  },
+  "deletePolicy": "<b>Bạn có muốn xóa chính sách này không?</b>",
+  "deletePolicySuccessfully": "<b>Đã xóa chính sách!</b>",
+  "updatePolicySuccessfully": "<b>Cập nhật chính sách thành công!</b>",
+  "createPolicySuccessfully": "<b>Tạo chính sách thành công!</b>",
+  "POLICIES_MANAGEMENT_COLUMNS": {
+    "topic": "Chủ đề",
+    "shortDescription": "Mô tả ngắn",
+    "status": "Trạng thái",
+    "thumbnail": "Hình thu nhỏ",
+    "longDescription": "Mô tả dài",
+    "createdDate": "Ngày tạo",
+    "functions": "Chức năng"
+  },
+  "topic": "Chủ đề",
+  "shortDescription": "Mô tả ngắn",
+  "status": "Trạng thái",
+  "thumbnail": "Hình thu nhỏ",
+  "longDescription": "Mô tả dài",
+  "functions": "Chức năng"
 }

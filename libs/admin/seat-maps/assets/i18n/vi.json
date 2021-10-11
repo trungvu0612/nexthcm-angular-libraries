@@ -1,5 +1,5 @@
 {
-  "ZONE_TABLE": {
+  "ADMIN_SEAT_MAPS_COLUMNS": {
     "name": "Tên",
     "office": "Văn phòng",
     "address": "Địa chỉ",
@@ -7,9 +7,6 @@
     "action": "Thao tác",
     "domainUrl": "Tên miền",
     "status": "Trạng thái",
-    "MESSAGES": {
-      "deleteSeatMap": "Bạn có chắc chắn muốn sửa sơ đồ chỗ ngồi này không?",
-      "deleteDomain": "Bạn có chắc chắn muốn xóa tên miền này không?"
-    }
+    "deleteSeatMap": "<b>Bạn có chắc chắn muốn sửa sơ đồ chỗ ngồi này không?</b>"
   }
 }

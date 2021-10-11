@@ -5,7 +5,7 @@ import { ProviderScope, TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from
 import { RxState } from '@rx-angular/state';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { BaseComponent, Columns } from 'ngx-easy-table';
-import { from, Observable, of, Subject } from 'rxjs';
+import { from, iif, Observable, of, Subject } from 'rxjs';
 import {
   catchError,
   debounceTime,
@@ -31,13 +31,13 @@ import { AdminPolicy } from '../../models/policies';
 export class ListPoliciesComponent extends AbstractServerSortPaginationTableComponent<AdminPolicy> {
   @ViewChild('table') table!: BaseComponent;
   columns$: Observable<Columns[]> = this.translocoService
-    .selectTranslateObject('ADMIN_POLICIES.POLICIES_MANAGEMENT_COLUMNS', {}, (this.scope as ProviderScope).scope)
+    .selectTranslateObject('POLICIES_MANAGEMENT_COLUMNS', {}, (this.scope as ProviderScope).scope)
     .pipe(
       map((result) => [
         { key: 'topic', title: result.topic },
         { key: 'shortDescription', title: result.shortDescription },
         { key: 'createdDate', title: result.createdDate },
-        { key: 'operations', title: result.operations, orderEnabled: false },
+        { key: '', title: result.functions, orderEnabled: false },
       ])
     );
 
@@ -73,22 +73,22 @@ export class ListPoliciesComponent extends AbstractServerSortPaginationTableComp
     );
   }
 
-  delete(id: string) {
+  delete(id: string): void {
     from(
       this.promptService.open({
         icon: 'question',
-        text: this.translocoService.translate(`adminKnowledgeBase.deletePolicy`),
+        html: this.translocoService.translate('adminKnowledgeBase.deletePolicy'),
         showCancelButton: true,
       })
     )
       .pipe(
-        filter((result) => result.isConfirmed),
-        switchMap(() =>
-          this.policiesService.delete(id).pipe(tap(() => this.queryParams$.next(this.queryParams$.value)))
-        ),
-        catchError((err) => this.promptService.open({ icon: 'error', text: err.error.message })),
+        switchMap((result) => iif(() => result.isConfirmed, this.policiesService.delete(id))),
         takeUntil(this.destroy$)
       )
-      .subscribe();
+      .subscribe(
+        this.promptService.handleResponse('adminKnowledgeBase.deletePolicySuccessfully', () =>
+          this.queryParams$.next(this.queryParams$.value)
+        )
+      );
   }
 }

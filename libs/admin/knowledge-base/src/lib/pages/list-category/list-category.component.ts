@@ -41,7 +41,7 @@ export class ListCategoryComponent extends AbstractServerSortPaginationTableComp
         { key: 'category', title: translate.category },
         { key: 'description', title: translate.description },
         { key: 'status', title: translate.status },
-        { key: 'action', title: translate.action, orderEnabled: false },
+        { key: '', title: translate.functions, orderEnabled: false },
       ])
     );
   readonly form = new FormGroup<Partial<Category>>({});
