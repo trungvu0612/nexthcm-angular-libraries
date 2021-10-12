@@ -1,11 +1,14 @@
-import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Inject, ViewChild } from '@angular/core';
 import { ProviderScope, TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
 import { FieldType } from '@ngx-formly/core';
-import { TuiContextWithImplicit, TuiIdentityMatcher, TuiStringHandler } from '@taiga-ui/cdk';
-import { Columns, Config, DefaultConfig } from 'ngx-easy-table';
-import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
-import { Item } from '../../models/user-role';
+import { ALWAYS_TRUE_HANDLER, isNativeFocused, TuiIdentityMatcher, TuiValidationError } from '@taiga-ui/cdk';
+import { TuiValueContentContext } from '@taiga-ui/core';
+import { PolymorpheusTemplate } from '@tinkoff/ng-polymorpheus';
+import { API, BaseComponent, Columns, Config, DefaultConfig } from 'ngx-easy-table';
+import { Observable, of, Subject } from 'rxjs';
+import { catchError, debounceTime, distinctUntilChanged, filter, map, startWith, switchMap, tap } from 'rxjs/operators';
+import { BasePermission } from '../../models/base-permission';
+import { AdminUserRolesService } from '../../services/admin-user-roles.service';
 
 @Component({
   selector: 'hcm-formly-select-permissions',
@@ -13,7 +16,14 @@ import { Item } from '../../models/user-role';
   styleUrls: ['./formly-select-permissions.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FormlySelectPermissionsComponent extends FieldType implements OnInit {
+export class FormlySelectPermissionsComponent extends FieldType implements AfterViewInit {
+  @ViewChild('table', { static: true }) table!: BaseComponent;
+
+  defaultOptions = {
+    templateOptions: {
+      textfieldSize: 'l',
+    },
+  };
   configuration: Config = {
     ...DefaultConfig,
     paginationEnabled: false,
@@ -21,7 +31,6 @@ export class FormlySelectPermissionsComponent extends FieldType implements OnIni
     fixedColumnWidth: false,
     orderEnabled: false,
   };
-
   readonly columns$: Observable<Columns[]> = this.translocoService
     .selectTranslateObject('ADMIN_USER_ROLE_PERMISSION_COLUMNS', {}, (this.scope as ProviderScope).scope)
     .pipe(
@@ -32,28 +41,55 @@ export class FormlySelectPermissionsComponent extends FieldType implements OnIni
         { key: 'functions', title: result.functions },
       ])
     );
-  valueChange$!: Observable<Item[]>;
+  valueChange$!: Observable<BasePermission[]>;
+  readonly search$ = new Subject<string | null>();
+  readonly items$: Observable<BasePermission[] | null> = this.search$.pipe(
+    filter((value) => value !== null),
+    debounceTime(500),
+    distinctUntilChanged(),
+    switchMap((search) => this.adminUserRolesService.getPermissions(search).pipe(startWith(null))),
+    catchError(() => of([])),
+    startWith([])
+  );
+  disabledItemHandler = ALWAYS_TRUE_HANDLER;
+  @ViewChild('errorContent', { static: true }) errorContent?: PolymorpheusTemplate<{}>;
+  error: TuiValidationError | null = null;
+  readonly context!: { $implicit: any };
 
   constructor(
     private readonly translocoService: TranslocoService,
-    @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope
+    @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope,
+    private readonly adminUserRolesService: AdminUserRolesService
   ) {
     super();
   }
 
-  ngOnInit() {
-    this.valueChange$ = this.formControl.valueChanges.pipe(startWith(this.formControl.value as Item[]));
+  readonly stringify = (item: BasePermission) => item.name;
+
+  readonly identityMatcher: TuiIdentityMatcher<any> = (item1: BasePermission, item2: BasePermission) =>
+    item1.id === item2.id;
+
+  readonly item = (item: BasePermission) => item;
+
+  ngAfterViewInit(): void {
+    this.error = new TuiValidationError(this.errorContent || '');
+    this.valueChange$ = this.formControl.valueChanges.pipe(
+      startWith(this.formControl.value as BasePermission[]),
+      tap((data) => this.table.apiEvent({ type: API.setPaginationDisplayLimit, value: data?.length || 0 }))
+    );
   }
 
-  item = (item: any) => item;
+  getContext($implicit: any, { nativeElement }: ElementRef<HTMLElement>): TuiValueContentContext<any> {
+    return { $implicit, active: isNativeFocused(nativeElement) };
+  }
 
-  readonly stringify: TuiStringHandler<any | TuiContextWithImplicit<any>> = (item) =>
-    'name' in item ? item.name : item.$implicit.name;
-  readonly identityMatcher: TuiIdentityMatcher<any> = (item1, item2) => item1.id === item2.id;
+  delete(index: number): void {
+    const permissions = (this.formControl.value as BasePermission[]).slice();
+    const removingItem = permissions.splice(index, 1)[0];
 
-  delete(index: number) {
-    const result = (this.formControl.value as Item[]).slice();
-    result.splice(index, 1);
-    this.formControl.setValue(result);
+    if (this.to.onRemovePermission) {
+      this.to.onRemovePermission(removingItem);
+    }
+    this.formControl.setValue(permissions);
   }
 }

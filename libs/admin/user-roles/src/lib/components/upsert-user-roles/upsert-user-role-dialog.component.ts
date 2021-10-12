@@ -1,14 +1,15 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
 import { PromptService } from '@nexthcm/cdk';
 import { FormBuilder, FormControl } from '@ngneat/reactive-forms';
 import { TranslocoService } from '@ngneat/transloco';
-import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
+import { FormlyFieldConfig } from '@ngx-formly/core';
 import { RxState } from '@rx-angular/state';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
-import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
+import { of, Subject } from 'rxjs';
 import { catchError, debounceTime, map, startWith, switchMap, take, tap } from 'rxjs/operators';
-import { Policy, UserRole } from '../../models/user-role';
+import { BasePermission } from '../../models/base-permission';
+import { UserRole } from '../../models/user-role';
 import { AdminUserRolesService } from '../../services/admin-user-roles.service';
 
 interface ComponentState {
@@ -22,21 +23,14 @@ interface ComponentState {
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [RxState],
 })
-export class UpsertUserRoleDialogComponent implements OnInit, AfterViewInit {
-  params$ = new BehaviorSubject<{ page?: number; size?: number }>({ size: 100 });
-  permissions$: Observable<Policy[]> = this.adminUserRolesService
-    .getPermissions(this.params$.value)
-    .pipe(map((data) => data.items));
-
+export class UpsertUserRoleDialogComponent implements OnInit {
   dataTable = this.context.data;
 
-  arrayTemp: never[] = [];
-  count = 0;
-  removeArray = [];
+  // arrayTemp: never[] = [];
+  removingPermissions: BasePermission[] = [];
 
   form = this.fb.group<UserRole>({} as UserRole);
   model = {} as UserRole;
-  options: FormlyFormOptions = {};
   fields: FormlyFieldConfig[] = [
     {
       className: 'tui-form__row block',
@@ -84,14 +78,13 @@ export class UpsertUserRoleDialogComponent implements OnInit, AfterViewInit {
       key: 'policies',
       type: 'select-permissions',
       templateOptions: {
-        options: this.permissions$,
         translate: true,
         required: true,
         label: 'permission',
-        labelProp: 'name',
-        valueProp: 'id',
         labelClassName: 'font-semibold',
         textfieldLabelOutside: true,
+        placeholder: 'searchPermissions',
+        onRemovePermission: (item: BasePermission) => this.removingPermissions.push(item),
       },
     },
     { key: 'id' },
@@ -129,50 +122,21 @@ export class UpsertUserRoleDialogComponent implements OnInit, AfterViewInit {
     this.state.connect('loading', this.submitHandler$.pipe(map((value) => !value)));
   }
 
-  private _data = {} as UserRole;
-
   get data(): UserRole {
-    return this._data;
+    return this.context.data;
   }
 
   ngOnInit(): void {
-    if (this.dataTable) {
-      this.adminUserRolesService.getAdminUserRolesId(this.dataTable).subscribe((item) => {
-        this.model = { ...this.model, ...item.data };
-
-        this.arrayTemp = item.data.policies;
-        this.count = item.data.policies.length;
-      });
+    if (this.data) {
+      this.model = { ...this.model, ...this.data };
     }
   }
 
-  /*Todo: fix never type*/
-  ngAfterViewInit() {
-    if (this.context.data) {
-      const policiesControl = this.form.controls.policies;
-      if (policiesControl) {
-        policiesControl.valueChanges.subscribe((data) => {
-          const difference = data
-            .filter((x: never) => !this.arrayTemp.includes(x))
-            .concat(this.arrayTemp.filter((x) => !data.includes(x)));
-
-          const intersection = data.filter((x: never) => this.arrayTemp.includes(x));
-
-          const differenceIn = data.filter((x: never) => !this.arrayTemp.includes(x));
-
-          if (intersection.concat(differenceIn).length < this.arrayTemp.length) {
-            this.removeArray = difference.filter((x: never) => this.arrayTemp.includes(x));
-          }
-        });
-      }
-    }
-  }
-
-  onSubmit() {
+  onSubmit(): void {
     if (this.form.valid) {
       const formModel = { ...this.form.value };
 
-      formModel.policyRemoves = this.removeArray;
+      formModel.policyRemoves = this.removingPermissions;
       this.submit$.next(formModel);
     }
   }

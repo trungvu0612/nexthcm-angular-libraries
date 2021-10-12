@@ -4,19 +4,22 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { Route, RouterModule } from '@angular/router';
 import { SelectOptionsModule } from '@nexthcm/cdk';
 import { inlineLoaderFactory } from '@nexthcm/core';
-import { BaseFormComponentModule, FormFieldModule, LayoutComponent, LayoutModule } from '@nexthcm/ui';
+import { BaseFormComponentModule, LayoutComponent, LayoutModule } from '@nexthcm/ui';
 import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
 import { FormlyModule } from '@ngx-formly/core';
 import { TuiTableModule, TuiTablePaginationModule } from '@taiga-ui/addon-table';
-import { TuiLetModule } from '@taiga-ui/cdk';
+import { TuiElementModule, TuiLetModule } from '@taiga-ui/cdk';
 import {
   TuiButtonModule,
   TuiDataListModule,
+  TuiErrorModule,
+  TuiLabelModule,
   TuiLoaderModule,
   TuiSvgModule,
   TuiTextfieldControllerModule,
 } from '@taiga-ui/core';
 import { TuiDataListWrapperModule, TuiMultiSelectModule } from '@taiga-ui/kit';
+import { PolymorpheusModule } from '@tinkoff/ng-polymorpheus';
 import { TableModule } from 'ngx-easy-table';
 import { NgxPermissionsGuard, NgxPermissionsModule } from 'ngx-permissions';
 import { FormlySelectPermissionsComponent } from './components/formly-select-permissions/formly-select-permissions.component';
@@ -46,15 +49,7 @@ export const adminUserRolesRoutes: Route[] = [
   imports: [
     CommonModule,
     RouterModule.forChild(adminUserRolesRoutes),
-    FormlyModule.forChild({
-      types: [
-        {
-          name: 'select-permissions',
-          component: FormlySelectPermissionsComponent,
-          wrappers: ['form-field'],
-        },
-      ],
-    }),
+    FormlyModule.forChild({ types: [{ name: 'select-permissions', component: FormlySelectPermissionsComponent }] }),
     ReactiveFormsModule,
     TuiMultiSelectModule,
     TuiDataListWrapperModule,
@@ -70,9 +65,12 @@ export const adminUserRolesRoutes: Route[] = [
     TuiButtonModule,
     LayoutModule,
     TuiTextfieldControllerModule,
-    FormFieldModule,
     NgxPermissionsModule,
     BaseFormComponentModule,
+    TuiElementModule,
+    PolymorpheusModule,
+    TuiErrorModule,
+    TuiLabelModule,
   ],
   declarations: [UserRoleManagementComponent, UpsertUserRoleDialogComponent, FormlySelectPermissionsComponent],
   providers: [

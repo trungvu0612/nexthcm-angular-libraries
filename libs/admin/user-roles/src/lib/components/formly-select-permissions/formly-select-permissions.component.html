@@ -1,28 +1,67 @@
-<tui-multi-select
-  *tuiLet="to.options | selectOptions | async as items"
-  [editable]="false"
-  [formControl]="$any(formControl)"
-  [identityMatcher]="identityMatcher"
-  [stringify]="stringify"
-  [tuiTextfieldExampleText]="to.placeholder || ''"
-  [tuiTextfieldLabelOutside]="to.textfieldLabelOutside"
->
-  {{ to.textfieldLabelOutside ? to.placeholder : to.label }}
-  <span *ngIf="to.required && !to.textfieldLabelOutside" class="tui-required"></span>
-  <tui-data-list-wrapper
-    *tuiDataList
-    [itemContent]="stringify"
-    [items]="items"
-    tuiMultiSelectGroup
-  ></tui-data-list-wrapper>
-</tui-multi-select>
+<label [label]="label" tuiLabel>
+  <tui-multi-select
+    (searchChange)="search$.next($event)"
+    [disabledItemHandler]="disabledItemHandler"
+    [formControl]="$any(formControl)"
+    [formlyAttributes]="field"
+    [identityMatcher]="identityMatcher"
+    [stringify]="stringify"
+    [tuiTextfieldLabelOutside]="true"
+    [tuiTextfieldSize]="to.textfieldSize"
+  >
+    {{ to.placeholder }}
+    <ng-template tuiDataList>
+      <tui-data-list *ngIf="items$ | async as items; else loading" tuiMultiSelectGroup>
+        <button
+          #elementRef="elementRef"
+          *ngFor="let item of items"
+          [value]="item"
+          automation-id="tui-data-list-wrapper__option"
+          tuiElement
+          tuiOption
+        >
+          <span
+            [content]="to.customContent || itemContent"
+            [context]="getContext(item, elementRef)"
+            class="content"
+            polymorpheus-outlet
+          ></span>
+          <ng-template #itemContent>{{ item.name }}</ng-template>
+        </button>
+      </tui-data-list>
+    </ng-template>
+    <ng-template #loading>
+      <tui-loader class="tui-space_vertical-4"></tui-loader>
+    </ng-template>
+  </tui-multi-select>
+  <ng-container *ngTemplateOutlet="errorTpl"></ng-container>
+</label>
 
-<ng-container *transloco="let t" class="mt-8">
-  <ngx-table [columns]="(columns$ | async) || []" [configuration]="configuration" [data]="(valueChange$ | async) || []">
-    <ng-template let-index let-row>
-      <td>{{ item(row).name }}</td>
-      <td>{{ item(row).code }}</td>
-      <td>{{ item(row).description }}</td>
+<ng-template #errorTpl>
+  <tui-error *ngIf="showError" [error]="error"></tui-error>
+</ng-template>
+
+<ng-template #label>
+  <p *ngIf="to.label" [class]="to.labelClassName" class="mb-1">
+    <span>{{ to.label }}</span> <span *ngIf="to.required" class="tui-required"></span>
+  </p>
+</ng-template>
+
+<ng-template #errorContent="polymorpheus" [polymorpheus]="context">
+  <formly-validation-message [field]="field"></formly-validation-message>
+</ng-template>
+
+<ngx-table
+  #table
+  [columns]="(columns$ | async) || []"
+  [configuration]="configuration"
+  [data]="(valueChange$ | async) || []"
+>
+  <ng-template let-index="index" let-row>
+    <ng-container *tuiLet="item(row) as item">
+      <td>{{ item.name }}</td>
+      <td>{{ item.code }}</td>
+      <td>{{ item.description }}</td>
       <td>
         <div class="flex items-center">
           <button
@@ -35,6 +74,6 @@
           ></button>
         </div>
       </td>
-    </ng-template>
-  </ngx-table>
-</ng-container>
+    </ng-container>
+  </ng-template>
+</ngx-table>
