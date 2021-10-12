@@ -67,9 +67,13 @@
   "enterEmail": "Nhập email",
   "chooseUser": "Chọn người dùng",
   "viewMore": "Xem thêm",
-  "category": "Thể loại",
-  "addCategory": "Thêm thể loại",
-  "editCategory": "Sửa thể loại",
+  "articles": "Bài viết",
+  "category": "Danh mục",
+  "categories": "Danh mục",
+  "addCategory": "Tạo danh mục",
+  "editCategory": "Sửa danh mục",
+  "chooseCategory": "Chọn danh mục...",
+  "thumbnail": "Hình thu nhỏ",
   "PERMISSION_TABLE": {
     "name": "Tên",
     "code": "Mã",
@@ -89,11 +93,6 @@
     "invalidURL": "Địa chỉ URL không hợp lệ!",
     "valueExisting": "Giá trị này đã tồn tại!",
     "maxLength": "Trường này không được dài hơn {{length}} kí tự!"
-  },
-  "ADMIN_POLICIES": {
-    "chooseCategory": "Chọn danh mục",
-    "name": "Tên",
-    "policyManagement": "Quản lý chính sách"
   },
   "ADMIN_CONTRACT_MANAGEMENT_COLUMNS": {
     "contractManagement": "Quản lý hợp đồng",
@@ -167,10 +166,10 @@
   },
   "synchronizeData": "Đồng bộ dữ liệu",
   "jobTitleManagement": "Quản lý chức vụ",
-  "addNewCategorySuccessfully": "Thêm danh mục thành công!",
-  "updateNewCategorySuccessfully": "Cập nhật danh mục thành công!",
+  "createCategorySuccessfully": "Thêm danh mục thành công!",
+  "updateCategorySuccessfully": "Cập nhật danh mục thành công!",
   "deleteCategory": "<b>Bạn có muốn xóa danh mục này không?</b>",
-  "deleteCategorySuccess": "Đã xóa danh mục thành công!",
+  "deleteCategorySuccessfully": "Đã xóa danh mục thành công!",
   "overview": "Tổng quan",
   "myTime": "Thời gian",
   "time": "Thời gian",
@@ -519,7 +518,7 @@
   "shortDescription": "mô tả",
   "Search": "Tìm kiếm",
   "searchPolicy": "Tìm chính sách",
-  "searchCategory": "Tìm danh mục",
+  "searchCategories": "Tìm danh mục...",
   "updateOfficeSuccessfully": "<b>Cập nhật văn phòng thành công</b>",
   "addUserRoleSuccessfully": "<b>Tạo vai trò thành công!</b>",
   "addOfficeSuccessfully": "<b>Tạo văn phòng thành công!</b>",
@@ -586,5 +585,6 @@
   "note": "Ghi chú",
   "enterNote": "Nhập ghi chú...",
   "employee": "Nhân viên",
-  "searchEmployees": "Tìm nhân viên..."
+  "searchEmployees": "Tìm nhân viên...",
+  "chooseOffice": "Chọn văn phòng..."
 }

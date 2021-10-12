@@ -115,9 +115,7 @@ export class GeneralInformationFormComponent {
               type: 'upload-file',
               templateOptions: {
                 required: true,
-                translate: true,
                 accept: 'image/*',
-                label: 'image',
                 labelClassName: 'font-semibold',
                 previewImage: true,
                 serverRequest: this.uploadFileService.uploadFile.bind(this.uploadFileService, 'employee'),
@@ -125,6 +123,7 @@ export class GeneralInformationFormComponent {
               expressionProperties: {
                 'templateOptions.linkText': this.translocoService.selectTranslate('chooseImage'),
                 'templateOptions.labelText': this.translocoService.selectTranslate('dragHere'),
+                'templateOptions.label': this.translocoService.selectTranslate('image'),
               },
             },
             {

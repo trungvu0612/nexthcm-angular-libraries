@@ -21,5 +21,6 @@
   "cronExpression": "Biểu thức cron",
   "value": "Giá trị (giây)",
   "enterSeconds": "Điền số giây...",
-  "startSyncing": "Bắt đầu đồng bộ hoá!"
+  "startSyncing": "Bắt đầu đồng bộ hoá!",
+  "seconds": " giây"
 }

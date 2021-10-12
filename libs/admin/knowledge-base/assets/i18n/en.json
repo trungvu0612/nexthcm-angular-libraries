@@ -1,28 +1,28 @@
 {
-  "KNOWLEDGE_BASE_TABLE": {
-    "creator": "Creator",
-    "category": "Category",
+  "CATEGORY_MANAGEMENT_TABLE": {
+    "name": "Name",
     "description": "Description",
+    "createdBy": "Created by",
     "status": "Status",
     "functions": "Functions"
   },
-  "deletePolicy": "<b>Are you sure you want to remove this policy?</b>",
-  "deletePolicySuccessfully": "<b>Delete policy successfully!</b>",
-  "updatePolicySuccessfully": "<b>Update policy successfully!</b>",
-  "createPolicySuccessfully": "<b>Create policy successfully!</b>",
-  "POLICIES_MANAGEMENT_COLUMNS": {
+  "ARTICLES_MANAGEMENT_COLUMNS": {
     "topic": "Topic",
     "shortDescription": "Short Description",
+    "category": "Category",
+    "createdBy": "Created by",
     "status": "Status",
-    "thumbnail": "Thumbnail",
-    "longDescription": "Long Description",
-    "createdDate": "Created Date",
     "functions": "Functions"
   },
+  "updateArticleSuccessfully": "<b>Update this article successfully!</b>",
+  "createArticleSuccessfully": "<b>Create new article successfully!</b>",
+  "deleteArticle": "<b>Are you sure you want to remove this article?</b>",
+  "deleteArticleSuccessfully": "<b>Delete the article successfully!</b>",
   "topic": "Topic",
-  "shortDescription": "Short Description",
-  "status": "Status",
-  "thumbnail": "Thumbnail",
-  "longDescription": "Long Description",
-  "operations": "Operators"
+  "enterTopic": "Enter topic...",
+  "knowledgeBaseArticleManagement": "Knowledge Base Article Management",
+  "searchArticles": "Search for articles...",
+  "addArticle": "Add article",
+  "editArticle": "Edit article",
+  "categoryManagement": "Knowledge Base Category Management"
 }

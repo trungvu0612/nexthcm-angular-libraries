@@ -50,7 +50,6 @@
   "enterCompanyEmail": "Nhập địa chỉ email công ty...",
   "personalEmail": "Địa chỉ email cá nhân",
   "enterPersonalEmail": "Nhập địa chỉ email cá nhân...",
-  "chooseOffice": "Chọn văn phòng...",
   "bankAccountList": "Danh sách tài khoản ngân hàng",
   "bank": "Ngân hàng",
   "selectBank": "Chọn ngân hàng...",
@@ -106,7 +105,6 @@
   "chooseHealthCareCompany": "Chọn công ty bảo hiểm...",
   "healthCareNumber": "Mã số bảo hiểm",
   "enterHealthCareNumber": "Nhập mã số bảo hiểm...",
-  "office": "Văn phòng",
   "gender": "Giới tính",
   "chooseGender": "Chọn giới tính...",
   "GENDER_OPTIONS": {

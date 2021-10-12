@@ -50,7 +50,6 @@
   "enterCompanyEmail": "Enter company email...",
   "personalEmail": "Personal email",
   "enterPersonalEmail": "Enter person email...",
-  "chooseOffice": "Choose an office...",
   "bankAccountList": "Bank account list",
   "bank": "Bank",
   "selectBank": "Choose a bank...",
@@ -106,7 +105,6 @@
   "chooseHealthCareCompany": "Choose a health care company...",
   "healthCareNumber": "Heath care number",
   "enterHealthCareNumber": "Enter health care number...",
-  "office": "Office",
   "gender": "Gender",
   "chooseGender": "Choose a gender...",
   "GENDER_OPTIONS": {
@@ -139,5 +137,6 @@
   "syncLDAPDirectReport": "Sync the direct report from LDAP",
   "chooseHighestCertificate": "Choose a certificate...",
   "otherCertificates": "Other certificates",
-  "enterOtherCertificates": "Enter other certificates..."
+  "enterOtherCertificates": "Enter other certificates...",
+  "chooseOffice": "Choose an office..."
 }

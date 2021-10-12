@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
@@ -23,8 +23,13 @@ import { parseJsonStringFields } from '../../utils';
 export class EmployeesService {
   constructor(private readonly http: HttpClient) {}
 
-  searchEmployees(searchQuery: string): Observable<BaseUser[]> {
-    return this.http.get<BaseResponse<BaseUser[]>>(`${ACCOUNT_API_PATH}/users/v2?search=${searchQuery}`).pipe(
+  searchEmployees(searchQuery: string, tenantId?: string): Observable<BaseUser[]> {
+    let params = new HttpParams().set('search', searchQuery);
+
+    if (tenantId) {
+      params = params.set('tenantId', tenantId);
+    }
+    return this.http.get<BaseResponse<BaseUser[]>>(`${ACCOUNT_API_PATH}/users/v2`, { params }).pipe(
       map((res) => res.data),
       catchError(() => of([]))
     );

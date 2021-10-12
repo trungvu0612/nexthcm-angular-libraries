@@ -34,6 +34,7 @@ import {
   TuiTextAreaModule,
 } from '@taiga-ui/kit';
 import { TextMaskModule } from 'angular2-text-mask';
+import { FormFieldLabelOutsideComponentModule } from '../form-field-label-outside/form-field-label-outside.component';
 import { FormFieldModule } from '../form-field/form-field.module';
 import { EditorComponent } from './editor/editor.component';
 import { InputCountComponent } from './input-count/input-count.component';
@@ -95,7 +96,7 @@ import { TextAreaComponent } from './text-area/text-area.component';
         { name: 'input-time', component: InputTimeComponent, wrappers: ['form-field'] },
         { name: 'input-phone-international', component: InputPhoneInternationalComponent, wrappers: ['form-field'] },
         { name: 'text-area', component: TextAreaComponent, wrappers: ['form-field'] },
-        { name: 'editor', component: EditorComponent, wrappers: ['form-field'] },
+        { name: 'editor', component: EditorComponent, wrappers: ['form-field-label-outside'] },
         { name: 'input-inline', component: InputInlineComponent },
       ],
     }),
@@ -126,6 +127,7 @@ import { TextAreaComponent } from './text-area/text-area.component';
     TuiInputSliderModule,
     TextMaskModule,
     TuiInputPhoneInternationalModule,
+    FormFieldLabelOutsideComponentModule,
   ],
 })
 export class InputsModule {}

@@ -13,7 +13,10 @@
             <div [innerHTML]="item.description | transloco"></div>
           </td>
           <td>{{ item.type }}</td>
-          <td>{{ item.value }}</td>
+          <td>
+            <span>{{ item.value }}</span
+            ><span *ngIf="item.type === SyncType.interval">{{ 'SCHEDULER.seconds' | transloco }}</span>
+          </td>
           <td>
             <tui-tag
               [value]="CommonStatus[item.status] | transloco"

@@ -1,49 +1,59 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { MY_TIME_API_PATH, Pagination, PagingResponse } from '@nexthcm/cdk';
-import { RxState } from '@rx-angular/state';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { AdminPolicy, Category } from './models/policies';
-
-interface CategoryState {
-  categories: Category[];
-}
+import { KnowledgeBaseArticle, KnowledgeBaseCategory } from './models';
 
 @Injectable()
-export class AdminKnowledgeBaseService extends RxState<CategoryState> {
-  constructor(private http: HttpClient) {
-    super();
-    this.connect('categories', this.getCategories());
-  }
+export class AdminKnowledgeBaseService {
+  constructor(private http: HttpClient) {}
 
-  getPolicies(params: HttpParams): Observable<Pagination<AdminPolicy>> {
+  getKnowledgeBaseArticles(params: HttpParams): Observable<Pagination<KnowledgeBaseArticle>> {
     return this.http
-      .get<PagingResponse<AdminPolicy>>(`${MY_TIME_API_PATH}/policies`, { params })
+      .get<PagingResponse<KnowledgeBaseArticle>>(`${MY_TIME_API_PATH}/policies`, { params })
       .pipe(map((res) => res.data));
   }
 
-  getPolicy(id: string): Observable<AdminPolicy> {
-    return this.http.get<AdminPolicy>(`${MY_TIME_API_PATH}/policies/${id}`);
+  getKnowledgeBaseArticle(id: string): Observable<KnowledgeBaseArticle> {
+    return this.http.get<KnowledgeBaseArticle>(`${MY_TIME_API_PATH}/policies/${id}`);
   }
 
-  createPolicies(dto: AdminPolicy): Observable<AdminPolicy> {
-    return this.http.post<AdminPolicy>(`${MY_TIME_API_PATH}/policies`, dto);
+  upsertKnowledgeBaseArticle(payload: KnowledgeBaseArticle): Observable<unknown> {
+    return payload.id ? this.editKnowledgeBaseArticle(payload) : this.createKnowledgeBaseArticle(payload);
   }
 
-  editPolicies(dto: AdminPolicy, id: string): Observable<AdminPolicy> {
-    return this.http.put<AdminPolicy>(`${MY_TIME_API_PATH}/policies/${id}`, dto);
+  createKnowledgeBaseArticle(payload: KnowledgeBaseArticle): Observable<unknown> {
+    return this.http.post(`${MY_TIME_API_PATH}/policies`, payload);
   }
 
-  delete(id: string): Observable<unknown> {
-    return this.http.delete(`${MY_TIME_API_PATH}/policies/${id}`, {});
+  editKnowledgeBaseArticle(payload: KnowledgeBaseArticle): Observable<unknown> {
+    return this.http.put(`${MY_TIME_API_PATH}/policies/${payload.id}`, payload);
   }
 
-  getCategories(): Observable<Category[]> {
+  deleteKnowledgeBaseArticle(id: string): Observable<unknown> {
+    return this.http.delete(`${MY_TIME_API_PATH}/policies/${id}`);
+  }
+
+  getKnowledgeBaseCategories(params: HttpParams): Observable<Pagination<KnowledgeBaseCategory>> {
     return this.http
-      .get<PagingResponse<Category>>(`${MY_TIME_API_PATH}/policy-category`, {
-        params: new HttpParams().set('size', 999),
-      })
-      .pipe(map((response) => response.data.items));
+      .get<PagingResponse<KnowledgeBaseCategory>>(`${MY_TIME_API_PATH}/policy-category`, { params })
+      .pipe(map((res) => res.data));
+  }
+
+  upsertKnowledgeBaseCategory(payload: KnowledgeBaseCategory): Observable<unknown> {
+    return payload.id ? this.editKnowledgeBaseCategory(payload) : this.createKnowledgeBaseCategory(payload);
+  }
+
+  createKnowledgeBaseCategory(payload: KnowledgeBaseCategory): Observable<unknown> {
+    return this.http.post(`${MY_TIME_API_PATH}/policy-category`, payload);
+  }
+
+  editKnowledgeBaseCategory(payload: KnowledgeBaseCategory): Observable<unknown> {
+    return this.http.put(`${MY_TIME_API_PATH}/policy-category/${payload.id}`, payload);
+  }
+
+  deleteKnowledgeBaseCategory(id: string): Observable<unknown> {
+    return this.http.delete(`${MY_TIME_API_PATH}/policy-category/${id}`);
   }
 }

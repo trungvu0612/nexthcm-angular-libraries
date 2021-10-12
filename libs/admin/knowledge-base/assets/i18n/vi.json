@@ -1,28 +1,28 @@
 {
-  "KNOWLEDGE_BASE_TABLE": {
-    "creator": "Người tạo",
-    "category": "Thể loại",
+  "CATEGORY_MANAGEMENT_TABLE": {
+    "name": "Tên",
     "description": "Mô tả",
+    "createdBy": "Tạo bởi",
     "status": "Trạng thái",
     "functions": "Chức năng"
   },
-  "deletePolicy": "<b>Bạn có muốn xóa chính sách này không?</b>",
-  "deletePolicySuccessfully": "<b>Đã xóa chính sách!</b>",
-  "updatePolicySuccessfully": "<b>Cập nhật chính sách thành công!</b>",
-  "createPolicySuccessfully": "<b>Tạo chính sách thành công!</b>",
-  "POLICIES_MANAGEMENT_COLUMNS": {
+  "ARTICLES_MANAGEMENT_COLUMNS": {
     "topic": "Chủ đề",
     "shortDescription": "Mô tả ngắn",
+    "category": "Danh mục",
+    "createdBy": "Tạo bởi",
     "status": "Trạng thái",
-    "thumbnail": "Hình thu nhỏ",
-    "longDescription": "Mô tả dài",
-    "createdDate": "Ngày tạo",
     "functions": "Chức năng"
   },
+  "updateArticleSuccessfully": "<b>Cập nhật bài viết thành công!</b>",
+  "createArticleSuccessfully": "<b>Tạo bài viết thành công!</b>",
+  "deleteArticle": "<b>Bạn có muốn xóa bài viết này không?</b>",
+  "deleteArticleSuccessfully": "<b>Xóa bài viết thành công!</b>",
   "topic": "Chủ đề",
-  "shortDescription": "Mô tả ngắn",
-  "status": "Trạng thái",
-  "thumbnail": "Hình thu nhỏ",
-  "longDescription": "Mô tả dài",
-  "functions": "Chức năng"
+  "enterTopic": "Nhập chủ đề...",
+  "knowledgeBaseArticleManagement": "Quản lý cơ sở tri thức",
+  "searchArticles": "Tìm bài viết...",
+  "addArticle": "Tạo bài viết",
+  "editArticle": "Sửa bài viết",
+  "categoryManagement": "Quản lý danh mục cơ sở tri thức"
 }

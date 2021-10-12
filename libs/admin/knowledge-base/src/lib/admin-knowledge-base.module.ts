@@ -4,7 +4,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { Route, RouterModule } from '@angular/router';
 import { inlineLoaderFactory } from '@nexthcm/core';
 import {
-  FormlyTaigaUiModule,
+  BaseFormComponentModule,
+  FormlyStatusToggleComponentModule,
   HEADER_TABS,
   InputFilterComponentModule,
   LayoutComponent,
@@ -14,14 +15,15 @@ import {
 import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
 import { FormlyModule } from '@ngx-formly/core';
 import { TuiTablePaginationModule } from '@taiga-ui/addon-table';
-import { TuiButtonModule, TuiLoaderModule } from '@taiga-ui/core';
-import { TuiMarkerIconModule, TuiTagModule } from '@taiga-ui/kit';
+import { TuiButtonModule, TuiLinkModule, TuiLoaderModule } from '@taiga-ui/core';
+import { TuiBreadcrumbsModule, TuiTagModule } from '@taiga-ui/kit';
 import { TableModule } from 'ngx-easy-table';
 import { NgxPermissionsGuard, NgxPermissionsModule } from 'ngx-permissions';
 import { AdminKnowledgeBaseService } from './admin-knowledge-base.service';
-import { ListCategoryComponent } from './pages/list-category/list-category.component';
-import { ListPoliciesComponent } from './pages/list-policies/list-policies.component';
-import { UpsertPolicyComponent } from './pages/upsert-policy/upsert-policy.component';
+import { UpsertKnowledgeBaseCategoryDialogComponent } from './components/upsert-knowledge-base-category-dialog/upsert-knowledge-base-category-dialog.component';
+import { KnowledgeBaseArticleManagementComponent } from './pages/knowledge-base-article-management/knowledge-base-article-management.component';
+import { KnowledgeBaseCategoryManagementComponent } from './pages/knowledge-base-category-management/knowledge-base-category-management.component';
+import { UpsertKnowledgeBaseArticleComponent } from './pages/upsert-knowledge-base-article/upsert-knowledge-base-article.component';
 
 export const adminKnowledgeBaseRoutes: Route[] = [
   {
@@ -30,42 +32,41 @@ export const adminKnowledgeBaseRoutes: Route[] = [
     canActivate: [NgxPermissionsGuard],
     data: { permissions: { only: 'VIEW_ADMIN_KNOWLEDGE', redirectTo: '/' } },
     children: [
-      { path: '', pathMatch: 'full', redirectTo: 'knowledge' },
-      { path: 'knowledge', component: ListPoliciesComponent },
+      { path: '', pathMatch: 'full', redirectTo: 'articles' },
       {
-        path: 'category',
-        component: ListCategoryComponent,
+        path: 'articles',
+        children: [
+          { path: '', component: KnowledgeBaseArticleManagementComponent },
+          { path: ':articleId/edit', component: UpsertKnowledgeBaseArticleComponent },
+          { path: 'create', component: UpsertKnowledgeBaseArticleComponent },
+        ],
+      },
+      {
+        path: 'categories',
+        component: KnowledgeBaseCategoryManagementComponent,
         canActivate: [NgxPermissionsGuard],
         data: { permissions: { only: 'VIEW_CATEGORY_KNOWLEDGE_BASE', redirectTo: '/' } },
-      },
-      {
-        path: 'knowledge/add',
-        component: UpsertPolicyComponent,
-        canActivate: [NgxPermissionsGuard],
-        data: { permissions: { only: 'CREATE_ADMIN_KNOWLEDGE', redirectTo: '/' } },
-      },
-      {
-        path: 'knowledge/:id/edit',
-        component: UpsertPolicyComponent,
-        canActivate: [NgxPermissionsGuard],
-        data: { permissions: { only: 'UPDATE_ADMIN_KNOWLEDGE', redirectTo: '/' } },
       },
     ],
   },
 ];
 
 const TABS: MenuItem[] = [
-  { label: 'knowledgeBase', link: '/admin/knowledge-base/knowledge', permissions: [] },
-  { label: 'category', link: '/admin/knowledge-base/category', permissions: [] },
+  { label: 'articles', link: '/admin/knowledge-base/articles', permissions: [] },
+  { label: 'categories', link: '/admin/knowledge-base/categories', permissions: [] },
 ];
 
 @NgModule({
-  declarations: [ListPoliciesComponent, UpsertPolicyComponent, ListCategoryComponent],
+  declarations: [
+    KnowledgeBaseArticleManagementComponent,
+    KnowledgeBaseCategoryManagementComponent,
+    UpsertKnowledgeBaseCategoryDialogComponent,
+    UpsertKnowledgeBaseArticleComponent,
+  ],
   imports: [
     CommonModule,
     RouterModule.forChild(adminKnowledgeBaseRoutes),
     LayoutModule,
-    FormlyTaigaUiModule,
     ReactiveFormsModule,
     TranslocoModule,
     FormlyModule,
@@ -74,9 +75,12 @@ const TABS: MenuItem[] = [
     TuiTagModule,
     TuiTablePaginationModule,
     TuiLoaderModule,
-    TuiMarkerIconModule,
     InputFilterComponentModule,
     NgxPermissionsModule,
+    BaseFormComponentModule,
+    FormlyStatusToggleComponentModule,
+    TuiBreadcrumbsModule,
+    TuiLinkModule,
   ],
   providers: [
     AdminKnowledgeBaseService,

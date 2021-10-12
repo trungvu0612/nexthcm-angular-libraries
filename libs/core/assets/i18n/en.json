@@ -67,8 +67,12 @@
   "chooseUser": "Choose User",
   "viewMore": "View More",
   "category": "Category",
+  "articles": "Articles",
+  "categories": "Categories",
   "addCategory": "Add category",
   "editCategory": "Edit category",
+  "chooseCategory": "Choose category...",
+  "thumbnail": "Thumbnail",
   "PERMISSION_TABLE": {
     "name": "Name",
     "code": "Code",
@@ -89,11 +93,6 @@
     "invalidURL": "This URL is invalid!",
     "valueExisting": "This value is already exists!",
     "maxLength": "This field can't be longer than {{length}} characters!"
-  },
-  "ADMIN_POLICIES": {
-    "chooseCategory": "Choose category",
-    "name": "Name",
-    "policyManagement": "Policy Management"
   },
   "ADMIN_CONTRACT_MANAGEMENT_COLUMNS": {
     "contractManagement": "Contract Management",
@@ -167,10 +166,10 @@
   },
   "synchronizeData": "Synchronize Data",
   "jobTitleManagement": "Job Title Management",
-  "addNewCategorySuccessfully": "Add new category successfully!",
-  "updateNewCategorySuccessfully": "Update category successfully!",
+  "createCategorySuccessfully": "<b>Create new category successfully!</b>",
+  "updateCategorySuccessfully": "<b>Update category successfully!</b>",
   "deleteCategory": "<b>Are you sure you want to delete this category?</b>",
-  "deleteCategorySuccess": "Delete category successfully!",
+  "deleteCategorySuccessfully": "<b>Delete category successfully!</b>",
   "overview": "Overview",
   "myTime": "My Time",
   "time": "Time",
@@ -520,7 +519,7 @@
   "shortDescription": "Short Description",
   "Search": "Search",
   "searchPolicy": "Search policy",
-  "searchCategory": "Search category",
+  "searchCategories": "Search for categories...",
   "updateOfficeSuccessfully": "<b>Update office successfully</b>",
   "addOfficeSuccessfully": "<b>Add office successfully!</b>",
   "subject": "Subject",

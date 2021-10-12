@@ -434,7 +434,6 @@ export class IndividualFormComponent {
                 placeholder: 'chooseOffice',
                 labelProp: 'name',
                 matcherBy: 'id',
-                translocoScope: this.scope,
               },
             },
             {

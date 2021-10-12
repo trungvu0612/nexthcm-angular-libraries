@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Inject, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AbstractServerSortPaginationTableComponent, Pagination, PromptService } from '@nexthcm/cdk';
+import { AbstractServerSortPaginationTableComponent, CommonStatus, Pagination, PromptService } from '@nexthcm/cdk';
 import { ProviderScope, TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
@@ -19,31 +19,36 @@ import {
   tap,
 } from 'rxjs/operators';
 import { AdminKnowledgeBaseService } from '../../admin-knowledge-base.service';
-import { AdminPolicy } from '../../models/policies';
+import { KnowledgeBaseArticle } from '../../models';
 
 @Component({
-  selector: 'hcm-list-policies',
-  templateUrl: './list-policies.component.html',
-  styleUrls: ['./list-policies.component.scss'],
+  selector: 'hcm-knowledge-base-article-management',
+  templateUrl: './knowledge-base-article-management.component.html',
+  styleUrls: ['./knowledge-base-article-management.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [RxState, TuiDestroyService],
 })
-export class ListPoliciesComponent extends AbstractServerSortPaginationTableComponent<AdminPolicy> {
+export class KnowledgeBaseArticleManagementComponent extends AbstractServerSortPaginationTableComponent<KnowledgeBaseArticle> {
   @ViewChild('table') table!: BaseComponent;
-  columns$: Observable<Columns[]> = this.translocoService
-    .selectTranslateObject('POLICIES_MANAGEMENT_COLUMNS', {}, (this.scope as ProviderScope).scope)
+
+  readonly columns$: Observable<Columns[]> = this.translocoService
+    .selectTranslateObject('ARTICLES_MANAGEMENT_COLUMNS', {}, (this.scope as ProviderScope).scope)
     .pipe(
       map((result) => [
         { key: 'topic', title: result.topic },
         { key: 'shortDescription', title: result.shortDescription },
-        { key: 'createdDate', title: result.createdDate },
+        { key: 'policyCategory', title: result.category },
+        { key: 'userCreatedBy', title: result.createdBy },
+        { key: 'status', title: result.status },
         { key: '', title: result.functions, orderEnabled: false },
       ])
     );
-
+  readonly CommonStatus = CommonStatus;
   readonly search$ = new Subject<string | null>();
   private readonly request$ = this.queryParams$.pipe(
-    switchMap(() => this.policiesService.getPolicies(this.queryParams$.value).pipe(startWith(null))),
+    switchMap(() =>
+      this.adminKnowledgeBaseService.getKnowledgeBaseArticles(this.queryParams$.value).pipe(startWith(null))
+    ),
     share()
   );
   readonly loading$ = this.request$.pipe(
@@ -53,10 +58,10 @@ export class ListPoliciesComponent extends AbstractServerSortPaginationTableComp
 
   constructor(
     @Inject(TRANSLOCO_SCOPE) readonly scope: TranslocoScope,
-    readonly state: RxState<Pagination<AdminPolicy>>,
+    readonly state: RxState<Pagination<KnowledgeBaseArticle>>,
     readonly router: Router,
     readonly activatedRoute: ActivatedRoute,
-    private policiesService: AdminKnowledgeBaseService,
+    private adminKnowledgeBaseService: AdminKnowledgeBaseService,
     private promptService: PromptService,
     private translocoService: TranslocoService,
     private destroy$: TuiDestroyService
@@ -73,20 +78,22 @@ export class ListPoliciesComponent extends AbstractServerSortPaginationTableComp
     );
   }
 
-  delete(id: string): void {
+  onDeleteKnowledgeBaseArticle(id: string): void {
     from(
       this.promptService.open({
         icon: 'question',
-        html: this.translocoService.translate('adminKnowledgeBase.deletePolicy'),
+        html: this.translocoService.translate('adminKnowledgeBase.deleteArticle'),
         showCancelButton: true,
       })
     )
       .pipe(
-        switchMap((result) => iif(() => result.isConfirmed, this.policiesService.delete(id))),
+        switchMap((result) =>
+          iif(() => result.isConfirmed, this.adminKnowledgeBaseService.deleteKnowledgeBaseArticle(id))
+        ),
         takeUntil(this.destroy$)
       )
       .subscribe(
-        this.promptService.handleResponse('adminKnowledgeBase.deletePolicySuccessfully', () =>
+        this.promptService.handleResponse('adminKnowledgeBase.deleteArticleSuccessfully', () =>
           this.queryParams$.next(this.queryParams$.value)
         )
       );

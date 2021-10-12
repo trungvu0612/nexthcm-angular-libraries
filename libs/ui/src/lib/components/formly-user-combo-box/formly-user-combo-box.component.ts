@@ -29,7 +29,7 @@ export class FormlyUserComboBoxComponent extends FieldType {
     filter(isPresent),
     debounceTime(500),
     distinctUntilChanged(),
-    switchMap((search) => this.employeesService.searchEmployees(search).pipe(startWith(null))),
+    switchMap((search) => this.employeesService.searchEmployees(search, this.to.tenantId).pipe(startWith(null))),
     startWith([]),
     shareReplay(1)
   );

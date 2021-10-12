@@ -1,0 +1,13 @@
+<p *ngIf="to.label" [class]="to.labelClassName" class="mb-1">
+  <span>{{ to.label }}</span> <span *ngIf="to.required" class="tui-required"></span>
+</p>
+<ng-container #fieldComponent></ng-container>
+<ng-container *ngTemplateOutlet="errorTpl"></ng-container>
+
+<ng-template #errorTpl>
+  <tui-error *ngIf="showError" [error]="error"></tui-error>
+</ng-template>
+
+<ng-template #errorContent="polymorpheus" [polymorpheus]="context">
+  <formly-validation-message [field]="field"></formly-validation-message>
+</ng-template>

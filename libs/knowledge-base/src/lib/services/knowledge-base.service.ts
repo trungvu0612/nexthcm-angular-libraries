@@ -42,8 +42,8 @@ export class KnowledgeBaseService {
       .pipe(map((response) => response.data));
   }
 
-  getKnowledge(id: string): Observable<Partial<Knowledge>> {
-    return this.http.get<Partial<Knowledge>>(`${MY_TIME_API_PATH}/policies/${id}`);
+  getKnowledge(id: string): Observable<Knowledge> {
+    return this.http.get<Knowledge>(`${MY_TIME_API_PATH}/policies/${id}`);
   }
 
   getCategories(params: HttpParams): Observable<Pagination<Category>> {

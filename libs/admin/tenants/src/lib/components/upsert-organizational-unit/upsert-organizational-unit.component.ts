@@ -91,6 +91,7 @@ export class UpsertOrganizationalUnitComponent {
         label: 'manager',
         labelClassName: 'font-semibold',
         placeholder: 'chooseManager',
+        tenantId: this.routerQuery.getParams('tenantId'),
       },
       hideExpression: 'model.id',
     },

@@ -7,6 +7,7 @@ import { inlineLoaderFactory } from '@nexthcm/core';
 import { HEADER_TABS, LayoutComponent, LayoutModule, MenuItem } from '@nexthcm/ui';
 import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
 import { FormlyModule } from '@ngx-formly/core';
+import { TuiEditorSocketModule } from '@taiga-ui/addon-editor';
 import { TuiTablePaginationModule } from '@taiga-ui/addon-table';
 import {
   TuiButtonModule,
@@ -20,7 +21,6 @@ import { TuiAvatarModule, TuiInputModule, TuiInputMonthModule, TuiTagModule } fr
 import { TableModule } from 'ngx-easy-table';
 import { NgxPermissionsGuard } from 'ngx-permissions';
 import { UpdatedKnowledgeCategoryComponent } from './components/updated-knowledge-category/updated-knowledge-category.component';
-import { CategoryComponent } from './pages/category/category.component';
 import { KnowledgeBaseComponent } from './pages/knowledge-base/knowledge-base.component';
 import { KnowledgeComponent } from './pages/knowledge/knowledge.component';
 import { UpdatedKnowledgeComponent } from './pages/updated-knowledge/updated-knowledge.component';
@@ -51,7 +51,6 @@ const TABS: MenuItem[] = [
     KnowledgeComponent,
     UpdatedKnowledgeComponent,
     UpdatedKnowledgeCategoryComponent,
-    CategoryComponent,
   ],
   imports: [
     CommonModule,
@@ -74,6 +73,7 @@ const TABS: MenuItem[] = [
     TuiTagModule,
     TuiTablePaginationModule,
     TuiLoaderModule,
+    TuiEditorSocketModule,
   ],
   providers: [
     {
