@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, Inject, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AbstractServerSortPaginationTableComponent, CommonStatus, Pagination, PromptService } from '@nexthcm/cdk';
+import { KnowledgeBaseArticle } from '@nexthcm/knowledge-base';
 import { ProviderScope, TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
@@ -19,7 +20,6 @@ import {
   tap,
 } from 'rxjs/operators';
 import { AdminKnowledgeBaseService } from '../../admin-knowledge-base.service';
-import { KnowledgeBaseArticle } from '../../models';
 
 @Component({
   selector: 'hcm-knowledge-base-article-management',

@@ -1,42 +1,40 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ACCOUNT_API_PATH, MY_TIME_API_PATH, PagingResponse, Seat, UserDto, Zone } from '@nexthcm/cdk';
-import { RxState } from '@rx-angular/state';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-
-interface SeatMapsState {
-  users: Partial<UserDto>[];
-  seatMaps: Partial<Zone>[];
-}
+import { BaseResponse, MY_TIME_API_PATH, PagingResponse, parseJsonStringFields } from '@nexthcm/cdk';
+import { Observable, of } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
+import { Seat, SeatMap } from './models';
 
 @Injectable({
   providedIn: 'root',
 })
-export class SeatMapsService extends RxState<SeatMapsState> {
-  constructor(private http: HttpClient) {
-    super();
-    this.connect('users', this.getUsers());
-    this.connect('seatMaps', this.getSeatMaps());
-  }
+export class SeatMapsService {
+  constructor(private http: HttpClient) {}
 
-  getUsers(): Observable<Partial<UserDto>[]> {
+  /*
+   * @deprecated TODO: change api
+   */
+  getAllSeatMaps(): Observable<SeatMap[]> {
     return this.http
-      .get<PagingResponse<UserDto>>(`${ACCOUNT_API_PATH}/users/v2`, { params: { size: 999 } })
+      .get<PagingResponse<SeatMap>>(`${MY_TIME_API_PATH}/seats-map`, { params: { size: 999 } })
       .pipe(map((response) => response.data.items));
   }
 
-  getSeatMaps(): Observable<Partial<Zone>[]> {
-    return this.http
-      .get<PagingResponse<Zone>>(`${MY_TIME_API_PATH}/seats-map`, { params: { size: 999 } })
-      .pipe(map((response) => response.data.items));
+  getSeatMap(id?: string): Observable<SeatMap> {
+    return (
+      id
+        ? this.http.get<SeatMap>(`${MY_TIME_API_PATH}/seats-map/${id}`)
+        : this.http.get<BaseResponse<SeatMap>>(`${MY_TIME_API_PATH}/my-seats-map`).pipe(map((res) => res.data))
+    ).pipe(
+      map((data) => {
+        data.seats = data.seats.map((seat) => parseJsonStringFields(seat, ['style']));
+        return data;
+      }),
+      catchError(() => of({} as SeatMap))
+    );
   }
 
-  getSeatMap(id?: string): Observable<Partial<Zone>> {
-    return this.http.get<Partial<Zone>>(`${MY_TIME_API_PATH}${id ? `/seats-map/${id}` : `/my-seats-map`}`);
-  }
-
-  assignedUser(seatId: string, body: Partial<Seat>): Observable<Partial<Seat>> {
-    return this.http.put(`${MY_TIME_API_PATH}/seats-map/assign-seat/${seatId}`, body);
+  assignUserForSeat(seatId: string, payload: Seat): Observable<unknown> {
+    return this.http.put(`${MY_TIME_API_PATH}/seats-map/assign-seat/${seatId}`, payload);
   }
 }

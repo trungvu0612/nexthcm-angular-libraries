@@ -1,12 +1,11 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
-import { PromptService } from '@nexthcm/cdk';
+import { Office, PromptService } from '@nexthcm/cdk';
 import { FormBuilder } from '@ngneat/reactive-forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { takeUntil } from 'rxjs/operators';
-import { Office } from '../../models/office';
 import { AdminOfficesService } from '../../services/admin-offices.service';
 
 @Component({

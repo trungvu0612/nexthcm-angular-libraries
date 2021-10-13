@@ -1,8 +1,8 @@
-import { CommonStatus, EmployeeGeneralInformation } from '@nexthcm/cdk';
+import { CommonStatus, EmployeeInfo } from '@nexthcm/cdk';
 
 export interface KnowledgeBaseCategory {
   id: string;
-  userCreatedBy?: EmployeeGeneralInformation;
+  userCreatedBy?: EmployeeInfo;
   status: CommonStatus;
   name: string;
   description: string;

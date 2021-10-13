@@ -1,57 +1,79 @@
-<ng-container *transloco="let t">
-  <hcm-page [title]="t('seatMaps')">
-    <ng-container ngProjectAs="pageHeader">
-      <div class="flex items-center gap-6 text-base">
-        <button (click)="findMySeat()" class="text-primary flex justify-between items-center">
-          <tui-svg src="assets/icons/current-location.svg"></tui-svg>
-          {{ t('mySeat') }}
-        </button>
-        <tui-combo-box
-          (searchChange)="search$.next($event || '')"
-          [formControl]="seatMapControl"
-          [stringify]="stringify"
-          [valueContent]="content"
-          class="w-60"
-        >
-          {{ t('seatMap') }}
-          <tui-data-list *tuiDataList>
-            <ng-container *rxLet="seatMaps$; let items">
-              <button *ngFor="let item of items" [value]="item" tuiOption>
-                <span class="flex flex-col py-1">
-                  <span>{{ item.name }}</span>
-                  <span class="font-semibold">{{ item.office?.name }}</span>
-                </span>
-              </button>
-            </ng-container>
-          </tui-data-list>
-          <ng-template #content let-data>
-            {{ data.name }}
-          </ng-template>
-        </tui-combo-box>
-      </div>
-    </ng-container>
-    <tui-loader *rxLet="loading$; let hidden" [overlay]="true" [showLoader]="hidden">
-      <ng-container *rxLet="seatMap$; let seatMap">
-        <article *ngIf="seatMap.id; else noData" class="relative">
-          <hcm-seat
-            (cdkDragEnded)="$event.source._dragRef.reset()"
-            (cdkDragStarted)="moveSeat($event, index)"
-            *ngFor="let seat of seatMap.seats; index as index"
-            [class.ping]="index === (ping$ | async)"
-            [dragging]="dragging$"
-            [refresh$]="refresh$"
-            [seat]="seat"
-            cdkDrag
-          ></hcm-seat>
-          <img (load)="loading$.next(false)" [src]="seatMap.imageUrl || '' | getFile | async" class="w-full" />
-        </article>
-        <ng-template #noData>
-          <p class="opacity-50 text-center text-lg py-4">{{ t('notAssignedSeat') }}</p>
+<hcm-page [title]="'seatMaps' | transloco">
+  <ng-container ngProjectAs="pageHeader">
+    <!--<div class="flex items-center gap-6 text-base">
+      <button (click)="findMySeat()" class="text-primary flex justify-between items-center">
+        <tui-svg src="assets/icons/current-location.svg"></tui-svg>
+        {{ t('mySeat') }}
+      </button>
+      <tui-combo-box
+        (searchChange)="search$.next($event || '')"
+        [formControl]="seatMapControl"
+        [stringify]="stringify"
+        [valueContent]="content"
+        class="w-60"
+      >
+        {{ t('seatMap') }}
+        <tui-data-list *tuiDataList>
+          <ng-container *rxLet="seatMaps$; let items">
+            <button *ngFor="let item of items" [value]="item" tuiOption>
+              <span class="flex flex-col py-1">
+                <span>{{ item.name }}</span>
+                <span class="font-semibold">{{ item.office?.name }}</span>
+              </span>
+            </button>
+          </ng-container>
+        </tui-data-list>
+        <ng-template #content let-data>
+          {{ data.name }}
         </ng-template>
-      </ng-container>
-    </tui-loader>
-  </hcm-page>
-</ng-container>
+      </tui-combo-box>
+    </div>-->
+    <tui-select
+      *rxLet="allSeatMaps$; let items"
+      [formControl]="seatMapControl"
+      [identityMatcher]="identityMatcher"
+      [tuiTextfieldLabelOutside]="true"
+      [valueContent]="content"
+      class="w-80"
+    >
+      {{ 'chooseSeatMap' | transloco }}
+      <tui-data-list *tuiDataList>
+        <ng-container>
+          <button *ngFor="let item of items" [value]="item" tuiOption>
+            <ng-container [ngTemplateOutletContext]="{ $implicit: item }" [ngTemplateOutlet]="content"></ng-container>
+          </button>
+        </ng-container>
+      </tui-data-list>
+    </tui-select>
+    <ng-template #content let-data>
+      <span>
+        <b>{{ data.name }}</b>
+        <ng-container *ngIf="data.office as office"> ({{ office.name }})</ng-container>
+      </span>
+    </ng-template>
+  </ng-container>
+  <tui-loader *rxLet="loading$; let hidden" [overlay]="true" [showLoader]="hidden">
+    <ng-container *rxLet="seatMap$; let seatMap">
+      <article *ngIf="seatMap.id; else noData" class="relative">
+        <hcm-seat
+          (assignUser)="onAssignUserToSeat($event)"
+          (cdkDragEnded)="$event.source._dragRef.reset()"
+          (cdkDragStarted)="moveSeat($event, index)"
+          (unAssignUser)="onUnAssignUserToSeat($event)"
+          *ngFor="let seat of seatMap.seats; index as index"
+          [class.ping]="index === (ping$ | async)"
+          [dragging]="dragging$"
+          [seat]="seat"
+          cdkDrag
+        ></hcm-seat>
+        <img (load)="onImageLoad()" [src]="seatMap.imageUrl || '' | getFile | async" class="w-full" />
+      </article>
+      <ng-template #noData>
+        <p class="opacity-50 text-center text-lg py-4">{{ 'notAssignedSeat' | transloco }}</p>
+      </ng-template>
+    </ng-container>
+  </tui-loader>
+</hcm-page>
 
 <footer class="flex justify-evenly items-center bg-white h-16">
   <div>

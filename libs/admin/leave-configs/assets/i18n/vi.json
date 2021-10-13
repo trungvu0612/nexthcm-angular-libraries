@@ -59,5 +59,6 @@
   "entitlementDays": "Quyền lợi (số ngày)",
   "multipleEmployees": "Thêm cho nhiều nhân viên",
   "approvalDays": "Số ngày có thể xét duyệt",
-  "enterDays": "Nhập số ngày..."
+  "enterDays": "Nhập số ngày...",
+  "paidLeave": "Tính lương"
 }

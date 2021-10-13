@@ -586,5 +586,7 @@
   "enterNote": "Nhập ghi chú...",
   "employee": "Nhân viên",
   "searchEmployees": "Tìm nhân viên...",
-  "chooseOffice": "Chọn văn phòng..."
+  "chooseOffice": "Chọn văn phòng...",
+  "unAssignSeat": "Bỏ gán chỗ ngồi",
+  "chooseSeatMap": "Chọn sơ đồ chỗ ngồi..."
 }

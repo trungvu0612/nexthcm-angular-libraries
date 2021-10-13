@@ -59,5 +59,6 @@
   "entitlementDays": "Entitlement (days)",
   "multipleEmployees": "Add to multiple employees",
   "approvalDays": "Approval days",
-  "enterDays": "Enter days..."
+  "enterDays": "Enter days...",
+  "paidLeave": "Payable"
 }

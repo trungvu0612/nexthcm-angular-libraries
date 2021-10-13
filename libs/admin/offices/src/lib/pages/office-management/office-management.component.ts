@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Inject, Injector, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AbstractServerSortPaginationTableComponent, Pagination, PromptService } from '@nexthcm/cdk';
+import { AbstractServerSortPaginationTableComponent, Office, Pagination, PromptService } from '@nexthcm/cdk';
 import { ProviderScope, TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
@@ -21,7 +21,6 @@ import {
   tap,
 } from 'rxjs/operators';
 import { UpsertOfficeDialogComponent } from '../../components/upsert-office-dialog/upsert-office-dialog.component';
-import { Office } from '../../models/office';
 import { AdminOfficesService } from '../../services/admin-offices.service';
 
 @Component({

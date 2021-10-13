@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Actions } from '@datorama/akita-ng-effects';
 import { CommonStatus, PromptService, UploadFileService } from '@nexthcm/cdk';
+import { KnowledgeBaseArticle } from '@nexthcm/knowledge-base';
 import { FormBuilder } from '@ngneat/reactive-forms';
 import { TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
@@ -9,7 +10,6 @@ import { TuiDestroyService } from '@taiga-ui/cdk';
 import { of } from 'rxjs';
 import { catchError, map, share, startWith, takeUntil, tap } from 'rxjs/operators';
 import { AdminKnowledgeBaseService } from '../../admin-knowledge-base.service';
-import { KnowledgeBaseArticle } from '../../models';
 import { KnowledgeBaseCategoriesQuery, loadKnowledgeBaseCategories } from '../../state/knowledge-base-categories';
 
 @Component({

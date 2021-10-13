@@ -4,8 +4,15 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { GetFilePipeModule } from '@nexthcm/cdk';
-import { FormlyUserComboBoxComponentModule, LayoutComponent, LayoutModule } from '@nexthcm/ui';
+import {
+  AvatarComponentModule,
+  BaseFormComponentModule,
+  FormlyUserComboBoxComponentModule,
+  LayoutComponent,
+  LayoutModule,
+} from '@nexthcm/ui';
 import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoLocaleModule } from '@ngneat/transloco-locale';
 import { FormlyModule } from '@ngx-formly/core';
 import { LetModule } from '@rx-angular/template';
 import {
@@ -15,10 +22,12 @@ import {
   TuiHostedDropdownModule,
   TuiLoaderModule,
   TuiSvgModule,
+  TuiTextfieldControllerModule,
 } from '@taiga-ui/core';
-import { TuiAvatarModule, TuiComboBoxModule } from '@taiga-ui/kit';
+import { TuiAvatarModule, TuiComboBoxModule, TuiSelectModule } from '@taiga-ui/kit';
 import { NgxPermissionsGuard, NgxPermissionsModule } from 'ngx-permissions';
 import { SeatComponent } from './components/seat/seat.component';
+import { SeatUserStatePipe } from './pipes/seat-user-state.pipe';
 import { SeatMapsComponent } from './seat-maps.component';
 import { SeatMapsService } from './seat-maps.service';
 
@@ -53,8 +62,13 @@ export const SEAT_MAPS_ROUTES: Routes = [
     TuiSvgModule,
     FormlyUserComboBoxComponentModule,
     NgxPermissionsModule,
+    TuiSelectModule,
+    BaseFormComponentModule,
+    TranslocoLocaleModule,
+    AvatarComponentModule,
+    TuiTextfieldControllerModule,
   ],
-  declarations: [SeatMapsComponent, SeatComponent],
+  declarations: [SeatMapsComponent, SeatComponent, SeatUserStatePipe],
   providers: [SeatMapsService],
 })
 export class SeatMapsModule {}

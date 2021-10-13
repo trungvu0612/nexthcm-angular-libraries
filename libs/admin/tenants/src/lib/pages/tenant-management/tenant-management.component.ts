@@ -104,7 +104,7 @@ export class TenantManagementComponent
         size: 'l',
       })
       .pipe(takeUntil(this.destroy$))
-      .subscribe((res) => this.router.navigate([res.id]));
+      .subscribe((res) => this.router.navigate([res.id], { relativeTo: this.activatedRoute }));
   }
 
   onRemoveTenant(id: string): void {

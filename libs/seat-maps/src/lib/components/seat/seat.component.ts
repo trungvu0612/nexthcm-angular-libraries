@@ -1,14 +1,12 @@
-import { ChangeDetectionStrategy, Component, ElementRef, HostBinding, Input } from '@angular/core';
-import { AuthService } from '@nexthcm/auth';
-import { Seat } from '@nexthcm/cdk';
-import { FormGroup } from '@ngneat/reactive-forms';
+import { ChangeDetectionStrategy, Component, EventEmitter, HostBinding, Input, Output } from '@angular/core';
+import { FormBuilder } from '@ngneat/reactive-forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { RxState } from '@rx-angular/state';
 import { TuiDialogContext, TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusContent } from '@tinkoff/ng-polymorpheus';
 import { Subject, Subscriber } from 'rxjs';
 import { UserState } from '../../enums/user-state';
-import { SeatMapsService } from '../../seat-maps.service';
+import { Seat, StyleSeat } from '../../models';
 
 @Component({
   selector: 'hcm-seat',
@@ -18,47 +16,36 @@ import { SeatMapsService } from '../../seat-maps.service';
   providers: [RxState],
 })
 export class SeatComponent {
-  @Input() seat!: Partial<Seat>;
-  @Input() refresh$!: Subject<unknown>;
+  @Input() seat = {} as Seat;
+  @Output() assignUser = new EventEmitter<Seat>();
+  @Output() unAssignUser = new EventEmitter<string>();
+
   random = Math.round(Math.random() * 6);
   openDropdown = false;
   dragging$ = this.state.select('dragging');
-  readonly form = new FormGroup({});
-  model: Partial<Seat> = {};
-  readonly userInfo = this.authService.get('userInfo');
+  readonly form = this.fb.group<Seat>({} as Seat);
+  model = { label: '', seatStatus: 1 } as Seat;
   readonly fields: FormlyFieldConfig[] = [
     {
-      key: 'label',
-      className: 'tui-form__row block',
-      type: 'input-number',
-      templateOptions: {
-        translate: true,
-        required: true,
-        textfieldLabelOutside: true,
-        label: 'Number',
-        labelClassName: 'font-semibold',
-        placeholder: 'Position number',
-      },
-    },
-    {
       key: 'assignedUser',
-      className: 'tui-form__row block',
       type: 'user-combo-box',
       templateOptions: {
         labelClassName: 'font-semibold',
         required: true,
         translate: true,
         label: 'chooseUser',
+        placeholder: 'searchUsers',
       },
     },
+    { key: 'label' },
+    { key: 'seatStatus' },
+    { key: 'id' },
   ];
 
   constructor(
-    private readonly seatMapsService: SeatMapsService,
+    private readonly fb: FormBuilder,
     private readonly dialogService: TuiDialogService,
-    private readonly state: RxState<{ dragging: boolean }>,
-    public readonly elementRef: ElementRef,
-    private authService: AuthService
+    private readonly state: RxState<{ dragging: boolean }>
   ) {}
 
   @Input() set dragging(dragging$: Subject<boolean>) {
@@ -67,48 +54,37 @@ export class SeatComponent {
 
   @HostBinding('style') get style() {
     return {
-      left: Number(this.seat.positionX) + '%',
-      top: Number(this.seat.positionY) + '%',
+      left: Number((this.seat.style as StyleSeat).positionX) + '%',
+      top: Number(this.seat.style as StyleSeat) + '%',
       width: '5%',
       height: '11.8%',
-      'border-radius': this.seat.rounded + '%',
+      'border-radius': (this.seat.style as StyleSeat).rounded + '%',
     };
   }
 
-  get status(): string {
-    return this.seat.assignedUser ? UserState[this.random] + ' seatmap_status' : 'seatmap_status';
-  }
-
-  get convertedStatus(): string {
-    return this.status === 'none'
-      ? 'NA'
-      : this.status
-          .replace('in-out', 'in/out')
-          .replace('seatmap_status', '')
-          .replace(/-/g, ' ')
-          .replace(/^./, (m) => m.toUpperCase());
-  }
-
   statusState(statusUser: any): string {
-    return this.seat.assignedUser ? UserState[statusUser] + ' seatmap_status' : 'seatmap_status';
+    return this.seat.assignedUser ? UserState[statusUser] : '';
   }
 
   addSeatOrDropdown(type: string, content?: PolymorpheusContent<TuiDialogContext>): void {
-    if (this.state.get('dragging')) this.state.set({ dragging: false });
-    else if (type === 'add' && content) this.dialogService.open(content).subscribe();
+    if (this.state.get('dragging')) {
+      this.state.set({ dragging: false });
+    } else if (type === 'add' && content) {
+      this.dialogService.open(content).subscribe();
+    }
   }
 
   submitSeat(observer: Subscriber<unknown>): void {
     if (this.form.valid) {
       observer.complete();
-      this.seatMapsService.assignedUser(this.seat.id || '', this.model).subscribe(() => this.refresh$.next());
+
+      this.model.id = this.seat.id;
+      this.assignUser.emit(this.model);
     }
   }
 
   deleteSeat(): void {
     this.openDropdown = false;
-    if (this.seat.id) {
-      this.seatMapsService.assignedUser(this.seat.id, { assignedUser: null }).subscribe(() => this.refresh$.next());
-    }
+    this.unAssignUser.emit(this.seat.id);
   }
 }

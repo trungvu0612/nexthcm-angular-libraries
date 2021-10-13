@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
 import { CommonStatus, PromptService } from '@nexthcm/cdk';
+import { KnowledgeBaseCategory } from '@nexthcm/knowledge-base';
 import { FormBuilder } from '@ngneat/reactive-forms';
 import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
@@ -8,7 +9,6 @@ import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { takeUntil } from 'rxjs/operators';
 import { AdminKnowledgeBaseService } from '../../admin-knowledge-base.service';
-import { KnowledgeBaseCategory } from '../../models';
 
 @Component({
   selector: 'hcm-upsert-knowledge-base-category-dialog',

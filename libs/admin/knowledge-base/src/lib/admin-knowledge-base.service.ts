@@ -2,9 +2,9 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Actions } from '@datorama/akita-ng-effects';
 import { MY_TIME_API_PATH, Pagination, PagingResponse } from '@nexthcm/cdk';
+import { KnowledgeBaseArticle, KnowledgeBaseCategory } from '@nexthcm/knowledge-base';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
-import { KnowledgeBaseArticle, KnowledgeBaseCategory } from './models';
 import { upsertKnowledgeBaseCategory } from './state/knowledge-base-categories';
 
 @Injectable()

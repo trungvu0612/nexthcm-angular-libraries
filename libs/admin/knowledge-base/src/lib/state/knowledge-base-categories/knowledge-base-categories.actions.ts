@@ -1,5 +1,5 @@
 import { createAction, props } from '@datorama/akita-ng-effects';
-import { KnowledgeBaseCategory } from '../../models';
+import { KnowledgeBaseCategory } from '@nexthcm/knowledge-base';
 
 export const loadKnowledgeBaseCategories = createAction('[Knowledge Base Categories] Load Knowledge Base Categories');
 export const upsertKnowledgeBaseCategory = createAction(

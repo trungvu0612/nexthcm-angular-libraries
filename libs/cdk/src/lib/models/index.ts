@@ -10,4 +10,5 @@ export * from './employee-info';
 export * from './holiday';
 export * from './employee';
 export * from './workflows';
-export * from './organization'
+export * from './organization';
+export * from './office';

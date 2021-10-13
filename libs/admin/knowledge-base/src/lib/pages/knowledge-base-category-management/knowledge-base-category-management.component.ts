@@ -1,6 +1,7 @@
 import { Component, Inject, Injector, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AbstractServerSortPaginationTableComponent, CommonStatus, Pagination, PromptService } from '@nexthcm/cdk';
+import { KnowledgeBaseCategory } from '@nexthcm/knowledge-base';
 import { ProviderScope, TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
@@ -22,7 +23,6 @@ import {
 } from 'rxjs/operators';
 import { AdminKnowledgeBaseService } from '../../admin-knowledge-base.service';
 import { UpsertKnowledgeBaseCategoryDialogComponent } from '../../components/upsert-knowledge-base-category-dialog/upsert-knowledge-base-category-dialog.component';
-import { KnowledgeBaseCategory } from '../../models';
 
 @Component({
   selector: 'hcm-knowledge-base-category-management',

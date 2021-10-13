@@ -586,5 +586,7 @@
   "note": "Note",
   "enterNote": "Enter note...",
   "employee": "Employee",
-  "searchEmployees": "Search for employees..."
+  "searchEmployees": "Search for employees...",
+  "unAssignSeat": "Un-assign seat",
+  "chooseSeatMap": "Choose a seat map..."
 }

@@ -1,4 +1,4 @@
-import { CommonStatus, EmployeeGeneralInformation } from '@nexthcm/cdk';
+import { CommonStatus, EmployeeInfo } from '@nexthcm/cdk';
 import { KnowledgeBaseCategory } from './knowledge-base-category';
 
 export interface KnowledgeBaseArticle {
@@ -13,5 +13,5 @@ export interface KnowledgeBaseArticle {
   shortDescription: string;
   policyCategory: KnowledgeBaseCategory;
   statusBoolean?: boolean;
-  userCreatedBy?: EmployeeGeneralInformation;
+  userCreatedBy?: EmployeeInfo;
 }

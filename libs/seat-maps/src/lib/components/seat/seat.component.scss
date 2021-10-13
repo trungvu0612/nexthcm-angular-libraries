@@ -3,17 +3,8 @@
   display: block;
   cursor: pointer;
 
-  * {
-    width: 100% !important;
-    height: 100% !important;
-  }
-
-  .seatmap_status {
-    width: 9px !important;
-    height: 9px !important;
-    border: solid 1px gray;
-    border-radius: 50%;
-    position: relative;
-    bottom: 9px;
+  .seat-status {
+    width: 0.5rem;
+    height: 0.5rem;
   }
 }

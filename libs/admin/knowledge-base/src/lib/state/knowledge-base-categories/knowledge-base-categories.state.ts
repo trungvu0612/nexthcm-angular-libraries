@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { EntityState, EntityStore, QueryEntity, StoreConfig } from '@datorama/akita';
-import { KnowledgeBaseCategory } from '../../models';
+import { KnowledgeBaseCategory } from '@nexthcm/knowledge-base';
 
 export interface KnowledgeBaseCategoriesState extends EntityState<KnowledgeBaseCategory, string> {}
 

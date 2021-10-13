@@ -1,10 +1,9 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Actions } from '@datorama/akita-ng-effects';
-import { ACCOUNT_API_PATH, Pagination, PagingResponse, refreshOffices } from '@nexthcm/cdk';
+import { ACCOUNT_API_PATH, Office, Pagination, PagingResponse, refreshOffices } from '@nexthcm/cdk';
 import { EMPTY, Observable } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
-import { Office } from '../models/office';
 
 @Injectable()
 export class AdminOfficesService {
