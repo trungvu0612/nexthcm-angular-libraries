@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Actions } from '@datorama/akita-ng-effects';
 import { CommonStatus, PromptService, UploadFileService } from '@nexthcm/cdk';
 import { FormBuilder } from '@ngneat/reactive-forms';
 import { TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
@@ -9,6 +10,7 @@ import { of } from 'rxjs';
 import { catchError, map, share, startWith, takeUntil, tap } from 'rxjs/operators';
 import { AdminKnowledgeBaseService } from '../../admin-knowledge-base.service';
 import { KnowledgeBaseArticle } from '../../models';
+import { KnowledgeBaseCategoriesQuery, loadKnowledgeBaseCategories } from '../../state/knowledge-base-categories';
 
 @Component({
   selector: 'hcm-upsert-knowledge-base-article',
@@ -62,7 +64,7 @@ export class UpsertKnowledgeBaseArticleComponent {
         label: 'category',
         labelClassName: 'font-semibold',
         placeholder: 'chooseCategory',
-        options: [],
+        options: this.knowledgeBaseCategoriesQuery.selectAll(),
         labelProp: 'name',
       },
     },
@@ -128,8 +130,12 @@ export class UpsertKnowledgeBaseArticleComponent {
     private readonly promptService: PromptService,
     private readonly activatedRoute: ActivatedRoute,
     private readonly router: Router,
-    private readonly uploadFileService: UploadFileService
-  ) {}
+    private readonly uploadFileService: UploadFileService,
+    private readonly knowledgeBaseCategoriesQuery: KnowledgeBaseCategoriesQuery,
+    private readonly actions: Actions
+  ) {
+    actions.dispatch(loadKnowledgeBaseCategories());
+  }
 
   get articleId(): string {
     return this.activatedRoute.snapshot.params.articleId;

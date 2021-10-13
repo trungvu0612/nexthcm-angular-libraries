@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Route, RouterModule } from '@angular/router';
+import { AkitaNgEffectsModule } from '@datorama/akita-ng-effects';
 import { inlineLoaderFactory } from '@nexthcm/core';
 import {
   BaseFormComponentModule,
@@ -24,6 +25,11 @@ import { UpsertKnowledgeBaseCategoryDialogComponent } from './components/upsert-
 import { KnowledgeBaseArticleManagementComponent } from './pages/knowledge-base-article-management/knowledge-base-article-management.component';
 import { KnowledgeBaseCategoryManagementComponent } from './pages/knowledge-base-category-management/knowledge-base-category-management.component';
 import { UpsertKnowledgeBaseArticleComponent } from './pages/upsert-knowledge-base-article/upsert-knowledge-base-article.component';
+import {
+  KnowledgeBaseCategoriesEffects,
+  KnowledgeBaseCategoriesQuery,
+  KnowledgeBaseCategoriesStores,
+} from './state/knowledge-base-categories';
 
 export const adminKnowledgeBaseRoutes: Route[] = [
   {
@@ -81,6 +87,7 @@ const TABS: MenuItem[] = [
     FormlyStatusToggleComponentModule,
     TuiBreadcrumbsModule,
     TuiLinkModule,
+    AkitaNgEffectsModule.forFeature([KnowledgeBaseCategoriesEffects]),
   ],
   providers: [
     AdminKnowledgeBaseService,
@@ -92,6 +99,8 @@ const TABS: MenuItem[] = [
       },
     },
     { provide: HEADER_TABS, useValue: TABS },
+    KnowledgeBaseCategoriesStores,
+    KnowledgeBaseCategoriesQuery,
   ],
 })
 export class AdminKnowledgeBaseModule {}

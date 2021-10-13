@@ -9,7 +9,7 @@ import { EmailTemplatesStore } from './email-templates.state';
 @Injectable()
 export class EmailTemplatesEffects {
   @Effect()
-  loadWorkflows$ = this.actions$.pipe(
+  loadEmailTemplates$ = this.actions$.pipe(
     ofType(loadEmailTemplates),
     switchMap(() =>
       cacheable(

@@ -1,13 +1,15 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Actions } from '@datorama/akita-ng-effects';
 import { MY_TIME_API_PATH, Pagination, PagingResponse } from '@nexthcm/cdk';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { KnowledgeBaseArticle, KnowledgeBaseCategory } from './models';
+import { upsertKnowledgeBaseCategory } from './state/knowledge-base-categories';
 
 @Injectable()
 export class AdminKnowledgeBaseService {
-  constructor(private http: HttpClient) {}
+  constructor(private readonly http: HttpClient, private readonly actions: Actions) {}
 
   getKnowledgeBaseArticles(params: HttpParams): Observable<Pagination<KnowledgeBaseArticle>> {
     return this.http
@@ -41,16 +43,30 @@ export class AdminKnowledgeBaseService {
       .pipe(map((res) => res.data));
   }
 
+  /**
+   * @deprecated TODO: change api
+   *
+   */
+  getAllKnowledgeBaseCategories(): Observable<KnowledgeBaseCategory[]> {
+    return this.http
+      .get<PagingResponse<KnowledgeBaseCategory>>(`${MY_TIME_API_PATH}/policy-category?size=999`)
+      .pipe(map((res) => res.data.items));
+  }
+
   upsertKnowledgeBaseCategory(payload: KnowledgeBaseCategory): Observable<unknown> {
     return payload.id ? this.editKnowledgeBaseCategory(payload) : this.createKnowledgeBaseCategory(payload);
   }
 
   createKnowledgeBaseCategory(payload: KnowledgeBaseCategory): Observable<unknown> {
-    return this.http.post(`${MY_TIME_API_PATH}/policy-category`, payload);
+    return this.http
+      .post<KnowledgeBaseCategory>(`${MY_TIME_API_PATH}/policy-category`, payload)
+      .pipe(tap((data) => this.actions.dispatch(upsertKnowledgeBaseCategory({ data }))));
   }
 
   editKnowledgeBaseCategory(payload: KnowledgeBaseCategory): Observable<unknown> {
-    return this.http.put(`${MY_TIME_API_PATH}/policy-category/${payload.id}`, payload);
+    return this.http
+      .put(`${MY_TIME_API_PATH}/policy-category/${payload.id}`, payload)
+      .pipe(tap(() => this.actions.dispatch(upsertKnowledgeBaseCategory({ data: payload }))));
   }
 
   deleteKnowledgeBaseCategory(id: string): Observable<unknown> {
