@@ -1,4 +1,4 @@
-import { CommonStatus } from '@nexthcm/cdk';
+import { CommonStatus } from '../enums';
 
 export interface Office {
   id: string;

@@ -3,12 +3,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Actions } from '@datorama/akita-ng-effects';
 import { CommonStatus, PromptService, UploadFileService } from '@nexthcm/cdk';
 import { KnowledgeBaseArticle } from '@nexthcm/knowledge-base';
-import { FormBuilder } from '@ngneat/reactive-forms';
+import { AbstractControl, FormBuilder } from '@ngneat/reactive-forms';
 import { TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { of } from 'rxjs';
-import { catchError, map, share, startWith, takeUntil, tap } from 'rxjs/operators';
+import { catchError, debounceTime, map, share, startWith, switchMap, take, takeUntil, tap } from 'rxjs/operators';
 import { AdminKnowledgeBaseService } from '../../admin-knowledge-base.service';
 import { KnowledgeBaseCategoriesQuery, loadKnowledgeBaseCategories } from '../../state/knowledge-base-categories';
 
@@ -22,6 +22,7 @@ import { KnowledgeBaseCategoriesQuery, loadKnowledgeBaseCategories } from '../..
 export class UpsertKnowledgeBaseArticleComponent {
   form = this.fb.group<KnowledgeBaseArticle>({} as KnowledgeBaseArticle);
   model = {} as KnowledgeBaseArticle;
+  oldTopic = '';
   fields: FormlyFieldConfig[] = [
     {
       key: 'topic',
@@ -35,6 +36,24 @@ export class UpsertKnowledgeBaseArticleComponent {
         labelClassName: 'font-semibold',
         placeholder: 'enterTopic',
         translocoScope: this.scope,
+      },
+      asyncValidators: {
+        topic: {
+          expression: (control: AbstractControl<string>) =>
+            !control.valueChanges || control.pristine
+              ? of(true)
+              : control.valueChanges.pipe(
+                  debounceTime(1000),
+                  take(1),
+                  switchMap((name: string) =>
+                    this.oldTopic === name
+                      ? of(true)
+                      : this.adminKnowledgeBaseService.checkKnowledgeBaseArticleNameExists(name)
+                  ),
+                  tap(() => control.markAsTouched())
+                ),
+          message: () => this.translocoService.selectTranslate('VALIDATION.valueExisting'),
+        },
       },
     },
     {
@@ -109,11 +128,12 @@ export class UpsertKnowledgeBaseArticleComponent {
     { key: 'mobileThumbnail' },
   ];
   private readonly request$ = (this.articleId
-    ? this.adminKnowledgeBaseService
-        .getKnowledgeBaseArticle(this.activatedRoute.snapshot.params.articleId)
-        .pipe(
-          tap((data) => (this.model = { ...this.model, ...data, statusBoolean: data.status === CommonStatus.active }))
-        )
+    ? this.adminKnowledgeBaseService.getKnowledgeBaseArticle(this.activatedRoute.snapshot.params.articleId).pipe(
+        tap((data) => {
+          this.oldTopic = data.topic;
+          this.model = { ...this.model, ...data, statusBoolean: data.status === CommonStatus.active };
+        })
+      )
     : of({})
   ).pipe(startWith(null), share());
   readonly loading$ = this.request$.pipe(

@@ -26,8 +26,8 @@ import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
 import { FormlyModule } from '@ngx-formly/core';
 import { TuiTablePaginationModule } from '@taiga-ui/addon-table';
 import { TuiLetModule } from '@taiga-ui/cdk';
-import { TuiButtonModule, TuiLabelModule, TuiLinkModule, TuiLoaderModule, TuiSvgModule } from '@taiga-ui/core';
-import { TuiBreadcrumbsModule, TuiCheckboxModule, TuiTabsModule, TuiToggleModule } from '@taiga-ui/kit';
+import { TuiButtonModule, TuiLabelModule, TuiLoaderModule, TuiSvgModule } from '@taiga-ui/core';
+import { TuiCheckboxModule, TuiTabsModule, TuiToggleModule } from '@taiga-ui/kit';
 import { PolymorpheusModule } from '@tinkoff/ng-polymorpheus';
 import { academicCap, HeroIconModule, identification, informationCircle } from 'ng-heroicon';
 import { TableModule } from 'ngx-easy-table';
@@ -78,10 +78,12 @@ export const ADMIN_EMPLOYEE_ROUTES: Routes = [
     CommonModule,
     RouterModule.forChild(ADMIN_EMPLOYEE_ROUTES),
     ReactiveFormsModule,
-    FormlyModule.forChild({ types: [
-      { name: 'repeat', component: FormlyRepeatSectionComponent },
-      { name: 'download-button', component: FormlyDownloadButtonComponent },
-      ] }),
+    FormlyModule.forChild({
+      types: [
+        { name: 'repeat', component: FormlyRepeatSectionComponent },
+        { name: 'download-button', component: FormlyDownloadButtonComponent },
+      ],
+    }),
     TuiTabsModule,
     TranslocoModule,
     TuiButtonModule,
@@ -103,8 +105,6 @@ export const ADMIN_EMPLOYEE_ROUTES: Routes = [
     BaseFormComponentModule,
     FormlySelectOrgTreeComponentModule,
     FormlyStatusToggleComponentModule,
-    TuiBreadcrumbsModule,
-    TuiLinkModule,
     AkitaNgEffectsModule.forFeature([
       JobLevelsEffects,
       JobTitlesEffects,

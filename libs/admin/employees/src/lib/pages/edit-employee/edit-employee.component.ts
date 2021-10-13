@@ -8,8 +8,4 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 })
 export class EditEmployeeComponent {
   activeItemIndex = 0;
-  readonly items = [
-    { caption: 'employeeManagement', routerLink: '/admin/employees' },
-    { caption: 'employees.editEmployee', routerLink: [] },
-  ];
 }

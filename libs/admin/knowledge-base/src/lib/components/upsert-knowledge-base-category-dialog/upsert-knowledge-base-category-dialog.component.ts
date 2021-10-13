@@ -1,13 +1,14 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
 import { CommonStatus, PromptService } from '@nexthcm/cdk';
 import { KnowledgeBaseCategory } from '@nexthcm/knowledge-base';
-import { FormBuilder } from '@ngneat/reactive-forms';
+import { AbstractControl, FormBuilder } from '@ngneat/reactive-forms';
 import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
-import { takeUntil } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { debounceTime, switchMap, take, takeUntil, tap } from 'rxjs/operators';
 import { AdminKnowledgeBaseService } from '../../admin-knowledge-base.service';
 
 @Component({
@@ -15,6 +16,7 @@ import { AdminKnowledgeBaseService } from '../../admin-knowledge-base.service';
   templateUrl: './upsert-knowledge-base-category-dialog.component.html',
   styleUrls: ['./upsert-knowledge-base-category-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [TuiDestroyService],
 })
 export class UpsertKnowledgeBaseCategoryDialogComponent implements OnInit {
   form = this.fb.group<KnowledgeBaseCategory>({} as KnowledgeBaseCategory);
@@ -31,6 +33,24 @@ export class UpsertKnowledgeBaseCategoryDialogComponent implements OnInit {
         label: 'name',
         labelClassName: 'font-semibold',
         placeholder: 'enterName',
+      },
+      asyncValidators: {
+        name: {
+          expression: (control: AbstractControl<string>) =>
+            !control.valueChanges || control.pristine
+              ? of(true)
+              : control.valueChanges.pipe(
+                  debounceTime(1000),
+                  take(1),
+                  switchMap((name: string) =>
+                    this.context.data?.name === name
+                      ? of(true)
+                      : this.adminKnowledgeBaseService.checkKnowledgeBaseCategoryNameExists(name)
+                  ),
+                  tap(() => control.markAsTouched())
+                ),
+          message: () => this.translocoService.selectTranslate('VALIDATION.valueExisting'),
+        },
       },
     },
     {

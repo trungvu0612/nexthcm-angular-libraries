@@ -3,8 +3,8 @@ import { Injectable } from '@angular/core';
 import { Actions } from '@datorama/akita-ng-effects';
 import { MY_TIME_API_PATH, Pagination, PagingResponse } from '@nexthcm/cdk';
 import { KnowledgeBaseArticle, KnowledgeBaseCategory } from '@nexthcm/knowledge-base';
-import { Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { catchError, map, mapTo, tap } from 'rxjs/operators';
 import { upsertKnowledgeBaseCategory } from './state/knowledge-base-categories';
 
 @Injectable()
@@ -35,6 +35,13 @@ export class AdminKnowledgeBaseService {
 
   deleteKnowledgeBaseArticle(id: string): Observable<unknown> {
     return this.http.delete(`${MY_TIME_API_PATH}/policies/${id}`);
+  }
+
+  checkKnowledgeBaseArticleNameExists(name: string): Observable<boolean> {
+    return this.http.get(`${MY_TIME_API_PATH}/policies/check-existing?name=${name}`).pipe(
+      mapTo(true),
+      catchError(() => of(false))
+    );
   }
 
   getKnowledgeBaseCategories(params: HttpParams): Observable<Pagination<KnowledgeBaseCategory>> {
@@ -71,5 +78,12 @@ export class AdminKnowledgeBaseService {
 
   deleteKnowledgeBaseCategory(id: string): Observable<unknown> {
     return this.http.delete(`${MY_TIME_API_PATH}/policy-category/${id}`);
+  }
+
+  checkKnowledgeBaseCategoryNameExists(name: string): Observable<boolean> {
+    return this.http.get(`${MY_TIME_API_PATH}/policy-category/check-existing?name=${name}`).pipe(
+      mapTo(true),
+      catchError(() => of(false))
+    );
   }
 }

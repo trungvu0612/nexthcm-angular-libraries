@@ -1,14 +1,5 @@
 <ng-container *transloco="let t">
   <hcm-page [title]="t('employees.editEmployee')">
-    <ng-container ngProjectAs="breadcrumbs">
-      <tui-breadcrumbs size="l">
-        <ng-container *ngFor="let item of items">
-          <a *tuiBreadcrumb [routerLink]="item.routerLink" tuiLink>
-            {{ t(item.caption) }}
-          </a>
-        </ng-container>
-      </tui-breadcrumbs>
-    </ng-container>
     <tui-tabs [(activeItemIndex)]="activeItemIndex">
       <button routerLink="./general" routerLinkActive tuiTab>
         <hero-icon class="w-6 h-6 tui-space_right-2" name="information-circle"></hero-icon>
