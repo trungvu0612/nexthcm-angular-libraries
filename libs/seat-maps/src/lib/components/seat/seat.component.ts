@@ -20,8 +20,8 @@ export class SeatComponent {
   @Output() assignUser = new EventEmitter<Seat>();
   @Output() unAssignUser = new EventEmitter<string>();
 
-  random = Math.round(Math.random() * 6);
   openDropdown = false;
+  random = Math.round(Math.random() * 6);
   dragging$ = this.state.select('dragging');
   readonly form = this.fb.group<Seat>({} as Seat);
   model = { label: '', seatStatus: 1 } as Seat;
@@ -55,7 +55,7 @@ export class SeatComponent {
   @HostBinding('style') get style() {
     return {
       left: Number((this.seat.style as StyleSeat).positionX) + '%',
-      top: Number(this.seat.style as StyleSeat) + '%',
+      top: Number((this.seat.style as StyleSeat).positionY) + '%',
       width: '5%',
       height: '11.8%',
       'border-radius': (this.seat.style as StyleSeat).rounded + '%',

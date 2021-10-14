@@ -2,11 +2,18 @@
   "ADMIN_SEAT_MAPS_COLUMNS": {
     "name": "Tên",
     "office": "Văn phòng",
-    "address": "Địa chỉ",
     "description": "Mô tả",
-    "action": "Thao tác",
-    "domainUrl": "Tên miền",
-    "status": "Trạng thái",
-    "deleteSeatMap": "<b>Bạn có chắc chắn muốn sửa sơ đồ chỗ ngồi này không?</b>"
-  }
+    "functions": "Chức năng",
+    "status": "Trạng thái"
+  },
+  "addSeatMap": "Thêm bản đồ chỗ ngồi",
+  "editSeatMap": "Sửa bản đồ chỗ ngồi",
+  "deleteSeatMap": "<b>Bạn thật sự muốn xoá bản đồ chỗ ngồi này?</b>",
+  "addSeatMapSuccessfully": "<b>Thêm bản đồ chỗ ngồi thành công!</b>",
+  "editSeatMapSuccessfully": "<b>Sửa bản đồ chỗ ngồi thành công!</b>",
+  "deleteSeatMapSuccessfully": "<b>Xoá bản đồ chỗ ngồi thành công!</b>",
+  "numberOfSeats": "Số chỗ ngồi",
+  "width": "Chiều rộng (px)",
+  "height": "Chiều cao (px)",
+  "rounded": "Độ bo tròn (%)"
 }

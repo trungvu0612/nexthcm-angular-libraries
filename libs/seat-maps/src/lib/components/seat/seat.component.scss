@@ -1,7 +1,15 @@
+@import '~@taiga-ui/core/styles/taiga-ui-local';
+
 :host {
   position: absolute;
   display: block;
   cursor: pointer;
+
+  &:hover,
+  .selected {
+    z-index: 100;
+    @include shadow(5);
+  }
 
   .seat-status {
     width: 0.5rem;

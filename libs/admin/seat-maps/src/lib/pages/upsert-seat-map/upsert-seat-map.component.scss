@@ -1,35 +1,6 @@
 :host {
   display: block;
 
-  ::ng-deep {
-    formly-form-field {
-      > label {
-        display: flex;
-        height: 100%;
-        flex-direction: row;
-        align-items: center;
-
-        > span:first-child {
-          width: 9rem;
-          font-size: 1rem;
-          font-weight: 600;
-        }
-
-        > span:last-child {
-          flex: auto;
-        }
-      }
-
-      tui-input-count {
-        width: 50%;
-      }
-
-      tui-input-slider {
-        height: 3rem;
-      }
-    }
-  }
-
   .bg-gradient {
     width: 75%;
     max-width: 56rem;

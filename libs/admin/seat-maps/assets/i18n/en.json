@@ -2,11 +2,18 @@
   "ADMIN_SEAT_MAPS_COLUMNS": {
     "name": "Name",
     "office": "Office",
-    "address": "Address",
     "description": "Description",
-    "action": "Action",
-    "domainUrl": "Domain Url",
-    "status": "Status",
-    "deleteSeatMap": "<B>Are you sure you want to edit this seat map?</b>"
-  }
+    "functions": "Action",
+    "status": "Status"
+  },
+  "addSeatMap": "Add seat map",
+  "editSeatMap": "Edit seat map",
+  "deleteSeatMap": "<B>Are you sure you want to delete this seat map?</b>",
+  "addSeatMapSuccessfully": "<b>Add new seat map successfully!</b>",
+  "editSeatMapSuccessfully": "<b>Edit this seat map successfully!</b>",
+  "deleteSeatMapSuccessfully": "<b>Delete the seat map successfully!</b>",
+  "numberOfSeats": "Number of seats",
+  "width": "Width (px)",
+  "height": "Height (px)",
+  "rounded": "Rounded (%)"
 }

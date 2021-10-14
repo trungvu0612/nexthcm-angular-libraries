@@ -1,15 +1,18 @@
 import { CommonStatus, Office, UserDto } from '@nexthcm/cdk';
 import { UserState } from '../enums/user-state';
 
-export interface StyleSeat {
+export interface Dimension {
   width: number;
   height: number;
   rounded: number;
+}
+
+export interface StyleSeat extends Dimension {
   positionX: number;
   positionY: number;
 }
 
-export interface Seat {
+export interface Seat extends StyleSeat {
   id: string;
   label: string;
   assignedUser?: UserDto;
@@ -23,7 +26,7 @@ export interface SeatMap {
   name: string;
   status: CommonStatus;
   type: string;
-  office: Office;
+  office?: Office;
   imageUrl: string;
   dimensionX: number;
   dimensionY: number;

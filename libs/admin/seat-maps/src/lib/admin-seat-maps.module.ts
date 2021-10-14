@@ -3,17 +3,19 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
-import { GetFilePipeModule } from '@nexthcm/cdk';
+import { AkitaNgEffectsModule } from '@datorama/akita-ng-effects';
+import { GetFilePipeModule, OfficesEffects } from '@nexthcm/cdk';
 import { inlineLoaderFactory } from '@nexthcm/core';
 import { LayoutComponent, LayoutModule } from '@nexthcm/ui';
 import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
 import { FormlyModule } from '@ngx-formly/core';
 import { TuiTablePaginationModule } from '@taiga-ui/addon-table';
+import { TuiLetModule } from '@taiga-ui/cdk';
 import { TuiButtonModule, TuiLoaderModule, TuiSvgModule } from '@taiga-ui/core';
 import { TuiInputFileModule } from '@taiga-ui/kit';
 import { TableModule } from 'ngx-easy-table';
 import { NgxPermissionsGuard, NgxPermissionsModule } from 'ngx-permissions';
-import { SeatMapListComponent } from './pages/seat-map-list/seat-map-list.component';
+import { SeatMapManagementComponent } from './pages/seat-map-management/seat-map-management.component';
 import { UpsertSeatMapComponent } from './pages/upsert-seat-map/upsert-seat-map.component';
 import { AdminSeatMapsService } from './services/admin-seat-maps.service';
 
@@ -24,7 +26,7 @@ export const adminSeatMapsRoutes: Routes = [
     canActivate: [NgxPermissionsGuard],
     data: { permissions: { only: 'VIEW_SEAT_MAP', redirectTo: '/' } },
     children: [
-      { path: '', component: SeatMapListComponent },
+      { path: '', component: SeatMapManagementComponent },
       {
         path: 'create',
         component: UpsertSeatMapComponent,
@@ -32,7 +34,7 @@ export const adminSeatMapsRoutes: Routes = [
         data: { permissions: { only: 'CREATE_SEAT_MAP', redirectTo: '/' } },
       },
       {
-        path: 'edit/:id',
+        path: ':seatMapId/edit',
         component: UpsertSeatMapComponent,
         canActivate: [NgxPermissionsGuard],
         data: { permissions: { only: 'UPDATE_SEAT_MAP', redirectTo: '/' } },
@@ -42,7 +44,7 @@ export const adminSeatMapsRoutes: Routes = [
 ];
 
 @NgModule({
-  declarations: [SeatMapListComponent, UpsertSeatMapComponent],
+  declarations: [SeatMapManagementComponent, UpsertSeatMapComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(adminSeatMapsRoutes),
@@ -59,13 +61,15 @@ export const adminSeatMapsRoutes: Routes = [
     TuiTablePaginationModule,
     TuiLoaderModule,
     NgxPermissionsModule,
+    TuiLetModule,
+    AkitaNgEffectsModule.forFeature([OfficesEffects]),
   ],
   providers: [
     AdminSeatMapsService,
     {
       provide: TRANSLOCO_SCOPE,
       useValue: {
-        scope: 'seatMaps',
+        scope: 'adminSeatMaps',
         loader: inlineLoaderFactory((lang) => import(`../../assets/i18n/${lang}.json`)),
       },
     },

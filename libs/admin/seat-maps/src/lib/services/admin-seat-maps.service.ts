@@ -1,47 +1,37 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ACCOUNT_API_PATH, BaseObject, MY_TIME_API_PATH, Pagination, PagingResponse, Zone } from '@nexthcm/cdk';
-import { RxState } from '@rx-angular/state';
+import { MY_TIME_API_PATH, Pagination, PagingResponse } from '@nexthcm/cdk';
+import { SeatMap } from '@nexthcm/seat-maps';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Injectable()
-export class AdminSeatMapsService extends RxState<{ offices: Partial<Zone>[] }> {
-  constructor(private http: HttpClient) {
-    super();
-    this.connect(
-      'offices',
-      this.http
-        .get<PagingResponse<Zone>>(`${ACCOUNT_API_PATH}/offices`, { params: { size: 999 } })
-        .pipe(map((response) => response.data.items))
-    );
-  }
+export class AdminSeatMapsService {
+  constructor(private http: HttpClient) {}
 
-  getSeatMaps(params: HttpParams): Observable<Pagination<Zone>> {
+  getSeatMaps(params: HttpParams): Observable<Pagination<SeatMap>> {
     return this.http
-      .get<PagingResponse<Zone>>(`${MY_TIME_API_PATH}/seats-map`, { params })
+      .get<PagingResponse<SeatMap>>(`${MY_TIME_API_PATH}/seats-map`, { params })
       .pipe(map((res) => res.data));
   }
 
-  getSeatMap(id: string): Observable<Partial<Zone>> {
-    return this.http.get<Partial<Zone>>(`${MY_TIME_API_PATH}/seats-map/${id}`);
+  getSeatMap(id: string): Observable<SeatMap> {
+    return this.http.get<SeatMap>(`${MY_TIME_API_PATH}/seats-map/${id}`);
   }
 
-  createSeatMap(body: Partial<Zone>): Observable<unknown> {
-    return this.http.post(`${MY_TIME_API_PATH}/seats-map`, body);
+  upsertSeatMap(payload: SeatMap): Observable<unknown> {
+    return payload.id ? this.editSeatMap(payload) : this.createSeatMap(payload);
   }
 
-  editSeatMap(body: Partial<Zone>): Observable<unknown> {
-    return this.http.put(`${MY_TIME_API_PATH}/seats-map/${body.id}`, body);
+  createSeatMap(payload: SeatMap): Observable<unknown> {
+    return this.http.post(`${MY_TIME_API_PATH}/seats-map`, payload);
   }
 
-  delete(id: string): Observable<any> {
-    return this.http.delete(`${MY_TIME_API_PATH}/seats-map/${id}`, {});
+  editSeatMap(payload: SeatMap): Observable<unknown> {
+    return this.http.put(`${MY_TIME_API_PATH}/seats-map/${payload.id}`, payload);
   }
 
-  getOfficesSearch(searchQuery?: string): Observable<Pagination<Partial<BaseObject>>> {
-    return this.http
-      .get<PagingResponse<Partial<BaseObject>>>(`${ACCOUNT_API_PATH}/offices/v2?search=${searchQuery}`)
-      .pipe(map((response) => response.data.items as any));
+  delete(id: string): Observable<unknown> {
+    return this.http.delete(`${MY_TIME_API_PATH}/seats-map/${id}`);
   }
 }

@@ -1,25 +1,33 @@
 import { CdkDragEnd } from '@angular/cdk/drag-drop';
-import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, HostListener, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  HostListener,
+  Inject,
+  ViewChild,
+} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Dimension, PromptService, Seat, UploadFileService, Zone } from '@nexthcm/cdk';
-import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
+import { Actions } from '@datorama/akita-ng-effects';
+import { loadOffices, OfficesQuery, PromptService, UploadFileService } from '@nexthcm/cdk';
+import { Dimension, Seat, SeatMap, SeatMapsService, StyleSeat } from '@nexthcm/seat-maps';
+import { FormBuilder } from '@ngneat/reactive-forms';
+import { TRANSLOCO_SCOPE, TranslocoScope } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { iif, Observable, of } from 'rxjs';
-import { startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
-import { SweetAlertOptions } from 'sweetalert2';
+import { startWith, takeUntil, tap } from 'rxjs/operators';
 import { AdminSeatMapsService } from '../../services/admin-seat-maps.service';
 
-interface SeatMapForm extends Dimension {
-  office: Partial<Zone> | null;
-  name: string;
-  imageUrl: string;
-  dimensionX: number;
-  dimensionY: number;
-  seats: number;
+interface SeatMapForm extends SeatMap {
+  numberOfSeats: number;
+  width: number;
+  height: number;
+  rounded: number;
 }
 
-const keys: ('width' | 'height' | 'rounded')[] = ['width', 'height', 'rounded'];
+const DIMENSION_KEYS: (keyof Dimension)[] = ['width', 'height', 'rounded'];
 
 @Component({
   selector: 'hcm-upsert-seat-map-',
@@ -30,136 +38,202 @@ const keys: ('width' | 'height' | 'rounded')[] = ['width', 'height', 'rounded'];
 })
 export class UpsertSeatMapComponent implements AfterViewInit {
   @ViewChild('zone') zone!: ElementRef;
-  sign$: Observable<Partial<Zone>>;
-  seatMap!: Partial<Zone>;
-  offices$ = this.adminSeatMapsService.select('offices');
+  sign$: Observable<SeatMap>;
+  seatMap = {} as SeatMap;
   keepFocus = false;
   current = -1;
   first = true;
   factor = { width: 0, height: 0, rounded: 1 };
   dimension = { width: 0, height: 0, rounded: 0 };
   seats: Seat[] = [];
-  form: FormGroup<SeatMapForm>;
-  model: SeatMapForm = {
-    office: null,
+  model = {
     name: '',
     imageUrl: '',
     dimensionX: 0,
     dimensionY: 0,
-    seats: 0,
+    numberOfSeats: 0,
     width: 40,
     height: 40,
     rounded: 0,
-  };
+  } as SeatMapForm;
+  form = this.fb.group<SeatMapForm>(this.model);
   fields: FormlyFieldConfig[] = [
     {
-      fieldGroupClassName: 'grid grid-flow-col grid-rows-3 gap-x-10 gap-y-2 mb-4',
+      className: 'tui-form__row block',
+      fieldGroupClassName: 'grid grid-cols-3',
       fieldGroup: [
         {
-          key: 'office',
-          type: 'combo-box',
-          templateOptions: {
-            required: true,
-            translate: true,
-            label: 'office',
-            placeholder: 'chooseOffice',
-            textfieldSize: 'm',
-            textfieldLabelOutside: true,
-            serverRequest: (searchQuery: string) => this.adminSeatMapsService.getOfficesSearch(searchQuery),
-          },
+          className: 'col-span-2 border-r pr-4',
+          fieldGroup: [
+            {
+              key: 'office',
+              className: 'tui-form__row block',
+              type: 'select',
+              templateOptions: {
+                translate: true,
+                label: 'office',
+                labelClassName: 'font-semibold',
+                options: this.officesQuery.selectAll(),
+                placeholder: 'chooseOffice',
+                labelProp: 'name',
+                matcherBy: 'id',
+                textfieldLabelOutside: true,
+                required: true,
+              },
+            },
+            {
+              key: 'name',
+              className: 'tui-form__row block',
+              type: 'input',
+              templateOptions: {
+                required: true,
+                translate: true,
+                label: 'name',
+                labelClassName: 'font-semibold',
+                placeholder: 'enterName',
+                textfieldLabelOutside: true,
+              },
+            },
+            {
+              key: 'numberOfSeats',
+              className: 'tui-form__row block',
+              type: 'input-count',
+              templateOptions: {
+                labelClassName: 'font-semibold',
+                label: 'numberOfSeats',
+                translate: true,
+                textfieldLabelOutside: true,
+                translocoScope: this.scope,
+              },
+            },
+          ],
         },
         {
-          key: 'name',
-          type: 'input',
-          templateOptions: {
-            required: true,
-            translate: true,
-            label: 'name',
-            placeholder: 'enterName',
-            textfieldSize: 'm',
-            textfieldLabelOutside: true,
-          },
-        },
-        {
-          key: 'seats',
-          type: 'input-count',
-          templateOptions: {
-            label: 'numberOfSeat',
-            translate: true,
-            textfieldSize: 'm',
-            textfieldLabelOutside: true,
-          },
-          expressionProperties: { 'templateOptions.disabled': '!model.imageUrl' },
-        },
-        {
-          key: 'width',
-          type: 'input-slider',
-          templateOptions: { label: 'Width (px)', min: 10, max: 333 },
-          expressionProperties: { 'templateOptions.disabled': '!model.seats' },
-        },
-        {
-          key: 'height',
-          type: 'input-slider',
-          templateOptions: { label: 'Height (px)', min: 10, max: 333 },
-          expressionProperties: { 'templateOptions.disabled': '!model.seats' },
-        },
-        {
-          key: 'rounded',
-          type: 'input-slider',
-          templateOptions: { label: 'Rounded (%)', max: 50 },
-          expressionProperties: { 'templateOptions.disabled': '!model.seats' },
+          className: 'pl-4',
+          fieldGroup: [
+            {
+              key: 'width',
+              className: 'tui-form__row block',
+              type: 'input-slider',
+              templateOptions: {
+                translate: true,
+                label: 'width',
+                min: 10,
+                max: 333,
+                translocoScope: this.scope,
+                labelClassName: 'font-semibold',
+              },
+            },
+            {
+              key: 'height',
+              className: 'tui-form__row block',
+              type: 'input-slider',
+              templateOptions: {
+                translate: true,
+                label: 'height',
+                min: 10,
+                max: 333,
+                translocoScope: this.scope,
+                labelClassName: 'font-semibold',
+              },
+            },
+            {
+              key: 'rounded',
+              className: 'tui-form__row block',
+              type: 'input-slider',
+              templateOptions: {
+                translate: true,
+                label: 'rounded',
+                max: 50,
+                translocoScope: this.scope,
+                labelClassName: 'font-semibold',
+              },
+            },
+          ],
         },
       ],
     },
     {
       key: 'imageUrl',
+      className: 'tui-form__row block',
       type: 'upload-file',
       templateOptions: {
         required: true,
         translate: true,
+        label: 'image',
+        labelClassName: 'font-semibold',
         linkText: 'chooseAnImage',
         labelText: 'orDropItHere',
         accept: 'image/*',
         serverRequest: (file: File) => this.uploadFileService.uploadFile('admin-tenant/domain', file),
       },
     },
+    { key: 'type', defaultValue: 'UNSET' },
+    { key: 'id' },
   ];
 
-  seatForm: FormGroup<Dimension>;
   seatModel: Dimension = { width: 40, height: 40, rounded: 0 };
+  seatForm = this.fb.group<Dimension>(this.seatModel);
   seatFields: FormlyFieldConfig[] = [
     {
       key: 'width',
       type: 'input-slider',
-      templateOptions: { label: 'Width (px)', min: 10, max: 333 },
+      defaultValue: 40,
+      templateOptions: {
+        translate: true,
+        label: 'width',
+        min: 10,
+        max: 333,
+        translocoScope: this.scope,
+        labelClassName: 'font-semibold',
+      },
     },
     {
       key: 'height',
       type: 'input-slider',
-      templateOptions: { label: 'Height (px)', min: 10, max: 333 },
+      defaultValue: 40,
+      templateOptions: {
+        translate: true,
+        label: 'height',
+        min: 10,
+        max: 333,
+        translocoScope: this.scope,
+        labelClassName: 'font-semibold',
+      },
     },
     {
       key: 'rounded',
       type: 'input-slider',
-      templateOptions: { label: 'Rounded (%)', max: 50 },
+      templateOptions: {
+        translate: true,
+        label: 'rounded',
+        max: 50,
+        translocoScope: this.scope,
+        labelClassName: 'font-semibold',
+      },
     },
+    { key: 'id' },
+    { key: 'type' },
   ];
 
   constructor(
+    private readonly seatMapsService: SeatMapsService,
     private readonly adminSeatMapsService: AdminSeatMapsService,
     private readonly uploadFileService: UploadFileService,
     private readonly router: Router,
     private readonly destroy$: TuiDestroyService,
-    private promptService: PromptService,
-    fb: FormBuilder,
-    route: ActivatedRoute
+    private readonly promptService: PromptService,
+    private readonly fb: FormBuilder,
+    private readonly route: ActivatedRoute,
+    private readonly officesQuery: OfficesQuery,
+    @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope,
+    actions: Actions
   ) {
-    this.form = fb.group(this.model);
-    this.seatForm = fb.group(this.seatModel);
+    actions.dispatch(loadOffices());
     this.sign$ = iif(
-      () => route.snapshot.params.id,
-      this.adminSeatMapsService.getSeatMap(route.snapshot.params.id),
-      of({})
+      () => route.snapshot.params.seatMapId,
+      this.seatMapsService.getSeatMap(route.snapshot.params.seatMapId),
+      of({} as SeatMap)
     ).pipe(
       tap((data) => {
         this.seatMap = data;
@@ -172,7 +246,7 @@ export class UpsertSeatMapComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.form.controls.seats.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((value) => {
+    this.form.controls.numberOfSeats.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((value) => {
       this.seats = Array.from(
         { length: value },
         (_, index) =>
@@ -185,41 +259,23 @@ export class UpsertSeatMapComponent implements AfterViewInit {
       else this.focusSeat(value - 1);
     });
 
-    keys.forEach((key) => {
-      this.form.controls[key].valueChanges
-        .pipe(startWith(this.model[key]), takeUntil(this.destroy$))
-        .subscribe((value) => {
-          this.dimension[key] = value / this.factor[key];
-          this.updateSeatForm();
-        });
-    });
-
-    keys.forEach((key) => {
-      this.seatForm.controls[key].valueChanges.pipe(takeUntil(this.destroy$)).subscribe((value) => {
-        if (this.current !== -1) {
-          if (value !== this.model[key] || this.seats[this.current][key] !== undefined) {
-            keys.forEach((key) => {
-              if (this.seats[this.current][key] === undefined)
-                this.seats[this.current][key] = this.model[key] / this.factor[key];
-            });
-            this.seats[this.current][key] = value / this.factor[key];
-          }
-        }
-      });
+    DIMENSION_KEYS.forEach((key) => {
+      this.handleGeneralDimension(key);
+      this.handleSeatDimension(key);
     });
   }
 
   @HostListener('window:resize')
-  onResize() {
+  onResize(): void {
     this.updateFactor();
-    keys.forEach((key) => {
+    DIMENSION_KEYS.forEach((key) => {
       this.form.controls[key].patchValue(this.dimension[key] * this.factor[key], { emitEvent: false });
     });
     this.updateSeatForm();
   }
 
   @HostListener('window:click', ['$event.path'])
-  clickEvent(path: HTMLElement[]) {
+  clickEvent(path: HTMLElement[]): void {
     if (this.keepFocus) this.keepFocus = false;
     else {
       const paths = path.map((e) => e.nodeName);
@@ -230,7 +286,7 @@ export class UpsertSeatMapComponent implements AfterViewInit {
   }
 
   @HostListener('window:keydown', ['$event'])
-  moveByArrowKey(event: KeyboardEvent) {
+  moveByArrowKey(event: KeyboardEvent): void {
     if (this.current !== -1) {
       if (['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(event.key)) {
         event.preventDefault();
@@ -251,13 +307,11 @@ export class UpsertSeatMapComponent implements AfterViewInit {
     if (this.first && this.seatMap.id) {
       this.first = false;
       if (this.seatMap.seats) {
-        this.seats = this.seatMap.seats.map((seat) => {
-          return Object.assign(seat, JSON.parse(seat.style || '{}'));
-        });
-        this.form.patchValue({ seats: this.seats.length });
+        this.seats = this.seatMap.seats.map((seat) => Object.assign(seat, seat.style as StyleSeat));
+        this.form.patchValue({ numberOfSeats: this.seats.length });
       }
     }
-    if (!this.seats.length) this.form.patchValue({ seats: 1 });
+    if (!this.seats.length) this.form.patchValue({ numberOfSeats: 1 });
   }
 
   updateFactor(): void {
@@ -280,7 +334,7 @@ export class UpsertSeatMapComponent implements AfterViewInit {
 
   resetSeat(): void {
     this.keepFocus = true;
-    keys.forEach((key) => {
+    DIMENSION_KEYS.forEach((key) => {
       delete this.seats[this.current][key];
     });
     this.updateSeatForm();
@@ -289,7 +343,7 @@ export class UpsertSeatMapComponent implements AfterViewInit {
   deleteSeat(): void {
     this.keepFocus = true;
     this.seats.splice(this.current, 1);
-    this.form.patchValue({ seats: this.seats.length }, { emitEvent: false });
+    this.form.patchValue({ numberOfSeats: this.seats.length }, { emitEvent: false });
     this.current = -1;
   }
 
@@ -329,7 +383,7 @@ export class UpsertSeatMapComponent implements AfterViewInit {
       const { name, imageUrl, dimensionX, dimensionY, office } = this.model;
       const seats: Partial<Seat>[] = this.seats;
       seats.forEach((seat) => {
-        keys.forEach((key) => {
+        DIMENSION_KEYS.forEach((key) => {
           if (seat[key] === undefined) seat[key] = this.dimension[key];
         });
         if (!seat.label) seat.label = '';
@@ -342,9 +396,46 @@ export class UpsertSeatMapComponent implements AfterViewInit {
         delete seat.rounded;
       });
       Object.assign(this.seatMap, { office, name, imageUrl, dimensionX, dimensionY, seats });
-      this.adminSeatMapsService[this.seatMap.id ? 'editSeatMap' : 'createSeatMap'](this.seatMap)
-        .pipe(switchMap(() => this.promptService.open({ icon: 'success', text: 'Successfully!' } as SweetAlertOptions)))
-        .subscribe(() => this.router.navigateByUrl('/admin/seat-maps'));
+      this.adminSeatMapsService
+        .upsertSeatMap(this.seatMap)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(
+          this.promptService.handleResponse(
+            `adminSeatMaps.${this.seatMap.id ? 'editSeatMapSuccessfully' : 'createSeatMapSuccessfully'}`,
+            () => {
+              if (!this.seatMap.id) {
+                this.onCancel();
+              }
+            }
+          )
+        );
     }
+  }
+
+  onCancel(): void {
+    this.router.navigate(['../..'], { relativeTo: this.route });
+  }
+
+  private handleGeneralDimension(key: keyof Dimension): void {
+    this.form.controls[key].valueChanges
+      .pipe(startWith(this.model[key]), takeUntil(this.destroy$))
+      .subscribe((value) => {
+        this.dimension[key] = value / this.factor[key];
+        this.updateSeatForm();
+      });
+  }
+
+  private handleSeatDimension(key: keyof Dimension): void {
+    this.seatForm.controls[key].valueChanges.pipe(takeUntil(this.destroy$)).subscribe((value) => {
+      if (this.current !== -1) {
+        if (value !== this.model[key] || this.seats[this.current][key] !== undefined) {
+          DIMENSION_KEYS.forEach((key) => {
+            if (this.seats[this.current][key] === undefined)
+              this.seats[this.current][key] = this.model[key] / this.factor[key];
+          });
+          this.seats[this.current][key] = value / this.factor[key];
+        }
+      }
+    });
   }
 }
