@@ -87,7 +87,7 @@ export class DurationFormComponent {
             {
               key: 'probationNumber',
               className: 'tui-form__row block',
-              type: 'input-number',
+              type: 'input',
               templateOptions: {
                 translate: true,
                 label: 'probationNumber',
@@ -111,12 +111,11 @@ export class DurationFormComponent {
                 fieldGroup: [
                   {
                     key: 'phoneNumber',
-                    type: 'input-number',
+                    type: 'input',
                     templateOptions: {
                       translate: true,
                       label: 'phoneNumber',
                       placeholder: 'enterPhoneNumber',
-                      textfieldLabelOutside: true,
                     },
                   },
                   {
@@ -126,7 +125,6 @@ export class DurationFormComponent {
                       translate: true,
                       label: 'relationship',
                       placeholder: 'enterRelationship',
-                      textfieldLabelOutside: true,
                       translocoScope: this.scope,
                     },
                   },

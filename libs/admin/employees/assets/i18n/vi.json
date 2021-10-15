@@ -137,5 +137,6 @@
   "syncLDAPDirectReport": "Đồng bộ người báo cáo trực tiếp từ LDAP",
   "chooseHighestCertificate": "Chọn chứng chỉ...",
   "otherCertificates": "Chứng chỉ khác",
-  "enterOtherCertificates": "Nhập chứng chỉ khác..."
+  "enterOtherCertificates": "Nhập chứng chỉ khác...",
+  "dependentMembers": "Người phụ thuộc"
 }

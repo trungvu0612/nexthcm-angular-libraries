@@ -16,7 +16,7 @@
     "remainingEntitlement": "Còn lại (số ngày)"
   },
   "LEAVE_LEVEL_APPROVAL_MANAGEMENT_COLUMNS": {
-    "leaveTypes": "Loại nghỉ phép",
+    "leaveType": "Loại nghỉ phép",
     "jobTitles": "Chức danh công việc",
     "entitlement": "Quyền lợi (số ngày)",
     "functions": "Chức năng"
@@ -62,5 +62,5 @@
   "enterDays": "Nhập số ngày...",
   "paidLeave": "Tính lương",
   "leaveTypes": "Loại nghỉ phép",
-  "chooseLeaveTypes": "Chọn loại nghỉ phép..."
+  "searchLeaveTypes": "Tìm loại nghỉ phép..."
 }

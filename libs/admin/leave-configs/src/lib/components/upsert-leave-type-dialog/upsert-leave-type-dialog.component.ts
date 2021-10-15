@@ -8,11 +8,10 @@ import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
-import { takeUntil, tap } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 import { AdminLeaveConfigsService } from '../../admin-leave-configs.service';
 import { LeaveConfigUrlPaths } from '../../models/leave-config-url-paths';
 import { LeaveType } from '../../models/leave-type';
-import { refreshLeaveTypes } from '../../state';
 
 @Component({
   selector: 'hcm-upsert-leave-type-dialog',
@@ -125,10 +124,7 @@ export class UpsertLeaveTypeDialogComponent implements OnInit {
       formModel.status = formModel.statusBoolean ? CommonStatus.active : CommonStatus.inactive;
       this.leaveConfigsService
         .upsert(this.leaveConfigAPIUrlPath, formModel)
-        .pipe(
-          tap(() => this.actions.dispatch(refreshLeaveTypes())),
-          takeUntil(this.destroy$)
-        )
+        .pipe(takeUntil(this.destroy$))
         .subscribe(
           this.promptService.handleResponse(
             formModel.id ? 'leaveConfigs.editLeaveTypeSuccessfully' : 'leaveConfigs.createLeaveTypeSuccessfully',

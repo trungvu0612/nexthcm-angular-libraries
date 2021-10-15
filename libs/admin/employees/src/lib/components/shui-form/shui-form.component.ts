@@ -18,26 +18,13 @@ import { AdminEmployeesService } from '../../services/admin-employees.service';
 })
 export class ShuiFormComponent {
   form: FormGroup<EmployeeSHUI> = this.fb.group({} as EmployeeSHUI);
-  model = { healthCares: [{}] } as EmployeeSHUI;
+  model = { healthCares: [{}], dependenceMembers: [{}] } as EmployeeSHUI;
   fields: FormlyFieldConfig[] = [
     {
       fieldGroupClassName: 'grid grid-cols-2 gap-4',
       fieldGroup: [
         {
           fieldGroup: [
-            {
-              key: 'taxIDNumber',
-              className: 'tui-form__row block',
-              type: 'input',
-              templateOptions: {
-                translate: true,
-                label: 'taxIDNumber',
-                labelClassName: 'font-semibold',
-                placeholder: 'enterTaxIDNumber',
-                textfieldLabelOutside: true,
-                translocoScope: this.scope,
-              },
-            },
             {
               key: 'socialInsuranceNumber',
               className: 'tui-form__row block',
@@ -86,6 +73,7 @@ export class ShuiFormComponent {
                       placeholder: 'chooseHealthCareCompany',
                       translocoScope: this.scope,
                       options: ['PVI'],
+                      textfieldLabelOutside: false,
                     },
                   },
                   {
@@ -95,7 +83,6 @@ export class ShuiFormComponent {
                       translate: true,
                       label: 'healthCareNumber',
                       placeholder: 'enterHealthCareNumber',
-                      textfieldLabelOutside: true,
                       translocoScope: this.scope,
                     },
                   },
@@ -107,6 +94,19 @@ export class ShuiFormComponent {
         {
           fieldGroup: [
             {
+              key: 'taxIDNumber',
+              className: 'tui-form__row block',
+              type: 'input',
+              templateOptions: {
+                translate: true,
+                label: 'taxIDNumber',
+                labelClassName: 'font-semibold',
+                placeholder: 'enterTaxIDNumber',
+                textfieldLabelOutside: true,
+                translocoScope: this.scope,
+              },
+            },
+            {
               key: 'familyHealthyCareNumber',
               className: 'tui-form__row block',
               type: 'input',
@@ -115,19 +115,6 @@ export class ShuiFormComponent {
                 label: 'familyHealthCarePackageNumber',
                 labelClassName: 'font-semibold',
                 placeholder: 'enterFamilyHealthCarePackageNumber',
-                textfieldLabelOutside: true,
-                translocoScope: this.scope,
-              },
-            },
-            {
-              key: 'familyAllowance',
-              className: 'tui-form__row block',
-              type: 'input',
-              templateOptions: {
-                translate: true,
-                label: 'familyAllowance',
-                labelClassName: 'font-semibold',
-                placeholder: 'enterFamilyAllowance',
                 textfieldLabelOutside: true,
                 translocoScope: this.scope,
               },
@@ -148,6 +135,70 @@ export class ShuiFormComponent {
           ],
         },
       ],
+    },
+    {
+      key: 'dependenceMembers',
+      className: 'tui-form__row block',
+      type: 'repeat',
+      templateOptions: {
+        translate: true,
+        label: 'dependentMembers',
+        translocoScope: this.scope,
+      },
+      fieldArray: {
+        fieldGroupClassName: 'grid grid-cols-5 gap-4',
+        fieldGroup: [
+          {
+            key: 'nameDependenceMember',
+            type: 'input',
+            templateOptions: {
+              translate: true,
+              label: 'name',
+              placeholder: 'enterName',
+            },
+          },
+          {
+            key: 'birthDateDependenceMember',
+            type: 'input-date',
+            templateOptions: {
+              translate: true,
+              label: 'DOB',
+              placeholder: 'enterDOB',
+              translocoScope: this.scope,
+            },
+          },
+          {
+            key: 'idNumberDependenceMember',
+            type: 'input',
+            templateOptions: {
+              translate: true,
+              label: 'idNumber',
+              placeholder: 'enterIDNumber',
+              translocoScope: this.scope,
+            },
+          },
+          {
+            key: 'issueOnDependenceMember',
+            type: 'input-date',
+            templateOptions: {
+              translate: true,
+              label: 'issueOn',
+              placeholder: 'enterIssueOn',
+              translocoScope: this.scope,
+            },
+          },
+          {
+            key: 'issueAtDependenceMember',
+            type: 'input',
+            templateOptions: {
+              translate: true,
+              label: 'issueAt',
+              placeholder: 'enterIssueAt',
+              translocoScope: this.scope,
+            },
+          },
+        ],
+      },
     },
     { key: 'employeeId' },
     { key: 'type' },

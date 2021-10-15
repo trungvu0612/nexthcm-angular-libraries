@@ -12,7 +12,6 @@ import { takeUntil } from 'rxjs/operators';
 import { AdminLeaveConfigsService } from '../../admin-leave-configs.service';
 import { LeaveConfigUrlPaths } from '../../models/leave-config-url-paths';
 import { LeaveLevelApproval } from '../../models/leave-level-approval';
-import { LeaveTypesQuery, loadLeaveTypes } from '../../state';
 
 @Component({
   selector: 'hcm-upsert-leave-approval-level-dialog',
@@ -27,19 +26,39 @@ export class UpsertLeaveApprovalLevelDialogComponent implements OnInit {
   model = {} as LeaveLevelApproval;
   fields: FormlyFieldConfig[] = [
     {
+      key: 'leaveType',
+      className: 'tui-form__row block',
+      type: 'combo-box',
+      templateOptions: {
+        translate: true,
+        label: 'leaveType',
+        labelClassName: 'font-semibold',
+        placeholder: 'searchLeaveTypes',
+        required: true,
+        textfieldLabelOutside: true,
+        serverRequest: (searchQuery: string) => this.leaveConfigsService.searchLeaveTypes(searchQuery),
+        matcherBy: 'id',
+        translocoScope: this.scope,
+      },
+      hideExpression: '!model.id',
+    },
+    {
       key: 'leaveTypes',
-      type: 'multi-select',
+      className: 'tui-form__row block',
+      type: 'multi-select-search',
       templateOptions: {
         translate: true,
         label: 'leaveTypes',
         labelClassName: 'font-semibold',
-        placeholder: 'chooseLeaveTypes',
+        textfieldLabelOutside: true,
+        placeholder: 'searchLeaveTypes',
         required: true,
-        options: this.leaveTypesQuery.selectAll(),
         labelProp: 'name',
         matcherBy: 'id',
         translocoScope: this.scope,
+        serverRequest: (searchQuery: string) => this.leaveConfigsService.searchLeaveTypes(searchQuery),
       },
+      hideExpression: 'model.id',
     },
     {
       key: 'jobTitleDTOList',
@@ -84,11 +103,9 @@ export class UpsertLeaveApprovalLevelDialogComponent implements OnInit {
     private readonly destroy$: TuiDestroyService,
     private readonly promptService: PromptService,
     private readonly jobTitlesQuery: JobTitlesQuery,
-    private readonly leaveTypesQuery: LeaveTypesQuery,
     actions: Actions
   ) {
     actions.dispatch(loadJobTitles());
-    actions.dispatch(loadLeaveTypes());
   }
 
   ngOnInit(): void {

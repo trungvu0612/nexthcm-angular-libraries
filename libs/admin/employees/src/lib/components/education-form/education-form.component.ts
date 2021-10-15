@@ -87,6 +87,7 @@ export class EducationFormComponent {
         textfieldLabelOutside: true,
         precision: 0,
         translocoScope: this.scope,
+        min: 1900,
       },
     },
     {

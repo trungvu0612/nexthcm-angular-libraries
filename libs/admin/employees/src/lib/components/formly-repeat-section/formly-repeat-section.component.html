@@ -1,5 +1,5 @@
 <div>
-  <p class="font-semibold">{{ to.label }}</p>
+  <p class="mb-1 font-semibold">{{ to.label }}</p>
   <div *ngFor="let fields of field.fieldGroup; index as index" class="flex items-end mb-2">
     <div class="flex-1">
       <formly-field [field]="fields"></formly-field>

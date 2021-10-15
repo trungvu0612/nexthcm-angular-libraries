@@ -34,7 +34,6 @@ import { LeaveEntitlementManagementComponent } from './pages/leave-entitlement-m
 import { LeaveLevelApprovalManagementComponent } from './pages/leave-level-approval-management/leave-level-approval-management.component';
 import { LeaveTypeManagementComponent } from './pages/leave-type-management/leave-type-management.component';
 import { BaseObjectsPipe } from './pipes/base-objects.pipe';
-import { LeaveTypesEffects, LeaveTypesQuery, LeaveTypesStore } from './state';
 
 export const ADMIN_LEAVE_CONFIGS_ROUTES: Route[] = [
   {
@@ -89,7 +88,7 @@ const TABS: MenuItem[] = [
     FormlySelectOrgTreeComponentModule,
     BaseFormComponentModule,
     TuiLetModule,
-    AkitaNgEffectsModule.forFeature([WorkflowsEffects, JobTitlesEffects, LeaveTypesEffects]),
+    AkitaNgEffectsModule.forFeature([WorkflowsEffects, JobTitlesEffects]),
     FormlyModule,
     NgxPermissionsModule,
     FormsModule,
@@ -108,8 +107,6 @@ const TABS: MenuItem[] = [
       },
     },
     { provide: HEADER_TABS, useValue: TABS },
-    LeaveTypesStore,
-    LeaveTypesQuery,
   ],
 })
 export class AdminLeaveConfigsModule {}

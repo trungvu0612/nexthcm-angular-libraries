@@ -137,5 +137,6 @@
   "syncLDAPDirectReport": "Sync the direct report from LDAP",
   "chooseHighestCertificate": "Choose a certificate...",
   "otherCertificates": "Other certificates",
-  "enterOtherCertificates": "Enter other certificates..."
+  "enterOtherCertificates": "Enter other certificates...",
+  "dependentMembers": "Dependent members"
 }

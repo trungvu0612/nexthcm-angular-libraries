@@ -14,7 +14,7 @@
     >
       <ng-template let-row>
         <ng-container *tuiLet="item(row) as item">
-          <td>{{ item.leaveTypes | baseObjects }}</td>
+          <td>{{ item.leaveType?.name }}</td>
           <td>{{ item.jobTitleDTOList | baseObjects }}</td>
           <td class="text-center">{{ item.totalLeave }}</td>
           <td>

@@ -1,4 +1,4 @@
-POST https://dev-nexthcm-api.banvien.com.vn/accountapp/v1.0/auth
+POST https://qa-nexthcm-api.banvien.com.vn/accountapp/v1.0/auth
 Content-Type: application/json
 
 {

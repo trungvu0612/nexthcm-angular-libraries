@@ -13,7 +13,6 @@ import { takeUntil } from 'rxjs/operators';
 import { AdminLeaveConfigsService } from '../../admin-leave-configs.service';
 import { LeaveConfigUrlPaths } from '../../models/leave-config-url-paths';
 import { LeaveEntitlement } from '../../models/leave-entitlement';
-import { LeaveTypesQuery, loadLeaveTypes } from '../../state';
 
 @Component({
   selector: 'hcm-upsert-leave-entitlement-dialog',
@@ -43,16 +42,17 @@ export class UpsertLeaveEntitlementDialogComponent implements OnInit {
     {
       key: 'leaveType',
       className: 'tui-form__row block',
-      type: 'select',
+      type: 'combo-box',
       templateOptions: {
         translate: true,
         label: 'leaveType',
         labelClassName: 'font-semibold',
-        placeholder: 'leaveType',
+        placeholder: 'searchLeaveTypes',
         required: true,
-        options: this.leaveTypesQuery.selectAll(),
-        labelProp: 'name',
+        serverRequest: (searchQuery: string) => this.leaveConfigsService.searchLeaveTypes(searchQuery),
         matcherBy: 'id',
+        textfieldLabelOutside: true,
+        translocoScope: this.scope,
       },
     },
     {
@@ -134,12 +134,10 @@ export class UpsertLeaveEntitlementDialogComponent implements OnInit {
     private readonly destroy$: TuiDestroyService,
     private readonly promptService: PromptService,
     private readonly jobTitlesQuery: JobTitlesQuery,
-    private readonly leaveTypesQuery: LeaveTypesQuery,
     @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope,
     actions: Actions
   ) {
     actions.dispatch(loadJobTitles());
-    actions.dispatch(loadLeaveTypes());
   }
 
   ngOnInit(): void {

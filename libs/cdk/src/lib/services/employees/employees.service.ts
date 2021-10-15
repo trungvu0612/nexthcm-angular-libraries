@@ -63,6 +63,7 @@ export class EmployeesService {
             'permanentAddress',
             'temporaryAddress',
             'attachmentFiles',
+            'dependenceMembers',
           ])
         )
       );

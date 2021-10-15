@@ -104,14 +104,22 @@ export interface HealthCare {
   number: string;
 }
 
+export interface DependentMember {
+  nameDependenceMember: string;
+  birthDateDependenceMember: string;
+  idNumberDependenceMember: string;
+  issueOnDependenceMember: string;
+  issueAtDependenceMember: string;
+}
+
 export interface EmployeeSHUI extends EmployeeBaseForm {
   taxIDNumber: string;
   socialInsuranceNumber: string;
   socialInsurancePlace: string;
   familyHealthyCareNumber: string;
-  familyAllowance: string;
   healthInsuranceNumber: string;
   healthCares: HealthCare[] | string;
+  dependenceMembers: DependentMember[] | string;
 }
 
 export interface EmployeeAddress {

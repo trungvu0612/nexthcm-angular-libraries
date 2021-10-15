@@ -44,7 +44,7 @@ export class SynchronizationSettingsComponent implements OnInit {
         { key: 'description', title: result.description },
         { key: 'type', title: result.type },
         { key: 'value', title: result.value },
-        { key: 'status', title: result.activeStatus },
+        { key: 'status', title: result.status },
         { key: '', title: result.functions },
       ])
     );

@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BaseObject, MY_TIME_API_PATH, Pagination, PagingResponse } from '@nexthcm/cdk';
-import { Observable } from 'rxjs';
+import { BaseObject, BaseResponse, MY_TIME_API_PATH, Pagination, PagingResponse } from '@nexthcm/cdk';
+import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { LeaveConfigUrlPaths } from './models/leave-config-url-paths';
 import { EmployeeLeaveEntitlement } from './models/leave-entitlement';
@@ -16,13 +16,12 @@ export const LEAVE_CONFIGS_URL_PATHS: Readonly<LeaveConfigUrlPaths> = Object.fre
 export class AdminLeaveConfigsService {
   constructor(private http: HttpClient) {}
 
-  /*
-   * @deprecated
-   */
-  getAllLeaveTypes(): Observable<BaseObject[]> {
-    return this.http
-      .get<PagingResponse<BaseObject>>(`${MY_TIME_API_PATH}/leaveTypes`, { params: new HttpParams().set('size', 999) })
-      .pipe(map((response) => response.data.items));
+  searchLeaveTypes(searchTerm: string | null): Observable<BaseObject[]> {
+    return searchTerm
+      ? this.http
+          .get<BaseResponse<BaseObject[]>>(`${MY_TIME_API_PATH}/leaveTypes/v2?name=${searchTerm}`)
+          .pipe(map((res) => res.data))
+      : of([]);
   }
 
   getConfig<T>(type: keyof LeaveConfigUrlPaths, params: HttpParams): Observable<Pagination<T>> {
