@@ -17,7 +17,7 @@ import { TRANSLOCO_SCOPE, TranslocoScope } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { iif, Observable, of } from 'rxjs';
-import { debounceTime, distinctUntilChanged, startWith, takeUntil, tap } from 'rxjs/operators';
+import { distinctUntilChanged, startWith, takeUntil, tap } from 'rxjs/operators';
 import { AdminSeatMapsService } from '../../services/admin-seat-maps.service';
 
 interface SeatMapForm extends SeatMap {
@@ -420,12 +420,12 @@ export class UpsertSeatMapComponent implements AfterViewInit {
   }
 
   onCancel(): void {
-    this.router.navigate(['../..'], { relativeTo: this.route });
+    this.router.navigateByUrl('/admin/seat-maps');
   }
 
   private handleGeneralDimension(key: keyof Dimension): void {
     this.form.controls[key].valueChanges
-      .pipe(startWith(this.model[key]), debounceTime(500), distinctUntilChanged(), takeUntil(this.destroy$))
+      .pipe(startWith(this.model[key]), distinctUntilChanged(), takeUntil(this.destroy$))
       .subscribe((value) => {
         if (this.factor[key]) {
           this.dimension[key] = value / this.factor[key];
@@ -436,7 +436,7 @@ export class UpsertSeatMapComponent implements AfterViewInit {
 
   private handleSeatDimension(key: keyof Dimension): void {
     this.seatForm.controls[key].valueChanges
-      .pipe(debounceTime(500), distinctUntilChanged(), takeUntil(this.destroy$))
+      .pipe(distinctUntilChanged(), takeUntil(this.destroy$))
       .subscribe((value) => {
         if (this.current !== -1) {
           if (value !== this.model[key] || this.seats[this.current][key] !== undefined) {

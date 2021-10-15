@@ -183,6 +183,6 @@ export class UpsertKnowledgeBaseArticleComponent {
   }
 
   onCancel(): void {
-    this.router.navigate(['../..'], { relativeTo: this.activatedRoute });
+    this.router.navigateByUrl('/admin/knowledge-base/articles');
   }
 }
