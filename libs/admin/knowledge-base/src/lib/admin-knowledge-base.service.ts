@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Actions } from '@datorama/akita-ng-effects';
-import { MY_TIME_API_PATH, Pagination, PagingResponse } from '@nexthcm/cdk';
+import { BaseResponse, MY_TIME_API_PATH, Pagination, PagingResponse } from '@nexthcm/cdk';
 import { KnowledgeBaseArticle, KnowledgeBaseCategory } from '@nexthcm/knowledge-base';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mapTo, tap } from 'rxjs/operators';
@@ -50,14 +50,10 @@ export class AdminKnowledgeBaseService {
       .pipe(map((res) => res.data));
   }
 
-  /**
-   * @deprecated TODO: change api
-   *
-   */
   getAllKnowledgeBaseCategories(): Observable<KnowledgeBaseCategory[]> {
     return this.http
-      .get<PagingResponse<KnowledgeBaseCategory>>(`${MY_TIME_API_PATH}/policy-category?size=999`)
-      .pipe(map((res) => res.data.items));
+      .get<BaseResponse<KnowledgeBaseCategory[]>>(`${MY_TIME_API_PATH}/policy-categories`)
+      .pipe(map((res) => res.data));
   }
 
   upsertKnowledgeBaseCategory(payload: KnowledgeBaseCategory): Observable<unknown> {

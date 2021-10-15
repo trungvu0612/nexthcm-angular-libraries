@@ -5,28 +5,6 @@
         <tui-svg src="assets/icons/current-location.svg"></tui-svg>
         {{ t('mySeat') }}
       </button>
-      <tui-combo-box
-        (searchChange)="search$.next($event || '')"
-        [formControl]="seatMapControl"
-        [stringify]="stringify"
-        [valueContent]="content"
-        class="w-60"
-      >
-        {{ t('seatMap') }}
-        <tui-data-list *tuiDataList>
-          <ng-container *rxLet="seatMaps$; let items">
-            <button *ngFor="let item of items" [value]="item" tuiOption>
-              <span class="flex flex-col py-1">
-                <span>{{ item.name }}</span>
-                <span class="font-semibold">{{ item.office?.name }}</span>
-              </span>
-            </button>
-          </ng-container>
-        </tui-data-list>
-        <ng-template #content let-data>
-          {{ data.name }}
-        </ng-template>
-      </tui-combo-box>
     </div>-->
     <tui-select
       *rxLet="allSeatMaps$; let items"

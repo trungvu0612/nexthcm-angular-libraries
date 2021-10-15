@@ -17,7 +17,7 @@ import { TRANSLOCO_SCOPE, TranslocoScope } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { iif, Observable, of } from 'rxjs';
-import { startWith, takeUntil, tap } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, startWith, takeUntil, tap } from 'rxjs/operators';
 import { AdminSeatMapsService } from '../../services/admin-seat-maps.service';
 
 interface SeatMapForm extends SeatMap {
@@ -37,12 +37,12 @@ const DIMENSION_KEYS: (keyof Dimension)[] = ['width', 'height', 'rounded'];
   providers: [TuiDestroyService],
 })
 export class UpsertSeatMapComponent implements AfterViewInit {
-  @ViewChild('zone') zone!: ElementRef;
+  @ViewChild('zone') zone?: ElementRef;
   sign$: Observable<SeatMap>;
   seatMap = {} as SeatMap;
   keepFocus = false;
   current = -1;
-  first = true;
+  initial = true;
   factor = { width: 0, height: 0, rounded: 1 };
   dimension = { width: 0, height: 0, rounded: 0 };
   seats: Seat[] = [];
@@ -267,9 +267,12 @@ export class UpsertSeatMapComponent implements AfterViewInit {
 
   @HostListener('window:resize')
   onResize(): void {
+    console.log('resize');
     this.updateFactor();
     DIMENSION_KEYS.forEach((key) => {
-      this.form.controls[key].patchValue(this.dimension[key] * this.factor[key], { emitEvent: false });
+      if (this.dimension[key]) {
+        this.form.controls[key].patchValue(this.dimension[key] * this.factor[key], { emitEvent: false });
+      }
     });
     this.updateSeatForm();
   }
@@ -304,8 +307,13 @@ export class UpsertSeatMapComponent implements AfterViewInit {
     this.model.dimensionX = event.path[0].naturalWidth;
     this.model.dimensionY = event.path[0].naturalHeight;
     this.updateFactor();
-    if (this.first && this.seatMap.id) {
-      this.first = false;
+    DIMENSION_KEYS.forEach((key) => {
+      if (this.factor[key]) {
+        this.dimension[key] = this.form.value[key] / this.factor[key];
+      }
+    });
+    if (this.initial && this.seatMap.id) {
+      this.initial = false;
       if (this.seatMap.seats) {
         this.seats = this.seatMap.seats.map((seat) => Object.assign(seat, seat.style as StyleSeat));
         this.form.patchValue({ numberOfSeats: this.seats.length });
@@ -418,24 +426,28 @@ export class UpsertSeatMapComponent implements AfterViewInit {
 
   private handleGeneralDimension(key: keyof Dimension): void {
     this.form.controls[key].valueChanges
-      .pipe(startWith(this.model[key]), takeUntil(this.destroy$))
+      .pipe(startWith(this.model[key]), debounceTime(500), distinctUntilChanged(), takeUntil(this.destroy$))
       .subscribe((value) => {
-        this.dimension[key] = value / this.factor[key];
-        this.updateSeatForm();
+        if (this.factor[key]) {
+          this.dimension[key] = value / this.factor[key];
+          this.updateSeatForm();
+        }
       });
   }
 
   private handleSeatDimension(key: keyof Dimension): void {
-    this.seatForm.controls[key].valueChanges.pipe(takeUntil(this.destroy$)).subscribe((value) => {
-      if (this.current !== -1) {
-        if (value !== this.model[key] || this.seats[this.current][key] !== undefined) {
-          DIMENSION_KEYS.forEach((key) => {
-            if (this.seats[this.current][key] === undefined)
-              this.seats[this.current][key] = this.model[key] / this.factor[key];
-          });
-          this.seats[this.current][key] = value / this.factor[key];
+    this.seatForm.controls[key].valueChanges
+      .pipe(debounceTime(500), distinctUntilChanged(), takeUntil(this.destroy$))
+      .subscribe((value) => {
+        if (this.current !== -1) {
+          if (value !== this.model[key] || this.seats[this.current][key] !== undefined) {
+            DIMENSION_KEYS.forEach((key) => {
+              if (this.seats[this.current][key] === undefined)
+                this.seats[this.current][key] = this.model[key] / this.factor[key];
+            });
+            this.seats[this.current][key] = value / this.factor[key];
+          }
         }
-      }
-    });
+      });
   }
 }
