@@ -15,7 +15,7 @@ export class LeaveTypesEffects {
     switchMap(() =>
       cacheable(
         this.store,
-        this.leaveConfigServices.getLeaveTypes().pipe(tap((leaveTypes) => this.store.set(leaveTypes)))
+        this.leaveConfigServices.getAllLeaveTypes().pipe(tap((leaveTypes) => this.store.set(leaveTypes)))
       )
     )
   );

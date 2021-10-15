@@ -27,17 +27,18 @@ export class UpsertLeaveApprovalLevelDialogComponent implements OnInit {
   model = {} as LeaveLevelApproval;
   fields: FormlyFieldConfig[] = [
     {
-      key: 'leaveType',
-      type: 'select',
+      key: 'leaveTypes',
+      type: 'multi-select',
       templateOptions: {
         translate: true,
-        label: 'leaveType',
+        label: 'leaveTypes',
         labelClassName: 'font-semibold',
-        placeholder: 'leaveType',
+        placeholder: 'chooseLeaveTypes',
         required: true,
         options: this.leaveTypesQuery.selectAll(),
         labelProp: 'name',
         matcherBy: 'id',
+        translocoScope: this.scope,
       },
     },
     {

@@ -267,7 +267,6 @@ export class UpsertSeatMapComponent implements AfterViewInit {
 
   @HostListener('window:resize')
   onResize(): void {
-    console.log('resize');
     this.updateFactor();
     DIMENSION_KEYS.forEach((key) => {
       if (this.dimension[key]) {

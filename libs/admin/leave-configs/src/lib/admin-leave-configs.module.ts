@@ -33,7 +33,7 @@ import { EmployeeLeaveEntitlementManagementComponent } from './pages/employee-le
 import { LeaveEntitlementManagementComponent } from './pages/leave-entitlement-management/leave-entitlement-management.component';
 import { LeaveLevelApprovalManagementComponent } from './pages/leave-level-approval-management/leave-level-approval-management.component';
 import { LeaveTypeManagementComponent } from './pages/leave-type-management/leave-type-management.component';
-import { JobTitlesPipe } from './pipes/job-titles.pipe';
+import { BaseObjectsPipe } from './pipes/base-objects.pipe';
 import { LeaveTypesEffects, LeaveTypesQuery, LeaveTypesStore } from './state';
 
 export const ADMIN_LEAVE_CONFIGS_ROUTES: Route[] = [
@@ -71,7 +71,7 @@ const TABS: MenuItem[] = [
     LeaveEntitlementManagementComponent,
     LeaveLevelApprovalManagementComponent,
     EmployeeLeaveEntitlementManagementComponent,
-    JobTitlesPipe,
+    BaseObjectsPipe,
   ],
   imports: [
     CommonModule,

@@ -3,12 +3,12 @@ import { BaseObject } from '@nexthcm/cdk';
 import { isPresent } from '@taiga-ui/cdk';
 
 @Pipe({
-  name: 'jobTitles',
+  name: 'baseObjects',
 })
-export class JobTitlesPipe implements PipeTransform {
-  transform(jobTitles: BaseObject[]): string {
-    return jobTitles
-      .map((jobTitle) => jobTitle.name)
+export class BaseObjectsPipe implements PipeTransform {
+  transform(values: BaseObject[]): string {
+    return (values || [])
+      .map((value) => value.name)
       .filter(isPresent)
       .join(', ');
   }

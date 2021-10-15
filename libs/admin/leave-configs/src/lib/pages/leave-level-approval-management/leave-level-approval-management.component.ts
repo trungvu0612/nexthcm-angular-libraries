@@ -29,7 +29,7 @@ export class LeaveLevelApprovalManagementComponent extends AbstractServerSortPag
     .selectTranslateObject('LEAVE_LEVEL_APPROVAL_MANAGEMENT_COLUMNS', {}, (this.scope as ProviderScope).scope)
     .pipe(
       map((result) => [
-        { key: 'leaveType', title: result.leaveType },
+        { key: 'leaveTypes', title: result.leaveTypes },
         { key: 'jobTitles', title: result.jobTitles, orderEnabled: false },
         { key: 'totalLeave', title: result.entitlement, cssClass: { name: 'text-center', includeHeader: true } },
         { key: '', title: result.functions, orderEnabled: false },

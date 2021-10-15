@@ -16,7 +16,10 @@ export const LEAVE_CONFIGS_URL_PATHS: Readonly<LeaveConfigUrlPaths> = Object.fre
 export class AdminLeaveConfigsService {
   constructor(private http: HttpClient) {}
 
-  getLeaveTypes(): Observable<BaseObject[]> {
+  /*
+   * @deprecated
+   */
+  getAllLeaveTypes(): Observable<BaseObject[]> {
     return this.http
       .get<PagingResponse<BaseObject>>(`${MY_TIME_API_PATH}/leaveTypes`, { params: new HttpParams().set('size', 999) })
       .pipe(map((response) => response.data.items));

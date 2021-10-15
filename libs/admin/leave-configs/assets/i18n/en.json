@@ -16,8 +16,8 @@
     "remainingEntitlement": "Remaining (days)"
   },
   "LEAVE_LEVEL_APPROVAL_MANAGEMENT_COLUMNS": {
-    "leaveType": "Leave type",
-    "jobTitles": "Job title",
+    "leaveTypes": "Leave types",
+    "jobTitles": "Job titles",
     "entitlement": "Entitlement (days)",
     "functions": "Functions"
   },
@@ -60,5 +60,7 @@
   "multipleEmployees": "Add to multiple employees",
   "approvalDays": "Approval days",
   "enterDays": "Enter days...",
-  "paidLeave": "Payable"
+  "paidLeave": "Payable",
+  "leaveTypes": "Leave types",
+  "chooseLeaveTypes": "Choose leave types..."
 }
