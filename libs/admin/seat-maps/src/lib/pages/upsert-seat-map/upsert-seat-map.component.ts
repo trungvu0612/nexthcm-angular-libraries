@@ -408,7 +408,7 @@ export class UpsertSeatMapComponent implements AfterViewInit {
         .pipe(takeUntil(this.destroy$))
         .subscribe(
           this.promptService.handleResponse(
-            `adminSeatMaps.${this.seatMap.id ? 'editSeatMapSuccessfully' : 'createSeatMapSuccessfully'}`,
+            `adminSeatMaps.${this.seatMap.id ? 'editSeatMapSuccessfully' : 'addSeatMapSuccessfully'}`,
             () => {
               if (!this.seatMap.id) {
                 this.onCancel();
