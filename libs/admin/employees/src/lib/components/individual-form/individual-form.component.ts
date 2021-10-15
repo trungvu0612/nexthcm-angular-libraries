@@ -316,7 +316,7 @@ export class IndividualFormComponent {
             {
               key: 'idNumber',
               className: 'tui-form__row block',
-              type: 'input-number',
+              type: 'input',
               templateOptions: {
                 translate: true,
                 label: 'idNumber',
@@ -413,7 +413,7 @@ export class IndividualFormComponent {
             {
               key: 'phoneNumber',
               className: 'tui-form__row block',
-              type: 'input-number',
+              type: 'input',
               templateOptions: {
                 translate: true,
                 label: 'phoneNumber',
@@ -571,7 +571,7 @@ export class IndividualFormComponent {
                   },
                   {
                     key: 'number',
-                    type: 'input-number',
+                    type: 'input',
                     templateOptions: {
                       translate: true,
                       label: 'accountNumber',

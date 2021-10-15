@@ -92,7 +92,8 @@
     "uniqueStatusName": "This status name is already exists!",
     "invalidURL": "This URL is invalid!",
     "valueExisting": "This value is already exists!",
-    "maxLength": "This field can't be longer than {{length}} characters!"
+    "maxLength": "This field can't be longer than {{length}} characters!",
+    "userAlreadyHasASeat": "This user already has a seat!"
   },
   "ADMIN_CONTRACT_MANAGEMENT_COLUMNS": {
     "contractManagement": "Contract Management",

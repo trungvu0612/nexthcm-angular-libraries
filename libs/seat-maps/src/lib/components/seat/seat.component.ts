@@ -1,12 +1,16 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, HostBinding, Input, Output } from '@angular/core';
-import { FormBuilder } from '@ngneat/reactive-forms';
+import { BaseUser } from '@nexthcm/cdk';
+import { AbstractControl, FormBuilder } from '@ngneat/reactive-forms';
+import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { RxState } from '@rx-angular/state';
 import { TuiDialogContext, TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusContent } from '@tinkoff/ng-polymorpheus';
-import { Subject, Subscriber } from 'rxjs';
+import { of, Subject, Subscriber } from 'rxjs';
+import { debounceTime, switchMap, take, tap } from 'rxjs/operators';
 import { UserState } from '../../enums/user-state';
 import { Seat, StyleSeat } from '../../models';
+import { SeatMapsService } from '../../seat-maps.service';
 
 @Component({
   selector: 'hcm-seat',
@@ -36,6 +40,20 @@ export class SeatComponent {
         label: 'chooseUser',
         placeholder: 'searchUsers',
       },
+      asyncValidators: {
+        name: {
+          expression: (control: AbstractControl<BaseUser>) =>
+            !control.valueChanges || control.pristine
+              ? of(true)
+              : control.valueChanges.pipe(
+                  debounceTime(1000),
+                  take(1),
+                  switchMap((user: BaseUser) => this.seatMapsService.checkUserAlreadyHasASeat(user.id)),
+                  tap(() => control.markAsTouched())
+                ),
+          message: () => this.translocoService.selectTranslate('VALIDATION.userAlreadyHasASeat'),
+        },
+      },
     },
     { key: 'label' },
     { key: 'seatStatus' },
@@ -45,7 +63,9 @@ export class SeatComponent {
   constructor(
     private readonly fb: FormBuilder,
     private readonly dialogService: TuiDialogService,
-    private readonly state: RxState<{ dragging: boolean }>
+    private readonly state: RxState<{ dragging: boolean }>,
+    private readonly seatMapsService: SeatMapsService,
+    private readonly translocoService: TranslocoService
   ) {}
 
   @Input() set dragging(dragging$: Subject<boolean>) {

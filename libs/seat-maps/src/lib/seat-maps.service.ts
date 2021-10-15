@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BaseResponse, MY_TIME_API_PATH, PagingResponse, parseJsonStringFields } from '@nexthcm/cdk';
 import { Observable, of } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { catchError, map, mapTo } from 'rxjs/operators';
 import { Seat, SeatMap } from './models';
 
 @Injectable({
@@ -36,5 +36,12 @@ export class SeatMapsService {
 
   assignUserForSeat(seatId: string, payload: Seat): Observable<unknown> {
     return this.http.put(`${MY_TIME_API_PATH}/seats-map/assign-seat/${seatId}`, payload);
+  }
+
+  checkUserAlreadyHasASeat(userId: string): Observable<boolean> {
+    return this.http.get(`${MY_TIME_API_PATH}/seats-map/check-existing?userId=${userId}`).pipe(
+      mapTo(true),
+      catchError(() => of(false))
+    );
   }
 }

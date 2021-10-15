@@ -92,7 +92,8 @@
     "numeric": "Bạn phải nhập số vào ô này!",
     "invalidURL": "Địa chỉ URL không hợp lệ!",
     "valueExisting": "Giá trị này đã tồn tại!",
-    "maxLength": "Trường này không được dài hơn {{length}} kí tự!"
+    "maxLength": "Trường này không được dài hơn {{length}} kí tự!",
+    "userAlreadyHasASeat": "Người dùng này đã có chỗ ngồi!"
   },
   "ADMIN_CONTRACT_MANAGEMENT_COLUMNS": {
     "contractManagement": "Quản lý hợp đồng",

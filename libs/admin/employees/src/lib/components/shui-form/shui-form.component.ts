@@ -28,7 +28,7 @@ export class ShuiFormComponent {
             {
               key: 'taxIDNumber',
               className: 'tui-form__row block',
-              type: 'input-number',
+              type: 'input',
               templateOptions: {
                 translate: true,
                 label: 'taxIDNumber',
@@ -41,7 +41,7 @@ export class ShuiFormComponent {
             {
               key: 'socialInsuranceNumber',
               className: 'tui-form__row block',
-              type: 'input-number',
+              type: 'input',
               templateOptions: {
                 translate: true,
                 label: 'socialInsuranceNumber',
@@ -90,7 +90,7 @@ export class ShuiFormComponent {
                   },
                   {
                     key: 'number',
-                    type: 'input-number',
+                    type: 'input',
                     templateOptions: {
                       translate: true,
                       label: 'healthCareNumber',
@@ -109,7 +109,7 @@ export class ShuiFormComponent {
             {
               key: 'familyHealthyCareNumber',
               className: 'tui-form__row block',
-              type: 'input-number',
+              type: 'input',
               templateOptions: {
                 translate: true,
                 label: 'familyHealthCarePackageNumber',
@@ -135,7 +135,7 @@ export class ShuiFormComponent {
             {
               key: 'healthInsuranceNumber',
               className: 'tui-form__row block',
-              type: 'input-number',
+              type: 'input',
               templateOptions: {
                 translate: true,
                 label: 'healthInsuranceNumber',
