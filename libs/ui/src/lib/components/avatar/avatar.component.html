@@ -3,8 +3,8 @@
   [avatarUrl]="image | getFile | async"
   [rounded]="rounded"
   [size]="size"
-  [text]="text"
+  [text]="text ?? ''"
 ></tui-avatar>
 <ng-template #noImage>
-  <tui-avatar [rounded]="true" [size]="size" [text]="text"></tui-avatar>
+  <tui-avatar [rounded]="true" [size]="size" [text]="text ?? ''"></tui-avatar>
 </ng-template>
