@@ -25,6 +25,17 @@ export class AvatarComponent {
   set rounded(value: unknown) {
     this._rounded = coerceBooleanProperty(value);
   }
+
+  private _autoColor = false;
+
+  get autoColor(): boolean {
+    return this._autoColor;
+  }
+
+  @Input()
+  set autoColor(value: unknown) {
+    this._autoColor = coerceBooleanProperty(value);
+  }
 }
 
 @NgModule({

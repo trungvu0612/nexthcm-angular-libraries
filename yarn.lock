@@ -3085,7 +3085,7 @@
   dependencies:
     tslib "^1.10.0"
 
-"@tinkoff/ng-polymorpheus@3.1.8", "@tinkoff/ng-polymorpheus@^3.1.8":
+"@tinkoff/ng-polymorpheus@3.1.8":
   version "3.1.8"
   resolved "https://registry.yarnpkg.com/@tinkoff/ng-polymorpheus/-/ng-polymorpheus-3.1.8.tgz#60de8e769436bad51315eddc70bcd0a2b0d29cad"
   integrity sha512-Uedg+nOlf6KmPBYMth/KB+ocNFwYf52QI8jLYxswm1aRQEhI7yH6QLyLplVCxWYcIcke/6PwLY02ce7wknz/fQ==

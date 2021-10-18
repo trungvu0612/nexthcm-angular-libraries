@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Inject, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AbstractServerSortPaginationTableComponent, CommonStatus, Pagination, PromptService } from '@nexthcm/cdk';
-import { KnowledgeBaseArticle } from '@nexthcm/knowledge-base';
+import { KnowledgeBaseArticle, KnowledgeBaseService } from '@nexthcm/knowledge-base';
 import { ProviderScope, TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
@@ -46,9 +46,7 @@ export class KnowledgeBaseArticleManagementComponent extends AbstractServerSortP
   readonly CommonStatus = CommonStatus;
   readonly search$ = new Subject<string | null>();
   private readonly request$ = this.queryParams$.pipe(
-    switchMap(() =>
-      this.adminKnowledgeBaseService.getKnowledgeBaseArticles(this.queryParams$.value).pipe(startWith(null))
-    ),
+    switchMap(() => this.knowledgeBaseService.getKnowledgeBaseArticles(this.queryParams$.value).pipe(startWith(null))),
     share()
   );
   readonly loading$ = this.request$.pipe(
@@ -61,6 +59,7 @@ export class KnowledgeBaseArticleManagementComponent extends AbstractServerSortP
     readonly state: RxState<Pagination<KnowledgeBaseArticle>>,
     readonly router: Router,
     readonly activatedRoute: ActivatedRoute,
+    private knowledgeBaseService: KnowledgeBaseService,
     private adminKnowledgeBaseService: AdminKnowledgeBaseService,
     private promptService: PromptService,
     private translocoService: TranslocoService,

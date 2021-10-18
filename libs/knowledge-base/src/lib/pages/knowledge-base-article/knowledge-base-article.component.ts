@@ -1,4 +1,10 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { KnowledgeBaseArticle } from '@nexthcm/knowledge-base';
+import { isPresent } from '@taiga-ui/cdk';
+import { Observable, of } from 'rxjs';
+import { catchError, filter, map, share, startWith } from 'rxjs/operators';
+import { KnowledgeBaseService } from '../../services';
 
 @Component({
   selector: 'hcm-knowledge-base-article',
@@ -6,8 +12,18 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
   styleUrls: ['./knowledge-base-article.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class KnowledgeBaseArticleComponent implements OnInit {
-  constructor() {}
+export class KnowledgeBaseArticleComponent {
+  private readonly request$ = this.knowledgeBaseService
+    .getKnowledgeBaseArticle(this.activatedRoute.snapshot.params.articleId)
+    .pipe(startWith(null), share());
+  readonly loading$ = this.request$.pipe(
+    map((value) => !value),
+    catchError(() => of(false))
+  );
+  readonly article$: Observable<KnowledgeBaseArticle> = this.request$.pipe(filter(isPresent));
 
-  ngOnInit(): void {}
+  constructor(
+    private readonly knowledgeBaseService: KnowledgeBaseService,
+    private readonly activatedRoute: ActivatedRoute
+  ) {}
 }

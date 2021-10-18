@@ -1,7 +1,7 @@
 import { Component, Inject, Injector, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AbstractServerSortPaginationTableComponent, CommonStatus, Pagination, PromptService } from '@nexthcm/cdk';
-import { KnowledgeBaseCategory } from '@nexthcm/knowledge-base';
+import { KnowledgeBaseCategory, KnowledgeBaseService } from '@nexthcm/knowledge-base';
 import { ProviderScope, TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
@@ -48,7 +48,7 @@ export class KnowledgeBaseCategoryManagementComponent extends AbstractServerSort
   readonly search$ = new Subject<string | null>();
   private readonly request$ = this.queryParams$.pipe(
     switchMap(() =>
-      this.adminKnowledgeBaseService.getKnowledgeBaseCategories(this.queryParams$.value).pipe(startWith(null))
+      this.knowledgeBaseService.getKnowledgeBaseCategories(this.queryParams$.value).pipe(startWith(null))
     ),
     shareReplay(1)
   );
@@ -62,6 +62,7 @@ export class KnowledgeBaseCategoryManagementComponent extends AbstractServerSort
     readonly router: Router,
     readonly activatedRoute: ActivatedRoute,
     @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope,
+    private readonly knowledgeBaseService: KnowledgeBaseService,
     private readonly adminKnowledgeBaseService: AdminKnowledgeBaseService,
     private readonly promptService: PromptService,
     private readonly translocoService: TranslocoService,

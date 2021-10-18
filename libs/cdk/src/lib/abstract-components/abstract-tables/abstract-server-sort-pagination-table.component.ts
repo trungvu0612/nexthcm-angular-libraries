@@ -42,7 +42,9 @@ export abstract class AbstractServerSortPaginationTableComponent<T>
 
     if (key && ['asc', 'desc'].includes(order)) {
       if (order === 'asc') {
-        // https://github.com/ssuperczynski/ngx-easy-table/blob/3ee88fdbe0df7fa2035e96227cf5399b88652173/projects/ngx-easy-table/src/lib/components/base/base.component.ts#L523
+        /**
+         * @see https://github.com/ssuperczynski/ngx-easy-table/blob/3ee88fdbe0df7fa2035e96227cf5399b88652173/projects/ngx-easy-table/src/lib/components/base/base.component.ts#L523
+         */
         this.table.sortState.set(key, 'desc'); // pre-sortBy
       }
       this.table.apiEvent({

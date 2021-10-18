@@ -1,1 +1,20 @@
-<p>knowledge-base-article works!</p>
+<tui-loader [overlay]="true" [showLoader]="(loading$ | async) === true">
+  <hcm-page *ngIf="article$ | async as article">
+    <ng-container ngProjectAs="breadcrumbs">
+      <tui-breadcrumbs size="l">
+        <a *tuiBreadcrumb routerLink=".." tuiLink>{{ 'knowledgeBase' | transloco }}</a>
+        <a *tuiBreadcrumb class="font-semibold" routerLink="." tuiLink>{{ article.topic }}</a>
+      </tui-breadcrumbs>
+    </ng-container>
+    <div class="flex mb-5 space-x-4">
+      <hcm-avatar [image]="article.thumbnail" [text]="article.topic" autoColor class="thumbnail" size="l"></hcm-avatar>
+      <div>
+        <h3 class="tui-text_h5">{{ article.topic }}</h3>
+        <div class="flex items-center space-x-2">
+          <tui-svg src="tuiIconTime"></tui-svg>
+        </div>
+      </div>
+    </div>
+    <tui-editor-socket [content]="article.longDescription"></tui-editor-socket>
+  </hcm-page>
+</tui-loader>

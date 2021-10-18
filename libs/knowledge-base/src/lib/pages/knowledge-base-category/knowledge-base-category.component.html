@@ -1,1 +1,3 @@
-<p>knowledge-base-category works!</p>
+<tui-loader [overlay]="true" [showLoader]="(loading$ | async) === true">
+  <section *ngIf="category$ | async as category"></section>
+</tui-loader>

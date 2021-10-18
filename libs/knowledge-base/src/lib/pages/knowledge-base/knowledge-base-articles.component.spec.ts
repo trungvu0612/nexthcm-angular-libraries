@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { KnowledgeBaseComponent } from './knowledge-base.component';
+import { KnowledgeBaseArticlesComponent } from './knowledge-base-articles.component';
 
 describe('PolicyComponent', () => {
-  let component: KnowledgeBaseComponent;
-  let fixture: ComponentFixture<KnowledgeBaseComponent>;
+  let component: KnowledgeBaseArticlesComponent;
+  let fixture: ComponentFixture<KnowledgeBaseArticlesComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [KnowledgeBaseComponent],
+      declarations: [KnowledgeBaseArticlesComponent],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(KnowledgeBaseComponent);
+    fixture = TestBed.createComponent(KnowledgeBaseArticlesComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

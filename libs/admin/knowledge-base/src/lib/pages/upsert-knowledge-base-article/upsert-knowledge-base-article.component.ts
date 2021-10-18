@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Actions } from '@datorama/akita-ng-effects';
 import { CommonStatus, PromptService, UploadFileService } from '@nexthcm/cdk';
-import { KnowledgeBaseArticle } from '@nexthcm/knowledge-base';
+import { KnowledgeBaseArticle, KnowledgeBaseService } from '@nexthcm/knowledge-base';
 import { AbstractControl, FormBuilder } from '@ngneat/reactive-forms';
 import { TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
@@ -128,7 +128,7 @@ export class UpsertKnowledgeBaseArticleComponent {
     { key: 'mobileThumbnail' },
   ];
   private readonly request$ = (this.articleId
-    ? this.adminKnowledgeBaseService.getKnowledgeBaseArticle(this.activatedRoute.snapshot.params.articleId).pipe(
+    ? this.knowledgeBaseService.getKnowledgeBaseArticle(this.activatedRoute.snapshot.params.articleId).pipe(
         tap((data) => {
           this.oldTopic = data.topic;
           this.model = { ...this.model, ...data, statusBoolean: data.status === CommonStatus.active };
@@ -145,6 +145,7 @@ export class UpsertKnowledgeBaseArticleComponent {
     private readonly translocoService: TranslocoService,
     @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope,
     private readonly fb: FormBuilder,
+    private readonly knowledgeBaseService: KnowledgeBaseService,
     private readonly adminKnowledgeBaseService: AdminKnowledgeBaseService,
     private readonly destroy$: TuiDestroyService,
     private readonly promptService: PromptService,
