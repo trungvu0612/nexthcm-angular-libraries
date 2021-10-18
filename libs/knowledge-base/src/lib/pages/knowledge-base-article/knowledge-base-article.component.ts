@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { KnowledgeBaseArticle } from '@nexthcm/knowledge-base';
 import { isPresent } from '@taiga-ui/cdk';
 import { Observable, of } from 'rxjs';
 import { catchError, filter, map, share, startWith } from 'rxjs/operators';
+import { KnowledgeBaseArticle } from '../../models';
 import { KnowledgeBaseService } from '../../services';
 
 @Component({

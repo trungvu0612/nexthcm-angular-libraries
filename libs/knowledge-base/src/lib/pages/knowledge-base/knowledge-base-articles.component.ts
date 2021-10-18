@@ -1,11 +1,12 @@
 import { HttpParams } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Pagination } from '@nexthcm/cdk';
-import { KnowledgeBaseArticle, KnowledgeBaseService } from '@nexthcm/knowledge-base';
 import { RxState } from '@rx-angular/state';
 import { isPresent } from '@taiga-ui/cdk';
 import { BehaviorSubject, of } from 'rxjs';
 import { catchError, filter, map, shareReplay, startWith, switchMap } from 'rxjs/operators';
+import { KnowledgeBaseArticle } from '../../models';
+import { KnowledgeBaseService } from '../../services';
 
 @Component({
   selector: 'hcm-knowledge-base-articles',
