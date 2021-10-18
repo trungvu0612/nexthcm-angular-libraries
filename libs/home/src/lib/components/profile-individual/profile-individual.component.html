@@ -44,7 +44,8 @@
       <div class="table-value">
         <ul class="tui-list">
           <li *ngFor="let bankAccount of $any(profile.bankAccounts)" class="tui-list__item">
-            {{ bankAccount.bank }}: {{ bankAccount.number }}
+            <span>{{ bankAccount.bank }}</span> <span *ngIf="bankAccount.bankBranch">({{bankAccount.bankBranch}})</span>:
+            <span>{{ bankAccount.number }}</span>
           </li>
         </ul>
       </div>

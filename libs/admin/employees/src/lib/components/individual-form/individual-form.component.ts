@@ -556,7 +556,7 @@ export class IndividualFormComponent {
                 translocoScope: this.scope,
               },
               fieldArray: {
-                fieldGroupClassName: 'grid grid-cols-2 gap-4',
+                fieldGroupClassName: 'grid grid-cols-3 gap-4',
                 fieldGroup: [
                   {
                     key: 'bank',
@@ -565,6 +565,16 @@ export class IndividualFormComponent {
                       translate: true,
                       label: 'bank',
                       placeholder: 'selectBank',
+                      translocoScope: this.scope,
+                    },
+                  },
+                  {
+                    key: 'bankBranch',
+                    type: 'input',
+                    templateOptions: {
+                      translate: true,
+                      label: 'branch',
+                      placeholder: 'enterBranch',
                       translocoScope: this.scope,
                     },
                   },

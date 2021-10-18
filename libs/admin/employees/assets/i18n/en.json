@@ -55,6 +55,8 @@
   "selectBank": "Choose a bank...",
   "accountNumber": "Account number",
   "enterAccountNumber": "Enter account number...",
+  "branch": "Branch",
+  "enterBranch": "Enter branch...",
   "onboardingDate": "Onboarding date",
   "enterOnboardingDate": "Enter onboarding date...",
   "probationDates": "Probation dates",

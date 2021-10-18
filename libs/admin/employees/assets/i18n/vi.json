@@ -55,6 +55,8 @@
   "selectBank": "Chọn ngân hàng...",
   "accountNumber": "Số tài khoản",
   "enterAccountNumber": "Nhập số tài khoản...",
+  "branch": "Chi nhánh",
+  "enterBranch": "Nhập tên chi nhánh...",
   "onboardingDate": "Ngày bắt đầu làm việc",
   "enterOnboardingDate": "Nhập ngày bắt đầu làm việc...",
   "probationDates": "Thời gian thử việc",

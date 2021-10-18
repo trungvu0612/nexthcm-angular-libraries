@@ -42,6 +42,7 @@ export interface EmployeeGeneralInformation {
 
 export interface BankAccount {
   bank: string;
+  bankBranch: string;
   number: number;
 }
 

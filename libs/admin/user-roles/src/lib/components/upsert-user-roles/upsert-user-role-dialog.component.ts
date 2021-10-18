@@ -53,7 +53,7 @@ export class UpsertUserRoleDialogComponent implements OnInit {
                   debounceTime(1000),
                   take(1),
                   switchMap((name) =>
-                    this.data.name === name ? of(true) : this.adminUserRolesService.checkNameExisting({ name })
+                    this.data?.name === name ? of(true) : this.adminUserRolesService.checkNameExisting({ name })
                   ),
                   tap(() => control.markAsTouched())
                 ),

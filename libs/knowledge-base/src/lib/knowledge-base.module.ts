@@ -4,7 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { GetFilePipeModule } from '@nexthcm/cdk';
 import { inlineLoaderFactory } from '@nexthcm/core';
-import { HEADER_TABS, LayoutComponent, LayoutModule, MenuItem } from '@nexthcm/ui';
+import { LayoutComponent, LayoutModule } from '@nexthcm/ui';
 import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
 import { FormlyModule } from '@ngx-formly/core';
 import { TuiEditorSocketModule } from '@taiga-ui/addon-editor';
@@ -21,6 +21,9 @@ import { TuiAvatarModule, TuiInputModule, TuiInputMonthModule, TuiTagModule } fr
 import { TableModule } from 'ngx-easy-table';
 import { NgxPermissionsGuard } from 'ngx-permissions';
 import { UpdatedKnowledgeCategoryComponent } from './components/updated-knowledge-category/updated-knowledge-category.component';
+import { KnowledgeBaseArticleComponent } from './pages/knowledge-base-article/knowledge-base-article.component';
+import { KnowledgeBaseCategoriesComponent } from './pages/knowledge-base-categories/knowledge-base-categories.component';
+import { KnowledgeBaseCategoryComponent } from './pages/knowledge-base-category/knowledge-base-category.component';
 import { KnowledgeBaseComponent } from './pages/knowledge-base/knowledge-base.component';
 import { KnowledgeComponent } from './pages/knowledge/knowledge.component';
 import { UpdatedKnowledgeComponent } from './pages/updated-knowledge/updated-knowledge.component';
@@ -32,17 +35,12 @@ export const KNOWLEDGE_BASE_ROUTES: Routes = [
     canActivate: [NgxPermissionsGuard],
     data: { permissions: { only: 'VIEW_KNOWLEDGE_BASE', redirectTo: '/' } },
     children: [
-      { path: '', pathMatch: 'full', redirectTo: 'summary' },
-      { path: 'summary', component: KnowledgeBaseComponent },
-      { path: ':id/category', component: KnowledgeBaseComponent },
-      { path: 'updated', component: UpdatedKnowledgeComponent },
-      { path: ':id', component: KnowledgeComponent },
+      { path: '', pathMatch: 'full', redirectTo: 'categories' },
+      { path: 'categories', component: KnowledgeBaseCategoriesComponent },
+      { path: 'categories/:categoryId', component: KnowledgeBaseCategoryComponent },
+      { path: ':articleId', component: KnowledgeBaseArticleComponent },
     ],
   },
-];
-const TABS: MenuItem[] = [
-  { label: 'knowledgeBase', link: '/knowledge-base/summary', permissions: [] },
-  { label: 'updated', link: '/knowledge-base/updated', permissions: [] },
 ];
 
 @NgModule({
@@ -51,6 +49,9 @@ const TABS: MenuItem[] = [
     KnowledgeComponent,
     UpdatedKnowledgeComponent,
     UpdatedKnowledgeCategoryComponent,
+    KnowledgeBaseCategoriesComponent,
+    KnowledgeBaseCategoryComponent,
+    KnowledgeBaseArticleComponent,
   ],
   imports: [
     CommonModule,
@@ -84,7 +85,6 @@ const TABS: MenuItem[] = [
         loader: inlineLoaderFactory((lang) => import(`../../assets/i18n/${lang}.json`)),
       },
     },
-    { provide: HEADER_TABS, useValue: TABS },
   ],
 })
 export class KnowledgeBaseModule {}
