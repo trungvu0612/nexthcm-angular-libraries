@@ -8,7 +8,6 @@ import { TuiDialogContext, TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusContent } from '@tinkoff/ng-polymorpheus';
 import { of, Subject, Subscriber } from 'rxjs';
 import { debounceTime, switchMap, take, tap } from 'rxjs/operators';
-import { UserState } from '../../enums/user-state';
 import { Seat, StyleSeat } from '../../models';
 import { SeatMapsService } from '../../seat-maps.service';
 
@@ -82,10 +81,6 @@ export class SeatComponent {
     };
   }
 
-  statusState(statusUser: any): string {
-    return this.seat.assignedUser ? UserState[statusUser] : '';
-  }
-
   addSeatOrDropdown(type: string, content?: PolymorpheusContent<TuiDialogContext>): void {
     if (this.state.get('dragging')) {
       this.state.set({ dragging: false });
@@ -97,7 +92,6 @@ export class SeatComponent {
   submitSeat(observer: Subscriber<unknown>): void {
     if (this.form.valid) {
       observer.complete();
-
       this.model.id = this.seat.id;
       this.assignUser.emit(this.model);
     }

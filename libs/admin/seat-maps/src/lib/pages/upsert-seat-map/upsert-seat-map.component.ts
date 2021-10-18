@@ -19,6 +19,7 @@ import { TuiDestroyService } from '@taiga-ui/cdk';
 import { iif, Observable, of } from 'rxjs';
 import { distinctUntilChanged, startWith, takeUntil, tap } from 'rxjs/operators';
 import { AdminSeatMapsService } from '../../services/admin-seat-maps.service';
+import { setProp } from '@rx-angular/state';
 
 interface SeatMapForm extends SeatMap {
   numberOfSeats: number;
@@ -217,6 +218,7 @@ export class UpsertSeatMapComponent implements AfterViewInit {
   ];
 
   constructor(
+    @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope,
     private readonly seatMapsService: SeatMapsService,
     private readonly adminSeatMapsService: AdminSeatMapsService,
     private readonly uploadFileService: UploadFileService,
@@ -224,9 +226,8 @@ export class UpsertSeatMapComponent implements AfterViewInit {
     private readonly destroy$: TuiDestroyService,
     private readonly promptService: PromptService,
     private readonly fb: FormBuilder,
-    private readonly route: ActivatedRoute,
     private readonly officesQuery: OfficesQuery,
-    @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope,
+    route: ActivatedRoute,
     actions: Actions
   ) {
     actions.dispatch(loadOffices());
@@ -265,8 +266,7 @@ export class UpsertSeatMapComponent implements AfterViewInit {
     });
   }
 
-  @HostListener('window:resize')
-  onResize(): void {
+  @HostListener('window:resize') onResize(): void {
     this.updateFactor();
     DIMENSION_KEYS.forEach((key) => {
       if (this.dimension[key]) {
@@ -276,8 +276,7 @@ export class UpsertSeatMapComponent implements AfterViewInit {
     this.updateSeatForm();
   }
 
-  @HostListener('window:click', ['$event.path'])
-  clickEvent(path: HTMLElement[]): void {
+  @HostListener('window:click', ['$event.path']) clickEvent(path: HTMLElement[]): void {
     if (this.keepFocus) this.keepFocus = false;
     else {
       const paths = path.map((e) => e.nodeName);
@@ -287,8 +286,7 @@ export class UpsertSeatMapComponent implements AfterViewInit {
     }
   }
 
-  @HostListener('window:keydown', ['$event'])
-  moveByArrowKey(event: KeyboardEvent): void {
+  @HostListener('window:keydown', ['$event']) moveByArrowKey(event: KeyboardEvent): void {
     if (this.current !== -1) {
       if (['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(event.key)) {
         event.preventDefault();
@@ -341,9 +339,7 @@ export class UpsertSeatMapComponent implements AfterViewInit {
 
   resetSeat(): void {
     this.keepFocus = true;
-    DIMENSION_KEYS.forEach((key) => {
-      delete this.seats[this.current][key];
-    });
+    DIMENSION_KEYS.forEach((key) => delete this.seats[this.current][key]);
     this.updateSeatForm();
   }
 
@@ -388,19 +384,21 @@ export class UpsertSeatMapComponent implements AfterViewInit {
     if (this.form.valid) {
       if (!this.seatMap.type) this.seatMap.type = 'UNSET';
       const { name, imageUrl, dimensionX, dimensionY, office } = this.model;
-      const seats: Partial<Seat>[] = this.seats;
-      seats.forEach((seat) => {
-        DIMENSION_KEYS.forEach((key) => {
-          if (seat[key] === undefined) seat[key] = this.dimension[key];
+      const seats = this.seats.map((seat) => {
+        const result = setProp<Partial<Seat>, keyof Seat>(seat, 'label', seat.label ?? '');
+        result.style = JSON.stringify({
+          positionX: seat.positionX,
+          positionY: seat.positionY,
+          width: seat.width ?? this.dimension.width,
+          height: seat.height ?? this.dimension.height,
+          rounded: seat.rounded ?? this.dimension.rounded,
         });
-        if (!seat.label) seat.label = '';
-        const { positionX, positionY, width, height, rounded } = seat;
-        seat.style = JSON.stringify({ positionX, positionY, width, height, rounded });
-        delete seat.positionX;
-        delete seat.positionY;
-        delete seat.width;
-        delete seat.height;
-        delete seat.rounded;
+        delete result.positionX;
+        delete result.positionY;
+        delete result.width;
+        delete result.height;
+        delete result.rounded;
+        return result;
       });
       Object.assign(this.seatMap, { office, name, imageUrl, dimensionX, dimensionY, seats });
       this.adminSeatMapsService
@@ -408,19 +406,10 @@ export class UpsertSeatMapComponent implements AfterViewInit {
         .pipe(takeUntil(this.destroy$))
         .subscribe(
           this.promptService.handleResponse(
-            `adminSeatMaps.${this.seatMap.id ? 'editSeatMapSuccessfully' : 'addSeatMapSuccessfully'}`,
-            () => {
-              if (!this.seatMap.id) {
-                this.onCancel();
-              }
-            }
+            `adminSeatMaps.${this.seatMap.id ? 'editSeatMapSuccessfully' : 'addSeatMapSuccessfully'}`
           )
         );
     }
-  }
-
-  onCancel(): void {
-    this.router.navigateByUrl('/admin/seat-maps');
   }
 
   private handleGeneralDimension(key: keyof Dimension): void {

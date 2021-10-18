@@ -1,18 +1,28 @@
-@import '~@taiga-ui/core/styles/taiga-ui-local';
-
 :host {
   position: absolute;
   display: block;
   cursor: pointer;
 
-  &:hover,
+  > *:hover,
   .selected {
-    z-index: 100;
-    @include shadow(5);
+    transform: scale(1.5);
+    transition: all 0.5s ease-out;
   }
 
   .seat-status {
     width: 0.5rem;
     height: 0.5rem;
+  }
+}
+
+::ng-deep .seat-detail {
+  th {
+    padding-right: 1rem;
+  }
+
+  th,
+  td {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
   }
 }
