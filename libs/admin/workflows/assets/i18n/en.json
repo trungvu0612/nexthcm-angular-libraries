@@ -39,6 +39,8 @@
   "sendEmailAndNotificationToTheSomeoneRelatedDescription": "Send the email and the notification to someone related. The email will send depend on the template of the workflow",
   "AddEntitlementAfterCancelLeave": "Add entitlement after canceling a leave",
   "AddEntitlementAfterCancelLeaveDescription": "Add entitlement equal to duration of the leave, rollback it to leave entitlement of the employee",
+  "TransferLeaveRemained": "Transfer the remaining leave entitlement",
+  "TransferLeaveRemainedDescription": "Transfer the remaining leave entitlement of the employee to the next period",
   "CONDITIONS_OPERATORS": {
     "or": "Any of the following conditions",
     "and": "All of the following conditions"
