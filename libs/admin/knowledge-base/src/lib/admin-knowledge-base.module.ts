@@ -4,6 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { Route, RouterModule } from '@angular/router';
 import { AkitaNgEffectsModule } from '@datorama/akita-ng-effects';
 import { inlineLoaderFactory } from '@nexthcm/core';
+import { KnowledgeBaseService } from '@nexthcm/knowledge-base';
 import {
   BaseFormComponentModule,
   FormlyStatusToggleComponentModule,
@@ -91,6 +92,7 @@ const TABS: MenuItem[] = [
   ],
   providers: [
     AdminKnowledgeBaseService,
+    KnowledgeBaseService,
     {
       provide: TRANSLOCO_SCOPE,
       useValue: {

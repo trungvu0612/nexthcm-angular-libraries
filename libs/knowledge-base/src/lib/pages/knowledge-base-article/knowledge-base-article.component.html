@@ -3,7 +3,9 @@
     <ng-container ngProjectAs="breadcrumbs">
       <tui-breadcrumbs size="l">
         <a *tuiBreadcrumb routerLink=".." tuiLink>{{ 'knowledgeBase' | transloco }}</a>
-        <a *tuiBreadcrumb class="font-semibold" routerLink="." tuiLink>{{ article.topic }}</a>
+        <a *tuiBreadcrumb routerLink="." tuiLink>
+          <span class="font-semibold">{{ article.topic }}</span>
+        </a>
       </tui-breadcrumbs>
     </ng-container>
     <div class="flex mb-5 space-x-4">

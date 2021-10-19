@@ -9,9 +9,10 @@ import { TuiLinkModule, TuiLoaderModule, TuiSvgModule } from '@taiga-ui/core';
 import { TuiBreadcrumbsModule, TuiPaginationModule } from '@taiga-ui/kit';
 import { NgxPermissionsGuard } from 'ngx-permissions';
 import { KnowledgeBaseArticleComponent } from './pages/knowledge-base-article/knowledge-base-article.component';
+import { KnowledgeBaseArticlesComponent } from './pages/knowledge-base-articles/knowledge-base-articles.component';
 import { KnowledgeBaseCategoriesComponent } from './pages/knowledge-base-categories/knowledge-base-categories.component';
 import { KnowledgeBaseCategoryComponent } from './pages/knowledge-base-category/knowledge-base-category.component';
-import { KnowledgeBaseArticlesComponent } from './pages/knowledge-base/knowledge-base-articles.component';
+import { KnowledgeBaseService } from './services';
 
 export const KNOWLEDGE_BASE_ROUTES: Routes = [
   {
@@ -50,6 +51,7 @@ export const KNOWLEDGE_BASE_ROUTES: Routes = [
     TuiSvgModule,
   ],
   providers: [
+    KnowledgeBaseService,
     {
       provide: TRANSLOCO_SCOPE,
       useValue: {

@@ -1,23 +1,23 @@
-<tui-hosted-dropdown
-  (click)="addSeatOrDropdown('dropdown')"
-  *ngIf="seat.assignedUser as user; else icon"
-  [(open)]="openDropdown"
-  [canOpen]="(dragging$ | async) !== true"
-  [class.selected]="openDropdown"
-  [content]="content"
-  [tuiDropdownMaxHeight]="520"
-  [tuiDropdownSided]="true"
-  class="w-full h-full"
->
-  <div class="relative w-full h-full text-xs font-semibold text-center">
-    <img [src]="user.image || '' | getFile | async" alt="" class="object-cover h-full w-full" />
-    <div *ngIf="seat.statusOfUser as statusUser" class="absolute top-full inset-x-0 py-0.5 border-t flex space-x-0.5">
-      <span *ngFor="let seatStatus of statusUser" class="dot seat-status {{ seatStatus | seatUserState }}"></span>
+<ng-container *ngIf="seat.assignedUser as user; else icon">
+  <tui-hosted-dropdown
+    (click)="addSeatOrDropdown('dropdown')"
+    [(open)]="openDropdown"
+    [canOpen]="(dragging$ | async) !== true"
+    [class.selected]="openDropdown"
+    [content]="content"
+    [tuiDropdownMaxHeight]="520"
+    [tuiDropdownSided]="true"
+    class="w-full h-full"
+  >
+    <div class="relative w-full h-full text-xs font-semibold text-center">
+      <img [src]="user.image || '' | getFile | async" alt="" class="object-cover h-full w-full" />
+      <div *ngIf="seat.statusOfUser as statusUser" class="absolute top-full inset-x-0 py-0.5 border-t flex space-x-0.5">
+        <span *ngFor="let seatStatus of statusUser" class="dot seat-status {{ seatStatus | seatUserState }}"></span>
+      </div>
     </div>
-  </div>
-
+  </tui-hosted-dropdown>
   <ng-template #content>
-    <article *transloco="let t" class="p-8">
+    <article *transloco="let t" class="p-4">
       <div class="text-center">
         <hcm-avatar [image]="user.image" [rounded]="true" [text]="user.username" class="m-auto" size="xl"></hcm-avatar>
       </div>
@@ -72,12 +72,16 @@
       </div>
     </article>
   </ng-template>
-</tui-hosted-dropdown>
+</ng-container>
 
 <ng-template #icon>
-  <img (click)="addSeatOrDropdown('add', content)" class="object-contain w-full h-full" src="assets/icons/marker.svg" />
+  <img
+    (click)="addSeatOrDropdown('add', formContent)"
+    class="object-contain w-full h-full"
+    src="assets/icons/marker.svg"
+  />
 </ng-template>
-<ng-template #content let-observer>
+<ng-template #formContent let-observer>
   <hcm-base-form
     (cancel)="observer.complete()"
     (submitForm)="submitSeat(observer)"
