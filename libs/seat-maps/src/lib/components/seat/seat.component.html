@@ -10,7 +10,12 @@
     class="w-full h-full"
   >
     <div class="relative w-full h-full text-xs font-semibold text-center">
-      <img [src]="user.image || '' | getFile | async" alt="" class="object-cover h-full w-full" />
+      <img
+        [class]="user.image ? 'object-cover' : 'object-contain'"
+        [src]="user.image ? (user.image | getFile | async) : 'assets/icons/marker.svg'"
+        alt=""
+        class="h-full w-full"
+      />
       <div *ngIf="seat.statusOfUser as statusUser" class="absolute top-full inset-x-0 py-0.5 border-t flex space-x-0.5">
         <span *ngFor="let seatStatus of statusUser" class="dot seat-status {{ seatStatus | seatUserState }}"></span>
       </div>
@@ -57,7 +62,7 @@
           <td>{{ user.jobTitle?.name }}</td>
         </tr>
       </table>
-      <div class="flex justify-between mt-3">
+      <div class="flex gap-4 mt-3">
         <button (click)="deleteSeat()" *ngxPermissionsOnly="'UPDATE_SEAT'" appearance="secondary" size="m" tuiButton>
           {{ t('unAssignSeat') }}
         </button>
@@ -75,11 +80,12 @@
 </ng-container>
 
 <ng-template #icon>
-  <img
+  <button
     (click)="addSeatOrDropdown('add', formContent)"
-    class="object-contain w-full h-full"
-    src="assets/icons/marker.svg"
-  />
+    class="bg-gray-100 flex justify-center items-center w-full h-full"
+  >
+    <tui-svg src="tuiIconUser"></tui-svg>
+  </button>
 </ng-template>
 <ng-template #formContent let-observer>
   <hcm-base-form

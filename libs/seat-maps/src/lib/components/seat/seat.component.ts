@@ -73,10 +73,10 @@ export class SeatComponent {
 
   @HostBinding('style') get style() {
     return {
-      left: Number((this.seat.style as StyleSeat).positionX) + '%',
-      top: Number((this.seat.style as StyleSeat).positionY) + '%',
-      width: '5%',
-      height: '11.8%',
+      left: (this.seat.style as StyleSeat).positionX + '%',
+      top: (this.seat.style as StyleSeat).positionY + '%',
+      width: (this.seat.style as StyleSeat).width + '%',
+      height: (this.seat.style as StyleSeat).height + '%',
       'border-radius': (this.seat.style as StyleSeat).rounded + '%',
     };
   }
