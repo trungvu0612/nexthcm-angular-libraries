@@ -1,37 +1,23 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
-import {
-  BaseFormComponentModule,
-  FormlyUserComboBoxComponentModule,
-  HEADER_TABS,
-  InputFilterComponentModule,
-  LayoutComponent,
-  LayoutModule,
-  MenuItem,
-} from '@nexthcm/ui';
-import { SvgIconsModule } from '@ngneat/svg-icon';
+import { AvatarComponentModule, FormlyUserComboBoxComponentModule, LayoutComponent, LayoutModule } from '@nexthcm/ui';
 import { TranslocoModule } from '@ngneat/transloco';
 import { FormlyModule } from '@ngx-formly/core';
-import { TuiTableModule } from '@taiga-ui/addon-table';
-import { TuiActiveZoneModule, TuiLetModule } from '@taiga-ui/cdk';
+import { TuiLetModule } from '@taiga-ui/cdk';
 import {
-  TuiButtonModule,
-  TuiDataListModule,
-  TuiDropdownModule,
+  TuiDropdownControllerModule,
   TuiHostedDropdownModule,
+  TuiLinkModule,
   TuiLoaderModule,
-  TuiScrollbarModule,
   TuiSvgModule,
-  TuiTextfieldControllerModule,
 } from '@taiga-ui/core';
-import { TuiAvatarModule, TuiDropdownHoverModule, TuiInputModule } from '@taiga-ui/kit';
-import { PolymorpheusModule } from '@tinkoff/ng-polymorpheus';
+import { TuiDropdownHoverModule, TuiIslandModule } from '@taiga-ui/kit';
 import { NgxPermissionsGuard } from 'ngx-permissions';
-import { NodeChartComponent } from './components/node-chart/node-chart.component';
-import { OrgChartComponent } from './components/org-chart/org-chart.component';
-import { OrganizationChartComponent } from './pages/organization-chart/organization-chart.component';
+import { OrganizationalChartNodeComponent } from './components/organizational-chart-node/organizational-chart-node.component';
+import { ScrollIntoViewDirective } from './directives/scroll-into-view/scroll-into-view.directive';
+import { OrganizationalChartComponent } from './pages/organizational-chart/organizational-chart.component';
 import { HumanResourceService } from './services/human-resource.service';
 
 export const humanResourceRoutes: Routes = [
@@ -41,44 +27,32 @@ export const humanResourceRoutes: Routes = [
     canActivate: [NgxPermissionsGuard],
     data: { permissions: { only: 'VIEW_HUMAN_RESOURCE', redirectTo: '/' } },
     children: [
-      { path: '', pathMatch: 'full', redirectTo: 'organization-chart' },
-      { path: 'organization-chart', component: OrganizationChartComponent },
+      { path: '', pathMatch: 'full', redirectTo: 'org-chart' },
+      { path: 'org-chart', component: OrganizationalChartComponent },
     ],
   },
 ];
-const TABS: MenuItem[] = [{ label: 'organizationChart', link: '/human-resource/organization-chart', permissions: [] }];
 
 @NgModule({
-  declarations: [OrganizationChartComponent, OrgChartComponent, NodeChartComponent],
+  declarations: [OrganizationalChartComponent, ScrollIntoViewDirective, OrganizationalChartNodeComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(humanResourceRoutes),
     ReactiveFormsModule,
-    TuiInputModule,
-    TuiTableModule,
-    TuiSvgModule,
-    TuiAvatarModule,
-    TuiLetModule,
-    FormlyModule,
-    TuiHostedDropdownModule,
-    TuiButtonModule,
-    TuiDataListModule,
-    TuiActiveZoneModule,
-    TuiDropdownModule,
-    TuiDropdownHoverModule,
-    PolymorpheusModule,
-    TuiTextfieldControllerModule,
-    FormsModule,
-    TranslocoModule,
-    SvgIconsModule,
-    TuiScrollbarModule,
-    FormlyUserComboBoxComponentModule,
-    InputFilterComponentModule,
-    BaseFormComponentModule,
+    TuiIslandModule,
+    TuiLinkModule,
     LayoutModule,
+    TranslocoModule,
+    FormlyModule,
+    TuiLetModule,
+    AvatarComponentModule,
+    TuiSvgModule,
     TuiLoaderModule,
+    FormlyUserComboBoxComponentModule,
+    TuiHostedDropdownModule,
+    TuiDropdownControllerModule,
+    TuiDropdownHoverModule,
   ],
-  entryComponents: [OrgChartComponent, NodeChartComponent],
-  providers: [{ provide: HEADER_TABS, useValue: TABS }, HumanResourceService],
+  providers: [HumanResourceService],
 })
 export class HumanResourceModule {}

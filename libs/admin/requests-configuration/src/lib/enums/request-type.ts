@@ -4,4 +4,5 @@ export enum RequestType {
   UpdateTimesheet,
   WorkingOutside,
   WorkFromHome,
+  ConvertLeaveEntitlement,
 }

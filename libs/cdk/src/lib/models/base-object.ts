@@ -6,4 +6,5 @@ export interface BaseObject {
 
 export interface BaseUser extends BaseObject {
   username: string;
+  fullName: string;
 }

@@ -2,6 +2,7 @@ import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input, NgModule } from '@angular/core';
 import { GetFilePipeModule } from '@nexthcm/cdk';
+import { tuiDefaultProp } from '@taiga-ui/cdk';
 import { TuiSizeXS, TuiSizeXXL } from '@taiga-ui/core';
 import { TuiAvatarModule } from '@taiga-ui/kit';
 
@@ -13,8 +14,8 @@ import { TuiAvatarModule } from '@taiga-ui/kit';
 })
 export class AvatarComponent {
   @Input() image?: string;
-  @Input() text = '';
-  @Input() size: TuiSizeXS | TuiSizeXXL = 's';
+  @Input() @tuiDefaultProp() text = '';
+  @Input() @tuiDefaultProp() size: TuiSizeXS | TuiSizeXXL = 's';
   private _rounded = false;
 
   get rounded(): boolean {
@@ -35,6 +36,16 @@ export class AvatarComponent {
   @Input()
   set autoColor(value: unknown) {
     this._autoColor = coerceBooleanProperty(value);
+  }
+
+  get computedText(): string {
+    if (this.image || this.text === '') {
+      return '';
+    }
+
+    const words = this.text.split(' ');
+
+    return words.length > 1 ? [words[0], words[words.length - 1]].join(' ') : words[0];
   }
 }
 

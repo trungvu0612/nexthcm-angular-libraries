@@ -4,8 +4,8 @@
   [avatarUrl]="image | getFile | async"
   [rounded]="rounded"
   [size]="size"
-  [text]="text ?? ''"
+  [text]="computedText"
 ></tui-avatar>
 <ng-template #noImage>
-  <tui-avatar [autoColor]="autoColor" [rounded]="rounded" [size]="size" [text]="text ?? ''"></tui-avatar>
+  <tui-avatar [autoColor]="autoColor" [rounded]="rounded" [size]="size" [text]="computedText"></tui-avatar>
 </ng-template>

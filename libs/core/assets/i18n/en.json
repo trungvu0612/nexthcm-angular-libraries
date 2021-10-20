@@ -590,5 +590,9 @@
   "searchEmployees": "Search for employees...",
   "chooseOffice": "Choose an office...",
   "unAssignSeat": "Un-assign seat",
-  "chooseSeatMap": "Choose a seat map..."
+  "chooseSeatMap": "Choose a seat map...",
+  "contact": "Contact",
+  "reportsTo": "Reports to",
+  "convertLeaveEntitlement": "Convert leave entitlement",
+  "maxPaidLeaveToCash": "Maximum paid leave to cash"
 }
