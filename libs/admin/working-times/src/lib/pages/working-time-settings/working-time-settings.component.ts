@@ -547,13 +547,13 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
     },
     {
       key: 'maxPaidLeaveToCash',
-      className: 'tui-form__row block',
       type: 'input-count',
       templateOptions: {
-        translate: true,
-        label: 'maxPaidLeaveToCash',
         textfieldLabelOutside: true,
         required: true,
+      },
+      expressionProperties: {
+        'templateOptions.label': this.translocoService.selectTranslate('maxPaidLeaveToCash'),
       },
     },
     {
