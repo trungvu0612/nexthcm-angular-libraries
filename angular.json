@@ -1,57 +1,5 @@
 {
   "version": 1,
-  "cli": {
-    "analytics": false,
-    "defaultCollection": "@nrwl/angular",
-    "packageManager": "yarn"
-  },
-  "defaultProject": "hcm-web",
-  "schematics": {
-    "@nrwl/angular": {
-      "application": {
-        "linter": "eslint"
-      },
-      "library": {
-        "linter": "eslint"
-      },
-      "storybook-configuration": {
-        "linter": "eslint"
-      }
-    },
-    "@nrwl/angular:application": {
-      "style": "scss",
-      "linter": "eslint",
-      "unitTestRunner": "jest",
-      "e2eTestRunner": "cypress",
-      "strict": true,
-      "prefix": "hcm"
-    },
-    "@nrwl/angular:library": {
-      "style": "scss",
-      "linter": "eslint",
-      "unitTestRunner": "jest",
-      "publishable": true,
-      "prefix": "hcm",
-      "strict": true,
-      "buildable": true,
-      "enableIvy": true
-    },
-    "@nrwl/angular:component": {
-      "style": "scss",
-      "displayBlock": true,
-      "changeDetection": "OnPush"
-    },
-    "@schematics/angular:component": {
-      "style": "scss",
-      "displayBlock": true,
-      "changeDetection": "OnPush"
-    },
-    "@ngneat/scam:component": {
-      "style": "scss",
-      "displayBlock": true,
-      "changeDetection": "OnPush"
-    }
-  },
   "projects": {
     "admin-employees": {
       "projectType": "library",
@@ -96,7 +44,8 @@
             "command": "yarn publish dist/libs/admin/employees"
           }
         }
-      }
+      },
+      "tags": []
     },
     "admin-job-levels": {
       "projectType": "library",
@@ -140,7 +89,8 @@
             "command": "yarn publish dist/libs/admin/job-levels"
           }
         }
-      }
+      },
+      "tags": []
     },
     "admin-job-titles": {
       "projectType": "library",
@@ -185,7 +135,8 @@
             "command": "yarn publish dist/libs/admin/job-titles"
           }
         }
-      }
+      },
+      "tags": []
     },
     "admin-knowledge-base": {
       "projectType": "library",
@@ -230,7 +181,8 @@
             "command": "yarn publish dist/libs/admin/knowledge-base"
           }
         }
-      }
+      },
+      "tags": []
     },
     "admin-leave-configs": {
       "projectType": "library",
@@ -275,7 +227,8 @@
             "command": "yarn publish dist/libs/admin/leave-configs"
           }
         }
-      }
+      },
+      "tags": []
     },
     "admin-offices": {
       "projectType": "library",
@@ -320,7 +273,8 @@
             "command": "yarn publish dist/libs/admin/offices"
           }
         }
-      }
+      },
+      "tags": []
     },
     "admin-permissions": {
       "projectType": "library",
@@ -365,7 +319,8 @@
             "command": "yarn publish dist/libs/admin/permissions"
           }
         }
-      }
+      },
+      "tags": []
     },
     "admin-requests-configuration": {
       "projectType": "library",
@@ -412,7 +367,8 @@
             "command": "yarn publish dist/libs/admin/requests-configuration"
           }
         }
-      }
+      },
+      "tags": []
     },
     "admin-seat-maps": {
       "projectType": "library",
@@ -457,7 +413,8 @@
             "command": "yarn publish dist/libs/admin/seat-maps"
           }
         }
-      }
+      },
+      "tags": []
     },
     "admin-synchronize-data": {
       "projectType": "library",
@@ -501,7 +458,8 @@
             "command": "yarn publish dist/libs/admin/synchronize-data"
           }
         }
-      }
+      },
+      "tags": []
     },
     "admin-tenants": {
       "projectType": "library",
@@ -545,7 +503,8 @@
             "command": "yarn publish dist/libs/admin/tenants"
           }
         }
-      }
+      },
+      "tags": []
     },
     "admin-user-roles": {
       "projectType": "library",
@@ -590,7 +549,8 @@
             "command": "yarn publish dist/libs/admin/user-roles"
           }
         }
-      }
+      },
+      "tags": []
     },
     "admin-workflows": {
       "projectType": "library",
@@ -635,7 +595,8 @@
             "command": "yarn publish dist/libs/admin/workflows"
           }
         }
-      }
+      },
+      "tags": []
     },
     "admin-working-times": {
       "projectType": "library",
@@ -680,7 +641,8 @@
             "command": "yarn publish dist/libs/admin/working-times"
           }
         }
-      }
+      },
+      "tags": []
     },
     "auth": {
       "projectType": "library",
@@ -722,7 +684,8 @@
             "command": "yarn publish dist/libs/auth"
           }
         }
-      }
+      },
+      "tags": []
     },
     "calendar": {
       "projectType": "library",
@@ -767,7 +730,8 @@
             "command": "yarn publish dist/libs/calendar"
           }
         }
-      }
+      },
+      "tags": []
     },
     "cdk": {
       "projectType": "library",
@@ -812,7 +776,8 @@
             "command": "yarn publish dist/libs/cdk"
           }
         }
-      }
+      },
+      "tags": []
     },
     "chat": {
       "projectType": "library",
@@ -861,7 +826,8 @@
             ]
           }
         }
-      }
+      },
+      "tags": []
     },
     "core": {
       "projectType": "library",
@@ -913,7 +879,8 @@
             "command": "yarn transloco-optimize && yarn publish dist/libs/core"
           }
         }
-      }
+      },
+      "tags": []
     },
     "cron-builder": {
       "projectType": "library",
@@ -957,7 +924,8 @@
             "command": "yarn transloco-optimize && yarn publish dist/libs/cron-builder"
           }
         }
-      }
+      },
+      "tags": []
     },
     "hcm-web": {
       "projectType": "application",
@@ -1067,7 +1035,8 @@
             "lintFilePatterns": ["apps/hcm-web/**/*.{css,scss,sass,less}"]
           }
         }
-      }
+      },
+      "tags": []
     },
     "hcm-web-e2e": {
       "root": "apps/hcm-web-e2e",
@@ -1094,7 +1063,9 @@
           },
           "outputs": ["{options.outputFile}"]
         }
-      }
+      },
+      "tags": [],
+      "implicitDependencies": ["hcm-web"]
     },
     "hcm-workflows": {
       "projectType": "application",
@@ -1206,7 +1177,8 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": []
     },
     "hcm-workflows-e2e": {
       "root": "apps/hcm-workflows-e2e",
@@ -1233,7 +1205,9 @@
           },
           "outputs": ["{options.outputFile}"]
         }
-      }
+      },
+      "tags": [],
+      "implicitDependencies": ["hcm-workflows"]
     },
     "home": {
       "projectType": "library",
@@ -1275,7 +1249,8 @@
             "command": "yarn publish dist/libs/home"
           }
         }
-      }
+      },
+      "tags": []
     },
     "human-resource": {
       "projectType": "library",
@@ -1317,7 +1292,8 @@
             "command": "yarn publish dist/libs/human-resource"
           }
         }
-      }
+      },
+      "tags": []
     },
     "knowledge-base": {
       "projectType": "library",
@@ -1359,7 +1335,8 @@
             "command": "yarn publish dist/libs/knowledge-base"
           }
         }
-      }
+      },
+      "tags": []
     },
     "my-time": {
       "projectType": "library",
@@ -1401,7 +1378,8 @@
             "command": "yarn publish dist/libs/my-time"
           }
         }
-      }
+      },
+      "tags": []
     },
     "next-hcm-demo-web": {
       "projectType": "application",
@@ -1575,7 +1553,8 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": []
     },
     "next-hcm-demo-web-e2e": {
       "root": "apps/next-hcm-demo-web-e2e",
@@ -1601,7 +1580,9 @@
             "lintFilePatterns": ["apps/next-hcm-demo-web-e2e/**/*.{js,ts}"]
           }
         }
-      }
+      },
+      "tags": [],
+      "implicitDependencies": ["next-hcm-demo-web"]
     },
     "seat-maps": {
       "projectType": "library",
@@ -1646,7 +1627,8 @@
             "command": "yarn publish dist/libs/seat-maps"
           }
         }
-      }
+      },
+      "tags": []
     },
     "ui": {
       "projectType": "library",
@@ -1688,7 +1670,8 @@
             "command": "yarn publish dist/libs/ui"
           }
         }
-      }
+      },
+      "tags": []
     },
     "workflow-designer": {
       "projectType": "library",
@@ -1733,7 +1716,8 @@
             "command": "yarn publish dist/libs/workflow-designer"
           }
         }
-      }
+      },
+      "tags": []
     }
   }
 }
