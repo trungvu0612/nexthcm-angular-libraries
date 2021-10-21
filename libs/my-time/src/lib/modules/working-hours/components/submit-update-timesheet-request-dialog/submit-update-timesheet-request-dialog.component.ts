@@ -8,8 +8,9 @@ import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { from, of, Subject } from 'rxjs';
 import { catchError, map, share, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
-import { RequestStatus } from '../../../../enums';
-import { SubmitRequestPayload, WorkingHours } from '../../../../models';
+import { RequestStatus } from '../../../../internal/enums';
+import { SubmitRequestPayload } from '../../../../internal/models';
+import { WorkingHours } from '../../../../models';
 import { MyTimeService } from '../../../../services';
 
 @Component({

@@ -1,3 +1,15 @@
 :host {
   display: block;
+
+  ::ng-deep {
+    tui-wrapper[data-appearance='whiteblock-active'] {
+      background: var(--tui-primary);
+      color: white;
+
+      .badge {
+        background-color: var(--tui-base-06);
+        color: var(--tui-base-01);
+      }
+    }
+  }
 }

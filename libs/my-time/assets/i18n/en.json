@@ -87,5 +87,27 @@
   "ERRORS": {
     "DUPLICATED_LEAVE": "<div class='font-bold'><p class='mb-4'>This request has duplicated duration with another.</p>{{metadata}}</div>",
     "EXCEED_LEAVE_ENTITLEMENT": "<div class='font-bold'>This request has exceeded the leave entitlement by {{exceedEntitlement}} days. The remaining of your {{leaveTypeName}} is {{remainingEntitlement}} days.</div>"
-  }
+  },
+  "PARTIAL_DAYS": {
+    "None": "None",
+    "All Day": "All days",
+    "Start Day Only": "Start Day Only",
+    "End Day Only": "End Day Only",
+    "Start And End Day": "Start and End Day"
+  },
+  "LEAVE_DURATION_OPTIONS": {
+    "fullDay": "Full Day",
+    "halfDay": "Half Day",
+    "specifyTime": "Specify Time"
+  },
+  "DAY_PART_OPTIONS": {
+    "morning": "Morning",
+    "afternoon": "Afternoon"
+  },
+  "partialDays": "Partial Days",
+  "startDay": "Start Day",
+  "endDay": "End Day",
+  "duration": "Duration",
+  "emptyLeaveEntitlements": "Your leave entitlements has expired!",
+  "leaveTypeRequired": "Please select a leave type!"
 }

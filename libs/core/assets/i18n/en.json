@@ -594,5 +594,6 @@
   "contact": "Contact",
   "reportsTo": "Reports to",
   "convertLeaveEntitlement": "Convert leave entitlement",
-  "maxPaidLeaveToCash": "Maximum paid leave to cash"
+  "maxPaidLeaveToCash": "Maximum paid leave to cash",
+  "from": "From"
 }

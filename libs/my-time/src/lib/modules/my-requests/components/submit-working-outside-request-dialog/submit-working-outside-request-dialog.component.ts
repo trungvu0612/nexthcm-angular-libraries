@@ -9,7 +9,7 @@ import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { endOfDay, getTime } from 'date-fns';
 import { from, of, Subject } from 'rxjs';
 import { catchError, map, share, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
-import { SubmitRequestPayload } from '../../../../models';
+import { SubmitRequestPayload } from '../../../../internal/models';
 import { MyTimeService } from '../../../../services';
 
 @Component({

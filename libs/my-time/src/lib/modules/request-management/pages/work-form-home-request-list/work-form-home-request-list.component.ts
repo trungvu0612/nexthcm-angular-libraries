@@ -7,7 +7,7 @@ import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { BaseComponent, Columns } from 'ngx-easy-table';
 import { combineLatest, Observable, of } from 'rxjs';
 import { catchError, filter, map, shareReplay, startWith, switchMap } from 'rxjs/operators';
-import { WorkFromHomeRequest } from '../../../../models';
+import { WorkFromHomeRequest } from '../../../../internal/models';
 import { MyTimeService } from '../../../../services';
 import { AbstractRequestListComponent } from '../../../shared/abstract-components/abstract-request-list.component';
 

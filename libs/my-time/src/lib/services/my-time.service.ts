@@ -15,15 +15,15 @@ import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { from, Observable, of, Subject } from 'rxjs';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
-import { GeneralRequest, SubmitLeavePayLoad, SubmitRequestPayload } from '../models';
-import { HistoryItem } from '../models/history-item';
-import { RequestComment } from '../models/request-comment';
-import { CombineRequestTypeUrlPaths, RequestTypeUrlPaths } from '../models/request-type-url-paths';
-import { ChangeEscalateUserPayload } from '../models/requests/change-escalate-user-payload';
+import { GeneralRequest, SubmitRequestPayload } from '../internal/models';
+import { HistoryItem } from '../internal/models/history-item';
+import { RequestComment } from '../internal/models/request-comment';
+import { CombineRequestTypeUrlPaths, RequestTypeUrlPaths } from '../internal/models/request-type-url-paths';
+import { ChangeEscalateUserPayload } from '../internal/models/requests/change-escalate-user-payload';
 import {
   LeaveDuplicated,
   SubmitLeaveRequestHttpErrorResponse,
-} from '../models/requests/submit-leave-request-http-error-response';
+} from '../internal/models/requests/submit-leave-request-http-error-response';
 import { RequestDetailDialogComponent } from '../modules/shared/request-detail-dialog/request-detail-dialog.component';
 
 const REQUEST_DETAIL_URL_PATHS: Readonly<CombineRequestTypeUrlPaths> = Object.freeze({
@@ -79,10 +79,6 @@ export class MyTimeService {
     return this.http
       .post(`${MY_TIME_API_PATH}/${REQUEST_DETAIL_URL_PATHS[type]}`, payload)
       .pipe(tap(() => this.refreshSubject.next(type)));
-  }
-
-  submitLeaveRequest(payload: SubmitLeavePayLoad): Observable<unknown> {
-    return this.http.post(`${MY_TIME_API_PATH}/leaves`, payload);
   }
 
   changeEscalateUser(type: keyof RequestTypeUrlPaths, payload: ChangeEscalateUserPayload): Observable<unknown> {

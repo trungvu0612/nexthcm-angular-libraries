@@ -3,8 +3,8 @@ import { FormBuilder } from '@ngneat/reactive-forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
-import { RequestStatus } from '../../../../enums';
-import { UpdateRequestPayload } from '../../../../models';
+import { RequestStatus } from '../../../../internal/enums';
+import { UpdateRequestPayload } from '../../../../internal/models';
 
 @Component({
   selector: 'hcm-reject-request-dialog',

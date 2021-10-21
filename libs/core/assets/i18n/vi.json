@@ -593,5 +593,6 @@
   "contact": "Liên hệ",
   "reportsTo": "Báo cáo cho",
   "convertLeaveEntitlement": "Chuyển đổi quyền lợi nghỉ phép",
-  "maxPaidLeaveToCash": "Số ngày nghỉ tối đa được trả lương"
+  "maxPaidLeaveToCash": "Số ngày nghỉ tối đa được trả lương",
+  "from": "Từ"
 }

@@ -1,4 +1,4 @@
-export enum PartialDay {
+export enum PartialDays {
   None,
   AllDays,
   StartDayOnly,

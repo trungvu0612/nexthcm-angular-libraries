@@ -6,7 +6,8 @@ import { FormlyFieldConfig } from '@ngx-formly/core';
 import { RxState } from '@rx-angular/state';
 import { TuiDialogContext, TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusContent } from '@tinkoff/ng-polymorpheus';
-import { of, Subject, Subscriber } from 'rxjs';
+import { NgxPermissionsService } from 'ngx-permissions';
+import { from, iif, of, Subject, Subscriber } from 'rxjs';
 import { debounceTime, switchMap, take, tap } from 'rxjs/operators';
 import { Seat, StyleSeat } from '../../models';
 import { SeatMapsService } from '../../seat-maps.service';
@@ -64,7 +65,8 @@ export class SeatComponent {
     private readonly dialogService: TuiDialogService,
     private readonly state: RxState<{ dragging: boolean }>,
     private readonly seatMapsService: SeatMapsService,
-    private readonly translocoService: TranslocoService
+    private readonly translocoService: TranslocoService,
+    private readonly ngxPermissionsService: NgxPermissionsService
   ) {}
 
   @Input() set dragging(dragging$: Subject<boolean>) {
@@ -85,7 +87,9 @@ export class SeatComponent {
     if (this.state.get('dragging')) {
       this.state.set({ dragging: false });
     } else if (type === 'add' && content) {
-      this.dialogService.open(content).subscribe();
+      from(this.ngxPermissionsService.hasPermission('CREATE_SEAT'))
+        .pipe(switchMap((hasPermission) => iif(() => hasPermission, this.dialogService.open(content))))
+        .subscribe();
     }
   }
 

@@ -1,6 +1,12 @@
 <hcm-page title="{{ 'myTime.myLeave' | transloco }}">
   <ng-container ngProjectAs="pageHeader">
-    <button (click)="showDialogSubmit()" icon="tuiIconPlusLarge" size="m" tuiButton>
+    <button
+      (click)="createLeaveRequest$.next()"
+      [showLoader]="(createLeaveRequestLoading$ | async) === true"
+      icon="tuiIconPlusLarge"
+      size="m"
+      tuiButton
+    >
       {{ 'myTime.submitLeaveRequest' | transloco }}
     </button>
   </ng-container>

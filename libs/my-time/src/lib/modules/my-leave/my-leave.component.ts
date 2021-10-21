@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Inject, Injector, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '@nexthcm/auth';
-import { Pagination } from '@nexthcm/cdk';
+import { Pagination, PromptService } from '@nexthcm/cdk';
 import { FormBuilder } from '@ngneat/reactive-forms';
 import { ProviderScope, TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
@@ -9,12 +9,12 @@ import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { BaseComponent, Columns } from 'ngx-easy-table';
-import { combineLatest, Observable, of } from 'rxjs';
-import { catchError, filter, map, shareReplay, startWith, switchMap, takeUntil } from 'rxjs/operators';
-import { LeaveRequest } from '../../models';
-import { MyTimeService } from '../../services';
+import { combineLatest, from, Observable, of, Subject } from 'rxjs';
+import { catchError, filter, map, share, shareReplay, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { LeaveRequest, RemainingLeaveEntitlement } from '../../internal/models';
+import { MyLeaveService, MyTimeService } from '../../services';
 import { AbstractRequestListComponent } from '../shared/abstract-components/abstract-request-list.component';
-import { SubmitLeaveRequestDialogComponent } from './components/submit-leave-request-dialog/submit-leave-request-dialog.component';
+import { CreateLeaveRequestDialogComponent } from './components/create-leave-request-dialog/create-leave-request-dialog.component';
 
 @Component({
   selector: 'hcm-my-leave',
@@ -44,6 +44,7 @@ export class MyLeaveComponent extends AbstractRequestListComponent<LeaveRequest>
         { key: '', title: result.functions, orderEnabled: false },
       ])
     );
+
   private readonly request$ = this.queryParams$.pipe(
     switchMap(() =>
       this.myTimeService.getRequests<LeaveRequest>('myLeave', this.queryParams$.value).pipe(startWith(null))
@@ -54,6 +55,15 @@ export class MyLeaveComponent extends AbstractRequestListComponent<LeaveRequest>
     map((values) => values.includes(null)),
     catchError(() => of(false))
   );
+
+  readonly createLeaveRequest$ = new Subject();
+  readonly createLeaveRequestHandler$ = this.createLeaveRequest$.pipe(
+    switchMap(() =>
+      this.myLeaveService.getEmployeeLeaveEntitlements(this.authService.get('userInfo', 'userId')).pipe(startWith(null))
+    ),
+    share()
+  );
+  readonly createLeaveRequestLoading$ = this.createLeaveRequestHandler$.pipe(map((value) => !value));
 
   constructor(
     readonly myTimeService: MyTimeService,
@@ -66,23 +76,45 @@ export class MyLeaveComponent extends AbstractRequestListComponent<LeaveRequest>
     private readonly injector: Injector,
     private readonly translocoService: TranslocoService,
     private readonly authService: AuthService,
-    private readonly dialogService: TuiDialogService
+    private readonly dialogService: TuiDialogService,
+    private readonly myLeaveService: MyLeaveService,
+    private readonly promptService: PromptService
   ) {
     super(state, router, activatedRoute);
     state.connect(this.request$.pipe(filter(isPresent)));
+    state.hold(
+      this.createLeaveRequestHandler$.pipe(
+        filter(isPresent),
+        switchMap((leaveTypes) =>
+          leaveTypes.length > 0 ? this.openCreateLeaveRequestDialog(leaveTypes) : this.handleEmptyLeaveEntitlements()
+        )
+      )
+    );
   }
 
   get userId(): string {
     return this.authService.get('userInfo', 'userId');
   }
 
-  showDialogSubmit(): void {
-    this.dialogService
-      .open(new PolymorpheusComponent(SubmitLeaveRequestDialogComponent, this.injector), {
+  openCreateLeaveRequestDialog(data: RemainingLeaveEntitlement[]): Observable<unknown> {
+    return this.dialogService
+      .open(new PolymorpheusComponent(CreateLeaveRequestDialogComponent, this.injector), {
         label: this.translocoService.translate('myTime.submitLeaveRequest'),
         size: 'l',
+        data,
       })
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(() => this.queryParams$.next(this.queryParams$.value));
+      .pipe(
+        tap(() => this.queryParams$.next(this.queryParams$.value)),
+        takeUntil(this.destroy$)
+      );
+  }
+
+  handleEmptyLeaveEntitlements(): Observable<unknown> {
+    return from(
+      this.promptService.open({
+        icon: 'error',
+        html: this.translocoService.translate('myTime.emptyLeaveEntitlements'),
+      })
+    );
   }
 }
