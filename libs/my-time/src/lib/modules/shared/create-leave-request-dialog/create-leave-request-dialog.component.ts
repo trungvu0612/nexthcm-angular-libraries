@@ -1,21 +1,23 @@
-import { ChangeDetectionStrategy, Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ChangeDetectionStrategy, Component, Inject, NgModule, OnInit, ViewChild } from '@angular/core';
 import { PromptService } from '@nexthcm/cdk';
+import { BaseFormComponentModule } from '@nexthcm/ui';
 import { FormBuilder, FormControl, FormGroup } from '@ngneat/reactive-forms';
-import { ProviderScope, TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
+import { ProviderScope, TRANSLOCO_SCOPE, TranslocoModule, TranslocoScope, TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { TuiDay, TuiDayRange, TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
-import { POLYMORPHEUS_CONTEXT, PolymorpheusTemplate } from '@tinkoff/ng-polymorpheus';
+import { POLYMORPHEUS_CONTEXT, PolymorpheusModule, PolymorpheusTemplate } from '@tinkoff/ng-polymorpheus';
 import { combineLatest, from, of, Subject } from 'rxjs';
 import { catchError, map, share, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
-import { DurationType, PartialDays } from '../../../../internal/enums';
+import { DurationType, PartialDays } from '../../../internal/enums';
 import {
   LeaveRequestForm,
   LeaveRequestPayload,
   PartialDaysType,
   RemainingLeaveEntitlement,
-} from '../../../../internal/models';
-import { MyLeaveService, MyTimeService } from '../../../../services';
+} from '../../../internal/models';
+import { MyLeaveService, MyTimeService } from '../../../services';
 
 @Component({
   selector: 'hcm-create-leave-request-dialog',
@@ -79,12 +81,26 @@ export class CreateLeaveRequestDialogComponent implements OnInit {
   ngOnInit(): void {
     this.fields = [
       {
+        key: 'employeeId',
+        className: 'tui-form__row block',
+        type: 'user-combo-box',
+        templateOptions: {
+          translate: true,
+          required: true,
+          label: 'employee',
+          labelClassName: 'font-semibold',
+          placeholder: 'searchEmployees',
+          valueProp: 'id',
+        },
+        hide: !!this.context.data,
+      },
+      {
         key: 'leaveType',
         className: 'tui-form__row block',
         type: 'filter',
         templateOptions: {
           required: true,
-          options: this.context.data,
+          options: this.context.data || [],
           labelProp: 'leaveTypeName',
           single: true,
           badgeHandler: (item: RemainingLeaveEntitlement) => item.remainingEntitlement.toString(),
@@ -95,6 +111,17 @@ export class CreateLeaveRequestDialogComponent implements OnInit {
         validation: {
           messages: {
             required: () => this.translocoService.selectTranslate('leaveTypeRequired', {}, this.scope),
+          },
+        },
+        hooks: {
+          onInit: (field) => {
+            if (field?.templateOptions) {
+              field.templateOptions.options = this.form.controls.employeeId.valueChanges.pipe(
+                switchMap((employeeId) =>
+                  employeeId ? this.myLeaveService.getEmployeeLeaveEntitlements(employeeId) : of([])
+                )
+              );
+            }
           },
         },
       },
@@ -154,7 +181,7 @@ export class CreateLeaveRequestDialogComponent implements OnInit {
                 const fromToControl = (field?.parent?.form as FormGroup<LeaveRequestForm>)?.controls
                   ?.fromTo as FormControl<TuiDayRange>;
 
-                if (fromToControl && field?.templateOptions?.options) {
+                if (fromToControl && field?.templateOptions) {
                   field.templateOptions.options = combineLatest([
                     this.translocoService.selectTranslateObject(
                       'LEAVE_DURATION_OPTIONS',
@@ -271,7 +298,7 @@ export class CreateLeaveRequestDialogComponent implements OnInit {
             },
             hooks: {
               onInit: (field) => {
-                if (field?.templateOptions?.options) {
+                if (field?.templateOptions) {
                   field.templateOptions.options = this.translocoService
                     .selectTranslateObject('LEAVE_DURATION_OPTIONS', {}, (this.scope as ProviderScope).scope)
                     .pipe(
@@ -424,3 +451,10 @@ export class CreateLeaveRequestDialogComponent implements OnInit {
     this.context.$implicit.complete();
   }
 }
+
+@NgModule({
+  declarations: [CreateLeaveRequestDialogComponent],
+  imports: [CommonModule, BaseFormComponentModule, PolymorpheusModule, TranslocoModule],
+  exports: [CreateLeaveRequestDialogComponent],
+})
+export class CreateLeaveRequestDialogComponentModule {}

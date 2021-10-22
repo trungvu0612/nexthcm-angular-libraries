@@ -109,5 +109,6 @@
   "endDay": "End Day",
   "duration": "Duration",
   "emptyLeaveEntitlements": "Your leave entitlements has expired!",
-  "leaveTypeRequired": "Please select a leave type!"
+  "leaveTypeRequired": "Please select a leave type!",
+  "createEmployeeLeaveRequest": "Create employee's leave request"
 }

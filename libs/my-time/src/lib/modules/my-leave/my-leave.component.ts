@@ -14,7 +14,7 @@ import { catchError, filter, map, share, shareReplay, startWith, switchMap, take
 import { LeaveRequest, RemainingLeaveEntitlement } from '../../internal/models';
 import { MyLeaveService, MyTimeService } from '../../services';
 import { AbstractRequestListComponent } from '../shared/abstract-components/abstract-request-list.component';
-import { CreateLeaveRequestDialogComponent } from './components/create-leave-request-dialog/create-leave-request-dialog.component';
+import { CreateLeaveRequestDialogComponent } from '../shared/create-leave-request-dialog/create-leave-request-dialog.component';
 
 @Component({
   selector: 'hcm-my-leave',

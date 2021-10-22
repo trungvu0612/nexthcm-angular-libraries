@@ -2,7 +2,7 @@
   (searchChange)="search$.next($event)"
   [formControl]="$any(formControl)"
   [formlyAttributes]="field"
-  [identityMatcher]="identityMatcher"
+  [identityMatcher]="to.valueProp ? TUI_DEFAULT_IDENTITY_MATCHER : identityMatcher"
   [strictMatcher]="strictMatcher"
   [stringify]="to.valueProp ? $any(stringify$ | async) : stringify"
   [style.maxWidth]="to.maxWidth"

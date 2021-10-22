@@ -3,7 +3,14 @@ import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BaseUser, EmployeesService } from '@nexthcm/cdk';
 import { FieldType, FormlyModule } from '@ngx-formly/core';
-import { isPresent, TuiContextWithImplicit, TuiIdentityMatcher, TuiLetModule, TuiStringMatcher } from '@taiga-ui/cdk';
+import {
+  isPresent,
+  TUI_DEFAULT_IDENTITY_MATCHER,
+  TuiContextWithImplicit,
+  TuiIdentityMatcher,
+  TuiLetModule,
+  TuiStringMatcher,
+} from '@taiga-ui/cdk';
 import { TuiStringHandler } from '@taiga-ui/cdk/types';
 import { TuiDataListModule, TuiLoaderModule, TuiTextfieldControllerModule } from '@taiga-ui/core';
 import { TuiComboBoxModule } from '@taiga-ui/kit';
@@ -33,15 +40,7 @@ export class FormlyUserComboBoxComponent extends FieldType {
     startWith([]),
     shareReplay(1)
   );
-  readonly stringify$: Observable<TuiStringHandler<any>> = this.users$.pipe(
-    filter(isPresent),
-    map((items: BaseUser[]) => new Map(items.map((item) => [item[this.keyofUser(this.to.valueProp)], item.name]))),
-    startWith(new Map()),
-    map(
-      (map) => (id: string | TuiContextWithImplicit<string>) =>
-        typeof id === 'string' ? map.get(id) : map.get(id.$implicit) || ''
-    )
-  );
+  readonly TUI_DEFAULT_IDENTITY_MATCHER = TUI_DEFAULT_IDENTITY_MATCHER;
 
   constructor(private employeesService: EmployeesService) {
     super();
@@ -52,6 +51,16 @@ export class FormlyUserComboBoxComponent extends FieldType {
   readonly stringify: TuiStringHandler<any> = (item: BaseUser) => item.name;
 
   readonly keyofUser = (index: string) => index as keyof BaseUser;
+
+  readonly stringify$: Observable<TuiStringHandler<any>> = this.users$.pipe(
+    filter(isPresent),
+    map((items: BaseUser[]) => new Map(items.map((item) => [item[this.keyofUser(this.to.valueProp)], item.name]))),
+    startWith(new Map()),
+    map(
+      (map) => (id: string | TuiContextWithImplicit<string>) =>
+        typeof id === 'string' ? map.get(id) : map.get(id.$implicit) || ''
+    )
+  );
 
   readonly strictMatcher: TuiStringMatcher<BaseUser> = (
     item: BaseUser,

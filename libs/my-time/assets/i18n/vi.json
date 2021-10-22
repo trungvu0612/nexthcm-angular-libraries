@@ -108,5 +108,6 @@
   "endDay": "Ngày Cuối",
   "duration": "Trong khoảng",
   "emptyLeaveEntitlements": "Quyền lợi nghỉ phép của bạn đã hết!",
-  "leaveTypeRequired": "Vui lòng chọn một loại nghỉ phép!"
+  "leaveTypeRequired": "Vui lòng chọn một loại nghỉ phép!",
+  "createEmployeeLeaveRequest": "Tạo yêu cầu nghỉ phép cho nhân viên"
 }

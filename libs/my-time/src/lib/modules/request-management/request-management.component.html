@@ -1,5 +1,16 @@
 <ng-container *transloco="let t">
   <hcm-page [title]="t('myTime.requestManagement')">
+    <ng-container ngProjectAs="pageHeader">
+      <button
+        (click)="onCreateEmployeeLeaveRequest()"
+        *ngxPermissionsOnly="'VIEW_ALL_REQUEST_TENANT'"
+        icon="tuiIconPlusLarge"
+        size="m"
+        tuiButton
+      >
+        {{ t('myTime.createEmployeeLeaveRequest') }}
+      </button>
+    </ng-container>
     <tui-tabs [(activeItemIndex)]="activeItemIndex">
       <button routerLink="/my-time/requests/leave" routerLinkActive tuiTab>{{ t('myTime.leave') }}</button>
       <button routerLink="/my-time/requests/working-after-hours" routerLinkActive tuiTab>

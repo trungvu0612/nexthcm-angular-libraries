@@ -11,6 +11,8 @@ import { TuiLetModule } from '@taiga-ui/cdk';
 import { TuiButtonModule, TuiLoaderModule } from '@taiga-ui/core';
 import { TuiDataListWrapperModule, TuiTabsModule, TuiTagModule } from '@taiga-ui/kit';
 import { TableModule } from 'ngx-easy-table';
+import { NgxPermissionsModule } from 'ngx-permissions';
+import { CreateLeaveRequestDialogComponentModule } from '../shared/create-leave-request-dialog/create-leave-request-dialog.component';
 import { LeaveRequestDateRangeComponentModule } from '../shared/leave-request-date-range/leave-request-date-range.component';
 import { RequestListFilterComponentModule } from '../shared/request-list-filter/request-list-filter.component';
 import { RejectRequestDialogComponent } from './components/reject-leave-request-dialog/reject-request-dialog.component';
@@ -50,6 +52,8 @@ import { RequestManagementComponent } from './request-management.component';
     TranslocoLocaleModule,
     LeaveRequestDateRangeComponentModule,
     WorkflowActionsButtonDropdownComponentModule,
+    CreateLeaveRequestDialogComponentModule,
+    NgxPermissionsModule,
   ],
 })
 export class RequestManagementModule {}

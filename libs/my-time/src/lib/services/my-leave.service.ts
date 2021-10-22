@@ -1,10 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { AuthService } from '@nexthcm/auth';
 import { BaseResponse, MY_TIME_API_PATH } from '@nexthcm/cdk';
 import { RxState } from '@rx-angular/state';
-import { Observable, of } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { Observable, of, Subject } from 'rxjs';
+import { catchError, map, tap } from 'rxjs/operators';
 import { LeaveRequestPayload, PartialDaysType, RemainingLeaveEntitlement } from '../internal/models';
 
 interface MyLeaveState {
@@ -13,9 +12,10 @@ interface MyLeaveState {
 
 @Injectable()
 export class MyLeaveService extends RxState<MyLeaveState> {
-  readonly loggedInUserId = this.authService.get('userInfo', 'userId');
+  private refreshSubject = new Subject();
+  refresh$ = this.refreshSubject.asObservable();
 
-  constructor(private authService: AuthService, private http: HttpClient) {
+  constructor(private readonly http: HttpClient) {
     super();
     this.connect('partialDayTypes', this.getPartialTypes());
   }
@@ -38,6 +38,6 @@ export class MyLeaveService extends RxState<MyLeaveState> {
   }
 
   submitLeaveRequest(payload: LeaveRequestPayload): Observable<unknown> {
-    return this.http.post(`${MY_TIME_API_PATH}/leaves`, payload);
+    return this.http.post(`${MY_TIME_API_PATH}/leaves`, payload).pipe(tap(() => this.refreshSubject.next()));
   }
 }

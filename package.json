@@ -32,8 +32,8 @@
     "prepare": "husky install",
     "generate-icons": "svg-generator",
     "transloco-optimize": "transloco-optimize dist/libs/core/assets/i18n",
-    "run-many:build": "node ./i18n-cache-busting.js && nx run-many --target=build --all --exclude hcm-workflows,hcm-web,next-hcm-demo-web,chat",
-    "run-many:publish": "nx run-many --target=publish --all"
+    "build:all": "node ./i18n-cache-busting.js && nx run-many --target=build --all --exclude hcm-workflows,hcm-web,next-hcm-demo-web,chat",
+    "publish:all": "nx run-many --target=publish --all"
   },
   "private": true,
   "dependencies": {

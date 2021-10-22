@@ -3,6 +3,7 @@ import { DurationType } from '../../enums';
 import { PartialDaysType } from './leave-request';
 
 export interface LeaveRequestPayload {
+  employeeId: string;
   fromDate: number;
   toDate: number;
   leaveTypeId: string;

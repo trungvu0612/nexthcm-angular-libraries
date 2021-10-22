@@ -9,7 +9,7 @@ import { BaseComponent, Columns } from 'ngx-easy-table';
 import { combineLatest, Observable, of } from 'rxjs';
 import { catchError, filter, map, shareReplay, startWith, switchMap } from 'rxjs/operators';
 import { LeaveRequest } from '../../../../internal/models';
-import { MyTimeService } from '../../../../services';
+import { MyLeaveService, MyTimeService } from '../../../../services';
 import { AbstractRequestListComponent } from '../../../shared/abstract-components/abstract-request-list.component';
 
 @Component({
@@ -37,7 +37,10 @@ export class LeaveRequestListComponent extends AbstractRequestListComponent<Leav
         { key: '', title: result.functions, orderEnabled: false },
       ])
     );
-  private readonly request$ = this.queryParams$.pipe(
+  private readonly request$ = combineLatest([
+    this.myLeaveService.refresh$.pipe(startWith(null)),
+    this.queryParams$,
+  ]).pipe(
     switchMap(() =>
       this.myTimeService
         .getRequests<LeaveRequest>(this.requestTypeUrlPath, this.queryParams$.value)
@@ -58,7 +61,8 @@ export class LeaveRequestListComponent extends AbstractRequestListComponent<Leav
     readonly activatedRoute: ActivatedRoute,
     @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope,
     private readonly fb: FormBuilder,
-    private readonly translocoService: TranslocoService
+    private readonly translocoService: TranslocoService,
+    private readonly myLeaveService: MyLeaveService
   ) {
     super(state, router, activatedRoute);
     state.connect(this.request$.pipe(filter(isPresent)));
