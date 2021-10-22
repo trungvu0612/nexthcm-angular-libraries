@@ -23,7 +23,6 @@ export class SeatComponent {
   @Input() seat = {} as Seat;
   @Output() assignUser = new EventEmitter<Seat>();
   @Output() unAssignUser = new EventEmitter<string>();
-
   openDropdown = false;
   random = Math.round(Math.random() * 6);
   dragging$ = this.state.select('dragging');
@@ -79,6 +78,14 @@ export class SeatComponent {
       top: (this.seat.style as StyleSeat).positionY + '%',
       width: (this.seat.style as StyleSeat).width + '%',
       height: (this.seat.style as StyleSeat).height + '%',
+      'border-radius': (this.seat.style as StyleSeat).rounded + '%',
+    };
+  }
+
+  get nameStyle() {
+    return {
+      width: '100%',
+      height: '100%',
       'border-radius': (this.seat.style as StyleSeat).rounded + '%',
     };
   }

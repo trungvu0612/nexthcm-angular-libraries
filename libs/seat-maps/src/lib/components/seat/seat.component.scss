@@ -5,13 +5,15 @@
 
   > *:hover,
   .selected {
+    position: relative;
+    z-index: 1000;
     transform: scale(1.5);
     transition: all 0.25s ease-out;
   }
 
   .seat-status {
-    width: 0.5rem;
-    height: 0.5rem;
+    width: 0.75rem;
+    height: 0.75rem;
   }
 }
 
