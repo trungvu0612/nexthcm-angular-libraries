@@ -33,7 +33,8 @@
     "generate-icons": "svg-generator",
     "transloco-optimize": "transloco-optimize dist/libs/core/assets/i18n",
     "build:all": "node ./i18n-cache-busting.js && nx run-many --target=build --all --exclude hcm-workflows,hcm-web,next-hcm-demo-web,chat",
-    "publish:all": "nx run-many --target=publish --all"
+    "publish:all": "nx run-many --target=publish --all",
+    "build-publish:all": "yarn build:all && yarn publish:all"
   },
   "private": true,
   "dependencies": {

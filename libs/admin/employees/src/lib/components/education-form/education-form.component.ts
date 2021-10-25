@@ -1,8 +1,8 @@
-import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BaseOption, EmployeeEducation, EmployeesService, PromptService } from '@nexthcm/cdk';
+import { BaseOption, EmployeeEducation, EmployeesService, parseTuiDayFields, PromptService } from '@nexthcm/cdk';
 import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
-import { HashMap, ProviderScope, TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
+import { HashMap, TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { of } from 'rxjs';
@@ -18,101 +18,91 @@ import { AdminEmployeesService } from '../../services/admin-employees.service';
 })
 export class EducationFormComponent {
   form: FormGroup<EmployeeEducation> = this.fb.group({} as EmployeeEducation);
-  model = {} as EmployeeEducation;
+  model = { certificates: [{}] } as EmployeeEducation;
   fields: FormlyFieldConfig[] = [
     {
-      key: 'university',
-      className: 'tui-form__row block',
-      type: 'input',
+      key: 'certificates',
       templateOptions: {
         translate: true,
-        label: 'university',
-        labelClassName: 'font-semibold',
-        placeholder: 'enterUniversity',
-        textfieldLabelOutside: true,
-        translocoScope: this.scope,
+        label: 'certificates',
       },
-    },
-    {
-      key: 'major',
-      className: 'tui-form__row block',
-      type: 'input',
-      templateOptions: {
-        translate: true,
-        label: 'major',
-        labelClassName: 'font-semibold',
-        placeholder: 'enterMajor',
-        textfieldLabelOutside: true,
-        translocoScope: this.scope,
-      },
-    },
-    {
-      key: 'highestCertificate',
-      className: 'tui-form__row block',
-      type: 'select',
-      templateOptions: {
-        translate: true,
-        label: 'highestCertificate',
-        labelClassName: 'font-semibold',
-        placeholder: 'chooseHighestCertificate',
-        valueProp: 'value',
-        translocoScope: this.scope,
-        options: this.translocoService
-          .selectTranslateObject<HashMap<string>>(
-            'HIGHEST_CERTIFICATE_OPTIONS',
-            {},
-            (this.scope as ProviderScope).scope
-          )
-          .pipe(
-            map(
-              (result) =>
-                [
-                  { value: 'COLLEGE', label: result.college },
-                  { value: 'BACHELOR', label: result.bachelor },
-                  { value: 'MASTER', label: result.master },
-                ] as BaseOption<string>[]
-            )
-          ),
-      },
-    },
-    {
-      key: 'graduationYear',
-      className: 'tui-form__row block',
-      type: 'input-number',
-      templateOptions: {
-        translate: true,
-        label: 'graduationYear',
-        labelClassName: 'font-semibold',
-        placeholder: 'enterGraduationYear',
-        textfieldLabelOutside: true,
-        precision: 0,
-        translocoScope: this.scope,
-        min: 1900,
-      },
-    },
-    {
-      key: 'otherCertificates',
-      className: 'tui-form__row block',
-      type: 'text-area',
-      templateOptions: {
-        translate: true,
-        label: 'otherCertificates',
-        labelClassName: 'font-semibold',
-        placeholder: 'enterOtherCertificates',
-        textfieldLabelOutside: true,
-        translocoScope: this.scope,
-      },
-    },
-    {
-      key: 'description',
-      className: 'tui-form__row block',
-      type: 'editor',
-      templateOptions: {
-        translate: true,
-        label: 'description',
-        labelClassName: 'font-semibold',
-        placeholder: 'enterDescription',
-        textfieldLabelOutside: true,
+      type: 'repeat',
+      fieldArray: {
+        fieldGroupClassName: 'grid grid-flow-col gap-4',
+        fieldGroup: [
+          {
+            key: 'university',
+            type: 'input',
+            templateOptions: {
+              translate: true,
+              label: 'university',
+            },
+          },
+          {
+            key: 'major',
+            type: 'input',
+            templateOptions: {
+              translate: true,
+              label: 'major',
+            },
+          },
+          {
+            key: 'highestCertificate',
+            type: 'select',
+            templateOptions: {
+              translate: true,
+              label: 'highestCertificate',
+              valueProp: 'value',
+              textfieldLabelOutside: false,
+              options: this.translocoService.selectTranslateObject<HashMap<string>>('HIGHEST_CERTIFICATE_OPTIONS').pipe(
+                map(
+                  (result) =>
+                    [
+                      { value: 'Bachelor - 3 yrs', label: result['Bachelor - 3 yrs'] },
+                      { value: 'Bachelor > 4 yrs', label: result['Bachelor > 4 yrs'] },
+                      { value: 'Master', label: result.Master },
+                      { value: 'Doctor', label: result.Doctor },
+                      { value: 'Other', label: result.Other },
+                    ] as BaseOption<string>[]
+                )
+              ),
+            },
+          },
+          {
+            key: 'graduationYear',
+            type: 'input-number',
+            templateOptions: {
+              translate: true,
+              label: 'graduationYear',
+              precision: 0,
+              min: 1900,
+            },
+          },
+          {
+            key: 'score',
+            type: 'input',
+            templateOptions: {
+              translate: true,
+              label: 'score',
+            },
+          },
+          {
+            key: 'startDate',
+            type: 'input-date',
+            templateOptions: {
+              translate: true,
+              label: 'startDate',
+            },
+          },
+          {
+            key: 'endDate',
+            type: 'input-date',
+            templateOptions: {
+              translate: true,
+              label: 'endDate',
+            },
+          },
+        ],
       },
     },
     { key: 'employeeId' },
@@ -121,15 +111,16 @@ export class EducationFormComponent {
   private readonly request$ = this.employeesService
     .getEmployeeInformation(this.activatedRoute.snapshot.params.employeeId, 'EDUCATION')
     .pipe(
-      tap(
-        (data) =>
-          (this.model = {
-            ...this.model,
-            ...data,
-            employeeId: this.activatedRoute.snapshot.params.employeeId,
-            type: 'EDUCATION',
-          })
-      ),
+      tap((data) => {
+        data.certificates =
+          data.certificates?.map((certificate) => parseTuiDayFields(certificate, ['startDate', 'endDate'])) || [];
+        this.model = {
+          ...this.model,
+          ...data,
+          employeeId: this.activatedRoute.snapshot.params.employeeId,
+          type: 'EDUCATION',
+        };
+      }),
       startWith(null),
       share()
     );
@@ -146,7 +137,6 @@ export class EducationFormComponent {
     private readonly employeesService: EmployeesService,
     private readonly destroy$: TuiDestroyService,
     private readonly promptService: PromptService,
-    @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope,
     private readonly translocoService: TranslocoService
   ) {}
 

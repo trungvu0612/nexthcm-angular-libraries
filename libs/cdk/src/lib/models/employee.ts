@@ -93,11 +93,17 @@ export interface EmployeeDuration extends EmployeeBaseForm {
 }
 
 export interface EmployeeEducation extends EmployeeBaseForm {
+  certificates?: Certificate[];
+}
+
+export interface Certificate {
   university?: string;
   major?: string;
   highestCertificate?: string;
   graduationYear?: string;
-  description?: string;
+  score?: string;
+  startDate?: string | TuiDay | Date;
+  endDate?: string | TuiDay | Date;
 }
 
 export interface HealthCare {

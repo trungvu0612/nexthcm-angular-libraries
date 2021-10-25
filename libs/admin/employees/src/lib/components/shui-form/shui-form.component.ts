@@ -66,7 +66,6 @@ export class ShuiFormComponent {
                   {
                     key: 'healthcare',
                     type: 'select',
-                    defaultValue: 'PVI',
                     templateOptions: {
                       translate: true,
                       label: 'healthCareCompany',

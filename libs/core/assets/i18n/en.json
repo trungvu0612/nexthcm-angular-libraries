@@ -595,5 +595,14 @@
   "reportsTo": "Reports to",
   "convertLeaveEntitlement": "Convert leave entitlement",
   "maxPaidLeaveToCash": "Maximum paid leave to cash",
-  "from": "From"
+  "from": "From",
+  "certificates": "Certificates",
+  "score": "Score",
+  "HIGHEST_CERTIFICATE_OPTIONS": {
+    "Bachelor - 3 yrs": "Bachelor - 3 years",
+    "Bachelor > 4 yrs": "Bachelor > 4 years",
+    "Master": "Master",
+    "Doctor": "Doctor",
+    "Other": "Other"
+  }
 }

@@ -64,6 +64,7 @@ export class EmployeesService {
             'temporaryAddress',
             'attachmentFiles',
             'dependenceMembers',
+            'certificates'
           ])
         )
       );

@@ -594,5 +594,14 @@
   "reportsTo": "Báo cáo cho",
   "convertLeaveEntitlement": "Chuyển đổi quyền lợi nghỉ phép",
   "maxPaidLeaveToCash": "Số ngày nghỉ tối đa được trả lương",
-  "from": "Từ"
+  "from": "Từ",
+  "certificates": "Chứng chỉ",
+  "score": "Điểm số",
+  "HIGHEST_CERTIFICATE_OPTIONS": {
+    "Bachelor - 3 yrs": "Cử nhân - 3 năm",
+    "Bachelor > 4 yrs": "Cử nhân > 4 năm",
+    "Master": "Thạc sĩ",
+    "Doctor": "Tiến sĩ",
+    "Other": "Khác"
+  }
 }

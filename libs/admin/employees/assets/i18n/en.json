@@ -82,14 +82,6 @@
   "enterResignationAgreement": "Enter resignation agreement...",
   "resignationAgreementDate": "Resignation agreement date",
   "enterResignationAgreementDate": "Enter resignation agreement date...",
-  "university": "University",
-  "enterUniversity": "Enter university...",
-  "major": "Major",
-  "enterMajor": "Enter major...",
-  "highestCertificate": "Highest certificate",
-  "enterHighestCertificate": "Enter highest certificate...",
-  "graduationYear": "Graduation year",
-  "enterGraduationYear": "Enter graduation year...",
   "taxIDNumber": "Tax identification number",
   "enterTaxIDNumber": "Enter tax identification number...",
   "socialInsuranceNumber": "Social insurance number",
@@ -131,14 +123,7 @@
   "enterReligion": "Enter religion...",
   "attachments": "Attachments",
   "attachmentFiles": "Attachment files",
-  "HIGHEST_CERTIFICATE_OPTIONS": {
-    "college": "College",
-    "bachelor": "Bachelor",
-    "master": "Master"
-  },
   "syncLDAPDirectReport": "Sync the direct report from LDAP",
   "chooseHighestCertificate": "Choose a certificate...",
-  "otherCertificates": "Other certificates",
-  "enterOtherCertificates": "Enter other certificates...",
   "dependentMembers": "Dependent members"
 }
