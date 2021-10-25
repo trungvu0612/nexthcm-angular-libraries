@@ -8,6 +8,7 @@ import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { TuiDay, TuiDayRange, TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT, PolymorpheusModule, PolymorpheusTemplate } from '@tinkoff/ng-polymorpheus';
+import { endOfDay } from 'date-fns';
 import { combineLatest, from, of, Subject } from 'rxjs';
 import { catchError, map, share, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { DurationType, PartialDays } from '../../../internal/enums';
@@ -403,7 +404,7 @@ export class CreateLeaveRequestDialogComponent implements OnInit {
       const formModel = { ...this.form.value };
 
       formModel.fromDate = (this.model.fromTo?.from as TuiDay).toLocalNativeDate().getTime();
-      formModel.toDate = (this.model.fromTo?.to as TuiDay).toLocalNativeDate().getTime();
+      formModel.toDate = endOfDay((this.model.fromTo?.to as TuiDay).toLocalNativeDate()).getTime();
       if (formModel.leaveType) {
         formModel.leaveTypeId = formModel.leaveType[0]?.leaveTypeId as string;
       }
