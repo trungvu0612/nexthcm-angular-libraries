@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormlyModule } from '@ngx-formly/core';
 import { TuiCurrencyPipeModule } from '@taiga-ui/addon-commerce';
-import { TuiEditorModule } from '@taiga-ui/addon-editor';
+import { TuiEditorNewModule } from '@taiga-ui/addon-editor';
 import { TuiAutoFocusModule } from '@taiga-ui/cdk';
 import {
   TuiButtonModule,
@@ -119,7 +119,7 @@ import { TextAreaComponent } from './text-area/text-area.component';
     TuiTextAreaModule,
     TuiInputMonthModule,
     TuiInputMonthRangeModule,
-    TuiEditorModule,
+    TuiEditorNewModule,
     TuiInputInlineModule,
     TuiAutoFocusModule,
     TuiButtonModule,

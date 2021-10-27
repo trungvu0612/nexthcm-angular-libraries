@@ -37,8 +37,10 @@
   "updateTimeSheetDescription": "Update timesheet of the employee after 15 minutes",
   "sendEmailAndNotificationToTheSomeoneRelated": "Send email and notification to someone related",
   "sendEmailAndNotificationToTheSomeoneRelatedDescription": "Send the email and the notification to someone related. The email will send depend on the template of the workflow",
-  "AddEntitlementAfterCancelLeaveTransfer": "Add entitlement after canceling a leave",
-  "AddEntitlementAfterCancelLeaveTransferDescription": "Add entitlement equal to duration of the leave, rollback it to leave entitlement of the employee",
+  "AddEntitlementAfterCancelLeave": "Add entitlement after canceling a leave",
+  "AddEntitlementAfterCancelLeaveDescription": "Add entitlement equal to duration of the leave, rollback it to leave entitlements of the employee",
+  "AddEntitlementAfterCancelLeaveTransfer": "Add entitlement after canceling a convert leave entitlements request",
+  "AddEntitlementAfterCancelLeaveTransferDescription": "Add entitlements equal to duration of the request, rollback it to leave entitlements of the employee",
   "TransferLeaveRemained": "Transfer the remaining leave entitlement",
   "TransferLeaveRemainedDescription": "Transfer the remaining leave entitlement of the employee to the next period",
   "CONDITIONS_OPERATORS": {

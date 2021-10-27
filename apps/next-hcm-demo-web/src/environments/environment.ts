@@ -8,8 +8,8 @@ export const environment: AppConfig = {
   production: false,
   language: 'en',
   baseUrl: 'http://localhost:4200',
-  apiUrl: 'https://dev-nexthcm-api.banvien.com.vn',
-  orgUrl: 'https://dev-nexthcm-api.banvien.com.vn',
+  apiUrl: 'https://qa-nexthcm-api.banvien.com.vn',
+  orgUrl: 'https://qa-nexthcm-api.banvien.com.vn',
 };
 
 /*
