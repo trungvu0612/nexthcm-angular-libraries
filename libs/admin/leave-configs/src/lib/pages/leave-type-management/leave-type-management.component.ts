@@ -34,6 +34,11 @@ export class LeaveTypeManagementComponent extends AbstractServerSortPaginationTa
         { key: 'name', title: result.name },
         { key: 'description', title: result.description },
         { key: 'paidLeave', title: result.paidLeave, cssClass: { name: 'text-center', includeHeader: true } },
+        {
+          key: 'paidLeaveTransfer',
+          title: result.canConvertTo,
+          cssClass: { name: 'text-center', includeHeader: true },
+        },
         { key: '', title: result.functions, orderEnabled: false },
       ])
     );

@@ -35,7 +35,6 @@ akitaConfig({ resettable: true });
     TranslocoRootModule,
     FormlyModule.forRoot({ extras: { lazyRender: true, resetFieldOnHide: true } }),
     TuiDialogModule,
-    TuiNotificationsModule,
     SweetAlert2Module.forRoot(),
     NgxPermissionsModule.forRoot(),
     SvgIconsModule.forRoot({ defaultSize: 'lg' }),

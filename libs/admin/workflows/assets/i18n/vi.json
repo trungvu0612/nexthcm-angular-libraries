@@ -37,8 +37,8 @@
   "updateTimeSheetDescription": "Cập nhật bản ghi thời gian của nhân viên sau 15 phút",
   "sendEmailAndNotificationToTheSomeoneRelated": "Gửi email và thông báo cho người liên quan",
   "sendEmailAndNotificationToTheSomeoneRelatedDescription": "Gửi email và thông báo cho người liên quan. Email sẽ dựa trên mẫu của quy trình",
-  "AddEntitlementAfterCancelLeave": "Trả lại quyền lợi sau khi huỷ bỏ một yêu cầu nghỉ phép",
-  "AddEntitlementAfterCancelLeaveDescription": "Trả lại quyền lợi nghỉ phép tương đương cho nhân viên",
+  "AddEntitlementAfterCancelLeaveTransfer": "Trả lại quyền lợi sau khi huỷ bỏ một yêu cầu nghỉ phép",
+  "AddEntitlementAfterCancelLeaveTransferDescription": "Trả lại quyền lợi nghỉ phép tương đương cho nhân viên",
   "TransferLeaveRemained": "Chuyển đổi quyền lợi nghỉ phép",
   "TransferLeaveRemainedDescription": "Chuyển đổi quyền lợi nghỉ phép của nhân viên sang kì sau",
   "CONDITIONS_OPERATORS": {

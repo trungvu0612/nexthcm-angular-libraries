@@ -107,7 +107,13 @@
   "startDay": "Ngày Đầu",
   "endDay": "Ngày Cuối",
   "duration": "Trong khoảng",
-  "emptyLeaveEntitlements": "Quyền lợi nghỉ phép của bạn đã hết!",
+  "emptyLeaveEntitlements": "<b>Quyền lợi nghỉ phép của bạn đã hết!</b>",
   "leaveTypeRequired": "Vui lòng chọn một loại nghỉ phép!",
-  "createEmployeeLeaveRequest": "Tạo yêu cầu nghỉ phép cho nhân viên"
+  "createEmployeeLeaveRequest": "Tạo yêu cầu nghỉ phép cho nhân viên",
+  "remainingEntitlement": "<b>Quyền lợi nghỉ phép còn lại: {{value}} ngày.</b>",
+  "CONVERT_LEAVE_ENTITLEMENT_TYPES": {
+    "convertToSalary": "Chuyển đổi sang lương",
+    "convertToPaidLeaveOfNextPeriod": "Chuyển đổi nghỉ phép có lương sang năm sau"
+  },
+  "convertLeaveEntitlements": "Chuyển đổi quyền lợi nghỉ phép"
 }

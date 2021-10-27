@@ -36,44 +36,38 @@
   "generators": {
     "@nrwl/angular": {
       "application": {
-        "linter": "eslint"
+        "style": "scss",
+        "linter": "eslint",
+        "unitTestRunner": "jest",
+        "e2eTestRunner": "cypress",
+        "strict": true,
+        "prefix": "hcm"
       },
       "library": {
-        "linter": "eslint"
+        "style": "scss",
+        "linter": "eslint",
+        "unitTestRunner": "jest",
+        "publishable": true,
+        "prefix": "hcm",
+        "strict": true,
+        "buildable": true,
+        "enableIvy": true
+      },
+      "component": {
+        "style": "scss",
+        "displayBlock": true,
+        "changeDetection": "OnPush"
       },
       "storybook-configuration": {
         "linter": "eslint"
       }
-    },
-    "@nrwl/angular:application": {
-      "style": "scss",
-      "linter": "eslint",
-      "unitTestRunner": "jest",
-      "e2eTestRunner": "cypress",
-      "strict": true,
-      "prefix": "hcm"
-    },
-    "@nrwl/angular:library": {
-      "style": "scss",
-      "linter": "eslint",
-      "unitTestRunner": "jest",
-      "publishable": true,
-      "prefix": "hcm",
-      "strict": true,
-      "buildable": true,
-      "enableIvy": true
-    },
-    "@nrwl/angular:component": {
-      "style": "scss",
-      "displayBlock": true,
-      "changeDetection": "OnPush"
     },
     "@schematics/angular:component": {
       "style": "scss",
       "displayBlock": true,
       "changeDetection": "OnPush"
     },
-    "@ngneat/scam:component": {
+    "@ngneat/aim:component": {
       "style": "scss",
       "displayBlock": true,
       "changeDetection": "OnPush"

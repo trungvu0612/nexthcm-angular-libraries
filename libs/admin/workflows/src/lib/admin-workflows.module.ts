@@ -131,10 +131,10 @@ export const ADMIN_WORKFLOWS_ROUTES: Routes = [
 ];
 
 const TABS: MenuItem[] = [
-  { label: 'WORKFLOW.workflows', link: '/admin/workflows/list', permissions: [] },
+  { title: 'WORKFLOW.workflows', route: '/admin/workflows/list', permissions: [] },
   {
-    label: 'WORKFLOW.emailTemplates',
-    link: '/admin/workflows/email-templates',
+    title: 'WORKFLOW.emailTemplates',
+    route: '/admin/workflows/email-templates',
     permissions: [],
   },
 ];

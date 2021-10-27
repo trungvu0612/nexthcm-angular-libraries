@@ -9,7 +9,7 @@ import { combineLatest, Observable, of } from 'rxjs';
 import { catchError, filter, map, shareReplay, startWith, switchMap } from 'rxjs/operators';
 import { WorkFromHomeRequest } from '../../../../internal/models';
 import { MyTimeService } from '../../../../services';
-import { AbstractRequestListComponent } from '../../../shared/abstract-components/abstract-request-list.component';
+import { AbstractRequestListComponent } from '../../../../shared/abstract-components/abstract-request-list.component';
 
 @Component({
   selector: 'hcm-work-form-home-request-list',

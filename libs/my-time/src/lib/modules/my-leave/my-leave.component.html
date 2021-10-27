@@ -1,14 +1,25 @@
 <hcm-page title="{{ 'myTime.myLeave' | transloco }}">
   <ng-container ngProjectAs="pageHeader">
-    <button
-      (click)="createLeaveRequest$.next()"
-      [showLoader]="(createLeaveRequestLoading$ | async) === true"
-      icon="tuiIconPlusLarge"
-      size="m"
-      tuiButton
-    >
-      {{ 'myTime.submitLeaveRequest' | transloco }}
-    </button>
+    <div class="flex gap-x-4">
+      <!--<button
+        (click)="createConvertLeaveEntitlementRequest$.next()"
+        [showLoader]="(createConvertLeaveEntitlementRequestLoading$ | async) === true"
+        icon="tuiIconPlusLarge"
+        size="m"
+        tuiButton
+      >
+        {{ 'myTime.convertLeaveEntitlements' | transloco }}
+      </button>-->
+      <button
+        (click)="createLeaveRequest$.next()"
+        [showLoader]="(createLeaveRequestLoading$ | async) === true"
+        icon="tuiIconPlusLarge"
+        size="m"
+        tuiButton
+      >
+        {{ 'myTime.submitLeaveRequest' | transloco }}
+      </button>
+    </div>
   </ng-container>
   <hcm-request-list-filter [httpParams]="queryParams$" class="mb-5"></hcm-request-list-filter>
   <tui-loader [overlay]="true" [showLoader]="(loading$ | async) === true">

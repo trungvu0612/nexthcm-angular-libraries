@@ -15,16 +15,20 @@ import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { from, Observable, of, Subject } from 'rxjs';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
-import { GeneralRequest, SubmitRequestPayload } from '../internal/models';
-import { HistoryItem } from '../internal/models/history-item';
-import { RequestComment } from '../internal/models/request-comment';
-import { CombineRequestTypeUrlPaths, RequestTypeUrlPaths } from '../internal/models/request-type-url-paths';
+import {
+  CombineRequestTypeUrlPaths,
+  GeneralRequest,
+  HistoryItem,
+  RequestComment,
+  RequestTypeUrlPaths,
+  SubmitRequestPayload,
+} from '../internal/models';
 import { ChangeEscalateUserPayload } from '../internal/models/requests/change-escalate-user-payload';
 import {
   LeaveDuplicated,
   SubmitLeaveRequestHttpErrorResponse,
 } from '../internal/models/requests/submit-leave-request-http-error-response';
-import { RequestDetailDialogComponent } from '../modules/shared/request-detail-dialog/request-detail-dialog.component';
+import { RequestDetailDialogComponent } from '../shared/request-detail-dialog/request-detail-dialog.component';
 
 const REQUEST_DETAIL_URL_PATHS: Readonly<CombineRequestTypeUrlPaths> = Object.freeze({
   myWorkingAfterHours: 'ot-requests/me',

@@ -34,7 +34,7 @@ import {
   TuiTagModule,
 } from '@taiga-ui/kit';
 import { TableModule } from 'ngx-easy-table';
-import { RequestListFilterComponentModule } from '../shared/request-list-filter/request-list-filter.component';
+import { RequestListFilterComponentModule } from '../../shared/request-list-filter/request-list-filter.component';
 import { SubmitOvertimeRequestDialogComponent } from './components/submit-overtime-request-dialog/submit-overtime-request-dialog.component';
 import { SubmitWorkFromHomeRequestDialogComponent } from './components/submit-work-from-home-request-dialog/submit-work-from-home-request-dialog.component';
 import { SubmitWorkingOutsideRequestDialogComponent } from './components/submit-working-outside-request-dialog/submit-working-outside-request-dialog.component';

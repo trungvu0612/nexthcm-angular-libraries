@@ -86,10 +86,10 @@ export const MY_TIME_ROUTES: Routes = [
   },
 ];
 const TABS: MenuItem[] = [
-  { label: 'myTime.myLeave', link: '/my-time/my-leave', permissions: [] },
-  { label: 'myTime.workingHours', link: '/my-time/working-hours', permissions: [] },
-  { label: 'myTime.myRequest', link: '/my-time/my-requests', permissions: [] },
-  { label: 'myTime.requestManagement', link: '/my-time/requests', permissions: ['VIEW_REQUEST_MANAGEMENT'] },
+  { title: 'myTime.myLeave', route: '/my-time/my-leave', permissions: [] },
+  { title: 'myTime.workingHours', route: '/my-time/working-hours', permissions: [] },
+  { title: 'myTime.myRequest', route: '/my-time/my-requests', permissions: [] },
+  { title: 'myTime.requestManagement', route: '/my-time/requests', permissions: ['VIEW_REQUEST_MANAGEMENT'] },
 ];
 
 @NgModule({

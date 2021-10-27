@@ -13,8 +13,9 @@ import { combineLatest, from, Observable, of, Subject } from 'rxjs';
 import { catchError, filter, map, share, shareReplay, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { LeaveRequest, RemainingLeaveEntitlement } from '../../internal/models';
 import { MyLeaveService, MyTimeService } from '../../services';
-import { AbstractRequestListComponent } from '../shared/abstract-components/abstract-request-list.component';
-import { CreateLeaveRequestDialogComponent } from '../shared/create-leave-request-dialog/create-leave-request-dialog.component';
+import { AbstractRequestListComponent } from '../../shared/abstract-components/abstract-request-list.component';
+import { CreateConvertLeaveEntitlementRequestComponent } from '../../shared/create-convert-leave-entitlement-request/create-convert-leave-entitlement-request.component';
+import { CreateLeaveRequestDialogComponent } from '../../shared/create-leave-request-dialog/create-leave-request-dialog.component';
 
 @Component({
   selector: 'hcm-my-leave',
@@ -56,14 +57,31 @@ export class MyLeaveComponent extends AbstractRequestListComponent<LeaveRequest>
     catchError(() => of(false))
   );
 
+  // EVENTS
   readonly createLeaveRequest$ = new Subject();
+  readonly createConvertLeaveEntitlementRequest$ = new Subject();
+
+  // HANDLERS
   readonly createLeaveRequestHandler$ = this.createLeaveRequest$.pipe(
     switchMap(() =>
       this.myLeaveService.getEmployeeLeaveEntitlements(this.authService.get('userInfo', 'userId')).pipe(startWith(null))
     ),
     share()
   );
+  readonly createConvertLeaveEntitlementRequestHandler$ = this.createConvertLeaveEntitlementRequest$.pipe(
+    switchMap(() =>
+      this.myLeaveService
+        .getEmployeeLeaveEntitlementsForConverting(this.authService.get('userInfo', 'userId'))
+        .pipe(startWith(null))
+    ),
+    share()
+  );
+
+  // LOADINGS
   readonly createLeaveRequestLoading$ = this.createLeaveRequestHandler$.pipe(map((value) => !value));
+  readonly createConvertLeaveEntitlementRequestLoading$ = this.createConvertLeaveEntitlementRequestHandler$.pipe(
+    map((value) => !value)
+  );
 
   constructor(
     readonly myTimeService: MyTimeService,
@@ -90,13 +108,23 @@ export class MyLeaveComponent extends AbstractRequestListComponent<LeaveRequest>
         )
       )
     );
+    state.hold(
+      this.createConvertLeaveEntitlementRequestHandler$.pipe(
+        filter(isPresent),
+        switchMap((leaveTypes) =>
+          leaveTypes.length > 0
+            ? this.openCreateConvertLeaveEntitlementRequestDialog(leaveTypes)
+            : this.handleEmptyLeaveEntitlements()
+        )
+      )
+    );
   }
 
   get userId(): string {
     return this.authService.get('userInfo', 'userId');
   }
 
-  openCreateLeaveRequestDialog(data: RemainingLeaveEntitlement[]): Observable<unknown> {
+  private openCreateLeaveRequestDialog(data: RemainingLeaveEntitlement[]): Observable<unknown> {
     return this.dialogService
       .open(new PolymorpheusComponent(CreateLeaveRequestDialogComponent, this.injector), {
         label: this.translocoService.translate('myTime.submitLeaveRequest'),
@@ -109,7 +137,17 @@ export class MyLeaveComponent extends AbstractRequestListComponent<LeaveRequest>
       );
   }
 
-  handleEmptyLeaveEntitlements(): Observable<unknown> {
+  private openCreateConvertLeaveEntitlementRequestDialog(data: RemainingLeaveEntitlement[]): Observable<unknown> {
+    return this.dialogService
+      .open(new PolymorpheusComponent(CreateConvertLeaveEntitlementRequestComponent, this.injector), {
+        label: this.translocoService.translate('myTime.convertLeaveEntitlements'),
+        size: 'l',
+        data,
+      })
+      .pipe(takeUntil(this.destroy$));
+  }
+
+  private handleEmptyLeaveEntitlements(): Observable<unknown> {
     return from(
       this.promptService.open({
         icon: 'error',

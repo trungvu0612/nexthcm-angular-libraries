@@ -26,6 +26,9 @@
             <tui-primitive-checkbox [value]="!!item.paidLeave" class="mx-auto" size="l"></tui-primitive-checkbox>
           </td>
           <td>
+            <tui-primitive-checkbox [value]="!!item.paidLeaveTransfer" class="mx-auto" size="l"></tui-primitive-checkbox>
+          </td>
+          <td>
             <div class="flex items-center">
               <button
                 (click)="onUpsertLeaveType(item)"

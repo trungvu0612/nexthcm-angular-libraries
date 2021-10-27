@@ -1,4 +1,4 @@
-import { Directive, ElementRef, Inject, Input } from '@angular/core';
+import { Directive, ElementRef, Inject, Input, NgModule } from '@angular/core';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { Subject } from 'rxjs';
 import { debounceTime, filter, takeUntil } from 'rxjs/operators';
@@ -13,7 +13,7 @@ export class ScrollIntoViewDirective {
   constructor(@Inject(ElementRef) { nativeElement }: ElementRef<HTMLElement>, destroy$: TuiDestroyService) {
     this.scroll$
       .pipe(
-        debounceTime(250),
+        debounceTime(750),
         filter((shallWe) => shallWe),
         takeUntil(destroy$)
       )
@@ -24,3 +24,10 @@ export class ScrollIntoViewDirective {
     this.scroll$.next(shallWe);
   }
 }
+
+@NgModule({
+  declarations: [ScrollIntoViewDirective],
+  imports: [],
+  exports: [ScrollIntoViewDirective],
+})
+export class ScrollIntoViewDirectiveModule {}

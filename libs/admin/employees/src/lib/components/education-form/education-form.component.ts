@@ -59,6 +59,7 @@ export class EducationFormComponent {
                   (result) =>
                     [
                       { value: 'Bachelor - 3 yrs', label: result['Bachelor - 3 yrs'] },
+                      { value: 'Bachelor - 4 yrs', label: result['Bachelor - 4 yrs'] },
                       { value: 'Bachelor > 4 yrs', label: result['Bachelor > 4 yrs'] },
                       { value: 'Master', label: result.Master },
                       { value: 'Doctor', label: result.Doctor },

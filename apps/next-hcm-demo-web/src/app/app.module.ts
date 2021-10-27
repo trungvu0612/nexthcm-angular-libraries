@@ -4,69 +4,86 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthModule, LoginComponent } from '@nexthcm/auth';
 import { CoreModule, ROUTER_CONFIG } from '@nexthcm/core';
-import { FormlyTaigaUiModule } from '@nexthcm/ui';
+import { FormlyTaigaUiModule, PortalLayoutComponent, PortalLayoutModule } from '@nexthcm/ui';
 import { TuiRootModule } from '@taiga-ui/core';
 import { environment } from '../environments/environment';
 import { AppComponent } from './app.component';
 
 const ROUTES: Routes = [
-  { path: '', loadChildren: () => import('@nexthcm/home').then((m) => m.HomeModule) },
   { path: 'login', component: LoginComponent },
-  { path: 'my-time', loadChildren: () => import('@nexthcm/my-time').then((m) => m.MyTimeModule) },
-  { path: 'seat-maps', loadChildren: () => import('@nexthcm/seat-maps').then((m) => m.SeatMapsModule) },
-  { path: 'calendar', loadChildren: () => import('@nexthcm/calendar').then((m) => m.CalendarModule) },
-  { path: 'human-resource', loadChildren: () => import('@nexthcm/human-resource').then((m) => m.HumanResourceModule) },
-  { path: 'knowledge-base', loadChildren: () => import('@nexthcm/knowledge-base').then((m) => m.KnowledgeBaseModule) },
   {
-    path: 'admin',
+    path: '',
+    component: PortalLayoutComponent,
     children: [
-      { path: 'offices', loadChildren: () => import('@nexthcm/admin-offices').then((m) => m.AdminOfficesModule) },
+      { path: '', loadChildren: () => import('@nexthcm/home').then((m) => m.HomeModule) },
+      { path: 'my-time', loadChildren: () => import('@nexthcm/my-time').then((m) => m.MyTimeModule) },
+      { path: 'calendar', loadChildren: () => import('@nexthcm/calendar').then((m) => m.CalendarModule) },
+      { path: 'seat-maps', loadChildren: () => import('@nexthcm/seat-maps').then((m) => m.SeatMapsModule) },
       {
-        path: 'permissions',
-        loadChildren: () => import('@nexthcm/admin-permissions').then((m) => m.AdminPermissionsModule),
-      },
-      { path: 'employees', loadChildren: () => import('@nexthcm/admin-employees').then((m) => m.AdminEmployeesModule) },
-      { path: 'tenants', loadChildren: () => import('@nexthcm/admin-tenants').then((m) => m.AdminTenantsModule) },
-      {
-        path: 'workflows',
-        loadChildren: () => import('@nexthcm/admin-workflows').then((m) => m.AdminWorkflowsModule),
-      },
-      {
-        path: 'job-levels',
-        loadChildren: () => import('@nexthcm/admin-job-levels').then((m) => m.AdminJobLevelsModule),
+        path: 'human-resource',
+        loadChildren: () => import('@nexthcm/human-resource').then((m) => m.HumanResourceModule),
       },
       {
         path: 'knowledge-base',
-        loadChildren: () => import('@nexthcm/admin-knowledge-base').then((m) => m.AdminKnowledgeBaseModule),
+        loadChildren: () => import('@nexthcm/knowledge-base').then((m) => m.KnowledgeBaseModule),
       },
       {
-        path: 'job-titles',
-        loadChildren: () => import('@nexthcm/admin-job-titles').then((m) => m.AdminJobTitlesModule),
-      },
-      {
-        path: 'user-roles',
-        loadChildren: () => import('@nexthcm/admin-user-roles').then((m) => m.AdminUserRolesModule),
-      },
-      {
-        path: 'leave-configs',
-        loadChildren: () => import('@nexthcm/admin-leave-configs').then((m) => m.AdminLeaveConfigsModule),
-      },
-      {
-        path: 'working-times',
-        loadChildren: () => import('@nexthcm/admin-working-times').then((m) => m.AdminWorkingTimesModule),
-      },
-      {
-        path: 'seat-maps',
-        loadChildren: () => import('@nexthcm/admin-seat-maps').then((m) => m.AdminSeatMapsModule),
-      },
-      {
-        path: 'requests-config',
-        loadChildren: () =>
-          import('@nexthcm/admin-requests-configuration').then((m) => m.AdminRequestsConfigurationModule),
-      },
-      {
-        path: 'synchronize-data',
-        loadChildren: () => import('@nexthcm/admin-synchronize-data').then((m) => m.AdminSynchronizeDataModule),
+        path: 'admin',
+        children: [
+          {
+            path: 'offices',
+            loadChildren: () => import('@nexthcm/admin-offices').then((m) => m.AdminOfficesModule),
+          },
+          {
+            path: 'permissions',
+            loadChildren: () => import('@nexthcm/admin-permissions').then((m) => m.AdminPermissionsModule),
+          },
+          {
+            path: 'seat-maps',
+            loadChildren: () => import('@nexthcm/admin-seat-maps').then((m) => m.AdminSeatMapsModule),
+          },
+          {
+            path: 'employees',
+            loadChildren: () => import('@nexthcm/admin-employees').then((m) => m.AdminEmployeesModule),
+          },
+          {
+            path: 'tenants',
+            loadChildren: () => import('@nexthcm/admin-tenants').then((m) => m.AdminTenantsModule),
+          },
+          {
+            path: 'job-levels',
+            loadChildren: () => import('@nexthcm/admin-job-levels').then((m) => m.AdminJobLevelsModule),
+          },
+          {
+            path: 'knowledge-base',
+            loadChildren: () => import('@nexthcm/admin-knowledge-base').then((m) => m.AdminKnowledgeBaseModule),
+          },
+          {
+            path: 'job-titles',
+            loadChildren: () => import('@nexthcm/admin-job-titles').then((m) => m.AdminJobTitlesModule),
+          },
+          {
+            path: 'leave-configs',
+            loadChildren: () => import('@nexthcm/admin-leave-configs').then((m) => m.AdminLeaveConfigsModule),
+          },
+          {
+            path: 'user-roles',
+            loadChildren: () => import('@nexthcm/admin-user-roles').then((m) => m.AdminUserRolesModule),
+          },
+          {
+            path: 'working-times',
+            loadChildren: () => import('@nexthcm/admin-working-times').then((m) => m.AdminWorkingTimesModule),
+          },
+          {
+            path: 'requests-config',
+            loadChildren: () =>
+              import('@nexthcm/admin-requests-configuration').then((m) => m.AdminRequestsConfigurationModule),
+          },
+          {
+            path: 'synchronize-data',
+            loadChildren: () => import('@nexthcm/admin-synchronize-data').then((m) => m.AdminSynchronizeDataModule),
+          },
+        ],
       },
     ],
   },
@@ -82,6 +99,7 @@ const ROUTES: Routes = [
     FormlyTaigaUiModule,
     CoreModule.forRoot(environment),
     AuthModule,
+    PortalLayoutModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

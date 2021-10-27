@@ -70,3 +70,29 @@ tui-select-option {
 tui-table-pagination {
   margin-top: 8px;
 }
+
+@keyframes hcmShaking {
+  from,
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+
+  10%,
+  30%,
+  50%,
+  70%,
+  90% {
+    transform: translate3d(-0.3125rem, 0, 0);
+  }
+
+  20%,
+  40%,
+  60%,
+  80% {
+    transform: translate3d(0.3125rem, 0, 0);
+  }
+}
+
+.hcm-animated {
+  animation: 1s 300ms hcmShaking;
+}

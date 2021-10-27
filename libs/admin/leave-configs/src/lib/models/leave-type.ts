@@ -7,6 +7,7 @@ export interface LeaveType {
   description: string;
   status: CommonStatus;
   paidLeave?: boolean;
+  paidLeaveTransfer?: boolean;
   workflowId?: string;
   statusBoolean?: boolean;
 }

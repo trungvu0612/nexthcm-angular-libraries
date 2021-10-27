@@ -3,6 +3,7 @@
     "name": "Name",
     "description": "Description",
     "paidLeave": "Payable",
+    "canConvertTo": "Can convert to",
     "functions": "Functions"
   },
   "EMPLOYEE_LEAVE_ENTITLEMENT_COLUMNS": {
@@ -62,5 +63,6 @@
   "enterDays": "Enter days...",
   "paidLeave": "Payable",
   "leaveTypes": "Leave types",
-  "searchLeaveTypes": "Search for leave types..."
+  "searchLeaveTypes": "Search for leave types...",
+  "canConvertTo": "Other leave type can convert to this one."
 }

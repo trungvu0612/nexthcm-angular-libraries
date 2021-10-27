@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
+import { ScrollIntoViewDirectiveModule } from '@nexthcm/cdk';
 import { AvatarComponentModule, FormlyUserComboBoxComponentModule, LayoutComponent, LayoutModule } from '@nexthcm/ui';
 import { TranslocoModule } from '@ngneat/transloco';
 import { FormlyModule } from '@ngx-formly/core';
@@ -13,10 +14,10 @@ import {
   TuiLoaderModule,
   TuiSvgModule,
 } from '@taiga-ui/core';
-import { TuiDropdownHoverModule, TuiIslandModule } from '@taiga-ui/kit';
+import { TuiIslandModule } from '@taiga-ui/kit';
 import { NgxPermissionsGuard } from 'ngx-permissions';
 import { OrganizationalChartNodeComponent } from './components/organizational-chart-node/organizational-chart-node.component';
-import { ScrollIntoViewDirective } from './directives/scroll-into-view/scroll-into-view.directive';
+import { ChartNodeHoverDirective } from './directives/chart-node-hover/chart-node-hover.directive';
 import { OrganizationalChartComponent } from './pages/organizational-chart/organizational-chart.component';
 import { HumanResourceService } from './services/human-resource.service';
 
@@ -34,7 +35,7 @@ export const humanResourceRoutes: Routes = [
 ];
 
 @NgModule({
-  declarations: [OrganizationalChartComponent, ScrollIntoViewDirective, OrganizationalChartNodeComponent],
+  declarations: [OrganizationalChartComponent, OrganizationalChartNodeComponent, ChartNodeHoverDirective],
   imports: [
     CommonModule,
     RouterModule.forChild(humanResourceRoutes),
@@ -51,7 +52,7 @@ export const humanResourceRoutes: Routes = [
     FormlyUserComboBoxComponentModule,
     TuiHostedDropdownModule,
     TuiDropdownControllerModule,
-    TuiDropdownHoverModule,
+    ScrollIntoViewDirectiveModule,
   ],
   providers: [HumanResourceService],
 })

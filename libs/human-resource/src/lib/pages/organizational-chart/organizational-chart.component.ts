@@ -1,9 +1,10 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { FormBuilder } from '@ngneat/reactive-forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { BehaviorSubject } from 'rxjs';
 import { distinctUntilChanged, filter, map, share, startWith, switchMap, takeUntil } from 'rxjs/operators';
+import { OrganizationalChartNodeComponent } from '../../components/organizational-chart-node/organizational-chart-node.component';
 import { HumanResourceService } from '../../services/human-resource.service';
 
 interface SearchForm {
@@ -17,7 +18,9 @@ interface SearchForm {
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [TuiDestroyService],
 })
-export class OrganizationalChartComponent implements OnInit {
+export class OrganizationalChartComponent implements OnInit, AfterViewInit {
+  @ViewChildren(OrganizationalChartNodeComponent) nodes!: QueryList<OrganizationalChartNodeComponent>;
+
   searchForm = this.fb.group<SearchForm>({ userId: '' });
   model = { userId: '' };
   fields: FormlyFieldConfig[] = [
@@ -58,5 +61,13 @@ export class OrganizationalChartComponent implements OnInit {
     this.searchForm.controls.userId.valueChanges
       .pipe(takeUntil(this.destroy$))
       .subscribe((userId) => this.userId$.next(userId));
+  }
+
+  ngAfterViewInit(): void {
+    this.nodes.changes
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((nodes: QueryList<OrganizationalChartNodeComponent>) =>
+        nodes.find((node) => node.node.id === this.userId$.value)?.elementRef.nativeElement.scrollIntoView()
+      );
   }
 }

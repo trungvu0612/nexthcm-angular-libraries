@@ -4,7 +4,7 @@ import { TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { takeUntil } from 'rxjs/operators';
-import { CreateLeaveRequestDialogComponent } from '../shared/create-leave-request-dialog/create-leave-request-dialog.component';
+import { CreateLeaveRequestDialogComponent } from '../../shared/create-leave-request-dialog/create-leave-request-dialog.component';
 
 @Component({
   selector: 'hcm-request-management',

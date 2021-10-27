@@ -3,6 +3,7 @@
     "name": "Tên",
     "description": "Mô tả",
     "paidLeave": "Tính lương",
+    "canConvertTo": "Có thể chuyển sang",
     "functions": "Chức năng"
   },
   "EMPLOYEE_LEAVE_ENTITLEMENT_COLUMNS": {
@@ -62,5 +63,6 @@
   "enterDays": "Nhập số ngày...",
   "paidLeave": "Tính lương",
   "leaveTypes": "Loại nghỉ phép",
-  "searchLeaveTypes": "Tìm loại nghỉ phép..."
+  "searchLeaveTypes": "Tìm loại nghỉ phép...",
+  "canConvertTo": "Loại nghỉ phép khác có thể chuyển đổi sang loại này."
 }

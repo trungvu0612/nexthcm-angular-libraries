@@ -63,6 +63,18 @@ export class UpsertLeaveTypeDialogComponent implements OnInit {
       },
     },
     {
+      key: 'paidLeaveTransfer',
+      className: 'tui-form__row block',
+      type: 'checkbox-labeled',
+      defaultValue: true,
+      templateOptions: {
+        labelClassName: 'font-semibold',
+        translate: true,
+        label: 'canConvertTo',
+        translocoScope: this.scope,
+      },
+    },
+    {
       key: 'statusBoolean',
       className: 'tui-form__row block',
       type: 'status-toggle',

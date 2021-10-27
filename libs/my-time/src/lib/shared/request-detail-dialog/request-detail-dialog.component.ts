@@ -32,9 +32,9 @@ import {
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { from, iif, Subject } from 'rxjs';
 import { switchMap, takeUntil, tap } from 'rxjs/operators';
-import { RequestCommentStatus } from '../../../internal/enums';
-import { GeneralRequest, HistoryItem, RequestComment, RequestTypeUrlPaths } from '../../../internal/models';
-import { MyTimeService, REQUEST_COMMENT_URL_PATHS } from '../../../services';
+import { RequestCommentStatus } from '../../internal/enums';
+import { GeneralRequest, HistoryItem, RequestComment, RequestTypeUrlPaths } from '../../internal/models';
+import { MyTimeService, REQUEST_COMMENT_URL_PATHS } from '../../services';
 import { LeaveRequestDateRangeComponentModule } from '../leave-request-date-range/leave-request-date-range.component';
 
 interface ComponentState {

@@ -1,0 +1,64 @@
+<section class="sidebar-container h-full flex flex-col">
+  <header class="py-11">
+    <a routerLink="/"><img alt="logo" class="mx-auto" src="assets/logo.png" /></a>
+  </header>
+
+  <tui-scrollbar class="flex-1">
+    <tui-data-list class="px-4">
+      <ng-container *ngFor="let item of items; index as index">
+        <ng-container *ngxPermissionsOnly="item.permissions">
+          <a
+            #rla="routerLinkActive"
+            *ngIf="!item.children"
+            [attr.aria-checked]="rla.isActive"
+            [routerLink]="item.route"
+            class="rounded-xl flex space-x-5"
+            routerLinkActive
+            tuiOption
+          >
+            <svg-icon *ngIf="item.icon" [key]="item.icon"></svg-icon>
+            <span>{{ item.title | transloco }}</span>
+          </a>
+          <tui-accordion *ngIf="item.children">
+            <tui-accordion-item
+              [(open)]="!!openPagesArr[index]"
+              [borders]="null"
+              [noPadding]="true"
+              [showArrow]="false"
+              size="s"
+            >
+              <a
+                #rla="routerLinkActive"
+                [attr.aria-checked]="rla.isActive"
+                [routerLink]="item.route"
+                class="rounded-xl flex space-x-5"
+                hcmSkipNavigation
+                routerLinkActive
+                tuiOption
+              >
+                <svg-icon *ngIf="item.icon" [key]="item.icon"></svg-icon>
+                <span>{{ item.title | transloco }}</span>
+              </a>
+              <ng-template tuiAccordionItemContent>
+                <div class="section_bordered">
+                  <ng-container *ngFor="let child of item.children">
+                    <a
+                      *ngxPermissionsOnly="child.permissions"
+                      [hcmScrollIntoView]="child.route === active"
+                      [routerLink]="child.route"
+                      class="sublink"
+                      routerLinkActive="sublink_active"
+                      tuiLink
+                    >
+                      {{ child.title | transloco }}
+                    </a>
+                  </ng-container>
+                </div>
+              </ng-template>
+            </tui-accordion-item>
+          </tui-accordion>
+        </ng-container>
+      </ng-container>
+    </tui-data-list>
+  </tui-scrollbar>
+</section>

@@ -10,7 +10,7 @@ import { combineLatest, Observable, of } from 'rxjs';
 import { catchError, filter, map, shareReplay, startWith, switchMap } from 'rxjs/operators';
 import { LeaveRequest } from '../../../../internal/models';
 import { MyLeaveService, MyTimeService } from '../../../../services';
-import { AbstractRequestListComponent } from '../../../shared/abstract-components/abstract-request-list.component';
+import { AbstractRequestListComponent } from '../../../../shared/abstract-components/abstract-request-list.component';
 
 @Component({
   selector: 'hcm-leave-request-list',

@@ -59,8 +59,8 @@ export const adminKnowledgeBaseRoutes: Route[] = [
 ];
 
 const TABS: MenuItem[] = [
-  { label: 'articles', link: '/admin/knowledge-base/articles', permissions: [] },
-  { label: 'categories', link: '/admin/knowledge-base/categories', permissions: [] },
+  { title: 'articles', route: '/admin/knowledge-base/articles', permissions: [] },
+  { title: 'categories', route: '/admin/knowledge-base/categories', permissions: [] },
 ];
 
 @NgModule({

@@ -11,14 +11,14 @@ import { POLYMORPHEUS_CONTEXT, PolymorpheusModule, PolymorpheusTemplate } from '
 import { endOfDay } from 'date-fns';
 import { combineLatest, from, of, Subject } from 'rxjs';
 import { catchError, map, share, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
-import { DurationType, PartialDays } from '../../../internal/enums';
+import { DurationType, PartialDays } from '../../internal/enums';
 import {
   LeaveRequestForm,
   LeaveRequestPayload,
   PartialDaysType,
   RemainingLeaveEntitlement,
-} from '../../../internal/models';
-import { MyLeaveService, MyTimeService } from '../../../services';
+} from '../../internal/models';
+import { MyLeaveService, MyTimeService } from '../../services';
 
 @Component({
   selector: 'hcm-create-leave-request-dialog',
@@ -29,6 +29,7 @@ import { MyLeaveService, MyTimeService } from '../../../services';
 })
 export class CreateLeaveRequestDialogComponent implements OnInit {
   @ViewChild('partialDaysContent', { static: true }) partialDaysContent!: PolymorpheusTemplate<PartialDaysType>;
+
   readonly partialDaysTypeContext!: { $implicit: PartialDaysType };
   model = {} as LeaveRequestForm;
   form = this.fb.group<LeaveRequestForm>(this.model);

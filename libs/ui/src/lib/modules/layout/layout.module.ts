@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { GetFilePipeModule, PromptComponentModule, SkipNavigationDirectiveModule } from '@nexthcm/cdk';
-import { SvgIconRegistry, SvgIconsModule } from '@ngneat/svg-icon';
+import { GetFilePipeModule, SkipNavigationDirectiveModule } from '@nexthcm/cdk';
+import { SvgIconsModule } from '@ngneat/svg-icon';
 import { TranslocoModule } from '@ngneat/transloco';
 import { LetModule } from '@rx-angular/template';
 import {
@@ -16,14 +16,12 @@ import {
 import { TuiAvatarModule, TuiTabsModule } from '@taiga-ui/kit';
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { AvatarComponentModule } from '../../components';
-import { sidebarIcons } from '../../shared/icons/sidebar';
 import { HeaderComponent } from './header/header.component';
 import { LayoutComponent } from './layout.component';
 import { PageComponent } from './page/page.component';
-import { SidebarComponent } from './sidebar/sidebar.component';
 
 @NgModule({
-  declarations: [LayoutComponent, HeaderComponent, SidebarComponent, PageComponent],
+  declarations: [LayoutComponent, HeaderComponent, PageComponent],
   imports: [
     CommonModule,
     RouterModule,
@@ -39,15 +37,10 @@ import { SidebarComponent } from './sidebar/sidebar.component';
     TuiScrollbarModule,
     SkipNavigationDirectiveModule,
     NgxPermissionsModule,
-    PromptComponentModule,
     LetModule,
     GetFilePipeModule,
     AvatarComponentModule,
   ],
   exports: [LayoutComponent, PageComponent],
 })
-export class LayoutModule {
-  constructor(private registry: SvgIconRegistry) {
-    registry.register(sidebarIcons);
-  }
-}
+export class LayoutModule {}

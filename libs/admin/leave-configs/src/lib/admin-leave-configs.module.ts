@@ -51,14 +51,14 @@ export const ADMIN_LEAVE_CONFIGS_ROUTES: Route[] = [
   },
 ];
 const TABS: MenuItem[] = [
-  { label: 'leaveConfigs.leaveType', link: '/admin/leave-configs/types', permissions: [] },
-  { label: 'leaveConfigs.leaveEntitlement', link: '/admin/leave-configs/entitlements', permissions: [] },
+  { title: 'leaveConfigs.leaveType', route: '/admin/leave-configs/types', permissions: [] },
+  { title: 'leaveConfigs.leaveEntitlement', route: '/admin/leave-configs/entitlements', permissions: [] },
   {
-    label: 'leaveConfigs.employeesLeaveEntitlement',
-    link: '/admin/leave-configs/employee-entitlements',
+    title: 'leaveConfigs.employeesLeaveEntitlement',
+    route: '/admin/leave-configs/employee-entitlements',
     permissions: [],
   },
-  { label: 'leaveConfigs.leaveLevelApproval', link: '/admin/leave-configs/levels-approval', permissions: [] },
+  { title: 'leaveConfigs.leaveLevelApproval', route: '/admin/leave-configs/levels-approval', permissions: [] },
 ];
 
 @NgModule({

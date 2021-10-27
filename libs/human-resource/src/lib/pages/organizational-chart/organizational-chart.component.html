@@ -16,8 +16,7 @@
             <hcm-organizational-chart-node
               (click)="userId$.next(item.id)"
               *ngFor="let item of current"
-              [active]="item.id === userId$.value"
-              [hcmScrollIntoView]="item.id === userId$.value"
+              [isActive]="item.id === userId$.value"
               [node]="item"
             ></hcm-organizational-chart-node>
           </div>
@@ -27,7 +26,7 @@
           <section *tuiLet="current[0] as node" class="grid grid-cols-1 justify-items-center">
             <hcm-organizational-chart-node
               (click)="userId$.next(node.id)"
-              [active]="node.id === userId$.value"
+              [isActive]="node.id === userId$.value"
               [node]="node"
             ></hcm-organizational-chart-node>
 
