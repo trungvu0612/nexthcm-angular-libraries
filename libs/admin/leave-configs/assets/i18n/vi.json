@@ -34,7 +34,7 @@
   "leaveType": "Loại nghỉ phép",
   "chooseLeaveType": "Chọn loại nghỉ phép...",
   "leaveEntitlement": "Quyền lợi nghỉ phép",
-  "employeesLeaveEntitlement": "Quyền lợi nghỉ phép của nhân viên",
+  "employeeLeaveEntitlements": "Quyền lợi nghỉ phép của nhân viên",
   "leaveLevelApproval": "Cấp độ xét duyệt nghỉ phép",
   "leaveTypeManagement": "Quản lý loại nghỉ phép",
   "createLeaveType": "Tạo loại nghỉ phép",

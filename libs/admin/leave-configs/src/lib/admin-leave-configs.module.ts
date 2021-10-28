@@ -54,7 +54,7 @@ const TABS: MenuItem[] = [
   { title: 'leaveConfigs.leaveType', route: '/admin/leave-configs/types', permissions: [] },
   { title: 'leaveConfigs.leaveEntitlement', route: '/admin/leave-configs/entitlements', permissions: [] },
   {
-    title: 'leaveConfigs.employeesLeaveEntitlement',
+    title: 'leaveConfigs.employeeLeaveEntitlements',
     route: '/admin/leave-configs/employee-entitlements',
     permissions: [],
   },
