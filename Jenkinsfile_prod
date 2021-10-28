@@ -12,8 +12,7 @@ pipeline {
       steps {
         sh 'yarn upgrade'
         sh 'yarn'
-        sh 'yarn run-many:build'
-        sh 'yarn run-many:publish'
+        sh 'yarn build-publish:all'
       }
     }
     stage('Build web') {
