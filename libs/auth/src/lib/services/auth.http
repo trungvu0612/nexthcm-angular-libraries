@@ -1,9 +1,14 @@
 POST https://qa-nexthcm-api.banvien.com.vn/accountapp/v1.0/auth
 Content-Type: application/json
 
+//{
+//  "username": "ban.vien.solutions.admin",
+//  "password": "1234567",
+//  "rememberMe": false
+//}
 {
-  "username": "ban.vien.solutions.admin",
-  "password": "1234567",
+  "username": "dang.pham-hai",
+  "password": "12345678@X",
   "rememberMe": false
 }
 

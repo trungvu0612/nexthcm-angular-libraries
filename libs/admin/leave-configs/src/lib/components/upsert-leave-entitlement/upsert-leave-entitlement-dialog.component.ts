@@ -52,7 +52,6 @@ export class UpsertLeaveEntitlementDialogComponent implements OnInit {
         serverRequest: (searchQuery: string) => this.leaveConfigsService.searchLeaveTypes(searchQuery),
         matcherBy: 'id',
         textfieldLabelOutside: true,
-        translocoScope: this.scope,
       },
     },
     {

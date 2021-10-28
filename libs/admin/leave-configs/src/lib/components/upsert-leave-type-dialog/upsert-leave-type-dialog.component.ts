@@ -2,16 +2,17 @@ import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/cor
 import { Actions } from '@datorama/akita-ng-effects';
 import { AuthService } from '@nexthcm/auth';
 import { CommonStatus, loadWorkflows, PromptService, WorkflowsQuery } from '@nexthcm/cdk';
-import { FormBuilder } from '@ngneat/reactive-forms';
+import { LeaveType } from '@nexthcm/my-time';
+import { AbstractControl, FormBuilder } from '@ngneat/reactive-forms';
 import { TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
-import { takeUntil } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { debounceTime, switchMap, take, takeUntil, tap } from 'rxjs/operators';
 import { AdminLeaveConfigsService } from '../../admin-leave-configs.service';
 import { LeaveConfigUrlPaths } from '../../models/leave-config-url-paths';
-import { LeaveType } from '../../models/leave-type';
 
 @Component({
   selector: 'hcm-upsert-leave-type-dialog',
@@ -36,6 +37,24 @@ export class UpsertLeaveTypeDialogComponent implements OnInit {
         labelClassName: 'font-semibold',
         placeholder: 'enterName',
         textfieldLabelOutside: true,
+      },
+      asyncValidators: {
+        name: {
+          expression: (control: AbstractControl<string>) =>
+            !control.valueChanges || control.pristine
+              ? of(true)
+              : control.valueChanges.pipe(
+                  debounceTime(1000),
+                  take(1),
+                  switchMap((name: string) =>
+                    this.context.data?.name === name
+                      ? of(true)
+                      : this.leaveConfigsService.checkLeaveTypeNameExists(name)
+                  ),
+                  tap(() => control.markAsTouched())
+                ),
+          message: () => this.translocoService.selectTranslate('VALIDATION.valueExisting'),
+        },
       },
     },
     {
@@ -70,7 +89,7 @@ export class UpsertLeaveTypeDialogComponent implements OnInit {
       templateOptions: {
         labelClassName: 'font-semibold',
         translate: true,
-        label: 'canConvertTo',
+        label: 'canTransferTo',
         translocoScope: this.scope,
       },
     },

@@ -51,7 +51,7 @@ export const ADMIN_LEAVE_CONFIGS_ROUTES: Route[] = [
   },
 ];
 const TABS: MenuItem[] = [
-  { title: 'leaveConfigs.leaveType', route: '/admin/leave-configs/types', permissions: [] },
+  { title: 'leaveType', route: '/admin/leave-configs/types', permissions: [] },
   { title: 'leaveConfigs.leaveEntitlement', route: '/admin/leave-configs/entitlements', permissions: [] },
   {
     title: 'leaveConfigs.employeeLeaveEntitlements',

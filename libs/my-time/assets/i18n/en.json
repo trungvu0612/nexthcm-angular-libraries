@@ -112,9 +112,10 @@
   "leaveTypeRequired": "Please select a leave type!",
   "createEmployeeLeaveRequest": "Create employee's leave request",
   "remainingEntitlement": "<b>The remaining leave entitlement: {{value}} day(s).</b>",
-  "CONVERT_LEAVE_ENTITLEMENT_TYPES": {
-    "convertToSalary": "Convert to salary",
-    "convertToPaidLeaveOfNextPeriod": "Convert to paid leave of next period"
+  "TRANSFER_LEAVE_ENTITLEMENT_TYPES": {
+    "transferToSalary": "Transfer to salary",
+    "transferEntitlementToAnotherLeaveTypeInNextPeriod": "Transfer entitlement to another leave type in next period"
   },
-  "convertLeaveEntitlements": "Convert leave entitlements"
+  "canTransferEntitlementsTo": "Can transfer entitlements to",
+  "chooseLeaveType": "Choose leave type..."
 }

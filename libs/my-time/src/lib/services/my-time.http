@@ -2,5 +2,13 @@ GET https://qa-nexthcm-api.banvien.com.vn/accountapp/v1.0/employees
 Authorization: Bearer {{auth_token}}
 
 ###
-GET https://qa-nexthcm-api.banvien.com.vn/mytimeapp/v1.0/leave-entitlement-transfer/remaining-entitlement-to-cast
+GET https://qa-nexthcm-api.banvien.com.vn/mytimeapp/v1.0/leave-entitlement-transfer/remaining-entitlement-to-cast?userId=e7464bba-9d28-4517-bc7f-d4211ec97562&leaveTypeId=9b1ebc2b-d8a3-4e99-86de-8506493030b8
+Authorization: Bearer {{auth_token}}
+
+###
+GET https://qa-nexthcm-api.banvien.com.vn/mytimeapp/v1.0/leave-entitlement-transfer
+Authorization: Bearer {{auth_token}}
+
+###
+GET https://qa-nexthcm-api.banvien.com.vn/mytimeapp/v1.0/leaveTypes/paid-leave-transfer
 Authorization: Bearer {{auth_token}}

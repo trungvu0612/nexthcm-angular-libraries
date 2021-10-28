@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Inject, NgModule } from '@angular/core';
+import { AuthService } from '@nexthcm/auth';
 import { PromptService } from '@nexthcm/cdk';
 import { BaseFormComponentModule } from '@nexthcm/ui';
 import { FormBuilder } from '@ngneat/reactive-forms';
@@ -9,10 +10,20 @@ import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { of, Subject } from 'rxjs';
-import { catchError, filter, map, share, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
-import { ConvertLeaveEntitlementType } from '../../internal/enums';
+import {
+  catchError,
+  distinctUntilChanged,
+  filter,
+  map,
+  share,
+  startWith,
+  switchMap,
+  takeUntil,
+  tap,
+} from 'rxjs/operators';
+import { TransferLeaveEntitlementType } from '../../internal/enums';
 import { RemainingLeaveEntitlement } from '../../internal/models';
-import { ConvertLeaveEntitlementPayload } from '../../internal/models/requests/convert-leave-entitlement-payload';
+import { TransferLeaveEntitlementPayload } from '../../internal/models/requests/transfer-leave-entitlement-payload';
 import { MyLeaveService } from '../../services';
 
 @Component({
@@ -22,8 +33,8 @@ import { MyLeaveService } from '../../services';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CreateConvertLeaveEntitlementRequestComponent {
-  model = {} as ConvertLeaveEntitlementPayload;
-  form = this.fb.group<ConvertLeaveEntitlementPayload>(this.model);
+  model = {} as TransferLeaveEntitlementPayload;
+  form = this.fb.group<TransferLeaveEntitlementPayload>(this.model);
   readonly remainingEntitlement$ = this.form.valueChanges.pipe(
     map((value) => value.leaveTypeRemainingEntitlement?.remainingEntitlement),
     share()
@@ -58,7 +69,7 @@ export class CreateConvertLeaveEntitlementRequestComponent {
       key: 'typeTransfer',
       className: 'tui-form__row block',
       type: 'select',
-      defaultValue: ConvertLeaveEntitlementType.ConvertToSalary,
+      defaultValue: TransferLeaveEntitlementType.TransferToSalary,
       templateOptions: {
         translate: true,
         label: 'type',
@@ -67,17 +78,35 @@ export class CreateConvertLeaveEntitlementRequestComponent {
         valueProp: 'value',
         required: true,
         options: this.translocoService
-          .selectTranslateObject('CONVERT_LEAVE_ENTITLEMENT_TYPES', {}, (this.scope as ProviderScope).scope)
+          .selectTranslateObject('TRANSFER_LEAVE_ENTITLEMENT_TYPES', {}, (this.scope as ProviderScope).scope)
           .pipe(
             map((result) => [
-              { label: result.convertToSalary, value: ConvertLeaveEntitlementType.ConvertToSalary },
+              { label: result.transferToSalary, value: TransferLeaveEntitlementType.TransferToSalary },
               {
-                label: result.convertToPaidLeaveOfNextPeriod,
-                value: ConvertLeaveEntitlementType.ConvertToPaidLeaveOfNextPeriod,
+                label: result.transferEntitlementToAnotherLeaveTypeInNextPeriod,
+                value: TransferLeaveEntitlementType.TransferEntitlementToAnotherLeaveTypeOfNextPeriod,
               },
             ])
           ),
       },
+    },
+    {
+      key: 'leaveTypeId',
+      className: 'tui-form__row block',
+      type: 'select',
+      templateOptions: {
+        translate: true,
+        required: true,
+        label: 'canTransferEntitlementsTo',
+        labelClassName: 'font-semibold',
+        placeholder: 'chooseLeaveType',
+        options: this.myLeaveService.getCanConvertToLeaveTypes(),
+        labelProp: 'name',
+        valueProp: 'id',
+        translocoScope: this.scope,
+      },
+      hideExpression: (model: TransferLeaveEntitlementPayload) =>
+        model.typeTransfer !== TransferLeaveEntitlementType.TransferEntitlementToAnotherLeaveTypeOfNextPeriod,
     },
     {
       key: 'durationInDayTransfer',
@@ -89,16 +118,43 @@ export class CreateConvertLeaveEntitlementRequestComponent {
         labelClassName: 'font-semibold',
         required: true,
         min: 1,
+        textfieldLabelOutside: true,
       },
       expressionProperties: {
         'templateOptions.max': this.form.valueChanges.pipe(
-          map((formModel) => formModel.typeTransfer),
-          switchMap((type) => (type === ConvertLeaveEntitlementType.ConvertToSalary ? of(5) : of(Infinity)))
+          map((formModel) => formModel.leaveTypeRemainingEntitlement),
+          filter(isPresent),
+          distinctUntilChanged(),
+          switchMap((leaveType) =>
+            this.form.value.typeTransfer === TransferLeaveEntitlementType.TransferToSalary
+              ? this.myLeaveService
+                  .getMaximumLeaveEntitlementsCanTransfer(
+                    this.authService.get('userInfo', 'userId'),
+                    leaveType.leaveTypeId
+                  )
+                  .pipe(map((res) => Math.min(leaveType.remainingEntitlement, res)))
+              : of(Infinity)
+          )
         ),
       },
     },
+    {
+      key: 'sendTo',
+      className: 'tui-form__row block',
+      type: 'user-combo-box',
+      templateOptions: {
+        required: true,
+        translate: true,
+        labelClassName: 'font-semibold',
+        placeholder: 'searchUsers',
+        label: 'sendTo',
+        textfieldLabelOutside: true,
+        labelProp: 'name',
+        valueProp: 'id',
+      },
+    },
   ];
-  readonly submit$ = new Subject<ConvertLeaveEntitlementPayload>();
+  readonly submit$ = new Subject<TransferLeaveEntitlementPayload>();
   readonly submitHandler$ = this.submit$.pipe(
     switchMap((payload) =>
       this.myLeaveService
@@ -120,6 +176,7 @@ export class CreateConvertLeaveEntitlementRequestComponent {
 
   constructor(
     private readonly fb: FormBuilder,
+    private readonly authService: AuthService,
     private readonly myLeaveService: MyLeaveService,
     private readonly destroy$: TuiDestroyService,
     private readonly promptService: PromptService,
@@ -132,6 +189,9 @@ export class CreateConvertLeaveEntitlementRequestComponent {
     if (this.form.valid) {
       const formModel = { ...this.form.value };
 
+      if (formModel.typeTransfer === TransferLeaveEntitlementType.TransferToSalary) {
+        formModel.leaveTypeId = formModel.leaveTypeRemainingEntitlement.leaveTypeId;
+      }
       this.submit$.next(formModel);
     }
   }

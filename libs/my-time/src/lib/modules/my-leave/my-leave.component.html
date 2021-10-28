@@ -1,15 +1,15 @@
 <hcm-page title="{{ 'myTime.myLeave' | transloco }}">
   <ng-container ngProjectAs="pageHeader">
     <div class="flex gap-x-4">
-      <!--<button
+      <button
         (click)="createConvertLeaveEntitlementRequest$.next()"
         [showLoader]="(createConvertLeaveEntitlementRequestLoading$ | async) === true"
         icon="tuiIconPlusLarge"
         size="m"
         tuiButton
       >
-        {{ 'myTime.convertLeaveEntitlements' | transloco }}
-      </button>-->
+        {{ 'transferLeaveEntitlements' | transloco }}
+      </button>
       <button
         (click)="createLeaveRequest$.next()"
         [showLoader]="(createLeaveRequestLoading$ | async) === true"

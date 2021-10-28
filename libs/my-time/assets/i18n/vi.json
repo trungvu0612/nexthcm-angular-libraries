@@ -111,9 +111,10 @@
   "leaveTypeRequired": "Vui lòng chọn một loại nghỉ phép!",
   "createEmployeeLeaveRequest": "Tạo yêu cầu nghỉ phép cho nhân viên",
   "remainingEntitlement": "<b>Quyền lợi nghỉ phép còn lại: {{value}} ngày.</b>",
-  "CONVERT_LEAVE_ENTITLEMENT_TYPES": {
-    "convertToSalary": "Chuyển đổi sang lương",
-    "convertToPaidLeaveOfNextPeriod": "Chuyển đổi nghỉ phép có lương sang năm sau"
+  "TRANSFER_LEAVE_ENTITLEMENT_TYPES": {
+    "transferToSalary": "Chuyển đổi sang lương",
+    "transferEntitlementToAnotherLeaveTypeInNextPeriod": "Chuyển đổi sang quyền lợi nghỉ phép thuộc kì kế tiếp"
   },
-  "convertLeaveEntitlements": "Chuyển đổi quyền lợi nghỉ phép"
+  "canTransferEntitlementsTo": "Có thể chuyển đổi quyền lợi sang",
+  "chooseLeaveType": "Chọn loại nghỉ phép..."
 }

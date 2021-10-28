@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, Inject, Injector, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AbstractServerSortPaginationTableComponent, Pagination, PromptService } from '@nexthcm/cdk';
+import { LeaveType } from '@nexthcm/my-time';
 import { ProviderScope, TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
@@ -13,7 +14,6 @@ import { AdminLeaveConfigsService } from '../../admin-leave-configs.service';
 import { UpsertLeaveTypeDialogComponent } from '../../components/upsert-leave-type-dialog/upsert-leave-type-dialog.component';
 import { PaidLeaveStatus } from '../../enums/paid-leave-status';
 import { LeaveConfigUrlPaths } from '../../models/leave-config-url-paths';
-import { LeaveType } from '../../models/leave-type';
 
 @Component({
   selector: 'hcm-leave-type-management',

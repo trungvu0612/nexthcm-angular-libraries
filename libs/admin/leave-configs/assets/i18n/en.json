@@ -3,7 +3,7 @@
     "name": "Name",
     "description": "Description",
     "paidLeave": "Payable",
-    "canConvertTo": "Can convert to",
+    "canTransferTo": "Can transfer entitlement to",
     "functions": "Functions"
   },
   "EMPLOYEE_LEAVE_ENTITLEMENT_COLUMNS": {
@@ -31,8 +31,6 @@
     "entitlement": "Entitlement (days)",
     "functions": "Functions"
   },
-  "leaveType": "Leave type",
-  "chooseLeaveType": "Choose leave type...",
   "leaveEntitlement": "Leave entitlement",
   "employeeLeaveEntitlements": "Employee leave entitlements",
   "leaveLevelApproval": "Leave level approval",
@@ -62,7 +60,5 @@
   "approvalDays": "Approval days",
   "enterDays": "Enter days...",
   "paidLeave": "Payable",
-  "leaveTypes": "Leave types",
-  "searchLeaveTypes": "Search for leave types...",
-  "canConvertTo": "Other leave type can convert to this one."
+  "canTransferTo": "Other leave types can transfer entitlement to this one."
 }

@@ -3,7 +3,7 @@
     "name": "Tên",
     "description": "Mô tả",
     "paidLeave": "Tính lương",
-    "canConvertTo": "Có thể chuyển sang",
+    "canTransferTo": "Có thể chuyển sang",
     "functions": "Chức năng"
   },
   "EMPLOYEE_LEAVE_ENTITLEMENT_COLUMNS": {
@@ -31,8 +31,6 @@
     "entitlement": "Quyền lợi (số ngày)",
     "functions": "Chức năng"
   },
-  "leaveType": "Loại nghỉ phép",
-  "chooseLeaveType": "Chọn loại nghỉ phép...",
   "leaveEntitlement": "Quyền lợi nghỉ phép",
   "employeeLeaveEntitlements": "Quyền lợi nghỉ phép của nhân viên",
   "leaveLevelApproval": "Cấp độ xét duyệt nghỉ phép",
@@ -62,7 +60,5 @@
   "approvalDays": "Số ngày có thể xét duyệt",
   "enterDays": "Nhập số ngày...",
   "paidLeave": "Tính lương",
-  "leaveTypes": "Loại nghỉ phép",
-  "searchLeaveTypes": "Tìm loại nghỉ phép...",
-  "canConvertTo": "Loại nghỉ phép khác có thể chuyển đổi sang loại này."
+  "canTransferTo": "Loại nghỉ phép khác có thể chuyển đổi quyền lợi sang loại này"
 }

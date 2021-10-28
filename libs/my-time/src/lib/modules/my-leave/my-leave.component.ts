@@ -71,7 +71,7 @@ export class MyLeaveComponent extends AbstractRequestListComponent<LeaveRequest>
   readonly createConvertLeaveEntitlementRequestHandler$ = this.createConvertLeaveEntitlementRequest$.pipe(
     switchMap(() =>
       this.myLeaveService
-        .getEmployeeLeaveEntitlementsForConverting(this.authService.get('userInfo', 'userId'))
+        .getEmployeeLeaveEntitlementsForTransfering(this.authService.get('userInfo', 'userId'))
         .pipe(startWith(null))
     ),
     share()
@@ -140,7 +140,7 @@ export class MyLeaveComponent extends AbstractRequestListComponent<LeaveRequest>
   private openCreateConvertLeaveEntitlementRequestDialog(data: RemainingLeaveEntitlement[]): Observable<unknown> {
     return this.dialogService
       .open(new PolymorpheusComponent(CreateConvertLeaveEntitlementRequestComponent, this.injector), {
-        label: this.translocoService.translate('myTime.convertLeaveEntitlements'),
+        label: this.translocoService.translate('transferLeaveEntitlements'),
         size: 'l',
         data,
       })

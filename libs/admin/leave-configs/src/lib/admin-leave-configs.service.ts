@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BaseObject, BaseResponse, MY_TIME_API_PATH, Pagination, PagingResponse } from '@nexthcm/cdk';
 import { Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { catchError, map, mapTo } from 'rxjs/operators';
 import { LeaveConfigUrlPaths } from './models/leave-config-url-paths';
 import { EmployeeLeaveEntitlement } from './models/leave-entitlement';
 
@@ -50,5 +50,12 @@ export class AdminLeaveConfigsService {
     return this.http
       .get<PagingResponse<EmployeeLeaveEntitlement>>(`${MY_TIME_API_PATH}/leaves/entitlement-view`, { params })
       .pipe(map((res) => res.data));
+  }
+
+  checkLeaveTypeNameExists(name: string): Observable<boolean> {
+    return this.http.get(`${MY_TIME_API_PATH}/leaveTypes/check-existing-name?name=${name}`).pipe(
+      mapTo(true),
+      catchError(() => of(false))
+    );
   }
 }

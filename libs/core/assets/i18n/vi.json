@@ -592,7 +592,7 @@
   "chooseSeatMap": "Chọn sơ đồ chỗ ngồi...",
   "contact": "Liên hệ",
   "reportsTo": "Báo cáo cho",
-  "convertLeaveEntitlement": "Chuyển đổi quyền lợi nghỉ phép",
+  "transferLeaveEntitlements": "Chuyển đổi quyền lợi nghỉ phép",
   "maxPaidLeaveToCash": "Số ngày nghỉ tối đa được trả lương",
   "from": "Từ",
   "certificates": "Chứng chỉ",
@@ -604,5 +604,9 @@
     "Master": "Thạc sĩ",
     "Doctor": "Tiến sĩ",
     "Other": "Khác"
-  }
+  },
+  "leaveTypes": "Loại nghỉ phép",
+  "chooseLeaveType": "Chọn loại nghỉ phép...",
+  "searchLeaveTypes": "Tìm loại nghỉ phép...",
+  "numberOfDays": "Số ngày"
 }

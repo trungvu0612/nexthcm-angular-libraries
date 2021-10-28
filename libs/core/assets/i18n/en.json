@@ -593,7 +593,7 @@
   "chooseSeatMap": "Choose a seat map...",
   "contact": "Contact",
   "reportsTo": "Reports to",
-  "convertLeaveEntitlement": "Convert leave entitlement",
+  "transferLeaveEntitlements": "Transfer leave entitlements",
   "maxPaidLeaveToCash": "Maximum paid leave to cash",
   "from": "From",
   "certificates": "Certificates",
@@ -605,5 +605,9 @@
     "Master": "Master",
     "Doctor": "Doctor",
     "Other": "Other"
-  }
+  },
+  "chooseLeaveType": "Choose leave type...",
+  "searchLeaveTypes": "Search for leave types...",
+  "leaveTypes": "Leave types",
+  "numberOfDays": "Number of days"
 }
