@@ -28,6 +28,7 @@
     "toDate": "Date to",
     "jobTitles": "Job titles",
     "department": "Department",
+    "employee": "Employee",
     "entitlement": "Entitlement (days)",
     "functions": "Functions"
   },

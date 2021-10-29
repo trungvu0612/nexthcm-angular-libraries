@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BaseResponse, MY_TIME_API_PATH, PagingResponse, parseJsonStringFields } from '@nexthcm/cdk';
 import { Observable, of } from 'rxjs';
@@ -39,9 +39,11 @@ export class SeatMapsService {
   }
 
   checkUserAlreadyHasASeat(userId: string): Observable<boolean> {
-    return this.http.get(`${MY_TIME_API_PATH}/seats-map/check-existing?userId=${userId}`).pipe(
-      mapTo(true),
-      catchError(() => of(false))
-    );
+    return this.http
+      .get(`${MY_TIME_API_PATH}/seats-map/check-existing`, { params: new HttpParams().set('userId', userId) })
+      .pipe(
+        mapTo(true),
+        catchError(() => of(false))
+      );
   }
 }

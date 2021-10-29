@@ -1,5 +1,5 @@
 export enum TransferLeaveEntitlementType {
-  None,
-  TransferToSalary,
-  TransferEntitlementToAnotherLeaveTypeOfNextPeriod,
+  none,
+  transferToSalary,
+  transferEntitlementToAnotherLeaveTypeInNextPeriod,
 }

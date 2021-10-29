@@ -12,3 +12,7 @@ Authorization: Bearer {{auth_token}}
 ###
 GET https://qa-nexthcm-api.banvien.com.vn/mytimeapp/v1.0/leaveTypes/paid-leave-transfer
 Authorization: Bearer {{auth_token}}
+
+###
+GET https://dev-nexthcm-api.banvien.com.vn/mytimeapp/v1.0/leave-entitlement-transfer
+Authorization: Bearer {{auth_token}}

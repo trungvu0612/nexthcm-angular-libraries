@@ -27,7 +27,9 @@ export class AdminUserRolesService {
   getPermissions(searchTerm: string | null): Observable<BasePermission[]> {
     return searchTerm
       ? this.http
-          .get<BaseResponse<BasePermission[]>>(`${ACCOUNT_API_PATH}/permissions/v2?name=${searchTerm}`)
+          .get<BaseResponse<BasePermission[]>>(`${ACCOUNT_API_PATH}/permissions/v2`, {
+            params: new HttpParams().set('name', searchTerm),
+          })
           .pipe(map((response) => response.data))
       : of([]);
   }

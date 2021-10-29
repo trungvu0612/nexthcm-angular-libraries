@@ -67,7 +67,7 @@ export class UpsertLeaveEntitlementDialogComponent implements OnInit {
       },
     },
     {
-      key: 'employee',
+      key: 'employeeDTO',
       className: 'tui-form__row block',
       type: 'user-combo-box',
       templateOptions: {
@@ -160,7 +160,7 @@ export class UpsertLeaveEntitlementDialogComponent implements OnInit {
       if (formModel.status) {
         formModel.orgId = formModel.orgDTO?.id;
       } else {
-        formModel.employeeId = formModel.employee?.id;
+        formModel.employeeId = formModel.employeeDTO?.id;
       }
       formModel.status = formModel.status ? 1 : 0;
       if (formModel.fromTo) {

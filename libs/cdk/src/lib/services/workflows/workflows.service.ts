@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
@@ -18,7 +18,9 @@ export class WorkflowsService {
 
   searchWorkflowStatuses(search: string): Observable<WorkflowStatus[]> {
     return this.http
-      .get<BaseResponse<WorkflowStatus[]>>(`${ACCOUNT_API_PATH}/states?name=${search}`)
+      .get<BaseResponse<WorkflowStatus[]>>(`${ACCOUNT_API_PATH}/states`, {
+        params: new HttpParams().set('name', search),
+      })
       .pipe(map((res) => res.data));
   }
 

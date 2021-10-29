@@ -11,7 +11,9 @@ export class AdminJobTitlesService {
   constructor(private readonly http: HttpClient, private readonly actions: Actions) {}
 
   getJobTitles(params: HttpParams): Observable<Pagination<JobTitle>> {
-    return this.http.get<PagingResponse<JobTitle>>(`${ACCOUNT_API_PATH}/titles/`, { params }).pipe(map(res => res.data));
+    return this.http
+      .get<PagingResponse<JobTitle>>(`${ACCOUNT_API_PATH}/titles/`, { params })
+      .pipe(map((res) => res.data));
   }
 
   upsertJobLevel(payload: JobTitle): Observable<unknown> {
@@ -37,9 +39,11 @@ export class AdminJobTitlesService {
   }
 
   checkNameExists(name: string): Observable<boolean> {
-    return this.http.get(`${ACCOUNT_API_PATH}/titles/check-existing?name=${name}`).pipe(
-      mapTo(true),
-      catchError(() => of(false))
-    );
+    return this.http
+      .get(`${ACCOUNT_API_PATH}/titles/check-existing`, { params: new HttpParams().set('name', name) })
+      .pipe(
+        mapTo(true),
+        catchError(() => of(false))
+      );
   }
 }

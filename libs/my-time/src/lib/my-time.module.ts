@@ -10,11 +10,13 @@ import { MyLeaveComponent } from './modules/my-leave/my-leave.component';
 import { MyLeaveModule } from './modules/my-leave/my-leave.module';
 import { MyRequestsComponent } from './modules/my-requests/my-requests.component';
 import { MyRequestsModule } from './modules/my-requests/my-requests.module';
+import { MyTransferLeaveEntitlementsRequestsComponent } from './modules/my-requests/pages/my-transfer-leave-entitlements-requests/my-transfer-leave-entitlements-requests.component';
 import { MyUpdateTimesheetRequestsComponent } from './modules/my-requests/pages/my-update-timesheet-requests/my-update-timesheet-requests.component';
 import { MyWorkFromHomeRequestsComponent } from './modules/my-requests/pages/my-work-from-home-requests/my-work-from-home-requests.component';
 import { MyWorkingAfterHoursRequestsComponent } from './modules/my-requests/pages/my-working-after-hours-requests/my-working-after-hours-requests.component';
 import { MyWorkingOutsideRequestsComponent } from './modules/my-requests/pages/my-working-outside-requests/my-working-outside-requests.component';
 import { LeaveRequestListComponent } from './modules/request-management/pages/leave-request-list/leave-request-list.component';
+import { TransferLeaveEntitlementsRequestListComponent } from './modules/request-management/pages/transfer-leave-entitlements-request-list/transfer-leave-entitlements-request-list.component';
 import { UpdateTimesheetRequestListComponent } from './modules/request-management/pages/update-timesheet-request-list/update-timesheet-request-list.component';
 import { WorkFormHomeRequestListComponent } from './modules/request-management/pages/work-form-home-request-list/work-form-home-request-list.component';
 import { WorkingAfterHoursRequestListComponent } from './modules/request-management/pages/working-after-hours-request-list/working-after-hours-request-list.component';
@@ -65,6 +67,7 @@ export const MY_TIME_ROUTES: Routes = [
           { path: 'update-timesheet', component: MyUpdateTimesheetRequestsComponent },
           { path: 'working-outside', component: MyWorkingOutsideRequestsComponent },
           { path: 'work-from-home', component: MyWorkFromHomeRequestsComponent },
+          { path: 'transfer-leave-entitlements', component: MyTransferLeaveEntitlementsRequestsComponent },
           { path: '', redirectTo: 'working-after-hours', pathMatch: 'full' },
         ],
       },
@@ -79,6 +82,7 @@ export const MY_TIME_ROUTES: Routes = [
           { path: 'update-timesheet', component: UpdateTimesheetRequestListComponent },
           { path: 'working-outside', component: WorkingOutsideRequestListComponent },
           { path: 'work-from-home', component: WorkFormHomeRequestListComponent },
+          { path: 'transfer-leave-entitlements', component: TransferLeaveEntitlementsRequestListComponent },
           { path: '', redirectTo: 'leave', pathMatch: 'full' },
         ],
       },

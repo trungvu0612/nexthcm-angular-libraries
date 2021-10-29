@@ -3,8 +3,6 @@ import { TuiDayRange } from '@taiga-ui/cdk';
 
 export interface LeaveEntitlement {
   id: string;
-  // Add to multiple employees
-  status: boolean | 1 | 0;
   entitlement: number;
   leaveType: BaseObject;
   orgId?: string;
@@ -12,9 +10,13 @@ export interface LeaveEntitlement {
   fromTo?: TuiDayRange;
   fromDate: number;
   toDate: number;
-  employee?: BaseObject;
+  employeeDTO?: BaseObject;
   employeeId?: string;
   jobTitle?: string[];
+  /**
+   * Add to multiple employees
+   */
+  status: boolean | 1 | 0;
 }
 
 export interface EmployeeLeaveEntitlement {

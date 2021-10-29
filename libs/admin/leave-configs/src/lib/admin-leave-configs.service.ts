@@ -19,7 +19,9 @@ export class AdminLeaveConfigsService {
   searchLeaveTypes(searchTerm: string | null): Observable<BaseObject[]> {
     return searchTerm
       ? this.http
-          .get<BaseResponse<BaseObject[]>>(`${MY_TIME_API_PATH}/leaveTypes/v2?name=${searchTerm}`)
+          .get<BaseResponse<BaseObject[]>>(`${MY_TIME_API_PATH}/leaveTypes/v2`, {
+            params: new HttpParams().set('name', searchTerm),
+          })
           .pipe(map((res) => res.data))
       : of([]);
   }
@@ -53,9 +55,11 @@ export class AdminLeaveConfigsService {
   }
 
   checkLeaveTypeNameExists(name: string): Observable<boolean> {
-    return this.http.get(`${MY_TIME_API_PATH}/leaveTypes/check-existing-name?name=${name}`).pipe(
-      mapTo(true),
-      catchError(() => of(false))
-    );
+    return this.http
+      .get(`${MY_TIME_API_PATH}/leaveTypes/check-existing-name`, { params: new HttpParams().set('name', name) })
+      .pipe(
+        mapTo(true),
+        catchError(() => of(false))
+      );
   }
 }

@@ -14,8 +14,8 @@ import { catchError, filter, map, share, shareReplay, startWith, switchMap, take
 import { LeaveRequest, RemainingLeaveEntitlement } from '../../internal/models';
 import { MyLeaveService, MyTimeService } from '../../services';
 import { AbstractRequestListComponent } from '../../shared/abstract-components/abstract-request-list.component';
-import { CreateConvertLeaveEntitlementRequestComponent } from '../../shared/create-convert-leave-entitlement-request/create-convert-leave-entitlement-request.component';
 import { CreateLeaveRequestDialogComponent } from '../../shared/create-leave-request-dialog/create-leave-request-dialog.component';
+import { CreateTransferLeaveEntitlementRequestComponent } from '../../shared/create-transfer-leave-entitlement-request/create-transfer-leave-entitlement-request.component';
 
 @Component({
   selector: 'hcm-my-leave',
@@ -139,7 +139,7 @@ export class MyLeaveComponent extends AbstractRequestListComponent<LeaveRequest>
 
   private openCreateConvertLeaveEntitlementRequestDialog(data: RemainingLeaveEntitlement[]): Observable<unknown> {
     return this.dialogService
-      .open(new PolymorpheusComponent(CreateConvertLeaveEntitlementRequestComponent, this.injector), {
+      .open(new PolymorpheusComponent(CreateTransferLeaveEntitlementRequestComponent, this.injector), {
         label: this.translocoService.translate('transferLeaveEntitlements'),
         size: 'l',
         data,

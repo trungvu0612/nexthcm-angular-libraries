@@ -33,7 +33,8 @@ export class LeaveEntitlementManagementComponent extends AbstractServerSortPagin
         { key: 'fromDate', title: result.fromDate },
         { key: 'toDate', title: result.toDate },
         { key: 'jobTitle', title: result.jobTitle },
-        { key: 'orgDTO', title: result.department },
+        { key: 'orgDTO', title: result.department, orderEnabled: false },
+        { key: 'employeeDTO', title: result.employee, orderEnabled: false },
         { key: 'entitlement', title: result.entitlement, cssClass: { name: 'text-center', includeHeader: true } },
         { key: '', title: result.functions, orderEnabled: false },
       ])

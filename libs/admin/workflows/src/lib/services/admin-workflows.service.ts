@@ -118,7 +118,7 @@ export class AdminWorkflowsService {
 
   getPermissions(searchQuery: string): Observable<string[]> {
     return this.http
-      .get<string[]>(`${ACCOUNT_API_PATH}/permissions/search?name=${searchQuery}`)
+      .get<string[]>(`${ACCOUNT_API_PATH}/permissions/search`, { params: new HttpParams().set('name', searchQuery) })
       .pipe(catchError(() => of([])));
   }
 

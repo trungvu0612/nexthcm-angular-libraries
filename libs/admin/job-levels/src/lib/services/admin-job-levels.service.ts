@@ -39,9 +39,11 @@ export class AdminJobLevelsService {
   }
 
   checkNameExists(name: string): Observable<boolean> {
-    return this.http.get(`${ACCOUNT_API_PATH}/levels/checking-exist?name=${name}`).pipe(
-      mapTo(true),
-      catchError(() => of(false))
-    );
+    return this.http
+      .get(`${ACCOUNT_API_PATH}/levels/checking-exist`, { params: new HttpParams().set('name', name) })
+      .pipe(
+        mapTo(true),
+        catchError(() => of(false))
+      );
   }
 }

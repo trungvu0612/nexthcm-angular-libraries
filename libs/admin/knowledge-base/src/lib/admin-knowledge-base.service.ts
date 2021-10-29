@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Actions } from '@datorama/akita-ng-effects';
 import { BaseResponse, MY_TIME_API_PATH } from '@nexthcm/cdk';
@@ -28,10 +28,12 @@ export class AdminKnowledgeBaseService {
   }
 
   checkKnowledgeBaseArticleNameExists(name: string): Observable<boolean> {
-    return this.http.get(`${MY_TIME_API_PATH}/policies/check-existing?name=${name}`).pipe(
-      mapTo(true),
-      catchError(() => of(false))
-    );
+    return this.http
+      .get(`${MY_TIME_API_PATH}/policies/check-existing`, { params: new HttpParams().set('name', name) })
+      .pipe(
+        mapTo(true),
+        catchError(() => of(false))
+      );
   }
 
   getAllKnowledgeBaseCategories(): Observable<KnowledgeBaseCategory[]> {
@@ -61,9 +63,11 @@ export class AdminKnowledgeBaseService {
   }
 
   checkKnowledgeBaseCategoryNameExists(name: string): Observable<boolean> {
-    return this.http.get(`${MY_TIME_API_PATH}/policy-category/check-existing?name=${name}`).pipe(
-      mapTo(true),
-      catchError(() => of(false))
-    );
+    return this.http
+      .get(`${MY_TIME_API_PATH}/policy-category/check-existing`, { params: new HttpParams().set('name', name) })
+      .pipe(
+        mapTo(true),
+        catchError(() => of(false))
+      );
   }
 }

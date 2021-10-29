@@ -41,6 +41,8 @@ const REQUEST_DETAIL_URL_PATHS: Readonly<CombineRequestTypeUrlPaths> = Object.fr
   workFromHome: 'wfh',
   myLeave: 'leaves/me',
   leave: 'leaves',
+  myTransferLeaveEntitlements: 'leave-entitlement-transfer/me',
+  transferLeaveEntitlements: 'leave-entitlement-transfer',
 });
 
 export const REQUEST_COMMENT_URL_PATHS: Readonly<RequestTypeUrlPaths> = Object.freeze({
@@ -138,7 +140,7 @@ export class MyTimeService {
   getRequestComments(type: keyof RequestTypeUrlPaths, requestId: string): Observable<RequestComment[]> {
     return this.http
       .get<PagingResponse<RequestComment>>(`${MY_TIME_API_PATH}/comments-common`, {
-        params: new HttpParams().set('type', REQUEST_COMMENT_URL_PATHS[type]).set('objectId', requestId),
+        params: new HttpParams().set('type', REQUEST_COMMENT_URL_PATHS[type] as string).set('objectId', requestId),
       })
       .pipe(map((res) => res.data.items));
   }
@@ -154,7 +156,7 @@ export class MyTimeService {
   getRequestHistory(type: keyof RequestTypeUrlPaths, requestId: string): Observable<HistoryItem[]> {
     return this.http
       .get<BaseResponse<HistoryItem[]>>(`${MY_TIME_API_PATH}/tracking-history/process`, {
-        params: new HttpParams().set('type', REQUEST_HISTORY_URL_PATHS[type]).set('objectId', requestId),
+        params: new HttpParams().set('type', REQUEST_HISTORY_URL_PATHS[type] as string).set('objectId', requestId),
       })
       .pipe(map((res) => res.data));
   }
@@ -164,9 +166,9 @@ export class MyTimeService {
       let metadata = '';
 
       if (error.errorMetadata.leaveDuplicatedList.length) {
-        metadata = `<ul class='tui-list text-left'>${error.errorMetadata.leaveDuplicatedList.map(
+        metadata = `<ul class="tui-list text-left">${error.errorMetadata.leaveDuplicatedList.map(
           (item: LeaveDuplicated) =>
-            `<li class='tui-list__item'>${this.translocoDatePipe.transform(
+            `<li class="tui-list__item">${this.translocoDatePipe.transform(
               item.fromDate
             )} - ${this.translocoDatePipe.transform(item.toDate)}: <b>${item.leaveTypeName}</b></li>`
         )}</ul>`;

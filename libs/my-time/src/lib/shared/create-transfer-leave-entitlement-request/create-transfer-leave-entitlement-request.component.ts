@@ -22,17 +22,16 @@ import {
   tap,
 } from 'rxjs/operators';
 import { TransferLeaveEntitlementType } from '../../internal/enums';
-import { RemainingLeaveEntitlement } from '../../internal/models';
-import { TransferLeaveEntitlementPayload } from '../../internal/models/requests/transfer-leave-entitlement-payload';
+import { RemainingLeaveEntitlement, TransferLeaveEntitlementPayload } from '../../internal/models';
 import { MyLeaveService } from '../../services';
 
 @Component({
-  selector: 'hcm-create-convert-leave-entitlement-request',
-  templateUrl: './create-convert-leave-entitlement-request.component.html',
-  styleUrls: ['./create-convert-leave-entitlement-request.component.scss'],
+  selector: 'hcm-create-transfer-leave-entitlement-request',
+  templateUrl: './create-transfer-leave-entitlement-request.component.html',
+  styleUrls: ['./create-transfer-leave-entitlement-request.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CreateConvertLeaveEntitlementRequestComponent {
+export class CreateTransferLeaveEntitlementRequestComponent {
   model = {} as TransferLeaveEntitlementPayload;
   form = this.fb.group<TransferLeaveEntitlementPayload>(this.model);
   readonly remainingEntitlement$ = this.form.valueChanges.pipe(
@@ -69,7 +68,7 @@ export class CreateConvertLeaveEntitlementRequestComponent {
       key: 'typeTransfer',
       className: 'tui-form__row block',
       type: 'select',
-      defaultValue: TransferLeaveEntitlementType.TransferToSalary,
+      defaultValue: TransferLeaveEntitlementType.transferToSalary,
       templateOptions: {
         translate: true,
         label: 'type',
@@ -81,10 +80,10 @@ export class CreateConvertLeaveEntitlementRequestComponent {
           .selectTranslateObject('TRANSFER_LEAVE_ENTITLEMENT_TYPES', {}, (this.scope as ProviderScope).scope)
           .pipe(
             map((result) => [
-              { label: result.transferToSalary, value: TransferLeaveEntitlementType.TransferToSalary },
+              { label: result.transferToSalary, value: TransferLeaveEntitlementType.transferToSalary },
               {
                 label: result.transferEntitlementToAnotherLeaveTypeInNextPeriod,
-                value: TransferLeaveEntitlementType.TransferEntitlementToAnotherLeaveTypeOfNextPeriod,
+                value: TransferLeaveEntitlementType.transferEntitlementToAnotherLeaveTypeInNextPeriod,
               },
             ])
           ),
@@ -106,7 +105,7 @@ export class CreateConvertLeaveEntitlementRequestComponent {
         translocoScope: this.scope,
       },
       hideExpression: (model: TransferLeaveEntitlementPayload) =>
-        model.typeTransfer !== TransferLeaveEntitlementType.TransferEntitlementToAnotherLeaveTypeOfNextPeriod,
+        model.typeTransfer !== TransferLeaveEntitlementType.transferEntitlementToAnotherLeaveTypeInNextPeriod,
     },
     {
       key: 'durationInDayTransfer',
@@ -126,7 +125,7 @@ export class CreateConvertLeaveEntitlementRequestComponent {
           filter(isPresent),
           distinctUntilChanged(),
           switchMap((leaveType) =>
-            this.form.value.typeTransfer === TransferLeaveEntitlementType.TransferToSalary
+            this.form.value.typeTransfer === TransferLeaveEntitlementType.transferToSalary
               ? this.myLeaveService
                   .getMaximumLeaveEntitlementsCanTransfer(
                     this.authService.get('userInfo', 'userId'),
@@ -189,7 +188,7 @@ export class CreateConvertLeaveEntitlementRequestComponent {
     if (this.form.valid) {
       const formModel = { ...this.form.value };
 
-      if (formModel.typeTransfer === TransferLeaveEntitlementType.TransferToSalary) {
+      if (formModel.typeTransfer === TransferLeaveEntitlementType.transferToSalary) {
         formModel.leaveTypeId = formModel.leaveTypeRemainingEntitlement.leaveTypeId;
       }
       this.submit$.next(formModel);
@@ -203,7 +202,7 @@ export class CreateConvertLeaveEntitlementRequestComponent {
 
 @NgModule({
   imports: [BaseFormComponentModule, CommonModule],
-  declarations: [CreateConvertLeaveEntitlementRequestComponent],
-  exports: [CreateConvertLeaveEntitlementRequestComponent],
+  declarations: [CreateTransferLeaveEntitlementRequestComponent],
+  exports: [CreateTransferLeaveEntitlementRequestComponent],
 })
 export class CreateConvertLeaveEntitlementRequestComponentModule {}
