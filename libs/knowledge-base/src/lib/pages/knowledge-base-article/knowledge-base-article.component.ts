@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { tiptapEditorStyles, TUI_EDITOR_STYLES } from '@taiga-ui/addon-editor';
 import { isPresent } from '@taiga-ui/cdk';
 import { Observable, of } from 'rxjs';
 import { catchError, filter, map, share, startWith } from 'rxjs/operators';
@@ -11,6 +12,7 @@ import { KnowledgeBaseService } from '../../services';
   templateUrl: './knowledge-base-article.component.html',
   styleUrls: ['./knowledge-base-article.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [{ provide: TUI_EDITOR_STYLES, useValue: tiptapEditorStyles }],
 })
 export class KnowledgeBaseArticleComponent {
   private readonly request$ = this.knowledgeBaseService

@@ -5,15 +5,27 @@
     [canOpen]="(dragging$ | async) !== true"
     [class.selected]="openDropdown"
     [content]="content"
-    [tuiDropdownMaxHeight]="520"
+    [tuiDropdownMaxHeight]="999"
     [tuiDropdownSided]="true"
     class="w-full h-full"
   >
     <div class="relative w-full h-full flex justify-center items-center">
-      <tui-avatar [autoColor]="true" [style]="nameStyle" [text]="user.fullName || user.username"></tui-avatar>
-      <div *ngIf="seat.statusOfUser?.length" class="absolute top-full inset-x-0 py-0.5 border-t flex space-x-0.5">
+      <hcm-avatar
+        [autoColor]="true"
+        [borderRadius]="borderRadius"
+        [image]="user.image"
+        [text]="user.fullName || user.username"
+        class="w-full h-full"
+        height="100%"
+        size="m"
+        width="100%"
+      ></hcm-avatar>
+      <div
+        *ngIf="seat.statusCheckInOutOfUser?.statusOfUser?.length"
+        class="absolute top-full inset-x-0 py-0.5 border-t flex space-x-0.5"
+      >
         <span
-          *ngFor="let seatStatus of seat.statusOfUser"
+          *ngFor="let seatStatus of seat.statusCheckInOutOfUser?.statusOfUser"
           class="dot seat-status {{ seatStatus | seatUserState }}"
         ></span>
       </div>
@@ -25,7 +37,7 @@
           <hcm-avatar
             [image]="user.image"
             [rounded]="true"
-            [text]="user.username"
+            [text]="user.fullName || user.username"
             class="m-auto"
             size="xl"
           ></hcm-avatar>
@@ -41,8 +53,23 @@
             <th>{{ t('status') }}:</th>
             <td>
               <div class="flex items-center space-x-1">
-                <span *ngFor="let status of seat.statusOfUser" class="dot {{ status | seatUserState }}"></span>
+                <span
+                  *ngFor="let status of seat.statusCheckInOutOfUser?.statusOfUser"
+                  class="dot {{ status | seatUserState }}"
+                ></span>
               </div>
+            </td>
+          </tr>
+          <tr *ngIf="seat.statusCheckInOutOfUser?.inTime !== undefined">
+            <th>{{ t('inTime') }}:</th>
+            <td *tuiLet="seat.statusCheckInOutOfUser.inTime as inTime">
+              {{ (inTime || 0) * 1000 | date: 'HH:mm':'UTC' }}
+            </td>
+          </tr>
+          <tr *ngIf="seat.statusCheckInOutOfUser?.inTime !== undefined">
+            <th>{{ t('outTime') }}:</th>
+            <td *tuiLet="seat.statusCheckInOutOfUser.outTime as outTime">
+              {{ (outTime || 0) * 1000 | date: 'HH:mm':'UTC' }}
             </td>
           </tr>
           <tr>
@@ -66,7 +93,7 @@
             <td>{{ user.jobTitle?.name }}</td>
           </tr>
         </table>
-        <div class="flex gap-4 mt-3">
+        <div class="flex justify-center gap-4 mt-3">
           <button (click)="deleteSeat()" *ngxPermissionsOnly="'UPDATE_SEAT'" appearance="secondary" size="m" tuiButton>
             {{ t('unAssignSeat') }}
           </button>

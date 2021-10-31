@@ -15,6 +15,7 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { TranslocoLocaleModule } from '@ngneat/transloco-locale';
 import { FormlyModule } from '@ngx-formly/core';
 import { LetModule } from '@rx-angular/template';
+import { TuiLetModule } from '@taiga-ui/cdk';
 import {
   TuiButtonModule,
   TuiDataListModule,
@@ -67,6 +68,7 @@ export const SEAT_MAPS_ROUTES: Routes = [
     TranslocoLocaleModule,
     AvatarComponentModule,
     TuiTextfieldControllerModule,
+    TuiLetModule,
   ],
   declarations: [SeatMapsComponent, SeatComponent, SeatUserStatePipe],
   providers: [SeatMapsService],

@@ -30,7 +30,7 @@ export class MyWorkingOutsideRequestsComponent extends AbstractRequestListCompon
     .pipe(
       map((result) => [
         { key: 'fromDate', title: result.dateRange },
-        { key: 'days', title: result.days },
+        { key: 'days', title: result.days, cssClass: { name: 'text-center', includeHeader: true } },
         { key: 'status', title: result.status },
         { key: 'comment', title: result.Comment },
         { key: '', title: result.functions, orderEnabled: false },

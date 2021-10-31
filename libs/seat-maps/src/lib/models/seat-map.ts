@@ -18,7 +18,11 @@ export interface Seat extends StyleSeat {
   assignedUser?: UserDto;
   style: string | StyleSeat;
   seatStatus: 0 | 1;
-  statusOfUser: UserState[];
+  statusCheckInOutOfUser: {
+    statusOfUser: UserState[];
+    inTime?: number;
+    outTime?: number;
+  }
 }
 
 export interface SeatMap {

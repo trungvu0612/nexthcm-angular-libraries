@@ -82,12 +82,8 @@ export class SeatComponent {
     };
   }
 
-  get nameStyle() {
-    return {
-      width: '100%',
-      height: '100%',
-      'border-radius': (this.seat.style as StyleSeat).rounded + '%',
-    };
+  get borderRadius(): string {
+    return `${(this.seat.style as StyleSeat).rounded}%`
   }
 
   addSeatOrDropdown(type: string, content?: PolymorpheusContent<TuiDialogContext>): void {

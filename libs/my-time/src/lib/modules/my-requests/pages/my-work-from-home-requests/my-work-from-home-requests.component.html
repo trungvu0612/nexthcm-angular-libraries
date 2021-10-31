@@ -11,7 +11,7 @@
       <ng-container *tuiLet="item(row) as item">
         <td>{{ item.fromDate | translocoDate }} - {{ item.toDate | translocoDate }}</td>
         <td class="text-center">
-          {{ item.totalDay ? (item.totalDay | translocoDecimal: { maximumFractionDigits: 1 }) : '-' }}
+          {{ item.totalDay ? (item.totalDay | translocoDecimal) : '-' }}
         </td>
         <td>
           <tui-tag

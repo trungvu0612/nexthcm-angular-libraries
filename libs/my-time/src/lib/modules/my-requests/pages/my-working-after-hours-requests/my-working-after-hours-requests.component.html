@@ -11,8 +11,7 @@
       <ng-container *tuiLet="item(row) as item">
         <td>{{ item.fromDate | translocoDate }} - {{ item.toDate | translocoDate }}</td>
         <td class="text-center">
-          {{ item.duration ? (item.duration / 3600 | translocoDecimal: { maximumFractionDigits: 1 }) : 0 }}
-          h
+          {{ item.duration ? (item.duration / 3600 | translocoDecimal: { maximumFractionDigits: 1 }) : 0 }}h
         </td>
         <td>{{ 'myTime.WORKING_AFTER_HOURS_TYPE.' + item.type | transloco }}</td>
         <td>

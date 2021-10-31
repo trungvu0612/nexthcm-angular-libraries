@@ -1,13 +1,16 @@
 <hcm-page [title]="'knowledgeBase' | transloco">
   <tui-loader [overlay]="true" [showLoader]="(loading$ | async) === true">
-    <section *ngIf="items$ | async as items" class="grid grid-cols-4 gap-8">
-      <article *ngFor="let item of items" class="flex flex-col items-center gap-y-6">
+    <section *ngIf="items$ | async as items" class="space-y-8">
+      <article *ngFor="let item of items" class="flex gap-x-6">
         <a [routerLink]="item.id">
-          <hcm-avatar [image]="item.thumbnail" [text]="item.topic" class="thumbnail" size="xxl"></hcm-avatar>
+          <hcm-avatar [image]="item.thumbnail" [text]="item.topic" class="thumbnail" size="xl"></hcm-avatar>
         </a>
-        <a [routerLink]="item.id">
-          <h2 class="tui-text_h5">{{ item.topic }}</h2>
-        </a>
+        <div>
+          <a [routerLink]="item.id">
+            <h2 class="tui-text_h5">{{ item.topic }}</h2>
+          </a>
+          <p class="text-base">{{ item.shortDescription }}</p>
+        </div>
       </article>
     </section>
   </tui-loader>

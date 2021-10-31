@@ -16,6 +16,9 @@ export class AvatarComponent {
   @Input() image?: string;
   @Input() @tuiDefaultProp() text = '';
   @Input() @tuiDefaultProp() size: TuiSizeXS | TuiSizeXXL = 's';
+  @Input() width: string | null = null;
+  @Input() height: string | null = null;
+  @Input() borderRadius: string | null = null;
   private _rounded = false;
 
   get rounded(): boolean {

@@ -47,7 +47,7 @@ export const adminWorkingTimesRoutes: Routes = [
   imports: [
     CommonModule,
     RouterModule.forChild(adminWorkingTimesRoutes),
-    FormlyModule.forRoot({
+    FormlyModule.forChild({
       types: [{ name: 'repeat', component: RepeatSectionComponent }],
     }),
     ReactiveFormsModule,

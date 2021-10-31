@@ -1,11 +1,10 @@
 <tui-avatar
-  *ngIf="image; else noImage"
   [autoColor]="autoColor"
-  [avatarUrl]="image | getFile | async"
+  [avatarUrl]="image ? (image | getFile | async) || null : null"
   [rounded]="rounded"
   [size]="size"
+  [style.border-radius]="borderRadius"
+  [style.height]="height"
+  [style.width]="width"
   [text]="computedText"
 ></tui-avatar>
-<ng-template #noImage>
-  <tui-avatar [autoColor]="autoColor" [rounded]="rounded" [size]="size" [text]="computedText"></tui-avatar>
-</ng-template>
