@@ -1,11 +1,14 @@
 import { TuiDay } from '@taiga-ui/cdk';
+import { isValid } from 'date-fns';
 
 export function parseTuiDayFields<T extends Record<string, any>, K extends keyof T>(obj: T, props: K[] = []): T {
   obj = { ...obj };
 
   props.forEach((prop) => {
-    if (obj[prop]) {
-      obj[prop] = TuiDay.fromUtcNativeDate(new Date(obj[prop] as string)) as any;
+    if (typeof obj[prop] === 'string') {
+      const date = new Date(obj[prop]);
+
+      obj[prop] = (isValid(date) ? TuiDay.fromUtcNativeDate(date) : null) as any;
     }
   });
 
@@ -31,9 +34,9 @@ export function secondsToTime(secs: any) {
   const divisor_for_seconds = divisor_for_minutes % 60;
   const seconds = Math.ceil(divisor_for_seconds);
   const obj = {
-    "h": hours === 0 ? '0' : (hours < 10 ? `${hours}` : hours),
-    "m": minutes === 0 ? '00' : (minutes < 10 ? `${minutes}` : minutes),
-    "s": seconds
+    h: hours === 0 ? '0' : hours < 10 ? `${hours}` : hours,
+    m: minutes === 0 ? '00' : minutes < 10 ? `${minutes}` : minutes,
+    s: seconds,
   };
   return obj;
 }
