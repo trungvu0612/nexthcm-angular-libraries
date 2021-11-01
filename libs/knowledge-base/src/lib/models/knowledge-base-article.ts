@@ -14,4 +14,5 @@ export interface KnowledgeBaseArticle {
   policyCategory: KnowledgeBaseCategory;
   statusBoolean?: boolean;
   userCreatedBy?: EmployeeInfo;
+  createdDate?: number;
 }

@@ -12,8 +12,9 @@
       <hcm-avatar [image]="article.thumbnail" [text]="article.topic" autoColor class="thumbnail" size="l"></hcm-avatar>
       <div>
         <h3 class="tui-text_h5">{{ article.topic }}</h3>
-        <div class="flex items-center space-x-2">
+        <div *ngIf="article.createdDate" class="flex items-center space-x-1">
           <tui-svg src="tuiIconTime"></tui-svg>
+          <span>{{ article.createdDate | translocoDate: { timeStyle: 'short', dateStyle: 'medium' } }}</span>
         </div>
       </div>
     </div>

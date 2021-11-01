@@ -54,7 +54,6 @@ export class GeneralInformationFormComponent {
                 textfieldLabelOutside: true,
                 labelClassName: 'font-semibold',
                 placeholder: 'enterCifNumber',
-                readonly: true,
                 translocoScope: this.scope,
               },
               hideExpression: `!formState.editMode`,

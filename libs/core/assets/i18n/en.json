@@ -609,5 +609,6 @@
   "chooseLeaveType": "Choose leave type...",
   "searchLeaveTypes": "Search for leave types...",
   "leaveTypes": "Leave types",
-  "numberOfDays": "Number of days"
+  "numberOfDays": "Number of days",
+  "knowledgeBaseCategories": "Knowledge Base Categories"
 }
