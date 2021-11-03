@@ -117,7 +117,7 @@ export class CreateLeaveRequestDialogComponent implements OnInit {
         },
         hooks: {
           onInit: (field) => {
-            if (field?.templateOptions) {
+            if (field?.templateOptions && this.form.controls.employeeId) {
               field.templateOptions.options = this.form.controls.employeeId.valueChanges.pipe(
                 switchMap((employeeId) =>
                   employeeId ? this.myLeaveService.getEmployeeLeaveEntitlements(employeeId) : of([])
