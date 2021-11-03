@@ -2203,10 +2203,10 @@
   dependencies:
     tslib "^2.1.0"
 
-"@nexthcm/admin-requests-configuration@^1.0.0":
-  version "1.0.0"
-  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/admin-requests-configuration/-/admin-requests-configuration-1.0.0.tgz#16c38593273f5c0cc56ac013b34bedf34f46749d"
-  integrity sha512-jX1Rr3MkFDh7gbtPg9OFde9erOKvNylYF4ixsM7DKg+Hlq/6o6t3IVVtrYneIzXUnr1volC9t4WXCzY+BGtcug==
+"@nexthcm/admin-requests-configuration@^1.0.1":
+  version "1.0.1"
+  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/admin-requests-configuration/-/admin-requests-configuration-1.0.1.tgz#459b8b4fc83d91c9e3015458ad6df5dbf04e3023"
+  integrity sha512-zXalGCRZ6ZVyMVwVlhIswgQOlIM+/N2LeWJKGUx0Di6/0krrQtKUtYt3Ollkd32xXf32LTnB5ZB9sntRt7oT+A==
   dependencies:
     tslib "^2.3.0"
 
@@ -2271,10 +2271,10 @@
     "@fullcalendar/daygrid" "^5.9.0"
     tslib "^2.2.0"
 
-"@nexthcm/cdk@^1.0.0":
-  version "1.0.0"
-  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/cdk/-/cdk-1.0.0.tgz#b1e2630576ceaaab3a2a673aa016cad5d3011e5d"
-  integrity sha512-lspmukEzWnq54Pf6wrBJJFZHJIcEe6pGGsfdsCgTz+6NBL457LClkf7iqL94swFRDjd8cUKQ060naTe3/i9XSQ==
+"@nexthcm/cdk@^1.0.1":
+  version "1.0.1"
+  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/cdk/-/cdk-1.0.1.tgz#29a16f388cb744cba22a1099000d12d0b77cadee"
+  integrity sha512-bEBVrkXMH7h4pBPUzRGnbtdegw81d6EwJzlxRnp9aQK1voyxtcIPWMH0Bri50O6mwTQyDbh8UwwPkfyebrCrGw==
   dependencies:
     tslib "^2.2.0"
 
@@ -2335,24 +2335,24 @@
   dependencies:
     tslib "^2.0.0"
 
-"@nexthcm/knowledge-base@^1.0.0":
+"@nexthcm/knowledge-base@^1.0.1":
   version "1.0.1"
-  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/knowledge-base/-/knowledge-base-1.0.1.tgz#d2253b889427fa14c48a991322f293866e0fd35d"
-  integrity sha512-v6tTMyOyy75m48Zbod3eoHICdoKdt1wi0BCBiy1IkcH+nqG9M2ARYRtP9eZy2ili6HAiZ+WyQe+xBOZxeQA7cQ==
+  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/knowledge-base/-/knowledge-base-1.0.1.tgz#717b644700f151da66b66409c4617df67b13f80f"
+  integrity sha512-8TjNkuhwfo/304S0ZlCo96HO8AFHHMAw0c5iWfITVqfkXdEDY5k5Qx9Lt5b46fSB5f7rTp8BDyEvIAoKXUxT8g==
   dependencies:
     tslib "^2.0.0"
 
-"@nexthcm/my-time@^1.0.0":
+"@nexthcm/my-time@^1.0.1":
   version "1.0.1"
-  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/my-time/-/my-time-1.0.1.tgz#4ff03f91a6104fd14c4a80a0ac1bcc022151ac45"
-  integrity sha512-EPpxMFwFjLHB29xGCJEV2zBUIMGc4hZeSACKYF+xq21cwGuMJ6HMOybxFWXv1XwHP2JI5PUYi/F2dwV5TjjM1Q==
+  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/my-time/-/my-time-1.0.1.tgz#79553a45a0db93f80b096aa74a25e406491ac698"
+  integrity sha512-62KzcC//ycJg+1ttxPjggolzNyNsWU6fW0HxTYsJkp9USZQ2C0G3Z6PilL1ROPmOST+PiUICB9FzllNcXY0O6g==
   dependencies:
     tslib "^2.0.0"
 
-"@nexthcm/seat-maps@^1.0.0":
+"@nexthcm/seat-maps@^1.0.1":
   version "1.0.1"
-  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/seat-maps/-/seat-maps-1.0.1.tgz#1b17e6af4e50212a86eb992ade80b5d16a78fe99"
-  integrity sha512-M15a/LHGaK4UMxoXg23O4vbrqf76FK/O0cHz2nVP/FtjhdT10Fhr/Ap575nFixDEiHbGLKWfesVNYW4+gGEiKQ==
+  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/seat-maps/-/seat-maps-1.0.1.tgz#d95aa425659fed56cf33c8a9de4e7baab74d65ec"
+  integrity sha512-auDN/J+U25yvAg8PYz/wijDjcwXuaUy5SF2RUqCGiFBFq1ZBDViRknRIuGH6YqPsn0M3ZLnQpYC8NNGmgxwBAw==
   dependencies:
     tslib "^2.2.0"
 
@@ -2364,10 +2364,10 @@
     "@ng-select/ng-select" "^7.0.0"
     tslib "^2.0.0"
 
-"@nexthcm/workflow-designer@^1.0.0":
-  version "1.0.0"
-  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/workflow-designer/-/workflow-designer-1.0.0.tgz#e67c85e3ec86f3562f54fc0c9da647e0d6378442"
-  integrity sha512-MZGpDxmRA7HySlgYma6CXv5dQm/GO3+hGKDh0KvNalmpZdJj7U2BCEe0hgXfBLrhnOG1RyAODOvsiRNE0BqKMA==
+"@nexthcm/workflow-designer@^1.0.1":
+  version "1.0.1"
+  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/workflow-designer/-/workflow-designer-1.0.1.tgz#f99013c596d29a8737834f7b594e95757da393a8"
+  integrity sha512-d/nJO0TJFh+tb72vj34QAeksfa3b3SozSavDHsbxe7eO91/YDF05szzME58w3IIRpXpUg8xg3Gq1cWeulda76w==
   dependencies:
     mxgraph "^4.2.2"
     tslib "^2.1.0"
