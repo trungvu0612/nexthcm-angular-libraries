@@ -19,4 +19,5 @@ export interface EmployeeInfo {
   directReport: BaseObject;
   fullName: string;
   office?: BaseObject;
+  isDeletable: boolean;
 }

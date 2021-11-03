@@ -44,14 +44,16 @@
                 size="m"
                 tuiIconButton
               ></button>
-              <button
-                (click)="onRemoveEmployee(item.id)"
-                *ngxPermissionsOnly="'DELETE_EMPLOYEE'"
-                appearance="flat"
-                icon="tuiIconTrashLarge"
-                size="m"
-                tuiIconButton
-              ></button>
+              <ng-container *ngIf="item.isDeletable">
+                <button
+                  (click)="onRemoveEmployee(item.id)"
+                  *ngxPermissionsOnly="'DELETE_EMPLOYEE'"
+                  appearance="flat"
+                  icon="tuiIconTrashLarge"
+                  size="m"
+                  tuiIconButton
+                ></button>
+              </ng-container>
             </div>
           </td>
         </ng-container>
