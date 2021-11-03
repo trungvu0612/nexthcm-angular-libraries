@@ -5,7 +5,7 @@ import { FormBuilder } from '@ngneat/reactive-forms';
 import { RxState, toDictionary } from '@rx-angular/state';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { of } from 'rxjs';
-import { catchError, filter, map, share, startWith } from 'rxjs/operators';
+import { catchError, filter, map, shareReplay, startWith } from 'rxjs/operators';
 import { AdminRequestsConfigurationService } from './admin-requests-configuration.service';
 import { RequestType } from './enums/request-type';
 import { RequestConfig } from './request-config';
@@ -27,7 +27,7 @@ export class AdminRequestsConfigurationComponent {
   private request$ = this.adminRequestsConfigurationService.getRequestsConfig().pipe(
     map((configs) => toDictionary(configs, 'type')),
     startWith(null),
-    share()
+    shareReplay(1)
   );
   readonly loading$ = this.request$.pipe(map((value) => !value), catchError(() => of(false)));
 

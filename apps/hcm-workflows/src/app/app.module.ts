@@ -23,8 +23,18 @@ import { AppComponent } from './app.component';
           children: [
             { path: '', loadChildren: () => import('@nexthcm/home').then((m) => m.HomeModule) },
             {
-              path: 'admin/workflows',
-              loadChildren: () => import('@nexthcm/admin-workflows').then((m) => m.AdminWorkflowsModule),
+              path: 'admin',
+              children: [
+                {
+                  path: 'workflows',
+                  loadChildren: () => import('@nexthcm/admin-workflows').then((m) => m.AdminWorkflowsModule),
+                },
+                {
+                  path: 'requests-config',
+                  loadChildren: () =>
+                    import('@nexthcm/admin-requests-configuration').then((m) => m.AdminRequestsConfigurationModule),
+                },
+              ],
             },
           ],
         },

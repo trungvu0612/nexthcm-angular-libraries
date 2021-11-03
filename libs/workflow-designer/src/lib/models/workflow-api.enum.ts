@@ -13,6 +13,8 @@ export enum WorkflowAPI {
   decodeXML = 'decodeXML',
   updateTransition = 'updateTransition',
   selectCell = 'selectCell',
+  zoomIn = 'zoomIn',
+  zoomOut = 'zoomOut',
 }
 
 export type WorkflowAPIType =
@@ -26,7 +28,9 @@ export type WorkflowAPIType =
   | { type: WorkflowAPI.getXML }
   | { type: WorkflowAPI.decodeXML; value: string }
   | { type: WorkflowAPI.setInitial }
-  | { type: WorkflowAPI.selectCell; value: string };
+  | { type: WorkflowAPI.selectCell; value: string }
+  | { type: WorkflowAPI.zoomIn }
+  | { type: WorkflowAPI.zoomOut }
 
 export interface WorkflowAPIDefinition {
   apiEvent<T extends WorkflowAPIType>(api: T): WorkflowAPIReturn<T>;

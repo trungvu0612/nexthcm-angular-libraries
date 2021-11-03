@@ -29,7 +29,7 @@
           <td>{{ item.organization.name }}</td>
           <td>{{ item.jobTitle?.name }}</td>
           <td>{{ item.directReport.name }}</td>
-          <td>{{ item.roles[0]?.name }}</td>
+          <td>{{ item.roles | joinByKey: 'name' }}</td>
           <td>
             <tui-toggle [disabled]="true" [ngModel]="item.status" [showIcons]="true" size="l"></tui-toggle>
           </td>

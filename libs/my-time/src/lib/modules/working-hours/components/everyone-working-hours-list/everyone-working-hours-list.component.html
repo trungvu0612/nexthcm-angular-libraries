@@ -49,16 +49,16 @@
           {{ item.workingDay ? (item.workingDay | translocoDecimal: { maximumFractionDigits: 1 }) : '-' }}
         </td>
         <td class="font-semibold text-center">
-          {{ item.ot ? (item.ot | translocoDecimal: { maximumFractionDigits: 1 }) : '-' }}
+          {{ item.ot ? (item.ot | translocoDecimal) : '-' }}
         </td>
         <td class="font-semibold text-center">
-          {{ item.onsiteDay ? (item.onsiteDay | translocoDecimal: { maximumFractionDigits: 1 }) : '-' }}
+          {{ item.onsiteDay ? (item.onsiteDay | translocoDecimal) : '-' }}
         </td>
         <td class="font-semibold text-center">
-          {{ item.wfh ? (item.wfh | translocoDecimal: { maximumFractionDigits: 1 }) : '-' }}
+          {{ item.wfh ? (item.wfh | translocoDecimal) : '-' }}
         </td>
         <td class="font-semibold text-center">
-          {{ item.countLeave ? (item.countLeave | translocoDecimal: { maximumFractionDigits: 1 }) : '-' }}
+          {{ item.countLeave ? (item.countLeave | translocoDecimal) : '-' }}
         </td>
       </ng-container>
     </ng-template>

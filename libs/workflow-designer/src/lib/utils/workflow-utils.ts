@@ -3,7 +3,9 @@ import { WorkflowStatus } from '../models';
 import mx from './mxgraph';
 
 export class WorkflowUtils {
-  /** Constructs a new application (returns an mxEditor instance) */
+  /**
+   * Constructs a new application (returns an mxEditor instance)
+   */
   static createEditor(config: string, splash: HTMLElement): mxEditor {
     let editor = new mx.mxEditor();
     try {
@@ -63,7 +65,9 @@ export class WorkflowUtils {
     return style;
   }
 
-  /** Fades-out the splash screen */
+  /**
+   * Fades-out the splash screen
+   */
   static hideSplash(splash: HTMLElement): void {
     if (splash) {
       try {

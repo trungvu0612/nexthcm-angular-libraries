@@ -1,12 +1,8 @@
-import { WorkflowStatusType } from '@nexthcm/cdk';
+import { BaseWorkflow, WorkflowStatusType } from '@nexthcm/cdk';
 import { Status } from './status';
 import { Transition } from './transition';
 
-export interface Workflow {
-  id: string;
-  name: string;
-  description: string;
-  template: string;
+export interface Workflow extends BaseWorkflow {
   states: Status[];
   transitions: Transition[];
 }

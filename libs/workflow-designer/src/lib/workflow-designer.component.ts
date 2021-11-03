@@ -48,8 +48,7 @@ export class WorkflowDesignerComponent implements OnInit {
     return this.editor.graph.getSelectionModel();
   }
 
-  @HostListener('window:resize', ['$event'])
-  onResize(): void {
+  @HostListener('window:resize', ['$event']) onResize(): void {
     this.editor.graph.center();
   }
 
@@ -58,6 +57,8 @@ export class WorkflowDesignerComponent implements OnInit {
     this.editor = WorkflowUtils.createEditor('config/workflow-designer.xml', this.splash.nativeElement);
     this.originStatus = this.drawStatus();
     this.editor.graph.center();
+    this.editor.graph.setPanning(true);
+    this.editor.graph.panningHandler.useLeftButtonForPanning = true;
     this.graphSelectionModel.addListener(mx.mxEvent.CHANGE, (sender) => this.handleSelectCell(sender));
     if (this.editMode) {
       this.editor.graph.setEnabled(true);
@@ -289,6 +290,12 @@ export class WorkflowDesignerComponent implements OnInit {
         break;
       case WorkflowAPI.selectCell:
         this.onSelectCell(api.value);
+        break;
+      case WorkflowAPI.zoomIn:
+        this.editor.graph.zoomIn();
+        break;
+      case WorkflowAPI.zoomOut:
+        this.editor.graph.zoomOut();
         break;
       default:
         break;

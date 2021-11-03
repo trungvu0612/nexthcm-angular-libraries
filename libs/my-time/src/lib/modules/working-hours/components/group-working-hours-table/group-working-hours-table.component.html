@@ -15,9 +15,9 @@
           }}
         </td>
         <td class="text-center">{{ item.workingDay ? (item.workingDay | translocoDecimal: { maximumFractionDigits: 1 }) : '-' }}</td>
-        <td class="text-center">{{ item.ot ? (item.ot | translocoDecimal: { maximumFractionDigits: 1 }) : '-' }}</td>
-        <td class="text-center">{{ item.onsiteDay ? (item.onsiteDay | translocoDecimal: { maximumFractionDigits: 1 }) : '-' }}</td>
-        <td class="text-center">{{ item.wfh ? (item.wfh | translocoDecimal: { maximumFractionDigits: 1 }) : '-' }}</td>
+        <td class="text-center">{{ item.ot ? (item.ot | translocoDecimal) : '-' }}</td>
+        <td class="text-center">{{ item.onsiteDay ? (item.onsiteDay | translocoDecimal) : '-' }}</td>
+        <td class="text-center">{{ item.wfh ? (item.wfh | translocoDecimal) : '-' }}</td>
         <td class="text-center">{{ item.leaveType }}</td>
       </ng-container>
     </ng-template>

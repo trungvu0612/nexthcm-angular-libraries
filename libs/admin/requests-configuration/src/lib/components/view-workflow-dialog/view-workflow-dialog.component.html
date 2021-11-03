@@ -1,0 +1,7 @@
+<div class="relative p-5 mx-4 my-10 border">
+  <div [collapsed]="true" class="zoom-buttons" orientation="vertical" tuiGroup>
+    <button (click)="onZoomIn()" appearance="secondary" icon="tuiIconPlusLarge" size="s" tuiIconButton></button>
+    <button (click)="onZoomOut()" appearance="secondary" icon="tuiIconMinusLarge" size="s" tuiIconButton></button>
+  </div>
+  <hcm-workflow-designer #workflowDesigner class="h-full"></hcm-workflow-designer>
+</div>

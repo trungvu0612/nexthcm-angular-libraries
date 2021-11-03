@@ -1,0 +1,8 @@
+:host {
+  display: block;
+
+  .zoom-buttons {
+    position: absolute;
+    z-index: 999;
+  }
+}

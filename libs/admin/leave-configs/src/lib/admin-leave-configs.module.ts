@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Route, RouterModule } from '@angular/router';
 import { AkitaNgEffectsModule } from '@datorama/akita-ng-effects';
-import { JobTitlesEffects, WorkflowsEffects } from '@nexthcm/cdk';
+import { JobTitlesEffects, JoinByKeyPipeModule, WorkflowsEffects } from '@nexthcm/cdk';
 import { inlineLoaderFactory } from '@nexthcm/core';
 import {
   BaseFormComponentModule,
@@ -33,7 +33,6 @@ import { EmployeeLeaveEntitlementManagementComponent } from './pages/employee-le
 import { LeaveEntitlementManagementComponent } from './pages/leave-entitlement-management/leave-entitlement-management.component';
 import { LeaveLevelApprovalManagementComponent } from './pages/leave-level-approval-management/leave-level-approval-management.component';
 import { LeaveTypeManagementComponent } from './pages/leave-type-management/leave-type-management.component';
-import { BaseObjectsPipe } from './pipes/base-objects.pipe';
 
 export const ADMIN_LEAVE_CONFIGS_ROUTES: Route[] = [
   {
@@ -70,7 +69,6 @@ const TABS: MenuItem[] = [
     LeaveEntitlementManagementComponent,
     LeaveLevelApprovalManagementComponent,
     EmployeeLeaveEntitlementManagementComponent,
-    BaseObjectsPipe,
   ],
   imports: [
     CommonModule,
@@ -96,6 +94,7 @@ const TABS: MenuItem[] = [
     InputFilterComponentModule,
     TranslocoLocaleModule,
     TuiPrimitiveCheckboxModule,
+    JoinByKeyPipeModule,
   ],
   providers: [
     AdminLeaveConfigsService,

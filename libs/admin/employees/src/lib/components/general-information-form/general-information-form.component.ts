@@ -113,7 +113,6 @@ export class GeneralInformationFormComponent {
               className: 'tui-form__row block',
               type: 'upload-file',
               templateOptions: {
-                required: true,
                 accept: 'image/*',
                 labelClassName: 'font-semibold',
                 previewImage: true,

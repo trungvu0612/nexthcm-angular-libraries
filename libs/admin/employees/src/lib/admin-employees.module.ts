@@ -7,6 +7,7 @@ import {
   AddressService,
   JobLevelsEffects,
   JobTitlesEffects,
+  JoinByKeyPipeModule,
   OfficesEffects,
   OrganizationsEffects,
   PromptComponentModule,
@@ -113,6 +114,7 @@ export const ADMIN_EMPLOYEE_ROUTES: Routes = [
       OrganizationsEffects,
     ]),
     NgxPermissionsModule,
+    JoinByKeyPipeModule,
   ],
   declarations: [
     EditEmployeeComponent,

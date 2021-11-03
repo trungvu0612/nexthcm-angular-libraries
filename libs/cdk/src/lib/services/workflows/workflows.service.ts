@@ -3,8 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { ACCOUNT_API_PATH } from '../../constants';
-import { BaseResponse, WorkflowStatus } from '../../models';
-import { Workflow } from '../../models/workflow';
+import { BaseResponse, BaseWorkflow, WorkflowStatus } from '../../models';
 
 @Injectable({
   providedIn: 'root',
@@ -12,8 +11,8 @@ import { Workflow } from '../../models/workflow';
 export class WorkflowsService {
   constructor(private http: HttpClient) {}
 
-  getAllWorkflows(): Observable<Workflow[]> {
-    return this.http.get<Workflow[]>(`${ACCOUNT_API_PATH}/process/all`);
+  getAllWorkflows(): Observable<BaseWorkflow[]> {
+    return this.http.get<BaseWorkflow[]>(`${ACCOUNT_API_PATH}/process/all`);
   }
 
   searchWorkflowStatuses(search: string): Observable<WorkflowStatus[]> {

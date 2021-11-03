@@ -12,7 +12,7 @@
         <td>{{ item.userInfo.cif }}</td>
         <td class="font-bold uppercase">{{ item.userInfo.fullName }}</td>
         <td>{{ item.fromDate | translocoDate }} - {{ item.toDate | translocoDate }}</td>
-        <td>{{ item.totalDay ? (item.totalDay | translocoDecimal: { maximumFractionDigits: 1 }) : '-' }}</td>
+        <td>{{ item.totalDay ? (item.totalDay | translocoDecimal) : '-' }}</td>
         <td>
           <tui-tag
             *ngIf="item.currentState as status"
