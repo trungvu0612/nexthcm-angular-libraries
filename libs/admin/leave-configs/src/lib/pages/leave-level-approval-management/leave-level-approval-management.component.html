@@ -10,12 +10,12 @@
       (event)="eventEmitted($event)"
       [columns]="(columns$ | async) || []"
       [configuration]="configuration"
-      [data]="(data$ | async) || []"s
+      [data]="(data$ | async) || []"
     >
       <ng-template let-row>
         <ng-container *tuiLet="item(row) as item">
           <td>{{ item.leaveType?.name }}</td>
-          <td>{{ item.jobTitleDTOList | joinByKey }}</td>
+          <td>{{ item.jobTitleDTOList | joinByKey: 'name' }}</td>
           <td class="text-center">{{ item.totalLeave }}</td>
           <td>
             <div class="flex items-center">

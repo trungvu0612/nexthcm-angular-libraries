@@ -4,8 +4,8 @@ import { isPresent } from '@taiga-ui/cdk';
 @Pipe({
   name: 'joinByKey',
 })
-export class JoinByKeyPipe<T> implements PipeTransform {
-  transform(values: T[], key: keyof T): string {
+export class JoinByKeyPipe<T extends Record<string, unknown>> implements PipeTransform {
+  transform(values: T[], key: string): string {
     return (values || [])
       .map((value) => value[key])
       .filter(isPresent)
