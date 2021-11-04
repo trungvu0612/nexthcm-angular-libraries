@@ -15,6 +15,7 @@ pipeline {
         stage('Build web') {
           steps {
             sh 'yarn upgrade'
+            sh 'yarn'
             sh 'yarn build -c ${ENVIRONMENT}'
           }
         }
