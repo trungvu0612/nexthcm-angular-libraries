@@ -74,7 +74,6 @@ export class GeneralInformationFormComponent {
                 translocoScope: this.scope,
               },
               expressionProperties: {
-                'templateOptions.readonly': 'model.registerType === "LDAP"',
                 className: (model, formState) => (formState.editMode ? 'tui-form__row block' : ''),
               },
             },
@@ -90,9 +89,6 @@ export class GeneralInformationFormComponent {
                 labelClassName: 'font-semibold',
                 placeholder: 'enterLastName',
                 translocoScope: this.scope,
-              },
-              expressionProperties: {
-                'templateOptions.readonly': 'model.registerType === "LDAP"',
               },
             },
             {
