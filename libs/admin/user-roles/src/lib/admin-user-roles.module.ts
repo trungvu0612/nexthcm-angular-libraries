@@ -14,6 +14,7 @@ import {
   TuiDataListModule,
   TuiErrorModule,
   TuiLabelModule,
+  TuiLinkModule,
   TuiLoaderModule,
   TuiSvgModule,
   TuiTextfieldControllerModule,
@@ -71,6 +72,7 @@ export const adminUserRolesRoutes: Route[] = [
     PolymorpheusModule,
     TuiErrorModule,
     TuiLabelModule,
+    TuiLinkModule,
   ],
   declarations: [UserRoleManagementComponent, UpsertUserRoleDialogComponent, FormlySelectPermissionsComponent],
   providers: [

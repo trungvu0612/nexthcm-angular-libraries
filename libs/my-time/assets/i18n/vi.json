@@ -117,5 +117,6 @@
     "transferEntitlementToAnotherLeaveTypeInNextPeriod": "Chuyển đổi sang quyền lợi nghỉ phép thuộc kì kế tiếp"
   },
   "canTransferEntitlementsTo": "Có thể chuyển đổi quyền lợi sang",
-  "chooseLeaveType": "Chọn loại nghỉ phép..."
+  "chooseLeaveType": "Chọn loại nghỉ phép...",
+  "myTeam": "Đội của tôi"
 }

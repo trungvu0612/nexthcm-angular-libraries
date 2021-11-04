@@ -1,15 +1,20 @@
+import { HttpParams } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, Inject, Injector, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, convertToParamMap, Params, Router } from '@angular/router';
+import { Actions } from '@datorama/akita-ng-effects';
 import {
   AbstractServerSortPaginationTableComponent,
+  BaseObject,
   EmployeeGeneralInformation,
   EmployeeInfo,
+  loadRoles,
   Pagination,
   PromptService,
+  RolesQuery,
 } from '@nexthcm/cdk';
 import { ProviderScope, TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
-import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
+import { isPresent, TuiContextWithImplicit, TuiDestroyService, tuiPure, TuiStringHandler } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { BaseComponent, Columns } from 'ngx-easy-table';
@@ -65,6 +70,8 @@ export class EmployeeManagementComponent
     catchError(() => of(false))
   );
   readonly search$ = new Subject<string | null>();
+  readonly role$ = new Subject<string | null>();
+  readonly rolesList$ = this.rolesQuery.selectAll();
 
   constructor(
     @Inject(TRANSLOCO_SCOPE) readonly scope: TranslocoScope,
@@ -76,9 +83,12 @@ export class EmployeeManagementComponent
     private readonly adminEmployeesService: AdminEmployeesService,
     private readonly destroy$: TuiDestroyService,
     private readonly translocoService: TranslocoService,
-    private readonly promptService: PromptService
+    private readonly promptService: PromptService,
+    private readonly rolesQuery: RolesQuery,
+    actions: Actions
   ) {
     super(state, router, activatedRoute);
+    actions.dispatch(loadRoles());
     state.connect(this.request$.pipe(filter(isPresent)));
     state.hold(
       this.search$.pipe(
@@ -88,14 +98,42 @@ export class EmployeeManagementComponent
         tap((searchQuery) => this.queryParams$.next(this.queryParams$.value.set('search', searchQuery)))
       )
     );
+    state.hold(this.role$, (roleId) => this.queryParams$.next(this.onFilter('roleId', roleId)));
+  }
+
+  @tuiPure
+  rolesStringify(items: ReadonlyArray<BaseObject>): TuiStringHandler<TuiContextWithImplicit<string>> {
+    const map = new Map(items.map(({ id, name }) => [id, name]));
+
+    return ({ $implicit }: TuiContextWithImplicit<string>) => map.get($implicit) || '';
   }
 
   ngOnInit(): void {
-    const searchParam = this.activatedRoute.snapshot.queryParams.search;
-
-    if (searchParam) {
-      this.search$.next(searchParam);
+    if (convertToParamMap(this.activatedRoute.snapshot.queryParams).keys.length) {
+      this.parseParams(this.activatedRoute.snapshot.queryParams);
     }
+  }
+
+  onFilter(key: string, value: string | number | null): HttpParams {
+    let httpParams = this.queryParams$.value;
+    if (value !== null) {
+      httpParams = httpParams.set(key, value);
+    } else {
+      httpParams = httpParams.delete(key);
+    }
+    return httpParams;
+  }
+
+  private parseParams(params: Params): void {
+    let queryParams = this.queryParams$.value;
+
+    if (params.search) {
+      queryParams = queryParams.set('search', params.search);
+    }
+    if (params.roleId) {
+      queryParams = queryParams.set('roleId', params.roleId);
+    }
+    this.queryParams$.next(queryParams);
   }
 
   onAddEmployee(): void {

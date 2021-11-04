@@ -49,12 +49,12 @@ export class JobTitleManagementComponent extends AbstractServerSortPaginationTab
     readonly state: RxState<Pagination<JobTitle>>,
     readonly router: Router,
     readonly activatedRoute: ActivatedRoute,
-    private adminJobTitlesService: AdminJobTitlesService,
-    private destroy$: TuiDestroyService,
-    private dialogService: TuiDialogService,
-    private injector: Injector,
-    private translocoService: TranslocoService,
-    private promptService: PromptService
+    private readonly adminJobTitlesService: AdminJobTitlesService,
+    private readonly destroy$: TuiDestroyService,
+    private readonly dialogService: TuiDialogService,
+    private readonly injector: Injector,
+    private readonly translocoService: TranslocoService,
+    private readonly promptService: PromptService
   ) {
     super(state, router, activatedRoute);
     state.connect(this.request$.pipe(filter(isPresent)));

@@ -22,12 +22,14 @@ import {
   InputFilterComponentModule,
   LayoutComponent,
   LayoutModule,
+  SelectFilterComponentModule,
 } from '@nexthcm/ui';
 import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
 import { FormlyModule } from '@ngx-formly/core';
+import { PushModule } from '@rx-angular/template';
 import { TuiTablePaginationModule } from '@taiga-ui/addon-table';
 import { TuiLetModule } from '@taiga-ui/cdk';
-import { TuiButtonModule, TuiLabelModule, TuiLoaderModule, TuiSvgModule } from '@taiga-ui/core';
+import { TuiButtonModule, TuiDataListModule, TuiLabelModule, TuiLoaderModule, TuiSvgModule } from '@taiga-ui/core';
 import { TuiCheckboxModule, TuiTabsModule, TuiToggleModule } from '@taiga-ui/kit';
 import { PolymorpheusModule } from '@tinkoff/ng-polymorpheus';
 import { academicCap, HeroIconModule, identification, informationCircle } from 'ng-heroicon';
@@ -115,6 +117,9 @@ export const ADMIN_EMPLOYEE_ROUTES: Routes = [
     ]),
     NgxPermissionsModule,
     JoinByKeyPipeModule,
+    SelectFilterComponentModule,
+    TuiDataListModule,
+    PushModule,
   ],
   declarations: [
     EditEmployeeComponent,

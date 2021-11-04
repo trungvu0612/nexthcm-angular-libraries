@@ -16,5 +16,6 @@
   "updateUserRoleSuccessfully": "<b>Cập nhật vai trò thành công!</b>",
   "createUserRoleSuccessfully": "<b>Tạo mới vai trò thành công!</b>",
   "deleteUserRole": "<b>Bạn có muốn xóa vai trò này ?</b>",
-  "deleteUserRoleSuccessfully": "<b>Xóa vai trò thành công</b>!"
+  "deleteUserRoleSuccessfully": "<b>Xóa vai trò thành công</b>!",
+  "viewListEmployeeWithRole": "Xem danh sách nhân viên với vai trò này"
 }

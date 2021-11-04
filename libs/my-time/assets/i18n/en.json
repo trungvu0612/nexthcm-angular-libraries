@@ -118,5 +118,6 @@
     "transferEntitlementToAnotherLeaveTypeInNextPeriod": "Transfer entitlement to another leave type in next period"
   },
   "canTransferEntitlementsTo": "Can transfer entitlements to",
-  "chooseLeaveType": "Choose leave type..."
+  "chooseLeaveType": "Choose leave type...",
+  "myTeam": "My Team"
 }

@@ -16,5 +16,6 @@
   "updateUserRoleSuccessfully": "<b>Update user role successfully!</b>",
   "createUserRoleSuccessfully": "<b>Create new user role successfully!</b>",
   "deleteUserRole": "<b>Are you sure you want to remove this role?</b>",
-  "deleteUserRoleSuccessfully": "<b>Remove this role successfully!</b>"
+  "deleteUserRoleSuccessfully": "<b>Remove this role successfully!</b>",
+  "viewListEmployeeWithRole": "View list of employees with this role"
 }

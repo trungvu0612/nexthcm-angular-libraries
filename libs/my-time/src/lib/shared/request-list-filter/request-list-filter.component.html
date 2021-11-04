@@ -1,15 +1,29 @@
-<section *transloco="let t" class="grid grid-cols-5 gap-4">
+<section *transloco="let t" class="grid grid-cols-7 gap-4 items-center">
   <hcm-input-filter
     (valueChange)="year$.next($event)"
     [label]="t('year')"
     numberValue
     propertyName="year"
   ></hcm-input-filter>
-  <hcm-select-month-filter (monthChange)="month$.next($event)"></hcm-select-month-filter>
+
+  <hcm-select-month-filter (monthChange)="month$.next($event)" class="col-span-2"></hcm-select-month-filter>
+
   <hcm-workflow-status-combo-box-filter
     (valueChange)="onFilterByWorkflowStatuses($event)"
     class="col-span-3"
   ></hcm-workflow-status-combo-box-filter>
+
+  <tui-filter
+    (ngModelChange)="onChangeValue($event)"
+    [content]="content"
+    [items]="['MY_TEAM']"
+    [ngModel]="filterType"
+    size="l"
+  ></tui-filter>
+  <ng-template #content let-item>
+    {{ getFilterLabel(item) | transloco }}
+  </ng-template>
+
   <hcm-input-filter
     (valueChange)="search$.next($event)"
     *ngIf="includeSearch"

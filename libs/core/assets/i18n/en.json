@@ -611,5 +611,6 @@
   "leaveTypes": "Leave types",
   "numberOfDays": "Number of days",
   "knowledgeBaseCategories": "Knowledge Base Categories",
-  "onsiteOffice": "Onsite office"
+  "onsiteOffice": "Onsite office",
+  "role": "Role"
 }

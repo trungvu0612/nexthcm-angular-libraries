@@ -2,7 +2,8 @@ import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { CommonModule } from '@angular/common';
 import { HttpParams } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, Input, NgModule, OnInit } from '@angular/core';
-import { ActivatedRoute, convertToParamMap, Params } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { ActivatedRoute, convertToParamMap, Params, Router } from '@angular/router';
 import {
   InputFilterComponentModule,
   SelectFilterComponentModule,
@@ -13,10 +14,14 @@ import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
 import { tuiDefaultProp } from '@taiga-ui/cdk';
 import { TuiDataListModule } from '@taiga-ui/core';
-import { TuiTagModule } from '@taiga-ui/kit';
+import { TuiFilterModule, TuiTagModule } from '@taiga-ui/kit';
 import { endOfMonth, endOfYear, setMonth, setYear, startOfMonth, startOfYear } from 'date-fns';
 import { BehaviorSubject, combineLatest, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, skip } from 'rxjs/operators';
+
+const getLabel: Record<string, string> = {
+  MY_TEAM: 'myTeam',
+};
 
 @Component({
   selector: 'hcm-request-list-filter',
@@ -28,16 +33,20 @@ import { debounceTime, distinctUntilChanged, skip } from 'rxjs/operators';
 export class RequestListFilterComponent implements OnInit {
   @Input() statusFilter = true;
 
+  filterType: string[] = [];
+
   readonly year$ = new BehaviorSubject<string | null>(null);
   readonly month$ = new BehaviorSubject<number | null>(null);
   readonly search$ = new Subject<string | null>();
   readonly statusId$ = new Subject<string | null>();
+  readonly filterType$ = new Subject<string | null>();
   private httpParams$ = new BehaviorSubject<HttpParams>(new HttpParams());
 
   constructor(
-    private state: RxState<Record<string, unknown>>,
-    private translocoService: TranslocoService,
-    private activatedRoute: ActivatedRoute
+    private readonly state: RxState<Record<string, unknown>>,
+    private readonly translocoService: TranslocoService,
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly router: Router
   ) {
     state.hold(combineLatest([this.year$.pipe(skip(1), debounceTime(1000), distinctUntilChanged()), this.month$]), () =>
       this.httpParams$.next(this.filterByYearMonth())
@@ -46,6 +55,7 @@ export class RequestListFilterComponent implements OnInit {
       this.httpParams$.next(this.onFilter('search', search))
     );
     state.hold(this.statusId$, (statusId) => this.httpParams$.next(this.onFilter('wfStateId', statusId)));
+    state.hold(this.filterType$, (filterType) => this.httpParams$.next(this.onFilter('filterType', filterType)));
   }
 
   @Input()
@@ -105,6 +115,22 @@ export class RequestListFilterComponent implements OnInit {
     return httpParams;
   }
 
+  onChangeValue(filters: string[]): void {
+    const filterType = filters.length ? filters[0] : null;
+
+    this.filterType = filters;
+    this.filterType$.next(filterType);
+    this.router.navigate([], {
+      queryParams: { filterType },
+      queryParamsHandling: 'merge',
+      replaceUrl: true,
+    });
+  }
+
+  getFilterLabel(filter: string): string {
+    return `myTime.${getLabel[filter]}`;
+  }
+
   private parseParams(params: Params): void {
     if (params.year) {
       if (!isNaN(Number(params.year))) {
@@ -116,6 +142,10 @@ export class RequestListFilterComponent implements OnInit {
     }
     if (params.search) {
       this.search$.next(params.search);
+    }
+    if (params.filterType) {
+      this.filterType = [params.filterType];
+      this.filterType$.next(params.filterType);
     }
   }
 }
@@ -131,6 +161,8 @@ export class RequestListFilterComponent implements OnInit {
     InputFilterComponentModule,
     SelectFilterComponentModule,
     WorkflowStatusComboBoxFilterComponentModule,
+    TuiFilterModule,
+    FormsModule,
   ],
   exports: [RequestListFilterComponent],
 })

@@ -4,21 +4,35 @@
       {{ t('employees.addNewEmployee') }}
     </button>
   </ng-container>
-  <hcm-input-filter
-    (valueChange)="search$.next($event)"
-    *transloco="let t"
-    [label]="t('searchByCifFullNameOffice')"
-    class="mb-5"
-    icon="tuiIconSearchLarge"
-    propertyName="search"
-  ></hcm-input-filter>
-  <tui-loader [overlay]="true" [showLoader]="(loading$ | async) === true">
+  <div *transloco="let t" class="grid grid-cols-4 gap-4 mb-5">
+    <hcm-input-filter
+      (valueChange)="search$.next($event)"
+      [label]="t('searchByCifFullNameOffice')"
+      class="col-span-3"
+      icon="tuiIconSearchLarge"
+      propertyName="search"
+    ></hcm-input-filter>
+    <hcm-select-filter
+      (valueChange)="role$.next($event)"
+      *tuiLet="rolesList$ | push as roles"
+      [label]="t('role')"
+      [valueContent]="rolesStringify(roles || [])"
+      propertyName="roleId"
+    >
+      <tui-data-list>
+        <button *ngFor="let role of roles" [value]="role.id" tuiOption>
+          {{ role.name }}
+        </button>
+      </tui-data-list>
+    </hcm-select-filter>
+  </div>
+  <tui-loader [overlay]="true" [showLoader]="(loading$ | push) === true">
     <ngx-table
       #table
       (event)="eventEmitted($event)"
-      [columns]="(columns$ | async) || []"
+      [columns]="(columns$ | push) || []"
       [configuration]="configuration"
-      [data]="(data$ | async) || []"
+      [data]="(data$ | push) || []"
     >
       <ng-template let-row>
         <ng-container *tuiLet="item(row) as item">
@@ -63,6 +77,6 @@
   <tui-table-pagination
     (pageChange)="onPage($event)"
     (sizeChange)="onSize($event)"
-    [total]="(total$ | async) || 0"
+    [total]="(total$ | push) || 0"
   ></tui-table-pagination>
 </hcm-page>
