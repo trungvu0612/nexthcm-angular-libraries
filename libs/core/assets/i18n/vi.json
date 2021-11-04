@@ -577,8 +577,8 @@
   "healthCareInsuranceList": "Danh sách Bảo hiểm sức khoẻ cá nhân",
   "overtime": "Tăng ca",
   "updateTimesheet": "Cập nhật bảng ghi thời gian",
-  "workingOutside": "Làm việc bên ngoài",
-  "workFromHome": "Làm tại nhà",
+  "workingOnsite": "Làm việc onsite",
+  "workFromHome": "Làm việc tại nhà",
   "workingAfterHours": "Làm việc ngoài giờ",
   "addComment": "Thêm bình luận",
   "leave": "Nghỉ phép",
@@ -609,5 +609,6 @@
   "chooseLeaveType": "Chọn loại nghỉ phép...",
   "searchLeaveTypes": "Tìm loại nghỉ phép...",
   "numberOfDays": "Số ngày",
-  "knowledgeBaseCategories": "Danh mục Cơ sở tri thức"
+  "knowledgeBaseCategories": "Danh mục Cơ sở tri thức",
+  "onsiteOffice": "Văn phòng onsite"
 }

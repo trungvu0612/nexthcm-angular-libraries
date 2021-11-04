@@ -1,7 +1,7 @@
 export interface RequestTypeUrlPaths {
   workingAfterHours: string;
   updateTimesheet: string;
-  workingOutside: string;
+  workingOnsite: string;
   workFromHome: string;
   leave: string;
   transferLeaveEntitlements?: string;
@@ -10,7 +10,7 @@ export interface RequestTypeUrlPaths {
 export interface CombineRequestTypeUrlPaths extends RequestTypeUrlPaths {
   myWorkingAfterHours: string;
   myUpdateTimesheet: string;
-  myWorkingOutside: string;
+  myWorkingOnsite: string;
   myWorkFromHome: string;
   myLeave: string;
   myTransferLeaveEntitlements: string;

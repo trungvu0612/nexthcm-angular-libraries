@@ -5,11 +5,16 @@
       <div class="mb-3 font-semibold text-blue-500 tui-text_h5">{{ employee.fullName }}</div>
       <div class="text-lg">{{ employee.jobTitle?.name }}</div>
     </section>
+
     <section class="py-5 border-b">
       <div class="table w-full">
         <div class="table-row">
           <div class="table-label">{{ t('cif') }}:</div>
           <div class="table-value">{{ employee.cif }}</div>
+        </div>
+        <div class="table-row">
+          <div class="table-label">{{ t('office') }}:</div>
+          <div class="table-value">{{ employee.office?.name }}</div>
         </div>
         <div class="table-row">
           <div class="table-label">{{ t('status') }}:</div>
@@ -51,6 +56,7 @@
             </div>
           </ng-template>
         </div>
+
         <ng-container [ngSwitch]="requestType">
           <ng-container *ngSwitchCase="'workFromHome'">
             <div class="table-row">
@@ -100,9 +106,9 @@
               <div class="table-label">{{ t('duration') }}:</div>
               <div class="table-value">
                 {{
-                  data.updateTotalTime
-                    ? (data.updateTotalTime / 3600 | translocoDecimal: { maximumFractionDigits: 1 })
-                    : 0
+                data.updateTotalTime
+                  ? (data.updateTotalTime / 3600 | translocoDecimal: { maximumFractionDigits: 1 })
+                  : 0
                 }}h
               </div>
             </div>
@@ -111,7 +117,7 @@
               <div class="table-value">{{ data.updateWorkingDay }}</div>
             </div>
           </ng-container>
-          <ng-container *ngSwitchCase="'workingOutside'">
+          <ng-container *ngSwitchCase="'workingOnsite'">
             <div class="table-row">
               <div class="table-label">{{ t('days') }}:</div>
               <div class="table-value">
@@ -121,6 +127,10 @@
             <div class="table-row">
               <div class="table-label">{{ t('date') }}:</div>
               <div class="table-value">{{ data.fromDate | translocoDate }} - {{ data.toDate | translocoDate }}</div>
+            </div>
+            <div class="table-row">
+              <div class="table-label">{{ t('onsiteOffice') }}:</div>
+              <div class="table-value">{{ data.officeDTO?.name }}</div>
             </div>
           </ng-container>
           <ng-container *ngSwitchCase="'workingAfterHours'">
@@ -138,11 +148,6 @@
         </ng-container>
 
         <div class="table-row">
-          <div class="table-label">{{ t('office') }}:</div>
-          <div class="table-value">{{ employee.office?.name }}</div>
-        </div>
-
-        <div class="table-row">
           <div class="table-label">{{ t('sendTo') }}:</div>
           <div class="table-value">
             <div *ngIf="data.sendToDTO || data.sendToUser as sendTo" class="flex items-center">
@@ -158,6 +163,7 @@
         </div>
       </div>
     </section>
+
     <div *ngIf="data.nextStates.length" class="flex justify-center py-5 border-b">
       <tui-hosted-dropdown [(open)]="open" [content]="dropdown" tuiDropdownAlign="left">
         <button [iconRight]="icon" appearance="secondary" tuiButton type="button">{{ t('functions') }}</button>

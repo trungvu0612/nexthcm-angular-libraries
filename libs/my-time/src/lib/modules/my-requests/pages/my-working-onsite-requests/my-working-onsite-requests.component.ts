@@ -9,28 +9,29 @@ import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { BaseComponent, Columns } from 'ngx-easy-table';
 import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
 import { catchError, filter, map, shareReplay, startWith, switchMap } from 'rxjs/operators';
-import { WorkingOutsideRequest } from '../../../../internal/models';
+import { WorkingOnsiteRequest } from '../../../../internal/models';
 import { MyTimeService } from '../../../../services';
 import { AbstractRequestListComponent } from '../../../../shared/abstract-components/abstract-request-list.component';
 
 @Component({
-  selector: 'hcm-my-working-outside-requests',
-  templateUrl: './my-working-outside-requests.component.html',
-  styleUrls: ['./my-working-outside-requests.component.scss'],
+  selector: 'hcm-my-working-onsite-requests',
+  templateUrl: './my-working-onsite-requests.component.html',
+  styleUrls: ['./my-working-onsite-requests.component.scss'],
   providers: [RxState, TuiDestroyService],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MyWorkingOutsideRequestsComponent extends AbstractRequestListComponent<WorkingOutsideRequest> {
+export class MyWorkingOnsiteRequestsComponent extends AbstractRequestListComponent<WorkingOnsiteRequest> {
   @ViewChild('table') table!: BaseComponent;
 
   readonly userId = this.authService.get('userInfo', 'userId');
-  readonly requestTypeUrlPath = 'workingOutside';
+  readonly requestTypeUrlPath = 'workingOnsite';
   readonly columns$: Observable<Columns[]> = this.translocoService
     .selectTranslateObject('MY_TIME_REQUEST_LIST_COLUMNS', {}, (this.scope as ProviderScope).scope)
     .pipe(
       map((result) => [
         { key: 'fromDate', title: result.dateRange },
         { key: 'days', title: result.days, cssClass: { name: 'text-center', includeHeader: true } },
+        { key: 'officeDTO', title: result.office },
         { key: 'status', title: result.status },
         { key: 'comment', title: result.Comment },
         { key: '', title: result.functions, orderEnabled: false },
@@ -48,7 +49,7 @@ export class MyWorkingOutsideRequestsComponent extends AbstractRequestListCompon
   ]).pipe(
     switchMap(() =>
       this.myTimeService
-        .getRequests<WorkingOutsideRequest>('myWorkingOutside', this.queryParams$.value)
+        .getRequests<WorkingOnsiteRequest>('myWorkingOnsite', this.queryParams$.value)
         .pipe(startWith(null))
     ),
     shareReplay(1)
@@ -61,7 +62,7 @@ export class MyWorkingOutsideRequestsComponent extends AbstractRequestListCompon
   constructor(
     readonly myTimeService: MyTimeService,
     readonly destroy$: TuiDestroyService,
-    readonly state: RxState<Pagination<WorkingOutsideRequest>>,
+    readonly state: RxState<Pagination<WorkingOnsiteRequest>>,
     readonly router: Router,
     readonly activatedRoute: ActivatedRoute,
     @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope,

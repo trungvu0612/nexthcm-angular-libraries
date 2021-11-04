@@ -14,13 +14,13 @@ import { MyTransferLeaveEntitlementsRequestsComponent } from './modules/my-reque
 import { MyUpdateTimesheetRequestsComponent } from './modules/my-requests/pages/my-update-timesheet-requests/my-update-timesheet-requests.component';
 import { MyWorkFromHomeRequestsComponent } from './modules/my-requests/pages/my-work-from-home-requests/my-work-from-home-requests.component';
 import { MyWorkingAfterHoursRequestsComponent } from './modules/my-requests/pages/my-working-after-hours-requests/my-working-after-hours-requests.component';
-import { MyWorkingOutsideRequestsComponent } from './modules/my-requests/pages/my-working-outside-requests/my-working-outside-requests.component';
+import { MyWorkingOnsiteRequestsComponent } from './modules/my-requests/pages/my-working-onsite-requests/my-working-onsite-requests.component';
 import { LeaveRequestListComponent } from './modules/request-management/pages/leave-request-list/leave-request-list.component';
 import { TransferLeaveEntitlementsRequestListComponent } from './modules/request-management/pages/transfer-leave-entitlements-request-list/transfer-leave-entitlements-request-list.component';
 import { UpdateTimesheetRequestListComponent } from './modules/request-management/pages/update-timesheet-request-list/update-timesheet-request-list.component';
 import { WorkFormHomeRequestListComponent } from './modules/request-management/pages/work-form-home-request-list/work-form-home-request-list.component';
 import { WorkingAfterHoursRequestListComponent } from './modules/request-management/pages/working-after-hours-request-list/working-after-hours-request-list.component';
-import { WorkingOutsideRequestListComponent } from './modules/request-management/pages/working-outside-request-list/working-outside-request-list.component';
+import { WorkingOnsiteRequestListComponent } from './modules/request-management/pages/working-onsite-request-list/working-onsite-request-list.component';
 import { RequestManagementComponent } from './modules/request-management/request-management.component';
 import { RequestManagementModule } from './modules/request-management/request-management.module';
 import { EveryoneWorkingHoursListComponent } from './modules/working-hours/components/everyone-working-hours-list/everyone-working-hours-list.component';
@@ -65,7 +65,7 @@ export const MY_TIME_ROUTES: Routes = [
         children: [
           { path: 'working-after-hours', component: MyWorkingAfterHoursRequestsComponent },
           { path: 'update-timesheet', component: MyUpdateTimesheetRequestsComponent },
-          { path: 'working-outside', component: MyWorkingOutsideRequestsComponent },
+          { path: 'working-onsite', component: MyWorkingOnsiteRequestsComponent },
           { path: 'work-from-home', component: MyWorkFromHomeRequestsComponent },
           { path: 'transfer-leave-entitlements', component: MyTransferLeaveEntitlementsRequestsComponent },
           { path: '', redirectTo: 'working-after-hours', pathMatch: 'full' },
@@ -80,7 +80,7 @@ export const MY_TIME_ROUTES: Routes = [
           { path: 'leave', component: LeaveRequestListComponent },
           { path: 'working-after-hours', component: WorkingAfterHoursRequestListComponent },
           { path: 'update-timesheet', component: UpdateTimesheetRequestListComponent },
-          { path: 'working-outside', component: WorkingOutsideRequestListComponent },
+          { path: 'working-onsite', component: WorkingOnsiteRequestListComponent },
           { path: 'work-from-home', component: WorkFormHomeRequestListComponent },
           { path: 'transfer-leave-entitlements', component: TransferLeaveEntitlementsRequestListComponent },
           { path: '', redirectTo: 'leave', pathMatch: 'full' },

@@ -8,7 +8,7 @@ import { BaseFormComponentModule, InputFilterComponentModule, LayoutComponent, L
 import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
 import { TuiTablePaginationModule } from '@taiga-ui/addon-table';
 import { TuiLetModule } from '@taiga-ui/cdk';
-import { TuiButtonModule, TuiLoaderModule } from '@taiga-ui/core';
+import { TuiButtonModule, TuiLoaderModule, TuiPrimitiveCheckboxModule } from '@taiga-ui/core';
 import { TableModule } from 'ngx-easy-table';
 import { NgxPermissionsGuard, NgxPermissionsModule } from 'ngx-permissions';
 import { UpsertOfficeDialogComponent } from './components/upsert-office-dialog/upsert-office-dialog.component';
@@ -41,6 +41,7 @@ export const adminOfficesRoutes: Routes = [
     NgxPermissionsModule,
     BaseFormComponentModule,
     AkitaNgEffectsModule.forFeature([OfficesEffects]),
+    TuiPrimitiveCheckboxModule,
   ],
   providers: [
     AdminOfficesService,

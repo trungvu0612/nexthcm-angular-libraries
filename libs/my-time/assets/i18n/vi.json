@@ -35,9 +35,10 @@
     "updateTotalTime": "Tổng thời gian làm việc",
     "updateWorkingDay": "Số ngày công",
     "type": "Loại",
-    "spentTime": "Thời gian"
+    "spentTime": "Thời gian",
+    "office": "Văn phòng"
   },
-  "workingOutsideRequest": "Yêu cầu làm bên ngoài",
+  "workingOnsiteRequest": "Yêu cầu làm onsite",
   "overtimeRequest": "Yêu cầu OT",
   "workFromHomeRequest": "Yêu cầu làm tại nhà",
   "leave": "Nghỉ phép",
@@ -74,7 +75,7 @@
   "leaves": "Yêu cầu nghỉ phép",
   "ot-requests": "Yêu cầu làm thêm giờ",
   "timesheet-updates": "Yêu cầu cập nhật bảng ghi thời gian",
-  "outside": "Yêu cầu làm bên ngoài",
+  "onsite": "Yêu cầu làm onsite",
   "wfh": "Yêu cầu làm tại nhà",
   "enterTotalWorkingHours": "Nhập số giờ làm việc",
   "estimateTime": "Thời gian ước tính",

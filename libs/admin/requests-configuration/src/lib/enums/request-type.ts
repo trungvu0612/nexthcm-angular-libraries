@@ -2,7 +2,7 @@ export enum RequestType {
   Leave,
   WorkingAfterHours,
   UpdateTimesheet,
-  WorkingOutside,
+  WorkingOnsite,
   WorkFromHome,
   ConvertLeaveEntitlement,
 }

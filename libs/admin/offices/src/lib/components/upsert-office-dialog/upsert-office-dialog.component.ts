@@ -46,6 +46,15 @@ export class UpsertOfficeDialogComponent implements OnInit {
       },
     },
     {
+      key: 'onsite',
+      className: 'tui-form__row block',
+      type: 'checkbox-labeled',
+      templateOptions: {
+        labelClassName: 'font-semibold',
+        label: 'Onsite',
+      },
+    },
+    {
       key: 'description',
       className: 'tui-form__row block',
       type: 'text-area',

@@ -35,9 +35,10 @@
     "updateTotalTime": "Updated total time",
     "updateWorkingDay": "Updated working day",
     "type": "Type",
-    "spentTime": "Spent time"
+    "spentTime": "Spent time",
+    "office": "Office"
   },
-  "workingOutsideRequest": "Request to work outside",
+  "workingOnsiteRequest": "Request to work onsite",
   "overtimeRequest": "Request to work overtime",
   "workFromHomeRequest": "Request to work from home",
   "leave": "Leave",
@@ -75,7 +76,7 @@
   "leaves": "Leave request",
   "ot-requests": "Overtime request",
   "timesheet-updates": "Timesheet update request",
-  "outside": "Work outside request",
+  "onsite": "Working onsite request",
   "wfh": "Work from home request",
   "enterTotalWorkingHours": "Enter total working hours",
   "estimateTime": "Estimate time",

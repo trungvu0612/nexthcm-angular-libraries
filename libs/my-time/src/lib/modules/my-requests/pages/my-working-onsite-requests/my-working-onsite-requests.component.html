@@ -11,6 +11,7 @@
       <ng-container *tuiLet="item(row) as item">
         <td>{{ item.fromDate | translocoDate }} - {{ item.toDate | translocoDate }}</td>
         <td class="text-center">{{ item.totalDay ? (item.totalDay | translocoDecimal) : '-' }}</td>
+        <td>{{ item.officeDTO?.name }}</td>
         <td>
           <tui-tag
             *ngIf="item.currentState as status"

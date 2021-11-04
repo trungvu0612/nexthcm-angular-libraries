@@ -1,7 +1,14 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Actions } from '@datorama/akita-ng-effects';
-import { ACCOUNT_API_PATH, Office, Pagination, PagingResponse, refreshOffices } from '@nexthcm/cdk';
+import {
+  ACCOUNT_API_PATH,
+  Office,
+  Pagination,
+  PagingResponse,
+  refreshOffices,
+  refreshOnsiteOffices,
+} from '@nexthcm/cdk';
 import { EMPTY, Observable } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
@@ -17,24 +24,30 @@ export class AdminOfficesService {
   }
 
   upsertOffice(payload: Office): Observable<unknown> {
-    return payload.id ? this.editOffice(payload) : this.createOffice(payload);
+    return (payload.id ? this.editOffice(payload) : this.createOffice(payload)).pipe(
+      tap(() => {
+        this.actions.dispatch(refreshOffices());
+        if (payload.onsite) {
+          this.actions.dispatch(refreshOnsiteOffices());
+        }
+      })
+    );
   }
 
   createOffice(payload: Office): Observable<unknown> {
-    return this.http
-      .post(`${ACCOUNT_API_PATH}/offices`, payload)
-      .pipe(tap(() => this.actions.dispatch(refreshOffices())));
+    return this.http.post(`${ACCOUNT_API_PATH}/offices`, payload);
   }
 
   editOffice(payload: Office): Observable<unknown> {
-    return this.http
-      .put(`${ACCOUNT_API_PATH}/offices/${payload.id}`, payload)
-      .pipe(tap(() => this.actions.dispatch(refreshOffices())));
+    return this.http.put(`${ACCOUNT_API_PATH}/offices/${payload.id}`, payload);
   }
 
   deleteOffice(id: string): Observable<unknown> {
-    return this.http
-      .delete(`${ACCOUNT_API_PATH}/offices/${id}`, {})
-      .pipe(tap(() => this.actions.dispatch(refreshOffices())));
+    return this.http.delete(`${ACCOUNT_API_PATH}/offices/${id}`, {}).pipe(
+      tap(() => {
+        this.actions.dispatch(refreshOffices());
+        this.actions.dispatch(refreshOnsiteOffices());
+      })
+    );
   }
 }

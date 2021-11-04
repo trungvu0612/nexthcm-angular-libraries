@@ -1,3 +1,4 @@
+import { BaseObject } from '@nexthcm/cdk';
 import { TuiDay, TuiDayRange, TuiTime } from '@taiga-ui/cdk';
 import { RequestStatus } from '../../enums';
 
@@ -15,4 +16,5 @@ export interface SubmitRequestPayload {
   newInTime: number | TuiTime;
   newOutTime: number | TuiTime;
   totalDay: number | TuiTime;
+  officeDTO: BaseObject;
 }

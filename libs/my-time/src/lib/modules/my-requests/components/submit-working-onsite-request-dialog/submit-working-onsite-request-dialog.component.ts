@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
-import { PromptService } from '@nexthcm/cdk';
+import { Actions } from '@datorama/akita-ng-effects';
+import { loadOnsiteOffices, OnsiteOfficesQuery, PromptService } from '@nexthcm/cdk';
 import { FormBuilder } from '@ngneat/reactive-forms';
 import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
@@ -13,13 +14,13 @@ import { SubmitRequestPayload } from '../../../../internal/models';
 import { MyTimeService } from '../../../../services';
 
 @Component({
-  selector: 'hcm-submit-working-outside-request-dialog',
-  templateUrl: './submit-working-outside-request-dialog.component.html',
-  styleUrls: ['./submit-working-outside-request-dialog.component.scss'],
+  selector: 'hcm-submit-working-onsite-request-dialog',
+  templateUrl: './submit-working-onsite-request-dialog.component.html',
+  styleUrls: ['./submit-working-onsite-request-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [TuiDestroyService],
 })
-export class SubmitWorkingOutsideRequestDialogComponent {
+export class SubmitWorkingOnsiteRequestDialogComponent {
   readonly form = this.fb.group<SubmitRequestPayload>({} as SubmitRequestPayload);
   model = {} as SubmitRequestPayload;
   readonly fields: FormlyFieldConfig[] = [
@@ -51,6 +52,21 @@ export class SubmitWorkingOutsideRequestDialogComponent {
       },
     },
     {
+      key: 'officeDTO',
+      className: 'tui-form__row block',
+      type: 'select',
+      templateOptions: {
+        translate: true,
+        label: 'office',
+        labelClassName: 'font-semibold',
+        options: this.onsiteOfficesQuery.selectAll(),
+        placeholder: 'chooseOffice',
+        labelProp: 'name',
+        matcherBy: 'id',
+        required: true,
+      },
+    },
+    {
       key: 'comment',
       className: 'tui-form__row block',
       type: 'text-area',
@@ -79,7 +95,7 @@ export class SubmitWorkingOutsideRequestDialogComponent {
   readonly submit$ = new Subject<SubmitRequestPayload>();
   readonly submitHandler$ = this.submit$.pipe(
     switchMap((payload) =>
-      this.myTimeService.submitRequest('workingOutside', payload).pipe(
+      this.myTimeService.submitRequest('workingOnsite', payload).pipe(
         switchMap(() =>
           from(
             this.promptService.open({
@@ -114,8 +130,12 @@ export class SubmitWorkingOutsideRequestDialogComponent {
     private readonly myTimeService: MyTimeService,
     private readonly translocoService: TranslocoService,
     private readonly promptService: PromptService,
-    private readonly destroy$: TuiDestroyService
-  ) {}
+    private readonly destroy$: TuiDestroyService,
+    private readonly onsiteOfficesQuery: OnsiteOfficesQuery,
+    actions: Actions
+  ) {
+    actions.dispatch(loadOnsiteOffices());
+  }
 
   onSubmit(): void {
     if (this.form.valid) {

@@ -9,4 +9,5 @@ export interface Office {
   longitude: number;
   latitude: number;
   tenantId: string;
+  onsite: boolean;
 }

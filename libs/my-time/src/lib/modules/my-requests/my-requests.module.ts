@@ -2,7 +2,8 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { GetFilePipeModule } from '@nexthcm/cdk';
+import { AkitaNgEffectsModule } from '@datorama/akita-ng-effects';
+import { GetFilePipeModule, OfficesEffects } from '@nexthcm/cdk';
 import {
   BaseFormComponentModule,
   FormlyTaigaUiModule,
@@ -38,23 +39,23 @@ import { RequestListFilterComponentModule } from '../../shared/request-list-filt
 import { TransferLeaveEntitlementTypePipeModule } from '../../shared/transfer-leave-entitlement-type/transfer-leave-entitlement-type.pipe';
 import { SubmitOvertimeRequestDialogComponent } from './components/submit-overtime-request-dialog/submit-overtime-request-dialog.component';
 import { SubmitWorkFromHomeRequestDialogComponent } from './components/submit-work-from-home-request-dialog/submit-work-from-home-request-dialog.component';
-import { SubmitWorkingOutsideRequestDialogComponent } from './components/submit-working-outside-request-dialog/submit-working-outside-request-dialog.component';
+import { SubmitWorkingOnsiteRequestDialogComponent } from './components/submit-working-onsite-request-dialog/submit-working-onsite-request-dialog.component';
 import { MyRequestsComponent } from './my-requests.component';
 import { MyTransferLeaveEntitlementsRequestsComponent } from './pages/my-transfer-leave-entitlements-requests/my-transfer-leave-entitlements-requests.component';
 import { MyUpdateTimesheetRequestsComponent } from './pages/my-update-timesheet-requests/my-update-timesheet-requests.component';
 import { MyWorkFromHomeRequestsComponent } from './pages/my-work-from-home-requests/my-work-from-home-requests.component';
 import { MyWorkingAfterHoursRequestsComponent } from './pages/my-working-after-hours-requests/my-working-after-hours-requests.component';
-import { MyWorkingOutsideRequestsComponent } from './pages/my-working-outside-requests/my-working-outside-requests.component';
+import { MyWorkingOnsiteRequestsComponent } from './pages/my-working-onsite-requests/my-working-onsite-requests.component';
 
 @NgModule({
   declarations: [
     MyWorkingAfterHoursRequestsComponent,
     MyUpdateTimesheetRequestsComponent,
-    MyWorkingOutsideRequestsComponent,
+    MyWorkingOnsiteRequestsComponent,
     MyWorkFromHomeRequestsComponent,
     MyRequestsComponent,
     SubmitWorkFromHomeRequestDialogComponent,
-    SubmitWorkingOutsideRequestDialogComponent,
+    SubmitWorkingOnsiteRequestDialogComponent,
     SubmitOvertimeRequestDialogComponent,
     MyTransferLeaveEntitlementsRequestsComponent,
   ],
@@ -92,6 +93,7 @@ import { MyWorkingOutsideRequestsComponent } from './pages/my-working-outside-re
     LayoutModule,
     WorkflowActionsButtonDropdownComponentModule,
     TransferLeaveEntitlementTypePipeModule,
+    AkitaNgEffectsModule.forFeature([OfficesEffects]),
   ],
 })
 export class MyRequestsModule {}

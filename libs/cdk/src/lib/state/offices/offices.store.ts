@@ -11,3 +11,11 @@ export class OfficesStore extends EntityStore<OfficesState> {
     super();
   }
 }
+
+@Injectable({ providedIn: 'root' })
+@StoreConfig({ name: 'onsite-offices' })
+export class OnsiteOfficesStore extends EntityStore<OfficesState> {
+  constructor() {
+    super();
+  }
+}

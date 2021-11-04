@@ -1,7 +1,7 @@
-import { EmployeeInfo } from '@nexthcm/cdk';
+import { BaseObject, EmployeeInfo } from '@nexthcm/cdk';
 import { BaseRequest } from './base-request';
 
-export interface WorkingOutsideRequest extends BaseRequest {
+export interface WorkingOnsiteRequest extends BaseRequest {
   totalDay: number;
   fromDate: number;
   toDate: number;
@@ -10,4 +10,5 @@ export interface WorkingOutsideRequest extends BaseRequest {
   userInfo: EmployeeInfo;
   dayWorking: number;
   reason: string;
+  officeDTO?: BaseObject;
 }

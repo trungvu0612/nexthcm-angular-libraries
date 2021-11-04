@@ -8,7 +8,7 @@ import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { takeUntil, tap } from 'rxjs/operators';
 import { SubmitOvertimeRequestDialogComponent } from './components/submit-overtime-request-dialog/submit-overtime-request-dialog.component';
 import { SubmitWorkFromHomeRequestDialogComponent } from './components/submit-work-from-home-request-dialog/submit-work-from-home-request-dialog.component';
-import { SubmitWorkingOutsideRequestDialogComponent } from './components/submit-working-outside-request-dialog/submit-working-outside-request-dialog.component';
+import { SubmitWorkingOnsiteRequestDialogComponent } from './components/submit-working-onsite-request-dialog/submit-working-onsite-request-dialog.component';
 
 @Component({
   selector: 'hcm-my-requests',
@@ -53,13 +53,13 @@ export class MyRequestsComponent {
       .subscribe();
   }
 
-  onSubmitWorkingOutsideRequest(): void {
+  onSubmitWorkingOnsiteRequest(): void {
     this.dialogService
-      .open<boolean>(new PolymorpheusComponent(SubmitWorkingOutsideRequestDialogComponent, this.injector), {
-        label: this.translocoService.translate('myTime.workingOutsideRequest'),
+      .open<boolean>(new PolymorpheusComponent(SubmitWorkingOnsiteRequestDialogComponent, this.injector), {
+        label: this.translocoService.translate('myTime.workingOnsiteRequest'),
       })
       .pipe(
-        tap(() => this.router.navigateByUrl('/my-time/my-requests/working-outside')),
+        tap(() => this.router.navigateByUrl('/my-time/my-requests/working-onsite')),
         takeUntil(this.destroy$)
       )
       .subscribe();

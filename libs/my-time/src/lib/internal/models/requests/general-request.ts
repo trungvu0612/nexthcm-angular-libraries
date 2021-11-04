@@ -1,4 +1,4 @@
-import { EmployeeInfo } from '@nexthcm/cdk';
+import { BaseObject, EmployeeInfo } from '@nexthcm/cdk';
 import { BaseRequest } from './base-request';
 import { LeaveRequestLeaveType } from './leave-request';
 import { UpdateTimesheetRequestTimeSheetTracking } from './update-timesheet-request';
@@ -24,4 +24,5 @@ export interface GeneralRequest extends BaseRequest {
   reason: string;
   updateWorkingDay: number;
   updateTotalTime: number;
+  officeDTO?: BaseObject;
 }

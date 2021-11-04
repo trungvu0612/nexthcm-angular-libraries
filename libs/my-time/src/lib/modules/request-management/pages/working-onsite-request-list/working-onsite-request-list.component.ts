@@ -7,21 +7,21 @@ import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { BaseComponent, Columns } from 'ngx-easy-table';
 import { combineLatest, Observable, of } from 'rxjs';
 import { catchError, filter, map, shareReplay, startWith, switchMap } from 'rxjs/operators';
-import { WorkingOutsideRequest } from '../../../../internal/models';
+import { WorkingOnsiteRequest } from '../../../../internal/models';
 import { MyTimeService } from '../../../../services';
 import { AbstractRequestListComponent } from '../../../../shared/abstract-components/abstract-request-list.component';
 
 @Component({
-  selector: 'hcm-working-outside-request-list',
-  templateUrl: './working-outside-request-list.component.html',
-  styleUrls: ['./working-outside-request-list.component.scss'],
+  selector: 'hcm-working-onsite-request-list',
+  templateUrl: './working-onsite-request-list.component.html',
+  styleUrls: ['./working-onsite-request-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [RxState, TuiDestroyService],
 })
-export class WorkingOutsideRequestListComponent extends AbstractRequestListComponent<WorkingOutsideRequest> {
+export class WorkingOnsiteRequestListComponent extends AbstractRequestListComponent<WorkingOnsiteRequest> {
   @ViewChild('table') table!: BaseComponent;
 
-  readonly requestTypeUrlPath = 'workingOutside';
+  readonly requestTypeUrlPath = 'workingOnsite';
   readonly columns$: Observable<Columns[]> = this.translocoService
     .selectTranslateObject('MY_TIME_REQUEST_LIST_COLUMNS', {}, (this.scope as ProviderScope).scope)
     .pipe(
@@ -38,7 +38,7 @@ export class WorkingOutsideRequestListComponent extends AbstractRequestListCompo
   private readonly request$ = this.queryParams$.pipe(
     switchMap(() =>
       this.myTimeService
-        .getRequests<WorkingOutsideRequest>(this.requestTypeUrlPath, this.queryParams$.value)
+        .getRequests<WorkingOnsiteRequest>(this.requestTypeUrlPath, this.queryParams$.value)
         .pipe(startWith(null))
     ),
     shareReplay(1)
@@ -51,7 +51,7 @@ export class WorkingOutsideRequestListComponent extends AbstractRequestListCompo
   constructor(
     readonly myTimeService: MyTimeService,
     readonly destroy$: TuiDestroyService,
-    readonly state: RxState<Pagination<WorkingOutsideRequest>>,
+    readonly state: RxState<Pagination<WorkingOnsiteRequest>>,
     readonly router: Router,
     readonly activatedRoute: ActivatedRoute,
     @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope,

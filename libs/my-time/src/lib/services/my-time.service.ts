@@ -35,8 +35,8 @@ const REQUEST_DETAIL_URL_PATHS: Readonly<CombineRequestTypeUrlPaths> = Object.fr
   workingAfterHours: 'ot-requests',
   myUpdateTimesheet: 'timesheet-updates/me',
   updateTimesheet: 'timesheet-updates',
-  myWorkingOutside: 'outside/me',
-  workingOutside: 'outside',
+  myWorkingOnsite: 'outside/me',
+  workingOnsite: 'outside',
   myWorkFromHome: 'wfh/me',
   workFromHome: 'wfh',
   myLeave: 'leaves/me',
@@ -48,7 +48,7 @@ const REQUEST_DETAIL_URL_PATHS: Readonly<CombineRequestTypeUrlPaths> = Object.fr
 export const REQUEST_COMMENT_URL_PATHS: Readonly<RequestTypeUrlPaths> = Object.freeze({
   workingAfterHours: 'hcm_ot_comment',
   updateTimesheet: 'hcm_update_time_comment',
-  workingOutside: 'hcm_working_onsite_comment',
+  workingOnsite: 'hcm_working_onsite_comment',
   workFromHome: 'hcm_wfh_comment',
   leave: 'hcm_leave_comment',
 });
@@ -56,7 +56,7 @@ export const REQUEST_COMMENT_URL_PATHS: Readonly<RequestTypeUrlPaths> = Object.f
 const REQUEST_HISTORY_URL_PATHS: Readonly<RequestTypeUrlPaths> = Object.freeze({
   workingAfterHours: '1',
   updateTimesheet: '2',
-  workingOutside: '3',
+  workingOnsite: '3',
   workFromHome: '4',
   leave: '5',
 });

@@ -22,7 +22,7 @@ import { TransferLeaveEntitlementsRequestListComponent } from './pages/transfer-
 import { UpdateTimesheetRequestListComponent } from './pages/update-timesheet-request-list/update-timesheet-request-list.component';
 import { WorkFormHomeRequestListComponent } from './pages/work-form-home-request-list/work-form-home-request-list.component';
 import { WorkingAfterHoursRequestListComponent } from './pages/working-after-hours-request-list/working-after-hours-request-list.component';
-import { WorkingOutsideRequestListComponent } from './pages/working-outside-request-list/working-outside-request-list.component';
+import { WorkingOnsiteRequestListComponent } from './pages/working-onsite-request-list/working-onsite-request-list.component';
 import { RequestManagementComponent } from './request-management.component';
 
 @NgModule({
@@ -32,7 +32,7 @@ import { RequestManagementComponent } from './request-management.component';
     RejectRequestDialogComponent,
     WorkingAfterHoursRequestListComponent,
     UpdateTimesheetRequestListComponent,
-    WorkingOutsideRequestListComponent,
+    WorkingOnsiteRequestListComponent,
     WorkFormHomeRequestListComponent,
     TransferLeaveEntitlementsRequestListComponent,
   ],

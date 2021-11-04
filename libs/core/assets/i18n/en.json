@@ -249,7 +249,7 @@
     "TRACKING_DATE_ENTITY_NOT_FOUND": "Tracking date entity not found",
     "TIME_SHEET_UPDATE_TIME_NOT_FOUND": "Time sheet update time not found",
     "WORK_FROM_HOME_NOT_FOUND": "Work from home not found",
-    "WORKING_OUTSIDE_NOT_FOUND": "Working outside not found",
+    "WORKING_OUTSIDE_NOT_FOUND": "Working onsite not found",
     "COMMENT_ENTITY_NOT_FOUND": "Comment entity not found",
     "GET_COMMENT_NOT_FOUND_COMMENT": "Get comment not found comment",
     "LEAVE_ENTITLEMENT_LEAVE_PERIOD_DOES_NOT_EXIST": "Leave entitlement leave period does not exist",
@@ -292,7 +292,7 @@
     "TIME_SHEET_TRACKING_TIME_OUT_IS_EXCEED_ONE_DAY_TIME": "Time sheet tracking time out is exceed one day time",
     "TIME_SHEET_TRACKING_DATE_UPDATE_IS_NULL": "Time sheet tracking date update is null",
     "REQUEST_OT_NOT_FOUND": "Request ot not found",
-    "REQUEST_WORKING_OUTSIDE_NOT_FOUND": "Request working outside not found",
+    "REQUEST_WORKING_OUTSIDE_NOT_FOUND": "Request working onsite not found",
     "TIME_SHEET_TRACKING_TOKEN_IS_NOT_VALID": "Time sheet tracking token is not valid",
     "OVERTIME_TYPE_IS_NULL": "Overtime type is null",
     "LEAVE_DURATION_IS_INVALID": "Leave duration is invalid",
@@ -578,7 +578,7 @@
   "healthCareInsuranceList": "Health care insurance list",
   "overtime": "Overtime",
   "updateTimesheet": "Update timesheet",
-  "workingOutside": "Working outside",
+  "workingOnsite": "Working onsite",
   "workFromHome": "Work from home",
   "workingAfterHours": "Working after-hours",
   "addComment": "Add a comment",
@@ -610,5 +610,6 @@
   "searchLeaveTypes": "Search for leave types...",
   "leaveTypes": "Leave types",
   "numberOfDays": "Number of days",
-  "knowledgeBaseCategories": "Knowledge Base Categories"
+  "knowledgeBaseCategories": "Knowledge Base Categories",
+  "onsiteOffice": "Onsite office"
 }
