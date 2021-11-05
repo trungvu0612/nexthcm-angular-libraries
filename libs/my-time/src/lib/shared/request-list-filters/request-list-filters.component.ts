@@ -76,6 +76,17 @@ export class RequestListFiltersComponent implements OnInit {
     this._includeSearch = coerceBooleanProperty(value);
   }
 
+  private _managerFilters = false;
+
+  get managerFilters(): boolean {
+    return this._managerFilters;
+  }
+
+  @Input()
+  set managerFilters(value: unknown) {
+    this._managerFilters = coerceBooleanProperty(value);
+  }
+
   ngOnInit(): void {
     if (convertToParamMap(this.activatedRoute.snapshot.queryParams).keys.length) {
       this.parseParams(this.activatedRoute.snapshot.queryParams);

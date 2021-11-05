@@ -1,4 +1,9 @@
-<hcm-request-list-filters [httpParams]="queryParams$" class="mb-5" includeSearch></hcm-request-list-filters>
+<hcm-request-list-filters
+  [httpParams]="queryParams$"
+  class="mb-5"
+  includeSearch
+  managerFilters
+></hcm-request-list-filters>
 <tui-loader [overlay]="true" [showLoader]="(loading$ | async) === true">
   <ngx-table
     #table
