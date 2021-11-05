@@ -1,11 +1,11 @@
-<hcm-working-hours-filter
+<hcm-working-hours-filters
   [httpParams]="queryParams$"
   class="mb-5"
   fromKey="fromDateForGroupBy"
   includeSearch
   initYear
   toKey="toDateForGroupBy"
-></hcm-working-hours-filter>
+></hcm-working-hours-filters>
 
 <tui-loader [overlay]="true" [showLoader]="(loading$ | async) === true">
   <ngx-table

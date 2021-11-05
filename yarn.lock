@@ -2277,23 +2277,23 @@
   dependencies:
     tslib "^2.2.0"
 
-"@nexthcm/core@^1.0.0":
-  version "1.0.0"
-  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/core/-/core-1.0.0.tgz#628b836a9f05878d2107e07e6c42ef7d9b6a246f"
-  integrity sha512-y1ERIUDo0yX7lNOr0+Br7AVA6O29zhIgMLSynePBOkK7pXLfMYDRaqzsDp63yoO+wXMpxead1olLbUEgNQqybQ==
+"@nexthcm/core@^1.0.1":
+  version "1.0.1"
+  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/core/-/core-1.0.1.tgz#3cb84041048a5fbd983c9077b3ebf671a3a90432"
+  integrity sha512-kUD0+OqWJrQEyiTbk3l+N2HfiBt1jH2281n/cSUTkwLrUHp4BkuvgMO+2F05HcNvpolK8X/nqew6uuAkuHJLMQ==
   dependencies:
     "@datorama/akita" "^6.2.4"
     "@datorama/akita-ng-effects" "^1.0.5"
     "@datorama/akita-ng-router-store" "^6.0.2"
     "@ngneat/reactive-forms" "^2.0.0"
     "@ngneat/svg-icon" "^3.2.0"
-    "@ngneat/transloco" "^3.0.2"
+    "@ngneat/transloco" "^3.0.7"
     "@ngneat/transloco-locale" "^3.0.1"
     "@ngx-formly/core" "5.10.22"
     "@rx-angular/cdk" "^1.0.0-alpha.10"
     "@rx-angular/state" "^1.4.6"
     "@rx-angular/template" "^1.0.0-beta.28"
-    "@rxweb/reactive-form-validators" "^2.1.4"
+    "@rxweb/reactive-form-validators" "^2.1.6"
     "@sweetalert2/ngx-sweetalert2" "^10.0.0"
     "@tinkoff/ng-dompurify" "^3.0.0"
     date-fns "^2.25.0"
@@ -2341,10 +2341,10 @@
   dependencies:
     tslib "^2.0.0"
 
-"@nexthcm/my-time@^1.0.1":
-  version "1.0.1"
-  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/my-time/-/my-time-1.0.1.tgz#714e6c9dda4bb5ff6f5ba88773010205068b1253"
-  integrity sha512-Ub9EWetv4wxT6jXpWwXmnPtGP2eqdqogC5U3maRXR904ri6sBPZIPKEksi1RD2Om+K0wy5FAiuW1ITC6JFkFJA==
+"@nexthcm/my-time@^1.0.2":
+  version "1.0.2"
+  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/my-time/-/my-time-1.0.2.tgz#5d9d4ccd9a00ad121ccaaf09fac5a665ce6e2090"
+  integrity sha512-CXqKBCdXjfqHXzJSnwicp1VwJBv1atd5Iw9Jso6yWSdsTt+g3oRAMFqq4iVWQQ5FH9TJwp8ZzhNAGA+PK9tPDQ==
   dependencies:
     tslib "^2.0.0"
 
@@ -2355,12 +2355,11 @@
   dependencies:
     tslib "^2.2.0"
 
-"@nexthcm/ui@^1.0.0":
-  version "1.0.0"
-  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/ui/-/ui-1.0.0.tgz#5d091708498ab0fd64d6e295ec5f8f38c15a253d"
-  integrity sha512-aC/OTRbdCRYh4YFwzpeLZERtEl91CMNAMP4mW3IrNr8XgLfT3CLZqCoNTHbQ/QIolyHkbrOowCr0tD9QDXOvqg==
+"@nexthcm/ui@^1.0.1":
+  version "1.0.1"
+  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/ui/-/ui-1.0.1.tgz#828b98a5a5df626966ccd5050df6fa9a0c810775"
+  integrity sha512-g3/Zc0E54TZnj00FEGFHpNh/Tpv4b3hyMws5vnVXDNmvuzXFxwnsK/2RcdQHgHL6ArKmCyhpaAyo9uJ3Jwjdjw==
   dependencies:
-    "@ng-select/ng-select" "^7.0.0"
     tslib "^2.0.0"
 
 "@nexthcm/workflow-designer@^1.0.1":
@@ -2370,13 +2369,6 @@
   dependencies:
     mxgraph "^4.2.2"
     tslib "^2.1.0"
-
-"@ng-select/ng-select@^7.0.0", "@ng-select/ng-select@^7.2.0":
-  version "7.3.0"
-  resolved "https://registry.yarnpkg.com/@ng-select/ng-select/-/ng-select-7.3.0.tgz#ebc418c83ce249ad54f6f1ac3bf2473d9fe2ae5a"
-  integrity sha512-YZCdBjhe4QDFFCxnNd/B6abWcVVop8EAYt2UE6TimTM5jR/77ankSOrfiojXv4w/OkIIq4uETHMdQn5NjDcaYQ==
-  dependencies:
-    tslib "^2.0.0"
 
 "@ng-web-apis/common@1.12.1":
   version "1.12.1"
@@ -2488,7 +2480,7 @@
   dependencies:
     find-duplicated-property-keys "^1.0.11"
 
-"@ngneat/transloco@^3.0.2", "@ngneat/transloco@^3.0.6":
+"@ngneat/transloco@^3.0.6", "@ngneat/transloco@^3.0.7":
   version "3.0.7"
   resolved "https://registry.yarnpkg.com/@ngneat/transloco/-/transloco-3.0.7.tgz#8be780e04f7784f567fb651b0fd24ebee34f83e7"
   integrity sha512-q9l4GrgOz0ispF64/CXzKzwn0HlqmbS033wQI+WrvVFeNjY5puca0AYQQHB4cSIWwkG9ex3q8IXCOD9dC1a4bA==
@@ -2841,7 +2833,7 @@
   dependencies:
     tslib "^2.0.0"
 
-"@rxweb/reactive-form-validators@^2.1.4":
+"@rxweb/reactive-form-validators@^2.1.4", "@rxweb/reactive-form-validators@^2.1.6":
   version "2.1.6"
   resolved "https://registry.yarnpkg.com/@rxweb/reactive-form-validators/-/reactive-form-validators-2.1.6.tgz#6662ec540a0e39b17f74dfa48774c35a7926edd4"
   integrity sha512-16NSt644vKppUGDiTgO9ij7b/oW1BTNjTfCPWnx9Qa6VbKOrggGMLZNMewSmoXFBoErBYSCQLEwY4wrLfix25A==

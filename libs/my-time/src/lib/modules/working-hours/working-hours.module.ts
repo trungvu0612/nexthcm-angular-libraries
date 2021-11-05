@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { PropertyRouteConnectorDirectiveModule } from '@nexthcm/cdk';
 import {
   BaseFormComponentModule,
+  BasicFilterComponentModule,
   FormlyUserComboBoxComponentModule,
   InputFilterComponentModule,
   LayoutModule,
@@ -26,7 +27,7 @@ import { GroupWorkingHoursTableComponent } from './components/group-working-hour
 import { OnlyMeWorkingHoursListComponent } from './components/only-me-working-hours-list/only-me-working-hours-list.component';
 import { SubmitUpdateTimesheetRequestDialogComponent } from './components/submit-update-timesheet-request-dialog/submit-update-timesheet-request-dialog.component';
 import { WorkingHoursDetailDialogComponent } from './components/working-hour-detail-dialog/working-hours-detail-dialog.component';
-import { WorkingHoursFilterComponent } from './components/working-hours-filter/working-hours-filter.component';
+import { WorkingHoursFiltersComponent } from './components/working-hours-filters/working-hours-filters.component';
 import { WorkingHoursComponent } from './working-hours.component';
 
 @NgModule({
@@ -35,7 +36,7 @@ import { WorkingHoursComponent } from './working-hours.component';
     WorkingHoursComponent,
     OnlyMeWorkingHoursListComponent,
     EveryoneWorkingHoursListComponent,
-    WorkingHoursFilterComponent,
+    WorkingHoursFiltersComponent,
     GroupWorkingHoursTableComponent,
     SubmitUpdateTimesheetRequestDialogComponent,
   ],
@@ -64,6 +65,7 @@ import { WorkingHoursComponent } from './working-hours.component';
     FormlyUserComboBoxComponentModule,
     LayoutModule,
     NgxPermissionsModule,
+    BasicFilterComponentModule,
   ],
   providers: [WorkingHoursService],
 })

@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RequestListFilterComponent } from './request-list-filter.component';
+import { RequestListFiltersComponent } from './request-list-filters.component';
 
 describe('RequestListFilterComponent', () => {
-  let component: RequestListFilterComponent;
-  let fixture: ComponentFixture<RequestListFilterComponent>;
+  let component: RequestListFiltersComponent;
+  let fixture: ComponentFixture<RequestListFiltersComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [RequestListFilterComponent],
+      declarations: [RequestListFiltersComponent],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(RequestListFilterComponent);
+    fixture = TestBed.createComponent(RequestListFiltersComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

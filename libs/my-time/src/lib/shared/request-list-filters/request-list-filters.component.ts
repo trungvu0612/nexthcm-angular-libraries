@@ -3,8 +3,9 @@ import { CommonModule } from '@angular/common';
 import { HttpParams } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, Input, NgModule, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute, convertToParamMap, Params, Router } from '@angular/router';
+import { ActivatedRoute, convertToParamMap, Params } from '@angular/router';
 import {
+  BasicFilterComponentModule,
   InputFilterComponentModule,
   SelectFilterComponentModule,
   SelectMonthFilterComponentModule,
@@ -13,6 +14,7 @@ import {
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
 import { tuiDefaultProp } from '@taiga-ui/cdk';
+import { TuiStringHandler } from '@taiga-ui/cdk/types';
 import { TuiDataListModule } from '@taiga-ui/core';
 import { TuiFilterModule, TuiTagModule } from '@taiga-ui/kit';
 import { endOfMonth, endOfYear, setMonth, setYear, startOfMonth, startOfYear } from 'date-fns';
@@ -24,13 +26,13 @@ const getLabel: Record<string, string> = {
 };
 
 @Component({
-  selector: 'hcm-request-list-filter',
-  templateUrl: './request-list-filter.component.html',
-  styleUrls: ['./request-list-filter.component.scss'],
+  selector: 'hcm-request-list-filters',
+  templateUrl: './request-list-filters.component.html',
+  styleUrls: ['./request-list-filters.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [RxState],
 })
-export class RequestListFilterComponent implements OnInit {
+export class RequestListFiltersComponent implements OnInit {
   @Input() statusFilter = true;
 
   filterType: string[] = [];
@@ -45,8 +47,7 @@ export class RequestListFilterComponent implements OnInit {
   constructor(
     private readonly state: RxState<Record<string, unknown>>,
     private readonly translocoService: TranslocoService,
-    private readonly activatedRoute: ActivatedRoute,
-    private readonly router: Router
+    private readonly activatedRoute: ActivatedRoute
   ) {
     state.hold(combineLatest([this.year$.pipe(skip(1), debounceTime(1000), distinctUntilChanged()), this.month$]), () =>
       this.httpParams$.next(this.filterByYearMonth())
@@ -92,8 +93,14 @@ export class RequestListFilterComponent implements OnInit {
   }
 
   onFilterByWorkflowStatuses(statuses: string): void {
-    this.statusId$.next(statuses ? statuses : null);
+    this.statusId$.next(statuses || null);
   }
+
+  onFilterChange(filterType: string): void {
+    this.filterType$.next(filterType || null);
+  }
+
+  readonly getFilterLabel: TuiStringHandler<string> = (filter: string): string => `myTime.${getLabel[filter]}`;
 
   private filterByYearMonth(): HttpParams {
     let httpParams = this.httpParams$.value;
@@ -115,22 +122,6 @@ export class RequestListFilterComponent implements OnInit {
     return httpParams;
   }
 
-  onChangeValue(filters: string[]): void {
-    const filterType = filters.length ? filters[0] : null;
-
-    this.filterType = filters;
-    this.filterType$.next(filterType);
-    this.router.navigate([], {
-      queryParams: { filterType },
-      queryParamsHandling: 'merge',
-      replaceUrl: true,
-    });
-  }
-
-  getFilterLabel(filter: string): string {
-    return `myTime.${getLabel[filter]}`;
-  }
-
   private parseParams(params: Params): void {
     if (params.year) {
       if (!isNaN(Number(params.year))) {
@@ -143,15 +134,11 @@ export class RequestListFilterComponent implements OnInit {
     if (params.search) {
       this.search$.next(params.search);
     }
-    if (params.filterType) {
-      this.filterType = [params.filterType];
-      this.filterType$.next(params.filterType);
-    }
   }
 }
 
 @NgModule({
-  declarations: [RequestListFilterComponent],
+  declarations: [RequestListFiltersComponent],
   imports: [
     CommonModule,
     TranslocoModule,
@@ -163,7 +150,8 @@ export class RequestListFilterComponent implements OnInit {
     WorkflowStatusComboBoxFilterComponentModule,
     TuiFilterModule,
     FormsModule,
+    BasicFilterComponentModule,
   ],
-  exports: [RequestListFilterComponent],
+  exports: [RequestListFiltersComponent],
 })
 export class RequestListFilterComponentModule {}

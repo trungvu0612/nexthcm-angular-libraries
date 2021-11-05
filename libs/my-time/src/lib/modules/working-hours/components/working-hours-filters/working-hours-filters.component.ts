@@ -22,14 +22,18 @@ import {
 import { BehaviorSubject, combineLatest, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 
+const getLabel: Record<string, string> = {
+  MY_TEAM: 'myTeam',
+};
+
 @Component({
-  selector: 'hcm-working-hours-filter',
-  templateUrl: './working-hours-filter.component.html',
-  styleUrls: ['./working-hours-filter.component.scss'],
+  selector: 'hcm-working-hours-filters',
+  templateUrl: './working-hours-filters.component.html',
+  styleUrls: ['./working-hours-filters.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [RxState],
 })
-export class WorkingHoursFilterComponent implements OnInit {
+export class WorkingHoursFiltersComponent implements OnInit {
   @Input() fromKey = 'fromDate';
   @Input() toKey = 'toDate';
 
@@ -41,8 +45,9 @@ export class WorkingHoursFilterComponent implements OnInit {
     this.translocoService.selectTranslate<string>('week'),
     this.year$,
     this.month$,
-  ]).pipe(map(([key, year, month]) => WorkingHoursFilterComponent.generateWeekList(key, year, month)));
+  ]).pipe(map(([key, year, month]) => WorkingHoursFiltersComponent.generateWeekList(key, year, month)));
   private httpParams$ = new BehaviorSubject<HttpParams>(new HttpParams());
+  readonly filterType$ = new Subject<string | null>();
 
   constructor(
     private state: RxState<Record<string, unknown>>,
@@ -55,6 +60,7 @@ export class WorkingHoursFilterComponent implements OnInit {
     this.state.hold(this.month$, () => this.httpParams$.next(this.generateDateRange()));
     this.state.hold(this.week$, (week) => this.httpParams$.next(this.generateDateRange(week)));
     this.state.hold(this.search$.pipe(debounceTime(1000), distinctUntilChanged()), (search) => this.onSearch(search));
+    this.state.hold(this.filterType$, (value) => this.onFilter('filterType', value));
   }
 
   private _initYear?: string;
@@ -100,6 +106,8 @@ export class WorkingHoursFilterComponent implements OnInit {
     }));
   }
 
+  readonly getFilterLabel: TuiStringHandler<string> = (filter: string): string => `myTime.${getLabel[filter]}`;
+
   ngOnInit(): void {
     this.parseParams(this.activatedRoute.snapshot.queryParams);
   }
@@ -126,6 +134,12 @@ export class WorkingHoursFilterComponent implements OnInit {
     this.httpParams$.next(httpParams);
   }
 
+  onFilter(key: string, value: string | null): void {
+    let httpParams = this.httpParams$.value;
+    httpParams = value ? httpParams.set(key, value) : httpParams.delete(key);
+    this.httpParams$.next(httpParams);
+  }
+
   private parseParams(params: Params): void {
     if (params.year) {
       if (!isNaN(Number(params.year))) {
@@ -140,8 +154,13 @@ export class WorkingHoursFilterComponent implements OnInit {
     } else if (this._initYear) {
       this.year$.next(this._initYear);
     }
-    if (params.search && this.includeSearch) {
-      this.search$.next(params.search);
+    if (this.includeSearch) {
+      if (params.search) {
+        this.search$.next(params.search);
+      }
+      if (params.filterType) {
+        this.filterType$.next(params.filterType);
+      }
     }
   }
 

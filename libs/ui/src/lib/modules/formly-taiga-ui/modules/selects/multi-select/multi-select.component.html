@@ -1,5 +1,5 @@
 <tui-multi-select
-  *tuiLet="to.options | selectOptions | async as items"
+  *tuiLet="to.options | selectOptions | push as items"
   [editable]="to.editable"
   [formControl]="$any(formControl)"
   [formlyAttributes]="field"

@@ -13,16 +13,12 @@
     class="col-span-3"
   ></hcm-workflow-status-combo-box-filter>
 
-  <tui-filter
-    (ngModelChange)="onChangeValue($event)"
-    [content]="content"
+  <hcm-basic-filter
+    (filtersChange)="onFilterChange($event)"
     [items]="['MY_TEAM']"
-    [ngModel]="filterType"
-    size="l"
-  ></tui-filter>
-  <ng-template #content let-item>
-    {{ getFilterLabel(item) | transloco }}
-  </ng-template>
+    [stringify]="getFilterLabel"
+    key="filterType"
+  ></hcm-basic-filter>
 
   <hcm-input-filter
     (valueChange)="search$.next($event)"

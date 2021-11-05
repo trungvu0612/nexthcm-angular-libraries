@@ -1,0 +1,10 @@
+<tui-filter
+  (ngModelChange)="onChangeValue($event)"
+  [content]="content"
+  [items]="items"
+  [ngModel]="filters"
+  size="l"
+></tui-filter>
+<ng-template #content let-item>
+  {{ stringify(item) | transloco }}
+</ng-template>

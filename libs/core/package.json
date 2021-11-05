@@ -1,18 +1,18 @@
 {
   "name": "@nexthcm/core",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "peerDependencies": {
     "@angular/common": "^12.0.0",
     "@angular/core": "^12.0.0"
   },
   "dependencies": {
     "@ngneat/reactive-forms": "^2.0.0",
-    "@ngneat/transloco": "^3.0.2",
+    "@ngneat/transloco": "^3.0.7",
     "@ngx-formly/core": "5.10.22",
     "@rx-angular/cdk": "^1.0.0-alpha.10",
     "@rx-angular/state": "^1.4.6",
     "@rx-angular/template": "^1.0.0-beta.28",
-    "@rxweb/reactive-form-validators": "^2.1.4",
+    "@rxweb/reactive-form-validators": "^2.1.6",
     "@sweetalert2/ngx-sweetalert2": "^10.0.0",
     "@tinkoff/ng-dompurify": "^3.0.0",
     "date-fns": "^2.25.0",

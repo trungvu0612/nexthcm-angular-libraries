@@ -3,7 +3,6 @@
 @import 'modules/status';
 @import 'modules/tag';
 @import 'modules/my-time';
-@import '~@ng-select/ng-select/scss/default.theme';
 @import '~ngx-easy-table/style';
 @import '~quill/dist/quill.core.css';
 @import '~quill/dist/quill.bubble.css';
@@ -17,40 +16,9 @@
   font-family: 'Inter', sans-serif;
 }
 
-.ng-select,
-.ng-select.ng-select-multiple {
-  max-width: 100%;
-
-  .ng-select-container {
-    min-height: var(--tui-height-l) !important;
-    border-color: var(--tui-base-03);
-    border-radius: var(--tui-radius-m);
-    box-shadow: 0 2px 3px rgb(0 0 0 / 10%);
-
-    .ng-value-container {
-      padding-left: 1rem;
-      padding-right: 1rem;
-
-      .ng-placeholder {
-        padding-bottom: 0px;
-        padding-left: 0px;
-
-        top: unset;
-        color: var(--tui-text-02);
-        font-size: 15px;
-      }
-
-      .ng-input {
-        top: 1rem;
-        padding-left: 1rem;
-      }
-    }
-  }
-}
-
 .ng-dropdown-panel .ng-dropdown-panel-items .ng-option {
-  padding-left: 1rem;
   padding-right: 1rem;
+  padding-left: 1rem;
 }
 
 .effected-dropdown {

@@ -14,7 +14,7 @@ import { TableModule } from 'ngx-easy-table';
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { CreateLeaveRequestDialogComponentModule } from '../../shared/create-leave-request-dialog/create-leave-request-dialog.component';
 import { LeaveRequestDateRangeComponentModule } from '../../shared/leave-request-date-range/leave-request-date-range.component';
-import { RequestListFilterComponentModule } from '../../shared/request-list-filter/request-list-filter.component';
+import { RequestListFilterComponentModule } from '../../shared/request-list-filters/request-list-filters.component';
 import { TransferLeaveEntitlementTypePipeModule } from '../../shared/transfer-leave-entitlement-type/transfer-leave-entitlement-type.pipe';
 import { RejectRequestDialogComponent } from './components/reject-leave-request-dialog/reject-request-dialog.component';
 import { LeaveRequestListComponent } from './pages/leave-request-list/leave-request-list.component';

@@ -1,4 +1,4 @@
-<section *transloco="let t" class="grid grid-cols-6 gap-6 mb-5">
+<section *transloco="let t" class="grid grid-cols-6 gap-6 mb-5 items-center">
   <hcm-input-filter
     (valueChange)="year$.next($event)"
     [initValue]="initYear"
@@ -6,7 +6,9 @@
     numberValue
     propertyName="year"
   ></hcm-input-filter>
+
   <hcm-select-month-filter (monthChange)="month$.next($event)"></hcm-select-month-filter>
+
   <hcm-select-filter
     (valueChange)="week$.next($event)"
     *tuiLet="weekList$ | async as weeks"
@@ -20,12 +22,21 @@
       </button>
     </tui-data-list>
   </hcm-select-filter>
+
   <hcm-input-filter
     (valueChange)="search$.next($event)"
     *ngIf="includeSearch"
     [label]="t('searchByCifFullNameOffice')"
-    class="col-span-3"
+    class="col-span-2"
     icon="tuiIconSearchLarge"
     propertyName="search"
   ></hcm-input-filter>
+
+  <hcm-basic-filter
+    (filtersChange)="filterType$.next($event)"
+    *ngIf="includeSearch"
+    [items]="['MY_TEAM']"
+    [stringify]="getFilterLabel"
+    key="filterType"
+  ></hcm-basic-filter>
 </section>
