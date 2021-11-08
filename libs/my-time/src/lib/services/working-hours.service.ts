@@ -50,4 +50,8 @@ export class WorkingHoursService {
   checkOut(id: string, payload: CheckOutPayload): Observable<unknown> {
     return this.http.put<unknown>(`${MY_TIME_API_PATH}/check-out/${id}`, payload);
   }
+
+  onExportTimeLog(params: HttpParams): Observable<Blob> {
+    return this.http.get(`${MY_TIME_API_PATH}/working-hours-everyone/export`, { params, responseType: 'blob' });
+  }
 }

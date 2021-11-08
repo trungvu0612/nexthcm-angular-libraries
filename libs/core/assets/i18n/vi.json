@@ -611,5 +611,6 @@
   "numberOfDays": "Số ngày",
   "knowledgeBaseCategories": "Danh mục Cơ sở tri thức",
   "onsiteOffice": "Văn phòng onsite",
-  "role": "Vai trò"
+  "role": "Vai trò",
+  "exportTimeLog": "Xuất bản ghi thời gian"
 }

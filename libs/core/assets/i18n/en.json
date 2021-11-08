@@ -612,5 +612,6 @@
   "numberOfDays": "Number of days",
   "knowledgeBaseCategories": "Knowledge Base Categories",
   "onsiteOffice": "Onsite office",
-  "role": "Role"
+  "role": "Role",
+  "exportTimeLog": "Export time log"
 }

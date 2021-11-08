@@ -118,5 +118,9 @@
   },
   "canTransferEntitlementsTo": "Có thể chuyển đổi quyền lợi sang",
   "chooseLeaveType": "Chọn loại nghỉ phép...",
-  "myTeam": "Đội của tôi"
+  "myTeam": "Đội của tôi",
+  "EXPORT_TIME_LOG_TYPES": {
+    "detail": "Chi tiết",
+    "aggregate": "Aggregate"
+  }
 }

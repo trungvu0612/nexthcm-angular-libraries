@@ -1,3 +1,9 @@
+<div class="flex mb-5">
+  <button (click)="onExportTimeLog()" class="ml-auto" icon="tuiIconUploadLarge" size="m" tuiButton>
+    {{ 'exportTimeLog' | transloco }}
+  </button>
+</div>
+
 <hcm-working-hours-filters
   [httpParams]="queryParams$"
   class="mb-5"
@@ -40,9 +46,9 @@
         <td class="font-semibold">{{ fromDateForGroupBy | translocoDate }} - {{ toDateForGroupBy | translocoDate }}</td>
         <td class="font-semibold text-center">
           {{
-            item.totalWorkingTime
-              ? (item.totalWorkingTime / 3600 | translocoDecimal: { maximumFractionDigits: 1 })
-              : '-'
+          item.totalWorkingTime
+            ? (item.totalWorkingTime / 3600 | translocoDecimal: { maximumFractionDigits: 1 })
+            : '-'
           }}
         </td>
         <td class="font-semibold text-center">

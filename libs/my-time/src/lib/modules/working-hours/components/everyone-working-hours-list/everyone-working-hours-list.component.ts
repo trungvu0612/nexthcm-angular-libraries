@@ -1,14 +1,17 @@
-import { ChangeDetectionStrategy, Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, Injector, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AbstractServerSortPaginationTableComponent, Pagination } from '@nexthcm/cdk';
 import { HashMap, ProviderScope, TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
+import { TuiDialogService } from '@taiga-ui/core';
+import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { API, BaseComponent, Columns, Config, DefaultConfig } from 'ngx-easy-table';
 import { Observable, of } from 'rxjs';
-import { catchError, filter, map, share, startWith, switchMap, tap } from 'rxjs/operators';
+import { catchError, filter, map, share, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { WorkingHoursGroup } from '../../../../models';
 import { WorkingHoursService } from '../../../../services';
+import { ExportTimeLogDialogComponent } from '../export-time-log-dialog/export-time-log-dialog.component';
 
 @Component({
   selector: 'hcm-everyone-working-hours-list',
@@ -88,7 +91,9 @@ export class EveryoneWorkingHoursListComponent
     @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope,
     private readonly workingHoursService: WorkingHoursService,
     private readonly destroy$: TuiDestroyService,
-    private readonly translocoService: TranslocoService
+    private readonly translocoService: TranslocoService,
+    private readonly dialogService: TuiDialogService,
+    private readonly injector: Injector
   ) {
     super(state, router, activatedRoute);
     state.connect(this.request$.pipe(filter(isPresent)));
@@ -116,5 +121,14 @@ export class EveryoneWorkingHoursListComponent
     } else {
       this.toggledRows.add(index);
     }
+  }
+
+  onExportTimeLog(): void {
+    this.dialogService
+      .open(new PolymorpheusComponent(ExportTimeLogDialogComponent, this.injector), {
+        label: this.translocoService.translate('exportTimeLog'),
+      })
+      .pipe(takeUntil(this.destroy$))
+      .subscribe();
   }
 }
