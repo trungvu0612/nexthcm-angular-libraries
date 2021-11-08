@@ -1,13 +1,15 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { cacheable } from '@datorama/akita';
 import { EmployeeAttachment, EmployeesService, PromptService, UploadFileService } from '@nexthcm/cdk';
 import { FormArray, FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 import { TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { of } from 'rxjs';
-import { catchError, map, share, startWith, takeUntil, tap } from 'rxjs/operators';
+import { catchError, map, startWith, takeUntil, tap } from 'rxjs/operators';
 import { AdminEmployeesService } from '../../services/admin-employees.service';
+import { EmployeeAttachmentQuery, EmployeeAttachmentStore, EmployeeQuery } from '../../state';
 import { convertAttachment } from '../../utils/convert-attachment';
 
 @Component({
@@ -56,23 +58,20 @@ export class AttachmentFormComponent {
     { key: 'employeeId' },
     { key: 'type' },
   ];
-  private readonly request$ = this.employeesService
-    .getEmployeeInformation(this.activatedRoute.snapshot.params.employeeId, 'ATTACHMENT')
-    .pipe(
-      tap((data) => {
-        this.model = {
-          ...this.model,
-          ...data,
-          attachments: data.attachmentFiles?.map((path) => convertAttachment(path)) || [{}],
-          employeeId: this.activatedRoute.snapshot.params.employeeId,
-          type: 'ATTACHMENT',
-        };
-      }),
-      startWith(null),
-      share()
-    );
+  private readonly request$ = this.employeeAttachmentQuery.select().pipe(
+    tap((data) => {
+      this.model = {
+        ...this.model,
+        ...data,
+        attachments: data.attachmentFiles?.map((path) => convertAttachment(path)) || [{}],
+        employeeId: this.activatedRoute.snapshot.params.employeeId,
+        type: 'ATTACHMENT',
+      };
+    })
+  );
   readonly loading$ = this.request$.pipe(
     map((value) => !value),
+    startWith(true),
     catchError(() => of(false))
   );
 
@@ -86,8 +85,21 @@ export class AttachmentFormComponent {
     private readonly translocoService: TranslocoService,
     private readonly destroy$: TuiDestroyService,
     private readonly promptService: PromptService,
-    @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope
-  ) {}
+    @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope,
+    private readonly employeeQuery: EmployeeQuery,
+    private readonly employeeAttachmentStore: EmployeeAttachmentStore,
+    private readonly employeeAttachmentQuery: EmployeeAttachmentQuery
+  ) {
+    cacheable(
+      employeeAttachmentStore,
+      employeesService.getEmployeeInformation(employeeQuery.getValue().id, 'ATTACHMENT').pipe(
+        tap((res) => {
+          employeeAttachmentStore.update(res);
+          employeeAttachmentStore.setHasCache(true);
+        })
+      )
+    ).subscribe();
+  }
 
   onSubmit(): void {
     if (this.form.valid) {

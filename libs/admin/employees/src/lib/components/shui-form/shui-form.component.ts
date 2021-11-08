@@ -1,13 +1,15 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { cacheable } from '@datorama/akita';
 import { EmployeeSHUI, EmployeesService, PromptService } from '@nexthcm/cdk';
 import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 import { TRANSLOCO_SCOPE, TranslocoScope } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { of } from 'rxjs';
-import { catchError, map, share, startWith, takeUntil, tap } from 'rxjs/operators';
+import { catchError, map, startWith, takeUntil, tap } from 'rxjs/operators';
 import { AdminEmployeesService } from '../../services/admin-employees.service';
+import { EmployeeQuery, EmployeeSHUIQuery, EmployeeSHUIStore } from '../../state';
 
 @Component({
   selector: 'hcm-shui-form',
@@ -202,23 +204,20 @@ export class ShuiFormComponent {
     { key: 'employeeId' },
     { key: 'type' },
   ];
-  private readonly request$ = this.employeesService
-    .getEmployeeInformation(this.activatedRoute.snapshot.params.employeeId, 'SHUI')
-    .pipe(
-      tap(
-        (data) =>
-          (this.model = {
-            ...this.model,
-            ...data,
-            employeeId: this.activatedRoute.snapshot.params.employeeId,
-            type: 'SHUI',
-          })
-      ),
-      startWith(null),
-      share()
-    );
+  private readonly request$ = this.employeeSHUIQuery.select().pipe(
+    tap(
+      (data) =>
+        (this.model = {
+          ...this.model,
+          ...data,
+          employeeId: this.activatedRoute.snapshot.params.employeeId,
+          type: 'SHUI',
+        })
+    ),
+  );
   readonly loading$ = this.request$.pipe(
     map((value) => !value),
+    startWith(true),
     catchError(() => of(false))
   );
 
@@ -230,8 +229,21 @@ export class ShuiFormComponent {
     private readonly employeesService: EmployeesService,
     private readonly destroy$: TuiDestroyService,
     private readonly promptService: PromptService,
-    @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope
-  ) {}
+    @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope,
+    private readonly employeeSHUIQuery: EmployeeSHUIQuery,
+    employeeQuery: EmployeeQuery,
+    employeeSHUIStore: EmployeeSHUIStore
+  ) {
+    cacheable(
+      employeeSHUIStore,
+      employeesService.getEmployeeInformation(employeeQuery.getValue().id, 'SHUI').pipe(
+        tap((res) => {
+          employeeSHUIStore.update(res);
+          employeeSHUIStore.setHasCache(true);
+        })
+      )
+    ).subscribe();
+  }
 
   onSubmit(): void {
     if (this.form.valid) {

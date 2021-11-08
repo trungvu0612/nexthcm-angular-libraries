@@ -22,8 +22,4 @@ export class GeneralInformationComponent {
       .updateEmployeeGeneralInformation(payload)
       .subscribe(this.promptService.handleResponse('updateSuccessful'));
   }
-
-  onCancel(): void {
-    this.router.navigate(['../..'], { relativeTo: this.activatedRoute });
-  }
 }

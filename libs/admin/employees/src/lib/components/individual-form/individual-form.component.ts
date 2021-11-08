@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { cacheable } from '@datorama/akita';
 import { Actions } from '@datorama/akita-ng-effects';
 import {
   AddressService,
@@ -19,8 +20,9 @@ import { FormlyFieldConfig } from '@ngx-formly/core';
 import { RxwebValidators } from '@rxweb/reactive-form-validators';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { of } from 'rxjs';
-import { catchError, map, share, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { catchError, map, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { AdminEmployeesService } from '../../services/admin-employees.service';
+import { EmployeeIndividualQuery, EmployeeIndividualStore, EmployeeQuery } from '../../state';
 
 @Component({
   selector: 'hcm-individual-form',
@@ -598,24 +600,21 @@ export class IndividualFormComponent {
     { key: 'employeeId' },
     { key: 'type' },
   ];
-  private readonly request$ = this.employeesService
-    .getEmployeeInformation(this.activatedRoute.snapshot.params.employeeId, 'INDIVIDUAL')
-    .pipe(
-      tap((res) => {
-        const data = parseTuiDayFields(res, ['birthDate', 'issueOn']);
+  private readonly request$ = this.employeeIndividualQuery.select().pipe(
+    tap((res) => {
+      const data = parseTuiDayFields(res, ['birthDate', 'issueOn']);
 
-        this.model = {
-          ...this.model,
-          ...data,
-          employeeId: this.activatedRoute.snapshot.params.employeeId,
-          type: 'INDIVIDUAL',
-        };
-      }),
-      startWith(null),
-      share()
-    );
+      this.model = {
+        ...this.model,
+        ...data,
+        employeeId: this.activatedRoute.snapshot.params.employeeId,
+        type: 'INDIVIDUAL',
+      };
+    }),
+  );
   readonly loading$ = this.request$.pipe(
     map((value) => !value),
+    startWith(true),
     catchError(() => of(false))
   );
 
@@ -631,9 +630,21 @@ export class IndividualFormComponent {
     private readonly addressService: AddressService,
     @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope,
     private readonly officesQuery: OfficesQuery,
+    private readonly employeeIndividualQuery: EmployeeIndividualQuery,
+    employeeQuery: EmployeeQuery,
+    employeeIndividualStore: EmployeeIndividualStore,
     actions: Actions
   ) {
     actions.dispatch(loadOffices());
+    cacheable(
+      employeeIndividualStore,
+      this.employeesService.getEmployeeInformation(employeeQuery.getValue().id, 'INDIVIDUAL').pipe(
+        tap((res) => {
+          employeeIndividualStore.update(res);
+          employeeIndividualStore.setHasCache(true);
+        })
+      )
+    ).subscribe();
   }
 
   onSubmit(): void {

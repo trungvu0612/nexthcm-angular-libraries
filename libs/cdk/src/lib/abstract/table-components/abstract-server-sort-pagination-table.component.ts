@@ -1,0 +1,70 @@
+import { AfterViewInit, Directive } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { RxState } from '@rx-angular/state';
+import { API, Config, DefaultConfig, Event } from 'ngx-easy-table';
+import { Pagination } from '../../models';
+import { NewAbstractServerPaginationTableComponent } from './abstract-server-pagination-table.component';
+
+interface EventObject {
+  event: Event;
+  value: {
+    key: string;
+    order: string;
+  };
+}
+
+@Directive()
+export abstract class NewAbstractServerSortPaginationTableComponent<T>
+  extends NewAbstractServerPaginationTableComponent<T>
+  implements AfterViewInit
+{
+  orderBy: string = this.activatedRoute.snapshot.queryParams.sort || '';
+  configuration: Config = {
+    ...DefaultConfig,
+    paginationEnabled: false,
+    paginationRangeEnabled: false,
+    fixedColumnWidth: false,
+    threeWaySort: true,
+    orderEnabled: true,
+    orderEventOnly: true,
+  };
+
+  protected constructor(
+    readonly state: RxState<Pagination<T>>,
+    readonly router: Router,
+    readonly activatedRoute: ActivatedRoute
+  ) {
+    super(state, router, activatedRoute);
+  }
+
+  ngAfterViewInit(): void {
+    const [key, order] = this.orderBy.split(',');
+
+    if (key && ['asc', 'desc'].includes(order)) {
+      if (order === 'asc') {
+        /**
+         * @see https://github.com/ssuperczynski/ngx-easy-table/blob/3ee88fdbe0df7fa2035e96227cf5399b88652173/projects/ngx-easy-table/src/lib/components/base/base.component.ts#L523
+         */
+        this.table.sortState.set(key, 'desc'); // pre-sortBy
+      }
+      this.table.apiEvent({
+        type: API.sortBy,
+        value: { column: key, order: order as 'asc' | 'desc' },
+      });
+    }
+  }
+
+  eventEmitted($event: EventObject): void {
+    if ($event.event === Event.onOrder) {
+      const orderBy = $event.value.order ? `${$event.value.key},${$event.value.order}` : null;
+
+      this.queryParams = orderBy ? this.queryParams.set('sort', orderBy) : this.queryParams.delete('sort');
+      this.fetch$.next();
+      this.router.navigate([], {
+        queryParams: { sort: orderBy },
+        queryParamsHandling: 'merge',
+        replaceUrl: true,
+      });
+    }
+  }
+}

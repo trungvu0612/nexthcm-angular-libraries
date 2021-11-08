@@ -9,3 +9,4 @@ export * from './lib/constants';
 export * from './lib/validators';
 export * from './lib/state';
 export * from './lib/enums';
+export * from './lib/abstract';

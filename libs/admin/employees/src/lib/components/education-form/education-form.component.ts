@@ -1,13 +1,15 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { cacheable } from '@datorama/akita';
 import { BaseOption, EmployeeEducation, EmployeesService, parseTuiDayFields, PromptService } from '@nexthcm/cdk';
 import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
 import { HashMap, TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { of } from 'rxjs';
-import { catchError, map, share, startWith, takeUntil, tap } from 'rxjs/operators';
+import { catchError, map, startWith, takeUntil, tap } from 'rxjs/operators';
 import { AdminEmployeesService } from '../../services/admin-employees.service';
+import { EmployeeEducationQuery, EmployeeEducationStore, EmployeeQuery } from '../../state';
 
 @Component({
   selector: 'hcm-education-form',
@@ -109,24 +111,22 @@ export class EducationFormComponent {
     { key: 'employeeId' },
     { key: 'type' },
   ];
-  private readonly request$ = this.employeesService
-    .getEmployeeInformation(this.activatedRoute.snapshot.params.employeeId, 'EDUCATION')
-    .pipe(
-      tap((data) => {
-        data.certificates =
-          data.certificates?.map((certificate) => parseTuiDayFields(certificate, ['startDate', 'endDate'])) || [];
-        this.model = {
-          ...this.model,
-          ...data,
-          employeeId: this.activatedRoute.snapshot.params.employeeId,
-          type: 'EDUCATION',
-        };
-      }),
-      startWith(null),
-      share()
-    );
+  private readonly request$ = this.employeeEducationQuery.select().pipe(
+    tap((data) => {
+      data.certificates = data.certificates?.map((certificate) =>
+        parseTuiDayFields(certificate, ['startDate', 'endDate'])
+      ) || [{}];
+      this.model = {
+        ...this.model,
+        ...data,
+        employeeId: this.activatedRoute.snapshot.params.employeeId,
+        type: 'EDUCATION',
+      };
+    }),
+  );
   readonly loading$ = this.request$.pipe(
     map((value) => !value),
+    startWith(true),
     catchError(() => of(false))
   );
 
@@ -138,8 +138,21 @@ export class EducationFormComponent {
     private readonly employeesService: EmployeesService,
     private readonly destroy$: TuiDestroyService,
     private readonly promptService: PromptService,
-    private readonly translocoService: TranslocoService
-  ) {}
+    private readonly translocoService: TranslocoService,
+    private readonly employeeEducationQuery: EmployeeEducationQuery,
+    employeeQuery: EmployeeQuery,
+    employeeEducationStore: EmployeeEducationStore
+  ) {
+    cacheable(
+      employeeEducationStore,
+      employeesService.getEmployeeInformation(employeeQuery.getValue().id, 'EDUCATION').pipe(
+        tap((res) => {
+          employeeEducationStore.update(res);
+          employeeEducationStore.setHasCache(true);
+        })
+      )
+    ).subscribe();
+  }
 
   onSubmit(): void {
     if (this.form.valid) {

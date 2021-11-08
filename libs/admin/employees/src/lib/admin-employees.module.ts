@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { AkitaNgEffectsModule } from '@datorama/akita-ng-effects';
 import {
@@ -24,6 +24,7 @@ import {
   LayoutModule,
   SelectFilterComponentModule,
 } from '@nexthcm/ui';
+import { NgStackFormsModule } from '@ng-stack/forms';
 import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
 import { FormlyModule } from '@ngx-formly/core';
 import { PushModule } from '@rx-angular/template';
@@ -37,6 +38,7 @@ import { TableModule } from 'ngx-easy-table';
 import { NgxPermissionsGuard, NgxPermissionsModule } from 'ngx-permissions';
 import { AttachmentFormComponent } from './components/attachment-form/attachment-form.component';
 import { DurationFormComponent } from './components/duration-form/duration-form.component';
+import { EditEmployeeDialogComponent } from './components/edit-employee-dialog/edit-employee-dialog.component';
 import { EducationFormComponent } from './components/education-form/education-form.component';
 import { FormlyDownloadButtonComponent } from './components/formly-download-button/formly-download-button.component';
 import { FormlyRepeatSectionComponent } from './components/formly-repeat-section/formly-repeat-section.component';
@@ -45,7 +47,6 @@ import { GeneralInformationComponent } from './components/general-information/ge
 import { IndividualFormComponent } from './components/individual-form/individual-form.component';
 import { InitEmployeeDialogComponent } from './components/init-employee-dialog/init-employee-dialog.component';
 import { ShuiFormComponent } from './components/shui-form/shui-form.component';
-import { EditEmployeeComponent } from './pages/edit-employee/edit-employee.component';
 import { EmployeeManagementComponent } from './pages/employee-management/employee-management.component';
 import { AdminEmployeesService } from './services/admin-employees.service';
 
@@ -59,7 +60,7 @@ export const ADMIN_EMPLOYEE_ROUTES: Routes = [
       { path: '', component: EmployeeManagementComponent },
       {
         path: ':employeeId',
-        component: EditEmployeeComponent,
+        component: EditEmployeeDialogComponent,
         canActivate: [NgxPermissionsGuard],
         data: { permissions: { only: 'UPDATE_EMPLOYEE', redirectTo: '/' } },
         children: [
@@ -80,7 +81,7 @@ export const ADMIN_EMPLOYEE_ROUTES: Routes = [
   imports: [
     CommonModule,
     RouterModule.forChild(ADMIN_EMPLOYEE_ROUTES),
-    ReactiveFormsModule,
+    NgStackFormsModule,
     FormlyModule.forChild({
       types: [
         { name: 'repeat', component: FormlyRepeatSectionComponent },
@@ -122,7 +123,7 @@ export const ADMIN_EMPLOYEE_ROUTES: Routes = [
     PushModule,
   ],
   declarations: [
-    EditEmployeeComponent,
+    EditEmployeeDialogComponent,
     GeneralInformationFormComponent,
     IndividualFormComponent,
     DurationFormComponent,

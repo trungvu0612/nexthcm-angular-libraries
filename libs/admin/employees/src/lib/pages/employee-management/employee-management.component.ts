@@ -1,13 +1,12 @@
-import { HttpParams } from '@angular/common/http';
-import { ChangeDetectionStrategy, Component, Inject, Injector, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, convertToParamMap, Params, Router } from '@angular/router';
+import { ChangeDetectionStrategy, Component, Inject, Injector, OnInit } from '@angular/core';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Actions } from '@datorama/akita-ng-effects';
 import {
-  AbstractServerSortPaginationTableComponent,
   BaseObject,
   EmployeeGeneralInformation,
   EmployeeInfo,
   loadRoles,
+  NewAbstractServerSortPaginationTableComponent,
   Pagination,
   PromptService,
   RolesQuery,
@@ -17,7 +16,7 @@ import { RxState } from '@rx-angular/state';
 import { isPresent, TuiContextWithImplicit, TuiDestroyService, tuiPure, TuiStringHandler } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
-import { BaseComponent, Columns } from 'ngx-easy-table';
+import { Columns } from 'ngx-easy-table';
 import { from, Observable, of, Subject } from 'rxjs';
 import {
   catchError,
@@ -25,12 +24,13 @@ import {
   distinctUntilChanged,
   filter,
   map,
-  shareReplay,
+  share,
   startWith,
   switchMap,
   takeUntil,
   tap,
 } from 'rxjs/operators';
+import { EditEmployeeDialogComponent } from '../../components/edit-employee-dialog/edit-employee-dialog.component';
 import { InitEmployeeDialogComponent } from '../../components/init-employee-dialog/init-employee-dialog.component';
 import { AdminEmployeesService } from '../../services/admin-employees.service';
 
@@ -42,11 +42,9 @@ import { AdminEmployeesService } from '../../services/admin-employees.service';
   providers: [TuiDestroyService, RxState],
 })
 export class EmployeeManagementComponent
-  extends AbstractServerSortPaginationTableComponent<EmployeeInfo>
+  extends NewAbstractServerSortPaginationTableComponent<EmployeeInfo>
   implements OnInit
 {
-  @ViewChild('table') table!: BaseComponent;
-
   readonly columns$: Observable<Columns[]> = this.translocoService
     .selectTranslateObject('ADMIN_EMPLOYEE_MANAGEMENT_COLUMNS', {}, (this.scope as ProviderScope).scope)
     .pipe(
@@ -61,13 +59,14 @@ export class EmployeeManagementComponent
         { key: '', title: result.functions, orderEnabled: false },
       ])
     );
-  private readonly request$ = this.queryParams$.pipe(
-    switchMap(() => this.adminEmployeesService.getEmployees(this.queryParams$.value).pipe(startWith(null))),
-    shareReplay(1)
+  private readonly request$ = this.fetch$.pipe(
+    switchMap(() => this.adminEmployeesService.getEmployees(this.queryParams).pipe(startWith(null))),
+    share()
   );
   readonly loading$ = this.request$.pipe(
     map((value) => !value),
-    catchError(() => of(false))
+    catchError(() => of(false)),
+    startWith(true)
   );
   readonly search$ = new Subject<string | null>();
   readonly role$ = new Subject<string | null>();
@@ -95,10 +94,13 @@ export class EmployeeManagementComponent
         filter(isPresent),
         debounceTime(1000),
         distinctUntilChanged(),
-        tap((searchQuery) => this.queryParams$.next(this.queryParams$.value.set('search', searchQuery)))
+        tap((searchQuery) => {
+          this.queryParams = this.queryParams.set('search', searchQuery);
+          this.fetch$.next();
+        })
       )
     );
-    state.hold(this.role$, (roleId) => this.queryParams$.next(this.onFilter('roleId', roleId)));
+    state.hold(this.role$, (roleId) => this.onFilter('roleId', roleId));
   }
 
   @tuiPure
@@ -108,32 +110,22 @@ export class EmployeeManagementComponent
     return ({ $implicit }: TuiContextWithImplicit<string>) => map.get($implicit) || '';
   }
 
-  ngOnInit(): void {
-    if (convertToParamMap(this.activatedRoute.snapshot.queryParams).keys.length) {
-      this.parseParams(this.activatedRoute.snapshot.queryParams);
+  parseParams(params: Params): void {
+    const keys = ['page', 'size', 'search', 'roleId'];
+
+    for (const key of keys) {
+      this.queryParams =
+        params[key] && params[key] !== 'null' ? this.queryParams.set(key, params[key]) : this.queryParams.delete(key);
     }
   }
 
-  onFilter(key: string, value: string | number | null): HttpParams {
-    let httpParams = this.queryParams$.value;
+  onFilter(key: string, value: string | number | null): void {
     if (value !== null) {
-      httpParams = httpParams.set(key, value);
+      this.queryParams = this.queryParams.set(key, value);
     } else {
-      httpParams = httpParams.delete(key);
+      this.queryParams = this.queryParams.delete(key);
     }
-    return httpParams;
-  }
-
-  private parseParams(params: Params): void {
-    let queryParams = this.queryParams$.value;
-
-    if (params.search) {
-      queryParams = queryParams.set('search', params.search);
-    }
-    if (params.roleId) {
-      queryParams = queryParams.set('roleId', params.roleId);
-    }
-    this.queryParams$.next(queryParams);
+    this.fetch$.next();
   }
 
   onAddEmployee(): void {
@@ -144,10 +136,9 @@ export class EmployeeManagementComponent
       })
       .pipe(
         switchMap((data) => this.adminEmployeesService.initEmployee(data)),
-        tap((res) => this.router.navigate([res.data.id], { relativeTo: this.activatedRoute })),
         takeUntil(this.destroy$)
       )
-      .subscribe(this.promptService.handleResponse(''));
+      .subscribe(this.promptService.handleResponse('', () => this.fetch$.next()));
   }
 
   onRemoveEmployee(id: string): void {
@@ -163,10 +154,17 @@ export class EmployeeManagementComponent
         switchMap(() => this.adminEmployeesService.removeEmployee(id)),
         takeUntil(this.destroy$)
       )
-      .subscribe(
-        this.promptService.handleResponse('employees.removeEmployeeSuccessfully', () =>
-          this.queryParams$.next(this.queryParams$.value)
-        )
-      );
+      .subscribe(this.promptService.handleResponse('employees.removeEmployeeSuccessfully', () => this.fetch$.next()));
+  }
+
+  onEditEmployee(id: string): void {
+    this.dialogService
+      .open(new PolymorpheusComponent(EditEmployeeDialogComponent, this.injector), {
+        label: this.translocoService.translate('employees.editEmployee'),
+        data: id,
+        size: 'page',
+      })
+      .pipe(takeUntil(this.destroy$))
+      .subscribe();
   }
 }

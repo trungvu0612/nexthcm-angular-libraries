@@ -51,7 +51,7 @@
             <div class="flex items-center">
               <button
                 *ngxPermissionsOnly="'UPDATE_EMPLOYEE'"
-                [routerLink]="[item.id]"
+                (click)="onEditEmployee(item.id)"
                 appearance="flat"
                 class="tui-space_right-3"
                 icon="tuiIconEditLarge"

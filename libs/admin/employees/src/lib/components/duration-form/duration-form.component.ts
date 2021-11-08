@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { cacheable } from '@datorama/akita';
 import {
   DateRange,
   EmployeeDuration,
@@ -13,8 +14,9 @@ import { TRANSLOCO_SCOPE, TranslocoScope } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDayRange, TuiDestroyService } from '@taiga-ui/cdk';
 import { of } from 'rxjs';
-import { catchError, map, share, startWith, takeUntil, tap } from 'rxjs/operators';
+import { catchError, map, startWith, takeUntil, tap } from 'rxjs/operators';
 import { AdminEmployeesService } from '../../services/admin-employees.service';
+import { EmployeeDurationQuery, EmployeeDurationStore, EmployeeQuery } from '../../state';
 
 @Component({
   selector: 'hcm-duration-form',
@@ -220,31 +222,28 @@ export class DurationFormComponent {
     { key: 'employeeId' },
     { key: 'type', defaultValue: 'DURATION' },
   ];
-  private readonly request$ = this.employeesService
-    .getEmployeeInformation(this.activatedRoute.snapshot.params.employeeId, 'DURATION')
-    .pipe(
-      tap((res) => {
-        const data = parseTuiDayFields(res, [
-          'onboardDate',
-          'officialStartDate',
-          'terminationDate',
-          'labourContractDate',
-          'indefiniteTermContractDate',
-          'resignationAgreementDate',
-        ]);
-        data.probationDate = data.probationDate ? DateRange.toTuiDayRange(data.probationDate as DateRange) : undefined;
-        this.model = {
-          ...this.model,
-          ...data,
-          employeeId: this.activatedRoute.snapshot.params.employeeId,
-          type: 'DURATION',
-        };
-      }),
-      startWith(null),
-      share()
-    );
+  private readonly request$ = this.employeeDurationQuery.select().pipe(
+    tap((res) => {
+      const data = parseTuiDayFields(res, [
+        'onboardDate',
+        'officialStartDate',
+        'terminationDate',
+        'labourContractDate',
+        'indefiniteTermContractDate',
+        'resignationAgreementDate',
+      ]);
+      data.probationDate = data.probationDate ? DateRange.toTuiDayRange(data.probationDate as DateRange) : undefined;
+      this.model = {
+        ...this.model,
+        ...data,
+        employeeId: this.activatedRoute.snapshot.params.employeeId,
+        type: 'DURATION',
+      };
+    }),
+  );
   readonly loading$ = this.request$.pipe(
     map((value) => !value),
+    startWith(true),
     catchError(() => of(false))
   );
 
@@ -256,8 +255,21 @@ export class DurationFormComponent {
     private readonly employeesService: EmployeesService,
     private readonly destroy$: TuiDestroyService,
     private readonly promptService: PromptService,
-    @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope
-  ) {}
+    @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope,
+    private readonly employeeDurationQuery: EmployeeDurationQuery,
+    employeeQuery: EmployeeQuery,
+    employeeDurationStore: EmployeeDurationStore
+  ) {
+    cacheable(
+      employeeDurationStore,
+      employeesService.getEmployeeInformation(employeeQuery.getValue().id, 'DURATION').pipe(
+        tap((res) => {
+          employeeDurationStore.update(res);
+          employeeDurationStore.setHasCache(true);
+        })
+      )
+    ).subscribe();
+  }
 
   onSubmit(): void {
     if (this.form.valid) {

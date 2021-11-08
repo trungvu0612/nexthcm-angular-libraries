@@ -1,6 +1,7 @@
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
-import { ChangeDetectionStrategy, Component, EventEmitter, Inject, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Inject, Input, Optional, Output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { cacheable } from '@datorama/akita';
 import { Actions } from '@datorama/akita-ng-effects';
 import {
   BaseObject,
@@ -15,12 +16,13 @@ import {
   RolesQuery,
   UploadFileService,
 } from '@nexthcm/cdk';
-import { FormBuilder } from '@ngneat/reactive-forms';
+import { FormBuilder } from '@ng-stack/forms';
 import { TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { of } from 'rxjs';
-import { catchError, map, share, startWith, tap } from 'rxjs/operators';
+import { catchError, map, startWith, tap } from 'rxjs/operators';
 import { AdminEmployeesService } from '../../services/admin-employees.service';
+import { EmployeeGeneralQuery, EmployeeGeneralStore, EmployeeQuery } from '../../state';
 
 @Component({
   selector: 'hcm-general-information-form',
@@ -31,8 +33,8 @@ import { AdminEmployeesService } from '../../services/admin-employees.service';
 export class GeneralInformationFormComponent {
   @Output() submitted = new EventEmitter<EmployeeGeneralInformation>();
   @Output() cancel = new EventEmitter();
-  form = this.fb.group<EmployeeGeneralInformation>({} as EmployeeGeneralInformation);
   model = {} as EmployeeGeneralInformation;
+  form = this.fb.group<EmployeeGeneralInformation>(this.model);
   options: FormlyFormOptions = {
     formState: {
       editMode: false,
@@ -227,15 +229,14 @@ export class GeneralInformationFormComponent {
     { key: 'id' },
     { key: 'registerType' },
   ];
-  private readonly request$ = this.activatedRoute.snapshot.params.employeeId
-    ? this.employeesService.getEmployeeGeneralInformation(this.activatedRoute.snapshot.params.employeeId).pipe(
+  private readonly request$ = this.employeeQuery
+    ? this.employeeGeneralQuery.select().pipe(
         tap((data) => (this.model = { ...this.model, ...data })),
-        startWith(null),
-        share()
       )
     : of({} as EmployeeGeneralInformation);
   readonly loading$ = this.request$.pipe(
     map((value) => !value),
+    startWith(true),
     catchError(() => of(false))
   );
 
@@ -250,11 +251,37 @@ export class GeneralInformationFormComponent {
     private readonly jobLevelsQuery: JobLevelsQuery,
     private readonly rolesQuery: RolesQuery,
     @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope,
+    @Optional() private readonly employeeQuery: EmployeeQuery,
+    @Optional() private readonly employeeGeneralStore: EmployeeGeneralStore,
+    @Optional() private readonly employeeGeneralQuery: EmployeeGeneralQuery,
     actions: Actions
   ) {
     actions.dispatch(loadJobTitles());
     actions.dispatch(loadJobLevels());
     actions.dispatch(loadRoles());
+
+    if (employeeQuery) {
+      cacheable(
+        this.employeeGeneralStore,
+        this.employeesService.getEmployeeGeneralInformation(employeeQuery.getValue().id).pipe(
+          tap((res) => {
+            this.employeeGeneralStore.update(res);
+            this.employeeGeneralStore.setHasCache(true);
+          })
+        )
+      ).subscribe();
+    }
+  }
+
+  private _hideCancelButton = false;
+
+  get hideCancelButton(): boolean {
+    return this._hideCancelButton;
+  }
+
+  @Input()
+  set hideCancelButton(value: unknown) {
+    this._hideCancelButton = coerceBooleanProperty(value);
   }
 
   @Input()
@@ -264,7 +291,7 @@ export class GeneralInformationFormComponent {
 
   onSubmit(): void {
     if (this.form.valid) {
-      const formModel = { ...this.form.value };
+      const formModel = { ...this.form.value } as EmployeeGeneralInformation;
 
       formModel.status = formModel.statusBoolean ? CommonStatus.active : CommonStatus.inactive;
       this.submitted.emit(formModel);

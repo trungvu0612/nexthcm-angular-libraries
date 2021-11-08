@@ -1,6 +1,6 @@
-import { CommonModule, Location } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { Directive, EventEmitter, Input, NgModule, Output } from '@angular/core';
-import { ActivatedRoute, UrlSerializer } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Directive({
   selector: '[hcmPropertyRouteName]',
@@ -11,11 +11,7 @@ export class PropertyRouteConnectorDirective<T> {
 
   propertyValue: T | null = null;
 
-  constructor(
-    private locationRef: Location,
-    private activatedRoute: ActivatedRoute,
-    private urlSerializer: UrlSerializer
-  ) {}
+  constructor(private readonly activatedRoute: ActivatedRoute, private readonly router: Router) {}
 
   private _propertyName = '';
 
@@ -26,12 +22,14 @@ export class PropertyRouteConnectorDirective<T> {
   @Input('hcmPropertyRouteName')
   set propertyName(name: string) {
     this._propertyName = name;
+
     const params = this.activatedRoute.snapshot.queryParams;
-    this.propertyValue = !isNaN(Number(params[name]))
-      ? Number(params[name])
-      : params[name] === null
-      ? null
-      : params[name];
+
+    if (['null', ''].includes(params[name])) {
+      return;
+    }
+
+    this.propertyValue = !isNaN(Number(params[name])) ? Number(params[name]) : params[name];
     this.propertyValueChange.emit(this.propertyValue);
   }
 
@@ -42,9 +40,11 @@ export class PropertyRouteConnectorDirective<T> {
   }
 
   setQueryParam(value: T | null): void {
-    const tree = this.urlSerializer.parse(this.locationRef.path());
-    tree.queryParams = { ...tree.queryParams, [this.propertyName]: value };
-    this.locationRef.go(String(tree));
+    this.router.navigate([], {
+      queryParams: { [this.propertyName]: value },
+      queryParamsHandling: 'merge',
+      replaceUrl: true,
+    });
   }
 }
 

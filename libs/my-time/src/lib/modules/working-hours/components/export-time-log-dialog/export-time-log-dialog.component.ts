@@ -1,5 +1,6 @@
+import { formatDate } from '@angular/common';
 import { HttpParams } from '@angular/common/http';
-import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, LOCALE_ID } from '@angular/core';
 import { PromptService } from '@nexthcm/cdk';
 import { FormBuilder } from '@ng-stack/forms';
 import { ProviderScope, TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
@@ -8,6 +9,8 @@ import { RxState } from '@rx-angular/state';
 import { isPresent } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
+import { endOfDay } from 'date-fns';
+import { FileSaverService } from 'ngx-filesaver';
 import { of, Subject } from 'rxjs';
 import { catchError, filter, map, share, startWith, switchMap, tap } from 'rxjs/operators';
 import { ExportTimeLogType } from '../../../../internal/enums';
@@ -61,21 +64,34 @@ export class ExportTimeLogDialogComponent {
   ];
 
   // EVENTS
-  readonly submit$ = new Subject<HttpParams>();
+  readonly submit$ = new Subject<{ fromDate: Date; toDate: Date; exportType: ExportTimeLogType }>();
 
   // HANDLERS
   readonly submitHandler$ = this.submit$.pipe(
-    switchMap((params) => {
-      return this.workingHoursService.onExportTimeLog(params).pipe(startWith(null));
+    switchMap(({ fromDate, toDate, exportType }) => {
+      const params = new HttpParams()
+        .set('fromDate', fromDate.getTime())
+        .set('toDate', endOfDay(toDate).getTime())
+        .set('exportType', exportType);
+      const fileName = `${formatDate(fromDate, 'mediumDate', this.locale)}_${formatDate(
+        toDate,
+        'mediumDate',
+        this.locale
+      )}_${exportType}`;
+
+      return this.workingHoursService.onExportTimeLog(params).pipe(
+        tap((blob) => this.fileSaverService.save(blob, fileName)),
+        startWith(null)
+      );
     }),
     share()
   );
-  readonly submitPrompt$ = this.submitHandler$.pipe(
+  readonly submitLoading$ = this.submitHandler$.pipe(map((value) => !value));
+  readonly submitEffect$ = this.submitHandler$.pipe(
     filter(isPresent),
-    tap(this.promptService.handleResponse('', () => this.context.completeWith())),
+    tap(() => this.context.completeWith()),
     catchError(() => of({}))
   );
-  readonly submitLoading$ = this.submitHandler$.pipe(map((value) => !value));
 
   constructor(
     private readonly fb: FormBuilder,
@@ -84,24 +100,23 @@ export class ExportTimeLogDialogComponent {
     private readonly state: RxState<Record<string, unknown>>,
     @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext,
     private readonly promptService: PromptService,
-    @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope
+    @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope,
+    private readonly fileSaverService: FileSaverService,
+    @Inject(LOCALE_ID) private readonly locale: string
   ) {
-    state.hold(this.submitPrompt$);
+    state.hold(this.submitEffect$);
   }
 
   onSubmit(): void {
     if (this.form.valid) {
       const {
         dateRange: { from, to },
-        type,
+        exportType,
       } = this.form.value;
+      const fromDate = from.toUtcNativeDate();
+      const toDate = to.toUtcNativeDate();
 
-      this.submit$.next(
-        new HttpParams()
-          .set('fromDate', from.toUtcNativeDate().getTime())
-          .set('toDate', to.toUtcNativeDate().getTime())
-          .set('type', type)
-      );
+      this.submit$.next({ fromDate, toDate, exportType });
     }
   }
 

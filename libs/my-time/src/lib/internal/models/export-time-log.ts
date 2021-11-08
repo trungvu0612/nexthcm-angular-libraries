@@ -4,5 +4,5 @@ import { ExportTimeLogType } from '../enums';
 
 export interface ExportTimeLog {
   dateRange: Control<TuiDayRange>;
-  type: ExportTimeLogType;
+  exportType: ExportTimeLogType;
 }

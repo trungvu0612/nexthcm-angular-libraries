@@ -1,3 +1,4 @@
+import { Control } from '@ng-stack/forms';
 import { TuiDay, TuiDayRange } from '@taiga-ui/cdk';
 import { TuiFileLike } from '@taiga-ui/kit';
 import { CommonStatus, EmployeeCurrentStatus } from '../enums';
@@ -29,13 +30,13 @@ export interface EmployeeGeneralInformation {
   profileType: string;
   registerType: string;
   registration: number;
-  organization: BaseOption;
-  roles: BaseOption[];
-  jobTitle?: BaseOption;
-  jobLevel?: BaseOption;
-  directReport: BaseOption;
-  office: BaseOption;
-  addressPersonal: EmployeeAddress;
+  organization: Control<BaseOption>;
+  roles: Control<BaseOption[]>;
+  jobTitle?: Control<BaseOption>;
+  jobLevel?: Control<BaseOption>;
+  directReport: Control<BaseOption>;
+  office: Control<BaseOption>;
+  addressPersonal: Control<EmployeeAddress>;
   syncLDAPDirectReport: boolean;
   statusBoolean?: boolean;
 }
