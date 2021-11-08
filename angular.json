@@ -1390,6 +1390,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "outputs": ["{options.outputPath}"],
+          "dependsOn": [],
           "options": {
             "outputPath": "dist/apps/next-hcm-demo-web",
             "index": "apps/next-hcm-demo-web/src/index.html",
