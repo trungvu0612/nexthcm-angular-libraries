@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { cacheable } from '@datorama/akita';
 import {
   DateRange,
@@ -222,25 +222,9 @@ export class DurationFormComponent {
     { key: 'employeeId' },
     { key: 'type', defaultValue: 'DURATION' },
   ];
-  private readonly request$ = this.employeeDurationQuery.select().pipe(
-    tap((res) => {
-      const data = parseTuiDayFields(res, [
-        'onboardDate',
-        'officialStartDate',
-        'terminationDate',
-        'labourContractDate',
-        'indefiniteTermContractDate',
-        'resignationAgreementDate',
-      ]);
-      data.probationDate = data.probationDate ? DateRange.toTuiDayRange(data.probationDate as DateRange) : undefined;
-      this.model = {
-        ...this.model,
-        ...data,
-        employeeId: this.activatedRoute.snapshot.params.employeeId,
-        type: 'DURATION',
-      };
-    }),
-  );
+  private readonly request$ = this.employeeDurationQuery
+    .select()
+    .pipe(tap((data) => (this.model = { ...this.model, ...data })));
   readonly loading$ = this.request$.pipe(
     map((value) => !value),
     startWith(true),
@@ -250,22 +234,33 @@ export class DurationFormComponent {
   constructor(
     private readonly fb: FormBuilder,
     private readonly router: Router,
-    private readonly activatedRoute: ActivatedRoute,
     private readonly adminEmployeeService: AdminEmployeesService,
     private readonly employeesService: EmployeesService,
     private readonly destroy$: TuiDestroyService,
     private readonly promptService: PromptService,
     @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope,
     private readonly employeeDurationQuery: EmployeeDurationQuery,
-    employeeQuery: EmployeeQuery,
-    employeeDurationStore: EmployeeDurationStore
+    private readonly employeeDurationStore: EmployeeDurationStore,
+    employeeQuery: EmployeeQuery
   ) {
     cacheable(
-      employeeDurationStore,
-      employeesService.getEmployeeInformation(employeeQuery.getValue().id, 'DURATION').pipe(
+      this.employeeDurationStore,
+      this.employeesService.getEmployeeInformation(employeeQuery.getValue().id, 'DURATION').pipe(
         tap((res) => {
-          employeeDurationStore.update(res);
-          employeeDurationStore.setHasCache(true);
+          const data = parseTuiDayFields(res, [
+            'onboardDate',
+            'officialStartDate',
+            'terminationDate',
+            'labourContractDate',
+            'indefiniteTermContractDate',
+            'resignationAgreementDate',
+          ]);
+
+          data.probationDate = data.probationDate
+            ? DateRange.toTuiDayRange(data.probationDate as DateRange)
+            : undefined;
+          this.employeeDurationStore.update(data);
+          this.employeeDurationStore.setHasCache(true);
         })
       )
     ).subscribe();
@@ -282,15 +277,16 @@ export class DurationFormComponent {
         'resignationAgreementDate',
       ]);
 
-      formModel.probationDate = new DateRange(formModel.probationDate as TuiDayRange);
+      if (formModel.probationDate) {
+        formModel.probationDate = new DateRange(formModel.probationDate as TuiDayRange);
+      }
       this.adminEmployeeService
         .updateEmployeeInformation<EmployeeDuration>(formModel)
-        .pipe(takeUntil(this.destroy$))
+        .pipe(
+          tap(() => this.employeeDurationStore.update(this.form.value)),
+          takeUntil(this.destroy$)
+        )
         .subscribe(this.promptService.handleResponse('updateSuccessful'));
     }
-  }
-
-  onCancel(): void {
-    this.router.navigate(['../..'], { relativeTo: this.activatedRoute });
   }
 }

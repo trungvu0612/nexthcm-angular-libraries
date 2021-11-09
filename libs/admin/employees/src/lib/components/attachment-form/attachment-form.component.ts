@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { cacheable } from '@datorama/akita';
 import { EmployeeAttachment, EmployeesService, PromptService, UploadFileService } from '@nexthcm/cdk';
 import { FormArray, FormBuilder, FormGroup } from '@ngneat/reactive-forms';
@@ -58,17 +58,9 @@ export class AttachmentFormComponent {
     { key: 'employeeId' },
     { key: 'type' },
   ];
-  private readonly request$ = this.employeeAttachmentQuery.select().pipe(
-    tap((data) => {
-      this.model = {
-        ...this.model,
-        ...data,
-        attachments: data.attachmentFiles?.map((path) => convertAttachment(path)) || [{}],
-        employeeId: this.activatedRoute.snapshot.params.employeeId,
-        type: 'ATTACHMENT',
-      };
-    })
-  );
+  private readonly request$ = this.employeeAttachmentQuery
+    .select()
+    .pipe(tap((data) => (this.model = { ...this.model, ...data })));
   readonly loading$ = this.request$.pipe(
     map((value) => !value),
     startWith(true),
@@ -78,7 +70,6 @@ export class AttachmentFormComponent {
   constructor(
     private readonly fb: FormBuilder,
     private readonly router: Router,
-    private readonly activatedRoute: ActivatedRoute,
     private readonly adminEmployeeService: AdminEmployeesService,
     private readonly employeesService: EmployeesService,
     private readonly uploadFileService: UploadFileService,
@@ -86,16 +77,18 @@ export class AttachmentFormComponent {
     private readonly destroy$: TuiDestroyService,
     private readonly promptService: PromptService,
     @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope,
-    private readonly employeeQuery: EmployeeQuery,
     private readonly employeeAttachmentStore: EmployeeAttachmentStore,
-    private readonly employeeAttachmentQuery: EmployeeAttachmentQuery
+    private readonly employeeAttachmentQuery: EmployeeAttachmentQuery,
+    employeeQuery: EmployeeQuery
   ) {
     cacheable(
-      employeeAttachmentStore,
-      employeesService.getEmployeeInformation(employeeQuery.getValue().id, 'ATTACHMENT').pipe(
+      this.employeeAttachmentStore,
+      this.employeesService.getEmployeeInformation(employeeQuery.getValue().id, 'ATTACHMENT').pipe(
         tap((res) => {
-          employeeAttachmentStore.update(res);
-          employeeAttachmentStore.setHasCache(true);
+          const data = { ...res, attachments: res.attachmentFiles?.map((path) => convertAttachment(path)) || [{}] };
+
+          this.employeeAttachmentStore.update(data);
+          this.employeeAttachmentStore.setHasCache(true);
         })
       )
     ).subscribe();
@@ -109,12 +102,11 @@ export class AttachmentFormComponent {
       delete formModel.attachments;
       this.adminEmployeeService
         .updateEmployeeInformation<EmployeeAttachment>(formModel)
-        .pipe(takeUntil(this.destroy$))
+        .pipe(
+          tap(() => this.employeeAttachmentStore.update(this.form.value)),
+          takeUntil(this.destroy$)
+        )
         .subscribe(this.promptService.handleResponse('updateSuccessful'));
     }
-  }
-
-  onCancel(): void {
-    this.router.navigate(['../..'], { relativeTo: this.activatedRoute });
   }
 }

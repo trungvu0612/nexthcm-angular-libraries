@@ -41,17 +41,17 @@ export class EmployeesService {
       .pipe(map((res) => res.data));
   }
 
-  getEmployeeInformation(id: string, apiType: 'INDIVIDUAL'): Observable<EmployeeIndividual>;
-  getEmployeeInformation(id: string, apiType: 'DURATION'): Observable<EmployeeDuration>;
-  getEmployeeInformation(id: string, apiType: 'EDUCATION'): Observable<EmployeeEducation>;
-  getEmployeeInformation(id: string, apiType: 'SHUI'): Observable<EmployeeSHUI>;
-  getEmployeeInformation(id: string, apiType: 'ATTACHMENT'): Observable<EmployeeAttachment>;
+  getEmployeeInformation(employeeId: string, type: 'INDIVIDUAL'): Observable<EmployeeIndividual>;
+  getEmployeeInformation(employeeId: string, type: 'DURATION'): Observable<EmployeeDuration>;
+  getEmployeeInformation(employeeId: string, type: 'EDUCATION'): Observable<EmployeeEducation>;
+  getEmployeeInformation(employeeId: string, type: 'SHUI'): Observable<EmployeeSHUI>;
+  getEmployeeInformation(employeeId: string, type: 'ATTACHMENT'): Observable<EmployeeAttachment>;
   getEmployeeInformation<T extends EmployeeInformationType>(
-    id: string,
-    apiType: EmployeeInformationAPIType
+    employeeId: string,
+    type: EmployeeInformationAPIType
   ): Observable<T> {
     return this.http
-      .get<BaseResponse<T>>(`${ACCOUNT_API_PATH}/info/employees/${apiType.toLowerCase()}/${id}`)
+      .get<BaseResponse<T>>(`${ACCOUNT_API_PATH}/info/employees/${type.toLowerCase()}/${employeeId}`)
       .pipe(
         map((res) =>
           parseJsonStringFields(res.data, [
@@ -64,9 +64,11 @@ export class EmployeesService {
             'temporaryAddress',
             'attachmentFiles',
             'dependenceMembers',
-            'certificates'
+            'certificates',
           ])
-        )
+        ),
+        catchError(() => of({} as T)),
+        map((res) => ({ ...res, employeeId, type }))
       );
   }
 }

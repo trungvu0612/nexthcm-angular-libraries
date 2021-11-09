@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { cacheable } from '@datorama/akita';
 import { Actions } from '@datorama/akita-ng-effects';
 import {
@@ -600,18 +600,9 @@ export class IndividualFormComponent {
     { key: 'employeeId' },
     { key: 'type' },
   ];
-  private readonly request$ = this.employeeIndividualQuery.select().pipe(
-    tap((res) => {
-      const data = parseTuiDayFields(res, ['birthDate', 'issueOn']);
-
-      this.model = {
-        ...this.model,
-        ...data,
-        employeeId: this.activatedRoute.snapshot.params.employeeId,
-        type: 'INDIVIDUAL',
-      };
-    }),
-  );
+  private readonly request$ = this.employeeIndividualQuery
+    .select()
+    .pipe(tap((data) => (this.model = { ...this.model, ...data })));
   readonly loading$ = this.request$.pipe(
     map((value) => !value),
     startWith(true),
@@ -622,7 +613,6 @@ export class IndividualFormComponent {
     private readonly fb: FormBuilder,
     private readonly translocoService: TranslocoService,
     private readonly router: Router,
-    private readonly activatedRoute: ActivatedRoute,
     private readonly adminEmployeeService: AdminEmployeesService,
     private readonly employeesService: EmployeesService,
     private readonly destroy$: TuiDestroyService,
@@ -631,17 +621,17 @@ export class IndividualFormComponent {
     @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope,
     private readonly officesQuery: OfficesQuery,
     private readonly employeeIndividualQuery: EmployeeIndividualQuery,
+    private readonly employeeIndividualStore: EmployeeIndividualStore,
     employeeQuery: EmployeeQuery,
-    employeeIndividualStore: EmployeeIndividualStore,
     actions: Actions
   ) {
     actions.dispatch(loadOffices());
     cacheable(
-      employeeIndividualStore,
+      this.employeeIndividualStore,
       this.employeesService.getEmployeeInformation(employeeQuery.getValue().id, 'INDIVIDUAL').pipe(
         tap((res) => {
-          employeeIndividualStore.update(res);
-          employeeIndividualStore.setHasCache(true);
+          this.employeeIndividualStore.update(parseTuiDayFields(res, ['birthDate', 'issueOn']));
+          this.employeeIndividualStore.setHasCache(true);
         })
       )
     ).subscribe();
@@ -651,12 +641,11 @@ export class IndividualFormComponent {
     if (this.form.valid) {
       this.adminEmployeeService
         .updateEmployeeInformation<EmployeeIndividual>(parseDateFields(this.form.value, ['birthDate', 'issueOn']))
-        .pipe(takeUntil(this.destroy$))
+        .pipe(
+          tap(() => this.employeeIndividualStore.update(this.form.value)),
+          takeUntil(this.destroy$)
+        )
         .subscribe(this.promptService.handleResponse('updateSuccessful'));
     }
-  }
-
-  onCancel(): void {
-    this.router.navigate(['../..'], { relativeTo: this.activatedRoute });
   }
 }

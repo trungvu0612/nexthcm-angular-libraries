@@ -163,6 +163,7 @@ export class EmployeeManagementComponent
         label: this.translocoService.translate('employees.editEmployee'),
         data: id,
         size: 'page',
+        dismissible: false,
       })
       .pipe(takeUntil(this.destroy$))
       .subscribe();

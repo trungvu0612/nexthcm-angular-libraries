@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { cacheable } from '@datorama/akita';
 import { BaseOption, EmployeeEducation, EmployeesService, parseTuiDayFields, PromptService } from '@nexthcm/cdk';
 import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
@@ -111,19 +111,9 @@ export class EducationFormComponent {
     { key: 'employeeId' },
     { key: 'type' },
   ];
-  private readonly request$ = this.employeeEducationQuery.select().pipe(
-    tap((data) => {
-      data.certificates = data.certificates?.map((certificate) =>
-        parseTuiDayFields(certificate, ['startDate', 'endDate'])
-      ) || [{}];
-      this.model = {
-        ...this.model,
-        ...data,
-        employeeId: this.activatedRoute.snapshot.params.employeeId,
-        type: 'EDUCATION',
-      };
-    }),
-  );
+  private readonly request$ = this.employeeEducationQuery
+    .select()
+    .pipe(tap((data) => (this.model = { ...this.model, ...data })));
   readonly loading$ = this.request$.pipe(
     map((value) => !value),
     startWith(true),
@@ -133,22 +123,26 @@ export class EducationFormComponent {
   constructor(
     private readonly fb: FormBuilder,
     private readonly router: Router,
-    private readonly activatedRoute: ActivatedRoute,
     private readonly adminEmployeeService: AdminEmployeesService,
     private readonly employeesService: EmployeesService,
     private readonly destroy$: TuiDestroyService,
     private readonly promptService: PromptService,
     private readonly translocoService: TranslocoService,
     private readonly employeeEducationQuery: EmployeeEducationQuery,
-    employeeQuery: EmployeeQuery,
-    employeeEducationStore: EmployeeEducationStore
+    private readonly employeeEducationStore: EmployeeEducationStore,
+    employeeQuery: EmployeeQuery
   ) {
     cacheable(
-      employeeEducationStore,
-      employeesService.getEmployeeInformation(employeeQuery.getValue().id, 'EDUCATION').pipe(
+      this.employeeEducationStore,
+      this.employeesService.getEmployeeInformation(employeeQuery.getValue().id, 'EDUCATION').pipe(
         tap((res) => {
-          employeeEducationStore.update(res);
-          employeeEducationStore.setHasCache(true);
+          const data = { ...res };
+
+          data.certificates = data.certificates?.map((certificate) =>
+            parseTuiDayFields(certificate, ['startDate', 'endDate'])
+          ) || [{}];
+          this.employeeEducationStore.update(data);
+          this.employeeEducationStore.setHasCache(true);
         })
       )
     ).subscribe();
@@ -158,12 +152,11 @@ export class EducationFormComponent {
     if (this.form.valid) {
       this.adminEmployeeService
         .updateEmployeeInformation<EmployeeEducation>(this.form.value)
-        .pipe(takeUntil(this.destroy$))
+        .pipe(
+          tap(() => this.employeeEducationStore.update(this.form.value)),
+          takeUntil(this.destroy$)
+        )
         .subscribe(this.promptService.handleResponse('updateSuccessful'));
     }
-  }
-
-  onCancel(): void {
-    this.router.navigate(['../..'], { relativeTo: this.activatedRoute });
   }
 }
