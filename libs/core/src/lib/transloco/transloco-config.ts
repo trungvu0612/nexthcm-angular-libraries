@@ -4,14 +4,15 @@ import { APP_CONFIG } from '../app-config.token';
 import { AVAILABLE_LANGS } from './availabel-langs.const';
 
 const translocoConfigFactory = (injector: Injector) => {
-  const appConfig = injector.get(APP_CONFIG);
+  const { language, production } = injector.get(APP_CONFIG);
+
   return translocoConfig({
     availableLangs: AVAILABLE_LANGS,
-    defaultLang: localStorage.getItem('lang') || appConfig.language,
-    fallbackLang: appConfig.language,
-    prodMode: appConfig.production,
+    defaultLang: localStorage.getItem('lang') || language,
+    fallbackLang: language,
+    prodMode: production,
     reRenderOnLangChange: true,
-    flatten: { aot: appConfig.production },
+    flatten: { aot: production },
   });
 };
 

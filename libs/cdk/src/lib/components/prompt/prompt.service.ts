@@ -21,6 +21,22 @@ export class PromptService {
     return this.component.open(options);
   }
 
+  generateErrorMessage(err: HttpErrorResponse): string {
+    let errorMessage: string;
+
+    if (err.error instanceof ErrorEvent) {
+      errorMessage = `${this.translocoService.translate('errorOccurred')}: ${err.error.message}`;
+    } else {
+      const HTTP_RESPONSE_ERROR_MESSAGES = this.translocoService.translateObject('HTTP_RESPONSE_ERROR_MESSAGES');
+      const ERRORS = this.translocoService.translateObject('ERRORS');
+
+      errorMessage =
+        ERRORS[err.error.message] || HTTP_RESPONSE_ERROR_MESSAGES[err.status] || HTTP_RESPONSE_ERROR_MESSAGES.default;
+    }
+
+    return errorMessage;
+  }
+
   handleResponse(successfulText?: string, callback?: () => void): PartialObserver<unknown> {
     return {
       next: () => {
@@ -33,21 +49,7 @@ export class PromptService {
           callback ? callback() : null;
         }
       },
-      error: (err: HttpErrorResponse) => {
-        let errorMessage: string;
-        if (err.error instanceof ErrorEvent) {
-          errorMessage = `${this.translocoService.translate('errorOccurred')}: ${err.error.message}`;
-        } else {
-          const HTTP_RESPONSE_ERROR_MESSAGES = this.translocoService.translateObject('HTTP_RESPONSE_ERROR_MESSAGES');
-          const ERRORS = this.translocoService.translateObject('ERRORS');
-
-          errorMessage =
-            ERRORS[err.error.message] ||
-            HTTP_RESPONSE_ERROR_MESSAGES[err.status] ||
-            HTTP_RESPONSE_ERROR_MESSAGES.default;
-        }
-        this.open({ icon: 'error', html: errorMessage });
-      },
+      error: (err: HttpErrorResponse) => this.open({ icon: 'error', html: this.generateErrorMessage(err) }),
     };
   }
 }

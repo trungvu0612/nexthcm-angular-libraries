@@ -1,6 +1,5 @@
-import { CommonModule, registerLocaleData } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import localeVi from '@angular/common/locales/vi';
 import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
 import { akitaConfig, enableAkitaProdMode } from '@datorama/akita';
 import { AkitaNgRouterStoreModule } from '@datorama/akita-ng-router-store';
@@ -18,14 +17,13 @@ import { NgDompurifySanitizer } from '@tinkoff/ng-dompurify';
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { QuicklinkModule } from 'ngx-quicklink';
 import { APP_CONFIG } from './app-config.token';
-import { API_PREFIX_INTERCEPTOR_PROVIDER } from './interceptors';
+import { API_PREFIX_INTERCEPTOR_PROVIDER, BLOB_ERROR_HTTP_INTERCEPTOR_PROVIDER } from './interceptors';
 import { AppConfig } from './models';
 import { FORMLY_CONFIG_TRANSLATION_PROVIDER } from './providers/formly-config-translation.provider';
 import { INIT_PERMISSIONS_PROVIDER } from './providers/init-permissions.provider';
 import { LANGUAGE_PROVIDER } from './providers/language.provider';
 import { TranslocoRootModule } from './transloco/transloco-root.module';
 
-registerLocaleData(localeVi);
 akitaConfig({ resettable: true });
 
 @NgModule({
@@ -44,6 +42,7 @@ akitaConfig({ resettable: true });
   ],
   providers: [
     API_PREFIX_INTERCEPTOR_PROVIDER,
+    BLOB_ERROR_HTTP_INTERCEPTOR_PROVIDER,
     FORMLY_CONFIG_TRANSLATION_PROVIDER,
     INIT_PERMISSIONS_PROVIDER,
     LANGUAGE_PROVIDER,

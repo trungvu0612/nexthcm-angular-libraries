@@ -6,13 +6,12 @@ import { FormBuilder } from '@ng-stack/forms';
 import { ProviderScope, TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { RxState } from '@rx-angular/state';
-import { isPresent } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { endOfDay } from 'date-fns';
 import { FileSaverService } from 'ngx-filesaver';
-import { of, Subject } from 'rxjs';
-import { catchError, filter, map, share, startWith, switchMap, tap } from 'rxjs/operators';
+import { from, Subject } from 'rxjs';
+import { catchError, map, share, startWith, switchMap, tap } from 'rxjs/operators';
 import { ExportTimeLogType } from '../../../../internal/enums';
 import { ExportTimeLog } from '../../../../internal/models';
 import { WorkingHoursService } from '../../../../services/working-hours.service';
@@ -64,10 +63,10 @@ export class ExportTimeLogDialogComponent {
   ];
 
   // EVENTS
-  readonly submit$ = new Subject<{ fromDate: Date; toDate: Date; exportType: ExportTimeLogType }>();
+  readonly export$ = new Subject<{ fromDate: Date; toDate: Date; exportType: ExportTimeLogType }>();
 
   // HANDLERS
-  readonly submitHandler$ = this.submit$.pipe(
+  readonly exportHandler$ = this.export$.pipe(
     switchMap(({ fromDate, toDate, exportType }) => {
       const params = new HttpParams()
         .set('fromDate', fromDate.getTime())
@@ -77,21 +76,22 @@ export class ExportTimeLogDialogComponent {
         toDate,
         'mediumDate',
         this.locale
-      )}_${exportType}`;
+      )}_${exportType}.xlsx`;
 
       return this.workingHoursService.onExportTimeLog(params).pipe(
-        tap((blob) => this.fileSaverService.save(blob, fileName)),
+        tap((blob) => {
+          this.fileSaverService.save(blob, fileName);
+          this.context.completeWith();
+        }),
+        catchError((err) =>
+          from(this.promptService.open({ icon: 'error', html: this.promptService.generateErrorMessage(err) }))
+        ),
         startWith(null)
       );
     }),
     share()
   );
-  readonly submitLoading$ = this.submitHandler$.pipe(map((value) => !value));
-  readonly submitEffect$ = this.submitHandler$.pipe(
-    filter(isPresent),
-    tap(() => this.context.completeWith()),
-    catchError(() => of({}))
-  );
+  readonly exportLoading$ = this.exportHandler$.pipe(map((value) => !value));
 
   constructor(
     private readonly fb: FormBuilder,
@@ -103,9 +103,7 @@ export class ExportTimeLogDialogComponent {
     @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope,
     private readonly fileSaverService: FileSaverService,
     @Inject(LOCALE_ID) private readonly locale: string
-  ) {
-    state.hold(this.submitEffect$);
-  }
+  ) {}
 
   onSubmit(): void {
     if (this.form.valid) {
@@ -116,7 +114,7 @@ export class ExportTimeLogDialogComponent {
       const fromDate = from.toUtcNativeDate();
       const toDate = to.toUtcNativeDate();
 
-      this.submit$.next({ fromDate, toDate, exportType });
+      this.export$.next({ fromDate, toDate, exportType });
     }
   }
 
