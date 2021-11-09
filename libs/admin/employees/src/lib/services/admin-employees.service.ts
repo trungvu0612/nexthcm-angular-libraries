@@ -3,22 +3,24 @@ import { Injectable } from '@angular/core';
 import {
   ACCOUNT_API_PATH,
   BaseResponse,
+  DEFAULT_PAGINATION_DATA,
   EmployeeGeneralInformation,
   EmployeeInfo,
   Pagination,
   PagingResponse,
 } from '@nexthcm/cdk';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 
 @Injectable()
 export class AdminEmployeesService {
   constructor(private http: HttpClient) {}
 
   getEmployees(params: HttpParams): Observable<Pagination<EmployeeInfo>> {
-    return this.http
-      .get<PagingResponse<EmployeeInfo>>(`${ACCOUNT_API_PATH}/employees`, { params })
-      .pipe(map((res) => res.data));
+    return this.http.get<PagingResponse<EmployeeInfo>>(`${ACCOUNT_API_PATH}/employees`, { params }).pipe(
+      map((res) => res.data),
+      catchError(() => of(DEFAULT_PAGINATION_DATA))
+    );
   }
 
   initEmployee(payload: EmployeeGeneralInformation): Observable<BaseResponse<EmployeeGeneralInformation>> {

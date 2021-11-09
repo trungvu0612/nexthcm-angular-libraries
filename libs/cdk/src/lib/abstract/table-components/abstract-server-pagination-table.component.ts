@@ -4,6 +4,7 @@ import { ActivatedRoute, convertToParamMap, Params, Router } from '@angular/rout
 import { RxState } from '@rx-angular/state';
 import { API, BaseComponent, Config, DefaultConfig } from 'ngx-easy-table';
 import { Subject } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { Pagination } from '../../models';
 
 @Directive()
@@ -21,6 +22,8 @@ export abstract class NewAbstractServerPaginationTableComponent<T> implements On
   readonly fetch$ = new Subject();
   readonly data$ = this.state.select('items');
   readonly total$ = this.state.select('totalElements');
+  readonly page$ = this.state.select('page').pipe(map((page) => (page <= 0 ? page : page - 1)));
+  readonly size$ = this.state.select('size');
 
   protected constructor(
     readonly state: RxState<Pagination<T>>,

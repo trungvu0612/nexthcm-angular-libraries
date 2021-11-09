@@ -1,6 +1,6 @@
 import { BaseResponse } from './base-response';
 
-export interface Pagination<T> {
+export interface Pagination<T = any> {
   items: T[];
   page: number;
   size: number;

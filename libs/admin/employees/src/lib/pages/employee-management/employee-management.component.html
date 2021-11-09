@@ -50,8 +50,8 @@
           <td>
             <div class="flex items-center">
               <button
-                *ngxPermissionsOnly="'UPDATE_EMPLOYEE'"
                 (click)="onEditEmployee(item.id)"
+                *ngxPermissionsOnly="'UPDATE_EMPLOYEE'"
                 appearance="flat"
                 class="tui-space_right-3"
                 icon="tuiIconEditLarge"
@@ -77,6 +77,8 @@
   <tui-table-pagination
     (pageChange)="onPage($event)"
     (sizeChange)="onSize($event)"
+    [page]="(page$ | push) || 0"
+    [size]="(size$ | push) || 10"
     [total]="(total$ | push) || 0"
   ></tui-table-pagination>
 </hcm-page>
