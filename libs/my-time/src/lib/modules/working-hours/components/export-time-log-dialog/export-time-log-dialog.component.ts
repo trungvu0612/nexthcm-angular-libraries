@@ -41,7 +41,7 @@ export class ExportTimeLogDialogComponent {
       },
     },
     {
-      key: 'type',
+      key: 'exportType',
       type: 'select',
       className: 'tui-form__row block',
       defaultValue: ExportTimeLogType.Detail,
