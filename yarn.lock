@@ -2287,7 +2287,7 @@
   dependencies:
     tslib "^2.2.0"
 
-"@nexthcm/core@^1.0.1":
+"@nexthcm/core@^1.0.2":
   version "1.0.2"
   resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/core/-/core-1.0.2.tgz#27be28b1dae8e89a747d4ff46f2d3ba4f6638be8"
   integrity sha512-uLKRjwGWdl1k2KJg9krJFat7K8fUSjcrh/j3WaXKcWJUsGAET8tc9oEFAaTJcLRwbv58pk0KlRRapt6xV6lTeg==

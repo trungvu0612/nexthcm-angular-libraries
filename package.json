@@ -1,6 +1,6 @@
 {
   "name": "next-hcm",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "scripts": {
     "ng": "nx",
     "preinstall": "npx only-allow yarn",
@@ -72,7 +72,7 @@
     "@nexthcm/auth": "^1.0.0",
     "@nexthcm/calendar": "^1.0.0",
     "@nexthcm/cdk": "^1.0.2",
-    "@nexthcm/core": "^1.0.1",
+    "@nexthcm/core": "^1.0.2",
     "@nexthcm/cron-builder": "^1.0.0",
     "@nexthcm/home": "^1.0.0",
     "@nexthcm/human-resource": "^1.0.0",
