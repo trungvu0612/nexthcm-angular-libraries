@@ -2165,8 +2165,8 @@
 
 "@nexthcm/admin-employees@^1.0.1":
   version "1.0.1"
-  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/admin-employees/-/admin-employees-1.0.1.tgz#5886a225de5b9b2f6d1d0476f1ba065f818ec7fb"
-  integrity sha512-Yc3eJtW9Uq/dw4ZVo0qNLrZPoSRYDc5sjpTLVcy3yfWmlRBjZyeC/Fy4+5eQ45f0A8wITuvoPMEtM5TSnTT2uQ==
+  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/admin-employees/-/admin-employees-1.0.1.tgz#b4981e2e9ec42f847df0c75258961df735331b9e"
+  integrity sha512-qjAJUc6oUdwTutfxpi8u4dnamnI4TARjDbv3By0udJjlouGjU2VCQNSLn6W975LRgOcldrgplgAZNCaQs8uUiw==
   dependencies:
     tslib "^2.2.0"
 
@@ -2282,15 +2282,15 @@
 
 "@nexthcm/cdk@^1.0.2":
   version "1.0.2"
-  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/cdk/-/cdk-1.0.2.tgz#8496868f34ee368fd813b5492d17c2717fd167fa"
-  integrity sha512-7btUE+syN6+kHwY2xKUaLDvWHRcPblifuylUcl1Z5+vbTuNR/GYbrXChuYSUd15sSaafu8U2Yosp7MCBKw7YNg==
+  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/cdk/-/cdk-1.0.2.tgz#63f6e5bde88421c5e8abe82055efcb5f6c9f9523"
+  integrity sha512-4ISxMZpKjWMV3lO1ySznYhLpvYipDiKlTXxmMqqqD49LH3vgZa3Are8rVY3VKSdTAI/CCQPEgACQamCwkozybg==
   dependencies:
     tslib "^2.2.0"
 
 "@nexthcm/core@^1.0.2":
   version "1.0.2"
-  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/core/-/core-1.0.2.tgz#27be28b1dae8e89a747d4ff46f2d3ba4f6638be8"
-  integrity sha512-uLKRjwGWdl1k2KJg9krJFat7K8fUSjcrh/j3WaXKcWJUsGAET8tc9oEFAaTJcLRwbv58pk0KlRRapt6xV6lTeg==
+  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/core/-/core-1.0.2.tgz#ad3e2a2af3ecc301681737a6cb52f430435d6e01"
+  integrity sha512-571Ar+OmOEn8ZVJNr71dlQelOPfLYS5zK+WZJSRZdMUz/IrhDhssSvSJS7mSgXyAm6n+eJur/PW5QZkchCas/A==
   dependencies:
     "@datorama/akita" "^6.2.4"
     "@datorama/akita-ng-effects" "^1.0.5"
