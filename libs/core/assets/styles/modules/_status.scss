@@ -1,40 +1,18 @@
-.checked-in {
-  background-color: limegreen;
-}
+$myTimeStatuses: (
+  'checked-in': limegreen,
+  'checked-in-late': crimson,
+  'checked-out-early': #ffc806,
+  'checked-out': #00a4ee,
+  'leave': blueviolet,
+  'working-onsite': sandybrown,
+  'work-from-home': pink,
+  'not-checked-in': silver,
+);
 
-.not-check-in-out {
-  background-color: darkorange;
-}
-
-.check-out {
-  background-color: #00a4ee;
-}
-
-.check-out-early {
-  background-color: #ffc806;
-}
-
-.check-in-late {
-  background-color: crimson;
-}
-
-.working-outside {
-  background-color: sandybrown;
-}
-
-.leave {
-  background-color: blueviolet;
-  opacity: 0.5;
-}
-
-.wfh {
-  background-color: pink;
-}
-
-.none {
-  border-color: silver;
-  background: whitesmoke;
-  color: gray;
+@each $status, $i in $myTimeStatuses {
+  .#{$status} {
+    background-color: $i;
+  }
 }
 
 .pending-tag {

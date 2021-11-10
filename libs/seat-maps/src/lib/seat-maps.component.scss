@@ -1,3 +1,5 @@
+@import '~@taiga-ui/core/styles/taiga-ui-local';
+
 :host {
   display: block;
 
@@ -25,20 +27,8 @@
   }
 
   footer {
-    box-shadow: 0 0 16px rgba(0, 0, 0, 0.1);
+    @include shadow(1);
 
-    div {
-      display: flex;
-      align-items: center;
-      font-size: 0.875rem;
-      line-height: 1.25rem;
-
-      div {
-        width: 1.75rem;
-        height: 1.75rem;
-        margin-right: 0.75rem;
-        border-radius: 50%;
-      }
-    }
+    width: calc(100% - 17rem);
   }
 }

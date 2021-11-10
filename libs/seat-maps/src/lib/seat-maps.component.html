@@ -1,37 +1,48 @@
-<hcm-page [title]="'seatMaps' | transloco">
-  <ng-container ngProjectAs="pageHeader">
-    <!--<div class="flex items-center gap-6 text-base">
-      <button (click)="findMySeat()" class="text-primary flex justify-between items-center">
-        <tui-svg src="assets/icons/current-location.svg"></tui-svg>
-        {{ t('mySeat') }}
-      </button>
-    </div>-->
-    <tui-select
-      *rxLet="allSeatMaps$; let items"
-      [formControl]="seatMapControl"
-      [identityMatcher]="identityMatcher"
-      [tuiTextfieldLabelOutside]="true"
-      [valueContent]="content"
-      class="w-80"
-    >
-      {{ 'chooseSeatMap' | transloco }}
-      <tui-data-list *tuiDataList>
-        <ng-container>
-          <button *ngFor="let item of items" [value]="item" tuiOption>
-            <ng-container [ngTemplateOutletContext]="{ $implicit: item }" [ngTemplateOutlet]="content"></ng-container>
-          </button>
-        </ng-container>
-      </tui-data-list>
-    </tui-select>
-    <ng-template #content let-data>
-      <span>
-        <b>{{ data.name }}</b>
-        <ng-container *ngIf="data.office as office"> ({{ office.name }})</ng-container>
-      </span>
-    </ng-template>
-  </ng-container>
-  <tui-loader *rxLet="loading$; let hidden" [overlay]="true" [showLoader]="hidden">
-    <ng-container *rxLet="seatMap$; let seatMap">
+<div *rxLet="seatMap$; let seatMap" class="relative">
+  <hcm-page [title]="'seatMaps' | transloco" class="mb-16">
+    <ng-container ngProjectAs="pageHeader">
+      <!--<div class="flex gap-6 items-center text-base">
+        <button (click)="findMySeat()" class="flex justify-between items-center text-primary">
+          <tui-svg src="assets/icons/current-location.svg"></tui-svg>
+          {{ t('mySeat') }}
+        </button>
+      </div>-->
+      <tui-select
+        *rxLet="allSeatMaps$; let items"
+        [formControl]="seatMapControl"
+        [identityMatcher]="identityMatcher"
+        [tuiTextfieldLabelOutside]="true"
+        [valueContent]="content"
+        class="w-80"
+      >
+        {{ 'chooseSeatMap' | transloco }}
+        <tui-data-list *tuiDataList>
+          <ng-container>
+            <button *ngFor="let item of items" [value]="item" tuiOption>
+              <ng-container [ngTemplateOutletContext]="{ $implicit: item }" [ngTemplateOutlet]="content"></ng-container>
+            </button>
+          </ng-container>
+        </tui-data-list>
+      </tui-select>
+      <ng-template #content let-data>
+        <span>
+          <b>{{ data.name }}</b>
+          <ng-container *ngIf="data.office as office"> ({{ office.name }})</ng-container>
+        </span>
+      </ng-template>
+    </ng-container>
+    <tui-loader *rxLet="loading$; let hidden" [overlay]="true" [showLoader]="hidden">
+      <div *ngIf="seatMap.id" class="flex mb-5">
+        <tui-island size="l">
+          <ul *transloco="let t" class="tui-list">
+            <li class="tui-list__item">{{ t('numberOfAssignedSeats') }}: {{ seatMap.totalAssignedUser ?? 0 }}</li>
+            <li class="tui-list__item">{{ t('numberOfUnassignedSeats') }}: {{ seatMap.totalNotAssigned ?? 0 }}</li>
+            <li class="tui-list__item">
+              {{ t('numberOfSeats') }}: {{ (seatMap.totalAssignedUser ?? 0) + (seatMap.totalAssignedUser ?? 0) }}
+            </li>
+          </ul>
+        </tui-island>
+      </div>
       <article *ngIf="seatMap.id; else noData" class="relative">
         <hcm-seat
           (assignUser)="onAssignUserToSeat($event)"
@@ -47,43 +58,20 @@
         <img (load)="onImageLoad()" [src]="seatMap.imageUrl || '' | getFile | async" class="w-full" />
       </article>
       <ng-template #noData>
-        <p class="opacity-50 text-center text-lg py-4">{{ 'notAssignedSeat' | transloco }}</p>
+        <p class="py-4 text-lg text-center opacity-50">{{ 'notAssignedSeat' | transloco }}</p>
       </ng-template>
-    </ng-container>
-  </tui-loader>
-</hcm-page>
+    </tui-loader>
+  </hcm-page>
 
-<footer class="flex justify-evenly items-center bg-white h-16">
-  <div>
-    <div class="checked-in"></div>
-    Checked in
-  </div>
-  <div>
-    <div class="check-in-late"></div>
-    Check in late
-  </div>
-  <div>
-    <div class="check-out-early"></div>
-    Check out early
-  </div>
-  <div>
-    <div class="check-out"></div>
-    Check out
-  </div>
-  <div>
-    <div class="leave"></div>
-    Leave
-  </div>
-  <div>
-    <div class="working-outside"></div>
-    Working outside
-  </div>
-  <div>
-    <div class="wfh"></div>
-    WFH
-  </div>
-  <div>
-    <div class="none"></div>
-    Not check in/out
-  </div>
-</footer>
+  <footer *transloco="let t" class="flex fixed bottom-0 justify-evenly items-center h-16 bg-white">
+    <div *ngFor="let status of statusesAnnotate" class="flex items-center space-x-2">
+      <tui-badge
+        [class]="status.className"
+        [value]="(seatMap[status.key] ?? 0).toString()"
+        size="m"
+        status="custom"
+      ></tui-badge>
+      <span>{{ t(status.label) }}</span>
+    </div>
+  </footer>
+</div>

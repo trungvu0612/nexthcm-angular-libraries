@@ -14,6 +14,12 @@ interface ComponentState {
   loading: boolean;
 }
 
+interface StatusAnnotate {
+  key: keyof SeatMap;
+  className: string;
+  label: string;
+}
+
 @Component({
   selector: 'hcm-seat-maps',
   templateUrl: './seat-maps.component.html',
@@ -27,6 +33,48 @@ export class SeatMapsComponent {
   readonly dragging$ = new Subject<boolean>();
   readonly seatMapControl = new FormControl<SeatMap>();
   readonly allSeatMaps$ = this.seatMapsService.getAllSeatMaps();
+  readonly statusesAnnotate: StatusAnnotate[] = [
+    {
+      key: 'countCheckedIn',
+      className: 'checked-in',
+      label: 'checkedIn',
+    },
+    {
+      key: 'countCheckedInLate',
+      className: 'checked-in-late',
+      label: 'checkedInLate',
+    },
+    {
+      key: 'countCheckoutEarly',
+      className: 'checked-out-early',
+      label: 'checkedOutEarly',
+    },
+    {
+      key: 'countCheckedOut',
+      className: 'checked-out',
+      label: 'checkedOut',
+    },
+    {
+      key: 'countLeave',
+      className: 'leave',
+      label: 'leave',
+    },
+    {
+      key: 'countWorkingOutsite',
+      className: 'working-onsite',
+      label: 'workingOnsite',
+    },
+    {
+      key: 'countWfh',
+      className: 'work-from-home',
+      label: 'workFromHome',
+    },
+    {
+      key: 'countNotCheckInOut',
+      className: 'not-checked-in',
+      label: 'notCheckedIn',
+    },
+  ];
 
   // READS
   readonly loading$ = this.state.select('loading');

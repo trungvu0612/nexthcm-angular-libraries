@@ -22,7 +22,7 @@ export interface Seat extends StyleSeat {
     statusOfUser: UserState[];
     inTime?: number;
     outTime?: number;
-  }
+  };
 }
 
 export interface SeatMap {
@@ -35,4 +35,14 @@ export interface SeatMap {
   dimensionX: number;
   dimensionY: number;
   seats: Seat[];
+  countCheckedIn: number;
+  countCheckedInLate: number;
+  countCheckoutEarly: number;
+  countCheckedOut: number;
+  countLeave: number;
+  countWorkingOutsite: number;
+  countWfh: number;
+  countNotCheckInOut: number;
+  totalAssignedUser: number;
+  totalNotAssigned: number;
 }

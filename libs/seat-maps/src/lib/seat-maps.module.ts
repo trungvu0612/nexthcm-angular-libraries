@@ -25,7 +25,7 @@ import {
   TuiSvgModule,
   TuiTextfieldControllerModule,
 } from '@taiga-ui/core';
-import { TuiAvatarModule, TuiComboBoxModule, TuiSelectModule } from '@taiga-ui/kit';
+import { TuiAvatarModule, TuiBadgeModule, TuiComboBoxModule, TuiIslandModule, TuiSelectModule } from '@taiga-ui/kit';
 import { NgxPermissionsGuard, NgxPermissionsModule } from 'ngx-permissions';
 import { SeatComponent } from './components/seat/seat.component';
 import { SeatUserStatePipe } from './pipes/seat-user-state.pipe';
@@ -69,6 +69,8 @@ export const SEAT_MAPS_ROUTES: Routes = [
     AvatarComponentModule,
     TuiTextfieldControllerModule,
     TuiLetModule,
+    TuiBadgeModule,
+    TuiIslandModule,
   ],
   declarations: [SeatMapsComponent, SeatComponent, SeatUserStatePipe],
   providers: [SeatMapsService],

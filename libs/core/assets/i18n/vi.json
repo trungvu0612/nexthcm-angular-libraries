@@ -614,5 +614,13 @@
   "role": "Vai trò",
   "exportTimeLog": "Xuất bản ghi thời gian",
   "export": "Xuất",
-  "view": "Xem"
+  "view": "Xem",
+  "checkedIn": "Đã check-in",
+  "checkedInLate": "Check-in trễ",
+  "checkedOutEarly": "Check-out sớm",
+  "checkedOut": "Đã check-out",
+  "notCheckedIn": "Chưa check-in",
+  "numberOfAssignedSeats": "Số chỗ ngồi đã được chỉ định",
+  "numberOfUnassignedSeats": "Số chỗ ngồi chưa được chỉ định",
+  "numberOfSeats": "Số chỗ ngồi"
 }

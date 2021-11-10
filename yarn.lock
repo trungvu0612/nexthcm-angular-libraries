@@ -2287,10 +2287,10 @@
   dependencies:
     tslib "^2.2.0"
 
-"@nexthcm/core@^1.0.2":
-  version "1.0.2"
-  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/core/-/core-1.0.2.tgz#c0d31dd0521e910119cd64a6bf4afd9e3c927370"
-  integrity sha512-PEAxeWQ6umDZ/941tOTp+/8q+G2tjqqWxj2w6oisEdb/ZCi4K19OXhTdNqZ2IBe0QvdAFlrrMGISfyztqgcNHQ==
+"@nexthcm/core@^1.0.3":
+  version "1.0.3"
+  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/core/-/core-1.0.3.tgz#22a25c5eb9b981b710c08715f238cb6eb078d9c1"
+  integrity sha512-ycyUXnvNlkRALzdLF5ZEOIovYs8EfRsW3m0WXmhDOALQ3JbvkHJl44PcL4es/HpMJWHDSZd3vnYGl8885LTt2Q==
   dependencies:
     "@datorama/akita" "^6.2.4"
     "@datorama/akita-ng-effects" "^1.0.5"
@@ -2358,10 +2358,10 @@
   dependencies:
     tslib "^2.0.0"
 
-"@nexthcm/seat-maps@^1.0.1":
-  version "1.0.1"
-  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/seat-maps/-/seat-maps-1.0.1.tgz#bdfdd502c40408be808f10eb81bdff5e7871bacb"
-  integrity sha512-m5lCfPrdWXgpf2zsrE7Mx2zCHppE5OH/jBQFqtQ9M98c2kXj2FCYg8KGxIVSjap7HUqyNMJIQ6s0dMtJVtXWAA==
+"@nexthcm/seat-maps@^1.0.2":
+  version "1.0.2"
+  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/seat-maps/-/seat-maps-1.0.2.tgz#5a8965566daaacdfe6a39ecac3b34e47848ac407"
+  integrity sha512-PcFFMxLu77+9muaknmQo2uH/bLplX4eXb3u1iAIYWe01enhezK4kuRD+mDITJMgq+qg1Fxsw6bIwAn32V1lmrA==
   dependencies:
     tslib "^2.2.0"
 

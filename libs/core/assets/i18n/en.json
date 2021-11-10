@@ -615,5 +615,13 @@
   "role": "Role",
   "exportTimeLog": "Export time log",
   "export": "Export",
-  "view": "View"
+  "view": "View",
+  "checkedIn": "Checked in",
+  "checkedInLate": "Checked in late",
+  "checkedOutEarly": "Checked out early",
+  "checkedOut": "Checked out",
+  "notCheckedIn": "Not checked in",
+  "numberOfAssignedSeats": "Number of assigned seats",
+  "numberOfUnassignedSeats": "Number of unassigned seats",
+  "numberOfSeats": "Number of seats"
 }
