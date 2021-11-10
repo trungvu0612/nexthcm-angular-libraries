@@ -20,10 +20,11 @@ export interface LeaveEntitlement {
 }
 
 export interface EmployeeLeaveEntitlement {
-  leaveTypeId: string;
-  leaveTypeName: string;
-  remainingEntitlement: number;
-  totalEntitlement: number;
-  totalUsedEntitlement: number;
-  employee: EmployeeInfo;
+  userInfo: EmployeeInfo;
+  leaveType: BaseObject;
+  leaveScheduled: number;
+  leaveEntitlement: number;
+  leavePending: number;
+  leaveTaken: number;
+  leaveBalance: number;
 }

@@ -48,12 +48,6 @@ export class AdminLeaveConfigsService {
     return this.http.delete(`${MY_TIME_API_PATH}/${LEAVE_CONFIGS_URL_PATHS[type]}/${id}`);
   }
 
-  getEmployeeLeaveEntitlements(params: HttpParams): Observable<Pagination<EmployeeLeaveEntitlement>> {
-    return this.http
-      .get<PagingResponse<EmployeeLeaveEntitlement>>(`${MY_TIME_API_PATH}/leaves/entitlement-view`, { params })
-      .pipe(map((res) => res.data));
-  }
-
   checkLeaveTypeNameExists(name: string): Observable<boolean> {
     return this.http
       .get(`${MY_TIME_API_PATH}/leaveTypes/check-existing-name`, { params: new HttpParams().set('name', name) })
@@ -61,5 +55,15 @@ export class AdminLeaveConfigsService {
         mapTo(true),
         catchError(() => of(false))
       );
+  }
+
+  getEmployeeLeaveEntitlements(params: HttpParams): Observable<Pagination<EmployeeLeaveEntitlement>> {
+    return this.http
+      .get<PagingResponse<EmployeeLeaveEntitlement>>(`${MY_TIME_API_PATH}/entitlement-statistical`, { params })
+      .pipe(map((res) => res.data));
+  }
+
+  exportLeaveEntitlements(params: HttpParams): Observable<Blob> {
+    return this.http.get(`${MY_TIME_API_PATH}/entitlement-statistical/export`, { params, responseType: 'blob' });
   }
 }

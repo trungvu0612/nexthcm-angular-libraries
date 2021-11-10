@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { AbstractServerPaginationTableComponent, Pagination } from '@nexthcm/cdk';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AbstractServerSortPaginationTableComponent, Pagination } from '@nexthcm/cdk';
 import { ProviderScope, TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
 import { isPresent } from '@taiga-ui/cdk';
@@ -18,7 +18,7 @@ import {
   tap,
 } from 'rxjs/operators';
 import { AdminLeaveConfigsService } from '../../admin-leave-configs.service';
-import { EmployeeLeaveEntitlement } from '../../models/leave-entitlement';
+import { EmployeeLeaveEntitlement, LeaveEntitlementFilters } from '../../models';
 
 @Component({
   selector: 'hcm-employee-leave-entitlement-management',
@@ -28,7 +28,7 @@ import { EmployeeLeaveEntitlement } from '../../models/leave-entitlement';
   providers: [RxState],
 })
 export class EmployeeLeaveEntitlementManagementComponent
-  extends AbstractServerPaginationTableComponent<EmployeeLeaveEntitlement>
+  extends AbstractServerSortPaginationTableComponent<EmployeeLeaveEntitlement>
   implements OnInit
 {
   @ViewChild('table') table!: BaseComponent;
@@ -37,25 +37,40 @@ export class EmployeeLeaveEntitlementManagementComponent
     .selectTranslateObject('EMPLOYEE_LEAVE_ENTITLEMENT_COLUMNS', {}, (this.scope as ProviderScope).scope)
     .pipe(
       map((result) => [
-        { key: 'cif', title: result.cif },
-        { key: 'fullName', title: result.fullName },
-        { key: 'organization', title: result.department },
-        { key: 'jobTitle', title: result.jobTitle },
-        { key: 'leaveType', title: result.leaveType },
+        { key: 'cif', title: result.cif, orderEnabled: false },
+        { key: 'fullName', title: result.fullName, orderEnabled: false },
+        { key: 'organization', title: result.department, orderEnabled: false },
+        { key: 'jobTitle', title: result.jobTitle, orderEnabled: false },
+        { key: 'leaveType', title: result.leaveType, orderEnabled: false },
         {
-          key: 'totalEntitlement',
-          title: result.totalEntitlement,
+          key: 'leaveEntitlement',
+          title: result.leaveEntitlement,
           cssClass: { name: 'text-center', includeHeader: true },
+          orderEnabled: false,
         },
         {
-          key: 'totalUsedEntitlement',
-          title: result.totalUsedEntitlement,
+          key: 'leavePending',
+          title: result.leavePending,
           cssClass: { name: 'text-center', includeHeader: true },
+          orderEnabled: false,
         },
         {
-          key: 'remainingEntitlement',
-          title: result.remainingEntitlement,
+          key: 'leaveScheduled',
+          title: result.leaveScheduled,
           cssClass: { name: 'text-center', includeHeader: true },
+          orderEnabled: false,
+        },
+        {
+          key: 'leaveTaken',
+          title: result.leaveTaken,
+          cssClass: { name: 'text-center', includeHeader: true },
+          orderEnabled: false,
+        },
+        {
+          key: 'leaveBalance',
+          title: result.leaveBalance,
+          cssClass: { name: 'text-center', includeHeader: true },
+          orderEnabled: false,
         },
       ])
     );
@@ -73,12 +88,13 @@ export class EmployeeLeaveEntitlementManagementComponent
 
   constructor(
     readonly state: RxState<Pagination<EmployeeLeaveEntitlement>>,
+    readonly router: Router,
+    readonly activatedRoute: ActivatedRoute,
     private readonly translocoService: TranslocoService,
     @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope,
-    private readonly leaveConfigsService: AdminLeaveConfigsService,
-    private readonly activatedRoute: ActivatedRoute
+    private readonly leaveConfigsService: AdminLeaveConfigsService
   ) {
-    super(state);
+    super(state, router, activatedRoute);
     state.connect(this.request$.pipe(filter(isPresent)));
     state.hold(
       this.search$.pipe(
@@ -96,5 +112,14 @@ export class EmployeeLeaveEntitlementManagementComponent
     if (searchParam) {
       this.search$.next(searchParam);
     }
+  }
+
+  onView(filters: LeaveEntitlementFilters): void {
+    let params = this.queryParams$.value;
+
+    for (const key of Object.keys(filters) as Array<keyof LeaveEntitlementFilters>) {
+      params = filters[key] ? params.set(key, filters[key]) : params.delete(key);
+    }
+    this.queryParams$.next(params);
   }
 }

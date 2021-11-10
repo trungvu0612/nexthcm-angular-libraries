@@ -613,5 +613,7 @@
   "knowledgeBaseCategories": "Knowledge Base Categories",
   "onsiteOffice": "Onsite office",
   "role": "Role",
-  "exportTimeLog": "Export time log"
+  "exportTimeLog": "Export time log",
+  "export": "Export",
+  "view": "View"
 }

@@ -12,9 +12,11 @@
     "jobTitle": "Chức vụ",
     "department": "Phòng ban",
     "leaveType": "Loại nghỉ phép",
-    "totalEntitlement": "Quyền lợi nghỉ phép (số ngày)",
-    "totalUsedEntitlement": "Đã sử dụng (số ngày)",
-    "remainingEntitlement": "Còn lại (số ngày)"
+    "leaveEntitlement": "Quyền lợi nghỉ phép (ngày)",
+    "leavePending": "Đang chờ duyệt (ngày)",
+    "leaveScheduled": "Đã lên kế hoạch (ngày)",
+    "leaveTaken": "Đã sử dụng (ngày)",
+    "leaveBalance": "Còn lại (ngày)"
   },
   "LEAVE_LEVEL_APPROVAL_MANAGEMENT_COLUMNS": {
     "leaveType": "Loại nghỉ phép",
@@ -61,5 +63,10 @@
   "approvalDays": "Số ngày có thể xét duyệt",
   "enterDays": "Nhập số ngày...",
   "paidLeave": "Tính lương",
-  "canTransferTo": "Loại nghỉ phép khác có thể chuyển đổi quyền lợi sang loại này"
+  "canTransferTo": "Loại nghỉ phép khác có thể chuyển đổi quyền lợi sang loại này",
+  "generateFor": "Đối tượng",
+  "LEAVE_ENTITLEMENT_FILTERS_TYPE": {
+    "leaveType": "Loại nghỉ phép",
+    "employee": "Nhân viên"
+  }
 }

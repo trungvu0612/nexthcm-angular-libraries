@@ -612,5 +612,7 @@
   "knowledgeBaseCategories": "Danh mục Cơ sở tri thức",
   "onsiteOffice": "Văn phòng onsite",
   "role": "Vai trò",
-  "exportTimeLog": "Xuất bản ghi thời gian"
+  "exportTimeLog": "Xuất bản ghi thời gian",
+  "export": "Xuất",
+  "view": "Xem"
 }

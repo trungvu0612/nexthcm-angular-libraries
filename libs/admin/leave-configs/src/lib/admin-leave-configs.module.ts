@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { Route, RouterModule } from '@angular/router';
 import { AkitaNgEffectsModule } from '@datorama/akita-ng-effects';
-import { JobTitlesEffects, JoinByKeyPipeModule, WorkflowsEffects } from '@nexthcm/cdk';
+import { JobTitlesEffects, JoinByKeyPipeModule, OfficesEffects, WorkflowsEffects } from '@nexthcm/cdk';
 import { inlineLoaderFactory } from '@nexthcm/core';
 import {
   BaseFormComponentModule,
@@ -16,9 +16,11 @@ import {
   LayoutModule,
   MenuItem,
 } from '@nexthcm/ui';
+import { NgStackFormsModule } from '@ng-stack/forms';
 import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
 import { TranslocoLocaleModule } from '@ngneat/transloco-locale';
 import { FormlyModule } from '@ngx-formly/core';
+import { PushModule } from '@rx-angular/template';
 import { TuiTablePaginationModule } from '@taiga-ui/addon-table';
 import { TuiLetModule } from '@taiga-ui/cdk';
 import { TuiButtonModule, TuiLoaderModule, TuiPrimitiveCheckboxModule } from '@taiga-ui/core';
@@ -26,6 +28,7 @@ import { TuiTabsModule, TuiTagModule } from '@taiga-ui/kit';
 import { TableModule } from 'ngx-easy-table';
 import { NgxPermissionsGuard, NgxPermissionsModule } from 'ngx-permissions';
 import { AdminLeaveConfigsService } from './admin-leave-configs.service';
+import { LeaveEntitlementFiltersComponent } from './components/leave-entitlement-filters/leave-entitlement-filters.component';
 import { UpsertLeaveApprovalLevelDialogComponent } from './components/upsert-leave-approval-level-dialog/upsert-leave-approval-level-dialog.component';
 import { UpsertLeaveEntitlementDialogComponent } from './components/upsert-leave-entitlement/upsert-leave-entitlement-dialog.component';
 import { UpsertLeaveTypeDialogComponent } from './components/upsert-leave-type-dialog/upsert-leave-type-dialog.component';
@@ -69,6 +72,7 @@ const TABS: MenuItem[] = [
     LeaveEntitlementManagementComponent,
     LeaveLevelApprovalManagementComponent,
     EmployeeLeaveEntitlementManagementComponent,
+    LeaveEntitlementFiltersComponent,
   ],
   imports: [
     CommonModule,
@@ -79,14 +83,14 @@ const TABS: MenuItem[] = [
     TuiTagModule,
     TuiLoaderModule,
     TranslocoModule,
-    ReactiveFormsModule,
+    NgStackFormsModule,
     LayoutModule,
     TuiTabsModule,
     FormlyUserComboBoxComponentModule,
     FormlySelectOrgTreeComponentModule,
     BaseFormComponentModule,
     TuiLetModule,
-    AkitaNgEffectsModule.forFeature([WorkflowsEffects, JobTitlesEffects]),
+    AkitaNgEffectsModule.forFeature([WorkflowsEffects, JobTitlesEffects, OfficesEffects]),
     FormlyModule,
     NgxPermissionsModule,
     FormsModule,
@@ -95,6 +99,8 @@ const TABS: MenuItem[] = [
     TranslocoLocaleModule,
     TuiPrimitiveCheckboxModule,
     JoinByKeyPipeModule,
+    FormlySelectOrgTreeComponentModule,
+    PushModule,
   ],
   providers: [
     AdminLeaveConfigsService,

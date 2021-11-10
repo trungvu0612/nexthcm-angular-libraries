@@ -12,9 +12,11 @@
     "jobTitle": "Job title",
     "department": "Department",
     "leaveType": "Leave type",
-    "totalEntitlement": "Total entitlement (days)",
-    "totalUsedEntitlement": "Used (days)",
-    "remainingEntitlement": "Remaining (days)"
+    "leaveEntitlement": "Leave entitlement (days)",
+    "leavePending": "Leave Pending Approval (days)",
+    "leaveScheduled": "Leave Scheduled (days)",
+    "leaveTaken": "Leave Taken (days)",
+    "leaveBalance": "Leave Balance (days)"
   },
   "LEAVE_LEVEL_APPROVAL_MANAGEMENT_COLUMNS": {
     "leaveType": "Leave type",
@@ -61,5 +63,10 @@
   "approvalDays": "Approval days",
   "enterDays": "Enter days...",
   "paidLeave": "Payable",
-  "canTransferTo": "Other leave types can transfer entitlement to this one."
+  "canTransferTo": "Other leave types can transfer entitlement to this one.",
+  "generateFor": "Generate for",
+  "LEAVE_ENTITLEMENT_FILTERS_TYPE": {
+    "leaveType": "Leave type",
+    "employee": "Employee"
+  }
 }

@@ -4,4 +4,6 @@ export interface LeaveEntitlementFilters {
   leaveTypeId: string;
   officeId: string;
   employeeId: string;
+  orgId: string;
+  jobTitleId: string;
 }

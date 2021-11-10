@@ -89,7 +89,7 @@ export class CreateLeaveRequestDialogComponent implements OnInit {
         templateOptions: {
           translate: true,
           required: true,
-          label: 'employee',
+          label: 'userInfo',
           labelClassName: 'font-semibold',
           placeholder: 'searchEmployees',
           valueProp: 'id',
