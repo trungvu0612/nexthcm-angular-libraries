@@ -2,6 +2,7 @@
   <formly-form [fields]="fields" [form]="form" [model]="model"></formly-form>
   <div *transloco="let t" class="flex mt-4 space-x-4 justify-end">
     <button
+      [disabled]="form.invalid"
       [showLoader]="(exportLoading$ | push) === true"
       icon="tuiIconUploadLarge"
       size="m"

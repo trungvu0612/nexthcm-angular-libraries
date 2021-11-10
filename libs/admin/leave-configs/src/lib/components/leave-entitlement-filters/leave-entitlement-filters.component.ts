@@ -78,6 +78,7 @@ export class LeaveEntitlementFiltersComponent {
             placeholder: 'searchLeaveTypes',
             required: true,
             textfieldLabelOutside: true,
+            textfieldCleaner: true,
             serverRequest: (searchQuery: string) => this.leaveConfigsService.searchLeaveTypes(searchQuery),
             matcherBy: 'id',
           },
@@ -95,6 +96,7 @@ export class LeaveEntitlementFiltersComponent {
             labelClassName: 'font-semibold',
             placeholder: 'searchUsers',
             required: true,
+            textfieldCleaner: true,
           },
           hideExpression: (model) => model.type !== LeaveEntitlementFiltersType.Employee,
           expressionProperties: {
@@ -111,6 +113,7 @@ export class LeaveEntitlementFiltersComponent {
             labelClassName: 'font-semibold',
             placeholder: 'chooseDateRange',
             textfieldLabelOutside: true,
+            textfieldCleaner: true,
           },
         },
         {
@@ -121,6 +124,7 @@ export class LeaveEntitlementFiltersComponent {
             label: 'jobTitle',
             labelClassName: 'font-semibold',
             textfieldLabelOutside: true,
+            textfieldCleaner: true,
             placeholder: 'searchJobTitles',
             serverRequest: (searchQuery: string) => this.jobTitlesQuery.searchJobTitles(searchQuery),
             matcherBy: 'id',
@@ -141,6 +145,7 @@ export class LeaveEntitlementFiltersComponent {
             placeholder: 'chooseOffice',
             labelProp: 'name',
             valueProp: 'id',
+            textfieldCleaner: true,
           },
           hideExpression: (model) => model.type !== LeaveEntitlementFiltersType.LeaveType,
           expressionProperties: {
@@ -155,6 +160,7 @@ export class LeaveEntitlementFiltersComponent {
             label: 'department',
             labelClassName: 'font-semibold',
             placeholder: 'chooseDepartment',
+            textfieldCleaner: true,
           },
           hideExpression: (model) => model.type !== LeaveEntitlementFiltersType.LeaveType,
           expressionProperties: {
@@ -201,22 +207,31 @@ export class LeaveEntitlementFiltersComponent {
   }
 
   onFilters(): void {
+    for (const key of ['leaveType', 'employee'] as Array<keyof LeaveEntitlementFiltersForm>) {
+      const control = this.form.controls[key];
+
+      if (control && control.hasError('required')) {
+        control.reset();
+      }
+    }
     this.view.emit(this.handleFormModel({ ...this.form.value }));
   }
 
   onExport(): void {
+    this.form.updateValueAndValidity();
     if (this.form.valid) {
       const formModel = { ...this.form.value };
       const model = this.handleFormModel(formModel);
+      const dateRangeString = formModel.fromTo
+        ? `_${formatDate(model.fromDate, 'mediumDate', this.locale)}_${formatDate(
+            model.toDate,
+            'mediumDate',
+            this.locale
+          )}`
+        : '';
       const fileName = `LEAVE_USAGE_${
-        formModel.type === LeaveEntitlementFiltersType.LeaveType
-          ? formModel.leaveType?.name
-          : formModel.employee?.name
-      }_${formatDate(model.fromDate, 'mediumDate', this.locale)}_${formatDate(
-        model.toDate,
-        'mediumDate',
-        this.locale
-      )}.xlsx`;
+        formModel.type === LeaveEntitlementFiltersType.LeaveType ? formModel.leaveType?.name : formModel.employee?.name
+      }${dateRangeString}.xlsx`;
       let params = new HttpParams();
 
       for (const key of Object.keys(model) as Array<keyof LeaveEntitlementFilters>) {
