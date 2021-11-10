@@ -1509,7 +1509,7 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
-"@fullcalendar/angular@^5.9.0":
+"@fullcalendar/angular@^5.10.1", "@fullcalendar/angular@^5.9.0":
   version "5.10.1"
   resolved "https://registry.yarnpkg.com/@fullcalendar/angular/-/angular-5.10.1.tgz#3499eea35109868c047f30839232f02e6794e865"
   integrity sha512-aV2MejZMTBGzlgQ+HN2kyWThYrbf8nusr88bB6HLHixkzjWnfdxzC8NwMYz8JOatJzH9UmOiaPQRWdTU9S8WEg==
@@ -1534,7 +1534,7 @@
     preact "^10.0.5"
     tslib "^2.1.0"
 
-"@fullcalendar/daygrid@^5.9.0":
+"@fullcalendar/daygrid@^5.10.1", "@fullcalendar/daygrid@^5.9.0":
   version "5.10.1"
   resolved "https://registry.yarnpkg.com/@fullcalendar/daygrid/-/daygrid-5.10.1.tgz#bdee4f58364fdab631b2abf8b56094ab5776f203"
   integrity sha512-sfUMP+rew0krsBffgNcWWKhBCiyytGfRKZJoc64E8ohX7VWjPcPZuB1xgO5U4wPLmNkT0rZiHoGeQGTXw1+ZKg==
@@ -2191,7 +2191,7 @@
   dependencies:
     tslib "^2.1.0"
 
-"@nexthcm/admin-leave-configs@^1.0.0":
+"@nexthcm/admin-leave-configs@^1.0.1":
   version "1.0.1"
   resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/admin-leave-configs/-/admin-leave-configs-1.0.1.tgz#d330925f1f59dade8483647b0f4a93c697d2b3c2"
   integrity sha512-0PAFd62vdcVvbSAE9QWuYc97KXRnoyplpfh0e/+f5lTsOX6Z3g+NNgsori8ypTEgNuBIeWbwdktrtXXKRd/umw==
@@ -2490,7 +2490,7 @@
   dependencies:
     find-duplicated-property-keys "^1.0.11"
 
-"@ngneat/transloco@^3.0.6", "@ngneat/transloco@^3.0.7":
+"@ngneat/transloco@^3.0.7", "@ngneat/transloco@^3.1.0":
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/@ngneat/transloco/-/transloco-3.1.0.tgz#3d78524052ce18b19529bea66a5e1bc37b146ed6"
   integrity sha512-krOkT3M1sO8OdR3uJ7aXFcT4EPHE9+iD40s36vQ45F407kV1aPjMOLJvsYV5zwBDotJMOGMHjXSjG+hvplCw7g==
@@ -10885,7 +10885,7 @@ ngx-cookie@^5.0.2:
   dependencies:
     tslib "^2.0.0"
 
-ngx-easy-table@^15.0.0:
+ngx-easy-table@^15.0.0, ngx-easy-table@^15.1.0:
   version "15.1.0"
   resolved "https://registry.yarnpkg.com/ngx-easy-table/-/ngx-easy-table-15.1.0.tgz#fefdd5e53f288956056bab7c9eddbaca927c5bf9"
   integrity sha512-unOQLvKcGF+vw7vWaSzHzU1iPm/3cV0WRf+6ldXlLbKo8fsOqtkwv/2ni0ehjgkVoaD1uWmLCYH83UprdzoLSQ==
