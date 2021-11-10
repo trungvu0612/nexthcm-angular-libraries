@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Actions } from '@datorama/akita-ng-effects';
-import { loadWorkflows, PromptService, WorkflowsQuery } from '@nexthcm/cdk';
+import { loadWorkflows, PromptService } from '@nexthcm/cdk';
 import { FormBuilder } from '@ngneat/reactive-forms';
 import { RxState, toDictionary } from '@rx-angular/state';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
@@ -34,7 +34,6 @@ export class AdminRequestsConfigurationComponent {
   constructor(
     private readonly actions: Actions,
     private readonly fb: FormBuilder,
-    private readonly workflowsQuery: WorkflowsQuery,
     private readonly adminRequestsConfigurationService: AdminRequestsConfigurationService,
     private readonly destroy$: TuiDestroyService,
     private readonly promptService: PromptService,

@@ -116,7 +116,7 @@ export class UpsertLeaveTypeDialogComponent implements OnInit {
         placeholder: 'chooseWorkflow',
         options: this.workflowsQuery.selectAll(),
         labelProp: 'name',
-        valueProp: 'processId',
+        valueProp: 'id',
         required: true,
       },
     },

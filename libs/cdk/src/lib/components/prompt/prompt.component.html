@@ -7,7 +7,7 @@
       size="m"
       tuiButton
     >
-      {{ t(swal.cancelButtonText) }}
+      {{ t(swal.cancelButtonText || '') }}
     </button>
     <button
       (click)="swal.close({ isConfirmed: true, isDenied: false, isDismissed: false })"
@@ -15,7 +15,7 @@
       size="m"
       tuiButton
     >
-      {{ t(swal.confirmButtonText) }}
+      {{ t(swal.confirmButtonText || '') }}
     </button>
   </div>
 </swal>
