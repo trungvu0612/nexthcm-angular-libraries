@@ -1,6 +1,12 @@
+@import '~@taiga-ui/core/styles/taiga-ui-local';
+
 :host {
+  @include shadow(6);
+
   display: block;
-  border-bottom-width: 1px;
+  width: 100%;
+  border-bottom: 1px solid var(--tui-base-03);
+  background: var(--tui-base-01);
 
   ::ng-deep {
     tui-tabs {

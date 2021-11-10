@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SubmitWorkFromHomeRequestDialogComponent } from './submit-work-from-home-request-dialog.component';
+import { CreateWorkFromHomeRequestDialogComponent } from './create-work-from-home-request-dialog.component';
 
 describe('SubmitWorkFromHomeRequestDialogComponent', () => {
-  let component: SubmitWorkFromHomeRequestDialogComponent;
-  let fixture: ComponentFixture<SubmitWorkFromHomeRequestDialogComponent>;
+  let component: CreateWorkFromHomeRequestDialogComponent;
+  let fixture: ComponentFixture<CreateWorkFromHomeRequestDialogComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [SubmitWorkFromHomeRequestDialogComponent],
+      declarations: [CreateWorkFromHomeRequestDialogComponent],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SubmitWorkFromHomeRequestDialogComponent);
+    fixture = TestBed.createComponent(CreateWorkFromHomeRequestDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

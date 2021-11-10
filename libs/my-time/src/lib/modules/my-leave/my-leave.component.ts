@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component, Inject, Injector, ViewChild } from 
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '@nexthcm/auth';
 import { Pagination, PromptService } from '@nexthcm/cdk';
-import { FormBuilder } from '@ngneat/reactive-forms';
 import { ProviderScope, TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
@@ -12,7 +11,8 @@ import { BaseComponent, Columns } from 'ngx-easy-table';
 import { combineLatest, from, Observable, of, Subject } from 'rxjs';
 import { catchError, filter, map, share, shareReplay, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { LeaveRequest, RemainingLeaveEntitlement } from '../../internal/models';
-import { MyLeaveService, MyTimeService } from '../../services';
+import { MyRequestsService } from '../../internal/services';
+import { MyLeaveService } from '../../services';
 import { AbstractRequestListComponent } from '../../shared/abstract-components/abstract-request-list.component';
 import { CreateLeaveRequestDialogComponent } from '../../shared/create-leave-request-dialog/create-leave-request-dialog.component';
 import { CreateTransferLeaveEntitlementRequestComponent } from '../../shared/create-transfer-leave-entitlement-request/create-transfer-leave-entitlement-request.component';
@@ -48,7 +48,7 @@ export class MyLeaveComponent extends AbstractRequestListComponent<LeaveRequest>
 
   private readonly request$ = this.queryParams$.pipe(
     switchMap(() =>
-      this.myTimeService.getRequests<LeaveRequest>('myLeave', this.queryParams$.value).pipe(startWith(null))
+      this.myRequestsService.getRequests<LeaveRequest>('myLeave', this.queryParams$.value).pipe(startWith(null))
     ),
     shareReplay(1)
   );
@@ -84,13 +84,12 @@ export class MyLeaveComponent extends AbstractRequestListComponent<LeaveRequest>
   );
 
   constructor(
-    readonly myTimeService: MyTimeService,
+    readonly myRequestsService: MyRequestsService,
     readonly destroy$: TuiDestroyService,
     readonly state: RxState<Pagination<LeaveRequest>>,
     readonly router: Router,
     readonly activatedRoute: ActivatedRoute,
     @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope,
-    private readonly fb: FormBuilder,
     private readonly injector: Injector,
     private readonly translocoService: TranslocoService,
     private readonly authService: AuthService,

@@ -22,3 +22,9 @@ tui-wrapper[data-appearance='outline'] {
     background: var(--tui-secondary);
   }
 }
+
+tui-wrapper[data-appearance='textfield'] {
+  &.outline {
+    outline-style: none;
+  }
+}

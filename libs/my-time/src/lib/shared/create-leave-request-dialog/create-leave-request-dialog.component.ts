@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Inject, NgModule, OnInit, ViewChild } from '@angular/core';
-import { PromptService } from '@nexthcm/cdk';
+import { BaseUser, PromptService } from '@nexthcm/cdk';
 import { BaseFormComponentModule } from '@nexthcm/ui';
-import { FormBuilder, FormControl, FormGroup } from '@ngneat/reactive-forms';
+import { Control, FormBuilder, FormControl, FormGroup } from '@ng-stack/forms';
 import { ProviderScope, TRANSLOCO_SCOPE, TranslocoModule, TranslocoScope, TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { TuiDay, TuiDayRange, TuiDestroyService } from '@taiga-ui/cdk';
@@ -13,12 +13,24 @@ import { combineLatest, from, of, Subject } from 'rxjs';
 import { catchError, map, share, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { DurationType, PartialDays } from '../../internal/enums';
 import {
-  LeaveRequestForm,
   LeaveRequestPayload,
   PartialDaysType,
+  PayloadTimeItem,
   RemainingLeaveEntitlement,
+  SingleDayItem,
 } from '../../internal/models';
-import { MyLeaveService, MyTimeService } from '../../services';
+import { MyRequestsService } from '../../internal/services';
+import { MyLeaveService } from '../../services';
+
+interface LeaveRequestForm extends LeaveRequestPayload {
+  items: Control<PayloadTimeItem[]>;
+  leaveType?: Control<[RemainingLeaveEntitlement]>;
+  fromTo?: Control<TuiDayRange>;
+  partialDays?: Control<PartialDaysType>;
+  startDay?: Control<SingleDayItem>;
+  endDay?: Control<SingleDayItem>;
+  sendToUser?: Control<BaseUser>;
+}
 
 @Component({
   selector: 'hcm-create-leave-request-dialog',
@@ -54,15 +66,14 @@ export class CreateLeaveRequestDialogComponent implements OnInit {
           from(
             this.promptService.open({
               icon: 'error',
-              html: this.myTimeService.generateSubmittingLeaveRequestErrorMessage(err.error),
+              html: this.myRequestsService.generateSubmittingLeaveRequestErrorMessage(err.error),
             })
           )
         ),
         startWith(null)
       )
     ),
-    share(),
-    takeUntil(this.destroy$)
+    share()
   );
   readonly submitLoading$ = this.submitHandler$.pipe(
     map((value) => !value),
@@ -72,7 +83,7 @@ export class CreateLeaveRequestDialogComponent implements OnInit {
   constructor(
     private readonly fb: FormBuilder,
     private readonly myLeaveService: MyLeaveService,
-    private readonly myTimeService: MyTimeService,
+    private readonly myRequestsService: MyRequestsService,
     @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<boolean, RemainingLeaveEntitlement[]>,
     private readonly translocoService: TranslocoService,
     @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope,
@@ -371,7 +382,7 @@ export class CreateLeaveRequestDialogComponent implements OnInit {
           ![PartialDays.EndDayOnly, PartialDays.StartEndDay].includes(formState.partialDays),
       },
       {
-        key: 'sendTo',
+        key: 'sendToUser',
         className: 'tui-form__row block',
         type: 'user-combo-box',
         templateOptions: {
@@ -381,7 +392,6 @@ export class CreateLeaveRequestDialogComponent implements OnInit {
           label: 'sendTo',
           textfieldLabelOutside: true,
           labelProp: 'name',
-          valueProp: 'id',
         },
       },
       {
@@ -440,11 +450,16 @@ export class CreateLeaveRequestDialogComponent implements OnInit {
             break;
         }
       }
+      if (formModel.sendToUser) {
+        formModel.sendTo = formModel.sendToUser.id;
+      }
+
       delete formModel.leaveType;
       delete formModel.fromTo;
       delete formModel.partialDays;
       delete formModel.startDay;
       delete formModel.endDay;
+      delete formModel.sendToUser;
       this.submit$.next(formModel);
     }
   }

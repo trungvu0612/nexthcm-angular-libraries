@@ -1,31 +1,35 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { AuthService } from '@nexthcm/auth';
-import { BaseOption, PromptService } from '@nexthcm/cdk';
-import { FormBuilder } from '@ngneat/reactive-forms';
+import { BaseOption, BaseUser, PromptService } from '@nexthcm/cdk';
+import { Control, FormBuilder } from '@ng-stack/forms';
 import { HashMap, ProviderScope, TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import { TuiDestroyService } from '@taiga-ui/cdk';
+import { TuiDayRange } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { endOfDay, getTime } from 'date-fns';
 import { from, of, Subject } from 'rxjs';
-import { catchError, map, share, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { catchError, map, share, startWith, switchMap, tap } from 'rxjs/operators';
 import { WorkingAfterHoursType } from '../../../../internal/enums';
-import { SubmitRequestPayload } from '../../../../internal/models';
-import { MyTimeService } from '../../../../services';
+import { WorkingAfterHoursRequestPayload } from '../../../../internal/models';
+import { MyRequestsService } from '../../../../internal/services';
+
+interface WorkingAfterHoursRequestForm extends WorkingAfterHoursRequestPayload {
+  durationInHours?: number;
+  fromTo?: Control<TuiDayRange>;
+  sendToUser?: Control<BaseUser>;
+}
 
 @Component({
-  selector: 'hcm-submit-overtime-request-dialog',
-  templateUrl: './submit-overtime-request-dialog.component.html',
-  styleUrls: ['./submit-overtime-request-dialog.component.scss'],
+  selector: 'hcm-create-working-after-hours-request-dialog',
+  templateUrl: './create-working-after-hours-request-dialog.component.html',
+  styleUrls: ['./create-working-after-hours-request-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [TuiDestroyService],
 })
-export class SubmitOvertimeRequestDialogComponent {
-  readonly form = this.fb.group<SubmitRequestPayload>({} as SubmitRequestPayload);
-  model = {} as SubmitRequestPayload;
+export class CreateWorkingAfterHoursRequestDialogComponent {
+  model = {} as WorkingAfterHoursRequestForm;
+  readonly form = this.fb.group<WorkingAfterHoursRequestForm>(this.model);
   readonly fields: FormlyFieldConfig[] = [
-    { key: 'userId', defaultValue: this.authService.get('userInfo', 'userId') },
     {
       key: 'type',
       className: 'tui-form__row block',
@@ -63,7 +67,7 @@ export class SubmitOvertimeRequestDialogComponent {
       },
     },
     {
-      key: 'duration',
+      key: 'durationInHours',
       className: 'tui-form__row block',
       type: 'input-number',
       templateOptions: {
@@ -90,7 +94,7 @@ export class SubmitOvertimeRequestDialogComponent {
       },
     },
     {
-      key: 'sendTo',
+      key: 'sendToUser',
       className: 'tui-form__row block',
       type: 'user-combo-box',
       templateOptions: {
@@ -99,15 +103,15 @@ export class SubmitOvertimeRequestDialogComponent {
         labelClassName: 'font-semibold',
         placeholder: 'searchUsers',
         labelProp: 'name',
-        valueProp: 'id',
         textfieldLabelOutside: true,
       },
     },
+    { key: 'userId', defaultValue: this.authService.get('userInfo', 'userId') },
   ];
-  readonly submit$ = new Subject<SubmitRequestPayload>();
+  readonly submit$ = new Subject<WorkingAfterHoursRequestPayload>();
   readonly submitHandler$ = this.submit$.pipe(
     switchMap((payload) =>
-      this.myTimeService.submitRequest('workingAfterHours', payload).pipe(
+      this.myRequestsService.submitRequest('workingAfterHours', payload).pipe(
         switchMap(() =>
           from(
             this.promptService.open({
@@ -118,18 +122,12 @@ export class SubmitOvertimeRequestDialogComponent {
         ),
         tap(() => this.context.completeWith(true)),
         catchError((err) =>
-          from(
-            this.promptService.open({
-              icon: 'error',
-              html: this.translocoService.translate(`ERRORS.${err.error.message}`),
-            })
-          )
+          from(this.promptService.open({ icon: 'error', html: this.promptService.generateErrorMessage(err) }))
         ),
         startWith(null)
       )
     ),
     share(),
-    takeUntil(this.destroy$)
   );
   readonly submitLoading$ = this.submitHandler$.pipe(
     map((value) => !value),
@@ -139,12 +137,11 @@ export class SubmitOvertimeRequestDialogComponent {
   constructor(
     private readonly fb: FormBuilder,
     @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<boolean>,
-    private readonly myTimeService: MyTimeService,
+    private readonly myRequestsService: MyRequestsService,
     private readonly promptService: PromptService,
     private readonly translocoService: TranslocoService,
     private readonly authService: AuthService,
     @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope,
-    private readonly destroy$: TuiDestroyService
   ) {}
 
   onSubmit(): void {
@@ -154,9 +151,16 @@ export class SubmitOvertimeRequestDialogComponent {
       if (formModel.fromTo) {
         formModel.fromDate = getTime(formModel.fromTo.from.toLocalNativeDate());
         formModel.toDate = getTime(endOfDay(formModel.fromTo.to.toLocalNativeDate()));
-        formModel.duration = Number(formModel?.duration) * 3600;
       }
+      if (formModel.sendToUser) {
+        formModel.sendTo = formModel.sendToUser.id;
+      }
+      formModel.duration = Number(formModel.durationInHours) * 3600;
+
       delete formModel.fromTo;
+      delete formModel.durationInHours;
+      delete formModel.sendToUser;
+
       this.submit$.next(formModel);
     }
   }

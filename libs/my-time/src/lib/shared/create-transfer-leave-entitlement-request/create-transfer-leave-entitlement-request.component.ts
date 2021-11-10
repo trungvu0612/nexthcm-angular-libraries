@@ -1,29 +1,24 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Inject, NgModule } from '@angular/core';
 import { AuthService } from '@nexthcm/auth';
-import { PromptService } from '@nexthcm/cdk';
+import { BaseUser, PromptService } from '@nexthcm/cdk';
 import { BaseFormComponentModule } from '@nexthcm/ui';
-import { FormBuilder } from '@ngneat/reactive-forms';
+import { Control, FormBuilder } from '@ng-stack/forms';
 import { ProviderScope, TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
+import { isPresent } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { of, Subject } from 'rxjs';
-import {
-  catchError,
-  distinctUntilChanged,
-  filter,
-  map,
-  share,
-  startWith,
-  switchMap,
-  takeUntil,
-  tap,
-} from 'rxjs/operators';
+import { catchError, distinctUntilChanged, filter, map, share, startWith, switchMap, tap } from 'rxjs/operators';
 import { TransferLeaveEntitlementType } from '../../internal/enums';
 import { RemainingLeaveEntitlement, TransferLeaveEntitlementPayload } from '../../internal/models';
 import { MyLeaveService } from '../../services';
+
+interface TransferLeaveEntitlementForm extends TransferLeaveEntitlementPayload {
+  leaveTypeRemainingEntitlement: Control<RemainingLeaveEntitlement>;
+  sendToUser?: Control<BaseUser>;
+}
 
 @Component({
   selector: 'hcm-create-transfer-leave-entitlement-request',
@@ -32,8 +27,8 @@ import { MyLeaveService } from '../../services';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CreateTransferLeaveEntitlementRequestComponent {
-  model = {} as TransferLeaveEntitlementPayload;
-  form = this.fb.group<TransferLeaveEntitlementPayload>(this.model);
+  model = {} as TransferLeaveEntitlementForm;
+  form = this.fb.group<TransferLeaveEntitlementForm>(this.model);
   readonly remainingEntitlement$ = this.form.valueChanges.pipe(
     map((value) => value.leaveTypeRemainingEntitlement?.remainingEntitlement),
     share()
@@ -138,7 +133,7 @@ export class CreateTransferLeaveEntitlementRequestComponent {
       },
     },
     {
-      key: 'sendTo',
+      key: 'sendToUser',
       className: 'tui-form__row block',
       type: 'user-combo-box',
       templateOptions: {
@@ -149,7 +144,6 @@ export class CreateTransferLeaveEntitlementRequestComponent {
         label: 'sendTo',
         textfieldLabelOutside: true,
         labelProp: 'name',
-        valueProp: 'id',
       },
     },
   ];
@@ -166,7 +160,6 @@ export class CreateTransferLeaveEntitlementRequestComponent {
         )
     ),
     share(),
-    takeUntil(this.destroy$)
   );
   readonly submitLoading$ = this.submitHandler$.pipe(
     map((value) => !value),
@@ -177,7 +170,6 @@ export class CreateTransferLeaveEntitlementRequestComponent {
     private readonly fb: FormBuilder,
     private readonly authService: AuthService,
     private readonly myLeaveService: MyLeaveService,
-    private readonly destroy$: TuiDestroyService,
     private readonly promptService: PromptService,
     private readonly translocoService: TranslocoService,
     @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<boolean, RemainingLeaveEntitlement[]>,
@@ -191,6 +183,11 @@ export class CreateTransferLeaveEntitlementRequestComponent {
       if (formModel.typeTransfer === TransferLeaveEntitlementType.transferToSalary) {
         formModel.leaveTypeId = formModel.leaveTypeRemainingEntitlement.leaveTypeId;
       }
+      if (formModel.sendToUser) {
+        formModel.sendTo = formModel.sendToUser.id;
+      }
+
+      delete formModel.sendToUser;
       this.submit$.next(formModel);
     }
   }

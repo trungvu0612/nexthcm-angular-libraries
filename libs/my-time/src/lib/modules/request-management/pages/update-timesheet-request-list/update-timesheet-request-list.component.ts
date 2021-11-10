@@ -8,7 +8,7 @@ import { BaseComponent, Columns } from 'ngx-easy-table';
 import { combineLatest, Observable, of } from 'rxjs';
 import { catchError, filter, map, shareReplay, startWith, switchMap } from 'rxjs/operators';
 import { UpdateTimesheetRequest } from '../../../../internal/models';
-import { MyTimeService } from '../../../../services';
+import { MyRequestsService } from '../../../../internal/services';
 import { AbstractRequestListComponent } from '../../../../shared/abstract-components/abstract-request-list.component';
 
 @Component({
@@ -43,7 +43,7 @@ export class UpdateTimesheetRequestListComponent extends AbstractRequestListComp
     );
   private readonly request$ = this.queryParams$.pipe(
     switchMap(() =>
-      this.myTimeService
+      this.myRequestsService
         .getRequests<UpdateTimesheetRequest>(this.requestTypeUrlPath, this.queryParams$.value)
         .pipe(startWith(null))
     ),
@@ -55,7 +55,7 @@ export class UpdateTimesheetRequestListComponent extends AbstractRequestListComp
   );
 
   constructor(
-    readonly myTimeService: MyTimeService,
+    readonly myRequestsService: MyRequestsService,
     readonly destroy$: TuiDestroyService,
     readonly state: RxState<Pagination<UpdateTimesheetRequest>>,
     readonly router: Router,

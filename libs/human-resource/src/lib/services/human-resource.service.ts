@@ -8,7 +8,7 @@ import { EmployeeNode } from '../models/employee-node';
 export class HumanResourceService {
   constructor(private httpClient: HttpClient) {}
 
-  getOrgChartByUserId(userId: string | null): Observable<EmployeeNode> {
+  getOrgChartByUserId(userId?: string): Observable<EmployeeNode> {
     return this.httpClient.get<EmployeeNode>(`${ACCOUNT_API_PATH}/org-chart${userId ? `/${userId}` : ''}`);
   }
 }

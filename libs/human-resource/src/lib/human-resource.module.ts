@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { ScrollIntoViewDirectiveModule } from '@nexthcm/cdk';
 import { AvatarComponentModule, FormlyUserComboBoxComponentModule, LayoutComponent, LayoutModule } from '@nexthcm/ui';
+import { NgStackFormsModule } from '@ng-stack/forms';
 import { TranslocoModule } from '@ngneat/transloco';
 import { FormlyModule } from '@ngx-formly/core';
+import { PushModule } from '@rx-angular/template';
 import { TuiLetModule } from '@taiga-ui/cdk';
 import {
   TuiDropdownControllerModule,
@@ -39,7 +40,7 @@ export const humanResourceRoutes: Routes = [
   imports: [
     CommonModule,
     RouterModule.forChild(humanResourceRoutes),
-    ReactiveFormsModule,
+    NgStackFormsModule,
     TuiIslandModule,
     TuiLinkModule,
     LayoutModule,
@@ -53,6 +54,7 @@ export const humanResourceRoutes: Routes = [
     TuiHostedDropdownModule,
     TuiDropdownControllerModule,
     ScrollIntoViewDirectiveModule,
+    PushModule,
   ],
   providers: [HumanResourceService],
 })

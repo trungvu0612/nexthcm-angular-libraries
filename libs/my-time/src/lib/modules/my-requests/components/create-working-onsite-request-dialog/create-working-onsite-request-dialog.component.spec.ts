@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SubmitWorkingOnsiteRequestDialogComponent } from './submit-working-onsite-request-dialog.component';
+import { CreateWorkingOnsiteRequestDialogComponent } from './create-working-onsite-request-dialog.component';
 
 describe('SubmitWorkingOnsiteRequestDialogComponent', () => {
-  let component: SubmitWorkingOnsiteRequestDialogComponent;
-  let fixture: ComponentFixture<SubmitWorkingOnsiteRequestDialogComponent>;
+  let component: CreateWorkingOnsiteRequestDialogComponent;
+  let fixture: ComponentFixture<CreateWorkingOnsiteRequestDialogComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [SubmitWorkingOnsiteRequestDialogComponent],
+      declarations: [CreateWorkingOnsiteRequestDialogComponent],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SubmitWorkingOnsiteRequestDialogComponent);
+    fixture = TestBed.createComponent(CreateWorkingOnsiteRequestDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -2,7 +2,7 @@
   (cancel)="onCancel()"
   (submitForm)="onSubmit()"
   [fields]="fields"
-  [form]="form"
+  [form]="$any(form)"
   [model]="model"
   [options]="options"
   [submitLoading]="(submitLoading$ | async) === true"

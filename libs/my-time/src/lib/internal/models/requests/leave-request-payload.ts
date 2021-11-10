@@ -1,6 +1,5 @@
-import { TuiDayRange, TuiTime } from '@taiga-ui/cdk';
+import { TuiTime } from '@taiga-ui/cdk';
 import { DurationType } from '../../enums';
-import { PartialDaysType } from './leave-request';
 
 export interface LeaveRequestPayload {
   employeeId: string;
@@ -11,14 +10,6 @@ export interface LeaveRequestPayload {
   sendTo: string;
   partialDayTypeId: string;
   items: PayloadTimeItem[];
-}
-
-export interface LeaveRequestForm extends LeaveRequestPayload {
-  leaveType?: [RemainingLeaveEntitlement];
-  fromTo?: TuiDayRange;
-  partialDays?: PartialDaysType;
-  startDay?: SingleDayItem;
-  endDay?: SingleDayItem;
 }
 
 export interface RemainingLeaveEntitlement {

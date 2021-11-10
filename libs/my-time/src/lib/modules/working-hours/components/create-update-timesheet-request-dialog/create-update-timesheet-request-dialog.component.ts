@@ -1,33 +1,36 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
-import { PromptService, tuiTimeAfter, tuiTimeBefore } from '@nexthcm/cdk';
-import { FormBuilder } from '@ngneat/reactive-forms';
+import { BaseUser, PromptService, tuiTimeAfter, tuiTimeBefore } from '@nexthcm/cdk';
+import { Control, FormBuilder } from '@ng-stack/forms';
 import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import { TuiDay, TuiDestroyService, TuiTime } from '@taiga-ui/cdk';
+import { TuiDay, TuiTime } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { from, of, Subject } from 'rxjs';
-import { catchError, map, share, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
-import { RequestStatus } from '../../../../internal/enums';
-import { SubmitRequestPayload } from '../../../../internal/models';
+import { catchError, map, share, startWith, switchMap, tap } from 'rxjs/operators';
+import { UpdateTimesheetRequestPayload } from '../../../../internal/models';
+import { MyRequestsService } from '../../../../internal/services';
 import { WorkingHours } from '../../../../models';
-import { MyTimeService } from '../../../../services';
+
+interface UpdateTimesheetRequestForm extends UpdateTimesheetRequestPayload {
+  date?: Control<TuiDay>;
+  inTime?: Control<TuiTime>;
+  outTime?: Control<TuiTime>;
+  sendToUser?: Control<BaseUser>;
+}
 
 @Component({
-  selector: 'hcm-submit-update-timesheet-request-dialog',
-  templateUrl: './submit-update-timesheet-request-dialog.component.html',
-  styleUrls: ['./submit-update-timesheet-request-dialog.component.scss'],
+  selector: 'hcm-create-update-timesheet-request-dialog',
+  templateUrl: './create-update-timesheet-request-dialog.component.html',
+  styleUrls: ['./create-update-timesheet-request-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [TuiDestroyService],
 })
-export class SubmitUpdateTimesheetRequestDialogComponent {
-  readonly form = this.fb.group<SubmitRequestPayload>({} as SubmitRequestPayload);
-  model = {} as SubmitRequestPayload;
+export class CreateUpdateTimesheetRequestDialogComponent {
+  model = {} as UpdateTimesheetRequestForm;
+  readonly form = this.fb.group<UpdateTimesheetRequestForm>(this.model);
   readonly fields: FormlyFieldConfig[] = [
-    { key: 'timeSheetId', defaultValue: this.context.data.id },
-    { key: 'status', defaultValue: RequestStatus.waiting },
     {
-      key: 'createdDate',
+      key: 'date',
       className: 'tui-form__row block',
       type: 'input-date',
       defaultValue: TuiDay.fromLocalNativeDate(new Date(this.context.data.trackingDate)),
@@ -44,7 +47,7 @@ export class SubmitUpdateTimesheetRequestDialogComponent {
       fieldGroupClassName: 'grid grid-cols-2 gap-4 mt-5',
       fieldGroup: [
         {
-          key: 'newInTime',
+          key: 'inTime',
           type: 'input-time',
           templateOptions: {
             translate: true,
@@ -54,13 +57,13 @@ export class SubmitUpdateTimesheetRequestDialogComponent {
             required: true,
             textfieldLabelOutside: true,
           },
-          validators: { validation: [tuiTimeBefore('newOutTime')] },
+          validators: { validation: [tuiTimeBefore('outTime')] },
           validation: {
             messages: { tuiTimeBefore: () => this.translocoService.translate('myTime.inTimeBeforeOutTime') },
           },
         },
         {
-          key: 'newOutTime',
+          key: 'outTime',
           type: 'input-time',
           templateOptions: {
             translate: true,
@@ -70,7 +73,7 @@ export class SubmitUpdateTimesheetRequestDialogComponent {
             required: true,
             textfieldLabelOutside: true,
           },
-          validators: { validation: [tuiTimeAfter('newInTime')] },
+          validators: { validation: [tuiTimeAfter('inTime')] },
           validation: {
             messages: { tuiTimeAfter: () => this.translocoService.translate('myTime.outTimeAfterInTime') },
           },
@@ -90,7 +93,7 @@ export class SubmitUpdateTimesheetRequestDialogComponent {
       },
     },
     {
-      key: 'sendTo',
+      key: 'sendToUser',
       className: 'tui-form__row block',
       type: 'user-combo-box',
       templateOptions: {
@@ -99,14 +102,14 @@ export class SubmitUpdateTimesheetRequestDialogComponent {
         labelClassName: 'font-semibold',
         placeholder: 'searchUsers',
         labelProp: 'username',
-        valueProp: 'id',
       },
     },
+    { key: 'timeSheetId', defaultValue: this.context.data.id },
   ];
-  readonly submit$ = new Subject<SubmitRequestPayload>();
+  readonly submit$ = new Subject<UpdateTimesheetRequestForm>();
   readonly submitHandler$ = this.submit$.pipe(
     switchMap((payload) =>
-      this.myTimeService.submitRequest('updateTimesheet', payload).pipe(
+      this.myRequestsService.submitRequest('updateTimesheet', payload).pipe(
         switchMap(() =>
           from(
             this.promptService.open({
@@ -117,18 +120,12 @@ export class SubmitUpdateTimesheetRequestDialogComponent {
         ),
         tap(() => this.context.completeWith(true)),
         catchError((err) =>
-          from(
-            this.promptService.open({
-              icon: 'error',
-              html: this.translocoService.translate(`ERRORS.${err.error.message}`),
-            })
-          )
+          from(this.promptService.open({ icon: 'error', html: this.promptService.generateErrorMessage(err) }))
         ),
         startWith(null)
       )
     ),
-    share(),
-    takeUntil(this.destroy$)
+    share()
   );
   readonly submitLoading$ = this.submitHandler$.pipe(
     map((value) => !value),
@@ -138,19 +135,33 @@ export class SubmitUpdateTimesheetRequestDialogComponent {
   constructor(
     private readonly fb: FormBuilder,
     @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<boolean, WorkingHours>,
-    private readonly myTimeService: MyTimeService,
+    private readonly myRequestsService: MyRequestsService,
     private readonly promptService: PromptService,
-    private readonly translocoService: TranslocoService,
-    private readonly destroy$: TuiDestroyService
+    private readonly translocoService: TranslocoService
   ) {}
 
   onSubmit(): void {
     if (this.form.valid) {
       const formModel = { ...this.form.value };
 
-      formModel.createdDate = (formModel.createdDate as TuiDay).toLocalNativeDate().valueOf();
-      formModel.newInTime = (formModel.newInTime as TuiTime).toAbsoluteMilliseconds() / 1000;
-      formModel.newOutTime = (formModel.newOutTime as TuiTime).toAbsoluteMilliseconds() / 1000;
+      if (formModel.date) {
+        formModel.createdDate = formModel.date.toLocalNativeDate().valueOf();
+      }
+      if (formModel.inTime) {
+        formModel.newInTime = formModel.inTime.toAbsoluteMilliseconds().valueOf() / 1000;
+      }
+      if (formModel.outTime) {
+        formModel.newOutTime = (formModel.outTime as TuiTime).toAbsoluteMilliseconds().valueOf() / 1000;
+      }
+      if (formModel.sendToUser) {
+        formModel.sendTo = formModel.sendToUser.id;
+      }
+
+      delete formModel.date;
+      delete formModel.inTime;
+      delete formModel.outTime;
+      delete formModel.sendToUser;
+
       this.submit$.next(formModel);
     }
   }

@@ -13,7 +13,7 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
 import { catchError, filter, map, share, startWith, switchMap, takeUntil } from 'rxjs/operators';
 import { WorkingHours } from '../../../../models';
 import { WorkingHoursService } from '../../../../services';
-import { SubmitUpdateTimesheetRequestDialogComponent } from '../submit-update-timesheet-request-dialog/submit-update-timesheet-request-dialog.component';
+import { CreateUpdateTimesheetRequestDialogComponent } from '../create-update-timesheet-request-dialog/create-update-timesheet-request-dialog.component';
 import { WorkingHoursDetailDialogComponent } from '../working-hour-detail-dialog/working-hours-detail-dialog.component';
 
 @Component({
@@ -87,7 +87,7 @@ export class OnlyMeWorkingHoursListComponent extends AbstractServerSortPaginatio
 
   requestUpdateTime(data: WorkingHours): void {
     this.dialogService
-      .open(new PolymorpheusComponent(SubmitUpdateTimesheetRequestDialogComponent, this.injector), {
+      .open(new PolymorpheusComponent(CreateUpdateTimesheetRequestDialogComponent, this.injector), {
         label: this.translocoService.translate('myTime.requestUpdateTimesheet'),
         data,
       })

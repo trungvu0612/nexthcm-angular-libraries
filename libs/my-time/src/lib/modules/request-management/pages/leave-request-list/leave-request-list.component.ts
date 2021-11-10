@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, Inject, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Pagination } from '@nexthcm/cdk';
-import { FormBuilder } from '@ngneat/reactive-forms';
 import { ProviderScope, TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
@@ -9,7 +8,8 @@ import { BaseComponent, Columns } from 'ngx-easy-table';
 import { combineLatest, Observable, of } from 'rxjs';
 import { catchError, filter, map, shareReplay, startWith, switchMap } from 'rxjs/operators';
 import { LeaveRequest } from '../../../../internal/models';
-import { MyLeaveService, MyTimeService } from '../../../../services';
+import { MyRequestsService } from '../../../../internal/services';
+import { MyLeaveService } from '../../../../services';
 import { AbstractRequestListComponent } from '../../../../shared/abstract-components/abstract-request-list.component';
 
 @Component({
@@ -42,7 +42,7 @@ export class LeaveRequestListComponent extends AbstractRequestListComponent<Leav
     this.queryParams$,
   ]).pipe(
     switchMap(() =>
-      this.myTimeService
+      this.myRequestsService
         .getRequests<LeaveRequest>(this.requestTypeUrlPath, this.queryParams$.value)
         .pipe(startWith(null))
     ),
@@ -54,13 +54,12 @@ export class LeaveRequestListComponent extends AbstractRequestListComponent<Leav
   );
 
   constructor(
-    readonly myTimeService: MyTimeService,
+    readonly myRequestsService: MyRequestsService,
     readonly destroy$: TuiDestroyService,
     readonly state: RxState<Pagination<LeaveRequest>>,
     readonly router: Router,
     readonly activatedRoute: ActivatedRoute,
     @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope,
-    private readonly fb: FormBuilder,
     private readonly translocoService: TranslocoService,
     private readonly myLeaveService: MyLeaveService
   ) {

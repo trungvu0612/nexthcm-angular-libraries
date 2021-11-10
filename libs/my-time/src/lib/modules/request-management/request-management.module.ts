@@ -16,7 +16,6 @@ import { CreateLeaveRequestDialogComponentModule } from '../../shared/create-lea
 import { LeaveRequestDateRangeComponentModule } from '../../shared/leave-request-date-range/leave-request-date-range.component';
 import { RequestListFilterComponentModule } from '../../shared/request-list-filters/request-list-filters.component';
 import { TransferLeaveEntitlementTypePipeModule } from '../../shared/transfer-leave-entitlement-type/transfer-leave-entitlement-type.pipe';
-import { RejectRequestDialogComponent } from './components/reject-leave-request-dialog/reject-request-dialog.component';
 import { LeaveRequestListComponent } from './pages/leave-request-list/leave-request-list.component';
 import { TransferLeaveEntitlementsRequestListComponent } from './pages/transfer-leave-entitlements-request-list/transfer-leave-entitlements-request-list.component';
 import { UpdateTimesheetRequestListComponent } from './pages/update-timesheet-request-list/update-timesheet-request-list.component';
@@ -29,7 +28,6 @@ import { RequestManagementComponent } from './request-management.component';
   declarations: [
     RequestManagementComponent,
     LeaveRequestListComponent,
-    RejectRequestDialogComponent,
     WorkingAfterHoursRequestListComponent,
     UpdateTimesheetRequestListComponent,
     WorkingOnsiteRequestListComponent,

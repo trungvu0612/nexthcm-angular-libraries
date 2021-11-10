@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { AkitaNgEffectsModule } from '@datorama/akita-ng-effects';
 import { GetFilePipeModule, OfficesEffects } from '@nexthcm/cdk';
@@ -10,9 +9,11 @@ import {
   LayoutModule,
   WorkflowActionsButtonDropdownComponentModule,
 } from '@nexthcm/ui';
+import { NgStackFormsModule } from '@ng-stack/forms';
 import { TranslocoModule } from '@ngneat/transloco';
 import { TranslocoLocaleModule } from '@ngneat/transloco-locale';
 import { FormlyModule } from '@ngx-formly/core';
+import { PushModule } from '@rx-angular/template';
 import { TuiTableModule, TuiTablePaginationModule } from '@taiga-ui/addon-table';
 import { TuiLetModule } from '@taiga-ui/cdk';
 import {
@@ -37,9 +38,9 @@ import {
 import { TableModule } from 'ngx-easy-table';
 import { RequestListFilterComponentModule } from '../../shared/request-list-filters/request-list-filters.component';
 import { TransferLeaveEntitlementTypePipeModule } from '../../shared/transfer-leave-entitlement-type/transfer-leave-entitlement-type.pipe';
-import { SubmitOvertimeRequestDialogComponent } from './components/submit-overtime-request-dialog/submit-overtime-request-dialog.component';
-import { SubmitWorkFromHomeRequestDialogComponent } from './components/submit-work-from-home-request-dialog/submit-work-from-home-request-dialog.component';
-import { SubmitWorkingOnsiteRequestDialogComponent } from './components/submit-working-onsite-request-dialog/submit-working-onsite-request-dialog.component';
+import { CreateWorkFromHomeRequestDialogComponent } from './components/create-work-from-home-request-dialog/create-work-from-home-request-dialog.component';
+import { CreateWorkingAfterHoursRequestDialogComponent } from './components/create-working-after-hours-request-dialog/create-working-after-hours-request-dialog.component';
+import { CreateWorkingOnsiteRequestDialogComponent } from './components/create-working-onsite-request-dialog/create-working-onsite-request-dialog.component';
 import { MyRequestsComponent } from './my-requests.component';
 import { MyTransferLeaveEntitlementsRequestsComponent } from './pages/my-transfer-leave-entitlements-requests/my-transfer-leave-entitlements-requests.component';
 import { MyUpdateTimesheetRequestsComponent } from './pages/my-update-timesheet-requests/my-update-timesheet-requests.component';
@@ -54,9 +55,9 @@ import { MyWorkingOnsiteRequestsComponent } from './pages/my-working-onsite-requ
     MyWorkingOnsiteRequestsComponent,
     MyWorkFromHomeRequestsComponent,
     MyRequestsComponent,
-    SubmitWorkFromHomeRequestDialogComponent,
-    SubmitWorkingOnsiteRequestDialogComponent,
-    SubmitOvertimeRequestDialogComponent,
+    CreateWorkFromHomeRequestDialogComponent,
+    CreateWorkingOnsiteRequestDialogComponent,
+    CreateWorkingAfterHoursRequestDialogComponent,
     MyTransferLeaveEntitlementsRequestsComponent,
   ],
   imports: [
@@ -74,7 +75,7 @@ import { MyWorkingOnsiteRequestsComponent } from './pages/my-working-onsite-requ
     FormlyTaigaUiModule,
     TuiGroupModule,
     TuiTabsModule,
-    ReactiveFormsModule,
+    NgStackFormsModule,
     TuiColorModule,
     TuiSvgModule,
     TranslocoModule,
@@ -94,6 +95,7 @@ import { MyWorkingOnsiteRequestsComponent } from './pages/my-working-onsite-requ
     WorkflowActionsButtonDropdownComponentModule,
     TransferLeaveEntitlementTypePipeModule,
     AkitaNgEffectsModule.forFeature([OfficesEffects]),
+    PushModule,
   ],
 })
 export class MyRequestsModule {}

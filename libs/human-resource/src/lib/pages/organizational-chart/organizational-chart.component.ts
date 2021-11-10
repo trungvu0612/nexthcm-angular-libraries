@@ -1,14 +1,16 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, OnInit, QueryList, ViewChildren } from '@angular/core';
-import { FormBuilder } from '@ngneat/reactive-forms';
+import { BaseUser } from '@nexthcm/cdk';
+import { Control, FormBuilder } from '@ng-stack/forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
-import { BehaviorSubject } from 'rxjs';
-import { distinctUntilChanged, filter, map, share, startWith, switchMap, takeUntil } from 'rxjs/operators';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { catchError, distinctUntilChanged, filter, map, share, startWith, switchMap, takeUntil } from 'rxjs/operators';
 import { OrganizationalChartNodeComponent } from '../../components/organizational-chart-node/organizational-chart-node.component';
+import { EmployeeNode } from '../../models/employee-node';
 import { HumanResourceService } from '../../services/human-resource.service';
 
 interface SearchForm {
-  userId: string | null;
+  user: Control<BaseUser>;
 }
 
 @Component({
@@ -21,28 +23,28 @@ interface SearchForm {
 export class OrganizationalChartComponent implements OnInit, AfterViewInit {
   @ViewChildren(OrganizationalChartNodeComponent) nodes!: QueryList<OrganizationalChartNodeComponent>;
 
-  searchForm = this.fb.group<SearchForm>({ userId: '' });
-  model = { userId: '' };
+  model = { user: null } as SearchForm;
+  searchForm = this.fb.group<SearchForm>(this.model);
   fields: FormlyFieldConfig[] = [
     {
-      key: 'userId',
+      key: 'user',
       className: 'w-72',
       type: 'user-combo-box',
       templateOptions: {
         translate: true,
         labelClassName: 'font-semibold',
         placeholder: 'searchUsers',
-        valueProp: 'id',
         textfieldLabelOutside: true,
       },
     },
   ];
-  readonly userId$ = new BehaviorSubject<string | null>(null);
-  private readonly request$ = this.userId$.pipe(
+  readonly userId$ = new BehaviorSubject<string | undefined>(undefined);
+  private readonly request$: Observable<EmployeeNode[] | null> = this.userId$.pipe(
     distinctUntilChanged(),
     switchMap((userId) =>
       this.humanResourceService.getOrgChartByUserId(userId).pipe(
         map((orgChart) => [orgChart]),
+        catchError(() => of([])),
         startWith(null)
       )
     ),
@@ -58,16 +60,19 @@ export class OrganizationalChartComponent implements OnInit, AfterViewInit {
   ) {}
 
   ngOnInit(): void {
-    this.searchForm.controls.userId.valueChanges
+    this.searchForm.controls.user.valueChanges
       .pipe(takeUntil(this.destroy$))
-      .subscribe((userId) => this.userId$.next(userId));
+      .subscribe((user) => this.userId$.next(user?.id));
   }
 
   ngAfterViewInit(): void {
     this.nodes.changes
       .pipe(takeUntil(this.destroy$))
-      .subscribe((nodes: QueryList<OrganizationalChartNodeComponent>) =>
-        nodes.find((node) => node.node.id === this.userId$.value)?.elementRef.nativeElement.scrollIntoView()
-      );
+      .subscribe((nodes: QueryList<OrganizationalChartNodeComponent>) => {
+        const node: Element | undefined = nodes.find((node) => node.node.id === this.userId$.value)?.elementRef
+          ?.nativeElement;
+
+        node?.scrollIntoView({ block: 'center', inline: 'center' });
+      });
   }
 }

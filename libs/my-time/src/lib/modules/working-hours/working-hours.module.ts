@@ -23,11 +23,11 @@ import { TuiDataListWrapperModule, TuiIslandModule, TuiTabsModule } from '@taiga
 import { TableModule } from 'ngx-easy-table';
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { WorkingHoursService } from '../../services';
+import { CreateUpdateTimesheetRequestDialogComponent } from './components/create-update-timesheet-request-dialog/create-update-timesheet-request-dialog.component';
 import { EveryoneWorkingHoursListComponent } from './components/everyone-working-hours-list/everyone-working-hours-list.component';
 import { ExportTimeLogDialogComponent } from './components/export-time-log-dialog/export-time-log-dialog.component';
 import { GroupWorkingHoursTableComponent } from './components/group-working-hours-table/group-working-hours-table.component';
 import { OnlyMeWorkingHoursListComponent } from './components/only-me-working-hours-list/only-me-working-hours-list.component';
-import { SubmitUpdateTimesheetRequestDialogComponent } from './components/submit-update-timesheet-request-dialog/submit-update-timesheet-request-dialog.component';
 import { WorkingHoursDetailDialogComponent } from './components/working-hour-detail-dialog/working-hours-detail-dialog.component';
 import { WorkingHoursFiltersComponent } from './components/working-hours-filters/working-hours-filters.component';
 import { WorkingHoursComponent } from './working-hours.component';
@@ -40,7 +40,7 @@ import { WorkingHoursComponent } from './working-hours.component';
     EveryoneWorkingHoursListComponent,
     WorkingHoursFiltersComponent,
     GroupWorkingHoursTableComponent,
-    SubmitUpdateTimesheetRequestDialogComponent,
+    CreateUpdateTimesheetRequestDialogComponent,
     ExportTimeLogDialogComponent,
   ],
   imports: [

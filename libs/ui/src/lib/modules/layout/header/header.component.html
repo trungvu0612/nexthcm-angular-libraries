@@ -1,5 +1,5 @@
 <ng-container *transloco="let t">
-  <header class="flex justify-between">
+  <header class="flex justify-between w-full">
     <tui-tabs class="flex items-center ml-3">
       <ng-container *ngFor="let tab of headerTabs">
         <a *ngxPermissionsOnly="tab.permissions" [routerLink]="[tab.route]" routerLinkActive tuiTab>
@@ -7,7 +7,7 @@
         </a>
       </ng-container>
     </tui-tabs>
-    <div class="flex items-center border-l h-full">
+    <div class="flex items-center ml-auto h-full border-l">
       <tui-hosted-dropdown [(open)]="open" [content]="langsDropdown" class="mx-2">
         <button [iconRight]="icon" appearance="flat" tuiButton type="button">
           <tui-svg src="assets/icons/languages.svg"></tui-svg>
@@ -24,7 +24,7 @@
         </tui-data-list>
       </ng-template>
 
-      <!--<div class="relative cursor-pointer w-8 h-8">
+      <!--<div class="relative w-8 h-8 cursor-pointer">
         <tui-svg class="absolute bottom-0 left-0" src="tuiIconBellLarge"></tui-svg>
         <div *ngIf="notification" class="badge">{{ notification }}</div>
       </div>-->

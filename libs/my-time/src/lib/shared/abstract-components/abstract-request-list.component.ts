@@ -5,11 +5,11 @@ import { TuiDestroyService } from '@taiga-ui/cdk';
 import { Subject } from 'rxjs';
 import { startWith, switchMap, tap } from 'rxjs/operators';
 import { RequestTypeUrlPaths } from '../../internal/models';
-import { MyTimeService } from '../../services';
+import { MyRequestsService } from '../../internal/services';
 
 export abstract class AbstractRequestListComponent<T> extends AbstractServerSortPaginationTableComponent<T> {
   abstract requestTypeUrlPath: keyof RequestTypeUrlPaths;
-  abstract myTimeService: MyTimeService;
+  abstract myRequestsService: MyRequestsService;
   abstract destroy$: TuiDestroyService;
 
   // EVENTS
@@ -19,14 +19,14 @@ export abstract class AbstractRequestListComponent<T> extends AbstractServerSort
   // HANDLERS
   readonly changeStatusHandler$ = this.changeStatus$.pipe(
     switchMap(([requestId, statusId]) =>
-      this.myTimeService.changeRequestStatus(this.requestTypeUrlPath, requestId, statusId).pipe(
+      this.myRequestsService.changeRequestStatus(this.requestTypeUrlPath, requestId, statusId).pipe(
         tap(() => this.queryParams$.next(this.queryParams$.value)),
         startWith(null)
       )
     )
   );
   readonly viewRequestDetailHandler$ = this.viewRequestDetail$.pipe(
-    switchMap(([id, userId]) => this.myTimeService.viewRequestDetail(this.requestTypeUrlPath, id, userId)),
+    switchMap(([id, userId]) => this.myRequestsService.viewRequestDetail(this.requestTypeUrlPath, id, userId)),
     tap(() => this.queryParams$.next(this.queryParams$.value))
   );
 

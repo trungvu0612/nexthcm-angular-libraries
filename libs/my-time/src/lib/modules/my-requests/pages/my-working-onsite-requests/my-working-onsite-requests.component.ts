@@ -10,7 +10,7 @@ import { BaseComponent, Columns } from 'ngx-easy-table';
 import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
 import { catchError, filter, map, shareReplay, startWith, switchMap } from 'rxjs/operators';
 import { WorkingOnsiteRequest } from '../../../../internal/models';
-import { MyTimeService } from '../../../../services';
+import { MyRequestsService } from '../../../../internal/services';
 import { AbstractRequestListComponent } from '../../../../shared/abstract-components/abstract-request-list.component';
 
 @Component({
@@ -42,13 +42,13 @@ export class MyWorkingOnsiteRequestsComponent extends AbstractRequestListCompone
   );
   private readonly request$ = combineLatest([
     this.queryParams$,
-    this.myTimeService.refresh$.pipe(
+    this.myRequestsService.refresh$.pipe(
       filter((type) => type === this.requestTypeUrlPath),
       startWith(null)
     ),
   ]).pipe(
     switchMap(() =>
-      this.myTimeService
+      this.myRequestsService
         .getRequests<WorkingOnsiteRequest>('myWorkingOnsite', this.queryParams$.value)
         .pipe(startWith(null))
     ),
@@ -60,7 +60,7 @@ export class MyWorkingOnsiteRequestsComponent extends AbstractRequestListCompone
   );
 
   constructor(
-    readonly myTimeService: MyTimeService,
+    readonly myRequestsService: MyRequestsService,
     readonly destroy$: TuiDestroyService,
     readonly state: RxState<Pagination<WorkingOnsiteRequest>>,
     readonly router: Router,

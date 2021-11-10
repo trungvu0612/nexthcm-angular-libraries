@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SubmitUpdateTimesheetRequestDialogComponent } from './submit-update-timesheet-request-dialog.component';
+import { CreateUpdateTimesheetRequestDialogComponent } from './create-update-timesheet-request-dialog.component';
 
 describe('SubmitUpdateTimesheetRequestDialogComponent', () => {
-  let component: SubmitUpdateTimesheetRequestDialogComponent;
-  let fixture: ComponentFixture<SubmitUpdateTimesheetRequestDialogComponent>;
+  let component: CreateUpdateTimesheetRequestDialogComponent;
+  let fixture: ComponentFixture<CreateUpdateTimesheetRequestDialogComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [SubmitUpdateTimesheetRequestDialogComponent],
+      declarations: [CreateUpdateTimesheetRequestDialogComponent],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SubmitUpdateTimesheetRequestDialogComponent);
+    fixture = TestBed.createComponent(CreateUpdateTimesheetRequestDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

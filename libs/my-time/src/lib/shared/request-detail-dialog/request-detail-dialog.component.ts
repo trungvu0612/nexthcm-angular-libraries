@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Inject, NgModule, OnInit, ViewChild } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { AuthService } from '@nexthcm/auth';
 import { EmployeeInfo, PromptService } from '@nexthcm/cdk';
 import { AvatarComponentModule } from '@nexthcm/ui';
-import { FormBuilder } from '@ngneat/reactive-forms';
+import { Control, FormBuilder, NgStackFormsModule } from '@ng-stack/forms';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { TranslocoLocaleModule } from '@ngneat/transloco-locale';
 import { FormlyFieldConfig, FormlyModule } from '@ngx-formly/core';
@@ -32,14 +32,20 @@ import {
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { from, iif, Subject } from 'rxjs';
 import { switchMap, takeUntil, tap } from 'rxjs/operators';
+import { REQUEST_COMMENT_URL_PATHS } from '../../internal/constants';
 import { RequestCommentStatus } from '../../internal/enums';
 import { GeneralRequest, HistoryItem, RequestComment, RequestTypeUrlPaths } from '../../internal/models';
-import { MyTimeService, REQUEST_COMMENT_URL_PATHS } from '../../services';
+import { MyRequestsService } from '../../internal/services';
+import { MyTimeService } from '../../services';
 import { LeaveRequestDateRangeComponentModule } from '../leave-request-date-range/leave-request-date-range.component';
 
 interface ComponentState {
   history: HistoryItem[];
   comments: RequestComment[];
+}
+
+interface RequestCommentForm extends RequestComment {
+  userInfo: Control<EmployeeInfo>;
 }
 
 @Component({
@@ -56,8 +62,8 @@ export class RequestDetailDialogComponent implements OnInit {
   open = false;
   inputComment = false;
   readonly RequestCommentStatus = RequestCommentStatus;
-  readonly commentForm = this.fb.group<RequestComment>({} as RequestComment);
-  commentModel = {} as RequestComment;
+  commentModel = {} as RequestCommentForm;
+  readonly commentForm = this.fb.group<RequestCommentForm>(this.commentModel);
   commentFields: FormlyFieldConfig[] = [
     {
       key: 'comment',
@@ -105,6 +111,7 @@ export class RequestDetailDialogComponent implements OnInit {
       { type: keyof RequestTypeUrlPaths; value: GeneralRequest; userId?: string }
     >,
     private readonly myTimeService: MyTimeService,
+    private readonly myRequestsService: MyRequestsService,
     private readonly authService: AuthService,
     private readonly destroy$: TuiDestroyService,
     private readonly state: RxState<ComponentState>,
@@ -177,7 +184,7 @@ export class RequestDetailDialogComponent implements OnInit {
 
   onUpsertComment(comment?: RequestComment): void {
     this.inputComment = true;
-    this.commentModel = { ...this.commentModel, ...comment };
+    this.commentModel = { ...this.commentModel, ...(comment as RequestCommentForm) };
   }
 
   onRemoveComment(comment: RequestComment): void {
@@ -216,7 +223,7 @@ export class RequestDetailDialogComponent implements OnInit {
   onChangeRequestStatus(statusId: string): void {
     this.open = false;
     this.component?.nativeFocusableElement?.focus();
-    this.myTimeService
+    this.myRequestsService
       .changeRequestStatus(this.requestType, this.data.id, statusId)
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => this.getHistory$.next());
@@ -236,7 +243,7 @@ export class RequestDetailDialogComponent implements OnInit {
     TuiComboBoxModule,
     TuiInputModule,
     FormsModule,
-    ReactiveFormsModule,
+    NgStackFormsModule,
     TuiDataListWrapperModule,
     TuiLetModule,
     TuiDataListModule,

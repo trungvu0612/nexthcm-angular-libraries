@@ -8,7 +8,7 @@ import { BaseComponent, Columns } from 'ngx-easy-table';
 import { combineLatest, Observable, of } from 'rxjs';
 import { catchError, filter, map, shareReplay, startWith, switchMap } from 'rxjs/operators';
 import { WorkFromHomeRequest } from '../../../../internal/models';
-import { MyTimeService } from '../../../../services';
+import { MyRequestsService } from '../../../../internal/services';
 import { AbstractRequestListComponent } from '../../../../shared/abstract-components/abstract-request-list.component';
 
 @Component({
@@ -37,7 +37,7 @@ export class WorkFormHomeRequestListComponent extends AbstractRequestListCompone
     );
   private readonly request$ = this.queryParams$.pipe(
     switchMap(() =>
-      this.myTimeService
+      this.myRequestsService
         .getRequests<WorkFromHomeRequest>(this.requestTypeUrlPath, this.queryParams$.value)
         .pipe(startWith(null))
     ),
@@ -49,7 +49,7 @@ export class WorkFormHomeRequestListComponent extends AbstractRequestListCompone
   );
 
   constructor(
-    readonly myTimeService: MyTimeService,
+    readonly myRequestsService: MyRequestsService,
     readonly destroy$: TuiDestroyService,
     readonly state: RxState<Pagination<WorkFromHomeRequest>>,
     readonly router: Router,

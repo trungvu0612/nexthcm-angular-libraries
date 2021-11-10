@@ -6,6 +6,7 @@ import { HEADER_TABS, LayoutComponent, MenuItem } from '@nexthcm/ui';
 import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
 import { TranslocoDatePipe } from '@ngneat/transloco-locale';
 import { NgxPermissionsGuard } from 'ngx-permissions';
+import { MyRequestsService } from './internal/services';
 import { MyLeaveComponent } from './modules/my-leave/my-leave.component';
 import { MyLeaveModule } from './modules/my-leave/my-leave.module';
 import { MyRequestsComponent } from './modules/my-requests/my-requests.component';
@@ -109,6 +110,7 @@ const TABS: MenuItem[] = [
   providers: [
     TranslocoDatePipe,
     MyTimeService,
+    MyRequestsService,
     {
       provide: TRANSLOCO_SCOPE,
       useValue: {

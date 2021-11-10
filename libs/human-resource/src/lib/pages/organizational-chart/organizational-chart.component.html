@@ -1,41 +1,43 @@
 <hcm-page [title]="'organizationalChart' | transloco">
   <ng-container ngProjectAs="pageHeader">
-    <form [formGroup]="$any(searchForm)" class="w-72">
-      <formly-form [fields]="fields" [form]="$any(searchForm)" [model]="model"></formly-form>
+    <form [formGroup]="searchForm" class="w-72">
+      <formly-form [fields]="fields" [form]="searchForm" [model]="model"></formly-form>
     </form>
   </ng-container>
 
-  <tui-loader [overlay]="true" [showLoader]="(loading$ | async) === true">
-    <section *ngIf="data$ | async as data" class="flex flex-col items-center">
-      <ng-container *ngTemplateOutlet="recursive; context: { current: data }"></ng-container>
+  <tui-loader [overlay]="true" [showLoader]="(loading$ | push) === true">
+    <ng-container *ngIf="data$ | push as data">
+      <section *ngIf="data[0]" class="flex flex-col items-center">
+        <ng-container *ngTemplateOutlet="recursive; context: { current: data }"></ng-container>
 
-      <ng-template #recursive let-current="current">
-        <section *ngIf="current[0].descendants.length === 0; else target">
-          <div class="mb-4 border border-t"></div>
-          <div class="flex flex-wrap gap-4 justify-center">
-            <hcm-organizational-chart-node
-              (click)="userId$.next(item.id)"
-              *ngFor="let item of current"
-              [isActive]="item.id === userId$.value"
-              [node]="item"
-            ></hcm-organizational-chart-node>
-          </div>
-        </section>
-
-        <ng-template #target>
-          <section *tuiLet="current[0] as node" class="grid grid-cols-1 justify-items-center">
-            <hcm-organizational-chart-node
-              (click)="userId$.next(node.id)"
-              [isActive]="node.id === userId$.value"
-              [node]="node"
-            ></hcm-organizational-chart-node>
-
-            <div class="mx-auto w-0 h-8 border"></div>
-
-            <ng-container *ngTemplateOutlet="recursive; context: { current: current[0].descendants }"></ng-container>
+        <ng-template #recursive let-current="current">
+          <section *ngIf="current[0].descendants.length === 0; else target">
+            <div class="mb-4 border border-t"></div>
+            <div class="flex flex-wrap gap-4 justify-center">
+              <hcm-organizational-chart-node
+                (click)="userId$.next(item.id)"
+                *ngFor="let item of current"
+                [isActive]="item.id === userId$.value"
+                [node]="item"
+              ></hcm-organizational-chart-node>
+            </div>
           </section>
+
+          <ng-template #target>
+            <section *tuiLet="current[0] as node" class="grid grid-cols-1 justify-items-center">
+              <hcm-organizational-chart-node
+                (click)="userId$.next(node.id)"
+                [isActive]="node.id === userId$.value"
+                [node]="node"
+              ></hcm-organizational-chart-node>
+
+              <div class="mx-auto w-0 h-8 border"></div>
+
+              <ng-container *ngTemplateOutlet="recursive; context: { current: current[0].descendants }"></ng-container>
+            </section>
+          </ng-template>
         </ng-template>
-      </ng-template>
-    </section>
+      </section>
+    </ng-container>
   </tui-loader>
 </hcm-page>

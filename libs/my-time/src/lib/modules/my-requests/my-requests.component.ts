@@ -6,9 +6,9 @@ import { TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { takeUntil, tap } from 'rxjs/operators';
-import { SubmitOvertimeRequestDialogComponent } from './components/submit-overtime-request-dialog/submit-overtime-request-dialog.component';
-import { SubmitWorkFromHomeRequestDialogComponent } from './components/submit-work-from-home-request-dialog/submit-work-from-home-request-dialog.component';
-import { SubmitWorkingOnsiteRequestDialogComponent } from './components/submit-working-onsite-request-dialog/submit-working-onsite-request-dialog.component';
+import { CreateWorkFromHomeRequestDialogComponent } from './components/create-work-from-home-request-dialog/create-work-from-home-request-dialog.component';
+import { CreateWorkingAfterHoursRequestDialogComponent } from './components/create-working-after-hours-request-dialog/create-working-after-hours-request-dialog.component';
+import { CreateWorkingOnsiteRequestDialogComponent } from './components/create-working-onsite-request-dialog/create-working-onsite-request-dialog.component';
 
 @Component({
   selector: 'hcm-my-requests',
@@ -31,7 +31,7 @@ export class MyRequestsComponent {
 
   onSubmitWorkFromHomeRequest(): void {
     this.dialogService
-      .open(new PolymorpheusComponent(SubmitWorkFromHomeRequestDialogComponent, this.injector), {
+      .open(new PolymorpheusComponent(CreateWorkFromHomeRequestDialogComponent, this.injector), {
         label: this.translocoService.translate('myTime.workFromHomeRequest'),
       })
       .pipe(
@@ -43,7 +43,7 @@ export class MyRequestsComponent {
 
   onSubmitOvertimeRequest(): void {
     this.dialogService
-      .open<boolean>(new PolymorpheusComponent(SubmitOvertimeRequestDialogComponent, this.injector), {
+      .open<boolean>(new PolymorpheusComponent(CreateWorkingAfterHoursRequestDialogComponent, this.injector), {
         label: this.translocoService.translate('myTime.overtimeRequest'),
       })
       .pipe(
@@ -55,7 +55,7 @@ export class MyRequestsComponent {
 
   onSubmitWorkingOnsiteRequest(): void {
     this.dialogService
-      .open<boolean>(new PolymorpheusComponent(SubmitWorkingOnsiteRequestDialogComponent, this.injector), {
+      .open<boolean>(new PolymorpheusComponent(CreateWorkingOnsiteRequestDialogComponent, this.injector), {
         label: this.translocoService.translate('myTime.workingOnsiteRequest'),
       })
       .pipe(

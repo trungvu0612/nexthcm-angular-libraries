@@ -10,7 +10,7 @@ import { BaseComponent, Columns } from 'ngx-easy-table';
 import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
 import { catchError, filter, map, shareReplay, startWith, switchMap } from 'rxjs/operators';
 import { TransferLeaveEntitlementsRequest } from '../../../../internal/models/requests/transfer-leave-entitlements-request';
-import { MyTimeService } from '../../../../services/my-time.service';
+import { MyRequestsService } from '../../../../internal/services';
 import { AbstractRequestListComponent } from '../../../../shared/abstract-components/abstract-request-list.component';
 
 @Component({
@@ -42,7 +42,7 @@ export class MyTransferLeaveEntitlementsRequestsComponent extends AbstractReques
   );
   private readonly request$ = this.queryParams$.pipe(
     switchMap(() =>
-      this.myTimeService
+      this.myRequestsService
         .getRequests<TransferLeaveEntitlementsRequest>('myTransferLeaveEntitlements', this.queryParams$.value)
         .pipe(startWith(null))
     ),
@@ -54,7 +54,7 @@ export class MyTransferLeaveEntitlementsRequestsComponent extends AbstractReques
   );
 
   constructor(
-    readonly myTimeService: MyTimeService,
+    readonly myRequestsService: MyRequestsService,
     readonly destroy$: TuiDestroyService,
     readonly state: RxState<Pagination<TransferLeaveEntitlementsRequest>>,
     readonly router: Router,
