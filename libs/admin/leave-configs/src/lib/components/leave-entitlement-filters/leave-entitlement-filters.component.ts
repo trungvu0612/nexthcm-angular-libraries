@@ -76,7 +76,6 @@ export class LeaveEntitlementFiltersComponent {
             label: 'leaveType',
             labelClassName: 'font-semibold',
             placeholder: 'searchLeaveTypes',
-            required: true,
             textfieldLabelOutside: true,
             textfieldCleaner: true,
             serverRequest: (searchQuery: string) => this.leaveConfigsService.searchLeaveTypes(searchQuery),
@@ -95,7 +94,6 @@ export class LeaveEntitlementFiltersComponent {
             label: 'employee',
             labelClassName: 'font-semibold',
             placeholder: 'searchUsers',
-            required: true,
             textfieldCleaner: true,
           },
           hideExpression: (model) => model.type !== LeaveEntitlementFiltersType.Employee,
@@ -207,21 +205,15 @@ export class LeaveEntitlementFiltersComponent {
   }
 
   onFilters(): void {
-    for (const key of ['leaveType', 'employee'] as Array<keyof LeaveEntitlementFiltersForm>) {
-      const control = this.form.controls[key];
-
-      if (control && control.hasError('required')) {
-        control.reset();
-      }
-    }
     this.view.emit(this.handleFormModel({ ...this.form.value }));
   }
 
   onExport(): void {
-    this.form.updateValueAndValidity();
     if (this.form.valid) {
       const formModel = { ...this.form.value };
       const model = this.handleFormModel(formModel);
+      const exportTypeString =
+        formModel.type === LeaveEntitlementFiltersType.LeaveType ? formModel.leaveType?.name : formModel.employee?.name;
       const dateRangeString = formModel.fromTo
         ? `_${formatDate(model.fromDate, 'mediumDate', this.locale)}_${formatDate(
             model.toDate,
@@ -229,9 +221,7 @@ export class LeaveEntitlementFiltersComponent {
             this.locale
           )}`
         : '';
-      const fileName = `LEAVE_USAGE_${
-        formModel.type === LeaveEntitlementFiltersType.LeaveType ? formModel.leaveType?.name : formModel.employee?.name
-      }${dateRangeString}.xlsx`;
+      const fileName = `LEAVE_USAGE${exportTypeString ? `_${exportTypeString}` : ''}${dateRangeString}.xlsx`;
       let params = new HttpParams();
 
       for (const key of Object.keys(model) as Array<keyof LeaveEntitlementFilters>) {
