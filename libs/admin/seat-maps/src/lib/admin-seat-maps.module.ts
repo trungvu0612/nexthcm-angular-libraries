@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { AkitaNgEffectsModule } from '@datorama/akita-ng-effects';
-import { GetFilePipeModule, OfficesEffects } from '@nexthcm/cdk';
+import { GetFilePipeModule, OfficesEffects, SeatMapsEffects } from '@nexthcm/cdk';
 import { inlineLoaderFactory } from '@nexthcm/core';
 import { LayoutComponent, LayoutModule } from '@nexthcm/ui';
 import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
@@ -62,7 +62,7 @@ export const adminSeatMapsRoutes: Routes = [
     TuiLoaderModule,
     NgxPermissionsModule,
     TuiLetModule,
-    AkitaNgEffectsModule.forFeature([OfficesEffects]),
+    AkitaNgEffectsModule.forFeature([OfficesEffects, SeatMapsEffects]),
   ],
   providers: [
     AdminSeatMapsService,

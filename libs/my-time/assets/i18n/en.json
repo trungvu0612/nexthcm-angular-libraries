@@ -119,7 +119,6 @@
   },
   "canTransferEntitlementsTo": "Can transfer entitlements to",
   "chooseLeaveType": "Choose leave type...",
-  "myTeam": "My Team",
   "EXPORT_TIME_LOG_TYPES": {
     "detail": "Detail",
     "aggregate": "Aggregate"

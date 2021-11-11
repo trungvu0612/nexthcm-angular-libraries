@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, HostBinding, Input, Output } from '@angular/core';
-import { BaseUser } from '@nexthcm/cdk';
+import { BaseUser, Seat, StyleSeat } from '@nexthcm/cdk';
 import { AbstractControl, FormBuilder } from '@ngneat/reactive-forms';
 import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
@@ -9,7 +9,6 @@ import { PolymorpheusContent } from '@tinkoff/ng-polymorpheus';
 import { NgxPermissionsService } from 'ngx-permissions';
 import { from, iif, of, Subject, Subscriber } from 'rxjs';
 import { debounceTime, switchMap, take, tap } from 'rxjs/operators';
-import { Seat, StyleSeat } from '../../models';
 import { SeatMapsService } from '../../seat-maps.service';
 
 @Component({

@@ -623,5 +623,6 @@
   "notCheckedIn": "Not checked in",
   "numberOfAssignedSeats": "Number of assigned seats",
   "numberOfUnassignedSeats": "Number of unassigned seats",
-  "numberOfSeats": "Number of seats"
+  "numberOfSeats": "Number of seats",
+  "myTeam": "My Team"
 }

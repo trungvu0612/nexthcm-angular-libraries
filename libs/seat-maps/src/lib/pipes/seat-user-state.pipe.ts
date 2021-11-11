@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { UserState } from '../enums/user-state';
+import { UserState } from '@nexthcm/cdk';
 
 @Pipe({
   name: 'seatUserState',

@@ -1,5 +1,6 @@
-import { CommonStatus, Office, UserDto } from '@nexthcm/cdk';
-import { UserState } from '../enums/user-state';
+import { CommonStatus, UserState } from '../enums';
+import { Office } from './office';
+import { UserDto } from './user-dto';
 
 export interface Dimension {
   width: number;

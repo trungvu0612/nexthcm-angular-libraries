@@ -1,15 +1,18 @@
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
-import { GetFilePipeModule } from '@nexthcm/cdk';
+import { AkitaNgEffectsModule } from '@datorama/akita-ng-effects';
+import { GetFilePipeModule, SeatMapsEffects } from '@nexthcm/cdk';
 import {
   AvatarComponentModule,
   BaseFormComponentModule,
+  BasicFilterComponentModule,
   FormlyUserComboBoxComponentModule,
   LayoutComponent,
   LayoutModule,
+  SelectFilterComponentModule,
 } from '@nexthcm/ui';
 import { TranslocoModule } from '@ngneat/transloco';
 import { TranslocoLocaleModule } from '@ngneat/transloco-locale';
@@ -25,7 +28,14 @@ import {
   TuiSvgModule,
   TuiTextfieldControllerModule,
 } from '@taiga-ui/core';
-import { TuiAvatarModule, TuiBadgeModule, TuiComboBoxModule, TuiIslandModule, TuiSelectModule } from '@taiga-ui/kit';
+import {
+  TuiAvatarModule,
+  TuiBadgeModule,
+  TuiComboBoxModule,
+  TuiDataListWrapperModule,
+  TuiIslandModule,
+  TuiSelectModule,
+} from '@taiga-ui/kit';
 import { NgxPermissionsGuard, NgxPermissionsModule } from 'ngx-permissions';
 import { SeatComponent } from './components/seat/seat.component';
 import { SeatUserStatePipe } from './pipes/seat-user-state.pipe';
@@ -38,7 +48,10 @@ export const SEAT_MAPS_ROUTES: Routes = [
     component: LayoutComponent,
     canActivate: [NgxPermissionsGuard],
     data: { permissions: { only: 'VIEW_SEAT', redirectTo: '/' } },
-    children: [{ path: '', component: SeatMapsComponent }],
+    children: [
+      { path: '', component: SeatMapsComponent },
+      { path: ':seatMapId', component: SeatMapsComponent },
+    ],
   },
 ];
 
@@ -71,6 +84,11 @@ export const SEAT_MAPS_ROUTES: Routes = [
     TuiLetModule,
     TuiBadgeModule,
     TuiIslandModule,
+    BasicFilterComponentModule,
+    SelectFilterComponentModule,
+    FormsModule,
+    TuiDataListWrapperModule,
+    AkitaNgEffectsModule.forFeature([SeatMapsEffects]),
   ],
   declarations: [SeatMapsComponent, SeatComponent, SeatUserStatePipe],
   providers: [SeatMapsService],

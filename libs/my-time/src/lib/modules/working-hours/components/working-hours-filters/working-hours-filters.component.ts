@@ -106,7 +106,7 @@ export class WorkingHoursFiltersComponent implements OnInit {
     }));
   }
 
-  readonly getFilterLabel: TuiStringHandler<string> = (filter: string): string => `myTime.${getLabel[filter]}`;
+  readonly getFilterLabel: TuiStringHandler<string> = (filter: string): string => `${getLabel[filter]}`;
 
   ngOnInit(): void {
     this.parseParams(this.activatedRoute.snapshot.queryParams);

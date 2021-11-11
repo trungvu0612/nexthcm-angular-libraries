@@ -31,6 +31,33 @@
         </span>
       </ng-template>
     </ng-container>
+
+    <section *transloco="let t" class="flex items-center space-x-4 mb-4">
+      <tui-select
+        (ngModelChange)="onSelectStatus($event)"
+        [identityMatcher]="statusIdentityMatcher"
+        [ngModel]="status"
+        [tuiTextfieldCleaner]="true"
+        [valueContent]="statusContent"
+        class="w-1/2"
+      >
+        {{ t('status') }}
+        <tui-data-list-wrapper *tuiDataList [itemContent]="statusContent" [items]="statusList"></tui-data-list-wrapper>
+      </tui-select>
+      <ng-template #statusContent let-status>
+        <div class="flex items-center space-x-2">
+          <span class="dot {{ status.className }}"></span>
+          <span>{{ t(status.label) }}</span>
+        </div>
+      </ng-template>
+      <hcm-basic-filter
+        (filtersChange)="filterType$.next($event)"
+        [items]="['MY_TEAM']"
+        [stringify]="getFilterLabel"
+        key="filterType"
+      ></hcm-basic-filter>
+    </section>
+
     <tui-loader *rxLet="loading$; let hidden" [overlay]="true" [showLoader]="hidden">
       <div *ngIf="seatMap.id" class="flex mb-5">
         <tui-island size="l">
@@ -38,7 +65,7 @@
             <li class="tui-list__item">{{ t('numberOfAssignedSeats') }}: {{ seatMap.totalAssignedUser ?? 0 }}</li>
             <li class="tui-list__item">{{ t('numberOfUnassignedSeats') }}: {{ seatMap.totalNotAssigned ?? 0 }}</li>
             <li class="tui-list__item">
-              {{ t('numberOfSeats') }}: {{ (seatMap.totalAssignedUser ?? 0) + (seatMap.totalAssignedUser ?? 0) }}
+              {{ t('numberOfSeats') }}: {{ (seatMap.totalAssignedUser ?? 0) + (seatMap.totalNotAssigned ?? 0) }}
             </li>
           </ul>
         </tui-island>

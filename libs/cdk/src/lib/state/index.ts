@@ -6,3 +6,4 @@ export * from './job-levels';
 export * from './offices';
 export * from './organizations';
 export * from './roles';
+export * from './seat-maps';

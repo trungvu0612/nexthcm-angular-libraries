@@ -111,7 +111,7 @@ export class RequestListFiltersComponent implements OnInit {
     this.filterType$.next(filterType || null);
   }
 
-  readonly getFilterLabel: TuiStringHandler<string> = (filter: string): string => `myTime.${getLabel[filter]}`;
+  readonly getFilterLabel: TuiStringHandler<string> = (filter: string): string => `${getLabel[filter]}`;
 
   private filterByYearMonth(): HttpParams {
     let httpParams = this.httpParams$.value;

@@ -1,13 +1,21 @@
 import { CdkDragStart } from '@angular/cdk/drag-drop';
-import { ChangeDetectionStrategy, Component, QueryList, ViewChildren } from '@angular/core';
+import { HttpParams } from '@angular/common/http';
+import { ChangeDetectionStrategy, Component, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { Router } from '@angular/router';
+import { Actions } from '@datorama/akita-ng-effects';
+import { RouterQuery } from '@datorama/akita-ng-router-store';
+import { loadSeatMaps, Seat, SeatMap, SeatMapsQuery, UserState } from '@nexthcm/cdk';
 import { FormControl } from '@ngneat/reactive-forms';
 import { RxState } from '@rx-angular/state';
-import { isPresent, TuiIdentityMatcher } from '@taiga-ui/cdk';
-import { BehaviorSubject, Subject } from 'rxjs';
-import { filter, share, startWith, switchMap, take, tap } from 'rxjs/operators';
+import { isPresent, TuiDestroyService, TuiIdentityMatcher, TuiStringHandler } from '@taiga-ui/cdk';
+import { BehaviorSubject, combineLatest, Subject } from 'rxjs';
+import { filter, share, startWith, switchMap, take, takeUntil, tap } from 'rxjs/operators';
 import { SeatComponent } from './components/seat/seat.component';
-import { Seat, SeatMap } from './models/seat-map';
 import { SeatMapsService } from './seat-maps.service';
+
+const getLabel: Record<string, string> = {
+  MY_TEAM: 'myTeam',
+};
 
 interface ComponentState {
   seatMapData: SeatMap;
@@ -20,61 +28,47 @@ interface StatusAnnotate {
   label: string;
 }
 
+interface StatusOption {
+  label: string;
+  value: UserState;
+  className: string;
+}
+
 @Component({
   selector: 'hcm-seat-maps',
   templateUrl: './seat-maps.component.html',
   styleUrls: ['./seat-maps.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [RxState],
+  providers: [RxState, TuiDestroyService],
 })
-export class SeatMapsComponent {
+export class SeatMapsComponent implements OnInit {
   @ViewChildren(SeatComponent) seatRefs!: QueryList<SeatComponent>;
   readonly ping$ = new BehaviorSubject(-1);
   readonly dragging$ = new Subject<boolean>();
-  readonly seatMapControl = new FormControl<SeatMap>();
-  readonly allSeatMaps$ = this.seatMapsService.getAllSeatMaps();
+  readonly seatMapControl = new FormControl<SeatMap | null>();
+  readonly allSeatMaps$ = this.seatMapsQuery.selectAll();
   readonly statusesAnnotate: StatusAnnotate[] = [
-    {
-      key: 'countCheckedIn',
-      className: 'checked-in',
-      label: 'checkedIn',
-    },
-    {
-      key: 'countCheckedInLate',
-      className: 'checked-in-late',
-      label: 'checkedInLate',
-    },
-    {
-      key: 'countCheckoutEarly',
-      className: 'checked-out-early',
-      label: 'checkedOutEarly',
-    },
-    {
-      key: 'countCheckedOut',
-      className: 'checked-out',
-      label: 'checkedOut',
-    },
-    {
-      key: 'countLeave',
-      className: 'leave',
-      label: 'leave',
-    },
-    {
-      key: 'countWorkingOutsite',
-      className: 'working-onsite',
-      label: 'workingOnsite',
-    },
-    {
-      key: 'countWfh',
-      className: 'work-from-home',
-      label: 'workFromHome',
-    },
-    {
-      key: 'countNotCheckInOut',
-      className: 'not-checked-in',
-      label: 'notCheckedIn',
-    },
+    { key: 'countCheckedIn', className: 'checked-in', label: 'checkedIn' },
+    { key: 'countCheckedInLate', className: 'checked-in-late', label: 'checkedInLate' },
+    { key: 'countCheckoutEarly', className: 'checked-out-early', label: 'checkedOutEarly' },
+    { key: 'countCheckedOut', className: 'checked-out', label: 'checkedOut' },
+    { key: 'countLeave', className: 'leave', label: 'leave' },
+    { key: 'countWorkingOutsite', className: 'working-onsite', label: 'workingOnsite' },
+    { key: 'countWfh', className: 'work-from-home', label: 'workFromHome' },
+    { key: 'countNotCheckInOut', className: 'not-checked-in', label: 'notCheckedIn' },
   ];
+  readonly statusList: ReadonlyArray<StatusOption> = [
+    { value: UserState['checked-in'], className: 'checked-in', label: 'checkedIn' },
+    { value: UserState['checked-in-late'], className: 'checked-in-late', label: 'checkedInLate' },
+    { value: UserState['checked-out-early'], className: 'checked-out-early', label: 'checkedOutEarly' },
+    { value: UserState['checked-out'], className: 'checked-out', label: 'checkedOut' },
+    { value: UserState.leave, className: 'leave', label: 'leave' },
+    { value: UserState['working-onsite'], className: 'working-onsite', label: 'workingOnsite' },
+    { value: UserState['work-from-home'], className: 'work-from-home', label: 'workFromHome' },
+    { value: UserState['not-checked-in'], className: 'not-checked-in', label: 'notCheckedIn' },
+  ];
+  httpParams = new HttpParams();
+  status: StatusOption | null = null;
 
   // READS
   readonly loading$ = this.state.select('loading');
@@ -82,16 +76,25 @@ export class SeatMapsComponent {
 
   // EVENTS
   readonly assignUserToSeat$ = new Subject<Seat>();
+  readonly filterType$ = new Subject<string | null>();
+  readonly status$ = new Subject();
+  readonly fetch$ = new Subject();
 
-  // HANDLER
+  // HANDLERS
   readonly assignUserToSeatHandler$ = this.assignUserToSeat$.pipe(
     switchMap((payload) => this.seatMapsService.assignUserForSeat(payload.id, payload)),
     tap(() => this.seatMapControl.setValue(this.seatMapControl.value))
   );
 
-  private readonly request$ = this.seatMapControl.value$.pipe(
-    switchMap((value) =>
-      this.seatMapsService.getSeatMap(value?.id).pipe(
+  // SIDE EFFECTS
+  readonly changeSeatMapSideEffect$ = this.seatMapControl.valueChanges.pipe(
+    filter(isPresent),
+    tap((seatMap) => this.router.navigate(['/seat-maps', seatMap.id]))
+  );
+
+  private readonly request$ = combineLatest([this.seatMapControl.valueChanges, this.fetch$]).pipe(
+    switchMap(([seatMap]) =>
+      this.seatMapsService.getSeatMap(seatMap?.id, this.httpParams).pipe(
         tap((seatMap) =>
           this.state.set('loading', () => seatMap && seatMap?.imageUrl !== this.state.get('seatMapData', 'imageUrl'))
         ),
@@ -101,9 +104,18 @@ export class SeatMapsComponent {
     share()
   );
 
-  constructor(private readonly seatMapsService: SeatMapsService, private readonly state: RxState<ComponentState>) {
-    this.state.connect('seatMapData', this.request$.pipe(filter(isPresent)));
-    this.state.hold(
+  constructor(
+    private readonly seatMapsService: SeatMapsService,
+    private readonly state: RxState<ComponentState>,
+    private readonly router: Router,
+    private readonly destroy$: TuiDestroyService,
+    private readonly routerQuery: RouterQuery,
+    private readonly seatMapsQuery: SeatMapsQuery,
+    actions: Actions
+  ) {
+    actions.dispatch(loadSeatMaps());
+    state.connect('seatMapData', this.request$.pipe(filter(isPresent)));
+    state.hold(
       this.request$.pipe(
         filter(isPresent),
         take(1),
@@ -114,18 +126,57 @@ export class SeatMapsComponent {
         })
       )
     );
-    /*this.state.connect(
-      'loading',
-      this.request$.pipe(
-        catchError(() => of({})),
-        map((value) => !value)
-      )
-    );*/
-    this.state.hold(this.assignUserToSeatHandler$);
+    state.hold(this.assignUserToSeatHandler$);
+    state.hold(this.filterType$, (filterType) => {
+      this.onFilter('filterType', filterType);
+      this.fetch$.next();
+    });
+    state.hold(this.status$, () => {
+      this.onFilter('status', this.status?.value || null);
+      this.fetch$.next();
+    });
+    state.hold(this.changeSeatMapSideEffect$);
+  }
+
+  ngOnInit(): void {
+    const seatMapId = this.routerQuery.getParams<string>('seatMapId');
+    const status = this.routerQuery.getQueryParams<string>('status');
+    const filterType = this.routerQuery.getQueryParams<string>('filterType');
+
+    this.allSeatMaps$.pipe(take(1), takeUntil(this.destroy$)).subscribe((seatMaps) => {
+      const currentSeatMap = seatMaps.find((seatMap) => seatMap.id === seatMapId);
+
+      this.seatMapControl.setValue(currentSeatMap || null);
+      if (status) {
+        this.status = this.statusList.find((option) => option.value === Number(status)) || null;
+        this.onFilter('status', this.status?.value || null);
+      }
+      this.onFilter('filterType', filterType);
+      this.fetch$.next();
+    });
   }
 
   readonly identityMatcher: TuiIdentityMatcher<SeatMap | string> = (item1, item2) =>
     (item1 as SeatMap).id === (item2 as SeatMap).id;
+
+  readonly statusIdentityMatcher: TuiIdentityMatcher<any> = (item1: StatusOption, item2: StatusOption) =>
+    item1.value === item2.value;
+
+  readonly getFilterLabel: TuiStringHandler<string> = (filter: string): string => `${getLabel[filter]}`;
+
+  onFilter(key: 'filterType' | 'status', value: number | string | null): void {
+    this.httpParams = value ? this.httpParams.set(key, value) : this.httpParams.delete(key);
+  }
+
+  onSelectStatus(status: StatusOption): void {
+    this.status = status;
+    this.status$.next();
+    this.router.navigate([], {
+      queryParams: { status: status?.value || null },
+      queryParamsHandling: 'merge',
+      replaceUrl: true,
+    });
+  }
 
   /*findMySeat(): void {
     const mySeatIndex = this.state.get('seatMap').seats?.findIndex((seat) => seat.assignedUser?.id === this.myId);

@@ -11,3 +11,4 @@ export * from './employee';
 export * from './workflows';
 export * from './organization';
 export * from './office';
+export * from './seat-map';

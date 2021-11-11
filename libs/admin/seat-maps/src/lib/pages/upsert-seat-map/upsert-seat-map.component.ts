@@ -10,16 +10,25 @@ import {
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Actions } from '@datorama/akita-ng-effects';
-import { loadOffices, OfficesQuery, PromptService, UploadFileService } from '@nexthcm/cdk';
-import { Dimension, Seat, SeatMap, SeatMapsService, StyleSeat } from '@nexthcm/seat-maps';
+import {
+  Dimension,
+  loadOffices,
+  OfficesQuery,
+  PromptService,
+  Seat,
+  SeatMap,
+  StyleSeat,
+  UploadFileService,
+} from '@nexthcm/cdk';
+import { SeatMapsService } from '@nexthcm/seat-maps';
 import { FormBuilder } from '@ngneat/reactive-forms';
 import { TRANSLOCO_SCOPE, TranslocoScope } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
+import { setProp } from '@rx-angular/state';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { iif, Observable, of } from 'rxjs';
 import { distinctUntilChanged, startWith, takeUntil, tap } from 'rxjs/operators';
 import { AdminSeatMapsService } from '../../services/admin-seat-maps.service';
-import { setProp } from '@rx-angular/state';
 
 interface SeatMapForm extends SeatMap {
   numberOfSeats: number;
