@@ -55,7 +55,7 @@ export class SeatMapsComponent implements OnInit {
     { key: 'countLeave', className: 'leave', label: 'leave' },
     { key: 'countWorkingOutsite', className: 'working-onsite', label: 'workingOnsite' },
     { key: 'countWfh', className: 'work-from-home', label: 'workFromHome' },
-    { key: 'countNotCheckInOut', className: 'not-checked-in', label: 'notCheckedIn' },
+    { key: 'countNotCheckIn', className: 'not-checked-in', label: 'notCheckedIn' },
   ];
   readonly statusList: ReadonlyArray<StatusOption> = [
     { value: UserState['checked-in'], className: 'checked-in', label: 'checkedIn' },

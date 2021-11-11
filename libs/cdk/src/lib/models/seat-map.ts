@@ -43,7 +43,7 @@ export interface SeatMap {
   countLeave: number;
   countWorkingOutsite: number;
   countWfh: number;
-  countNotCheckInOut: number;
+  countNotCheckIn: number;
   totalAssignedUser: number;
   totalNotAssigned: number;
 }
