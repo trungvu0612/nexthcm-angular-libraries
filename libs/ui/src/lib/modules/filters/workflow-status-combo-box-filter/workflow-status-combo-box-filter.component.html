@@ -1,14 +1,14 @@
 <tui-multi-select
   (ngModelChange)="onSelectStatus($event)"
   (searchChange)="search$.next($event)"
-  *tuiLet="statuses$ | async as items"
+  *tuiLet="statuses$ | push as items"
   [identityMatcher]="identityMatcher"
   [ngModel]="statuses"
   [stringify]="stringify"
   [tuiTextfieldCleaner]="true"
   tuiTextfieldExampleText="{{ 'findStatuses' | transloco }}"
 >
-  <span class="font-semibold">{{ 'status' | transloco }}</span>
+  {{ 'status' | transloco }}
   <tui-data-list-wrapper
     *tuiDataList
     [itemContent]="itemContent"

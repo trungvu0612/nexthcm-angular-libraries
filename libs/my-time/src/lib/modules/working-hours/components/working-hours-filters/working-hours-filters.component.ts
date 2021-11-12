@@ -37,7 +37,7 @@ export class WorkingHoursFiltersComponent implements OnInit {
   @Input() fromKey = 'fromDate';
   @Input() toKey = 'toDate';
 
-  readonly year$ = new BehaviorSubject<string | null>(null);
+  readonly year$ = new BehaviorSubject<number | null>(null);
   readonly month$ = new BehaviorSubject<number | null>(null);
   readonly week$ = new Subject<number | null>();
   readonly search$ = new Subject<string | null>();
@@ -63,15 +63,15 @@ export class WorkingHoursFiltersComponent implements OnInit {
     this.state.hold(this.filterType$, (value) => this.onFilter('filterType', value));
   }
 
-  private _initYear?: string;
+  private _initYear?: number;
 
-  get initYear(): string | undefined {
+  get initYear(): number | undefined {
     return this._initYear;
   }
 
   @Input()
   set initYear(_: unknown) {
-    this._initYear = String(getYear(new Date()));
+    this._initYear = getYear(new Date());
   }
 
   @Input()
@@ -91,12 +91,12 @@ export class WorkingHoursFiltersComponent implements OnInit {
     this._includeSearch = coerceBooleanProperty(value);
   }
 
-  private static generateWeekList(key: string, year: string | null, month: number | null): BaseOption<number>[] {
+  private static generateWeekList(key: string, year: number | null, month: number | null): BaseOption<number>[] {
     if (!year || month === null) {
       return [];
     }
 
-    const thatMonth = setYear(setMonth(new Date(), month), Number(year));
+    const thatMonth = setYear(setMonth(new Date(), month), year);
     const startOfThatMonth = startOfMonth(thatMonth);
     const endOfThatMonth = endOfMonth(thatMonth);
 
@@ -119,7 +119,7 @@ export class WorkingHoursFiltersComponent implements OnInit {
     return ({ $implicit }: TuiContextWithImplicit<number>) => map.get($implicit) || '';
   }
 
-  onChangeYear(yearConnector: PropertyRouteConnectorDirective<string>): void {
+  onChangeYear(yearConnector: PropertyRouteConnectorDirective<number>): void {
     if (isNaN(Number(yearConnector.propertyValue))) {
       yearConnector.onValueChange(null);
     } else {

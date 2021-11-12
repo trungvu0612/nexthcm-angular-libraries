@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { WorkflowsService, WorkflowStatus } from '@nexthcm/cdk';
 import { TranslocoModule } from '@ngneat/transloco';
+import { PushModule } from '@rx-angular/template';
 import { isPresent, TuiContextWithImplicit, TuiDestroyService, TuiIdentityMatcher, TuiLetModule } from '@taiga-ui/cdk';
 import { TuiStringHandler } from '@taiga-ui/cdk/types';
 import { TuiDataListModule, TuiLoaderModule, TuiTextfieldControllerModule } from '@taiga-ui/core';
@@ -92,6 +93,7 @@ export class WorkflowStatusComboBoxFilterComponent implements OnInit {
     TuiMultiSelectModule,
     TuiDataListWrapperModule,
     TuiLetModule,
+    PushModule,
   ],
   exports: [WorkflowStatusComboBoxFilterComponent],
 })

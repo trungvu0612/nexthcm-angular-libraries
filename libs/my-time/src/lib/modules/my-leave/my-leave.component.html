@@ -3,7 +3,7 @@
     <div class="flex gap-x-4">
       <!--<button
         (click)="createConvertLeaveEntitlementRequest$.next()"
-        [showLoader]="(createConvertLeaveEntitlementRequestLoading$ | async) === true"
+        [showLoader]="(createConvertLeaveEntitlementRequestLoading$ | push) === true"
         icon="tuiIconPlusLarge"
         size="m"
         tuiButton
@@ -12,7 +12,7 @@
       </button>-->
       <button
         (click)="createLeaveRequest$.next()"
-        [showLoader]="(createLeaveRequestLoading$ | async) === true"
+        [showLoader]="(createLeaveRequestLoading$ | push) === true"
         icon="tuiIconPlusLarge"
         size="m"
         tuiButton
@@ -21,14 +21,14 @@
       </button>
     </div>
   </ng-container>
-  <hcm-request-list-filters [httpParams]="queryParams$" class="mb-5"></hcm-request-list-filters>
-  <tui-loader [overlay]="true" [showLoader]="(loading$ | async) === true">
+  <hcm-request-filters [httpParams]="queryParams" class="mb-5"></hcm-request-filters>
+  <tui-loader [overlay]="true" [showLoader]="(loading$ | push) === true">
     <ngx-table
       #table
       (event)="eventEmitted($event)"
-      [columns]="(columns$ | async) || []"
+      [columns]="(columns$ | push) || []"
       [configuration]="configuration"
-      [data]="(data$ | async) || []"
+      [data]="(data$ | push) || []"
     >
       <ng-template let-row>
         <ng-container *tuiLet="item(row) as item">
@@ -69,6 +69,8 @@
   <tui-table-pagination
     (pageChange)="onPage($event)"
     (sizeChange)="onSize($event)"
-    [total]="(total$ | async) || 0"
+    [page]="(page$ | push) || 0"
+    [size]="(size$ | push) || 10"
+    [total]="(total$ | push) || 0"
   ></tui-table-pagination>
 </hcm-page>

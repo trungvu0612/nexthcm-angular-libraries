@@ -1,19 +1,20 @@
+import { Location } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Inject, Injector, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, UrlSerializer } from '@angular/router';
 import { AuthService } from '@nexthcm/auth';
 import { Pagination, PromptService } from '@nexthcm/cdk';
 import { ProviderScope, TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
-import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
+import { isPresent } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { BaseComponent, Columns } from 'ngx-easy-table';
 import { combineLatest, from, Observable, of, Subject } from 'rxjs';
-import { catchError, filter, map, share, shareReplay, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { catchError, filter, map, share, shareReplay, startWith, switchMap, tap } from 'rxjs/operators';
+import { NewAbstractRequestListComponent } from '../../internal/abstract';
 import { LeaveRequest, RemainingLeaveEntitlement } from '../../internal/models';
 import { MyRequestsService } from '../../internal/services';
 import { MyLeaveService } from '../../services';
-import { AbstractRequestListComponent } from '../../shared/abstract-components/abstract-request-list.component';
 import { CreateLeaveRequestDialogComponent } from '../../shared/create-leave-request-dialog/create-leave-request-dialog.component';
 import { CreateTransferLeaveEntitlementRequestComponent } from '../../shared/create-transfer-leave-entitlement-request/create-transfer-leave-entitlement-request.component';
 
@@ -22,9 +23,9 @@ import { CreateTransferLeaveEntitlementRequestComponent } from '../../shared/cre
   templateUrl: './my-leave.component.html',
   styleUrls: ['./my-leave.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [RxState, TuiDestroyService],
+  providers: [RxState],
 })
-export class MyLeaveComponent extends AbstractRequestListComponent<LeaveRequest> {
+export class MyLeaveComponent extends NewAbstractRequestListComponent<LeaveRequest> {
   @ViewChild('table') table!: BaseComponent;
 
   readonly requestTypeUrlPath = 'leave';
@@ -46,9 +47,9 @@ export class MyLeaveComponent extends AbstractRequestListComponent<LeaveRequest>
       ])
     );
 
-  private readonly request$ = this.queryParams$.pipe(
+  private readonly request$ = this.fetch$.pipe(
     switchMap(() =>
-      this.myRequestsService.getRequests<LeaveRequest>('myLeave', this.queryParams$.value).pipe(startWith(null))
+      this.myRequestsService.getRequests<LeaveRequest>('myLeave', this.queryParams).pipe(startWith(null))
     ),
     shareReplay(1)
   );
@@ -85,10 +86,10 @@ export class MyLeaveComponent extends AbstractRequestListComponent<LeaveRequest>
 
   constructor(
     readonly myRequestsService: MyRequestsService,
-    readonly destroy$: TuiDestroyService,
     readonly state: RxState<Pagination<LeaveRequest>>,
-    readonly router: Router,
     readonly activatedRoute: ActivatedRoute,
+    readonly locationRef: Location,
+    readonly urlSerializer: UrlSerializer,
     @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope,
     private readonly injector: Injector,
     private readonly translocoService: TranslocoService,
@@ -97,7 +98,7 @@ export class MyLeaveComponent extends AbstractRequestListComponent<LeaveRequest>
     private readonly myLeaveService: MyLeaveService,
     private readonly promptService: PromptService
   ) {
-    super(state, router, activatedRoute);
+    super(state, activatedRoute);
     state.connect(this.request$.pipe(filter(isPresent)));
     state.hold(
       this.createLeaveRequestHandler$.pipe(
@@ -130,20 +131,18 @@ export class MyLeaveComponent extends AbstractRequestListComponent<LeaveRequest>
         size: 'l',
         data,
       })
-      .pipe(
-        tap(() => this.queryParams$.next(this.queryParams$.value)),
-        takeUntil(this.destroy$)
-      );
+      .pipe(tap(() => this.fetch$.next()));
   }
 
   private openCreateConvertLeaveEntitlementRequestDialog(data: RemainingLeaveEntitlement[]): Observable<unknown> {
-    return this.dialogService
-      .open(new PolymorpheusComponent(CreateTransferLeaveEntitlementRequestComponent, this.injector), {
+    return this.dialogService.open(
+      new PolymorpheusComponent(CreateTransferLeaveEntitlementRequestComponent, this.injector),
+      {
         label: this.translocoService.translate('transferLeaveEntitlements'),
         size: 'l',
         data,
-      })
-      .pipe(takeUntil(this.destroy$));
+      }
+    );
   }
 
   private handleEmptyLeaveEntitlements(): Observable<unknown> {

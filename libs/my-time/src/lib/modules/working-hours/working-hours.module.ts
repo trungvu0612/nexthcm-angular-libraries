@@ -7,6 +7,7 @@ import {
   BasicFilterComponentModule,
   FormlyUserComboBoxComponentModule,
   InputFilterComponentModule,
+  InputNumberFilterComponentModule,
   LayoutModule,
   SelectFilterComponentModule,
   SelectMonthFilterComponentModule,
@@ -70,6 +71,7 @@ import { WorkingHoursComponent } from './working-hours.component';
     NgxPermissionsModule,
     BasicFilterComponentModule,
     PushModule,
+    InputNumberFilterComponentModule,
   ],
   providers: [WorkingHoursService],
 })

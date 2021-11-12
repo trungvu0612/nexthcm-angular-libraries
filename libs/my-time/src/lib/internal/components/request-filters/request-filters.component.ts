@@ -1,14 +1,12 @@
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { CommonModule } from '@angular/common';
 import { HttpParams } from '@angular/common/http';
-import { ChangeDetectionStrategy, Component, Input, NgModule, OnInit } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, NgModule, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, convertToParamMap, Params } from '@angular/router';
 import {
   BasicFilterComponentModule,
   InputFilterComponentModule,
   InputNumberFilterComponentModule,
-  SelectFilterComponentModule,
   SelectMonthFilterComponentModule,
   WorkflowStatusComboBoxFilterComponentModule,
 } from '@nexthcm/ui';
@@ -16,8 +14,6 @@ import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
 import { tuiDefaultProp } from '@taiga-ui/cdk';
 import { TuiStringHandler } from '@taiga-ui/cdk/types';
-import { TuiDataListModule } from '@taiga-ui/core';
-import { TuiFilterModule, TuiTagModule } from '@taiga-ui/kit';
 import { endOfMonth, endOfYear, setMonth, setYear, startOfMonth, startOfYear } from 'date-fns';
 import { BehaviorSubject, combineLatest, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, skip } from 'rxjs/operators';
@@ -27,14 +23,16 @@ const getLabel: Record<string, string> = {
 };
 
 @Component({
-  selector: 'hcm-request-list-filters',
-  templateUrl: './request-list-filters.component.html',
-  styleUrls: ['./request-list-filters.component.scss'],
+  selector: 'hcm-request-filters',
+  templateUrl: './request-filters.component.html',
+  styleUrls: ['./request-filters.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [RxState],
 })
-export class RequestListFiltersComponent implements OnInit {
+export class RequestFiltersComponent implements OnInit {
   @Input() statusFilter = true;
+  @Input() @tuiDefaultProp() httpParams = new HttpParams();
+  @Output() filter = new EventEmitter();
 
   filterType: string[] = [];
 
@@ -43,7 +41,6 @@ export class RequestListFiltersComponent implements OnInit {
   readonly search$ = new Subject<string | null>();
   readonly statusId$ = new Subject<string | null>();
   readonly filterType$ = new Subject<string | null>();
-  private httpParams$ = new BehaviorSubject<HttpParams>(new HttpParams());
 
   constructor(
     private readonly state: RxState<Record<string, unknown>>,
@@ -51,19 +48,13 @@ export class RequestListFiltersComponent implements OnInit {
     private readonly activatedRoute: ActivatedRoute
   ) {
     state.hold(combineLatest([this.year$.pipe(skip(1), debounceTime(1000), distinctUntilChanged()), this.month$]), () =>
-      this.httpParams$.next(this.filterByYearMonth())
+      this.filterByYearMonth()
     );
     state.hold(this.search$.pipe(debounceTime(1000), distinctUntilChanged()), (search) =>
-      this.httpParams$.next(this.onFilter('search', search))
+      this.onFilter('search', search ? search : null)
     );
-    state.hold(this.statusId$, (statusId) => this.httpParams$.next(this.onFilter('wfStateId', statusId)));
-    state.hold(this.filterType$, (filterType) => this.httpParams$.next(this.onFilter('filterType', filterType)));
-  }
-
-  @Input()
-  @tuiDefaultProp()
-  set httpParams(subject: BehaviorSubject<HttpParams>) {
-    this.httpParams$ = subject;
+    state.hold(this.statusId$, (statusId) => this.onFilter('wfStateId', statusId));
+    state.hold(this.filterType$, (filterType) => this.onFilter('filterType', filterType));
   }
 
   private _includeSearch = false;
@@ -94,14 +85,9 @@ export class RequestListFiltersComponent implements OnInit {
     }
   }
 
-  onFilter(key: string, value: string | number | null): HttpParams {
-    let httpParams = this.httpParams$.value;
-    if (value !== null) {
-      httpParams = httpParams.set(key, value);
-    } else {
-      httpParams = httpParams.delete(key);
-    }
-    return httpParams;
+  onFilter(key: string, value: string | number | null): void {
+    this.httpParams = value !== null ? this.httpParams.set(key, value) : this.httpParams.delete(key);
+    this.filter.emit();
   }
 
   onFilterByWorkflowStatuses(statuses: string): void {
@@ -114,14 +100,14 @@ export class RequestListFiltersComponent implements OnInit {
 
   readonly getFilterLabel: TuiStringHandler<string> = (filter: string): string => `${getLabel[filter]}`;
 
-  private filterByYearMonth(): HttpParams {
-    let httpParams = this.httpParams$.value;
+  private filterByYearMonth(): void {
     if (!this.year$.value) {
-      httpParams = httpParams.delete('fromDate').delete('toDate');
+      this.httpParams = this.httpParams.delete('fromDate').delete('toDate');
     } else {
       let fromDate: number;
       let toDate: number;
       const NOW = new Date();
+      
       if (this.month$.value !== null) {
         fromDate = startOfMonth(setMonth(setYear(NOW, Number(this.year$.value)), this.month$.value)).valueOf();
         toDate = endOfMonth(setMonth(setYear(NOW, Number(this.year$.value)), this.month$.value)).valueOf();
@@ -129,15 +115,15 @@ export class RequestListFiltersComponent implements OnInit {
         fromDate = startOfYear(setYear(NOW, Number(this.year$.value))).valueOf();
         toDate = endOfYear(setYear(NOW, Number(this.year$.value))).valueOf();
       }
-      httpParams = httpParams.set('fromDate', fromDate).set('toDate', toDate);
+      this.httpParams = this.httpParams.set('fromDate', fromDate).set('toDate', toDate);
+      this.filter.emit();
     }
-    return httpParams;
   }
 
   private parseParams(params: Params): void {
     if (params.year) {
       if (!isNaN(Number(params.year))) {
-        this.year$.next(params.year);
+        this.year$.next(+params.year);
         if (params.month && !isNaN(Number(params.month))) {
           this.month$.next(params.month);
         }
@@ -150,21 +136,16 @@ export class RequestListFiltersComponent implements OnInit {
 }
 
 @NgModule({
-  declarations: [RequestListFiltersComponent],
+  declarations: [RequestFiltersComponent],
   imports: [
     CommonModule,
     TranslocoModule,
-    TuiDataListModule,
-    TuiTagModule,
-    SelectMonthFilterComponentModule,
     InputFilterComponentModule,
-    SelectFilterComponentModule,
+    SelectMonthFilterComponentModule,
     WorkflowStatusComboBoxFilterComponentModule,
-    TuiFilterModule,
-    FormsModule,
     BasicFilterComponentModule,
     InputNumberFilterComponentModule,
   ],
-  exports: [RequestListFiltersComponent],
+  exports: [RequestFiltersComponent],
 })
-export class RequestListFilterComponentModule {}
+export class RequestFiltersComponentModule {}

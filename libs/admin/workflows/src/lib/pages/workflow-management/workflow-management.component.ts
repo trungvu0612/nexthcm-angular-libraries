@@ -7,7 +7,7 @@ import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { BaseComponent, Columns } from 'ngx-easy-table';
-import { from, iif, Observable, of } from 'rxjs';
+import { EMPTY, from, iif, Observable, of } from 'rxjs';
 import { catchError, filter, map, shareReplay, startWith, switchMap, takeUntil } from 'rxjs/operators';
 import { SweetAlertResult } from 'sweetalert2';
 import { CreateWorkflowDialogComponent } from '../../components/create-workflow-dialog/create-workflow-dialog.component';
@@ -80,7 +80,9 @@ export class WorkflowManagementComponent extends AbstractServerSortPaginationTab
             })
           )
         ),
-        switchMap((result: SweetAlertResult) => iif(() => result.isConfirmed, this.workflowService.deleteWorkflow(id))),
+        switchMap((result: SweetAlertResult) =>
+          iif(() => result.isConfirmed, this.workflowService.deleteWorkflow(id), EMPTY)
+        ),
         takeUntil(this.destroy$)
       )
       .subscribe(

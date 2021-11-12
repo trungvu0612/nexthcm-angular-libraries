@@ -28,3 +28,9 @@ tui-wrapper[data-appearance='textfield'] {
     outline-style: none;
   }
 }
+
+tui-multi-select {
+  tui-wrapper[data-appearance='textfield'] {
+    padding-right: 1.5rem;
+  }
+}
