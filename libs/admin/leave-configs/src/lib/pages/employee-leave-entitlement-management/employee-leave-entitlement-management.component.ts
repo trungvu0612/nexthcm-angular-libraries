@@ -118,7 +118,9 @@ export class EmployeeLeaveEntitlementManagementComponent
     let params = this.queryParams$.value;
 
     for (const key of Object.keys(filters) as Array<keyof LeaveEntitlementFilters>) {
-      params = filters[key] ? params.set(key, filters[key]) : params.delete(key);
+      const value = filters[key];
+
+      params = value ? params.set(key, value) : params.delete(key);
     }
     this.queryParams$.next(params);
   }

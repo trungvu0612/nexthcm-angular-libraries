@@ -214,18 +214,21 @@ export class LeaveEntitlementFiltersComponent {
       const model = this.handleFormModel(formModel);
       const exportTypeString =
         formModel.type === LeaveEntitlementFiltersType.LeaveType ? formModel.leaveType?.name : formModel.employee?.name;
-      const dateRangeString = formModel.fromTo
-        ? `_${formatDate(model.fromDate, 'mediumDate', this.locale)}_${formatDate(
-            model.toDate,
-            'mediumDate',
-            this.locale
-          )}`
-        : '';
+      const dateRangeString =
+        formModel.fromTo && model.fromDate && model.toDate
+          ? `_${formatDate(model.fromDate, 'mediumDate', this.locale)}_${formatDate(
+              model.toDate,
+              'mediumDate',
+              this.locale
+            )}`
+          : '';
       const fileName = `LEAVE_USAGE${exportTypeString ? `_${exportTypeString}` : ''}${dateRangeString}.xlsx`;
       let params = new HttpParams();
 
       for (const key of Object.keys(model) as Array<keyof LeaveEntitlementFilters>) {
-        params = model[key] ? params.set(key, model[key]) : params.delete(key);
+        const value = model[key];
+
+        params = value ? params.set(key, value) : params.delete(key);
       }
       this.export$.next({ params, fileName });
     }
@@ -234,22 +237,12 @@ export class LeaveEntitlementFiltersComponent {
   handleFormModel(formModel: LeaveEntitlementFiltersForm): LeaveEntitlementFilters {
     const { employee, organization, leaveType, jobTitle, fromTo, type, ...model } = formModel;
 
-    if (employee) {
-      model.employeeId = employee.id;
-    }
-    if (organization) {
-      model.orgId = organization.id;
-    }
-    if (leaveType) {
-      model.leaveTypeId = leaveType.id;
-    }
-    if (jobTitle) {
-      model.jobTitleId = jobTitle.id;
-    }
-    if (fromTo) {
-      model.fromDate = getTime(fromTo.from.toLocalNativeDate());
-      model.toDate = getTime(endOfDay(fromTo.to.toLocalNativeDate()));
-    }
+    model.employeeId = employee?.id;
+    model.orgId = organization?.id;
+    model.leaveTypeId = leaveType?.id;
+    model.jobTitleId = jobTitle?.id;
+    model.fromDate = fromTo ? getTime(fromTo.from.toLocalNativeDate()) : undefined;
+    model.toDate = fromTo ? getTime(endOfDay(fromTo.to.toLocalNativeDate())) : undefined;
 
     return model;
   }
