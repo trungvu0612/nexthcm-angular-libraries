@@ -1,6 +1,7 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { Directive, EventEmitter, Input, NgModule, Output } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, UrlSerializer } from '@angular/router';
+import omit from 'just-omit';
 
 @Directive({
   selector: '[hcmPropertyRouteName]',
@@ -11,7 +12,11 @@ export class PropertyRouteConnectorDirective<T> {
 
   propertyValue: T | null = null;
 
-  constructor(private readonly activatedRoute: ActivatedRoute, private readonly router: Router) {}
+  constructor(
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly locationRef: Location,
+    private readonly urlSerializer: UrlSerializer
+  ) {}
 
   private _propertyName = '';
 
@@ -40,11 +45,11 @@ export class PropertyRouteConnectorDirective<T> {
   }
 
   setQueryParam(value: T | null): void {
-    this.router.navigate([], {
-      queryParams: { [this.propertyName]: value },
-      queryParamsHandling: 'merge',
-      replaceUrl: true,
-    });
+    const tree = this.urlSerializer.parse(this.locationRef.path());
+
+    tree.queryParams =
+      value === null ? omit(tree.queryParams, this.propertyName) : { ...tree.queryParams, [this.propertyName]: value };
+    this.locationRef.go(String(tree));
   }
 }
 

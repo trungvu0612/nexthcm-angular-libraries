@@ -1,6 +1,6 @@
 <hcm-page [title]="'employeeManagement' | transloco">
   <ng-container *transloco="let t" ngProjectAs="pageHeader">
-    <button (click)="onAddEmployee()" *ngxPermissionsOnly="'CREATE_EMPLOYEE'" size="m" tuiButton>
+    <button (click)="onAddEmployee()" *ngxPermissionsOnly="'CREATE_EMPLOYEE'" icon="tuiIconPlusLarge" size="m" tuiButton>
       {{ t('employees.addNewEmployee') }}
     </button>
   </ng-container>

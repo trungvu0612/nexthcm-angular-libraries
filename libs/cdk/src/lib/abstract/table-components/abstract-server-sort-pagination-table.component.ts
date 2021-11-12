@@ -1,5 +1,5 @@
 import { AfterViewInit, Directive } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { RxState } from '@rx-angular/state';
 import { API, Config, DefaultConfig, Event } from 'ngx-easy-table';
 import { Pagination } from '../../models';
@@ -29,12 +29,8 @@ export abstract class NewAbstractServerSortPaginationTableComponent<T>
     orderEventOnly: true,
   };
 
-  protected constructor(
-    readonly state: RxState<Pagination<T>>,
-    readonly router: Router,
-    readonly activatedRoute: ActivatedRoute
-  ) {
-    super(state, router, activatedRoute);
+  protected constructor(readonly state: RxState<Pagination<T>>, readonly activatedRoute: ActivatedRoute) {
+    super(state);
   }
 
   ngAfterViewInit(): void {
@@ -60,11 +56,7 @@ export abstract class NewAbstractServerSortPaginationTableComponent<T>
 
       this.queryParams = orderBy ? this.queryParams.set('sort', orderBy) : this.queryParams.delete('sort');
       this.fetch$.next();
-      this.router.navigate([], {
-        queryParams: { sort: orderBy },
-        queryParamsHandling: 'merge',
-        replaceUrl: true,
-      });
+      this.setQueryParams('sort', orderBy);
     }
   }
 }

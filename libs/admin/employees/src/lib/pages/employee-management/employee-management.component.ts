@@ -1,5 +1,6 @@
+import { Location } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Inject, Injector, OnInit } from '@angular/core';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ActivatedRoute, Params, UrlSerializer } from '@angular/router';
 import { Actions } from '@datorama/akita-ng-effects';
 import {
   BaseObject,
@@ -74,8 +75,9 @@ export class EmployeeManagementComponent
   constructor(
     @Inject(TRANSLOCO_SCOPE) readonly scope: TranslocoScope,
     readonly state: RxState<Pagination<EmployeeInfo>>,
-    readonly router: Router,
     readonly activatedRoute: ActivatedRoute,
+    readonly locationRef: Location,
+    readonly urlSerializer: UrlSerializer,
     private readonly dialogService: TuiDialogService,
     private readonly injector: Injector,
     private readonly adminEmployeesService: AdminEmployeesService,
@@ -85,21 +87,30 @@ export class EmployeeManagementComponent
     private readonly rolesQuery: RolesQuery,
     actions: Actions
   ) {
-    super(state, router, activatedRoute);
+    super(state, activatedRoute);
     actions.dispatch(loadRoles());
     state.connect(this.request$.pipe(filter(isPresent)));
     state.hold(
       this.search$.pipe(
-        filter(isPresent),
-        debounceTime(1000),
+        debounceTime(500),
         distinctUntilChanged(),
         tap((searchQuery) => {
-          this.queryParams = this.queryParams.set('search', searchQuery);
+          this.setQueryParams('page', null);
+          if (searchQuery) {
+            this.queryParams = this.queryParams.delete('page').set('search', searchQuery);
+          } else {
+            this.setQueryParams('search', null);
+            this.queryParams = this.queryParams.delete('page').delete('search');
+          }
           this.fetch$.next();
         })
       )
     );
-    state.hold(this.role$, (roleId) => this.onFilter('roleId', roleId));
+    state.hold(this.role$, (roleId) => {
+      this.setQueryParams('page', null);
+      this.queryParams = this.queryParams.delete('page');
+      this.onFilter('roleId', roleId);
+    });
   }
 
   @tuiPure
@@ -119,11 +130,7 @@ export class EmployeeManagementComponent
   }
 
   onFilter(key: string, value: string | number | null): void {
-    if (value !== null) {
-      this.queryParams = this.queryParams.set(key, value);
-    } else {
-      this.queryParams = this.queryParams.delete(key);
-    }
+    this.queryParams = value !== null ? this.queryParams.set(key, value) : this.queryParams.delete(key);
     this.fetch$.next();
   }
 

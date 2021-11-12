@@ -111,6 +111,7 @@
     "file-saver": "^2.0.5",
     "graphql": "^16.0.1",
     "inter-ui": "^3.19.3",
+    "just-omit": "^2.0.0",
     "mxgraph": "^4.2.2",
     "ng-heroicon": "^0.4.5",
     "ngx-cookie": "^5.0.2",
@@ -204,4 +205,3 @@
     }
   }
 }
-
