@@ -16,7 +16,7 @@ import { ViewWorkflowDialogComponent } from '../view-workflow-dialog/view-workfl
   providers: [RxState],
 })
 export class FormlyViewWorkflowButtonComponent extends FieldType {
-  readonly view$ = new Subject();
+  readonly view$ = new Subject<void>();
 
   constructor(
     private readonly state: RxState<Record<string, unknown>>,

@@ -7,7 +7,7 @@ import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { BaseComponent, Columns } from 'ngx-easy-table';
-import { from, iif, Observable, of, Subject } from 'rxjs';
+import { EMPTY, from, iif, Observable, of, Subject } from 'rxjs';
 import {
   catchError,
   debounceTime,
@@ -40,7 +40,7 @@ export class OfficeManagementComponent extends AbstractServerSortPaginationTable
         { key: 'name', title: result.name },
         { key: 'address', title: result.address },
         { key: 'description', title: result.description },
-        { key: 'onsite', title: 'Onsite', cssClass: { name: 'text-center', includeHeader: true }},
+        { key: 'onsite', title: 'Onsite', cssClass: { name: 'text-center', includeHeader: true } },
         { key: '', title: result.functions, orderEnabled: false },
       ])
     );
@@ -103,7 +103,7 @@ export class OfficeManagementComponent extends AbstractServerSortPaginationTable
       })
     )
       .pipe(
-        switchMap((result) => iif(() => result.isConfirmed, this.adminOfficesService.deleteOffice(id))),
+        switchMap((result) => iif(() => result.isConfirmed, this.adminOfficesService.deleteOffice(id), EMPTY)),
         takeUntil(this.destroy$)
       )
       .subscribe(

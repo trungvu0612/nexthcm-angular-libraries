@@ -7,7 +7,7 @@ import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { BaseComponent, Columns } from 'ngx-easy-table';
-import { from, iif, Observable, of } from 'rxjs';
+import { EMPTY, from, iif, Observable, of } from 'rxjs';
 import { catchError, filter, map, shareReplay, startWith, switchMap, takeUntil } from 'rxjs/operators';
 import { UpsertJobTitleDialogComponent } from '../../components/upsert-job-title-dialog/upsert-job-title-dialog.component';
 import { JobTitle } from '../../models/job-title';
@@ -80,7 +80,7 @@ export class JobTitleManagementComponent extends AbstractServerSortPaginationTab
       })
     )
       .pipe(
-        switchMap((result) => iif(() => result.isConfirmed, this.adminJobTitlesService.deleteJobTitle(id))),
+        switchMap((result) => iif(() => result.isConfirmed, this.adminJobTitlesService.deleteJobTitle(id), EMPTY)),
         takeUntil(this.destroy$)
       )
       .subscribe(

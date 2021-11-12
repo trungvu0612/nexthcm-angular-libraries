@@ -10,7 +10,7 @@ import { EmployeeNode } from '../../models/employee-node';
 import { HumanResourceService } from '../../services/human-resource.service';
 
 interface SearchForm {
-  user: Control<BaseUser>;
+  user: Control<BaseUser> | null;
 }
 
 @Component({

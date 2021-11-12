@@ -3,7 +3,6 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Actions } from '@datorama/akita-ng-effects';
 import {
   BaseObject,
-  EmployeeGeneralInformation,
   EmployeeInfo,
   loadRoles,
   NewAbstractServerSortPaginationTableComponent,
@@ -130,15 +129,12 @@ export class EmployeeManagementComponent
 
   onAddEmployee(): void {
     this.dialogService
-      .open<EmployeeGeneralInformation>(new PolymorpheusComponent(InitEmployeeDialogComponent, this.injector), {
+      .open(new PolymorpheusComponent(InitEmployeeDialogComponent, this.injector), {
         label: this.translocoService.translate('employees.addNewEmployee'),
         size: 'l',
       })
-      .pipe(
-        switchMap((data) => this.adminEmployeesService.initEmployee(data)),
-        takeUntil(this.destroy$)
-      )
-      .subscribe(this.promptService.handleResponse('', () => this.fetch$.next()));
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => this.fetch$.next());
   }
 
   onRemoveEmployee(id: string): void {

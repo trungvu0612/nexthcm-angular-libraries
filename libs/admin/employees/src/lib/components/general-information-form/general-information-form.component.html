@@ -1,11 +1,13 @@
-<tui-loader [overlay]="true" [showLoader]="(loading$ | async) === true">
+<tui-loader [overlay]="true" [showLoader]="(loading$ | push) === true">
   <hcm-base-form
+    (cancel)="cancel.emit()"
     (submitForm)="onSubmit()"
     [fields]="fields"
     [form]="$any(form)"
+    [hideCancelButton]="hideCancelButton"
     [model]="model"
     [options]="options"
+    [submitLoading]="submitLoading"
     class="mt-5"
-    [hideCancelButton]="hideCancelButton"
   ></hcm-base-form>
 </tui-loader>

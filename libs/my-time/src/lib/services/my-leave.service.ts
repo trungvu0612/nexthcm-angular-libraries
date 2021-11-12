@@ -19,7 +19,7 @@ interface MyLeaveState {
 
 @Injectable()
 export class MyLeaveService extends RxState<MyLeaveState> {
-  private refreshSubject = new Subject();
+  private refreshSubject = new Subject<void>();
   refresh$ = this.refreshSubject.asObservable();
 
   constructor(private readonly http: HttpClient) {

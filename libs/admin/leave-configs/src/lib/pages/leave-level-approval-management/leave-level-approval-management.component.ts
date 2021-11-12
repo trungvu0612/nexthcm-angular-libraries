@@ -7,7 +7,7 @@ import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { BaseComponent, Columns } from 'ngx-easy-table';
-import { from, iif, Observable, of } from 'rxjs';
+import { EMPTY, from, iif, Observable, of } from 'rxjs';
 import { catchError, filter, map, shareReplay, startWith, switchMap, takeUntil } from 'rxjs/operators';
 import { AdminLeaveConfigsService } from '../../admin-leave-configs.service';
 import { UpsertLeaveApprovalLevelDialogComponent } from '../../components/upsert-leave-approval-level-dialog/upsert-leave-approval-level-dialog.component';
@@ -87,7 +87,7 @@ export class LeaveLevelApprovalManagementComponent extends AbstractServerSortPag
     )
       .pipe(
         switchMap((result) =>
-          iif(() => result.isConfirmed, this.leaveConfigsService.delete(this.leaveConfigAPIUrlPath, id))
+          iif(() => result.isConfirmed, this.leaveConfigsService.delete(this.leaveConfigAPIUrlPath, id), EMPTY)
         ),
         takeUntil(this.destroy$)
       )

@@ -30,7 +30,7 @@ import {
   TuiTagModule,
 } from '@taiga-ui/kit';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
-import { from, iif, Subject } from 'rxjs';
+import { EMPTY, from, iif, Subject } from 'rxjs';
 import { switchMap, takeUntil, tap } from 'rxjs/operators';
 import { REQUEST_COMMENT_URL_PATHS } from '../../internal/constants';
 import { RequestCommentStatus } from '../../internal/enums';
@@ -81,8 +81,8 @@ export class RequestDetailDialogComponent implements OnInit {
   readonly comments$ = this.state.select('comments');
 
   // EVENTS
-  readonly getComments$ = new Subject();
-  readonly getHistory$ = new Subject();
+  readonly getComments$ = new Subject<void>();
+  readonly getHistory$ = new Subject<void>();
   readonly changeEscalateUser$ = new Subject<EmployeeInfo>();
   readonly submitComment$ = new Subject<RequestComment>();
 
@@ -199,10 +199,8 @@ export class RequestDetailDialogComponent implements OnInit {
         switchMap((result) =>
           iif(
             () => result.isConfirmed,
-            this.myTimeService.updateRequestComment({
-              ...comment,
-              state: RequestCommentStatus.Deleted,
-            })
+            this.myTimeService.updateRequestComment({ ...comment, state: RequestCommentStatus.Deleted }),
+            EMPTY
           )
         ),
         tap(this.promptService.handleResponse('', () => this.getComments$.next())),

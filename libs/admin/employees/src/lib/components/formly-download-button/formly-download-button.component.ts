@@ -22,7 +22,7 @@ export class FormlyDownloadButtonComponent extends FieldType {
   readonly loading$ = this.state.select('loading');
 
   // EVENTS
-  readonly download$ = new Subject();
+  readonly download$ = new Subject<void>();
 
   // HANDLERS
   readonly downloadHandler$ = this.download$.pipe(switchMap(() => this.onSave().pipe(startWith(null))));

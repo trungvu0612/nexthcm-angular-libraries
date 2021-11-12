@@ -11,6 +11,7 @@
   },
   "addNewEmployee": "Add new employee",
   "deleteEmployee": "<b>Are you sure you want to remove this employee?</b>",
+  "addEmployeeSuccessfully": "<b>Add new employee successfully!</b>",
   "removeEmployeeSuccessfully": "<b>Remove this employee successfully!</b>",
   "editEmployee": "Edit Employee",
   "cifNumber": "CIF number",

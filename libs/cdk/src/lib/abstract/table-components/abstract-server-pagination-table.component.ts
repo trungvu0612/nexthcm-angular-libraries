@@ -19,10 +19,10 @@ export abstract class NewAbstractServerPaginationTableComponent<T> implements On
     orderEnabled: false,
   };
   queryParams = new HttpParams().set('page', 0).set('size', 10);
-  readonly fetch$ = new Subject();
+  readonly fetch$ = new Subject<void>();
   readonly data$ = this.state.select('items');
   readonly total$ = this.state.select('totalElements');
-  readonly page$ = this.state.select('page').pipe(map((page) => (page <= 0 ? page : page - 1)));
+  readonly page$ = this.state.select('page').pipe(map((page) => (page <= 0 ? 0 : page - 1)));
   readonly size$ = this.state.select('size');
 
   protected constructor(
@@ -42,17 +42,17 @@ export abstract class NewAbstractServerPaginationTableComponent<T> implements On
 
   onSize(size: number): void {
     this.table.apiEvent({ type: API.setPaginationDisplayLimit, value: size });
-    this.queryParams = this.queryParams.set('size', size.toString());
+    this.queryParams = this.queryParams.set('size', size);
+    this.fetch$.next();
     this.router.navigate([], {
       queryParams: { size },
       queryParamsHandling: 'merge',
       replaceUrl: true,
     });
-    this.fetch$.next();
   }
 
   onPage(page: number): void {
-    this.queryParams = this.queryParams.set('page', page.toString());
+    this.queryParams = this.queryParams.set('page', page);
     this.router.navigate([], {
       queryParams: { page },
       queryParamsHandling: 'merge',

@@ -11,6 +11,7 @@
   },
   "addNewEmployee": "Thêm nhân viên mới",
   "deleteEmployee": "<b>Bạn thật sự muốn xoá nhân viên này?</b>",
+  "addEmployeeSuccessfully": "<b>Thêm nhân viên thành công!</b>",
   "removeEmployeeSuccessfully": "<b>Xoá nhân viên thành công!</b>",
   "editEmployee": "Chỉnh sửa thông tin nhân viên",
   "cifNumber": "Mã nhân viên",

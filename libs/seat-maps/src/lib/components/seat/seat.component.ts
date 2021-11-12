@@ -7,7 +7,7 @@ import { RxState } from '@rx-angular/state';
 import { TuiDialogContext, TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusContent } from '@tinkoff/ng-polymorpheus';
 import { NgxPermissionsService } from 'ngx-permissions';
-import { from, iif, of, Subject, Subscriber } from 'rxjs';
+import { EMPTY, from, iif, of, Subject, Subscriber } from 'rxjs';
 import { debounceTime, switchMap, take, tap } from 'rxjs/operators';
 import { SeatMapsService } from '../../seat-maps.service';
 
@@ -82,7 +82,7 @@ export class SeatComponent {
   }
 
   get borderRadius(): string {
-    return `${(this.seat.style as StyleSeat).rounded}%`
+    return `${(this.seat.style as StyleSeat).rounded}%`;
   }
 
   addSeatOrDropdown(type: string, content?: PolymorpheusContent<TuiDialogContext>): void {
@@ -90,7 +90,7 @@ export class SeatComponent {
       this.state.set({ dragging: false });
     } else if (type === 'add' && content) {
       from(this.ngxPermissionsService.hasPermission('CREATE_SEAT'))
-        .pipe(switchMap((hasPermission) => iif(() => hasPermission, this.dialogService.open(content))))
+        .pipe(switchMap((hasPermission) => iif(() => hasPermission, this.dialogService.open(content), EMPTY)))
         .subscribe();
     }
   }

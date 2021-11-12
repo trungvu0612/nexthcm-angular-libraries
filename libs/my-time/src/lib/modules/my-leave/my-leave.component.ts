@@ -58,8 +58,8 @@ export class MyLeaveComponent extends AbstractRequestListComponent<LeaveRequest>
   );
 
   // EVENTS
-  readonly createLeaveRequest$ = new Subject();
-  readonly createConvertLeaveEntitlementRequest$ = new Subject();
+  readonly createLeaveRequest$ = new Subject<void>();
+  readonly createConvertLeaveEntitlementRequest$ = new Subject<void>();
 
   // HANDLERS
   readonly createLeaveRequestHandler$ = this.createLeaveRequest$.pipe(

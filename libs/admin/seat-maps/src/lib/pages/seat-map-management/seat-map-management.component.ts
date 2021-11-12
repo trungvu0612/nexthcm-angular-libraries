@@ -5,7 +5,7 @@ import { ProviderScope, TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from
 import { RxState } from '@rx-angular/state';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { BaseComponent } from 'ngx-easy-table';
-import { from, iif, of } from 'rxjs';
+import { EMPTY, from, iif, of } from 'rxjs';
 import { catchError, filter, map, shareReplay, startWith, switchMap, takeUntil } from 'rxjs/operators';
 import { AdminSeatMapsService } from '../../services/admin-seat-maps.service';
 
@@ -61,7 +61,7 @@ export class SeatMapManagementComponent extends AbstractServerSortPaginationTabl
       })
     )
       .pipe(
-        switchMap((result) => iif(() => result.isConfirmed, this.adminSeatMapService.delete(id))),
+        switchMap((result) => iif(() => result.isConfirmed, this.adminSeatMapService.delete(id), EMPTY)),
         takeUntil(this.destroy$)
       )
       .subscribe(

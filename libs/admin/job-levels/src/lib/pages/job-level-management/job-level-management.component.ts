@@ -7,7 +7,7 @@ import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { BaseComponent, Columns } from 'ngx-easy-table';
-import { from, iif, Observable, of } from 'rxjs';
+import { EMPTY, from, iif, Observable, of } from 'rxjs';
 import { catchError, filter, map, shareReplay, startWith, switchMap, takeUntil } from 'rxjs/operators';
 import { UpsertJobLevelDialogComponent } from '../../components/upsert-job-level-dialog/upsert-job-level-dialog.component';
 import { JobLevel } from '../../models/job-level';
@@ -78,7 +78,7 @@ export class JobLevelManagementComponent extends AbstractServerSortPaginationTab
       })
     )
       .pipe(
-        switchMap((result) => iif(() => result.isConfirmed, this.adminJobLevelsService.deleteJobLevel(id))),
+        switchMap((result) => iif(() => result.isConfirmed, this.adminJobLevelsService.deleteJobLevel(id), EMPTY)),
         takeUntil(this.destroy$)
       )
       .subscribe(

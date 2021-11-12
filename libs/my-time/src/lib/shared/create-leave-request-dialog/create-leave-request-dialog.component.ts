@@ -23,6 +23,7 @@ import { MyRequestsService } from '../../internal/services';
 import { MyLeaveService } from '../../services';
 
 interface LeaveRequestForm extends LeaveRequestPayload {
+  employee?: Control<BaseUser>;
   items: Control<PayloadTimeItem[]>;
   leaveType?: Control<[RemainingLeaveEntitlement]>;
   fromTo?: Control<TuiDayRange>;
@@ -94,7 +95,7 @@ export class CreateLeaveRequestDialogComponent implements OnInit {
   ngOnInit(): void {
     this.fields = [
       {
-        key: 'employeeId',
+        key: 'employee',
         className: 'tui-form__row block',
         type: 'user-combo-box',
         templateOptions: {
@@ -103,7 +104,6 @@ export class CreateLeaveRequestDialogComponent implements OnInit {
           label: 'employee',
           labelClassName: 'font-semibold',
           placeholder: 'searchEmployees',
-          valueProp: 'id',
         },
         hide: !!this.context.data,
       },
@@ -128,10 +128,10 @@ export class CreateLeaveRequestDialogComponent implements OnInit {
         },
         hooks: {
           onInit: (field) => {
-            if (field?.templateOptions && this.form.controls.employeeId) {
-              field.templateOptions.options = this.form.controls.employeeId.valueChanges.pipe(
-                switchMap((employeeId) =>
-                  employeeId ? this.myLeaveService.getEmployeeLeaveEntitlements(employeeId) : of([])
+            if (field?.templateOptions && this.form.controls.employee) {
+              field.templateOptions.options = this.form.controls.employee.valueChanges.pipe(
+                switchMap((employee) =>
+                  employee ? this.myLeaveService.getEmployeeLeaveEntitlements(employee.id) : of([])
                 )
               );
             }
@@ -414,6 +414,9 @@ export class CreateLeaveRequestDialogComponent implements OnInit {
     if (this.form.valid) {
       const formModel = { ...this.form.value };
 
+      if (formModel.employee) {
+        formModel.employeeId = formModel.employee.id;
+      }
       formModel.fromDate = (this.model.fromTo?.from as TuiDay).toLocalNativeDate().getTime();
       formModel.toDate = endOfDay((this.model.fromTo?.to as TuiDay).toLocalNativeDate()).getTime();
       if (formModel.leaveType) {

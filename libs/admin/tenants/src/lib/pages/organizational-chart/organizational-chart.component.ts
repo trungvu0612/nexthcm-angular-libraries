@@ -5,7 +5,7 @@ import { TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
 import { TuiDialogService, TuiScrollbarComponent } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
-import { combineLatest, from, iif, merge, of, Subject } from 'rxjs';
+import { combineLatest, EMPTY, from, iif, merge, of, Subject } from 'rxjs';
 import { distinctUntilChanged, map, shareReplay, startWith, switchMap, tap } from 'rxjs/operators';
 import { SweetAlertOptions } from 'sweetalert2';
 import { UpsertOrganizationalUnitComponent } from '../../components/upsert-organizational-unit/upsert-organizational-unit.component';
@@ -53,7 +53,7 @@ export class OrganizationalChartComponent {
       };
     })
   );
-  readonly refreshChart$ = new Subject();
+  readonly refreshChart$ = new Subject<void>();
   readonly chartRequest$ = this.refreshChart$.pipe(
     startWith(null),
     switchMap(() => this.organizationsService.getOrganizationStructure(this.routerQuery.getParams('tenantId') || '')),
@@ -120,7 +120,9 @@ export class OrganizationalChartComponent {
               showCancelButton: true,
             } as SweetAlertOptions)
           ).pipe(
-            switchMap((result) => iif(() => result.isConfirmed, this.adminTenantsService.deleteOrganizationalUnit(id))),
+            switchMap((result) =>
+              iif(() => result.isConfirmed, this.adminTenantsService.deleteOrganizationalUnit(id), EMPTY)
+            ),
             tap(() => this.refreshChart$.next())
           )
         )

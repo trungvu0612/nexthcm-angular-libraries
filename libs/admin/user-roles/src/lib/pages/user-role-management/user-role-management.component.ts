@@ -7,7 +7,7 @@ import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { BaseComponent, Columns } from 'ngx-easy-table';
-import { from, iif, Observable, of } from 'rxjs';
+import { EMPTY, from, iif, Observable, of } from 'rxjs';
 import { catchError, filter, map, share, startWith, switchMap, takeUntil } from 'rxjs/operators';
 import { UpsertUserRoleDialogComponent } from '../../components/upsert-user-roles/upsert-user-role-dialog.component';
 import { UserRole } from '../../models/user-role';
@@ -78,7 +78,9 @@ export class UserRoleManagementComponent extends AbstractServerSortPaginationTab
       })
     )
       .pipe(
-        switchMap((result) => iif(() => result.isConfirmed, this.adminUserRolesService.deleteAdminUserRoleId(id))),
+        switchMap((result) =>
+          iif(() => result.isConfirmed, this.adminUserRolesService.deleteAdminUserRoleId(id), EMPTY)
+        ),
         takeUntil(this.destroy$)
       )
       .subscribe(

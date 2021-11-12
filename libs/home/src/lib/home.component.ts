@@ -31,7 +31,7 @@ export class HomeComponent {
   readonly fullName$ = this.profileGeneralQuery.select('fullName');
   readonly monthWorkingTime$ = this.workingHoursService.getWorkingTimeCurrentMonth();
   readonly shouldCheckedOut$ = new BehaviorSubject<boolean | null>(false);
-  readonly checkInOut$ = new Subject();
+  readonly checkInOut$ = new Subject<void>();
   readonly checkedId$ = this.workingHoursService.getTimekeepingLog().pipe(
     tap((item) => this.shouldCheckedOut$.next(item.id ? !!item.inTime : null)),
     map((item) => item.id),

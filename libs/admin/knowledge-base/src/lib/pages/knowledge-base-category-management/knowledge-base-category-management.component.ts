@@ -8,7 +8,7 @@ import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { BaseComponent } from 'ngx-easy-table';
-import { from, iif, of, Subject } from 'rxjs';
+import { EMPTY, from, iif, of, Subject } from 'rxjs';
 import {
   catchError,
   debounceTime,
@@ -103,7 +103,7 @@ export class KnowledgeBaseCategoryManagementComponent extends AbstractServerSort
     )
       .pipe(
         switchMap((result) =>
-          iif(() => result.isConfirmed, this.adminKnowledgeBaseService.deleteKnowledgeBaseCategory(id))
+          iif(() => result.isConfirmed, this.adminKnowledgeBaseService.deleteKnowledgeBaseCategory(id), EMPTY)
         ),
         takeUntil(this.destroy$)
       )

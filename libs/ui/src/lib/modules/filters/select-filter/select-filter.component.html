@@ -6,9 +6,11 @@
   [tuiTextfieldCleaner]="true"
   [valueContent]="valueContent"
 >
-  <span class="font-semibold">{{ label }}</span>
+  {{ label }}
   <ng-template tuiDataList>
     <ng-container *ngTemplateOutlet="content"></ng-container>
-    <ng-template #content><ng-content></ng-content></ng-template>
+    <ng-template #content>
+      <ng-content></ng-content>
+    </ng-template>
   </ng-template>
 </tui-select>

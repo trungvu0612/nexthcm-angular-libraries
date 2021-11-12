@@ -49,7 +49,7 @@ export class SynchronizationSettingsComponent implements OnInit {
       ])
     );
   readonly data$ = this.state.select('data');
-  private readonly refresh$ = new Subject();
+  private readonly refresh$ = new Subject<void>();
   private readonly request$ = this.refresh$.pipe(
     switchMap(() => this.synchronizeDataService.getSynchronizationSettings().pipe(startWith(null))),
     share()

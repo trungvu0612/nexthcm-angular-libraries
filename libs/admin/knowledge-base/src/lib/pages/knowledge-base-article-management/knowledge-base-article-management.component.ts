@@ -6,7 +6,7 @@ import { ProviderScope, TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from
 import { RxState } from '@rx-angular/state';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { BaseComponent, Columns } from 'ngx-easy-table';
-import { from, iif, Observable, of, Subject } from 'rxjs';
+import { EMPTY, from, iif, Observable, of, Subject } from 'rxjs';
 import {
   catchError,
   debounceTime,
@@ -87,7 +87,7 @@ export class KnowledgeBaseArticleManagementComponent extends AbstractServerSortP
     )
       .pipe(
         switchMap((result) =>
-          iif(() => result.isConfirmed, this.adminKnowledgeBaseService.deleteKnowledgeBaseArticle(id))
+          iif(() => result.isConfirmed, this.adminKnowledgeBaseService.deleteKnowledgeBaseArticle(id), EMPTY)
         ),
         takeUntil(this.destroy$)
       )

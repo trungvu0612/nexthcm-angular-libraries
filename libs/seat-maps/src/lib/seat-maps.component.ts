@@ -77,8 +77,8 @@ export class SeatMapsComponent implements OnInit {
   // EVENTS
   readonly assignUserToSeat$ = new Subject<Seat>();
   readonly filterType$ = new Subject<string | null>();
-  readonly status$ = new Subject();
-  readonly fetch$ = new Subject();
+  readonly status$ = new Subject<void>();
+  readonly fetch$ = new Subject<void>();
 
   // HANDLERS
   readonly assignUserToSeatHandler$ = this.assignUserToSeat$.pipe(

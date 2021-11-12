@@ -1,5 +1,6 @@
 <hcm-general-information-form
   (cancel)="onCancel()"
-  (submitted)="onSubmit($event)"
+  (submitted)="submit$.next($event)"
   [editMode]="false"
+  [submitLoading]="(submitLoading$ | push) === true"
 ></hcm-general-information-form>

@@ -57,7 +57,7 @@ export class LoginComponent implements OnInit {
       },
     },
   ];
-  readonly login$ = new Subject();
+  readonly login$ = new Subject<void>();
   readonly loginHandler$ = this.login$.pipe(
     switchMap(() => this.onLogin().pipe(startWith(null))),
     share()

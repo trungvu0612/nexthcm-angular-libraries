@@ -31,6 +31,7 @@ import { EmployeeGeneralQuery, EmployeeGeneralStore, EmployeeQuery } from '../..
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GeneralInformationFormComponent {
+  @Input() submitLoading = false;
   @Output() submitted = new EventEmitter<EmployeeGeneralInformation>();
   @Output() cancel = new EventEmitter();
   model = {} as EmployeeGeneralInformation;
@@ -230,9 +231,7 @@ export class GeneralInformationFormComponent {
     { key: 'registerType' },
   ];
   private readonly request$ = this.employeeQuery
-    ? this.employeeGeneralQuery.select().pipe(
-        tap((data) => (this.model = { ...this.model, ...data })),
-      )
+    ? this.employeeGeneralQuery.select().pipe(tap((data) => (this.model = { ...this.model, ...data })))
     : of({} as EmployeeGeneralInformation);
   readonly loading$ = this.request$.pipe(
     map((value) => !value),
