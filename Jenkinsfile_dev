@@ -10,21 +10,17 @@ pipeline {
     K8S_FILE = 'kubernetes_dev.yml'
   }
   stages {
-    stage('Build') {
-      stages {
-        stage('Build web') {
-          steps {
-            sh 'yarn'
-            sh 'yarn build -c ${ENVIRONMENT}'
-          }
-        }
-        stage('Docker push') {
-          steps {
-            sh 'docker build -f Dockerfile --network=host --rm=true -t docker-host.banvien.com.vn/${PROJECT_NAME}/${ENVIRONMENT}/${SERVICE_NAME}:latest .'
-            sh "docker push docker-host.banvien.com.vn/${PROJECT_NAME}/${ENVIRONMENT}/${SERVICE_NAME}:latest"
-            sh "docker rmi docker-host.banvien.com.vn/${PROJECT_NAME}/${ENVIRONMENT}/${SERVICE_NAME}:latest"
-          }
-        }
+    stage('Build web') {
+      steps {
+        sh 'yarn'
+        sh 'yarn build -c ${ENVIRONMENT}'
+      }
+    }
+    stage('Docker push') {
+      steps {
+        sh 'docker build -f Dockerfile --network=host --rm=true -t docker-host.banvien.com.vn/${PROJECT_NAME}/${ENVIRONMENT}/${SERVICE_NAME}:latest .'
+        sh "docker push docker-host.banvien.com.vn/${PROJECT_NAME}/${ENVIRONMENT}/${SERVICE_NAME}:latest"
+        sh "docker rmi docker-host.banvien.com.vn/${PROJECT_NAME}/${ENVIRONMENT}/${SERVICE_NAME}:latest"
       }
     }
     stage('Deploy') {
