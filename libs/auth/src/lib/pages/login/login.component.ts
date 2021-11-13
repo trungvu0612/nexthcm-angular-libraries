@@ -8,6 +8,7 @@ import { Observable, of, Subject } from 'rxjs';
 import { catchError, map, mapTo, share, startWith, switchMap, tap } from 'rxjs/operators';
 import { LoginPayload } from '../../models';
 import { AuthService } from '../../services/auth.service';
+import { TRANSLATION_SCOPE } from '../../translation-scope';
 
 @Component({
   selector: 'hcm-login',
@@ -27,7 +28,7 @@ export class LoginComponent implements OnInit {
       templateOptions: {
         translate: true,
         required: true,
-        label: 'AUTH.username',
+        label: `${TRANSLATION_SCOPE}.username`,
         textfieldLabelOutside: true,
         labelClassName: 'font-semibold',
       },
@@ -39,7 +40,7 @@ export class LoginComponent implements OnInit {
       templateOptions: {
         translate: true,
         required: true,
-        label: 'AUTH.password',
+        label: `${TRANSLATION_SCOPE}.password`,
         textfieldLabelOutside: true,
         labelClassName: 'font-semibold',
       },
@@ -52,7 +53,7 @@ export class LoginComponent implements OnInit {
       defaultValue: false,
       templateOptions: {
         translate: true,
-        label: 'AUTH.rememberMeLabel',
+        label: `${TRANSLATION_SCOPE}.rememberMeLabel`,
         labelClassName: 'font-semibold',
       },
     },

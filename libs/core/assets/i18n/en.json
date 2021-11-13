@@ -106,13 +106,6 @@
     "workflow": "Quy trình làm việc",
     "description": "Mô tả"
   },
-  "AUTH": {
-    "username": "Username",
-    "password": "Password",
-    "rememberMeLabel": "Remember my login on this computer",
-    "cantLoginInform": "Can't access your account? Please contact your <a class='font-semibold' href='{{url}}'>administrators</a>.",
-    "login": "Login"
-  },
   "image": "Image",
   "chooseImage": "Choose an image",
   "chooseFile": "Choose a file",
