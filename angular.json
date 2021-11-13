@@ -1255,8 +1255,8 @@
               ],
               "fileReplacements": [
                 {
-                  "replace": "apps/next-hcm-demo-web/src/environments/environment.ts",
-                  "with": "apps/next-hcm-demo-web/src/environments/environment.dev.ts"
+                  "replace": "apps/nexthcm-web/src/environments/environment.ts",
+                  "with": "apps/nexthcm-web/src/environments/environment.dev.ts"
                 }
               ],
               "outputHashing": "all"
@@ -1274,8 +1274,8 @@
               ],
               "fileReplacements": [
                 {
-                  "replace": "apps/next-hcm-demo-web/src/environments/environment.ts",
-                  "with": "apps/next-hcm-demo-web/src/environments/environment.qa.ts"
+                  "replace": "apps/nexthcm-web/src/environments/environment.ts",
+                  "with": "apps/nexthcm-web/src/environments/environment.qa.ts"
                 }
               ],
               "outputHashing": "all"
@@ -1293,8 +1293,8 @@
               ],
               "fileReplacements": [
                 {
-                  "replace": "apps/next-hcm-demo-web/src/environments/environment.ts",
-                  "with": "apps/next-hcm-demo-web/src/environments/environment.uat.ts"
+                  "replace": "apps/nexthcm-web/src/environments/environment.ts",
+                  "with": "apps/nexthcm-web/src/environments/environment.uat.ts"
                 }
               ],
               "outputHashing": "all"
