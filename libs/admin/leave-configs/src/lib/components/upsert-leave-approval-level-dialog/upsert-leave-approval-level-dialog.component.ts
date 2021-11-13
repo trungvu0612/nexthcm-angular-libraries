@@ -3,15 +3,14 @@ import { Actions } from '@datorama/akita-ng-effects';
 import { AuthService } from '@nexthcm/auth';
 import { JobTitlesQuery, loadJobTitles, PromptService } from '@nexthcm/cdk';
 import { FormBuilder } from '@ngneat/reactive-forms';
-import { TRANSLOCO_SCOPE, TranslocoScope } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { takeUntil } from 'rxjs/operators';
 import { AdminLeaveConfigsService } from '../../admin-leave-configs.service';
-import { LeaveConfigUrlPaths } from '../../models/leave-config-url-paths';
-import { LeaveLevelApproval } from '../../models/leave-level-approval';
+import { LeaveConfigUrlPaths, LeaveLevelApproval } from '../../models';
+import { TRANSLATION_SCOPE } from '../../translation-scope';
 
 @Component({
   selector: 'hcm-upsert-leave-approval-level-dialog',
@@ -79,13 +78,12 @@ export class UpsertLeaveApprovalLevelDialogComponent implements OnInit {
       templateOptions: {
         required: true,
         translate: true,
-        label: 'approvalDays',
+        label: `${TRANSLATION_SCOPE}.approvalDays`,
         labelClassName: 'font-semibold',
-        placeholder: 'enterDays',
+        placeholder: `${TRANSLATION_SCOPE}.enterDays`,
         textfieldLabelOutside: true,
         precision: 0,
         min: 1,
-        translocoScope: this.scope,
       },
     },
     { key: 'id' },
@@ -94,7 +92,6 @@ export class UpsertLeaveApprovalLevelDialogComponent implements OnInit {
 
   constructor(
     @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<boolean, LeaveLevelApproval>,
-    @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope,
     private readonly fb: FormBuilder,
     private readonly authService: AuthService,
     private readonly leaveConfigsService: AdminLeaveConfigsService,

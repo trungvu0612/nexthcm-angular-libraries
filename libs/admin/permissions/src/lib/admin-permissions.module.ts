@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
-import { inlineLoaderFactory } from '@nexthcm/core';
 import { LayoutComponent, LayoutModule } from '@nexthcm/ui';
 import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
 import { FormlyModule } from '@ngx-formly/core';
@@ -33,10 +32,13 @@ import { InputServiceComponent } from './components/input-service/input-service.
 import { PermissionDetailComponent } from './components/permission-detail/permission-detail.component';
 import { RepeatServiceComponent } from './components/repeat-service/repeat-service.type';
 import { SelectResourcesComponent } from './components/select-resources/select-resources.component';
+import en from './i18n/en.json';
+import vi from './i18n/vi.json';
 import { CreatePermissionComponent } from './pages/create-permission/create-permission.component';
 import { PermissionListComponent } from './pages/permission-list/permission-list.component';
 import { UpdatePermissionComponent } from './pages/update-permission/update-permission.component';
 import { AdminPermissionsService } from './services/admin-permissions.service';
+import { TRANSLATION_SCOPE } from './translation-scope';
 
 export const adminPermissionsRoutes: Routes = [
   {
@@ -109,10 +111,7 @@ export const adminPermissionsRoutes: Routes = [
     AdminPermissionsService,
     {
       provide: TRANSLOCO_SCOPE,
-      useValue: {
-        scope: 'permissions',
-        loader: inlineLoaderFactory((lang) => import(`../../assets/i18n/${lang}.json`)),
-      },
+      useValue: { scope: TRANSLATION_SCOPE, loader: { en: () => Promise.resolve(en), vi: () => Promise.resolve(vi) } },
     },
   ],
 })

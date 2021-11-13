@@ -1,7 +1,7 @@
-import { ChangeDetectionStrategy, Component, Inject, Injector, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Injector, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AbstractServerSortPaginationTableComponent, Office, Pagination, PromptService } from '@nexthcm/cdk';
-import { ProviderScope, TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
@@ -22,6 +22,7 @@ import {
 } from 'rxjs/operators';
 import { UpsertOfficeDialogComponent } from '../../components/upsert-office-dialog/upsert-office-dialog.component';
 import { AdminOfficesService } from '../../services/admin-offices.service';
+import { TRANSLATION_SCOPE } from '../../translation-scope';
 
 @Component({
   selector: 'hcm-office-management',
@@ -34,7 +35,7 @@ export class OfficeManagementComponent extends AbstractServerSortPaginationTable
   @ViewChild('table') table!: BaseComponent;
 
   readonly columns$: Observable<Columns[]> = this.translocoService
-    .selectTranslateObject('ADMIN_OFFICES_COLUMNS', {}, (this.scope as ProviderScope).scope)
+    .selectTranslateObject('ADMIN_OFFICES_COLUMNS', {}, TRANSLATION_SCOPE)
     .pipe(
       map((result) => [
         { key: 'name', title: result.name },
@@ -58,7 +59,6 @@ export class OfficeManagementComponent extends AbstractServerSortPaginationTable
     readonly state: RxState<Pagination<Office>>,
     readonly router: Router,
     readonly activatedRoute: ActivatedRoute,
-    @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope,
     private readonly adminOfficesService: AdminOfficesService,
     private readonly translocoService: TranslocoService,
     private readonly dialogService: TuiDialogService,

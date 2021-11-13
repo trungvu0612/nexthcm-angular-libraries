@@ -1,9 +1,9 @@
 import { Location } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Inject, Injector, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Injector, ViewChild } from '@angular/core';
 import { ActivatedRoute, UrlSerializer } from '@angular/router';
 import { AuthService } from '@nexthcm/auth';
 import { Pagination, PromptService } from '@nexthcm/cdk';
-import { ProviderScope, TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
 import { isPresent } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
@@ -12,6 +12,7 @@ import { BaseComponent, Columns } from 'ngx-easy-table';
 import { combineLatest, from, Observable, of, Subject } from 'rxjs';
 import { catchError, filter, map, share, shareReplay, startWith, switchMap, tap } from 'rxjs/operators';
 import { NewAbstractRequestListComponent } from '../../internal/abstract';
+import { TRANSLATION_SCOPE } from '../../internal/constants';
 import { LeaveRequest, RemainingLeaveEntitlement } from '../../internal/models';
 import { MyRequestsService } from '../../internal/services';
 import { MyLeaveService } from '../../services';
@@ -30,7 +31,7 @@ export class MyLeaveComponent extends NewAbstractRequestListComponent<LeaveReque
 
   readonly requestTypeUrlPath = 'leave';
   readonly columns$: Observable<Columns[]> = this.translocoService
-    .selectTranslateObject('MY_LEAVE_TABLE_COLUMNS', {}, (this.scope as ProviderScope).scope)
+    .selectTranslateObject('MY_LEAVE_TABLE_COLUMNS', {}, TRANSLATION_SCOPE)
     .pipe(
       map((result) => [
         { key: 'fromDate', title: result.dateRange },
@@ -46,22 +47,9 @@ export class MyLeaveComponent extends NewAbstractRequestListComponent<LeaveReque
         { key: '', title: result.functions, orderEnabled: false },
       ])
     );
-
-  private readonly request$ = this.fetch$.pipe(
-    switchMap(() =>
-      this.myRequestsService.getRequests<LeaveRequest>('myLeave', this.queryParams).pipe(startWith(null))
-    ),
-    shareReplay(1)
-  );
-  readonly loading$ = combineLatest([this.request$, this.changeStatusHandler$.pipe(startWith({}))]).pipe(
-    map((values) => values.includes(null)),
-    catchError(() => of(false))
-  );
-
   // EVENTS
   readonly createLeaveRequest$ = new Subject<void>();
   readonly createConvertLeaveEntitlementRequest$ = new Subject<void>();
-
   // HANDLERS
   readonly createLeaveRequestHandler$ = this.createLeaveRequest$.pipe(
     switchMap(() =>
@@ -77,11 +65,20 @@ export class MyLeaveComponent extends NewAbstractRequestListComponent<LeaveReque
     ),
     share()
   );
-
   // LOADINGS
   readonly createLeaveRequestLoading$ = this.createLeaveRequestHandler$.pipe(map((value) => !value));
   readonly createConvertLeaveEntitlementRequestLoading$ = this.createConvertLeaveEntitlementRequestHandler$.pipe(
     map((value) => !value)
+  );
+  private readonly request$ = this.fetch$.pipe(
+    switchMap(() =>
+      this.myRequestsService.getRequests<LeaveRequest>('myLeave', this.queryParams).pipe(startWith(null))
+    ),
+    shareReplay(1)
+  );
+  readonly loading$ = combineLatest([this.request$, this.changeStatusHandler$.pipe(startWith({}))]).pipe(
+    map((values) => values.includes(null)),
+    catchError(() => of(false))
   );
 
   constructor(
@@ -90,7 +87,6 @@ export class MyLeaveComponent extends NewAbstractRequestListComponent<LeaveReque
     readonly activatedRoute: ActivatedRoute,
     readonly locationRef: Location,
     readonly urlSerializer: UrlSerializer,
-    @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope,
     private readonly injector: Injector,
     private readonly translocoService: TranslocoService,
     private readonly authService: AuthService,

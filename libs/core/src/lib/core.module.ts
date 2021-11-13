@@ -14,6 +14,7 @@ import {
   TuiNotificationsModule,
 } from '@taiga-ui/core';
 import { NgDompurifySanitizer } from '@tinkoff/ng-dompurify';
+import { FileSaverModule } from 'ngx-filesaver';
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { QuicklinkModule } from 'ngx-quicklink';
 import { APP_CONFIG } from './app-config.token';
@@ -39,6 +40,7 @@ akitaConfig({ resettable: true });
     AkitaNgRouterStoreModule,
     QuicklinkModule,
     TuiNotificationsModule,
+    FileSaverModule,
   ],
   providers: [
     API_PREFIX_INTERCEPTOR_PROVIDER,

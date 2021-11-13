@@ -3,8 +3,5 @@
   "dest": "../../../dist/libs/admin/offices",
   "lib": {
     "entryFile": "src/index.ts"
-  },
-  "assets": [
-    "assets"
-  ]
+  }
 }

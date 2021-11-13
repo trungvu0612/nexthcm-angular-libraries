@@ -1,8 +1,8 @@
-import { Component, Inject, Injector, ViewChild } from '@angular/core';
+import { Component, Injector, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AbstractServerSortPaginationTableComponent, CommonStatus, Pagination, PromptService } from '@nexthcm/cdk';
 import { KnowledgeBaseCategory, KnowledgeBaseService } from '@nexthcm/knowledge-base';
-import { ProviderScope, TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
@@ -23,6 +23,7 @@ import {
 } from 'rxjs/operators';
 import { AdminKnowledgeBaseService } from '../../admin-knowledge-base.service';
 import { UpsertKnowledgeBaseCategoryDialogComponent } from '../../components/upsert-knowledge-base-category-dialog/upsert-knowledge-base-category-dialog.component';
+import { TRANSLATION_SCOPE } from '../../translation-scope';
 
 @Component({
   selector: 'hcm-knowledge-base-category-management',
@@ -34,7 +35,7 @@ export class KnowledgeBaseCategoryManagementComponent extends AbstractServerSort
   @ViewChild('table') table!: BaseComponent;
 
   readonly columns$ = this.translocoService
-    .selectTranslateObject('CATEGORY_MANAGEMENT_TABLE', {}, (this.scope as ProviderScope).scope)
+    .selectTranslateObject('CATEGORY_MANAGEMENT_TABLE', {}, TRANSLATION_SCOPE)
     .pipe(
       map((translate) => [
         { key: 'name', title: translate.name },
@@ -61,7 +62,6 @@ export class KnowledgeBaseCategoryManagementComponent extends AbstractServerSort
     readonly state: RxState<Pagination<KnowledgeBaseCategory>>,
     readonly router: Router,
     readonly activatedRoute: ActivatedRoute,
-    @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope,
     private readonly knowledgeBaseService: KnowledgeBaseService,
     private readonly adminKnowledgeBaseService: AdminKnowledgeBaseService,
     private readonly promptService: PromptService,

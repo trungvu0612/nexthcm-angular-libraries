@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, Inject, NgModule, OnInit, ViewChild
 import { BaseUser, PromptService } from '@nexthcm/cdk';
 import { BaseFormComponentModule } from '@nexthcm/ui';
 import { Control, FormBuilder, FormControl, FormGroup } from '@ng-stack/forms';
-import { ProviderScope, TRANSLOCO_SCOPE, TranslocoModule, TranslocoScope, TranslocoService } from '@ngneat/transloco';
+import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { TuiDay, TuiDayRange, TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
@@ -11,6 +11,7 @@ import { POLYMORPHEUS_CONTEXT, PolymorpheusModule, PolymorpheusTemplate } from '
 import { endOfDay } from 'date-fns';
 import { combineLatest, from, of, Subject } from 'rxjs';
 import { catchError, map, share, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { TRANSLATION_SCOPE } from '../../internal/constants';
 import { DurationType, PartialDays } from '../../internal/enums';
 import {
   LeaveRequestPayload,
@@ -87,7 +88,6 @@ export class CreateLeaveRequestDialogComponent implements OnInit {
     private readonly myRequestsService: MyRequestsService,
     @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<boolean, RemainingLeaveEntitlement[]>,
     private readonly translocoService: TranslocoService,
-    @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope,
     private readonly destroy$: TuiDestroyService,
     private readonly promptService: PromptService
   ) {}
@@ -123,7 +123,7 @@ export class CreateLeaveRequestDialogComponent implements OnInit {
         },
         validation: {
           messages: {
-            required: () => this.translocoService.selectTranslate('leaveTypeRequired', {}, this.scope),
+            required: () => this.translocoService.selectTranslate('leaveTypeRequired', {}, TRANSLATION_SCOPE),
           },
         },
         hooks: {
@@ -157,11 +157,10 @@ export class CreateLeaveRequestDialogComponent implements OnInit {
         type: 'select',
         templateOptions: {
           translate: true,
-          label: 'partialDays',
+          label: 'myTime.partialDays',
           labelClassName: 'font-semibold',
           options: this.myLeaveService.select('partialDayTypes'),
           labelProp: 'name',
-          translocoScope: this.scope,
           required: true,
           customContent: this.partialDaysContent,
         },
@@ -196,11 +195,7 @@ export class CreateLeaveRequestDialogComponent implements OnInit {
 
                 if (fromToControl && field?.templateOptions) {
                   field.templateOptions.options = combineLatest([
-                    this.translocoService.selectTranslateObject(
-                      'LEAVE_DURATION_OPTIONS',
-                      {},
-                      (this.scope as ProviderScope).scope
-                    ),
+                    this.translocoService.selectTranslateObject('LEAVE_DURATION_OPTIONS', {}, TRANSLATION_SCOPE),
                     fromToControl.valueChanges.pipe(startWith(fromToControl.value)),
                   ]).pipe(
                     map(([result, fromTo]) =>
@@ -226,7 +221,7 @@ export class CreateLeaveRequestDialogComponent implements OnInit {
                     ? 'duration'
                     : 'startDay'
                 ),
-                switchMap((key) => this.translocoService.selectTranslate(key, {}, this.scope))
+                switchMap((key) => this.translocoService.selectTranslate(key, {}, TRANSLATION_SCOPE))
               ),
             },
           },
@@ -236,14 +231,12 @@ export class CreateLeaveRequestDialogComponent implements OnInit {
             templateOptions: {
               required: true,
               valueProp: 'value',
-              options: this.translocoService
-                .selectTranslateObject('DAY_PART_OPTIONS', {}, (this.scope as ProviderScope).scope)
-                .pipe(
-                  map((result) => [
-                    { label: result.morning, value: { morning: true } },
-                    { label: result.afternoon, value: { afternoon: true } },
-                  ])
-                ),
+              options: this.translocoService.selectTranslateObject('DAY_PART_OPTIONS', {}, TRANSLATION_SCOPE).pipe(
+                map((result) => [
+                  { label: result.morning, value: { morning: true } },
+                  { label: result.afternoon, value: { afternoon: true } },
+                ])
+              ),
             },
             hideExpression: (model) => model?.type !== DurationType.HalfDay,
             expressionProperties: {
@@ -303,17 +296,16 @@ export class CreateLeaveRequestDialogComponent implements OnInit {
             templateOptions: {
               translate: true,
               options: [],
-              label: 'endDay',
+              label: 'myTime.endDay',
               labelClassName: 'font-semibold',
               valueProp: 'value',
-              translocoScope: this.scope,
               required: true,
             },
             hooks: {
               onInit: (field) => {
                 if (field?.templateOptions) {
                   field.templateOptions.options = this.translocoService
-                    .selectTranslateObject('LEAVE_DURATION_OPTIONS', {}, (this.scope as ProviderScope).scope)
+                    .selectTranslateObject('LEAVE_DURATION_OPTIONS', {}, TRANSLATION_SCOPE)
                     .pipe(
                       map((result) => [
                         { label: result.halfDay, value: DurationType.HalfDay },
@@ -330,14 +322,12 @@ export class CreateLeaveRequestDialogComponent implements OnInit {
             templateOptions: {
               required: true,
               valueProp: 'value',
-              options: this.translocoService
-                .selectTranslateObject('DAY_PART_OPTIONS', {}, (this.scope as ProviderScope).scope)
-                .pipe(
-                  map((result) => [
-                    { label: result.morning, value: { morning: true } },
-                    { label: result.afternoon, value: { afternoon: true } },
-                  ])
-                ),
+              options: this.translocoService.selectTranslateObject('DAY_PART_OPTIONS', {}, TRANSLATION_SCOPE).pipe(
+                map((result) => [
+                  { label: result.morning, value: { morning: true } },
+                  { label: result.afternoon, value: { afternoon: true } },
+                ])
+              ),
             },
             hideExpression: (model) => model?.type !== DurationType.HalfDay,
             expressionProperties: {

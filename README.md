@@ -4,15 +4,15 @@ This project was generated using [Nx](https://nx.dev).
 
 <p style="text-align: center;"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="450"></p>
 
-🔎 **Powerful, Extensible Dev Tools**
+🔎 **Smart, Extensible Build Framework**
 
 ## Quick Start & Documentation
 
 [Nx Documentation](https://nx.dev/angular)
 
-[10-minute video showing all Nx features](https://nx.dev/angular/getting-started/what-is-nx)
+[10-minute video showing all Nx features](https://nx.dev/getting-started/intro)
 
-[Interactive Tutorial](https://nx.dev/angular/tutorial/01-create-application)
+[Interactive Tutorial](https://nx.dev/tutorial/01-create-application)
 
 ## Adding capabilities to your workspace
 
@@ -35,7 +35,7 @@ Below are our core plugins:
 - [Node](https://nodejs.org)
   - `ng add @nrwl/node`
 
-There are also many [community plugins](https://nx.dev/nx-community) you could add.
+There are also many [community plugins](https://nx.dev/community) you could add.
 
 ## Generate an application
 
@@ -51,7 +51,7 @@ Run `ng g @nrwl/angular:lib my-lib` to generate a library.
 
 > You can also use any of the plugins above to generate libraries as well.
 
-Libraries are shareable across libraries and applications. They can be imported from `@next-hcm/mylib`.
+Libraries are shareable across libraries and applications. They can be imported from `@hcm/mylib`.
 
 ## Development server
 
@@ -85,9 +85,14 @@ Run `nx dep-graph` to see a diagram of the dependencies of your projects.
 
 Visit the [Nx Documentation](https://nx.dev/angular) to learn more.
 
+
+
+
+
+
 ## ☁ Nx Cloud
 
-### Computation Memoization in the Cloud
+### Distributed Computation Caching & Distributed Task Execution
 
 <p style="text-align: center;"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-cloud-card.png"></p>
 

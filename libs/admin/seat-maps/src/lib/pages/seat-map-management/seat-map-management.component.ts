@@ -1,13 +1,14 @@
-import { ChangeDetectionStrategy, Component, Inject, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AbstractServerSortPaginationTableComponent, Pagination, PromptService, SeatMap } from '@nexthcm/cdk';
-import { ProviderScope, TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { BaseComponent } from 'ngx-easy-table';
 import { EMPTY, from, iif, of } from 'rxjs';
 import { catchError, filter, map, shareReplay, startWith, switchMap, takeUntil } from 'rxjs/operators';
 import { AdminSeatMapsService } from '../../services/admin-seat-maps.service';
+import { TRANSLATION_SCOPE } from '../../translation-scope';
 
 @Component({
   selector: 'hcm-seat-map-management',
@@ -20,7 +21,7 @@ export class SeatMapManagementComponent extends AbstractServerSortPaginationTabl
   @ViewChild('table') table!: BaseComponent;
 
   readonly columns$ = this.translocoService
-    .selectTranslateObject('ADMIN_SEAT_MAPS_COLUMNS', {}, (this.scope as ProviderScope).scope)
+    .selectTranslateObject('ADMIN_SEAT_MAPS_COLUMNS', {}, TRANSLATION_SCOPE)
     .pipe(
       map((result) => [
         { key: 'name', title: result.name },
@@ -42,7 +43,6 @@ export class SeatMapManagementComponent extends AbstractServerSortPaginationTabl
     readonly state: RxState<Pagination<SeatMap>>,
     readonly router: Router,
     readonly activatedRoute: ActivatedRoute,
-    @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope,
     private readonly adminSeatMapService: AdminSeatMapsService,
     private readonly promptService: PromptService,
     private readonly destroy$: TuiDestroyService,

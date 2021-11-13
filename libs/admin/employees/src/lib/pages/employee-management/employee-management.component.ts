@@ -1,5 +1,5 @@
 import { Location } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Inject, Injector, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Injector, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, UrlSerializer } from '@angular/router';
 import { Actions } from '@datorama/akita-ng-effects';
 import {
@@ -11,7 +11,7 @@ import {
   PromptService,
   RolesQuery,
 } from '@nexthcm/cdk';
-import { ProviderScope, TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
 import { isPresent, TuiContextWithImplicit, TuiDestroyService, tuiPure, TuiStringHandler } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
@@ -33,6 +33,7 @@ import {
 import { EditEmployeeDialogComponent } from '../../components/edit-employee-dialog/edit-employee-dialog.component';
 import { InitEmployeeDialogComponent } from '../../components/init-employee-dialog/init-employee-dialog.component';
 import { AdminEmployeesService } from '../../services/admin-employees.service';
+import { TRANSLATION_SCOPE } from '../../translation-scope';
 
 @Component({
   selector: 'hcm-employee-management',
@@ -46,7 +47,7 @@ export class EmployeeManagementComponent
   implements OnInit
 {
   readonly columns$: Observable<Columns[]> = this.translocoService
-    .selectTranslateObject('ADMIN_EMPLOYEE_MANAGEMENT_COLUMNS', {}, (this.scope as ProviderScope).scope)
+    .selectTranslateObject('ADMIN_EMPLOYEE_MANAGEMENT_COLUMNS', {}, TRANSLATION_SCOPE)
     .pipe(
       map((result) => [
         { key: 'cif', title: result.cif },
@@ -59,6 +60,9 @@ export class EmployeeManagementComponent
         { key: '', title: result.functions, orderEnabled: false },
       ])
     );
+  readonly search$ = new Subject<string | null>();
+  readonly role$ = new Subject<string | null>();
+  readonly rolesList$ = this.rolesQuery.selectAll();
   private readonly request$ = this.fetch$.pipe(
     switchMap(() => this.adminEmployeesService.getEmployees(this.queryParams).pipe(startWith(null))),
     share()
@@ -68,12 +72,8 @@ export class EmployeeManagementComponent
     catchError(() => of(false)),
     startWith(true)
   );
-  readonly search$ = new Subject<string | null>();
-  readonly role$ = new Subject<string | null>();
-  readonly rolesList$ = this.rolesQuery.selectAll();
 
   constructor(
-    @Inject(TRANSLOCO_SCOPE) readonly scope: TranslocoScope,
     readonly state: RxState<Pagination<EmployeeInfo>>,
     readonly activatedRoute: ActivatedRoute,
     readonly locationRef: Location,

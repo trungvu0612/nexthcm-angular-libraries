@@ -3,11 +3,5 @@
   "dest": "../../../dist/libs/admin/workflows",
   "lib": {
     "entryFile": "src/index.ts"
-  },
-  "allowedNonPeerDependencies": [
-    "."
-  ],
-  "assets": [
-    "assets"
-  ]
+  }
 }

@@ -1,5 +1,5 @@
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
-import { ChangeDetectionStrategy, Component, EventEmitter, Inject, Input, Optional, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Optional, Output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { cacheable } from '@datorama/akita';
 import { Actions } from '@datorama/akita-ng-effects';
@@ -17,12 +17,13 @@ import {
   UploadFileService,
 } from '@nexthcm/cdk';
 import { FormBuilder } from '@ng-stack/forms';
-import { TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { of } from 'rxjs';
 import { catchError, map, startWith, tap } from 'rxjs/operators';
 import { AdminEmployeesService } from '../../services/admin-employees.service';
 import { EmployeeGeneralQuery, EmployeeGeneralStore, EmployeeQuery } from '../../state';
+import { TRANSLATION_SCOPE } from '../../translation-scope';
 
 @Component({
   selector: 'hcm-general-information-form',
@@ -52,12 +53,11 @@ export class GeneralInformationFormComponent {
               type: 'input',
               templateOptions: {
                 translate: true,
-                label: 'cifNumber',
+                label: `${TRANSLATION_SCOPE}.cifNumber`,
                 required: true,
                 textfieldLabelOutside: true,
                 labelClassName: 'font-semibold',
-                placeholder: 'enterCifNumber',
-                translocoScope: this.scope,
+                placeholder: `${TRANSLATION_SCOPE}.enterCifNumber`,
               },
               hideExpression: `!formState.editMode`,
               expressionProperties: {
@@ -69,12 +69,11 @@ export class GeneralInformationFormComponent {
               type: 'input',
               templateOptions: {
                 translate: true,
-                label: 'firstName',
+                label: `${TRANSLATION_SCOPE}.firstName`,
                 required: true,
                 textfieldLabelOutside: true,
                 labelClassName: 'font-semibold',
-                placeholder: 'enterFirstName',
-                translocoScope: this.scope,
+                placeholder: `${TRANSLATION_SCOPE}.enterFirstName`,
               },
               expressionProperties: {
                 className: (model, formState) => (formState.editMode ? 'tui-form__row block' : ''),
@@ -86,12 +85,11 @@ export class GeneralInformationFormComponent {
               type: 'input',
               templateOptions: {
                 translate: true,
-                label: 'lastName',
+                label: `${TRANSLATION_SCOPE}.lastName`,
                 required: true,
                 textfieldLabelOutside: true,
                 labelClassName: 'font-semibold',
-                placeholder: 'enterLastName',
-                translocoScope: this.scope,
+                placeholder: `${TRANSLATION_SCOPE}.enterLastName`,
               },
             },
             {
@@ -100,11 +98,10 @@ export class GeneralInformationFormComponent {
               type: 'input',
               templateOptions: {
                 translate: true,
-                label: 'otherName',
-                placeholder: 'enterOtherName',
+                label: `${TRANSLATION_SCOPE}.otherName`,
+                placeholder: `${TRANSLATION_SCOPE}.enterOtherName`,
                 textfieldLabelOutside: true,
                 labelClassName: 'font-semibold',
-                translocoScope: this.scope,
               },
             },
             {
@@ -204,7 +201,7 @@ export class GeneralInformationFormComponent {
                 'templateOptions.description': this.translocoService.selectTranslate(
                   'syncLDAPDirectReport',
                   {},
-                  this.scope
+                  TRANSLATION_SCOPE
                 ),
               },
               hideExpression: 'model.registerType !== "LDAP"',
@@ -216,10 +213,9 @@ export class GeneralInformationFormComponent {
               templateOptions: {
                 translate: true,
                 required: true,
-                label: 'directReport',
+                label: `${TRANSLATION_SCOPE}.directReport`,
                 labelClassName: 'font-semibold',
-                placeholder: 'chooseDirectReport',
-                translocoScope: this.scope,
+                placeholder: `${TRANSLATION_SCOPE}.chooseDirectReport`,
               },
               hideExpression: 'model.syncLDAPDirectReport',
             },
@@ -249,7 +245,6 @@ export class GeneralInformationFormComponent {
     private readonly jobTitlesQuery: JobTitlesQuery,
     private readonly jobLevelsQuery: JobLevelsQuery,
     private readonly rolesQuery: RolesQuery,
-    @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope,
     @Optional() private readonly employeeQuery: EmployeeQuery,
     @Optional() private readonly employeeGeneralStore: EmployeeGeneralStore,
     @Optional() private readonly employeeGeneralQuery: EmployeeGeneralQuery,

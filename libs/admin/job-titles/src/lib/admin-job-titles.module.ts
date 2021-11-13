@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { inlineLoaderFactory } from '@nexthcm/core';
 import { BaseFormComponentModule, FormlyStatusToggleComponentModule, LayoutComponent, LayoutModule } from '@nexthcm/ui';
 import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
 import { TuiTablePaginationModule } from '@taiga-ui/addon-table';
@@ -11,8 +10,11 @@ import { TuiTagModule } from '@taiga-ui/kit';
 import { TableModule } from 'ngx-easy-table';
 import { NgxPermissionsGuard, NgxPermissionsModule } from 'ngx-permissions';
 import { UpsertJobTitleDialogComponent } from './components/upsert-job-title-dialog/upsert-job-title-dialog.component';
+import en from './i18n/en.json';
+import vi from './i18n/vi.json';
 import { JobTitleManagementComponent } from './pages/job-title-management/job-title-management.component';
 import { AdminJobTitlesService } from './services/admin-job-titles.service';
+import { TRANSLATION_SCOPE } from './translation-scope';
 
 export const adminJobTitlesRoutes: Routes = [
   {
@@ -45,10 +47,7 @@ export const adminJobTitlesRoutes: Routes = [
     AdminJobTitlesService,
     {
       provide: TRANSLOCO_SCOPE,
-      useValue: {
-        scope: 'jobTitles',
-        loader: inlineLoaderFactory((lang) => import(`../../assets/i18n/${lang}.json`)),
-      },
+      useValue: { scope: TRANSLATION_SCOPE, loader: { en: () => Promise.resolve(en), vi: () => Promise.resolve(vi) } },
     },
   ],
 })

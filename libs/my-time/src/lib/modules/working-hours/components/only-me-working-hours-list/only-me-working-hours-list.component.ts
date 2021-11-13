@@ -1,9 +1,9 @@
 import { HttpParams } from '@angular/common/http';
-import { ChangeDetectionStrategy, Component, Inject, Injector, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Injector, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '@nexthcm/auth';
 import { AbstractServerSortPaginationTableComponent, Pagination } from '@nexthcm/cdk';
-import { HashMap, ProviderScope, TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
+import { HashMap, TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
@@ -11,6 +11,7 @@ import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { BaseComponent, Columns } from 'ngx-easy-table';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { catchError, filter, map, share, startWith, switchMap, takeUntil } from 'rxjs/operators';
+import { TRANSLATION_SCOPE } from '../../../../internal/constants';
 import { WorkingHours } from '../../../../models';
 import { WorkingHoursService } from '../../../../services';
 import { CreateUpdateTimesheetRequestDialogComponent } from '../create-update-timesheet-request-dialog/create-update-timesheet-request-dialog.component';
@@ -27,7 +28,7 @@ export class OnlyMeWorkingHoursListComponent extends AbstractServerSortPaginatio
   @ViewChild('table') table!: BaseComponent;
 
   readonly columns$: Observable<Columns[]> = this.translocoService
-    .selectTranslateObject<HashMap<string>>('WORKING_HOURS_TABLE_COLUMNS', {}, (this.scope as ProviderScope).scope)
+    .selectTranslateObject<HashMap<string>>('WORKING_HOURS_TABLE_COLUMNS', {}, TRANSLATION_SCOPE)
     .pipe(
       map((result) => [
         { key: 'office', title: result.office },
@@ -63,7 +64,6 @@ export class OnlyMeWorkingHoursListComponent extends AbstractServerSortPaginatio
     readonly state: RxState<Pagination<WorkingHours>>,
     readonly router: Router,
     readonly activatedRoute: ActivatedRoute,
-    @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope,
     private readonly workingHoursService: WorkingHoursService,
     private readonly destroy$: TuiDestroyService,
     private readonly translocoService: TranslocoService,

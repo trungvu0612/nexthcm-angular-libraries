@@ -1,7 +1,7 @@
-import { ChangeDetectionStrategy, Component, Inject, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AbstractServerSortPaginationTableComponent, Pagination, PromptService } from '@nexthcm/cdk';
-import { ProviderScope, TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { BaseComponent } from 'ngx-easy-table';
@@ -9,6 +9,7 @@ import { from, of } from 'rxjs';
 import { catchError, filter, map, share, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { Policy } from '../../models/policy';
 import { AdminPermissionsService } from '../../services/admin-permissions.service';
+import { TRANSLATION_SCOPE } from '../../translation-scope';
 
 @Component({
   selector: 'hcm-permission-list',
@@ -19,16 +20,14 @@ import { AdminPermissionsService } from '../../services/admin-permissions.servic
 })
 export class PermissionListComponent extends AbstractServerSortPaginationTableComponent<Policy> {
   @ViewChild('table') table!: BaseComponent;
-  readonly columns$ = this.translocoService
-    .selectTranslateObject('PERMISSION_TABLE', {}, (this.scope as ProviderScope).scope)
-    .pipe(
-      map((translate) => [
-        { key: 'name', title: translate.name },
-        { key: 'code', title: translate.code },
-        { key: 'description', title: translate.description },
-        { key: 'action', title: translate.action, orderEnabled: false },
-      ])
-    );
+  readonly columns$ = this.translocoService.selectTranslateObject('PERMISSION_TABLE', {}, TRANSLATION_SCOPE).pipe(
+    map((translate) => [
+      { key: 'name', title: translate.name },
+      { key: 'code', title: translate.code },
+      { key: 'description', title: translate.description },
+      { key: 'action', title: translate.action, orderEnabled: false },
+    ])
+  );
   private readonly request$ = this.queryParams$.pipe(
     switchMap(() => this.adminPermissionsService.getPermissions(this.queryParams$.value).pipe(startWith(null))),
     share()
@@ -39,7 +38,6 @@ export class PermissionListComponent extends AbstractServerSortPaginationTableCo
   );
 
   constructor(
-    @Inject(TRANSLOCO_SCOPE) readonly scope: TranslocoScope,
     readonly state: RxState<Pagination<Policy>>,
     readonly router: Router,
     readonly activatedRoute: ActivatedRoute,

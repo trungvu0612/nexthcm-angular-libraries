@@ -3,8 +3,5 @@
   "dest": "../../../dist/libs/admin/tenants",
   "lib": {
     "entryFile": "src/index.ts"
-  },
-  "assets": [
-    "assets"
-  ]
+  }
 }

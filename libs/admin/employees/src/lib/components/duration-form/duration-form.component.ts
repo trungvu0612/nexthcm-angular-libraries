@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { cacheable } from '@datorama/akita';
 import {
@@ -10,13 +10,13 @@ import {
   PromptService,
 } from '@nexthcm/cdk';
 import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
-import { TRANSLOCO_SCOPE, TranslocoScope } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDayRange, TuiDestroyService } from '@taiga-ui/cdk';
 import { of } from 'rxjs';
 import { catchError, map, startWith, takeUntil, tap } from 'rxjs/operators';
 import { AdminEmployeesService } from '../../services/admin-employees.service';
 import { EmployeeDurationQuery, EmployeeDurationStore, EmployeeQuery } from '../../state';
+import { TRANSLATION_SCOPE } from '../../translation-scope';
 
 @Component({
   selector: 'hcm-duration-form',
@@ -40,11 +40,10 @@ export class DurationFormComponent {
               type: 'input-date',
               templateOptions: {
                 translate: true,
-                label: 'onboardingDate',
+                label: `${TRANSLATION_SCOPE}.onboardingDate`,
                 labelClassName: 'font-semibold',
-                placeholder: 'enterOnboardingDate',
+                placeholder: `${TRANSLATION_SCOPE}.enterOnboardingDate`,
                 textfieldLabelOutside: true,
-                translocoScope: this.scope,
               },
             },
             {
@@ -53,11 +52,10 @@ export class DurationFormComponent {
               type: 'input-date-range',
               templateOptions: {
                 translate: true,
-                label: 'probationDates',
+                label: `${TRANSLATION_SCOPE}.probationDates`,
                 labelClassName: 'font-semibold',
-                placeholder: 'enterProbationDates',
+                placeholder: `${TRANSLATION_SCOPE}.enterProbationDates`,
                 textfieldLabelOutside: true,
-                translocoScope: this.scope,
               },
             },
             {
@@ -66,11 +64,10 @@ export class DurationFormComponent {
               type: 'input-date',
               templateOptions: {
                 translate: true,
-                label: 'officialStartDate',
+                label: `${TRANSLATION_SCOPE}.officialStartDate`,
                 labelClassName: 'font-semibold',
-                placeholder: 'enterOfficialStartDate',
+                placeholder: `${TRANSLATION_SCOPE}.enterOfficialStartDate`,
                 textfieldLabelOutside: true,
-                translocoScope: this.scope,
               },
             },
             {
@@ -79,11 +76,10 @@ export class DurationFormComponent {
               type: 'input-date',
               templateOptions: {
                 translate: true,
-                label: 'terminationDate',
+                label: `${TRANSLATION_SCOPE}.terminationDate`,
                 labelClassName: 'font-semibold',
-                placeholder: 'enterTerminationDate',
+                placeholder: `${TRANSLATION_SCOPE}.enterTerminationDate`,
                 textfieldLabelOutside: true,
-                translocoScope: this.scope,
               },
             },
             {
@@ -92,11 +88,10 @@ export class DurationFormComponent {
               type: 'input',
               templateOptions: {
                 translate: true,
-                label: 'probationNumber',
+                label: `${TRANSLATION_SCOPE}.probationNumber`,
                 labelClassName: 'font-semibold',
-                placeholder: 'enterProbationNumber',
+                placeholder: `${TRANSLATION_SCOPE}.enterProbationNumber`,
                 textfieldLabelOutside: true,
-                translocoScope: this.scope,
               },
             },
             {
@@ -105,8 +100,7 @@ export class DurationFormComponent {
               type: 'repeat',
               templateOptions: {
                 translate: true,
-                label: 'emergencyContactList',
-                translocoScope: this.scope,
+                label: `${TRANSLATION_SCOPE}.emergencyContactList`,
               },
               fieldArray: {
                 fieldGroupClassName: 'grid grid-cols-2 gap-4',
@@ -125,9 +119,8 @@ export class DurationFormComponent {
                     type: 'input',
                     templateOptions: {
                       translate: true,
-                      label: 'relationship',
-                      placeholder: 'enterRelationship',
-                      translocoScope: this.scope,
+                      label: `${TRANSLATION_SCOPE}.relationship`,
+                      placeholder: `${TRANSLATION_SCOPE}.enterRelationship`,
                     },
                   },
                 ],
@@ -143,11 +136,10 @@ export class DurationFormComponent {
               type: 'input',
               templateOptions: {
                 translate: true,
-                label: 'labourContractNumber',
+                label: `${TRANSLATION_SCOPE}.labourContractNumber`,
                 labelClassName: 'font-semibold',
-                placeholder: 'enterLabourContractNumber',
+                placeholder: `${TRANSLATION_SCOPE}.enterLabourContractNumber`,
                 textfieldLabelOutside: true,
-                translocoScope: this.scope,
               },
             },
             {
@@ -156,11 +148,10 @@ export class DurationFormComponent {
               type: 'input-date',
               templateOptions: {
                 translate: true,
-                label: 'labourContractDate',
+                label: `${TRANSLATION_SCOPE}.labourContractDate`,
                 labelClassName: 'font-semibold',
-                placeholder: 'enterLabourContractDate',
+                placeholder: `${TRANSLATION_SCOPE}.enterLabourContractDate`,
                 textfieldLabelOutside: true,
-                translocoScope: this.scope,
               },
             },
             {
@@ -169,11 +160,10 @@ export class DurationFormComponent {
               type: 'input',
               templateOptions: {
                 translate: true,
-                label: 'indefiniteTermContract',
+                label: `${TRANSLATION_SCOPE}.indefiniteTermContract`,
                 labelClassName: 'font-semibold',
-                placeholder: 'enterIndefiniteTermContract',
+                placeholder: `${TRANSLATION_SCOPE}.enterIndefiniteTermContract`,
                 textfieldLabelOutside: true,
-                translocoScope: this.scope,
               },
             },
             {
@@ -182,11 +172,10 @@ export class DurationFormComponent {
               type: 'input-date',
               templateOptions: {
                 translate: true,
-                label: 'indefiniteTermContractDate',
+                label: `${TRANSLATION_SCOPE}.indefiniteTermContractDate`,
                 labelClassName: 'font-semibold',
-                placeholder: 'enterIndefiniteTermContractDate',
+                placeholder: `${TRANSLATION_SCOPE}.enterIndefiniteTermContractDate`,
                 textfieldLabelOutside: true,
-                translocoScope: this.scope,
               },
             },
             {
@@ -195,11 +184,10 @@ export class DurationFormComponent {
               type: 'input',
               templateOptions: {
                 translate: true,
-                label: 'resignationAgreement',
+                label: `${TRANSLATION_SCOPE}.resignationAgreement`,
                 labelClassName: 'font-semibold',
-                placeholder: 'enterResignationAgreement',
+                placeholder: `${TRANSLATION_SCOPE}.enterResignationAgreement`,
                 textfieldLabelOutside: true,
-                translocoScope: this.scope,
               },
             },
             {
@@ -208,11 +196,10 @@ export class DurationFormComponent {
               type: 'input-date',
               templateOptions: {
                 translate: true,
-                label: 'resignationAgreementDate',
+                label: `${TRANSLATION_SCOPE}.resignationAgreementDate`,
                 labelClassName: 'font-semibold',
-                placeholder: 'enterResignationAgreementDate',
+                placeholder: `${TRANSLATION_SCOPE}.enterResignationAgreementDate`,
                 textfieldLabelOutside: true,
-                translocoScope: this.scope,
               },
             },
           ],
@@ -238,7 +225,6 @@ export class DurationFormComponent {
     private readonly employeesService: EmployeesService,
     private readonly destroy$: TuiDestroyService,
     private readonly promptService: PromptService,
-    @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope,
     private readonly employeeDurationQuery: EmployeeDurationQuery,
     private readonly employeeDurationStore: EmployeeDurationStore,
     employeeQuery: EmployeeQuery

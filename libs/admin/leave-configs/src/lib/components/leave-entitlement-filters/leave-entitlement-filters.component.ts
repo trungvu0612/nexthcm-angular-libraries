@@ -12,7 +12,7 @@ import {
   PromptService,
 } from '@nexthcm/cdk';
 import { Control, FormBuilder } from '@ng-stack/forms';
-import { ProviderScope, TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDayRange } from '@taiga-ui/cdk';
 import { endOfDay, getTime } from 'date-fns';
@@ -22,6 +22,7 @@ import { catchError, map, share, startWith, switchMap, tap } from 'rxjs/operator
 import { AdminLeaveConfigsService } from '../../admin-leave-configs.service';
 import { LeaveEntitlementFiltersType } from '../../enums';
 import { LeaveEntitlementFilters } from '../../models';
+import { TRANSLATION_SCOPE } from '../../translation-scope';
 
 interface LeaveEntitlementFiltersForm extends LeaveEntitlementFilters {
   fromTo?: Control<TuiDayRange>;
@@ -53,13 +54,12 @@ export class LeaveEntitlementFiltersComponent {
           defaultValue: LeaveEntitlementFiltersType.LeaveType,
           templateOptions: {
             translate: true,
-            label: 'generateFor',
+            label: `${TRANSLATION_SCOPE}.generateFor`,
             labelClassName: 'font-semibold',
-            translocoScope: this.scope,
             labelProp: 'label',
             valueProp: 'value',
             options: this.translocoService
-              .selectTranslateObject('LEAVE_ENTITLEMENT_FILTERS_TYPE', {}, (this.scope as ProviderScope).scope)
+              .selectTranslateObject('LEAVE_ENTITLEMENT_FILTERS_TYPE', {}, TRANSLATION_SCOPE)
               .pipe(
                 map((result) => [
                   { label: result.leaveType, value: LeaveEntitlementFiltersType.LeaveType },
@@ -191,7 +191,6 @@ export class LeaveEntitlementFiltersComponent {
   constructor(
     private readonly fb: FormBuilder,
     private readonly translocoService: TranslocoService,
-    @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope,
     private readonly leaveConfigsService: AdminLeaveConfigsService,
     private readonly jobTitlesQuery: JobTitlesQuery,
     private readonly officesQuery: OfficesQuery,

@@ -6,8 +6,6 @@
     "@angular/core": "^13.0.0"
   },
   "dependencies": {
-    "tslib": "^2.2.0",
-    "@fullcalendar/angular": "^5.9.0",
-    "@fullcalendar/daygrid": "^5.9.0"
+    "tslib": "^2.3.0"
   }
 }

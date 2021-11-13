@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Inject, Injector, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Injector, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PromptService } from '@nexthcm/cdk';
 import {
@@ -9,7 +9,7 @@ import {
   WorkflowStatus,
 } from '@nexthcm/workflow-designer';
 import { FormBuilder } from '@ngneat/reactive-forms';
-import { TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { deleteProp, dictionaryToArray, patch, RxState, setProp, slice, toDictionary } from '@rx-angular/state';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
@@ -34,6 +34,7 @@ import {
 } from '../../models';
 import { AddStatusData } from '../../models/add-status-data';
 import { AdminWorkflowsService } from '../../services/admin-workflows.service';
+import { TRANSLATION_SCOPE } from '../../translation-scope';
 import { AdminWorkflowsUtils } from '../../utils/admin-workflows-utils';
 
 interface WorkflowState {
@@ -67,7 +68,7 @@ export class UpsertWorkflowComponent implements OnInit {
         disabled: !this.editMode,
       },
       expressionProperties: {
-        'templateOptions.iconTitle': this.translocoService.selectTranslate('editName', {}, this.scope),
+        'templateOptions.iconTitle': this.translocoService.selectTranslate('editName', {}, TRANSLATION_SCOPE),
       },
     },
     {
@@ -120,8 +121,7 @@ export class UpsertWorkflowComponent implements OnInit {
     private readonly destroy$: TuiDestroyService,
     private readonly router: Router,
     private readonly translocoService: TranslocoService,
-    private readonly promptService: PromptService,
-    @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope
+    private readonly promptService: PromptService
   ) {
     state.connect('addedStatuses', this.initHandler$, (_, data) => toDictionary(data.states, 'id'));
     state.connect('addedTransitions', this.initHandler$, (_, data) => toDictionary(data.transitions, 'id'));

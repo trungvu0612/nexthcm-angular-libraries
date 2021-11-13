@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/cor
 import { RouterQuery } from '@datorama/akita-ng-router-store';
 import { CommonStatus, PromptService } from '@nexthcm/cdk';
 import { AbstractControl, FormBuilder } from '@ngneat/reactive-forms';
-import { TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
@@ -11,6 +11,7 @@ import { of } from 'rxjs';
 import { debounceTime, switchMap, take, takeUntil, tap } from 'rxjs/operators';
 import { TenantDomain } from '../../models/tenant';
 import { AdminTenantsService } from '../../services/admin-tenants.service';
+import { TRANSLATION_SCOPE } from '../../translation-scope';
 
 @Component({
   selector: 'hcm-upsert-tenant-domain-dialog',
@@ -64,11 +65,10 @@ export class UpsertTenantDomainDialogComponent implements OnInit {
       templateOptions: {
         required: true,
         translate: true,
-        label: 'domain',
-        placeholder: 'enterDomain',
+        label: `${TRANSLATION_SCOPE}.domain`,
+        placeholder: `${TRANSLATION_SCOPE}.enterDomain`,
         labelClassName: 'font-semibold',
         textfieldLabelOutside: true,
-        translocoScope: this.scope,
       },
       asyncValidators: {
         uniqueUrl: {
@@ -115,8 +115,7 @@ export class UpsertTenantDomainDialogComponent implements OnInit {
     private readonly adminTenantsService: AdminTenantsService,
     private readonly destroy$: TuiDestroyService,
     private readonly promptService: PromptService,
-    private readonly routerQuery: RouterQuery,
-    @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope
+    private readonly routerQuery: RouterQuery
   ) {}
 
   ngOnInit(): void {

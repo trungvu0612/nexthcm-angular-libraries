@@ -3,8 +3,7 @@
   "version": "1.1.0",
   "peerDependencies": {
     "@angular/common": "^13.0.0",
-    "@angular/core": "^13.0.0",
-    "@nexthcm/workflow-designer": "^1.0.1"
+    "@angular/core": "^13.0.0"
   },
   "dependencies": {
     "tslib": "^2.3.0"

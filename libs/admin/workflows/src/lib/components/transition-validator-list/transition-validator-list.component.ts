@@ -3,14 +3,13 @@ import {
   ChangeDetectorRef,
   Component,
   EventEmitter,
-  Inject,
   Injector,
   Input,
   Output,
   ViewChild,
 } from '@angular/core';
 import { Actions } from '@datorama/akita-ng-effects';
-import { TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@ngneat/transloco';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
@@ -36,13 +35,12 @@ export class TransitionValidatorListComponent extends AbstractTransitionOptionLi
   constructor(
     readonly translocoService: TranslocoService,
     readonly changeDetectorRef: ChangeDetectorRef,
-    @Inject(TRANSLOCO_SCOPE) readonly scope: TranslocoScope,
     private readonly dialogService: TuiDialogService,
     private readonly injector: Injector,
     private destroy$: TuiDestroyService,
     actions: Actions
   ) {
-    super(translocoService, changeDetectorRef, scope);
+    super(translocoService, changeDetectorRef);
     actions.dispatch(loadValidatorTypes());
   }
 

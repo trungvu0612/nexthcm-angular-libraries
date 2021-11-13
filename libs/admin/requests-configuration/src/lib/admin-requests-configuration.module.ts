@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AkitaNgEffectsModule } from '@datorama/akita-ng-effects';
 import { WorkflowsEffects } from '@nexthcm/cdk';
-import { inlineLoaderFactory } from '@nexthcm/core';
 import { BaseFormComponentModule, LayoutComponent, LayoutModule } from '@nexthcm/ui';
 import { WorkflowDesignerModule } from '@nexthcm/workflow-designer';
 import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
@@ -17,6 +16,9 @@ import { AdminRequestsConfigurationService } from './admin-requests-configuratio
 import { FormlyViewWorkflowButtonComponent } from './components/formly-view-workflow-button/formly-view-workflow-button.component';
 import { RequestConfigFormComponent } from './components/request-config-form/request-config-form.component';
 import { ViewWorkflowDialogComponent } from './components/view-workflow-dialog/view-workflow-dialog.component';
+import en from './i18n/en.json';
+import vi from './i18n/vi.json';
+import { TRANSLATION_SCOPE } from './translation-scope';
 
 export const adminRequestsConfigurationRoutes: Routes = [
   {
@@ -56,10 +58,7 @@ export const adminRequestsConfigurationRoutes: Routes = [
     AdminRequestsConfigurationService,
     {
       provide: TRANSLOCO_SCOPE,
-      useValue: {
-        scope: 'requestsConfig',
-        loader: inlineLoaderFactory((lang) => import(`../../assets/i18n/${lang}.json`)),
-      },
+      useValue: { scope: TRANSLATION_SCOPE, loader: { en: () => Promise.resolve(en), vi: () => Promise.resolve(vi) } },
     },
   ],
 })

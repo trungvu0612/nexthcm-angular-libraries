@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { AuthService } from '@nexthcm/auth';
 import { BaseOption, BaseUser, PromptService } from '@nexthcm/cdk';
 import { Control, FormBuilder } from '@ng-stack/forms';
-import { HashMap, ProviderScope, TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
+import { HashMap, TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDayRange } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
@@ -10,6 +10,7 @@ import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { endOfDay, getTime } from 'date-fns';
 import { from, of, Subject } from 'rxjs';
 import { catchError, map, share, startWith, switchMap, tap } from 'rxjs/operators';
+import { TRANSLATION_SCOPE } from '../../../../internal/constants';
 import { WorkingAfterHoursType } from '../../../../internal/enums';
 import { WorkingAfterHoursRequestPayload } from '../../../../internal/models';
 import { MyRequestsService } from '../../../../internal/services';
@@ -41,7 +42,7 @@ export class CreateWorkingAfterHoursRequestDialogComponent {
         labelClassName: 'font-semibold',
         valueProp: 'value',
         options: this.translocoService
-          .selectTranslateObject<HashMap<string>>('WORKING_AFTER_HOURS_TYPE', {}, (this.scope as ProviderScope).scope)
+          .selectTranslateObject<HashMap<string>>('WORKING_AFTER_HOURS_TYPE', {}, TRANSLATION_SCOPE)
           .pipe(
             map(
               (result) =>
@@ -127,7 +128,7 @@ export class CreateWorkingAfterHoursRequestDialogComponent {
         startWith(null)
       )
     ),
-    share(),
+    share()
   );
   readonly submitLoading$ = this.submitHandler$.pipe(
     map((value) => !value),
@@ -140,8 +141,7 @@ export class CreateWorkingAfterHoursRequestDialogComponent {
     private readonly myRequestsService: MyRequestsService,
     private readonly promptService: PromptService,
     private readonly translocoService: TranslocoService,
-    private readonly authService: AuthService,
-    @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope,
+    private readonly authService: AuthService
   ) {}
 
   onSubmit(): void {

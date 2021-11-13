@@ -1,16 +1,17 @@
-import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Actions } from '@datorama/akita-ng-effects';
 import { CommonStatus, PromptService, UploadFileService } from '@nexthcm/cdk';
 import { KnowledgeBaseArticle, KnowledgeBaseService } from '@nexthcm/knowledge-base';
 import { AbstractControl, FormBuilder } from '@ngneat/reactive-forms';
-import { TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { of } from 'rxjs';
 import { catchError, debounceTime, map, share, startWith, switchMap, take, takeUntil, tap } from 'rxjs/operators';
 import { AdminKnowledgeBaseService } from '../../admin-knowledge-base.service';
 import { KnowledgeBaseCategoriesQuery, loadKnowledgeBaseCategories } from '../../state/knowledge-base-categories';
+import { TRANSLATION_SCOPE } from '../../translation-scope';
 
 @Component({
   selector: 'hcm-upsert-knowledge-base-article',
@@ -32,10 +33,9 @@ export class UpsertKnowledgeBaseArticleComponent {
         translate: true,
         required: true,
         textfieldLabelOutside: true,
-        label: 'topic',
+        label: `${TRANSLATION_SCOPE}.topic`,
         labelClassName: 'font-semibold',
-        placeholder: 'enterTopic',
-        translocoScope: this.scope,
+        placeholder: `${TRANSLATION_SCOPE}.enterTopic`,
       },
       asyncValidators: {
         topic: {
@@ -143,7 +143,6 @@ export class UpsertKnowledgeBaseArticleComponent {
 
   constructor(
     private readonly translocoService: TranslocoService,
-    @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope,
     private readonly fb: FormBuilder,
     private readonly knowledgeBaseService: KnowledgeBaseService,
     private readonly adminKnowledgeBaseService: AdminKnowledgeBaseService,

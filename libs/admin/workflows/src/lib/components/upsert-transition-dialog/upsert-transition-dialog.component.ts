@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder } from '@ngneat/reactive-forms';
-import { TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { RxwebValidators } from '@rxweb/reactive-form-validators';
 import { TuiDestroyService } from '@taiga-ui/cdk';
@@ -15,6 +15,7 @@ import {
   TransitionValidator,
   UpsertTransitionData,
 } from '../../models';
+import { TRANSLATION_SCOPE } from '../../translation-scope';
 
 @Component({
   selector: 'hcm-upsert-transition-dialog',
@@ -41,13 +42,12 @@ export class UpsertTransitionDialogComponent implements OnInit {
       type: 'select',
       templateOptions: {
         translate: true,
-        label: 'fromStatus',
+        label: `${TRANSLATION_SCOPE}.fromStatus`,
         labelClassName: 'font-semibold',
-        placeholder: 'chooseSourceState',
+        placeholder: `${TRANSLATION_SCOPE}.chooseSourceState`,
         options: this.data.addedStatuses,
         labelProp: 'name',
         valueProp: 'id',
-        translocoScope: this.scope,
       },
       hideExpression: '!formState.isNew',
       hooks: {
@@ -68,13 +68,12 @@ export class UpsertTransitionDialogComponent implements OnInit {
       templateOptions: {
         translate: true,
         required: true,
-        label: 'toStatus',
+        label: `${TRANSLATION_SCOPE}.toStatus`,
         labelClassName: 'font-semibold',
-        placeholder: 'chooseTargetStatus',
+        placeholder: `${TRANSLATION_SCOPE}.chooseTargetStatus`,
         options: this.data.addedStatuses,
         labelProp: 'name',
         valueProp: 'id',
-        translocoScope: this.scope,
       },
       hideExpression: '!formState.isNew',
       validators: {
@@ -121,8 +120,7 @@ export class UpsertTransitionDialogComponent implements OnInit {
     private readonly fb: FormBuilder,
     @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<Transition, UpsertTransitionData>,
     private readonly translocoService: TranslocoService,
-    private readonly destroy$: TuiDestroyService,
-    @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope
+    private readonly destroy$: TuiDestroyService
   ) {}
 
   get data(): UpsertTransitionData {

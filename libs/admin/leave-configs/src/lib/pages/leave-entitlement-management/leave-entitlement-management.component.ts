@@ -1,7 +1,7 @@
-import { ChangeDetectionStrategy, Component, Inject, Injector, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Injector, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AbstractServerSortPaginationTableComponent, Pagination, PromptService } from '@nexthcm/cdk';
-import { ProviderScope, TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
@@ -13,6 +13,7 @@ import { AdminLeaveConfigsService } from '../../admin-leave-configs.service';
 import { UpsertLeaveEntitlementDialogComponent } from '../../components/upsert-leave-entitlement/upsert-leave-entitlement-dialog.component';
 import { LeaveConfigUrlPaths } from '../../models/leave-config-url-paths';
 import { LeaveEntitlement } from '../../models/leave-entitlement';
+import { TRANSLATION_SCOPE } from '../../translation-scope';
 
 @Component({
   selector: 'hcm-leave-entitlement-management',
@@ -26,7 +27,7 @@ export class LeaveEntitlementManagementComponent extends AbstractServerSortPagin
 
   readonly leaveConfigAPIUrlPath: keyof LeaveConfigUrlPaths = 'leaveEntitlement';
   readonly columns$: Observable<Columns[]> = this.translocoService
-    .selectTranslateObject('LEAVE_ENTITLEMENT_MANAGEMENT_COLUMNS', {}, (this.scope as ProviderScope).scope)
+    .selectTranslateObject('LEAVE_ENTITLEMENT_MANAGEMENT_COLUMNS', {}, TRANSLATION_SCOPE)
     .pipe(
       map((result) => [
         { key: 'leaveType', title: result.leaveType },
@@ -56,7 +57,6 @@ export class LeaveEntitlementManagementComponent extends AbstractServerSortPagin
     readonly state: RxState<Pagination<LeaveEntitlement>>,
     readonly router: Router,
     readonly activatedRoute: ActivatedRoute,
-    @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope,
     private readonly destroy$: TuiDestroyService,
     private readonly leaveConfigsService: AdminLeaveConfigsService,
     private readonly dialogService: TuiDialogService,

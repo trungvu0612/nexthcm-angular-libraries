@@ -1,7 +1,7 @@
-import { ChangeDetectionStrategy, Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AbstractServerSortPaginationTableComponent, Pagination } from '@nexthcm/cdk';
-import { ProviderScope, TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
 import { isPresent } from '@taiga-ui/cdk';
 import { BaseComponent, Columns } from 'ngx-easy-table';
@@ -19,6 +19,7 @@ import {
 } from 'rxjs/operators';
 import { AdminLeaveConfigsService } from '../../admin-leave-configs.service';
 import { EmployeeLeaveEntitlement, LeaveEntitlementFilters } from '../../models';
+import { TRANSLATION_SCOPE } from '../../translation-scope';
 
 @Component({
   selector: 'hcm-employee-leave-entitlement-management',
@@ -34,7 +35,7 @@ export class EmployeeLeaveEntitlementManagementComponent
   @ViewChild('table') table!: BaseComponent;
 
   readonly columns$: Observable<Columns[]> = this.translocoService
-    .selectTranslateObject('EMPLOYEE_LEAVE_ENTITLEMENT_COLUMNS', {}, (this.scope as ProviderScope).scope)
+    .selectTranslateObject('EMPLOYEE_LEAVE_ENTITLEMENT_COLUMNS', {}, TRANSLATION_SCOPE)
     .pipe(
       map((result) => [
         { key: 'cif', title: result.cif, orderEnabled: false },
@@ -91,7 +92,6 @@ export class EmployeeLeaveEntitlementManagementComponent
     readonly router: Router,
     readonly activatedRoute: ActivatedRoute,
     private readonly translocoService: TranslocoService,
-    @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope,
     private readonly leaveConfigsService: AdminLeaveConfigsService
   ) {
     super(state, router, activatedRoute);

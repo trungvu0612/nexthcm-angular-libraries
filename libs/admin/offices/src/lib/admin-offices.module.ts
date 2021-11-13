@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AkitaNgEffectsModule } from '@datorama/akita-ng-effects';
 import { OfficesEffects } from '@nexthcm/cdk';
-import { inlineLoaderFactory } from '@nexthcm/core';
 import { BaseFormComponentModule, InputFilterComponentModule, LayoutComponent, LayoutModule } from '@nexthcm/ui';
 import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
 import { TuiTablePaginationModule } from '@taiga-ui/addon-table';
@@ -12,8 +11,11 @@ import { TuiButtonModule, TuiLoaderModule, TuiPrimitiveCheckboxModule } from '@t
 import { TableModule } from 'ngx-easy-table';
 import { NgxPermissionsGuard, NgxPermissionsModule } from 'ngx-permissions';
 import { UpsertOfficeDialogComponent } from './components/upsert-office-dialog/upsert-office-dialog.component';
+import en from './i18n/en.json';
+import vi from './i18n/vi.json';
 import { OfficeManagementComponent } from './pages/office-management/office-management.component';
 import { AdminOfficesService } from './services/admin-offices.service';
+import { TRANSLATION_SCOPE } from './translation-scope';
 
 export const adminOfficesRoutes: Routes = [
   {
@@ -47,10 +49,7 @@ export const adminOfficesRoutes: Routes = [
     AdminOfficesService,
     {
       provide: TRANSLOCO_SCOPE,
-      useValue: {
-        scope: 'offices',
-        loader: inlineLoaderFactory((lang) => import(`../../assets/i18n/${lang}.json`)),
-      },
+      useValue: { scope: TRANSLATION_SCOPE, loader: { en: () => Promise.resolve(en), vi: () => Promise.resolve(vi) } },
     },
   ],
 })

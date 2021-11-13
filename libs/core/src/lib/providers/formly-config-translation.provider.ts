@@ -14,27 +14,11 @@ export class TranslateExtension {
     to._translated = true;
     field.expressionProperties = {
       ...(field.expressionProperties || {}),
-      'templateOptions.label': this.translate.selectTranslate(to.label || '', to.labelParams, to.translocoScope),
-      'templateOptions.placeholder': this.translate.selectTranslate(
-        to.placeholder || '',
-        to.placeholderParams,
-        to.translocoScope
-      ),
-      'templateOptions.description': this.translate.selectTranslate(
-        to.description || '',
-        to.descriptionParams,
-        to.translocoScope
-      ),
-      'templateOptions.labelText': this.translate.selectTranslate(
-        to.labelText || '',
-        to.labelTextParams,
-        to.translocoScope
-      ),
-      'templateOptions.linkText': this.translate.selectTranslate(
-        to.linkText || '',
-        to.linkTextParams,
-        to.translocoScope
-      ),
+      'templateOptions.label': this.translate.selectTranslate(to.label || '', to.labelParams),
+      'templateOptions.placeholder': this.translate.selectTranslate(to.placeholder || '', to.placeholderParams),
+      'templateOptions.description': this.translate.selectTranslate(to.description || '', to.descriptionParams),
+      'templateOptions.labelText': this.translate.selectTranslate(to.labelText || '', to.labelTextParams),
+      'templateOptions.linkText': this.translate.selectTranslate(to.linkText || '', to.linkTextParams),
     };
   }
 }

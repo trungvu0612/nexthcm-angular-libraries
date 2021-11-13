@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Route, RouterModule } from '@angular/router';
-import { inlineLoaderFactory } from '@nexthcm/core';
 import {
   CRON_LOCALIZATION,
   CronBuilderModule,
@@ -22,8 +21,11 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { EditSynchronizationSettingDialogComponent } from './components/edit-synchronization-setting-dialog/edit-synchronization-setting-dialog.component';
 import { FormlyQuartzCronComponent } from './components/formly-quartz-cron/formly-quartz-cron.component';
+import en from './i18n/en.json';
+import vi from './i18n/vi.json';
 import { SynchronizationSettingsComponent } from './pages/synchronization-settings/synchronization-settings.component';
 import { SynchronizeDataService } from './services/synchronize-data.service';
+import { TRANSLATION_SCOPE } from './translation-scope';
 
 export const adminSynchronizeDataRoutes: Route[] = [
   {
@@ -64,9 +66,9 @@ export const adminSynchronizeDataRoutes: Route[] = [
     {
       provide: TRANSLOCO_SCOPE,
       useValue: {
-        scope: 'scheduler',
-        alias: 'SCHEDULER',
-        loader: inlineLoaderFactory((lang) => import(`../../assets/i18n/${lang}.json`)),
+        scope: TRANSLATION_SCOPE,
+        alias: TRANSLATION_SCOPE,
+        loader: { en: () => Promise.resolve(en), vi: () => Promise.resolve(vi) },
       },
     },
     {

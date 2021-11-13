@@ -3,8 +3,5 @@
   "dest": "../../../dist/libs/admin/seat-maps",
   "lib": {
     "entryFile": "src/index.ts"
-  },
-  "assets": [
-    "assets"
-  ]
+  }
 }

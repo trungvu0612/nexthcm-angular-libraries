@@ -1,7 +1,7 @@
-import { ChangeDetectionStrategy, Component, Inject, Injector, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Injector, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AbstractServerSortPaginationTableComponent, Pagination, PromptService } from '@nexthcm/cdk';
-import { ProviderScope, TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
@@ -12,6 +12,7 @@ import { catchError, filter, map, share, startWith, switchMap, takeUntil } from 
 import { UpsertUserRoleDialogComponent } from '../../components/upsert-user-roles/upsert-user-role-dialog.component';
 import { UserRole } from '../../models/user-role';
 import { AdminUserRolesService } from '../../services/admin-user-roles.service';
+import { TRANSLATION_SCOPE } from '../../translation-scope';
 
 @Component({
   selector: 'hcm-user-role-management',
@@ -24,7 +25,7 @@ export class UserRoleManagementComponent extends AbstractServerSortPaginationTab
   @ViewChild('table') table!: BaseComponent;
 
   readonly columns$: Observable<Columns[]> = this.translocoService
-    .selectTranslateObject('ADMIN_USER_ROLE_COLUMNS', {}, (this.scope as ProviderScope).scope)
+    .selectTranslateObject('ADMIN_USER_ROLE_COLUMNS', {}, TRANSLATION_SCOPE)
     .pipe(
       map((result) => [
         { key: 'name', title: result.name },
@@ -46,7 +47,6 @@ export class UserRoleManagementComponent extends AbstractServerSortPaginationTab
     readonly state: RxState<Pagination<UserRole>>,
     readonly router: Router,
     readonly activatedRoute: ActivatedRoute,
-    @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope,
     private adminUserRolesService: AdminUserRolesService,
     private destroy$: TuiDestroyService,
     private dialogService: TuiDialogService,

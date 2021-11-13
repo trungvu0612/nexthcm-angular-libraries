@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/cor
 import { Actions } from '@datorama/akita-ng-effects';
 import { JobTitlesQuery, loadJobTitles } from '@nexthcm/cdk';
 import { FormBuilder, FormControl } from '@ngneat/reactive-forms';
-import { TRANSLOCO_SCOPE, TranslocoScope } from '@ngneat/transloco';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
@@ -18,6 +17,7 @@ import {
 } from '../../models';
 import { AdminWorkflowsService } from '../../services/admin-workflows.service';
 import { EmailTemplatesQuery, loadEmailTemplates, PostFunctionTypesQuery } from '../../state';
+import { TRANSLATION_SCOPE } from '../../translation-scope';
 
 @Component({
   selector: 'hcm-add-post-function-to-transition-dialog',
@@ -96,14 +96,13 @@ export class AddPostFunctionToTransitionDialogComponent
             type: 'select',
             templateOptions: {
               translate: true,
-              label: 'emailTemplate',
+              label: `${TRANSLATION_SCOPE}.emailTemplate`,
               labelClassName: 'font-semibold',
-              placeholder: 'chooseEmailTemplate',
+              placeholder: `${TRANSLATION_SCOPE}.chooseEmailTemplate`,
               required: true,
               options: this.emailTemplatesQuery.selectAll(),
               matcherBy: 'id',
               labelProp: 'name',
-              translocoScope: this.scope,
             },
             hideExpression: (model, formState) =>
               ![
@@ -127,8 +126,7 @@ export class AddPostFunctionToTransitionDialogComponent
     private readonly jobTitlesQuery: JobTitlesQuery,
     private readonly actions: Actions,
     private readonly emailTemplatesQuery: EmailTemplatesQuery,
-    private readonly destroy$: TuiDestroyService,
-    @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope
+    private readonly destroy$: TuiDestroyService
   ) {
     super(fb, context, adminWorkflowsService);
     this.actions.dispatch(loadJobTitles());

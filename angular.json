@@ -8,7 +8,7 @@
       "prefix": "hcm",
       "architect": {
         "build": {
-          "builder": "@nrwl/angular:ng-packagr-lite",
+          "builder": "@nrwl/angular:package",
           "outputs": ["dist/libs/admin/employees"],
           "options": {
             "project": "libs/admin/employees/ng-package.json"
@@ -35,8 +35,7 @@
           "builder": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": ["libs/admin/employees/src/**/*.ts", "libs/admin/employees/src/**/*.html"]
-          },
-          "outputs": ["{options.outputFile}"]
+          }
         },
         "publish": {
           "builder": "@nrwl/workspace:run-commands",
@@ -54,7 +53,7 @@
       "prefix": "hcm",
       "architect": {
         "build": {
-          "builder": "@nrwl/angular:ng-packagr-lite",
+          "builder": "@nrwl/angular:package",
           "outputs": ["dist/libs/admin/job-levels"],
           "options": {
             "project": "libs/admin/job-levels/ng-package.json"
@@ -99,7 +98,7 @@
       "prefix": "hcm",
       "architect": {
         "build": {
-          "builder": "@nrwl/angular:ng-packagr-lite",
+          "builder": "@nrwl/angular:package",
           "outputs": ["dist/libs/admin/job-titles"],
           "options": {
             "project": "libs/admin/job-titles/ng-package.json"
@@ -126,8 +125,7 @@
           "builder": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": ["libs/admin/job-titles/src/**/*.ts", "libs/admin/job-titles/src/**/*.html"]
-          },
-          "outputs": ["{options.outputFile}"]
+          }
         },
         "publish": {
           "builder": "@nrwl/workspace:run-commands",
@@ -145,7 +143,7 @@
       "prefix": "hcm",
       "architect": {
         "build": {
-          "builder": "@nrwl/angular:ng-packagr-lite",
+          "builder": "@nrwl/angular:package",
           "outputs": ["dist/libs/admin/knowledge-base"],
           "options": {
             "project": "libs/admin/knowledge-base/ng-package.json"
@@ -172,8 +170,7 @@
           "builder": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": ["libs/admin/knowledge-base/src/**/*.ts", "libs/admin/knowledge-base/src/**/*.html"]
-          },
-          "outputs": ["{options.outputFile}"]
+          }
         },
         "publish": {
           "builder": "@nrwl/workspace:run-commands",
@@ -191,7 +188,7 @@
       "prefix": "hcm",
       "architect": {
         "build": {
-          "builder": "@nrwl/angular:ng-packagr-lite",
+          "builder": "@nrwl/angular:package",
           "outputs": ["dist/libs/admin/leave-configs"],
           "options": {
             "project": "libs/admin/leave-configs/ng-package.json"
@@ -218,8 +215,7 @@
           "builder": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": ["libs/admin/leave-configs/src/**/*.ts", "libs/admin/leave-configs/src/**/*.html"]
-          },
-          "outputs": ["{options.outputFile}"]
+          }
         },
         "publish": {
           "builder": "@nrwl/workspace:run-commands",
@@ -237,7 +233,7 @@
       "prefix": "hcm",
       "architect": {
         "build": {
-          "builder": "@nrwl/angular:ng-packagr-lite",
+          "builder": "@nrwl/angular:package",
           "outputs": ["dist/libs/admin/offices"],
           "options": {
             "project": "libs/admin/offices/ng-package.json"
@@ -264,8 +260,7 @@
           "builder": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": ["libs/admin/offices/src/**/*.ts", "libs/admin/offices/src/**/*.html"]
-          },
-          "outputs": ["{options.outputFile}"]
+          }
         },
         "publish": {
           "builder": "@nrwl/workspace:run-commands",
@@ -283,7 +278,7 @@
       "prefix": "hcm",
       "architect": {
         "build": {
-          "builder": "@nrwl/angular:ng-packagr-lite",
+          "builder": "@nrwl/angular:package",
           "outputs": ["dist/libs/admin/permissions"],
           "options": {
             "project": "libs/admin/permissions/ng-package.json"
@@ -310,8 +305,7 @@
           "builder": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": ["libs/admin/permissions/src/**/*.ts", "libs/admin/permissions/src/**/*.html"]
-          },
-          "outputs": ["{options.outputFile}"]
+          }
         },
         "publish": {
           "builder": "@nrwl/workspace:run-commands",
@@ -329,7 +323,7 @@
       "prefix": "hcm",
       "architect": {
         "build": {
-          "builder": "@nrwl/angular:ng-packagr-lite",
+          "builder": "@nrwl/angular:package",
           "outputs": ["dist/libs/admin/requests-configuration"],
           "options": {
             "project": "libs/admin/requests-configuration/ng-package.json"
@@ -377,7 +371,7 @@
       "prefix": "hcm",
       "architect": {
         "build": {
-          "builder": "@nrwl/angular:ng-packagr-lite",
+          "builder": "@nrwl/angular:package",
           "outputs": ["dist/libs/admin/seat-maps"],
           "options": {
             "project": "libs/admin/seat-maps/ng-package.json"
@@ -403,9 +397,8 @@
         "lint": {
           "builder": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": ["libs/admin/seat-map/src/**/*.ts", "libs/admin/seat-map/src/**/*.html"]
-          },
-          "outputs": ["{options.outputFile}"]
+            "lintFilePatterns": ["libs/admin/seat-maps/src/**/*.ts", "libs/admin/seat-maps/src/**/*.html"]
+          }
         },
         "publish": {
           "builder": "@nrwl/workspace:run-commands",
@@ -423,7 +416,7 @@
       "prefix": "hcm",
       "architect": {
         "build": {
-          "builder": "@nrwl/angular:ng-packagr-lite",
+          "builder": "@nrwl/angular:package",
           "outputs": ["dist/libs/admin/synchronize-data"],
           "options": {
             "project": "libs/admin/synchronize-data/ng-package.json"
@@ -468,7 +461,7 @@
       "prefix": "hcm",
       "architect": {
         "build": {
-          "builder": "@nrwl/angular:ng-packagr-lite",
+          "builder": "@nrwl/angular:package",
           "outputs": ["dist/libs/admin/tenants"],
           "options": {
             "project": "libs/admin/tenants/ng-package.json"
@@ -513,7 +506,7 @@
       "prefix": "hcm",
       "architect": {
         "build": {
-          "builder": "@nrwl/angular:ng-packagr-lite",
+          "builder": "@nrwl/angular:package",
           "outputs": ["dist/libs/admin/user-roles"],
           "options": {
             "project": "libs/admin/user-roles/ng-package.json"
@@ -540,8 +533,7 @@
           "builder": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": ["libs/admin/user-roles/src/**/*.ts", "libs/admin/user-roles/src/**/*.html"]
-          },
-          "outputs": ["{options.outputFile}"]
+          }
         },
         "publish": {
           "builder": "@nrwl/workspace:run-commands",
@@ -559,7 +551,7 @@
       "prefix": "hcm",
       "architect": {
         "build": {
-          "builder": "@nrwl/angular:ng-packagr-lite",
+          "builder": "@nrwl/angular:package",
           "outputs": ["dist/libs/admin/workflows"],
           "options": {
             "project": "libs/admin/workflows/ng-package.json"
@@ -586,8 +578,7 @@
           "builder": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": ["libs/admin/workflows/src/**/*.ts", "libs/admin/workflows/src/**/*.html"]
-          },
-          "outputs": ["{options.outputFile}"]
+          }
         },
         "publish": {
           "builder": "@nrwl/workspace:run-commands",
@@ -605,7 +596,7 @@
       "prefix": "hcm",
       "architect": {
         "build": {
-          "builder": "@nrwl/angular:ng-packagr-lite",
+          "builder": "@nrwl/angular:package",
           "outputs": ["dist/libs/admin/working-times"],
           "options": {
             "project": "libs/admin/working-times/ng-package.json"
@@ -632,8 +623,7 @@
           "builder": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": ["libs/admin/working-times/src/**/*.ts", "libs/admin/working-times/src/**/*.html"]
-          },
-          "outputs": ["{options.outputFile}"]
+          }
         },
         "publish": {
           "builder": "@nrwl/workspace:run-commands",
@@ -651,24 +641,20 @@
       "prefix": "hcm",
       "architect": {
         "build": {
-          "builder": "@nrwl/angular:ng-packagr-lite",
+          "builder": "@nrwl/angular:package",
+          "outputs": ["dist/libs/auth"],
           "options": {
-            "tsConfig": "libs/auth/tsconfig.lib.json",
             "project": "libs/auth/ng-package.json"
           },
           "configurations": {
             "production": {
               "tsConfig": "libs/auth/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "libs/auth/tsconfig.lib.json"
             }
           },
           "defaultConfiguration": "production"
-        },
-        "lint": {
-          "builder": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": ["libs/auth/src/**/*.ts", "libs/auth/src/**/*.html"]
-          },
-          "outputs": ["{options.outputFile}"]
         },
         "test": {
           "builder": "@nrwl/jest:jest",
@@ -676,6 +662,12 @@
           "options": {
             "jestConfig": "libs/auth/jest.config.js",
             "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/auth/src/**/*.ts", "libs/auth/src/**/*.html"]
           }
         },
         "publish": {
@@ -694,7 +686,7 @@
       "prefix": "hcm",
       "architect": {
         "build": {
-          "builder": "@nrwl/angular:ng-packagr-lite",
+          "builder": "@nrwl/angular:package",
           "outputs": ["dist/libs/calendar"],
           "options": {
             "project": "libs/calendar/ng-package.json"
@@ -721,8 +713,7 @@
           "builder": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": ["libs/calendar/src/**/*.ts", "libs/calendar/src/**/*.html"]
-          },
-          "outputs": ["{options.outputFile}"]
+          }
         },
         "publish": {
           "builder": "@nrwl/workspace:run-commands",
@@ -740,7 +731,7 @@
       "prefix": "hcm",
       "architect": {
         "build": {
-          "builder": "@nrwl/angular:ng-packagr-lite",
+          "builder": "@nrwl/angular:package",
           "outputs": ["dist/libs/cdk"],
           "options": {
             "project": "libs/cdk/ng-package.json"
@@ -767,63 +758,12 @@
           "builder": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": ["libs/cdk/src/**/*.ts", "libs/cdk/src/**/*.html"]
-          },
-          "outputs": ["{options.outputFile}"]
+          }
         },
         "publish": {
           "builder": "@nrwl/workspace:run-commands",
           "options": {
             "command": "yarn publish dist/libs/cdk"
-          }
-        }
-      },
-      "tags": []
-    },
-    "chat": {
-      "projectType": "library",
-      "root": "libs/chat",
-      "sourceRoot": "libs/chat/src",
-      "prefix": "hcm",
-      "architect": {
-        "build": {
-          "builder": "@nrwl/angular:ng-packagr-lite",
-          "outputs": ["dist/libs/chat"],
-          "options": {
-            "project": "libs/chat/ng-package.json"
-          },
-          "configurations": {
-            "production": {
-              "tsConfig": "libs/chat/tsconfig.lib.prod.json"
-            },
-            "development": {
-              "tsConfig": "libs/chat/tsconfig.lib.json"
-            }
-          },
-          "defaultConfiguration": "production"
-        },
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/chat"],
-          "options": {
-            "jestConfig": "libs/chat/jest.config.js",
-            "passWithNoTests": true
-          }
-        },
-        "lint": {
-          "builder": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": ["libs/chat/src/**/*.ts", "libs/chat/src/**/*.html"]
-          },
-          "outputs": ["{options.outputFile}"]
-        },
-        "generate": {
-          "builder": "@nrwl/workspace:run-commands",
-          "options": {
-            "commands": [
-              {
-                "command": "npx graphql-codegen --config libs/chat/src/codegen.yml && npx prettier --write libs/chat/src/lib/services/chat.service.ts"
-              }
-            ]
           }
         }
       },
@@ -835,35 +775,21 @@
       "sourceRoot": "libs/core/src",
       "prefix": "hcm",
       "architect": {
-        "prepare": {
-          "builder": "@nrwl/workspace:run-commands",
-          "options": {
-            "commands": [
-              {
-                "command": "node ./i18n-cache-busting.js"
-              }
-            ]
-          }
-        },
         "build": {
-          "builder": "@nrwl/angular:ng-packagr-lite",
+          "builder": "@nrwl/angular:package",
+          "outputs": ["dist/libs/core"],
           "options": {
-            "tsConfig": "libs/core/tsconfig.lib.json",
             "project": "libs/core/ng-package.json"
           },
           "configurations": {
             "production": {
               "tsConfig": "libs/core/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "libs/core/tsconfig.lib.json"
             }
           },
           "defaultConfiguration": "production"
-        },
-        "lint": {
-          "builder": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": ["libs/core/src/**/*.ts", "libs/core/src/**/*.html"]
-          },
-          "outputs": ["{options.outputFile}"]
         },
         "test": {
           "builder": "@nrwl/jest:jest",
@@ -871,6 +797,12 @@
           "options": {
             "jestConfig": "libs/core/jest.config.js",
             "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/core/src/**/*.ts", "libs/core/src/**/*.html"]
           }
         },
         "publish": {
@@ -889,7 +821,7 @@
       "prefix": "hcm",
       "architect": {
         "build": {
-          "builder": "@nrwl/angular:ng-packagr-lite",
+          "builder": "@nrwl/angular:package",
           "outputs": ["dist/libs/cron-builder"],
           "options": {
             "project": "libs/cron-builder/ng-package.json"
@@ -935,27 +867,33 @@
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
+          "outputs": ["{options.outputPath}"],
           "options": {
             "outputPath": "dist/apps/hcm-web",
             "index": "apps/hcm-web/src/index.html",
             "main": "apps/hcm-web/src/main.ts",
             "polyfills": "apps/hcm-web/src/polyfills.ts",
             "tsConfig": "apps/hcm-web/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
             "assets": [
               "apps/hcm-web/src/favicon.ico",
               "apps/hcm-web/src/assets",
               {
                 "glob": "**/*",
-                "input": "libs/core/assets",
-                "output": "assets"
+                "input": "node_modules/@taiga-ui/icons/src",
+                "output": "assets/taiga-ui/icons"
               },
               {
                 "glob": "**/*",
-                "input": "node_modules/@taiga-ui/icons/src",
-                "output": "assets/taiga-ui/icons"
+                "input": "libs/core/assets",
+                "output": "assets"
               }
             ],
-            "styles": ["node_modules/@taiga-ui/core/styles/taiga-ui-global.less", "apps/hcm-web/src/styles.scss"],
+            "styles": [
+              "node_modules/@taiga-ui/core/styles/taiga-ui-global.less",
+              "node_modules/@taiga-ui/core/styles/taiga-ui-theme.less",
+              "apps/hcm-web/src/styles.scss"
+            ],
             "scripts": [],
             "allowedCommonJsDependencies": ["angular2-text-mask", "quill-delta-to-html", "quill-auto-detect-url"]
           },
@@ -988,15 +926,12 @@
               "extractLicenses": false,
               "sourceMap": true,
               "namedChunks": true
-            },
-            "defaultConfiguration": "production"
-          }
+            }
+          },
+          "defaultConfiguration": "production"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
-          "options": {
-            "browserTarget": "hcm-web:build"
-          },
           "configurations": {
             "production": {
               "browserTarget": "hcm-web:build:production"
@@ -1017,8 +952,7 @@
           "builder": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": ["apps/hcm-web/src/**/*.ts", "apps/hcm-web/src/**/*.html"]
-          },
-          "outputs": ["{options.outputFile}"]
+          }
         },
         "test": {
           "builder": "@nrwl/jest:jest",
@@ -1026,13 +960,6 @@
           "options": {
             "jestConfig": "apps/hcm-web/jest.config.js",
             "passWithNoTests": true
-          }
-        },
-        "stylelint": {
-          "builder": "nx-stylelint:lint",
-          "options": {
-            "config": "apps/hcm-web/.stylelintrc.json",
-            "lintFilePatterns": ["apps/hcm-web/**/*.{css,scss,sass,less}"]
           }
         }
       },
@@ -1047,8 +974,7 @@
           "builder": "@nrwl/cypress:cypress",
           "options": {
             "cypressConfig": "apps/hcm-web-e2e/cypress.json",
-            "tsConfig": "apps/hcm-web-e2e/tsconfig.e2e.json",
-            "devServerTarget": "hcm-web:serve"
+            "devServerTarget": "hcm-web:serve:development"
           },
           "configurations": {
             "production": {
@@ -1058,156 +984,14 @@
         },
         "lint": {
           "builder": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
           "options": {
             "lintFilePatterns": ["apps/hcm-web-e2e/**/*.{js,ts}"]
-          },
-          "outputs": ["{options.outputFile}"]
+          }
         }
       },
       "tags": [],
       "implicitDependencies": ["hcm-web"]
-    },
-    "hcm-workflows": {
-      "projectType": "application",
-      "root": "apps/hcm-workflows",
-      "sourceRoot": "apps/hcm-workflows/src",
-      "prefix": "hcm",
-      "architect": {
-        "build": {
-          "builder": "@angular-devkit/build-angular:browser",
-          "outputs": ["{options.outputPath}"],
-          "options": {
-            "outputPath": "dist/apps/hcm-workflows",
-            "index": "apps/hcm-workflows/src/index.html",
-            "main": "apps/hcm-workflows/src/main.ts",
-            "polyfills": "apps/hcm-workflows/src/polyfills.ts",
-            "tsConfig": "apps/hcm-workflows/tsconfig.app.json",
-            "inlineStyleLanguage": "scss",
-            "assets": [
-              "apps/hcm-workflows/src/favicon.ico",
-              "apps/hcm-workflows/src/assets",
-              {
-                "glob": "**/*",
-                "input": "libs/core/assets",
-                "output": "assets"
-              },
-              {
-                "glob": "**/*",
-                "input": "node_modules/@taiga-ui/icons/src",
-                "output": "assets/taiga-ui/icons"
-              },
-              {
-                "glob": "**/*",
-                "input": "node_modules/mxgraph/javascript/src",
-                "output": "."
-              },
-              {
-                "glob": "**/*",
-                "input": "libs/workflow-designer/assets/mxgraph",
-                "output": "."
-              }
-            ],
-            "styles": ["apps/hcm-workflows/src/styles.scss", "node_modules/@taiga-ui/core/styles/taiga-ui-global.less"],
-            "scripts": ["node_modules/mxgraph/javascript/mxClient.min.js"],
-            "allowedCommonJsDependencies": ["angular2-text-mask", "quill-delta-to-html", "quill-auto-detect-url"]
-          },
-          "configurations": {
-            "production": {
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "500kb",
-                  "maximumError": "1mb"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
-                }
-              ],
-              "fileReplacements": [
-                {
-                  "replace": "apps/hcm-workflows/src/environments/environment.ts",
-                  "with": "apps/hcm-workflows/src/environments/environment.prod.ts"
-                }
-              ],
-              "outputHashing": "all"
-            },
-            "development": {
-              "buildOptimizer": false,
-              "optimization": false,
-              "vendorChunk": true,
-              "extractLicenses": false,
-              "sourceMap": true,
-              "namedChunks": true
-            }
-          },
-          "defaultConfiguration": "production"
-        },
-        "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
-          "configurations": {
-            "production": {
-              "browserTarget": "hcm-workflows:build:production"
-            },
-            "development": {
-              "browserTarget": "hcm-workflows:build:development"
-            }
-          },
-          "defaultConfiguration": "development"
-        },
-        "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
-          "options": {
-            "browserTarget": "hcm-workflows:build"
-          }
-        },
-        "lint": {
-          "builder": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": ["apps/hcm-workflows/src/**/*.ts", "apps/hcm-workflows/src/**/*.html"]
-          },
-          "outputs": ["{options.outputFile}"]
-        },
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/apps/hcm-workflows"],
-          "options": {
-            "jestConfig": "apps/hcm-workflows/jest.config.js",
-            "passWithNoTests": true
-          }
-        }
-      },
-      "tags": []
-    },
-    "hcm-workflows-e2e": {
-      "root": "apps/hcm-workflows-e2e",
-      "sourceRoot": "apps/hcm-workflows-e2e/src",
-      "projectType": "application",
-      "architect": {
-        "e2e": {
-          "builder": "@nrwl/cypress:cypress",
-          "options": {
-            "cypressConfig": "apps/hcm-workflows-e2e/cypress.json",
-            "tsConfig": "apps/hcm-workflows-e2e/tsconfig.e2e.json",
-            "devServerTarget": "hcm-workflows:serve:development"
-          },
-          "configurations": {
-            "production": {
-              "devServerTarget": "hcm-workflows:serve:production"
-            }
-          }
-        },
-        "lint": {
-          "builder": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": ["apps/hcm-workflows-e2e/**/*.{js,ts}"]
-          },
-          "outputs": ["{options.outputFile}"]
-        }
-      },
-      "tags": [],
-      "implicitDependencies": ["hcm-workflows"]
     },
     "home": {
       "projectType": "library",
@@ -1216,24 +1000,20 @@
       "prefix": "hcm",
       "architect": {
         "build": {
-          "builder": "@nrwl/angular:ng-packagr-lite",
+          "builder": "@nrwl/angular:package",
+          "outputs": ["dist/libs/home"],
           "options": {
-            "tsConfig": "libs/home/tsconfig.lib.json",
             "project": "libs/home/ng-package.json"
           },
           "configurations": {
             "production": {
               "tsConfig": "libs/home/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "libs/home/tsconfig.lib.json"
             }
           },
           "defaultConfiguration": "production"
-        },
-        "lint": {
-          "builder": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": ["libs/home/src/**/*.ts", "libs/home/src/**/*.html"]
-          },
-          "outputs": ["{options.outputFile}"]
         },
         "test": {
           "builder": "@nrwl/jest:jest",
@@ -1241,6 +1021,12 @@
           "options": {
             "jestConfig": "libs/home/jest.config.js",
             "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/home/src/**/*.ts", "libs/home/src/**/*.html"]
           }
         },
         "publish": {
@@ -1259,24 +1045,20 @@
       "prefix": "hcm",
       "architect": {
         "build": {
-          "builder": "@nrwl/angular:ng-packagr-lite",
+          "builder": "@nrwl/angular:package",
+          "outputs": ["dist/libs/human-resource"],
           "options": {
-            "tsConfig": "libs/human-resource/tsconfig.lib.json",
             "project": "libs/human-resource/ng-package.json"
           },
           "configurations": {
             "production": {
               "tsConfig": "libs/human-resource/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "libs/human-resource/tsconfig.lib.json"
             }
           },
           "defaultConfiguration": "production"
-        },
-        "lint": {
-          "builder": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": ["libs/human-resource/src/**/*.ts", "libs/human-resource/src/**/*.html"]
-          },
-          "outputs": ["{options.outputFile}"]
         },
         "test": {
           "builder": "@nrwl/jest:jest",
@@ -1284,6 +1066,12 @@
           "options": {
             "jestConfig": "libs/human-resource/jest.config.js",
             "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/human-resource/src/**/*.ts", "libs/human-resource/src/**/*.html"]
           }
         },
         "publish": {
@@ -1302,24 +1090,20 @@
       "prefix": "hcm",
       "architect": {
         "build": {
-          "builder": "@nrwl/angular:ng-packagr-lite",
+          "builder": "@nrwl/angular:package",
+          "outputs": ["dist/libs/knowledge-base"],
           "options": {
-            "tsConfig": "libs/knowledge-base/tsconfig.lib.json",
             "project": "libs/knowledge-base/ng-package.json"
           },
           "configurations": {
             "production": {
               "tsConfig": "libs/knowledge-base/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "libs/knowledge-base/tsconfig.lib.json"
             }
           },
           "defaultConfiguration": "production"
-        },
-        "lint": {
-          "builder": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": ["libs/knowledge-base/src/**/*.ts", "libs/knowledge-base/src/**/*.html"]
-          },
-          "outputs": ["{options.outputFile}"]
         },
         "test": {
           "builder": "@nrwl/jest:jest",
@@ -1327,6 +1111,12 @@
           "options": {
             "jestConfig": "libs/knowledge-base/jest.config.js",
             "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/knowledge-base/src/**/*.ts", "libs/knowledge-base/src/**/*.html"]
           }
         },
         "publish": {
@@ -1345,24 +1135,20 @@
       "prefix": "hcm",
       "architect": {
         "build": {
-          "builder": "@nrwl/angular:ng-packagr-lite",
+          "builder": "@nrwl/angular:package",
+          "outputs": ["dist/libs/my-time"],
           "options": {
-            "tsConfig": "libs/my-time/tsconfig.lib.json",
             "project": "libs/my-time/ng-package.json"
           },
           "configurations": {
             "production": {
               "tsConfig": "libs/my-time/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "libs/my-time/tsconfig.lib.json"
             }
           },
           "defaultConfiguration": "production"
-        },
-        "lint": {
-          "builder": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": ["libs/my-time/src/**/*.ts", "libs/my-time/src/**/*.html"]
-          },
-          "outputs": ["{options.outputFile}"]
         },
         "test": {
           "builder": "@nrwl/jest:jest",
@@ -1370,6 +1156,12 @@
           "options": {
             "jestConfig": "libs/my-time/jest.config.js",
             "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/my-time/src/**/*.ts", "libs/my-time/src/**/*.html"]
           }
         },
         "publish": {
@@ -1381,29 +1173,28 @@
       },
       "tags": []
     },
-    "next-hcm-demo-web": {
+    "nexthcm-web": {
       "projectType": "application",
-      "root": "apps/next-hcm-demo-web",
-      "sourceRoot": "apps/next-hcm-demo-web/src",
+      "root": "apps/nexthcm-web",
+      "sourceRoot": "apps/nexthcm-web/src",
       "prefix": "hcm",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@nrwl/angular:webpack-browser",
           "outputs": ["{options.outputPath}"],
-          "dependsOn": [],
           "options": {
-            "outputPath": "dist/apps/next-hcm-demo-web",
-            "index": "apps/next-hcm-demo-web/src/index.html",
-            "main": "apps/next-hcm-demo-web/src/main.ts",
-            "polyfills": "apps/next-hcm-demo-web/src/polyfills.ts",
-            "tsConfig": "apps/next-hcm-demo-web/tsconfig.app.json",
+            "outputPath": "dist/apps/nexthcm-web",
+            "index": "apps/nexthcm-web/src/index.html",
+            "main": "apps/nexthcm-web/src/main.ts",
+            "polyfills": "apps/nexthcm-web/src/polyfills.ts",
+            "tsConfig": "apps/nexthcm-web/tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "apps/next-hcm-demo-web/src/favicon.ico",
-              "apps/next-hcm-demo-web/src/assets",
+              "apps/nexthcm-web/src/favicon.ico",
+              "apps/nexthcm-web/src/assets",
               {
                 "glob": "**/*",
-                "input": "node_modules/@nexthcm/core/assets",
+                "input": "dist/libs/core/assets",
                 "output": "assets"
               },
               {
@@ -1418,14 +1209,11 @@
               },
               {
                 "glob": "**/*",
-                "input": "node_modules/@nexthcm/workflow-designer/assets/mxgraph",
+                "input": "dist/libs/workflow-designer/assets/mxgraph",
                 "output": "."
               }
             ],
-            "styles": [
-              "node_modules/@taiga-ui/core/styles/taiga-ui-global.less",
-              "apps/next-hcm-demo-web/src/styles.scss"
-            ],
+            "styles": ["node_modules/@taiga-ui/core/styles/taiga-ui-global.less", "apps/nexthcm-web/src/styles.scss"],
             "scripts": ["node_modules/mxgraph/javascript/mxClient.min.js"],
             "allowedCommonJsDependencies": [
               "angular2-text-mask",
@@ -1448,8 +1236,8 @@
               ],
               "fileReplacements": [
                 {
-                  "replace": "apps/next-hcm-demo-web/src/environments/environment.ts",
-                  "with": "apps/next-hcm-demo-web/src/environments/environment.prod.ts"
+                  "replace": "apps/nexthcm-web/src/environments/environment.ts",
+                  "with": "apps/nexthcm-web/src/environments/environment.prod.ts"
                 }
               ],
               "outputHashing": "all"
@@ -1523,13 +1311,16 @@
           "defaultConfiguration": "production"
         },
         "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
+          "builder": "@nrwl/web:file-server",
+          "options": {
+            "proxyUrl": "http://localhost:4200?"
+          },
           "configurations": {
             "production": {
-              "browserTarget": "next-hcm-demo-web:build:production"
+              "buildTarget": "nexthcm-web:build:production"
             },
             "development": {
-              "browserTarget": "next-hcm-demo-web:build:development"
+              "buildTarget": "nexthcm-web:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -1537,40 +1328,40 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "next-hcm-demo-web:build"
+            "browserTarget": "nexthcm-web:build"
           }
         },
         "lint": {
           "builder": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": ["apps/next-hcm-demo-web/src/**/*.ts", "apps/next-hcm-demo-web/src/**/*.html"]
+            "lintFilePatterns": ["apps/nexthcm-web/src/**/*.ts", "apps/nexthcm-web/src/**/*.html"]
           }
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/apps/next-hcm-demo-web"],
+          "outputs": ["coverage/apps/nexthcm-web"],
           "options": {
-            "jestConfig": "apps/next-hcm-demo-web/jest.config.js",
+            "jestConfig": "apps/nexthcm-web/jest.config.js",
             "passWithNoTests": true
           }
         }
       },
       "tags": []
     },
-    "next-hcm-demo-web-e2e": {
-      "root": "apps/next-hcm-demo-web-e2e",
-      "sourceRoot": "apps/next-hcm-demo-web-e2e/src",
+    "nexthcm-web-e2e": {
+      "root": "apps/nexthcm-web-e2e",
+      "sourceRoot": "apps/nexthcm-web-e2e/src",
       "projectType": "application",
       "architect": {
         "e2e": {
           "builder": "@nrwl/cypress:cypress",
           "options": {
-            "cypressConfig": "apps/next-hcm-demo-web-e2e/cypress.json",
-            "devServerTarget": "next-hcm-demo-web:serve:development"
+            "cypressConfig": "apps/nexthcm-web-e2e/cypress.json",
+            "devServerTarget": "nexthcm-web:serve:development"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "next-hcm-demo-web:serve:production"
+              "devServerTarget": "nexthcm-web:serve:production"
             }
           }
         },
@@ -1578,12 +1369,12 @@
           "builder": "@nrwl/linter:eslint",
           "outputs": ["{options.outputFile}"],
           "options": {
-            "lintFilePatterns": ["apps/next-hcm-demo-web-e2e/**/*.{js,ts}"]
+            "lintFilePatterns": ["apps/nexthcm-web-e2e/**/*.{js,ts}"]
           }
         }
       },
       "tags": [],
-      "implicitDependencies": ["next-hcm-demo-web"]
+      "implicitDependencies": ["nexthcm-web"]
     },
     "seat-maps": {
       "projectType": "library",
@@ -1592,7 +1383,7 @@
       "prefix": "hcm",
       "architect": {
         "build": {
-          "builder": "@nrwl/angular:ng-packagr-lite",
+          "builder": "@nrwl/angular:package",
           "outputs": ["dist/libs/seat-maps"],
           "options": {
             "project": "libs/seat-maps/ng-package.json"
@@ -1619,8 +1410,7 @@
           "builder": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": ["libs/seat-maps/src/**/*.ts", "libs/seat-maps/src/**/*.html"]
-          },
-          "outputs": ["{options.outputFile}"]
+          }
         },
         "publish": {
           "builder": "@nrwl/workspace:run-commands",
@@ -1638,24 +1428,20 @@
       "prefix": "hcm",
       "architect": {
         "build": {
-          "builder": "@nrwl/angular:ng-packagr-lite",
+          "builder": "@nrwl/angular:package",
+          "outputs": ["dist/libs/ui"],
           "options": {
-            "tsConfig": "libs/ui/tsconfig.lib.json",
             "project": "libs/ui/ng-package.json"
           },
           "configurations": {
             "production": {
               "tsConfig": "libs/ui/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "libs/ui/tsconfig.lib.json"
             }
           },
           "defaultConfiguration": "production"
-        },
-        "lint": {
-          "builder": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": ["libs/ui/src/**/*.ts", "libs/ui/src/**/*.html"]
-          },
-          "outputs": ["{options.outputFile}"]
         },
         "test": {
           "builder": "@nrwl/jest:jest",
@@ -1663,6 +1449,12 @@
           "options": {
             "jestConfig": "libs/ui/jest.config.js",
             "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/ui/src/**/*.ts", "libs/ui/src/**/*.html"]
           }
         },
         "publish": {
@@ -1681,7 +1473,7 @@
       "prefix": "hcm",
       "architect": {
         "build": {
-          "builder": "@nrwl/angular:ng-packagr-lite",
+          "builder": "@nrwl/angular:package",
           "outputs": ["dist/libs/workflow-designer"],
           "options": {
             "project": "libs/workflow-designer/ng-package.json"
@@ -1708,8 +1500,7 @@
           "builder": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": ["libs/workflow-designer/src/**/*.ts", "libs/workflow-designer/src/**/*.html"]
-          },
-          "outputs": ["{options.outputFile}"]
+          }
         },
         "publish": {
           "builder": "@nrwl/workspace:run-commands",

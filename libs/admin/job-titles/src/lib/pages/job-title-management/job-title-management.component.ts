@@ -1,7 +1,7 @@
-import { ChangeDetectionStrategy, Component, Inject, Injector, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Injector, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AbstractServerSortPaginationTableComponent, CommonStatus, Pagination, PromptService } from '@nexthcm/cdk';
-import { ProviderScope, TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
@@ -12,6 +12,7 @@ import { catchError, filter, map, shareReplay, startWith, switchMap, takeUntil }
 import { UpsertJobTitleDialogComponent } from '../../components/upsert-job-title-dialog/upsert-job-title-dialog.component';
 import { JobTitle } from '../../models/job-title';
 import { AdminJobTitlesService } from '../../services/admin-job-titles.service';
+import { TRANSLATION_SCOPE } from '../../translation-scope';
 
 @Component({
   selector: 'hcm-job-title-management',
@@ -25,7 +26,7 @@ export class JobTitleManagementComponent extends AbstractServerSortPaginationTab
 
   readonly CommonStatus = CommonStatus;
   readonly columns$: Observable<Columns[]> = this.translocoService
-    .selectTranslateObject('ADMIN_JOB_TITLE_COLUMNS', {}, (this.scope as ProviderScope).scope)
+    .selectTranslateObject('ADMIN_JOB_TITLE_COLUMNS', {}, TRANSLATION_SCOPE)
     .pipe(
       map((result) => [
         { key: 'name', title: result.name },
@@ -45,7 +46,6 @@ export class JobTitleManagementComponent extends AbstractServerSortPaginationTab
   );
 
   constructor(
-    @Inject(TRANSLOCO_SCOPE) readonly scope: TranslocoScope,
     readonly state: RxState<Pagination<JobTitle>>,
     readonly router: Router,
     readonly activatedRoute: ActivatedRoute,

@@ -1,7 +1,7 @@
-import { ChangeDetectionStrategy, Component, Inject, Injector, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Injector, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AbstractServerSortPaginationTableComponent, Pagination } from '@nexthcm/cdk';
-import { HashMap, ProviderScope, TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
+import { HashMap, TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
@@ -9,6 +9,7 @@ import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { API, BaseComponent, Columns, Config, DefaultConfig } from 'ngx-easy-table';
 import { Observable, of } from 'rxjs';
 import { catchError, filter, map, share, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { TRANSLATION_SCOPE } from '../../../../internal/constants';
 import { WorkingHoursGroup } from '../../../../models';
 import { WorkingHoursService } from '../../../../services';
 import { ExportTimeLogDialogComponent } from '../export-time-log-dialog/export-time-log-dialog.component';
@@ -34,7 +35,7 @@ export class EveryoneWorkingHoursListComponent
   };
   readonly toggledRows = new Set<number>();
   readonly columns$: Observable<Columns[]> = this.translocoService
-    .selectTranslateObject<HashMap<string>>('WORKING_HOURS_TABLE_COLUMNS', {}, (this.scope as ProviderScope).scope)
+    .selectTranslateObject<HashMap<string>>('WORKING_HOURS_TABLE_COLUMNS', {}, TRANSLATION_SCOPE)
     .pipe(
       map((result) => [
         { key: '', title: '', width: '6%' },
@@ -88,7 +89,6 @@ export class EveryoneWorkingHoursListComponent
     readonly state: RxState<Pagination<WorkingHoursGroup>>,
     readonly router: Router,
     readonly activatedRoute: ActivatedRoute,
-    @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope,
     private readonly workingHoursService: WorkingHoursService,
     private readonly destroy$: TuiDestroyService,
     private readonly translocoService: TranslocoService,

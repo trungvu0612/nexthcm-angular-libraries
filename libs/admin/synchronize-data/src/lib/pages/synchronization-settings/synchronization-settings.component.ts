@@ -1,6 +1,6 @@
-import { ChangeDetectionStrategy, Component, Inject, Injector, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Injector, OnInit, ViewChild } from '@angular/core';
 import { CommonStatus, PromptService } from '@nexthcm/cdk';
-import { ProviderScope, TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogService, TuiNotificationsService } from '@taiga-ui/core';
@@ -12,6 +12,7 @@ import { EditSynchronizationSettingDialogComponent } from '../../components/edit
 import { SyncType } from '../../enums';
 import { SynchronizationSetting } from '../../models/synchronization-setting';
 import { SynchronizeDataService } from '../../services/synchronize-data.service';
+import { TRANSLATION_SCOPE } from '../../translation-scope';
 
 interface CommonState {
   data: SynchronizationSetting[];
@@ -37,7 +38,7 @@ export class SynchronizationSettingsComponent implements OnInit {
   readonly CommonStatus = CommonStatus;
   readonly SyncType = SyncType;
   readonly columns$: Observable<Columns[]> = this.translocoService
-    .selectTranslateObject('ADMIN_SYNCHRONIZATION_SETTINGS_COLUMNS', {}, (this.scope as ProviderScope).scope)
+    .selectTranslateObject('ADMIN_SYNCHRONIZATION_SETTINGS_COLUMNS', {}, TRANSLATION_SCOPE)
     .pipe(
       map((result) => [
         { key: 'name', title: result.name },
@@ -62,7 +63,6 @@ export class SynchronizationSettingsComponent implements OnInit {
   constructor(
     private readonly translocoService: TranslocoService,
     private readonly synchronizeDataService: SynchronizeDataService,
-    @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope,
     private readonly dialogService: TuiDialogService,
     private readonly injector: Injector,
     private readonly destroy$: TuiDestroyService,

@@ -5,7 +5,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { AkitaNgEffectsModule } from '@datorama/akita-ng-effects';
 import { GetFilePipeModule, OfficesEffects, SeatMapsEffects } from '@nexthcm/cdk';
-import { inlineLoaderFactory } from '@nexthcm/core';
 import { LayoutComponent, LayoutModule } from '@nexthcm/ui';
 import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
 import { FormlyModule } from '@ngx-formly/core';
@@ -15,9 +14,12 @@ import { TuiButtonModule, TuiLoaderModule, TuiSvgModule } from '@taiga-ui/core';
 import { TuiInputFileModule } from '@taiga-ui/kit';
 import { TableModule } from 'ngx-easy-table';
 import { NgxPermissionsGuard, NgxPermissionsModule } from 'ngx-permissions';
+import en from './i18n/en.json';
+import vi from './i18n/vi.json';
 import { SeatMapManagementComponent } from './pages/seat-map-management/seat-map-management.component';
 import { UpsertSeatMapComponent } from './pages/upsert-seat-map/upsert-seat-map.component';
 import { AdminSeatMapsService } from './services/admin-seat-maps.service';
+import { TRANSLATION_SCOPE } from './translation-scope';
 
 export const adminSeatMapsRoutes: Routes = [
   {
@@ -68,10 +70,7 @@ export const adminSeatMapsRoutes: Routes = [
     AdminSeatMapsService,
     {
       provide: TRANSLOCO_SCOPE,
-      useValue: {
-        scope: 'adminSeatMaps',
-        loader: inlineLoaderFactory((lang) => import(`../../assets/i18n/${lang}.json`)),
-      },
+      useValue: { scope: TRANSLATION_SCOPE, loader: { en: () => Promise.resolve(en), vi: () => Promise.resolve(vi) } },
     },
   ],
 })

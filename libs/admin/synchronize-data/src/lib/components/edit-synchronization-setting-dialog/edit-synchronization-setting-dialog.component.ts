@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
 import { CommonStatus, PromptService } from '@nexthcm/cdk';
 import { FormBuilder } from '@ngneat/reactive-forms';
-import { TRANSLOCO_SCOPE, TranslocoScope } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
@@ -10,6 +9,7 @@ import { takeUntil } from 'rxjs/operators';
 import { SyncType } from '../../enums';
 import { SynchronizationSetting } from '../../models/synchronization-setting';
 import { SynchronizeDataService } from '../../services/synchronize-data.service';
+import { TRANSLATION_SCOPE } from '../../translation-scope';
 
 @Component({
   selector: 'hcm-edit-synchronization-setting-dialog',
@@ -52,13 +52,12 @@ export class EditSynchronizationSettingDialogComponent implements OnInit {
       type: 'input-number',
       templateOptions: {
         translate: true,
-        label: 'value',
+        label: `${TRANSLATION_SCOPE}.value`,
         labelClassName: 'font-semibold',
-        placeholder: 'enterSeconds',
+        placeholder: `${TRANSLATION_SCOPE}.enterSeconds`,
         min: 300,
         required: true,
         textfieldLabelOutside: true,
-        translocoScope: this.scope,
       },
       hideExpression: (model: SynchronizationSetting) => model.type !== SyncType.interval,
     },
@@ -82,8 +81,7 @@ export class EditSynchronizationSettingDialogComponent implements OnInit {
     @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<boolean, SynchronizationSetting>,
     private readonly synchronizeDataService: SynchronizeDataService,
     private readonly promptService: PromptService,
-    private readonly destroy$: TuiDestroyService,
-    @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope
+    private readonly destroy$: TuiDestroyService
   ) {}
 
   ngOnInit(): void {

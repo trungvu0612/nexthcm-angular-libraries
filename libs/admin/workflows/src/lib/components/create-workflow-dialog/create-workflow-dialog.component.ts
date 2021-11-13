@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component, Inject, OnInit, ViewChild } from '@
 import { Actions } from '@datorama/akita-ng-effects';
 import { BaseUser, PromptService, WorkflowStatusType } from '@nexthcm/cdk';
 import { FormBuilder } from '@ngneat/reactive-forms';
-import { TRANSLOCO_SCOPE, TranslocoScope } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
@@ -11,6 +10,7 @@ import { takeUntil, tap } from 'rxjs/operators';
 import { InitWorkflow } from '../../models';
 import { AdminWorkflowsService } from '../../services/admin-workflows.service';
 import { loadStatuses, loadStatusTypes, StatusTypesQuery } from '../../state';
+import { TRANSLATION_SCOPE } from '../../translation-scope';
 
 @Component({
   selector: 'hcm-create-workflow-dialog',
@@ -34,7 +34,6 @@ export class CreateWorkflowDialogComponent implements OnInit {
     private readonly statusTypesQuery: StatusTypesQuery,
     private readonly destroy$: TuiDestroyService,
     private readonly promptService: PromptService,
-    @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope,
     action: Actions
   ) {
     action.dispatch(loadStatuses());
@@ -75,11 +74,10 @@ export class CreateWorkflowDialogComponent implements OnInit {
         templateOptions: {
           translate: true,
           required: true,
-          label: 'initStatus',
+          label: `${TRANSLATION_SCOPE}.initStatus`,
           labelClassName: 'font-semibold',
           textfieldLabelOutside: true,
-          placeholder: 'searchStatusOrNameNewOne',
-          translocoScope: this.scope,
+          placeholder: `${TRANSLATION_SCOPE}.searchStatusOrNameNewOne`,
         },
       },
       {
@@ -88,11 +86,10 @@ export class CreateWorkflowDialogComponent implements OnInit {
         type: 'input',
         templateOptions: {
           translate: true,
-          label: 'initStatusDescription',
+          label: `${TRANSLATION_SCOPE}.initStatusDescription`,
           labelClassName: 'font-semibold',
-          placeholder: 'enterStatusDescription',
+          placeholder: `${TRANSLATION_SCOPE}.enterStatusDescription`,
           textfieldLabelOutside: true,
-          translocoScope: this.scope,
         },
         hideExpression: '!model.initStatus || model.initStatus?.id',
       },
@@ -104,11 +101,10 @@ export class CreateWorkflowDialogComponent implements OnInit {
           translate: true,
           required: true,
           options: this.statusTypesQuery.selectAll(),
-          label: 'statusType',
+          label: `${TRANSLATION_SCOPE}.statusType`,
           labelClassName: 'font-semibold',
           labelProp: 'name',
-          placeholder: 'chooseStatusType',
-          translocoScope: this.scope,
+          placeholder: `${TRANSLATION_SCOPE}.chooseStatusType`,
           customContent: this.statusTypeContent,
         },
         hideExpression: '!model.initStatus || model.initStatus?.id',

@@ -1,11 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { inlineLoaderFactory } from '@nexthcm/core';
 import { HEADER_TABS, LayoutComponent, MenuItem } from '@nexthcm/ui';
 import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
 import { TranslocoDatePipe } from '@ngneat/transloco-locale';
 import { NgxPermissionsGuard } from 'ngx-permissions';
+import en from './i18n/en.json';
+import vi from './i18n/vi.json';
+import { TRANSLATION_SCOPE } from './internal/constants';
 import { MyRequestsService } from './internal/services';
 import { MyLeaveComponent } from './modules/my-leave/my-leave.component';
 import { MyLeaveModule } from './modules/my-leave/my-leave.module';
@@ -29,6 +31,11 @@ import { OnlyMeWorkingHoursListComponent } from './modules/working-hours/compone
 import { WorkingHoursComponent } from './modules/working-hours/working-hours.component';
 import { WorkingHoursModule } from './modules/working-hours/working-hours.module';
 import { MyTimeService } from './services';
+
+const loader = {
+  en: () => Promise.resolve(en),
+  vi: () => Promise.resolve(vi),
+};
 
 export const MY_TIME_ROUTES: Routes = [
   {
@@ -111,14 +118,11 @@ const TABS: MenuItem[] = [
     TranslocoDatePipe,
     MyTimeService,
     MyRequestsService,
+    { provide: HEADER_TABS, useValue: TABS },
     {
       provide: TRANSLOCO_SCOPE,
-      useValue: {
-        scope: 'myTime',
-        loader: inlineLoaderFactory((lang) => import(`../../assets/i18n/${lang}.json`)),
-      },
+      useValue: { scope: TRANSLATION_SCOPE, loader: { en: () => Promise.resolve(en), vi: () => Promise.resolve(vi) } },
     },
-    { provide: HEADER_TABS, useValue: TABS },
   ],
 })
 export class MyTimeModule {}

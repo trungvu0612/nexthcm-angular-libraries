@@ -13,7 +13,6 @@ import {
   PromptComponentModule,
   RolesEffects,
 } from '@nexthcm/cdk';
-import { inlineLoaderFactory } from '@nexthcm/core';
 import {
   BaseFormComponentModule,
   FormlySelectOrgTreeComponentModule,
@@ -47,8 +46,11 @@ import { GeneralInformationComponent } from './components/general-information/ge
 import { IndividualFormComponent } from './components/individual-form/individual-form.component';
 import { InitEmployeeDialogComponent } from './components/init-employee-dialog/init-employee-dialog.component';
 import { ShuiFormComponent } from './components/shui-form/shui-form.component';
+import en from './i18n/en.json';
+import vi from './i18n/vi.json';
 import { EmployeeManagementComponent } from './pages/employee-management/employee-management.component';
 import { AdminEmployeesService } from './services/admin-employees.service';
+import { TRANSLATION_SCOPE } from './translation-scope';
 
 export const ADMIN_EMPLOYEE_ROUTES: Routes = [
   {
@@ -141,10 +143,7 @@ export const ADMIN_EMPLOYEE_ROUTES: Routes = [
     AddressService,
     {
       provide: TRANSLOCO_SCOPE,
-      useValue: {
-        scope: 'employees',
-        loader: inlineLoaderFactory((lang) => import(`../../assets/i18n/${lang}.json`)),
-      },
+      useValue: { scope: TRANSLATION_SCOPE, loader: { en: () => Promise.resolve(en), vi: () => Promise.resolve(vi) } },
     },
   ],
 })

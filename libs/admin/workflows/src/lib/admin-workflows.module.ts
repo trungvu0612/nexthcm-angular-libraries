@@ -4,7 +4,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { AkitaNgEffectsModule } from '@datorama/akita-ng-effects';
 import { JobTitlesEffects, WorkflowsEffects } from '@nexthcm/cdk';
-import { inlineLoaderFactory } from '@nexthcm/core';
 import {
   BaseFormComponentModule,
   FormlyFieldArraySingleItemComponentModule,
@@ -66,6 +65,8 @@ import { TransitionValidatorListComponent } from './components/transition-valida
 import { UpsertEmailTemplateDialogComponent } from './components/upsert-email-template-dialog/upsert-email-template-dialog.component';
 import { UpsertStatusDialogComponent } from './components/upsert-status-dialog/upsert-status-dialog.component';
 import { UpsertTransitionDialogComponent } from './components/upsert-transition-dialog/upsert-transition-dialog.component';
+import en from './i18n/en.json';
+import vi from './i18n/vi.json';
 import { EmailTemplateManagementComponent } from './pages/email-template-management/email-template-management.component';
 import { UpsertWorkflowComponent } from './pages/upsert-workflow/upsert-workflow.component';
 import { WorkflowManagementComponent } from './pages/workflow-management/workflow-management.component';
@@ -94,6 +95,7 @@ import {
   ValidatorTypesQuery,
   ValidatorTypesStore,
 } from './state';
+import { TRANSLATION_SCOPE } from './translation-scope';
 
 TemplateVariable.blotName = 'TemplateVariable';
 TemplateVariable.tagName = 'span';
@@ -228,9 +230,9 @@ const TABS: MenuItem[] = [
     {
       provide: TRANSLOCO_SCOPE,
       useValue: {
-        scope: 'workflow',
-        alias: 'WORKFLOW',
-        loader: inlineLoaderFactory((lang) => import(`../../assets/i18n/${lang}.json`)),
+        scope: TRANSLATION_SCOPE,
+        alias: TRANSLATION_SCOPE,
+        loader: { en: () => Promise.resolve(en), vi: () => Promise.resolve(vi) },
       },
     },
     AdminWorkflowsService,

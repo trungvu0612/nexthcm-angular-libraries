@@ -3,7 +3,7 @@ import { Actions } from '@datorama/akita-ng-effects';
 import { AuthService } from '@nexthcm/auth';
 import { JobTitlesQuery, loadJobTitles, PromptService } from '@nexthcm/cdk';
 import { FormBuilder } from '@ngneat/reactive-forms';
-import { TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDay, TuiDayRange, TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
@@ -11,8 +11,8 @@ import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { endOfDay, getTime } from 'date-fns';
 import { takeUntil } from 'rxjs/operators';
 import { AdminLeaveConfigsService } from '../../admin-leave-configs.service';
-import { LeaveConfigUrlPaths } from '../../models/leave-config-url-paths';
-import { LeaveEntitlement } from '../../models/leave-entitlement';
+import { LeaveConfigUrlPaths, LeaveEntitlement } from '../../models';
+import { TRANSLATION_SCOPE } from '../../translation-scope';
 
 @Component({
   selector: 'hcm-upsert-leave-entitlement-dialog',
@@ -62,8 +62,7 @@ export class UpsertLeaveEntitlementDialogComponent implements OnInit {
       templateOptions: {
         labelClassName: 'font-semibold',
         translate: true,
-        label: 'multipleEmployees',
-        translocoScope: this.scope,
+        label: `${TRANSLATION_SCOPE}.multipleEmployees`,
       },
     },
     {
@@ -113,12 +112,11 @@ export class UpsertLeaveEntitlementDialogComponent implements OnInit {
         required: true,
         translate: true,
         labelClassName: 'font-semibold',
-        label: 'entitlementDays',
-        placeholder: 'enterDays',
+        label: `${TRANSLATION_SCOPE}.entitlementDays`,
+        placeholder: `${TRANSLATION_SCOPE}.enterDays`,
         textfieldLabelOutside: true,
         min: 1,
         precision: 0,
-        translocoScope: this.scope,
       },
     },
     { key: 'id' },
@@ -133,7 +131,6 @@ export class UpsertLeaveEntitlementDialogComponent implements OnInit {
     private readonly destroy$: TuiDestroyService,
     private readonly promptService: PromptService,
     private readonly jobTitlesQuery: JobTitlesQuery,
-    @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope,
     actions: Actions
   ) {
     actions.dispatch(loadJobTitles());

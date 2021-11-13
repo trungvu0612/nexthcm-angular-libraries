@@ -4,7 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { Route, RouterModule } from '@angular/router';
 import { AkitaNgEffectsModule } from '@datorama/akita-ng-effects';
 import { JobTitlesEffects, JoinByKeyPipeModule, OfficesEffects, WorkflowsEffects } from '@nexthcm/cdk';
-import { inlineLoaderFactory } from '@nexthcm/core';
 import {
   BaseFormComponentModule,
   FormlySelectOrgTreeComponentModule,
@@ -32,10 +31,13 @@ import { LeaveEntitlementFiltersComponent } from './components/leave-entitlement
 import { UpsertLeaveApprovalLevelDialogComponent } from './components/upsert-leave-approval-level-dialog/upsert-leave-approval-level-dialog.component';
 import { UpsertLeaveEntitlementDialogComponent } from './components/upsert-leave-entitlement/upsert-leave-entitlement-dialog.component';
 import { UpsertLeaveTypeDialogComponent } from './components/upsert-leave-type-dialog/upsert-leave-type-dialog.component';
+import en from './i18n/en.json';
+import vi from './i18n/vi.json';
 import { EmployeeLeaveEntitlementManagementComponent } from './pages/employee-leave-entitlement-management/employee-leave-entitlement-management.component';
 import { LeaveEntitlementManagementComponent } from './pages/leave-entitlement-management/leave-entitlement-management.component';
 import { LeaveLevelApprovalManagementComponent } from './pages/leave-level-approval-management/leave-level-approval-management.component';
 import { LeaveTypeManagementComponent } from './pages/leave-type-management/leave-type-management.component';
+import { TRANSLATION_SCOPE } from './translation-scope';
 
 export const ADMIN_LEAVE_CONFIGS_ROUTES: Route[] = [
   {
@@ -106,10 +108,7 @@ const TABS: MenuItem[] = [
     AdminLeaveConfigsService,
     {
       provide: TRANSLOCO_SCOPE,
-      useValue: {
-        scope: 'leaveConfigs',
-        loader: inlineLoaderFactory((lang) => import(`../../assets/i18n/${lang}.json`)),
-      },
+      useValue: { scope: TRANSLATION_SCOPE, loader: { en: () => Promise.resolve(en), vi: () => Promise.resolve(vi) } },
     },
     { provide: HEADER_TABS, useValue: TABS },
   ],

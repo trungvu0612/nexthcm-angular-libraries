@@ -1,14 +1,15 @@
 import { HttpParams } from '@angular/common/http';
-import { ChangeDetectionStrategy, Component, Inject, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '@nexthcm/auth';
 import { Pagination } from '@nexthcm/cdk';
-import { ProviderScope, TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { BaseComponent, Columns } from 'ngx-easy-table';
 import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
 import { catchError, filter, map, shareReplay, startWith, switchMap } from 'rxjs/operators';
+import { TRANSLATION_SCOPE } from '../../../../internal/constants';
 import { WorkingOnsiteRequest } from '../../../../internal/models';
 import { MyRequestsService } from '../../../../internal/services';
 import { AbstractRequestListComponent } from '../../../../shared/abstract-components/abstract-request-list.component';
@@ -26,7 +27,7 @@ export class MyWorkingOnsiteRequestsComponent extends AbstractRequestListCompone
   readonly userId = this.authService.get('userInfo', 'userId');
   readonly requestTypeUrlPath = 'workingOnsite';
   readonly columns$: Observable<Columns[]> = this.translocoService
-    .selectTranslateObject('MY_TIME_REQUEST_LIST_COLUMNS', {}, (this.scope as ProviderScope).scope)
+    .selectTranslateObject('MY_TIME_REQUEST_LIST_COLUMNS', {}, TRANSLATION_SCOPE)
     .pipe(
       map((result) => [
         { key: 'fromDate', title: result.dateRange },
@@ -65,7 +66,6 @@ export class MyWorkingOnsiteRequestsComponent extends AbstractRequestListCompone
     readonly state: RxState<Pagination<WorkingOnsiteRequest>>,
     readonly router: Router,
     readonly activatedRoute: ActivatedRoute,
-    @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope,
     private readonly translocoService: TranslocoService,
     private readonly authService: AuthService
   ) {

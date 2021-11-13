@@ -14,6 +14,8 @@ import { AppComponent } from './app.component';
   declarations: [AppComponent],
   imports: [
     BrowserModule,
+    TuiRootModule,
+    BrowserAnimationsModule,
     RouterModule.forRoot(
       [
         { path: 'login', component: LoginComponent },
@@ -92,8 +94,6 @@ import { AppComponent } from './app.component';
       ],
       ROUTER_CONFIG
     ),
-    BrowserAnimationsModule,
-    TuiRootModule,
     FormlyTaigaUiModule,
     CoreModule.forRoot(environment),
     AuthModule,

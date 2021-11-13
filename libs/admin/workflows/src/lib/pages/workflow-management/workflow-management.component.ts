@@ -1,7 +1,7 @@
-import { ChangeDetectionStrategy, Component, Inject, Injector, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Injector, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AbstractServerSortPaginationTableComponent, Pagination, PromptService } from '@nexthcm/cdk';
-import { HashMap, ProviderScope, TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
+import { HashMap, TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
@@ -13,6 +13,7 @@ import { SweetAlertResult } from 'sweetalert2';
 import { CreateWorkflowDialogComponent } from '../../components/create-workflow-dialog/create-workflow-dialog.component';
 import { Workflow } from '../../models';
 import { AdminWorkflowsService } from '../../services/admin-workflows.service';
+import { TRANSLATION_SCOPE } from '../../translation-scope';
 
 @Component({
   selector: 'hcm-workflow-management',
@@ -25,7 +26,7 @@ export class WorkflowManagementComponent extends AbstractServerSortPaginationTab
   @ViewChild('table') table!: BaseComponent;
 
   columns$: Observable<Columns[]> = this.translocoService
-    .selectTranslateObject<HashMap<string>>('ADMIN_WORKFLOW_TABLE_COLUMNS', {}, (this.scope as ProviderScope).scope)
+    .selectTranslateObject<HashMap<string>>('ADMIN_WORKFLOW_TABLE_COLUMNS', {}, TRANSLATION_SCOPE)
     .pipe(
       map((result) => [
         { key: 'name', title: result.name },
@@ -46,7 +47,6 @@ export class WorkflowManagementComponent extends AbstractServerSortPaginationTab
     readonly state: RxState<Pagination<Workflow>>,
     readonly router: Router,
     readonly activatedRoute: ActivatedRoute,
-    @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope,
     private readonly dialogService: TuiDialogService,
     private readonly injector: Injector,
     private readonly workflowService: AdminWorkflowsService,

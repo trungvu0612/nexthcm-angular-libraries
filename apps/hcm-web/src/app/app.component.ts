@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'hcm-root',
@@ -7,7 +6,5 @@ import { Router } from '@angular/router';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  constructor(router: Router) {
-    router.initialNavigation();
-  }
+  title = 'hcm-web';
 }

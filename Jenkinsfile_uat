@@ -10,18 +10,10 @@ pipeline {
     K8S_FILE = 'kubernetes_uat.yml'
   }
   stages {
-    stage('Build and publish libraries') {
-      steps {
-        sh 'yarn upgrade'
-        sh 'yarn'
-        sh 'yarn build-publish:all'
-      }
-    }
     stage('Build') {
       stages {
         stage('Build web') {
           steps {
-            sh 'yarn upgrade'
             sh 'yarn'
             sh 'yarn build -c ${ENVIRONMENT}'
           }

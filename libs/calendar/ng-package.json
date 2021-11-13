@@ -3,8 +3,5 @@
   "dest": "../../dist/libs/calendar",
   "lib": {
     "entryFile": "src/index.ts"
-  },
-  "allowedNonPeerDependencies": [
-    "."
-  ]
+  }
 }

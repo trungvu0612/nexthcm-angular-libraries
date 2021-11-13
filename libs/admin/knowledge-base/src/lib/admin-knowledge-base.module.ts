@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Route, RouterModule } from '@angular/router';
 import { AkitaNgEffectsModule } from '@datorama/akita-ng-effects';
-import { inlineLoaderFactory } from '@nexthcm/core';
 import { KnowledgeBaseService } from '@nexthcm/knowledge-base';
 import {
   BaseFormComponentModule,
@@ -23,6 +22,8 @@ import { TableModule } from 'ngx-easy-table';
 import { NgxPermissionsGuard, NgxPermissionsModule } from 'ngx-permissions';
 import { AdminKnowledgeBaseService } from './admin-knowledge-base.service';
 import { UpsertKnowledgeBaseCategoryDialogComponent } from './components/upsert-knowledge-base-category-dialog/upsert-knowledge-base-category-dialog.component';
+import en from './i18n/en.json';
+import vi from './i18n/vi.json';
 import { KnowledgeBaseArticleManagementComponent } from './pages/knowledge-base-article-management/knowledge-base-article-management.component';
 import { KnowledgeBaseCategoryManagementComponent } from './pages/knowledge-base-category-management/knowledge-base-category-management.component';
 import { UpsertKnowledgeBaseArticleComponent } from './pages/upsert-knowledge-base-article/upsert-knowledge-base-article.component';
@@ -31,6 +32,7 @@ import {
   KnowledgeBaseCategoriesQuery,
   KnowledgeBaseCategoriesStores,
 } from './state/knowledge-base-categories';
+import { TRANSLATION_SCOPE } from './translation-scope';
 
 export const adminKnowledgeBaseRoutes: Route[] = [
   {
@@ -95,10 +97,7 @@ const TABS: MenuItem[] = [
     KnowledgeBaseService,
     {
       provide: TRANSLOCO_SCOPE,
-      useValue: {
-        scope: 'adminKnowledgeBase',
-        loader: inlineLoaderFactory((lang) => import(`../../assets/i18n/${lang}.json`)),
-      },
+      useValue: { scope: TRANSLATION_SCOPE, loader: { en: () => Promise.resolve(en), vi: () => Promise.resolve(vi) } },
     },
     { provide: HEADER_TABS, useValue: TABS },
     KnowledgeBaseCategoriesStores,

@@ -3,7 +3,7 @@ import { HttpParams } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, Inject, LOCALE_ID } from '@angular/core';
 import { PromptService } from '@nexthcm/cdk';
 import { FormBuilder } from '@ng-stack/forms';
-import { ProviderScope, TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { RxState } from '@rx-angular/state';
 import { TuiDialogContext } from '@taiga-ui/core';
@@ -12,6 +12,7 @@ import { endOfDay } from 'date-fns';
 import { FileSaverService } from 'ngx-filesaver';
 import { from, Subject } from 'rxjs';
 import { catchError, map, share, startWith, switchMap, tap } from 'rxjs/operators';
+import { TRANSLATION_SCOPE } from '../../../../internal/constants';
 import { ExportTimeLogType } from '../../../../internal/enums';
 import { ExportTimeLog } from '../../../../internal/models';
 import { WorkingHoursService } from '../../../../services/working-hours.service';
@@ -50,14 +51,12 @@ export class ExportTimeLogDialogComponent {
         label: 'type',
         labelClassName: 'font-semibold',
         valueProp: 'value',
-        options: this.translocoService
-          .selectTranslateObject('EXPORT_TIME_LOG_TYPES', {}, (this.scope as ProviderScope).scope)
-          .pipe(
-            map((result) => [
-              { label: result.detail, value: ExportTimeLogType.Detail },
-              { label: result.aggregate, value: ExportTimeLogType.Aggregate },
-            ])
-          ),
+        options: this.translocoService.selectTranslateObject('EXPORT_TIME_LOG_TYPES', {}, TRANSLATION_SCOPE).pipe(
+          map((result) => [
+            { label: result.detail, value: ExportTimeLogType.Detail },
+            { label: result.aggregate, value: ExportTimeLogType.Aggregate },
+          ])
+        ),
       },
     },
   ];
@@ -100,7 +99,6 @@ export class ExportTimeLogDialogComponent {
     private readonly state: RxState<Record<string, unknown>>,
     @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext,
     private readonly promptService: PromptService,
-    @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope,
     private readonly fileSaverService: FileSaverService,
     @Inject(LOCALE_ID) private readonly locale: string
   ) {}

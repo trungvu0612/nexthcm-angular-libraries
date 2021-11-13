@@ -10,14 +10,6 @@ pipeline {
     K8S_FILE = 'kubernetes_dev.yml'
   }
   stages {
-    stage('Build and publish libraries') {
-      steps {
-        sh 'yarn upgrade'
-        sh 'yarn'
-        sh 'yarn run-many:build'
-        sh 'yarn run-many:publish'
-      }
-    }
     stage('Build') {
       stages {
         stage('Build web') {

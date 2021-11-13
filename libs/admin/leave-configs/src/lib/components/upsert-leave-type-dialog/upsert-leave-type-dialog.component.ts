@@ -4,7 +4,7 @@ import { AuthService } from '@nexthcm/auth';
 import { CommonStatus, loadWorkflows, PromptService, WorkflowsQuery } from '@nexthcm/cdk';
 import { LeaveType } from '@nexthcm/my-time';
 import { AbstractControl, FormBuilder } from '@ngneat/reactive-forms';
-import { TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
@@ -13,6 +13,7 @@ import { of } from 'rxjs';
 import { debounceTime, switchMap, take, takeUntil, tap } from 'rxjs/operators';
 import { AdminLeaveConfigsService } from '../../admin-leave-configs.service';
 import { LeaveConfigUrlPaths } from '../../models/leave-config-url-paths';
+import { TRANSLATION_SCOPE } from '../../translation-scope';
 
 @Component({
   selector: 'hcm-upsert-leave-type-dialog',
@@ -77,8 +78,7 @@ export class UpsertLeaveTypeDialogComponent implements OnInit {
       templateOptions: {
         labelClassName: 'font-semibold',
         translate: true,
-        label: 'paidLeave',
-        translocoScope: this.scope,
+        label: `${TRANSLATION_SCOPE}.paidLeave`,
       },
     },
     {
@@ -89,8 +89,7 @@ export class UpsertLeaveTypeDialogComponent implements OnInit {
       templateOptions: {
         labelClassName: 'font-semibold',
         translate: true,
-        label: 'canTransferTo',
-        translocoScope: this.scope,
+        label: `${TRANSLATION_SCOPE}.canTransferTo`,
       },
     },
     {
@@ -132,8 +131,7 @@ export class UpsertLeaveTypeDialogComponent implements OnInit {
     private readonly workflowsQuery: WorkflowsQuery,
     private readonly destroy$: TuiDestroyService,
     private readonly promptService: PromptService,
-    private readonly actions: Actions,
-    @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope
+    private readonly actions: Actions
   ) {
     this.actions.dispatch(loadWorkflows());
   }

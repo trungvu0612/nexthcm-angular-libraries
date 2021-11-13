@@ -1,13 +1,5 @@
 import { CdkDragEnd } from '@angular/cdk/drag-drop';
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  HostListener,
-  Inject,
-  ViewChild,
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Actions } from '@datorama/akita-ng-effects';
 import {
@@ -22,13 +14,13 @@ import {
 } from '@nexthcm/cdk';
 import { SeatMapsService } from '@nexthcm/seat-maps';
 import { FormBuilder } from '@ngneat/reactive-forms';
-import { TRANSLOCO_SCOPE, TranslocoScope } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { setProp } from '@rx-angular/state';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { iif, Observable, of } from 'rxjs';
 import { distinctUntilChanged, startWith, takeUntil, tap } from 'rxjs/operators';
 import { AdminSeatMapsService } from '../../services/admin-seat-maps.service';
+import { TRANSLATION_SCOPE } from '../../translation-scope';
 
 interface SeatMapForm extends SeatMap {
   numberOfSeats: number;
@@ -113,7 +105,6 @@ export class UpsertSeatMapComponent implements AfterViewInit {
                 label: 'numberOfSeats',
                 translate: true,
                 textfieldLabelOutside: true,
-                translocoScope: this.scope,
               },
             },
           ],
@@ -127,10 +118,9 @@ export class UpsertSeatMapComponent implements AfterViewInit {
               type: 'input-slider',
               templateOptions: {
                 translate: true,
-                label: 'width',
+                label: `${TRANSLATION_SCOPE}.width`,
                 min: 10,
                 max: 333,
-                translocoScope: this.scope,
                 labelClassName: 'font-semibold',
               },
             },
@@ -140,10 +130,9 @@ export class UpsertSeatMapComponent implements AfterViewInit {
               type: 'input-slider',
               templateOptions: {
                 translate: true,
-                label: 'height',
+                label: `${TRANSLATION_SCOPE}.height`,
                 min: 10,
                 max: 333,
-                translocoScope: this.scope,
                 labelClassName: 'font-semibold',
               },
             },
@@ -153,9 +142,8 @@ export class UpsertSeatMapComponent implements AfterViewInit {
               type: 'input-slider',
               templateOptions: {
                 translate: true,
-                label: 'rounded',
+                label: `${TRANSLATION_SCOPE}.rounded`,
                 max: 50,
-                translocoScope: this.scope,
                 labelClassName: 'font-semibold',
               },
             },
@@ -191,10 +179,9 @@ export class UpsertSeatMapComponent implements AfterViewInit {
       defaultValue: 40,
       templateOptions: {
         translate: true,
-        label: 'width',
+        label: `${TRANSLATION_SCOPE}.width`,
         min: 10,
         max: 333,
-        translocoScope: this.scope,
         labelClassName: 'font-semibold',
       },
     },
@@ -204,10 +191,9 @@ export class UpsertSeatMapComponent implements AfterViewInit {
       defaultValue: 40,
       templateOptions: {
         translate: true,
-        label: 'height',
+        label: `${TRANSLATION_SCOPE}.height`,
         min: 10,
         max: 333,
-        translocoScope: this.scope,
         labelClassName: 'font-semibold',
       },
     },
@@ -216,9 +202,8 @@ export class UpsertSeatMapComponent implements AfterViewInit {
       type: 'input-slider',
       templateOptions: {
         translate: true,
-        label: 'rounded',
+        label: `${TRANSLATION_SCOPE}.rounded`,
         max: 50,
-        translocoScope: this.scope,
         labelClassName: 'font-semibold',
       },
     },
@@ -227,7 +212,6 @@ export class UpsertSeatMapComponent implements AfterViewInit {
   ];
 
   constructor(
-    @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope,
     private readonly seatMapsService: SeatMapsService,
     private readonly adminSeatMapsService: AdminSeatMapsService,
     private readonly uploadFileService: UploadFileService,

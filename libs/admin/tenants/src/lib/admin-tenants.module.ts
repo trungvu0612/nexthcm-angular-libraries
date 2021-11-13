@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AddressService, GetStatusPipeModule } from '@nexthcm/cdk';
-import { inlineLoaderFactory } from '@nexthcm/core';
 import {
   BaseFormComponentModule,
   FormlyStatusToggleComponentModule,
@@ -25,6 +24,8 @@ import { UpsertOrganizationalUnitComponent } from './components/upsert-organizat
 import { UpsertTenantDialogComponent } from './components/upsert-tenant-dialog/upsert-tenant-dialog.component';
 import { UpsertTenantDomainDialogComponent } from './components/upsert-tenant-domain-dialog/upsert-tenant-domain-dialog.component';
 import { UpsertTenantFormComponent } from './components/upsert-tenant-form/upsert-tenant-form.component';
+import en from './i18n/en.json';
+import vi from './i18n/vi.json';
 import { DomainManagementComponent } from './pages/domain-management/domain-management.component';
 import { OrganizationalChartComponent } from './pages/organizational-chart/organizational-chart.component';
 import { TenantDetailComponent } from './pages/tenant-detail/tenant-detail.component';
@@ -32,6 +33,7 @@ import { TenantManagementComponent } from './pages/tenant-management/tenant-mana
 import { TenantProfileComponent } from './pages/tenant-profile/tenant-profile.component';
 import { GetSpanChartPipe } from './pipes/get-span-chart.pipe';
 import { tenantsIcons } from './shared/icons/tenants';
+import { TRANSLATION_SCOPE } from './translation-scope';
 
 export const ADMIN_TENANTS_ROUTES: Routes = [
   {
@@ -100,10 +102,7 @@ export const ADMIN_TENANTS_ROUTES: Routes = [
     AddressService,
     {
       provide: TRANSLOCO_SCOPE,
-      useValue: {
-        scope: 'tenants',
-        loader: inlineLoaderFactory((lang) => import(`../../assets/i18n/${lang}.json`)),
-      },
+      useValue: { scope: TRANSLATION_SCOPE, loader: { en: () => Promise.resolve(en), vi: () => Promise.resolve(vi) } },
     },
   ],
 })

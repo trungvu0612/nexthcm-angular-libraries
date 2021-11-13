@@ -1,8 +1,8 @@
-import { ChangeDetectionStrategy, Component, Inject, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AbstractServerSortPaginationTableComponent, CommonStatus, Pagination, PromptService } from '@nexthcm/cdk';
 import { KnowledgeBaseArticle, KnowledgeBaseService } from '@nexthcm/knowledge-base';
-import { ProviderScope, TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { BaseComponent, Columns } from 'ngx-easy-table';
@@ -20,6 +20,7 @@ import {
   tap,
 } from 'rxjs/operators';
 import { AdminKnowledgeBaseService } from '../../admin-knowledge-base.service';
+import { TRANSLATION_SCOPE } from '../../translation-scope';
 
 @Component({
   selector: 'hcm-knowledge-base-article-management',
@@ -32,7 +33,7 @@ export class KnowledgeBaseArticleManagementComponent extends AbstractServerSortP
   @ViewChild('table') table!: BaseComponent;
 
   readonly columns$: Observable<Columns[]> = this.translocoService
-    .selectTranslateObject('ARTICLES_MANAGEMENT_COLUMNS', {}, (this.scope as ProviderScope).scope)
+    .selectTranslateObject('ARTICLES_MANAGEMENT_COLUMNS', {}, TRANSLATION_SCOPE)
     .pipe(
       map((result) => [
         { key: 'topic', title: result.topic },
@@ -55,7 +56,6 @@ export class KnowledgeBaseArticleManagementComponent extends AbstractServerSortP
   );
 
   constructor(
-    @Inject(TRANSLOCO_SCOPE) readonly scope: TranslocoScope,
     readonly state: RxState<Pagination<KnowledgeBaseArticle>>,
     readonly router: Router,
     readonly activatedRoute: ActivatedRoute,

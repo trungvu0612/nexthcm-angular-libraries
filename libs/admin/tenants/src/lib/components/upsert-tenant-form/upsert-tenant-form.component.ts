@@ -1,13 +1,14 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Inject, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { AddressService, CommonStatus, UploadFileService } from '@nexthcm/cdk';
 import { AbstractControl, FormBuilder, FormControl } from '@ngneat/reactive-forms';
-import { TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { NumericValueType, RxwebValidators } from '@rxweb/reactive-form-validators';
 import { of } from 'rxjs';
 import { debounceTime, startWith, switchMap, take, tap } from 'rxjs/operators';
 import { Tenant } from '../../models/tenant';
 import { AdminTenantsService } from '../../services/admin-tenants.service';
+import { TRANSLATION_SCOPE } from '../../translation-scope';
 
 @Component({
   selector: 'hcm-upsert-tenant-form',
@@ -30,11 +31,10 @@ export class UpsertTenantFormComponent {
       templateOptions: {
         required: true,
         translate: true,
-        label: 'tenantName',
+        label: `${TRANSLATION_SCOPE}.tenantName`,
         labelClassName: 'font-semibold',
-        placeholder: 'enterTenantName',
+        placeholder: `${TRANSLATION_SCOPE}.enterTenantName`,
         textfieldLabelOutside: true,
-        translocoScope: this.scope,
       },
       expressionProperties: { 'templateOptions.readonly': 'model.hasLDAPUser' },
     },
@@ -48,11 +48,10 @@ export class UpsertTenantFormComponent {
           templateOptions: {
             required: true,
             translate: true,
-            label: 'shortname',
+            label: `${TRANSLATION_SCOPE}.shortname`,
             labelClassName: 'font-semibold',
-            placeholder: 'enterShortname',
+            placeholder: `${TRANSLATION_SCOPE}.enterShortname`,
             textfieldLabelOutside: true,
-            translocoScope: this.scope,
           },
           asyncValidators: {
             shortname: {
@@ -98,14 +97,13 @@ export class UpsertTenantFormComponent {
       className: 'tui-form__row block',
       templateOptions: {
         translate: true,
-        label: 'tenantLogo',
+        label: `${TRANSLATION_SCOPE}.tenantLogo`,
         labelClassName: 'font-semibold',
         linkText: 'chooseAnImage',
         labelText: 'orDropItHere',
         accept: 'image/*',
         required: true,
         previewImage: true,
-        translocoScope: this.scope,
         serverRequest: (file: File) => this.uploadFileService.uploadFile('admin-tenant', file),
       },
     },
@@ -293,11 +291,10 @@ export class UpsertTenantFormComponent {
               type: 'input',
               templateOptions: {
                 translate: true,
-                label: 'website',
+                label: `${TRANSLATION_SCOPE}.website`,
                 labelClassName: 'font-semibold',
-                placeholder: 'enterWebsite',
+                placeholder: `${TRANSLATION_SCOPE}.enterWebsite`,
                 textfieldLabelOutside: true,
-                translocoScope: this.scope,
               },
             },
             {
@@ -326,8 +323,7 @@ export class UpsertTenantFormComponent {
     private readonly adminTenantsService: AdminTenantsService,
     private readonly addressService: AddressService,
     private readonly uploadFileService: UploadFileService,
-    private readonly translocoService: TranslocoService,
-    @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope
+    private readonly translocoService: TranslocoService
   ) {}
 
   private _data = {} as Tenant;

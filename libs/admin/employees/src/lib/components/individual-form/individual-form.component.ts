@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { cacheable } from '@datorama/akita';
 import { Actions } from '@datorama/akita-ng-effects';
@@ -15,7 +15,7 @@ import {
   PromptService,
 } from '@nexthcm/cdk';
 import { FormBuilder, FormControl, FormGroup } from '@ngneat/reactive-forms';
-import { HashMap, ProviderScope, TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
+import { HashMap, TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { RxwebValidators } from '@rxweb/reactive-form-validators';
 import { TuiDestroyService } from '@taiga-ui/cdk';
@@ -23,6 +23,7 @@ import { of } from 'rxjs';
 import { catchError, map, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { AdminEmployeesService } from '../../services/admin-employees.service';
 import { EmployeeIndividualQuery, EmployeeIndividualStore, EmployeeQuery } from '../../state';
+import { TRANSLATION_SCOPE } from '../../translation-scope';
 
 @Component({
   selector: 'hcm-individual-form',
@@ -50,11 +51,10 @@ export class IndividualFormComponent {
                   type: 'input',
                   templateOptions: {
                     translate: true,
-                    label: 'permanentAddress',
+                    label: `${TRANSLATION_SCOPE}.permanentAddress`,
                     labelClassName: 'font-semibold',
-                    placeholder: 'enterPermanentAddress',
+                    placeholder: `${TRANSLATION_SCOPE}.enterPermanentAddress`,
                     textfieldLabelOutside: true,
-                    translocoScope: this.scope,
                   },
                 },
                 {
@@ -181,11 +181,10 @@ export class IndividualFormComponent {
                   type: 'input',
                   templateOptions: {
                     translate: true,
-                    label: 'temporaryAddress',
+                    label: `${TRANSLATION_SCOPE}.temporaryAddress`,
                     labelClassName: 'font-semibold',
-                    placeholder: 'enterTemporaryAddress',
+                    placeholder: `${TRANSLATION_SCOPE}.enterTemporaryAddress`,
                     textfieldLabelOutside: true,
-                    translocoScope: this.scope,
                   },
                 },
                 {
@@ -308,11 +307,10 @@ export class IndividualFormComponent {
               type: 'input-date',
               templateOptions: {
                 translate: true,
-                label: 'DOB',
+                label: `${TRANSLATION_SCOPE}.DOB`,
                 labelClassName: 'font-semibold',
                 textfieldLabelOutside: true,
-                placeholder: 'enterDOB',
-                translocoScope: this.scope,
+                placeholder: `${TRANSLATION_SCOPE}.enterDOB`,
               },
             },
             {
@@ -321,11 +319,10 @@ export class IndividualFormComponent {
               type: 'input',
               templateOptions: {
                 translate: true,
-                label: 'idNumber',
+                label: `${TRANSLATION_SCOPE}.idNumber`,
                 labelClassName: 'font-semibold',
                 textfieldLabelOutside: true,
-                placeholder: 'enterIDNumber',
-                translocoScope: this.scope,
+                placeholder: `${TRANSLATION_SCOPE}.enterIDNumber`,
               },
             },
             {
@@ -334,11 +331,10 @@ export class IndividualFormComponent {
               type: 'input-date',
               templateOptions: {
                 translate: true,
-                label: 'issueOn',
+                label: `${TRANSLATION_SCOPE}.issueOn`,
                 labelClassName: 'font-semibold',
                 textfieldLabelOutside: true,
-                placeholder: 'enterIssueOn',
-                translocoScope: this.scope,
+                placeholder: `${TRANSLATION_SCOPE}.enterIssueOn`,
               },
             },
             {
@@ -347,11 +343,10 @@ export class IndividualFormComponent {
               type: 'input',
               templateOptions: {
                 translate: true,
-                label: 'issueAt',
+                label: `${TRANSLATION_SCOPE}.issueAt`,
                 labelClassName: 'font-semibold',
                 textfieldLabelOutside: true,
-                placeholder: 'enterIssueAt',
-                translocoScope: this.scope,
+                placeholder: `${TRANSLATION_SCOPE}.enterIssueAt`,
               },
             },
             {
@@ -360,11 +355,10 @@ export class IndividualFormComponent {
               className: 'tui-form__row block',
               templateOptions: {
                 translate: true,
-                label: 'nationality',
+                label: `${TRANSLATION_SCOPE}.nationality`,
                 labelClassName: 'font-semibold',
                 textfieldLabelOutside: true,
-                placeholder: 'enterNationality',
-                translocoScope: this.scope,
+                placeholder: `${TRANSLATION_SCOPE}.enterNationality`,
               },
             },
             {
@@ -373,11 +367,10 @@ export class IndividualFormComponent {
               className: 'tui-form__row block',
               templateOptions: {
                 translate: true,
-                label: 'section',
+                label: `${TRANSLATION_SCOPE}.section`,
                 labelClassName: 'font-semibold',
                 textfieldLabelOutside: true,
-                placeholder: 'enterSection',
-                translocoScope: this.scope,
+                placeholder: `${TRANSLATION_SCOPE}.enterSection`,
               },
             },
           ],
@@ -390,11 +383,10 @@ export class IndividualFormComponent {
               type: 'input',
               templateOptions: {
                 translate: true,
-                label: 'companyEmail',
+                label: `${TRANSLATION_SCOPE}.companyEmail`,
                 labelClassName: 'font-semibold',
                 textfieldLabelOutside: true,
-                placeholder: 'enterCompanyEmail',
-                translocoScope: this.scope,
+                placeholder: `${TRANSLATION_SCOPE}.enterCompanyEmail`,
               },
               validators: { validation: [RxwebValidators.email()] },
             },
@@ -404,11 +396,10 @@ export class IndividualFormComponent {
               type: 'input',
               templateOptions: {
                 translate: true,
-                label: 'personalEmail',
+                label: `${TRANSLATION_SCOPE}.personalEmail`,
                 labelClassName: 'font-semibold',
                 textfieldLabelOutside: true,
-                placeholder: 'enterPersonalEmail',
-                translocoScope: this.scope,
+                placeholder: `${TRANSLATION_SCOPE}.enterPersonalEmail`,
               },
               validators: { validation: [RxwebValidators.email()] },
             },
@@ -444,13 +435,12 @@ export class IndividualFormComponent {
               type: 'select',
               templateOptions: {
                 translate: true,
-                label: 'gender',
+                label: `${TRANSLATION_SCOPE}.gender`,
                 labelClassName: 'font-semibold',
-                placeholder: 'chooseGender',
+                placeholder: `${TRANSLATION_SCOPE}.chooseGender`,
                 valueProp: 'value',
-                translocoScope: this.scope,
                 options: this.translocoService
-                  .selectTranslateObject<HashMap<string>>('GENDER_OPTIONS', {}, (this.scope as ProviderScope).scope)
+                  .selectTranslateObject<HashMap<string>>('GENDER_OPTIONS', {}, TRANSLATION_SCOPE)
                   .pipe(
                     map(
                       (result) =>
@@ -469,17 +459,12 @@ export class IndividualFormComponent {
               type: 'select',
               templateOptions: {
                 translate: true,
-                label: 'maritalStatus',
+                label: `${TRANSLATION_SCOPE}.maritalStatus`,
                 labelClassName: 'font-semibold',
-                placeholder: 'chooseMaritalStatus',
+                placeholder: `${TRANSLATION_SCOPE}.chooseMaritalStatus`,
                 valueProp: 'value',
-                translocoScope: this.scope,
                 options: this.translocoService
-                  .selectTranslateObject<HashMap<string>>(
-                    'MARITAL_STATUS_OPTIONS',
-                    {},
-                    (this.scope as ProviderScope).scope
-                  )
+                  .selectTranslateObject<HashMap<string>>('MARITAL_STATUS_OPTIONS', {}, TRANSLATION_SCOPE)
                   .pipe(
                     map(
                       (result) =>
@@ -500,11 +485,10 @@ export class IndividualFormComponent {
               className: 'tui-form__row block',
               templateOptions: {
                 translate: true,
-                label: 'religion',
+                label: `${TRANSLATION_SCOPE}.religion`,
                 labelClassName: 'font-semibold',
                 textfieldLabelOutside: true,
-                placeholder: 'enterReligion',
-                translocoScope: this.scope,
+                placeholder: `${TRANSLATION_SCOPE}.enterReligion`,
               },
             },
             {
@@ -513,13 +497,12 @@ export class IndividualFormComponent {
               type: 'select',
               templateOptions: {
                 translate: true,
-                label: 'currentStatus',
+                label: `${TRANSLATION_SCOPE}.currentStatus`,
                 labelClassName: 'font-semibold',
-                placeholder: 'chooseCurrentStatus',
+                placeholder: `${TRANSLATION_SCOPE}.chooseCurrentStatus`,
                 valueProp: 'value',
-                translocoScope: this.scope,
                 options: this.translocoService
-                  .selectTranslateObject<HashMap<string>>('INDIVIDUAL_STATUS', {}, (this.scope as ProviderScope).scope)
+                  .selectTranslateObject<HashMap<string>>('INDIVIDUAL_STATUS', {}, TRANSLATION_SCOPE)
                   .pipe(
                     map(
                       (result) =>
@@ -540,11 +523,10 @@ export class IndividualFormComponent {
               type: 'input',
               templateOptions: {
                 translate: true,
-                label: 'officeOnsite',
+                label: `${TRANSLATION_SCOPE}.officeOnsite`,
                 labelClassName: 'font-semibold',
-                placeholder: 'chooseOfficeOnsite',
+                placeholder: `${TRANSLATION_SCOPE}.chooseOfficeOnsite`,
                 textfieldLabelOutside: true,
-                translocoScope: this.scope,
               },
               hideExpression: (model: EmployeeIndividual) => model.currentStatus !== EmployeeCurrentStatus.Onsite,
             },
@@ -554,8 +536,7 @@ export class IndividualFormComponent {
               type: 'repeat',
               templateOptions: {
                 translate: true,
-                label: 'bankAccountList',
-                translocoScope: this.scope,
+                label: `${TRANSLATION_SCOPE}.bankAccountList`,
               },
               fieldArray: {
                 fieldGroupClassName: 'grid grid-cols-3 gap-4',
@@ -565,9 +546,8 @@ export class IndividualFormComponent {
                     type: 'input',
                     templateOptions: {
                       translate: true,
-                      label: 'bank',
-                      placeholder: 'selectBank',
-                      translocoScope: this.scope,
+                      label: `${TRANSLATION_SCOPE}.bank`,
+                      placeholder: `${TRANSLATION_SCOPE}.selectBank`,
                     },
                   },
                   {
@@ -575,9 +555,8 @@ export class IndividualFormComponent {
                     type: 'input',
                     templateOptions: {
                       translate: true,
-                      label: 'branch',
-                      placeholder: 'enterBranch',
-                      translocoScope: this.scope,
+                      label: `${TRANSLATION_SCOPE}.branch`,
+                      placeholder: `${TRANSLATION_SCOPE}.enterBranch`,
                     },
                   },
                   {
@@ -585,9 +564,8 @@ export class IndividualFormComponent {
                     type: 'input',
                     templateOptions: {
                       translate: true,
-                      label: 'accountNumber',
-                      placeholder: 'enterAccountNumber',
-                      translocoScope: this.scope,
+                      label: `${TRANSLATION_SCOPE}.accountNumber`,
+                      placeholder: `${TRANSLATION_SCOPE}.enterAccountNumber`,
                     },
                   },
                 ],
@@ -618,7 +596,6 @@ export class IndividualFormComponent {
     private readonly destroy$: TuiDestroyService,
     private readonly promptService: PromptService,
     private readonly addressService: AddressService,
-    @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope,
     private readonly officesQuery: OfficesQuery,
     private readonly employeeIndividualQuery: EmployeeIndividualQuery,
     private readonly employeeIndividualStore: EmployeeIndividualStore,

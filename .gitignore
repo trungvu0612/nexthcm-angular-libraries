@@ -25,7 +25,6 @@
 !.vscode/extensions.json
 
 # misc
-/.angular/cache
 /.sass-cache
 /connect.lock
 /coverage
@@ -40,14 +39,4 @@ package-lock.json
 .DS_Store
 Thumbs.db
 
-# logs
-*.log
-
-# yarn
-.yarn/*
-!.yarn/patches
-!.yarn/releases
-!.yarn/plugins
-!.yarn/sdks
-!.yarn/versions
-.pnp.*
+.angular

@@ -1,11 +1,12 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnInit, ViewChild } from '@angular/core';
-import { HashMap, ProviderScope, TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { HashMap, TranslocoService } from '@ngneat/transloco';
 import { FieldType } from '@ngx-formly/core';
 import { isPresent, TuiDestroyService, TuiIdentityMatcher } from '@taiga-ui/cdk';
 import { APIDefinition, Columns, Config, DefaultConfig } from 'ngx-easy-table';
 import { Observable } from 'rxjs';
 import { filter, map, takeUntil } from 'rxjs/operators';
 import { TransitionOption } from '../../models';
+import { TRANSLATION_SCOPE } from '../../translation-scope';
 
 @Component({
   selector: 'hcm-formly-select-transition-option',
@@ -26,7 +27,7 @@ export class FormlySelectTransitionOptionComponent extends FieldType implements 
     orderEnabled: false,
   };
   readonly columns$: Observable<Columns[]> = this.translocoService
-    .selectTranslateObject<HashMap<string>>('TRANSITION_OPTION_COLUMNS', {}, (this.scope as ProviderScope).scope)
+    .selectTranslateObject<HashMap<string>>('TRANSITION_OPTION_COLUMNS', {}, TRANSLATION_SCOPE)
     .pipe(
       map((result) => [
         { key: '', title: '' },
@@ -38,8 +39,7 @@ export class FormlySelectTransitionOptionComponent extends FieldType implements 
   constructor(
     private readonly translocoService: TranslocoService,
     private readonly destroy$: TuiDestroyService,
-    private readonly changeDetectorRef: ChangeDetectorRef,
-    @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope
+    private readonly changeDetectorRef: ChangeDetectorRef
   ) {
     super();
   }

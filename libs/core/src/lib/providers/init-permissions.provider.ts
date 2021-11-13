@@ -1,8 +1,7 @@
 import { APP_INITIALIZER, Provider } from '@angular/core';
 import { PermissionsService } from '../services/permissions.service';
 
-export const preLoadPermissions = (permissionsService: PermissionsService) => () =>
-  permissionsService.getPermissions().toPromise();
+export const preLoadPermissions = (permissionsService: PermissionsService) => () => permissionsService.getPermissions();
 
 export const INIT_PERMISSIONS_PROVIDER: Provider = {
   provide: APP_INITIALIZER,

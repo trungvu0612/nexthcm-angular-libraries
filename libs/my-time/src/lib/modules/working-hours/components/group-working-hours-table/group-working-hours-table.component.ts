@@ -1,11 +1,12 @@
-import { ChangeDetectionStrategy, Component, Inject, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
 import { AbstractServerPaginationTableComponent, Pagination } from '@nexthcm/cdk';
-import { HashMap, ProviderScope, TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
+import { HashMap, TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
 import { isPresent, tuiDefaultProp } from '@taiga-ui/cdk';
 import { BaseComponent, Columns, Config, DefaultConfig } from 'ngx-easy-table';
 import { Observable, of } from 'rxjs';
 import { catchError, filter, map, share, skip, startWith, switchMap } from 'rxjs/operators';
+import { TRANSLATION_SCOPE } from '../../../../internal/constants';
 import { WorkingHours } from '../../../../models';
 import { WorkingHoursService } from '../../../../services';
 
@@ -33,7 +34,7 @@ export class GroupWorkingHoursTableComponent
     detailsTemplate: true,
   };
   readonly columns$: Observable<Columns[]> = this.translocoService
-    .selectTranslateObject<HashMap<string>>('WORKING_HOURS_TABLE_COLUMNS', {}, (this.scope as ProviderScope).scope)
+    .selectTranslateObject<HashMap<string>>('WORKING_HOURS_TABLE_COLUMNS', {}, TRANSLATION_SCOPE)
     .pipe(
       map((result) => [
         { key: '', title: '', width: '6%' },
@@ -62,8 +63,7 @@ export class GroupWorkingHoursTableComponent
   constructor(
     readonly state: RxState<Pagination<WorkingHours>>,
     private readonly workingHoursService: WorkingHoursService,
-    private readonly translocoService: TranslocoService,
-    @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope
+    private readonly translocoService: TranslocoService
   ) {
     super(state);
     state.connect(this.request$.pipe(filter(isPresent)));

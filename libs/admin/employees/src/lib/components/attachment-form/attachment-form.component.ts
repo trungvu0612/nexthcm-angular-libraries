@@ -1,15 +1,16 @@
-import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { cacheable } from '@datorama/akita';
 import { EmployeeAttachment, EmployeesService, PromptService, UploadFileService } from '@nexthcm/cdk';
 import { FormArray, FormBuilder, FormGroup } from '@ngneat/reactive-forms';
-import { TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { of } from 'rxjs';
 import { catchError, map, startWith, takeUntil, tap } from 'rxjs/operators';
 import { AdminEmployeesService } from '../../services/admin-employees.service';
 import { EmployeeAttachmentQuery, EmployeeAttachmentStore, EmployeeQuery } from '../../state';
+import { TRANSLATION_SCOPE } from '../../translation-scope';
 import { convertAttachment } from '../../utils/convert-attachment';
 
 @Component({
@@ -28,8 +29,7 @@ export class AttachmentFormComponent {
       type: 'repeat',
       templateOptions: {
         translate: true,
-        label: 'attachmentFiles',
-        translocoScope: this.scope,
+        label: `${TRANSLATION_SCOPE}.attachmentFiles`,
       },
       fieldArray: {
         fieldGroupClassName: 'flex space-x-2 items-center',
@@ -76,7 +76,6 @@ export class AttachmentFormComponent {
     private readonly translocoService: TranslocoService,
     private readonly destroy$: TuiDestroyService,
     private readonly promptService: PromptService,
-    @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope,
     private readonly employeeAttachmentStore: EmployeeAttachmentStore,
     private readonly employeeAttachmentQuery: EmployeeAttachmentQuery,
     employeeQuery: EmployeeQuery

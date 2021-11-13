@@ -4,13 +4,14 @@ import { AuthService } from '@nexthcm/auth';
 import { BaseUser, PromptService } from '@nexthcm/cdk';
 import { BaseFormComponentModule } from '@nexthcm/ui';
 import { Control, FormBuilder } from '@ng-stack/forms';
-import { ProviderScope, TRANSLOCO_SCOPE, TranslocoScope, TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { isPresent } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { of, Subject } from 'rxjs';
 import { catchError, distinctUntilChanged, filter, map, share, startWith, switchMap, tap } from 'rxjs/operators';
+import { TRANSLATION_SCOPE } from '../../internal/constants';
 import { TransferLeaveEntitlementType } from '../../internal/enums';
 import { RemainingLeaveEntitlement, TransferLeaveEntitlementPayload } from '../../internal/models';
 import { MyLeaveService } from '../../services';
@@ -52,7 +53,9 @@ export class CreateTransferLeaveEntitlementRequestComponent {
       expressionProperties: {
         template: this.remainingEntitlement$.pipe(
           filter(isPresent),
-          switchMap((value) => this.translocoService.selectTranslate('remainingEntitlement', { value }, this.scope))
+          switchMap((value) =>
+            this.translocoService.selectTranslate('remainingEntitlement', { value }, TRANSLATION_SCOPE)
+          )
         ),
         className: this.remainingEntitlement$.pipe(
           map((value) => (typeof value === 'number' ? 'tui-form__row block' : 'hidden'))
@@ -72,7 +75,7 @@ export class CreateTransferLeaveEntitlementRequestComponent {
         valueProp: 'value',
         required: true,
         options: this.translocoService
-          .selectTranslateObject('TRANSFER_LEAVE_ENTITLEMENT_TYPES', {}, (this.scope as ProviderScope).scope)
+          .selectTranslateObject('TRANSFER_LEAVE_ENTITLEMENT_TYPES', {}, TRANSLATION_SCOPE)
           .pipe(
             map((result) => [
               { label: result.transferToSalary, value: TransferLeaveEntitlementType.transferToSalary },
@@ -91,13 +94,12 @@ export class CreateTransferLeaveEntitlementRequestComponent {
       templateOptions: {
         translate: true,
         required: true,
-        label: 'canTransferEntitlementsTo',
+        label: `${TRANSLATION_SCOPE}.canTransferEntitlementsTo`,
         labelClassName: 'font-semibold',
         placeholder: 'chooseLeaveType',
         options: this.myLeaveService.getCanConvertToLeaveTypes(),
         labelProp: 'name',
         valueProp: 'id',
-        translocoScope: this.scope,
       },
       hideExpression: (model: TransferLeaveEntitlementPayload) =>
         model.typeTransfer !== TransferLeaveEntitlementType.transferEntitlementToAnotherLeaveTypeInNextPeriod,
@@ -159,7 +161,7 @@ export class CreateTransferLeaveEntitlementRequestComponent {
           startWith(null)
         )
     ),
-    share(),
+    share()
   );
   readonly submitLoading$ = this.submitHandler$.pipe(
     map((value) => !value),
@@ -172,8 +174,7 @@ export class CreateTransferLeaveEntitlementRequestComponent {
     private readonly myLeaveService: MyLeaveService,
     private readonly promptService: PromptService,
     private readonly translocoService: TranslocoService,
-    @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<boolean, RemainingLeaveEntitlement[]>,
-    @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope
+    @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<boolean, RemainingLeaveEntitlement[]>
   ) {}
 
   onSubmit(): void {

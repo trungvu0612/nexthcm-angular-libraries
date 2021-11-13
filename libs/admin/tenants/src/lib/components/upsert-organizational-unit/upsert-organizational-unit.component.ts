@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { RouterQuery } from '@datorama/akita-ng-router-store';
 import { PromptService } from '@nexthcm/cdk';
 import { FormBuilder } from '@ngneat/reactive-forms';
-import { TRANSLOCO_SCOPE, TranslocoScope } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
@@ -11,6 +10,7 @@ import { of } from 'rxjs';
 import { switchMap, takeUntil, tap } from 'rxjs/operators';
 import { OrganizationalUnit } from '../../models/tenant';
 import { AdminTenantsService } from '../../services/admin-tenants.service';
+import { TRANSLATION_SCOPE } from '../../translation-scope';
 
 @Component({
   selector: 'hcm-upsert-organizational-unit',
@@ -43,11 +43,10 @@ export class UpsertOrganizationalUnitComponent {
       templateOptions: {
         required: true,
         translate: true,
-        label: 'organizationalLevel',
+        label: `${TRANSLATION_SCOPE}.organizationalLevel`,
         labelClassName: 'font-semibold',
-        placeholder: 'chooseOrganizationalLevel',
+        placeholder: `${TRANSLATION_SCOPE}.chooseOrganizationalLevel`,
         options: this.context.data?.levels,
-        translocoScope: this.scope,
       },
     },
     {
@@ -57,13 +56,12 @@ export class UpsertOrganizationalUnitComponent {
       templateOptions: {
         required: true,
         translate: true,
-        label: 'parentLevel',
+        label: `${TRANSLATION_SCOPE}.parentLevel`,
         labelClassName: 'font-semibold',
         placeholder: 'chooseParentLevel',
-        labelProp: 'orgName',
-        subLabelProp: 'orgType',
+        labelProp: `${TRANSLATION_SCOPE}.orgName`,
+        subLabelProp: `${TRANSLATION_SCOPE}.orgType`,
         matcherBy: 'id',
-        translocoScope: this.scope,
       },
       expressionProperties: { 'templateOptions.disabled': '!model.orgType' },
       hideExpression: 'model.id',
@@ -116,8 +114,7 @@ export class UpsertOrganizationalUnitComponent {
     private readonly adminTenantsService: AdminTenantsService,
     private readonly destroy$: TuiDestroyService,
     private readonly promptService: PromptService,
-    private readonly routerQuery: RouterQuery,
-    @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope
+    private readonly routerQuery: RouterQuery
   ) {}
 
   onCancel(): void {

@@ -1,15 +1,15 @@
-import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { cacheable } from '@datorama/akita';
 import { EmployeeSHUI, EmployeesService, PromptService } from '@nexthcm/cdk';
 import { FormBuilder, FormGroup } from '@ngneat/reactive-forms';
-import { TRANSLOCO_SCOPE, TranslocoScope } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { of } from 'rxjs';
 import { catchError, map, startWith, takeUntil, tap } from 'rxjs/operators';
 import { AdminEmployeesService } from '../../services/admin-employees.service';
 import { EmployeeQuery, EmployeeSHUIQuery, EmployeeSHUIStore } from '../../state';
+import { TRANSLATION_SCOPE } from '../../translation-scope';
 
 @Component({
   selector: 'hcm-shui-form',
@@ -33,11 +33,10 @@ export class ShuiFormComponent {
               type: 'input',
               templateOptions: {
                 translate: true,
-                label: 'socialInsuranceNumber',
+                label: `${TRANSLATION_SCOPE}.socialInsuranceNumber`,
                 labelClassName: 'font-semibold',
-                placeholder: 'enterSocialInsuranceNumber',
+                placeholder: `${TRANSLATION_SCOPE}.enterSocialInsuranceNumber`,
                 textfieldLabelOutside: true,
-                translocoScope: this.scope,
               },
             },
             {
@@ -46,11 +45,10 @@ export class ShuiFormComponent {
               type: 'input',
               templateOptions: {
                 translate: true,
-                label: 'socialInsurancePlace',
+                label: `${TRANSLATION_SCOPE}.socialInsurancePlace`,
                 labelClassName: 'font-semibold',
-                placeholder: 'enterSocialInsurancePlace',
+                placeholder: `${TRANSLATION_SCOPE}.enterSocialInsurancePlace`,
                 textfieldLabelOutside: true,
-                translocoScope: this.scope,
               },
             },
             {
@@ -59,8 +57,7 @@ export class ShuiFormComponent {
               type: 'repeat',
               templateOptions: {
                 translate: true,
-                label: 'healthCareInsuranceList',
-                translocoScope: this.scope,
+                label: `${TRANSLATION_SCOPE}.healthCareInsuranceList`,
               },
               fieldArray: {
                 fieldGroupClassName: 'grid grid-cols-2 gap-4',
@@ -70,9 +67,8 @@ export class ShuiFormComponent {
                     type: 'select',
                     templateOptions: {
                       translate: true,
-                      label: 'healthCareCompany',
-                      placeholder: 'chooseHealthCareCompany',
-                      translocoScope: this.scope,
+                      label: `${TRANSLATION_SCOPE}.healthCareCompany`,
+                      placeholder: `${TRANSLATION_SCOPE}.chooseHealthCareCompany`,
                       options: ['PVI'],
                       textfieldLabelOutside: false,
                     },
@@ -82,9 +78,8 @@ export class ShuiFormComponent {
                     type: 'input',
                     templateOptions: {
                       translate: true,
-                      label: 'healthCareNumber',
-                      placeholder: 'enterHealthCareNumber',
-                      translocoScope: this.scope,
+                      label: `${TRANSLATION_SCOPE}.healthCareNumber`,
+                      placeholder: `${TRANSLATION_SCOPE}.enterHealthCareNumber`,
                     },
                   },
                 ],
@@ -100,11 +95,10 @@ export class ShuiFormComponent {
               type: 'input',
               templateOptions: {
                 translate: true,
-                label: 'taxIDNumber',
+                label: `${TRANSLATION_SCOPE}.taxIDNumber`,
                 labelClassName: 'font-semibold',
-                placeholder: 'enterTaxIDNumber',
+                placeholder: `${TRANSLATION_SCOPE}.enterTaxIDNumber`,
                 textfieldLabelOutside: true,
-                translocoScope: this.scope,
               },
             },
             {
@@ -113,11 +107,10 @@ export class ShuiFormComponent {
               type: 'input',
               templateOptions: {
                 translate: true,
-                label: 'familyHealthCarePackageNumber',
+                label: `${TRANSLATION_SCOPE}.familyHealthCarePackageNumber`,
                 labelClassName: 'font-semibold',
-                placeholder: 'enterFamilyHealthCarePackageNumber',
+                placeholder: `${TRANSLATION_SCOPE}.enterFamilyHealthCarePackageNumber`,
                 textfieldLabelOutside: true,
-                translocoScope: this.scope,
               },
             },
             {
@@ -126,11 +119,10 @@ export class ShuiFormComponent {
               type: 'input',
               templateOptions: {
                 translate: true,
-                label: 'healthInsuranceNumber',
+                label: `${TRANSLATION_SCOPE}.healthInsuranceNumber`,
                 labelClassName: 'font-semibold',
-                placeholder: 'enterHealthInsuranceNumber',
+                placeholder: `${TRANSLATION_SCOPE}.enterHealthInsuranceNumber`,
                 textfieldLabelOutside: true,
-                translocoScope: this.scope,
               },
             },
           ],
@@ -143,8 +135,7 @@ export class ShuiFormComponent {
       type: 'repeat',
       templateOptions: {
         translate: true,
-        label: 'dependentMembers',
-        translocoScope: this.scope,
+        label: `${TRANSLATION_SCOPE}.dependentMembers`,
       },
       fieldArray: {
         fieldGroupClassName: 'grid grid-cols-5 gap-4',
@@ -163,9 +154,8 @@ export class ShuiFormComponent {
             type: 'input-date',
             templateOptions: {
               translate: true,
-              label: 'DOB',
-              placeholder: 'enterDOB',
-              translocoScope: this.scope,
+              label: `${TRANSLATION_SCOPE}.DOB`,
+              placeholder: `${TRANSLATION_SCOPE}.enterDOB`,
             },
           },
           {
@@ -173,9 +163,8 @@ export class ShuiFormComponent {
             type: 'input',
             templateOptions: {
               translate: true,
-              label: 'idNumber',
-              placeholder: 'enterIDNumber',
-              translocoScope: this.scope,
+              label: `${TRANSLATION_SCOPE}.idNumber`,
+              placeholder: `${TRANSLATION_SCOPE}.enterIDNumber`,
             },
           },
           {
@@ -183,9 +172,8 @@ export class ShuiFormComponent {
             type: 'input-date',
             templateOptions: {
               translate: true,
-              label: 'issueOn',
-              placeholder: 'enterIssueOn',
-              translocoScope: this.scope,
+              label: `${TRANSLATION_SCOPE}.issueOn`,
+              placeholder: `${TRANSLATION_SCOPE}.enterIssueOn`,
             },
           },
           {
@@ -193,9 +181,8 @@ export class ShuiFormComponent {
             type: 'input',
             templateOptions: {
               translate: true,
-              label: 'issueAt',
-              placeholder: 'enterIssueAt',
-              translocoScope: this.scope,
+              label: `${TRANSLATION_SCOPE}.issueAt`,
+              placeholder: `${TRANSLATION_SCOPE}.enterIssueAt`,
             },
           },
         ],
@@ -220,7 +207,6 @@ export class ShuiFormComponent {
     private readonly employeesService: EmployeesService,
     private readonly destroy$: TuiDestroyService,
     private readonly promptService: PromptService,
-    @Inject(TRANSLOCO_SCOPE) private readonly scope: TranslocoScope,
     private readonly employeeSHUIQuery: EmployeeSHUIQuery,
     private readonly employeeSHUIStore: EmployeeSHUIStore,
     employeeQuery: EmployeeQuery

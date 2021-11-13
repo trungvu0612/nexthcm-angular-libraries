@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AkitaNgEffectsModule } from '@datorama/akita-ng-effects';
 import { JobLevelsEffects } from '@nexthcm/cdk';
-import { inlineLoaderFactory } from '@nexthcm/core';
 import { BaseFormComponentModule, LayoutComponent, LayoutModule } from '@nexthcm/ui';
 import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
 import { TuiTablePaginationModule } from '@taiga-ui/addon-table';
@@ -12,8 +11,11 @@ import { TuiButtonModule, TuiLoaderModule } from '@taiga-ui/core';
 import { TableModule } from 'ngx-easy-table';
 import { NgxPermissionsGuard, NgxPermissionsModule } from 'ngx-permissions';
 import { UpsertJobLevelDialogComponent } from './components/upsert-job-level-dialog/upsert-job-level-dialog.component';
+import en from './i18n/en.json';
+import vi from './i18n/vi.json';
 import { JobLevelManagementComponent } from './pages/job-level-management/job-level-management.component';
 import { AdminJobLevelsService } from './services/admin-job-levels.service';
+import { TRANSLATION_SCOPE } from './translation-scope';
 
 export const adminJobLevelsRoutes: Routes = [
   {
@@ -45,10 +47,7 @@ export const adminJobLevelsRoutes: Routes = [
     AdminJobLevelsService,
     {
       provide: TRANSLOCO_SCOPE,
-      useValue: {
-        scope: 'jobLevels',
-        loader: inlineLoaderFactory((lang) => import(`../../assets/i18n/${lang}.json`)),
-      },
+      useValue: { scope: TRANSLATION_SCOPE, loader: { en: () => Promise.resolve(en), vi: () => Promise.resolve(vi) } },
     },
   ],
 })
