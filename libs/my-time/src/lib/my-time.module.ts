@@ -8,7 +8,7 @@ import { NgxPermissionsGuard } from 'ngx-permissions';
 import en from './i18n/en.json';
 import vi from './i18n/vi.json';
 import { TRANSLATION_SCOPE } from './internal/constants';
-import { MyRequestsService } from './internal/services';
+import { MyRequestsService, RequestDetailDialogService } from './internal/services';
 import { MyLeaveComponent } from './modules/my-leave/my-leave.component';
 import { MyLeaveModule } from './modules/my-leave/my-leave.module';
 import { MyRequestsComponent } from './modules/my-requests/my-requests.component';
@@ -30,12 +30,6 @@ import { EveryoneWorkingHoursListComponent } from './modules/working-hours/compo
 import { OnlyMeWorkingHoursListComponent } from './modules/working-hours/components/only-me-working-hours-list/only-me-working-hours-list.component';
 import { WorkingHoursComponent } from './modules/working-hours/working-hours.component';
 import { WorkingHoursModule } from './modules/working-hours/working-hours.module';
-import { MyTimeService } from './services';
-
-const loader = {
-  en: () => Promise.resolve(en),
-  vi: () => Promise.resolve(vi),
-};
 
 export const MY_TIME_ROUTES: Routes = [
   {
@@ -116,8 +110,8 @@ const TABS: MenuItem[] = [
   ],
   providers: [
     TranslocoDatePipe,
-    MyTimeService,
     MyRequestsService,
+    RequestDetailDialogService,
     { provide: HEADER_TABS, useValue: TABS },
     {
       provide: TRANSLOCO_SCOPE,

@@ -3,7 +3,7 @@
     <a routerLink="/"><img alt="logo" class="mx-auto" src="assets/logo.png" /></a>
   </header>
 
-  <tui-scrollbar class="flex-1">
+  <tui-scrollbar *transloco="let t" class="flex-1">
     <tui-data-list class="px-4">
       <ng-container *ngFor="let item of items; index as index">
         <ng-container *ngxPermissionsOnly="item.permissions">
@@ -17,7 +17,7 @@
             tuiOption
           >
             <svg-icon *ngIf="item.icon" [key]="item.icon"></svg-icon>
-            <span>{{ item.title | transloco }}</span>
+            <span>{{ t(item.title) }}</span>
           </a>
           <tui-accordion *ngIf="item.children">
             <tui-accordion-item
@@ -37,7 +37,7 @@
                 tuiOption
               >
                 <svg-icon *ngIf="item.icon" [key]="item.icon"></svg-icon>
-                <span>{{ item.title | transloco }}</span>
+                <span>{{ t(item.title) }}</span>
               </a>
               <ng-template tuiAccordionItemContent>
                 <div class="section_bordered">
@@ -50,7 +50,7 @@
                       routerLinkActive="sublink_active"
                       tuiLink
                     >
-                      {{ child.title | transloco }}
+                      {{ t(child.title) }}
                     </a>
                   </ng-container>
                 </div>

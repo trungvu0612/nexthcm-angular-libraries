@@ -5,7 +5,8 @@
 </div>
 
 <hcm-working-hours-filters
-  [httpParams]="queryParams$"
+  (filter)="onFilter($event)"
+  [httpParams]="queryParams"
   class="mb-5"
   fromKey="fromDateForGroupBy"
   includeSearch
@@ -46,9 +47,9 @@
         <td class="font-semibold">{{ fromDateForGroupBy | translocoDate }} - {{ toDateForGroupBy | translocoDate }}</td>
         <td class="font-semibold text-center">
           {{
-          item.totalWorkingTime
-            ? (item.totalWorkingTime / 3600 | translocoDecimal: { maximumFractionDigits: 1 })
-            : '-'
+            item.totalWorkingTime
+              ? (item.totalWorkingTime / 3600 | translocoDecimal: { maximumFractionDigits: 1 })
+              : '-'
           }}
         </td>
         <td class="font-semibold text-center">

@@ -1,18 +1,20 @@
+import { Location } from '@angular/common';
 import { HttpParams } from '@angular/common/http';
-import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ActivatedRoute, UrlSerializer } from '@angular/router';
 import { AuthService } from '@nexthcm/auth';
 import { Pagination } from '@nexthcm/cdk';
 import { TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
-import { BaseComponent, Columns } from 'ngx-easy-table';
-import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
+import { Columns } from 'ngx-easy-table';
+import { combineLatest, Observable, of } from 'rxjs';
 import { catchError, filter, map, shareReplay, startWith, switchMap } from 'rxjs/operators';
+import { AbstractRequestListComponent } from '../../../../internal/abstract';
 import { TRANSLATION_SCOPE } from '../../../../internal/constants';
 import { WorkFromHomeRequest } from '../../../../internal/models';
 import { MyRequestsService } from '../../../../internal/services';
-import { AbstractRequestListComponent } from '../../../../shared/abstract-components/abstract-request-list.component';
+import { RequestDetailDialogService } from '../../../../internal/services/request-detail-dialog/request-detail-dialog.service';
 
 @Component({
   selector: 'hcm-my-work-from-home-requests',
@@ -22,8 +24,6 @@ import { AbstractRequestListComponent } from '../../../../shared/abstract-compon
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MyWorkFromHomeRequestsComponent extends AbstractRequestListComponent<WorkFromHomeRequest> {
-  @ViewChild('table') table!: BaseComponent;
-
   readonly userId = this.authService.get('userInfo', 'userId');
   readonly requestTypeUrlPath = 'workFromHome';
   readonly columns$: Observable<Columns[]> = this.translocoService
@@ -37,20 +37,16 @@ export class MyWorkFromHomeRequestsComponent extends AbstractRequestListComponen
         { key: '', title: result.functions, orderEnabled: false },
       ])
     );
-  readonly queryParams$ = new BehaviorSubject(
-    new HttpParams().set('page', 0).set('size', 10).set('userId', this.userId)
-  );
+  queryParams = new HttpParams().set('page', 0).set('size', 10).set('userId', this.userId);
   private readonly request$ = combineLatest([
-    this.queryParams$,
+    this.fetch$,
     this.myRequestsService.refresh$.pipe(
       filter((type) => type === this.requestTypeUrlPath),
       startWith(null)
     ),
   ]).pipe(
     switchMap(() =>
-      this.myRequestsService
-        .getRequests<WorkFromHomeRequest>('myWorkFromHome', this.queryParams$.value)
-        .pipe(startWith(null))
+      this.myRequestsService.getRequests<WorkFromHomeRequest>('myWorkFromHome', this.queryParams).pipe(startWith(null))
     ),
     shareReplay(1)
   );
@@ -61,14 +57,16 @@ export class MyWorkFromHomeRequestsComponent extends AbstractRequestListComponen
 
   constructor(
     readonly myRequestsService: MyRequestsService,
-    readonly destroy$: TuiDestroyService,
     readonly state: RxState<Pagination<WorkFromHomeRequest>>,
-    readonly router: Router,
     readonly activatedRoute: ActivatedRoute,
+    readonly locationRef: Location,
+    readonly urlSerializer: UrlSerializer,
+    readonly requestDetailDialogService: RequestDetailDialogService,
+    readonly destroy$: TuiDestroyService,
     private readonly translocoService: TranslocoService,
     private readonly authService: AuthService
   ) {
-    super(state, router, activatedRoute);
+    super(state, activatedRoute);
     state.connect(this.request$.pipe(filter(isPresent)));
   }
 }

@@ -11,9 +11,9 @@ import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { of, Subject } from 'rxjs';
 import { catchError, distinctUntilChanged, filter, map, share, startWith, switchMap, tap } from 'rxjs/operators';
-import { TRANSLATION_SCOPE } from '../../internal/constants';
-import { TransferLeaveEntitlementType } from '../../internal/enums';
-import { RemainingLeaveEntitlement, TransferLeaveEntitlementPayload } from '../../internal/models';
+import { TRANSLATION_SCOPE } from '../../constants';
+import { TransferLeaveEntitlementType } from '../../enums';
+import { RemainingLeaveEntitlement, TransferLeaveEntitlementPayload } from '../../models';
 import { MyLeaveService } from '../../services';
 
 interface TransferLeaveEntitlementForm extends TransferLeaveEntitlementPayload {

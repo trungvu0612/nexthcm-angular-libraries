@@ -1,19 +1,39 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable, Injector } from '@angular/core';
-import { BaseResponse, MY_TIME_API_PATH, Pagination, PagingResponse, PromptService } from '@nexthcm/cdk';
+import { Injectable } from '@angular/core';
+import {
+  ACCOUNT_API_PATH,
+  BaseResponse,
+  EmployeeInfo,
+  MY_TIME_API_PATH,
+  Pagination,
+  PagingResponse,
+  PromptService,
+} from '@nexthcm/cdk';
 import { TranslocoService } from '@ngneat/transloco';
 import { TranslocoDatePipe } from '@ngneat/transloco-locale';
-import { TuiDialogService } from '@taiga-ui/core';
-import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
-import { from, Observable, Subject } from 'rxjs';
-import { catchError, map, switchMap, tap } from 'rxjs/operators';
-import { RequestDetailDialogComponent } from '../../shared/request-detail-dialog/request-detail-dialog.component';
-import { REQUEST_DETAIL_URL_PATHS } from '../constants';
-import { CombineRequestTypeUrlPaths, GeneralRequest, RequestTypeUrlPaths } from '../models';
+import { from, Observable, of, Subject } from 'rxjs';
+import { catchError, map, tap } from 'rxjs/operators';
+import { REQUEST_COMMENT_URL_PATHS, REQUEST_DETAIL_URL_PATHS } from '../constants';
+import {
+  CombineRequestTypeUrlPaths,
+  GeneralRequest,
+  HistoryItem,
+  RequestComment,
+  RequestTypeUrlPaths,
+} from '../models';
+import { ChangeEscalateUserPayload } from '../models/requests/change-escalate-user-payload';
 import {
   LeaveDuplicated,
   SubmitLeaveRequestHttpErrorResponse,
 } from '../models/requests/submit-leave-request-http-error-response';
+
+const REQUEST_HISTORY_URL_PATHS: Readonly<RequestTypeUrlPaths> = Object.freeze({
+  workingAfterHours: '1',
+  updateTimesheet: '2',
+  workingOnsite: '3',
+  workFromHome: '4',
+  leave: '5',
+});
 
 @Injectable()
 export class MyRequestsService {
@@ -23,8 +43,6 @@ export class MyRequestsService {
   constructor(
     private readonly http: HttpClient,
     private readonly promptService: PromptService,
-    private readonly dialogService: TuiDialogService,
-    private readonly injector: Injector,
     private readonly translocoService: TranslocoService,
     private readonly translocoDatePipe: TranslocoDatePipe
   ) {}
@@ -56,20 +74,6 @@ export class MyRequestsService {
       );
   }
 
-  viewRequestDetail(type: keyof RequestTypeUrlPaths, id: string, userId?: string): Observable<unknown> {
-    return this.getRequest(type, id).pipe(
-      switchMap((res) =>
-        this.dialogService.open(new PolymorpheusComponent(RequestDetailDialogComponent, this.injector), {
-          data: {
-            type,
-            value: res.data,
-            userId,
-          },
-        })
-      )
-    );
-  }
-
   getRequest(type: keyof RequestTypeUrlPaths, id: string): Observable<BaseResponse<GeneralRequest>> {
     return this.http.get<BaseResponse<GeneralRequest>>(`${MY_TIME_API_PATH}/${REQUEST_DETAIL_URL_PATHS[type]}/${id}`);
   }
@@ -91,5 +95,46 @@ export class MyRequestsService {
       return this.translocoService.translate('myTime.ERRORS.EXCEED_LEAVE_ENTITLEMENT', error.errorMetadata);
     }
     return error.message;
+  }
+
+  changeEscalateUser(type: keyof RequestTypeUrlPaths, payload: ChangeEscalateUserPayload): Observable<unknown> {
+    return this.http.post(`${MY_TIME_API_PATH}/${REQUEST_DETAIL_URL_PATHS[type]}/change-assignee`, payload);
+  }
+
+  getEscalateUsers(type: keyof RequestTypeUrlPaths, requestId: string): Observable<EmployeeInfo[]> {
+    return this.http
+      .get<BaseResponse<EmployeeInfo[]>>(
+        type === 'leave'
+          ? `${MY_TIME_API_PATH}/leaves/get-escalate-user-by-leave-id/${requestId}`
+          : `${ACCOUNT_API_PATH}/users/get-manager`
+      )
+      .pipe(
+        map((res) => res.data),
+        catchError(() => of([]))
+      );
+  }
+
+  getRequestComments(type: keyof RequestTypeUrlPaths, requestId: string): Observable<RequestComment[]> {
+    return this.http
+      .get<PagingResponse<RequestComment>>(`${MY_TIME_API_PATH}/comments-common`, {
+        params: new HttpParams().set('type', REQUEST_COMMENT_URL_PATHS[type] as string).set('objectId', requestId),
+      })
+      .pipe(map((res) => res.data.items));
+  }
+
+  addRequestComment(comment: RequestComment): Observable<BaseResponse<RequestComment>> {
+    return this.http.post<BaseResponse<RequestComment>>(`${MY_TIME_API_PATH}/comments-common`, comment);
+  }
+
+  updateRequestComment(comment: RequestComment): Observable<unknown> {
+    return this.http.put(`${MY_TIME_API_PATH}/comments-common/${comment.id}`, comment);
+  }
+
+  getRequestHistory(type: keyof RequestTypeUrlPaths, requestId: string): Observable<HistoryItem[]> {
+    return this.http
+      .get<BaseResponse<HistoryItem[]>>(`${MY_TIME_API_PATH}/tracking-history/process`, {
+        params: new HttpParams().set('type', REQUEST_HISTORY_URL_PATHS[type] as string).set('objectId', requestId),
+      })
+      .pipe(map((res) => res.data));
   }
 }

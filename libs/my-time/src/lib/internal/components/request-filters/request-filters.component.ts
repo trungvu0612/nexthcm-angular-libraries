@@ -32,9 +32,7 @@ const getLabel: Record<string, string> = {
 export class RequestFiltersComponent implements OnInit {
   @Input() statusFilter = true;
   @Input() @tuiDefaultProp() httpParams = new HttpParams();
-  @Output() filter = new EventEmitter();
-
-  filterType: string[] = [];
+  @Output() filter = new EventEmitter<HttpParams>();
 
   readonly year$ = new BehaviorSubject<number | null>(null);
   readonly month$ = new BehaviorSubject<number | null>(null);
@@ -68,15 +66,15 @@ export class RequestFiltersComponent implements OnInit {
     this._includeSearch = coerceBooleanProperty(value);
   }
 
-  private _managerFilters = false;
+  private _includeMyTeam = false;
 
-  get managerFilters(): boolean {
-    return this._managerFilters;
+  get includeMyTeam(): boolean {
+    return this._includeMyTeam;
   }
 
   @Input()
-  set managerFilters(value: unknown) {
-    this._managerFilters = coerceBooleanProperty(value);
+  set includeMyTeam(value: unknown) {
+    this._includeMyTeam = coerceBooleanProperty(value);
   }
 
   ngOnInit(): void {
@@ -87,7 +85,7 @@ export class RequestFiltersComponent implements OnInit {
 
   onFilter(key: string, value: string | number | null): void {
     this.httpParams = value !== null ? this.httpParams.set(key, value) : this.httpParams.delete(key);
-    this.filter.emit();
+    this.filter.emit(this.httpParams);
   }
 
   onFilterByWorkflowStatuses(statuses: string): void {
@@ -107,7 +105,7 @@ export class RequestFiltersComponent implements OnInit {
       let fromDate: number;
       let toDate: number;
       const NOW = new Date();
-      
+
       if (this.month$.value !== null) {
         fromDate = startOfMonth(setMonth(setYear(NOW, Number(this.year$.value)), this.month$.value)).valueOf();
         toDate = endOfMonth(setMonth(setYear(NOW, Number(this.year$.value)), this.month$.value)).valueOf();
@@ -116,8 +114,8 @@ export class RequestFiltersComponent implements OnInit {
         toDate = endOfYear(setYear(NOW, Number(this.year$.value))).valueOf();
       }
       this.httpParams = this.httpParams.set('fromDate', fromDate).set('toDate', toDate);
-      this.filter.emit();
     }
+    this.filter.emit(this.httpParams);
   }
 
   private parseParams(params: Params): void {
@@ -131,6 +129,9 @@ export class RequestFiltersComponent implements OnInit {
     }
     if (params.search) {
       this.search$.next(params.search);
+    }
+    if (params.filterType) {
+      this.filterType$.next(params.filterType);
     }
   }
 }

@@ -23,7 +23,8 @@ import { TuiButtonModule, TuiDataListModule, TuiLoaderModule, TuiSvgModule } fro
 import { TuiDataListWrapperModule, TuiIslandModule, TuiTabsModule } from '@taiga-ui/kit';
 import { TableModule } from 'ngx-easy-table';
 import { NgxPermissionsModule } from 'ngx-permissions';
-import { WorkingHoursService } from '../../services';
+import { WorkingHoursService } from '../../internal/services';
+import { MyTimeService } from '../../services';
 import { CreateUpdateTimesheetRequestDialogComponent } from './components/create-update-timesheet-request-dialog/create-update-timesheet-request-dialog.component';
 import { EveryoneWorkingHoursListComponent } from './components/everyone-working-hours-list/everyone-working-hours-list.component';
 import { ExportTimeLogDialogComponent } from './components/export-time-log-dialog/export-time-log-dialog.component';
@@ -73,6 +74,6 @@ import { WorkingHoursComponent } from './working-hours.component';
     PushModule,
     InputNumberFilterComponentModule,
   ],
-  providers: [WorkingHoursService],
+  providers: [WorkingHoursService, MyTimeService],
 })
 export class WorkingHoursModule {}

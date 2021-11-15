@@ -15,7 +15,7 @@ import { catchError, map, share, startWith, switchMap, tap } from 'rxjs/operator
 import { TRANSLATION_SCOPE } from '../../../../internal/constants';
 import { ExportTimeLogType } from '../../../../internal/enums';
 import { ExportTimeLog } from '../../../../internal/models';
-import { WorkingHoursService } from '../../../../services/working-hours.service';
+import { WorkingHoursService } from '../../../../internal/services';
 
 @Component({
   selector: 'hcm-export-time-log-dialog',

@@ -1,19 +1,20 @@
+import { Location } from '@angular/common';
 import { HttpParams } from '@angular/common/http';
-import { ChangeDetectionStrategy, Component, Injector, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ChangeDetectionStrategy, Component, Injector } from '@angular/core';
+import { ActivatedRoute, UrlSerializer } from '@angular/router';
 import { AuthService } from '@nexthcm/auth';
-import { AbstractServerSortPaginationTableComponent, Pagination } from '@nexthcm/cdk';
+import { NewAbstractServerSortPaginationTableComponent, Pagination } from '@nexthcm/cdk';
 import { HashMap, TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
-import { BaseComponent, Columns } from 'ngx-easy-table';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { Columns } from 'ngx-easy-table';
+import { Observable, of } from 'rxjs';
 import { catchError, filter, map, share, startWith, switchMap, takeUntil } from 'rxjs/operators';
 import { TRANSLATION_SCOPE } from '../../../../internal/constants';
 import { WorkingHours } from '../../../../models';
-import { WorkingHoursService } from '../../../../services';
+import { MyTimeService } from '../../../../services';
 import { CreateUpdateTimesheetRequestDialogComponent } from '../create-update-timesheet-request-dialog/create-update-timesheet-request-dialog.component';
 import { WorkingHoursDetailDialogComponent } from '../working-hour-detail-dialog/working-hours-detail-dialog.component';
 
@@ -24,9 +25,7 @@ import { WorkingHoursDetailDialogComponent } from '../working-hour-detail-dialog
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [TuiDestroyService, RxState],
 })
-export class OnlyMeWorkingHoursListComponent extends AbstractServerSortPaginationTableComponent<WorkingHours> {
-  @ViewChild('table') table!: BaseComponent;
-
+export class OnlyMeWorkingHoursListComponent extends NewAbstractServerSortPaginationTableComponent<WorkingHours> {
   readonly columns$: Observable<Columns[]> = this.translocoService
     .selectTranslateObject<HashMap<string>>('WORKING_HOURS_TABLE_COLUMNS', {}, TRANSLATION_SCOPE)
     .pipe(
@@ -48,11 +47,12 @@ export class OnlyMeWorkingHoursListComponent extends AbstractServerSortPaginatio
         { key: '', title: result.functions, orderEnabled: false },
       ])
     );
-  readonly queryParams$ = new BehaviorSubject(
-    new HttpParams().set('page', 0).set('size', 10).set('userId', this.authService.get('userInfo', 'userId'))
-  );
-  private readonly request$ = this.queryParams$.pipe(
-    switchMap(() => this.workingHoursService.getWorkingHoursOfOnlyMe(this.queryParams$.value).pipe(startWith(null))),
+  queryParams = new HttpParams()
+    .set('page', 0)
+    .set('size', 10)
+    .set('userId', this.authService.get('userInfo', 'userId'));
+  private readonly request$ = this.fetch$.pipe(
+    switchMap(() => this.myTimeService.getWorkingHoursOfOnlyMe(this.queryParams).pipe(startWith(null))),
     share()
   );
   readonly loading$ = this.request$.pipe(
@@ -62,16 +62,17 @@ export class OnlyMeWorkingHoursListComponent extends AbstractServerSortPaginatio
 
   constructor(
     readonly state: RxState<Pagination<WorkingHours>>,
-    readonly router: Router,
     readonly activatedRoute: ActivatedRoute,
-    private readonly workingHoursService: WorkingHoursService,
+    readonly locationRef: Location,
+    readonly urlSerializer: UrlSerializer,
+    private readonly myTimeService: MyTimeService,
     private readonly destroy$: TuiDestroyService,
     private readonly translocoService: TranslocoService,
     private readonly authService: AuthService,
     private readonly dialogService: TuiDialogService,
     private readonly injector: Injector
   ) {
-    super(state, router, activatedRoute);
+    super(state, activatedRoute);
     state.connect(this.request$.pipe(filter(isPresent)));
   }
 
@@ -93,5 +94,10 @@ export class OnlyMeWorkingHoursListComponent extends AbstractServerSortPaginatio
       })
       .pipe(takeUntil(this.destroy$))
       .subscribe();
+  }
+
+  onFilter(httpParams: HttpParams): void {
+    this.queryParams = httpParams;
+    this.fetch$.next();
   }
 }

@@ -1,17 +1,19 @@
-import { ChangeDetectionStrategy, Component, Injector, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { AbstractServerSortPaginationTableComponent, Pagination } from '@nexthcm/cdk';
+import { Location } from '@angular/common';
+import { HttpParams } from '@angular/common/http';
+import { ChangeDetectionStrategy, Component, Injector, OnInit } from '@angular/core';
+import { ActivatedRoute, UrlSerializer } from '@angular/router';
+import { NewAbstractServerSortPaginationTableComponent, Pagination } from '@nexthcm/cdk';
 import { HashMap, TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
-import { API, BaseComponent, Columns, Config, DefaultConfig } from 'ngx-easy-table';
+import { API, Columns, Config, DefaultConfig } from 'ngx-easy-table';
 import { Observable, of } from 'rxjs';
 import { catchError, filter, map, share, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { TRANSLATION_SCOPE } from '../../../../internal/constants';
-import { WorkingHoursGroup } from '../../../../models';
-import { WorkingHoursService } from '../../../../services';
+import { WorkingHoursGroup } from '../../../../internal/models';
+import { WorkingHoursService } from '../../../../internal/services';
 import { ExportTimeLogDialogComponent } from '../export-time-log-dialog/export-time-log-dialog.component';
 
 @Component({
@@ -22,11 +24,9 @@ import { ExportTimeLogDialogComponent } from '../export-time-log-dialog/export-t
   providers: [TuiDestroyService, RxState],
 })
 export class EveryoneWorkingHoursListComponent
-  extends AbstractServerSortPaginationTableComponent<WorkingHoursGroup>
+  extends NewAbstractServerSortPaginationTableComponent<WorkingHoursGroup>
   implements OnInit
 {
-  @ViewChild('table') table!: BaseComponent;
-
   configuration: Config = {
     ...DefaultConfig,
     paginationEnabled: false,
@@ -71,9 +71,9 @@ export class EveryoneWorkingHoursListComponent
         },
       ])
     );
-  private readonly request$ = this.queryParams$.pipe(
+  private readonly request$ = this.fetch$.pipe(
     switchMap(() =>
-      this.workingHoursService.getWorkingHoursOfEveryone(this.queryParams$.value).pipe(
+      this.workingHoursService.getWorkingHoursOfEveryone(this.queryParams).pipe(
         tap(() => this.toggledRows.clear()),
         startWith(null)
       )
@@ -87,26 +87,25 @@ export class EveryoneWorkingHoursListComponent
 
   constructor(
     readonly state: RxState<Pagination<WorkingHoursGroup>>,
-    readonly router: Router,
     readonly activatedRoute: ActivatedRoute,
+    readonly locationRef: Location,
+    readonly urlSerializer: UrlSerializer,
     private readonly workingHoursService: WorkingHoursService,
     private readonly destroy$: TuiDestroyService,
     private readonly translocoService: TranslocoService,
     private readonly dialogService: TuiDialogService,
     private readonly injector: Injector
   ) {
-    super(state, router, activatedRoute);
+    super(state, activatedRoute);
     state.connect(this.request$.pipe(filter(isPresent)));
   }
 
   get fromDateForGroupBy(): number {
-    const fromDate = this.queryParams$.value.get('fromDateForGroupBy');
-    return fromDate ? +fromDate : 0;
+    return +(this.queryParams.get('fromDateForGroupBy') || 0);
   }
 
   get toDateForGroupBy(): number {
-    const toDate = this.queryParams$.value.get('toDateForGroupBy');
-    return toDate ? +toDate : 0;
+    return +(this.queryParams.get('toDateForGroupBy') || 0);
   }
 
   ngOnInit(): void {
@@ -130,5 +129,10 @@ export class EveryoneWorkingHoursListComponent
       })
       .pipe(takeUntil(this.destroy$))
       .subscribe();
+  }
+
+  onFilter(httpParams: HttpParams): void {
+    this.queryParams = httpParams;
+    this.fetch$.next();
   }
 }

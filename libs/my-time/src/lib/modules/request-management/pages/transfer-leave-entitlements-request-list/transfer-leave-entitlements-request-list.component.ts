@@ -1,17 +1,18 @@
-import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { AuthService } from '@nexthcm/auth';
+import { Location } from '@angular/common';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ActivatedRoute, UrlSerializer } from '@angular/router';
 import { Pagination } from '@nexthcm/cdk';
 import { TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
-import { BaseComponent, Columns } from 'ngx-easy-table';
+import { Columns } from 'ngx-easy-table';
 import { combineLatest, Observable, of } from 'rxjs';
 import { catchError, filter, map, shareReplay, startWith, switchMap } from 'rxjs/operators';
+import { AbstractRequestListComponent } from '../../../../internal/abstract';
 import { TRANSLATION_SCOPE } from '../../../../internal/constants';
-import { TransferLeaveEntitlementsRequest } from '../../../../internal/models/requests/transfer-leave-entitlements-request';
+import { TransferLeaveEntitlementsRequest } from '../../../../internal/models';
 import { MyRequestsService } from '../../../../internal/services';
-import { AbstractRequestListComponent } from '../../../../shared/abstract-components/abstract-request-list.component';
+import { RequestDetailDialogService } from '../../../../internal/services/request-detail-dialog/request-detail-dialog.service';
 
 @Component({
   selector: 'hcm-transfer-leave-entitlements-request-list',
@@ -21,9 +22,6 @@ import { AbstractRequestListComponent } from '../../../../shared/abstract-compon
   providers: [RxState, TuiDestroyService],
 })
 export class TransferLeaveEntitlementsRequestListComponent extends AbstractRequestListComponent<TransferLeaveEntitlementsRequest> {
-  @ViewChild('table') table!: BaseComponent;
-
-  readonly userId = this.authService.get('userInfo', 'userId');
   readonly requestTypeUrlPath = 'transferLeaveEntitlements';
   readonly columns$: Observable<Columns[]> = this.translocoService
     .selectTranslateObject('MY_TIME_REQUEST_LIST_COLUMNS', {}, TRANSLATION_SCOPE)
@@ -37,10 +35,10 @@ export class TransferLeaveEntitlementsRequestListComponent extends AbstractReque
         { key: '', title: result.functions, orderEnabled: false },
       ])
     );
-  private readonly request$ = this.queryParams$.pipe(
+  private readonly request$ = this.fetch$.pipe(
     switchMap(() =>
       this.myRequestsService
-        .getRequests<TransferLeaveEntitlementsRequest>(this.requestTypeUrlPath, this.queryParams$.value)
+        .getRequests<TransferLeaveEntitlementsRequest>(this.requestTypeUrlPath, this.queryParams)
         .pipe(startWith(null))
     ),
     shareReplay(1)
@@ -52,14 +50,15 @@ export class TransferLeaveEntitlementsRequestListComponent extends AbstractReque
 
   constructor(
     readonly myRequestsService: MyRequestsService,
-    readonly destroy$: TuiDestroyService,
     readonly state: RxState<Pagination<TransferLeaveEntitlementsRequest>>,
-    readonly router: Router,
     readonly activatedRoute: ActivatedRoute,
-    private readonly translocoService: TranslocoService,
-    private readonly authService: AuthService
+    readonly locationRef: Location,
+    readonly urlSerializer: UrlSerializer,
+    readonly requestDetailDialogService: RequestDetailDialogService,
+    private readonly destroy$: TuiDestroyService,
+    private readonly translocoService: TranslocoService
   ) {
-    super(state, router, activatedRoute);
+    super(state, activatedRoute);
     state.connect(this.request$.pipe(filter(isPresent)));
   }
 }

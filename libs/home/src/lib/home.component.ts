@@ -2,7 +2,7 @@ import { HttpParams } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { AuthService } from '@nexthcm/auth';
 import { ProfileGeneralQuery, PromptService } from '@nexthcm/cdk';
-import { CheckInPayload, CheckOutPayload, WorkingHours, WorkingHoursService } from '@nexthcm/my-time';
+import { CheckInPayload, CheckOutPayload, MyTimeService, WorkingHours } from '@nexthcm/my-time';
 import { TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
 import { isPresent } from '@taiga-ui/cdk';
@@ -50,7 +50,7 @@ export class HomeComponent {
   readonly myWorkingDays$: Observable<WorkingHours[]> = this.myWorkingDaysRequest$.pipe(filter(isPresent));
 
   constructor(
-    private readonly workingHoursService: WorkingHoursService,
+    private readonly workingHoursService: MyTimeService,
     private readonly authService: AuthService,
     private readonly promptService: PromptService,
     private readonly state: RxState<HomeState>,

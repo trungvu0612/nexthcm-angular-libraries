@@ -9,10 +9,8 @@ import { TuiLetModule } from '@taiga-ui/cdk';
 import { TuiButtonModule, TuiLoaderModule } from '@taiga-ui/core';
 import { TuiTagModule } from '@taiga-ui/kit';
 import { TableModule } from 'ngx-easy-table';
-import { RequestFiltersComponentModule } from '../../internal/components/request-filters/request-filters.component';
-import { MyLeaveService } from '../../services';
-import { LeaveRequestDateRangeComponentModule } from '../../shared/leave-request-date-range/leave-request-date-range.component';
-import { RequestListFilterComponentModule } from '../../shared/request-list-filters/request-list-filters.component';
+import { LeaveRequestDateRangeComponentModule, RequestFiltersComponentModule } from '../../internal/components';
+import { MyLeaveService } from '../../internal/services';
 import { MyLeaveComponent } from './my-leave.component';
 
 @NgModule({
@@ -22,7 +20,6 @@ import { MyLeaveComponent } from './my-leave.component';
     LayoutModule,
     TranslocoModule,
     TuiButtonModule,
-    RequestListFilterComponentModule,
     TuiLoaderModule,
     TableModule,
     TuiLetModule,

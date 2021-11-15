@@ -1,14 +1,4 @@
-import { EmployeeInfo } from '@nexthcm/cdk';
-
-export interface BaseWorkingHours {
-  userId: string;
-  totalWorkingTime: number;
-  workingDay: number;
-  userInfo?: EmployeeInfo;
-  ot: number;
-  wfh: number;
-  onsiteDay: number;
-}
+import { BaseWorkingHours } from '../internal/models';
 
 export interface WorkingHours extends BaseWorkingHours {
   id: string;
@@ -21,10 +11,6 @@ export interface WorkingHours extends BaseWorkingHours {
   lastModifiedDate: number;
   leave: WorkingHoursLeave;
   leaveType: string;
-}
-
-export interface WorkingHoursGroup extends BaseWorkingHours {
-  countLeave: number;
 }
 
 export interface WorkingHoursLeave {
@@ -45,29 +31,6 @@ export interface WorkingHourLeaveLeaveType {
   workflowId: string;
   status: number;
   orgId: string;
-}
-
-export interface SearchWorkingHour {
-  search: string | null;
-  month: number | null;
-  year: number | null;
-  week: WeekInfo | null;
-}
-
-export interface RequestUpdateTime {
-  timeSheetId: string;
-  createdDate: string;
-  sendTo: string;
-  newInTime: string;
-  newOutTime: string;
-  comments: string;
-  status: 0;
-}
-
-export interface WeekInfo {
-  week: number;
-  weekStart: number;
-  weekEnd: number;
 }
 
 export interface WorkingInfoCurrentMonth {

@@ -1,14 +1,16 @@
-import { ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
-import { AbstractServerPaginationTableComponent, Pagination } from '@nexthcm/cdk';
+import { Location } from '@angular/common';
+import { ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { ActivatedRoute, UrlSerializer } from '@angular/router';
+import { NewAbstractServerPaginationTableComponent, Pagination } from '@nexthcm/cdk';
 import { HashMap, TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
 import { isPresent, tuiDefaultProp } from '@taiga-ui/cdk';
-import { BaseComponent, Columns, Config, DefaultConfig } from 'ngx-easy-table';
+import { Columns, Config, DefaultConfig } from 'ngx-easy-table';
 import { Observable, of } from 'rxjs';
 import { catchError, filter, map, share, skip, startWith, switchMap } from 'rxjs/operators';
 import { TRANSLATION_SCOPE } from '../../../../internal/constants';
 import { WorkingHours } from '../../../../models';
-import { WorkingHoursService } from '../../../../services';
+import { MyTimeService } from '../../../../services';
 
 @Component({
   selector: 'hcm-group-working-hours-table',
@@ -18,14 +20,12 @@ import { WorkingHoursService } from '../../../../services';
   providers: [RxState],
 })
 export class GroupWorkingHoursTableComponent
-  extends AbstractServerPaginationTableComponent<WorkingHours>
+  extends NewAbstractServerPaginationTableComponent<WorkingHours>
   implements OnChanges
 {
   @Input() @tuiDefaultProp() userId!: string;
   @Input() @tuiDefaultProp() fromDate!: number;
   @Input() @tuiDefaultProp() toDate!: number;
-
-  @ViewChild('table') table!: BaseComponent;
 
   configuration: Config = {
     ...DefaultConfig,
@@ -50,9 +50,9 @@ export class GroupWorkingHoursTableComponent
         { key: 'countLeave', title: result.countLeave, width: '9%' },
       ])
     );
-  private readonly request$ = this.queryParams$.pipe(
+  private readonly request$ = this.fetch$.pipe(
     skip(1),
-    switchMap(() => this.workingHoursService.getWorkingHoursOfOnlyMe(this.queryParams$.value).pipe(startWith(null))),
+    switchMap(() => this.myTimeService.getWorkingHoursOfOnlyMe(this.queryParams).pipe(startWith(null))),
     share()
   );
   readonly loading$ = this.request$.pipe(
@@ -62,7 +62,10 @@ export class GroupWorkingHoursTableComponent
 
   constructor(
     readonly state: RxState<Pagination<WorkingHours>>,
-    private readonly workingHoursService: WorkingHoursService,
+    readonly activatedRoute: ActivatedRoute,
+    readonly locationRef: Location,
+    readonly urlSerializer: UrlSerializer,
+    private readonly myTimeService: MyTimeService,
     private readonly translocoService: TranslocoService
   ) {
     super(state);
@@ -70,10 +73,9 @@ export class GroupWorkingHoursTableComponent
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    let httpParams = this.queryParams$.value;
-    httpParams = changes.userId
-      ? httpParams.set('userId', this.userId)
-      : httpParams.set('fromDate', this.fromDate).set('toDate', this.toDate);
-    this.queryParams$.next(httpParams);
+    this.queryParams = changes.userId
+      ? this.queryParams.set('userId', this.userId)
+      : this.queryParams.set('fromDate', this.fromDate).set('toDate', this.toDate);
+    this.fetch$.next();
   }
 }

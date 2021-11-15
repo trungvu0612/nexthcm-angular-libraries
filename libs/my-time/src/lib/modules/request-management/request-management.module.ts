@@ -12,10 +12,12 @@ import { TuiButtonModule, TuiLoaderModule } from '@taiga-ui/core';
 import { TuiDataListWrapperModule, TuiTabsModule, TuiTagModule } from '@taiga-ui/kit';
 import { TableModule } from 'ngx-easy-table';
 import { NgxPermissionsModule } from 'ngx-permissions';
-import { CreateLeaveRequestDialogComponentModule } from '../../shared/create-leave-request-dialog/create-leave-request-dialog.component';
-import { LeaveRequestDateRangeComponentModule } from '../../shared/leave-request-date-range/leave-request-date-range.component';
-import { RequestListFilterComponentModule } from '../../shared/request-list-filters/request-list-filters.component';
-import { TransferLeaveEntitlementTypePipeModule } from '../../shared/transfer-leave-entitlement-type/transfer-leave-entitlement-type.pipe';
+import {
+  CreateLeaveRequestDialogComponentModule,
+  LeaveRequestDateRangeComponentModule,
+  RequestFiltersComponentModule,
+} from '../../internal/components';
+import { TransferLeaveEntitlementTypePipeModule } from '../../internal/pipes';
 import { LeaveRequestListComponent } from './pages/leave-request-list/leave-request-list.component';
 import { TransferLeaveEntitlementsRequestListComponent } from './pages/transfer-leave-entitlements-request-list/transfer-leave-entitlements-request-list.component';
 import { UpdateTimesheetRequestListComponent } from './pages/update-timesheet-request-list/update-timesheet-request-list.component';
@@ -49,13 +51,13 @@ import { RequestManagementComponent } from './request-management.component';
     FormlyModule,
     ReactiveFormsModule,
     TuiDataListWrapperModule,
-    RequestListFilterComponentModule,
     TranslocoLocaleModule,
     LeaveRequestDateRangeComponentModule,
     WorkflowActionsButtonDropdownComponentModule,
     CreateLeaveRequestDialogComponentModule,
     NgxPermissionsModule,
     TransferLeaveEntitlementTypePipeModule,
+    RequestFiltersComponentModule,
   ],
 })
 export class RequestManagementModule {}

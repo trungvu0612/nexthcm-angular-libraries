@@ -4,14 +4,14 @@ import { BaseResponse, MY_TIME_API_PATH } from '@nexthcm/cdk';
 import { RxState } from '@rx-angular/state';
 import { Observable, of, Subject } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
+import { LeaveType } from '../../models';
 import {
   LeaveRequestPayload,
   MaximumLeaveEntitlementsCanTransfer,
   PartialDaysType,
   RemainingLeaveEntitlement,
   TransferLeaveEntitlementPayload,
-} from '../internal/models';
-import { LeaveType } from '../models';
+} from '../models';
 
 interface MyLeaveState {
   partialDayTypes: PartialDaysType[];

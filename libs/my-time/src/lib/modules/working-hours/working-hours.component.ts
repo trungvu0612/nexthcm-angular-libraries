@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { AuthService } from '@nexthcm/auth';
 import { endOfToday, startOfToday } from 'date-fns';
 import { map } from 'rxjs/operators';
-import { WorkingHoursService } from '../../services';
+import { MyTimeService } from '../../services';
 
 @Component({
   selector: 'hcm-working-hours',
@@ -13,7 +13,7 @@ import { WorkingHoursService } from '../../services';
 })
 export class WorkingHoursComponent {
   activeItemIndex = 0;
-  readonly myTodayWorkingHours$ = this.workingHoursService
+  readonly myTodayWorkingHours$ = this.myTimeService
     .getWorkingHoursOfOnlyMe(
       new HttpParams()
         .set('userId', this.authService.get('userInfo', 'userId'))
@@ -21,7 +21,7 @@ export class WorkingHoursComponent {
         .set('toDate', endOfToday().valueOf())
     )
     .pipe(map((res) => res.items[0]));
-  readonly monthWorkingTime$ = this.workingHoursService.getWorkingTimeCurrentMonth();
+  readonly monthWorkingTime$ = this.myTimeService.getWorkingTimeCurrentMonth();
 
-  constructor(private workingHoursService: WorkingHoursService, private authService: AuthService) {}
+  constructor(private myTimeService: MyTimeService, private authService: AuthService) {}
 }

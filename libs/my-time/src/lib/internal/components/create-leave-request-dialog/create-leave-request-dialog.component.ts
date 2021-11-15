@@ -11,17 +11,16 @@ import { POLYMORPHEUS_CONTEXT, PolymorpheusModule, PolymorpheusTemplate } from '
 import { endOfDay } from 'date-fns';
 import { combineLatest, from, of, Subject } from 'rxjs';
 import { catchError, map, share, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
-import { TRANSLATION_SCOPE } from '../../internal/constants';
-import { DurationType, PartialDays } from '../../internal/enums';
+import { TRANSLATION_SCOPE } from '../../constants';
+import { DurationType, PartialDays } from '../../enums';
 import {
   LeaveRequestPayload,
   PartialDaysType,
   PayloadTimeItem,
   RemainingLeaveEntitlement,
   SingleDayItem,
-} from '../../internal/models';
-import { MyRequestsService } from '../../internal/services';
-import { MyLeaveService } from '../../services';
+} from '../../models';
+import { MyLeaveService, MyRequestsService } from '../../services';
 
 interface LeaveRequestForm extends LeaveRequestPayload {
   employee?: Control<BaseUser>;

@@ -1,4 +1,8 @@
-<hcm-working-hours-filters [httpParams]="queryParams$" class="mb-5"></hcm-working-hours-filters>
+<hcm-working-hours-filters
+  (filter)="onFilter($event)"
+  [httpParams]="queryParams"
+  class="mb-5"
+></hcm-working-hours-filters>
 <tui-loader [overlay]="true" [showLoader]="(loading$ | async) === true">
   <ngx-table
     #table

@@ -9,12 +9,12 @@
 
   <hcm-workflow-status-combo-box-filter
     (valueChange)="onFilterByWorkflowStatuses($event)"
-    [ngClass]="managerFilters ? 'col-span-3' : 'col-span-4'"
+    [ngClass]="includeMyTeam ? 'col-span-3' : 'col-span-4'"
   ></hcm-workflow-status-combo-box-filter>
 
   <hcm-basic-filter
     (filtersChange)="onFilterChange($event)"
-    *ngIf="managerFilters"
+    *ngIf="includeMyTeam"
     [items]="['MY_TEAM']"
     [stringify]="getFilterLabel"
     key="filterType"

@@ -4,7 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { EmojiModule } from '@ctrl/ngx-emoji-mart/ngx-emoji';
 import { AkitaNgEffectsModule } from '@datorama/akita-ng-effects';
 import { GetFilePipeModule, UserProfileEffects } from '@nexthcm/cdk';
-import { WorkingHoursService } from '@nexthcm/my-time';
+import { MyTimeService } from '@nexthcm/my-time';
 import { AvatarComponentModule, LayoutComponent, LayoutModule } from '@nexthcm/ui';
 import { SvgIconsModule } from '@ngneat/svg-icon';
 import { TranslocoModule } from '@ngneat/transloco';
@@ -79,6 +79,6 @@ export const HOME_ROUTES: Routes = [
     TuiIslandModule,
     AkitaNgEffectsModule.forFeature([UserProfileEffects]),
   ],
-  providers: [WorkingHoursService],
+  providers: [MyTimeService],
 })
 export class HomeModule {}

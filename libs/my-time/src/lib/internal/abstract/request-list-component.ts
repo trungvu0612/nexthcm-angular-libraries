@@ -1,3 +1,4 @@
+import { HttpParams } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { NewAbstractServerSortPaginationTableComponent, Pagination } from '@nexthcm/cdk';
 import { RxState } from '@rx-angular/state';
@@ -5,10 +6,12 @@ import { Subject } from 'rxjs';
 import { startWith, switchMap, tap } from 'rxjs/operators';
 import { RequestTypeUrlPaths } from '../models';
 import { MyRequestsService } from '../services';
+import { RequestDetailDialogService } from '../services/request-detail-dialog/request-detail-dialog.service';
 
-export abstract class NewAbstractRequestListComponent<T> extends NewAbstractServerSortPaginationTableComponent<T> {
+export abstract class AbstractRequestListComponent<T> extends NewAbstractServerSortPaginationTableComponent<T> {
   abstract requestTypeUrlPath: keyof RequestTypeUrlPaths;
   abstract myRequestsService: MyRequestsService;
+  abstract requestDetailDialogService: RequestDetailDialogService;
 
   // EVENTS
   readonly viewRequestDetail$ = new Subject<[string, string | undefined]>();
@@ -24,7 +27,7 @@ export abstract class NewAbstractRequestListComponent<T> extends NewAbstractServ
     )
   );
   readonly viewRequestDetailHandler$ = this.viewRequestDetail$.pipe(
-    switchMap(([id, userId]) => this.myRequestsService.viewRequestDetail(this.requestTypeUrlPath, id, userId)),
+    switchMap(([id, userId]) => this.requestDetailDialogService.viewRequestDetail(this.requestTypeUrlPath, id, userId)),
     tap(() => this.fetch$.next())
   );
 
@@ -35,5 +38,10 @@ export abstract class NewAbstractRequestListComponent<T> extends NewAbstractServ
 
   onViewEmployeeRequestDetail(id: string, userId?: string): void {
     this.viewRequestDetail$.next([id, userId]);
+  }
+
+  onFilter(httpParams: HttpParams): void {
+    this.queryParams = httpParams;
+    this.fetch$.next();
   }
 }

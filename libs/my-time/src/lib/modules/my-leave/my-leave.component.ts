@@ -1,5 +1,5 @@
 import { Location } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Injector, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Injector } from '@angular/core';
 import { ActivatedRoute, UrlSerializer } from '@angular/router';
 import { AuthService } from '@nexthcm/auth';
 import { Pagination, PromptService } from '@nexthcm/cdk';
@@ -8,16 +8,18 @@ import { RxState } from '@rx-angular/state';
 import { isPresent } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
-import { BaseComponent, Columns } from 'ngx-easy-table';
+import { Columns } from 'ngx-easy-table';
 import { combineLatest, from, Observable, of, Subject } from 'rxjs';
 import { catchError, filter, map, share, shareReplay, startWith, switchMap, tap } from 'rxjs/operators';
-import { NewAbstractRequestListComponent } from '../../internal/abstract';
+import { AbstractRequestListComponent } from '../../internal/abstract';
+import {
+  CreateLeaveRequestDialogComponent,
+  CreateTransferLeaveEntitlementRequestComponent,
+} from '../../internal/components';
 import { TRANSLATION_SCOPE } from '../../internal/constants';
 import { LeaveRequest, RemainingLeaveEntitlement } from '../../internal/models';
-import { MyRequestsService } from '../../internal/services';
-import { MyLeaveService } from '../../services';
-import { CreateLeaveRequestDialogComponent } from '../../shared/create-leave-request-dialog/create-leave-request-dialog.component';
-import { CreateTransferLeaveEntitlementRequestComponent } from '../../shared/create-transfer-leave-entitlement-request/create-transfer-leave-entitlement-request.component';
+import { MyLeaveService, MyRequestsService } from '../../internal/services';
+import { RequestDetailDialogService } from '../../internal/services/request-detail-dialog/request-detail-dialog.service';
 
 @Component({
   selector: 'hcm-my-leave',
@@ -26,9 +28,7 @@ import { CreateTransferLeaveEntitlementRequestComponent } from '../../shared/cre
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [RxState],
 })
-export class MyLeaveComponent extends NewAbstractRequestListComponent<LeaveRequest> {
-  @ViewChild('table') table!: BaseComponent;
-
+export class MyLeaveComponent extends AbstractRequestListComponent<LeaveRequest> {
   readonly requestTypeUrlPath = 'leave';
   readonly columns$: Observable<Columns[]> = this.translocoService
     .selectTranslateObject('MY_LEAVE_TABLE_COLUMNS', {}, TRANSLATION_SCOPE)
@@ -87,6 +87,7 @@ export class MyLeaveComponent extends NewAbstractRequestListComponent<LeaveReque
     readonly activatedRoute: ActivatedRoute,
     readonly locationRef: Location,
     readonly urlSerializer: UrlSerializer,
+    readonly requestDetailDialogService: RequestDetailDialogService,
     private readonly injector: Injector,
     private readonly translocoService: TranslocoService,
     private readonly authService: AuthService,

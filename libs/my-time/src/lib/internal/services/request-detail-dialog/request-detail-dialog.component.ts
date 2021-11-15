@@ -32,12 +32,10 @@ import {
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { EMPTY, from, iif, Subject } from 'rxjs';
 import { switchMap, takeUntil, tap } from 'rxjs/operators';
-import { REQUEST_COMMENT_URL_PATHS } from '../../internal/constants';
-import { RequestCommentStatus } from '../../internal/enums';
-import { GeneralRequest, HistoryItem, RequestComment, RequestTypeUrlPaths } from '../../internal/models';
-import { MyRequestsService } from '../../internal/services';
-import { MyTimeService } from '../../services';
-import { LeaveRequestDateRangeComponentModule } from '../leave-request-date-range/leave-request-date-range.component';
+import { REQUEST_COMMENT_URL_PATHS } from '../../constants';
+import { RequestCommentStatus } from '../../enums';
+import { GeneralRequest, HistoryItem, RequestComment, RequestTypeUrlPaths } from '../../models';
+import { MyRequestsService } from '../my-requests.service';
 
 interface ComponentState {
   history: HistoryItem[];
@@ -58,7 +56,7 @@ interface RequestCommentForm extends RequestComment {
 export class RequestDetailDialogComponent implements OnInit {
   @ViewChild(TuiHostedDropdownComponent) component?: TuiHostedDropdownComponent;
 
-  readonly escalateUsers$ = this.myTimeService.getEscalateUsers(this.requestType, this.data.id);
+  readonly escalateUsers$ = this.myRequestsService.getEscalateUsers(this.requestType, this.data.id);
   open = false;
   inputComment = false;
   readonly RequestCommentStatus = RequestCommentStatus;
@@ -88,17 +86,17 @@ export class RequestDetailDialogComponent implements OnInit {
 
   // HANDLERS
   readonly getCommentsHandler$ = this.getComments$.pipe(
-    switchMap(() => this.myTimeService.getRequestComments(this.requestType, this.data.id))
+    switchMap(() => this.myRequestsService.getRequestComments(this.requestType, this.data.id))
   );
   readonly getHistoryHandler$ = this.getHistory$.pipe(
-    switchMap(() => this.myTimeService.getRequestHistory(this.requestType, this.data.id))
+    switchMap(() => this.myRequestsService.getRequestHistory(this.requestType, this.data.id))
   );
   readonly submitCommentHandler$ = this.submitComment$.pipe(
     switchMap((comment) =>
       iif(
         () => !!comment.id,
-        this.myTimeService.updateRequestComment(comment),
-        this.myTimeService.addRequestComment(comment)
+        this.myRequestsService.updateRequestComment(comment),
+        this.myRequestsService.addRequestComment(comment)
       )
     ),
     tap(this.promptService.handleResponse('', () => this.getComments$.next()))
@@ -110,7 +108,6 @@ export class RequestDetailDialogComponent implements OnInit {
       unknown,
       { type: keyof RequestTypeUrlPaths; value: GeneralRequest; userId?: string }
     >,
-    private readonly myTimeService: MyTimeService,
     private readonly myRequestsService: MyRequestsService,
     private readonly authService: AuthService,
     private readonly destroy$: TuiDestroyService,
@@ -133,7 +130,7 @@ export class RequestDetailDialogComponent implements OnInit {
     state.hold(
       this.changeEscalateUser$.pipe(
         switchMap((user) =>
-          this.myTimeService
+          this.myRequestsService
             .changeEscalateUser(this.requestType, {
               objectId: this.data.id,
               escalateId: user.id,
@@ -199,7 +196,7 @@ export class RequestDetailDialogComponent implements OnInit {
         switchMap((result) =>
           iif(
             () => result.isConfirmed,
-            this.myTimeService.updateRequestComment({ ...comment, state: RequestCommentStatus.Deleted }),
+            this.myRequestsService.updateRequestComment({ ...comment, state: RequestCommentStatus.Deleted }),
             EMPTY
           )
         ),
@@ -247,7 +244,6 @@ export class RequestDetailDialogComponent implements OnInit {
     TuiDataListModule,
     FormsModule,
     TuiTextfieldControllerModule,
-    LeaveRequestDateRangeComponentModule,
     TuiHostedDropdownModule,
     TuiDropdownControllerModule,
     TuiSvgModule,

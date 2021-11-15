@@ -36,8 +36,8 @@ import {
   TuiTagModule,
 } from '@taiga-ui/kit';
 import { TableModule } from 'ngx-easy-table';
-import { RequestListFilterComponentModule } from '../../shared/request-list-filters/request-list-filters.component';
-import { TransferLeaveEntitlementTypePipeModule } from '../../shared/transfer-leave-entitlement-type/transfer-leave-entitlement-type.pipe';
+import { RequestFiltersComponentModule } from '../../internal/components';
+import { TransferLeaveEntitlementTypePipeModule } from '../../internal/pipes';
 import { CreateWorkFromHomeRequestDialogComponent } from './components/create-work-from-home-request-dialog/create-work-from-home-request-dialog.component';
 import { CreateWorkingAfterHoursRequestDialogComponent } from './components/create-working-after-hours-request-dialog/create-working-after-hours-request-dialog.component';
 import { CreateWorkingOnsiteRequestDialogComponent } from './components/create-working-onsite-request-dialog/create-working-onsite-request-dialog.component';
@@ -90,12 +90,12 @@ import { MyWorkingOnsiteRequestsComponent } from './pages/my-working-onsite-requ
     TuiAvatarModule,
     TranslocoLocaleModule,
     BaseFormComponentModule,
-    RequestListFilterComponentModule,
     LayoutModule,
     WorkflowActionsButtonDropdownComponentModule,
     TransferLeaveEntitlementTypePipeModule,
     AkitaNgEffectsModule.forFeature([OfficesEffects]),
     PushModule,
+    RequestFiltersComponentModule,
   ],
 })
 export class MyRequestsModule {}
