@@ -46,7 +46,7 @@ export class CreateWorkingAfterHoursRequestDialogComponent {
         labelClassName: 'font-semibold',
         placeholder: 'searchEmployees',
       },
-      hide: !!this.context.data,
+      hide: this.context.data,
     },
     {
       key: 'type',
@@ -154,7 +154,7 @@ export class CreateWorkingAfterHoursRequestDialogComponent {
 
   constructor(
     private readonly fb: FormBuilder,
-    @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<boolean, string>,
+    @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<boolean, boolean>,
     private readonly myRequestsService: MyRequestsService,
     private readonly promptService: PromptService,
     private readonly translocoService: TranslocoService,

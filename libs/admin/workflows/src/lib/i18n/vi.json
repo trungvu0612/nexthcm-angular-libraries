@@ -78,7 +78,11 @@
     "oldField": "Giá trị cũ của trường",
     "newField": "Giá trị mới của trường",
     "sender": "Người gửi email",
-    "recipient": "Người nhận email"
+    "recipient": "Người nhận email",
+    "duration": "Giá trị khoảng thời gian của quy trình",
+    "leaveType": "Loại nghỉ phép",
+    "leaveDate": "Ngày nghỉ",
+    "link": "Liên kết của vấn đề"
   },
   "createEmailTemplate": "Tạo bản mẫu email",
   "createNewWorkflow": "Tạo quy trình",

@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Inject, NgModule } from '@angular/core';
 import { Actions } from '@datorama/akita-ng-effects';
+import { AuthService } from '@nexthcm/auth';
 import { BaseObject, BaseUser, loadOnsiteOffices, OnsiteOfficesQuery, PromptService } from '@nexthcm/cdk';
 import { BaseFormComponentModule } from '@nexthcm/ui';
 import { Control, FormBuilder } from '@ng-stack/forms';
@@ -45,7 +46,7 @@ export class CreateWorkingOnsiteRequestDialogComponent {
         labelClassName: 'font-semibold',
         placeholder: 'searchEmployees',
       },
-      hide: !!this.context.data,
+      hide: this.context.data,
     },
     {
       key: 'fromTo',
@@ -113,6 +114,7 @@ export class CreateWorkingOnsiteRequestDialogComponent {
         labelProp: 'username',
       },
     },
+    { key: 'userId', defaultValue: this.authService.get('userInfo', 'userId') },
   ];
   readonly submit$ = new Subject<WorkingOnsiteRequestPayload>();
   readonly submitHandler$ = this.submit$.pipe(
@@ -142,11 +144,12 @@ export class CreateWorkingOnsiteRequestDialogComponent {
 
   constructor(
     private readonly fb: FormBuilder,
-    @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<boolean, string>,
+    @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<boolean, boolean>,
     private readonly myRequestsService: MyRequestsService,
     private readonly translocoService: TranslocoService,
     private readonly promptService: PromptService,
     private readonly onsiteOfficesQuery: OnsiteOfficesQuery,
+    private readonly authService: AuthService,
     actions: Actions
   ) {
     actions.dispatch(loadOnsiteOffices());

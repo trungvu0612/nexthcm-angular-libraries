@@ -891,11 +891,11 @@
             ],
             "styles": [
               "node_modules/@taiga-ui/core/styles/taiga-ui-global.less",
-              "node_modules/@taiga-ui/core/styles/taiga-ui-theme.less",
+              "libs/core/assets/styles/theme.less",
               "apps/hcm-web/src/styles.scss"
             ],
             "scripts": [],
-            "allowedCommonJsDependencies": ["angular2-text-mask", "quill-delta-to-html", "quill-auto-detect-url"]
+            "allowedCommonJsDependencies": ["angular2-text-mask"]
           },
           "configurations": {
             "production": {
@@ -1036,7 +1036,7 @@
               },
               {
                 "glob": "**/*",
-                "input": "node_modules/@nexthcm/workflow-designer/assets/mxgraph",
+                "input": "libs/workflow-designer/assets/mxgraph",
                 "output": "."
               }
             ],

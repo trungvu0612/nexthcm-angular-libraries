@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Inject, NgModule } from '@angular/core';
+import { AuthService } from '@nexthcm/auth';
 import { BaseUser, PromptService } from '@nexthcm/cdk';
 import { BaseFormComponentModule } from '@nexthcm/ui';
 import { Control, FormBuilder } from '@ng-stack/forms';
@@ -43,7 +44,7 @@ export class CreateWorkFromHomeRequestDialogComponent {
         labelClassName: 'font-semibold',
         placeholder: 'searchEmployees',
       },
-      hide: !!this.context.data,
+      hide: this.context.data,
     },
     {
       key: 'fromTo',
@@ -97,6 +98,7 @@ export class CreateWorkFromHomeRequestDialogComponent {
         labelProp: 'username',
       },
     },
+    { key: 'userId', defaultValue: this.authService.get('userInfo', 'userId') },
   ];
   readonly submit$ = new Subject<WorkFromHomeRequestPayload>();
   readonly submitHandler$ = this.submit$.pipe(
@@ -126,16 +128,17 @@ export class CreateWorkFromHomeRequestDialogComponent {
 
   constructor(
     private readonly fb: FormBuilder,
-    @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<boolean, string>,
+    @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<boolean, boolean>,
     private readonly myRequestsService: MyRequestsService,
     private readonly translocoService: TranslocoService,
     private readonly promptService: PromptService,
+    private readonly authService: AuthService,
   ) {}
 
   onSubmit(): void {
     if (this.form.valid) {
       const formModel = { ...this.form.value };
-      
+
       if (formModel.user) {
         formModel.userId = formModel.user.id;
       }

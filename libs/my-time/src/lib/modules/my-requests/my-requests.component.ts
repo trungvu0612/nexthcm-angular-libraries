@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, Injector } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from '@nexthcm/auth';
 import { PromptService } from '@nexthcm/cdk';
 import { TranslocoService } from '@ngneat/transloco';
 import { TuiDestroyService } from '@taiga-ui/cdk';
@@ -42,12 +43,13 @@ export class MyRequestsComponent {
   activeItemIndex = 0;
 
   constructor(
-    private dialogService: TuiDialogService,
-    private injector: Injector,
-    private router: Router,
-    private translocoService: TranslocoService,
-    private promptService: PromptService,
-    private destroy$: TuiDestroyService
+    private readonly dialogService: TuiDialogService,
+    private readonly injector: Injector,
+    private readonly router: Router,
+    private readonly translocoService: TranslocoService,
+    private readonly promptService: PromptService,
+    private readonly destroy$: TuiDestroyService,
+    private readonly authService: AuthService
   ) {}
 
   onCreateRequest(type: keyof RequestDialogMetadata): void {
@@ -56,6 +58,7 @@ export class MyRequestsComponent {
     this.dialogService
       .open(new PolymorpheusComponent(component, this.injector), {
         label: this.translocoService.translate(label),
+        data: this.authService.get('userInfo', 'userId'),
       })
       .pipe(
         tap(() => this.router.navigateByUrl(route as string)),
