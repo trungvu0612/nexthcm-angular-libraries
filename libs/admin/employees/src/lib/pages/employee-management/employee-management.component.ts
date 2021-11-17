@@ -16,7 +16,7 @@ import { RxState } from '@rx-angular/state';
 import { isPresent, TuiContextWithImplicit, TuiDestroyService, tuiPure, TuiStringHandler } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
-import { Columns } from 'ngx-easy-table';
+import { Columns, Config, DefaultConfig } from 'ngx-easy-table';
 import { from, Observable, of, Subject } from 'rxjs';
 import {
   catchError,
@@ -43,6 +43,13 @@ import { TRANSLATION_SCOPE } from '../../translation-scope';
   providers: [TuiDestroyService, RxState],
 })
 export class EmployeeManagementComponent extends NewAbstractServerSortPaginationTableComponent<EmployeeInfo> {
+  configuration: Config = {
+    ...DefaultConfig,
+    paginationEnabled: false,
+    paginationRangeEnabled: false,
+    fixedColumnWidth: false,
+    orderEnabled: false,
+  };
   readonly columns$: Observable<Columns[]> = this.translocoService
     .selectTranslateObject('ADMIN_EMPLOYEE_MANAGEMENT_COLUMNS', {}, TRANSLATION_SCOPE)
     .pipe(

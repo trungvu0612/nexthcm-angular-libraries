@@ -1,10 +1,12 @@
-@import '~inter-ui/inter';
-@import 'theme/variables';
-@import 'theme/wrapper';
+@import '~inter-ui/inter.css';
+@import '~@taiga-ui/core/styles/theme/variables.less';
+@import '~@taiga-ui/core/styles/theme/wrapper.less';
 
 :root {
-  font-family: 'Inter', -apple-system, 'BlinkMacSystemFont', system-ui, 'Roboto', 'Segoe UI', 'Helvetica Neue',
-    sans-serif;
+  --tui-primary: #074abd;
+  --tui-primary-hover: #1a4ca1;
+  --tui-heading-font: 'Inter', @font-fallback;
+  --tui-text-font: 'Inter', @font-fallback;
 }
 
 .text-primary {
@@ -26,11 +28,5 @@ tui-wrapper[data-appearance='outline'] {
 tui-wrapper[data-appearance='textfield'] {
   &.outline {
     outline-style: none;
-  }
-}
-
-tui-multi-select {
-  tui-wrapper[data-appearance='textfield'] {
-    padding-right: 1.5rem;
   }
 }
