@@ -33,5 +33,5 @@ spec:
     app: next-hcm-demo-web
   ports:
     - port: 8080
-      nodePort: 31132
+      nodePort: 31134
       targetPort: 8080
