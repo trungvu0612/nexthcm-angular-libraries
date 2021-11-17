@@ -1,6 +1,6 @@
 pipeline {
   agent {
-    label 'server15'
+    label 'server16'
   }
   environment {
     ENVIRONMENT = 'qa'
@@ -25,7 +25,7 @@ pipeline {
     }
     stage('Deploy') {
       agent {
-        label 'server20'
+        label 'server16'
       }
       stages {
         stage('Un-deploy old build') {
