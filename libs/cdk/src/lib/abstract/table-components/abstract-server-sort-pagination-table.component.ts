@@ -34,6 +34,8 @@ export abstract class NewAbstractServerSortPaginationTableComponent<T>
   }
 
   ngAfterViewInit(): void {
+    super.ngAfterViewInit();
+
     const [key, order] = this.orderBy.split(',');
 
     if (key && ['asc', 'desc'].includes(order)) {

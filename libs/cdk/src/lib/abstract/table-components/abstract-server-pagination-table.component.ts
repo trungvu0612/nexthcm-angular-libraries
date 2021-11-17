@@ -1,6 +1,6 @@
 import { Location } from '@angular/common';
 import { HttpParams } from '@angular/common/http';
-import { Directive, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Directive, ViewChild } from '@angular/core';
 import { ActivatedRoute, convertToParamMap, Params, UrlSerializer } from '@angular/router';
 import { RxState } from '@rx-angular/state';
 import omit from 'just-omit';
@@ -10,7 +10,7 @@ import { map } from 'rxjs/operators';
 import { Pagination } from '../../models';
 
 @Directive()
-export abstract class NewAbstractServerPaginationTableComponent<T> implements OnInit {
+export abstract class NewAbstractServerPaginationTableComponent<T> implements AfterViewInit {
   abstract readonly activatedRoute: ActivatedRoute;
   abstract readonly locationRef: Location;
   abstract readonly urlSerializer: UrlSerializer;
@@ -35,7 +35,7 @@ export abstract class NewAbstractServerPaginationTableComponent<T> implements On
 
   item = (item: T) => item;
 
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
     if (convertToParamMap(this.activatedRoute.snapshot.queryParams).keys.length) {
       this.parseParams(this.activatedRoute.snapshot.queryParams);
     }
@@ -55,15 +55,20 @@ export abstract class NewAbstractServerPaginationTableComponent<T> implements On
     this.setQueryParams('page', page);
   }
 
-  protected parseParams(params: Params): void {
-    this.queryParams = params.page ? this.queryParams.set('page', params.page) : this.queryParams.delete('page');
-    this.queryParams = params.size ? this.queryParams.set('size', params.size) : this.queryParams.delete('size');
-  }
-
   protected setQueryParams(key: string, value: any): void {
     const tree = this.urlSerializer.parse(this.locationRef.path());
 
     tree.queryParams = value === null ? omit(tree.queryParams, key) : { ...tree.queryParams, [key]: value };
     this.locationRef.go(String(tree));
+  }
+
+  protected parseParams(params: Params): void {
+    this.queryParams = params.page ? this.queryParams.set('page', params.page) : this.queryParams.delete('page');
+    if (params.size) {
+      this.table.apiEvent({ type: API.setPaginationDisplayLimit, value: params.size });
+      this.queryParams = this.queryParams.set('size', params.size);
+    } else {
+      this.queryParams = this.queryParams.delete('size');
+    }
   }
 }

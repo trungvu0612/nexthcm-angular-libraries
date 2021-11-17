@@ -1,8 +1,8 @@
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { HttpParams } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, NgModule, OnInit, Output } from '@angular/core';
-import { ActivatedRoute, convertToParamMap, Params } from '@angular/router';
+import { ActivatedRoute, convertToParamMap, Params, UrlSerializer } from '@angular/router';
 import {
   BasicFilterComponentModule,
   InputFilterComponentModule,
@@ -15,6 +15,7 @@ import { RxState } from '@rx-angular/state';
 import { tuiDefaultProp } from '@taiga-ui/cdk';
 import { TuiStringHandler } from '@taiga-ui/cdk/types';
 import { endOfMonth, endOfYear, setMonth, setYear, startOfMonth, startOfYear } from 'date-fns';
+import omit from 'just-omit';
 import { BehaviorSubject, combineLatest, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, skip } from 'rxjs/operators';
 
@@ -33,6 +34,7 @@ export class RequestFiltersComponent implements OnInit {
   @Input() statusFilter = true;
   @Input() @tuiDefaultProp() httpParams = new HttpParams();
   @Output() filter = new EventEmitter<HttpParams>();
+  @Output() resetParam = new EventEmitter<string>();
 
   readonly year$ = new BehaviorSubject<number | null>(null);
   readonly month$ = new BehaviorSubject<number | null>(null);
@@ -43,7 +45,9 @@ export class RequestFiltersComponent implements OnInit {
   constructor(
     private readonly state: RxState<Record<string, unknown>>,
     private readonly translocoService: TranslocoService,
-    private readonly activatedRoute: ActivatedRoute
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly locationRef: Location,
+    private readonly urlSerializer: UrlSerializer
   ) {
     state.hold(combineLatest([this.year$.pipe(skip(1), debounceTime(1000), distinctUntilChanged()), this.month$]), () =>
       this.filterByYearMonth()
@@ -84,6 +88,7 @@ export class RequestFiltersComponent implements OnInit {
   }
 
   onFilter(key: string, value: string | number | null): void {
+    this.resetPage();
     this.httpParams = value !== null ? this.httpParams.set(key, value) : this.httpParams.delete(key);
     this.filter.emit(this.httpParams);
   }
@@ -133,6 +138,18 @@ export class RequestFiltersComponent implements OnInit {
     if (params.filterType) {
       this.filterType$.next(params.filterType);
     }
+  }
+
+  private resetPage(): void {
+    this.httpParams = this.httpParams.delete('page');
+    this.setQueryParams('page', null);
+  }
+
+  private setQueryParams(key: string, value: string | number | null): void {
+    const tree = this.urlSerializer.parse(this.locationRef.path());
+
+    tree.queryParams = value === null ? omit(tree.queryParams, key) : { ...tree.queryParams, [key]: value };
+    this.locationRef.go(String(tree));
   }
 }
 

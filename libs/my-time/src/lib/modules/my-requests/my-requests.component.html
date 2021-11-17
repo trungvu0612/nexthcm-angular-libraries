@@ -2,13 +2,13 @@
   <hcm-page [title]=" t('myTime.myRequest')">
     <ng-container ngProjectAs="pageHeader">
       <div class="flex space-x-4">
-        <button (click)="onSubmitWorkFromHomeRequest()" icon="tuiIconPlusLarge" size="m" tuiButton>
+        <button (click)="onCreateRequest('workFromHome')" icon="tuiIconPlusLarge" size="m" tuiButton>
           {{ t('myTime.workFromHomeRequest') }}
         </button>
-        <button (click)="onSubmitOvertimeRequest()" icon="tuiIconPlusLarge" size="m" tuiButton>
+        <button (click)="onCreateRequest('workingAfterHours')" icon="tuiIconPlusLarge" size="m" tuiButton>
           {{ t('myTime.overtimeRequest') }}
         </button>
-        <button (click)="onSubmitWorkingOnsiteRequest()" icon="tuiIconPlusLarge" size="m" tuiButton>
+        <button (click)="onCreateRequest('workingOnsite')" icon="tuiIconPlusLarge" size="m" tuiButton>
           {{ t('myTime.workingOnsiteRequest') }}
         </button>
       </div>

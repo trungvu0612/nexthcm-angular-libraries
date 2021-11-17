@@ -3,12 +3,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { AkitaNgEffectsModule } from '@datorama/akita-ng-effects';
 import { GetFilePipeModule, OfficesEffects } from '@nexthcm/cdk';
-import {
-  BaseFormComponentModule,
-  FormlyTaigaUiModule,
-  LayoutModule,
-  WorkflowActionsButtonDropdownComponentModule,
-} from '@nexthcm/ui';
+import { FormlyTaigaUiModule, LayoutModule, WorkflowActionsButtonDropdownComponentModule } from '@nexthcm/ui';
 import { NgStackFormsModule } from '@ng-stack/forms';
 import { TranslocoModule } from '@ngneat/transloco';
 import { TranslocoLocaleModule } from '@ngneat/transloco-locale';
@@ -38,9 +33,6 @@ import {
 import { TableModule } from 'ngx-easy-table';
 import { RequestFiltersComponentModule } from '../../internal/components';
 import { TransferLeaveEntitlementTypePipeModule } from '../../internal/pipes';
-import { CreateWorkFromHomeRequestDialogComponent } from './components/create-work-from-home-request-dialog/create-work-from-home-request-dialog.component';
-import { CreateWorkingAfterHoursRequestDialogComponent } from './components/create-working-after-hours-request-dialog/create-working-after-hours-request-dialog.component';
-import { CreateWorkingOnsiteRequestDialogComponent } from './components/create-working-onsite-request-dialog/create-working-onsite-request-dialog.component';
 import { MyRequestsComponent } from './my-requests.component';
 import { MyTransferLeaveEntitlementsRequestsComponent } from './pages/my-transfer-leave-entitlements-requests/my-transfer-leave-entitlements-requests.component';
 import { MyUpdateTimesheetRequestsComponent } from './pages/my-update-timesheet-requests/my-update-timesheet-requests.component';
@@ -55,9 +47,6 @@ import { MyWorkingOnsiteRequestsComponent } from './pages/my-working-onsite-requ
     MyWorkingOnsiteRequestsComponent,
     MyWorkFromHomeRequestsComponent,
     MyRequestsComponent,
-    CreateWorkFromHomeRequestDialogComponent,
-    CreateWorkingOnsiteRequestDialogComponent,
-    CreateWorkingAfterHoursRequestDialogComponent,
     MyTransferLeaveEntitlementsRequestsComponent,
   ],
   imports: [
@@ -89,7 +78,6 @@ import { MyWorkingOnsiteRequestsComponent } from './pages/my-working-onsite-requ
     GetFilePipeModule,
     TuiAvatarModule,
     TranslocoLocaleModule,
-    BaseFormComponentModule,
     LayoutModule,
     WorkflowActionsButtonDropdownComponentModule,
     TransferLeaveEntitlementTypePipeModule,

@@ -5,7 +5,7 @@ import { NewAbstractServerPaginationTableComponent, Pagination } from '@nexthcm/
 import { HashMap, TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
 import { isPresent, tuiDefaultProp } from '@taiga-ui/cdk';
-import { Columns, Config, DefaultConfig } from 'ngx-easy-table';
+import { API, Columns, Config, DefaultConfig } from 'ngx-easy-table';
 import { Observable, of } from 'rxjs';
 import { catchError, filter, map, share, skip, startWith, switchMap } from 'rxjs/operators';
 import { TRANSLATION_SCOPE } from '../../../../internal/constants';
@@ -76,6 +76,17 @@ export class GroupWorkingHoursTableComponent
     this.queryParams = changes.userId
       ? this.queryParams.set('userId', this.userId)
       : this.queryParams.set('fromDate', this.fromDate).set('toDate', this.toDate);
+    this.fetch$.next();
+  }
+
+  onSize(size: number): void {
+    this.table.apiEvent({ type: API.setPaginationDisplayLimit, value: size });
+    this.queryParams = this.queryParams.set('size', size);
+    this.fetch$.next();
+  }
+
+  onPage(page: number): void {
+    this.queryParams = this.queryParams.set('page', page);
     this.fetch$.next();
   }
 }

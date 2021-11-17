@@ -227,7 +227,16 @@ export class GeneralInformationFormComponent {
     { key: 'registerType' },
   ];
   private readonly request$ = this.employeeQuery
-    ? this.employeeGeneralQuery.select().pipe(tap((data) => (this.model = { ...this.model, ...data })))
+    ? this.employeeGeneralQuery.select().pipe(
+        tap(
+          (data) =>
+            (this.model = {
+              ...this.model,
+              ...data,
+              statusBoolean: data.status === CommonStatus.active,
+            })
+        )
+      )
     : of({} as EmployeeGeneralInformation);
   readonly loading$ = this.request$.pipe(
     map((value) => !value),

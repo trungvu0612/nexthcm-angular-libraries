@@ -110,7 +110,7 @@
   "duration": "Trong khoảng",
   "emptyLeaveEntitlements": "<b>Quyền lợi nghỉ phép của bạn đã hết!</b>",
   "leaveTypeRequired": "Vui lòng chọn một loại nghỉ phép!",
-  "createEmployeeLeaveRequest": "Tạo yêu cầu nghỉ phép cho nhân viên",
+  "createEmployeeRequest": "Tạo yêu cầu cho nhân viên",
   "remainingEntitlement": "<b>Quyền lợi nghỉ phép còn lại: {{value}} ngày.</b>",
   "TRANSFER_LEAVE_ENTITLEMENT_TYPES": {
     "transferToSalary": "Chuyển đổi sang lương",

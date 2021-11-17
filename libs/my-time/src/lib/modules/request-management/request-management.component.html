@@ -1,15 +1,27 @@
 <ng-container *transloco="let t">
   <hcm-page [title]="t('myTime.requestManagement')">
     <ng-container ngProjectAs="pageHeader">
-      <button
-        (click)="onCreateEmployeeLeaveRequest()"
+      <tui-hosted-dropdown
         *ngxPermissionsOnly="'VIEW_ALL_REQUEST_TENANT'"
-        icon="tuiIconPlusLarge"
-        size="m"
-        tuiButton
+        [(open)]="open"
+        [content]="dropdown"
+        tuiDropdownAlign="left"
       >
-        {{ t('myTime.createEmployeeLeaveRequest') }}
-      </button>
+        <button [iconRight]="icon" size="m" tuiButton>
+          {{ t('myTime.createEmployeeRequest') }}
+        </button>
+      </tui-hosted-dropdown>
+      <ng-template #icon>
+        <tui-svg [class.icon_rotated]="open" class="icon" src="tuiIconChevronDown"></tui-svg>
+      </ng-template>
+      <ng-template #dropdown>
+        <tui-data-list>
+          <button (click)="onCreateEmployeeRequest('leave')" tuiOption>{{ t('leave') }}</button>
+          <button (click)="onCreateEmployeeRequest('workingAfterHours')" tuiOption>{{ t('workingAfterHours') }}</button>
+          <button (click)="onCreateEmployeeRequest('workingOnsite')" tuiOption>{{ t('workingOnsite') }}</button>
+          <button (click)="onCreateEmployeeRequest('workFromHome')" tuiOption>{{ t('workFromHome') }}</button>
+        </tui-data-list>
+      </ng-template>
     </ng-container>
     <tui-tabs [(activeItemIndex)]="activeItemIndex">
       <button routerLink="/my-time/requests/leave" routerLinkActive tuiTab>{{ t('myTime.leave') }}</button>

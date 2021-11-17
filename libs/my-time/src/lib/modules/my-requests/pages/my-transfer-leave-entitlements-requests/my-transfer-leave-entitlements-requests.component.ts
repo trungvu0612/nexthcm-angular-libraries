@@ -13,8 +13,7 @@ import { catchError, filter, map, shareReplay, startWith, switchMap } from 'rxjs
 import { AbstractRequestListComponent } from '../../../../internal/abstract';
 import { TRANSLATION_SCOPE } from '../../../../internal/constants';
 import { TransferLeaveEntitlementsRequest } from '../../../../internal/models';
-import { MyRequestsService } from '../../../../internal/services';
-import { RequestDetailDialogService } from '../../../../internal/services/request-detail-dialog/request-detail-dialog.service';
+import { MyRequestsService, RequestDetailDialogService } from '../../../../internal/services';
 
 @Component({
   selector: 'hcm-my-transfer-leave-entitlements-requests',

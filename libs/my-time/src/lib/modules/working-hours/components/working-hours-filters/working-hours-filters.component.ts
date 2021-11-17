@@ -1,7 +1,8 @@
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
+import { Location } from '@angular/common';
 import { HttpParams } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, UrlSerializer } from '@angular/router';
 import { BaseOption, PropertyRouteConnectorDirective } from '@nexthcm/cdk';
 import { TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
@@ -19,6 +20,7 @@ import {
   startOfWeek,
   startOfYear,
 } from 'date-fns';
+import omit from 'just-omit';
 import { BehaviorSubject, combineLatest, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 
@@ -51,9 +53,11 @@ export class WorkingHoursFiltersComponent implements OnInit {
   readonly filterType$ = new Subject<string | null>();
 
   constructor(
-    private state: RxState<Record<string, unknown>>,
-    private translocoService: TranslocoService,
-    private activatedRoute: ActivatedRoute
+    private readonly state: RxState<Record<string, unknown>>,
+    private readonly translocoService: TranslocoService,
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly locationRef: Location,
+    private readonly urlSerializer: UrlSerializer
   ) {
     this.state.hold(this.year$.pipe(debounceTime(1000), distinctUntilChanged()), () => this.generateDateRange());
     this.state.hold(this.month$, () => this.generateDateRange());
@@ -122,6 +126,7 @@ export class WorkingHoursFiltersComponent implements OnInit {
   }
 
   onFilter(key: string, value: string | number | null): void {
+    this.resetPage();
     this.httpParams = value !== null ? this.httpParams.set(key, value) : this.httpParams.delete(key);
     this.filter.emit(this.httpParams);
   }
@@ -152,11 +157,13 @@ export class WorkingHoursFiltersComponent implements OnInit {
 
   private generateDateRange(week?: number | null): void {
     if (!this.year$.value) {
+      this.resetPage();
       this.httpParams = this.httpParams.delete(this.fromKey).delete(this.toKey);
       this.filter.emit(this.httpParams);
       return;
     }
     if (week) {
+      this.resetPage();
       this.httpParams = this.httpParams
         .set(this.fromKey, startOfWeek(week).valueOf())
         .set(
@@ -180,7 +187,20 @@ export class WorkingHoursFiltersComponent implements OnInit {
         .set(this.fromKey, startOfYear(setYear(NOW, Number(this.year$.value))).valueOf())
         .set(this.toKey, endOfYear(setYear(NOW, Number(this.year$.value))).valueOf());
     }
+    this.resetPage();
     this.filter.emit(this.httpParams);
     return;
+  }
+
+  private resetPage(): void {
+    this.httpParams = this.httpParams.delete('page');
+    this.setQueryParams('page', null);
+  }
+
+  private setQueryParams(key: string, value: string | number | null): void {
+    const tree = this.urlSerializer.parse(this.locationRef.path());
+
+    tree.queryParams = value === null ? omit(tree.queryParams, key) : { ...tree.queryParams, [key]: value };
+    this.locationRef.go(String(tree));
   }
 }

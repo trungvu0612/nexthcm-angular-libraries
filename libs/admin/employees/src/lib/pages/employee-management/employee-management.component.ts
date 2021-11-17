@@ -1,5 +1,5 @@
 import { Location } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Injector, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Injector } from '@angular/core';
 import { ActivatedRoute, Params, UrlSerializer } from '@angular/router';
 import { Actions } from '@datorama/akita-ng-effects';
 import {
@@ -42,10 +42,7 @@ import { TRANSLATION_SCOPE } from '../../translation-scope';
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [TuiDestroyService, RxState],
 })
-export class EmployeeManagementComponent
-  extends NewAbstractServerSortPaginationTableComponent<EmployeeInfo>
-  implements OnInit
-{
+export class EmployeeManagementComponent extends NewAbstractServerSortPaginationTableComponent<EmployeeInfo> {
   readonly columns$: Observable<Columns[]> = this.translocoService
     .selectTranslateObject('ADMIN_EMPLOYEE_MANAGEMENT_COLUMNS', {}, TRANSLATION_SCOPE)
     .pipe(
@@ -95,20 +92,19 @@ export class EmployeeManagementComponent
         debounceTime(500),
         distinctUntilChanged(),
         tap((searchQuery) => {
-          this.setQueryParams('page', null);
+          this.resetPage();
           if (searchQuery) {
-            this.queryParams = this.queryParams.delete('page').set('search', searchQuery);
+            this.queryParams = this.queryParams.set('search', searchQuery);
           } else {
             this.setQueryParams('search', null);
-            this.queryParams = this.queryParams.delete('page').delete('search');
+            this.queryParams = this.queryParams.delete('search');
           }
           this.fetch$.next();
         })
       )
     );
     state.hold(this.role$, (roleId) => {
-      this.setQueryParams('page', null);
-      this.queryParams = this.queryParams.delete('page');
+      this.resetPage();
       this.onFilter('roleId', roleId);
     });
   }
@@ -121,8 +117,9 @@ export class EmployeeManagementComponent
   }
 
   parseParams(params: Params): void {
-    const keys = ['page', 'size', 'search', 'roleId'];
+    const keys = ['search', 'roleId'];
 
+    super.parseParams(params);
     for (const key of keys) {
       this.queryParams =
         params[key] && params[key] !== 'null' ? this.queryParams.set(key, params[key]) : this.queryParams.delete(key);
@@ -170,5 +167,10 @@ export class EmployeeManagementComponent
       })
       .pipe(takeUntil(this.destroy$))
       .subscribe();
+  }
+
+  private resetPage(): void {
+    this.queryParams = this.queryParams.delete('page');
+    this.setQueryParams('page', null);
   }
 }

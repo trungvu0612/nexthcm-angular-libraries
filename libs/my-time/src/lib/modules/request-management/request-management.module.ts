@@ -6,17 +6,21 @@ import { LayoutModule, WorkflowActionsButtonDropdownComponentModule } from '@nex
 import { TranslocoModule } from '@ngneat/transloco';
 import { TranslocoLocaleModule } from '@ngneat/transloco-locale';
 import { FormlyModule } from '@ngx-formly/core';
+import { PushModule } from '@rx-angular/template';
 import { TuiTablePaginationModule } from '@taiga-ui/addon-table';
 import { TuiLetModule } from '@taiga-ui/cdk';
-import { TuiButtonModule, TuiLoaderModule } from '@taiga-ui/core';
+import {
+  TuiButtonModule,
+  TuiDataListModule,
+  TuiDropdownControllerModule,
+  TuiHostedDropdownModule,
+  TuiLoaderModule,
+  TuiSvgModule,
+} from '@taiga-ui/core';
 import { TuiDataListWrapperModule, TuiTabsModule, TuiTagModule } from '@taiga-ui/kit';
 import { TableModule } from 'ngx-easy-table';
 import { NgxPermissionsModule } from 'ngx-permissions';
-import {
-  CreateLeaveRequestDialogComponentModule,
-  LeaveRequestDateRangeComponentModule,
-  RequestFiltersComponentModule,
-} from '../../internal/components';
+import { LeaveRequestDateRangeComponentModule, RequestFiltersComponentModule } from '../../internal/components';
 import { TransferLeaveEntitlementTypePipeModule } from '../../internal/pipes';
 import { LeaveRequestListComponent } from './pages/leave-request-list/leave-request-list.component';
 import { TransferLeaveEntitlementsRequestListComponent } from './pages/transfer-leave-entitlements-request-list/transfer-leave-entitlements-request-list.component';
@@ -54,10 +58,14 @@ import { RequestManagementComponent } from './request-management.component';
     TranslocoLocaleModule,
     LeaveRequestDateRangeComponentModule,
     WorkflowActionsButtonDropdownComponentModule,
-    CreateLeaveRequestDialogComponentModule,
     NgxPermissionsModule,
     TransferLeaveEntitlementTypePipeModule,
     RequestFiltersComponentModule,
+    PushModule,
+    TuiHostedDropdownModule,
+    TuiDropdownControllerModule,
+    TuiSvgModule,
+    TuiDataListModule,
   ],
 })
 export class RequestManagementModule {}

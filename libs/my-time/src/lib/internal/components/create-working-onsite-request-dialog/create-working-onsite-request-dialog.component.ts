@@ -1,33 +1,52 @@
-import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
-import { BaseUser, PromptService } from '@nexthcm/cdk';
+import { CommonModule } from '@angular/common';
+import { ChangeDetectionStrategy, Component, Inject, NgModule } from '@angular/core';
+import { Actions } from '@datorama/akita-ng-effects';
+import { BaseObject, BaseUser, loadOnsiteOffices, OnsiteOfficesQuery, PromptService } from '@nexthcm/cdk';
+import { BaseFormComponentModule } from '@nexthcm/ui';
 import { Control, FormBuilder } from '@ng-stack/forms';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
+import { PushModule } from '@rx-angular/template';
 import { TuiDayRange, TuiTime } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { endOfDay, getTime } from 'date-fns';
 import { from, of, Subject } from 'rxjs';
 import { catchError, map, share, startWith, switchMap, tap } from 'rxjs/operators';
-import { WorkFromHomeRequestPayload } from '../../../../internal/models';
-import { MyRequestsService } from '../../../../internal/services';
+import { WorkingOnsiteRequestPayload } from '../../models';
+import { MyRequestsService } from '../../services';
 
-interface WorkFromHomeRequestForm extends WorkFromHomeRequestPayload {
-  totalTime?: Control<TuiTime>;
+interface WorkingOnsiteRequestForm extends WorkingOnsiteRequestPayload {
+  user?: Control<BaseUser>;
+  durationTime?: Control<TuiTime>;
   fromTo?: Control<TuiDayRange>;
   sendToUser?: Control<BaseUser>;
+  officeDTO: Control<BaseObject>;
 }
 
 @Component({
-  selector: 'hcm-create-work-from-home-request-dialog',
-  templateUrl: './create-work-from-home-request-dialog.component.html',
-  styleUrls: ['./create-work-from-home-request-dialog.component.scss'],
+  selector: 'hcm-create-working-onsite-request-dialog',
+  templateUrl: './create-working-onsite-request-dialog.component.html',
+  styleUrls: ['./create-working-onsite-request-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CreateWorkFromHomeRequestDialogComponent {
-  model = {} as WorkFromHomeRequestForm;
-  readonly form = this.fb.group<WorkFromHomeRequestForm>(this.model);
+export class CreateWorkingOnsiteRequestDialogComponent {
+  model = {} as WorkingOnsiteRequestForm;
+  readonly form = this.fb.group<WorkingOnsiteRequestForm>(this.model);
   readonly fields: FormlyFieldConfig[] = [
+    {
+      key: 'user',
+      className: 'tui-form__row block',
+      type: 'user-combo-box',
+      templateOptions: {
+        translate: true,
+        required: true,
+        label: 'employee',
+        labelClassName: 'font-semibold',
+        placeholder: 'searchEmployees',
+      },
+      hide: !!this.context.data,
+    },
     {
       key: 'fromTo',
       className: 'tui-form__row block',
@@ -42,10 +61,9 @@ export class CreateWorkFromHomeRequestDialogComponent {
       },
     },
     {
-      key: 'totalTime',
+      key: 'durationTime',
       type: 'input-time',
       templateOptions: {
-        required: true,
         translate: true,
         label: 'myTime.estimateTime',
         labelClassName: 'font-semibold',
@@ -54,6 +72,21 @@ export class CreateWorkFromHomeRequestDialogComponent {
       hideExpression: '!model.fromTo?.isSingleDay',
       expressionProperties: {
         className: '!model.fromTo || !model.fromTo.isSingleDay ? "hidden" : "col-span-full block mt-4"',
+      },
+    },
+    {
+      key: 'officeDTO',
+      className: 'tui-form__row block',
+      type: 'select',
+      templateOptions: {
+        translate: true,
+        label: 'office',
+        labelClassName: 'font-semibold',
+        options: this.onsiteOfficesQuery.selectAll(),
+        placeholder: 'chooseOffice',
+        labelProp: 'name',
+        matcherBy: 'id',
+        required: true,
       },
     },
     {
@@ -81,10 +114,10 @@ export class CreateWorkFromHomeRequestDialogComponent {
       },
     },
   ];
-  readonly submit$ = new Subject<WorkFromHomeRequestPayload>();
+  readonly submit$ = new Subject<WorkingOnsiteRequestPayload>();
   readonly submitHandler$ = this.submit$.pipe(
     switchMap((payload) =>
-      this.myRequestsService.submitRequest('workFromHome', payload).pipe(
+      this.myRequestsService.submitRequest('workingOnsite', payload).pipe(
         switchMap(() =>
           from(
             this.promptService.open({
@@ -100,7 +133,7 @@ export class CreateWorkFromHomeRequestDialogComponent {
         startWith(null)
       )
     ),
-    share(),
+    share()
   );
   readonly submitLoading$ = this.submitHandler$.pipe(
     map((value) => !value),
@@ -109,29 +142,36 @@ export class CreateWorkFromHomeRequestDialogComponent {
 
   constructor(
     private readonly fb: FormBuilder,
-    @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<boolean>,
+    @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<boolean, string>,
     private readonly myRequestsService: MyRequestsService,
     private readonly translocoService: TranslocoService,
     private readonly promptService: PromptService,
-  ) {}
+    private readonly onsiteOfficesQuery: OnsiteOfficesQuery,
+    actions: Actions
+  ) {
+    actions.dispatch(loadOnsiteOffices());
+  }
 
   onSubmit(): void {
     if (this.form.valid) {
       const formModel = { ...this.form.value };
 
+      if (formModel.user) {
+        formModel.userId = formModel.user.id;
+      }
       if (formModel.fromTo) {
         formModel.fromDate = getTime(formModel.fromTo.from.toLocalNativeDate());
         formModel.toDate = getTime(endOfDay(formModel.fromTo.to.toLocalNativeDate()));
       }
-      if (formModel.totalTime) {
-        formModel.totalDay = formModel.totalTime.toAbsoluteMilliseconds().valueOf() / 1000;
+      if (formModel.durationTime) {
+        formModel.duration = formModel.durationTime.toAbsoluteMilliseconds().valueOf() / 1000;
       }
       if (formModel.sendToUser) {
         formModel.sendTo = formModel.sendToUser.id;
       }
 
       delete formModel.fromTo;
-      delete formModel.totalTime;
+      delete formModel.durationTime;
       delete formModel.sendToUser;
       this.submit$.next(formModel);
     }
@@ -141,3 +181,10 @@ export class CreateWorkFromHomeRequestDialogComponent {
     this.context.$implicit.complete();
   }
 }
+
+@NgModule({
+  declarations: [CreateWorkingOnsiteRequestDialogComponent],
+  imports: [CommonModule, BaseFormComponentModule, TranslocoModule, PushModule],
+  exports: [CreateWorkingOnsiteRequestDialogComponent],
+})
+export class CreateWorkingOnsiteRequestDialogComponentModule {}

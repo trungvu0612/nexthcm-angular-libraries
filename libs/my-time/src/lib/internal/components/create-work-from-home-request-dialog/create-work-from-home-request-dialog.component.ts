@@ -1,58 +1,49 @@
-import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
-import { AuthService } from '@nexthcm/auth';
-import { BaseOption, BaseUser, PromptService } from '@nexthcm/cdk';
+import { CommonModule } from '@angular/common';
+import { ChangeDetectionStrategy, Component, Inject, NgModule } from '@angular/core';
+import { BaseUser, PromptService } from '@nexthcm/cdk';
+import { BaseFormComponentModule } from '@nexthcm/ui';
 import { Control, FormBuilder } from '@ng-stack/forms';
-import { HashMap, TranslocoService } from '@ngneat/transloco';
+import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import { TuiDayRange } from '@taiga-ui/cdk';
+import { PushModule } from '@rx-angular/template';
+import { TuiDayRange, TuiTime } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { endOfDay, getTime } from 'date-fns';
 import { from, of, Subject } from 'rxjs';
 import { catchError, map, share, startWith, switchMap, tap } from 'rxjs/operators';
-import { TRANSLATION_SCOPE } from '../../../../internal/constants';
-import { WorkingAfterHoursType } from '../../../../internal/enums';
-import { WorkingAfterHoursRequestPayload } from '../../../../internal/models';
-import { MyRequestsService } from '../../../../internal/services';
+import { WorkFromHomeRequestPayload } from '../../models';
+import { MyRequestsService } from '../../services';
 
-interface WorkingAfterHoursRequestForm extends WorkingAfterHoursRequestPayload {
-  durationInHours?: number;
+interface WorkFromHomeRequestForm extends WorkFromHomeRequestPayload {
+  user?: Control<BaseUser>;
+  totalTime?: Control<TuiTime>;
   fromTo?: Control<TuiDayRange>;
   sendToUser?: Control<BaseUser>;
 }
 
 @Component({
-  selector: 'hcm-create-working-after-hours-request-dialog',
-  templateUrl: './create-working-after-hours-request-dialog.component.html',
-  styleUrls: ['./create-working-after-hours-request-dialog.component.scss'],
+  selector: 'hcm-create-work-from-home-request-dialog',
+  templateUrl: './create-work-from-home-request-dialog.component.html',
+  styleUrls: ['./create-work-from-home-request-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CreateWorkingAfterHoursRequestDialogComponent {
-  model = {} as WorkingAfterHoursRequestForm;
-  readonly form = this.fb.group<WorkingAfterHoursRequestForm>(this.model);
+export class CreateWorkFromHomeRequestDialogComponent {
+  model = {} as WorkFromHomeRequestForm;
+  readonly form = this.fb.group<WorkFromHomeRequestForm>(this.model);
   readonly fields: FormlyFieldConfig[] = [
     {
-      key: 'type',
+      key: 'user',
       className: 'tui-form__row block',
-      type: 'select',
-      defaultValue: WorkingAfterHoursType.Overtime,
+      type: 'user-combo-box',
       templateOptions: {
         translate: true,
-        label: 'type',
+        required: true,
+        label: 'employee',
         labelClassName: 'font-semibold',
-        valueProp: 'value',
-        options: this.translocoService
-          .selectTranslateObject<HashMap<string>>('WORKING_AFTER_HOURS_TYPE', {}, TRANSLATION_SCOPE)
-          .pipe(
-            map(
-              (result) =>
-                [
-                  { label: result.OVERTIME, value: WorkingAfterHoursType.Overtime },
-                  { label: result.WORKING_AFTERTIME, value: WorkingAfterHoursType.WorkingAfterHours },
-                ] as BaseOption<number>[]
-            )
-          ),
+        placeholder: 'searchEmployees',
       },
+      hide: !!this.context.data,
     },
     {
       key: 'fromTo',
@@ -68,18 +59,18 @@ export class CreateWorkingAfterHoursRequestDialogComponent {
       },
     },
     {
-      key: 'durationInHours',
-      className: 'tui-form__row block',
-      type: 'input-number',
+      key: 'totalTime',
+      type: 'input-time',
       templateOptions: {
-        translate: true,
-        label: 'myTime.totalWorkingTimeH',
-        labelClassName: 'font-semibold',
-        placeholder: 'myTime.enterTotalWorkingHours',
         required: true,
+        translate: true,
+        label: 'myTime.estimateTime',
+        labelClassName: 'font-semibold',
         textfieldLabelOutside: true,
-        precision: 1,
-        min: 0,
+      },
+      hideExpression: '!model.fromTo?.isSingleDay',
+      expressionProperties: {
+        className: '!model.fromTo || !model.fromTo.isSingleDay ? "hidden" : "col-span-full block mt-4"',
       },
     },
     {
@@ -103,16 +94,14 @@ export class CreateWorkingAfterHoursRequestDialogComponent {
         label: 'sendTo',
         labelClassName: 'font-semibold',
         placeholder: 'searchUsers',
-        labelProp: 'name',
-        textfieldLabelOutside: true,
+        labelProp: 'username',
       },
     },
-    { key: 'userId', defaultValue: this.authService.get('userInfo', 'userId') },
   ];
-  readonly submit$ = new Subject<WorkingAfterHoursRequestPayload>();
+  readonly submit$ = new Subject<WorkFromHomeRequestPayload>();
   readonly submitHandler$ = this.submit$.pipe(
     switchMap((payload) =>
-      this.myRequestsService.submitRequest('workingAfterHours', payload).pipe(
+      this.myRequestsService.submitRequest('workFromHome', payload).pipe(
         switchMap(() =>
           from(
             this.promptService.open({
@@ -128,7 +117,7 @@ export class CreateWorkingAfterHoursRequestDialogComponent {
         startWith(null)
       )
     ),
-    share()
+    share(),
   );
   readonly submitLoading$ = this.submitHandler$.pipe(
     map((value) => !value),
@@ -137,30 +126,33 @@ export class CreateWorkingAfterHoursRequestDialogComponent {
 
   constructor(
     private readonly fb: FormBuilder,
-    @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<boolean>,
+    @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<boolean, string>,
     private readonly myRequestsService: MyRequestsService,
-    private readonly promptService: PromptService,
     private readonly translocoService: TranslocoService,
-    private readonly authService: AuthService
+    private readonly promptService: PromptService,
   ) {}
 
   onSubmit(): void {
     if (this.form.valid) {
       const formModel = { ...this.form.value };
-
+      
+      if (formModel.user) {
+        formModel.userId = formModel.user.id;
+      }
       if (formModel.fromTo) {
         formModel.fromDate = getTime(formModel.fromTo.from.toLocalNativeDate());
         formModel.toDate = getTime(endOfDay(formModel.fromTo.to.toLocalNativeDate()));
       }
+      if (formModel.totalTime) {
+        formModel.totalDay = formModel.totalTime.toAbsoluteMilliseconds().valueOf() / 1000;
+      }
       if (formModel.sendToUser) {
         formModel.sendTo = formModel.sendToUser.id;
       }
-      formModel.duration = Number(formModel.durationInHours) * 3600;
 
       delete formModel.fromTo;
-      delete formModel.durationInHours;
+      delete formModel.totalTime;
       delete formModel.sendToUser;
-
       this.submit$.next(formModel);
     }
   }
@@ -169,3 +161,10 @@ export class CreateWorkingAfterHoursRequestDialogComponent {
     this.context.$implicit.complete();
   }
 }
+
+@NgModule({
+  declarations: [CreateWorkFromHomeRequestDialogComponent],
+  imports: [CommonModule, BaseFormComponentModule, TranslocoModule, PushModule],
+  exports: [CreateWorkFromHomeRequestDialogComponent],
+})
+export class CreateWorkFromHomeRequestDialogComponentModule {}

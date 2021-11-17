@@ -5,8 +5,7 @@ import { RxState } from '@rx-angular/state';
 import { Subject } from 'rxjs';
 import { startWith, switchMap, tap } from 'rxjs/operators';
 import { RequestTypeUrlPaths } from '../models';
-import { MyRequestsService } from '../services';
-import { RequestDetailDialogService } from '../services/request-detail-dialog/request-detail-dialog.service';
+import { MyRequestsService, RequestDetailDialogService } from '../services';
 
 export abstract class AbstractRequestListComponent<T> extends NewAbstractServerSortPaginationTableComponent<T> {
   abstract requestTypeUrlPath: keyof RequestTypeUrlPaths;

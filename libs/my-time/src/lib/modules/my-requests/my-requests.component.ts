@@ -6,9 +6,30 @@ import { TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { takeUntil, tap } from 'rxjs/operators';
-import { CreateWorkFromHomeRequestDialogComponent } from './components/create-work-from-home-request-dialog/create-work-from-home-request-dialog.component';
-import { CreateWorkingAfterHoursRequestDialogComponent } from './components/create-working-after-hours-request-dialog/create-working-after-hours-request-dialog.component';
-import { CreateWorkingOnsiteRequestDialogComponent } from './components/create-working-onsite-request-dialog/create-working-onsite-request-dialog.component';
+import {
+  CreateWorkFromHomeRequestDialogComponent,
+  CreateWorkingAfterHoursRequestDialogComponent,
+  CreateWorkingOnsiteRequestDialogComponent,
+} from '../../internal/components';
+import { RequestDialogMetadata } from '../../internal/models';
+
+const REQUEST_DIALOG_METADATA: RequestDialogMetadata = {
+  workingAfterHours: {
+    component: CreateWorkingAfterHoursRequestDialogComponent,
+    label: 'myTime.overtimeRequest',
+    route: '/my-time/my-requests/working-after-hours',
+  },
+  workingOnsite: {
+    component: CreateWorkingOnsiteRequestDialogComponent,
+    label: 'myTime.workingOnsiteRequest',
+    route: '/my-time/my-requests/working-onsite',
+  },
+  workFromHome: {
+    component: CreateWorkFromHomeRequestDialogComponent,
+    label: 'myTime.workFromHomeRequest',
+    route: '/my-time/my-requests/work-from-home',
+  },
+};
 
 @Component({
   selector: 'hcm-my-requests',
@@ -29,37 +50,15 @@ export class MyRequestsComponent {
     private destroy$: TuiDestroyService
   ) {}
 
-  onSubmitWorkFromHomeRequest(): void {
-    this.dialogService
-      .open(new PolymorpheusComponent(CreateWorkFromHomeRequestDialogComponent, this.injector), {
-        label: this.translocoService.translate('myTime.workFromHomeRequest'),
-      })
-      .pipe(
-        tap(() => this.router.navigateByUrl('/my-time/my-requests/work-from-home')),
-        takeUntil(this.destroy$)
-      )
-      .subscribe();
-  }
+  onCreateRequest(type: keyof RequestDialogMetadata): void {
+    const { component, label, route } = REQUEST_DIALOG_METADATA[type];
 
-  onSubmitOvertimeRequest(): void {
     this.dialogService
-      .open<boolean>(new PolymorpheusComponent(CreateWorkingAfterHoursRequestDialogComponent, this.injector), {
-        label: this.translocoService.translate('myTime.overtimeRequest'),
+      .open(new PolymorpheusComponent(component, this.injector), {
+        label: this.translocoService.translate(label),
       })
       .pipe(
-        tap(() => this.router.navigateByUrl('/my-time/my-requests/working-after-hours')),
-        takeUntil(this.destroy$)
-      )
-      .subscribe();
-  }
-
-  onSubmitWorkingOnsiteRequest(): void {
-    this.dialogService
-      .open<boolean>(new PolymorpheusComponent(CreateWorkingOnsiteRequestDialogComponent, this.injector), {
-        label: this.translocoService.translate('myTime.workingOnsiteRequest'),
-      })
-      .pipe(
-        tap(() => this.router.navigateByUrl('/my-time/my-requests/working-onsite')),
+        tap(() => this.router.navigateByUrl(route as string)),
         takeUntil(this.destroy$)
       )
       .subscribe();

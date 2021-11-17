@@ -32,6 +32,7 @@ import {
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { EMPTY, from, iif, Subject } from 'rxjs';
 import { switchMap, takeUntil, tap } from 'rxjs/operators';
+import { LeaveRequestDateRangeComponentModule } from '../../components';
 import { REQUEST_COMMENT_URL_PATHS } from '../../constants';
 import { RequestCommentStatus } from '../../enums';
 import { GeneralRequest, HistoryItem, RequestComment, RequestTypeUrlPaths } from '../../models';
@@ -250,6 +251,7 @@ export class RequestDetailDialogComponent implements OnInit {
     TuiHighlightModule,
     FormlyModule,
     TuiSelectModule,
+    LeaveRequestDateRangeComponentModule,
   ],
   exports: [RequestDetailDialogComponent],
 })

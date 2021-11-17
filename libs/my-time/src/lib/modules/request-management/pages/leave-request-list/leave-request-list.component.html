@@ -55,5 +55,7 @@
 <tui-table-pagination
   (pageChange)="onPage($event)"
   (sizeChange)="onSize($event)"
-  [total]="(total$ | async) || 0"
+  [page]="(page$ | push) || 0"
+  [size]="(size$ | push) || 10"
+  [total]="(total$ | push) || 0"
 ></tui-table-pagination>

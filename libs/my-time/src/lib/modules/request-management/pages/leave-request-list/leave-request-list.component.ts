@@ -11,8 +11,7 @@ import { catchError, filter, map, shareReplay, startWith, switchMap } from 'rxjs
 import { AbstractRequestListComponent } from '../../../../internal/abstract';
 import { TRANSLATION_SCOPE } from '../../../../internal/constants';
 import { LeaveRequest } from '../../../../internal/models';
-import { MyLeaveService, MyRequestsService } from '../../../../internal/services';
-import { RequestDetailDialogService } from '../../../../internal/services/request-detail-dialog/request-detail-dialog.service';
+import { MyLeaveService, MyRequestsService, RequestDetailDialogService } from '../../../../internal/services';
 
 @Component({
   selector: 'hcm-leave-request-list',
