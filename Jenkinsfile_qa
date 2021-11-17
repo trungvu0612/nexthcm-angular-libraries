@@ -1,6 +1,6 @@
 pipeline {
   agent {
-    label 'server16'
+    label 'server15'
   }
   environment {
     ENVIRONMENT = 'qa'
