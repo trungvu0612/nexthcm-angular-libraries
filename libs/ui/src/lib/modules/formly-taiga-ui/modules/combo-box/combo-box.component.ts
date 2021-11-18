@@ -19,6 +19,7 @@ export class ComboBoxComponent extends FieldType {
       labelProp: 'name',
       identityMatcher: TUI_DEFAULT_IDENTITY_MATCHER,
       stringify: (item: any) => item.name,
+      strict: true,
     },
   };
   readonly search$ = new Subject<string | null>();

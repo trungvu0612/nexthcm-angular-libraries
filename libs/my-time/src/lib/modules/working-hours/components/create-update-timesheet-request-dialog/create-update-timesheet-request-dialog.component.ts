@@ -1,11 +1,13 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
-import { BaseUser, PromptService, tuiTimeAfter, tuiTimeBefore } from '@nexthcm/cdk';
+import { AuthService } from '@nexthcm/auth';
+import { BaseUser, EmployeeInfo, PromptService, tuiTimeAfter, tuiTimeBefore } from '@nexthcm/cdk';
 import { Control, FormBuilder } from '@ng-stack/forms';
 import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDay, TuiTime } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
+import omit from 'just-omit';
 import { from, of, Subject } from 'rxjs';
 import { catchError, map, share, startWith, switchMap, tap } from 'rxjs/operators';
 import { UpdateTimesheetRequestPayload } from '../../../../internal/models';
@@ -13,6 +15,7 @@ import { MyRequestsService } from '../../../../internal/services';
 import { WorkingHours } from '../../../../models';
 
 interface UpdateTimesheetRequestForm extends UpdateTimesheetRequestPayload {
+  userInfo?: Control<EmployeeInfo>;
   date?: Control<TuiDay>;
   inTime?: Control<TuiTime>;
   outTime?: Control<TuiTime>;
@@ -30,6 +33,25 @@ export class CreateUpdateTimesheetRequestDialogComponent {
   readonly form = this.fb.group<UpdateTimesheetRequestForm>(this.model);
   readonly fields: FormlyFieldConfig[] = [
     {
+      key: 'userInfo',
+      type: 'combo-box',
+      className: 'tui-form__row block',
+      defaultValue: this.context.data.userInfo,
+      templateOptions: {
+        translate: true,
+        label: 'employee',
+        labelClassName: 'font-semibold',
+        required: true,
+        readonly: true,
+        labelProp: 'fullName',
+        strict: false,
+        identityMatcher: (item1: EmployeeInfo, item2: EmployeeInfo) => item1.id === item2.id,
+        stringify: (item: EmployeeInfo) => item.fullName,
+        textfieldLabelOutside: true,
+      },
+      hide: this.context.data.userInfo?.id === this.authService.get('userInfo', 'userId'),
+    },
+    {
       key: 'date',
       className: 'tui-form__row block',
       type: 'input-date',
@@ -41,6 +63,7 @@ export class CreateUpdateTimesheetRequestDialogComponent {
         placeholder: 'chooseADate',
         required: true,
         textfieldLabelOutside: true,
+        readonly: true,
       },
     },
     {
@@ -137,13 +160,17 @@ export class CreateUpdateTimesheetRequestDialogComponent {
     @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<boolean, WorkingHours>,
     private readonly myRequestsService: MyRequestsService,
     private readonly promptService: PromptService,
-    private readonly translocoService: TranslocoService
+    private readonly translocoService: TranslocoService,
+    private readonly authService: AuthService
   ) {}
 
   onSubmit(): void {
     if (this.form.valid) {
       const formModel = { ...this.form.value };
 
+      if (formModel.userInfo) {
+        formModel.userId = formModel.userInfo.id;
+      }
       if (formModel.date) {
         formModel.createdDate = formModel.date.toLocalNativeDate().valueOf();
       }
@@ -157,12 +184,7 @@ export class CreateUpdateTimesheetRequestDialogComponent {
         formModel.sendTo = formModel.sendToUser.id;
       }
 
-      delete formModel.date;
-      delete formModel.inTime;
-      delete formModel.outTime;
-      delete formModel.sendToUser;
-
-      this.submit$.next(formModel);
+      this.submit$.next(omit(formModel, ['userInfo', 'date', 'inTime', 'outTime', 'sendToUser']));
     }
   }
 

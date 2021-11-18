@@ -12,6 +12,7 @@ import { TuiDayRange, TuiTime } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { endOfDay, getTime } from 'date-fns';
+import omit from 'just-omit';
 import { from, of, Subject } from 'rxjs';
 import { catchError, map, share, startWith, switchMap, tap } from 'rxjs/operators';
 import { WorkingOnsiteRequestPayload } from '../../models';
@@ -173,10 +174,7 @@ export class CreateWorkingOnsiteRequestDialogComponent {
         formModel.sendTo = formModel.sendToUser.id;
       }
 
-      delete formModel.fromTo;
-      delete formModel.durationTime;
-      delete formModel.sendToUser;
-      this.submit$.next(formModel);
+      this.submit$.next(omit(formModel, ['fromTo', 'durationTime', 'sendToUser']));
     }
   }
 

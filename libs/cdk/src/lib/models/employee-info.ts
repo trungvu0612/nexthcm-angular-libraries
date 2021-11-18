@@ -1,3 +1,4 @@
+import { CommonStatus } from '../enums';
 import { BaseObject } from './base-object';
 
 export interface EmployeeInfo {
@@ -11,7 +12,7 @@ export interface EmployeeInfo {
   lastName: string;
   otherName?: string;
   image: string;
-  status: number;
+  status: CommonStatus;
   organization: BaseObject;
   roles: BaseObject[];
   jobTitle: BaseObject;

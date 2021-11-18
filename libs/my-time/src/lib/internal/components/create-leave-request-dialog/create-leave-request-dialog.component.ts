@@ -9,6 +9,7 @@ import { TuiDay, TuiDayRange, TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT, PolymorpheusModule, PolymorpheusTemplate } from '@tinkoff/ng-polymorpheus';
 import { endOfDay } from 'date-fns';
+import omit from 'just-omit';
 import { combineLatest, from, of, Subject } from 'rxjs';
 import { catchError, map, share, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { TRANSLATION_SCOPE } from '../../constants';
@@ -446,13 +447,7 @@ export class CreateLeaveRequestDialogComponent implements OnInit {
         formModel.sendTo = formModel.sendToUser.id;
       }
 
-      delete formModel.leaveType;
-      delete formModel.fromTo;
-      delete formModel.partialDays;
-      delete formModel.startDay;
-      delete formModel.endDay;
-      delete formModel.sendToUser;
-      this.submit$.next(formModel);
+      this.submit$.next(omit(formModel, ['leaveType', 'fromTo', 'partialDays', 'startDay', 'endDay', 'sendToUser']));
     }
   }
 

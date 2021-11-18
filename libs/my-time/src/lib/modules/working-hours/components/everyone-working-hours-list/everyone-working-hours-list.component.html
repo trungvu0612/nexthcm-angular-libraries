@@ -67,6 +67,7 @@
         <td class="font-semibold text-center">
           {{ item.countLeave ? (item.countLeave | translocoDecimal) : '-' }}
         </td>
+        <td></td>
       </ng-container>
     </ng-template>
   </ngx-table>
@@ -74,7 +75,9 @@
 <tui-table-pagination
   (pageChange)="onPage($event)"
   (sizeChange)="onSize($event)"
-  [total]="(total$ | async) || 0"
+  [page]="(page$ | push) || 0"
+  [size]="(size$ | push) || 10"
+  [total]="(total$ | push) || 0"
 ></tui-table-pagination>
 
 <ng-template #detailsTemplate let-row>

@@ -4,6 +4,7 @@ import { ActivatedRoute, Params, UrlSerializer } from '@angular/router';
 import { Actions } from '@datorama/akita-ng-effects';
 import {
   BaseObject,
+  CommonStatus,
   EmployeeInfo,
   loadRoles,
   NewAbstractServerSortPaginationTableComponent,
@@ -64,6 +65,7 @@ export class EmployeeManagementComponent extends NewAbstractServerSortPagination
         { key: '', title: result.functions, orderEnabled: false },
       ])
     );
+  readonly CommonStatus = CommonStatus;
   readonly search$ = new Subject<string | null>();
   readonly role$ = new Subject<string | null>();
   readonly rolesList$ = this.rolesQuery.selectAll();

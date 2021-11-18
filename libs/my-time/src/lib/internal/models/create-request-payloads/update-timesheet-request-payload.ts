@@ -1,4 +1,5 @@
 export interface UpdateTimesheetRequestPayload {
+  userId: string;
   timeSheetId: string;
   createdDate: number;
   /**

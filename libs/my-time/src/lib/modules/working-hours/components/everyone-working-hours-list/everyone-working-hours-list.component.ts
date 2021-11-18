@@ -39,36 +39,37 @@ export class EveryoneWorkingHoursListComponent
     .pipe(
       map((result) => [
         { key: '', title: '', width: '6%' },
-        { key: 'cif', title: result.cif, width: '9%' },
-        { key: 'fullName', title: result.fullName, width: '9%' },
-        { key: 'office', title: result.office, width: '9%' },
+        { key: 'cif', title: result.cif, width: '8%' },
+        { key: 'fullName', title: result.fullName, width: '8%' },
+        { key: 'office', title: result.office, width: '8%' },
         { key: 'dateRange', title: result.dateRange, width: '13%' },
         {
           key: 'totalWorkingTime',
           title: result.totalWorkingTimeH,
-          width: '9%',
+          width: '8%',
           cssClass: { name: 'text-center', includeHeader: true },
         },
         {
           key: 'workingDay',
           title: result.workingDay,
-          width: '9%',
+          width: '8%',
           cssClass: { name: 'text-center', includeHeader: true },
         },
-        { key: 'ot', title: result.ot, width: '9%', cssClass: { name: 'text-center', includeHeader: true } },
+        { key: 'ot', title: result.ot, width: '8%', cssClass: { name: 'text-center', includeHeader: true } },
         {
           key: 'onsiteDay',
           title: result.onsiteDay,
-          width: '9%',
+          width: '8%',
           cssClass: { name: 'text-center', includeHeader: true },
         },
-        { key: 'wfh', title: result.workFromHome, width: '9%', cssClass: { name: 'text-center', includeHeader: true } },
+        { key: 'wfh', title: result.workFromHome, width: '8%', cssClass: { name: 'text-center', includeHeader: true } },
         {
           key: 'countLeave',
           title: result.countLeave,
-          width: '9%',
+          width: '8%',
           cssClass: { name: 'text-center', includeHeader: true },
         },
+        { key: '', width: '9%', title: result.functions },
       ])
     );
   private readonly request$ = this.fetch$.pipe(

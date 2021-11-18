@@ -11,6 +11,7 @@ import { TuiDayRange } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { endOfDay, getTime } from 'date-fns';
+import omit from 'just-omit';
 import { from, of, Subject } from 'rxjs';
 import { catchError, map, share, startWith, switchMap, tap } from 'rxjs/operators';
 import { TRANSLATION_SCOPE } from '../../constants';
@@ -177,11 +178,7 @@ export class CreateWorkingAfterHoursRequestDialogComponent {
       }
       formModel.duration = Number(formModel.durationInHours) * 3600;
 
-      delete formModel.fromTo;
-      delete formModel.durationInHours;
-      delete formModel.sendToUser;
-
-      this.submit$.next(formModel);
+      this.submit$.next(omit(formModel, ['fromTo', 'durationInHours', 'sendToUser']));
     }
   }
 

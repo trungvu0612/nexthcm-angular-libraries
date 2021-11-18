@@ -1,6 +1,12 @@
 <hcm-page [title]="'employeeManagement' | transloco">
   <ng-container *transloco="let t" ngProjectAs="pageHeader">
-    <button (click)="onAddEmployee()" *ngxPermissionsOnly="'CREATE_EMPLOYEE'" icon="tuiIconPlusLarge" size="m" tuiButton>
+    <button
+      (click)="onAddEmployee()"
+      *ngxPermissionsOnly="'CREATE_EMPLOYEE'"
+      icon="tuiIconPlusLarge"
+      size="m"
+      tuiButton
+    >
       {{ t('employees.addNewEmployee') }}
     </button>
   </ng-container>
@@ -45,7 +51,12 @@
           <td>{{ item.directReport.name }}</td>
           <td>{{ item.roles | joinByKey: 'name' }}</td>
           <td>
-            <tui-toggle [disabled]="true" [ngModel]="item.status" [showIcons]="true" size="l"></tui-toggle>
+            <tui-toggle
+              [disabled]="true"
+              [ngModel]="item.status === CommonStatus.active"
+              [showIcons]="true"
+              size="l"
+            ></tui-toggle>
           </td>
           <td>
             <div class="flex items-center">

@@ -9,6 +9,7 @@ import { FormlyFieldConfig } from '@ngx-formly/core';
 import { isPresent } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
+import omit from 'just-omit';
 import { of, Subject } from 'rxjs';
 import { catchError, distinctUntilChanged, filter, map, share, startWith, switchMap, tap } from 'rxjs/operators';
 import { TRANSLATION_SCOPE } from '../../constants';
@@ -188,8 +189,7 @@ export class CreateTransferLeaveEntitlementRequestComponent {
         formModel.sendTo = formModel.sendToUser.id;
       }
 
-      delete formModel.sendToUser;
-      this.submit$.next(formModel);
+      this.submit$.next(omit(formModel, 'sendToUser'));
     }
   }
 

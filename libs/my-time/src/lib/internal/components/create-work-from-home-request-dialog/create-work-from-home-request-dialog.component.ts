@@ -11,6 +11,7 @@ import { TuiDayRange, TuiTime } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { endOfDay, getTime } from 'date-fns';
+import omit from 'just-omit';
 import { from, of, Subject } from 'rxjs';
 import { catchError, map, share, startWith, switchMap, tap } from 'rxjs/operators';
 import { WorkFromHomeRequestPayload } from '../../models';
@@ -119,7 +120,7 @@ export class CreateWorkFromHomeRequestDialogComponent {
         startWith(null)
       )
     ),
-    share(),
+    share()
   );
   readonly submitLoading$ = this.submitHandler$.pipe(
     map((value) => !value),
@@ -132,7 +133,7 @@ export class CreateWorkFromHomeRequestDialogComponent {
     private readonly myRequestsService: MyRequestsService,
     private readonly translocoService: TranslocoService,
     private readonly promptService: PromptService,
-    private readonly authService: AuthService,
+    private readonly authService: AuthService
   ) {}
 
   onSubmit(): void {
@@ -153,10 +154,7 @@ export class CreateWorkFromHomeRequestDialogComponent {
         formModel.sendTo = formModel.sendToUser.id;
       }
 
-      delete formModel.fromTo;
-      delete formModel.totalTime;
-      delete formModel.sendToUser;
-      this.submit$.next(formModel);
+      this.submit$.next(omit(formModel, ['fromTo', 'totalTime', 'sendToUser']));
     }
   }
 
