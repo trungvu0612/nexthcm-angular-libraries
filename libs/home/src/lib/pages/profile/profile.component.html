@@ -50,6 +50,10 @@
           <tui-svg class="mr-2 w-6 h-6" src="tuiIconStarLarge"></tui-svg>
           SHUI
         </button>
+        <button routerLink="/profile/access-token" routerLinkActive tuiTab>
+          <tui-svg class="mr-2 w-6 h-6" src="tuiIconLockOpenLarge"></tui-svg>
+          {{ t('accessToken') }}
+        </button>
       </tui-tabs>
       <div class="mt-5">
         <router-outlet></router-outlet>

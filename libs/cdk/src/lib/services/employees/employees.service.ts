@@ -71,4 +71,8 @@ export class EmployeesService {
         map((res) => ({ ...res, employeeId, type }))
       );
   }
+
+  getPersonalAccessToken(): Observable<string> {
+    return this.http.get(`${ACCOUNT_API_PATH}/personal-access-token`, { responseType: 'text' });
+  }
 }

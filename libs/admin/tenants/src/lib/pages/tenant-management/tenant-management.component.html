@@ -23,8 +23,8 @@
     </div>
   </div>
   <hcm-input-filter
-    *ngxPermissionsOnly="'VIEW_SEARCH_TENANT'"
     (valueChange)="search$.next($event)"
+    *ngxPermissionsOnly="'VIEW_SEARCH_TENANT'"
     class="mb-5"
     icon="tuiIconSearchLarge"
     label="{{ 'tenants.searchTenant' | transloco }}"
@@ -53,6 +53,7 @@
             <tui-tag
               [value]="CommonStatus[item.state] | transloco"
               class="{{ CommonStatus[item.state] }}-tag"
+              status="custom"
             ></tui-tag>
           </td>
           <td>
@@ -66,8 +67,8 @@
                 tuiIconButton
               ></button>
               <button
-                *ngxPermissionsOnly="'DELETE_TENANT'"
                 (click)="onRemoveTenant(item.id)"
+                *ngxPermissionsOnly="'DELETE_TENANT'"
                 appearance="flat"
                 icon="tuiIconTrashLarge"
                 size="m"

@@ -615,5 +615,9 @@
   "numberOfAssignedSeats": "Số chỗ ngồi đã được chỉ định",
   "numberOfUnassignedSeats": "Số chỗ ngồi chưa được chỉ định",
   "numberOfSeats": "Số chỗ ngồi",
-  "myTeam": "Đội của tôi"
+  "myTeam": "Đội của tôi",
+  "changeWorkflowStatus": "<b>Bạn thật sự muốn thực hiện hoạt động này?<br>{{name}}</b>",
+  "accessToken": "Mã truy cập",
+  "copied": "Đã sao chép!",
+  "generate": "Tạo"
 }

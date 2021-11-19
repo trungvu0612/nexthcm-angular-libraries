@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { EmojiModule } from '@ctrl/ngx-emoji-mart/ngx-emoji';
 import { AkitaNgEffectsModule } from '@datorama/akita-ng-effects';
@@ -9,12 +10,21 @@ import { AvatarComponentModule, LayoutComponent, LayoutModule } from '@nexthcm/u
 import { SvgIconsModule } from '@ngneat/svg-icon';
 import { TranslocoModule } from '@ngneat/transloco';
 import { TranslocoLocaleModule } from '@ngneat/transloco-locale';
-import { LetModule } from '@rx-angular/template';
+import { LetModule, PushModule } from '@rx-angular/template';
 import { TuiLetModule } from '@taiga-ui/cdk';
-import { TuiButtonModule, TuiLinkModule, TuiLoaderModule, TuiModeModule, TuiSvgModule } from '@taiga-ui/core';
-import { TuiIslandModule, TuiTabsModule } from '@taiga-ui/kit';
+import {
+  TuiButtonModule,
+  TuiLabelModule,
+  TuiLinkModule,
+  TuiLoaderModule,
+  TuiModeModule,
+  TuiSvgModule,
+  TuiTextfieldControllerModule,
+} from '@taiga-ui/core';
+import { TuiInputCopyModule, TuiIslandModule, TuiTabsModule } from '@taiga-ui/kit';
 import { academicCap, HeroIconModule, identification } from 'ng-heroicon';
 import { NgxPermissionsGuard } from 'ngx-permissions';
+import { PersonalAccessTokenComponent } from './components/personal-access-token/personal-access-token.component';
 import { ProfileDurationComponent } from './components/profile-duration/profile-duration.component';
 import { ProfileEducationComponent } from './components/profile-education/profile-education.component';
 import { ProfileIndividualComponent } from './components/profile-individual/profile-individual.component';
@@ -41,6 +51,7 @@ export const HOME_ROUTES: Routes = [
           { path: 'duration', component: ProfileDurationComponent },
           { path: 'education', component: ProfileEducationComponent },
           { path: 'shui', component: ProfileShuiComponent },
+          { path: 'access-token', component: PersonalAccessTokenComponent },
         ],
       },
     ],
@@ -55,6 +66,7 @@ export const HOME_ROUTES: Routes = [
     ProfileDurationComponent,
     ProfileEducationComponent,
     ProfileShuiComponent,
+    PersonalAccessTokenComponent,
   ],
   imports: [
     CommonModule,
@@ -78,6 +90,11 @@ export const HOME_ROUTES: Routes = [
     TuiLetModule,
     TuiIslandModule,
     AkitaNgEffectsModule.forFeature([UserProfileEffects]),
+    TuiInputCopyModule,
+    TuiTextfieldControllerModule,
+    FormsModule,
+    TuiLabelModule,
+    PushModule,
   ],
   providers: [MyTimeService],
 })

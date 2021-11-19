@@ -1,24 +1,23 @@
 import { Location } from '@angular/common';
 import { Component } from '@angular/core';
 import { ActivatedRoute, UrlSerializer } from '@angular/router';
-import { Pagination } from '@nexthcm/cdk';
+import { Pagination, PromptService } from '@nexthcm/cdk';
 import { TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
-import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
+import { isPresent } from '@taiga-ui/cdk';
 import { Columns } from 'ngx-easy-table';
 import { combineLatest, Observable, of } from 'rxjs';
 import { catchError, filter, map, shareReplay, startWith, switchMap } from 'rxjs/operators';
 import { AbstractRequestListComponent } from '../../../../internal/abstract';
 import { TRANSLATION_SCOPE } from '../../../../internal/constants';
 import { UpdateTimesheetRequest } from '../../../../internal/models';
-import { MyRequestsService } from '../../../../internal/services';
-import { RequestDetailDialogService } from '../../../../internal/services/request-detail-dialog/request-detail-dialog.service';
+import { MyRequestsService, RequestDetailDialogService } from '../../../../internal/services';
 
 @Component({
   selector: 'hcm-update-timesheet-request-list',
   templateUrl: './update-timesheet-request-list.component.html',
   styleUrls: ['./update-timesheet-request-list.component.scss'],
-  providers: [TuiDestroyService, RxState],
+  providers: [RxState],
 })
 export class UpdateTimesheetRequestListComponent extends AbstractRequestListComponent<UpdateTimesheetRequest> {
   readonly requestTypeUrlPath = 'updateTimesheet';
@@ -62,8 +61,8 @@ export class UpdateTimesheetRequestListComponent extends AbstractRequestListComp
     readonly locationRef: Location,
     readonly urlSerializer: UrlSerializer,
     readonly requestDetailDialogService: RequestDetailDialogService,
-    private readonly destroy$: TuiDestroyService,
-    private readonly translocoService: TranslocoService
+    readonly translocoService: TranslocoService,
+    readonly promptService: PromptService
   ) {
     super(state, activatedRoute);
     state.connect(this.request$.pipe(filter(isPresent)));

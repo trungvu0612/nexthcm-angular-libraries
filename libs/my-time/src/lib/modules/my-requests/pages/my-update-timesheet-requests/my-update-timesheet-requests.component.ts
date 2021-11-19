@@ -3,10 +3,10 @@ import { HttpParams } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ActivatedRoute, UrlSerializer } from '@angular/router';
 import { AuthService } from '@nexthcm/auth';
-import { Pagination } from '@nexthcm/cdk';
+import { Pagination, PromptService } from '@nexthcm/cdk';
 import { TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
-import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
+import { isPresent } from '@taiga-ui/cdk';
 import { Columns } from 'ngx-easy-table';
 import { combineLatest, Observable, of } from 'rxjs';
 import { catchError, filter, map, shareReplay, startWith, switchMap } from 'rxjs/operators';
@@ -19,8 +19,8 @@ import { MyRequestsService, RequestDetailDialogService } from '../../../../inter
   selector: 'hcm-my-update-timesheet-requests',
   templateUrl: './my-update-timesheet-requests.component.html',
   styleUrls: ['./my-update-timesheet-requests.component.scss'],
-  providers: [RxState, TuiDestroyService],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [RxState],
 })
 export class MyUpdateTimesheetRequestsComponent extends AbstractRequestListComponent<UpdateTimesheetRequest> {
   readonly userId = this.authService.get('userInfo', 'userId');
@@ -68,8 +68,8 @@ export class MyUpdateTimesheetRequestsComponent extends AbstractRequestListCompo
     readonly locationRef: Location,
     readonly urlSerializer: UrlSerializer,
     readonly requestDetailDialogService: RequestDetailDialogService,
-    private readonly destroy$: TuiDestroyService,
-    private readonly translocoService: TranslocoService,
+    readonly translocoService: TranslocoService,
+    readonly promptService: PromptService,
     private readonly authService: AuthService
   ) {
     super(state, activatedRoute);

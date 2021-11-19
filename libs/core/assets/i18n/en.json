@@ -616,5 +616,9 @@
   "numberOfAssignedSeats": "Number of assigned seats",
   "numberOfUnassignedSeats": "Number of unassigned seats",
   "numberOfSeats": "Number of seats",
-  "myTeam": "My Team"
+  "myTeam": "My Team",
+  "changeWorkflowStatus": "<b>Are you sure you want to perform this operation?<br>{{name}}</b>",
+  "accessToken": "Access Token",
+  "copied": "Copied!",
+  "generate": "Generate"
 }

@@ -1,8 +1,9 @@
 import { HttpParams } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
-import { NewAbstractServerSortPaginationTableComponent, Pagination } from '@nexthcm/cdk';
+import { NewAbstractServerSortPaginationTableComponent, Pagination, PromptService, WorkflowStatus } from '@nexthcm/cdk';
+import { TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
-import { Subject } from 'rxjs';
+import { EMPTY, from, iif, Subject } from 'rxjs';
 import { startWith, switchMap, tap } from 'rxjs/operators';
 import { RequestTypeUrlPaths } from '../models';
 import { MyRequestsService, RequestDetailDialogService } from '../services';
@@ -11,17 +12,33 @@ export abstract class AbstractRequestListComponent<T> extends NewAbstractServerS
   abstract requestTypeUrlPath: keyof RequestTypeUrlPaths;
   abstract myRequestsService: MyRequestsService;
   abstract requestDetailDialogService: RequestDetailDialogService;
+  abstract promptService: PromptService;
+  abstract translocoService: TranslocoService;
 
   // EVENTS
   readonly viewRequestDetail$ = new Subject<[string, string | undefined]>();
-  readonly changeStatus$ = new Subject<[string, string]>();
+  readonly changeStatus$ = new Subject<[string, WorkflowStatus]>();
 
   // HANDLERS
   readonly changeStatusHandler$ = this.changeStatus$.pipe(
-    switchMap(([requestId, statusId]) =>
-      this.myRequestsService.changeRequestStatus(this.requestTypeUrlPath, requestId, statusId).pipe(
-        tap(() => this.fetch$.next()),
-        startWith(null)
+    switchMap(([requestId, { id, name }]) =>
+      from(
+        this.promptService.open({
+          icon: 'question',
+          html: this.translocoService.translate('changeWorkflowStatus', { name }),
+          showCancelButton: true,
+        })
+      ).pipe(
+        switchMap((result) =>
+          iif(
+            () => result.isConfirmed,
+            this.myRequestsService.changeRequestStatus(this.requestTypeUrlPath, requestId, id).pipe(
+              tap(() => this.fetch$.next()),
+              startWith(null)
+            ),
+            EMPTY
+          )
+        )
       )
     )
   );

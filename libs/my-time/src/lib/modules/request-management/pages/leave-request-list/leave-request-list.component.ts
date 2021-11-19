@@ -1,10 +1,10 @@
 import { Location } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ActivatedRoute, UrlSerializer } from '@angular/router';
-import { Pagination } from '@nexthcm/cdk';
+import { Pagination, PromptService } from '@nexthcm/cdk';
 import { TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
-import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
+import { isPresent } from '@taiga-ui/cdk';
 import { Columns } from 'ngx-easy-table';
 import { combineLatest, Observable, of } from 'rxjs';
 import { catchError, filter, map, shareReplay, startWith, switchMap } from 'rxjs/operators';
@@ -18,7 +18,7 @@ import { MyLeaveService, MyRequestsService, RequestDetailDialogService } from '.
   templateUrl: './leave-request-list.component.html',
   styleUrls: ['./leave-request-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [RxState, TuiDestroyService],
+  providers: [RxState],
 })
 export class LeaveRequestListComponent extends AbstractRequestListComponent<LeaveRequest> {
   readonly requestTypeUrlPath = 'leave';
@@ -54,8 +54,8 @@ export class LeaveRequestListComponent extends AbstractRequestListComponent<Leav
     readonly locationRef: Location,
     readonly urlSerializer: UrlSerializer,
     readonly requestDetailDialogService: RequestDetailDialogService,
-    private readonly destroy$: TuiDestroyService,
-    private readonly translocoService: TranslocoService,
+    readonly translocoService: TranslocoService,
+    readonly promptService: PromptService,
     private readonly myLeaveService: MyLeaveService
   ) {
     super(state, activatedRoute);

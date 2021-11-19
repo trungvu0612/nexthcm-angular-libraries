@@ -28,7 +28,7 @@
           <div class="flex items-center">
             <button appearance="flat" icon="tuiIconShowLarge" size="m" tuiIconButton></button>
             <hcm-workflow-actions-button-dropdown
-              (selectAction)="changeStatus$.next([item.id, $event.id])"
+              (selectAction)="changeStatus$.next([item.id, $event])"
               *ngIf="item.nextStates.length"
               [items]="item.nextStates"
             ></hcm-workflow-actions-button-dropdown>

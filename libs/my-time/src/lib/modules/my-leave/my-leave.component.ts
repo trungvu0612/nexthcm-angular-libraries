@@ -18,8 +18,7 @@ import {
 } from '../../internal/components';
 import { TRANSLATION_SCOPE } from '../../internal/constants';
 import { LeaveRequest, RemainingLeaveEntitlement } from '../../internal/models';
-import { MyLeaveService, MyRequestsService } from '../../internal/services';
-import { RequestDetailDialogService } from '../../internal/services/request-detail-dialog/request-detail-dialog.service';
+import { MyLeaveService, MyRequestsService, RequestDetailDialogService } from '../../internal/services';
 
 @Component({
   selector: 'hcm-my-leave',
@@ -88,12 +87,12 @@ export class MyLeaveComponent extends AbstractRequestListComponent<LeaveRequest>
     readonly locationRef: Location,
     readonly urlSerializer: UrlSerializer,
     readonly requestDetailDialogService: RequestDetailDialogService,
+    readonly translocoService: TranslocoService,
+    readonly promptService: PromptService,
     private readonly injector: Injector,
-    private readonly translocoService: TranslocoService,
     private readonly authService: AuthService,
     private readonly dialogService: TuiDialogService,
-    private readonly myLeaveService: MyLeaveService,
-    private readonly promptService: PromptService
+    private readonly myLeaveService: MyLeaveService
   ) {
     super(state, activatedRoute);
     state.connect(this.request$.pipe(filter(isPresent)));
