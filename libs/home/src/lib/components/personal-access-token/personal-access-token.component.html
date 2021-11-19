@@ -1,14 +1,15 @@
 <ng-container *transloco="let t">
-  <div class="flex items-end space-x-2">
-    <label [label]="label" class="flex-1" tuiLabel>
-      <tui-input-copy
-        [ngModel]="token$ | push"
-        [readOnly]="true"
-        [successMessage]="t('copied')"
-        [tuiTextfieldLabelOutside]="true"
-        tuiTextfieldSize="m"
-      ></tui-input-copy>
-    </label>
+  <label [label]="label" tuiLabel>
+    <tui-input-copy
+      [ngModel]="token$ | push"
+      [readOnly]="true"
+      [successMessage]="t('copied')"
+      [tuiTextfieldLabelOutside]="true"
+      messageMode="error"
+      tuiTextfieldSize="m"
+    ></tui-input-copy>
+  </label>
+  <div class="flex justify-end mt-4">
     <button
       (click)="generateToken$.next()"
       [showLoader]="(isLoading$ | push) === true"
