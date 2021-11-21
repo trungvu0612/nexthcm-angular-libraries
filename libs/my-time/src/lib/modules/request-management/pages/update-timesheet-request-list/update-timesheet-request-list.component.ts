@@ -7,7 +7,7 @@ import { RxState } from '@rx-angular/state';
 import { isPresent } from '@taiga-ui/cdk';
 import { Columns } from 'ngx-easy-table';
 import { combineLatest, Observable, of } from 'rxjs';
-import { catchError, filter, map, shareReplay, startWith, switchMap } from 'rxjs/operators';
+import { catchError, filter, map, share, startWith, switchMap } from 'rxjs/operators';
 import { AbstractRequestListComponent } from '../../../../internal/abstract';
 import { TRANSLATION_SCOPE } from '../../../../internal/constants';
 import { UpdateTimesheetRequest } from '../../../../internal/models';
@@ -47,7 +47,7 @@ export class UpdateTimesheetRequestListComponent extends AbstractRequestListComp
         .getRequests<UpdateTimesheetRequest>(this.requestTypeUrlPath, this.queryParams)
         .pipe(startWith(null))
     ),
-    shareReplay(1)
+    share()
   );
   readonly loading$ = combineLatest([this.request$, this.changeStatusHandler$.pipe(startWith({}))]).pipe(
     map((values) => values.includes(null)),

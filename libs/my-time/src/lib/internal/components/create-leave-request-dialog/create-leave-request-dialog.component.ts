@@ -447,7 +447,9 @@ export class CreateLeaveRequestDialogComponent implements OnInit {
         formModel.sendTo = formModel.sendToUser.id;
       }
 
-      this.submit$.next(omit(formModel, ['leaveType', 'fromTo', 'partialDays', 'startDay', 'endDay', 'sendToUser']));
+      this.submit$.next(
+        omit(formModel, ['employee', 'leaveType', 'fromTo', 'partialDays', 'startDay', 'endDay', 'sendToUser'])
+      );
     }
   }
 

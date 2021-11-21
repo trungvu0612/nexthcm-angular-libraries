@@ -42,12 +42,14 @@ export class CreateWorkingOnsiteRequestDialogComponent {
       type: 'user-combo-box',
       templateOptions: {
         translate: true,
-        required: true,
         label: 'employee',
         labelClassName: 'font-semibold',
         placeholder: 'searchEmployees',
       },
       hide: this.context.data,
+      expressionProperties: {
+        'templateOptions.required': () => !this.context.data,
+      },
     },
     {
       key: 'fromTo',
@@ -174,7 +176,7 @@ export class CreateWorkingOnsiteRequestDialogComponent {
         formModel.sendTo = formModel.sendToUser.id;
       }
 
-      this.submit$.next(omit(formModel, ['fromTo', 'durationTime', 'sendToUser']));
+      this.submit$.next(omit(formModel, ['user', 'fromTo', 'durationTime', 'sendToUser']));
     }
   }
 

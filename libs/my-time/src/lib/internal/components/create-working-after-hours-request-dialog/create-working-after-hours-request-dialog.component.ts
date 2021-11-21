@@ -42,12 +42,14 @@ export class CreateWorkingAfterHoursRequestDialogComponent {
       type: 'user-combo-box',
       templateOptions: {
         translate: true,
-        required: true,
         label: 'employee',
         labelClassName: 'font-semibold',
         placeholder: 'searchEmployees',
       },
       hide: this.context.data,
+      expressionProperties: {
+        'templateOptions.required': () => !this.context.data,
+      },
     },
     {
       key: 'type',
@@ -178,7 +180,7 @@ export class CreateWorkingAfterHoursRequestDialogComponent {
       }
       formModel.duration = Number(formModel.durationInHours) * 3600;
 
-      this.submit$.next(omit(formModel, ['fromTo', 'durationInHours', 'sendToUser']));
+      this.submit$.next(omit(formModel, ['user', 'fromTo', 'durationInHours', 'sendToUser']));
     }
   }
 

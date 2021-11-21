@@ -40,12 +40,14 @@ export class CreateWorkFromHomeRequestDialogComponent {
       type: 'user-combo-box',
       templateOptions: {
         translate: true,
-        required: true,
         label: 'employee',
         labelClassName: 'font-semibold',
         placeholder: 'searchEmployees',
       },
       hide: this.context.data,
+      expressionProperties: {
+        'templateOptions.required': () => !this.context.data,
+      },
     },
     {
       key: 'fromTo',
@@ -154,7 +156,7 @@ export class CreateWorkFromHomeRequestDialogComponent {
         formModel.sendTo = formModel.sendToUser.id;
       }
 
-      this.submit$.next(omit(formModel, ['fromTo', 'totalTime', 'sendToUser']));
+      this.submit$.next(omit(formModel, ['user', 'fromTo', 'totalTime', 'sendToUser']));
     }
   }
 
