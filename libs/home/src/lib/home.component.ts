@@ -2,11 +2,11 @@ import { HttpParams } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { AuthService } from '@nexthcm/auth';
 import { ProfileGeneralQuery, PromptService } from '@nexthcm/cdk';
-import { CheckInPayload, CheckOutPayload, MyTimeService, WorkingHours } from '@nexthcm/my-time';
+import { CheckInOutPayload, MyTimeService, WorkingHours } from '@nexthcm/my-time';
 import { TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
 import { isPresent } from '@taiga-ui/cdk';
-import { differenceInSeconds, endOfToday, startOfToday, startOfYesterday } from 'date-fns';
+import { endOfToday, startOfYesterday } from 'date-fns';
 import { BehaviorSubject, from, Observable, Subject } from 'rxjs';
 import { filter, map, share, startWith, switchMap, tap } from 'rxjs/operators';
 
@@ -61,7 +61,7 @@ export class HomeComponent {
     this.state.hold(
       this.checkInOut$.pipe(
         switchMap(() => this.checkedId$),
-        switchMap((checkedId) => (this.shouldCheckedOut$.value ? this.checkOut(checkedId) : this.checkIn(checkedId))),
+        switchMap(() => (this.shouldCheckedOut$.value ? this.checkInOut(true) : this.checkInOut(false))),
         tap(() => this.queryParams$.next(this.queryParams$.value))
       )
     );
@@ -78,43 +78,23 @@ export class HomeComponent {
       : 'goodNight';
   }
 
-  private checkIn(id: string): Observable<unknown> {
-    const checkInPayload: CheckInPayload = {
-      trackingDate: new Date().getTime(),
-      inTime: differenceInSeconds(new Date(), startOfToday()),
-      checkinFrom: 'web-app',
-      lastAction: 'checked-in',
-    };
-    return from(
-      this.promptService.open({
-        icon: 'question',
-        html: this.translocoService.translate('checkInConfirm'),
-        showCancelButton: true,
-      })
-    ).pipe(
-      filter((result) => result.isConfirmed),
-      switchMap(() => this.workingHoursService.checkIn(id, checkInPayload)),
-      tap(this.promptService.handleResponse('checkInSuccessfully', () => this.shouldCheckedOut$.next(true)))
-    );
-  }
+  private checkInOut(isCheckOut: boolean): Observable<unknown> {
+    const payload: CheckInOutPayload = { typeCheckInOut: 'web-app' };
 
-  private checkOut(id: string): Observable<unknown> {
-    const checkOutPayload: CheckOutPayload = {
-      trackingDate: new Date().getTime(),
-      outTime: differenceInSeconds(new Date(), startOfToday()),
-      checkoutFrom: 'web-app',
-      lastAction: 'checked-out',
-    };
     return from(
       this.promptService.open({
         icon: 'question',
-        html: this.translocoService.translate('checkOutConfirm'),
+        html: this.translocoService.translate(isCheckOut ? 'checkOutConfirm' : 'checkInConfirm'),
         showCancelButton: true,
       })
     ).pipe(
       filter((result) => result.isConfirmed),
-      switchMap(() => this.workingHoursService.checkOut(id, checkOutPayload)),
-      tap(this.promptService.handleResponse('checkOutSuccessfully'))
+      switchMap(() => this.workingHoursService.checkInOut(payload)),
+      tap(
+        this.promptService.handleResponse(isCheckOut ? 'checkOutSuccessfully' : 'checkInSuccessfully', () =>
+          this.shouldCheckedOut$.next(true)
+        )
+      )
     );
   }
 }

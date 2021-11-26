@@ -11,7 +11,7 @@
   </label>
   <div class="flex justify-end mt-4">
     <button
-      (click)="generateToken$.next()"
+      (click)="generateToken$.next(undefined)"
       [showLoader]="(isLoading$ | push) === true"
       size="m"
       tuiButton

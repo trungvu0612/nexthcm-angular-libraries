@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { EmployeesService, PromptService } from '@nexthcm/cdk';
 import { RxState } from '@rx-angular/state';
-import { endWith, from, mapTo, Subject } from 'rxjs';
+import { BehaviorSubject, endWith, from, mapTo } from 'rxjs';
 import { catchError, map, startWith, switchMap } from 'rxjs/operators';
 
 @Component({
@@ -12,7 +12,7 @@ import { catchError, map, startWith, switchMap } from 'rxjs/operators';
   providers: [RxState],
 })
 export class PersonalAccessTokenComponent {
-  readonly generateToken$ = new Subject<void>();
+  readonly generateToken$ = new BehaviorSubject<undefined>(undefined);
   readonly generateTokenHandler$ = this.generateToken$.pipe(
     switchMap(() =>
       this.employeesService.getPersonalAccessToken().pipe(

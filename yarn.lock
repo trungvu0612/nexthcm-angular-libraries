@@ -2203,7 +2203,7 @@
     tslib "^2.0.0"
     yargs-parser "20.0.0"
 
-"@nrwl/web@^13.1.4":
+"@nrwl/web@13.1.4":
   version "13.1.4"
   resolved "https://registry.yarnpkg.com/@nrwl/web/-/web-13.1.4.tgz#6d1a569a1b9a3ee312c0b96a03b2d5b97e449b6c"
   integrity sha512-ana2YrMHYltowOHG3f3+EzA5jQVL4+QsVniN8qXFJrwecpFEoRlCZYGvhomhe3TyC4QlQkmmSm575foV8dzAyQ==
@@ -2510,17 +2510,17 @@
   dependencies:
     tslib "^2.0.0"
 
-"@taiga-ui/addon-commerce@^2.23.0":
-  version "2.23.0"
-  resolved "https://registry.yarnpkg.com/@taiga-ui/addon-commerce/-/addon-commerce-2.23.0.tgz#f985c5c1be1abed0dda7b24b300067a982ed2137"
-  integrity sha512-1aLDndyN3oPSlXSC/hVfNx8nAiT/XmeavL6sq85kZkIiXqjLB19oaZ6f1TgkumpSf/93cpUba5Fl1qY+M2IQ2Q==
+"@taiga-ui/addon-commerce@^2.24.0":
+  version "2.24.0"
+  resolved "https://registry.yarnpkg.com/@taiga-ui/addon-commerce/-/addon-commerce-2.24.0.tgz#4c5a8e8b08c4de44cbdb41508284fe48ce57b2c9"
+  integrity sha512-C3JvpvSMMSImF8OFU50zL1D4JIWqFPeNp4XnhHOvF6jT4W5Z95Y7hqOcmsR1q1WOaeK/XIiAQ4H/O86T4ruaBw==
   dependencies:
     tslib "^1.10.0"
 
-"@taiga-ui/addon-editor@^2.23.0":
-  version "2.23.0"
-  resolved "https://registry.yarnpkg.com/@taiga-ui/addon-editor/-/addon-editor-2.23.0.tgz#8891cc8317cb482e395aa66220a92c6fcdb6825e"
-  integrity sha512-TNALyuSik1me+vt9bUXfF10TTlNMsb6vU0NFSG8COjVslqgV1OjStr8Y9TY4tr/5UEaJam7Lxr/pZ4AWLwWqBA==
+"@taiga-ui/addon-editor@^2.24.0":
+  version "2.24.0"
+  resolved "https://registry.yarnpkg.com/@taiga-ui/addon-editor/-/addon-editor-2.24.0.tgz#3ca47562241f11ad3bd008e9d4249c5139d3447b"
+  integrity sha512-reBusJXHuNifwSDDr4mpLMgytgkqPGFlvBiYHrUELMSlm5ux/iq81YMbCdRPU4j6/uv7XODt3IZ7jVDuJMZAUw==
   dependencies:
     "@tiptap/core" "^2.0.0-beta.86"
     "@tiptap/extension-bubble-menu" "^2.0.0-beta.24"
@@ -2538,52 +2538,52 @@
     "@tiptap/starter-kit" "^2.0.0-beta.82"
     tslib "^1.10.0"
 
-"@taiga-ui/addon-table@^2.23.0":
-  version "2.23.0"
-  resolved "https://registry.yarnpkg.com/@taiga-ui/addon-table/-/addon-table-2.23.0.tgz#0f2c47be4ef620fc79e1cb4abc24646a7ae3b37a"
-  integrity sha512-d3eY6ZWVXnT+gkIX6aLGcv1r1auk8CaZlhOd9zfMFYyerfO873MEYxpNMoX8cTj+Cm+FMUg2vveJvUUNeDhudw==
+"@taiga-ui/addon-table@^2.24.0":
+  version "2.24.0"
+  resolved "https://registry.yarnpkg.com/@taiga-ui/addon-table/-/addon-table-2.24.0.tgz#c7dd723d4d1e66d6e64bff6e653215c053a99de1"
+  integrity sha512-WJaDfLr2G2k1llrd6TySewKzcdnNR8rYj85/MEepRQLF9JpzDwtv320q9kUNnneyUarrpuHgjAwEfutxyLShcg==
   dependencies:
     tslib "^1.10.0"
 
-"@taiga-ui/cdk@^2.23.0":
-  version "2.23.0"
-  resolved "https://registry.yarnpkg.com/@taiga-ui/cdk/-/cdk-2.23.0.tgz#9e334893dbc6d3013505575d0b4a51762dc629d6"
-  integrity sha512-Jh//Tw4hgdnWtjNNtVbhRVvasREuIBuWMBOLGdLWqPhSegZ0SS5TnZzdPIB+TYcjW/lBOGT2LD4Ztyqv1Ol5eQ==
+"@taiga-ui/cdk@^2.24.0":
+  version "2.24.0"
+  resolved "https://registry.yarnpkg.com/@taiga-ui/cdk/-/cdk-2.24.0.tgz#262c8645936b5250e8bf912197925fe8e9123c82"
+  integrity sha512-ZXZ46Yi9PZPO7jIz5pys7+xnIV/0mzl7heqk5UOgxKCt/yUMPS84i/05tcVFq4qw4v1XOQh+BODTunpt5G2ruA==
   dependencies:
     "@ng-web-apis/common" "1.12.1"
     "@ng-web-apis/mutation-observer" "1.1.0"
     "@ng-web-apis/resize-observer" "1.0.3"
-    "@tinkoff/ng-event-plugins" "2.3.2"
-    "@tinkoff/ng-polymorpheus" "3.1.11"
+    "@tinkoff/ng-event-plugins" "2.4.0"
+    "@tinkoff/ng-polymorpheus" "3.1.12"
     "@types/resize-observer-browser" "0.1.5"
     tslib "^1.10.0"
 
-"@taiga-ui/core@^2.23.0":
-  version "2.23.0"
-  resolved "https://registry.yarnpkg.com/@taiga-ui/core/-/core-2.23.0.tgz#54fe9826bc1db90e07a2ef168671823fa8166ae0"
-  integrity sha512-oOuBSt9TMS02WxJW0wtm7f+zzGrwYvEYNlLR6RxvRJfwWzPUtQfleJkn77tdn5VzWshCGjrT4KI6OFpEwxkjhA==
+"@taiga-ui/core@^2.24.0":
+  version "2.24.0"
+  resolved "https://registry.yarnpkg.com/@taiga-ui/core/-/core-2.24.0.tgz#7b4a1951a3d4b8b71ed717eab73b4b952ae608cd"
+  integrity sha512-Z2Fz+tVDXFOv+wW/R4BR+4Z/6tN+kc3ZyBWF6jqEf0oOsjJcj8wo2xp9Qr2Ot5uzN6Yvn3yT0JGToQZGK6+Upg==
   dependencies:
-    "@taiga-ui/i18n" "2.23.0"
+    "@taiga-ui/i18n" "2.24.0"
     tslib "^1.10.0"
 
-"@taiga-ui/i18n@2.23.0":
-  version "2.23.0"
-  resolved "https://registry.yarnpkg.com/@taiga-ui/i18n/-/i18n-2.23.0.tgz#6aa19ee504fa866b7062e842b83c354b45403e93"
-  integrity sha512-+nsF6o0ZKQCetTv0FXj6wjMjvDilRzaj72mnQUhjGWTaRohTkYMMiEmSOmxb/H4/ECG8hChXWauk3rGq1KpBlQ==
-  dependencies:
-    tslib "^1.10.0"
-
-"@taiga-ui/icons@^2.23.0":
-  version "2.23.0"
-  resolved "https://registry.yarnpkg.com/@taiga-ui/icons/-/icons-2.23.0.tgz#899772075f955a701641359193a39214ea673155"
-  integrity sha512-Fw0nCH4Zrjg56Gz1t8/KZZoOyALTV35txnjOreMfd9zqlfdAuhaXI+X8DROsVqsEq0psfzuVPcz0ekONHjTS3A==
+"@taiga-ui/i18n@2.24.0":
+  version "2.24.0"
+  resolved "https://registry.yarnpkg.com/@taiga-ui/i18n/-/i18n-2.24.0.tgz#822ea97c34231a5ecced2ae20dc14e378fd4fef7"
+  integrity sha512-nqz7F6qaCHrCH90UQFXH4fk20vyWDZcEmmMNT0UHZR7kVim5TtNFAGyGdFHlNSc4c2FS8AwgySxXF5UfDQcetg==
   dependencies:
     tslib "^1.10.0"
 
-"@taiga-ui/kit@^2.23.0":
-  version "2.23.0"
-  resolved "https://registry.yarnpkg.com/@taiga-ui/kit/-/kit-2.23.0.tgz#d31f5a157b07c0a2b1cc71f101877e3212be8f9c"
-  integrity sha512-ihcFEiDKn88XJPwp0hW7iyvfP/h9O65OoHE4iOqkAaNV/xep/nmnS1vHLEF7mBtgR4llieEpIBheDkm7Ol307Q==
+"@taiga-ui/icons@^2.24.0":
+  version "2.24.0"
+  resolved "https://registry.yarnpkg.com/@taiga-ui/icons/-/icons-2.24.0.tgz#40e575a1950848a0e82e2192307f3f738c15a4fe"
+  integrity sha512-0ZKGaW7e/hQbOuJmI1/6nA9y+4S1gf5sH8k4OljDimlNINhE9JJ0dHrlsM9c+TxTLb7PKY0qFUwpCPjdmP/4Vw==
+  dependencies:
+    tslib "^1.10.0"
+
+"@taiga-ui/kit@^2.24.0":
+  version "2.24.0"
+  resolved "https://registry.yarnpkg.com/@taiga-ui/kit/-/kit-2.24.0.tgz#138a6d9092cf02af3d3d1d5cc43a947205abb59d"
+  integrity sha512-PpqwOvv5zyxH5XYxJ1R4ZftdHpDtXj+R5BTHyg0Qiqag+PUzVsxQFPUNniZmh9Bqum4b+G9wHXBguFKXDGgD5A==
   dependencies:
     "@ng-web-apis/intersection-observer" "2.0.1"
     angular2-text-mask "9.0.0"
@@ -2596,17 +2596,17 @@
   dependencies:
     tslib "^1.9.0"
 
-"@tinkoff/ng-event-plugins@2.3.2":
-  version "2.3.2"
-  resolved "https://registry.yarnpkg.com/@tinkoff/ng-event-plugins/-/ng-event-plugins-2.3.2.tgz#21da09f5224fbdd12a4103b8827c4f1865dbb4a6"
-  integrity sha512-PaTz7gzKlkeNLV6MdIhNwUi5cu08NyIWCjZT3KwPlpcasRg6hhFBAoK3QZB+Xsatkctehrnt9owc0IGG42CQOA==
+"@tinkoff/ng-event-plugins@2.4.0":
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/@tinkoff/ng-event-plugins/-/ng-event-plugins-2.4.0.tgz#81e014d4fd2ad13d3ab7e5f2711c307d4fcc463f"
+  integrity sha512-SqgwMOM8hgEsihqN+/JdgdThLAsm7OJv2+zIBLCImNLrgek50ztVsQVu41assiDFS3P58/Ta+f5JtrpLv0mJvw==
   dependencies:
     tslib "^1.10.0"
 
-"@tinkoff/ng-polymorpheus@3.1.11":
-  version "3.1.11"
-  resolved "https://registry.yarnpkg.com/@tinkoff/ng-polymorpheus/-/ng-polymorpheus-3.1.11.tgz#5b5f0fc666a62c77a2f52136a9cc9e476105e4ee"
-  integrity sha512-S5q2/3iuBbViQkhmevfzRvU5FIDcuXvChTOkpHuYgAqa49DLtH4xmmFqB15nQkcdC0aSwJbykQaQ8f9nUtIiYw==
+"@tinkoff/ng-polymorpheus@3.1.12":
+  version "3.1.12"
+  resolved "https://registry.yarnpkg.com/@tinkoff/ng-polymorpheus/-/ng-polymorpheus-3.1.12.tgz#e7a453ac640b330e4962e7eeeb205f872ad0a80f"
+  integrity sha512-DNZrOPyqBePi+KKT4ZDQkWCS9q633nHM2MLzldDp2srb3QdEpcjNVEbw7vgxFNkwhe11VS/eUCxnMONPg0OjBw==
   dependencies:
     tslib "^1.10.0"
 
@@ -4666,14 +4666,6 @@ cli-table3@~0.6.0:
   optionalDependencies:
     colors "^1.1.2"
 
-cli-truncate@3.1.0:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/cli-truncate/-/cli-truncate-3.1.0.tgz#3f23ab12535e3d73e839bb43e73c9de487db1389"
-  integrity sha512-wfOBkjXteqSnI59oPcJkcPl/ZmwvMMOj340qUIY1SKZCv0B9Cf4D4fAucRkIKQmsIuYK3x1rrgU7MeGRruiuiA==
-  dependencies:
-    slice-ansi "^5.0.0"
-    string-width "^5.0.0"
-
 cli-truncate@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/cli-truncate/-/cli-truncate-2.1.0.tgz#c39e28bf05edcde5be3b98992a22deed5a2b93c7"
@@ -4681,6 +4673,14 @@ cli-truncate@^2.1.0:
   dependencies:
     slice-ansi "^3.0.0"
     string-width "^4.2.0"
+
+cli-truncate@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/cli-truncate/-/cli-truncate-3.1.0.tgz#3f23ab12535e3d73e839bb43e73c9de487db1389"
+  integrity sha512-wfOBkjXteqSnI59oPcJkcPl/ZmwvMMOj340qUIY1SKZCv0B9Cf4D4fAucRkIKQmsIuYK3x1rrgU7MeGRruiuiA==
+  dependencies:
+    slice-ansi "^5.0.0"
+    string-width "^5.0.0"
 
 cli-width@^3.0.0:
   version "3.0.0"
@@ -7206,11 +7206,6 @@ has-flag@^4.0.0:
   resolved "https://registry.yarnpkg.com/has-flag/-/has-flag-4.0.0.tgz#944771fd9c81c81265c4d6941860da06bb59479b"
   integrity sha512-EykJT/Q1KjTWctppgIAgfSO0tKVuZUjhgMr17kqTumMl6Afv3EISleU7qZUzoXDFTAHTDC4NOoG/ZxU3EvlMPQ==
 
-has-flag@^5.0.0:
-  version "5.0.1"
-  resolved "https://registry.yarnpkg.com/has-flag/-/has-flag-5.0.1.tgz#5483db2ae02a472d1d0691462fc587d1843cd940"
-  integrity sha512-CsNUt5x9LUdx6hnk/E2SZLsDyvfqANZSUq4+D3D8RzDJ2M+HDTIkF60ibS1vHaK55vzgiZw1bEPFG9yH7l33wA==
-
 has-symbols@^1.0.1, has-symbols@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/has-symbols/-/has-symbols-1.0.2.tgz#165d3070c00309752a1236a479331e3ac56f1423"
@@ -9021,7 +9016,7 @@ license-webpack-plugin@2.3.20:
     "@types/webpack-sources" "^0.1.5"
     webpack-sources "^1.2.0"
 
-lilconfig@^2.0.3:
+lilconfig@2.0.4, lilconfig@^2.0.3:
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/lilconfig/-/lilconfig-2.0.4.tgz#f4507d043d7058b380b6a8f5cb7bcd4b34cee082"
   integrity sha512-bfTIN7lEsiooCocSISTWXkiWJkRqtL9wYtYy+8EK3Y41qh3mpwPU0ycTOgjdY9ErwXCc8QyrQp82bdL0Xkm9yA==
@@ -9036,23 +9031,25 @@ linkifyjs@^3.0.3:
   resolved "https://registry.yarnpkg.com/linkifyjs/-/linkifyjs-3.0.3.tgz#51ea2160b4c60c2c87c27757a1e9eacd422c6076"
   integrity sha512-ba5opS5wRHSbDC8VaiDdN14nPGm6LqyRsIPQZGG4qXV4scFdrPneT/uoZOaq9QAPBf6W9I9D/6tNSzWH//815Q==
 
-lint-staged@^12.0.2:
-  version "12.0.2"
-  resolved "https://registry.yarnpkg.com/lint-staged/-/lint-staged-12.0.2.tgz#b0f96f2a57898658a5b59e087aeff975dad03fc1"
-  integrity sha512-tpCvACqc7bykziGJmXG0G8YG2RaCrWiDBwmrP9wU7i/3za9JMOvCECQmXjw/sO4ICC70ApVwyqixS1htQX9Haw==
+lint-staged@^12.1.2:
+  version "12.1.2"
+  resolved "https://registry.yarnpkg.com/lint-staged/-/lint-staged-12.1.2.tgz#90c571927e1371fc133e720671dd7989eab53f74"
+  integrity sha512-bSMcQVqMW98HLLLR2c2tZ+vnDCnx4fd+0QJBQgN/4XkdspGRPc8DGp7UuOEBe1ApCfJ+wXXumYnJmU+wDo7j9A==
   dependencies:
-    cli-truncate "3.1.0"
+    cli-truncate "^3.1.0"
     colorette "^2.0.16"
     commander "^8.3.0"
-    cosmiconfig "^7.0.1"
     debug "^4.3.2"
+    enquirer "^2.3.6"
     execa "^5.1.1"
+    lilconfig "2.0.4"
     listr2 "^3.13.3"
     micromatch "^4.0.4"
     normalize-path "^3.0.0"
-    object-inspect "1.11.0"
-    string-argv "0.3.1"
-    supports-color "9.0.2"
+    object-inspect "^1.11.0"
+    string-argv "^0.3.1"
+    supports-color "^9.0.2"
+    yaml "^1.10.2"
 
 listr2@^3.13.3, listr2@^3.8.3:
   version "3.13.4"
@@ -9775,7 +9772,7 @@ ng-heroicon@^0.4.5:
   dependencies:
     tslib "^2.0.0"
 
-ng-packagr@^12.1.1:
+ng-packagr@^12.2.0:
   version "12.2.5"
   resolved "https://registry.yarnpkg.com/ng-packagr/-/ng-packagr-12.2.5.tgz#94e965102bdeca672e942f9b7b5e203f9abe2262"
   integrity sha512-iNxX8lgAMNYAfXDBJomD7SeFpG47uoyKkGCWQo78AlFS4q3fGiFEIRrX842MTuASshYVAqMaBkaKPOajPx7VXw==
@@ -10192,7 +10189,7 @@ object-hash@^2.2.0:
   resolved "https://registry.yarnpkg.com/object-hash/-/object-hash-2.2.0.tgz#5ad518581eefc443bd763472b8ff2e9c2c0d54a5"
   integrity sha512-gScRMn0bS5fH+IuwyIFgnh9zBdo4DV+6GhygmWM9HyNJSgS0hScp1f5vjtm7oIIOiT9trXrShAkLFSc2IqKNgw==
 
-object-inspect@1.11.0, object-inspect@^1.11.0, object-inspect@^1.9.0:
+object-inspect@^1.11.0, object-inspect@^1.9.0:
   version "1.11.0"
   resolved "https://registry.yarnpkg.com/object-inspect/-/object-inspect-1.11.0.tgz#9dceb146cedd4148a0d9e51ab88d34cf509922b1"
   integrity sha512-jp7ikS6Sd3GxQfZJPyH3cjcbJF6GZPClgdV+EFygjFLQ5FmW/dRUnTd9PQ9k0JhoNDabWFbpF1yCdSWCC6gexg==
@@ -13004,7 +13001,7 @@ stream-shift@^1.0.0:
   resolved "https://registry.yarnpkg.com/stream-shift/-/stream-shift-1.0.1.tgz#d7088281559ab2778424279b0877da3c392d5a3d"
   integrity sha512-AiisoFqQ0vbGcZgQPY1cdP2I76glaVA/RauYR4G4thNFgkTqr90yXTo4LYX60Jl+sIlPNHHdGSwo01AvbKUSVQ==
 
-string-argv@0.3.1:
+string-argv@^0.3.1:
   version "0.3.1"
   resolved "https://registry.yarnpkg.com/string-argv/-/string-argv-0.3.1.tgz#95e2fbec0427ae19184935f816d74aaa4c5c19da"
   integrity sha512-a1uQGz7IyVy9YwhqjZIZu1c8JO8dNIe20xBmSS6qu9kv++k3JGzCVmprbNN5Kn+BgzD5E7YYwg1CcjuJMRNsvg==
@@ -13339,13 +13336,6 @@ stylus@^0.55.0:
     semver "^6.3.0"
     source-map "^0.7.3"
 
-supports-color@9.0.2:
-  version "9.0.2"
-  resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-9.0.2.tgz#50f082888e4b0a4e2ccd2d0b4f9ef4efcd332485"
-  integrity sha512-ii6tc8ImGFrgMPYq7RVAMKkhPo9vk8uA+D3oKbJq/3Pk2YSMv1+9dUAesa9UxMbxBTvxwKTQffBahNVNxEvM8Q==
-  dependencies:
-    has-flag "^5.0.0"
-
 supports-color@^5.3.0:
   version "5.5.0"
   resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-5.5.0.tgz#e2e69a44ac8772f78a1ec0b35b689df6530efc8f"
@@ -13373,6 +13363,11 @@ supports-color@^8.0.0, supports-color@^8.1.1:
   integrity sha512-MpUEN2OodtUzxvKQl72cUF7RQ5EiHsGvSsVG0ia9c5RbWGL2CI4C7EpPS8UTBIplnlzZiNuV56w+FuNxy3ty2Q==
   dependencies:
     has-flag "^4.0.0"
+
+supports-color@^9.0.2:
+  version "9.1.0"
+  resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-9.1.0.tgz#558963681dafeff41ed68220488cbf438d29f351"
+  integrity sha512-lOCGOTmBSN54zKAoPWhHkjoqVQ0MqgzPE5iirtoSixhr0ZieR/6l7WZ32V53cvy9+1qghFnIk7k52p991lKd6g==
 
 supports-hyperlinks@^2.0.0:
   version "2.2.0"

@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { BaseResponse, MY_TIME_API_PATH, Pagination, PagingResponse } from '@nexthcm/cdk';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { CheckInPayload, CheckOutPayload, TimeKeepingLog, WorkingHours, WorkingInfoCurrentMonth } from '../models';
+import { CheckInOutPayload, TimeKeepingLog, WorkingHours, WorkingInfoCurrentMonth } from '../models';
 
 @Injectable()
 export class MyTimeService {
@@ -24,17 +24,13 @@ export class MyTimeService {
   }
 
   getTimekeepingLog(): Observable<TimeKeepingLog> {
-    return this.http.get<BaseResponse<TimeKeepingLog>>(`${MY_TIME_API_PATH}/check-in-out`).pipe(
+    return this.http.get<BaseResponse<TimeKeepingLog>>(`${MY_TIME_API_PATH}/status-check-in-out`).pipe(
       map((res) => res.data),
       catchError(() => of({} as TimeKeepingLog))
     );
   }
 
-  checkIn(id: string, payload: CheckInPayload): Observable<unknown> {
-    return this.http.put<unknown>(`${MY_TIME_API_PATH}/check-in/${id}`, payload);
-  }
-
-  checkOut(id: string, payload: CheckOutPayload): Observable<unknown> {
-    return this.http.put<unknown>(`${MY_TIME_API_PATH}/check-out/${id}`, payload);
+  checkInOut(payload: CheckInOutPayload): Observable<unknown> {
+    return this.http.post<unknown>(`${MY_TIME_API_PATH}/check-in-out`, payload);
   }
 }
