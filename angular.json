@@ -808,7 +808,7 @@
         "publish": {
           "builder": "@nrwl/workspace:run-commands",
           "options": {
-            "command": "yarn transloco-optimize && yarn publish dist/libs/core"
+            "command": "yarn publish dist/libs/core"
           }
         }
       },
@@ -853,7 +853,7 @@
         "publish": {
           "builder": "@nrwl/workspace:run-commands",
           "options": {
-            "command": "yarn transloco-optimize && yarn publish dist/libs/cron-builder"
+            "command": "yarn publish dist/libs/cron-builder"
           }
         }
       },
@@ -1393,6 +1393,25 @@
                 {
                   "replace": "apps/nexthcm-web/src/environments/environment.ts",
                   "with": "apps/nexthcm-web/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "local": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "apps/nexthcm-web/src/environments/environment.ts",
+                  "with": "apps/nexthcm-web/src/environments/environment.local.ts"
                 }
               ],
               "outputHashing": "all"
