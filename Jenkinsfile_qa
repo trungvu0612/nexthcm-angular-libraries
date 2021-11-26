@@ -13,7 +13,7 @@ pipeline {
     stage('Build web') {
       steps {
         sh 'yarn'
-        sh 'yarn build -c ${ENVIRONMENT} && transloco-optimize:hcm-web'
+        sh 'yarn build -c ${ENVIRONMENT} && yarn transloco-optimize:hcm-web'
       }
     }
     stage('Docker push') {
