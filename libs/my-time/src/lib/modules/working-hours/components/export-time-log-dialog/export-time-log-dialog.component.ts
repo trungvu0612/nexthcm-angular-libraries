@@ -109,8 +109,8 @@ export class ExportTimeLogDialogComponent {
         dateRange: { from, to },
         exportType,
       } = this.form.value;
-      const fromDate = from.toUtcNativeDate();
-      const toDate = to.toUtcNativeDate();
+      const fromDate = from.toLocalNativeDate();
+      const toDate = to.toLocalNativeDate();
 
       this.export$.next({ fromDate, toDate, exportType });
     }

@@ -10,7 +10,7 @@ import { isPresent } from '@taiga-ui/cdk';
 import { Columns } from 'ngx-easy-table';
 import { combineLatest, Observable, of } from 'rxjs';
 import { catchError, filter, map, shareReplay, startWith, switchMap } from 'rxjs/operators';
-import { AbstractRequestListComponent } from '../../../../internal/abstract';
+import { AbstractMyRequestListComponent } from '../../../../internal/abstract/my-request-list-component';
 import { TRANSLATION_SCOPE } from '../../../../internal/constants';
 import { TransferLeaveEntitlementsRequest } from '../../../../internal/models';
 import { MyRequestsService, RequestDetailDialogService } from '../../../../internal/services';
@@ -22,7 +22,7 @@ import { MyRequestsService, RequestDetailDialogService } from '../../../../inter
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [RxState],
 })
-export class MyTransferLeaveEntitlementsRequestsComponent extends AbstractRequestListComponent<TransferLeaveEntitlementsRequest> {
+export class MyTransferLeaveEntitlementsRequestsComponent extends AbstractMyRequestListComponent<TransferLeaveEntitlementsRequest> {
   readonly requestTypeUrlPath = 'transferLeaveEntitlements';
   readonly columns$: Observable<Columns[]> = this.translocoService
     .selectTranslateObject('MY_TIME_REQUEST_LIST_COLUMNS', {}, TRANSLATION_SCOPE)
@@ -62,9 +62,9 @@ export class MyTransferLeaveEntitlementsRequestsComponent extends AbstractReques
     readonly requestDetailDialogService: RequestDetailDialogService,
     readonly translocoService: TranslocoService,
     readonly promptService: PromptService,
-    private readonly authService: AuthService
+    readonly authService: AuthService
   ) {
-    super(state, activatedRoute);
+    super(state, activatedRoute, authService);
     state.connect(this.request$.pipe(filter(isPresent)));
   }
 }

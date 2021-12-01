@@ -10,7 +10,7 @@ import { isPresent } from '@taiga-ui/cdk';
 import { Columns } from 'ngx-easy-table';
 import { combineLatest, Observable, of } from 'rxjs';
 import { catchError, filter, map, shareReplay, startWith, switchMap } from 'rxjs/operators';
-import { AbstractRequestListComponent } from '../../../../internal/abstract';
+import { AbstractMyRequestListComponent } from '../../../../internal/abstract/my-request-list-component';
 import { TRANSLATION_SCOPE } from '../../../../internal/constants';
 import { UpdateTimesheetRequest } from '../../../../internal/models';
 import { MyRequestsService, RequestDetailDialogService } from '../../../../internal/services';
@@ -22,8 +22,7 @@ import { MyRequestsService, RequestDetailDialogService } from '../../../../inter
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [RxState],
 })
-export class MyUpdateTimesheetRequestsComponent extends AbstractRequestListComponent<UpdateTimesheetRequest> {
-  readonly userId = this.authService.get('userInfo', 'userId');
+export class MyUpdateTimesheetRequestsComponent extends AbstractMyRequestListComponent<UpdateTimesheetRequest> {
   readonly requestTypeUrlPath = 'updateTimesheet';
   readonly columns$: Observable<Columns[]> = this.translocoService
     .selectTranslateObject('MY_TIME_REQUEST_LIST_COLUMNS', {}, TRANSLATION_SCOPE)
@@ -70,9 +69,9 @@ export class MyUpdateTimesheetRequestsComponent extends AbstractRequestListCompo
     readonly requestDetailDialogService: RequestDetailDialogService,
     readonly translocoService: TranslocoService,
     readonly promptService: PromptService,
-    private readonly authService: AuthService
+    readonly authService: AuthService
   ) {
-    super(state, activatedRoute);
+    super(state, activatedRoute, authService);
     state.connect(this.request$.pipe(filter(isPresent)));
   }
 }

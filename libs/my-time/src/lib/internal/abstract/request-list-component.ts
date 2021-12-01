@@ -1,4 +1,5 @@
 import { HttpParams } from '@angular/common/http';
+import { Directive, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NewAbstractServerSortPaginationTableComponent, Pagination, PromptService, WorkflowStatus } from '@nexthcm/cdk';
 import { TranslocoService } from '@ngneat/transloco';
@@ -8,7 +9,11 @@ import { startWith, switchMap, tap } from 'rxjs/operators';
 import { RequestTypeUrlPaths } from '../models';
 import { MyRequestsService, RequestDetailDialogService } from '../services';
 
-export abstract class AbstractRequestListComponent<T> extends NewAbstractServerSortPaginationTableComponent<T> {
+@Directive()
+export abstract class AbstractRequestListComponent<T>
+  extends NewAbstractServerSortPaginationTableComponent<T>
+  implements OnInit
+{
   abstract requestTypeUrlPath: keyof RequestTypeUrlPaths;
   abstract myRequestsService: MyRequestsService;
   abstract requestDetailDialogService: RequestDetailDialogService;
@@ -44,7 +49,7 @@ export abstract class AbstractRequestListComponent<T> extends NewAbstractServerS
   );
   readonly viewRequestDetailHandler$ = this.viewRequestDetail$.pipe(
     switchMap(([id, userId]) => this.requestDetailDialogService.viewRequestDetail(this.requestTypeUrlPath, id, userId)),
-    tap(() => this.fetch$.next())
+    tap(() => this.setQueryParams('id', null))
   );
 
   protected constructor(readonly state: RxState<Pagination<T>>, readonly activatedRoute: ActivatedRoute) {
@@ -52,7 +57,18 @@ export abstract class AbstractRequestListComponent<T> extends NewAbstractServerS
     state.hold(this.viewRequestDetailHandler$);
   }
 
+  get requestId(): string | null {
+    return this.activatedRoute.snapshot.queryParamMap.get('id');
+  }
+
+  ngOnInit(): void {
+    if (this.requestId) {
+      this.viewRequestDetail$.next([this.requestId, undefined]);
+    }
+  }
+
   onViewEmployeeRequestDetail(id: string, userId?: string): void {
+    this.setQueryParams('id', id);
     this.viewRequestDetail$.next([id, userId]);
   }
 

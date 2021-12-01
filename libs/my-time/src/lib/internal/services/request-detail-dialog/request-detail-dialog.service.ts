@@ -1,8 +1,8 @@
 import { Injectable, Injector } from '@angular/core';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
-import { Observable } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { catchError, switchMap } from 'rxjs/operators';
 import { RequestTypeUrlPaths } from '../../models';
 import { MyRequestsService } from '../my-requests.service';
 import { RequestDetailDialogComponent } from './request-detail-dialog.component';
@@ -24,8 +24,10 @@ export class RequestDetailDialogService {
             value: res.data,
             userId,
           },
+          required: true,
         })
-      )
+      ),
+      catchError(() => of(true))
     );
   }
 }

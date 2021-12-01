@@ -11,7 +11,7 @@ import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { Columns } from 'ngx-easy-table';
 import { combineLatest, from, Observable, of, Subject } from 'rxjs';
 import { catchError, filter, map, share, shareReplay, startWith, switchMap, tap } from 'rxjs/operators';
-import { AbstractRequestListComponent } from '../../internal/abstract';
+import { AbstractMyRequestListComponent } from '../../internal/abstract/my-request-list-component';
 import {
   CreateLeaveRequestDialogComponent,
   CreateTransferLeaveEntitlementRequestComponent,
@@ -27,7 +27,7 @@ import { MyLeaveService, MyRequestsService, RequestDetailDialogService } from '.
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [RxState],
 })
-export class MyLeaveComponent extends AbstractRequestListComponent<LeaveRequest> {
+export class MyLeaveComponent extends AbstractMyRequestListComponent<LeaveRequest> {
   readonly requestTypeUrlPath = 'leave';
   readonly columns$: Observable<Columns[]> = this.translocoService
     .selectTranslateObject('MY_LEAVE_TABLE_COLUMNS', {}, TRANSLATION_SCOPE)
@@ -89,12 +89,12 @@ export class MyLeaveComponent extends AbstractRequestListComponent<LeaveRequest>
     readonly requestDetailDialogService: RequestDetailDialogService,
     readonly translocoService: TranslocoService,
     readonly promptService: PromptService,
+    readonly authService: AuthService,
     private readonly injector: Injector,
-    private readonly authService: AuthService,
     private readonly dialogService: TuiDialogService,
     private readonly myLeaveService: MyLeaveService
   ) {
-    super(state, activatedRoute);
+    super(state, activatedRoute, authService);
     state.connect(this.request$.pipe(filter(isPresent)));
     state.hold(
       this.createLeaveRequestHandler$.pipe(
@@ -114,10 +114,6 @@ export class MyLeaveComponent extends AbstractRequestListComponent<LeaveRequest>
         )
       )
     );
-  }
-
-  get userId(): string {
-    return this.authService.get('userInfo', 'userId');
   }
 
   private openCreateLeaveRequestDialog(data: RemainingLeaveEntitlement[]): Observable<unknown> {
