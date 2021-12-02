@@ -1,11 +1,5 @@
-<section *transloco="let t" class="grid grid-cols-7 gap-4 items-center">
-  <hcm-input-number-filter
-    (valueChange)="year$.next($event)"
-    [label]="t('year')"
-    propertyName="year"
-  ></hcm-input-number-filter>
-
-  <hcm-select-month-filter (monthChange)="month$.next($event)" class="col-span-2"></hcm-select-month-filter>
+<section *transloco="let t" class="grid grid-cols-6 gap-4 items-center">
+  <hcm-input-date-range-filter (datesChange)="dates$.next($event)" class="col-span-2"></hcm-input-date-range-filter>
 
   <hcm-workflow-status-combo-box-filter
     (valueChange)="onFilterByWorkflowStatuses($event)"

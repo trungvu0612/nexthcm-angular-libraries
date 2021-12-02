@@ -5,6 +5,7 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, NgModule, OnIn
 import { ActivatedRoute, convertToParamMap, Params, UrlSerializer } from '@angular/router';
 import {
   BasicFilterComponentModule,
+  InputDateRangeFilterComponentModule,
   InputFilterComponentModule,
   InputNumberFilterComponentModule,
   SelectMonthFilterComponentModule,
@@ -12,12 +13,12 @@ import {
 } from '@nexthcm/ui';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
-import { tuiDefaultProp } from '@taiga-ui/cdk';
+import { TuiDayRange, tuiDefaultProp } from '@taiga-ui/cdk';
 import { TuiStringHandler } from '@taiga-ui/cdk/types';
-import { endOfMonth, endOfYear, setMonth, setYear, startOfMonth, startOfYear } from 'date-fns';
+import { endOfDay, startOfDay } from 'date-fns';
 import omit from 'just-omit';
-import { BehaviorSubject, combineLatest, Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, skip } from 'rxjs/operators';
+import { BehaviorSubject, Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 const getLabel: Record<string, string> = {
   MY_TEAM: 'myTeam',
@@ -36,8 +37,7 @@ export class RequestFiltersComponent implements OnInit {
   @Output() filter = new EventEmitter<HttpParams>();
   @Output() resetParam = new EventEmitter<string>();
 
-  readonly year$ = new BehaviorSubject<number | null>(null);
-  readonly month$ = new BehaviorSubject<number | null>(null);
+  readonly dates$ = new BehaviorSubject<TuiDayRange | null>(null);
   readonly search$ = new Subject<string | null>();
   readonly statusId$ = new Subject<string | null>();
   readonly filterType$ = new Subject<string | null>();
@@ -49,9 +49,7 @@ export class RequestFiltersComponent implements OnInit {
     private readonly locationRef: Location,
     private readonly urlSerializer: UrlSerializer
   ) {
-    state.hold(combineLatest([this.year$.pipe(skip(1), debounceTime(1000), distinctUntilChanged()), this.month$]), () =>
-      this.filterByYearMonth()
-    );
+    state.hold(this.dates$, () => this.filterByDates());
     state.hold(this.search$.pipe(debounceTime(1000), distinctUntilChanged()), (search) =>
       this.onFilter('search', search ? search : null)
     );
@@ -103,34 +101,18 @@ export class RequestFiltersComponent implements OnInit {
 
   readonly getFilterLabel: TuiStringHandler<string> = (filter: string): string => `${getLabel[filter]}`;
 
-  private filterByYearMonth(): void {
-    if (!this.year$.value) {
-      this.httpParams = this.httpParams.delete('fromDate').delete('toDate');
-    } else {
-      let fromDate: number;
-      let toDate: number;
-      const NOW = new Date();
-
-      if (this.month$.value !== null) {
-        fromDate = startOfMonth(setMonth(setYear(NOW, Number(this.year$.value)), this.month$.value)).valueOf();
-        toDate = endOfMonth(setMonth(setYear(NOW, Number(this.year$.value)), this.month$.value)).valueOf();
-      } else {
-        fromDate = startOfYear(setYear(NOW, Number(this.year$.value))).valueOf();
-        toDate = endOfYear(setYear(NOW, Number(this.year$.value))).valueOf();
-      }
-      this.httpParams = this.httpParams.set('fromDate', fromDate).set('toDate', toDate);
-    }
+  private filterByDates(): void {
+    this.httpParams = this.dates$.value
+      ? this.httpParams
+          .set('fromDate', startOfDay(this.dates$.value.from.toLocalNativeDate()).getTime())
+          .set('toDate', endOfDay(this.dates$.value.to.toLocalNativeDate()).getTime())
+      : this.httpParams.delete('fromDate').delete('toDate');
     this.filter.emit(this.httpParams);
   }
 
   private parseParams(params: Params): void {
-    if (params.year) {
-      if (!isNaN(Number(params.year))) {
-        this.year$.next(+params.year);
-        if (params.month && !isNaN(Number(params.month))) {
-          this.month$.next(params.month);
-        }
-      }
+    if (params.dates) {
+      this.dates$.next(TuiDayRange.normalizeParse(params.dates));
     }
     if (params.search) {
       this.search$.next(params.search);
@@ -163,6 +145,7 @@ export class RequestFiltersComponent implements OnInit {
     WorkflowStatusComboBoxFilterComponentModule,
     BasicFilterComponentModule,
     InputNumberFilterComponentModule,
+    InputDateRangeFilterComponentModule,
   ],
   exports: [RequestFiltersComponent],
 })
