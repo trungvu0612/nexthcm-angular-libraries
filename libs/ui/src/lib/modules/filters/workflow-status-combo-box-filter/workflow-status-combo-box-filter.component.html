@@ -1,7 +1,7 @@
 <tui-multi-select
   (ngModelChange)="onSelectStatus($event)"
   (searchChange)="search$.next($event)"
-  *tuiLet="statuses$ | push as items"
+  *tuiLet="statuses$ | async as items"
   [identityMatcher]="identityMatcher"
   [ngModel]="statuses"
   [stringify]="stringify"

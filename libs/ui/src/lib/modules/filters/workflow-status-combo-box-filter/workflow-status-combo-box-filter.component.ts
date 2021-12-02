@@ -1,25 +1,16 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { ChangeDetectionStrategy, Component, EventEmitter, NgModule, OnInit, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, UrlSerializer } from '@angular/router';
 import { WorkflowsService, WorkflowStatus } from '@nexthcm/cdk';
 import { TranslocoModule } from '@ngneat/transloco';
-import { PushModule } from '@rx-angular/template';
 import { isPresent, TuiContextWithImplicit, TuiDestroyService, TuiIdentityMatcher, TuiLetModule } from '@taiga-ui/cdk';
 import { TuiStringHandler } from '@taiga-ui/cdk/types';
 import { TuiDataListModule, TuiLoaderModule, TuiTextfieldControllerModule } from '@taiga-ui/core';
 import { TuiDataListWrapperModule, TuiMultiSelectModule, TuiTagModule } from '@taiga-ui/kit';
+import omit from 'just-omit';
 import { Observable, Subject } from 'rxjs';
-import {
-  debounceTime,
-  distinctUntilChanged,
-  filter,
-  shareReplay,
-  startWith,
-  switchMap,
-  take,
-  takeUntil,
-} from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, filter, startWith, switchMap, take, takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'hcm-workflow-status-combo-box-filter',
@@ -37,23 +28,23 @@ export class WorkflowStatusComboBoxFilterComponent implements OnInit {
     debounceTime(500),
     distinctUntilChanged(),
     switchMap((search) => this.workflowsService.searchWorkflowStatuses(search).pipe(startWith(null))),
-    startWith([]),
-    shareReplay(1)
+    startWith([])
   );
   statuses: WorkflowStatus[] = [];
-  statusId = this.activatedRoute.snapshot.queryParams.status || '';
+  statusIds = this.activatedRoute.snapshot.queryParams.status || '';
 
   constructor(
     private readonly workflowsService: WorkflowsService,
-    private readonly router: Router,
     private readonly activatedRoute: ActivatedRoute,
+    private readonly locationRef: Location,
+    private readonly urlSerializer: UrlSerializer,
     private readonly destroy$: TuiDestroyService
   ) {}
 
   ngOnInit(): void {
-    if (this.statusId) {
+    if (this.statusIds) {
       this.workflowsService
-        .getWorkflowStatus(this.statusId)
+        .getWorkflowStatus(this.statusIds)
         .pipe(take(1), takeUntil(this.destroy$))
         .subscribe((statuses) => {
           this.statuses = statuses;
@@ -69,14 +60,12 @@ export class WorkflowStatusComboBoxFilterComponent implements OnInit {
 
   onSelectStatus(values: WorkflowStatus[]): void {
     const ids = values.map((value) => value.id).join(',');
+    const tree = this.urlSerializer.parse(this.locationRef.path());
 
     this.statuses = values;
     this.valueChange.emit(ids);
-    this.router.navigate([], {
-      queryParams: { status: values.length ? ids : null },
-      queryParamsHandling: 'merge',
-      replaceUrl: true,
-    });
+    tree.queryParams = values.length ? { ...tree.queryParams, status: ids } : omit(tree.queryParams, 'status');
+    this.locationRef.go(String(tree));
   }
 }
 
@@ -93,7 +82,6 @@ export class WorkflowStatusComboBoxFilterComponent implements OnInit {
     TuiMultiSelectModule,
     TuiDataListWrapperModule,
     TuiLetModule,
-    PushModule,
   ],
   exports: [WorkflowStatusComboBoxFilterComponent],
 })
