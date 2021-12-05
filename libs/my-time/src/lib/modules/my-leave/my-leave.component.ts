@@ -69,7 +69,13 @@ export class MyLeaveComponent extends AbstractMyRequestListComponent<LeaveReques
   readonly createConvertLeaveEntitlementRequestLoading$ = this.createConvertLeaveEntitlementRequestHandler$.pipe(
     map((value) => !value)
   );
-  private readonly request$ = this.fetch$.pipe(
+  private readonly request$ = combineLatest([
+    this.fetch$,
+    this.myRequestsService.refresh$.pipe(
+      filter((type) => type === this.requestTypeUrlPath),
+      startWith(null)
+    ),
+  ]).pipe(
     switchMap(() =>
       this.myRequestsService.getRequests<LeaveRequest>('myLeave', this.queryParams).pipe(startWith(null))
     ),
