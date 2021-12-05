@@ -60,18 +60,20 @@
               </div>
             </td>
           </tr>
-          <tr *ngIf="seat.statusCheckInOutOfUser?.inTime !== undefined">
-            <th>{{ t('inTime') }}:</th>
-            <td *tuiLet="seat.statusCheckInOutOfUser.inTime as inTime">
-              {{ (inTime || 0) * 1000 | date: 'HH:mm':'UTC' }}
-            </td>
-          </tr>
-          <tr *ngIf="seat.statusCheckInOutOfUser?.inTime !== undefined">
-            <th>{{ t('outTime') }}:</th>
-            <td *tuiLet="seat.statusCheckInOutOfUser.outTime as outTime">
-              {{ (outTime || 0) * 1000 | date: 'HH:mm':'UTC' }}
-            </td>
-          </tr>
+          <ng-container *ngIf="seat.statusCheckInOutOfUser">
+            <tr>
+              <th>{{ t('inTime') }}:</th>
+              <td *tuiLet="seat.statusCheckInOutOfUser.inTime as inTime">
+                {{ (inTime || 0) * 1000 | date: 'HH:mm':'UTC' }}
+              </td>
+            </tr>
+            <tr>
+              <th>{{ t('outTime') }}:</th>
+              <td *tuiLet="seat.statusCheckInOutOfUser.outTime as outTime">
+                {{ (outTime || 0) * 1000 | date: 'HH:mm':'UTC' }}
+              </td>
+            </tr>
+          </ng-container>
           <tr>
             <th>{{ t('organization') }}:</th>
             <td>{{ user.organization?.name }}</td>

@@ -35,7 +35,13 @@ export class WorkingAfterHoursRequestListComponent extends AbstractRequestListCo
         { key: '', title: result.functions, orderEnabled: false },
       ])
     );
-  private readonly request$ = combineLatest([this.fetch$, this.myRequestsService.refresh$.pipe(startWith(null))]).pipe(
+  private readonly request$ = combineLatest([
+    this.fetch$,
+    this.myRequestsService.refresh$.pipe(
+      filter((type) => type === this.requestTypeUrlPath),
+      startWith(null)
+    ),
+  ]).pipe(
     switchMap(() =>
       this.myRequestsService
         .getRequests<WorkingAfterHoursRequest>(this.requestTypeUrlPath, this.queryParams)

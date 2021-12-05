@@ -47,7 +47,13 @@ export class MyUpdateTimesheetRequestsComponent extends AbstractMyRequestListCom
       ])
     );
   queryParams = new HttpParams().set('page', 0).set('size', 10).set('userId', this.userId);
-  private readonly request$ = this.fetch$.pipe(
+  private readonly request$ = combineLatest([
+    this.fetch$,
+    this.myRequestsService.refresh$.pipe(
+      filter((type) => type === this.requestTypeUrlPath),
+      startWith(null)
+    ),
+  ]).pipe(
     switchMap(() =>
       this.myRequestsService
         .getRequests<UpdateTimesheetRequest>('myUpdateTimesheet', this.queryParams)

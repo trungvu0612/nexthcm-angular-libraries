@@ -63,6 +63,7 @@ export class MyRequestsService {
     return this.http
       .put(`${MY_TIME_API_PATH}/${REQUEST_DETAIL_URL_PATHS[type]}/${requestId}`, { request: { nextState } })
       .pipe(
+        tap(() => this.refreshSubject.next(type)),
         catchError((err) =>
           from(
             this.promptService.open({
@@ -74,8 +75,10 @@ export class MyRequestsService {
       );
   }
 
-  getRequest(type: keyof RequestTypeUrlPaths, id: string): Observable<BaseResponse<GeneralRequest>> {
-    return this.http.get<BaseResponse<GeneralRequest>>(`${MY_TIME_API_PATH}/${REQUEST_DETAIL_URL_PATHS[type]}/${id}`);
+  getRequest(type: keyof RequestTypeUrlPaths, id: string): Observable<GeneralRequest> {
+    return this.http.get<BaseResponse<GeneralRequest>>(`${MY_TIME_API_PATH}/${REQUEST_DETAIL_URL_PATHS[type]}/${id}`).pipe(
+      map((res) => res.data)
+    );
   }
 
   generateSubmittingLeaveRequestErrorMessage(error: SubmitLeaveRequestHttpErrorResponse): string {

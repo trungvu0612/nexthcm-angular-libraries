@@ -41,7 +41,13 @@ export class UpdateTimesheetRequestListComponent extends AbstractRequestListComp
         { key: '', title: result.functions, orderEnabled: false },
       ])
     );
-  private readonly request$ = this.fetch$.pipe(
+  private readonly request$ = combineLatest([
+    this.fetch$,
+    this.myRequestsService.refresh$.pipe(
+      filter((type) => type === this.requestTypeUrlPath),
+      startWith(null)
+    ),
+  ]).pipe(
     switchMap(() =>
       this.myRequestsService
         .getRequests<UpdateTimesheetRequest>(this.requestTypeUrlPath, this.queryParams)

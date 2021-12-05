@@ -2,14 +2,15 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Inject, NgModule, OnInit, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '@nexthcm/auth';
-import { EmployeeInfo, PromptService } from '@nexthcm/cdk';
+import { EmployeeInfo, PromptService, WorkflowStatus } from '@nexthcm/cdk';
 import { AvatarComponentModule } from '@nexthcm/ui';
 import { Control, FormBuilder, NgStackFormsModule } from '@ng-stack/forms';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { TranslocoLocaleModule } from '@ngneat/transloco-locale';
 import { FormlyFieldConfig, FormlyModule } from '@ngx-formly/core';
 import { RxState } from '@rx-angular/state';
-import { TuiDestroyService, TuiIdentityMatcher, TuiLetModule, TuiStringHandler } from '@taiga-ui/cdk';
+import { LetModule, PushModule } from '@rx-angular/template';
+import { isPresent, TuiDestroyService, TuiIdentityMatcher, TuiLetModule, TuiStringHandler } from '@taiga-ui/cdk';
 import {
   TuiButtonModule,
   TuiDataListModule,
@@ -17,6 +18,7 @@ import {
   TuiDropdownControllerModule,
   TuiHostedDropdownComponent,
   TuiHostedDropdownModule,
+  TuiLoaderModule,
   TuiSvgModule,
   TuiTextfieldControllerModule,
 } from '@taiga-ui/core';
@@ -30,8 +32,8 @@ import {
   TuiTagModule,
 } from '@taiga-ui/kit';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
-import { EMPTY, from, iif, Subject } from 'rxjs';
-import { switchMap, takeUntil, tap } from 'rxjs/operators';
+import { combineLatest, EMPTY, from, iif, of, Subject } from 'rxjs';
+import { catchError, filter, map, share, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { LeaveRequestDateRangeComponentModule } from '../../components';
 import { REQUEST_COMMENT_URL_PATHS } from '../../constants';
 import { RequestCommentStatus } from '../../enums';
@@ -39,6 +41,7 @@ import { GeneralRequest, HistoryItem, RequestComment, RequestTypeUrlPaths } from
 import { MyRequestsService } from '../my-requests.service';
 
 interface ComponentState {
+  data: GeneralRequest;
   history: HistoryItem[];
   comments: RequestComment[];
 }
@@ -57,7 +60,7 @@ interface RequestCommentForm extends RequestComment {
 export class RequestDetailDialogComponent implements OnInit {
   @ViewChild(TuiHostedDropdownComponent) component?: TuiHostedDropdownComponent;
 
-  readonly escalateUsers$ = this.myRequestsService.getEscalateUsers(this.requestType, this.data.id);
+  readonly escalateUsers$ = this.myRequestsService.getEscalateUsers(this.requestType, this.requestId);
   open = false;
   inputComment = false;
   readonly RequestCommentStatus = RequestCommentStatus;
@@ -70,27 +73,37 @@ export class RequestDetailDialogComponent implements OnInit {
       templateOptions: { textfieldLabelOutside: true, required: true },
     },
     { key: 'id' },
-    { key: 'objectId', defaultValue: this.data.id },
+    { key: 'objectId', defaultValue: this.requestId },
     { key: 'type', defaultValue: REQUEST_COMMENT_URL_PATHS[this.requestType] },
     { key: 'state', defaultValue: RequestCommentStatus.Active },
   ];
 
   // READS
+
+  readonly data$ = this.state.select('data');
   readonly history$ = this.state.select('history');
   readonly comments$ = this.state.select('comments');
 
   // EVENTS
+
+  readonly fetch$ = new Subject<void>();
   readonly getComments$ = new Subject<void>();
   readonly getHistory$ = new Subject<void>();
   readonly changeEscalateUser$ = new Subject<EmployeeInfo>();
   readonly submitComment$ = new Subject<RequestComment>();
+  readonly changeStatus$ = new Subject<WorkflowStatus>();
 
   // HANDLERS
+
+  readonly request$ = this.fetch$.pipe(
+    switchMap(() => this.myRequestsService.getRequest(this.requestType, this.requestId).pipe(startWith(null))),
+    share()
+  );
   readonly getCommentsHandler$ = this.getComments$.pipe(
-    switchMap(() => this.myRequestsService.getRequestComments(this.requestType, this.data.id))
+    switchMap(() => this.myRequestsService.getRequestComments(this.requestType, this.requestId))
   );
   readonly getHistoryHandler$ = this.getHistory$.pipe(
-    switchMap(() => this.myRequestsService.getRequestHistory(this.requestType, this.data.id))
+    switchMap(() => this.myRequestsService.getRequestHistory(this.requestType, this.requestId))
   );
   readonly submitCommentHandler$ = this.submitComment$.pipe(
     switchMap((comment) =>
@@ -102,12 +115,38 @@ export class RequestDetailDialogComponent implements OnInit {
     ),
     tap(this.promptService.handleResponse('', () => this.getComments$.next()))
   );
+  readonly changeStatusHandler$ = this.changeStatus$.pipe(
+    switchMap(({ id, name }) =>
+      from(
+        this.promptService.open({
+          icon: 'question',
+          html: this.translocoService.translate('changeWorkflowStatus', { name }),
+          showCancelButton: true,
+        })
+      ).pipe(
+        switchMap((result) =>
+          iif(
+            () => result.isConfirmed,
+            this.myRequestsService.changeRequestStatus(this.requestType, this.requestId, id).pipe(
+              tap(() => this.fetch$.next()),
+              startWith(null)
+            ),
+            EMPTY
+          )
+        )
+      )
+    )
+  );
+  readonly loading$ = combineLatest([this.request$, this.changeStatusHandler$.pipe(startWith({}))]).pipe(
+    map((values) => values.includes(null)),
+    catchError(() => of(false))
+  );
 
   constructor(
     @Inject(POLYMORPHEUS_CONTEXT)
     private readonly context: TuiDialogContext<
       unknown,
-      { type: keyof RequestTypeUrlPaths; value: GeneralRequest; userId?: string }
+      { type: keyof RequestTypeUrlPaths; value: string; userId?: string }
     >,
     private readonly myRequestsService: MyRequestsService,
     private readonly authService: AuthService,
@@ -117,6 +156,7 @@ export class RequestDetailDialogComponent implements OnInit {
     private readonly promptService: PromptService,
     private readonly translocoService: TranslocoService
   ) {
+    state.connect('data', this.request$.pipe(filter(isPresent)));
     state.connect('history', this.getHistoryHandler$);
     state.connect(
       'comments',
@@ -131,24 +171,17 @@ export class RequestDetailDialogComponent implements OnInit {
     state.hold(
       this.changeEscalateUser$.pipe(
         switchMap((user) =>
-          this.myRequestsService
-            .changeEscalateUser(this.requestType, {
-              objectId: this.data.id,
-              escalateId: user.id,
-            })
-            .pipe(
-              tap(() => {
-                if ('escalateInfo' in this.data) {
-                  this.data.escalateInfo = user;
-                }
-              })
-            )
-        )
+          this.myRequestsService.changeEscalateUser(this.requestType, {
+            objectId: this.requestId,
+            escalateId: user.id,
+          })
+        ),
+        tap(() => this.fetch$.next())
       )
     );
   }
 
-  get data(): GeneralRequest {
+  get requestId(): string {
     return this.context.data.value;
   }
 
@@ -170,6 +203,7 @@ export class RequestDetailDialogComponent implements OnInit {
   readonly stringify: TuiStringHandler<any> = (item: EmployeeInfo) => item.fullName;
 
   ngOnInit(): void {
+    this.fetch$.next();
     this.getHistory$.next();
     this.getComments$.next();
   }
@@ -216,13 +250,10 @@ export class RequestDetailDialogComponent implements OnInit {
     this.commentForm.controls.comment.reset();
   }
 
-  onChangeRequestStatus(statusId: string): void {
+  onChangeRequestStatus(status: WorkflowStatus): void {
     this.open = false;
     this.component?.nativeFocusableElement?.focus();
-    this.myRequestsService
-      .changeRequestStatus(this.requestType, this.data.id, statusId)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(() => this.getHistory$.next());
+    this.changeStatus$.next(status);
   }
 }
 
@@ -252,6 +283,9 @@ export class RequestDetailDialogComponent implements OnInit {
     FormlyModule,
     TuiSelectModule,
     LeaveRequestDateRangeComponentModule,
+    LetModule,
+    TuiLoaderModule,
+    PushModule,
   ],
   exports: [RequestDetailDialogComponent],
 })

@@ -36,7 +36,14 @@ export class LeaveRequestListComponent extends AbstractRequestListComponent<Leav
         { key: '', title: result.functions, orderEnabled: false },
       ])
     );
-  private readonly request$ = combineLatest([this.myLeaveService.refresh$.pipe(startWith(null)), this.fetch$]).pipe(
+  private readonly request$ = combineLatest([
+    this.fetch$,
+    this.myLeaveService.refresh$.pipe(startWith(null)),
+    this.myRequestsService.refresh$.pipe(
+      filter((type) => type === this.requestTypeUrlPath),
+      startWith(null)
+    ),
+  ]).pipe(
     switchMap(() =>
       this.myRequestsService.getRequests<LeaveRequest>(this.requestTypeUrlPath, this.queryParams).pipe(startWith(null))
     ),
