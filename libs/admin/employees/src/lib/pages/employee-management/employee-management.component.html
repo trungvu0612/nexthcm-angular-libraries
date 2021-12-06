@@ -18,6 +18,7 @@
       icon="tuiIconSearchLarge"
       propertyName="search"
     ></hcm-input-filter>
+
     <hcm-select-filter
       (valueChange)="role$.next($event)"
       *tuiLet="rolesList$ | push as roles"
@@ -31,6 +32,18 @@
         </button>
       </tui-data-list>
     </hcm-select-filter>
+
+    <hcm-select-month-filter
+      (monthChange)="birthMonth$.next($event)"
+      propertyName="birthDate"
+      title="employees.monthOfBirth"
+    ></hcm-select-month-filter>
+
+    <hcm-input-date-range-filter
+      (datesChange)="onboardDates$.next($event)"
+      class="col-span-3"
+      title="employees.onboardDates"
+    ></hcm-input-date-range-filter>
   </div>
   <tui-loader [overlay]="true" [showLoader]="(loading$ | push) === true">
     <ngx-table

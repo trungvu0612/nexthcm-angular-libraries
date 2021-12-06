@@ -126,5 +126,7 @@
   "attachmentFiles": "Tệp tin đính kèm",
   "syncLDAPDirectReport": "Đồng bộ người báo cáo trực tiếp từ LDAP",
   "chooseHighestCertificate": "Chọn chứng chỉ...",
-  "dependentMembers": "Người phụ thuộc"
+  "dependentMembers": "Người phụ thuộc",
+  "monthOfBirth": "Tháng sinh",
+  "onboardDates": "Ngày bắt đầu làm việc"
 }

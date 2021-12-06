@@ -2,12 +2,12 @@
   #connector="hcmPropertyRouteName"
   (ngModelChange)="onValueChange(connector, $event)"
   *tuiLet="monthList$ | async as months"
+  [hcmPropertyRouteName]="propertyName"
   [ngModel]="connector.propertyValue"
   [tuiTextfieldCleaner]="true"
   [valueContent]="monthStringify(months || [])"
-  hcmPropertyRouteName="month"
 >
-  {{ 'month' | transloco }}
+  {{ title | transloco }}
   <ng-template tuiDataList>
     <tui-data-list>
       <button *ngFor="let month of months" [value]="month.value" tuiOption>

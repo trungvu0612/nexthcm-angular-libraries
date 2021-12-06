@@ -1,5 +1,5 @@
 import { Location } from '@angular/common';
-import { ChangeDetectionStrategy, Component, EventEmitter, NgModule, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, NgModule, OnInit, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, UrlSerializer } from '@angular/router';
 import { TranslocoModule } from '@ngneat/transloco';
@@ -15,6 +15,7 @@ import omit from 'just-omit';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InputDateRangeFilterComponent implements OnInit {
+  @Input() title = 'dateRange';
   @Output() datesChange = new EventEmitter<TuiDayRange>();
 
   dateRange: TuiDayRange | null = null;

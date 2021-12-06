@@ -14,9 +14,17 @@ import {
 } from '@nexthcm/cdk';
 import { TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
-import { isPresent, TuiContextWithImplicit, TuiDestroyService, tuiPure, TuiStringHandler } from '@taiga-ui/cdk';
+import {
+  isPresent,
+  TuiContextWithImplicit,
+  TuiDayRange,
+  TuiDestroyService,
+  tuiPure,
+  TuiStringHandler,
+} from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
+import { endOfDay, startOfDay } from 'date-fns';
 import { Columns, Config, DefaultConfig } from 'ngx-easy-table';
 import { from, Observable, of, Subject } from 'rxjs';
 import {
@@ -68,6 +76,8 @@ export class EmployeeManagementComponent extends NewAbstractServerSortPagination
   readonly CommonStatus = CommonStatus;
   readonly search$ = new Subject<string | null>();
   readonly role$ = new Subject<string | null>();
+  readonly birthMonth$ = new Subject<number | null>();
+  readonly onboardDates$ = new Subject<TuiDayRange | null>();
   readonly rolesList$ = this.rolesQuery.selectAll();
   private readonly request$ = this.fetch$.pipe(
     switchMap(() => this.adminEmployeesService.getEmployees(this.queryParams).pipe(startWith(null))),
@@ -116,6 +126,14 @@ export class EmployeeManagementComponent extends NewAbstractServerSortPagination
       this.resetPage();
       this.onFilter('roleId', roleId);
     });
+    state.hold(this.birthMonth$, (birthMonth) => {
+      this.resetPage();
+      this.onFilter('birthDate', birthMonth);
+    });
+    state.hold(this.onboardDates$, (onboardDates) => {
+      this.resetPage();
+      this.filterByOnboardDates(onboardDates);
+    });
   }
 
   @tuiPure
@@ -126,12 +144,15 @@ export class EmployeeManagementComponent extends NewAbstractServerSortPagination
   }
 
   parseParams(params: Params): void {
-    const keys = ['search', 'roleId'];
+    const keys = ['search', 'roleId', 'birthDate'];
 
     super.parseParams(params);
     for (const key of keys) {
       this.queryParams =
         params[key] && params[key] !== 'null' ? this.queryParams.set(key, params[key]) : this.queryParams.delete(key);
+    }
+    if (params.dates) {
+      this.onboardDates$.next(TuiDayRange.normalizeParse(params.dates));
     }
   }
 
@@ -181,5 +202,14 @@ export class EmployeeManagementComponent extends NewAbstractServerSortPagination
   private resetPage(): void {
     this.queryParams = this.queryParams.delete('page');
     this.setQueryParams('page', null);
+  }
+
+  private filterByOnboardDates(dates: TuiDayRange | null): void {
+    this.queryParams = dates
+      ? this.queryParams
+          .set('onBoardDateFrom', startOfDay(dates.from.toLocalNativeDate()).getTime())
+          .set('onBoardDateTo', endOfDay(dates.to.toLocalNativeDate()).getTime())
+      : this.queryParams.delete('onBoardDateFrom').delete('onBoardDateTo');
+    this.fetch$.next();
   }
 }

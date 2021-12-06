@@ -18,10 +18,12 @@ import {
   FormlySelectOrgTreeComponentModule,
   FormlyStatusToggleComponentModule,
   FormlyUserComboBoxComponentModule,
+  InputDateRangeFilterComponentModule,
   InputFilterComponentModule,
   LayoutComponent,
   LayoutModule,
   SelectFilterComponentModule,
+  SelectMonthFilterComponentModule,
 } from '@nexthcm/ui';
 import { NgStackFormsModule } from '@ng-stack/forms';
 import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
@@ -123,6 +125,8 @@ export const ADMIN_EMPLOYEE_ROUTES: Routes = [
     SelectFilterComponentModule,
     TuiDataListModule,
     PushModule,
+    SelectMonthFilterComponentModule,
+    InputDateRangeFilterComponentModule,
   ],
   declarations: [
     EditEmployeeDialogComponent,

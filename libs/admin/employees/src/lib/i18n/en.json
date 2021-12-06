@@ -126,5 +126,7 @@
   "attachmentFiles": "Attachment files",
   "syncLDAPDirectReport": "Sync the direct report from LDAP",
   "chooseHighestCertificate": "Choose a certificate...",
-  "dependentMembers": "Dependent members"
+  "dependentMembers": "Dependent members",
+  "monthOfBirth": "Month of birth",
+  "onboardDates": "Onboard dates"
 }

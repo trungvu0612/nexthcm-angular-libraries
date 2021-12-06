@@ -1,5 +1,5 @@
 import { CommonModule, getLocaleMonthNames } from '@angular/common';
-import { ChangeDetectionStrategy, Component, EventEmitter, NgModule, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, NgModule, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BaseOption, PropertyRouteConnectorDirective, PropertyRouteConnectorDirectiveModule } from '@nexthcm/cdk';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
@@ -16,6 +16,8 @@ import { map } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SelectMonthFilterComponent {
+  @Input() title = 'month';
+  @Input() propertyName = 'month';
   @Output() monthChange = new EventEmitter<number | null>();
 
   readonly monthList$: Observable<BaseOption<number>[]> = this.translocoService.langChanges$.pipe(
