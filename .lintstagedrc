@@ -1,6 +1,0 @@
-{
-  "apps/**/*.{js,ts,json,scss,md}": [
-    "prettier --write"
-  ],
-  "libs/**/assets/i18n/*.json": ["transloco-validator"]
-}

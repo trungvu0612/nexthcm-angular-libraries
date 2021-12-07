@@ -62,3 +62,7 @@ tui-table-pagination {
 .hcm-animated {
   animation: 1s 300ms hcmShaking;
 }
+
+[data-tui-host-size='l'] tui-value-decoration {
+  margin-top: -1rem !important;
+}

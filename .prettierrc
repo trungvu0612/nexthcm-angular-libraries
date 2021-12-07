@@ -33,7 +33,7 @@
       }
     },
     {
-      "files": ".stylelintrc",
+      "files": ".stylelintrc.json",
       "options": {
         "parser": "json"
       }
@@ -48,6 +48,12 @@
       "files": "*.scss",
       "options": {
         "parser": "scss"
+      }
+    },
+    {
+      "files": "*.yaml",
+      "options": {
+        "parser": "yaml"
       }
     }
   ]
