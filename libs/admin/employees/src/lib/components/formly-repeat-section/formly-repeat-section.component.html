@@ -6,6 +6,7 @@
     </div>
     <button
       (click)="remove(index)"
+      *ngIf="!to.hideRemoveButton"
       class="ml-4"
       icon="tuiIconRemoveLarge"
       size="s"
@@ -13,5 +14,13 @@
       type="button"
     ></button>
   </div>
-  <button (click)="add()" class="mt-2" icon="tuiIconPlusLarge" size="s" tuiIconButton type="button"></button>
+  <button
+    (click)="add()"
+    *ngIf="!to.hideAddButton"
+    class="mt-2"
+    icon="tuiIconPlusLarge"
+    size="s"
+    tuiIconButton
+    type="button"
+  ></button>
 </div>

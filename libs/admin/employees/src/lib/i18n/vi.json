@@ -128,5 +128,9 @@
   "chooseHighestCertificate": "Chọn chứng chỉ...",
   "dependentMembers": "Người phụ thuộc",
   "monthOfBirth": "Tháng sinh",
-  "onboardDates": "Ngày bắt đầu làm việc"
+  "onboardDates": "Ngày bắt đầu làm việc",
+  "supervisors": "Người giám sát",
+  "supervisorList": "Danh sách Người giám sát",
+  "searchSupervisors": "Tìm kiếm người giám sát...",
+  "supervisorType": "Kiểu giám sát"
 }

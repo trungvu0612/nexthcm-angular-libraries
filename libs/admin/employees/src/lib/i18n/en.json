@@ -128,5 +128,9 @@
   "chooseHighestCertificate": "Choose a certificate...",
   "dependentMembers": "Dependent members",
   "monthOfBirth": "Month of birth",
-  "onboardDates": "Onboard dates"
+  "onboardDates": "Onboard dates",
+  "supervisors": "Supervisors",
+  "supervisorList": "Supervisor List",
+  "searchSupervisors": "Search for supervisors...",
+  "supervisorType": "Supervisor Type"
 }

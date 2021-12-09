@@ -33,7 +33,7 @@ import {
 } from '@taiga-ui/kit';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { combineLatest, EMPTY, from, iif, of, Subject } from 'rxjs';
-import { catchError, filter, map, share, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { catchError, filter, map, shareReplay, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { LeaveRequestDateRangeComponentModule } from '../../components';
 import { REQUEST_COMMENT_URL_PATHS } from '../../constants';
 import { RequestCommentStatus } from '../../enums';
@@ -97,7 +97,7 @@ export class RequestDetailDialogComponent implements OnInit {
 
   readonly request$ = this.fetch$.pipe(
     switchMap(() => this.myRequestsService.getRequest(this.requestType, this.requestId).pipe(startWith(null))),
-    share()
+    shareReplay(1)
   );
   readonly getCommentsHandler$ = this.getComments$.pipe(
     switchMap(() => this.myRequestsService.getRequestComments(this.requestType, this.requestId))

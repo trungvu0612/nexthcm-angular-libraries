@@ -60,24 +60,7 @@ export const ADMIN_EMPLOYEE_ROUTES: Routes = [
     component: LayoutComponent,
     canActivate: [NgxPermissionsGuard],
     data: { permissions: { only: 'VIEW_EMPLOYEE', redirectTo: '/' } },
-    children: [
-      { path: '', component: EmployeeManagementComponent },
-      {
-        path: ':employeeId',
-        component: EditEmployeeDialogComponent,
-        canActivate: [NgxPermissionsGuard],
-        data: { permissions: { only: 'UPDATE_EMPLOYEE', redirectTo: '/' } },
-        children: [
-          { path: '', redirectTo: 'general', pathMatch: 'full' },
-          { path: 'general', component: GeneralInformationComponent },
-          { path: 'individual', component: IndividualFormComponent },
-          { path: 'duration', component: DurationFormComponent },
-          { path: 'education', component: EducationFormComponent },
-          { path: 'shui', component: ShuiFormComponent },
-          { path: 'attachments', component: AttachmentFormComponent },
-        ],
-      },
-    ],
+    children: [{ path: '', component: EmployeeManagementComponent }],
   },
 ];
 

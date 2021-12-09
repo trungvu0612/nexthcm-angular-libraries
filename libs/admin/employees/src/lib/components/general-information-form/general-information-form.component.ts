@@ -1,10 +1,12 @@
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Optional, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Optional, Output } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { cacheable } from '@datorama/akita';
 import { Actions } from '@datorama/akita-ng-effects';
 import {
   BaseObject,
+  BaseUser,
   CommonStatus,
   EmployeeGeneralInformation,
   EmployeesService,
@@ -14,13 +16,16 @@ import {
   loadJobTitles,
   loadRoles,
   RolesQuery,
+  Supervisor,
   UploadFileService,
 } from '@nexthcm/cdk';
-import { FormBuilder } from '@ng-stack/forms';
+import { FormGroup } from '@ng-stack/forms';
 import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
+import { TuiDestroyService } from '@taiga-ui/cdk';
+import flatten from 'just-flatten-it';
 import { of } from 'rxjs';
-import { catchError, map, startWith, tap } from 'rxjs/operators';
+import { catchError, map, startWith, takeUntil, tap } from 'rxjs/operators';
 import { AdminEmployeesService } from '../../services/admin-employees.service';
 import { EmployeeGeneralQuery, EmployeeGeneralStore, EmployeeQuery } from '../../state';
 import { TRANSLATION_SCOPE } from '../../translation-scope';
@@ -30,13 +35,14 @@ import { TRANSLATION_SCOPE } from '../../translation-scope';
   templateUrl: './general-information-form.component.html',
   styleUrls: ['./general-information-form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [TuiDestroyService],
 })
-export class GeneralInformationFormComponent {
+export class GeneralInformationFormComponent implements OnInit {
   @Input() submitLoading = false;
   @Output() submitted = new EventEmitter<EmployeeGeneralInformation>();
   @Output() cancel = new EventEmitter();
-  model = {} as EmployeeGeneralInformation;
-  form = this.fb.group<EmployeeGeneralInformation>(this.model);
+  form = this.fb.group({}) as FormGroup<EmployeeGeneralInformation>;
+  model = { userMultipleReportMethod: [{}] as Supervisor[] } as EmployeeGeneralInformation;
   options: FormlyFormOptions = {
     formState: {
       editMode: false,
@@ -223,9 +229,70 @@ export class GeneralInformationFormComponent {
         },
       ],
     },
+    {
+      key: 'userMultipleReportMethod',
+      className: 'tui-form__row block',
+      type: 'repeat',
+      templateOptions: {
+        translate: true,
+        label: `${TRANSLATION_SCOPE}.supervisorList`,
+        hideAddButton: true,
+        hideRemoveButton: true,
+      },
+      fieldArray: {
+        fieldGroupClassName: 'grid grid-cols-4 gap-4',
+        fieldGroup: [
+          {
+            key: 'method',
+            type: 'combo-box',
+            templateOptions: {
+              translate: true,
+              label: `${TRANSLATION_SCOPE}.supervisorType`,
+              options: [],
+              labelProp: 'name',
+              matcherBy: 'id',
+              readonly: true,
+              strict: false,
+              textfieldLabelOutside: true,
+            },
+          },
+          {
+            key: 'userReports',
+            type: 'multi-select-search',
+            className: 'col-span-3',
+            templateOptions: {
+              translate: true,
+              label: `${TRANSLATION_SCOPE}.supervisors`,
+              placeholder: `${TRANSLATION_SCOPE}.searchSupervisors`,
+              labelProp: 'name',
+              matcherBy: 'id',
+              textfieldLabelOutside: true,
+              serverRequest: (searchQuery: string) =>
+                this.employeesService.searchEmployees(searchQuery).pipe(
+                  map((employees) => {
+                    const selectedSupervisors = flatten(
+                      this.model.userMultipleReportMethod.map((item) => item.userReports)
+                    );
+                    if (this.model.directReport) {
+                      selectedSupervisors.push(this.model.directReport as BaseUser);
+                    }
+
+                    return employees.filter(
+                      (employee) =>
+                        !selectedSupervisors.find((supervisor) => supervisor.id === employee.id) &&
+                        employee.id !== this.model.id
+                    );
+                  })
+                ),
+            },
+          },
+        ],
+      },
+    },
     { key: 'id' },
     { key: 'registerType' },
   ];
+  private _initialSupervisors: Supervisor[] = [];
   private readonly request$ = this.employeeQuery
     ? this.employeeGeneralQuery.select().pipe(
         tap(
@@ -233,6 +300,7 @@ export class GeneralInformationFormComponent {
             (this.model = {
               ...this.model,
               ...data,
+              userMultipleReportMethod: this.createSupervisorList(data.userMultipleReportMethod),
               statusBoolean: data.status === CommonStatus.active,
             })
         )
@@ -254,6 +322,7 @@ export class GeneralInformationFormComponent {
     private readonly jobTitlesQuery: JobTitlesQuery,
     private readonly jobLevelsQuery: JobLevelsQuery,
     private readonly rolesQuery: RolesQuery,
+    private readonly destroy$: TuiDestroyService,
     @Optional() private readonly employeeQuery: EmployeeQuery,
     @Optional() private readonly employeeGeneralStore: EmployeeGeneralStore,
     @Optional() private readonly employeeGeneralQuery: EmployeeGeneralQuery,
@@ -292,6 +361,20 @@ export class GeneralInformationFormComponent {
     this.options.formState.editMode = coerceBooleanProperty(value);
   }
 
+  ngOnInit(): void {
+    this.adminEmployeeService
+      .getSupervisorTypes()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((types) => {
+        this._initialSupervisors = types.map((type) => ({
+          method: type,
+          userReports: [],
+        }));
+        this.model.userMultipleReportMethod = this.createSupervisorList(this.model.userMultipleReportMethod);
+        this.model = { ...this.model };
+      });
+  }
+
   onSubmit(): void {
     if (this.form.valid) {
       const formModel = { ...this.form.value } as EmployeeGeneralInformation;
@@ -303,5 +386,25 @@ export class GeneralInformationFormComponent {
 
   onCancel(): void {
     this.cancel.emit();
+  }
+
+  private createSupervisorList(data: Supervisor[]): Supervisor[] {
+    if (!this._initialSupervisors?.length) {
+      return data;
+    }
+
+    const result: Supervisor[] = [];
+
+    this._initialSupervisors.forEach((item) => {
+      const supervisor = data.find((supervisor) => supervisor.method?.id === item.method.id);
+
+      if (supervisor) {
+        result.push(supervisor);
+      } else {
+        result.push(item);
+      }
+    });
+
+    return result;
   }
 }

@@ -2,6 +2,7 @@ import { Control } from '@ng-stack/forms';
 import { TuiDay, TuiDayRange } from '@taiga-ui/cdk';
 import { TuiFileLike } from '@taiga-ui/kit';
 import { CommonStatus, EmployeeCurrentStatus } from '../enums';
+import { BaseObject, BaseUser } from './base-object';
 import { DateRange } from './date-range';
 
 export type EmployeeInformationAPIType = 'INDIVIDUAL' | 'DURATION' | 'EDUCATION' | 'SHUI' | 'ATTACHMENT';
@@ -12,9 +13,9 @@ export type EmployeeInformationType =
   | EmployeeSHUI
   | EmployeeAttachment;
 
-interface BaseOption {
-  id: string;
-  name: string;
+export interface Supervisor {
+  method: BaseObject;
+  userReports: BaseUser[];
 }
 
 export interface EmployeeGeneralInformation {
@@ -30,15 +31,16 @@ export interface EmployeeGeneralInformation {
   profileType: string;
   registerType: string;
   registration: number;
-  organization: Control<BaseOption>;
-  roles: Control<BaseOption[]>;
-  jobTitle?: Control<BaseOption>;
-  jobLevel?: Control<BaseOption>;
-  directReport: Control<BaseOption>;
-  office: Control<BaseOption>;
+  organization: Control<BaseObject>;
+  roles: Control<BaseObject[]>;
+  jobTitle?: Control<BaseObject>;
+  jobLevel?: Control<BaseObject>;
+  directReport: Control<BaseUser>;
+  office: Control<BaseObject>;
   addressPersonal: Control<EmployeeAddress>;
   syncLDAPDirectReport: boolean;
   statusBoolean?: boolean;
+  userMultipleReportMethod: Supervisor[];
 }
 
 export interface BankAccount {
@@ -65,7 +67,7 @@ export interface EmployeeIndividual extends EmployeeBaseForm {
   personalEmail: string;
   phoneNumber: number;
   bankAccounts: BankAccount[] | string;
-  office: BaseOption | string;
+  office: BaseObject | string;
   officeOnsite?: string;
   maritalStatus: string;
   religion: string;

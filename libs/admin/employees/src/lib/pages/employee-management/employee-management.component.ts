@@ -165,7 +165,8 @@ export class EmployeeManagementComponent extends NewAbstractServerSortPagination
     this.dialogService
       .open(new PolymorpheusComponent(InitEmployeeDialogComponent, this.injector), {
         label: this.translocoService.translate('employees.addNewEmployee'),
-        size: 'l',
+        size: 'page',
+        dismissible: false,
       })
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => this.fetch$.next());
