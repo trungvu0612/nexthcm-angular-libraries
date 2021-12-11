@@ -26,8 +26,8 @@ export class WorkingAfterHoursRequestListComponent extends AbstractRequestListCo
     .selectTranslateObject('MY_TIME_REQUEST_LIST_COLUMNS', {}, TRANSLATION_SCOPE)
     .pipe(
       map((result) => [
-        { key: 'cif', title: result.cif },
-        { key: 'name', title: result.name },
+        { key: 'user.code', title: result.cif },
+        { key: 'user.fullName', title: result.name },
         { key: 'fromDate', title: result.dateRange },
         { key: 'type', title: result.type },
         { key: 'status', title: result.status },

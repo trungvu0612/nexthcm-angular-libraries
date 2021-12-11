@@ -26,8 +26,8 @@ export class LeaveRequestListComponent extends AbstractRequestListComponent<Leav
     .selectTranslateObject('MY_TIME_REQUEST_LIST_COLUMNS', {}, TRANSLATION_SCOPE)
     .pipe(
       map((result) => [
-        { key: 'cif', title: result.cif },
-        { key: 'name', title: result.name },
+        { key: 'user.code', title: result.cif },
+        { key: 'user.fullName', title: result.name },
         { key: 'fromDate', title: result.dateRange },
         { key: 'leaveType', title: result.leaveType },
         { key: 'days', title: result.days },

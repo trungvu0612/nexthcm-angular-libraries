@@ -25,8 +25,8 @@ export class UpdateTimesheetRequestListComponent extends AbstractRequestListComp
     .selectTranslateObject('MY_TIME_REQUEST_LIST_COLUMNS', {}, TRANSLATION_SCOPE)
     .pipe(
       map((result) => [
-        { key: 'cif', title: result.cif },
-        { key: 'name', title: result.name },
+        { key: 'user.code', title: result.cif },
+        { key: 'user.fullName', title: result.name },
         { key: 'date', title: result.date },
         { key: 'newTimeIn', title: result.newInTime },
         { key: 'newTimeOut', title: result.newOutTime },
