@@ -620,5 +620,6 @@
   "changeWorkflowStatus": "<b>Are you sure you want to perform this operation?<br>{{name}}</b>",
   "accessToken": "Access Token",
   "copied": "Copied!",
-  "generate": "Generate"
+  "generate": "Generate",
+  "actions": "Actions"
 }

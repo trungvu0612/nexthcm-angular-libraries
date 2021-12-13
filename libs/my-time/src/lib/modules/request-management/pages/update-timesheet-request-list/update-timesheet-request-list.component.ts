@@ -27,16 +27,16 @@ export class UpdateTimesheetRequestListComponent extends AbstractRequestListComp
       map((result) => [
         { key: 'user.code', title: result.cif },
         { key: 'user.fullName', title: result.name },
-        { key: 'date', title: result.date },
-        { key: 'newTimeIn', title: result.newInTime },
-        { key: 'newTimeOut', title: result.newOutTime },
+        { key: 'createdDate', title: result.date },
+        { key: 'newInTime', title: result.newInTime },
+        { key: 'newOutTime', title: result.newOutTime },
         { key: 'updateTotalTime', title: result.updateTotalTime },
         {
           key: 'updateWorkingDay',
           title: result.updateWorkingDay,
           cssClass: { name: 'text-center', includeHeader: true },
         },
-        { key: 'currentStatus', title: result.status },
+        { key: 'status', title: result.status, orderEnabled: false },
         { key: 'comment', title: result.Comment },
         { key: '', title: result.functions, orderEnabled: false },
       ])

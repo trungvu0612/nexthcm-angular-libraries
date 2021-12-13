@@ -29,8 +29,8 @@ export class WorkFormHomeRequestListComponent extends AbstractRequestListCompone
         { key: 'user.code', title: result.cif },
         { key: 'user.fullName', title: result.name },
         { key: 'fromDate', title: result.dateRange },
-        { key: 'days', title: result.days },
-        { key: 'currentStatus', title: result.status },
+        { key: 'totalDay', title: result.days },
+        { key: 'status', title: result.status, orderEnabled: false },
         { key: 'comment', title: result.Comment },
         { key: '', title: result.functions, orderEnabled: false },
       ])

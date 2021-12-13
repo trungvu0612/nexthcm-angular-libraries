@@ -30,7 +30,7 @@ export class WorkingAfterHoursRequestListComponent extends AbstractRequestListCo
         { key: 'user.fullName', title: result.name },
         { key: 'fromDate', title: result.dateRange },
         { key: 'type', title: result.type },
-        { key: 'status', title: result.status },
+        { key: 'status', title: result.status, orderEnabled: false },
         { key: 'comment', title: result.Comment },
         { key: '', title: result.functions, orderEnabled: false },
       ])

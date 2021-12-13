@@ -30,8 +30,8 @@ export class LeaveRequestListComponent extends AbstractRequestListComponent<Leav
         { key: 'user.fullName', title: result.name },
         { key: 'fromDate', title: result.dateRange },
         { key: 'leaveType', title: result.leaveType },
-        { key: 'days', title: result.days },
-        { key: 'currentStatus', title: result.status },
+        { key: 'durationInDay', title: result.days },
+        { key: 'status', title: result.status, orderEnabled: false },
         { key: 'comment', title: result.Comment },
         { key: '', title: result.functions, orderEnabled: false },
       ])

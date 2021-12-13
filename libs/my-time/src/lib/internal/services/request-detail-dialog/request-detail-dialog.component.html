@@ -167,7 +167,7 @@
 
       <div *ngIf="data.nextStates.length" class="flex justify-center py-5 border-b">
         <tui-hosted-dropdown *transloco="let t" [(open)]="open" [content]="dropdown" tuiDropdownAlign="left">
-          <button [iconRight]="icon" appearance="secondary" size="m" tuiButton type="button">{{ t('functions') }}</button>
+          <button [iconRight]="icon" appearance="secondary" size="m" tuiButton type="button">{{ t('actions') }}</button>
         </tui-hosted-dropdown>
         <ng-template #icon>
           <tui-svg [class.icon_rotated]="open" class="icon" src="tuiIconChevronDown"></tui-svg>

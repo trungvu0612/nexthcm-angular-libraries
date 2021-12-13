@@ -28,9 +28,9 @@ export class TransferLeaveEntitlementsRequestListComponent extends AbstractReque
       map((result) => [
         { key: 'leaveType', title: result.leaveType },
         { key: 'fromDate', title: result.dateRange },
-        { key: 'typeTransfer', title: result.type },
+        { key: 'type', title: result.type },
         { key: 'durationInDayTransfer', title: result.days, cssClass: { name: 'text-center', includeHeader: true } },
-        { key: 'currentState', title: result.status },
+        { key: 'status', title: result.status, orderEnabled: false },
         { key: '', title: result.functions, orderEnabled: false },
       ])
     );
