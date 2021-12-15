@@ -77,7 +77,7 @@ export const MY_TIME_ROUTES: Routes = [
         path: 'requests',
         component: RequestManagementComponent,
         canActivate: [NgxPermissionsGuard],
-        data: { permissions: { only: 'VIEW_REQUEST_MANAGEMENT', redirectTo: '/' } },
+        data: { permissions: { only: ['VIEW_REQUEST_MANAGEMENT', 'VIEW_SUBORDINATE_REQUEST'], redirectTo: '/' } },
         children: [
           { path: 'leave', component: LeaveRequestListComponent },
           { path: 'working-after-hours', component: WorkingAfterHoursRequestListComponent },
@@ -95,7 +95,11 @@ const TABS: MenuItem[] = [
   { title: 'myTime.myLeave', route: '/my-time/my-leave', permissions: [] },
   { title: 'myTime.workingHours', route: '/my-time/working-hours', permissions: [] },
   { title: 'myTime.myRequest', route: '/my-time/my-requests', permissions: [] },
-  { title: 'myTime.requestManagement', route: '/my-time/requests', permissions: ['VIEW_REQUEST_MANAGEMENT'] },
+  {
+    title: 'myTime.requestManagement',
+    route: '/my-time/requests',
+    permissions: ['VIEW_REQUEST_MANAGEMENT', 'VIEW_SUBORDINATE_REQUEST'],
+  },
 ];
 
 @NgModule({
