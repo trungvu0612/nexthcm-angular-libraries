@@ -2,7 +2,7 @@ export interface WorkFromHomeRequestPayload {
   userId: string;
   fromDate: number;
   toDate: number;
-  totalDay: number;
+  officeId: string;
   comment: string;
   sendTo: string;
 }

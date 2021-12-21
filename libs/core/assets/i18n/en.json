@@ -621,5 +621,7 @@
   "accessToken": "Access Token",
   "copied": "Copied!",
   "generate": "Generate",
-  "actions": "Actions"
+  "actions": "Actions",
+  "supervisorTypes": "Supervisor types",
+  "chooseSupervisorTypes": "Choose supervisor types..."
 }

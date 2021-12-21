@@ -226,6 +226,45 @@
       },
       "tags": []
     },
+    "admin-notifications": {
+      "projectType": "library",
+      "root": "libs/admin/notifications",
+      "sourceRoot": "libs/admin/notifications/src",
+      "prefix": "hcm",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/angular:package",
+          "outputs": ["dist/libs/admin/notifications"],
+          "options": {
+            "project": "libs/admin/notifications/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "libs/admin/notifications/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "libs/admin/notifications/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/admin/notifications"],
+          "options": {
+            "jestConfig": "libs/admin/notifications/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/admin/notifications/src/**/*.ts", "libs/admin/notifications/src/**/*.html"]
+          }
+        }
+      },
+      "tags": []
+    },
     "admin-offices": {
       "projectType": "library",
       "root": "libs/admin/offices",

@@ -26,7 +26,6 @@ import { TuiDestroyService } from '@taiga-ui/cdk';
 import flatten from 'just-flatten-it';
 import { of } from 'rxjs';
 import { catchError, map, startWith, takeUntil, tap } from 'rxjs/operators';
-import { AdminEmployeesService } from '../../services/admin-employees.service';
 import { EmployeeGeneralQuery, EmployeeGeneralStore, EmployeeQuery } from '../../state';
 import { TRANSLATION_SCOPE } from '../../translation-scope';
 
@@ -317,7 +316,6 @@ export class GeneralInformationFormComponent implements OnInit {
     private readonly uploadFileService: UploadFileService,
     private readonly translocoService: TranslocoService,
     private readonly employeesService: EmployeesService,
-    private readonly adminEmployeeService: AdminEmployeesService,
     private readonly activatedRoute: ActivatedRoute,
     private readonly jobTitlesQuery: JobTitlesQuery,
     private readonly jobLevelsQuery: JobLevelsQuery,
@@ -362,7 +360,7 @@ export class GeneralInformationFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.adminEmployeeService
+    this.employeesService
       .getSupervisorTypes()
       .pipe(takeUntil(this.destroy$))
       .subscribe((types) => {

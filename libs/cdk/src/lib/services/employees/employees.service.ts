@@ -4,6 +4,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { ACCOUNT_API_PATH } from '../../constants';
 import {
+  BaseObject,
   BaseResponse,
   BaseUser,
   EmployeeAttachment,
@@ -74,5 +75,12 @@ export class EmployeesService {
 
   getPersonalAccessToken(): Observable<string> {
     return this.http.get(`${ACCOUNT_API_PATH}/personal-access-token`, { responseType: 'text' });
+  }
+
+  getSupervisorTypes(): Observable<BaseObject[]> {
+    return this.http.get<BaseResponse<BaseObject[]>>(`${ACCOUNT_API_PATH}/users/reporting`).pipe(
+      map((res) => res.data),
+      catchError(() => of([]))
+    );
   }
 }

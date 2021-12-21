@@ -1,13 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Inject, NgModule } from '@angular/core';
+import { Actions } from '@datorama/akita-ng-effects';
 import { AuthService } from '@nexthcm/auth';
-import { BaseUser, PromptService } from '@nexthcm/cdk';
+import { BaseUser, loadOnsiteOffices, PromptService, WFHOfficesQuery } from '@nexthcm/cdk';
 import { BaseFormComponentModule } from '@nexthcm/ui';
 import { Control, FormBuilder } from '@ng-stack/forms';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { PushModule } from '@rx-angular/template';
-import { TuiDayRange, TuiTime } from '@taiga-ui/cdk';
+import { TuiDayRange } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { endOfDay, getTime } from 'date-fns';
@@ -19,7 +20,6 @@ import { MyRequestsService } from '../../services';
 
 interface WorkFromHomeRequestForm extends WorkFromHomeRequestPayload {
   user?: Control<BaseUser>;
-  totalTime?: Control<TuiTime>;
   fromTo?: Control<TuiDayRange>;
   sendToUser?: Control<BaseUser>;
 }
@@ -63,18 +63,18 @@ export class CreateWorkFromHomeRequestDialogComponent {
       },
     },
     {
-      key: 'totalTime',
-      type: 'input-time',
+      key: 'officeId',
+      className: 'tui-form__row block',
+      type: 'select',
       templateOptions: {
-        required: true,
         translate: true,
-        label: 'myTime.estimateTime',
+        label: 'office',
         labelClassName: 'font-semibold',
-        textfieldLabelOutside: true,
-      },
-      hideExpression: '!model.fromTo?.isSingleDay',
-      expressionProperties: {
-        className: '!model.fromTo || !model.fromTo.isSingleDay ? "hidden" : "col-span-full block mt-4"',
+        options: this.workFromHomeOfficesQuery.selectAll(),
+        placeholder: 'chooseOffice',
+        labelProp: 'name',
+        valueProp: 'id',
+        required: true,
       },
     },
     {
@@ -135,8 +135,12 @@ export class CreateWorkFromHomeRequestDialogComponent {
     private readonly myRequestsService: MyRequestsService,
     private readonly translocoService: TranslocoService,
     private readonly promptService: PromptService,
-    private readonly authService: AuthService
-  ) {}
+    private readonly authService: AuthService,
+    private readonly workFromHomeOfficesQuery: WFHOfficesQuery,
+    actions: Actions
+  ) {
+    actions.dispatch(loadOnsiteOffices());
+  }
 
   onSubmit(): void {
     if (this.form.valid) {
@@ -148,9 +152,6 @@ export class CreateWorkFromHomeRequestDialogComponent {
       if (formModel.fromTo) {
         formModel.fromDate = getTime(formModel.fromTo.from.toLocalNativeDate());
         formModel.toDate = getTime(endOfDay(formModel.fromTo.to.toLocalNativeDate()));
-      }
-      if (formModel.totalTime) {
-        formModel.totalDay = formModel.totalTime.toAbsoluteMilliseconds().valueOf() / 1000;
       }
       if (formModel.sendToUser) {
         formModel.sendTo = formModel.sendToUser.id;

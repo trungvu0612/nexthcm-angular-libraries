@@ -620,5 +620,7 @@
   "accessToken": "Mã truy cập",
   "copied": "Đã sao chép!",
   "generate": "Tạo",
-  "actions": "Hành động"
+  "actions": "Hành động",
+  "supervisorTypes": "Phương thức giám sát",
+  "chooseSupervisorTypes": "Chọn phương thức giám sát..."
 }

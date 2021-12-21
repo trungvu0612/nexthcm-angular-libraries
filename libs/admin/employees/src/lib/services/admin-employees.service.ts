@@ -2,7 +2,6 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
   ACCOUNT_API_PATH,
-  BaseObject,
   BaseResponse,
   DEFAULT_PAGINATION_DATA,
   EmployeeGeneralInformation,
@@ -40,12 +39,5 @@ export class AdminEmployeesService {
 
   updateEmployeeInformation<T>(payload: T): Observable<BaseResponse<T>> {
     return this.http.post<BaseResponse<T>>(`${ACCOUNT_API_PATH}/info/employees`, payload);
-  }
-
-  getSupervisorTypes(): Observable<BaseObject[]> {
-    return this.http.get<BaseResponse<BaseObject[]>>(`${ACCOUNT_API_PATH}/users/reporting`).pipe(
-      map((res) => res.data),
-      catchError(() => of([]))
-    );
   }
 }

@@ -4,6 +4,7 @@ export enum ConditionType {
   UserInTitles = 'C-003',
   OnlyReporter = 'C-004',
   OnlyAssignee = 'C-005',
+  ReportingMethods = 'C-006',
 }
 
 export enum ValidatorType {

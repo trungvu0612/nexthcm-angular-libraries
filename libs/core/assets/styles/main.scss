@@ -63,6 +63,8 @@ tui-table-pagination {
   animation: 1s 300ms hcmShaking;
 }
 
-[data-tui-host-size='l'] tui-value-decoration {
-  margin-top: -1rem !important;
+tui-input-date-range {
+  [data-tui-host-size='l'] tui-value-decoration {
+    margin-top: -1rem !important;
+  }
 }

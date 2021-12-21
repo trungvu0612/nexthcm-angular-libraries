@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { Actions } from '@datorama/akita-ng-effects';
-import { JobTitlesQuery, loadJobTitles } from '@nexthcm/cdk';
+import { EmployeesService, JobTitlesQuery, loadJobTitles } from '@nexthcm/cdk';
 import { FormBuilder } from '@ngneat/reactive-forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TUI_DEFAULT_STRINGIFY } from '@taiga-ui/cdk';
@@ -77,6 +77,21 @@ export class AddConditionToTransitionDialogComponent extends AbstractAddOptionTo
       },
       hideExpression: (model: TransitionCondition) => model.conditionType?.code !== ConditionType.UserInTitles,
     },
+    {
+      key: 'reportingMethods',
+      className: 'tui-form__row block',
+      type: 'multi-select',
+      templateOptions: {
+        translate: true,
+        label: 'supervisorTypes',
+        labelClassName: 'font-semibold',
+        textfieldLabelOutside: true,
+        placeholder: 'chooseSupervisorTypes',
+        required: true,
+        options: this.employeesService.getSupervisorTypes(),
+      },
+      hideExpression: (model: TransitionCondition) => model.conditionType?.code !== ConditionType.ReportingMethods,
+    },
   ];
 
   constructor(
@@ -86,6 +101,7 @@ export class AddConditionToTransitionDialogComponent extends AbstractAddOptionTo
     readonly adminWorkflowsService: AdminWorkflowsService,
     private readonly conditionTypesQuery: ConditionTypesQuery,
     private readonly jobTitlesQuery: JobTitlesQuery,
+    private readonly employeesService: EmployeesService,
     private readonly actions: Actions
   ) {
     super(fb, context, adminWorkflowsService);

@@ -42,6 +42,7 @@ export class OfficeManagementComponent extends AbstractServerSortPaginationTable
         { key: 'address', title: result.address },
         { key: 'description', title: result.description },
         { key: 'onsite', title: 'Onsite', cssClass: { name: 'text-center', includeHeader: true } },
+        { key: 'wfh', title: 'Work from home', cssClass: { name: 'text-center', includeHeader: true } },
         { key: '', title: result.functions, orderEnabled: false },
       ])
     );

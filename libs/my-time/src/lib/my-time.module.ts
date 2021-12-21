@@ -57,7 +57,9 @@ export const MY_TIME_ROUTES: Routes = [
           {
             path: 'everyone',
             component: EveryoneWorkingHoursListComponent,
-            data: { permissions: { only: 'VIEW_WORKING_HOUR_EVERYONE', redirectTo: '/' } },
+            data: {
+              permissions: { only: ['VIEW_WORKING_HOUR_EVERYONE', 'VIEW_SUBORDINATE_REQUEST'], redirectTo: '/' },
+            },
           },
         ],
       },
