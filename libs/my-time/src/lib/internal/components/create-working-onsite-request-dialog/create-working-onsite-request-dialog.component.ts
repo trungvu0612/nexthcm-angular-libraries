@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Inject, NgModule } from '@angular/core';
 import { Actions } from '@datorama/akita-ng-effects';
 import { AuthService } from '@nexthcm/auth';
-import { BaseObject, BaseUser, loadWFHOffices, OnsiteOfficesQuery, PromptService } from '@nexthcm/cdk';
+import { BaseObject, BaseUser, loadOnsiteOffices, OnsiteOfficesQuery, PromptService } from '@nexthcm/cdk';
 import { BaseFormComponentModule } from '@nexthcm/ui';
 import { Control, FormBuilder } from '@ng-stack/forms';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
@@ -140,7 +140,7 @@ export class CreateWorkingOnsiteRequestDialogComponent {
     private readonly authService: AuthService,
     actions: Actions
   ) {
-    actions.dispatch(loadWFHOffices());
+    actions.dispatch(loadOnsiteOffices());
   }
 
   onSubmit(): void {

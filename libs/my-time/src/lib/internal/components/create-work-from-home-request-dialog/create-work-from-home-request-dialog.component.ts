@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Inject, NgModule } from '@angular/core';
 import { Actions } from '@datorama/akita-ng-effects';
 import { AuthService } from '@nexthcm/auth';
-import { BaseUser, loadOnsiteOffices, PromptService, WFHOfficesQuery } from '@nexthcm/cdk';
+import { BaseUser, loadWFHOffices, PromptService, WFHOfficesQuery } from '@nexthcm/cdk';
 import { BaseFormComponentModule } from '@nexthcm/ui';
 import { Control, FormBuilder } from '@ng-stack/forms';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
@@ -139,7 +139,7 @@ export class CreateWorkFromHomeRequestDialogComponent {
     private readonly workFromHomeOfficesQuery: WFHOfficesQuery,
     actions: Actions
   ) {
-    actions.dispatch(loadOnsiteOffices());
+    actions.dispatch(loadWFHOffices());
   }
 
   onSubmit(): void {
