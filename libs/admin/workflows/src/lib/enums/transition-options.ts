@@ -25,6 +25,7 @@ export enum PostFunctionType {
   CreateComment = 'PF-992',
   UpdateChangeHistoryForAnIssueAndStoreTheIssueInIheDatabase = 'PF-993',
   SetIssueStatusToTheLinkedStatusOfTheDestinationWorkflowStatus = 'PF-994',
+  SendEmailAndNotificationToTheSupervisor = 'PF-995',
 }
 
 export enum TransitionOptionIndex {
