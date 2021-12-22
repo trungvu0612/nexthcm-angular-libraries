@@ -10,5 +10,4 @@ export interface Office {
   latitude: number;
   tenantId: string;
   onsite: boolean;
-  wfh: boolean;
 }

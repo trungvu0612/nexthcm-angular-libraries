@@ -19,11 +19,3 @@ export class OnsiteOfficesStore extends EntityStore<OfficesState> {
     super();
   }
 }
-
-@Injectable({ providedIn: 'root' })
-@StoreConfig({ name: 'wfh-offices' })
-export class WFHOfficesStore extends EntityStore<OfficesState> {
-  constructor() {
-    super();
-  }
-}

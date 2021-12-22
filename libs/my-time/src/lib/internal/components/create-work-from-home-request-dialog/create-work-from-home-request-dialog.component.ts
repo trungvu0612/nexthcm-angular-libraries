@@ -1,8 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Inject, NgModule } from '@angular/core';
-import { Actions } from '@datorama/akita-ng-effects';
 import { AuthService } from '@nexthcm/auth';
-import { BaseUser, loadWFHOffices, PromptService, WFHOfficesQuery } from '@nexthcm/cdk';
+import { BaseUser, PromptService } from '@nexthcm/cdk';
 import { BaseFormComponentModule } from '@nexthcm/ui';
 import { Control, FormBuilder } from '@ng-stack/forms';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
@@ -63,21 +62,6 @@ export class CreateWorkFromHomeRequestDialogComponent {
       },
     },
     {
-      key: 'officeId',
-      className: 'tui-form__row block',
-      type: 'select',
-      templateOptions: {
-        translate: true,
-        label: 'office',
-        labelClassName: 'font-semibold',
-        options: this.workFromHomeOfficesQuery.selectAll(),
-        placeholder: 'chooseOffice',
-        labelProp: 'name',
-        valueProp: 'id',
-        required: true,
-      },
-    },
-    {
       key: 'comment',
       className: 'tui-form__row block',
       type: 'text-area',
@@ -135,12 +119,8 @@ export class CreateWorkFromHomeRequestDialogComponent {
     private readonly myRequestsService: MyRequestsService,
     private readonly translocoService: TranslocoService,
     private readonly promptService: PromptService,
-    private readonly authService: AuthService,
-    private readonly workFromHomeOfficesQuery: WFHOfficesQuery,
-    actions: Actions
-  ) {
-    actions.dispatch(loadWFHOffices());
-  }
+    private readonly authService: AuthService
+  ) {}
 
   onSubmit(): void {
     if (this.form.valid) {

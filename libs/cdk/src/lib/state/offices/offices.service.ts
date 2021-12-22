@@ -21,8 +21,4 @@ export class OfficesService {
   getOnsiteOffices(): Observable<BaseObject[]> {
     return this.http.get<BaseObject[]>(`${ACCOUNT_API_PATH}/office/onsite`).pipe(catchError(() => of([])));
   }
-
-  getWFHOffices(): Observable<BaseObject[]> {
-    return this.http.get<BaseObject[]>(`${ACCOUNT_API_PATH}/office/wfh`).pipe(catchError(() => of([])));
-  }
 }

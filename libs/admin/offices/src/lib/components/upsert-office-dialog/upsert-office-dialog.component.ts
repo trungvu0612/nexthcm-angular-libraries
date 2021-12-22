@@ -46,16 +46,6 @@ export class UpsertOfficeDialogComponent implements OnInit {
       },
     },
     {
-      key: 'wfh',
-      className: 'tui-form__row block',
-      type: 'checkbox-labeled',
-      defaultValue: false,
-      templateOptions: {
-        labelClassName: 'font-semibold',
-        label: 'Work from home',
-      },
-    },
-    {
       key: 'onsite',
       className: 'tui-form__row block',
       type: 'checkbox-labeled',
