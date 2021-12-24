@@ -2,7 +2,15 @@
   <formly-form [fields]="fields" [form]="$any(form)" [model]="model" [options]="options"></formly-form>
   <ng-content></ng-content>
   <div *transloco="let t" class="tui-form__buttons">
-    <button [showLoader]="submitLoading" class="tui-form__button" size="l" tuiButton>{{ t('save') }}</button>
+    <button
+      *ngxPermissionsOnly="submitPermission"
+      [showLoader]="submitLoading"
+      class="tui-form__button"
+      size="l"
+      tuiButton
+    >
+      {{ t('save') }}
+    </button>
     <button
       (click)="cancel.emit()"
       *ngIf="!hideCancelButton"

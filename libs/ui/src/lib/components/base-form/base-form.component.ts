@@ -7,6 +7,7 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { FormlyFieldConfig, FormlyFormOptions, FormlyModule } from '@ngx-formly/core';
 import { tuiDefaultProp } from '@taiga-ui/cdk';
 import { TuiButtonModule } from '@taiga-ui/core';
+import { NgxPermissionsModule } from 'ngx-permissions';
 
 @Component({
   selector: 'hcm-base-form',
@@ -20,6 +21,7 @@ export class BaseFormComponent<T extends Record<string, any>> {
   @Input() fields: FormlyFieldConfig[] = [];
   @Input() options: FormlyFormOptions = {};
   @Input() submitLoading = false;
+  @Input() submitPermission: string | string[] = [];
 
   @Output() submitForm = new EventEmitter();
   @Output() cancel = new EventEmitter();
@@ -38,7 +40,7 @@ export class BaseFormComponent<T extends Record<string, any>> {
 
 @NgModule({
   declarations: [BaseFormComponent],
-  imports: [CommonModule, ReactiveFormsModule, FormlyModule, TranslocoModule, TuiButtonModule],
+  imports: [CommonModule, ReactiveFormsModule, FormlyModule, TranslocoModule, TuiButtonModule, NgxPermissionsModule],
   exports: [BaseFormComponent],
 })
 export class BaseFormComponentModule {}

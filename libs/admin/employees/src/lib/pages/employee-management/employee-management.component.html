@@ -73,15 +73,30 @@
           </td>
           <td>
             <div class="flex items-center">
-              <button
-                (click)="onEditEmployee(item.id)"
-                *ngxPermissionsOnly="'UPDATE_EMPLOYEE'"
-                appearance="flat"
-                class="tui-space_right-3"
-                icon="tuiIconEditLarge"
-                size="m"
-                tuiIconButton
-              ></button>
+              <ng-container
+                *ngxPermissionsOnly="'UPDATE_PERMISSION'; else viewEmployee; then: editEmployee"
+              ></ng-container>
+              <ng-template #editEmployee>
+                <button
+                  (click)="onEditEmployee(item.id)"
+                  appearance="flat"
+                  class="tui-space_right-3"
+                  icon="tuiIconEditLarge"
+                  size="m"
+                  tuiIconButton
+                ></button>
+              </ng-template>
+              <ng-template #viewEmployee>
+                <button
+                  (click)="onEditEmployee(item.id)"
+                  appearance="flat"
+                  class="tui-space_right-3"
+                  icon="tuiIconShowLarge"
+                  size="m"
+                  tuiIconButton
+                ></button>
+              </ng-template>
+
               <ng-container *ngIf="item.isDeletable">
                 <button
                   (click)="onRemoveEmployee(item.id)"

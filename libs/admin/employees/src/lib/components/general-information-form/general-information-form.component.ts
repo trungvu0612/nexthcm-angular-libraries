@@ -38,6 +38,7 @@ import { TRANSLATION_SCOPE } from '../../translation-scope';
 })
 export class GeneralInformationFormComponent implements OnInit {
   @Input() submitLoading = false;
+  @Input() submitPermission: string | string[] = [];
   @Output() submitted = new EventEmitter<EmployeeGeneralInformation>();
   @Output() cancel = new EventEmitter();
   form = this.fb.group({}) as FormGroup<EmployeeGeneralInformation>;
