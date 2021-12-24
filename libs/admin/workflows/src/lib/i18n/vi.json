@@ -43,8 +43,10 @@
   "SendEmailAndNotificationToTheReportingMethodDescription": "Gửi email và thông báo cho người giám sát với các phương thức báo cáo nhất định. Email sẽ dựa trên mẫu của quy trình",
   "AddEntitlementAfterCancelLeave": "Trả lại quyền lợi nghỉ phép sau khi huỷ bỏ một yêu cầu chuyển đổi",
   "AddEntitlementAfterCancelLeaveDescription": "Trả lại quyền lợi nghỉ phép tương đương cho nhân viên",
-  "AddEntitlementAfterCancelLeaveTransfer": "Trả lại quyền lợi sau khi huỷ bỏ một yêu cầu nghỉ phép",
-  "AddEntitlementAfterCancelLeaveTransferDescription": "Trả lại quyền lợi nghỉ phép tương đương cho nhân viên",
+  "AddEntitlementAfterCancelLeaveTransfer": "Trả lại quyền lợi sau khi huỷ bỏ yêu cầu nghỉ phép",
+  "AddEntitlementAfterCancelLeaveTransferDescription": "Trả lại quyền lợi nghỉ phép tương ứng cho nhân viên, sau khi huỷ bỏ yêu cầu nghỉ phép",
+  "AddEntitlementAfterCancelLeaveNotApprovedYet": "Trả lại quyền lợi sau khi huỷ bỏ yêu cầu nghỉ phép bị từ chối",
+  "AddEntitlementAfterCancelLeaveNotApprovedYetDescription": "Trả lại quyền lợi nghỉ phép tương ứng cho nhân viên, sau khi huỷ bỏ yêu cầu nghỉ phép bị từ chối",
   "TransferLeaveRemained": "Chuyển đổi quyền lợi nghỉ phép",
   "TransferLeaveRemainedDescription": "Chuyển đổi quyền lợi nghỉ phép của nhân viên sang kì sau",
   "CONDITIONS_OPERATORS": {

@@ -26,6 +26,7 @@ export enum PostFunctionType {
   UpdateChangeHistoryForAnIssueAndStoreTheIssueInIheDatabase = 'PF-993',
   SetIssueStatusToTheLinkedStatusOfTheDestinationWorkflowStatus = 'PF-994',
   SendEmailAndNotificationToTheSupervisor = 'PF-995',
+  AddEntitlementAfterCancelLeaveNotApprovedYet = 'PF-011',
 }
 
 export enum TransitionOptionIndex {
