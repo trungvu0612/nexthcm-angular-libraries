@@ -41,9 +41,23 @@
 
     <hcm-input-date-range-filter
       (datesChange)="onboardDates$.next($event)"
-      class="col-span-3"
+      class="col-span-2"
       title="employees.onboardDates"
     ></hcm-input-date-range-filter>
+
+    <hcm-select-filter
+      (valueChange)="statusFilter$.next($event)"
+      *tuiLet="statusList$ | push as statuses"
+      [label]="t('status')"
+      [valueContent]="statusStringify(statuses || [])"
+      propertyName="status"
+    >
+      <tui-data-list>
+        <button *ngFor="let status of statuses" [value]="status.value" tuiOption>
+          {{ status.label }}
+        </button>
+      </tui-data-list>
+    </hcm-select-filter>
   </div>
   <tui-loader [overlay]="true" [showLoader]="(loading$ | push) === true">
     <ngx-table

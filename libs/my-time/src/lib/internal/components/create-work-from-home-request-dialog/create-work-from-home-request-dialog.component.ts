@@ -31,6 +31,7 @@ interface WorkFromHomeRequestForm extends WorkFromHomeRequestPayload {
 })
 export class CreateWorkFromHomeRequestDialogComponent {
   model = {} as WorkFromHomeRequestForm;
+  readonly requestTypeUrlPath = 'workFromHome';
   readonly form = this.fb.group<WorkFromHomeRequestForm>(this.model);
   readonly fields: FormlyFieldConfig[] = [
     {
@@ -124,25 +125,28 @@ export class CreateWorkFromHomeRequestDialogComponent {
 
   onSubmit(): void {
     if (this.form.valid) {
-      const formModel = { ...this.form.value };
-
-      if (formModel.user) {
-        formModel.userId = formModel.user.id;
-      }
-      if (formModel.fromTo) {
-        formModel.fromDate = getTime(formModel.fromTo.from.toLocalNativeDate());
-        formModel.toDate = getTime(endOfDay(formModel.fromTo.to.toLocalNativeDate()));
-      }
-      if (formModel.sendToUser) {
-        formModel.sendTo = formModel.sendToUser.id;
-      }
-
-      this.submit$.next(omit(formModel, ['user', 'fromTo', 'totalTime', 'sendToUser']));
+      this.submit$.next(this.parseFormModel({ ...this.form.value }));
     }
   }
 
   onCancel(): void {
     this.context.$implicit.complete();
+  }
+
+  parseFormModel(model: WorkFromHomeRequestForm): WorkFromHomeRequestPayload {
+    const formModel = { ...model };
+
+    if (formModel.user) {
+      formModel.userId = formModel.user.id;
+    }
+    if (formModel.fromTo) {
+      formModel.fromDate = getTime(formModel.fromTo.from.toLocalNativeDate());
+      formModel.toDate = getTime(endOfDay(formModel.fromTo.to.toLocalNativeDate()));
+    }
+    if (formModel.sendToUser) {
+      formModel.sendTo = formModel.sendToUser.id;
+    }
+    return omit(formModel, ['user', 'fromTo', 'totalTime', 'sendToUser']);
   }
 }
 

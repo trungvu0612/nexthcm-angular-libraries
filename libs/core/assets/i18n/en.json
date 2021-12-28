@@ -623,5 +623,9 @@
   "generate": "Generate",
   "actions": "Actions",
   "supervisorTypes": "Supervisor types",
-  "chooseSupervisorTypes": "Choose supervisor types..."
+  "chooseSupervisorTypes": "Choose supervisor types...",
+  "COMMON_STATUS": {
+    "inactive": "Inactive",
+    "active": "Active"
+  }
 }

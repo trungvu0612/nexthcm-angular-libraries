@@ -4,6 +4,7 @@ import { ActivatedRoute, Params, UrlSerializer } from '@angular/router';
 import { Actions } from '@datorama/akita-ng-effects';
 import {
   BaseObject,
+  BaseOption,
   CommonStatus,
   EmployeeInfo,
   loadRoles,
@@ -76,9 +77,16 @@ export class EmployeeManagementComponent extends NewAbstractServerSortPagination
   readonly CommonStatus = CommonStatus;
   readonly search$ = new Subject<string | null>();
   readonly role$ = new Subject<string | null>();
+  readonly statusFilter$ = new Subject<string | null>();
   readonly birthMonth$ = new Subject<number | null>();
   readonly onboardDates$ = new Subject<TuiDayRange | null>();
   readonly rolesList$ = this.rolesQuery.selectAll();
+  readonly statusList$: Observable<BaseOption[]> = this.translocoService.selectTranslateObject('COMMON_STATUS').pipe(
+    map((result) => [
+      { value: CommonStatus.active, label: result.active },
+      { value: CommonStatus.inactive, label: result.inactive },
+    ])
+  );
   private readonly request$ = this.fetch$.pipe(
     switchMap(() => this.adminEmployeesService.getEmployees(this.queryParams).pipe(startWith(null))),
     share()
@@ -126,6 +134,10 @@ export class EmployeeManagementComponent extends NewAbstractServerSortPagination
       this.resetPage();
       this.onFilter('roleId', roleId);
     });
+    state.hold(this.statusFilter$, (status) => {
+      this.resetPage();
+      this.onFilter('status', status);
+    });
     state.hold(this.birthMonth$, (birthMonth) => {
       this.resetPage();
       this.onFilter('birthDate', birthMonth);
@@ -143,8 +155,15 @@ export class EmployeeManagementComponent extends NewAbstractServerSortPagination
     return ({ $implicit }: TuiContextWithImplicit<string>) => map.get($implicit) || '';
   }
 
+  @tuiPure
+  statusStringify(items: ReadonlyArray<BaseOption<number>>): TuiStringHandler<TuiContextWithImplicit<number>> {
+    const map = new Map(items.map(({ value, label }) => [value, label]));
+
+    return ({ $implicit }: TuiContextWithImplicit<number>) => map.get($implicit) || '';
+  }
+
   parseParams(params: Params): void {
-    const keys = ['search', 'roleId', 'birthDate'];
+    const keys = ['search', 'roleId', 'birthDate', 'status'];
 
     super.parseParams(params);
     for (const key of keys) {

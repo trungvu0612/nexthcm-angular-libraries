@@ -12,7 +12,7 @@ import {
 import { TranslocoService } from '@ngneat/transloco';
 import { TranslocoDatePipe } from '@ngneat/transloco-locale';
 import { from, Observable, of, Subject } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { catchError, map, mapTo, tap } from 'rxjs/operators';
 import { REQUEST_COMMENT_URL_PATHS, REQUEST_DETAIL_URL_PATHS } from '../constants';
 import {
   CombineRequestTypeUrlPaths,
@@ -59,6 +59,18 @@ export class MyRequestsService {
       .pipe(tap(() => this.refreshSubject.next(type)));
   }
 
+  checkDuplicateRequestTime<T>(
+    type: keyof Pick<RequestTypeUrlPaths, 'workingOnsite' | 'workFromHome'>,
+    payload: T
+  ): Observable<boolean> {
+    return this.http
+      .post(`${MY_TIME_API_PATH}/${REQUEST_DETAIL_URL_PATHS[type]}/check-duplicate-request`, payload)
+      .pipe(
+        mapTo(true),
+        catchError(() => of(false))
+      );
+  }
+
   changeRequestStatus(type: keyof RequestTypeUrlPaths, requestId: string, nextState: string): Observable<unknown> {
     return this.http
       .put(`${MY_TIME_API_PATH}/${REQUEST_DETAIL_URL_PATHS[type]}/${requestId}`, { request: { nextState } })
@@ -76,9 +88,9 @@ export class MyRequestsService {
   }
 
   getRequest(type: keyof RequestTypeUrlPaths, id: string): Observable<GeneralRequest> {
-    return this.http.get<BaseResponse<GeneralRequest>>(`${MY_TIME_API_PATH}/${REQUEST_DETAIL_URL_PATHS[type]}/${id}`).pipe(
-      map((res) => res.data)
-    );
+    return this.http
+      .get<BaseResponse<GeneralRequest>>(`${MY_TIME_API_PATH}/${REQUEST_DETAIL_URL_PATHS[type]}/${id}`)
+      .pipe(map((res) => res.data));
   }
 
   generateSubmittingLeaveRequestErrorMessage(error: SubmitLeaveRequestHttpErrorResponse): string {

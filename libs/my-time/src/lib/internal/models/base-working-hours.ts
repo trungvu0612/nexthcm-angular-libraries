@@ -6,7 +6,6 @@ export interface BaseWorkingHours {
   workingDay: number;
   userInfo?: EmployeeInfo;
   ot: number;
-  wfh: number;
   onsiteDay: number;
 }
 

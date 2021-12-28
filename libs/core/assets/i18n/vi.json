@@ -622,5 +622,9 @@
   "generate": "Tạo",
   "actions": "Hành động",
   "supervisorTypes": "Phương thức giám sát",
-  "chooseSupervisorTypes": "Chọn phương thức giám sát..."
+  "chooseSupervisorTypes": "Chọn phương thức giám sát...",
+  "COMMON_STATUS": {
+    "inactive": "Không hoạt động",
+    "active": "Hoạt động"
+  }
 }

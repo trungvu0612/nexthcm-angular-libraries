@@ -41,16 +41,15 @@ export class GroupWorkingHoursTableComponent
     .pipe(
       map((result) => [
         { key: '', title: '', width: '6%' },
-        { key: 'cif', title: result.cif, width: '8%' },
-        { key: 'fullName', title: result.fullName, width: '8%' },
-        { key: 'office', title: result.office, width: '8%' },
+        { key: 'cif', title: result.cif, width: '9%' },
+        { key: 'fullName', title: result.fullName, width: '9%' },
+        { key: 'office', title: result.office, width: '9%' },
         { key: 'dateRange', title: result.dateRange, width: '13%' },
-        { key: 'totalWorkingTime', title: result.totalWorkingTimeH, width: '8%' },
-        { key: 'workingDay', title: result.workingDay, width: '8%' },
-        { key: 'ot', title: result.ot, width: '8%' },
-        { key: 'onsiteDay', title: result.onsiteDay, width: '8%' },
-        { key: 'wfh', title: result.workFromHome, width: '8%' },
-        { key: 'countLeave', title: result.countLeave, width: '8%' },
+        { key: 'totalWorkingTime', title: result.totalWorkingTimeH, width: '9%' },
+        { key: 'workingDay', title: result.workingDay, width: '9%' },
+        { key: 'ot', title: result.ot, width: '9%' },
+        { key: 'onsiteDay', title: result.onsiteDay, width: '9%' },
+        { key: 'countLeave', title: result.countLeave, width: '9%' },
         { key: '', title: result.functions, width: '9%' },
       ])
     );

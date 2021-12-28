@@ -21,7 +21,6 @@
         </td>
         <td class="text-center">{{ item.ot ? (item.ot | translocoDecimal) : '-' }}</td>
         <td class="text-center">{{ item.onsiteDay ? (item.onsiteDay | translocoDecimal) : '-' }}</td>
-        <td class="text-center">{{ item.wfh ? (item.wfh | translocoDecimal) : '-' }}</td>
         <td class="text-center">{{ item.leaveType }}</td>
         <td>
           <div *ngxPermissionsOnly="'VIEW_ALL_REQUEST_TENANT'" class="flex items-center">
