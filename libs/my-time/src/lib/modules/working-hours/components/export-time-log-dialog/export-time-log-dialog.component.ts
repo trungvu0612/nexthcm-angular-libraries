@@ -55,6 +55,7 @@ export class ExportTimeLogDialogComponent {
           map((result) => [
             { label: result.detail, value: ExportTimeLogType.Detail },
             { label: result.aggregate, value: ExportTimeLogType.Aggregate },
+            { label: result.cnb, value: ExportTimeLogType.CnB },
           ])
         ),
       },

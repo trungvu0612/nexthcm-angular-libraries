@@ -120,6 +120,7 @@
   "chooseLeaveType": "Chọn loại nghỉ phép...",
   "EXPORT_TIME_LOG_TYPES": {
     "detail": "Chi tiết",
-    "aggregate": "Tổng hợp"
+    "aggregate": "Tổng hợp",
+    "cnb": "C&B"
   }
 }

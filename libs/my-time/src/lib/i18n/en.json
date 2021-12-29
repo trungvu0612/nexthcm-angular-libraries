@@ -121,6 +121,7 @@
   "chooseLeaveType": "Choose leave type...",
   "EXPORT_TIME_LOG_TYPES": {
     "detail": "Detail",
-    "aggregate": "Aggregate"
+    "aggregate": "Aggregate",
+    "cnb": "C&B"
   }
 }
