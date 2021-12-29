@@ -16,6 +16,7 @@ import {
   TuiDataListModule,
   TuiDialogContext,
   TuiDropdownControllerModule,
+  TuiHintModule,
   TuiHostedDropdownComponent,
   TuiHostedDropdownModule,
   TuiLoaderModule,
@@ -44,6 +45,7 @@ interface ComponentState {
   data: GeneralRequest;
   history: HistoryItem[];
   comments: RequestComment[];
+  directSupervisor: EmployeeInfo | null;
 }
 
 interface RequestCommentForm extends RequestComment {
@@ -81,6 +83,7 @@ export class RequestDetailDialogComponent implements OnInit {
   // READS
 
   readonly data$ = this.state.select('data');
+  readonly directSupervisor$ = this.state.select('directSupervisor');
   readonly history$ = this.state.select('history');
   readonly comments$ = this.state.select('comments');
 
@@ -128,7 +131,10 @@ export class RequestDetailDialogComponent implements OnInit {
           iif(
             () => result.isConfirmed,
             this.myRequestsService.changeRequestStatus(this.requestType, this.requestId, id).pipe(
-              tap(() => this.fetch$.next()),
+              tap(() => {
+                this.fetch$.next();
+                this.getHistory$.next();
+              }),
               startWith(null)
             ),
             EMPTY
@@ -157,6 +163,14 @@ export class RequestDetailDialogComponent implements OnInit {
     private readonly translocoService: TranslocoService
   ) {
     state.connect('data', this.request$.pipe(filter(isPresent)));
+    state.connect(
+      'directSupervisor',
+      this.request$.pipe(
+        filter(isPresent),
+        filter(() => this.requestType === 'leave'),
+        switchMap((data) => this.myRequestsService.getLeaveEscalationUser((data.escalateDTO || data.escalateInfo)?.id))
+      )
+    );
     state.connect('history', this.getHistoryHandler$);
     state.connect(
       'comments',
@@ -176,7 +190,12 @@ export class RequestDetailDialogComponent implements OnInit {
             escalateId: user.id,
           })
         ),
-        tap(() => this.fetch$.next())
+        tap(
+          this.promptService.handleResponse('', () => {
+            this.fetch$.next();
+            this.getHistory$.next();
+          })
+        )
       )
     );
   }
@@ -286,6 +305,7 @@ export class RequestDetailDialogComponent implements OnInit {
     LetModule,
     TuiLoaderModule,
     PushModule,
+    TuiHintModule,
   ],
   exports: [RequestDetailDialogComponent],
 })

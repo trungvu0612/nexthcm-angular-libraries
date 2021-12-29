@@ -3,7 +3,7 @@
     <ng-container *ngIf="data.employeeDTO || data.user || data.userInfo as employee">
       <section *ngIf="!isMyRequest" class="flex flex-col items-center py-5 border-b">
         <hcm-avatar [image]="employee.image" [text]="employee.username" rounded size="xxl"></hcm-avatar>
-        <div class="mb-3 font-semibold text-blue-500 tui-text_h5">{{ employee.fullName }}</div>
+        <div class="my-2 font-semibold text-blue-500 tui-text_h5">{{ employee.fullName }}</div>
         <div class="text-lg">{{ employee.jobTitle?.name }}</div>
       </section>
 
@@ -34,11 +34,22 @@
           </div>
           <div class="table-row">
             <div class="table-label">{{ t('assignee') }}:</div>
-            <div *tuiLet="data.escalateDTO || data.escalateInfo as escalateUser" class="table-value">
-              <div *ngIf="escalateUser && isMyRequest" class="flex items-center">
+            <div *ngIf="data.escalateDTO || data.escalateInfo as escalateUser" class="table-value">
+              <div *ngIf="isMyRequest || requestType === 'leave'" class="flex items-center">
                 <ng-container *ngTemplateOutlet="content; context: { $implicit: escalateUser }"></ng-container>
+                <button
+                  (click)="changeEscalateUser$.next(directSupervisor)"
+                  *ngIf="directSupervisor$ | push as directSupervisor"
+                  [tuiHint]="t('myTime.assignToDirectSupervisor')"
+                  appearance="secondary"
+                  class="ml-2"
+                  icon="tuiIconArrowUpLarge"
+                  size="m"
+                  tuiIconButton
+                  type="button"
+                ></button>
               </div>
-              <div *ngIf="!isMyRequest">
+              <div *ngIf="!isMyRequest && requestType !== 'leave'">
                 <tui-select
                   (ngModelChange)="onChangeEscalateUser($event)"
                   *tuiLet="escalateUsers$ | async as users"

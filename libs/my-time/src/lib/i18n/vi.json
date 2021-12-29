@@ -122,5 +122,6 @@
     "detail": "Chi tiết",
     "aggregate": "Tổng hợp",
     "cnb": "C&B"
-  }
+  },
+  "assignToDirectSupervisor": "Chuyển cho người giám sát trực tiếp"
 }
