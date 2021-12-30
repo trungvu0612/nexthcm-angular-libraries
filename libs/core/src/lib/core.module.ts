@@ -14,6 +14,7 @@ import {
   TuiNotificationsModule,
 } from '@taiga-ui/core';
 import { NgDompurifySanitizer } from '@tinkoff/ng-dompurify';
+import { HeroIconModule } from 'ng-heroicon';
 import { FileSaverModule } from 'ngx-filesaver';
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { QuicklinkModule } from 'ngx-quicklink';
@@ -41,6 +42,13 @@ akitaConfig({ resettable: true });
     QuicklinkModule,
     TuiNotificationsModule,
     FileSaverModule,
+    HeroIconModule.forRoot(
+      {},
+      {
+        defaultHostDisplay: 'inlineBlock',
+        attachDefaultDimensionsIfNoneFound: true,
+      }
+    ),
   ],
   providers: [
     API_PREFIX_INTERCEPTOR_PROVIDER,

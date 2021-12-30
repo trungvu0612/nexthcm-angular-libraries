@@ -84,7 +84,6 @@ export const HOME_ROUTES: Routes = [
     GetFilePipeModule,
     AvatarComponentModule,
     TuiTabsModule,
-    HeroIconModule,
     TuiSvgModule,
     HeroIconModule.withIcons({ academicCap, identification }),
     TuiLetModule,
