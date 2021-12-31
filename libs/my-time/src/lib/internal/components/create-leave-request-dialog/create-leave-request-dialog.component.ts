@@ -107,7 +107,6 @@ export class CreateLeaveRequestDialogComponent implements OnInit {
         type: 'user-combo-box',
         templateOptions: {
           translate: true,
-          required: true,
           label: 'employee',
           labelClassName: 'font-semibold',
           placeholder: 'searchEmployees',

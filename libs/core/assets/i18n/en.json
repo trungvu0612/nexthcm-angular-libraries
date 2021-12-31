@@ -376,7 +376,8 @@
     "ACCOUNT_GET_ORGANIZATION_TYPE_LABEL_ORGANIZATION_TYPE_LABEL_DOES_NOT_EXIST": "Account get organization type label organization type label does not exist",
     "ACCOUNT_GET_ORGANIZATION_TYPE_LABEL_INVALID_TENANT": "Account get organization type label invalid tenant",
     "ACCOUNT_ORG_DTO_REQUEST_IS_NULL": "Account org dto request is null",
-    "ACCOUNT_MEMBER_TYPE_NOT_FOUND": "Account member type not found"
+    "ACCOUNT_MEMBER_TYPE_NOT_FOUND": "Account member type not found",
+    "USER_ESCALATE_NO_ENOUGH_LEVEL_APPROVE": "You do not have enough leave level to approve this request. You can assign to your direct superior for doing this."
   },
   "errorOccurred": "An error occurred",
   "REQUEST_STATUS": {

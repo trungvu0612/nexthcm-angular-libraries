@@ -374,7 +374,8 @@
     "ACCOUNT_GET_ORGANIZATION_TYPE_LABEL_ORGANIZATION_TYPE_LABEL_DOES_NOT_EXIST": "get loại tài khoản tổ chức tổ chức nhãn loại nhãn không tồn tại",
     "ACCOUNT_GET_ORGANIZATION_TYPE_LABEL_INVALID_TENANT": "get tổ chức loại nhãn thuê nhà hợp lệ",
     "ACCOUNT_ORG_DTO_REQUEST_IS_NULL": "org dto yêu cầu không được trống",
-    "ACCOUNT_MEMBER_TYPE_NOT_FOUND": "loại thành viên không tìm thấy"
+    "ACCOUNT_MEMBER_TYPE_NOT_FOUND": "loại thành viên không tìm thấy",
+    "USER_ESCALATE_NO_ENOUGH_LEVEL_APPROVE": "Bạn không đủ cấp độ xét duyệt yêu cầu nghỉ phép này. Bạn có thể chuyển yêu cầu này cho người giám sát trực tiếp của bạn."
   },
   "errorOccurred": "Đã xảy ra lỗi",
   "REQUEST_STATUS": {

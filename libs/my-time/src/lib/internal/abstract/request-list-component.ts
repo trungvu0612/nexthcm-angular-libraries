@@ -38,7 +38,11 @@ export abstract class AbstractRequestListComponent<T>
           iif(
             () => result.isConfirmed,
             this.myRequestsService.changeRequestStatus(this.requestTypeUrlPath, requestId, id).pipe(
-              tap(() => this.fetch$.next()),
+              tap(
+                this.promptService.handleResponse('', () => {
+                  this.fetch$.next();
+                })
+              ),
               startWith(null)
             ),
             EMPTY

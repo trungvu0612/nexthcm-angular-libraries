@@ -131,10 +131,12 @@ export class RequestDetailDialogComponent implements OnInit {
           iif(
             () => result.isConfirmed,
             this.myRequestsService.changeRequestStatus(this.requestType, this.requestId, id).pipe(
-              tap(() => {
-                this.fetch$.next();
-                this.getHistory$.next();
-              }),
+              tap(
+                this.promptService.handleResponse('', () => {
+                  this.fetch$.next();
+                  this.getHistory$.next();
+                })
+              ),
               startWith(null)
             ),
             EMPTY
