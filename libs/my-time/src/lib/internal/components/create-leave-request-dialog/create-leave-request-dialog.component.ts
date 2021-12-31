@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Inject, NgModule, OnInit, ViewChild } from '@angular/core';
-import { BaseUser, PromptService } from '@nexthcm/cdk';
+import { BaseUser, isDateRangeSameYear, PromptService } from '@nexthcm/cdk';
 import { BaseFormComponentModule } from '@nexthcm/ui';
-import { Control, FormBuilder, FormControl, FormGroup } from '@ng-stack/forms';
+import { Control, FormBuilder, FormControl, FormGroup, ValidationErrors } from '@ng-stack/forms';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { TuiDay, TuiDayRange, TuiDestroyService } from '@taiga-ui/cdk';
@@ -32,6 +32,10 @@ interface LeaveRequestForm extends LeaveRequestPayload {
   startDay?: Control<SingleDayItem>;
   endDay?: Control<SingleDayItem>;
   sendToUser?: Control<BaseUser>;
+}
+
+function FromToValidator(control: FormControl<TuiDayRange>): ValidationErrors | null {
+  return !control.value || isDateRangeSameYear(control.value) ? null : { sameYear: true };
 }
 
 @Component({
@@ -86,17 +90,20 @@ export class CreateLeaveRequestDialogComponent implements OnInit {
     private readonly fb: FormBuilder,
     private readonly myLeaveService: MyLeaveService,
     private readonly myRequestsService: MyRequestsService,
-    @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<boolean, RemainingLeaveEntitlement[]>,
+    @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<boolean, string>,
     private readonly translocoService: TranslocoService,
     private readonly destroy$: TuiDestroyService,
     private readonly promptService: PromptService
   ) {}
 
+  get currentUserId(): string {
+    return this.context.data;
+  }
+
   ngOnInit(): void {
     this.fields = [
       {
         key: 'employee',
-        className: 'tui-form__row block',
         type: 'user-combo-box',
         templateOptions: {
           translate: true,
@@ -105,7 +112,30 @@ export class CreateLeaveRequestDialogComponent implements OnInit {
           labelClassName: 'font-semibold',
           placeholder: 'searchEmployees',
         },
-        hide: !!this.context.data,
+        expressionProperties: {
+          className: () => (this.currentUserId ? 'hidden' : 'tui-form__row block'),
+        },
+      },
+      {
+        key: 'fromTo',
+        className: 'tui-form__row block',
+        type: 'input-date-range',
+        templateOptions: {
+          translate: true,
+          required: true,
+          label: 'dateRange',
+          labelClassName: 'font-semibold',
+          placeholder: 'chooseDateRange',
+          textfieldLabelOutside: true,
+        },
+        validators: {
+          validation: [FromToValidator],
+        },
+        validation: {
+          messages: {
+            sameYear: () => this.translocoService.selectTranslate('leaveDateRangeSameYear', {}, TRANSLATION_SCOPE),
+          },
+        },
       },
       {
         key: 'leaveType',
@@ -113,7 +143,7 @@ export class CreateLeaveRequestDialogComponent implements OnInit {
         type: 'filter',
         templateOptions: {
           required: true,
-          options: this.context.data || [],
+          options: [],
           labelProp: 'leaveTypeName',
           single: true,
           badgeHandler: (item: RemainingLeaveEntitlement) => item.remainingEntitlement.toString(),
@@ -128,27 +158,27 @@ export class CreateLeaveRequestDialogComponent implements OnInit {
         },
         hooks: {
           onInit: (field) => {
-            if (field?.templateOptions && this.form.controls.employee) {
-              field.templateOptions.options = this.form.controls.employee.valueChanges.pipe(
-                switchMap((employee) =>
-                  employee ? this.myLeaveService.getEmployeeLeaveEntitlements(employee.id) : of([])
-                )
+            if (field?.templateOptions && this.form.controls.employee && this.form.controls.fromTo) {
+              field.templateOptions.options = combineLatest([
+                this.form.controls.employee.valueChanges.pipe(
+                  map((employee) => employee?.id),
+                  startWith(this.currentUserId)
+                ),
+                this.form.controls.fromTo.valueChanges,
+              ]).pipe(
+                switchMap(([employeeId, fromTo]) => {
+                  if (employeeId && fromTo && isDateRangeSameYear(fromTo)) {
+                    const fromDate = (fromTo.from as TuiDay).toLocalNativeDate().getTime();
+                    const toDate = endOfDay((fromTo.to as TuiDay).toLocalNativeDate()).getTime();
+
+                    return this.myLeaveService.getEmployeeLeaveEntitlements(employeeId, fromDate, toDate);
+                  } else {
+                    return of([]);
+                  }
+                })
               );
             }
           },
-        },
-      },
-      {
-        key: 'fromTo',
-        className: 'tui-form__row block',
-        type: 'input-date-range',
-        templateOptions: {
-          translate: true,
-          required: true,
-          label: 'dateRange',
-          labelClassName: 'font-semibold',
-          placeholder: 'chooseDateRange',
-          textfieldLabelOutside: true,
         },
       },
       {

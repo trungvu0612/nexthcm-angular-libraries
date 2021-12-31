@@ -10,7 +10,7 @@ import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { Columns } from 'ngx-easy-table';
 import { combineLatest, from, Observable, of, Subject } from 'rxjs';
-import { catchError, filter, map, share, shareReplay, startWith, switchMap, tap } from 'rxjs/operators';
+import { catchError, filter, map, mapTo, share, shareReplay, startWith, switchMap, tap } from 'rxjs/operators';
 import { AbstractMyRequestListComponent } from '../../internal/abstract/my-request-list-component';
 import {
   CreateLeaveRequestDialogComponent,
@@ -51,10 +51,7 @@ export class MyLeaveComponent extends AbstractMyRequestListComponent<LeaveReques
   readonly createConvertLeaveEntitlementRequest$ = new Subject<void>();
   // HANDLERS
   readonly createLeaveRequestHandler$ = this.createLeaveRequest$.pipe(
-    switchMap(() =>
-      this.myLeaveService.getEmployeeLeaveEntitlements(this.authService.get('userInfo', 'userId')).pipe(startWith(null))
-    ),
-    share()
+    mapTo(this.authService.get('userInfo', 'userId'))
   );
   readonly createConvertLeaveEntitlementRequestHandler$ = this.createConvertLeaveEntitlementRequest$.pipe(
     switchMap(() =>
@@ -65,7 +62,6 @@ export class MyLeaveComponent extends AbstractMyRequestListComponent<LeaveReques
     share()
   );
   // LOADINGS
-  readonly createLeaveRequestLoading$ = this.createLeaveRequestHandler$.pipe(map((value) => !value));
   readonly createConvertLeaveEntitlementRequestLoading$ = this.createConvertLeaveEntitlementRequestHandler$.pipe(
     map((value) => !value)
   );
@@ -102,14 +98,7 @@ export class MyLeaveComponent extends AbstractMyRequestListComponent<LeaveReques
   ) {
     super(state, activatedRoute, authService);
     state.connect(this.request$.pipe(filter(isPresent)));
-    state.hold(
-      this.createLeaveRequestHandler$.pipe(
-        filter(isPresent),
-        switchMap((leaveTypes) =>
-          leaveTypes.length > 0 ? this.openCreateLeaveRequestDialog(leaveTypes) : this.handleEmptyLeaveEntitlements()
-        )
-      )
-    );
+    state.hold(this.createLeaveRequestHandler$.pipe(switchMap((userId) => this.openCreateLeaveRequestDialog(userId))));
     state.hold(
       this.createConvertLeaveEntitlementRequestHandler$.pipe(
         filter(isPresent),
@@ -122,7 +111,7 @@ export class MyLeaveComponent extends AbstractMyRequestListComponent<LeaveReques
     );
   }
 
-  private openCreateLeaveRequestDialog(data: RemainingLeaveEntitlement[]): Observable<unknown> {
+  private openCreateLeaveRequestDialog(data: string): Observable<unknown> {
     return this.dialogService
       .open(new PolymorpheusComponent(CreateLeaveRequestDialogComponent, this.injector), {
         label: this.translocoService.translate('myTime.submitLeaveRequest'),

@@ -33,10 +33,21 @@ export class MyLeaveService extends RxState<MyLeaveState> {
       .pipe(map((res) => res.data));
   }
 
-  getEmployeeLeaveEntitlements(userId: string): Observable<RemainingLeaveEntitlement[]> {
+  getEmployeeLeaveEntitlements(
+    userId: string,
+    fromDate?: number,
+    toDate?: number
+  ): Observable<RemainingLeaveEntitlement[]> {
+    let params = new HttpParams();
+
+    if (fromDate && toDate) {
+      params = params.set('fromDate', fromDate).set('toDate', toDate);
+    }
+
     return this.http
       .get<BaseResponse<RemainingLeaveEntitlement[]>>(
-        `${MY_TIME_API_PATH}/leaves/remaining-entitlement-by-user-id/${userId}`
+        `${MY_TIME_API_PATH}/leaves/remaining-entitlement-by-user-id/${userId}`,
+        { params }
       )
       .pipe(
         map((res) => res.data),

@@ -10,13 +10,7 @@
       >
         {{ 'transferLeaveEntitlements' | transloco }}
       </button>-->
-      <button
-        (click)="createLeaveRequest$.next()"
-        [showLoader]="(createLeaveRequestLoading$ | push) === true"
-        icon="tuiIconPlusLarge"
-        size="m"
-        tuiButton
-      >
+      <button (click)="createLeaveRequest$.next()" icon="tuiIconPlusLarge" size="m" tuiButton>
         {{ 'myTime.submitLeaveRequest' | transloco }}
       </button>
     </div>

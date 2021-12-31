@@ -111,6 +111,7 @@
   "duration": "Duration",
   "emptyLeaveEntitlements": "<b>Your leave entitlements has expired!</b>",
   "leaveTypeRequired": "Please select a leave type!",
+  "leaveDateRangeSameYear": "The date range must be in one year!",
   "createEmployeeRequest": "Create request for employee",
   "remainingEntitlement": "<b>The remaining leave entitlement: {{value}} day(s).</b>",
   "TRANSFER_LEAVE_ENTITLEMENT_TYPES": {
