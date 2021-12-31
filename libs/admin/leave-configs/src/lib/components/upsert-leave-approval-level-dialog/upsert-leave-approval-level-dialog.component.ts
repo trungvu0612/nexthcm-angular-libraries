@@ -7,7 +7,8 @@ import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
-import { takeUntil } from 'rxjs/operators';
+import { of, Subject } from 'rxjs';
+import { catchError, map, share, startWith, switchMap, tap } from 'rxjs/operators';
 import { AdminLeaveConfigsService } from '../../admin-leave-configs.service';
 import { LeaveConfigUrlPaths, LeaveLevelApproval } from '../../models';
 import { TRANSLATION_SCOPE } from '../../translation-scope';
@@ -89,6 +90,28 @@ export class UpsertLeaveApprovalLevelDialogComponent implements OnInit {
     { key: 'id' },
     { key: 'tenantId', defaultValue: this.authService.get('userInfo', 'tenantId') },
   ];
+  readonly submit$ = new Subject<LeaveLevelApproval>();
+  readonly submitHandler$ = this.submit$.pipe(
+    switchMap((payload) =>
+      this.leaveConfigsService.upsert(this.leaveConfigAPIUrlPath, payload).pipe(
+        tap(
+          this.promptService.handleResponse(
+            payload.id
+              ? 'leaveConfigs.editLeaveLevelApprovalSuccessfully'
+              : 'leaveConfigs.createLeaveLevelApprovalSuccessfully',
+            () => this.context.completeWith(true)
+          )
+        ),
+        catchError(() => of({})),
+        startWith(null)
+      )
+    ),
+    share()
+  );
+  readonly submitLoading$ = this.submitHandler$.pipe(
+    map((value) => !value),
+    catchError(() => of(false))
+  );
 
   constructor(
     @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<boolean, LeaveLevelApproval>,
@@ -114,17 +137,7 @@ export class UpsertLeaveApprovalLevelDialogComponent implements OnInit {
       const formModel = { ...this.form.value };
 
       formModel.jobTitle = formModel.jobTitleDTOList.map((jobTitle) => jobTitle.id);
-      this.leaveConfigsService
-        .upsert(this.leaveConfigAPIUrlPath, formModel)
-        .pipe(takeUntil(this.destroy$))
-        .subscribe(
-          this.promptService.handleResponse(
-            formModel.id
-              ? 'leaveConfigs.editLeaveLevelApprovalSuccessfully'
-              : 'leaveConfigs.createLeaveLevelApprovalSuccessfully',
-            () => this.context.completeWith(true)
-          )
-        );
+      this.submit$.next(formModel);
     }
   }
 

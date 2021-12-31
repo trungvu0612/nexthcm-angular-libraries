@@ -9,7 +9,8 @@ import { TuiDay, TuiDayRange, TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { endOfDay, getTime } from 'date-fns';
-import { takeUntil } from 'rxjs/operators';
+import { of, Subject } from 'rxjs';
+import { catchError, map, share, startWith, switchMap, tap } from 'rxjs/operators';
 import { AdminLeaveConfigsService } from '../../admin-leave-configs.service';
 import { LeaveConfigUrlPaths, LeaveEntitlement } from '../../models';
 import { TRANSLATION_SCOPE } from '../../translation-scope';
@@ -121,6 +122,28 @@ export class UpsertLeaveEntitlementDialogComponent implements OnInit {
     },
     { key: 'id' },
   ];
+  readonly submit$ = new Subject<LeaveEntitlement>();
+  readonly submitHandler$ = this.submit$.pipe(
+    switchMap((payload) =>
+      this.leaveConfigsService.upsert(this.leaveConfigAPIUrlPath, payload).pipe(
+        tap(
+          this.promptService.handleResponse(
+            payload.id
+              ? 'leaveConfigs.editLeaveEntitlementSuccessfully'
+              : 'leaveConfigs.createLeaveEntitlementSuccessfully',
+            () => this.context.completeWith(true)
+          )
+        ),
+        catchError(() => of({})),
+        startWith(null)
+      )
+    ),
+    share()
+  );
+  readonly submitLoading$ = this.submitHandler$.pipe(
+    map((value) => !value),
+    catchError(() => of(false))
+  );
 
   constructor(
     @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<boolean, LeaveEntitlement>,
@@ -165,17 +188,7 @@ export class UpsertLeaveEntitlementDialogComponent implements OnInit {
         formModel.toDate = getTime(endOfDay(formModel.fromTo.to.toLocalNativeDate()));
       }
       delete formModel.fromTo;
-      this.leaveConfigsService
-        .upsert(this.leaveConfigAPIUrlPath, formModel)
-        .pipe(takeUntil(this.destroy$))
-        .subscribe(
-          this.promptService.handleResponse(
-            formModel.id
-              ? 'leaveConfigs.editLeaveEntitlementSuccessfully'
-              : 'leaveConfigs.createLeaveEntitlementSuccessfully',
-            () => this.context.completeWith(true)
-          )
-        );
+      this.submit$.next(formModel);
     }
   }
 

@@ -9,8 +9,8 @@ import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
-import { of } from 'rxjs';
-import { debounceTime, switchMap, take, takeUntil, tap } from 'rxjs/operators';
+import { of, Subject } from 'rxjs';
+import { catchError, debounceTime, map, share, startWith, switchMap, take, tap } from 'rxjs/operators';
 import { AdminLeaveConfigsService } from '../../admin-leave-configs.service';
 import { LeaveConfigUrlPaths } from '../../models/leave-config-url-paths';
 import { TRANSLATION_SCOPE } from '../../translation-scope';
@@ -121,6 +121,26 @@ export class UpsertLeaveTypeDialogComponent implements OnInit {
     },
     { key: 'id' },
   ];
+  readonly submit$ = new Subject<LeaveType>();
+  readonly submitHandler$ = this.submit$.pipe(
+    switchMap((payload) =>
+      this.leaveConfigsService.upsert(this.leaveConfigAPIUrlPath, payload).pipe(
+        tap(
+          this.promptService.handleResponse(
+            payload.id ? 'leaveConfigs.editLeaveTypeSuccessfully' : 'leaveConfigs.createLeaveTypeSuccessfully',
+            () => this.context.completeWith(true)
+          )
+        ),
+        catchError(() => of({})),
+        startWith(null)
+      )
+    ),
+    share()
+  );
+  readonly submitLoading$ = this.submitHandler$.pipe(
+    map((value) => !value),
+    catchError(() => of(false))
+  );
 
   constructor(
     @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<boolean, LeaveType>,
@@ -151,15 +171,7 @@ export class UpsertLeaveTypeDialogComponent implements OnInit {
       const formModel: LeaveType = { ...this.form.value };
 
       formModel.status = formModel.statusBoolean ? CommonStatus.active : CommonStatus.inactive;
-      this.leaveConfigsService
-        .upsert(this.leaveConfigAPIUrlPath, formModel)
-        .pipe(takeUntil(this.destroy$))
-        .subscribe(
-          this.promptService.handleResponse(
-            formModel.id ? 'leaveConfigs.editLeaveTypeSuccessfully' : 'leaveConfigs.createLeaveTypeSuccessfully',
-            () => this.context.completeWith(true)
-          )
-        );
+      this.submit$.next(formModel);
     }
   }
 
