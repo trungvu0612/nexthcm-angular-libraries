@@ -1,0 +1,37 @@
+{
+  "RECURRING_TYPE": {
+    "NONE": "Không",
+    "MONTHLY": "Hàng tháng",
+    "YEARLY": "Hàng năm"
+  },
+  "HOLIDAY_COLUMNS": {
+    "date": "Ngày",
+    "name": "Tên",
+    "repeat": "Lặp lại",
+    "payable": "Tính lương",
+    "actions": "Hành động"
+  },
+  "CONVERT_OT_OPTIONS": {
+    "none": "Không",
+    "payroll": "Chuyển thành lương",
+    "paidLeave": "Chuyển thành ngày nghỉ phép có lương"
+  },
+  "addHoliday": "Thêm ngày lễ",
+  "editHoliday": "Sửa ngày lễ",
+  "deleteHoliday": "<b>Bạn chắc chắn muốn xoá ngày lễ này?</b>",
+  "addHolidaySuccessfully": "<b>Thêm ngày lễ thành công!</b>",
+  "editHolidaySuccessfully": "<b>Sửa ngày lễ thành công!</b>",
+  "deleteHolidaySuccessfully": "<b>Xoá ngày lễ thành công!</b>",
+  "saveWorkingTimeConfigSuccessfully": "<b>Lưu cấu hình giờ làm việc thành công!</b>",
+  "morningCheckInBefore": "Check-in buổi sáng trước",
+  "afternoonCheckOutAfter": "Check-out buổi chiều trước",
+  "startLunch": "Bắt đầu bữa trưa",
+  "endLunch": "Kết thúc bữa trưa",
+  "minimumWorkingHours": "Giờ công tối thiểu",
+  "maximumWorkingHours": "Giờ công tối đa",
+  "startTime": "Bắt đầu ngày",
+  "endTime": "Kết thúc ngày",
+  "maxPaidLeaveToCash": "Số ngày nghỉ tối đa được trả lương",
+  "useTimekeeper": "Sử dụng máy chấm công",
+  "convertOT": "Chuyển đổi OT"
+}

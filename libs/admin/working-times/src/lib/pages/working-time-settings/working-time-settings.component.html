@@ -1,132 +1,56 @@
-<hcm-page *transloco="let t">
-  <!--  <tui-tabs [(activeItemIndex)]='activeItemIndex'>-->
-  <!--    <button tuiTab>-->
-  <!--      <ng-container *ngIf='!this.workingHourId'>{{ t('WORKING_HOUR.addCalendar') }}</ng-container>-->
-  <!--      <ng-container *ngIf='this.workingHourId'>{{ t('WORKING_HOUR.updateCalendar') }}</ng-container>-->
-  <!--    </button>-->
-  <!--    <button tuiTab>-->
-  <!--      {{ t('WORKING_HOUR.addOverTime') }}-->
-  <!--    </button>-->
-  <!--  </tui-tabs>-->
-
-  <ng-container [ngSwitch]="activeItemIndex">
-    <div class="mt-5">
-      <ng-container *ngSwitchCase="0">
-        <div class="max-w-3xl">
-          <div class="grid grid-cols-2">
-            <div class="text-xl font-bold text-blue-500">
-              <ng-container *ngIf="!this.workingHourId">{{ t('WORKING_HOUR.addCalendar') }}</ng-container>
-              <ng-container *ngIf="this.workingHourId">{{ t('WORKING_HOUR.updateCalendar') }}</ng-container>
-            </div>
-          </div>
-
-          <label [label]="label" tuiLabel>
-            <tui-select
-              *rxLet="orgTree$; let orgs"
-              [formControl]="$any(orgControl)"
-              [tuiTextfieldLabelOutside]="true"
-              [valueContent]="valueContent"
-            >
-              <tui-data-list *tuiDataList>
-                <ng-container *ngTemplateOutlet="orgTpl; context: { $implicit: orgs }"></ng-container>
-                <ng-template #orgTpl let-orgs>
-                  <ng-container *ngFor="let org of orgs; trackBy: trackByOrgId">
-                    <button [value]="org" tuiOption>
-                      <span class="inline-flex items-center">
-                        <button
-                          *ngFor="let _ of [].constructor(org.depth || 0)"
-                          [disabled]="true"
-                          appearance="flat"
-                          size="xs"
-                          tuiIconButton
-                        ></button>
-                        <ng-container *ngTemplateOutlet="valueContent; context: { $implicit: org }"></ng-container>
-                      </span>
-                    </button>
-                    <ng-container *ngIf="org.descendants?.length">
-                      <ng-container *ngTemplateOutlet="orgTpl; context: { $implicit: org.descendants }"></ng-container>
-                    </ng-container>
-                  </ng-container>
-                </ng-template>
-              </tui-data-list>
-              <ng-template #valueContent let-item>{{ item.orgName }}</ng-template>
-            </tui-select>
-          </label>
-          <ng-template #label>
-            <div class="font-semibold mb-2 mt-4 text-base">{{ 'organization' | transloco }}</div>
-          </ng-template>
-
-          <tui-loader [overlay]="true" [showLoader]="(loading$ | async) === true"></tui-loader>
-          <form [formGroup]="$any(form)">
-            <formly-form [fields]="fields" [form]="form" [model]="model" class="grid grid-cols-3 gap-4"></formly-form>
-          </form>
-
-          <div class="my-5">
-            <div class="font-bold text-xl mb-5">{{ t('WORKING_HOUR.addHoliday') }}</div>
-            <form [formGroup]="$any(formHoliday)">
-              <formly-form
-                [fields]="fieldsHoliday"
-                [form]="formHoliday"
-                [model]="modelHoliday"
-                class="grid grid-cols-4 gap-4"
-              >
-              </formly-form>
-              <button
-                (click)="addHolidayTime()"
-                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-5"
-              >
-                {{ t('SETTING_TIME.add') }}
-              </button>
-            </form>
-
-            <ngx-table
-              [columns]="(columns$ | async) || []"
-              [configuration]="configuration"
-              [data]="dataHoliday"
-              class="my-5"
-            >
-              <ng-template let-index="index" let-row>
-                <td>{{ row?.holidayDate | date: 'dd/MM/yyyy' }}</td>
-                <td>{{ row?.name }}</td>
-                <td>
-                  <ng-container *ngIf="row.paidHoliday">
-                    <tui-svg src="tuiIconCheck"></tui-svg>
-                  </ng-container>
-                </td>
-                <td>{{ row?.recurringType }}</td>
-                <td>
-                  <button
-                    (click)="removeHoliday(index, row?.id)"
-                    class="
-                      text-sm
-                      bg-transparent
-                      hover:bg-blue-500
-                      text-blue-700
-                      font-semibold
-                      hover:text-white
-                      py-2
-                      px-4
-                      border border-blue-500
-                      hover:border-transparent
-                      rounded
-                    "
-                  >
-                    Delete
-                  </button>
-                </td>
-              </ng-template>
-            </ngx-table>
-          </div>
-          <div class="my-10 text-right">
-            <button (click)="saveSettings()" [disabled]="!form.valid" tuiButton>
-              {{ t('save') }}
+<hcm-page title="{{ 'workingTimeConfiguration' | transloco }}">
+  <label [label]="label" tuiLabel>
+    <tui-select
+      *rxLet="orgTree$; let orgs"
+      [formControl]="$any(orgControl)"
+      [tuiTextfieldLabelOutside]="true"
+      [valueContent]="valueContent"
+    >
+      <tui-data-list *tuiDataList>
+        <ng-container *ngTemplateOutlet="orgTpl; context: { $implicit: orgs }"></ng-container>
+        <ng-template #orgTpl let-orgs>
+          <ng-container *ngFor="let org of orgs; trackBy: trackByOrgId">
+            <button [value]="org" tuiOption>
+              <span class="inline-flex items-center">
+                <button
+                  *ngFor="let _ of [].constructor(org.depth || 0)"
+                  [disabled]="true"
+                  appearance="flat"
+                  size="xs"
+                  tuiIconButton
+                ></button>
+                <ng-container *ngTemplateOutlet="valueContent; context: { $implicit: org }"></ng-container>
+              </span>
             </button>
-          </div>
-        </div>
-      </ng-container>
-      <ng-container *ngSwitchCase="1">
-        <hcm-overtime-working></hcm-overtime-working>
-      </ng-container>
-    </div>
-  </ng-container>
+            <ng-container *ngIf="org.descendants?.length">
+              <ng-container *ngTemplateOutlet="orgTpl; context: { $implicit: org.descendants }"></ng-container>
+            </ng-container>
+          </ng-container>
+        </ng-template>
+      </tui-data-list>
+      <ng-template #valueContent let-item>{{ item.orgName }}</ng-template>
+    </tui-select>
+  </label>
+  <ng-template #label>
+    <div class="mb-1 text-base font-semibold">{{ 'organization' | transloco }}</div>
+  </ng-template>
+
+  <form [formGroup]="$any(form)" class="mb-8">
+    <formly-form
+      [fields]="fields"
+      [form]="form"
+      [model]="model"
+      class="grid grid-cols-4 gap-4 items-center mt-5"
+    ></formly-form>
+  </form>
+
+  <div class="mt-5 pt-5 border-t">
+    <div class="mb-5 text-xl font-bold">{{ 'holidays' | transloco }}</div>
+    <hcm-holiday-list></hcm-holiday-list>
+  </div>
+  <div *transloco="let t" class="tui-form__buttons">
+    <button (click)="saveSettings()" class="tui-form__button" size="l" tuiButton>
+      {{ t('save') }}
+    </button>
+  </div>
 </hcm-page>

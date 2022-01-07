@@ -186,7 +186,7 @@
   "branchManagement": "Quản lý chi nhánh",
   "departmentManagement": "Quản lý phòng ban",
   "periodManagement": "Quản lý khoảng thời gian",
-  "workingTimeManagement": "Quản lý thời gian làm việc",
+  "workingTimeConfiguration": "Cấu hình thời gian làm việc",
   "syncSetting": "Đồng bộ dữ liệu",
   "updateSuccessful": "<b>Cập nhật thành công!</b>",
   "contractManagement": "Quản lý hợp đồng",
@@ -375,7 +375,7 @@
     "ACCOUNT_GET_ORGANIZATION_TYPE_LABEL_INVALID_TENANT": "get tổ chức loại nhãn thuê nhà hợp lệ",
     "ACCOUNT_ORG_DTO_REQUEST_IS_NULL": "org dto yêu cầu không được trống",
     "ACCOUNT_MEMBER_TYPE_NOT_FOUND": "loại thành viên không tìm thấy",
-    "USER_ESCALATE_NO_ENOUGH_LEVEL_APPROVE": "Bạn không đủ cấp độ xét duyệt yêu cầu nghỉ phép này. Bạn có thể chuyển yêu cầu này cho người giám sát trực tiếp của bạn."
+    "USER_ESCALATE_NO_ENOUGH_LEVEL_APPROVE": "Bạn không đủ cấp độ xét duyệt yêu cầu nghỉ phép này. Bạn có thể chuyển yêu cầu này cho một trong những người giám sát trực tiếp / không trực tiếp của bạn. Hoặc, bạn có thể huỷ bỏ yêu cầu này."
   },
   "errorOccurred": "Đã xảy ra lỗi",
   "REQUEST_STATUS": {
@@ -627,5 +627,8 @@
   "COMMON_STATUS": {
     "inactive": "Không hoạt động",
     "active": "Hoạt động"
-  }
+  },
+  "payable": "Tính lương",
+  "repeat": "Lặp lại",
+  "holidays": "Ngày lễ"
 }

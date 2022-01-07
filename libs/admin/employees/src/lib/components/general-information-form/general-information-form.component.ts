@@ -273,6 +273,7 @@ export class GeneralInformationFormComponent implements OnInit {
                     const selectedSupervisors = flatten(
                       this.model.userMultipleReportMethod.map((item) => item.userReports)
                     );
+
                     if (this.model.directReport) {
                       selectedSupervisors.push(this.model.directReport as BaseUser);
                     }

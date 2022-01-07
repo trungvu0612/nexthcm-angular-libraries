@@ -56,7 +56,7 @@ export class MyLeaveComponent extends AbstractMyRequestListComponent<LeaveReques
   readonly createConvertLeaveEntitlementRequestHandler$ = this.createConvertLeaveEntitlementRequest$.pipe(
     switchMap(() =>
       this.myLeaveService
-        .getEmployeeLeaveEntitlementsForTransfering(this.authService.get('userInfo', 'userId'))
+        .getEmployeeLeaveEntitlementsForTransferring(this.authService.get('userInfo', 'userId'))
         .pipe(startWith(null))
     ),
     share()

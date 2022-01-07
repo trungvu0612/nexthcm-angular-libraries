@@ -1,0 +1,33 @@
+<div class="flex justify-end mb-4">
+  <button (click)="onUpsertHoliday()" size="m" tuiButton type="button">
+    {{ 'settingWorkingTime.addHoliday' | transloco }}
+  </button>
+</div>
+<tui-loader [overlay]="true" [showLoader]="(loading$ | async) === true">
+  <ngx-table #table [columns]="(columns$ | async) || []" [configuration]="configuration" [data]="(data$ | async) || []">
+    <ng-template let-row>
+      <ng-container *tuiLet="item(row) as item">
+        <td>{{ item.holidayDate | date: 'dd/MM/yyyy' }}</td>
+        <td>{{ item.name }}</td>
+        <td>{{ 'settingWorkingTime.RECURRING_TYPE.' + item.recurringType | transloco }}</td>
+        <td>
+          <tui-primitive-checkbox [value]="!!item.paidHoliday" class="mx-auto" size="l"></tui-primitive-checkbox>
+        </td>
+        <td>
+          <button
+            (click)="onRemoveHoliday(item.id)"
+            appearance="flat"
+            icon="tuiIconTrashLarge"
+            size="m"
+            tuiIconButton
+          ></button>
+        </td>
+      </ng-container>
+    </ng-template>
+  </ngx-table>
+</tui-loader>
+<tui-table-pagination
+  (pageChange)="onPage($event)"
+  (sizeChange)="onSize($event)"
+  [total]="(total$ | async) || 0"
+></tui-table-pagination>

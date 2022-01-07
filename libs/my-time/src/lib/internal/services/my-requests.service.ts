@@ -153,11 +153,11 @@ export class MyRequestsService {
       .pipe(map((res) => res.data));
   }
 
-  getLeaveEscalationUser(currentAssigneeId?: string): Observable<EmployeeInfo | null> {
+  getLeaveEscalationUser(leaveId: string, currentAssigneeId?: string): Observable<EmployeeInfo | null> {
     return currentAssigneeId
       ? this.http
           .get<BaseResponse<EmployeeInfo | null>>(
-            `${MY_TIME_API_PATH}/leaves/get-escalate-user-by-user-id/${currentAssigneeId}`
+            `${MY_TIME_API_PATH}/leaves/get-escalate-user-by-user-id/${currentAssigneeId}?leaveId=${leaveId}`
           )
           .pipe(map((res) => res.data))
       : of(null);

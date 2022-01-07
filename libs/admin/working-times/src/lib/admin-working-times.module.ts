@@ -2,36 +2,32 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
-import { FormlyTaigaUiModule, LayoutComponent, LayoutModule } from '@nexthcm/ui';
-import { TranslocoModule } from '@ngneat/transloco';
+import { BaseFormComponentModule, LayoutComponent, LayoutModule } from '@nexthcm/ui';
+import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
 import { FormlyModule } from '@ngx-formly/core';
 import { LetModule } from '@rx-angular/template';
-import { TuiLetModule, TuiMapperPipeModule } from '@taiga-ui/cdk';
+import { TuiTablePaginationModule } from '@taiga-ui/addon-table';
+import { TuiLetModule } from '@taiga-ui/cdk';
 import {
   TuiButtonModule,
   TuiDataListModule,
-  TuiExpandModule,
   TuiLabelModule,
   TuiLoaderModule,
+  TuiPrimitiveCheckboxModule,
   TuiSvgModule,
   TuiTextfieldControllerModule,
 } from '@taiga-ui/core';
-import {
-  TuiCheckboxLabeledModule,
-  TuiDataListWrapperModule,
-  TuiInputCountModule,
-  TuiInputDateModule,
-  TuiInputModule,
-  TuiInputTimeModule,
-  TuiSelectModule,
-  TuiTabsModule,
-  TuiToggleModule,
-} from '@taiga-ui/kit';
+import { TuiDataListWrapperModule, TuiSelectModule } from '@taiga-ui/kit';
 import { TableModule } from 'ngx-easy-table';
 import { NgxPermissionsGuard } from 'ngx-permissions';
+import { HolidayListComponent } from './components/holiday-list/holiday-list.component';
 import { OvertimeWorkingComponent } from './components/overtime-working/overtime-working.component';
 import { RepeatSectionComponent } from './components/repeat-section/repeat-section.component';
+import { UpsertHolidayDialogComponent } from './components/upsert-holiday-dialog/upsert-holiday-dialog.component';
+import en from './i18n/en.json';
+import vi from './i18n/vi.json';
 import { WorkingTimeSettingsComponent } from './pages/working-time-settings/working-time-settings.component';
+import { TRANSLATION_SCOPE } from './translation-scope';
 
 export const adminWorkingTimesRoutes: Routes = [
   {
@@ -52,18 +48,9 @@ export const adminWorkingTimesRoutes: Routes = [
     }),
     ReactiveFormsModule,
     TuiLabelModule,
-    TuiInputCountModule,
-    TuiTextfieldControllerModule,
-    TuiInputModule,
-    TuiToggleModule,
-    TuiCheckboxLabeledModule,
-    TuiInputDateModule,
     TableModule,
-    FormlyTaigaUiModule,
-    TuiTabsModule,
     TranslocoModule,
     TuiButtonModule,
-    TuiInputTimeModule,
     TuiDataListModule,
     TuiDataListWrapperModule,
     TuiSvgModule,
@@ -72,11 +59,25 @@ export const adminWorkingTimesRoutes: Routes = [
     TuiSelectModule,
     TuiLetModule,
     FormsModule,
-    TuiMapperPipeModule,
-    TuiExpandModule,
     LetModule,
     LayoutModule,
+    TuiTablePaginationModule,
+    TuiPrimitiveCheckboxModule,
+    BaseFormComponentModule,
+    TuiTextfieldControllerModule,
   ],
-  declarations: [WorkingTimeSettingsComponent, RepeatSectionComponent, OvertimeWorkingComponent],
+  declarations: [
+    WorkingTimeSettingsComponent,
+    RepeatSectionComponent,
+    OvertimeWorkingComponent,
+    HolidayListComponent,
+    UpsertHolidayDialogComponent,
+  ],
+  providers: [
+    {
+      provide: TRANSLOCO_SCOPE,
+      useValue: { scope: TRANSLATION_SCOPE, loader: { en: () => Promise.resolve(en), vi: () => Promise.resolve(vi) } },
+    },
+  ],
 })
 export class AdminWorkingTimesModule {}

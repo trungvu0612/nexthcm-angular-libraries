@@ -55,7 +55,7 @@ export class MyLeaveService extends RxState<MyLeaveState> {
       );
   }
 
-  getEmployeeLeaveEntitlementsForTransfering(userId: string): Observable<RemainingLeaveEntitlement[]> {
+  getEmployeeLeaveEntitlementsForTransferring(userId: string): Observable<RemainingLeaveEntitlement[]> {
     return this.http
       .get<BaseResponse<RemainingLeaveEntitlement[]>>(
         `${MY_TIME_API_PATH}/leave-entitlement-transfer/remaining-entitlement-transfer-by-user-id/${userId}`

@@ -1,6 +1,6 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ACCOUNT_API_PATH, BaseResponse, Holiday, MY_TIME_API_PATH, PagingResponse } from '@nexthcm/cdk';
+import { ACCOUNT_API_PATH, BaseResponse, Holiday, MY_TIME_API_PATH, Pagination, PagingResponse } from '@nexthcm/cdk';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { Office } from '../models/offices';
@@ -80,6 +80,12 @@ export class WorkingTimesService {
 
   getHoliday(): Observable<PagingResponse<Holiday>> {
     return this.httpClient.get<PagingResponse<Holiday>>(`${MY_TIME_API_PATH}/holidays`);
+  }
+
+  getHolidays(params: HttpParams): Observable<Pagination<Holiday>> {
+    return this.httpClient
+      .get<PagingResponse<Holiday>>(`${MY_TIME_API_PATH}/holidays`, { params })
+      .pipe(map((res) => res.data));
   }
 
   addHoliday(dto: { recurringType: any; name: any; holidayDate: number }): Observable<any> {

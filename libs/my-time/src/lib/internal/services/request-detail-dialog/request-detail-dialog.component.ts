@@ -170,7 +170,9 @@ export class RequestDetailDialogComponent implements OnInit {
       this.request$.pipe(
         filter(isPresent),
         filter(() => this.requestType === 'leave'),
-        switchMap((data) => this.myRequestsService.getLeaveEscalationUser((data.escalateDTO || data.escalateInfo)?.id))
+        switchMap((data) =>
+          this.myRequestsService.getLeaveEscalationUser(this.requestId, (data.escalateDTO || data.escalateInfo)?.id)
+        )
       )
     );
     state.connect('history', this.getHistoryHandler$);

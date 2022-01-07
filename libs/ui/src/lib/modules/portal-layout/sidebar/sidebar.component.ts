@@ -157,7 +157,7 @@ export class SidebarComponent {
           permissions: 'VIEW_REQUEST_CONFIG_MANAGEMENT',
         },
         {
-          title: 'workingTimeManagement',
+          title: 'workingTimeConfiguration',
           route: '/admin/working-times',
           icon: 'working-time',
           permissions: 'VIEW_ADMIN_CONFIG_TIME',
