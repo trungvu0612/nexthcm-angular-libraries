@@ -40,4 +40,12 @@ export class AdminEmployeesService {
   updateEmployeeInformation<T>(payload: T): Observable<BaseResponse<T>> {
     return this.http.post<BaseResponse<T>>(`${ACCOUNT_API_PATH}/info/employees`, payload);
   }
+
+  checkCircularDirectReports(employeeId: string, directReportId: string): Observable<{ isCircular: boolean }> {
+    return this.http
+      .get<BaseResponse<{ isCircular: boolean }>>(
+        `${ACCOUNT_API_PATH}/employees/check_direct_report?employeeId=${employeeId}&directId=${directReportId}`
+      )
+      .pipe(map((res) => res.data));
+  }
 }

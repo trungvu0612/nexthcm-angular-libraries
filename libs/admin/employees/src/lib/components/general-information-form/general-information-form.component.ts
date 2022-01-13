@@ -20,12 +20,14 @@ import {
   UploadFileService,
 } from '@nexthcm/cdk';
 import { FormGroup } from '@ng-stack/forms';
+import { AbstractControl } from '@ngneat/reactive-forms';
 import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import flatten from 'just-flatten-it';
 import { of } from 'rxjs';
-import { catchError, map, startWith, takeUntil, tap } from 'rxjs/operators';
+import { catchError, map, startWith, switchMap, take, takeUntil, tap } from 'rxjs/operators';
+import { AdminEmployeesService } from '../../services/admin-employees.service';
 import { EmployeeGeneralQuery, EmployeeGeneralStore, EmployeeQuery } from '../../state';
 import { TRANSLATION_SCOPE } from '../../translation-scope';
 
@@ -223,6 +225,25 @@ export class GeneralInformationFormComponent implements OnInit {
                 labelClassName: 'font-semibold',
                 placeholder: `${TRANSLATION_SCOPE}.chooseDirectReport`,
               },
+              asyncValidators: {
+                circular: {
+                  expression: (control: AbstractControl<string>) =>
+                    !control.valueChanges || control.pristine || !control.value
+                      ? of(true)
+                      : control.valueChanges.pipe(
+                          take(1),
+                          switchMap((user: BaseObject) =>
+                            this.employeeGeneralQuery.getValue().directReport?.id === user?.id
+                              ? of(true)
+                              : this.adminEmployeesService
+                                  .checkCircularDirectReports(this.model.id, user.id)
+                                  .pipe(map((res) => !res.isCircular))
+                          ),
+                          tap(() => control.markAsTouched())
+                        ),
+                  message: () => this.translocoService.selectTranslate('VALIDATION.circularDirectReport'),
+                },
+              },
               hideExpression: 'model.syncLDAPDirectReport',
             },
           ],
@@ -318,6 +339,7 @@ export class GeneralInformationFormComponent implements OnInit {
     private readonly uploadFileService: UploadFileService,
     private readonly translocoService: TranslocoService,
     private readonly employeesService: EmployeesService,
+    private readonly adminEmployeesService: AdminEmployeesService,
     private readonly activatedRoute: ActivatedRoute,
     private readonly jobTitlesQuery: JobTitlesQuery,
     private readonly jobLevelsQuery: JobLevelsQuery,

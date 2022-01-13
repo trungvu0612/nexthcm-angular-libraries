@@ -92,7 +92,8 @@
     "invalidURL": "This URL is invalid!",
     "valueExisting": "This value is already exists!",
     "maxLength": "This field can't be longer than {{length}} characters!",
-    "userAlreadyHasASeat": "This user already has a seat!"
+    "userAlreadyHasASeat": "This user already has a seat!",
+    "circularDirectReport": "Current employee is already the direct report of the selected user!"
   },
   "ADMIN_CONTRACT_MANAGEMENT_COLUMNS": {
     "contractManagement": "Contract Management",
@@ -377,7 +378,8 @@
     "ACCOUNT_GET_ORGANIZATION_TYPE_LABEL_INVALID_TENANT": "Account get organization type label invalid tenant",
     "ACCOUNT_ORG_DTO_REQUEST_IS_NULL": "Account org dto request is null",
     "ACCOUNT_MEMBER_TYPE_NOT_FOUND": "Account member type not found",
-    "USER_ESCALATE_NO_ENOUGH_LEVEL_APPROVE": "You do not have enough leave level to approve this request. You can assign to one of your direct/in-direct superiors for doing this. Or, you can cancel this request."
+    "USER_ESCALATE_NO_ENOUGH_LEVEL_APPROVE": "You do not have enough leave level to approve this request. You can assign to one of your direct/in-direct superiors for doing this. Or, you can cancel this request.",
+    "ACCOUNT_USER_DIRECTOR_MUST_NOT_DESCENDANTS_OF_CURRENT_EMPLOYEE": "Current employee is already the direct report of the selected user!"
   },
   "errorOccurred": "An error occurred",
   "REQUEST_STATUS": {
