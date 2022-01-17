@@ -117,6 +117,7 @@ export class CreateWorkFromHomeRequestDialogComponent implements OnInit {
           labelProp: 'name',
           options: this.myTimeService.getSecondWorkflowStatus(RequestType.WorkFromHome),
           customContent: this.statusContent,
+          textfieldCleaner: true,
         },
         hide: this.context.data,
       },

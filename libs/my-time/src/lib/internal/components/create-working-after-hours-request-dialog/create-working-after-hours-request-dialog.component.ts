@@ -156,6 +156,7 @@ export class CreateWorkingAfterHoursRequestDialogComponent implements OnInit {
           labelProp: 'name',
           options: this.myTimeService.getSecondWorkflowStatus(RequestType.WorkingAfterHours),
           customContent: this.statusContent,
+          textfieldCleaner: true,
         },
         hide: this.context.data,
       },

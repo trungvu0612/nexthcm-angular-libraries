@@ -418,6 +418,7 @@ export class CreateLeaveRequestDialogComponent implements OnInit {
           labelProp: 'name',
           options: [],
           customContent: this.statusContent,
+          textfieldCleaner: true,
         },
         hooks: {
           onInit: (field) => {

@@ -159,6 +159,7 @@ export class CreateUpdateTimesheetRequestDialogComponent implements OnInit {
           labelProp: 'name',
           options: this.myTimeService.getSecondWorkflowStatus(RequestType.UpdateTimesheet),
           customContent: this.statusContent,
+          textfieldCleaner: true,
         },
         hide: this.context.data.userInfo?.id === this.authService.get('userInfo', 'userId'),
       },

@@ -144,6 +144,7 @@ export class CreateWorkingOnsiteRequestDialogComponent implements OnInit {
           labelProp: 'name',
           options: this.myTimeService.getSecondWorkflowStatus(RequestType.WorkingOnsite),
           customContent: this.statusContent,
+          textfieldCleaner: true,
         },
         hide: this.context.data,
       },
