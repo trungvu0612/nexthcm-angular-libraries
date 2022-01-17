@@ -12,4 +12,5 @@ export interface UpdateTimesheetRequestPayload {
   newOutTime: number;
   comment: string;
   sendTo: string;
+  stateId: string;
 }

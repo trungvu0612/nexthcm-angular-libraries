@@ -633,5 +633,7 @@
   },
   "payable": "Payable",
   "repeat": "Repeat",
-  "holidays": "Holidays"
+  "holidays": "Holidays",
+  "transitionToStatus": "Transition to status",
+  "chooseStatus": "Choose status..."
 }

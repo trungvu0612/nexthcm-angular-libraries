@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Inject, NgModule } from '@angular/core';
-import { AuthService } from '@nexthcm/auth';
-import { BaseOption, BaseUser, PromptService } from '@nexthcm/cdk';
+import { ChangeDetectionStrategy, Component, Inject, NgModule, OnInit, ViewChild } from '@angular/core';
+import { BaseOption, BaseUser, PromptService, WorkflowStatus } from '@nexthcm/cdk';
 import { BaseFormComponentModule } from '@nexthcm/ui';
 import { Control, FormBuilder } from '@ng-stack/forms';
 import { HashMap, TranslocoModule, TranslocoService } from '@ngneat/transloco';
@@ -9,13 +8,15 @@ import { FormlyFieldConfig } from '@ngx-formly/core';
 import { PushModule } from '@rx-angular/template';
 import { TuiDayRange } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
-import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
+import { TuiTagModule } from '@taiga-ui/kit';
+import { POLYMORPHEUS_CONTEXT, PolymorpheusModule, PolymorpheusTemplate } from '@tinkoff/ng-polymorpheus';
 import { endOfDay, getTime } from 'date-fns';
 import omit from 'just-omit';
 import { from, of, Subject } from 'rxjs';
 import { catchError, map, share, startWith, switchMap, tap } from 'rxjs/operators';
+import { MyTimeService } from '../../../services';
 import { TRANSLATION_SCOPE } from '../../constants';
-import { WorkingAfterHoursType } from '../../enums';
+import { RequestType, WorkingAfterHoursType } from '../../enums';
 import { WorkingAfterHoursRequestPayload } from '../../models';
 import { MyRequestsService } from '../../services';
 
@@ -32,103 +33,13 @@ interface WorkingAfterHoursRequestForm extends WorkingAfterHoursRequestPayload {
   styleUrls: ['./create-working-after-hours-request-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CreateWorkingAfterHoursRequestDialogComponent {
+export class CreateWorkingAfterHoursRequestDialogComponent implements OnInit {
+  @ViewChild('statusContent', { static: true }) statusContent!: PolymorpheusTemplate<WorkflowStatus>;
+
+  readonly statusContext!: { $implicit: WorkflowStatus };
   model = {} as WorkingAfterHoursRequestForm;
   readonly form = this.fb.group<WorkingAfterHoursRequestForm>(this.model);
-  readonly fields: FormlyFieldConfig[] = [
-    {
-      key: 'user',
-      className: 'tui-form__row block',
-      type: 'user-combo-box',
-      templateOptions: {
-        translate: true,
-        label: 'employee',
-        labelClassName: 'font-semibold',
-        placeholder: 'searchEmployees',
-      },
-      hide: this.context.data,
-      expressionProperties: {
-        'templateOptions.required': () => !this.context.data,
-      },
-    },
-    {
-      key: 'type',
-      className: 'tui-form__row block',
-      type: 'select',
-      defaultValue: WorkingAfterHoursType.Overtime,
-      templateOptions: {
-        translate: true,
-        label: 'type',
-        labelClassName: 'font-semibold',
-        valueProp: 'value',
-        options: this.translocoService
-          .selectTranslateObject<HashMap<string>>('WORKING_AFTER_HOURS_TYPE', {}, TRANSLATION_SCOPE)
-          .pipe(
-            map(
-              (result) =>
-                [
-                  { label: result.OVERTIME, value: WorkingAfterHoursType.Overtime },
-                  { label: result.WORKING_AFTERTIME, value: WorkingAfterHoursType.WorkingAfterHours },
-                ] as BaseOption<number>[]
-            )
-          ),
-      },
-    },
-    {
-      key: 'fromTo',
-      className: 'tui-form__row block',
-      type: 'input-date-range',
-      templateOptions: {
-        translate: true,
-        label: 'dateRange',
-        labelClassName: 'font-semibold',
-        placeholder: 'chooseDateRange',
-        required: true,
-        textfieldLabelOutside: true,
-      },
-    },
-    {
-      key: 'durationInHours',
-      className: 'tui-form__row block',
-      type: 'input-number',
-      templateOptions: {
-        translate: true,
-        label: 'myTime.totalWorkingTimeH',
-        labelClassName: 'font-semibold',
-        placeholder: 'myTime.enterTotalWorkingHours',
-        required: true,
-        textfieldLabelOutside: true,
-        precision: 1,
-        min: 0,
-      },
-    },
-    {
-      key: 'comment',
-      className: 'tui-form__row block',
-      type: 'text-area',
-      templateOptions: {
-        translate: true,
-        label: 'Comment',
-        labelClassName: 'font-semibold',
-        required: true,
-        textfieldLabelOutside: true,
-      },
-    },
-    {
-      key: 'sendToUser',
-      className: 'tui-form__row block',
-      type: 'user-combo-box',
-      templateOptions: {
-        translate: true,
-        label: 'sendTo',
-        labelClassName: 'font-semibold',
-        placeholder: 'searchUsers',
-        labelProp: 'name',
-        textfieldLabelOutside: true,
-      },
-    },
-    { key: 'userId', defaultValue: this.authService.get('userInfo', 'userId') },
-  ];
+  fields!: FormlyFieldConfig[];
   readonly submit$ = new Subject<WorkingAfterHoursRequestPayload>();
   readonly submitHandler$ = this.submit$.pipe(
     switchMap((payload) =>
@@ -161,8 +72,120 @@ export class CreateWorkingAfterHoursRequestDialogComponent {
     private readonly myRequestsService: MyRequestsService,
     private readonly promptService: PromptService,
     private readonly translocoService: TranslocoService,
-    private readonly authService: AuthService
+    private readonly myTimeService: MyTimeService
   ) {}
+
+  ngOnInit(): void {
+    this.fields = [
+      {
+        key: 'user',
+        className: 'tui-form__row block',
+        type: 'user-combo-box',
+        templateOptions: {
+          translate: true,
+          label: 'employee',
+          labelClassName: 'font-semibold',
+          placeholder: 'searchEmployees',
+        },
+        hide: this.context.data,
+        expressionProperties: {
+          'templateOptions.required': () => !this.context.data,
+        },
+      },
+      {
+        key: 'type',
+        className: 'tui-form__row block',
+        type: 'select',
+        defaultValue: WorkingAfterHoursType.Overtime,
+        templateOptions: {
+          translate: true,
+          label: 'type',
+          labelClassName: 'font-semibold',
+          valueProp: 'value',
+          options: this.translocoService
+            .selectTranslateObject<HashMap<string>>('WORKING_AFTER_HOURS_TYPE', {}, TRANSLATION_SCOPE)
+            .pipe(
+              map(
+                (result) =>
+                  [
+                    { label: result.OVERTIME, value: WorkingAfterHoursType.Overtime },
+                    { label: result.WORKING_AFTERTIME, value: WorkingAfterHoursType.WorkingAfterHours },
+                  ] as BaseOption<number>[]
+              )
+            ),
+        },
+      },
+      {
+        key: 'fromTo',
+        className: 'tui-form__row block',
+        type: 'input-date-range',
+        templateOptions: {
+          translate: true,
+          label: 'dateRange',
+          labelClassName: 'font-semibold',
+          placeholder: 'chooseDateRange',
+          required: true,
+          textfieldLabelOutside: true,
+        },
+      },
+      {
+        key: 'durationInHours',
+        className: 'tui-form__row block',
+        type: 'input-number',
+        templateOptions: {
+          translate: true,
+          label: 'myTime.totalWorkingTimeH',
+          labelClassName: 'font-semibold',
+          placeholder: 'myTime.enterTotalWorkingHours',
+          required: true,
+          textfieldLabelOutside: true,
+          precision: 1,
+          min: 0,
+        },
+      },
+      {
+        key: 'stateId',
+        className: 'tui-form__row block',
+        type: 'select',
+        templateOptions: {
+          translate: true,
+          label: 'transitionToStatus',
+          labelClassName: 'font-semibold',
+          placeholder: 'chooseStatus',
+          valueProp: 'id',
+          labelProp: 'name',
+          options: this.myTimeService.getSecondWorkflowStatus(RequestType.WorkingAfterHours),
+          customContent: this.statusContent,
+        },
+        hide: this.context.data,
+      },
+      {
+        key: 'comment',
+        className: 'tui-form__row block',
+        type: 'text-area',
+        templateOptions: {
+          translate: true,
+          label: 'Comment',
+          labelClassName: 'font-semibold',
+          required: true,
+          textfieldLabelOutside: true,
+        },
+      },
+      {
+        key: 'sendToUser',
+        className: 'tui-form__row block',
+        type: 'user-combo-box',
+        templateOptions: {
+          translate: true,
+          label: 'sendTo',
+          labelClassName: 'font-semibold',
+          placeholder: 'searchUsers',
+          labelProp: 'name',
+          textfieldLabelOutside: true,
+        },
+      },
+    ];
+  }
 
   onSubmit(): void {
     if (this.form.valid) {
@@ -191,7 +214,7 @@ export class CreateWorkingAfterHoursRequestDialogComponent {
 
 @NgModule({
   declarations: [CreateWorkingAfterHoursRequestDialogComponent],
-  imports: [CommonModule, BaseFormComponentModule, TranslocoModule, PushModule],
+  imports: [CommonModule, BaseFormComponentModule, TranslocoModule, PushModule, PolymorpheusModule, TuiTagModule],
   exports: [CreateWorkingAfterHoursRequestDialogComponent],
 })
 export class CreateWorkingAfterHoursRequestDialogComponentModule {}

@@ -6,4 +6,5 @@ export interface WorkingOnsiteRequestPayload {
   toDate: number;
   sendTo: string;
   officeDTO: BaseObject;
+  stateId: string;
 }

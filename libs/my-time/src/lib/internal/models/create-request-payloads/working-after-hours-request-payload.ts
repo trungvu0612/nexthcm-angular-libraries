@@ -11,4 +11,5 @@ export interface WorkingAfterHoursRequestPayload {
   toDate: number;
   comment: string;
   sendTo: string;
+  stateId: string;
 }

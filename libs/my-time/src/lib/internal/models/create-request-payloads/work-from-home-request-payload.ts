@@ -5,4 +5,5 @@ export interface WorkFromHomeRequestPayload {
   officeId: string;
   comment: string;
   sendTo: string;
+  stateId: string;
 }

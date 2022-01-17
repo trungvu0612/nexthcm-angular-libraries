@@ -186,7 +186,7 @@
         <ng-template #dropdown>
           <tui-data-list>
             <button (click)="onChangeRequestStatus(item.state)" *ngFor="let item of data.nextStates" tuiOption>
-              {{ item.state.name }}
+              {{ item.transition.name }}
             </button>
           </tui-data-list>
         </ng-template>

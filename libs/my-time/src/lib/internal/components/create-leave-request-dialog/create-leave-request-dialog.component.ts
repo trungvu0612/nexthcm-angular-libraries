@@ -1,19 +1,21 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Inject, NgModule, OnInit, ViewChild } from '@angular/core';
-import { BaseUser, isDateRangeSameYear, PromptService } from '@nexthcm/cdk';
+import { BaseUser, isDateRangeSameYear, PromptService, WorkflowStatus } from '@nexthcm/cdk';
 import { BaseFormComponentModule } from '@nexthcm/ui';
 import { Control, FormBuilder, FormControl, FormGroup, ValidationErrors } from '@ng-stack/forms';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { TuiDay, TuiDayRange, TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
+import { TuiTagModule } from '@taiga-ui/kit';
 import { POLYMORPHEUS_CONTEXT, PolymorpheusModule, PolymorpheusTemplate } from '@tinkoff/ng-polymorpheus';
 import { endOfDay } from 'date-fns';
 import omit from 'just-omit';
 import { combineLatest, from, of, Subject } from 'rxjs';
 import { catchError, map, share, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { MyTimeService } from '../../../services';
 import { TRANSLATION_SCOPE } from '../../constants';
-import { DurationType, PartialDays } from '../../enums';
+import { DurationType, PartialDays, RequestType } from '../../enums';
 import {
   LeaveRequestPayload,
   PartialDaysType,
@@ -47,8 +49,10 @@ function FromToValidator(control: FormControl<TuiDayRange>): ValidationErrors | 
 })
 export class CreateLeaveRequestDialogComponent implements OnInit {
   @ViewChild('partialDaysContent', { static: true }) partialDaysContent!: PolymorpheusTemplate<PartialDaysType>;
+  @ViewChild('statusContent', { static: true }) statusContent!: PolymorpheusTemplate<WorkflowStatus>;
 
   readonly partialDaysTypeContext!: { $implicit: PartialDaysType };
+  readonly statusContext!: { $implicit: WorkflowStatus };
   model = {} as LeaveRequestForm;
   form = this.fb.group<LeaveRequestForm>(this.model);
   options: FormlyFormOptions = {
@@ -90,6 +94,7 @@ export class CreateLeaveRequestDialogComponent implements OnInit {
     private readonly fb: FormBuilder,
     private readonly myLeaveService: MyLeaveService,
     private readonly myRequestsService: MyRequestsService,
+    private readonly myTimeService: MyTimeService,
     @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<boolean, string>,
     private readonly translocoService: TranslocoService,
     private readonly destroy$: TuiDestroyService,
@@ -401,6 +406,40 @@ export class CreateLeaveRequestDialogComponent implements OnInit {
           ![PartialDays.EndDayOnly, PartialDays.StartEndDay].includes(formState.partialDays),
       },
       {
+        key: 'stateId',
+        className: 'tui-form__row block',
+        type: 'select',
+        templateOptions: {
+          translate: true,
+          label: 'transitionToStatus',
+          labelClassName: 'font-semibold',
+          placeholder: 'chooseStatus',
+          valueProp: 'id',
+          labelProp: 'name',
+          options: [],
+          customContent: this.statusContent,
+        },
+        hooks: {
+          onInit: (field) => {
+            if (field?.templateOptions && this.form.controls.leaveType) {
+              field.templateOptions.options = this.form.controls.leaveType.valueChanges.pipe(
+                switchMap((leaveType) => {
+                  if (leaveType?.length) {
+                    return this.myTimeService
+                      .getSecondWorkflowStatus(RequestType.Leave, leaveType[0].leaveTypeId)
+                      .pipe(catchError(() => of([])));
+                  } else {
+                    return of([]);
+                  }
+                }),
+                startWith([])
+              );
+            }
+          },
+        },
+        hide: !!this.currentUserId,
+      },
+      {
         key: 'sendToUser',
         className: 'tui-form__row block',
         type: 'user-combo-box',
@@ -489,7 +528,7 @@ export class CreateLeaveRequestDialogComponent implements OnInit {
 
 @NgModule({
   declarations: [CreateLeaveRequestDialogComponent],
-  imports: [CommonModule, BaseFormComponentModule, PolymorpheusModule, TranslocoModule],
+  imports: [CommonModule, BaseFormComponentModule, PolymorpheusModule, TranslocoModule, TuiTagModule],
   exports: [CreateLeaveRequestDialogComponent],
 })
 export class CreateLeaveRequestDialogComponentModule {}

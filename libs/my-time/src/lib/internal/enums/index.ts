@@ -5,3 +5,4 @@ export * from './working-after-hours-type';
 export * from './request-comment-status';
 export * from './transfer-leave-entitlement-type';
 export * from './export-time-log-type';
+export * from './request-type';

@@ -10,6 +10,7 @@ export interface LeaveRequestPayload {
   sendTo: string;
   partialDayTypeId: string;
   items: PayloadTimeItem[];
+  stateId: string;
 }
 
 export interface RemainingLeaveEntitlement {

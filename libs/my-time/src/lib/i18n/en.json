@@ -125,5 +125,5 @@
     "aggregate": "Aggregate",
     "cnb": "C&B"
   },
-  "assignToDirectSupervisor": "Assign to the direct supervisor"
+  "assignToDirectSupervisor": "Assign to a higher level supervisor"
 }

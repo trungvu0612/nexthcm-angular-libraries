@@ -632,5 +632,7 @@
   },
   "payable": "Tính lương",
   "repeat": "Lặp lại",
-  "holidays": "Ngày lễ"
+  "holidays": "Ngày lễ",
+  "transitionToStatus": "Chuyển tiếp đến trạng thái",
+  "chooseStatus": "Chọn trạng thái..."
 }

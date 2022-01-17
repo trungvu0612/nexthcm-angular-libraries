@@ -1,8 +1,9 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BaseResponse, MY_TIME_API_PATH, Pagination, PagingResponse } from '@nexthcm/cdk';
+import { BaseResponse, MY_TIME_API_PATH, Pagination, PagingResponse, WorkflowStatus } from '@nexthcm/cdk';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
+import { RequestType } from '../internal/enums';
 import { CheckInOutPayload, TimeKeepingLog, WorkingHours, WorkingInfoCurrentMonth } from '../models';
 
 @Injectable()
@@ -32,5 +33,18 @@ export class MyTimeService {
 
   checkInOut(payload: CheckInOutPayload): Observable<unknown> {
     return this.http.post<unknown>(`${MY_TIME_API_PATH}/check-in-out`, payload);
+  }
+
+  getSecondWorkflowStatus(type: RequestType, leaveTypeId?: string): Observable<WorkflowStatus[]> {
+    let params = new HttpParams().set('type', type);
+
+    if (type === RequestType.Leave && leaveTypeId) {
+      params = params.set('leaveTypeId', leaveTypeId);
+    }
+    return this.http
+      .get<BaseResponse<WorkflowStatus[]>>(`${MY_TIME_API_PATH}/configurations/requests/states-by-process`, {
+        params,
+      })
+      .pipe(map((res) => res.data));
   }
 }
