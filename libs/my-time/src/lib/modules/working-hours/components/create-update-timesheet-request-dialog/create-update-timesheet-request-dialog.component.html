@@ -7,3 +7,7 @@
   [submitLoading]="(submitLoading$ | async) === true"
   class="mt-5"
 ></hcm-base-form>
+
+<ng-template #statusContent="polymorpheus" [polymorpheus]="statusContext" let-status>
+  <tui-tag [style.backgroundColor]="status.stateType?.color" [value]="status.name" class="text-white"></tui-tag>
+</ng-template>

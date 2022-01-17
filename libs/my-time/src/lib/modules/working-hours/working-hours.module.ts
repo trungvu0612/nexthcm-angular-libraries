@@ -20,7 +20,8 @@ import { PushModule } from '@rx-angular/template';
 import { TuiTablePaginationModule } from '@taiga-ui/addon-table';
 import { TuiLetModule } from '@taiga-ui/cdk';
 import { TuiButtonModule, TuiDataListModule, TuiLoaderModule, TuiSvgModule } from '@taiga-ui/core';
-import { TuiDataListWrapperModule, TuiIslandModule, TuiTabsModule } from '@taiga-ui/kit';
+import { TuiDataListWrapperModule, TuiIslandModule, TuiTabsModule, TuiTagModule } from '@taiga-ui/kit';
+import { PolymorpheusModule } from '@tinkoff/ng-polymorpheus';
 import { TableModule } from 'ngx-easy-table';
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { WorkingHoursService } from '../../internal/services';
@@ -73,6 +74,8 @@ import { WorkingHoursComponent } from './working-hours.component';
     BasicFilterComponentModule,
     PushModule,
     InputNumberFilterComponentModule,
+    PolymorpheusModule,
+    TuiTagModule,
   ],
   providers: [WorkingHoursService, MyTimeService],
 })
