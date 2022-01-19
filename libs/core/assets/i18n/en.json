@@ -621,6 +621,7 @@
   "numberOfSeats": "Number of seats",
   "myTeam": "My Team",
   "changeWorkflowStatus": "<b>Are you sure you want to perform this operation?<br>{{name}}</b>",
+  "requestUpdated": "<b>This request has been updated!</b>",
   "accessToken": "Access Token",
   "copied": "Copied!",
   "generate": "Generate",

@@ -124,5 +124,6 @@
     "aggregate": "Tổng hợp",
     "cnb": "C&B"
   },
-  "assignToDirectSupervisor": "Chuyển cho người giám sát cấp cao hơn"
+  "assignToDirectSupervisor": "Chuyển cho người giám sát cấp cao hơn",
+  "filterByMyTeam": "Lọc theo đội ngũ của bạn"
 }

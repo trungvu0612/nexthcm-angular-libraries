@@ -5,4 +5,5 @@ import { ExportTimeLogType } from '../enums';
 export interface ExportTimeLog {
   dateRange: Control<TuiDayRange>;
   exportType: ExportTimeLogType;
+  filterByMyTeam: boolean;
 }

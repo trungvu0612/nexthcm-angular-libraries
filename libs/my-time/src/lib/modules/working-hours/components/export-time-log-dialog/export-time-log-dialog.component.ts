@@ -60,18 +60,37 @@ export class ExportTimeLogDialogComponent {
         ),
       },
     },
+    {
+      key: 'filterByMyTeam',
+      className: 'tui-form__row block',
+      type: 'checkbox-labeled',
+      defaultValue: false,
+      templateOptions: {
+        translate: true,
+        label: `${TRANSLATION_SCOPE}.filterByMyTeam`,
+      },
+    },
   ];
 
   // EVENTS
-  readonly export$ = new Subject<{ fromDate: Date; toDate: Date; exportType: ExportTimeLogType }>();
+  readonly export$ = new Subject<{
+    fromDate: Date;
+    toDate: Date;
+    exportType: ExportTimeLogType;
+    filterType?: string;
+  }>();
 
   // HANDLERS
   readonly exportHandler$ = this.export$.pipe(
-    switchMap(({ fromDate, toDate, exportType }) => {
-      const params = new HttpParams()
+    switchMap(({ fromDate, toDate, exportType, filterType }) => {
+      let params = new HttpParams()
         .set('fromDate', fromDate.getTime())
         .set('toDate', endOfDay(toDate).getTime())
         .set('exportType', exportType);
+
+      if (filterType) {
+        params = params.set('filterType', filterType);
+      }
       const fileName = `${formatDate(fromDate, 'mediumDate', this.locale)}_${formatDate(
         toDate,
         'mediumDate',
@@ -109,11 +128,16 @@ export class ExportTimeLogDialogComponent {
       const {
         dateRange: { from, to },
         exportType,
+        filterByMyTeam,
       } = this.form.value;
       const fromDate = from.toLocalNativeDate();
       const toDate = to.toLocalNativeDate();
 
-      this.export$.next({ fromDate, toDate, exportType });
+      if (filterByMyTeam) {
+        this.export$.next({ fromDate, toDate, exportType, filterType: 'MY_TEAM' });
+      } else {
+        this.export$.next({ fromDate, toDate, exportType });
+      }
     }
   }
 

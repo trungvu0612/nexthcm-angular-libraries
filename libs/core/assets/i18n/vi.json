@@ -620,6 +620,7 @@
   "numberOfSeats": "Số chỗ ngồi",
   "myTeam": "Đội của tôi",
   "changeWorkflowStatus": "<b>Bạn thật sự muốn thực hiện hoạt động này?<br>{{name}}</b>",
+  "requestUpdated": "<b>Yêu cầu này đã được cập nhật!</b>",
   "accessToken": "Mã truy cập",
   "copied": "Đã sao chép!",
   "generate": "Tạo",
