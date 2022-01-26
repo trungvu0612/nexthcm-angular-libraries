@@ -399,7 +399,12 @@ export class UpsertSeatMapComponent implements AfterViewInit {
         .pipe(takeUntil(this.destroy$))
         .subscribe(
           this.promptService.handleResponse(
-            `adminSeatMaps.${this.seatMap.id ? 'editSeatMapSuccessfully' : 'addSeatMapSuccessfully'}`
+            `adminSeatMaps.${this.seatMap.id ? 'editSeatMapSuccessfully' : 'addSeatMapSuccessfully'}`,
+            () => {
+              if (!this.seatMap.id) {
+                this.router.navigate(['/admin/seat-maps']);
+              }
+            }
           )
         );
     }

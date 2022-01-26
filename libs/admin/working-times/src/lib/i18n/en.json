@@ -33,5 +33,6 @@
   "endTime": "End time",
   "maxPaidLeaveToCash": "Maximum paid leave to cash",
   "useTimekeeper": "Use Timekeeper",
-  "convertOT": "Convert overtime"
+  "convertOT": "Convert overtime",
+  "maximumPeriodTimeCheckOutInApp": "Maximum time between 2 check-out (for app)"
 }

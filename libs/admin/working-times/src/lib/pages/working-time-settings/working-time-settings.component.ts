@@ -58,478 +58,7 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
     saturdayTime: [{}],
     sundayTime: [{}],
   } as WorkingTimes;
-  fields: FormlyFieldConfig[] = [
-    {
-      key: 'day2',
-      type: 'checkbox-labeled',
-      templateOptions: {
-        labelClassName: 'font-semibold',
-      },
-      expressionProperties: {
-        'templateOptions.label': this.translocoService.selectTranslate('SETTING_TIME.monday'),
-      },
-      defaultValue: true,
-    },
-    {
-      className: 'col-span-3',
-      key: 'mondayTime',
-      type: 'repeat',
-      fieldArray: {
-        fieldGroupClassName: 'flex space-x-4',
-        fieldGroup: [
-          {
-            className: 'block w-32',
-            key: 'from',
-            type: 'select',
-            templateOptions: {
-              translate: true,
-              options: this.dataWorkingTimes,
-              labelProp: 'name',
-              valueProp: 'value',
-              size: 'm',
-              label: 'from',
-              textfieldLabelOutside: false,
-            },
-          },
-          {
-            className: 'block w-32',
-            key: 'to',
-            type: 'select',
-            templateOptions: {
-              translate: true,
-              options: this.dataWorkingTimes,
-              labelProp: 'name',
-              valueProp: 'value',
-              size: 'm',
-              label: 'to',
-              textfieldLabelOutside: false,
-            },
-          },
-        ],
-      },
-    },
-    {
-      key: 'day3',
-      type: 'checkbox-labeled',
-      templateOptions: {
-        labelClassName: 'font-semibold',
-      },
-      expressionProperties: {
-        'templateOptions.label': this.translocoService.selectTranslate('SETTING_TIME.tuesday'),
-      },
-      defaultValue: true,
-    },
-    {
-      className: 'col-span-3',
-      key: 'tuesdayTime',
-      type: 'repeat',
-      fieldArray: {
-        fieldGroupClassName: 'flex space-x-4',
-        fieldGroup: [
-          {
-            className: 'block w-32',
-            key: 'from',
-            type: 'select',
-            templateOptions: {
-              translate: true,
-              options: this.dataWorkingTimes,
-              labelProp: 'name',
-              valueProp: 'value',
-              size: 'm',
-              label: 'from',
-              textfieldLabelOutside: false,
-            },
-          },
-          {
-            className: 'block w-32',
-            key: 'to',
-            type: 'select',
-            templateOptions: {
-              translate: true,
-              options: this.dataWorkingTimes,
-              labelProp: 'name',
-              valueProp: 'value',
-              size: 'm',
-              label: 'to',
-              textfieldLabelOutside: false,
-            },
-          },
-        ],
-      },
-    },
-    {
-      key: 'day4',
-      type: 'checkbox-labeled',
-      templateOptions: {
-        labelClassName: 'font-semibold',
-      },
-      expressionProperties: {
-        'templateOptions.label': this.translocoService.selectTranslate('SETTING_TIME.wednesday'),
-      },
-      defaultValue: true,
-    },
-    {
-      className: 'col-span-3',
-      key: 'wednesdayTime',
-      type: 'repeat',
-      fieldArray: {
-        fieldGroupClassName: 'flex space-x-4',
-        fieldGroup: [
-          {
-            className: 'block w-32',
-            key: 'from',
-            type: 'select',
-            templateOptions: {
-              translate: true,
-              options: this.dataWorkingTimes,
-              labelProp: 'name',
-              valueProp: 'value',
-              size: 'm',
-              label: 'from',
-              textfieldLabelOutside: false,
-            },
-          },
-          {
-            className: 'block w-32',
-            key: 'to',
-            type: 'select',
-            templateOptions: {
-              translate: true,
-              options: this.dataWorkingTimes,
-              labelProp: 'name',
-              valueProp: 'value',
-              size: 'm',
-              label: 'to',
-              textfieldLabelOutside: false,
-            },
-          },
-        ],
-      },
-    },
-    {
-      key: 'day5',
-      type: 'checkbox-labeled',
-      templateOptions: {
-        labelClassName: 'font-semibold',
-      },
-      expressionProperties: {
-        'templateOptions.label': this.translocoService.selectTranslate('SETTING_TIME.thursday'),
-      },
-      defaultValue: true,
-    },
-    {
-      className: 'col-span-3',
-      key: 'thursdayTime',
-      type: 'repeat',
-      fieldArray: {
-        fieldGroupClassName: 'flex space-x-4',
-        fieldGroup: [
-          {
-            className: 'block w-32',
-            key: 'from',
-            type: 'select',
-            templateOptions: {
-              translate: true,
-              options: this.dataWorkingTimes,
-              labelProp: 'name',
-              valueProp: 'value',
-              size: 'm',
-              label: 'from',
-              textfieldLabelOutside: false,
-            },
-          },
-          {
-            className: 'block w-32',
-            key: 'to',
-            type: 'select',
-            templateOptions: {
-              translate: true,
-              options: this.dataWorkingTimes,
-              labelProp: 'name',
-              valueProp: 'value',
-              size: 'm',
-              label: 'to',
-              textfieldLabelOutside: false,
-            },
-          },
-        ],
-      },
-    },
-    {
-      key: 'day6',
-      type: 'checkbox-labeled',
-      templateOptions: {
-        labelClassName: 'font-semibold',
-      },
-      expressionProperties: {
-        'templateOptions.label': this.translocoService.selectTranslate('SETTING_TIME.friday'),
-      },
-      defaultValue: true,
-    },
-    {
-      className: 'col-span-3',
-      key: 'fridayTime',
-      type: 'repeat',
-      fieldArray: {
-        fieldGroupClassName: 'flex space-x-4',
-        fieldGroup: [
-          {
-            className: 'block w-32',
-            key: 'from',
-            type: 'select',
-            templateOptions: {
-              translate: true,
-              options: this.dataWorkingTimes,
-              labelProp: 'name',
-              valueProp: 'value',
-              size: 'm',
-              label: 'from',
-              textfieldLabelOutside: false,
-            },
-          },
-          {
-            className: 'block w-32',
-            key: 'to',
-            type: 'select',
-            templateOptions: {
-              translate: true,
-              options: this.dataWorkingTimes,
-              labelProp: 'name',
-              valueProp: 'value',
-              size: 'm',
-              label: 'to',
-              textfieldLabelOutside: false,
-            },
-          },
-        ],
-      },
-    },
-    {
-      key: 'day7',
-      type: 'checkbox-labeled',
-      templateOptions: {
-        labelClassName: 'font-semibold',
-      },
-      expressionProperties: {
-        'templateOptions.label': this.translocoService.selectTranslate('SETTING_TIME.saturday'),
-      },
-      defaultValue: true,
-    },
-    {
-      className: 'col-span-3',
-      key: 'saturdayTime',
-      type: 'repeat',
-      fieldArray: {
-        fieldGroupClassName: 'flex space-x-4',
-        fieldGroup: [
-          {
-            className: 'block w-32',
-            key: 'from',
-            type: 'select',
-            templateOptions: {
-              translate: true,
-              options: this.dataWorkingTimes,
-              labelProp: 'name',
-              valueProp: 'value',
-              size: 'm',
-              label: 'from',
-              textfieldLabelOutside: false,
-            },
-          },
-          {
-            className: 'block w-32',
-            key: 'to',
-            type: 'select',
-            templateOptions: {
-              translate: true,
-              options: this.dataWorkingTimes,
-              labelProp: 'name',
-              valueProp: 'value',
-              size: 'm',
-              label: 'to',
-              textfieldLabelOutside: false,
-            },
-          },
-        ],
-      },
-    },
-    {
-      key: 'day1',
-      type: 'checkbox-labeled',
-      templateOptions: {
-        labelClassName: 'font-semibold',
-      },
-      expressionProperties: {
-        'templateOptions.label': this.translocoService.selectTranslate('SETTING_TIME.sunday'),
-      },
-      defaultValue: true,
-    },
-    {
-      className: 'col-span-3',
-      key: 'sundayTime',
-      type: 'repeat',
-      fieldArray: {
-        fieldGroupClassName: 'flex space-x-4',
-        fieldGroup: [
-          {
-            className: 'block w-32',
-            key: 'from',
-            type: 'select',
-            templateOptions: {
-              translate: true,
-              options: this.dataWorkingTimes,
-              labelProp: 'name',
-              valueProp: 'value',
-              size: 'm',
-              label: 'from',
-              textfieldLabelOutside: false,
-            },
-          },
-          {
-            className: 'block w-32',
-            key: 'to',
-            type: 'select',
-            templateOptions: {
-              translate: true,
-              options: this.dataWorkingTimes,
-              labelProp: 'name',
-              valueProp: 'value',
-              size: 'm',
-              label: 'to',
-              textfieldLabelOutside: false,
-            },
-          },
-        ],
-      },
-    },
-    {
-      key: 'checkInAfter',
-      type: 'input-time',
-      templateOptions: {
-        translate: true,
-        textfieldLabelOutside: true,
-        required: true,
-        label: `${TRANSLATION_SCOPE}.morningCheckInBefore`,
-        labelClassName: 'font-semibold',
-      },
-    },
-    {
-      key: 'checkOutBefore',
-      type: 'input-time',
-      templateOptions: {
-        translate: true,
-        textfieldLabelOutside: true,
-        required: true,
-        label: `${TRANSLATION_SCOPE}.afternoonCheckOutAfter`,
-        labelClassName: 'font-semibold',
-      },
-    },
-    {
-      key: 'startLunch',
-      type: 'input-time',
-      templateOptions: {
-        translate: true,
-        label: `${TRANSLATION_SCOPE}.startLunch`,
-        labelClassName: 'font-semibold',
-        textfieldLabelOutside: true,
-        required: true,
-      },
-    },
-    {
-      key: 'endLunch',
-      type: 'input-time',
-      templateOptions: {
-        translate: true,
-        label: `${TRANSLATION_SCOPE}.endLunch`,
-        labelClassName: 'font-semibold',
-        textfieldLabelOutside: true,
-        required: true,
-      },
-    },
-    {
-      key: 'workingHour',
-      type: 'input-time',
-      templateOptions: {
-        translate: true,
-        label: `${TRANSLATION_SCOPE}.minimumWorkingHours`,
-        labelClassName: 'font-semibold',
-        textfieldLabelOutside: true,
-        required: true,
-      },
-    },
-    {
-      key: 'totalWorkingHour',
-      type: 'input-time',
-      templateOptions: {
-        translate: true,
-        label: `${TRANSLATION_SCOPE}.maximumWorkingHours`,
-        labelClassName: 'font-semibold',
-        textfieldLabelOutside: true,
-        required: true,
-      },
-    },
-    {
-      key: 'startTimeInWorkingDay',
-      type: 'input-time',
-      templateOptions: {
-        translate: true,
-        label: `${TRANSLATION_SCOPE}.startTime`,
-        labelClassName: 'font-semibold',
-        textfieldLabelOutside: true,
-        required: true,
-      },
-    },
-    {
-      key: 'endTimeInWorkingDay',
-      type: 'input-time',
-      templateOptions: {
-        translate: true,
-        label: `${TRANSLATION_SCOPE}.endTime`,
-        labelClassName: 'font-semibold',
-        textfieldLabelOutside: true,
-        required: true,
-      },
-    },
-    {
-      key: 'maxPaidLeaveToCash',
-      type: 'input-count',
-      templateOptions: {
-        textfieldLabelOutside: true,
-        required: true,
-        translate: true,
-        label: `${TRANSLATION_SCOPE}.maxPaidLeaveToCash`,
-        labelClassName: 'font-semibold',
-      },
-    },
-    {
-      key: 'fingerPrint',
-      type: 'checkbox-labeled',
-      defaultValue: true,
-      templateOptions: {
-        labelClassName: 'font-semibold',
-        translate: true,
-        label: `${TRANSLATION_SCOPE}.useTimekeeper`,
-      },
-    },
-    {
-      key: 'convertOT',
-      type: 'select',
-      defaultValue: ConvertOvertime.none,
-      templateOptions: {
-        translate: true,
-        label: `${TRANSLATION_SCOPE}.convertOT`,
-        labelClassName: 'font-semibold',
-        valueProp: 'value',
-        options: this.translocoService.selectTranslateObject('CONVERT_OT_OPTIONS', {}, TRANSLATION_SCOPE).pipe(
-          map((result) => [
-            { label: result.none, value: ConvertOvertime.none },
-            { label: result.payroll, value: ConvertOvertime.payroll },
-            { label: result.paidLeave, value: ConvertOvertime.paidLeave },
-          ])
-        ),
-      },
-    },
-  ];
+  fields: FormlyFieldConfig[] = [];
 
   readonly orgTree$ = this.workingTimesService.getOrganizationChart(
     this.authService.get('userInfo', 'tenantId') as string
@@ -569,6 +98,492 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+    this.fields = [
+      {
+        key: 'day2',
+        type: 'checkbox-labeled',
+        templateOptions: {
+          labelClassName: 'font-semibold',
+        },
+        expressionProperties: {
+          'templateOptions.label': this.translocoService.selectTranslate('SETTING_TIME.monday'),
+        },
+        defaultValue: true,
+      },
+      {
+        className: 'col-span-3',
+        key: 'mondayTime',
+        type: 'repeat',
+        fieldArray: {
+          fieldGroupClassName: 'flex space-x-4',
+          fieldGroup: [
+            {
+              className: 'block w-32',
+              key: 'from',
+              type: 'select',
+              templateOptions: {
+                translate: true,
+                options: this.dataWorkingTimes,
+                labelProp: 'name',
+                valueProp: 'value',
+                size: 'm',
+                label: 'from',
+                textfieldLabelOutside: false,
+              },
+            },
+            {
+              className: 'block w-32',
+              key: 'to',
+              type: 'select',
+              templateOptions: {
+                translate: true,
+                options: this.dataWorkingTimes,
+                labelProp: 'name',
+                valueProp: 'value',
+                size: 'm',
+                label: 'to',
+                textfieldLabelOutside: false,
+              },
+            },
+          ],
+        },
+      },
+      {
+        key: 'day3',
+        type: 'checkbox-labeled',
+        templateOptions: {
+          labelClassName: 'font-semibold',
+        },
+        expressionProperties: {
+          'templateOptions.label': this.translocoService.selectTranslate('SETTING_TIME.tuesday'),
+        },
+        defaultValue: true,
+      },
+      {
+        className: 'col-span-3',
+        key: 'tuesdayTime',
+        type: 'repeat',
+        fieldArray: {
+          fieldGroupClassName: 'flex space-x-4',
+          fieldGroup: [
+            {
+              className: 'block w-32',
+              key: 'from',
+              type: 'select',
+              templateOptions: {
+                translate: true,
+                options: this.dataWorkingTimes,
+                labelProp: 'name',
+                valueProp: 'value',
+                size: 'm',
+                label: 'from',
+                textfieldLabelOutside: false,
+              },
+            },
+            {
+              className: 'block w-32',
+              key: 'to',
+              type: 'select',
+              templateOptions: {
+                translate: true,
+                options: this.dataWorkingTimes,
+                labelProp: 'name',
+                valueProp: 'value',
+                size: 'm',
+                label: 'to',
+                textfieldLabelOutside: false,
+              },
+            },
+          ],
+        },
+      },
+      {
+        key: 'day4',
+        type: 'checkbox-labeled',
+        templateOptions: {
+          labelClassName: 'font-semibold',
+        },
+        expressionProperties: {
+          'templateOptions.label': this.translocoService.selectTranslate('SETTING_TIME.wednesday'),
+        },
+        defaultValue: true,
+      },
+      {
+        className: 'col-span-3',
+        key: 'wednesdayTime',
+        type: 'repeat',
+        fieldArray: {
+          fieldGroupClassName: 'flex space-x-4',
+          fieldGroup: [
+            {
+              className: 'block w-32',
+              key: 'from',
+              type: 'select',
+              templateOptions: {
+                translate: true,
+                options: this.dataWorkingTimes,
+                labelProp: 'name',
+                valueProp: 'value',
+                size: 'm',
+                label: 'from',
+                textfieldLabelOutside: false,
+              },
+            },
+            {
+              className: 'block w-32',
+              key: 'to',
+              type: 'select',
+              templateOptions: {
+                translate: true,
+                options: this.dataWorkingTimes,
+                labelProp: 'name',
+                valueProp: 'value',
+                size: 'm',
+                label: 'to',
+                textfieldLabelOutside: false,
+              },
+            },
+          ],
+        },
+      },
+      {
+        key: 'day5',
+        type: 'checkbox-labeled',
+        templateOptions: {
+          labelClassName: 'font-semibold',
+        },
+        expressionProperties: {
+          'templateOptions.label': this.translocoService.selectTranslate('SETTING_TIME.thursday'),
+        },
+        defaultValue: true,
+      },
+      {
+        className: 'col-span-3',
+        key: 'thursdayTime',
+        type: 'repeat',
+        fieldArray: {
+          fieldGroupClassName: 'flex space-x-4',
+          fieldGroup: [
+            {
+              className: 'block w-32',
+              key: 'from',
+              type: 'select',
+              templateOptions: {
+                translate: true,
+                options: this.dataWorkingTimes,
+                labelProp: 'name',
+                valueProp: 'value',
+                size: 'm',
+                label: 'from',
+                textfieldLabelOutside: false,
+              },
+            },
+            {
+              className: 'block w-32',
+              key: 'to',
+              type: 'select',
+              templateOptions: {
+                translate: true,
+                options: this.dataWorkingTimes,
+                labelProp: 'name',
+                valueProp: 'value',
+                size: 'm',
+                label: 'to',
+                textfieldLabelOutside: false,
+              },
+            },
+          ],
+        },
+      },
+      {
+        key: 'day6',
+        type: 'checkbox-labeled',
+        templateOptions: {
+          labelClassName: 'font-semibold',
+        },
+        expressionProperties: {
+          'templateOptions.label': this.translocoService.selectTranslate('SETTING_TIME.friday'),
+        },
+        defaultValue: true,
+      },
+      {
+        className: 'col-span-3',
+        key: 'fridayTime',
+        type: 'repeat',
+        fieldArray: {
+          fieldGroupClassName: 'flex space-x-4',
+          fieldGroup: [
+            {
+              className: 'block w-32',
+              key: 'from',
+              type: 'select',
+              templateOptions: {
+                translate: true,
+                options: this.dataWorkingTimes,
+                labelProp: 'name',
+                valueProp: 'value',
+                size: 'm',
+                label: 'from',
+                textfieldLabelOutside: false,
+              },
+            },
+            {
+              className: 'block w-32',
+              key: 'to',
+              type: 'select',
+              templateOptions: {
+                translate: true,
+                options: this.dataWorkingTimes,
+                labelProp: 'name',
+                valueProp: 'value',
+                size: 'm',
+                label: 'to',
+                textfieldLabelOutside: false,
+              },
+            },
+          ],
+        },
+      },
+      {
+        key: 'day7',
+        type: 'checkbox-labeled',
+        templateOptions: {
+          labelClassName: 'font-semibold',
+        },
+        expressionProperties: {
+          'templateOptions.label': this.translocoService.selectTranslate('SETTING_TIME.saturday'),
+        },
+        defaultValue: true,
+      },
+      {
+        className: 'col-span-3',
+        key: 'saturdayTime',
+        type: 'repeat',
+        fieldArray: {
+          fieldGroupClassName: 'flex space-x-4',
+          fieldGroup: [
+            {
+              className: 'block w-32',
+              key: 'from',
+              type: 'select',
+              templateOptions: {
+                translate: true,
+                options: this.dataWorkingTimes,
+                labelProp: 'name',
+                valueProp: 'value',
+                size: 'm',
+                label: 'from',
+                textfieldLabelOutside: false,
+              },
+            },
+            {
+              className: 'block w-32',
+              key: 'to',
+              type: 'select',
+              templateOptions: {
+                translate: true,
+                options: this.dataWorkingTimes,
+                labelProp: 'name',
+                valueProp: 'value',
+                size: 'm',
+                label: 'to',
+                textfieldLabelOutside: false,
+              },
+            },
+          ],
+        },
+      },
+      {
+        key: 'day1',
+        type: 'checkbox-labeled',
+        templateOptions: {
+          labelClassName: 'font-semibold',
+        },
+        expressionProperties: {
+          'templateOptions.label': this.translocoService.selectTranslate('SETTING_TIME.sunday'),
+        },
+        defaultValue: true,
+      },
+      {
+        className: 'col-span-3',
+        key: 'sundayTime',
+        type: 'repeat',
+        fieldArray: {
+          fieldGroupClassName: 'flex space-x-4',
+          fieldGroup: [
+            {
+              className: 'block w-32',
+              key: 'from',
+              type: 'select',
+              templateOptions: {
+                translate: true,
+                options: this.dataWorkingTimes,
+                labelProp: 'name',
+                valueProp: 'value',
+                size: 'm',
+                label: 'from',
+                textfieldLabelOutside: false,
+              },
+            },
+            {
+              className: 'block w-32',
+              key: 'to',
+              type: 'select',
+              templateOptions: {
+                translate: true,
+                options: this.dataWorkingTimes,
+                labelProp: 'name',
+                valueProp: 'value',
+                size: 'm',
+                label: 'to',
+                textfieldLabelOutside: false,
+              },
+            },
+          ],
+        },
+      },
+      {
+        key: 'checkInAfter',
+        type: 'input-time',
+        templateOptions: {
+          translate: true,
+          textfieldLabelOutside: true,
+          required: true,
+          label: `${TRANSLATION_SCOPE}.morningCheckInBefore`,
+          labelClassName: 'font-semibold',
+        },
+      },
+      {
+        key: 'checkOutBefore',
+        type: 'input-time',
+        templateOptions: {
+          translate: true,
+          textfieldLabelOutside: true,
+          required: true,
+          label: `${TRANSLATION_SCOPE}.afternoonCheckOutAfter`,
+          labelClassName: 'font-semibold',
+        },
+      },
+      {
+        key: 'startLunch',
+        type: 'input-time',
+        templateOptions: {
+          translate: true,
+          label: `${TRANSLATION_SCOPE}.startLunch`,
+          labelClassName: 'font-semibold',
+          textfieldLabelOutside: true,
+          required: true,
+        },
+      },
+      {
+        key: 'endLunch',
+        type: 'input-time',
+        templateOptions: {
+          translate: true,
+          label: `${TRANSLATION_SCOPE}.endLunch`,
+          labelClassName: 'font-semibold',
+          textfieldLabelOutside: true,
+          required: true,
+        },
+      },
+      {
+        key: 'workingHour',
+        type: 'input-time',
+        templateOptions: {
+          translate: true,
+          label: `${TRANSLATION_SCOPE}.minimumWorkingHours`,
+          labelClassName: 'font-semibold',
+          textfieldLabelOutside: true,
+          required: true,
+        },
+      },
+      {
+        key: 'totalWorkingHour',
+        type: 'input-time',
+        templateOptions: {
+          translate: true,
+          label: `${TRANSLATION_SCOPE}.maximumWorkingHours`,
+          labelClassName: 'font-semibold',
+          textfieldLabelOutside: true,
+          required: true,
+        },
+      },
+      {
+        key: 'startTimeInWorkingDay',
+        type: 'input-time',
+        templateOptions: {
+          translate: true,
+          label: `${TRANSLATION_SCOPE}.startTime`,
+          labelClassName: 'font-semibold',
+          textfieldLabelOutside: true,
+          required: true,
+        },
+      },
+      {
+        key: 'endTimeInWorkingDay',
+        type: 'input-time',
+        templateOptions: {
+          translate: true,
+          label: `${TRANSLATION_SCOPE}.endTime`,
+          labelClassName: 'font-semibold',
+          textfieldLabelOutside: true,
+          required: true,
+        },
+      },
+      {
+        key: 'maxPaidLeaveToCash',
+        type: 'input-count',
+        templateOptions: {
+          textfieldLabelOutside: true,
+          required: true,
+          translate: true,
+          label: `${TRANSLATION_SCOPE}.maxPaidLeaveToCash`,
+          labelClassName: 'font-semibold',
+        },
+      },
+      {
+        key: 'fingerPrint',
+        type: 'checkbox-labeled',
+        defaultValue: true,
+        templateOptions: {
+          labelClassName: 'font-semibold',
+          translate: true,
+          label: `${TRANSLATION_SCOPE}.useTimekeeper`,
+        },
+      },
+      {
+        key: 'convertOT',
+        className: 'col-span-2',
+        type: 'select',
+        defaultValue: ConvertOvertime.none,
+        templateOptions: {
+          translate: true,
+          label: `${TRANSLATION_SCOPE}.convertOT`,
+          labelClassName: 'font-semibold',
+          valueProp: 'value',
+          options: this.translocoService.selectTranslateObject('CONVERT_OT_OPTIONS', {}, TRANSLATION_SCOPE).pipe(
+            map((result) => [
+              { label: result.none, value: ConvertOvertime.none },
+              { label: result.payroll, value: ConvertOvertime.payroll },
+              { label: result.paidLeave, value: ConvertOvertime.paidLeave },
+            ])
+          ),
+        },
+      },
+      {
+        key: 'maximumPeriodTimeCheckOutInApp',
+        className: 'col-span-2',
+        type: 'input-time',
+        templateOptions: {
+          translate: true,
+          label: `${TRANSLATION_SCOPE}.maximumPeriodTimeCheckOutInApp`,
+          labelClassName: 'font-semibold',
+          textfieldLabelOutside: true,
+          required: true,
+        },
+      },
+      { key: 'id' },
+    ];
     this.workingTimesService
       .getOrgs()
       .pipe(
@@ -584,83 +599,89 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
   }
 
   saveSettings(): void {
-    const formModel = { ...this.form.value };
-    const orgControlData = this.orgControl.value;
-    const items: any[] = [];
-    const dayTime = [
-      formModel.sundayTime,
-      formModel.mondayTime,
-      formModel.tuesdayTime,
-      formModel.wednesdayTime,
-      formModel.thursdayTime,
-      formModel.fridayTime,
-      formModel.saturdayTime,
-    ];
-    const dayKey = [
-      formModel.day1,
-      formModel.day2,
-      formModel.day3,
-      formModel.day4,
-      formModel.day5,
-      formModel.day6,
-      formModel.day7,
-    ];
-    for (let i = 1; i <= 7; i++) {
-      const m: number = i - 1;
-      if (dayKey[m] == true) {
+    this.form.markAllAsTouched();
+    if (this.form.valid) {
+      const formModel = { ...this.form.value };
+      const orgControlData = this.orgControl.value;
+      const items: any[] = [];
+      const dayTime = [
+        formModel.sundayTime,
+        formModel.mondayTime,
+        formModel.tuesdayTime,
+        formModel.wednesdayTime,
+        formModel.thursdayTime,
+        formModel.fridayTime,
+        formModel.saturdayTime,
+      ];
+      const dayKey = [
+        formModel.day1,
+        formModel.day2,
+        formModel.day3,
+        formModel.day4,
+        formModel.day5,
+        formModel.day6,
+        formModel.day7,
+      ];
+
+      for (let i = 1; i <= 7; i++) {
+        let values = dayKey[i - 1] ? dayTime[i - 1] : [];
+
+        if (!values[0].from || !values[0].to) {
+          values = [];
+        }
         items.push({
           weekDayId: i,
-          values: dayTime[m],
-        });
-      } else {
-        items.push({
-          weekDayId: i,
-          values: [],
+          values,
+          configType: 0,
         });
       }
+      this.settingsElement = {
+        id: formModel.id,
+        orgId: orgControlData.id,
+        checkInAfter: (formModel?.checkInAfter as TuiTime).toAbsoluteMilliseconds().valueOf() / 1000,
+        checkOutBefore: (formModel?.checkOutBefore as TuiTime).toAbsoluteMilliseconds().valueOf() / 1000,
+        workingHour: (formModel?.workingHour as TuiTime).toAbsoluteMilliseconds().valueOf() / 1000,
+        startLunch: (formModel?.startLunch as TuiTime).toAbsoluteMilliseconds().valueOf() / 1000,
+        endLunch: (formModel?.endLunch as TuiTime).toAbsoluteMilliseconds().valueOf() / 1000,
+        totalWorkingHour: (formModel?.totalWorkingHour as TuiTime).toAbsoluteMilliseconds().valueOf() / 1000,
+        startTimeInWorkingDay: (formModel?.startTimeInWorkingDay as TuiTime).toAbsoluteMilliseconds().valueOf() / 1000,
+        endTimeInWorkingDay: (formModel?.endTimeInWorkingDay as TuiTime).toAbsoluteMilliseconds().valueOf() / 1000,
+        maximumPeriodTimeCheckOutInApp:
+          (formModel?.maximumPeriodTimeCheckOutInApp as TuiTime).toAbsoluteMilliseconds().valueOf() / 1000,
+        fingerPrint: formModel.fingerPrint,
+        timePayroll: formModel.convertOT === ConvertOvertime.payroll,
+        timePaidLeave: formModel.convertOT === ConvertOvertime.paidLeave,
+        items: items,
+      };
+      if (this.workingHourId) {
+        this.settingsElement.id = this.workingHourId;
+      }
+      this.workingTimesService
+        .saveSettings(this.settingsElement)
+        .pipe(
+          mapTo({ icon: 'success', html: '<b>Update Settings Time Successfully!</b>' } as SweetAlertOptions),
+          takeUntil(this.destroy$),
+          catchError((err) =>
+            of({
+              icon: 'error',
+              text: err.error.message,
+              showCancelButton: true,
+              showConfirmButton: false,
+            } as SweetAlertOptions)
+          ),
+          switchMap((options) => this.promptService.open(options)),
+          filter((result) => result.isConfirmed),
+          takeUntil(this.destroy$)
+        )
+        .subscribe();
     }
-    this.settingsElement = {
-      orgId: orgControlData.id,
-      checkInAfter: (formModel?.checkInAfter as TuiTime).toAbsoluteMilliseconds().valueOf() / 1000,
-      checkOutBefore: (formModel?.checkOutBefore as TuiTime).toAbsoluteMilliseconds().valueOf() / 1000,
-      workingHour: (formModel?.workingHour as TuiTime).toAbsoluteMilliseconds().valueOf() / 1000,
-      startLunch: (formModel?.startLunch as TuiTime).toAbsoluteMilliseconds().valueOf() / 1000,
-      endLunch: (formModel?.endLunch as TuiTime).toAbsoluteMilliseconds().valueOf() / 1000,
-      totalWorkingHour: (formModel?.totalWorkingHour as TuiTime).toAbsoluteMilliseconds().valueOf() / 1000,
-      startTimeInWorkingDay: (formModel?.startTimeInWorkingDay as TuiTime).toAbsoluteMilliseconds().valueOf() / 1000,
-      endTimeInWorkingDay: (formModel?.endTimeInWorkingDay as TuiTime).toAbsoluteMilliseconds().valueOf() / 1000,
-      fingerPrint: formModel.fingerPrint,
-      timePayroll: formModel.convertOT === ConvertOvertime.payroll,
-      timePaidLeave: formModel.convertOT === ConvertOvertime.paidLeave,
-      items: items,
-    };
-    if (this.workingHourId) {
-      this.settingsElement.id = this.workingHourId;
-    }
-    this.workingTimesService
-      .saveSettings(this.settingsElement)
-      .pipe(
-        mapTo({ icon: 'success', text: 'Update Settings Time Successfully!' } as SweetAlertOptions),
-        takeUntil(this.destroy$),
-        catchError((err) =>
-          of({
-            icon: 'error',
-            text: err.error.message,
-            showCancelButton: true,
-            showConfirmButton: false,
-          } as SweetAlertOptions)
-        ),
-        switchMap((options) => this.promptService.open(options)),
-        filter((result) => result.isConfirmed),
-        takeUntil(this.destroy$)
-      )
-      .subscribe(() => this.router.navigate(['../..'], { relativeTo: this.activatedRoute }));
   }
 
   private patchFormValue(formData: any): void {
     const formModel = formData.data;
     this.workingHourId = formModel?.id;
     const jsonEditData = {
+      id: formModel.id,
       orgId: formModel.myOrgId,
       mondayTime: {},
       tuesdayTime: {},
@@ -698,6 +719,7 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
         Number(secondsToTime(formModel.endTimeInWorkingDay).h),
         Number(secondsToTime(formModel.endTimeInWorkingDay).m)
       ),
+      maximumPeriodTimeCheckOutInApp: TuiTime.fromAbsoluteMilliseconds(formModel.maximumPeriodTimeCheckOutInApp * 1000),
       fingerPrint: formModel.fingerPrint,
       convertOT: formModel.timePayroll
         ? ConvertOvertime.payroll

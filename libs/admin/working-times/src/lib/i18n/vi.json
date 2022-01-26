@@ -33,5 +33,6 @@
   "endTime": "Kết thúc ngày",
   "maxPaidLeaveToCash": "Số ngày nghỉ tối đa được trả lương",
   "useTimekeeper": "Sử dụng máy chấm công",
-  "convertOT": "Chuyển đổi OT"
+  "convertOT": "Chuyển đổi OT",
+  "maximumPeriodTimeCheckOutInApp": "Thời gian tối đa giữa 2 lần check-out trong ứng dụng"
 }
