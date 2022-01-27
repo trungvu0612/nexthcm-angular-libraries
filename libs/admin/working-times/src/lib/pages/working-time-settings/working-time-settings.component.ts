@@ -535,7 +535,6 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
         type: 'input-count',
         templateOptions: {
           textfieldLabelOutside: true,
-          required: true,
           translate: true,
           label: `${TRANSLATION_SCOPE}.maxPaidLeaveToCash`,
           labelClassName: 'font-semibold',
@@ -572,7 +571,6 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
       },
       {
         key: 'maximumPeriodTimeCheckOutInApp',
-        className: 'col-span-2',
         type: 'input-time',
         templateOptions: {
           translate: true,
@@ -690,6 +688,7 @@ export class WorkingTimeSettingsComponent implements AfterViewInit {
       fridayTime: {},
       saturdayTime: {},
       sundayTime: {},
+      maxPaidLeaveToCash: formModel.maxPaidLeaveToCash,
       checkInAfter: new TuiTime(
         Number(secondsToTime(formModel.checkInAfter).h),
         Number(secondsToTime(formModel.checkInAfter).m)
