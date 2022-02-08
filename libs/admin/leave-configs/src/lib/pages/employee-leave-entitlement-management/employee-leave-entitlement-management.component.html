@@ -3,7 +3,6 @@
   <tui-loader [overlay]="true" [showLoader]="(loading$ | async) === true">
     <ngx-table
       #table
-      (event)="eventEmitted($event)"
       [columns]="(columns$ | async) || []"
       [configuration]="configuration"
       [data]="(data$ | async) || []"
@@ -20,7 +19,15 @@
           <td class="text-center">{{ item.leaveEntitlement }}</td>
           <td class="text-center">{{ item.leavePending }}</td>
           <td class="text-center">{{ item.leaveScheduled }}</td>
-          <td class="text-center">{{ item.leaveTaken }}</td>
+          <td class="text-center">
+            <a (click)="onViewLeaveTaken(item)" *ngIf="item.leaveTaken; else leaveTakenValue" tuiLink>
+              {{ item.leaveTaken }}
+            </a>
+
+            <ng-template #leaveTakenValue>
+              {{ item.leaveTaken }}
+            </ng-template>
+          </td>
           <td class="text-center">{{ item.leaveBalance }}</td>
         </ng-container>
       </ng-template>
@@ -29,6 +36,8 @@
   <tui-table-pagination
     (pageChange)="onPage($event)"
     (sizeChange)="onSize($event)"
+    [page]="(page$ | push) || 0"
+    [size]="(size$ | push) || 10"
     [total]="(total$ | async) || 0"
   ></tui-table-pagination>
 </hcm-page>

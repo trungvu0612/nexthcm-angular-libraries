@@ -1,6 +1,5 @@
-import { formatDate } from '@angular/common';
 import { HttpParams } from '@angular/common/http';
-import { ChangeDetectionStrategy, Component, EventEmitter, Inject, LOCALE_ID, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Inject, Injector, LOCALE_ID, Output } from '@angular/core';
 import { Actions } from '@datorama/akita-ng-effects';
 import {
   BaseObject,
@@ -14,15 +13,18 @@ import {
 import { Control, FormBuilder } from '@ng-stack/forms';
 import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import { TuiDayRange } from '@taiga-ui/cdk';
+import { TuiDayRange, TuiDestroyService } from '@taiga-ui/cdk';
+import { TuiDialogService } from '@taiga-ui/core';
+import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { endOfDay, getTime } from 'date-fns';
 import { FileSaverService } from 'ngx-filesaver';
 import { from, of, Subject } from 'rxjs';
-import { catchError, map, share, startWith, switchMap, tap } from 'rxjs/operators';
+import { catchError, map, share, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { AdminLeaveConfigsService } from '../../admin-leave-configs.service';
-import { LeaveEntitlementFiltersType } from '../../enums';
+import { LeaveEntitlementFiltersType, LeaveEntitlementsExportType } from '../../enums';
 import { LeaveEntitlementFilters } from '../../models';
 import { TRANSLATION_SCOPE } from '../../translation-scope';
+import { SelectLeaveEntitlementsExportTypeDialogComponent } from '../select-leave-entitlements-export-type-dialog/select-leave-entitlements-export-type-dialog.component';
 
 interface LeaveEntitlementFiltersForm extends LeaveEntitlementFilters {
   fromTo?: Control<TuiDayRange>;
@@ -38,6 +40,7 @@ interface LeaveEntitlementFiltersForm extends LeaveEntitlementFilters {
   templateUrl: './leave-entitlement-filters.component.html',
   styleUrls: ['./leave-entitlement-filters.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [TuiDestroyService],
 })
 export class LeaveEntitlementFiltersComponent {
   @Output() view = new EventEmitter<LeaveEntitlementFilters>();
@@ -168,10 +171,10 @@ export class LeaveEntitlementFiltersComponent {
       ],
     },
   ];
-  readonly export$ = new Subject<{ params: HttpParams; fileName: string }>();
+  readonly export$ = new Subject<{ params: HttpParams; fileName: string; exportType: LeaveEntitlementsExportType }>();
   readonly exportHandler$ = this.export$.pipe(
-    switchMap(({ params, fileName }) =>
-      this.leaveConfigsService.exportLeaveEntitlements(params).pipe(
+    switchMap(({ params, fileName, exportType }) =>
+      this.leaveConfigsService.exportLeaveEntitlements(params, exportType).pipe(
         tap((blob) => {
           this.fileSaverService.save(blob, fileName);
         }),
@@ -196,6 +199,9 @@ export class LeaveEntitlementFiltersComponent {
     private readonly officesQuery: OfficesQuery,
     private readonly promptService: PromptService,
     private readonly fileSaverService: FileSaverService,
+    private readonly dialogService: TuiDialogService,
+    private readonly injector: Injector,
+    private readonly destroy$: TuiDestroyService,
     @Inject(LOCALE_ID) private readonly locale: string,
     actions: Actions
   ) {
@@ -209,27 +215,40 @@ export class LeaveEntitlementFiltersComponent {
 
   onExport(): void {
     if (this.form.valid) {
-      const formModel = { ...this.form.value };
-      const model = this.handleFormModel(formModel);
-      const exportTypeString =
-        formModel.type === LeaveEntitlementFiltersType.LeaveType ? formModel.leaveType?.name : formModel.employee?.name;
-      const dateRangeString =
-        formModel.fromTo && model.fromDate && model.toDate
-          ? `_${formatDate(model.fromDate, 'mediumDate', this.locale)}_${formatDate(
-              model.toDate,
-              'mediumDate',
-              this.locale
-            )}`
-          : '';
-      const fileName = `LEAVE_USAGE${exportTypeString ? `_${exportTypeString}` : ''}${dateRangeString}.xlsx`;
-      let params = new HttpParams();
+      this.dialogService
+        .open<LeaveEntitlementsExportType>(
+          new PolymorpheusComponent(SelectLeaveEntitlementsExportTypeDialogComponent, this.injector),
+          { label: this.translocoService.translate('exportLeaveEntitlements', {}, TRANSLATION_SCOPE) }
+        )
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((exportType) => {
+          const formModel = { ...this.form.value };
+          const model = this.handleFormModel(formModel);
+          const exportTypeString =
+            formModel.type === LeaveEntitlementFiltersType.LeaveType
+              ? formModel.leaveType?.name
+              : formModel.employee?.name;
+          const dateRangeString = formModel.fromTo ? `_${formModel.fromTo.getFormattedDayRange('DMY', '-')}` : '';
+          const fileName = `${exportType === LeaveEntitlementsExportType.CnB ? 'CnB_' : ''}LEAVE_USAGE${
+            exportTypeString ? `_${exportTypeString}` : ''
+          }${dateRangeString}.xlsx`;
+          let params = new HttpParams();
 
-      for (const key of Object.keys(model) as Array<keyof LeaveEntitlementFilters>) {
-        const value = model[key];
+          const primitiveKeys: (keyof LeaveEntitlementFilters)[] = [
+            'employeeId',
+            'orgId',
+            'leaveTypeId',
+            'jobTitleId',
+            'fromDate',
+            'toDate',
+          ];
+          for (const key of primitiveKeys) {
+            const value = model[key];
 
-        params = value ? params.set(key, value) : params.delete(key);
-      }
-      this.export$.next({ params, fileName });
+            params = value ? params.set(key, value) : params.delete(key);
+          }
+          this.export$.next({ params, fileName, exportType });
+        });
     }
   }
 

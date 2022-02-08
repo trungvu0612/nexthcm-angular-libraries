@@ -68,5 +68,6 @@
   "LEAVE_ENTITLEMENT_FILTERS_TYPE": {
     "leaveType": "Leave type",
     "employee": "Employee"
-  }
+  },
+  "exportLeaveEntitlements": "Export employee leave entitlements"
 }

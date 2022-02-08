@@ -111,6 +111,8 @@ export class RequestFiltersComponent implements OnInit {
   }
 
   private parseParams(params: Params): void {
+    const primitiveKeys = ['employeeId', 'leaveTypeId', 'operation', 'isHistory'];
+
     if (params.dates) {
       this.dates$.next(TuiDayRange.normalizeParse(params.dates));
     }
@@ -120,6 +122,12 @@ export class RequestFiltersComponent implements OnInit {
     if (params.filterType) {
       this.filterType$.next(params.filterType);
     }
+    for (const key of primitiveKeys) {
+      if (params[key]) {
+        this.httpParams = this.httpParams.set(key, params[key]);
+      }
+    }
+    this.filter.emit(this.httpParams);
   }
 
   private resetPage(): void {

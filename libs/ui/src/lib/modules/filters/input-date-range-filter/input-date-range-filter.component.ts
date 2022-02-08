@@ -41,7 +41,9 @@ export class InputDateRangeFilterComponent implements OnInit {
     const tree = this.urlSerializer.parse(this.locationRef.path());
 
     tree.queryParams =
-      value === null ? omit(tree.queryParams, 'dates') : { ...tree.queryParams, dates: value.formattedDayRange };
+      value === null
+        ? omit(tree.queryParams, 'dates')
+        : { ...tree.queryParams, dates: value.getFormattedDayRange('DMY', '.') };
     this.locationRef.go(String(tree));
   }
 }

@@ -68,5 +68,6 @@
   "LEAVE_ENTITLEMENT_FILTERS_TYPE": {
     "leaveType": "Loại nghỉ phép",
     "employee": "Nhân viên"
-  }
+  },
+  "exportLeaveEntitlements": "Xuất quyền lợi nghỉ phép của nhân viên"
 }

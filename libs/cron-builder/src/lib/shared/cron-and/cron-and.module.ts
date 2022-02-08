@@ -8,6 +8,8 @@ import { CronAndComponent } from './cron-and.component';
 
 @NgModule({
   imports: [CommonModule, TuiCheckboxModule, ReactiveFormsModule, TuiPrimitiveCheckboxModule],
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
   declarations: [CronAndComponent, CronAndOptionComponent],
   exports: [CronAndComponent],
 })

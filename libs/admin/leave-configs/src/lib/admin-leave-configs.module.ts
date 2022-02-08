@@ -22,12 +22,13 @@ import { FormlyModule } from '@ngx-formly/core';
 import { PushModule } from '@rx-angular/template';
 import { TuiTablePaginationModule } from '@taiga-ui/addon-table';
 import { TuiLetModule } from '@taiga-ui/cdk';
-import { TuiButtonModule, TuiLoaderModule, TuiPrimitiveCheckboxModule } from '@taiga-ui/core';
+import { TuiButtonModule, TuiLinkModule, TuiLoaderModule, TuiPrimitiveCheckboxModule } from '@taiga-ui/core';
 import { TuiTabsModule, TuiTagModule } from '@taiga-ui/kit';
 import { TableModule } from 'ngx-easy-table';
 import { NgxPermissionsGuard, NgxPermissionsModule } from 'ngx-permissions';
 import { AdminLeaveConfigsService } from './admin-leave-configs.service';
 import { LeaveEntitlementFiltersComponent } from './components/leave-entitlement-filters/leave-entitlement-filters.component';
+import { SelectLeaveEntitlementsExportTypeDialogComponent } from './components/select-leave-entitlements-export-type-dialog/select-leave-entitlements-export-type-dialog.component';
 import { UpsertLeaveApprovalLevelDialogComponent } from './components/upsert-leave-approval-level-dialog/upsert-leave-approval-level-dialog.component';
 import { UpsertLeaveEntitlementDialogComponent } from './components/upsert-leave-entitlement/upsert-leave-entitlement-dialog.component';
 import { UpsertLeaveTypeDialogComponent } from './components/upsert-leave-type-dialog/upsert-leave-type-dialog.component';
@@ -75,6 +76,7 @@ const TABS: MenuItem[] = [
     LeaveLevelApprovalManagementComponent,
     EmployeeLeaveEntitlementManagementComponent,
     LeaveEntitlementFiltersComponent,
+    SelectLeaveEntitlementsExportTypeDialogComponent,
   ],
   imports: [
     CommonModule,
@@ -103,6 +105,7 @@ const TABS: MenuItem[] = [
     JoinByKeyPipeModule,
     FormlySelectOrgTreeComponentModule,
     PushModule,
+    TuiLinkModule,
   ],
   providers: [
     AdminLeaveConfigsService,

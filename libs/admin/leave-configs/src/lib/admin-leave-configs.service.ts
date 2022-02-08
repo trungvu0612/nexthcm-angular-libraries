@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { BaseObject, BaseResponse, MY_TIME_API_PATH, Pagination, PagingResponse } from '@nexthcm/cdk';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mapTo } from 'rxjs/operators';
+import { LeaveEntitlementsExportType } from './enums';
 import { LeaveConfigUrlPaths } from './models/leave-config-url-paths';
 import { EmployeeLeaveEntitlement } from './models/leave-entitlement';
 
@@ -63,7 +64,12 @@ export class AdminLeaveConfigsService {
       .pipe(map((res) => res.data));
   }
 
-  exportLeaveEntitlements(params: HttpParams): Observable<Blob> {
-    return this.http.get(`${MY_TIME_API_PATH}/entitlement-statistical/export`, { params, responseType: 'blob' });
+  exportLeaveEntitlements(params: HttpParams, exportType: LeaveEntitlementsExportType): Observable<Blob> {
+    return this.http.get(
+      exportType === LeaveEntitlementsExportType.Detail
+        ? `${MY_TIME_API_PATH}/entitlement-statistical/export`
+        : `${MY_TIME_API_PATH}/entitlement-statistical/export-leave-entitlement`,
+      { params, responseType: 'blob' }
+    );
   }
 }

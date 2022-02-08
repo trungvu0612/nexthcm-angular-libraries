@@ -119,11 +119,6 @@
   },
   "canTransferEntitlementsTo": "Có thể chuyển đổi quyền lợi sang",
   "chooseLeaveType": "Chọn loại nghỉ phép...",
-  "EXPORT_TIME_LOG_TYPES": {
-    "detail": "Chi tiết",
-    "aggregate": "Tổng hợp",
-    "cnb": "C&B"
-  },
   "assignToDirectSupervisor": "Chuyển cho người giám sát cấp cao hơn",
   "filterByMyTeam": "Lọc theo đội ngũ của bạn"
 }

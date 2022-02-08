@@ -120,11 +120,6 @@
   },
   "canTransferEntitlementsTo": "Can transfer entitlements to",
   "chooseLeaveType": "Choose leave type...",
-  "EXPORT_TIME_LOG_TYPES": {
-    "detail": "Detail",
-    "aggregate": "Aggregate",
-    "cnb": "C&B"
-  },
   "assignToDirectSupervisor": "Assign to a higher level supervisor",
   "filterByMyTeam": "Filter by my team"
 }

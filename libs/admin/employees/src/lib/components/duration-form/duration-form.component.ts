@@ -264,7 +264,7 @@ export class DurationFormComponent {
       ]);
 
       if (formModel.probationDate) {
-        formModel.probationDate = new DateRange(formModel.probationDate as TuiDayRange);
+        formModel.probationDate = DateRange.fromTuiDayRange(formModel.probationDate as TuiDayRange);
       }
       this.adminEmployeeService
         .updateEmployeeInformation<EmployeeDuration>(formModel)

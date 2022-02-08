@@ -635,5 +635,10 @@
   "repeat": "Lặp lại",
   "holidays": "Ngày lễ",
   "transitionToStatus": "Chuyển tiếp đến trạng thái",
-  "chooseStatus": "Chọn trạng thái..."
+  "chooseStatus": "Chọn trạng thái...",
+  "EXPORT_TYPES": {
+    "detail": "Chi tiết",
+    "aggregate": "Tổng hợp",
+    "cnb": "C&B"
+  }
 }

@@ -51,7 +51,7 @@ export class ExportTimeLogDialogComponent {
         label: 'type',
         labelClassName: 'font-semibold',
         valueProp: 'value',
-        options: this.translocoService.selectTranslateObject('EXPORT_TIME_LOG_TYPES', {}, TRANSLATION_SCOPE).pipe(
+        options: this.translocoService.selectTranslateObject('EXPORT_TYPES').pipe(
           map((result) => [
             { label: result.detail, value: ExportTimeLogType.Detail },
             { label: result.aggregate, value: ExportTimeLogType.Aggregate },
