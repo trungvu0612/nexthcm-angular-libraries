@@ -120,7 +120,7 @@ export class CreateWorkFromHomeRequestDialogComponent implements OnInit {
                     take(1),
                     switchMap(() =>
                       this.myRequestsService.checkDuplicateRequestTime<WorkFromHomeRequestForm>(
-                        'workingOnsite',
+                        'workFromHome',
                         this.parseFormModel({
                           user: this.userControl?.value,
                           fromTo: control.value,
