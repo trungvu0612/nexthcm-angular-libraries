@@ -69,5 +69,6 @@
     "leaveType": "Leave type",
     "employee": "Employee"
   },
-  "exportLeaveEntitlements": "Export employee leave entitlements"
+  "exportLeaveEntitlements": "Export employee leave entitlements",
+  "allLeaveTypes": "All leave types"
 }

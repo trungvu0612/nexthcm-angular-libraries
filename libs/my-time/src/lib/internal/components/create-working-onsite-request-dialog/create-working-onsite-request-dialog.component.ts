@@ -1,16 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Inject, NgModule, OnInit, ViewChild } from '@angular/core';
+import { AbstractControl, FormBuilder } from '@angular/forms';
 import { Actions } from '@datorama/akita-ng-effects';
-import {
-  BaseObject,
-  BaseUser,
-  loadOnsiteOffices,
-  OnsiteOfficesQuery,
-  PromptService,
-  WorkflowStatus,
-} from '@nexthcm/cdk';
+import { BaseUser, loadOnsiteOffices, OnsiteOfficesQuery, PromptService, WorkflowStatus } from '@nexthcm/cdk';
 import { BaseFormComponentModule } from '@nexthcm/ui';
-import { Control, FormBuilder } from '@ng-stack/forms';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { PushModule } from '@rx-angular/template';
@@ -20,18 +13,17 @@ import { TuiTagModule } from '@taiga-ui/kit';
 import { POLYMORPHEUS_CONTEXT, PolymorpheusModule, PolymorpheusTemplate } from '@tinkoff/ng-polymorpheus';
 import { endOfDay, getTime } from 'date-fns';
 import omit from 'just-omit';
-import { from, of, Subject } from 'rxjs';
-import { catchError, map, share, startWith, switchMap, tap } from 'rxjs/operators';
+import { combineLatest, from, of, Subject } from 'rxjs';
+import { catchError, map, share, startWith, switchMap, take, tap } from 'rxjs/operators';
 import { MyTimeService } from '../../../services';
 import { RequestType } from '../../enums';
 import { WorkingOnsiteRequestPayload } from '../../models';
 import { MyRequestsService } from '../../services';
 
 interface WorkingOnsiteRequestForm extends WorkingOnsiteRequestPayload {
-  user?: Control<BaseUser>;
-  fromTo?: Control<TuiDayRange>;
-  sendToUser?: Control<BaseUser>;
-  officeDTO: Control<BaseObject>;
+  user?: BaseUser;
+  fromTo?: TuiDayRange;
+  sendToUser?: BaseUser;
 }
 
 @Component({
@@ -45,7 +37,7 @@ export class CreateWorkingOnsiteRequestDialogComponent implements OnInit {
 
   readonly statusContext!: { $implicit: WorkflowStatus };
   model = {} as WorkingOnsiteRequestForm;
-  readonly form = this.fb.group<WorkingOnsiteRequestForm>(this.model);
+  readonly form = this.fb.group(this.model);
   fields!: FormlyFieldConfig[];
   readonly submit$ = new Subject<WorkingOnsiteRequestPayload>();
   readonly submitHandler$ = this.submit$.pipe(
@@ -86,6 +78,10 @@ export class CreateWorkingOnsiteRequestDialogComponent implements OnInit {
     actions.dispatch(loadOnsiteOffices());
   }
 
+  get userControl(): AbstractControl | null {
+    return this.form.get('user');
+  }
+
   ngOnInit(): void {
     this.fields = [
       {
@@ -114,6 +110,32 @@ export class CreateWorkingOnsiteRequestDialogComponent implements OnInit {
           placeholder: 'chooseDateRange',
           required: true,
           textfieldLabelOutside: true,
+        },
+        asyncValidators: {
+          dateRange: {
+            expression: (control: AbstractControl) =>
+              !control.valueChanges || control.pristine
+                ? of(true)
+                : combineLatest([
+                    this.userControl
+                      ? this.userControl.valueChanges.pipe(startWith(this.userControl.value))
+                      : of(undefined),
+                    control.valueChanges,
+                  ]).pipe(
+                    take(1),
+                    switchMap(() =>
+                      this.myRequestsService.checkDuplicateRequestTime<WorkingOnsiteRequestPayload>(
+                        'workingOnsite',
+                        this.handleFormValue({
+                          user: this.userControl?.value,
+                          fromTo: control.value,
+                        })
+                      )
+                    ),
+                    tap(() => control.markAsTouched())
+                  ),
+            message: () => this.translocoService.selectTranslate('VALIDATION.duplicateRequestTime'),
+          },
         },
       },
       {
@@ -177,25 +199,29 @@ export class CreateWorkingOnsiteRequestDialogComponent implements OnInit {
 
   onSubmit(): void {
     if (this.form.valid) {
-      const formModel = { ...this.form.value };
-
-      if (formModel.user) {
-        formModel.userId = formModel.user.id;
-      }
-      if (formModel.fromTo) {
-        formModel.fromDate = getTime(formModel.fromTo.from.toLocalNativeDate());
-        formModel.toDate = getTime(endOfDay(formModel.fromTo.to.toLocalNativeDate()));
-      }
-      if (formModel.sendToUser) {
-        formModel.sendTo = formModel.sendToUser.id;
-      }
-
-      this.submit$.next(omit(formModel, ['user', 'fromTo', 'durationTime', 'sendToUser']));
+      this.submit$.next(this.handleFormValue(this.form.value));
     }
   }
 
   onCancel(): void {
     this.context.$implicit.complete();
+  }
+
+  handleFormValue(formValue: Partial<WorkingOnsiteRequestForm>): WorkingOnsiteRequestPayload {
+    const formModel = { ...formValue };
+
+    if (formModel.user) {
+      formModel.userId = formModel.user.id;
+    }
+    if (formModel.fromTo) {
+      formModel.fromDate = getTime(formModel.fromTo.from.toLocalNativeDate());
+      formModel.toDate = getTime(endOfDay(formModel.fromTo.to.toLocalNativeDate()));
+    }
+    if (formModel.sendToUser) {
+      formModel.sendTo = formModel.sendToUser.id;
+    }
+
+    return omit(formModel, ['user', 'fromTo', 'durationTime', 'sendToUser']) as WorkingOnsiteRequestPayload;
   }
 }
 

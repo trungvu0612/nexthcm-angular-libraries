@@ -42,6 +42,18 @@ export class UpsertLeaveApprovalLevelDialogComponent implements OnInit {
       hideExpression: '!model.id',
     },
     {
+      key: 'isAllLeaveTypes',
+      className: 'tui-form__row block',
+      type: 'checkbox-labeled',
+      defaultValue: false,
+      templateOptions: {
+        labelClassName: 'font-semibold',
+        translate: true,
+        label: `${TRANSLATION_SCOPE}.allLeaveTypes`,
+      },
+      hideExpression: 'model.id',
+    },
+    {
       key: 'leaveTypes',
       className: 'tui-form__row block',
       type: 'multi-select-search',
@@ -56,7 +68,7 @@ export class UpsertLeaveApprovalLevelDialogComponent implements OnInit {
         matcherBy: 'id',
         serverRequest: (searchQuery: string) => this.leaveConfigsService.searchLeaveTypes(searchQuery),
       },
-      hideExpression: 'model.id',
+      hideExpression: (model) => model.isAllLeaveTypes || model.id,
     },
     {
       key: 'jobTitleDTOList',

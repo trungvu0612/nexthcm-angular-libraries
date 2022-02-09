@@ -93,7 +93,8 @@
     "valueExisting": "Giá trị này đã tồn tại!",
     "maxLength": "Trường này không được dài hơn {{length}} kí tự!",
     "userAlreadyHasASeat": "Người dùng này đã có chỗ ngồi!",
-    "circularDirectReport": "Nhân viên đang là quản lý trực tiếp của người dùng đã chọn!"
+    "circularDirectReport": "Nhân viên đang là quản lý trực tiếp của người dùng đã chọn!",
+    "duplicateRequestTime": "Đã tồn tại yêu cầu trong khoảng thời gian này!"
   },
   "ADMIN_CONTRACT_MANAGEMENT_COLUMNS": {
     "contractManagement": "Quản lý hợp đồng",

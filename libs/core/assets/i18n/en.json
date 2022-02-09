@@ -93,7 +93,8 @@
     "valueExisting": "This value is already exists!",
     "maxLength": "This field can't be longer than {{length}} characters!",
     "userAlreadyHasASeat": "This user already has a seat!",
-    "circularDirectReport": "Current employee is already the direct report of the selected user!"
+    "circularDirectReport": "Current employee is already the direct report of the selected user!",
+    "duplicateRequestTime": "There is already a request for this time!"
   },
   "ADMIN_CONTRACT_MANAGEMENT_COLUMNS": {
     "contractManagement": "Contract Management",
