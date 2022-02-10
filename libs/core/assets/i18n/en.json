@@ -412,6 +412,7 @@
   "type": "Type",
   "chooseType": "Choose type...",
   "date": "Date",
+  "enterDate": "Enter date...",
   "chooseDateRange": "Choose date range...",
   "chooseADate": "Choose a date",
   "PAIDLEAVE_STATUS": {

@@ -61,6 +61,7 @@ export class EmployeeLeaveEntitlementManagementComponent extends AbstractBaseSer
         },
       ])
     );
+  readonly LeaveOperations = LeaveOperations;
   private readonly request$ = this.fetch$.pipe(
     switchMap(() => this.leaveConfigsService.getEmployeeLeaveEntitlements(this.queryParams).pipe(startWith(null))),
     share()
@@ -90,7 +91,7 @@ export class EmployeeLeaveEntitlementManagementComponent extends AbstractBaseSer
     this.fetch$.next();
   }
 
-  onViewLeaveTaken(item: EmployeeLeaveEntitlement): void {
+  onViewLeaveHistory(item: EmployeeLeaveEntitlement, operation: LeaveOperations): void {
     const fromDate = this.queryParams.get('fromDate');
     const toDate = this.queryParams.get('toDate');
 
@@ -101,7 +102,7 @@ export class EmployeeLeaveEntitlementManagementComponent extends AbstractBaseSer
         fromDate && toDate
           ? DateRange.toTuiDayRange(new DateRange(Number(fromDate), Number(toDate))).getFormattedDayRange('DMY', '.')
           : null,
-      operation: LeaveOperations.Taken,
+      operation,
       isHistory: true,
     };
 

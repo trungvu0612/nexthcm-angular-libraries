@@ -3,13 +3,18 @@ import { FormGroup } from '@angular/forms';
 import { Holiday, PromptService } from '@nexthcm/cdk';
 import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import { TuiDestroyService } from '@taiga-ui/cdk';
+import { TuiDay, TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
+import omit from 'just-omit';
 import { of, Subject } from 'rxjs';
 import { catchError, map, share, startWith, switchMap, tap } from 'rxjs/operators';
 import { WorkingTimesService } from '../../services/working-times.service';
 import { TRANSLATION_SCOPE } from '../../translation-scope';
+
+interface HolidayForm extends Holiday {
+  date: TuiDay;
+}
 
 @Component({
   selector: 'hcm-upsert-holiday-dialog',
@@ -20,18 +25,19 @@ import { TRANSLATION_SCOPE } from '../../translation-scope';
 })
 export class UpsertHolidayDialogComponent implements OnInit {
   form = new FormGroup({});
-  model = {} as Holiday;
+  model = {} as HolidayForm;
   fields: FormlyFieldConfig[] = [
     {
-      key: 'holidayDate',
+      key: 'date',
       className: 'tui-form__row block',
       type: 'input-date',
       templateOptions: {
-        label: 'Date',
+        label: 'date',
         labelClassName: 'font-semibold',
         textfieldLabelOutside: true,
         required: true,
-        placeholder: 'Enter date...',
+        placeholder: 'enterDate',
+        translate: true,
       },
     },
     {
@@ -42,9 +48,9 @@ export class UpsertHolidayDialogComponent implements OnInit {
         translate: true,
         required: true,
         textfieldLabelOutside: true,
-        label: 'Name',
+        label: 'name',
         labelClassName: 'font-semibold',
-        placeholder: 'Enter name...',
+        placeholder: 'enterName',
       },
     },
     {
@@ -67,7 +73,7 @@ export class UpsertHolidayDialogComponent implements OnInit {
       },
     },
     {
-      key: 'paidLeave',
+      key: 'paidHoliday',
       className: 'tui-form__row block',
       type: 'checkbox-labeled',
       defaultValue: true,
@@ -82,10 +88,11 @@ export class UpsertHolidayDialogComponent implements OnInit {
   readonly submit$ = new Subject<Holiday>();
   readonly submitHandler$ = this.submit$.pipe(
     switchMap((payload) =>
-      this.workingTimesService.addHoliday(payload).pipe(
+      this.workingTimesService.upsertHoliday(payload).pipe(
         tap(
-          this.promptService.handleResponse(payload.id ? 'editHolidaySuccessfully' : 'addHolidaySuccessfully', () =>
-            this.context.completeWith(true)
+          this.promptService.handleResponse(
+            TRANSLATION_SCOPE + (payload.id ? '.editHolidaySuccessfully' : '.addHolidaySuccessfully'),
+            () => this.context.completeWith(true)
           )
         ),
         catchError(() => of({})),
@@ -109,13 +116,20 @@ export class UpsertHolidayDialogComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.context.data) {
-      this.model = { ...this.model, ...this.context.data };
+      this.model = {
+        ...this.model,
+        ...this.context.data,
+        date: TuiDay.fromLocalNativeDate(new Date(this.context.data.holidayDate as number)),
+      };
     }
   }
 
   onSubmit(): void {
     if (this.form.valid) {
-      this.submit$.next({ ...this.form.value });
+      const formModel: HolidayForm = { ...this.form.value };
+
+      formModel.holidayDate = formModel.date.getFormattedDay('YMD', '-');
+      this.submit$.next(omit(formModel, 'date'));
     }
   }
 

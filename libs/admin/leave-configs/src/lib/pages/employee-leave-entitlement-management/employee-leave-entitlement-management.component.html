@@ -16,19 +16,50 @@
           <td>{{ item.userInfo?.organization?.name }}</td>
           <td>{{ item.userInfo?.jobTitle?.name }}</td>
           <td>{{ item.leaveType.name }}</td>
-          <td class="text-center">{{ item.leaveEntitlement }}</td>
-          <td class="text-center">{{ item.leavePending }}</td>
-          <td class="text-center">{{ item.leaveScheduled }}</td>
+          <td class="text-center">{{ item.leaveEntitlement | translocoDecimal: { maximumFractionDigits: 1 } }}</td>
           <td class="text-center">
-            <a (click)="onViewLeaveTaken(item)" *ngIf="item.leaveTaken; else leaveTakenValue" tuiLink>
-              {{ item.leaveTaken }}
-            </a>
+            <button
+              (click)="onViewLeaveHistory(item, LeaveOperations.Pending)"
+              *ngIf="item.leavePending; else leavePendingValue"
+              [pseudo]="true"
+              tuiLink
+            >
+              <ng-container *ngTemplateOutlet="leavePendingValue"></ng-container>
+            </button>
 
-            <ng-template #leaveTakenValue>
-              {{ item.leaveTaken }}
+            <ng-template #leavePendingValue>
+              {{ item.leavePending | translocoDecimal: { maximumFractionDigits: 1 } }}
             </ng-template>
           </td>
-          <td class="text-center">{{ item.leaveBalance }}</td>
+          <td class="text-center">
+            <button
+              (click)="onViewLeaveHistory(item, LeaveOperations.Scheduled)"
+              *ngIf="item.leaveScheduled; else leaveScheduledValue"
+              [pseudo]="true"
+              tuiLink
+            >
+              <ng-container *ngTemplateOutlet="leaveScheduledValue"></ng-container>
+            </button>
+
+            <ng-template #leaveScheduledValue>
+              {{ item.leaveScheduled | translocoDecimal: { maximumFractionDigits: 1 } }}
+            </ng-template>
+          </td>
+          <td class="text-center">
+            <button
+              (click)="onViewLeaveHistory(item, LeaveOperations.Taken)"
+              *ngIf="item.leaveTaken; else leaveTakenValue"
+              [pseudo]="true"
+              tuiLink
+            >
+              <ng-container *ngTemplateOutlet="leaveTakenValue"></ng-container>
+            </button>
+
+            <ng-template #leaveTakenValue>
+              {{ item.leaveTaken | translocoDecimal: { maximumFractionDigits: 1 } }}
+            </ng-template>
+          </td>
+          <td class="text-center">{{ item.leaveBalance | translocoDecimal: { maximumFractionDigits: 1 } }}</td>
         </ng-container>
       </ng-template>
     </ngx-table>

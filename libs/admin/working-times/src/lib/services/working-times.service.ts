@@ -88,11 +88,19 @@ export class WorkingTimesService {
       .pipe(map((res) => res.data));
   }
 
-  addHoliday(dto: { recurringType: any; name: any; holidayDate: number }): Observable<any> {
-    return this.httpClient.post<any>(`${MY_TIME_API_PATH}/holidays`, dto);
+  addHoliday(payload: Holiday): Observable<unknown> {
+    return this.httpClient.post<unknown>(`${MY_TIME_API_PATH}/holidays`, payload);
   }
 
-  deleteHoliday(id: string): Observable<Holiday> {
-    return this.httpClient.delete<Holiday>(`${MY_TIME_API_PATH}/holidays/` + id);
+  editHoliday(payload: Holiday): Observable<unknown> {
+    return this.httpClient.put<unknown>(`${MY_TIME_API_PATH}/holidays/${payload.id}`, payload);
+  }
+
+  upsertHoliday(payload: Holiday): Observable<unknown> {
+    return payload.id ? this.editHoliday(payload) : this.addHoliday(payload);
+  }
+
+  deleteHoliday(id: string): Observable<unknown> {
+    return this.httpClient.delete(`${MY_TIME_API_PATH}/holidays/${id}`);
   }
 }

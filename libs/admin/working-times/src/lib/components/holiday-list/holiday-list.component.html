@@ -15,6 +15,13 @@
         </td>
         <td>
           <button
+            (click)="onUpsertHoliday(item)"
+            appearance="flat"
+            icon="tuiIconEditLarge"
+            size="m"
+            tuiIconButton
+          ></button>
+          <button
             (click)="onRemoveHoliday(item.id)"
             appearance="flat"
             icon="tuiIconTrashLarge"
