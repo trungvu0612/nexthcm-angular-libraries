@@ -163,7 +163,7 @@ export class UpsertSeatMapComponent implements AfterViewInit {
         linkText: 'chooseAnImage',
         labelText: 'orDropItHere',
         accept: 'image/*',
-        serverRequest: (file: File) => this.uploadFileService.uploadFile('admin-tenant/domain', file),
+        serverRequest: (file: File) => this.uploadFileService.uploadFile('admin-tenant/domain', file, true),
       },
     },
     { key: 'type', defaultValue: 'UNSET' },

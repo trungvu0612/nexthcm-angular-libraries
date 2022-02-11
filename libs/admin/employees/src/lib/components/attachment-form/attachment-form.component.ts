@@ -40,7 +40,7 @@ export class AttachmentFormComponent {
             type: 'sharing-file',
             templateOptions: {
               labelClassName: 'font-semibold',
-              serverRequest: (file: File) => this.uploadFileService.uploadFile('employee', file, true),
+              serverRequest: (file: File) => this.uploadFileService.uploadFile('employee', file, false, true),
             },
             expressionProperties: {
               'templateOptions.linkText': this.translocoService.selectTranslate('chooseFile'),
