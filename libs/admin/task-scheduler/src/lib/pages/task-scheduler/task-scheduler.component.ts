@@ -8,24 +8,24 @@ import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { API, BaseComponent, Columns, Config, DefaultConfig } from 'ngx-easy-table';
 import { Observable, of, Subject } from 'rxjs';
 import { catchError, filter, map, share, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
-import { EditSynchronizationSettingDialogComponent } from '../../components/edit-synchronization-setting-dialog/edit-synchronization-setting-dialog.component';
-import { SyncType } from '../../enums';
-import { SynchronizationSetting } from '../../models/synchronization-setting';
-import { SynchronizeDataService } from '../../services/synchronize-data.service';
+import { EditScheduledTaskDialogComponent } from '../../components/edit-scheduled-task-dialog/edit-scheduled-task-dialog.component';
+import { ScheduleType } from '../../enums';
+import { ScheduledTask } from '../../models/scheduled-task';
+import { TaskSchedulerService } from '../../services/task-scheduler.service';
 import { TRANSLATION_SCOPE } from '../../translation-scope';
 
 interface CommonState {
-  data: SynchronizationSetting[];
+  data: ScheduledTask[];
 }
 
 @Component({
-  selector: 'hcm-synchronization-settings',
-  templateUrl: './synchronization-settings.component.html',
-  styleUrls: ['./synchronization-settings.component.scss'],
+  selector: 'hcm-task-scheduler',
+  templateUrl: './task-scheduler.component.html',
+  styleUrls: ['./task-scheduler.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [TuiDestroyService, RxState],
 })
-export class SynchronizationSettingsComponent implements OnInit {
+export class TaskSchedulerComponent implements OnInit {
   @ViewChild('table', { static: true }) table!: BaseComponent;
 
   configuration: Config = {
@@ -36,9 +36,9 @@ export class SynchronizationSettingsComponent implements OnInit {
     orderEnabled: false,
   };
   readonly CommonStatus = CommonStatus;
-  readonly SyncType = SyncType;
+  readonly ScheduleType = ScheduleType;
   readonly columns$: Observable<Columns[]> = this.translocoService
-    .selectTranslateObject('ADMIN_SYNCHRONIZATION_SETTINGS_COLUMNS', {}, TRANSLATION_SCOPE)
+    .selectTranslateObject('ADMIN_TASK_SCHEDULER_COLUMNS', {}, TRANSLATION_SCOPE)
     .pipe(
       map((result) => [
         { key: 'name', title: result.name },
@@ -52,7 +52,7 @@ export class SynchronizationSettingsComponent implements OnInit {
   readonly data$ = this.state.select('data');
   private readonly refresh$ = new Subject<void>();
   private readonly request$ = this.refresh$.pipe(
-    switchMap(() => this.synchronizeDataService.getSynchronizationSettings().pipe(startWith(null))),
+    switchMap(() => this.TaskSchedulerService.getScheduledTasks().pipe(startWith(null))),
     share()
   );
   readonly loading$ = this.request$.pipe(
@@ -62,7 +62,7 @@ export class SynchronizationSettingsComponent implements OnInit {
 
   constructor(
     private readonly translocoService: TranslocoService,
-    private readonly synchronizeDataService: SynchronizeDataService,
+    private readonly TaskSchedulerService: TaskSchedulerService,
     private readonly dialogService: TuiDialogService,
     private readonly injector: Injector,
     private readonly destroy$: TuiDestroyService,
@@ -81,16 +81,16 @@ export class SynchronizationSettingsComponent implements OnInit {
     );
   }
 
-  readonly item = (item: SynchronizationSetting) => item;
+  readonly item = (item: ScheduledTask) => item;
 
   ngOnInit(): void {
     this.refresh$.next();
   }
 
-  onEditSynchronizationSetting(data: SynchronizationSetting): void {
+  onEditScheduledTask(data: ScheduledTask): void {
     this.dialogService
-      .open<boolean>(new PolymorpheusComponent(EditSynchronizationSettingDialogComponent, this.injector), {
-        label: this.translocoService.translate('SCHEDULER.editSynchronizationSetting'),
+      .open<boolean>(new PolymorpheusComponent(EditScheduledTaskDialogComponent, this.injector), {
+        label: this.translocoService.translate('SCHEDULER.editScheduledTask'),
         size: 'l',
         data,
       })
@@ -98,13 +98,12 @@ export class SynchronizationSettingsComponent implements OnInit {
       .subscribe(() => this.refresh$.next());
   }
 
-  onSync(id: string): void {
-    this.synchronizeDataService
-      .synchronizeManually(id)
+  onExecute(id: string): void {
+    this.TaskSchedulerService.executeManually(id)
       .pipe(
         tap(this.promptService.handleResponse('')),
         switchMap(() =>
-          this.notificationsService.show('', { label: this.translocoService.translate('SCHEDULER.startSyncing') })
+          this.notificationsService.show('', { label: this.translocoService.translate('SCHEDULER.executeTask') })
         ),
         takeUntil(this.destroy$)
       )

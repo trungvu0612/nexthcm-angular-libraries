@@ -1,5 +1,5 @@
 {
-  "name": "@nexthcm/admin-synchronize-data",
+  "name": "@nexthcm/admin-task-scheduler",
   "version": "1.1.0",
   "peerDependencies": {
     "@angular/common": "^12.2.0",

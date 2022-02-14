@@ -448,46 +448,46 @@
       },
       "tags": []
     },
-    "admin-synchronize-data": {
+    "admin-task-scheduler": {
       "projectType": "library",
-      "root": "libs/admin/synchronize-data",
-      "sourceRoot": "libs/admin/synchronize-data/src",
+      "root": "libs/admin/task-scheduler",
+      "sourceRoot": "libs/admin/task-scheduler/src",
       "prefix": "hcm",
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": ["dist/libs/admin/synchronize-data"],
+          "outputs": ["dist/libs/admin/task-scheduler"],
           "options": {
-            "project": "libs/admin/synchronize-data/ng-package.json"
+            "project": "libs/admin/task-scheduler/ng-package.json"
           },
           "configurations": {
             "production": {
-              "tsConfig": "libs/admin/synchronize-data/tsconfig.lib.prod.json"
+              "tsConfig": "libs/admin/task-scheduler/tsconfig.lib.prod.json"
             },
             "development": {
-              "tsConfig": "libs/admin/synchronize-data/tsconfig.lib.json"
+              "tsConfig": "libs/admin/task-scheduler/tsconfig.lib.json"
             }
           },
           "defaultConfiguration": "production"
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/admin/synchronize-data"],
+          "outputs": ["coverage/libs/admin/task-scheduler"],
           "options": {
-            "jestConfig": "libs/admin/synchronize-data/jest.config.js",
+            "jestConfig": "libs/admin/task-scheduler/jest.config.js",
             "passWithNoTests": true
           }
         },
         "lint": {
           "builder": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": ["libs/admin/synchronize-data/src/**/*.ts", "libs/admin/synchronize-data/src/**/*.html"]
+            "lintFilePatterns": ["libs/admin/task-scheduler/src/**/*.ts", "libs/admin/task-scheduler/src/**/*.html"]
           }
         },
         "publish": {
           "builder": "@nrwl/workspace:run-commands",
           "options": {
-            "command": "yarn publish dist/libs/admin/synchronize-data"
+            "command": "yarn publish dist/libs/admin/task-scheduler"
           }
         }
       },

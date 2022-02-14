@@ -1,13 +1,13 @@
 import { CommonStatus } from '@nexthcm/cdk';
-import { ModuleCode, SyncType } from '../enums';
+import { ModuleCode, ScheduleType } from '../enums';
 
-export interface SynchronizationSetting {
+export interface ScheduledTask {
   id: string;
   name: string;
   description: string;
   value: string;
   status: CommonStatus;
-  type: SyncType;
+  type: ScheduleType;
   moduleCode: ModuleCode;
   isManual: string;
   statusBoolean?: boolean;

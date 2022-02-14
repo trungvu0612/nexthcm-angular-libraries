@@ -6,21 +6,21 @@ import { TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { takeUntil } from 'rxjs/operators';
-import { SyncType } from '../../enums';
-import { SynchronizationSetting } from '../../models/synchronization-setting';
-import { SynchronizeDataService } from '../../services/synchronize-data.service';
+import { ScheduleType } from '../../enums';
+import { ScheduledTask } from '../../models/scheduled-task';
+import { TaskSchedulerService } from '../../services/task-scheduler.service';
 import { TRANSLATION_SCOPE } from '../../translation-scope';
 
 @Component({
-  selector: 'hcm-edit-synchronization-setting-dialog',
-  templateUrl: './edit-synchronization-setting-dialog.component.html',
-  styleUrls: ['./edit-synchronization-setting-dialog.component.scss'],
+  selector: 'hcm-edit-scheduled-task-dialog',
+  templateUrl: './edit-scheduled-task-dialog.component.html',
+  styleUrls: ['./edit-scheduled-task-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [TuiDestroyService],
 })
-export class EditSynchronizationSettingDialogComponent implements OnInit {
-  form = this.fb.group<SynchronizationSetting>({} as SynchronizationSetting);
-  model = {} as SynchronizationSetting;
+export class EditScheduledTaskDialogComponent implements OnInit {
+  form = this.fb.group<ScheduledTask>({} as ScheduledTask);
+  model = {} as ScheduledTask;
   fields: FormlyFieldConfig[] = [
     {
       key: 'statusBoolean',
@@ -43,7 +43,7 @@ export class EditSynchronizationSettingDialogComponent implements OnInit {
         label: 'type',
         labelClassName: 'font-semibold',
         placeholder: 'chooseType',
-        options: [SyncType.interval, SyncType.cronJob],
+        options: [ScheduleType.interval, ScheduleType.cronJob],
       },
     },
     {
@@ -59,7 +59,7 @@ export class EditSynchronizationSettingDialogComponent implements OnInit {
         required: true,
         textfieldLabelOutside: true,
       },
-      hideExpression: (model: SynchronizationSetting) => model.type !== SyncType.interval,
+      hideExpression: (model: ScheduledTask) => model.type !== ScheduleType.interval,
     },
     {
       key: 'value',
@@ -69,7 +69,7 @@ export class EditSynchronizationSettingDialogComponent implements OnInit {
       templateOptions: {
         required: true,
       },
-      hideExpression: (model: SynchronizationSetting) => model.type !== SyncType.cronJob,
+      hideExpression: (model: ScheduledTask) => model.type !== ScheduleType.cronJob,
     },
     { key: 'id' },
     { key: 'name' },
@@ -78,8 +78,8 @@ export class EditSynchronizationSettingDialogComponent implements OnInit {
 
   constructor(
     private readonly fb: FormBuilder,
-    @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<boolean, SynchronizationSetting>,
-    private readonly synchronizeDataService: SynchronizeDataService,
+    @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<boolean, ScheduledTask>,
+    private readonly TaskSchedulerService: TaskSchedulerService,
     private readonly promptService: PromptService,
     private readonly destroy$: TuiDestroyService
   ) {}
@@ -96,14 +96,13 @@ export class EditSynchronizationSettingDialogComponent implements OnInit {
 
   onSubmit(): void {
     if (this.form.valid) {
-      const formModel: SynchronizationSetting = { ...this.form.value };
+      const formModel: ScheduledTask = { ...this.form.value };
 
       formModel.status = formModel.statusBoolean ? CommonStatus.active : CommonStatus.inactive;
-      this.synchronizeDataService
-        .editSynchronizationSetting(formModel)
+      this.TaskSchedulerService.editScheduledTask(formModel)
         .pipe(takeUntil(this.destroy$))
         .subscribe(
-          this.promptService.handleResponse('SCHEDULER.editSynchronizationSettingSuccessfully', () =>
+          this.promptService.handleResponse('SCHEDULER.editScheduledTaskSuccessfully', () =>
             this.context.completeWith(true)
           )
         );

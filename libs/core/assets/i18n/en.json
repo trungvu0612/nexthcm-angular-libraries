@@ -159,7 +159,7 @@
     "state": "Status",
     "functions": "Functions"
   },
-  "synchronizeData": "Synchronize Data",
+  "taskScheduler": "Task Scheduler",
   "jobTitleManagement": "Job Title Management",
   "createCategorySuccessfully": "<b>Create new category successfully!</b>",
   "updateCategorySuccessfully": "<b>Update category successfully!</b>",
@@ -190,7 +190,6 @@
   "entitlementManagement": "Entitlement Management",
   "periodManagement": "Period Management",
   "workingTimeConfiguration": "Working Time Configuration",
-  "syncSetting": "Synchronize Data",
   "updateSuccessful": "<b>Update successfully!</b>",
   "contractManagement": "Contract Management",
   "HTTP_RESPONSE_ERROR_MESSAGES": {

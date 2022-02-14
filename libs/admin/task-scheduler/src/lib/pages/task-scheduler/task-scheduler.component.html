@@ -1,4 +1,4 @@
-<hcm-page [title]="'synchronizeData' | transloco">
+<hcm-page [title]="'taskScheduler' | transloco">
   <tui-loader [overlay]="true" [showLoader]="(loading$ | async) === true">
     <ngx-table
       #table
@@ -16,7 +16,7 @@
             <td>{{ item.type }}</td>
             <td class="whitespace-nowrap">
               <span>{{ item.value }}</span
-              ><span *ngIf="item.type === SyncType.interval">{{ t('SCHEDULER.seconds') }}</span>
+              ><span *ngIf="item.type === ScheduleType.interval">{{ t('SCHEDULER.seconds') }}</span>
             </td>
             <td>
               <tui-tag
@@ -28,7 +28,7 @@
             <td>
               <div *ngxPermissionsOnly="'UPDATE_SYNC_DATA_MANAGEMENT'" class="flex items-center">
                 <button
-                  (click)="onEditSynchronizationSetting(item)"
+                  (click)="onEditScheduledTask(item)"
                   appearance="flat"
                   class="tui-space_right-3"
                   icon="tuiIconEditLarge"
@@ -36,7 +36,7 @@
                   tuiIconButton
                 ></button>
                 <button
-                  (click)="onSync(item.id)"
+                  (click)="onExecute(item.id)"
                   appearance="flat"
                   icon="tuiIconPlayLarge"
                   size="m"

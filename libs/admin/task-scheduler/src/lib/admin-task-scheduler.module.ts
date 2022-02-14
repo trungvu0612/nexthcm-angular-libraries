@@ -19,28 +19,28 @@ import { TableModule } from 'ngx-easy-table';
 import { NgxPermissionsGuard, NgxPermissionsModule } from 'ngx-permissions';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { EditSynchronizationSettingDialogComponent } from './components/edit-synchronization-setting-dialog/edit-synchronization-setting-dialog.component';
+import { EditScheduledTaskDialogComponent } from './components/edit-scheduled-task-dialog/edit-scheduled-task-dialog.component';
 import { FormlyQuartzCronComponent } from './components/formly-quartz-cron/formly-quartz-cron.component';
 import en from './i18n/en.json';
 import vi from './i18n/vi.json';
-import { SynchronizationSettingsComponent } from './pages/synchronization-settings/synchronization-settings.component';
-import { SynchronizeDataService } from './services/synchronize-data.service';
+import { TaskSchedulerComponent } from './pages/task-scheduler/task-scheduler.component';
+import { TaskSchedulerService } from './services/task-scheduler.service';
 import { TRANSLATION_SCOPE } from './translation-scope';
 
-export const adminSynchronizeDataRoutes: Route[] = [
+export const adminTaskSchedulerRoutes: Route[] = [
   {
     path: '',
     component: LayoutComponent,
     canActivate: [NgxPermissionsGuard],
     data: { permissions: { only: 'VIEW_SYNC_DATA_MANAGEMENT', redirectTo: '/' } },
-    children: [{ path: '', component: SynchronizationSettingsComponent }],
+    children: [{ path: '', component: TaskSchedulerComponent }],
   },
 ];
 
 @NgModule({
   imports: [
     CommonModule,
-    RouterModule.forChild(adminSynchronizeDataRoutes),
+    RouterModule.forChild(adminTaskSchedulerRoutes),
     TableModule,
     LayoutModule,
     TranslocoModule,
@@ -56,13 +56,9 @@ export const adminSynchronizeDataRoutes: Route[] = [
     BaseFormComponentModule,
     TuiLabelModule,
   ],
-  declarations: [
-    EditSynchronizationSettingDialogComponent,
-    SynchronizationSettingsComponent,
-    FormlyQuartzCronComponent,
-  ],
+  declarations: [EditScheduledTaskDialogComponent, TaskSchedulerComponent, FormlyQuartzCronComponent],
   providers: [
-    SynchronizeDataService,
+    TaskSchedulerService,
     {
       provide: TRANSLOCO_SCOPE,
       useValue: {
@@ -80,4 +76,4 @@ export const adminSynchronizeDataRoutes: Route[] = [
     },
   ],
 })
-export class AdminSynchronizeDataModule {}
+export class AdminTaskSchedulerModule {}

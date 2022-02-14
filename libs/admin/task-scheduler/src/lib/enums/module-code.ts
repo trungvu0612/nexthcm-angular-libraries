@@ -1,4 +1,4 @@
 export enum ModuleCode {
   Account = 'ACCOUNT',
-  MyTime = 'MYTIME'
+  MyTime = 'MYTIME',
 }

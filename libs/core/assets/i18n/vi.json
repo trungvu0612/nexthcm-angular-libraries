@@ -159,7 +159,7 @@
     "state": "Trạng thái",
     "functions": "Chức năng"
   },
-  "synchronizeData": "Đồng bộ dữ liệu",
+  "taskScheduler": "Kế hoạch các tác vụ",
   "jobTitleManagement": "Quản lý chức vụ",
   "createCategorySuccessfully": "Thêm danh mục thành công!",
   "updateCategorySuccessfully": "Cập nhật danh mục thành công!",
@@ -189,7 +189,6 @@
   "departmentManagement": "Quản lý phòng ban",
   "periodManagement": "Quản lý khoảng thời gian",
   "workingTimeConfiguration": "Cấu hình thời gian làm việc",
-  "syncSetting": "Đồng bộ dữ liệu",
   "updateSuccessful": "<b>Cập nhật thành công!</b>",
   "contractManagement": "Quản lý hợp đồng",
   "HTTP_RESPONSE_ERROR_MESSAGES": {

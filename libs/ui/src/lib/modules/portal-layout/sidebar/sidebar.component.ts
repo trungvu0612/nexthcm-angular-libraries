@@ -163,8 +163,8 @@ export class SidebarComponent {
           permissions: 'VIEW_ADMIN_CONFIG_TIME',
         },
         {
-          title: 'syncSetting',
-          route: '/admin/synchronize-data',
+          title: 'taskScheduler',
+          route: '/admin/task-scheduler',
           icon: 'working-time',
           permissions: 'VIEW_ADMIN_CONFIG_TIME',
         },

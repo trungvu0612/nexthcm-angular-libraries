@@ -20,13 +20,14 @@ export enum PostFunctionType {
   SendEmailAndNotificationToTheSomeoneRelated = 'PF-007',
   AddEntitlementAfterCancelLeave = 'PF-008',
   TransferRemainingLeaveEntitlement = 'PF-009',
+  AddEntitlementAfterCancelLeaveNotApprovedYet = 'PF-011',
   SendEmailAndNotificationToTheReporter = 'PF-990',
   SendEmailAndNotificationToTheNewAssignee = 'PF-991',
   CreateComment = 'PF-992',
   UpdateChangeHistoryForAnIssueAndStoreTheIssueInIheDatabase = 'PF-993',
   SetIssueStatusToTheLinkedStatusOfTheDestinationWorkflowStatus = 'PF-994',
   SendEmailAndNotificationToTheSupervisor = 'PF-995',
-  AddEntitlementAfterCancelLeaveNotApprovedYet = 'PF-011',
+  UpdateWorkingHourAfterCancelWfhOrWorkingOutsideOrOTOrUpdateTimeRequest = 'PF-996',
 }
 
 export enum TransitionOptionIndex {

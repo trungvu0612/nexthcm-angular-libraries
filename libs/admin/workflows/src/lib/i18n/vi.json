@@ -39,6 +39,8 @@
   "updateTimeSheetDescription": "Cập nhật bản ghi thời gian của nhân viên sau 15 phút",
   "sendEmailAndNotificationToTheSomeoneRelated": "Gửi email và thông báo cho người liên quan",
   "sendEmailAndNotificationToTheSomeoneRelatedDescription": "Gửi email và thông báo cho người liên quan. Email sẽ dựa trên mẫu của quy trình",
+  "updateWorkingHourAfterCancelWfhOrWorkingOutsideOrOTOrUpdateTimeRequest": "Cập nhật thời gian làm việc sau khi huỷ bỏ yêu cầu làm ở nhà, onsite, OT, cập nhật bản ghi thời gian",
+  "updateWorkingHourAfterCancelWfhOrWorkingOutsideOrOTOrUpdateTimeRequestDescription": "Tính toán lại thời gian làm việc của nhân viên sau khi huỷ bỏ yêu cầu làm ở nhà, onsite, OT, cập nhật bản ghi thời gian",
   "SendEmailAndNotificationToTheReportingMethod": "Gửi email và thông báo cho người giám sát với các phương thức báo cáo",
   "SendEmailAndNotificationToTheReportingMethodDescription": "Gửi email và thông báo cho người giám sát với các phương thức báo cáo nhất định. Email sẽ dựa trên mẫu của quy trình",
   "AddEntitlementAfterCancelLeave": "Trả lại quyền lợi nghỉ phép sau khi huỷ bỏ một yêu cầu chuyển đổi",

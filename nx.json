@@ -19,7 +19,8 @@
     "default": {
       "runner": "@nrwl/workspace/tasks-runners/default",
       "options": {
-        "cacheableOperations": ["build", "lint", "test", "e2e", "stylelint"]
+        "cacheableOperations": ["build", "lint", "test", "e2e", "stylelint"],
+        "parallel": 3
       }
     }
   },
@@ -40,7 +41,6 @@
       "prefix": "hcm"
     },
     "@nrwl/angular:library": {
-      "style": "scss",
       "linter": "eslint",
       "unitTestRunner": "jest",
       "buildable": true,

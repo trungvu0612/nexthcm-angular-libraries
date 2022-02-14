@@ -1,5 +1,5 @@
 {
-  "ADMIN_SYNCHRONIZATION_SETTINGS_COLUMNS": {
+  "ADMIN_TASK_SCHEDULER_COLUMNS": {
     "name": "Name",
     "description": "Description",
     "type": "Type",
@@ -19,12 +19,15 @@
   "syncLeaveEntitlementDescription": "Sync leave entitlements from the old system",
   "syncLeave": "Sync old leave requests",
   "syncLeaveDescription": "Sync leave requests from the old system",
-  "synchronizationSettings": "Synchronization settings",
-  "editSynchronizationSetting": "Edit synchronization setting",
-  "editSynchronizationSettingSuccessfully": "<b>Edit synchronization setting successfully!</b>",
+  "createTimeSheet": "Create timesheet",
+  "createTimeSheetDescription": "Create timesheet record in the database",
+  "processCheckInCheckOutThroughAppAuto": "Handle check in/out through application",
+  "processCheckInCheckOutThroughAppAutoDescription": "Handle check in/out through the auto-application",
+  "editScheduledTask": "Edit scheduled task",
+  "editScheduledTaskSuccessfully": "<b>Edit scheduled task successfully!</b>",
   "cronExpression": "Cron expression",
   "value": "Value (s)",
   "enterSeconds": "Enter seconds...",
-  "startSyncing": "Start syncing!",
+  "executeTask": "Execute task...",
   "seconds": "s"
 }

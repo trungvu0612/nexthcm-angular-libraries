@@ -1,5 +1,5 @@
 {
-  "ADMIN_SYNCHRONIZATION_SETTINGS_COLUMNS": {
+  "ADMIN_TASK_SCHEDULER_COLUMNS": {
     "name": "Tên",
     "description": "Mô tả",
     "type": "Loại",
@@ -19,12 +19,15 @@
   "syncLeaveEntitlementDescription": "Đồng bộ quyền lợi nghỉ phép từ hệ thống cũ",
   "syncLeave": "Đồng bộ yêu cầu nghỉ phép cũ",
   "syncLeaveDescription": "Đồng bộ yêu cầu nghỉ phép từ hệ thống cũ",
-  "synchronizationSettings": "Cài đặt đồng bộ hoá",
-  "editSynchronizationSetting": "Sửa cài đặt đồng bộ hoá",
-  "editSynchronizationSettingSuccessfully": "<b>Sửa cài đặt đồng bộ hoá thành công!</b>",
+  "createTimeSheet": "Tạo bảng ghi thời gian",
+  "createTimeSheetDescription": "Tạo bảng ghi thời gian vào cơ sở dữ liệu",
+  "processCheckInCheckOutThroughAppAuto": "Xử lý check in/out qua ứng dụng",
+  "processCheckInCheckOutThroughAppAutoDescription": "Xử lý check in/check thông qua ứng dụng tự động",
+  "editScheduledTask": "Sửa cài đặt lịch trình",
+  "editScheduledTaskSuccessfully": "<b>Sửa cài đặt lịch trình thành công!</b>",
   "cronExpression": "Biểu thức cron",
   "value": "Giá trị (giây)",
   "enterSeconds": "Điền số giây...",
-  "startSyncing": "Bắt đầu đồng bộ hoá!",
+  "executeTask": "Thực thi tác vụ!",
   "seconds": " giây"
 }

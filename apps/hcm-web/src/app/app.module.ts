@@ -83,9 +83,8 @@ import { AppComponent } from './app.component';
                   loadChildren: () => import('@nexthcm/admin-working-times').then((m) => m.AdminWorkingTimesModule),
                 },
                 {
-                  path: 'synchronize-data',
-                  loadChildren: () =>
-                    import('@nexthcm/admin-synchronize-data').then((m) => m.AdminSynchronizeDataModule),
+                  path: 'task-scheduler',
+                  loadChildren: () => import('@nexthcm/admin-task-scheduler').then((m) => m.AdminTaskSchedulerModule),
                 },
               ],
             },

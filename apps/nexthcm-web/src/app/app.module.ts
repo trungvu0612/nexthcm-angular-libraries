@@ -85,8 +85,8 @@ const ROUTES: Routes = [
               import('@nexthcm/admin-requests-configuration').then((m) => m.AdminRequestsConfigurationModule),
           },
           {
-            path: 'synchronize-data',
-            loadChildren: () => import('@nexthcm/admin-synchronize-data').then((m) => m.AdminSynchronizeDataModule),
+            path: 'task-scheduler',
+            loadChildren: () => import('@nexthcm/admin-task-scheduler').then((m) => m.AdminTaskSchedulerModule),
           },
         ],
       },

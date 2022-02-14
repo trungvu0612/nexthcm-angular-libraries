@@ -41,6 +41,8 @@
   "updateTimeSheetDescription": "Update timesheet of the employee after 15 minutes",
   "sendEmailAndNotificationToTheSomeoneRelated": "Send email and notification to someone related",
   "sendEmailAndNotificationToTheSomeoneRelatedDescription": "Send the email and the notification to someone related. The email will send depend on the template of the workflow",
+  "updateWorkingHourAfterCancelWfhOrWorkingOutsideOrOTOrUpdateTimeRequest": "Update working hours after canceling a WFH/working-onsite/OT/update-timesheet request",
+  "updateWorkingHourAfterCancelWfhOrWorkingOutsideOrOTOrUpdateTimeRequestDescription": "Recalculate the working hours of the employee after canceling a WFH/working-onsite/OT/update-timesheet request",
   "AddEntitlementAfterCancelLeave": "Add entitlement after canceling a leave",
   "AddEntitlementAfterCancelLeaveDescription": "Add entitlement equal to duration of the leave, rollback it to leave entitlements of the employee",
   "AddEntitlementAfterCancelLeaveTransfer": "Add entitlement after canceling a convert leave entitlements request",
