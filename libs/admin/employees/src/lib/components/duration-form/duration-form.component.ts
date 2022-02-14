@@ -242,9 +242,14 @@ export class DurationFormComponent {
             'resignationAgreementDate',
           ]);
 
-          data.probationDate = data.probationDate
-            ? DateRange.toTuiDayRange(data.probationDate as DateRange)
-            : undefined;
+          if (data.probationDate) {
+            const { from, to } = data.probationDate as { from: string; to: string };
+
+            data.probationDate = DateRange.toTuiDayRange(new DateRange(from, to));
+          } else {
+            delete data.probationDate;
+          }
+
           this.employeeDurationStore.update(data);
           this.employeeDurationStore.setHasCache(true);
         })

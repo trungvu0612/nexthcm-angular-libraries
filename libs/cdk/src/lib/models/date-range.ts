@@ -1,8 +1,8 @@
 import { TuiDay, TuiDayRange } from '@taiga-ui/cdk';
 
 export class DateRange {
-  from: Date;
-  to: Date;
+  from: Date | string;
+  to: Date | string;
 
   constructor(from: Date | number | string, to: Date | number | string) {
     this.from = new Date(from);
@@ -14,6 +14,9 @@ export class DateRange {
   }
 
   static toTuiDayRange(range: DateRange): TuiDayRange {
-    return new TuiDayRange(TuiDay.fromLocalNativeDate(range.from), TuiDay.fromLocalNativeDate(range.to));
+    return new TuiDayRange(
+      TuiDay.fromLocalNativeDate(range.from as Date),
+      TuiDay.fromLocalNativeDate(range.to as Date)
+    );
   }
 }
