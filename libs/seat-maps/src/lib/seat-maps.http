@@ -1,0 +1,6 @@
+https://qa-nexthcm-api.banvien.com.vn/mytimeapp/v1.0/seats-map/user-assigned
+Authorization: Bearer {{auth_token}}
+
+###
+https://qa-nexthcm-api.banvien.com.vn/mytimeapp/v1.0/seats-map/seat-id/762d71e9-d574-424a-95d4-bc02c1485901
+Authorization: Bearer {{auth_token}}

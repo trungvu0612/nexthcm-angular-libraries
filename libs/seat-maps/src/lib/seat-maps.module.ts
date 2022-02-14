@@ -33,6 +33,7 @@ import {
   TuiBadgeModule,
   TuiComboBoxModule,
   TuiDataListWrapperModule,
+  TuiDropdownHoverModule,
   TuiIslandModule,
   TuiSelectModule,
 } from '@taiga-ui/kit';
@@ -89,6 +90,7 @@ export const SEAT_MAPS_ROUTES: Routes = [
     FormsModule,
     TuiDataListWrapperModule,
     AkitaNgEffectsModule.forFeature([SeatMapsEffects]),
+    TuiDropdownHoverModule,
   ],
   declarations: [SeatMapsComponent, SeatComponent, SeatUserStatePipe],
   providers: [SeatMapsService],

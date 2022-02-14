@@ -5,10 +5,7 @@
 
   > *:hover,
   .selected {
-    position: relative;
     z-index: 1000;
-    transform: scale(1.5);
-    transition: all 0.25s ease-out;
   }
 
   .seat-status {

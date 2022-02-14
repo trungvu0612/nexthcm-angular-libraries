@@ -1,5 +1,6 @@
 <ng-container *ngIf="seat.assignedUser as user; else icon">
   <tui-hosted-dropdown
+    tuiDropdownHover
     (click)="addSeatOrDropdown('dropdown')"
     [(open)]="openDropdown"
     [canOpen]="(dragging$ | async) !== true"
