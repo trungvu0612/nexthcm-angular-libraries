@@ -1,4 +1,12 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, HostBinding, Input, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  EventEmitter,
+  HostBinding,
+  Input,
+  Output,
+} from '@angular/core';
 import { BaseUser, Seat, StyleSeat } from '@nexthcm/cdk';
 import { AbstractControl, FormBuilder } from '@ngneat/reactive-forms';
 import { TranslocoService } from '@ngneat/transloco';
@@ -20,6 +28,7 @@ import { SeatMapsService } from '../../seat-maps.service';
 })
 export class SeatComponent {
   @Input() seat = {} as Seat;
+  @Input() active = false;
   @Output() assignUser = new EventEmitter<Seat>();
   @Output() unAssignUser = new EventEmitter<string>();
   openDropdown = false;
@@ -59,6 +68,7 @@ export class SeatComponent {
   ];
 
   constructor(
+    readonly elementRef: ElementRef,
     private readonly fb: FormBuilder,
     private readonly dialogService: TuiDialogService,
     private readonly state: RxState<{ dragging: boolean }>,

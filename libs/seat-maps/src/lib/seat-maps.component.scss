@@ -3,29 +3,6 @@
 :host {
   display: block;
 
-  @keyframes zoom {
-    0% {
-      transform: scale(1, 1);
-    }
-    50% {
-      transform: scale(1.5, 1.5);
-    }
-    100% {
-      transform: scale(1, 1);
-    }
-  }
-
-  .ping {
-    z-index: 1000;
-    animation: zoom 500ms ease infinite;
-  }
-
-  ::ng-deep {
-    span.label {
-      display: none;
-    }
-  }
-
   footer {
     @include shadow(1);
 

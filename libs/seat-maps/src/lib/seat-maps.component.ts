@@ -1,15 +1,15 @@
 import { CdkDragStart } from '@angular/cdk/drag-drop';
 import { HttpParams } from '@angular/common/http';
-import { ChangeDetectionStrategy, Component, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Actions } from '@datorama/akita-ng-effects';
 import { RouterQuery } from '@datorama/akita-ng-router-store';
-import { loadSeatMaps, Seat, SeatMap, SeatMapsQuery, UserState } from '@nexthcm/cdk';
-import { FormControl } from '@ngneat/reactive-forms';
+import { BaseUser, loadSeatMaps, Seat, SeatMap, SeatMapsQuery, UserState } from '@nexthcm/cdk';
 import { RxState } from '@rx-angular/state';
 import { isPresent, TuiDestroyService, TuiIdentityMatcher, TuiStringHandler } from '@taiga-ui/cdk';
-import { BehaviorSubject, combineLatest, Subject } from 'rxjs';
-import { filter, share, startWith, switchMap, take, takeUntil, tap } from 'rxjs/operators';
+import { combineLatest, distinctUntilChanged, of, Subject } from 'rxjs';
+import { debounceTime, filter, share, startWith, switchMap, take, takeUntil, tap } from 'rxjs/operators';
 import { SeatComponent } from './components/seat/seat.component';
 import { SeatMapsService } from './seat-maps.service';
 
@@ -41,11 +41,10 @@ interface StatusOption {
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [RxState, TuiDestroyService],
 })
-export class SeatMapsComponent implements OnInit {
+export class SeatMapsComponent implements OnInit, AfterViewInit {
   @ViewChildren(SeatComponent) seatRefs!: QueryList<SeatComponent>;
-  readonly ping$ = new BehaviorSubject(-1);
   readonly dragging$ = new Subject<boolean>();
-  readonly seatMapControl = new FormControl<SeatMap | null>();
+  readonly seatMapControl = new FormControl();
   readonly allSeatMaps$ = this.seatMapsQuery.selectAll();
   readonly statusesAnnotate: StatusAnnotate[] = [
     { key: 'countCheckedIn', className: 'checked-in', label: 'checkedIn' },
@@ -69,32 +68,42 @@ export class SeatMapsComponent implements OnInit {
   ];
   httpParams = new HttpParams();
   status: StatusOption | null = null;
-
+  userControl = new FormControl();
+  readonly searchAssignedUser$ = new Subject<string | null>();
+  readonly assignedUsers$ = this.searchAssignedUser$.pipe(
+    debounceTime(500),
+    distinctUntilChanged(),
+    switchMap((search) => (search ? this.seatMapsService.getSeatAssignedUsers(search) : of([]))),
+    startWith([]),
+    share()
+  );
   // READS
   readonly loading$ = this.state.select('loading');
   readonly seatMap$ = this.state.select('seatMapData');
-
   // EVENTS
   readonly assignUserToSeat$ = new Subject<Seat>();
   readonly filterType$ = new Subject<string | null>();
   readonly status$ = new Subject<void>();
   readonly fetch$ = new Subject<void>();
-
   // HANDLERS
   readonly assignUserToSeatHandler$ = this.assignUserToSeat$.pipe(
     switchMap((payload) => this.seatMapsService.assignUserForSeat(payload.id, payload)),
     tap(() => this.seatMapControl.setValue(this.seatMapControl.value))
   );
-
   // SIDE EFFECTS
   readonly changeSeatMapSideEffect$ = this.seatMapControl.valueChanges.pipe(
     filter(isPresent),
     tap((seatMap) => this.router.navigate(['/seat-maps', seatMap.id]))
   );
-
-  private readonly request$ = combineLatest([this.seatMapControl.valueChanges, this.fetch$]).pipe(
-    switchMap(([seatMap]) =>
-      this.seatMapsService.getSeatMap(seatMap?.id, this.httpParams).pipe(
+  readonly selectAssignedUsers$ = this.userControl.valueChanges.pipe(
+    filter(isPresent),
+    switchMap((user: BaseUser) => this.seatMapsService.getSeatByUserId(user.id)),
+    tap((seatMapId) => this.router.navigate(['/seat-maps', seatMapId]))
+  );
+  readonly seatMapIdChanges$ = this.routerQuery.selectParams<string>('seatMapId');
+  private readonly request$ = combineLatest([this.seatMapIdChanges$, this.fetch$]).pipe(
+    switchMap(([seatMapId]) =>
+      this.seatMapsService.getSeatMap(seatMapId, this.httpParams).pipe(
         tap((seatMap) =>
           this.state.set('loading', () => seatMap && seatMap?.imageUrl !== this.state.get('seatMapData', 'imageUrl'))
         ),
@@ -136,32 +145,47 @@ export class SeatMapsComponent implements OnInit {
       this.fetch$.next();
     });
     state.hold(this.changeSeatMapSideEffect$);
+    state.hold(this.selectAssignedUsers$);
+    state.hold(this.seatMapIdChanges$);
   }
 
+  readonly stringify: TuiStringHandler<any> = (item: BaseUser) => item.name;
+
   ngOnInit(): void {
-    const seatMapId = this.routerQuery.getParams<string>('seatMapId');
+    combineLatest([this.allSeatMaps$, this.seatMapIdChanges$])
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(([seatMaps, seatMapId]) => {
+        const currentSeatMap = seatMaps.find((seatMap) => seatMap.id === seatMapId);
+
+        this.seatMapControl.setValue(currentSeatMap || null, { emitEvent: false });
+      });
+
     const status = this.routerQuery.getQueryParams<string>('status');
     const filterType = this.routerQuery.getQueryParams<string>('filterType');
 
-    this.allSeatMaps$.pipe(take(1), takeUntil(this.destroy$)).subscribe((seatMaps) => {
-      const currentSeatMap = seatMaps.find((seatMap) => seatMap.id === seatMapId);
+    if (status) {
+      this.status = this.statusList.find((option) => option.value === Number(status)) || null;
+      this.onFilter('status', this.status?.value || null);
+    }
+    this.onFilter('filterType', filterType);
+    this.fetch$.next();
+  }
 
-      this.seatMapControl.setValue(currentSeatMap || null);
-      if (status) {
-        this.status = this.statusList.find((option) => option.value === Number(status)) || null;
-        this.onFilter('status', this.status?.value || null);
-      }
-      this.onFilter('filterType', filterType);
-      this.fetch$.next();
-    });
+  ngAfterViewInit(): void {
+    combineLatest([this.seatRefs.changes, this.userControl.valueChanges.pipe(filter(isPresent))])
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(([seatRefs, user]: [QueryList<SeatComponent>, BaseUser]) => {
+        const node: Element | undefined = seatRefs.find((seatRef) => seatRef.seat.assignedUser?.id === user?.id)
+          ?.elementRef?.nativeElement;
+
+        node?.scrollIntoView({ block: 'center', inline: 'center' });
+      });
   }
 
   readonly identityMatcher: TuiIdentityMatcher<SeatMap | string> = (item1, item2) =>
     (item1 as SeatMap).id === (item2 as SeatMap).id;
-
   readonly statusIdentityMatcher: TuiIdentityMatcher<any> = (item1: StatusOption, item2: StatusOption) =>
     item1.value === item2.value;
-
   readonly getFilterLabel: TuiStringHandler<string> = (filter: string): string => `${getLabel[filter]}`;
 
   onFilter(key: 'filterType' | 'status', value: number | string | null): void {
@@ -250,5 +274,9 @@ export class SeatMapsComponent implements OnInit {
 
   onImageLoad(): void {
     this.state.set('loading', () => false);
+  }
+
+  onSearchChange(event: Event): void {
+    this.searchAssignedUser$.next((event.target as HTMLInputElement)?.value);
   }
 }

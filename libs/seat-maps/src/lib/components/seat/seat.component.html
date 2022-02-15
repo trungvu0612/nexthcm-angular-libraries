@@ -1,6 +1,5 @@
 <ng-container *ngIf="seat.assignedUser as user; else icon">
   <tui-hosted-dropdown
-    tuiDropdownHover
     (click)="addSeatOrDropdown('dropdown')"
     [(open)]="openDropdown"
     [canOpen]="(dragging$ | async) !== true"
@@ -9,11 +8,13 @@
     [tuiDropdownMaxHeight]="999"
     [tuiDropdownSided]="true"
     class="w-full h-full"
+    tuiDropdownHover
   >
     <div class="relative w-full h-full flex justify-center items-center">
       <hcm-avatar
         [autoColor]="true"
         [borderRadius]="borderRadius"
+        [class.avatar-active]="active"
         [image]="user.image"
         [text]="user.fullName || user.username"
         class="w-full h-full"

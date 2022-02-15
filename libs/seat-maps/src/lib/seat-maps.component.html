@@ -7,29 +7,53 @@
           {{ t('mySeat') }}
         </button>
       </div>-->
-      <tui-select
-        *rxLet="allSeatMaps$; let items"
-        [formControl]="seatMapControl"
-        [identityMatcher]="identityMatcher"
-        [tuiTextfieldLabelOutside]="true"
-        [valueContent]="content"
-        class="w-80"
-      >
-        {{ 'chooseSeatMap' | transloco }}
-        <tui-data-list *tuiDataList>
-          <ng-container>
-            <button *ngFor="let item of items" [value]="item" tuiOption>
-              <ng-container [ngTemplateOutletContext]="{ $implicit: item }" [ngTemplateOutlet]="content"></ng-container>
-            </button>
-          </ng-container>
-        </tui-data-list>
-      </tui-select>
-      <ng-template #content let-data>
-        <span>
-          <b>{{ data.name }}</b>
-          <ng-container *ngIf="data.office as office"> ({{ office.name }})</ng-container>
-        </span>
-      </ng-template>
+      <div class="flex space-x-2">
+        <tui-combo-box
+          (searchChange)="searchAssignedUser$.next($event)"
+          *tuiLet="assignedUsers$ | async as users"
+          [formControl]="userControl"
+          [stringify]="stringify"
+          [tuiTextfieldCleaner]="true"
+          [valueContent]="userContent"
+          class="w-80"
+        >
+          <b>{{ 'employee' | transloco }}</b>
+          <input (input)="onSearchChange($event)" tuiTextfield />
+          <tui-data-list-wrapper *tuiDataList [itemContent]="userContent" [items]="users"></tui-data-list-wrapper>
+        </tui-combo-box>
+        <ng-template #userContent let-user>
+          <span>
+            <b>{{ user.name }}</b> ({{ user.username }})
+          </span>
+        </ng-template>
+
+        <tui-select
+          *rxLet="allSeatMaps$; let items"
+          [formControl]="seatMapControl"
+          [identityMatcher]="identityMatcher"
+          [tuiTextfieldLabelOutside]="true"
+          [valueContent]="seatMapContent"
+          class="w-80"
+        >
+          {{ 'chooseSeatMap' | transloco }}
+          <tui-data-list *tuiDataList>
+            <ng-container>
+              <button *ngFor="let item of items" [value]="item" tuiOption>
+                <ng-container
+                  [ngTemplateOutletContext]="{ $implicit: item }"
+                  [ngTemplateOutlet]="seatMapContent"
+                ></ng-container>
+              </button>
+            </ng-container>
+          </tui-data-list>
+        </tui-select>
+        <ng-template #seatMapContent let-data>
+          <span>
+            <b>{{ data.name }}</b>
+            <ng-container *ngIf="data.office as office"> ({{ office.name }})</ng-container>
+          </span>
+        </ng-template>
+      </div>
     </ng-container>
 
     <section *transloco="let t" class="flex items-center space-x-4 mb-4">
@@ -77,7 +101,7 @@
           (cdkDragStarted)="moveSeat($event, index)"
           (unAssignUser)="onUnAssignUserToSeat($event)"
           *ngFor="let seat of seatMap.seats; index as index"
-          [class.ping]="index === (ping$ | async)"
+          [active]="userControl.value?.id === seat.assignedUser?.id"
           [dragging]="dragging$"
           [seat]="seat"
           cdkDrag

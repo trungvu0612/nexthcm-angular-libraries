@@ -1,4 +1,4 @@
-https://qa-nexthcm-api.banvien.com.vn/mytimeapp/v1.0/seats-map/user-assigned
+https://qa-nexthcm-api.banvien.com.vn/mytimeapp/v1.0/seats-map/user-assigned?search=Lau
 Authorization: Bearer {{auth_token}}
 
 ###

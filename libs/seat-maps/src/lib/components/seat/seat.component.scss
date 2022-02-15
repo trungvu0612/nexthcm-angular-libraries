@@ -12,16 +12,32 @@
     width: 0.75rem;
     height: 0.75rem;
   }
-}
 
-::ng-deep .seat-detail {
-  th {
-    padding-right: 1rem;
+  .avatar-active {
+    background: linear-gradient(90deg, red 50%, transparent 50%), linear-gradient(90deg, red 50%, transparent 50%),
+      linear-gradient(0deg, red 50%, transparent 50%), linear-gradient(0deg, red 50%, transparent 50%);
+    background-repeat: repeat-x, repeat-x, repeat-y, repeat-y;
+    background-position: 0 0, 100% 100%, 0 100%, 100% 0;
+    background-size: 4px 4px;
+    padding: 1px;
+    animation: dash 1.5s linear infinite;
   }
 
-  th,
-  td {
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
+  @keyframes dash {
+    to {
+      background-position: 100% 0, 0 100%, 0 0, 100% 100%;
+    }
+  }
+
+  ::ng-deep .seat-detail {
+    th {
+      padding-right: 1rem;
+    }
+
+    th,
+    td {
+      padding-top: 0.5rem;
+      padding-bottom: 0.5rem;
+    }
   }
 }
