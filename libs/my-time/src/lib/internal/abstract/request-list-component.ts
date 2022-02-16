@@ -52,7 +52,9 @@ export abstract class AbstractRequestListComponent<T>
     )
   );
   readonly viewRequestDetailHandler$ = this.viewRequestDetail$.pipe(
-    switchMap(([id, userId]) => this.requestDetailDialogService.viewRequestDetail(this.requestTypeUrlPath, id, userId)),
+    switchMap(([requestId, userId]) =>
+      this.requestDetailDialogService.viewRequestDetail(this.requestTypeUrlPath, requestId, userId)
+    ),
     tap(() => this.setQueryParams('id', null))
   );
 

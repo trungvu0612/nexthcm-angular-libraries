@@ -1,5 +1,5 @@
 import { Location } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Injector } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, Injector } from '@angular/core';
 import { ActivatedRoute, Params, UrlSerializer } from '@angular/router';
 import { Actions } from '@datorama/akita-ng-effects';
 import {
@@ -52,7 +52,10 @@ import { TRANSLATION_SCOPE } from '../../translation-scope';
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [TuiDestroyService, RxState],
 })
-export class EmployeeManagementComponent extends NewAbstractServerSortPaginationTableComponent<EmployeeInfo> {
+export class EmployeeManagementComponent
+  extends NewAbstractServerSortPaginationTableComponent<EmployeeInfo>
+  implements AfterViewInit
+{
   configuration: Config = {
     ...DefaultConfig,
     paginationEnabled: false,
@@ -148,6 +151,10 @@ export class EmployeeManagementComponent extends NewAbstractServerSortPagination
     });
   }
 
+  get employeeId(): string | null {
+    return this.activatedRoute.snapshot.queryParamMap.get('id');
+  }
+
   @tuiPure
   rolesStringify(items: ReadonlyArray<BaseObject>): TuiStringHandler<TuiContextWithImplicit<string>> {
     const map = new Map(items.map(({ id, name }) => [id, name]));
@@ -160,6 +167,13 @@ export class EmployeeManagementComponent extends NewAbstractServerSortPagination
     const map = new Map(items.map(({ value, label }) => [value, label]));
 
     return ({ $implicit }: TuiContextWithImplicit<number>) => map.get($implicit) || '';
+  }
+
+  ngAfterViewInit(): void {
+    super.ngAfterViewInit();
+    if (this.employeeId) {
+      this.openEditEmployeeDialog(this.employeeId);
+    }
   }
 
   parseParams(params: Params): void {
@@ -208,15 +222,29 @@ export class EmployeeManagementComponent extends NewAbstractServerSortPagination
   }
 
   onEditEmployee(id: string): void {
-    this.dialogService
-      .open(new PolymorpheusComponent(EditEmployeeDialogComponent, this.injector), {
-        label: this.translocoService.translate('employees.editEmployee'),
-        data: id,
-        size: 'page',
-        dismissible: false,
-      })
-      .pipe(takeUntil(this.destroy$))
-      .subscribe();
+    this.setQueryParams('id', id);
+    this.openEditEmployeeDialog(id);
+  }
+
+  private openEditEmployeeDialog(id: string): void {
+    this.translocoService
+      .selectTranslate<string>('editEmployee')
+      .pipe(
+        switchMap((label) =>
+          this.dialogService.open(new PolymorpheusComponent(EditEmployeeDialogComponent, this.injector), {
+            label,
+            data: id,
+            size: 'page',
+            dismissible: false,
+            required: true,
+          })
+        )
+      )
+      .pipe(
+        catchError(() => of(undefined)),
+        takeUntil(this.destroy$)
+      )
+      .subscribe(() => this.setQueryParams('id', null));
   }
 
   private resetPage(): void {

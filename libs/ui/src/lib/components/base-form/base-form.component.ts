@@ -22,6 +22,7 @@ export class BaseFormComponent<T extends Record<string, any>> {
   @Input() options: FormlyFormOptions = {};
   @Input() submitLoading = false;
   @Input() submitPermission: string | string[] = [];
+  @Input() submitDisabled = false;
 
   @Output() submitForm = new EventEmitter();
   @Output() cancel = new EventEmitter();

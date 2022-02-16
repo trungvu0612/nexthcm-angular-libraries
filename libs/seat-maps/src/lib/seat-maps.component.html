@@ -18,7 +18,7 @@
           class="w-80"
         >
           <b>{{ 'employee' | transloco }}</b>
-          <input (input)="onSearchChange($event)" tuiTextfield />
+          <input (input)="searchAssignedUser$.next($any($event.target).value)" tuiTextfield />
           <tui-data-list-wrapper *tuiDataList [itemContent]="userContent" [items]="users"></tui-data-list-wrapper>
         </tui-combo-box>
         <ng-template #userContent let-user>

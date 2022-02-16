@@ -15,10 +15,10 @@ export class RequestDetailDialogService {
     private readonly injector: Injector
   ) {}
 
-  viewRequestDetail(type: keyof RequestTypeUrlPaths, id: string, userId?: string): Observable<unknown> {
+  viewRequestDetail(type: keyof RequestTypeUrlPaths, requestId: string, userId?: string): Observable<unknown> {
     return this.dialogService
       .open(new PolymorpheusComponent(RequestDetailDialogComponent, this.injector), {
-        data: { type, value: id, userId },
+        data: { type, value: requestId, userId },
         required: true,
       })
       .pipe(catchError(() => of(undefined)));

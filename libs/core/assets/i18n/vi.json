@@ -641,5 +641,19 @@
     "detail": "Chi tiết",
     "aggregate": "Tổng hợp",
     "cnb": "C&B"
-  }
+  },
+  "editEmployee": "Chỉnh sửa thông tin nhân viên",
+  "cifNumber": "Mã nhân viên",
+  "enterCifNumber": "Nhập mã nhân viên...",
+  "firstName": "Tên",
+  "enterFirstName": "Nhập tên...",
+  "lastName": "Họ",
+  "enterLastName": "Nhập họ...",
+  "otherName": "Tên khác",
+  "enterOtherName": "Nhập tên khác...",
+  "chooseDirectReport": "Chọn người để báo cáo trực tiếp...",
+  "supervisors": "Người giám sát",
+  "supervisorList": "Danh sách Người giám sát",
+  "searchSupervisors": "Tìm kiếm người giám sát...",
+  "supervisorType": "Kiểu giám sát"
 }

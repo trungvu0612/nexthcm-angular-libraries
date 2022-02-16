@@ -642,5 +642,19 @@
     "detail": "Detail",
     "aggregate": "Aggregate",
     "cnb": "C&B"
-  }
+  },
+  "editEmployee": "Edit Employee",
+  "cifNumber": "CIF number",
+  "enterCifNumber": "Enter CIF number...",
+  "firstName": "First name",
+  "enterFirstName": "Enter first name...",
+  "lastName": "Last name",
+  "enterLastName": "Enter last name...",
+  "otherName": "Other name",
+  "enterOtherName": "Enter other name...",
+  "chooseDirectReport": "Choose a person for direct reporting...",
+  "supervisors": "Supervisors",
+  "supervisorList": "Supervisor List",
+  "searchSupervisors": "Search for supervisors...",
+  "supervisorType": "Supervisor Type"
 }

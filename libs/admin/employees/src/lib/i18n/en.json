@@ -13,17 +13,6 @@
   "deleteEmployee": "<b>Are you sure you want to remove this employee?</b>",
   "addEmployeeSuccessfully": "<b>Add new employee successfully!</b>",
   "removeEmployeeSuccessfully": "<b>Remove this employee successfully!</b>",
-  "editEmployee": "Edit Employee",
-  "cifNumber": "CIF number",
-  "enterCifNumber": "Enter CIF number...",
-  "firstName": "First name",
-  "enterFirstName": "Enter first name...",
-  "lastName": "Last name",
-  "enterLastName": "Enter last name...",
-  "otherName": "Other name",
-  "enterOtherName": "Enter other name...",
-  "directReport": "Direct report",
-  "chooseDirectReport": "Choose a person for direct reporting...",
   "permanentAddress": "Permanent address",
   "enterPermanentAddress": "Enter permanent address...",
   "temporaryAddress": "Temporary address",
@@ -128,9 +117,5 @@
   "chooseHighestCertificate": "Choose a certificate...",
   "dependentMembers": "Dependent members",
   "monthOfBirth": "Month of birth",
-  "onboardDates": "Onboard dates",
-  "supervisors": "Supervisors",
-  "supervisorList": "Supervisor List",
-  "searchSupervisors": "Search for supervisors...",
-  "supervisorType": "Supervisor Type"
+  "onboardDates": "Onboard dates"
 }

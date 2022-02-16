@@ -88,7 +88,7 @@ export class SeatMapsComponent implements OnInit, AfterViewInit {
   // HANDLERS
   readonly assignUserToSeatHandler$ = this.assignUserToSeat$.pipe(
     switchMap((payload) => this.seatMapsService.assignUserForSeat(payload.id, payload)),
-    tap(() => this.seatMapControl.setValue(this.seatMapControl.value))
+    tap(() => this.fetch$.next())
   );
   // SIDE EFFECTS
   readonly changeSeatMapSideEffect$ = this.seatMapControl.valueChanges.pipe(
@@ -274,9 +274,5 @@ export class SeatMapsComponent implements OnInit, AfterViewInit {
 
   onImageLoad(): void {
     this.state.set('loading', () => false);
-  }
-
-  onSearchChange(event: Event): void {
-    this.searchAssignedUser$.next((event.target as HTMLInputElement)?.value);
   }
 }

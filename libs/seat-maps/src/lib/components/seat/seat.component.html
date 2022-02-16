@@ -103,7 +103,8 @@
           </button>
           <button
             *ngxPermissionsOnly="'UPDATE_EMPLOYEE'"
-            [routerLink]="['/', 'admin', 'employees', user.id]"
+            [queryParams]="{ id: user.id }"
+            routerLink="/admin/employees"
             size="m"
             tuiButton
           >
@@ -131,6 +132,7 @@
     [fields]="fields"
     [form]="form"
     [model]="model"
+    [submitDisabled]="!form.valid"
     class="mt-5"
   ></hcm-base-form>
 </ng-template>

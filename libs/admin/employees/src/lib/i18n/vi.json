@@ -13,17 +13,6 @@
   "deleteEmployee": "<b>Bạn thật sự muốn xoá nhân viên này?</b>",
   "addEmployeeSuccessfully": "<b>Thêm nhân viên thành công!</b>",
   "removeEmployeeSuccessfully": "<b>Xoá nhân viên thành công!</b>",
-  "editEmployee": "Chỉnh sửa thông tin nhân viên",
-  "cifNumber": "Mã nhân viên",
-  "enterCifNumber": "Nhập mã nhân viên...",
-  "firstName": "Tên",
-  "enterFirstName": "Nhập tên...",
-  "lastName": "Họ",
-  "enterLastName": "Nhập họ...",
-  "otherName": "Tên khác",
-  "enterOtherName": "Nhập tên khác...",
-  "directReport": "Báo cáo trực tiếp",
-  "chooseDirectReport": "Chọn người để báo cáo trực tiếp...",
   "permanentAddress": "Địa chỉ thường trú",
   "enterPermanentAddress": "Nhập địa chỉ thường trú...",
   "temporaryAddress": "Địa chỉ tạm trú",
@@ -128,9 +117,5 @@
   "chooseHighestCertificate": "Chọn chứng chỉ...",
   "dependentMembers": "Người phụ thuộc",
   "monthOfBirth": "Tháng sinh",
-  "onboardDates": "Ngày bắt đầu làm việc",
-  "supervisors": "Người giám sát",
-  "supervisorList": "Danh sách Người giám sát",
-  "searchSupervisors": "Tìm kiếm người giám sát...",
-  "supervisorType": "Kiểu giám sát"
+  "onboardDates": "Ngày bắt đầu làm việc"
 }

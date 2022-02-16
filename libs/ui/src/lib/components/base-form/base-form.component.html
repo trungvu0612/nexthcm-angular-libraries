@@ -4,6 +4,7 @@
   <div *transloco="let t" class="tui-form__buttons">
     <button
       *ngxPermissionsOnly="submitPermission"
+      [disabled]="submitDisabled"
       [showLoader]="submitLoading"
       class="tui-form__button"
       size="l"

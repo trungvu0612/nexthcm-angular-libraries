@@ -61,11 +61,11 @@ export class GeneralInformationFormComponent implements OnInit {
               type: 'input',
               templateOptions: {
                 translate: true,
-                label: `${TRANSLATION_SCOPE}.cifNumber`,
+                label: `cifNumber`,
                 required: true,
                 textfieldLabelOutside: true,
                 labelClassName: 'font-semibold',
-                placeholder: `${TRANSLATION_SCOPE}.enterCifNumber`,
+                placeholder: `enterCifNumber`,
               },
               hideExpression: `!formState.editMode`,
               expressionProperties: {
@@ -77,11 +77,11 @@ export class GeneralInformationFormComponent implements OnInit {
               type: 'input',
               templateOptions: {
                 translate: true,
-                label: `${TRANSLATION_SCOPE}.firstName`,
+                label: `firstName`,
                 required: true,
                 textfieldLabelOutside: true,
                 labelClassName: 'font-semibold',
-                placeholder: `${TRANSLATION_SCOPE}.enterFirstName`,
+                placeholder: `enterFirstName`,
               },
               expressionProperties: {
                 className: (model, formState) => (formState.editMode ? 'tui-form__row block' : ''),
@@ -93,11 +93,11 @@ export class GeneralInformationFormComponent implements OnInit {
               type: 'input',
               templateOptions: {
                 translate: true,
-                label: `${TRANSLATION_SCOPE}.lastName`,
+                label: `lastName`,
                 required: true,
                 textfieldLabelOutside: true,
                 labelClassName: 'font-semibold',
-                placeholder: `${TRANSLATION_SCOPE}.enterLastName`,
+                placeholder: `enterLastName`,
               },
             },
             {
@@ -106,8 +106,8 @@ export class GeneralInformationFormComponent implements OnInit {
               type: 'input',
               templateOptions: {
                 translate: true,
-                label: `${TRANSLATION_SCOPE}.otherName`,
-                placeholder: `${TRANSLATION_SCOPE}.enterOtherName`,
+                label: `otherName`,
+                placeholder: `enterOtherName`,
                 textfieldLabelOutside: true,
                 labelClassName: 'font-semibold',
               },
@@ -221,9 +221,9 @@ export class GeneralInformationFormComponent implements OnInit {
               templateOptions: {
                 translate: true,
                 required: true,
-                label: `${TRANSLATION_SCOPE}.directReport`,
+                label: `directReport`,
                 labelClassName: 'font-semibold',
-                placeholder: `${TRANSLATION_SCOPE}.chooseDirectReport`,
+                placeholder: `chooseDirectReport`,
               },
               asyncValidators: {
                 circular: {
@@ -256,7 +256,7 @@ export class GeneralInformationFormComponent implements OnInit {
       type: 'repeat',
       templateOptions: {
         translate: true,
-        label: `${TRANSLATION_SCOPE}.supervisorList`,
+        label: `supervisorList`,
         hideAddButton: true,
         hideRemoveButton: true,
       },
@@ -268,7 +268,7 @@ export class GeneralInformationFormComponent implements OnInit {
             type: 'combo-box',
             templateOptions: {
               translate: true,
-              label: `${TRANSLATION_SCOPE}.supervisorType`,
+              label: `supervisorType`,
               options: [],
               labelProp: 'name',
               matcherBy: 'id',
@@ -283,8 +283,8 @@ export class GeneralInformationFormComponent implements OnInit {
             className: 'col-span-3',
             templateOptions: {
               translate: true,
-              label: `${TRANSLATION_SCOPE}.supervisors`,
-              placeholder: `${TRANSLATION_SCOPE}.searchSupervisors`,
+              label: `supervisors`,
+              placeholder: `searchSupervisors`,
               labelProp: 'name',
               matcherBy: 'id',
               textfieldLabelOutside: true,

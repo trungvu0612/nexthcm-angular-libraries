@@ -11,7 +11,8 @@ import {
 import { FormBuilder } from '@ngneat/reactive-forms';
 import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import { deleteProp, dictionaryToArray, patch, RxState, setProp, slice, toDictionary } from '@rx-angular/state';
+import { deleteProp, dictionaryToArray, patch, setProp, slice, toDictionary } from '@rx-angular/cdk/transformations';
+import { RxState } from '@rx-angular/state';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
