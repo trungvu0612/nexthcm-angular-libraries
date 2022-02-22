@@ -924,6 +924,11 @@
               },
               {
                 "glob": "**/*",
+                "input": "node_modules/leaflet/dist/images",
+                "output": "assets"
+              },
+              {
+                "glob": "**/*",
                 "input": "libs/core/assets",
                 "output": "assets"
               }

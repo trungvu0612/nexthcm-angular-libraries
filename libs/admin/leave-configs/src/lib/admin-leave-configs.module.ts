@@ -15,7 +15,7 @@ import {
   LayoutModule,
   MenuItem,
 } from '@nexthcm/ui';
-import { NgStackFormsModule } from '@ng-stack/forms';
+import { NgsFormsModule } from '@ng-stack/forms';
 import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
 import { TranslocoLocaleModule } from '@ngneat/transloco-locale';
 import { FormlyModule } from '@ngx-formly/core';
@@ -87,7 +87,7 @@ const TABS: MenuItem[] = [
     TuiTagModule,
     TuiLoaderModule,
     TranslocoModule,
-    NgStackFormsModule,
+    NgsFormsModule,
     LayoutModule,
     TuiTabsModule,
     FormlyUserComboBoxComponentModule,

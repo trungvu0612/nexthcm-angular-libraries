@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { AuthService } from '@nexthcm/auth';
 import { EmployeeInfo, PromptService, WorkflowStatus } from '@nexthcm/cdk';
 import { AvatarComponentModule } from '@nexthcm/ui';
-import { Control, FormBuilder, NgStackFormsModule } from '@ng-stack/forms';
+import { Control, FormBuilder, NgsFormsModule } from '@ng-stack/forms';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { TranslocoLocaleModule } from '@ngneat/transloco-locale';
 import { FormlyFieldConfig, FormlyModule } from '@ngx-formly/core';
@@ -293,7 +293,7 @@ export class RequestDetailDialogComponent implements OnInit {
     TuiComboBoxModule,
     TuiInputModule,
     FormsModule,
-    NgStackFormsModule,
+    NgsFormsModule,
     TuiDataListWrapperModule,
     TuiLetModule,
     TuiDataListModule,

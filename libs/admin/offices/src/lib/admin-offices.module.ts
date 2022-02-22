@@ -3,7 +3,13 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AkitaNgEffectsModule } from '@datorama/akita-ng-effects';
 import { OfficesEffects } from '@nexthcm/cdk';
-import { BaseFormComponentModule, InputFilterComponentModule, LayoutComponent, LayoutModule } from '@nexthcm/ui';
+import {
+  BaseFormComponentModule,
+  InputFilterComponentModule,
+  LayoutComponent,
+  LayoutModule,
+  LeafletMapModule,
+} from '@nexthcm/ui';
 import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
 import { TuiTablePaginationModule } from '@taiga-ui/addon-table';
 import { TuiLetModule } from '@taiga-ui/cdk';
@@ -44,6 +50,7 @@ export const adminOfficesRoutes: Routes = [
     BaseFormComponentModule,
     AkitaNgEffectsModule.forFeature([OfficesEffects]),
     TuiPrimitiveCheckboxModule,
+    LeafletMapModule,
   ],
   providers: [
     AdminOfficesService,

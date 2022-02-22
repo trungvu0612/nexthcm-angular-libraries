@@ -1,10 +1,12 @@
 @import 'modules/component';
 @import 'modules/effect';
 @import 'modules/status';
-@import '~ngx-easy-table/style';
+@import '~ngx-easy-table/style.css';
 @import '~quill/dist/quill.core.css';
 @import '~quill/dist/quill.bubble.css';
 @import '~quill/dist/quill.snow.css';
+@import '~leaflet/dist/leaflet.css';
+@import '~leaflet-geosearch/dist/geosearch.css';
 
 .cdk-drag-dragging {
   z-index: 1 !important;

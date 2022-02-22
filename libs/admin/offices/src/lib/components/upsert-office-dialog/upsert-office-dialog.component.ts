@@ -1,12 +1,17 @@
-import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
 import { Office, PromptService } from '@nexthcm/cdk';
-import { FormBuilder } from '@ngneat/reactive-forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
+import { LatLngExpression } from 'leaflet';
 import { takeUntil } from 'rxjs/operators';
 import { AdminOfficesService } from '../../services/admin-offices.service';
+
+interface OfficeForm extends Office {
+  coordinates: LatLngExpression;
+}
 
 @Component({
   selector: 'hcm-upsert-office-dialog',
@@ -16,8 +21,8 @@ import { AdminOfficesService } from '../../services/admin-offices.service';
   providers: [TuiDestroyService],
 })
 export class UpsertOfficeDialogComponent implements OnInit {
-  form = this.fb.group<Office>({} as Office);
-  model = {} as Office;
+  model = {} as OfficeForm;
+  form = this.fb.group(this.model);
   fields: FormlyFieldConfig[] = [
     {
       key: 'name',
@@ -38,11 +43,22 @@ export class UpsertOfficeDialogComponent implements OnInit {
       type: 'input',
       templateOptions: {
         translate: true,
-        required: true,
         textfieldLabelOutside: true,
         label: 'address',
         labelClassName: 'font-semibold',
-        placeholder: 'enterAddress',
+        required: true,
+        readonly: true,
+      },
+    },
+    {
+      key: 'coordinates',
+      className: 'tui-form__row block',
+      type: 'leaflet-coordinates',
+      templateOptions: {
+        onReverseLocation: (address: string, latitude: number, longitude: number) => {
+          this.model = { ...this.model, address, latitude, longitude };
+          this.changeDetector.detectChanges();
+        },
       },
     },
     {
@@ -77,12 +93,17 @@ export class UpsertOfficeDialogComponent implements OnInit {
     private readonly fb: FormBuilder,
     private readonly adminOfficesService: AdminOfficesService,
     private readonly destroy$: TuiDestroyService,
-    private readonly promptService: PromptService
+    private readonly promptService: PromptService,
+    private readonly changeDetector: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
     if (this.context.data) {
-      this.model = { ...this.model, ...this.context.data };
+      this.model = {
+        ...this.model,
+        ...this.context.data,
+        coordinates: [this.context.data.latitude, this.context.data.longitude],
+      };
     }
   }
 

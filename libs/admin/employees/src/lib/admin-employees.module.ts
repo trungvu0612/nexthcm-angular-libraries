@@ -25,7 +25,7 @@ import {
   SelectFilterComponentModule,
   SelectMonthFilterComponentModule,
 } from '@nexthcm/ui';
-import { NgStackFormsModule } from '@ng-stack/forms';
+import { NgsFormsModule } from '@ng-stack/forms';
 import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
 import { FormlyModule } from '@ngx-formly/core';
 import { PushModule } from '@rx-angular/template';
@@ -68,7 +68,7 @@ export const ADMIN_EMPLOYEE_ROUTES: Routes = [
   imports: [
     CommonModule,
     RouterModule.forChild(ADMIN_EMPLOYEE_ROUTES),
-    NgStackFormsModule,
+    NgsFormsModule,
     FormlyModule.forChild({
       types: [
         { name: 'repeat', component: FormlyRepeatSectionComponent },

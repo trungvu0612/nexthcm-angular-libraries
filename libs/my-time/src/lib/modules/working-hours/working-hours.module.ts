@@ -12,7 +12,7 @@ import {
   SelectFilterComponentModule,
   SelectMonthFilterComponentModule,
 } from '@nexthcm/ui';
-import { NgStackFormsModule } from '@ng-stack/forms';
+import { NgsFormsModule } from '@ng-stack/forms';
 import { TranslocoModule } from '@ngneat/transloco';
 import { TranslocoLocaleModule } from '@ngneat/transloco-locale';
 import { FormlyModule } from '@ngx-formly/core';
@@ -49,7 +49,7 @@ import { WorkingHoursComponent } from './working-hours.component';
   imports: [
     CommonModule,
     TuiDataListModule,
-    NgStackFormsModule,
+    NgsFormsModule,
     TuiSvgModule,
     FormlyModule,
     TuiDataListWrapperModule,

@@ -318,6 +318,13 @@
   resolved "https://registry.yarnpkg.com/@assemblyscript/loader/-/loader-0.10.1.tgz#70e45678f06c72fa2e350e8553ec4a4d72b92e06"
   integrity sha512-H71nDOOL8Y7kWRLqf6Sums+01Q5msqBW2KhDUTemh1tvY04eSkSXrK0uj/4mmY0Xr16/3zyZmsrxN7CKuRbNRg==
 
+"@asymmetrik/ngx-leaflet@^13.0.1":
+  version "13.0.1"
+  resolved "https://registry.yarnpkg.com/@asymmetrik/ngx-leaflet/-/ngx-leaflet-13.0.1.tgz#b7aab54eff37a6a2ec74cc2e1d47742cb28504af"
+  integrity sha512-nQPkDG+ORS84T0PsBWUBZR2jM49Ci9+IhWBoK9gTdGaN2sb4qqTPUpkra9Z0AbZVV500O0E2K4X55LtPc4IqlA==
+  dependencies:
+    tslib "^2.3.0"
+
 "@auth0/angular-jwt@^5.0.2":
   version "5.0.2"
   resolved "https://registry.yarnpkg.com/@auth0/angular-jwt/-/angular-jwt-5.0.2.tgz#0a23f240e8c6ed37c5c7a354ad79a755a217936e"
@@ -2093,10 +2100,10 @@
   resolved "https://registry.yarnpkg.com/@csstools/convert-colors/-/convert-colors-1.4.0.tgz#ad495dc41b12e75d588c6db8b9834f08fa131eb7"
   integrity sha512-5a6wqoJV/xEdbRNKVo6I4hO3VjyDq//8q2f9I6PBAvMesJHFauXDorcNCsr9RzvsZnaWi5NYCcfyqP1QeFHFbw==
 
-"@ctrl/ngx-emoji-mart@^6.1.1":
-  version "6.1.1"
-  resolved "https://registry.yarnpkg.com/@ctrl/ngx-emoji-mart/-/ngx-emoji-mart-6.1.1.tgz#098cdc2c4a0656190fb9ec9c14fbbb5755b0c510"
-  integrity sha512-z2XTuRraHJRt5oOUqRiUjmZm2XNCV7B0c51J6u20D/kUUna1e+7fefArES1dMtAigTB634gD+ZiyyrTXnjb9hw==
+"@ctrl/ngx-emoji-mart@^6.2.0":
+  version "6.2.0"
+  resolved "https://registry.yarnpkg.com/@ctrl/ngx-emoji-mart/-/ngx-emoji-mart-6.2.0.tgz#b265d9e97c3a8227e8eb4f8902b2ab806838fcb8"
+  integrity sha512-NHvWd7hRmcmS5kz6FmKXO7VTyrhuwCaqOvDjMLLSmDnWwTgmsxEXWdO7/fqOmOeyQUPp7zdkYuRhqPwfc1tKTg==
   dependencies:
     tslib "^2.3.0"
 
@@ -2191,10 +2198,10 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
-"@fullcalendar/angular@^5.10.1":
-  version "5.10.1"
-  resolved "https://registry.yarnpkg.com/@fullcalendar/angular/-/angular-5.10.1.tgz#3499eea35109868c047f30839232f02e6794e865"
-  integrity sha512-aV2MejZMTBGzlgQ+HN2kyWThYrbf8nusr88bB6HLHixkzjWnfdxzC8NwMYz8JOatJzH9UmOiaPQRWdTU9S8WEg==
+"@fullcalendar/angular@^5.10.2":
+  version "5.10.2"
+  resolved "https://registry.yarnpkg.com/@fullcalendar/angular/-/angular-5.10.2.tgz#48672e9b60dd2ed38f9ae748799de32c69f1377d"
+  integrity sha512-VullPnzbs2eoPZi8JGPvOYEDRx0juOUGXQCMNgAxAylxdhMDi3wt5LV2uirXUIFpjgLHOxha2c9sVU0oqAPhqA==
   dependencies:
     "@fullcalendar/core" "~5.10.1"
     fast-deep-equal "^3.1.1"
@@ -2484,12 +2491,12 @@
     merge-source-map "^1.1.0"
     schema-utils "^2.7.0"
 
-"@ng-stack/forms@^2.4.0":
-  version "2.4.0"
-  resolved "https://registry.yarnpkg.com/@ng-stack/forms/-/forms-2.4.0.tgz#da0d5d9ac0ba12afd897a10410d8196fba221b9e"
-  integrity sha512-Czo4ZbzEcTSAQ8yS4d0PzYMeB8GidOz1ABZhUjwnZiLaNOY2gnIdpQEIqE+GjIVOyusGEjQ/psLneBj8gE2EjQ==
+"@ng-stack/forms@^3.0.0":
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/@ng-stack/forms/-/forms-3.0.0.tgz#a01ba8fe5bedb06d67577a02337e80b024d247b3"
+  integrity sha512-wl4LfxG5OUcSUx0xtmjNirbxcQvNlQMsqf++zgKDGU2eZGOTpc0gvTk1U6ZJp8frJOcE0WImgK4Tga+3IgMaSQ==
   dependencies:
-    tslib "^2.0.0"
+    tslib "^2.3.0"
 
 "@ng-web-apis/common@^1.12.1":
   version "1.13.0"
@@ -2593,10 +2600,10 @@
   dependencies:
     find-duplicated-property-keys "^1.0.11"
 
-"@ngneat/transloco@^3.1.3":
-  version "3.1.3"
-  resolved "https://registry.yarnpkg.com/@ngneat/transloco/-/transloco-3.1.3.tgz#359cd87917447c158e9d05851d7b3d27073e2166"
-  integrity sha512-Qij0510+Hf4b3cIdMuHft4m4FfIaMveGAuAWcahl1WaqT/Efu5yeTjW2Dfms3EhAYLqBNj6eO9UmpHjCfSo8Lg==
+"@ngneat/transloco@^3.1.4":
+  version "3.1.4"
+  resolved "https://registry.yarnpkg.com/@ngneat/transloco/-/transloco-3.1.4.tgz#89dbcc59f47922e9cd976381dd2d0898fdd1694e"
+  integrity sha512-fNL3+eYqdSxhCQRPbZ16jy6sdTFUmBB5WIJeOdTjMaazWcSF6N7bhXJZ638nxn3ETt+anYuMbfQ03+Bu9S+dtg==
   dependencies:
     "@ngneat/transloco-utils" "^3.0.1"
     flat "5.0.2"
@@ -3184,17 +3191,17 @@
   dependencies:
     tslib "^2.0.0"
 
-"@taiga-ui/addon-commerce@^2.34.0":
-  version "2.34.0"
-  resolved "https://registry.yarnpkg.com/@taiga-ui/addon-commerce/-/addon-commerce-2.34.0.tgz#ba93b841760db9e63e5426f3bc0aca0685827893"
-  integrity sha512-6gYer6riBKJaU2ONLKfVnZJqRK/o1GIXvpQh9tj7F5QJWC6w8MKQqAg5/AYXxYKw/tfC/3d7nj2zh21AZp46bQ==
+"@taiga-ui/addon-commerce@^2.35.0":
+  version "2.35.0"
+  resolved "https://registry.yarnpkg.com/@taiga-ui/addon-commerce/-/addon-commerce-2.35.0.tgz#efed701b35ab3026ae8c3ab20456a2550eb8f9a7"
+  integrity sha512-Mx3nVSucJGD2Ktrxmt5PkIFEHRkCUwfYvXiZSyB7RVtjiuXhWpqNo1raOKEpBZIKe4//aQgy2ZkZXiz8G+xYYw==
   dependencies:
     tslib "^1.10.0"
 
-"@taiga-ui/addon-editor@^2.34.0":
-  version "2.34.0"
-  resolved "https://registry.yarnpkg.com/@taiga-ui/addon-editor/-/addon-editor-2.34.0.tgz#bb7b4c6db0efe248308c0ce293a75fd917d5aeec"
-  integrity sha512-SY/9KQpFimvOgFWRGdPSU+s3FP5t17bacSMW5htcwRkDiO28cWNhkgm2ptnzh+O6WitMuWfir0O4XH6T6hZRRg==
+"@taiga-ui/addon-editor@^2.35.0":
+  version "2.35.0"
+  resolved "https://registry.yarnpkg.com/@taiga-ui/addon-editor/-/addon-editor-2.35.0.tgz#4217f9359fd0702f79f2f65cca0c6b9300d1fb17"
+  integrity sha512-RPV/EuWMGQoZLJaiMscTKBsHo3Qru4Lw6I0yKaXwBBiQWtL77E/pzSvEjREcUAkQ4knxrGSX5Mg0QujB517rWA==
   dependencies:
     "@tiptap/core" "2.0.0-beta.151"
     "@tiptap/extension-bubble-menu" "2.0.0-beta.51"
@@ -3212,17 +3219,17 @@
     "@tiptap/starter-kit" "2.0.0-beta.154"
     tslib "^1.10.0"
 
-"@taiga-ui/addon-table@^2.34.0":
-  version "2.34.0"
-  resolved "https://registry.yarnpkg.com/@taiga-ui/addon-table/-/addon-table-2.34.0.tgz#bd6695a5842bdb5b5c454667a4554fa7e34e1683"
-  integrity sha512-KqQeYAx5RlzQ6MscT9RJiCGWQDWU8ux+PP2Op9T6vqQbd8caxU2+H/wgjtNIiTgu1AiwphWvcXFokvNCNJa7sA==
+"@taiga-ui/addon-table@^2.35.0":
+  version "2.35.0"
+  resolved "https://registry.yarnpkg.com/@taiga-ui/addon-table/-/addon-table-2.35.0.tgz#5c145285c21249802dbca354090eda9838f2301b"
+  integrity sha512-AglEXM0zfqh1JK0wPAA21m+3SDFn1LCwntREzTQeloS2APOEewlB89cqE4f5ruv/tU59WwbHZfb1kh+xYRMdxg==
   dependencies:
     tslib "^1.10.0"
 
-"@taiga-ui/cdk@^2.34.0":
-  version "2.34.0"
-  resolved "https://registry.yarnpkg.com/@taiga-ui/cdk/-/cdk-2.34.0.tgz#94f9b97a58394e4b3b6525b5d5e2036779c940a4"
-  integrity sha512-U9XZUJ5/5sQkF265GiELZrFVdyrAJO1FI2ycHvK2kSkXRhYuoTgjMfpR7SJKbY+cFz9IPf62QysazXeG98tx2w==
+"@taiga-ui/cdk@^2.35.0":
+  version "2.35.0"
+  resolved "https://registry.yarnpkg.com/@taiga-ui/cdk/-/cdk-2.35.0.tgz#cca33e9956b250399ec96b115a6a353fc5500b10"
+  integrity sha512-Cg6XjRKMroClJyNhXVDc9TlRJNmrdAXJwW92+rcioS+4XgtFHd2cF/Hqy0fxzggALjJx3swOXeSVVhhviQE/dw==
   dependencies:
     "@ng-web-apis/common" "^1.12.1"
     "@ng-web-apis/mutation-observer" "^1.1.0"
@@ -3232,32 +3239,32 @@
     "@types/resize-observer-browser" "^0.1.7"
     tslib "^1.10.0"
 
-"@taiga-ui/core@^2.34.0":
-  version "2.34.0"
-  resolved "https://registry.yarnpkg.com/@taiga-ui/core/-/core-2.34.0.tgz#768e01ab9c978838b80766ab888eff16bd46c86b"
-  integrity sha512-If0ABu4wxQf4+lPF97c4R0+suW4kfQ2ueGrFz8+U/b4xMwdRpRX8d1VYNLi5SsuYoYkz8Dse+1gdfhZu78DQYA==
+"@taiga-ui/core@^2.35.0":
+  version "2.35.0"
+  resolved "https://registry.yarnpkg.com/@taiga-ui/core/-/core-2.35.0.tgz#358c74f9cbac0cc40e0e0ec2f85fd9664b101858"
+  integrity sha512-JelZOW3YwUTQTBhH2PWfh49Mwwxj3SdLMrhdDY8iJt6TC1Lo40OPAiVXal5d8OkhqYI/IzQK1WoZ+2YtbYzn4Q==
   dependencies:
-    "@taiga-ui/i18n" "^2.34.0"
+    "@taiga-ui/i18n" "^2.35.0"
     tslib "^1.10.0"
 
-"@taiga-ui/i18n@^2.34.0":
-  version "2.34.0"
-  resolved "https://registry.yarnpkg.com/@taiga-ui/i18n/-/i18n-2.34.0.tgz#7bb823fb5e861e46804bf0f5de9dfeabf6955124"
-  integrity sha512-9fibMudNaaK00hWoonGq+YETpmrrvWTAS7TzmyXqebEEIc9rZn2LYU1mbDcR/qlH+FjiKnF6Lse83Sk3uGqKeA==
-  dependencies:
-    tslib "^1.10.0"
-
-"@taiga-ui/icons@^2.34.0":
-  version "2.34.0"
-  resolved "https://registry.yarnpkg.com/@taiga-ui/icons/-/icons-2.34.0.tgz#a5bbccd9ab7f191ff63c9ba8644d62a49de68d1a"
-  integrity sha512-JufDITokvO//hHSLSkmXa4MEPuCSjj/nCm0rT5x1ob9AX6Bt5L4ONRL+oBuhvW/46HvUUHeY0N/AgiWfR19u6Q==
+"@taiga-ui/i18n@^2.35.0":
+  version "2.35.0"
+  resolved "https://registry.yarnpkg.com/@taiga-ui/i18n/-/i18n-2.35.0.tgz#69df8cd1744ad28538b8c7676db528d601f3cb8d"
+  integrity sha512-cIpyQlSqLabJ6dYaAPV1Jtkv6pv5w+0CgWLbq8pxnYu52vGwoRhONo2qzICEx8LjzuqbmXy3BmZWL5mJnLn+xw==
   dependencies:
     tslib "^1.10.0"
 
-"@taiga-ui/kit@^2.34.0":
-  version "2.34.0"
-  resolved "https://registry.yarnpkg.com/@taiga-ui/kit/-/kit-2.34.0.tgz#64d1150b3b5f0257ba0364aa1fa3d083b4a83524"
-  integrity sha512-aI6j83dfG462v5/8G5QqpTHTWvhgLSYdRKlQaPpYh0fxE/72hdh+3ohKCvLzWt9hPiiid8yz9ie464ZieqPZ+Q==
+"@taiga-ui/icons@^2.35.0":
+  version "2.35.0"
+  resolved "https://registry.yarnpkg.com/@taiga-ui/icons/-/icons-2.35.0.tgz#73dbfea1305df05bebb46e5ebf0c2127bc87ebaa"
+  integrity sha512-L/2dhGvL1EBL/eMC32uqlaDMW6Zy/slUQXLteLyIvQZTHO9atEO508avpGHBGfjBwMFrR58plFxjSf2+WewZVQ==
+  dependencies:
+    tslib "^1.10.0"
+
+"@taiga-ui/kit@^2.35.0":
+  version "2.35.0"
+  resolved "https://registry.yarnpkg.com/@taiga-ui/kit/-/kit-2.35.0.tgz#fbb5c9f52101fadaca9bc85bf8689b5c8ae2dd8d"
+  integrity sha512-wrBYTyHB0HgQTJB7iAueqPdjadEA2q6ZfA9dEWKitecqcQBkM8CQXYFP/UC3KVy0RXq6kMefyJeZtgoblFO6Ew==
   dependencies:
     "@ng-web-apis/intersection-observer" "^2.1.0"
     angular2-text-mask "^9.0.0"
@@ -3621,6 +3628,11 @@
   dependencies:
     "@types/node" "*"
 
+"@types/geojson@*":
+  version "7946.0.8"
+  resolved "https://registry.yarnpkg.com/@types/geojson/-/geojson-7946.0.8.tgz#30744afdb385e2945e22f3b033f897f76b1f12ca"
+  integrity sha512-1rkryxURpr6aWP7R786/UQOkJ3PcpQiWkAXBmdWc7ryFWqN6a4xfK7BtjXvFBKO9LjQ+MWQSWxYeZX1OApnArA==
+
 "@types/glob@^7.1.1":
   version "7.2.0"
   resolved "https://registry.yarnpkg.com/@types/glob/-/glob-7.2.0.tgz#bc1b5bf3aa92f25bd5dd39f35c57361bdce5b2eb"
@@ -3679,6 +3691,13 @@
   version "0.0.29"
   resolved "https://registry.yarnpkg.com/@types/json5/-/json5-0.0.29.tgz#ee28707ae94e11d2b827bcbe5270bcea7f3e71ee"
   integrity sha1-7ihweulOEdK4J7y+UnC86n8+ce4=
+
+"@types/leaflet@^1.7.9":
+  version "1.7.9"
+  resolved "https://registry.yarnpkg.com/@types/leaflet/-/leaflet-1.7.9.tgz#7993d34f14cfa88c45b3d490daba39a3a1be9a2b"
+  integrity sha512-H8vPgD49HKzqM41ArHGZM70g/tfhp8W+JcPxfnF+5H/Xvp+xiP+KQOUNWU8U89fqS1Jj3cpRY/+nbnaHFzwnFA==
+  dependencies:
+    "@types/geojson" "*"
 
 "@types/minimatch@*", "@types/minimatch@^3.0.3":
   version "3.0.5"
@@ -5926,7 +5945,7 @@ css-declaration-sorter@^6.0.3:
   dependencies:
     timsort "^0.3.0"
 
-css-functions-list@^3.0.0:
+css-functions-list@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/css-functions-list/-/css-functions-list-3.0.1.tgz#1460df7fb584d1692c30b105151dbb988c8094f9"
   integrity sha512-PriDuifDt4u4rkDgnqRCLnjfMatufLmWNfQnGCq34xZwpY3oabwhB9SqRBmuvWUgndbemCFlKqg+nO7C2q0SBw==
@@ -6526,10 +6545,10 @@ domhandler@^4.2.0:
   dependencies:
     domelementtype "^2.2.0"
 
-dompurify@^2.3.5:
-  version "2.3.5"
-  resolved "https://registry.yarnpkg.com/dompurify/-/dompurify-2.3.5.tgz#c83ed5a3ae5ce23e52efe654ea052ffb358dd7e3"
-  integrity sha512-kD+f8qEaa42+mjdOpKeztu9Mfx5bv9gVLO6K9jRx4uGvh6Wv06Srn4jr1wPNY2OOUGGSKHNFN+A8MA3v0E0QAQ==
+dompurify@^2.3.6:
+  version "2.3.6"
+  resolved "https://registry.yarnpkg.com/dompurify/-/dompurify-2.3.6.tgz#2e019d7d7617aacac07cbbe3d88ae3ad354cf875"
+  integrity sha512-OFP2u/3T1R5CEgWCEONuJ1a5+MFKnOYpkywpUSxv/dj1LeBT1erK+JwM7zK0ROy2BRhqVCf0LRw/kHqKuMkVGg==
 
 domutils@^2.6.0:
   version "2.8.0"
@@ -9695,7 +9714,7 @@ just-flatten-it@^5.0.1:
   resolved "https://registry.yarnpkg.com/just-flatten-it/-/just-flatten-it-5.0.1.tgz#4c782f6ae0252aa1413a972b4e6c77bebe039d94"
   integrity sha512-tbh2Gu/gDuankZcdSVXaIcZ+PwTyrPBbNQfpga/l0IrNa4qE/koejib3lciAD44LNtxzor8iq5EPnh/wuDIL2w==
 
-just-omit@^2.0.0:
+just-omit@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/just-omit/-/just-omit-2.0.1.tgz#25d5967424cc69a2ef4faa315ede1d5b7be3168c"
   integrity sha512-gmMf9DSGjx+PJFr7P7zcZk4hpKvb/iLTmXjArvtvr2zg8JvcXyAjPtJItX4Lx8BCUk3UAtJiacu4no9h9mv6mg==
@@ -9755,6 +9774,25 @@ lazy-ass@^1.6.0:
   version "1.6.0"
   resolved "https://registry.yarnpkg.com/lazy-ass/-/lazy-ass-1.6.0.tgz#7999655e8646c17f089fdd187d150d3324d54513"
   integrity sha1-eZllXoZGwX8In90YfRUNMyTVRRM=
+
+leaflet-control-geocoder@^2.4.0:
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/leaflet-control-geocoder/-/leaflet-control-geocoder-2.4.0.tgz#f6c00ae00b53d2ac5908e874a9aefd414f615f22"
+  integrity sha512-b2QlxuFd40uIDbnoUI3U9fzfnB4yKUYlmsXjquJ2d2YjoJqnyVYcIJeErAVv3kPvX3nI0gzvBq1XHMgSVFrGkQ==
+  optionalDependencies:
+    open-location-code "^1.0.0"
+
+leaflet-geosearch@^3.6.0:
+  version "3.6.0"
+  resolved "https://registry.yarnpkg.com/leaflet-geosearch/-/leaflet-geosearch-3.6.0.tgz#1e2da4152e473df24467ca019334a981af9330c9"
+  integrity sha512-TkJOi+eVbsQB7wC0ssGzV9eGQv5BgEwDyb0QOunYA64qe53lB+ostUemvQD7Cmari0shtgBr3Patn5galjr3WA==
+  optionalDependencies:
+    leaflet "^1.6.0"
+
+leaflet@^1.6.0, leaflet@^1.7.1:
+  version "1.7.1"
+  resolved "https://registry.yarnpkg.com/leaflet/-/leaflet-1.7.1.tgz#10d684916edfe1bf41d688a3b97127c0322a2a19"
+  integrity sha512-/xwPEBidtg69Q3HlqPdU3DnrXQOvQU/CCHA1tcDQVzOwm91YMYaILjNp7L4Eaw5Z4sOYdbBz6koWyibppd8Zqw==
 
 less-loader@10.0.1:
   version "10.0.1"
@@ -9871,10 +9909,10 @@ linkifyjs@^3.0.4:
   resolved "https://registry.yarnpkg.com/linkifyjs/-/linkifyjs-3.0.4.tgz#469a1b44903d179e3b23317fd3c4e995453765b9"
   integrity sha512-JWw1HHMx54g8mEsG7JwI8I/xh7qeJbF6L9u1dQOYW91RdRqDYpnTn1UaNXYkmLD967Vk0xGuyHzuRnkSApby3w==
 
-lint-staged@^12.3.3:
-  version "12.3.3"
-  resolved "https://registry.yarnpkg.com/lint-staged/-/lint-staged-12.3.3.tgz#0a465962fe53baa2b4b9da50801ead49a910e03b"
-  integrity sha512-OqcLsqcPOqzvsfkxjeBpZylgJ3SRG1RYqc9LxC6tkt6tNsq1bNVkAixBwX09f6CobcHswzqVOCBpFR1Fck0+ag==
+lint-staged@^12.3.4:
+  version "12.3.4"
+  resolved "https://registry.yarnpkg.com/lint-staged/-/lint-staged-12.3.4.tgz#4b1ff8c394c3e6da436aaec5afd4db18b5dac360"
+  integrity sha512-yv/iK4WwZ7/v0GtVkNb3R82pdL9M+ScpIbJLJNyCXkJ1FGaXvRCOg/SeL59SZtPpqZhE7BD6kPKFLIDUhDx2/w==
   dependencies:
     cli-truncate "^3.1.0"
     colorette "^2.0.16"
@@ -10692,10 +10730,10 @@ ngx-cookie@^5.0.2:
   dependencies:
     tslib "^2.0.0"
 
-ngx-easy-table@^15.1.0:
-  version "15.1.0"
-  resolved "https://registry.yarnpkg.com/ngx-easy-table/-/ngx-easy-table-15.1.0.tgz#fefdd5e53f288956056bab7c9eddbaca927c5bf9"
-  integrity sha512-unOQLvKcGF+vw7vWaSzHzU1iPm/3cV0WRf+6ldXlLbKo8fsOqtkwv/2ni0ehjgkVoaD1uWmLCYH83UprdzoLSQ==
+ngx-easy-table@^15.2.0:
+  version "15.2.0"
+  resolved "https://registry.yarnpkg.com/ngx-easy-table/-/ngx-easy-table-15.2.0.tgz#426ace6748e6974f780c98fed665a9fc941df001"
+  integrity sha512-3ok+fL1IULdG0Fsru7IQUpbFrTKG1tXyNjIs3qetG+kDKF0TSi2MSYyIwzCx2TnkrBIf1grQnkFQmfAguAWLCg==
   dependencies:
     ngx-pagination "^5.0.0"
     tslib "^2.0.0"
@@ -10726,10 +10764,10 @@ ngx-quicklink@^0.2.7:
   dependencies:
     tslib "^2.0.0"
 
-ngx-quill@^16.1.1:
-  version "16.1.1"
-  resolved "https://registry.yarnpkg.com/ngx-quill/-/ngx-quill-16.1.1.tgz#e840393157d4653c530ade649a9d3262634221a0"
-  integrity sha512-IeXszwwwLikTN8Dswd3LTN8mfeAnJ3PAgLpICLFOeSmRWOsynI92CyCoCTLXQ8XehB77/N7BhXMqVLdLaW/RqQ==
+ngx-quill@^16.1.2:
+  version "16.1.2"
+  resolved "https://registry.yarnpkg.com/ngx-quill/-/ngx-quill-16.1.2.tgz#577e8ae969855e41c64e8f605ab0ad37381ea061"
+  integrity sha512-qed2eGMC9cLdtLgzP8D4zjodOiPvYsXosSm2lGwFc/s9RDFWFCDW6L7zQ11aEFTm0B1HMxzX85IBYVPhI82uyg==
   dependencies:
     tslib "^2.3.0"
 
@@ -11142,6 +11180,11 @@ onetime@^5.1.0, onetime@^5.1.2:
   integrity sha512-kbpaSSGJTWdAY5KPVeMOKXSrPtr8C8C7wodJbcsd51jRnmD+GZu8Y0VoU6Dm5Z4vWr0Ig/1NKuWRKf7j5aaYSg==
   dependencies:
     mimic-fn "^2.1.0"
+
+open-location-code@^1.0.0:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/open-location-code/-/open-location-code-1.0.3.tgz#5ea1a34ee5221c6cafa04392e1bd906fd7488f7e"
+  integrity sha1-XqGjTuUiHGyvoEOS4b2Qb9dIj34=
 
 open@8.2.1:
   version "8.2.1"
@@ -13563,6 +13606,11 @@ signal-exit@^3.0.0, signal-exit@^3.0.2, signal-exit@^3.0.3:
   resolved "https://registry.yarnpkg.com/signal-exit/-/signal-exit-3.0.5.tgz#9e3e8cc0c75a99472b44321033a7702e7738252f"
   integrity sha512-KWcOiKeQj6ZyXx7zq4YxSMgHRlod4czeBQZrPb8OKcohcqAXShm7E20kEMle9WBt26hFcAf0qLOcp5zmY7kOqQ==
 
+signal-exit@^3.0.7:
+  version "3.0.7"
+  resolved "https://registry.yarnpkg.com/signal-exit/-/signal-exit-3.0.7.tgz#a9a1767f8af84155114eaabd73f99273c8f59ad9"
+  integrity sha512-wnD2ZE+l+SPC/uoS0vXeE9L1+0wuaMqKlfz9AMUo38JsyLSBWSFcHR1Rri62LZc12vLr1gb3jl7iwQhgwpAbGQ==
+
 sisteransi@^1.0.5:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/sisteransi/-/sisteransi-1.0.5.tgz#134d681297756437cc05ca01370d3a7a571075ed"
@@ -14159,15 +14207,15 @@ stylelint-scss@^4.0.0:
     postcss-selector-parser "^6.0.6"
     postcss-value-parser "^4.1.0"
 
-stylelint@^14.5.0:
-  version "14.5.0"
-  resolved "https://registry.yarnpkg.com/stylelint/-/stylelint-14.5.0.tgz#d94252027164bc918303a6b782652931421d8871"
-  integrity sha512-4dvQjrhAz2njLoE1OvUEZpryNWcmx2w5Lq5jlibxFv6b5W6O8/vob12M2ZzhX3Ndzs5f67F+BEYmhnQXOwfVYQ==
+stylelint@^14.5.1:
+  version "14.5.1"
+  resolved "https://registry.yarnpkg.com/stylelint/-/stylelint-14.5.1.tgz#2b2575ccaf14bb057209d48fc87c17d5b684f8db"
+  integrity sha512-8Hf4HtnhxlWlf7iXF9zFfhSc3X0teRnVzl6PqPs2JEFx+dy/mhMhghZfiTDW4QG0ihDw9+WP7GZw5Nzx7cQF5A==
   dependencies:
     balanced-match "^2.0.0"
     colord "^2.9.2"
     cosmiconfig "^7.0.1"
-    css-functions-list "^3.0.0"
+    css-functions-list "^3.0.1"
     debug "^4.3.3"
     execall "^2.0.0"
     fast-glob "^3.2.11"
@@ -14204,7 +14252,7 @@ stylelint@^14.5.0:
     svg-tags "^1.0.0"
     table "^6.8.0"
     v8-compile-cache "^2.3.0"
-    write-file-atomic "^4.0.0"
+    write-file-atomic "^4.0.1"
 
 stylus-loader@6.1.0:
   version "6.1.0"
@@ -14316,10 +14364,10 @@ svgo@2.8.0, svgo@^2.7.0:
     picocolors "^1.0.0"
     stable "^0.1.8"
 
-sweetalert2@^11.4.0:
-  version "11.4.0"
-  resolved "https://registry.yarnpkg.com/sweetalert2/-/sweetalert2-11.4.0.tgz#d5cb4b711af4cb5f580e4eef4389b95dbc417427"
-  integrity sha512-+p0jT2LxUQGreWa60j7nm1frJfqbcmamZcpZi4puEGAJ0CmyPqQ4UGmBqbB4WxkJYKsn8qcOA9ufqn0MWtQWLQ==
+sweetalert2@^11.4.4:
+  version "11.4.4"
+  resolved "https://registry.yarnpkg.com/sweetalert2/-/sweetalert2-11.4.4.tgz#49b8db39f00a699224bb6aabcd1185b5a4fea739"
+  integrity sha512-9yYWQuRT1v9JNI/paPTSYV+68MHwe9C+HQ/I2jtfaFzoJgYRftWXOs4JqmDSjT7m2m4r8ebMMn8LcxD1Wq9B/w==
 
 symbol-observable@4.0.0:
   version "4.0.0"
@@ -14352,10 +14400,10 @@ table@^6.0.9, table@^6.8.0:
     string-width "^4.2.3"
     strip-ansi "^6.0.1"
 
-tailwindcss@^3.0.22:
-  version "3.0.22"
-  resolved "https://registry.yarnpkg.com/tailwindcss/-/tailwindcss-3.0.22.tgz#5f1aac83810261300ae5b2f98fd4a2fa2ded2c42"
-  integrity sha512-F8lt74RlNZirnkaSk310+vGQta7c0/hgx7/bqxruM4wS9lp8oqV93lzavajC3VT0Lp4UUtUVIt8ifKcmGzkr0A==
+tailwindcss@^3.0.23:
+  version "3.0.23"
+  resolved "https://registry.yarnpkg.com/tailwindcss/-/tailwindcss-3.0.23.tgz#c620521d53a289650872a66adfcb4129d2200d10"
+  integrity sha512-+OZOV9ubyQ6oI2BXEhzw4HrqvgcARY38xv3zKcjnWtMIZstEsXdI9xftd1iB7+RbOnj2HOEzkA0OyB5BaSxPQA==
   dependencies:
     arg "^5.0.1"
     chalk "^4.1.2"
@@ -14834,11 +14882,6 @@ typedarray-to-buffer@^3.1.5:
   integrity sha512-zdu8XMNEDepKKR+XYOXAVPtWui0ly0NtohUscw+UmaHiAWT8hrV1rr//H6V+0DvJ3OQ19S979M0laLfX8rm82Q==
   dependencies:
     is-typedarray "^1.0.0"
-
-typedarray-to-buffer@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/typedarray-to-buffer/-/typedarray-to-buffer-4.0.0.tgz#cdd2933c61dd3f5f02eda5d012d441f95bfeb50a"
-  integrity sha512-6dOYeZfS3O9RtRD1caom0sMxgK59b27+IwoNy8RDPsmslSGOyU+mpTamlaIW7aNKi90ZQZ9DFaZL3YRoiSCULQ==
 
 typedarray@^0.0.6:
   version "0.0.6"
@@ -15493,15 +15536,13 @@ write-file-atomic@^3.0.0:
     signal-exit "^3.0.2"
     typedarray-to-buffer "^3.1.5"
 
-write-file-atomic@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/write-file-atomic/-/write-file-atomic-4.0.0.tgz#0eff5dc687d3e22535ca3fca8558124645a4b053"
-  integrity sha512-JhcWoKffJNF7ivO9yflBhc7tn3wKnokMUfWpBriM9yCXj4ePQnRPcWglBkkg1AHC8nsW/EfxwwhqsLtOy59djA==
+write-file-atomic@^4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/write-file-atomic/-/write-file-atomic-4.0.1.tgz#9faa33a964c1c85ff6f849b80b42a88c2c537c8f"
+  integrity sha512-nSKUxgAbyioruk6hU87QzVbY279oYT6uiwgDoujth2ju4mJ+TZau7SQBhtbTmUyuNYTuXnSyRn66FV0+eCgcrQ==
   dependencies:
     imurmurhash "^0.1.4"
-    is-typedarray "^1.0.0"
-    signal-exit "^3.0.2"
-    typedarray-to-buffer "^4.0.0"
+    signal-exit "^3.0.7"
 
 ws@^6.2.1:
   version "6.2.2"

@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router';
 import { AkitaNgEffectsModule } from '@datorama/akita-ng-effects';
 import { GetFilePipeModule, OfficesEffects } from '@nexthcm/cdk';
 import { FormlyTaigaUiModule, LayoutModule, WorkflowActionsButtonDropdownComponentModule } from '@nexthcm/ui';
-import { NgStackFormsModule } from '@ng-stack/forms';
+import { NgsFormsModule } from '@ng-stack/forms';
 import { TranslocoModule } from '@ngneat/transloco';
 import { TranslocoLocaleModule } from '@ngneat/transloco-locale';
 import { FormlyModule } from '@ngx-formly/core';
@@ -64,7 +64,7 @@ import { MyWorkingOnsiteRequestsComponent } from './pages/my-working-onsite-requ
     FormlyTaigaUiModule,
     TuiGroupModule,
     TuiTabsModule,
-    NgStackFormsModule,
+    NgsFormsModule,
     TuiColorModule,
     TuiSvgModule,
     TranslocoModule,

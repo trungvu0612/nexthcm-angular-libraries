@@ -5,14 +5,6 @@ import { API, Config, DefaultConfig, Event } from 'ngx-easy-table';
 import { Pagination } from '../../models';
 import { NewAbstractServerPaginationTableComponent } from './abstract-server-pagination-table.component';
 
-interface EventObject {
-  event: Event;
-  value: {
-    key: string;
-    order: string;
-  };
-}
-
 @Directive()
 export abstract class NewAbstractServerSortPaginationTableComponent<T>
   extends NewAbstractServerPaginationTableComponent<T>
@@ -52,7 +44,7 @@ export abstract class NewAbstractServerSortPaginationTableComponent<T>
     }
   }
 
-  eventEmitted($event: EventObject): void {
+  eventEmitted($event: { event: string; value: any }): void {
     if ($event.event === Event.onOrder) {
       const orderBy = $event.value.order ? `${$event.value.key},${$event.value.order}` : null;
 

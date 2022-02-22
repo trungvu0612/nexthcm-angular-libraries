@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ScrollIntoViewDirectiveModule } from '@nexthcm/cdk';
 import { AvatarComponentModule, FormlyUserComboBoxComponentModule, LayoutComponent, LayoutModule } from '@nexthcm/ui';
-import { NgStackFormsModule } from '@ng-stack/forms';
+import { NgsFormsModule } from '@ng-stack/forms';
 import { TranslocoModule } from '@ngneat/transloco';
 import { FormlyModule } from '@ngx-formly/core';
 import { PushModule } from '@rx-angular/template';
@@ -40,7 +40,7 @@ export const humanResourceRoutes: Routes = [
   imports: [
     CommonModule,
     RouterModule.forChild(humanResourceRoutes),
-    NgStackFormsModule,
+    NgsFormsModule,
     TuiIslandModule,
     TuiLinkModule,
     LayoutModule,
