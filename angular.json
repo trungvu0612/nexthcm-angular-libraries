@@ -1082,6 +1082,11 @@
                 "glob": "**/*",
                 "input": "libs/workflow-designer/assets/mxgraph",
                 "output": "."
+              },
+              {
+                "glob": "**/*",
+                "input": "node_modules/leaflet/dist/images",
+                "output": "assets"
               }
             ],
             "styles": [

@@ -7,6 +7,7 @@ import { AkitaNgEffectsModule } from '@datorama/akita-ng-effects';
 import { GetFilePipeModule, UserProfileEffects } from '@nexthcm/cdk';
 import { MyTimeService } from '@nexthcm/my-time';
 import { AvatarComponentModule, LayoutComponent, LayoutModule } from '@nexthcm/ui';
+import { POSITION_OPTIONS } from '@ng-web-apis/geolocation';
 import { SvgIconsModule } from '@ngneat/svg-icon';
 import { TranslocoModule } from '@ngneat/transloco';
 import { TranslocoLocaleModule } from '@ngneat/transloco-locale';
@@ -95,6 +96,12 @@ export const HOME_ROUTES: Routes = [
     TuiLabelModule,
     PushModule,
   ],
-  providers: [MyTimeService],
+  providers: [
+    MyTimeService,
+    {
+      provide: POSITION_OPTIONS,
+      useValue: { enableHighAccuracy: true, timeout: 3000, maximumAge: 1000 },
+    },
+  ],
 })
 export class HomeModule {}

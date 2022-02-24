@@ -5,12 +5,13 @@ import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
+import omit from 'just-omit';
 import { LatLngExpression } from 'leaflet';
 import { takeUntil } from 'rxjs/operators';
 import { AdminOfficesService } from '../../services/admin-offices.service';
 
 interface OfficeForm extends Office {
-  coordinates: LatLngExpression;
+  coordinates?: LatLngExpression;
 }
 
 @Component({
@@ -109,10 +110,10 @@ export class UpsertOfficeDialogComponent implements OnInit {
 
   onSubmit(): void {
     if (this.form.valid) {
-      const formModel = { ...this.form.value };
+      const formModel: OfficeForm = { ...this.form.value };
 
       this.adminOfficesService
-        .upsertOffice(formModel)
+        .upsertOffice(omit(formModel, 'coordinates'))
         .pipe(takeUntil(this.destroy$))
         .subscribe(
           this.promptService.handleResponse(

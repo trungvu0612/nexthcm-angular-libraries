@@ -656,5 +656,13 @@
   "supervisors": "Supervisors",
   "supervisorList": "Supervisor List",
   "searchSupervisors": "Search for supervisors...",
-  "supervisorType": "Supervisor Type"
+  "supervisorType": "Supervisor Type",
+  "nothingFound": "Nothing found",
+  "GEOLOCATION": {
+    "ERROR": {
+      "PERMISSION_DENIED": "Please allow the request for Geolocation to use this function.",
+      "POSITION_UNAVAILABLE": "Location information is unavailable. Please try again later.",
+      "TIMEOUT": "The request to get user location timed out. Please try again later."
+    }
+  }
 }

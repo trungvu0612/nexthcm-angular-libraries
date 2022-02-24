@@ -655,5 +655,13 @@
   "supervisors": "Người giám sát",
   "supervisorList": "Danh sách Người giám sát",
   "searchSupervisors": "Tìm kiếm người giám sát...",
-  "supervisorType": "Kiểu giám sát"
+  "supervisorType": "Kiểu giám sát",
+  "nothingFound": "Không tìm thấy",
+  "GEOLOCATION": {
+    "ERROR": {
+      "PERMISSION_DENIED": "Vui lòng cho phép định vị vị trí để sử dụng chức năng này.",
+      "POSITION_UNAVAILABLE": "Thông tin vị trí địa lý không khả dụng. Vui lòng thử lại sau.",
+      "TIMEOUT": "Quá thời gian xác định vị trí. Vui lòng thử lại sau."
+    }
+  }
 }

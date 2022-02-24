@@ -1,4 +1,5 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
+import { TranslocoService } from '@ngneat/transloco';
 import { FieldType } from '@ngx-formly/core';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import {
@@ -38,7 +39,8 @@ export class FormlyLeafletCoordinatesComponent extends FieldType implements Afte
   private readonly geoCoder = geocoder();
   private readonly searchControl = SearchControl({
     provider: new OpenStreetMapProvider({}),
-    notFoundMessage: 'Could not find location.',
+    searchLabel: this.translocoService.translate('enterAddress'),
+    notFoundMessage: this.translocoService.translate('nothingFound'),
     style: 'bar',
     showPopUp: false,
     showMarker: false,
@@ -46,7 +48,7 @@ export class FormlyLeafletCoordinatesComponent extends FieldType implements Afte
   private marker?: Marker;
   private map?: Map;
 
-  constructor(private readonly destroy$: TuiDestroyService) {
+  constructor(private readonly destroy$: TuiDestroyService, private readonly translocoService: TranslocoService) {
     super();
   }
 
@@ -54,7 +56,7 @@ export class FormlyLeafletCoordinatesComponent extends FieldType implements Afte
     this.formControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((value) => {
       if (this.map) {
         this.createMarker(latLng(value));
-        this.map.setView(latLng(value));
+        this.map.panTo(latLng(value));
       }
     });
   }
@@ -69,7 +71,7 @@ export class FormlyLeafletCoordinatesComponent extends FieldType implements Afte
     this.map.addControl(this.searchControl);
     if (this.formControl.value) {
       this.createMarker(latLng(this.formControl.value));
-      this.map.setView(latLng(this.formControl.value));
+      this.map.panTo(latLng(this.formControl.value));
     }
 
     this.map.on('click', ({ latlng }: LeafletMouseEvent) => {
