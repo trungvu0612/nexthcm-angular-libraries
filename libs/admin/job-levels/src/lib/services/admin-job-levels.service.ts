@@ -4,6 +4,7 @@ import { Actions } from '@datorama/akita-ng-effects';
 import { ACCOUNT_API_PATH, Pagination, PagingResponse, refreshJobLevels } from '@nexthcm/cdk';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mapTo, tap } from 'rxjs/operators';
+
 import { JobLevel } from '../models/job-level';
 
 @Injectable()

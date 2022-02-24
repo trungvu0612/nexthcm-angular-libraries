@@ -20,6 +20,7 @@ import {
 import { TuiDataListWrapperModule, TuiSelectModule } from '@taiga-ui/kit';
 import { TableModule } from 'ngx-easy-table';
 import { NgxPermissionsGuard } from 'ngx-permissions';
+
 import { HolidayListComponent } from './components/holiday-list/holiday-list.component';
 import { OvertimeWorkingComponent } from './components/overtime-working/overtime-working.component';
 import { RepeatSectionComponent } from './components/repeat-section/repeat-section.component';

@@ -5,6 +5,7 @@ import { FormlyFieldConfig } from '@ngx-formly/core';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { catchError, distinctUntilChanged, filter, map, share, startWith, switchMap, takeUntil } from 'rxjs/operators';
+
 import { OrganizationalChartNodeComponent } from '../../components/organizational-chart-node/organizational-chart-node.component';
 import { EmployeeNode } from '../../models/employee-node';
 import { HumanResourceService } from '../../services/human-resource.service';

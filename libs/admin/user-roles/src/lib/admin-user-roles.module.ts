@@ -22,6 +22,7 @@ import { TuiDataListWrapperModule, TuiMultiSelectModule } from '@taiga-ui/kit';
 import { PolymorpheusModule } from '@tinkoff/ng-polymorpheus';
 import { TableModule } from 'ngx-easy-table';
 import { NgxPermissionsGuard, NgxPermissionsModule } from 'ngx-permissions';
+
 import { FormlySelectPermissionsComponent } from './components/formly-select-permissions/formly-select-permissions.component';
 import { UpsertUserRoleDialogComponent } from './components/upsert-user-roles/upsert-user-role-dialog.component';
 import en from './i18n/en.json';

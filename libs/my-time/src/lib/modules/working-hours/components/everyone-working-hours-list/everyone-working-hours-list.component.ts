@@ -11,6 +11,7 @@ import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { API, Columns, Config, DefaultConfig } from 'ngx-easy-table';
 import { Observable, of } from 'rxjs';
 import { catchError, filter, map, share, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
+
 import { TRANSLATION_SCOPE } from '../../../../internal/constants';
 import { WorkingHoursGroup } from '../../../../internal/models';
 import { WorkingHoursService } from '../../../../internal/services';

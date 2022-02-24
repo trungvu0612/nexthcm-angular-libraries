@@ -2,6 +2,7 @@ import { NgModule, Pipe, PipeTransform } from '@angular/core';
 import { filterNilValue } from '@datorama/akita';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+
 import { FilesService } from '../../services';
 import { FileObjectsQuery } from '../../state';
 

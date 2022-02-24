@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { cacheable } from '@datorama/akita';
 import { Actions, Effect, ofType } from '@datorama/akita-ng-effects';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
+
 import { loadJobLevels, refreshJobLevels } from './job-levels.actions';
 import { JobLevelsQuery } from './job-levels.query';
 import { JobLevelsService } from './job-levels.service';

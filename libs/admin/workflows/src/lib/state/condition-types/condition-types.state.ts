@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { EntityState, EntityStore, QueryEntity, StoreConfig } from '@datorama/akita';
+
 import { ConditionType } from '../../enums';
 import { TransitionOption } from '../../models';
 
-export interface ConditionTypesState extends EntityState<TransitionOption<ConditionType>, string> {}
+export type ConditionTypesState = EntityState<TransitionOption<ConditionType>, string>
 
 @Injectable()
 @StoreConfig({ name: 'condition-types' })

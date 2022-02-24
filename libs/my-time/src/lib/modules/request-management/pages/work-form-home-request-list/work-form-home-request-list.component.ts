@@ -8,6 +8,7 @@ import { isPresent } from '@taiga-ui/cdk';
 import { Columns } from 'ngx-easy-table';
 import { combineLatest, Observable, of } from 'rxjs';
 import { catchError, filter, map, share, startWith, switchMap } from 'rxjs/operators';
+
 import { AbstractRequestListComponent } from '../../../../internal/abstract';
 import { TRANSLATION_SCOPE } from '../../../../internal/constants';
 import { WorkFromHomeRequest } from '../../../../internal/models';

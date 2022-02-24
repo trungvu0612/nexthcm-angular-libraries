@@ -8,6 +8,7 @@ import { TuiEditorSocketModule } from '@taiga-ui/addon-editor';
 import { TuiLinkModule, TuiLoaderModule, TuiSvgModule } from '@taiga-ui/core';
 import { TuiBreadcrumbsModule, TuiPaginationModule } from '@taiga-ui/kit';
 import { NgxPermissionsGuard } from 'ngx-permissions';
+
 import { KnowledgeBaseArticleListComponent } from './components/knowledge-base-article-list/knowledge-base-article-list.component';
 import { KnowledgeBaseArticleComponent } from './pages/knowledge-base-article/knowledge-base-article.component';
 import { KnowledgeBaseArticlesComponent } from './pages/knowledge-base-articles/knowledge-base-articles.component';

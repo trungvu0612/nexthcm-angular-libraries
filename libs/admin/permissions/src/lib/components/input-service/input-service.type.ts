@@ -1,8 +1,9 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { FieldType } from '@ngx-formly/core';
-import { Service } from '../../models/policy';
 import { TuiIdentityMatcher } from '@taiga-ui/cdk';
+
+import { Service } from '../../models/policy';
 
 @Component({
   selector: 'formly-input-service',

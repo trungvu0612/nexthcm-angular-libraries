@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { MY_TIME_API_PATH, Pagination, PagingResponse } from '@nexthcm/cdk';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+
 import { WorkingHoursGroup } from '../models';
 
 @Injectable()

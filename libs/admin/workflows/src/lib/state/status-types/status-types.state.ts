@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { EntityState, EntityStore, QueryEntity, StoreConfig } from '@datorama/akita';
 import { WorkflowStatusType } from '@nexthcm/cdk';
 
-export interface StatusTypesState extends EntityState<WorkflowStatusType, string> {}
+export type StatusTypesState = EntityState<WorkflowStatusType, string>
 
 @Injectable()
 @StoreConfig({ name: 'status-types' })

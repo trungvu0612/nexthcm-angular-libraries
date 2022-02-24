@@ -4,6 +4,7 @@ import { tiptapEditorStyles, TUI_EDITOR_STYLES } from '@taiga-ui/addon-editor';
 import { isPresent } from '@taiga-ui/cdk';
 import { Observable, of } from 'rxjs';
 import { catchError, filter, map, share, startWith } from 'rxjs/operators';
+
 import { KnowledgeBaseArticle } from '../../models';
 import { KnowledgeBaseService } from '../../services';
 

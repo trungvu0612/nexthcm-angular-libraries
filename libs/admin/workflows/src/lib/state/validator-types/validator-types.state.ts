@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { EntityState, EntityStore, QueryEntity, StoreConfig } from '@datorama/akita';
+
 import { ValidatorType } from '../../enums';
 import { TransitionOption } from '../../models';
 
-export interface ValidatorTypesState extends EntityState<TransitionOption<ValidatorType>, string> {}
+export type ValidatorTypesState = EntityState<TransitionOption<ValidatorType>, string>
 
 @Injectable()
 @StoreConfig({ name: 'validator-types' })

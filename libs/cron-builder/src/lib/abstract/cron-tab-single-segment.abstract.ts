@@ -1,6 +1,7 @@
 import { Directive, Inject, ViewChild } from '@angular/core';
 import { Segment, Type } from '@sbzen/cron-core';
 import { Observable } from 'rxjs';
+
 import { CronLocalization, CronSingleType } from '../models';
 import { CronAndComponent } from '../shared/cron-and/cron-and.component';
 import { CRON_LOCALIZATION } from '../tokens';

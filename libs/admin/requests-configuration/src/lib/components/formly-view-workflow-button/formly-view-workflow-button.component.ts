@@ -6,6 +6,7 @@ import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { Observable, Subject } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
+
 import { ViewWorkflowDialogComponent } from '../view-workflow-dialog/view-workflow-dialog.component';
 
 @Component({

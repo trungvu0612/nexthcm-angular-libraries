@@ -5,6 +5,7 @@ import { HEADER_TABS, LayoutComponent, MenuItem } from '@nexthcm/ui';
 import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
 import { TranslocoDatePipe } from '@ngneat/transloco-locale';
 import { NgxPermissionsGuard } from 'ngx-permissions';
+
 import en from './i18n/en.json';
 import vi from './i18n/vi.json';
 import { TRANSLATION_SCOPE } from './internal/constants';

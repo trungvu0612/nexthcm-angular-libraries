@@ -1,4 +1,5 @@
 import { TuiFileLike } from '@taiga-ui/kit';
+
 import { RejectedFile } from '../models';
 
 export function isFile(file: any): file is File {

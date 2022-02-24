@@ -13,9 +13,10 @@ import {
 } from '@taiga-ui/core';
 import { TuiMultiSelectModule, TuiSelectModule } from '@taiga-ui/kit';
 import { PolymorpheusModule } from '@tinkoff/ng-polymorpheus';
+
 import { FormFieldModule } from '../form-field/form-field.module';
-import { MultiSelectSearchComponent } from './multi-select-search/multi-select-search.component';
 import { MultiSelectComponent } from './multi-select/multi-select.component';
+import { MultiSelectSearchComponent } from './multi-select-search/multi-select-search.component';
 import { SelectComponent } from './select/select.component';
 
 @NgModule({

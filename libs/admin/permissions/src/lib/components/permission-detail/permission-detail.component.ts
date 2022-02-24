@@ -1,12 +1,13 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@ngneat/reactive-forms';
 import { Router } from '@angular/router';
 import { PromptService } from '@nexthcm/cdk';
+import { FormControl, FormGroup } from '@ngneat/reactive-forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { Columns, DefaultConfig } from 'ngx-easy-table';
 import { of } from 'rxjs';
 import { catchError, filter, mapTo, switchMap } from 'rxjs/operators';
 import { SweetAlertOptions } from 'sweetalert2';
+
 import { Permission, PermissionForm, Policy, PolicyItem, Resource } from '../../models/policy';
 import { AdminPermissionsService } from '../../services/admin-permissions.service';
 

@@ -7,6 +7,7 @@ import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { BaseComponent } from 'ngx-easy-table';
 import { EMPTY, from, iif, of } from 'rxjs';
 import { catchError, filter, map, shareReplay, startWith, switchMap, takeUntil } from 'rxjs/operators';
+
 import { AdminSeatMapsService } from '../../services/admin-seat-maps.service';
 import { TRANSLATION_SCOPE } from '../../translation-scope';
 

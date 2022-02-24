@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule, Pipe, PipeTransform } from '@angular/core';
+
 import { CommonStatus } from '../../enums';
 
 type Key = keyof typeof CommonStatus;

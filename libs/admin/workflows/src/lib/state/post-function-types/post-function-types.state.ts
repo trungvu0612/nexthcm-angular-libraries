@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { EntityState, EntityStore, QueryEntity, StoreConfig } from '@datorama/akita';
+
 import { PostFunctionType } from '../../enums';
 import { TransitionOption } from '../../models';
 
-export interface PostFunctionTypesState extends EntityState<TransitionOption<PostFunctionType>, string> {}
+export type PostFunctionTypesState = EntityState<TransitionOption<PostFunctionType>, string>
 
 @Injectable()
 @StoreConfig({ name: 'post-function-types' })

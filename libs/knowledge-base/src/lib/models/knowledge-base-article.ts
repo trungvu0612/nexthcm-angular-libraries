@@ -1,4 +1,5 @@
 import { CommonStatus, EmployeeInfo } from '@nexthcm/cdk';
+
 import { KnowledgeBaseCategory } from './knowledge-base-category';
 
 export interface KnowledgeBaseArticle {

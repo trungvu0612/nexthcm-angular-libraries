@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { EntityState, EntityStore, StoreConfig } from '@datorama/akita';
+
 import { BaseObject } from '../../models';
 
 export type OfficesState = EntityState<BaseObject, string>;

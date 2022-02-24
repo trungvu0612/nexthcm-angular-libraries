@@ -3,6 +3,7 @@ import { HashMap, TranslocoService } from '@ngneat/transloco';
 import { API, APIDefinition, Columns, Config, DefaultConfig } from 'ngx-easy-table';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+
 import { TRANSLATION_SCOPE } from '../translation-scope';
 
 @Directive()

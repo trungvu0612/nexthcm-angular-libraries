@@ -1,4 +1,5 @@
 import Quill from 'quill';
+
 import { TemplateVariableModel } from '../../models';
 
 const Embed = Quill.import('blots/embed');

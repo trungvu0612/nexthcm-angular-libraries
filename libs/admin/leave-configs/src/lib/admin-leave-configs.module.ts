@@ -26,6 +26,7 @@ import { TuiButtonModule, TuiLinkModule, TuiLoaderModule, TuiPrimitiveCheckboxMo
 import { TuiTabsModule, TuiTagModule } from '@taiga-ui/kit';
 import { TableModule } from 'ngx-easy-table';
 import { NgxPermissionsGuard, NgxPermissionsModule } from 'ngx-permissions';
+
 import { AdminLeaveConfigsService } from './admin-leave-configs.service';
 import { LeaveEntitlementFiltersComponent } from './components/leave-entitlement-filters/leave-entitlement-filters.component';
 import { SelectLeaveEntitlementsExportTypeDialogComponent } from './components/select-leave-entitlements-export-type-dialog/select-leave-entitlements-export-type-dialog.component';

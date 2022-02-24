@@ -1,4 +1,5 @@
 import { NgModule, Pipe, PipeTransform } from '@angular/core';
+
 import { TransferLeaveEntitlementType } from '../../enums';
 
 @Pipe({

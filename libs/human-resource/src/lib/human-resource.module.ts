@@ -17,6 +17,7 @@ import {
 } from '@taiga-ui/core';
 import { TuiIslandModule } from '@taiga-ui/kit';
 import { NgxPermissionsGuard } from 'ngx-permissions';
+
 import { OrganizationalChartNodeComponent } from './components/organizational-chart-node/organizational-chart-node.component';
 import { ChartNodeHoverDirective } from './directives/chart-node-hover/chart-node-hover.directive';
 import { OrganizationalChartComponent } from './pages/organizational-chart/organizational-chart.component';

@@ -9,6 +9,7 @@ import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { BaseComponent, Columns } from 'ngx-easy-table';
 import { Observable, of } from 'rxjs';
 import { catchError, filter, map, shareReplay, startWith, switchMap, takeUntil } from 'rxjs/operators';
+
 import { UpsertEmailTemplateDialogComponent } from '../../components/upsert-email-template-dialog/upsert-email-template-dialog.component';
 import { EmailTemplate } from '../../models';
 import { AdminWorkflowsService } from '../../services/admin-workflows.service';

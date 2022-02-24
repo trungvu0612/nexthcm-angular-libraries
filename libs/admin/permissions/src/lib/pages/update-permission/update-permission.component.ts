@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormGroup } from '@ngneat/reactive-forms';
 import { map } from 'rxjs/operators';
+
 import { PermissionDetailComponent } from '../../components/permission-detail/permission-detail.component';
 import { Permission, Policy, PolicyItem, Resource } from '../../models/policy';
 import { AdminPermissionsService } from '../../services/admin-permissions.service';

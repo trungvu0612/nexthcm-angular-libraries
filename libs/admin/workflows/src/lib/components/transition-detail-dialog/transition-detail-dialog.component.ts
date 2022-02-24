@@ -6,6 +6,7 @@ import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+
 import { TransitionOptionIndex } from '../../enums';
 import { Transition, TransitionDetailData } from '../../models';
 import { TRANSLATION_SCOPE } from '../../translation-scope';

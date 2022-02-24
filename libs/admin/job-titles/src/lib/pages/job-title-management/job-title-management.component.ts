@@ -9,6 +9,7 @@ import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { BaseComponent, Columns } from 'ngx-easy-table';
 import { EMPTY, from, iif, Observable, of } from 'rxjs';
 import { catchError, filter, map, shareReplay, startWith, switchMap, takeUntil } from 'rxjs/operators';
+
 import { UpsertJobTitleDialogComponent } from '../../components/upsert-job-title-dialog/upsert-job-title-dialog.component';
 import { JobTitle } from '../../models/job-title';
 import { AdminJobTitlesService } from '../../services/admin-job-titles.service';

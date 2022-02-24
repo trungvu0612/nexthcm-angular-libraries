@@ -37,14 +37,15 @@ import { PolymorpheusModule } from '@tinkoff/ng-polymorpheus';
 import { academicCap, HeroIconModule, identification, informationCircle } from 'ng-heroicon';
 import { TableModule } from 'ngx-easy-table';
 import { NgxPermissionsGuard, NgxPermissionsModule } from 'ngx-permissions';
+
 import { AttachmentFormComponent } from './components/attachment-form/attachment-form.component';
 import { DurationFormComponent } from './components/duration-form/duration-form.component';
 import { EditEmployeeDialogComponent } from './components/edit-employee-dialog/edit-employee-dialog.component';
 import { EducationFormComponent } from './components/education-form/education-form.component';
 import { FormlyDownloadButtonComponent } from './components/formly-download-button/formly-download-button.component';
 import { FormlyRepeatSectionComponent } from './components/formly-repeat-section/formly-repeat-section.component';
-import { GeneralInformationFormComponent } from './components/general-information-form/general-information-form.component';
 import { GeneralInformationComponent } from './components/general-information/general-information.component';
+import { GeneralInformationFormComponent } from './components/general-information-form/general-information-form.component';
 import { IndividualFormComponent } from './components/individual-form/individual-form.component';
 import { InitEmployeeDialogComponent } from './components/init-employee-dialog/init-employee-dialog.component';
 import { ShuiFormComponent } from './components/shui-form/shui-form.component';

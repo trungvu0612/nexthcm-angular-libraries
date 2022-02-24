@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { ACCOUNT_API_PATH, BaseResponse } from '@nexthcm/cdk';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+
 import { ScheduledTask } from '../models/scheduled-task';
 
 @Injectable()

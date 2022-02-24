@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
+
 import { FileObjectsStore } from '../../state';
 
 @Injectable({

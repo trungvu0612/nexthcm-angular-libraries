@@ -1,4 +1,5 @@
 import { Config, DefaultConfig } from 'ngx-easy-table';
+
 import { AbstractServerPaginationTableComponent } from './abstract-server-pagination-table.component';
 
 export abstract class AbstractSelectableServerPaginationTableComponent<

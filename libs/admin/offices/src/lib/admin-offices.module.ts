@@ -16,6 +16,7 @@ import { TuiLetModule } from '@taiga-ui/cdk';
 import { TuiButtonModule, TuiLoaderModule, TuiPrimitiveCheckboxModule } from '@taiga-ui/core';
 import { TableModule } from 'ngx-easy-table';
 import { NgxPermissionsGuard, NgxPermissionsModule } from 'ngx-permissions';
+
 import { UpsertOfficeDialogComponent } from './components/upsert-office-dialog/upsert-office-dialog.component';
 import en from './i18n/en.json';
 import vi from './i18n/vi.json';

@@ -20,6 +20,7 @@ import { TuiBreadcrumbsModule, TuiIslandModule, TuiTabsModule, TuiTagModule } fr
 import { HeroIconModule, zoomIn } from 'ng-heroicon';
 import { TableModule } from 'ngx-easy-table';
 import { NgxPermissionsGuard, NgxPermissionsModule } from 'ngx-permissions';
+
 import { UpsertOrganizationalUnitComponent } from './components/upsert-organizational-unit/upsert-organizational-unit.component';
 import { UpsertTenantDialogComponent } from './components/upsert-tenant-dialog/upsert-tenant-dialog.component';
 import { UpsertTenantDomainDialogComponent } from './components/upsert-tenant-domain-dialog/upsert-tenant-domain-dialog.component';

@@ -7,6 +7,7 @@ import { TuiTableModule } from '@taiga-ui/addon-table';
 import { TuiButtonModule, TuiSvgModule, TuiTextfieldControllerModule } from '@taiga-ui/core';
 import { TuiCheckboxLabeledModule, TuiCheckboxModule, TuiInputModule, TuiInputPasswordModule } from '@taiga-ui/kit';
 import { CookieModule } from 'ngx-cookie';
+
 import en from './i18n/en.json';
 import vi from './i18n/vi.json';
 import { TOKEN_INTERCEPTOR_PROVIDER } from './interceptors';

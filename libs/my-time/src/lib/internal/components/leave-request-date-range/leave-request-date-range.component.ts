@@ -3,6 +3,7 @@ import { ChangeDetectionStrategy, Component, Input, NgModule } from '@angular/co
 import { TranslocoModule } from '@ngneat/transloco';
 import { TranslocoLocaleModule } from '@ngneat/transloco-locale';
 import { tuiDefaultProp, TuiLetModule } from '@taiga-ui/cdk';
+
 import { PartialDays } from '../../enums';
 import { LeaveRequest } from '../../models';
 

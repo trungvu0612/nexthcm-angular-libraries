@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { QueryEntity } from '@datorama/akita';
+
 import { RolesState, RolesStore } from './roles.store';
 
 @Injectable({ providedIn: 'root' })

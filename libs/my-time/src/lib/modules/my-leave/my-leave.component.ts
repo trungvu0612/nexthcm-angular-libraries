@@ -11,6 +11,7 @@ import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { Columns } from 'ngx-easy-table';
 import { combineLatest, from, Observable, of, Subject } from 'rxjs';
 import { catchError, filter, map, mapTo, share, shareReplay, startWith, switchMap, tap } from 'rxjs/operators';
+
 import { AbstractMyRequestListComponent } from '../../internal/abstract/my-request-list-component';
 import {
   CreateLeaveRequestDialogComponent,

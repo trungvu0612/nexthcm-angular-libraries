@@ -1,4 +1,5 @@
 import { EmployeeInfo } from '@nexthcm/cdk';
+
 import { RequestCommentStatus } from '../enums';
 
 export interface RequestComment {

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Query } from '@datorama/akita';
+
 import { EmployeeEducation } from '../../../models';
 import { ProfileEducationStore } from './profile-education.store';
 

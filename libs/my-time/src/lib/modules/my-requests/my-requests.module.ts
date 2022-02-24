@@ -31,6 +31,7 @@ import {
   TuiTagModule,
 } from '@taiga-ui/kit';
 import { TableModule } from 'ngx-easy-table';
+
 import { RequestFiltersComponentModule } from '../../internal/components';
 import { TransferLeaveEntitlementTypePipeModule } from '../../internal/pipes';
 import { MyRequestsComponent } from './my-requests.component';

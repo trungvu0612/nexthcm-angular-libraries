@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { ACCOUNT_API_PATH, BaseResponse, Pagination, PagingResponse } from '@nexthcm/cdk';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mapTo } from 'rxjs/operators';
+
 import { BasePermission } from '../models/base-permission';
 import { UserRole } from '../models/user-role';
 

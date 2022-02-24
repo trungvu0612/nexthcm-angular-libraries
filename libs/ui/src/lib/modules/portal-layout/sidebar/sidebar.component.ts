@@ -3,6 +3,7 @@ import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { filter, takeUntil } from 'rxjs/operators';
+
 import { MenuItem } from '../../../models';
 
 const SCROLL_INTO_VIEW_DELAY = 200;

@@ -1,4 +1,5 @@
 import { CommonStatus } from '@nexthcm/cdk';
+
 import { ModuleCode, ScheduleType } from '../enums';
 
 export interface ScheduledTask {

@@ -12,6 +12,7 @@ import {
 } from '@taiga-ui/core';
 import { TuiAvatarModule, TuiComboBoxModule, TuiMultiSelectModule } from '@taiga-ui/kit';
 import { PolymorpheusModule } from '@tinkoff/ng-polymorpheus';
+
 import { FormFieldModule } from '../form-field/form-field.module';
 import { ComboBoxComponent } from './combo-box.component';
 

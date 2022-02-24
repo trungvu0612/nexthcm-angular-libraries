@@ -4,6 +4,7 @@ import { RxState } from '@rx-angular/state';
 import { API, BaseComponent, Config, DefaultConfig } from 'ngx-easy-table';
 import { Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
+
 import { Pagination } from '../../models';
 
 @Directive()

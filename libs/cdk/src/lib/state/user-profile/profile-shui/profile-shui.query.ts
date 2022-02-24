@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Query } from '@datorama/akita';
+
 import { EmployeeSHUI } from '../../../models';
 import { ProfileSHUIStore } from './profile-shui.store';
 

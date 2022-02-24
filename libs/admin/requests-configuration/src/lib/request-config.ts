@@ -1,4 +1,5 @@
 import { BaseWorkflow } from '@nexthcm/cdk';
+
 import { RequestType } from './enums/request-type';
 
 export interface RequestConfig {

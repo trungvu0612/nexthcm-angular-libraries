@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Query } from '@datorama/akita';
 import { isSameDay, isSameMonth } from 'date-fns';
 import { map } from 'rxjs/operators';
+
 import { EmployeeIndividual } from '../../../models';
 import { ProfileIndividualStore } from './profile-individual.store';
 

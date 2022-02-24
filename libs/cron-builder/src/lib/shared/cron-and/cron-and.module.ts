@@ -3,8 +3,9 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TuiPrimitiveCheckboxModule } from '@taiga-ui/core';
 import { TuiCheckboxModule } from '@taiga-ui/kit';
-import { CronAndOptionComponent } from './cron-and-option/cron-and-option.component';
+
 import { CronAndComponent } from './cron-and.component';
+import { CronAndOptionComponent } from './cron-and-option/cron-and-option.component';
 
 @NgModule({
   imports: [CommonModule, TuiCheckboxModule, ReactiveFormsModule, TuiPrimitiveCheckboxModule],

@@ -4,6 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { FormlyModule } from '@ngx-formly/core';
 import { TuiLabelModule } from '@taiga-ui/core';
 import { TuiToggleModule } from '@taiga-ui/kit';
+
 import { FormFieldModule } from '../form-field/form-field.module';
 import { ToggleComponent } from './toggle.component';
 

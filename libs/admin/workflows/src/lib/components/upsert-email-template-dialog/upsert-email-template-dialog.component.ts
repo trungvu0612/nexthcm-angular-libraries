@@ -9,6 +9,7 @@ import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { of } from 'rxjs';
 import { debounceTime, switchMap, take, takeUntil, tap } from 'rxjs/operators';
+
 import { EmailTemplate } from '../../models';
 import { AdminWorkflowsService } from '../../services/admin-workflows.service';
 import { loadTemplateVariables } from '../../state';

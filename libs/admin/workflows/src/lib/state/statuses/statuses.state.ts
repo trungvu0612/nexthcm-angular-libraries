@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { EntityState, EntityStore, QueryEntity, StoreConfig } from '@datorama/akita';
+
 import { Status } from '../../models';
 
-export interface StatusesState extends EntityState<Status, string> {}
+export type StatusesState = EntityState<Status, string>
 
 @Injectable()
 @StoreConfig({ name: 'email-templates' })

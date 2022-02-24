@@ -17,6 +17,7 @@ import { PolymorpheusContent } from '@tinkoff/ng-polymorpheus';
 import { NgxPermissionsService } from 'ngx-permissions';
 import { EMPTY, from, iif, of, Subject, Subscriber } from 'rxjs';
 import { debounceTime, switchMap, take, tap } from 'rxjs/operators';
+
 import { SeatMapsService } from '../../seat-maps.service';
 
 @Component({

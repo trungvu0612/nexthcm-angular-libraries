@@ -4,6 +4,7 @@ import { Holiday, MY_TIME_API_PATH, PagingResponse } from '@nexthcm/cdk';
 import { RxState } from '@rx-angular/state';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
+
 import { CalendarBuilding, ExternalEmail, InvitePerson } from './models/calendar';
 
 interface CalendarState {

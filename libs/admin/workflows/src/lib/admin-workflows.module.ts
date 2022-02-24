@@ -49,6 +49,7 @@ import { NgxPermissionsGuard, NgxPermissionsModule } from 'ngx-permissions';
 import { QuillModule } from 'ngx-quill';
 import Quill from 'quill';
 import QuillAutoDetectUrl from 'quill-auto-detect-url';
+
 import { AdminWorkflowsComponent } from './admin-workflows.component';
 import { AddConditionToTransitionDialogComponent } from './components/add-condition-to-transition-dialog/add-condition-to-transition-dialog.component';
 import { AddPostFunctionToTransitionDialogComponent } from './components/add-post-function-to-transition-dialog/add-post-function-to-transition-dialog.component';

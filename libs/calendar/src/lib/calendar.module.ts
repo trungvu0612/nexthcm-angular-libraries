@@ -17,6 +17,7 @@ import {
 } from '@taiga-ui/core';
 import { TuiDataListWrapperModule, TuiFilterModule, TuiSelectModule } from '@taiga-ui/kit';
 import { NgxPermissionsGuard } from 'ngx-permissions';
+
 import { CalendarComponent } from './calendar.component';
 import { CalendarService } from './calendar.service';
 import { CalendarRepeatDialogComponent } from './components/calendar-repeat-dialog/calendar-repeat-dialog.component';

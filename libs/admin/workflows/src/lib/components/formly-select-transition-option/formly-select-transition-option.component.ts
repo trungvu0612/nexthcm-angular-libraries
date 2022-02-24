@@ -5,6 +5,7 @@ import { isPresent, TuiDestroyService, TuiIdentityMatcher } from '@taiga-ui/cdk'
 import { APIDefinition, Columns, Config, DefaultConfig } from 'ngx-easy-table';
 import { Observable } from 'rxjs';
 import { filter, map, takeUntil } from 'rxjs/operators';
+
 import { TransitionOption } from '../../models';
 import { TRANSLATION_SCOPE } from '../../translation-scope';
 

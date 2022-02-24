@@ -19,6 +19,7 @@ import { setProp } from '@rx-angular/state';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { iif, Observable, of } from 'rxjs';
 import { distinctUntilChanged, startWith, takeUntil, tap } from 'rxjs/operators';
+
 import { AdminSeatMapsService } from '../../services/admin-seat-maps.service';
 import { TRANSLATION_SCOPE } from '../../translation-scope';
 

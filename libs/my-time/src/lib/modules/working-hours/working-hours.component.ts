@@ -3,6 +3,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { AuthService } from '@nexthcm/auth';
 import { endOfToday, startOfToday } from 'date-fns';
 import { map } from 'rxjs/operators';
+
 import { MyTimeService } from '../../services';
 
 @Component({

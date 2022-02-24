@@ -11,6 +11,7 @@ import { LetModule } from '@rx-angular/template';
 import { TuiButtonModule, TuiGroupModule, TuiLoaderModule } from '@taiga-ui/core';
 import { TuiAccordionModule } from '@taiga-ui/kit';
 import { NgxPermissionsGuard } from 'ngx-permissions';
+
 import { AdminRequestsConfigurationComponent } from './admin-requests-configuration.component';
 import { AdminRequestsConfigurationService } from './admin-requests-configuration.service';
 import { FormlyViewWorkflowButtonComponent } from './components/formly-view-workflow-button/formly-view-workflow-button.component';

@@ -4,6 +4,7 @@ import localeVi from '@angular/common/locales/vi';
 import { NgModule } from '@angular/core';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { TranslocoLocaleModule } from '@ngneat/transloco-locale';
+
 import { TRANSLATION_CONFIG_PROVIDER } from './transloco-config';
 import { TRANSLOCO_HTTP_LOADER_PROVIDER } from './transloco-http-loader';
 

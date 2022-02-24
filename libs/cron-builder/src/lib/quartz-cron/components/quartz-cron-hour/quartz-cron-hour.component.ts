@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject } from '@angular/core';
 import { CoreService, CronQuartzUIService, Segment, Type } from '@sbzen/cron-core';
 import { Observable } from 'rxjs';
+
 import { CronTabSingleSegmentComponent } from '../../../abstract/cron-tab-single-segment.abstract';
 import { CronLocalization } from '../../../models';
 import { CRON_LOCALIZATION } from '../../../tokens';

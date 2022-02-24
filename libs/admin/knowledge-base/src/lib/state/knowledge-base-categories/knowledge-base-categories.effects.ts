@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { cacheable } from '@datorama/akita';
 import { Actions, Effect, ofType } from '@datorama/akita-ng-effects';
 import { switchMap, tap } from 'rxjs/operators';
+
 import { AdminKnowledgeBaseService } from '../../admin-knowledge-base.service';
 import {
   loadKnowledgeBaseCategories,

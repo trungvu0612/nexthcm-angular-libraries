@@ -10,6 +10,7 @@ import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { BaseComponent, Columns } from 'ngx-easy-table';
 import { EMPTY, from, iif, Observable, of } from 'rxjs';
 import { catchError, filter, map, shareReplay, startWith, switchMap, takeUntil } from 'rxjs/operators';
+
 import { AdminLeaveConfigsService } from '../../admin-leave-configs.service';
 import { UpsertLeaveTypeDialogComponent } from '../../components/upsert-leave-type-dialog/upsert-leave-type-dialog.component';
 import { PaidLeaveStatus } from '../../enums/paid-leave-status';

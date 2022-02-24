@@ -1,12 +1,13 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { FormArray, FormBuilder } from '@ngneat/reactive-forms';
 import { FieldType } from '@ngx-formly/core';
-import { AdminPermissionsService } from '../../services/admin-permissions.service';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { BehaviorSubject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { FormControl, FormGroup } from '@angular/forms';
+
 import { PermissionForm } from '../../models/policy';
+import { AdminPermissionsService } from '../../services/admin-permissions.service';
 
 @Component({
   selector: 'formly-input-actions',

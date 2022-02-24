@@ -7,6 +7,7 @@ import omit from 'just-omit';
 import { API, BaseComponent, Config, DefaultConfig } from 'ngx-easy-table';
 import { Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
+
 import { Pagination } from '../../models';
 
 @Directive()

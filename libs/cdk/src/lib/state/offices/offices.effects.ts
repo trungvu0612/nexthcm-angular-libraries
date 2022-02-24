@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { cacheable } from '@datorama/akita';
 import { Actions, Effect, ofType } from '@datorama/akita-ng-effects';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
+
 import { loadOffices, loadOnsiteOffices, refreshOffices, refreshOnsiteOffices } from './offices.actions';
 import { OfficesQuery, OnsiteOfficesQuery } from './offices.query';
 import { OfficesService } from './offices.service';

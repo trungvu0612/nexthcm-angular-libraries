@@ -4,6 +4,7 @@ import { Actions } from '@datorama/akita-ng-effects';
 import { AuthService } from '@nexthcm/auth';
 import { BaseOption, loadProfileGeneralInformation, ProfileGeneralQuery } from '@nexthcm/cdk';
 import { TranslocoService } from '@ngneat/transloco';
+
 import { MenuItem } from '../../../models';
 import { HEADER_TABS } from '../../../tokens';
 

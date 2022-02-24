@@ -10,6 +10,7 @@ import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { API, BaseComponent, Columns, Config, DefaultConfig } from 'ngx-easy-table';
 import { from, Observable, of, Subject } from 'rxjs';
 import { catchError, filter, map, share, startWith, switchMap, takeUntil } from 'rxjs/operators';
+
 import { WorkingTimesService } from '../../services/working-times.service';
 import { TRANSLATION_SCOPE } from '../../translation-scope';
 import { UpsertHolidayDialogComponent } from '../upsert-holiday-dialog/upsert-holiday-dialog.component';

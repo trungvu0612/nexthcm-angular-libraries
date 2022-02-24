@@ -15,6 +15,7 @@ import {
 } from '@taiga-ui/core';
 import { TuiAvatarModule, TuiTabsModule } from '@taiga-ui/kit';
 import { NgxPermissionsModule } from 'ngx-permissions';
+
 import { AvatarComponentModule } from '../../components';
 import { HeaderComponent } from './header/header.component';
 import { LayoutComponent } from './layout.component';

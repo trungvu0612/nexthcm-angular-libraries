@@ -1,6 +1,7 @@
 import { ChangeDetectorRef, Directive, EventEmitter, Inject, OnDestroy, OnInit, Output } from '@angular/core';
 import { CronJobsSelectOption, CronUIBaseService, Mode, Segment } from '@sbzen/cron-core';
 import { Observable } from 'rxjs';
+
 import { CronLocalization } from '../models';
 import { CRON_LOCALIZATION } from '../tokens';
 

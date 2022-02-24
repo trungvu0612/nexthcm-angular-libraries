@@ -2,6 +2,7 @@ import { AfterViewInit, Directive } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RxState } from '@rx-angular/state';
 import { API, Config, DefaultConfig, Event } from 'ngx-easy-table';
+
 import { Pagination } from '../../models';
 import { AbstractServerPaginationTableComponent } from './abstract-server-pagination-table.component';
 

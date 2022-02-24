@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { AuthService } from '@nexthcm/auth';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
+
 import { ACCOUNT_API_PATH } from '../../constants';
 import { BaseObject, BaseResponse, Organization, PagingResponse } from '../../models';
 

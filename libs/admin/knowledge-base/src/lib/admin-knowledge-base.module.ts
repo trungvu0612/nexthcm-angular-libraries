@@ -20,6 +20,7 @@ import { TuiButtonModule, TuiLinkModule, TuiLoaderModule } from '@taiga-ui/core'
 import { TuiBreadcrumbsModule, TuiTagModule } from '@taiga-ui/kit';
 import { TableModule } from 'ngx-easy-table';
 import { NgxPermissionsGuard, NgxPermissionsModule } from 'ngx-permissions';
+
 import { AdminKnowledgeBaseService } from './admin-knowledge-base.service';
 import { UpsertKnowledgeBaseCategoryDialogComponent } from './components/upsert-knowledge-base-category-dialog/upsert-knowledge-base-category-dialog.component';
 import en from './i18n/en.json';

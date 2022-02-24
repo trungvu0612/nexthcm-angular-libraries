@@ -18,6 +18,7 @@ import { HeroIconModule } from 'ng-heroicon';
 import { FileSaverModule } from 'ngx-filesaver';
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { QuicklinkModule } from 'ngx-quicklink';
+
 import { APP_CONFIG } from './app-config.token';
 import { API_PREFIX_INTERCEPTOR_PROVIDER, BLOB_ERROR_HTTP_INTERCEPTOR_PROVIDER } from './interceptors';
 import { AppConfig } from './models';

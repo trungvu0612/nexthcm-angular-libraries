@@ -16,6 +16,7 @@ import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { APIDefinition } from 'ngx-easy-table';
 import { Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+
 import { AbstractTransitionOptionListComponent } from '../../abstract-components/abstract-transition-option-list.component';
 import { TransitionPostFunction } from '../../models';
 import { loadPostFunctionTypes } from '../../state';

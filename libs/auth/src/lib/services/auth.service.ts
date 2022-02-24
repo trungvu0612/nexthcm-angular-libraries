@@ -7,6 +7,7 @@ import { RxState } from '@rx-angular/state';
 import { CookieService } from 'ngx-cookie';
 import { Observable, Subject } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
+
 import { AuthInfo, LoginPayload, UserInfo } from '../models';
 
 function createState(token?: string): UserInfo {

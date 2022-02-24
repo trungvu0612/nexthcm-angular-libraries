@@ -10,6 +10,7 @@ import { isPresent } from '@taiga-ui/cdk';
 import { Columns } from 'ngx-easy-table';
 import { combineLatest, Observable, of } from 'rxjs';
 import { catchError, filter, map, shareReplay, startWith, switchMap } from 'rxjs/operators';
+
 import { AbstractMyRequestListComponent } from '../../../../internal/abstract/my-request-list-component';
 import { TRANSLATION_SCOPE } from '../../../../internal/constants';
 import { WorkingAfterHoursRequest } from '../../../../internal/models';

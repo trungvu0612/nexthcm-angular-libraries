@@ -10,6 +10,7 @@ import {
 } from '@taiga-ui/cdk';
 import { BehaviorSubject } from 'rxjs';
 import { distinctUntilChanged, filter, map } from 'rxjs/operators';
+
 import { Status } from '../../models';
 import { loadStatuses, StatusesQuery } from '../../state';
 

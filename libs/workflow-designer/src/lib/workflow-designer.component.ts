@@ -10,6 +10,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { mxCell, mxEditor, mxEventObject, mxGraphModel, mxGraphSelectionModel } from 'mxgraph';
+
 import {
   WorkflowAPI,
   WorkflowAPIType,

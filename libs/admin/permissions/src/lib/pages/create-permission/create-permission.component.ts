@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 import { FormGroup } from '@ngneat/reactive-forms';
+
 import { PermissionDetailComponent } from '../../components/permission-detail/permission-detail.component';
 import { Policy } from '../../models/policy';
 

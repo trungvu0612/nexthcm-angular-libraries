@@ -1,4 +1,5 @@
 import { BaseObject, EmployeeInfo } from '@nexthcm/cdk';
+
 import { BaseRequest } from './base-request';
 
 export interface WorkingOnsiteRequest extends BaseRequest {

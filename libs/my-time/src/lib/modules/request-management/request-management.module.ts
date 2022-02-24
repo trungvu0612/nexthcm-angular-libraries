@@ -20,6 +20,7 @@ import {
 import { TuiDataListWrapperModule, TuiTabsModule, TuiTagModule } from '@taiga-ui/kit';
 import { TableModule } from 'ngx-easy-table';
 import { NgxPermissionsModule } from 'ngx-permissions';
+
 import { LeaveRequestDateRangeComponentModule, RequestFiltersComponentModule } from '../../internal/components';
 import { TransferLeaveEntitlementTypePipeModule } from '../../internal/pipes';
 import { LeaveRequestListComponent } from './pages/leave-request-list/leave-request-list.component';

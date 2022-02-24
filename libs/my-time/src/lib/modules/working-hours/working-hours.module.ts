@@ -24,6 +24,7 @@ import { TuiDataListWrapperModule, TuiIslandModule, TuiTabsModule, TuiTagModule 
 import { PolymorpheusModule } from '@tinkoff/ng-polymorpheus';
 import { TableModule } from 'ngx-easy-table';
 import { NgxPermissionsModule } from 'ngx-permissions';
+
 import { WorkingHoursService } from '../../internal/services';
 import { MyTimeService } from '../../services';
 import { CreateUpdateTimesheetRequestDialogComponent } from './components/create-update-timesheet-request-dialog/create-update-timesheet-request-dialog.component';

@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { BaseResponse, MY_TIME_API_PATH } from '@nexthcm/cdk';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+
 import { RequestConfig } from './request-config';
 
 @Injectable()

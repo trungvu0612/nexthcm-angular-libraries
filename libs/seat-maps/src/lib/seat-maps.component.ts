@@ -10,6 +10,7 @@ import { RxState } from '@rx-angular/state';
 import { isPresent, TuiDestroyService, TuiIdentityMatcher, TuiStringHandler } from '@taiga-ui/cdk';
 import { combineLatest, distinctUntilChanged, of, Subject } from 'rxjs';
 import { debounceTime, filter, share, startWith, switchMap, take, takeUntil, tap } from 'rxjs/operators';
+
 import { SeatComponent } from './components/seat/seat.component';
 import { SeatMapsService } from './seat-maps.service';
 

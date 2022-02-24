@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
-import { CheckboxLabeledComponentModule } from './modules/checkbox-labeled/checkbox-labeled.component';
+
 import { CheckboxModule } from './modules/checkbox/checkbox.module';
+import { CheckboxLabeledComponentModule } from './modules/checkbox-labeled/checkbox-labeled.component';
 import { ComboBoxModule } from './modules/combo-box/combo-box.module';
 import { FilesModule } from './modules/files/files.module';
 import { FilterModule } from './modules/filter/filter.module';

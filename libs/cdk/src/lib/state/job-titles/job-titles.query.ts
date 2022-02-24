@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { QueryEntity } from '@datorama/akita';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+
 import { BaseObject } from '../../models';
 import { JobTitlesState, JobTitlesStore } from './job-titles.store';
 

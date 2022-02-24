@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { EntityState, EntityStore, QueryEntity, StoreConfig } from '@datorama/akita';
+
 import { SeatMap } from '../../models';
 
-export interface SeatMapsState extends EntityState<SeatMap, string> {}
+export type SeatMapsState = EntityState<SeatMap, string>
 
 @Injectable({ providedIn: 'root' })
 @StoreConfig({ name: 'seat-maps' })

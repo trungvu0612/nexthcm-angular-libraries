@@ -7,6 +7,7 @@ import { EditorChangeSelection, QuillEditorComponent } from 'ngx-quill';
 import { EditorChangeContent } from 'ngx-quill/lib/quill-editor.component';
 import Quill from 'quill';
 import { QuillDeltaToHtmlConverter } from 'quill-delta-to-html';
+
 import { TemplateVariableModel } from '../../models';
 import { TemplateVariablesQuery } from '../../state';
 

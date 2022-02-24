@@ -1,2 +1,2 @@
-export * from './schedule-type';
 export * from './module-code';
+export * from './schedule-type';

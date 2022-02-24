@@ -12,6 +12,7 @@ import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { Columns } from 'ngx-easy-table';
 import { Observable, of } from 'rxjs';
 import { catchError, filter, map, share, startWith, switchMap, takeUntil } from 'rxjs/operators';
+
 import { TRANSLATION_SCOPE } from '../../../../internal/constants';
 import { WorkingHours } from '../../../../models';
 import { MyTimeService } from '../../../../services';

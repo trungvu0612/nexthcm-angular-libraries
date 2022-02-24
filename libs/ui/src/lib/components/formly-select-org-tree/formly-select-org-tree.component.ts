@@ -9,6 +9,7 @@ import { LetModule } from '@rx-angular/template';
 import { TuiIdentityMatcher } from '@taiga-ui/cdk';
 import { TuiButtonModule, TuiDataListModule, TuiLoaderModule, TuiTextfieldControllerModule } from '@taiga-ui/core';
 import { TuiSelectModule } from '@taiga-ui/kit';
+
 import { FormFieldModule } from '../../modules/formly-taiga-ui';
 
 @Component({

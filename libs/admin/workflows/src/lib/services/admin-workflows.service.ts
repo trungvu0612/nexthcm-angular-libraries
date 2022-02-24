@@ -14,6 +14,7 @@ import {
 } from '@nexthcm/cdk';
 import { EMPTY, Observable, of } from 'rxjs';
 import { catchError, map, mapTo, tap } from 'rxjs/operators';
+
 import { ConditionType, PostFunctionType, ValidatorType } from '../enums';
 import { EmailTemplate, InitWorkflow, Status, TemplateVariableModel, TransitionOption, Workflow } from '../models';
 import { removeEmailTemplate, upsertEmailTemplate, upsertStatus } from '../state';

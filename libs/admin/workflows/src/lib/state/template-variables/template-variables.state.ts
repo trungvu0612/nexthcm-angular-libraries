@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { EntityState, EntityStore, QueryEntity, StoreConfig } from '@datorama/akita';
+
 import { TemplateVariableModel } from '../../models';
 
-export interface TemplateVariablesState extends EntityState<TemplateVariableModel, string> {}
+export type TemplateVariablesState = EntityState<TemplateVariableModel, string>
 
 @Injectable()
 @StoreConfig({ name: 'template-variables' })

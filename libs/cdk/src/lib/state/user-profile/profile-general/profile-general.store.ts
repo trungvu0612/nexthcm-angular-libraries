@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Store, StoreConfig } from '@datorama/akita';
+
 import { EmployeeGeneralInformation } from '../../../models';
 
 @Injectable({ providedIn: 'root' })

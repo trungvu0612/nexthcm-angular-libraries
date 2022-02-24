@@ -25,6 +25,7 @@ import {
 import { TuiInputCopyModule, TuiIslandModule, TuiTabsModule } from '@taiga-ui/kit';
 import { academicCap, HeroIconModule, identification } from 'ng-heroicon';
 import { NgxPermissionsGuard } from 'ngx-permissions';
+
 import { PersonalAccessTokenComponent } from './components/personal-access-token/personal-access-token.component';
 import { ProfileDurationComponent } from './components/profile-duration/profile-duration.component';
 import { ProfileEducationComponent } from './components/profile-education/profile-education.component';

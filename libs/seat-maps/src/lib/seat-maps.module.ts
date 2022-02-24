@@ -38,6 +38,7 @@ import {
   TuiSelectModule,
 } from '@taiga-ui/kit';
 import { NgxPermissionsGuard, NgxPermissionsModule } from 'ngx-permissions';
+
 import { SeatComponent } from './components/seat/seat.component';
 import { SeatUserStatePipe } from './pipes/seat-user-state.pipe';
 import { SeatMapsComponent } from './seat-maps.component';

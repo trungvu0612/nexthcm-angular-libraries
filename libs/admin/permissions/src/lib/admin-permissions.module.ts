@@ -27,6 +27,7 @@ import {
 } from '@taiga-ui/kit';
 import { TableModule } from 'ngx-easy-table';
 import { NgxPermissionsGuard, NgxPermissionsModule } from 'ngx-permissions';
+
 import { InputActionsComponent } from './components/input-actions/input-actions.type';
 import { InputServiceComponent } from './components/input-service/input-service.type';
 import { PermissionDetailComponent } from './components/permission-detail/permission-detail.component';

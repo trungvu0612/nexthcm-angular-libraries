@@ -1,5 +1,6 @@
 import { Injector, Provider } from '@angular/core';
 import { TRANSLOCO_CONFIG, translocoConfig } from '@ngneat/transloco';
+
 import { APP_CONFIG } from '../app-config.token';
 import { AVAILABLE_LANGS } from './availabel-langs.const';
 

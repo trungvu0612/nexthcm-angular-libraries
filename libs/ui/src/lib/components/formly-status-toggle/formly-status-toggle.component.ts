@@ -4,6 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { TranslocoModule } from '@ngneat/transloco';
 import { FieldType, FormlyFieldConfig, FormlyModule } from '@ngx-formly/core';
 import { TuiToggleModule } from '@taiga-ui/kit';
+
 import { FormFieldModule } from '../../modules/formly-taiga-ui';
 
 @Component({

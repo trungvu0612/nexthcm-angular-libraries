@@ -1,4 +1,5 @@
 import { EmployeeInfo } from '@nexthcm/cdk';
+
 import { BaseRequest } from './base-request';
 
 export interface WorkingAfterHoursRequest extends BaseRequest {

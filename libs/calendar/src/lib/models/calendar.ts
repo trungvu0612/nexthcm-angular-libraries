@@ -13,4 +13,4 @@ export interface InvitePerson extends BaseItem {
   position: string;
 }
 
-export interface ExternalEmail extends BaseItem {}
+export type ExternalEmail = BaseItem

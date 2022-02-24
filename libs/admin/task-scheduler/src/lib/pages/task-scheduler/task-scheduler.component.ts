@@ -8,6 +8,7 @@ import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { API, BaseComponent, Columns, Config, DefaultConfig } from 'ngx-easy-table';
 import { Observable, of, Subject } from 'rxjs';
 import { catchError, filter, map, share, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
+
 import { EditScheduledTaskDialogComponent } from '../../components/edit-scheduled-task-dialog/edit-scheduled-task-dialog.component';
 import { ScheduleType } from '../../enums';
 import { ScheduledTask } from '../../models/scheduled-task';

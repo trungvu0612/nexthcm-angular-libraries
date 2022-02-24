@@ -14,6 +14,7 @@ import { endOfDay, getTime } from 'date-fns';
 import omit from 'just-omit';
 import { from, of, Subject } from 'rxjs';
 import { catchError, map, share, startWith, switchMap, tap } from 'rxjs/operators';
+
 import { MyTimeService } from '../../../services';
 import { TRANSLATION_SCOPE } from '../../constants';
 import { RequestType, WorkingAfterHoursType } from '../../enums';

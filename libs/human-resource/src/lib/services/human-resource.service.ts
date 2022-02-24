@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ACCOUNT_API_PATH } from '@nexthcm/cdk';
 import { Observable } from 'rxjs';
+
 import { EmployeeNode } from '../models/employee-node';
 
 @Injectable()

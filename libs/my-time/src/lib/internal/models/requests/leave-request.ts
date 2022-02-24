@@ -1,4 +1,5 @@
 import { EmployeeInfo } from '@nexthcm/cdk';
+
 import { PartialDays } from '../../enums';
 import { BaseRequest } from './base-request';
 

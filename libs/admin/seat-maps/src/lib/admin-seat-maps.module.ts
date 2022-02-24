@@ -14,6 +14,7 @@ import { TuiButtonModule, TuiLoaderModule, TuiSvgModule } from '@taiga-ui/core';
 import { TuiInputFileModule } from '@taiga-ui/kit';
 import { TableModule } from 'ngx-easy-table';
 import { NgxPermissionsGuard, NgxPermissionsModule } from 'ngx-permissions';
+
 import en from './i18n/en.json';
 import vi from './i18n/vi.json';
 import { SeatMapManagementComponent } from './pages/seat-map-management/seat-map-management.component';

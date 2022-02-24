@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { cacheable } from '@datorama/akita';
 import { Actions, Effect, ofType } from '@datorama/akita-ng-effects';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
+
 import { loadSeatMaps, refreshSeatMaps } from './seat-maps.actions';
 import { SeatMapsService } from './seat-maps.service';
 import { SeatMapsQuery, SeatMapsStore } from './seat-maps.state';

@@ -1,4 +1,5 @@
 import { BaseObject, WorkflowTransition } from '@nexthcm/cdk';
+
 import { ConditionType, PostFunctionType, TransitionOptionIndex, ValidatorType } from '../enums';
 import { EmailTemplate } from './email-template';
 import { Status } from './status';

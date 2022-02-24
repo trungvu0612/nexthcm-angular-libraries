@@ -2,6 +2,7 @@ import { HttpParams } from '@angular/common/http';
 import { RxState } from '@rx-angular/state';
 import { API, BaseComponent, Config, DefaultConfig } from 'ngx-easy-table';
 import { BehaviorSubject, Observable } from 'rxjs';
+
 import { Pagination } from '../../models';
 
 export abstract class AbstractServerPaginationTableComponent<T> {

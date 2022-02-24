@@ -12,6 +12,7 @@ import { endOfDay } from 'date-fns';
 import { FileSaverService } from 'ngx-filesaver';
 import { from, Subject } from 'rxjs';
 import { catchError, map, share, startWith, switchMap, tap } from 'rxjs/operators';
+
 import { TRANSLATION_SCOPE } from '../../../../internal/constants';
 import { ExportTimeLogType } from '../../../../internal/enums';
 import { ExportTimeLog } from '../../../../internal/models';

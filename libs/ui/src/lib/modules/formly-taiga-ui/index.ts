@@ -1,5 +1,5 @@
 export * from './formly-taiga-ui.module';
-export * from './modules/inputs/inputs.module';
+export * from './models';
 export * from './modules/combo-box/combo-box.module';
 export * from './modules/form-field/form-field.module';
-export * from './models';
+export * from './modules/inputs/inputs.module';

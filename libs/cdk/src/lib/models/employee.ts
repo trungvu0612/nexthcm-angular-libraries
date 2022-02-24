@@ -1,6 +1,7 @@
 import { Control } from '@ng-stack/forms';
 import { TuiDay, TuiDayRange } from '@taiga-ui/cdk';
 import { TuiFileLike } from '@taiga-ui/kit';
+
 import { CommonStatus, EmployeeCurrentStatus } from '../enums';
 import { BaseObject, BaseUser } from './base-object';
 import { DateRange } from './date-range';

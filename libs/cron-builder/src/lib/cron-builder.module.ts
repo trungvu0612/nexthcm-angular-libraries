@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TuiLetModule } from '@taiga-ui/cdk';
 import { TuiDataListModule, TuiTextfieldControllerModule } from '@taiga-ui/core';
 import { TuiCheckboxLabeledModule, TuiCheckboxModule, TuiSelectModule, TuiTabsModule } from '@taiga-ui/kit';
+
 import { QuartzCronDayComponent } from './quartz-cron/components/quartz-cron-day/quartz-cron-day.component';
 import { QuartzCronHourComponent } from './quartz-cron/components/quartz-cron-hour/quartz-cron-hour.component';
 import { QuartzCronIncrementComponent } from './quartz-cron/components/quartz-cron-increment/quartz-cron-increment.component';

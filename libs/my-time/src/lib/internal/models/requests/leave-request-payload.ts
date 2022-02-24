@@ -1,4 +1,5 @@
 import { TuiTime } from '@taiga-ui/cdk';
+
 import { DurationType } from '../../enums';
 
 export interface LeaveRequestPayload {

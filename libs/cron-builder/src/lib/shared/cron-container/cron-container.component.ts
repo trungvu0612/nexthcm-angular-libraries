@@ -14,6 +14,7 @@ import {
 import { Type } from '@sbzen/cron-core';
 import { TuiTabsModule } from '@taiga-ui/kit';
 import { Observable } from 'rxjs';
+
 import { CronLocalization } from '../../models';
 import { CRON_LOCALIZATION } from '../../tokens';
 

@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { isPresent } from '@taiga-ui/cdk';
 import { of } from 'rxjs';
 import { catchError, filter, map, share, startWith } from 'rxjs/operators';
+
 import { KnowledgeBaseService } from '../../services';
 
 @Component({

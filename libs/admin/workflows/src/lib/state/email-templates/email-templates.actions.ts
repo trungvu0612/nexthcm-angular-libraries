@@ -1,4 +1,5 @@
 import { createAction, props } from '@datorama/akita-ng-effects';
+
 import { EmailTemplate } from '../../models';
 
 export const loadEmailTemplates = createAction('[Email Templates] Load Email Templates');

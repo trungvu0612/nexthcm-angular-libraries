@@ -4,7 +4,7 @@
   [attr.data-tui-host-size]="to.size"
   class="group"
 >
-  <div [ngClass]="{ 'grid md:grid-cols-2 gap-4': to?.orientation != 'verticle' }">
+  <div [ngClass]="{ 'grid md:grid-cols-2 gap-4': to?.orientation !== 'verticle' }">
     <tui-radio-labeled
       *ngFor="let item of items"
       [formControl]="$any(formControl)"
@@ -18,7 +18,7 @@
         <div class="grid md:grid-cols-2 gap-4">
           <div>{{ item[to.labelProp] }}</div>
 
-          <div *ngIf="item[to.labelProp] == 'On'">
+          <div *ngIf="item[to.labelProp] === 'On'">
             <tui-input-date
               class="input-date"
               [formControl]="repeatOnDate"
@@ -28,7 +28,7 @@
             </tui-input-date>
           </div>
 
-          <div *ngIf="item[to.labelProp] == 'After'">
+          <div *ngIf="item[to.labelProp] === 'After'">
             <div class="grid grid-cols-2">
               <div>
                 <tui-select tuiTextfieldSize="s" [formControl]="afterRepeat" [tuiTextfieldLabelOutside]="true">

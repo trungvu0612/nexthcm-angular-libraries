@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable, Provider } from '@angular/core';
 import { Translation, TRANSLOCO_LOADER, TranslocoLoader } from '@ngneat/transloco';
 import { Observable } from 'rxjs';
+
 import { APP_CONFIG } from '../app-config.token';
 import { AppConfig } from '../models';
 import cacheBusting from './i18n-cache-busting.json';

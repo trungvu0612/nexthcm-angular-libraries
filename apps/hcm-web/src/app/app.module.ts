@@ -7,6 +7,7 @@ import { AuthModule, LoginComponent } from '@nexthcm/auth';
 import { CoreModule, ROUTER_CONFIG } from '@nexthcm/core';
 import { FormlyTaigaUiModule, PortalLayoutComponent, PortalLayoutModule } from '@nexthcm/ui';
 import { TuiRootModule } from '@taiga-ui/core';
+
 import { environment } from '../environments/environment';
 import { AppComponent } from './app.component';
 

@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '@nexthcm/auth';
 import { Pagination } from '@nexthcm/cdk';
 import { RxState } from '@rx-angular/state';
+
 import { AbstractRequestListComponent } from './request-list-component';
 
 @Directive()

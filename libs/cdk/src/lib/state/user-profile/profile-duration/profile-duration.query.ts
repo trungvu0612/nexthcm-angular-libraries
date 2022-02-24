@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Query } from '@datorama/akita';
+
 import { EmployeeDuration } from '../../../models';
 import { ProfileDurationStore } from './profile-duration.store';
 

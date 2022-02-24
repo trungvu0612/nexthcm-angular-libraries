@@ -10,6 +10,7 @@ import { TuiLetModule } from '@taiga-ui/cdk';
 import { TuiButtonModule, TuiLoaderModule } from '@taiga-ui/core';
 import { TableModule } from 'ngx-easy-table';
 import { NgxPermissionsGuard, NgxPermissionsModule } from 'ngx-permissions';
+
 import { UpsertJobLevelDialogComponent } from './components/upsert-job-level-dialog/upsert-job-level-dialog.component';
 import en from './i18n/en.json';
 import vi from './i18n/vi.json';

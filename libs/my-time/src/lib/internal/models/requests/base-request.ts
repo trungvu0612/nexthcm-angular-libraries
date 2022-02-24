@@ -1,4 +1,5 @@
 import { NextWorkflowStatus, WorkflowStatus } from '@nexthcm/cdk';
+
 import { RequestStatus } from '../../enums';
 
 export interface BaseRequest {

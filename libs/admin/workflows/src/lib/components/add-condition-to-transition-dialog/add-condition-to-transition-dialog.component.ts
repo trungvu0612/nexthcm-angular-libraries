@@ -8,6 +8,7 @@ import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { iif, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
+
 import { AbstractAddOptionToTransitionComponent } from '../../abstract-components/abstract-add-option-to-transition.component';
 import { ConditionType } from '../../enums';
 import { TransitionCondition, TransitionOptionsDialogData } from '../../models';

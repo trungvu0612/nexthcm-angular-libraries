@@ -19,6 +19,7 @@ import { TableModule } from 'ngx-easy-table';
 import { NgxPermissionsGuard, NgxPermissionsModule } from 'ngx-permissions';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+
 import { EditScheduledTaskDialogComponent } from './components/edit-scheduled-task-dialog/edit-scheduled-task-dialog.component';
 import { FormlyQuartzCronComponent } from './components/formly-quartz-cron/formly-quartz-cron.component';
 import en from './i18n/en.json';
