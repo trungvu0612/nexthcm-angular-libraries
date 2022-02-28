@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormBuilder } from '@angular/forms';
 import { BaseUser, PromptService, WorkflowStatus } from '@nexthcm/cdk';
-import { MyTimeService } from '@nexthcm/my-time';
 import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDayRange } from '@taiga-ui/cdk';
@@ -15,6 +14,7 @@ import { catchError, map, share, startWith, switchMap, take, tap } from 'rxjs/op
 import { RequestType } from '../../../internal/enums';
 import { WorkFromHomeRequestPayload } from '../../../internal/models';
 import { MyRequestsService } from '../../../internal/services';
+import { MyTimeService } from '../../../services';
 import { isDuplicateDateRangeInList } from '../utils/duplicate-date-ranges-in-list';
 
 interface WorkFromHomeRequestForm extends WorkFromHomeRequestPayload {
