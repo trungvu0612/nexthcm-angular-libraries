@@ -35,8 +35,8 @@ import {
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { combineLatest, EMPTY, from, iif, of, Subject } from 'rxjs';
 import { catchError, filter, map, shareReplay, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { LeaveRequestDateRangeComponentModule } from '../../../shared';
 
-import { LeaveRequestDateRangeComponentModule } from '../../components';
 import { REQUEST_COMMENT_URL_PATHS } from '../../constants';
 import { RequestCommentStatus } from '../../enums';
 import { GeneralRequest, HistoryItem, RequestComment, RequestTypeUrlPaths } from '../../models';

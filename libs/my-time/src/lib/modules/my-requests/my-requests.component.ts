@@ -7,12 +7,10 @@ import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { takeUntil, tap } from 'rxjs/operators';
 
-import {
-  CreateWorkFromHomeRequestDialogComponent,
-  CreateWorkingAfterHoursRequestDialogComponent,
-  CreateWorkingOnsiteRequestDialogComponent,
-} from '../../internal/components';
+import { CreateWorkingAfterHoursRequestDialogComponent } from '../../internal/components';
 import { RequestDialogMetadata } from '../../internal/models';
+import { CreateWorkFromHomeRequestComponent } from '../../shared/create-request-forms/create-work-from-home-request/create-work-from-home-request.component';
+import { CreateWorkingOnsiteRequestComponent } from '../../shared/create-request-forms/create-working-onsite-request/create-working-onsite-request.component';
 
 const REQUEST_DIALOG_METADATA: RequestDialogMetadata = {
   workingAfterHours: {
@@ -21,12 +19,12 @@ const REQUEST_DIALOG_METADATA: RequestDialogMetadata = {
     route: '/my-time/my-requests/working-after-hours',
   },
   workingOnsite: {
-    component: CreateWorkingOnsiteRequestDialogComponent,
+    component: CreateWorkingOnsiteRequestComponent,
     label: 'myTime.workingOnsiteRequest',
     route: '/my-time/my-requests/working-onsite',
   },
   workFromHome: {
-    component: CreateWorkFromHomeRequestDialogComponent,
+    component: CreateWorkFromHomeRequestComponent,
     label: 'myTime.workFromHomeRequest',
     route: '/my-time/my-requests/work-from-home',
   },
@@ -48,7 +46,7 @@ export class MyRequestsComponent {
     private readonly router: Router,
     private readonly translocoService: TranslocoService,
     private readonly promptService: PromptService,
-    private readonly destroy$: TuiDestroyService,
+    private readonly destroy$: TuiDestroyService
   ) {}
 
   onCreateRequest(type: keyof RequestDialogMetadata): void {

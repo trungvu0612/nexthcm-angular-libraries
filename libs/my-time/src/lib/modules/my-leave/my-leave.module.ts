@@ -10,8 +10,9 @@ import { TuiButtonModule, TuiLoaderModule } from '@taiga-ui/core';
 import { TuiTagModule } from '@taiga-ui/kit';
 import { TableModule } from 'ngx-easy-table';
 
-import { LeaveRequestDateRangeComponentModule, RequestFiltersComponentModule } from '../../internal/components';
+import { RequestFiltersComponentModule } from '../../internal/components';
 import { MyLeaveService } from '../../internal/services';
+import { LeaveRequestDateRangeComponentModule } from '../../shared';
 import { MyLeaveComponent } from './my-leave.component';
 
 @NgModule({
@@ -24,7 +25,6 @@ import { MyLeaveComponent } from './my-leave.component';
     TuiLoaderModule,
     TableModule,
     TuiLetModule,
-    LeaveRequestDateRangeComponentModule,
     TuiTagModule,
     WorkflowActionsButtonDropdownComponentModule,
     TuiTablePaginationModule,

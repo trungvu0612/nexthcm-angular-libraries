@@ -7,11 +7,11 @@ import { takeUntil } from 'rxjs/operators';
 
 import {
   CreateLeaveRequestDialogComponent,
-  CreateWorkFromHomeRequestDialogComponent,
   CreateWorkingAfterHoursRequestDialogComponent,
-  CreateWorkingOnsiteRequestDialogComponent,
 } from '../../internal/components';
 import { RequestDialogMetadata } from '../../internal/models';
+import { CreateWorkFromHomeRequestComponent } from '../../shared/create-request-forms/create-work-from-home-request/create-work-from-home-request.component';
+import { CreateWorkingOnsiteRequestComponent } from '../../shared/create-request-forms/create-working-onsite-request/create-working-onsite-request.component';
 
 const EMPLOYEE_REQUEST_DIALOG_METADATA: RequestDialogMetadata = {
   leave: {
@@ -23,11 +23,11 @@ const EMPLOYEE_REQUEST_DIALOG_METADATA: RequestDialogMetadata = {
     label: 'myTime.overtimeRequest',
   },
   workingOnsite: {
-    component: CreateWorkingOnsiteRequestDialogComponent,
+    component: CreateWorkingOnsiteRequestComponent,
     label: 'myTime.workingOnsiteRequest',
   },
   workFromHome: {
-    component: CreateWorkFromHomeRequestDialogComponent,
+    component: CreateWorkFromHomeRequestComponent,
     label: 'myTime.workFromHomeRequest',
   },
 };

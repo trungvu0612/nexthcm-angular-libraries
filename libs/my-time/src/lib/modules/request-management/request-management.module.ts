@@ -21,8 +21,10 @@ import { TuiDataListWrapperModule, TuiTabsModule, TuiTagModule } from '@taiga-ui
 import { TableModule } from 'ngx-easy-table';
 import { NgxPermissionsModule } from 'ngx-permissions';
 
-import { LeaveRequestDateRangeComponentModule, RequestFiltersComponentModule } from '../../internal/components';
+import { RequestFiltersComponentModule } from '../../internal/components';
 import { TransferLeaveEntitlementTypePipeModule } from '../../internal/pipes';
+import { LeaveRequestDateRangeComponentModule } from '../../shared';
+import { CreateRequestFormsModule } from '../../shared/create-request-forms/create-request-forms.module';
 import { LeaveRequestListComponent } from './pages/leave-request-list/leave-request-list.component';
 import { TransferLeaveEntitlementsRequestListComponent } from './pages/transfer-leave-entitlements-request-list/transfer-leave-entitlements-request-list.component';
 import { UpdateTimesheetRequestListComponent } from './pages/update-timesheet-request-list/update-timesheet-request-list.component';
@@ -67,6 +69,7 @@ import { RequestManagementComponent } from './request-management.component';
     TuiDropdownControllerModule,
     TuiSvgModule,
     TuiDataListModule,
+    CreateRequestFormsModule,
   ],
 })
 export class RequestManagementModule {}

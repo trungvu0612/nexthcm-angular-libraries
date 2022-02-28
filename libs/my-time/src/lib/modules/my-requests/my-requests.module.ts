@@ -34,6 +34,7 @@ import { TableModule } from 'ngx-easy-table';
 
 import { RequestFiltersComponentModule } from '../../internal/components';
 import { TransferLeaveEntitlementTypePipeModule } from '../../internal/pipes';
+import { CreateRequestFormsModule } from '../../shared/create-request-forms/create-request-forms.module';
 import { MyRequestsComponent } from './my-requests.component';
 import { MyTransferLeaveEntitlementsRequestsComponent } from './pages/my-transfer-leave-entitlements-requests/my-transfer-leave-entitlements-requests.component';
 import { MyUpdateTimesheetRequestsComponent } from './pages/my-update-timesheet-requests/my-update-timesheet-requests.component';
@@ -85,6 +86,7 @@ import { MyWorkingOnsiteRequestsComponent } from './pages/my-working-onsite-requ
     AkitaNgEffectsModule.forFeature([OfficesEffects]),
     PushModule,
     RequestFiltersComponentModule,
+    CreateRequestFormsModule,
   ],
 })
 export class MyRequestsModule {}
