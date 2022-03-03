@@ -70,3 +70,28 @@ tui-input-date-range {
     margin-top: -1rem !important;
   }
 }
+
+quill-editor {
+  @apply block border;
+  border-radius: var(--tui-radius-m);
+  border-color: var(--tui-base-03);
+  box-shadow: 0 0.125rem 0.1875rem rgb(0 0 0 / 10%);
+  transition: var(--tui-duration) ease-in-out;
+  transition-property: box-shadow, background;
+  background: var(--tui-base-01);
+
+  &.focused {
+    @apply border-2;
+    box-shadow: none;
+    border-color: var(--tui-primary);
+  }
+
+  .ql-toolbar.ql-snow {
+    @apply border-0;
+    box-shadow: 0 0.125rem 0.1875rem rgb(0 0 0 / 10%);
+
+    & + .ql-container.ql-snow {
+      @apply border-0 text-sm;
+    }
+  }
+}

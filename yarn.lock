@@ -3205,17 +3205,17 @@
   dependencies:
     tslib "^2.0.0"
 
-"@taiga-ui/addon-commerce@^2.35.0":
-  version "2.35.0"
-  resolved "https://registry.yarnpkg.com/@taiga-ui/addon-commerce/-/addon-commerce-2.35.0.tgz#efed701b35ab3026ae8c3ab20456a2550eb8f9a7"
-  integrity sha512-Mx3nVSucJGD2Ktrxmt5PkIFEHRkCUwfYvXiZSyB7RVtjiuXhWpqNo1raOKEpBZIKe4//aQgy2ZkZXiz8G+xYYw==
+"@taiga-ui/addon-commerce@^2.36.0":
+  version "2.36.0"
+  resolved "https://registry.yarnpkg.com/@taiga-ui/addon-commerce/-/addon-commerce-2.36.0.tgz#f7eece0dd81676bc8e470fd8ce7369ccd1c47feb"
+  integrity sha512-pOGBAMFWViIOzSqZEeIAOlJ2/NaZQ40yz7asoMcCtY168mKlhu8N9WfmeXkpHuXLBkI3eWaKDmUbPzDFrbudbw==
   dependencies:
     tslib "^1.10.0"
 
-"@taiga-ui/addon-editor@^2.35.0":
-  version "2.35.0"
-  resolved "https://registry.yarnpkg.com/@taiga-ui/addon-editor/-/addon-editor-2.35.0.tgz#4217f9359fd0702f79f2f65cca0c6b9300d1fb17"
-  integrity sha512-RPV/EuWMGQoZLJaiMscTKBsHo3Qru4Lw6I0yKaXwBBiQWtL77E/pzSvEjREcUAkQ4knxrGSX5Mg0QujB517rWA==
+"@taiga-ui/addon-editor@^2.36.0":
+  version "2.36.0"
+  resolved "https://registry.yarnpkg.com/@taiga-ui/addon-editor/-/addon-editor-2.36.0.tgz#a3d4451e88d10fa9c5c4e0bd47430a4ade1eb90e"
+  integrity sha512-OT/qLdVZpEGzrAA/R65Sbskt8+hwaCLSlfvDhlp6HOPxQDGg2gPuBiMMhXuOADOyzygK/3LBBwkxpt8Z229cRA==
   dependencies:
     "@tiptap/core" "2.0.0-beta.151"
     "@tiptap/extension-bubble-menu" "2.0.0-beta.51"
@@ -3233,17 +3233,17 @@
     "@tiptap/starter-kit" "2.0.0-beta.154"
     tslib "^1.10.0"
 
-"@taiga-ui/addon-table@^2.35.0":
-  version "2.35.0"
-  resolved "https://registry.yarnpkg.com/@taiga-ui/addon-table/-/addon-table-2.35.0.tgz#5c145285c21249802dbca354090eda9838f2301b"
-  integrity sha512-AglEXM0zfqh1JK0wPAA21m+3SDFn1LCwntREzTQeloS2APOEewlB89cqE4f5ruv/tU59WwbHZfb1kh+xYRMdxg==
+"@taiga-ui/addon-table@^2.36.0":
+  version "2.36.0"
+  resolved "https://registry.yarnpkg.com/@taiga-ui/addon-table/-/addon-table-2.36.0.tgz#e511de2a12a083e9286f487d9879f044e416a424"
+  integrity sha512-h/SQgeXBItthF0hVoidNeixhYwPlagm3AiHqcZC3QdMmdmEirn5NOXO99vqwNwRgf96ekbPjUmRpS3Xz5Xc3fA==
   dependencies:
     tslib "^1.10.0"
 
-"@taiga-ui/cdk@^2.35.0":
-  version "2.35.0"
-  resolved "https://registry.yarnpkg.com/@taiga-ui/cdk/-/cdk-2.35.0.tgz#cca33e9956b250399ec96b115a6a353fc5500b10"
-  integrity sha512-Cg6XjRKMroClJyNhXVDc9TlRJNmrdAXJwW92+rcioS+4XgtFHd2cF/Hqy0fxzggALjJx3swOXeSVVhhviQE/dw==
+"@taiga-ui/cdk@^2.36.0":
+  version "2.36.0"
+  resolved "https://registry.yarnpkg.com/@taiga-ui/cdk/-/cdk-2.36.0.tgz#392ac8221b93c2d4f763774d1dadeb76b1ccf0e5"
+  integrity sha512-FP32lfgz4KNGY+Vuq3IVB+KBfTs3lRmqZV3DCdttFYVItx/ZQtKnM0Lz/hXUcvuM0ilo3MOKCdWf88Y9Q+/STQ==
   dependencies:
     "@ng-web-apis/common" "^1.12.1"
     "@ng-web-apis/mutation-observer" "^1.1.0"
@@ -3253,32 +3253,32 @@
     "@types/resize-observer-browser" "^0.1.7"
     tslib "^1.10.0"
 
-"@taiga-ui/core@^2.35.0":
-  version "2.35.0"
-  resolved "https://registry.yarnpkg.com/@taiga-ui/core/-/core-2.35.0.tgz#358c74f9cbac0cc40e0e0ec2f85fd9664b101858"
-  integrity sha512-JelZOW3YwUTQTBhH2PWfh49Mwwxj3SdLMrhdDY8iJt6TC1Lo40OPAiVXal5d8OkhqYI/IzQK1WoZ+2YtbYzn4Q==
+"@taiga-ui/core@^2.36.0":
+  version "2.36.0"
+  resolved "https://registry.yarnpkg.com/@taiga-ui/core/-/core-2.36.0.tgz#608142a5774c2bb04bb7727f996483c87829ebfe"
+  integrity sha512-WVeHt5KBdc6yDkHPiSsPRylySNGqy7r86ZsKfR23ZQb/hD/9GaGKNwb7TLPYKqEi1NjQxFw6fXM7//l4ermp+w==
   dependencies:
-    "@taiga-ui/i18n" "^2.35.0"
+    "@taiga-ui/i18n" "^2.36.0"
     tslib "^1.10.0"
 
-"@taiga-ui/i18n@^2.35.0":
-  version "2.35.0"
-  resolved "https://registry.yarnpkg.com/@taiga-ui/i18n/-/i18n-2.35.0.tgz#69df8cd1744ad28538b8c7676db528d601f3cb8d"
-  integrity sha512-cIpyQlSqLabJ6dYaAPV1Jtkv6pv5w+0CgWLbq8pxnYu52vGwoRhONo2qzICEx8LjzuqbmXy3BmZWL5mJnLn+xw==
-  dependencies:
-    tslib "^1.10.0"
-
-"@taiga-ui/icons@^2.35.0":
-  version "2.35.0"
-  resolved "https://registry.yarnpkg.com/@taiga-ui/icons/-/icons-2.35.0.tgz#73dbfea1305df05bebb46e5ebf0c2127bc87ebaa"
-  integrity sha512-L/2dhGvL1EBL/eMC32uqlaDMW6Zy/slUQXLteLyIvQZTHO9atEO508avpGHBGfjBwMFrR58plFxjSf2+WewZVQ==
+"@taiga-ui/i18n@^2.36.0":
+  version "2.36.0"
+  resolved "https://registry.yarnpkg.com/@taiga-ui/i18n/-/i18n-2.36.0.tgz#6c822d4e948b32846bf7bd4b3723d97127203de1"
+  integrity sha512-fQbjwvADpb5fffu7PstclFIEw0bguLSIUyU4FY2ABPpjmUXBWXMPXGgxd/4s41cV3QdaQCCTKm6RXoHmdItELw==
   dependencies:
     tslib "^1.10.0"
 
-"@taiga-ui/kit@^2.35.0":
-  version "2.35.0"
-  resolved "https://registry.yarnpkg.com/@taiga-ui/kit/-/kit-2.35.0.tgz#fbb5c9f52101fadaca9bc85bf8689b5c8ae2dd8d"
-  integrity sha512-wrBYTyHB0HgQTJB7iAueqPdjadEA2q6ZfA9dEWKitecqcQBkM8CQXYFP/UC3KVy0RXq6kMefyJeZtgoblFO6Ew==
+"@taiga-ui/icons@^2.36.0":
+  version "2.36.0"
+  resolved "https://registry.yarnpkg.com/@taiga-ui/icons/-/icons-2.36.0.tgz#fbf168b650f864d5ade6ce0c9644365b417d2241"
+  integrity sha512-gOqja01iOxxFSSuDupodHcv5mCfXDzqJ6f4crjmirnmsR3Npw17f7Zsge0wAaqyAOO/FeUxrssYydyi+LqGQcQ==
+  dependencies:
+    tslib "^1.10.0"
+
+"@taiga-ui/kit@^2.36.0":
+  version "2.36.0"
+  resolved "https://registry.yarnpkg.com/@taiga-ui/kit/-/kit-2.36.0.tgz#052b498704dd2f6b065afe4cd887dc3b3f27787c"
+  integrity sha512-H6VvBenUacKbmO644UxO4MvK5B2eyJLO3WeyZItnRT5dPx2PnNxy9BwKjQPIgHNHnrfLeF1/lvFwOUoJ8Gq9Ow==
   dependencies:
     "@ng-web-apis/intersection-observer" "^2.1.0"
     angular2-text-mask "^9.0.0"
@@ -12441,7 +12441,7 @@ prelude-ls@~1.1.2:
   resolved "https://registry.yarnpkg.com/prelude-ls/-/prelude-ls-1.1.2.tgz#21932a549f5e52ffd9a827f570e04be62a97da54"
   integrity sha1-IZMqVJ9eUv/ZqCf1cOBL5iqX2lQ=
 
-prettier@2.5.1:
+prettier@^2.5.1:
   version "2.5.1"
   resolved "https://registry.yarnpkg.com/prettier/-/prettier-2.5.1.tgz#fff75fa9d519c54cf0fce328c1017d94546bc56a"
   integrity sha512-vBZcPRUR5MZJwoyi3ZoyQlc1rXeEck8KgeC9AwwOn+exuxLxq5toTRDTSaVrXHxelDMHy9zlicw8u66yxoSUFg==
@@ -12748,6 +12748,11 @@ quill-delta@^4.0.1, quill-delta@^4.2.2:
     fast-diff "1.2.0"
     lodash.clonedeep "^4.5.0"
     lodash.isequal "^4.5.0"
+
+quill-image-drop-and-paste@^1.2.10:
+  version "1.2.10"
+  resolved "https://registry.yarnpkg.com/quill-image-drop-and-paste/-/quill-image-drop-and-paste-1.2.10.tgz#04ed5d2874d303e3ae31c26a89331be9edd9ac84"
+  integrity sha512-1guHUVyRct42qeIbTaYQdfKKtKi/VtuPZ/woV3pz/5FgmVZy5b3QBcQw0dx0KxbqqUdj1cPDhoaMhdhfP46R4g==
 
 quill@^1.3.7:
   version "1.3.7"

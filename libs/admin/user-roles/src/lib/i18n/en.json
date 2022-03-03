@@ -12,7 +12,7 @@
     "functions": "Functions"
   },
   "createUserRole": "Create new user role",
-  "editUserRole": "Edit new user role",
+  "editUserRole": "Edit user role",
   "updateUserRoleSuccessfully": "<b>Update user role successfully!</b>",
   "createUserRoleSuccessfully": "<b>Create new user role successfully!</b>",
   "deleteUserRole": "<b>Are you sure you want to remove this role?</b>",

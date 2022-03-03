@@ -134,10 +134,10 @@ export class SidebarComponent {
           permissions: 'VIEW_WORKFLOW',
         },
         {
-          title: 'branchManagement',
-          route: '/admin/branches',
-          icon: 'branch',
-          permissions: 'VIEW_BRANCH',
+          title: 'notificationManagement',
+          route: '/admin/notifications',
+          icon: 'notification',
+          permissions: 'ADMIN', // TODO: change it
         },
         {
           title: 'jobTitleManagement',

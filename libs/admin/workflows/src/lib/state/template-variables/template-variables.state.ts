@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
 import { EntityState, EntityStore, QueryEntity, StoreConfig } from '@datorama/akita';
+import { EmailVariable } from '@nexthcm/cdk';
 
-import { TemplateVariableModel } from '../../models';
-
-export type TemplateVariablesState = EntityState<TemplateVariableModel, string>
+export type TemplateVariablesState = EntityState<EmailVariable, string>;
 
 @Injectable()
-@StoreConfig({ name: 'template-variables' })
+@StoreConfig({ name: 'workflow-template-variables' })
 export class TemplateVariablesStore extends EntityStore<TemplateVariablesState> {
   constructor() {
     super();

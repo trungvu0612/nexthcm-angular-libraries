@@ -1,0 +1,9 @@
+:host {
+  display: block;
+
+  ::ng-deep {
+    .ql-editor {
+      height: var(--editor-height);
+    }
+  }
+}

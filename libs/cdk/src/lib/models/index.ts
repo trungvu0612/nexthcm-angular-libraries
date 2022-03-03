@@ -10,5 +10,6 @@ export * from './office';
 export * from './organization';
 export * from './paging-response';
 export * from './seat-map';
+export * from './template-variable';
 export * from './user-dto';
 export * from './workflows';

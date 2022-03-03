@@ -663,5 +663,16 @@
       "POSITION_UNAVAILABLE": "Thông tin vị trí địa lý không khả dụng. Vui lòng thử lại sau.",
       "TIMEOUT": "Quá thời gian xác định vị trí. Vui lòng thử lại sau."
     }
-  }
+  },
+  "title": "Tiêu đề",
+  "enterTitle": "Nhập tiêu đề...",
+  "notificationManagement": "Quản lý thông báo",
+  "NOTIFICATION": {
+    "fullName": "Tên đầy đủ của người nhận",
+    "month": "Tháng tại thời điểm gửi thông báo.",
+    "year": "Năm tại thời điểm gửi thông báo."
+  },
+  "searchByTitleDescription": "Tìm kiếm bằng tiêu đề, mô tả...",
+  "variables": "Biến",
+  "expression": "Biểu thức"
 }

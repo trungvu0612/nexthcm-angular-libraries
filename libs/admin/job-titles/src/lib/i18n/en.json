@@ -6,7 +6,7 @@
     "functions": "Functions"
   },
   "createJobTitle": "Create new job title",
-  "editJobTitle": "Edit new job title",
+  "editJobTitle": "Edit job title",
   "updateJobTitleSuccessfully": "<b>Update this job title successfully!</b>",
   "createJobTitleSuccessfully": "<b>Create new job title successfully!</b>",
   "deleteJobTitle": "<b>Are you sure you want to remove this job title?</b>",

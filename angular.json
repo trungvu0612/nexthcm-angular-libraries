@@ -939,7 +939,7 @@
               "apps/hcm-web/src/styles.scss"
             ],
             "scripts": [],
-            "allowedCommonJsDependencies": ["angular2-text-mask"]
+            "allowedCommonJsDependencies": ["angular2-text-mask", "quill-delta-to-html", "quill-auto-detect-url"]
           },
           "configurations": {
             "production": {

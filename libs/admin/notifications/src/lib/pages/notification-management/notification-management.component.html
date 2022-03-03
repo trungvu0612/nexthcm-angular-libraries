@@ -1,1 +1,72 @@
-<p>notification-management works!</p>
+<hcm-page [title]="'notificationManagement' | transloco">
+  <ng-container ngProjectAs="pageHeader">
+    <button routerLink="add" size="m" tuiButton>
+      {{ translocoScope.scope + '.createNotification' | transloco }}
+    </button>
+  </ng-container>
+  <hcm-input-filter
+    (valueChange)="search$.next($event)"
+    class="mb-5"
+    icon="tuiIconSearchLarge"
+    label="{{ 'searchByTitleDescription' | transloco }}"
+    propertyName="search"
+  ></hcm-input-filter>
+  <hcm-pagination-table
+    (pageChange)="onPage($event)"
+    (sizeChange)="onSize($event)"
+    [columns]="(columns$ | push) || []"
+    [data]="(data$ | push) || []"
+    [loading]="(loading$ | push) === true"
+    [page]="(page$ | push) || 0"
+    [size]="(size$ | push) || 10"
+    [total]="total$ | push"
+  ></hcm-pagination-table>
+</hcm-page>
+
+<ng-template #allRolesTpl let-row>
+  <tui-primitive-checkbox [value]="!!item(row).isAllRole" class="mx-auto" size="l"></tui-primitive-checkbox>
+</ng-template>
+
+<ng-template #rolesTpl let-row>
+  {{ item(row).roles | joinByKey: 'name' }}
+</ng-template>
+
+<ng-template #typeTpl let-row>
+  {{
+    translocoScope.scope + 'NOTIFICATION_TYPES.' + (item(row).type === NotificationType.Common ? 'common' : 'birthday')
+      | transloco
+  }}
+</ng-template>
+
+<ng-template #highlightTpl let-row>
+  <tui-svg *ngIf="item(row).top" class="icon" src="tuiIconStarFilledLarge"></tui-svg>
+</ng-template>
+
+<ng-template #statusTpl let-row>
+  <tui-tag
+    [value]="CommonStatus[item(row).status] | transloco"
+    class="{{ CommonStatus[item(row).status] }}-tag"
+    status="custom"
+  ></tui-tag>
+</ng-template>
+
+<ng-template #functionsTpl let-row>
+  <div class="flex items-center">
+    <button
+      [routerLink]="[item(row).notifyId, 'edit']"
+      appearance="flat"
+      icon="tuiIconEditLarge"
+      size="m"
+      tuiIconButton
+      type="button"
+    ></button>
+    <button
+      (click)="onDelete(item(row).notifyId)"
+      appearance="flat"
+      icon="tuiIconTrashLarge"
+      size="m"
+      tuiIconButton
+      type="button"
+    ></button>
+  </div>
+</ng-template>

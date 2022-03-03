@@ -664,5 +664,16 @@
       "POSITION_UNAVAILABLE": "Location information is unavailable. Please try again later.",
       "TIMEOUT": "The request to get user location timed out. Please try again later."
     }
-  }
+  },
+  "title": "Title",
+  "enterTitle": "Enter title...",
+  "notificationManagement": "Notification Management",
+  "NOTIFICATION": {
+    "fullName": "The full name of the recipient",
+    "month": "The month at the time of sending the notification.",
+    "year": "The year at the time of sending the notification."
+  },
+  "searchByTitleDescription": "Search by title, description...",
+  "variables": "Variables",
+  "expression": "Expression"
 }

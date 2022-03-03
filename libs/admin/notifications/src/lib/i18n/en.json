@@ -1,0 +1,29 @@
+{
+  "ADMIN_NOTIFICATION_COLUMNS": {
+    "title": "Title",
+    "description": "Description",
+    "allRole": "All roles",
+    "roles": "Roles",
+    "type": "Type",
+    "highlight": "Highlight",
+    "status": "Status",
+    "functions": "Functions"
+  },
+  "createNotification": "Create new notification",
+  "editNotification": "Edit notification",
+  "updateNotificationSuccessfully": "<b>Update this notification successfully!</b>",
+  "createNotificationSuccessfully": "<b>Create new notification successfully!</b>",
+  "deleteNotification": "<b>Are you sure you want to remove this notification?</b>",
+  "deleteNotificationSuccessfully": "<b>Remove the notification successfully!</b>",
+  "NOTIFICATION_TYPES": {
+    "common": "Common",
+    "birthday": "Happy Birthday"
+  },
+  "application": "Application",
+  "shortContent": "Short content (for mobile)",
+  "enterShortContent": "Enter short content...",
+  "featured": "Featured notification",
+  "pushMobile": "Enable Push Notification for mobile",
+  "repeat": "Repeat",
+  "allRoles": "Notify for all roles"
+}

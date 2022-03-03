@@ -13,9 +13,8 @@ import { CRON_LOCALIZATION } from '../../../tokens';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class QuartzCronYearComponent extends CronTabSingleSegmentComponent {
-  readonly renderYearsFrom = new Date().getFullYear();
-  readonly yearCodes = CoreService.getList(Segment.year, true, this.renderYearsFrom);
-  readonly years = CoreService.getList(Segment.year, false, this.renderYearsFrom);
+  readonly yearCodes = CoreService.getList(Segment.year, true);
+  readonly years = CoreService.getList(Segment.year);
   readonly api = this.cronUI.getApi<Type.YEAR>(Type.YEAR);
 
   constructor(

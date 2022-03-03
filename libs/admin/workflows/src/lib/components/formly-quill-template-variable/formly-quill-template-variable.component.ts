@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
-import { FormControl } from '@ngneat/reactive-forms';
+import { FormControl } from '@angular/forms';
+import { EmailVariable } from '@nexthcm/cdk';
 import { FieldType } from '@ngx-formly/core';
 import { TuiValidationError } from '@taiga-ui/cdk';
 import { PolymorpheusTemplate } from '@tinkoff/ng-polymorpheus';
@@ -8,7 +9,6 @@ import { EditorChangeContent } from 'ngx-quill/lib/quill-editor.component';
 import Quill from 'quill';
 import { QuillDeltaToHtmlConverter } from 'quill-delta-to-html';
 
-import { TemplateVariableModel } from '../../models';
 import { TemplateVariablesQuery } from '../../state';
 
 @Component({
@@ -18,12 +18,12 @@ import { TemplateVariablesQuery } from '../../state';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FormlyQuillTemplateVariableComponent extends FieldType implements OnInit {
-  @ViewChild('errorContent', { static: true }) errorContent?: PolymorpheusTemplate<{}>;
+  @ViewChild('errorContent', { static: true }) errorContent?: PolymorpheusTemplate<Record<string, never>>;
   @ViewChild('editor', { static: true }) editor!: QuillEditorComponent;
 
   error: TuiValidationError | null = null;
   readonly templateVariables$ = this.templateVariablesQuery.selectAll();
-  readonly templateVariableCtrl = new FormControl<TemplateVariableModel>();
+  readonly templateVariableCtrl = new FormControl();
   readonly context!: { $implicit: unknown };
 
   constructor(private readonly templateVariablesQuery: TemplateVariablesQuery) {
@@ -34,7 +34,7 @@ export class FormlyQuillTemplateVariableComponent extends FieldType implements O
     this.error = new TuiValidationError(this.errorContent || '');
   }
 
-  onAddTemplateVariable({ name, marker }: TemplateVariableModel): void {
+  onAddTemplateVariable({ name, marker }: EmailVariable): void {
     const range = this.editor.quillEditor.getSelection(true);
     this.editor.quillEditor.insertEmbed(range.index, 'TemplateVariable', { name, marker });
     this.editor.quillEditor.insertText(range.index + 1, '', Quill.sources.USER);

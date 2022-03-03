@@ -1,5 +1,5 @@
 <ng-container *ngIf="localization$ | async as localization">
-  <hcm-cron-every
+  <!--<hcm-cron-every
     (selected)="api.selectEvery()"
     [checked]="api.isEverySelected()"
     [disabled]="cronUI.isDisabled()"
@@ -23,7 +23,7 @@
     [secondaryValue]="api.getIncrementSecondaryValue()"
     [segmentId]="genId(mode.INCREMENT)"
     class="tui-form__row"
-  ></hcm-quartz-cron-increment>
+  ></hcm-quartz-cron-increment>-->
 
   <hcm-cron-and
     (selected)="api.selectAnd()"
@@ -38,7 +38,7 @@
     class="tui-form__row"
   ></hcm-cron-and>
 
-  <hcm-cron-range
+  <!--<hcm-cron-range
     (primaryValueChanged)="api.setRangePrimaryValue($event)"
     (secondaryValueChanged)="api.setRangeSecondaryValue($event)"
     (selected)="api.selectRange()"
@@ -53,5 +53,5 @@
     [secondaryValue]="api.getRangeSecondaryValue()"
     [segmentId]="genId(mode.RANGE)"
     class="tui-form__row"
-  ></hcm-cron-range>
+  ></hcm-cron-range>-->
 </ng-container>
