@@ -4,7 +4,14 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { AkitaNgEffectsModule } from '@datorama/akita-ng-effects';
 import { JoinByKeyPipeModule, RolesEffects } from '@nexthcm/cdk';
-import { CronBuilderModule } from '@nexthcm/cron-builder';
+import {
+  CRON_LOCALIZATION,
+  CronBuilderModule,
+  CronLocalization,
+  EN_LOCALIZATION,
+  VI_LOCALIZATION,
+} from '@nexthcm/cron-builder';
+import { CronstrueModule } from '@nexthcm/cronstrue';
 import {
   BaseFormComponentModule,
   FormlyQuillTemplateVariablesComponentModule,
@@ -14,11 +21,13 @@ import {
   LayoutModule,
   PaginationTableComponentModule,
 } from '@nexthcm/ui';
-import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
+import { TRANSLOCO_SCOPE, TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { FormlyModule } from '@ngx-formly/core';
 import { PushModule } from '@rx-angular/template';
 import { TuiButtonModule, TuiLoaderModule, TuiPrimitiveCheckboxModule, TuiSvgModule } from '@taiga-ui/core';
 import { TuiTagModule } from '@taiga-ui/kit';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { FormlyQuartzCronComponent } from './components/formly-quartz-cron/formly-quartz-cron.component';
 import en from './i18n/en.json';
@@ -67,12 +76,20 @@ export const adminNotificationsRoutes: Routes = [
     TuiPrimitiveCheckboxModule,
     TuiSvgModule,
     JoinByKeyPipeModule,
+    CronstrueModule,
   ],
   declarations: [NotificationManagementComponent, UpsertNotificationComponent, FormlyQuartzCronComponent],
   providers: [
     {
       provide: TRANSLOCO_SCOPE,
       useValue: { scope: 'notifications', loader: { en: () => Promise.resolve(en), vi: () => Promise.resolve(vi) } },
+    },
+    {
+      provide: CRON_LOCALIZATION,
+      useFactory(translate: TranslocoService): Observable<CronLocalization> {
+        return translate.langChanges$.pipe(map((lang) => (lang === 'vi' ? VI_LOCALIZATION : EN_LOCALIZATION)));
+      },
+      deps: [TranslocoService],
     },
     NotificationEmailVariablesStore,
     NotificationEmailVariablesQuery,

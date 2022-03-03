@@ -1,4 +1,4 @@
-<div *ngIf="localization$ | async as localization" class="{{ hostClass }}">
+<div *ngIf="localization$ | async as localization" class="{{ hostClass }} shadow-inner p-3">
   <tui-tabs *ngIf="!hideTabs && tabs.length" [(activeItemIndex)]="activeTabIndex">
     <button *ngFor="let item of tabs" tuiTab>
       {{ localization && localization.tabs ? localization.tabs[tabLocalization(item.toLowerCase())] : '' }}

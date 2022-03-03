@@ -28,7 +28,7 @@ export class NotificationManagementComponent
   @ViewChild('allRolesTpl', { static: true }) allRolesTpl!: TemplateRef<unknown>;
   @ViewChild('rolesTpl', { static: true }) rolesTpl!: TemplateRef<unknown>;
   @ViewChild('typeTpl', { static: true }) typeTpl!: TemplateRef<unknown>;
-  @ViewChild('highlightTpl', { static: true }) highlightTpl!: TemplateRef<unknown>;
+  @ViewChild('featuredTpl', { static: true }) featuredTpl!: TemplateRef<unknown>;
   @ViewChild('statusTpl', { static: true }) statusTpl!: TemplateRef<unknown>;
   @ViewChild('functionsTpl', { static: true }) functionsTpl!: TemplateRef<unknown>;
 
@@ -71,7 +71,7 @@ export class NotificationManagementComponent
           { key: 'isAllRole', title: result.allRole, orderEnabled: false, cellTemplate: this.allRolesTpl },
           { key: 'roles', title: result.roles, orderEnabled: false, cellTemplate: this.rolesTpl },
           { key: 'type', title: result.type, orderEnabled: false, cellTemplate: this.typeTpl },
-          { key: 'top', title: result.highlight, orderEnabled: false, cellTemplate: this.highlightTpl },
+          { key: 'top', title: result.featured, orderEnabled: false, cellTemplate: this.featuredTpl },
           { key: 'status', title: result.status, orderEnabled: false, cellTemplate: this.statusTpl },
           { key: '', title: result.functions, orderEnabled: false, cellTemplate: this.functionsTpl },
         ])

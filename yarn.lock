@@ -5925,6 +5925,11 @@ critters@0.0.12:
     postcss "^8.3.7"
     pretty-bytes "^5.3.0"
 
+cron-expression-validator@^1.0.20:
+  version "1.0.20"
+  resolved "https://registry.yarnpkg.com/cron-expression-validator/-/cron-expression-validator-1.0.20.tgz#add2cd89270cec2149258cf384f212061d5c0235"
+  integrity sha512-g0osBTdp+1ryDw2vzlG6UpDPaa4fO94ZChF2R0lEnRurbuUEL74XEVX7xZJ13m4Mq/gb3ni6UQu8+Oqt+eocsw==
+
 cross-spawn@^6.0.0, cross-spawn@^6.0.5:
   version "6.0.5"
   resolved "https://registry.yarnpkg.com/cross-spawn/-/cross-spawn-6.0.5.tgz#4a5ec7c64dfae22c3a14124dbacdee846d80cbc4"

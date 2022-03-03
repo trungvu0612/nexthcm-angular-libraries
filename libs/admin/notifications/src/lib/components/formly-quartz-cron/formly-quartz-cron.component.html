@@ -1,4 +1,5 @@
 <div>
   {{ 'expression' | transloco }}: <code class="font-semibold text-red-500">{{ formControl.value }}</code>
+  <b> ({{ formControl.value | cronstrue | push }})</b>
 </div>
 <hcm-quartz-cron [formControl]="$any(formControl)" [formlyAttributes]="field"></hcm-quartz-cron>

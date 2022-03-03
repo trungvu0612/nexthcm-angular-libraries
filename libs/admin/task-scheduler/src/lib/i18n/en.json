@@ -23,6 +23,8 @@
   "createTimeSheetDescription": "Create timesheet record in the database",
   "processCheckInCheckOutThroughAppAuto": "Handle check in/out through application",
   "processCheckInCheckOutThroughAppAutoDescription": "Handle check in/out through the auto-application",
+  "sendNotification": "Send Notifications",
+  "sendNotificationDescription": "Send predefined notifications to users.",
   "editScheduledTask": "Edit scheduled task",
   "editScheduledTaskSuccessfully": "<b>Edit scheduled task successfully!</b>",
   "cronExpression": "Cron expression",

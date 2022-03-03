@@ -39,6 +39,7 @@
       "@nexthcm/chat": ["libs/chat/src/index.ts"],
       "@nexthcm/core": ["libs/core/src/index.ts"],
       "@nexthcm/cron-builder": ["libs/cron-builder/src/index.ts"],
+      "@nexthcm/cronstrue": ["libs/cronstrue/src/index.ts"],
       "@nexthcm/home": ["libs/home/src/index.ts"],
       "@nexthcm/human-resource": ["libs/human-resource/src/index.ts"],
       "@nexthcm/knowledge-base": ["libs/knowledge-base/src/index.ts"],

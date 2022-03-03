@@ -234,11 +234,13 @@ export class GeneralInformationFormComponent implements OnInit {
                       : control.valueChanges.pipe(
                           take(1),
                           switchMap((user: BaseObject) =>
-                            this.employeeGeneralQuery.getValue().directReport?.id === user?.id
-                              ? of(true)
-                              : this.adminEmployeesService
-                                  .checkCircularDirectReports(this.model.id, user.id)
-                                  .pipe(map((res) => !res.isCircular))
+                            this.employeeGeneralQuery
+                              ? this.employeeGeneralQuery.getValue().directReport?.id === user?.id
+                                ? of(true)
+                                : this.adminEmployeesService
+                                    .checkCircularDirectReports(this.model.id, user.id)
+                                    .pipe(map((res) => !res.isCircular))
+                              : of(true)
                           ),
                           tap(() => control.markAsTouched())
                         ),

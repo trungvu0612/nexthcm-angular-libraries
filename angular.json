@@ -898,6 +898,45 @@
       },
       "tags": []
     },
+    "cronstrue": {
+      "projectType": "library",
+      "root": "libs/cronstrue",
+      "sourceRoot": "libs/cronstrue/src",
+      "prefix": "hcm",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/angular:package",
+          "outputs": ["dist/libs/cronstrue"],
+          "options": {
+            "project": "libs/cronstrue/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "libs/cronstrue/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "libs/cronstrue/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/cronstrue"],
+          "options": {
+            "jestConfig": "libs/cronstrue/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/cronstrue/src/**/*.ts", "libs/cronstrue/src/**/*.html"]
+          }
+        }
+      },
+      "tags": []
+    },
     "hcm-web": {
       "projectType": "application",
       "root": "apps/hcm-web",

@@ -23,6 +23,8 @@
   "createTimeSheetDescription": "Tạo bảng ghi thời gian vào cơ sở dữ liệu",
   "processCheckInCheckOutThroughAppAuto": "Xử lý check in/out qua ứng dụng",
   "processCheckInCheckOutThroughAppAutoDescription": "Xử lý check in/check thông qua ứng dụng tự động",
+  "sendNotification": "Gửi thông báo",
+  "sendNotificationDescription": "Gửi thông báo cho nguời dùng.",
   "editScheduledTask": "Sửa cài đặt lịch trình",
   "editScheduledTaskSuccessfully": "<b>Sửa cài đặt lịch trình thành công!</b>",
   "cronExpression": "Biểu thức cron",
