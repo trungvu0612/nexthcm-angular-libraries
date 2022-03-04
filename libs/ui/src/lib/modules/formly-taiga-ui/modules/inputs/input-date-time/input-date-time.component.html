@@ -1,8 +1,8 @@
 <tui-input-date-time
   [formControl]="$any(formControl)"
   [formlyAttributes]="field"
-  [max]="to.maxDate"
-  [min]="to.minDate"
+  [max]="to.maxDateTime || tuiLastDay"
+  [min]="to.minDateTime || tuiFirstDay"
   [readOnly]="!!to.readonly"
   [style.maxWidth]="to.maxWidth"
   [timeMode]="to.timeMode"

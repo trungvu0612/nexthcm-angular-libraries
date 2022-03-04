@@ -8,11 +8,12 @@ import { TUI_FIRST_DAY, TUI_LAST_DAY } from '@taiga-ui/cdk';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InputDateTimeComponent extends FieldType {
+  readonly tuiFirstDay = TUI_FIRST_DAY;
+  readonly tuiLastDay = TUI_LAST_DAY;
+
   defaultOptions: FormlyFieldConfig = {
     templateOptions: {
       textfieldSize: 'l',
-      minDate: TUI_FIRST_DAY,
-      maxDate: TUI_LAST_DAY,
       timeMode: 'HH:MM',
     },
   };

@@ -1,4 +1,7 @@
-<div *ngIf="localization$ | async as localization" class="{{ hostClass }} shadow-inner p-3">
+<div
+  *ngIf="localization$ | async as localization"
+  class="{{ hostClass }} p-3 ring-1 ring-[#ededed] rounded-[var(--tui-radius-m)]"
+>
   <tui-tabs *ngIf="!hideTabs && tabs.length" [(activeItemIndex)]="activeTabIndex">
     <button *ngFor="let item of tabs" tuiTab>
       {{ localization && localization.tabs ? localization.tabs[tabLocalization(item.toLowerCase())] : '' }}

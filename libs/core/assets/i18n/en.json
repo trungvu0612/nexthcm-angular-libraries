@@ -697,5 +697,9 @@
     "leaveDate": "Date of the leave request",
     "link": "Link of the issue"
   },
-  "nextRunTime": "Next run time"
+  "nextRunTime": "Next run time",
+  "startDateTime": "Start date time",
+  "enterStartDateTime": "Enter Start date & time...",
+  "endDateTime": "End date time...",
+  "enterEndDateTime": "Enter End date & time..."
 }

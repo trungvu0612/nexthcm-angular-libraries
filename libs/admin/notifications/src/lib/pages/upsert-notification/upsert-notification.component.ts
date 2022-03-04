@@ -134,6 +134,40 @@ export class UpsertNotificationComponent {
       },
     },
     {
+      className: 'tui-form__row block',
+      fieldGroupClassName: 'grid grid-cols-2 gap-4',
+      fieldGroup: [
+        {
+          key: 'sendDateCtrl',
+          type: 'input-date-time',
+          templateOptions: {
+            translate: true,
+            label: 'startDateTime',
+            labelClassName: 'font-semibold',
+            placeholder: 'enterStartDateTime',
+            textfieldLabelOutside: true,
+          },
+          expressionProperties: {
+            'templateOptions.maxDateTime': (model: NotificationForm) => model.expiredDateCtrl,
+          },
+        },
+        {
+          key: 'expiredDateCtrl',
+          type: 'input-date-time',
+          templateOptions: {
+            translate: true,
+            label: 'endDateTime',
+            labelClassName: 'font-semibold',
+            placeholder: 'enterEndDateTime',
+            textfieldLabelOutside: true,
+          },
+          expressionProperties: {
+            'templateOptions.minDateTime': (model: NotificationForm) => model.sendDateCtrl,
+          },
+        },
+      ],
+    },
+    {
       key: 'statusBoolean',
       className: 'tui-form__row block',
       type: 'status-toggle',

@@ -696,5 +696,9 @@
     "leaveDate": "Ngày nghỉ",
     "link": "Liên kết của vấn đề"
   },
-  "nextRunTime": "Thời gian thực thi tiếp theo"
+  "nextRunTime": "Thời gian thực thi tiếp theo",
+  "startDateTime": "Thời gian bắt đầu",
+  "enterStartDateTime": "Nhập thời gian bắt đầu...",
+  "endDateTime": "Thời gian kết thúc...",
+  "enterEndDateTime": "Nhập thời gian kết thúc..."
 }
