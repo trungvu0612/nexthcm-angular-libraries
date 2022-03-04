@@ -7,6 +7,7 @@ import { JobTitlesEffects, WorkflowsEffects } from '@nexthcm/cdk';
 import {
   BaseFormComponentModule,
   FormlyFieldArraySingleItemComponentModule,
+  FormlyQuillTemplateVariablesComponentModule,
   FormlyStatusToggleComponentModule,
   HEADER_TABS,
   LayoutComponent,
@@ -23,8 +24,6 @@ import {
   TuiButtonModule,
   TuiDataListModule,
   TuiDropdownControllerModule,
-  TuiErrorModule,
-  TuiHintModule,
   TuiHostedDropdownModule,
   TuiLabelModule,
   TuiLinkModule,
@@ -46,9 +45,6 @@ import {
 import { PolymorpheusModule } from '@tinkoff/ng-polymorpheus';
 import { TableModule } from 'ngx-easy-table';
 import { NgxPermissionsGuard, NgxPermissionsModule } from 'ngx-permissions';
-import { QuillModule } from 'ngx-quill';
-import Quill from 'quill';
-import QuillAutoDetectUrl from 'quill-auto-detect-url';
 
 import { AdminWorkflowsComponent } from './admin-workflows.component';
 import { AddConditionToTransitionDialogComponent } from './components/add-condition-to-transition-dialog/add-condition-to-transition-dialog.component';
@@ -56,7 +52,6 @@ import { AddPostFunctionToTransitionDialogComponent } from './components/add-pos
 import { AddStatusDropdownButtonComponent } from './components/add-status-button-dropdown/add-status-dropdown-button.component';
 import { AddValidatorToTransitionDialogComponent } from './components/add-validator-to-transition-dialog/add-validator-to-transition-dialog.component';
 import { CreateWorkflowDialogComponent } from './components/create-workflow-dialog/create-workflow-dialog.component';
-import { FormlyQuillTemplateVariableComponent } from './components/formly-quill-template-variable/formly-quill-template-variable.component';
 import { FormlySelectTransitionOptionComponent } from './components/formly-select-transition-option/formly-select-transition-option.component';
 import { StatusComboboxComponent } from './components/status-combobox/status-combobox.component';
 import { TransitionConditionListComponent } from './components/transition-condition-list/transition-condition-list.component';
@@ -71,7 +66,6 @@ import vi from './i18n/vi.json';
 import { EmailTemplateManagementComponent } from './pages/email-template-management/email-template-management.component';
 import { UpsertWorkflowComponent } from './pages/upsert-workflow/upsert-workflow.component';
 import { WorkflowManagementComponent } from './pages/workflow-management/workflow-management.component';
-import { TemplateVariable } from './quill/formats/template-variable';
 import { AdminWorkflowsService } from './services/admin-workflows.service';
 import {
   ConditionTypesEffects,
@@ -97,11 +91,6 @@ import {
   ValidatorTypesStore,
 } from './state';
 import { TRANSLATION_SCOPE } from './translation-scope';
-
-TemplateVariable.blotName = 'TemplateVariable';
-TemplateVariable.tagName = 'span';
-Quill.register({ 'formats/TemplateVariable': TemplateVariable });
-Quill.register('modules/autoDetectUrl', QuillAutoDetectUrl);
 
 export const ADMIN_WORKFLOWS_ROUTES: Routes = [
   {
@@ -158,7 +147,6 @@ const TABS: MenuItem[] = [
           component: FormlySelectTransitionOptionComponent,
           wrappers: ['form-field'],
         },
-        { name: 'quill-template-variable', component: FormlyQuillTemplateVariableComponent },
       ],
     }),
     LayoutModule,
@@ -185,9 +173,6 @@ const TABS: MenuItem[] = [
     TuiRadioModule,
     TuiSelectModule,
     PolymorpheusModule,
-    QuillModule,
-    TuiErrorModule,
-    TuiHintModule,
     TuiToggleModule,
     TuiCheckboxLabeledModule,
     AkitaNgEffectsModule.forFeature([
@@ -204,6 +189,7 @@ const TABS: MenuItem[] = [
     FormlyFieldArraySingleItemComponentModule,
     FormlyStatusToggleComponentModule,
     NgxPermissionsModule,
+    FormlyQuillTemplateVariablesComponentModule,
   ],
   declarations: [
     AdminWorkflowsComponent,
@@ -224,7 +210,6 @@ const TABS: MenuItem[] = [
     TransitionPostFunctionListComponent,
     EmailTemplateManagementComponent,
     UpsertEmailTemplateDialogComponent,
-    FormlyQuillTemplateVariableComponent,
   ],
   providers: [
     { provide: HEADER_TABS, useValue: TABS },

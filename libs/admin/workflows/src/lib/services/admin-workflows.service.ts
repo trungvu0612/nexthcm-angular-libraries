@@ -5,6 +5,7 @@ import {
   ACCOUNT_API_PATH,
   BaseObject,
   BaseResponse,
+  EmailVariable,
   MY_TIME_API_PATH,
   Pagination,
   PagingResponse,
@@ -16,7 +17,7 @@ import { EMPTY, Observable, of } from 'rxjs';
 import { catchError, map, mapTo, tap } from 'rxjs/operators';
 
 import { ConditionType, PostFunctionType, ValidatorType } from '../enums';
-import { EmailTemplate, InitWorkflow, Status, TemplateVariableModel, TransitionOption, Workflow } from '../models';
+import { EmailTemplate, InitWorkflow, Status, TransitionOption, Workflow } from '../models';
 import { removeEmailTemplate, upsertEmailTemplate, upsertStatus } from '../state';
 
 @Injectable()
@@ -123,9 +124,9 @@ export class AdminWorkflowsService {
       .pipe(catchError(() => of([])));
   }
 
-  getTemplateVariables(): Observable<TemplateVariableModel[]> {
+  getTemplateVariables(): Observable<EmailVariable[]> {
     return this.http
-      .get<BaseResponse<TemplateVariableModel[]>>(`${ACCOUNT_API_PATH}/temp-variables`)
+      .get<BaseResponse<EmailVariable[]>>(`${ACCOUNT_API_PATH}/temp-variables`)
       .pipe(map((res) => res.data));
   }
 

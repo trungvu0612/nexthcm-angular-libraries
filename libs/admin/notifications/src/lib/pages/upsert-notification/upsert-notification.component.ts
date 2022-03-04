@@ -240,6 +240,7 @@ export class UpsertNotificationComponent {
       },
     },
     { key: 'content' },
+    { key: 'notifyId' },
   ];
 
   readonly submit$ = new Subject<NotificationItem>();
@@ -249,7 +250,7 @@ export class UpsertNotificationComponent {
   );
   readonly submitPrompt$ = this.submitHandler$.pipe(
     filter(isPresent),
-    tap(() =>
+    tap(
       this.promptService.handleResponse(
         `${this.translocoScope.scope}.${
           this.notificationId ? 'updateNotificationSuccessfully' : 'createNotificationSuccessfully'

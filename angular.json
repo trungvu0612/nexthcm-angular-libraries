@@ -978,7 +978,12 @@
               "apps/hcm-web/src/styles.scss"
             ],
             "scripts": [],
-            "allowedCommonJsDependencies": ["angular2-text-mask", "quill-delta-to-html", "quill-auto-detect-url"]
+            "allowedCommonJsDependencies": [
+              "angular2-text-mask",
+              "quill-delta-to-html",
+              "quill-auto-detect-url",
+              "cron-expression-validator"
+            ]
           },
           "configurations": {
             "production": {
@@ -1134,7 +1139,12 @@
               "apps/hcm-workflows/src/styles.scss"
             ],
             "scripts": ["node_modules/mxgraph/javascript/mxClient.min.js"],
-            "allowedCommonJsDependencies": ["angular2-text-mask", "quill-delta-to-html", "quill-auto-detect-url"]
+            "allowedCommonJsDependencies": [
+              "angular2-text-mask",
+              "quill-delta-to-html",
+              "quill-auto-detect-url",
+              "cron-expression-validator"
+            ]
           },
           "configurations": {
             "production": {
@@ -1462,7 +1472,8 @@
               "angular2-text-mask",
               "uuid",
               "quill-delta-to-html",
-              "quill-auto-detect-url"
+              "quill-auto-detect-url",
+              "cron-expression-validator"
             ]
           },
           "configurations": {

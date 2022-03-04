@@ -1,27 +1,21 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
 import { Route, RouterModule } from '@angular/router';
 import {
-  CRON_LOCALIZATION,
-  CronBuilderModule,
-  CronLocalization,
-  EN_LOCALIZATION,
-  VI_LOCALIZATION,
-} from '@nexthcm/cron-builder';
-import { BaseFormComponentModule, FormlyStatusToggleComponentModule, LayoutComponent, LayoutModule } from '@nexthcm/ui';
-import { TRANSLOCO_SCOPE, TranslocoModule, TranslocoService } from '@ngneat/transloco';
-import { FormlyModule } from '@ngx-formly/core';
+  BaseFormComponentModule,
+  FormlyQuartzCronComponentModule,
+  FormlyStatusToggleComponentModule,
+  LayoutComponent,
+  LayoutModule,
+} from '@nexthcm/ui';
+import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
 import { TuiLetModule } from '@taiga-ui/cdk';
 import { TuiButtonModule, TuiLabelModule, TuiLoaderModule } from '@taiga-ui/core';
 import { TuiTagModule } from '@taiga-ui/kit';
 import { TableModule } from 'ngx-easy-table';
 import { NgxPermissionsGuard, NgxPermissionsModule } from 'ngx-permissions';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 
 import { EditScheduledTaskDialogComponent } from './components/edit-scheduled-task-dialog/edit-scheduled-task-dialog.component';
-import { FormlyQuartzCronComponent } from './components/formly-quartz-cron/formly-quartz-cron.component';
 import en from './i18n/en.json';
 import vi from './i18n/vi.json';
 import { TaskSchedulerComponent } from './pages/task-scheduler/task-scheduler.component';
@@ -51,13 +45,11 @@ export const adminTaskSchedulerRoutes: Route[] = [
     NgxPermissionsModule,
     TuiButtonModule,
     FormlyStatusToggleComponentModule,
-    CronBuilderModule,
-    ReactiveFormsModule,
-    FormlyModule.forChild({ types: [{ name: 'quartz-cron', component: FormlyQuartzCronComponent }] }),
     BaseFormComponentModule,
     TuiLabelModule,
+    FormlyQuartzCronComponentModule,
   ],
-  declarations: [EditScheduledTaskDialogComponent, TaskSchedulerComponent, FormlyQuartzCronComponent],
+  declarations: [EditScheduledTaskDialogComponent, TaskSchedulerComponent],
   providers: [
     TaskSchedulerService,
     {
@@ -67,13 +59,6 @@ export const adminTaskSchedulerRoutes: Route[] = [
         alias: TRANSLATION_SCOPE,
         loader: { en: () => Promise.resolve(en), vi: () => Promise.resolve(vi) },
       },
-    },
-    {
-      provide: CRON_LOCALIZATION,
-      useFactory(translate: TranslocoService): Observable<CronLocalization> {
-        return translate.langChanges$.pipe(map((lang) => (lang === 'vi' ? VI_LOCALIZATION : EN_LOCALIZATION)));
-      },
-      deps: [TranslocoService],
     },
   ],
 })

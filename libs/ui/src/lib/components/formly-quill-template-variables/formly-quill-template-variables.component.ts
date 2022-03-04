@@ -104,7 +104,7 @@ export class FormlyQuillTemplateVariablesComponent extends FieldType implements 
   }
 
   onEditorCreated(): void {
-    (this.editor.quillEditor.getModule('toolbar') as QuillModules).addHandler('image', (clicked: boolean) => {
+    (this.editor.quillEditor.getModule('toolbar') as QuillModules)?.addHandler('image', (clicked: boolean) => {
       if (clicked) {
         let fileInput: HTMLInputElement | null = this.document.querySelector('input.ql-image[type=file]');
         if (fileInput === null) {

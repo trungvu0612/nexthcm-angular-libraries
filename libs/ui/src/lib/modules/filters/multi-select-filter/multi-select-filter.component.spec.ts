@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FormlyQuartzCronComponent } from './formly-quartz-cron.component';
+import { MultiSelectFilterComponent } from './multi-select-filter.component';
 
-describe('FormlyQuartzCronComponent', () => {
-  let component: FormlyQuartzCronComponent;
-  let fixture: ComponentFixture<FormlyQuartzCronComponent>;
+describe('MultiSelectFilterComponent', () => {
+  let component: MultiSelectFilterComponent;
+  let fixture: ComponentFixture<MultiSelectFilterComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [FormlyQuartzCronComponent],
+      declarations: [MultiSelectFilterComponent],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(FormlyQuartzCronComponent);
+    fixture = TestBed.createComponent(MultiSelectFilterComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,24 +1,23 @@
 <p class="mb-1 text-sm font-semibold">
   <span>{{ to.label }}</span> <span class="tui-required"></span>
 </p>
-<div
-  *ngIf="to.variables | selectOptions | push as templateVariables"
-  class="flex flex-wrap mb-2 space-x-2 items-center"
->
-  <span class="mb-1">{{ 'variables' | transloco }}: </span>
-  <button
-    (click)="onAddTemplateVariable(variable)"
-    *ngFor="let variable of templateVariables"
-    [tuiHint]="variable.description ? (variable.description | transloco) : null"
-    appearance="secondary"
-    class="mb-1"
-    size="xs"
-    tuiButton
-    tuiHintDirection="bottom-left"
-    type="button"
-  >
-    {{ variable.name }}
-  </button>
+<div *ngIf="to.variables | selectOptions | push as templateVariables" class="flex space-x-2">
+  <div class="mb-1">{{ 'variables' | transloco }}:</div>
+  <div class="flex flex-wrap mb-2 gap-x-2 items-center">
+    <button
+      (click)="onAddTemplateVariable(variable)"
+      *ngFor="let variable of templateVariables"
+      [tuiHint]="variable.description ? (variable.description | transloco) : null"
+      appearance="secondary"
+      class="mb-1"
+      size="xs"
+      tuiButton
+      tuiHintDirection="bottom-left"
+      type="button"
+    >
+      {{ variable.name }}
+    </button>
+  </div>
 </div>
 <quill-editor
   #editor

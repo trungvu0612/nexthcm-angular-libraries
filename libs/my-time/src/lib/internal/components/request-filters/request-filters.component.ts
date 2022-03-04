@@ -39,7 +39,7 @@ export class RequestFiltersComponent implements OnInit {
 
   readonly dates$ = new BehaviorSubject<TuiDayRange | null>(null);
   readonly search$ = new Subject<string | null>();
-  readonly statusId$ = new Subject<string | null>();
+  readonly statusIds$ = new Subject<string | null>();
   readonly filterType$ = new Subject<string | null>();
 
   constructor(
@@ -53,7 +53,7 @@ export class RequestFiltersComponent implements OnInit {
     state.hold(this.search$.pipe(debounceTime(1000), distinctUntilChanged()), (search) =>
       this.onFilter('search', search ? search : null)
     );
-    state.hold(this.statusId$, (statusId) => this.onFilter('wfStateId', statusId));
+    state.hold(this.statusIds$, (statusIds) => this.onFilter('wfStateId', statusIds));
     state.hold(this.filterType$, (filterType) => this.onFilter('filterType', filterType));
   }
 
@@ -92,7 +92,7 @@ export class RequestFiltersComponent implements OnInit {
   }
 
   onFilterByWorkflowStatuses(statuses: string): void {
-    this.statusId$.next(statuses || null);
+    this.statusIds$.next(statuses || null);
   }
 
   onFilterChange(filterType: string): void {

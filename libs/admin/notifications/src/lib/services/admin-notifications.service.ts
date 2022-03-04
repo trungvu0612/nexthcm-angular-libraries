@@ -38,7 +38,7 @@ export class AdminNotificationsService {
   }
 
   updateNotification(payload: NotificationItem): Observable<unknown> {
-    return this.http.post(`${SCHEDULER_API_PATH}/notification/edit`, payload);
+    return this.http.put(`${SCHEDULER_API_PATH}/notification/edit`, payload);
   }
 
   upsertNotification(payload: NotificationItem): Observable<unknown> {

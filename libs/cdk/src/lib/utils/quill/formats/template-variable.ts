@@ -1,5 +1,6 @@
-import { EmailVariable } from '@nexthcm/cdk';
 import Quill from 'quill';
+
+import { EmailVariable } from '../../../models';
 
 const Embed = Quill.import('blots/embed');
 

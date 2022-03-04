@@ -1,5 +1,9 @@
-<div>
+<p>
   {{ 'expression' | transloco }}: <code class="font-semibold text-red-500">{{ formControl.value }}</code>
   <b> ({{ formControl.value | cronstrue | push }})</b>
-</div>
+</p>
+<p *ngIf="formControl.value | cronNextRunTime | push as nextTime">
+  {{ 'nextRunTime' | transloco }}:
+  <b>{{ nextTime | translocoDate: { dateStyle: 'full', timeStyle: 'medium' } }}</b>
+</p>
 <hcm-quartz-cron [formControl]="$any(formControl)" [formlyAttributes]="field"></hcm-quartz-cron>

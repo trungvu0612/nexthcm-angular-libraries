@@ -1,6 +1,7 @@
 export * from './avatar/avatar.component';
 export * from './base-form/base-form.component';
 export * from './formly-field-array-single-item/formly-field-array-single-item.component';
+export * from './formly-quartz-cron/formly-quartz-cron.component';
 export * from './formly-quill-template-variables/formly-quill-template-variables.component';
 export * from './formly-select-org-tree/formly-select-org-tree.component';
 export * from './formly-status-toggle/formly-status-toggle.component';

@@ -12,7 +12,7 @@ import { debounceTime, switchMap, take, takeUntil, tap } from 'rxjs/operators';
 
 import { EmailTemplate } from '../../models';
 import { AdminWorkflowsService } from '../../services/admin-workflows.service';
-import { loadTemplateVariables } from '../../state';
+import { loadTemplateVariables, TemplateVariablesQuery } from '../../state';
 
 @Component({
   selector: 'hcm-upsert-email-template-dialog',
@@ -70,42 +70,29 @@ export class UpsertEmailTemplateDialogComponent implements OnInit {
     {
       key: 'subjectDelta',
       className: 'tui-form__row block',
-      type: 'quill-template-variable',
+      type: 'quill-template-variables',
       templateOptions: {
         translate: true,
         label: 'subject',
         required: true,
         quillModules: { toolbar: false },
-        onTextChange: (value: string) => this.form.controls.subject.setValue(value),
         maxlength: 255,
+        onTextChange: (value: string) => this.form.controls.subject.setValue(value),
+        variables: this.templateVariablesQuery.selectAll(),
       },
     },
     { key: 'subject' },
     {
       key: 'bodyDelta',
       className: 'tui-form__row block',
-      type: 'quill-template-variable',
+      type: 'quill-template-variables',
       templateOptions: {
         translate: true,
         label: 'content',
         required: true,
         height: '150px',
-        quillModules: {
-          /**
-           * @see https://github.com/juyeong1260/quill-auto-detect-url
-           */
-          autoDetectUrl: true,
-          toolbar: [
-            ['bold', 'italic', 'underline', 'strike'],
-            ['blockquote', 'code-block'],
-            [{ list: 'ordered' }, { list: 'bullet' }],
-            [{ header: [1, 2, 3, 4, 5, 6, false] }],
-            [{ color: [] }, { background: [] }],
-            ['link'],
-            ['clean'],
-          ],
-        },
         onTextChange: (value: string) => this.form.controls.body.setValue(value),
+        variables: this.templateVariablesQuery.selectAll(),
       },
     },
     { key: 'body' },
@@ -118,6 +105,7 @@ export class UpsertEmailTemplateDialogComponent implements OnInit {
     private readonly adminWorkflowsService: AdminWorkflowsService,
     private readonly destroy$: TuiDestroyService,
     private readonly promptService: PromptService,
+    private readonly templateVariablesQuery: TemplateVariablesQuery,
     actions: Actions
   ) {
     actions.dispatch(loadTemplateVariables());

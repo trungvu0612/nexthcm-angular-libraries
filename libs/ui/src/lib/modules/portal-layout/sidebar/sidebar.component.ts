@@ -92,18 +92,6 @@ export class SidebarComponent {
           permissions: 'VIEW_EMPLOYEE',
         },
         {
-          title: 'roleManagement',
-          route: '/admin/user-roles',
-          icon: 'user-role',
-          permissions: 'VIEW_ROLE',
-        },
-        {
-          title: 'permissionManagement',
-          route: '/admin/permissions',
-          icon: 'permission',
-          permissions: 'VIEW_PERMISSION',
-        },
-        {
           title: 'officeManagement',
           route: '/admin/offices',
           icon: 'office',
@@ -116,16 +104,34 @@ export class SidebarComponent {
           permissions: 'VIEW_SEAT_MAP',
         },
         {
-          title: 'knowledgeBaseManagement',
-          route: '/admin/knowledge-base',
-          icon: 'knowledge-base',
-          permissions: 'VIEW_ADMIN_KNOWLEDGE',
-        },
-        {
           title: 'jobLevelManagement',
           route: '/admin/job-levels',
           icon: 'job-level',
           permissions: 'VIEW_JOB_LEVEL',
+        },
+        {
+          title: 'jobTitleManagement',
+          route: '/admin/job-titles',
+          icon: 'job-title',
+          permissions: 'VIEW_JOB_TITLE',
+        },
+        {
+          title: 'roleManagement',
+          route: '/admin/user-roles',
+          icon: 'user-role',
+          permissions: 'VIEW_ROLE',
+        },
+        {
+          title: 'permissionManagement',
+          route: '/admin/permissions',
+          icon: 'permission',
+          permissions: 'VIEW_PERMISSION',
+        },
+        {
+          title: 'knowledgeBaseManagement',
+          route: '/admin/knowledge-base',
+          icon: 'knowledge-base',
+          permissions: 'VIEW_ADMIN_KNOWLEDGE',
         },
         {
           title: 'workflowManagement',
@@ -137,13 +143,7 @@ export class SidebarComponent {
           title: 'notificationManagement',
           route: '/admin/notifications',
           icon: 'notification',
-          permissions: 'ADMIN', // TODO: change it
-        },
-        {
-          title: 'jobTitleManagement',
-          route: '/admin/job-titles',
-          icon: 'job-title',
-          permissions: 'VIEW_JOB_TITLE',
+          permissions: 'VIEW_NOTIFICATION',
         },
         {
           title: 'leaveConfigurations',
