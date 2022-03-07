@@ -89,6 +89,10 @@ const ROUTES: Routes = [
             path: 'task-scheduler',
             loadChildren: () => import('@nexthcm/admin-task-scheduler').then((m) => m.AdminTaskSchedulerModule),
           },
+          {
+            path: 'notifications',
+            loadChildren: () => import('@nexthcm/admin-notifications').then((m) => m.AdminNotificationsModule),
+          },
         ],
       },
     ],
