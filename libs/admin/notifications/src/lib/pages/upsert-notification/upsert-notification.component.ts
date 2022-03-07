@@ -146,6 +146,7 @@ export class UpsertNotificationComponent {
             labelClassName: 'font-semibold',
             placeholder: 'enterStartDateTime',
             textfieldLabelOutside: true,
+            required: true,
           },
           expressionProperties: {
             'templateOptions.maxDateTime': (model: NotificationForm) => model.expiredDateCtrl,
@@ -354,7 +355,7 @@ export class UpsertNotificationComponent {
 
       formModel.status = formModel.statusBoolean ? CommonStatus.active : CommonStatus.inactive;
       if (formModel.sendDateCtrl) {
-        formModel.expiredDate = convertTuiDateTimeToLocalDate(formModel.sendDateCtrl).getTime();
+        formModel.sendDate = convertTuiDateTimeToLocalDate(formModel.sendDateCtrl).getTime();
       }
       if (formModel.expiredDateCtrl) {
         formModel.expiredDate = convertTuiDateTimeToLocalDate(formModel.expiredDateCtrl).getTime();
