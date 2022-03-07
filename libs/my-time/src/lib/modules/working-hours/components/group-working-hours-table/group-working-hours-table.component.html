@@ -7,7 +7,6 @@
         </td>
         <td>{{ item.userInfo?.cif }}</td>
         <td>{{ item.userInfo?.fullName }}</td>
-        <td>{{ item.userInfo?.office?.name }}</td>
         <td>{{ item.trackingDate | translocoDate }}</td>
         <td class="text-center">
           {{
@@ -20,7 +19,6 @@
           {{ item.workingDay ? (item.workingDay | translocoDecimal: { maximumFractionDigits: 1 }) : '-' }}
         </td>
         <td class="text-center">{{ item.ot ? (item.ot | translocoDecimal) : '-' }}</td>
-        <td class="text-center">{{ item.onsiteDay ? (item.onsiteDay | translocoDecimal) : '-' }}</td>
         <td class="text-center">{{ item.leaveType }}</td>
         <td>
           <div *ngxPermissionsOnly="'VIEW_ALL_REQUEST_TENANT'" class="flex items-center">

@@ -145,7 +145,7 @@ export class CreateTransferLeaveEntitlementRequestComponent {
         translate: true,
         labelClassName: 'font-semibold',
         placeholder: 'searchUsers',
-        label: 'sendTo',
+        label: 'emailCC',
         textfieldLabelOutside: true,
         labelProp: 'name',
       },

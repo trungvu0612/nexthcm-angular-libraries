@@ -40,7 +40,7 @@ export class OnlyMeWorkingHoursListComponent extends NewAbstractServerSortPagina
           title: result.totalWorkingTimeH,
           cssClass: { name: 'text-center', includeHeader: true },
         },
-        { key: 'workingDay', title: result.workingDay, cssClass: { name: 'text-center', includeHeader: true } },
+        { key: 'workingDay', title: result.workingDays, cssClass: { name: 'text-center', includeHeader: true } },
         { key: 'ot', title: result.ot },
         { key: 'onsiteDay', title: result.onsiteDay, cssClass: { name: 'text-center', includeHeader: true } },
         { key: 'leave', title: result.leave },

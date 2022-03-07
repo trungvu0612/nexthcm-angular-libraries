@@ -43,7 +43,6 @@
         </td>
         <td class="font-semibold">{{ item.userInfo?.cif }}</td>
         <td class="font-semibold">{{ item.userInfo?.fullName }}</td>
-        <td class="font-semibold">{{ item.userInfo?.office?.name }}</td>
         <td class="font-semibold">{{ fromDateForGroupBy | translocoDate }} - {{ toDateForGroupBy | translocoDate }}</td>
         <td class="font-semibold text-center">
           {{
@@ -57,9 +56,6 @@
         </td>
         <td class="font-semibold text-center">
           {{ item.ot ? (item.ot | translocoDecimal) : '-' }}
-        </td>
-        <td class="font-semibold text-center">
-          {{ item.onsiteDay ? (item.onsiteDay | translocoDecimal) : '-' }}
         </td>
         <td class="font-semibold text-center">
           {{ item.countLeave ? (item.countLeave | translocoDecimal) : '-' }}

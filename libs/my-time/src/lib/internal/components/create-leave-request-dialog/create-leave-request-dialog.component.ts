@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Inject, NgModule, OnInit, ViewChild } from '@angular/core';
-import { BaseUser, isDateRangeSameYear, PromptService, WorkflowStatus } from '@nexthcm/cdk';
+import { BaseUser, EmployeesService, isDateRangeSameYear, PromptService, WorkflowStatus } from '@nexthcm/cdk';
 import { BaseFormComponentModule } from '@nexthcm/ui';
 import { Control, FormBuilder, FormControl, FormGroup, ValidationErrors } from '@ng-stack/forms';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
@@ -11,7 +11,7 @@ import { TuiTagModule } from '@taiga-ui/kit';
 import { POLYMORPHEUS_CONTEXT, PolymorpheusModule, PolymorpheusTemplate } from '@tinkoff/ng-polymorpheus';
 import { endOfDay } from 'date-fns';
 import omit from 'just-omit';
-import { combineLatest, from, of, Subject } from 'rxjs';
+import { combineLatest, from, iif, of, Subject } from 'rxjs';
 import { catchError, map, share, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
 
 import { MyTimeService } from '../../../services';
@@ -28,6 +28,7 @@ import { MyLeaveService, MyRequestsService } from '../../services';
 
 interface LeaveRequestForm extends LeaveRequestPayload {
   employee?: Control<BaseUser>;
+  escalateDTO?: Control<BaseUser>;
   items: Control<PayloadTimeItem[]>;
   leaveType?: Control<[RemainingLeaveEntitlement]>;
   fromTo?: Control<TuiDayRange>;
@@ -99,7 +100,8 @@ export class CreateLeaveRequestDialogComponent implements OnInit {
     @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<boolean, string>,
     private readonly translocoService: TranslocoService,
     private readonly destroy$: TuiDestroyService,
-    private readonly promptService: PromptService
+    private readonly promptService: PromptService,
+    private readonly employeesService: EmployeesService
   ) {}
 
   get currentUserId(): string {
@@ -442,6 +444,44 @@ export class CreateLeaveRequestDialogComponent implements OnInit {
         hide: !!this.currentUserId,
       },
       {
+        key: 'escalateDTO',
+        className: 'tui-form__row block',
+        type: 'assignee',
+        templateOptions: {
+          translate: true,
+          label: 'assignee',
+          labelClassName: 'font-semibold',
+          textfieldLabelOutside: true,
+        },
+        hooks: {
+          onInit: (field) => {
+            const employeeCtrl = field?.parent?.formControl?.get('employee');
+            const employeeId$ = this.currentUserId
+              ? of(this.currentUserId)
+              : employeeCtrl
+              ? employeeCtrl.valueChanges.pipe(map((employee) => employee?.id))
+              : of(undefined);
+
+            employeeId$
+              .pipe(
+                switchMap((employeeId) =>
+                  iif(
+                    () => !!employeeId,
+                    this.employeesService
+                      .getEmployeeGeneralInformation(employeeId as string)
+                      .pipe(map((employee) => employee.directReport)),
+                    of(undefined)
+                  )
+                ),
+                takeUntil(this.destroy$)
+              )
+              .subscribe((employee) => {
+                field?.formControl?.patchValue(employee);
+              });
+          },
+        },
+      },
+      {
         key: 'sendToUser',
         className: 'tui-form__row block',
         type: 'user-combo-box',
@@ -449,7 +489,7 @@ export class CreateLeaveRequestDialogComponent implements OnInit {
           translate: true,
           labelClassName: 'font-semibold',
           placeholder: 'searchUsers',
-          label: 'sendTo',
+          label: 'emailCC',
           textfieldLabelOutside: true,
           labelProp: 'name',
         },
@@ -518,7 +558,16 @@ export class CreateLeaveRequestDialogComponent implements OnInit {
       }
 
       this.submit$.next(
-        omit(formModel, ['employee', 'leaveType', 'fromTo', 'partialDays', 'startDay', 'endDay', 'sendToUser'])
+        omit(formModel, [
+          'employee',
+          'leaveType',
+          'fromTo',
+          'partialDays',
+          'startDay',
+          'endDay',
+          'sendToUser',
+          'escalateDTO',
+        ])
       );
     }
   }

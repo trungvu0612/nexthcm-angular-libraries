@@ -10,4 +10,12 @@
       transform: rotate(90deg);
     }
   }
+
+  ::ng-deep {
+    .ngx-table {
+      thead {
+        @apply sticky top-0 z-50 bg-white;
+      }
+    }
+  }
 }

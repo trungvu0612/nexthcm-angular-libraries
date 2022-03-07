@@ -701,5 +701,6 @@
   "startDateTime": "Start date time",
   "enterStartDateTime": "Enter Start date & time...",
   "endDateTime": "End date time...",
-  "enterEndDateTime": "Enter End date & time..."
+  "enterEndDateTime": "Enter End date & time...",
+  "emailCC": "Email CC"
 }

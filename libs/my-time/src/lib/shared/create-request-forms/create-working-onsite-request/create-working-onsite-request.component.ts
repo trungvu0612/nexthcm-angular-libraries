@@ -199,7 +199,7 @@ export class CreateWorkingOnsiteRequestComponent implements OnInit {
         type: 'user-combo-box',
         templateOptions: {
           translate: true,
-          label: 'sendTo',
+          label: 'emailCC',
           labelClassName: 'font-semibold',
           placeholder: 'searchUsers',
           labelProp: 'username',

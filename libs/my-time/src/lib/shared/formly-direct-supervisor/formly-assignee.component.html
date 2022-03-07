@@ -1,0 +1,5 @@
+<ng-container *ngIf="formControl.valueChanges | push as user">
+  <div *tuiLet="userInfo(user) as userInfo">
+    {{ userInfo.name }}
+  </div>
+</ng-container>

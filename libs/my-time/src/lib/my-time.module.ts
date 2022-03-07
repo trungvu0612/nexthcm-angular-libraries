@@ -31,6 +31,7 @@ import { EveryoneWorkingHoursListComponent } from './modules/working-hours/compo
 import { OnlyMeWorkingHoursListComponent } from './modules/working-hours/components/only-me-working-hours-list/only-me-working-hours-list.component';
 import { WorkingHoursComponent } from './modules/working-hours/working-hours.component';
 import { WorkingHoursModule } from './modules/working-hours/working-hours.module';
+import { FormlyAssigneeComponentModule } from './shared/formly-direct-supervisor/formly-assignee.component';
 
 export const MY_TIME_ROUTES: Routes = [
   {
@@ -114,6 +115,7 @@ const TABS: MenuItem[] = [
     MyRequestsModule,
     RequestManagementModule,
     WorkingHoursModule,
+    FormlyAssigneeComponentModule,
   ],
   providers: [
     TranslocoDatePipe,
