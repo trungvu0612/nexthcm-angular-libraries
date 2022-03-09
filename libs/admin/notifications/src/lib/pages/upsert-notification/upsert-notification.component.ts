@@ -30,8 +30,8 @@ import {
 } from '../../store/notification-email-variables';
 
 interface NotificationForm extends NotificationItem {
-  sendDateCtrl?: [TuiDay, TuiTime | null];
-  expiredDateCtrl?: [TuiDay, TuiTime | null];
+  sendDateCtrl?: [TuiDay | null, TuiTime | null];
+  expiredDateCtrl?: [TuiDay | null, TuiTime | null];
   isRepeat?: boolean;
   statusBoolean?: boolean;
 }
@@ -354,11 +354,15 @@ export class UpsertNotificationComponent {
       const formModel = { ...this.form.value } as NotificationForm;
 
       formModel.status = formModel.statusBoolean ? CommonStatus.active : CommonStatus.inactive;
-      if (formModel.sendDateCtrl) {
-        formModel.sendDate = convertTuiDateTimeToLocalDate(formModel.sendDateCtrl).getTime();
+      if (formModel.sendDateCtrl?.[0]) {
+        formModel.sendDate = convertTuiDateTimeToLocalDate(
+          formModel.sendDateCtrl as [TuiDay, TuiTime | null]
+        ).getTime();
       }
-      if (formModel.expiredDateCtrl) {
-        formModel.expiredDate = convertTuiDateTimeToLocalDate(formModel.expiredDateCtrl).getTime();
+      if (formModel.expiredDateCtrl?.[0]) {
+        formModel.expiredDate = convertTuiDateTimeToLocalDate(
+          formModel.expiredDateCtrl as [TuiDay, TuiTime | null]
+        ).getTime();
       }
       this.submit$.next(omit(formModel, ['sendDateCtrl', 'expiredDateCtrl', 'isRepeat', 'statusBoolean']));
     }
