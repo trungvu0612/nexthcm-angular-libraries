@@ -1,7 +1,0 @@
-{
-  "username": "Tên người dùng",
-  "password": "Mật khẩu",
-  "rememberMeLabel": "Ghi nhớ phiên đăng nhập của tôi trên máy này",
-  "cantLoginInform": "Không thể truy cập tài khoản? Vui lòng liên hệ <a class='font-semibold' href='{{url}}'>quản trị viên</a> của bạn.",
-  "login": "Đăng nhập"
-}

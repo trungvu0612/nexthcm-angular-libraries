@@ -4,7 +4,7 @@ import { FieldType } from '@ngx-formly/core';
 import { RxState } from '@rx-angular/state';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
-import { Observable, Subject } from 'rxjs';
+import { iif, Observable, of, Subject } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
 import { ViewWorkflowDialogComponent } from '../view-workflow-dialog/view-workflow-dialog.component';
@@ -25,7 +25,11 @@ export class FormlyViewWorkflowButtonComponent extends FieldType {
     private readonly injector: Injector
   ) {
     super();
-    this.state.hold(this.view$.pipe(switchMap(() => this.openViewWorkflowDialog(this.formControl.value))));
+    this.state.hold(
+      this.view$.pipe(
+        switchMap(() => iif(() => !this.formControl, of(null), this.openViewWorkflowDialog(this.formControl?.value)))
+      )
+    );
   }
 
   openViewWorkflowDialog(workflow: BaseWorkflow): Observable<unknown> {

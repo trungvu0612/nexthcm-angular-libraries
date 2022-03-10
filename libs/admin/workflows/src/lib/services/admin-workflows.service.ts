@@ -1,6 +1,5 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Actions } from '@datorama/akita-ng-effects';
 import {
   ACCOUNT_API_PATH,
   BaseObject,
@@ -10,23 +9,58 @@ import {
   Pagination,
   PagingResponse,
   PromptService,
-  refreshWorkflows,
+  WorkflowsService,
   WorkflowStatusType,
 } from '@nexthcm/cdk';
-import { EMPTY, Observable, of } from 'rxjs';
-import { catchError, map, mapTo, tap } from 'rxjs/operators';
+import { RxState } from '@rx-angular/state';
+import { EMPTY, Observable, of, Subject } from 'rxjs';
+import { catchError, map, mapTo, switchMap, tap } from 'rxjs/operators';
 
 import { ConditionType, PostFunctionType, ValidatorType } from '../enums';
 import { EmailTemplate, InitWorkflow, Status, TransitionOption, Workflow } from '../models';
-import { removeEmailTemplate, upsertEmailTemplate, upsertStatus } from '../state';
+
+interface AdminWorkflowsState {
+  statusTypes: WorkflowStatusType[];
+  statuses: Status[];
+  conditionTypes: TransitionOption<ConditionType>[];
+  validatorTypes: TransitionOption<ValidatorType>[];
+  postFunctionTypes: TransitionOption<PostFunctionType>[];
+  emailTemplates: EmailTemplate[];
+  emailVariables: EmailVariable[];
+}
 
 @Injectable()
-export class AdminWorkflowsService {
+export class AdminWorkflowsService extends RxState<AdminWorkflowsState> {
+  readonly statusTypes$ = this.select('statusTypes');
+  readonly statuses$ = this.select('statuses');
+  readonly conditionTypes$ = this.select('conditionTypes');
+  readonly validatorTypes$ = this.select('validatorTypes');
+  readonly postFunctionTypes$ = this.select('postFunctionTypes');
+  readonly emailTemplates$ = this.select('emailTemplates');
+  readonly emailVariables$ = this.select('emailVariables');
+
+  private readonly loadStatusTypes$ = new Subject<void>();
+  private readonly loadStatuses$ = new Subject<void>();
+  private readonly loadConditionTypes$ = new Subject<void>();
+  private readonly loadValidatorTypes$ = new Subject<void>();
+  private readonly loadPostFunctionTypes$ = new Subject<void>();
+  private readonly loadEmailTemplates$ = new Subject<void>();
+  private readonly loadEmailVariables$ = new Subject<void>();
+
   constructor(
     private readonly http: HttpClient,
-    private readonly actions: Actions,
-    private readonly promptService: PromptService
-  ) {}
+    private readonly promptService: PromptService,
+    private readonly workflowsService: WorkflowsService
+  ) {
+    super();
+    this.connect('conditionTypes', this.loadConditionTypes$.pipe(switchMap(() => this.getConditionTypes())));
+    this.connect('validatorTypes', this.loadValidatorTypes$.pipe(switchMap(() => this.getValidatorTypes())));
+    this.connect('postFunctionTypes', this.loadPostFunctionTypes$.pipe(switchMap(() => this.getPostFunctionTypes())));
+    this.connect('statusTypes', this.loadStatusTypes$.pipe(switchMap(() => this.getStatusTypes())));
+    this.connect('statuses', this.loadStatuses$.pipe(switchMap(() => this.getStatuses())));
+    this.connect('emailTemplates', this.loadEmailTemplates$.pipe(switchMap(() => this.getAllEmailTemplates())));
+    this.connect('emailVariables', this.loadEmailVariables$.pipe(switchMap(() => this.getTemplateVariables())));
+  }
 
   getStatusTypes(): Observable<WorkflowStatusType[]> {
     return this.http.get<WorkflowStatusType[]>(`${ACCOUNT_API_PATH}/states/types`).pipe(catchError(() => of([])));
@@ -48,7 +82,7 @@ export class AdminWorkflowsService {
     return this.http.put<unknown>(`${ACCOUNT_API_PATH}/process/${workflowId}`, payload).pipe(
       tap(
         this.promptService.handleResponse('WORKFLOW.updateWorkflowSuccessfully', () =>
-          this.actions.dispatch(refreshWorkflows())
+          this.workflowsService.doRefreshWorkflows()
         )
       ),
       catchError(() => EMPTY)
@@ -58,13 +92,13 @@ export class AdminWorkflowsService {
   initWorkflow(payload: InitWorkflow): Observable<BaseResponse<Workflow>> {
     return this.http
       .post<BaseResponse<Workflow>>(`${ACCOUNT_API_PATH}/process/init`, payload)
-      .pipe(tap(() => this.actions.dispatch(refreshWorkflows())));
+      .pipe(tap(() => this.workflowsService.doRefreshWorkflows()));
   }
 
   deleteWorkflow(workflowId: string): Observable<unknown> {
     return this.http
       .delete<unknown>(`${ACCOUNT_API_PATH}/process/${workflowId}`)
-      .pipe(tap(() => this.actions.dispatch(refreshWorkflows())));
+      .pipe(tap(() => this.workflowsService.doRefreshWorkflows()));
   }
 
   getStatuses(): Observable<Status[]> {
@@ -84,14 +118,14 @@ export class AdminWorkflowsService {
   createStatus(payload: Status): Observable<Status> {
     return this.http.post<BaseResponse<Status>>(`${ACCOUNT_API_PATH}/states`, payload).pipe(
       map((res) => res.data),
-      tap((data) => this.actions.dispatch(upsertStatus({ data })))
+      tap(() => this.doRefreshStatuses())
     );
   }
 
   updateStatus(payload: Status): Observable<unknown> {
     return this.http.put<BaseResponse<unknown>>(`${ACCOUNT_API_PATH}/states/${payload.id}`, payload).pipe(
       map((res) => res.data),
-      tap(() => this.actions.dispatch(upsertStatus({ data: payload })))
+      tap(() => this.doRefreshStatuses())
     );
   }
 
@@ -145,19 +179,17 @@ export class AdminWorkflowsService {
   createEmailTemplate(payload: EmailTemplate): Observable<BaseResponse<EmailTemplate>> {
     return this.http
       .post<BaseResponse<EmailTemplate>>(`${ACCOUNT_API_PATH}/template`, payload)
-      .pipe(tap(({ data }) => this.actions.dispatch(upsertEmailTemplate({ data }))));
+      .pipe(tap(() => this.doRefreshEmailTemplates()));
   }
 
   updateEmailTemplate(payload: EmailTemplate): Observable<BaseResponse<EmailTemplate>> {
     return this.http
       .put<BaseResponse<EmailTemplate>>(`${ACCOUNT_API_PATH}/template/${payload.id}`, payload)
-      .pipe(tap(({ data }) => this.actions.dispatch(upsertEmailTemplate({ data }))));
+      .pipe(tap(() => this.doRefreshEmailTemplates()));
   }
 
   deleteEmailTemplate(id: string): Observable<unknown> {
-    return this.http
-      .delete(`${ACCOUNT_API_PATH}/template/${id}`)
-      .pipe(tap(() => this.actions.dispatch(removeEmailTemplate({ id }))));
+    return this.http.delete(`${ACCOUNT_API_PATH}/template/${id}`).pipe(tap(() => this.doRefreshEmailTemplates()));
   }
 
   getAllEmailTemplates(): Observable<EmailTemplate[]> {
@@ -177,5 +209,59 @@ export class AdminWorkflowsService {
     return this.http
       .get<BaseResponse<boolean>>(`${MY_TIME_API_PATH}/wf/check-before-delete/${workflowId}`)
       .pipe(map((res) => res.data));
+  }
+
+  doLoadConditionTypes(): void {
+    if (!this.get('conditionTypes')) {
+      this.loadConditionTypes$.next();
+    }
+  }
+
+  doLoadValidatorTypes(): void {
+    if (!this.get('validatorTypes')) {
+      this.loadValidatorTypes$.next();
+    }
+  }
+
+  doLoadPostFunctionTypes(): void {
+    if (!this.get('postFunctionTypes')) {
+      this.loadPostFunctionTypes$.next();
+    }
+  }
+
+  doLoadStatusTypes(): void {
+    if (!this.get('statusTypes')) {
+      this.loadStatusTypes$.next();
+    }
+  }
+
+  doLoadStatuses(): void {
+    if (!this.get('statuses')) {
+      this.loadStatuses$.next();
+    }
+  }
+
+  doRefreshStatuses(): void {
+    if (this.get('statuses')) {
+      this.loadStatuses$.next();
+    }
+  }
+
+  doLoadEmailTemplates(): void {
+    if (!this.get('emailTemplates')) {
+      this.loadEmailTemplates$.next();
+    }
+  }
+
+  doRefreshEmailTemplates(): void {
+    if (this.get('emailTemplates')) {
+      this.loadEmailTemplates$.next();
+    }
+  }
+
+  doLoadEmailVariables(): void {
+    if (!this.get('emailVariables')) {
+      this.loadEmailVariables$.next();
+    }
   }
 }

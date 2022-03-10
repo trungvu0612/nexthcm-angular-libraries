@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder } from '@ngneat/reactive-forms';
-import { TranslocoService } from '@ngneat/transloco';
+import { FormBuilder } from '@angular/forms';
+import { ProviderScope, TRANSLOCO_SCOPE, TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { RxwebValidators } from '@rxweb/reactive-form-validators';
 import { TuiDestroyService } from '@taiga-ui/cdk';
@@ -16,7 +16,6 @@ import {
   TransitionValidator,
   UpsertTransitionData,
 } from '../../models';
-import { TRANSLATION_SCOPE } from '../../translation-scope';
 
 @Component({
   selector: 'hcm-upsert-transition-dialog',
@@ -25,7 +24,7 @@ import { TRANSLATION_SCOPE } from '../../translation-scope';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UpsertTransitionDialogComponent implements OnInit {
-  form = this.fb.group<Transition>({} as Transition);
+  form = this.fb.group({} as Transition);
   options: FormlyFormOptions = {
     formState: {
       isNew: true,
@@ -43,9 +42,9 @@ export class UpsertTransitionDialogComponent implements OnInit {
       type: 'select',
       templateOptions: {
         translate: true,
-        label: `${TRANSLATION_SCOPE}.fromStatus`,
+        label: `${this.translocoScope.scope}.fromStatus`,
         labelClassName: 'font-semibold',
-        placeholder: `${TRANSLATION_SCOPE}.chooseSourceState`,
+        placeholder: `${this.translocoScope.scope}.chooseSourceState`,
         options: this.data.addedStatuses,
         labelProp: 'name',
         valueProp: 'id',
@@ -55,8 +54,8 @@ export class UpsertTransitionDialogComponent implements OnInit {
         onInit: (field) => {
           field?.formControl?.valueChanges.pipe(takeUntil(this.destroy$)).subscribe(() => {
             if (this.form.value.toStateId) {
-              this.form.controls.toStateId.updateValueAndValidity({ emitEvent: false });
-              this.form.controls.toStateId.markAsTouched();
+              this.form.controls['toStateId'].updateValueAndValidity({ emitEvent: false });
+              this.form.controls['toStateId'].markAsTouched();
             }
           });
         },
@@ -69,9 +68,9 @@ export class UpsertTransitionDialogComponent implements OnInit {
       templateOptions: {
         translate: true,
         required: true,
-        label: `${TRANSLATION_SCOPE}.toStatus`,
+        label: `${this.translocoScope.scope}.toStatus`,
         labelClassName: 'font-semibold',
-        placeholder: `${TRANSLATION_SCOPE}.chooseTargetStatus`,
+        placeholder: `${this.translocoScope.scope}.chooseTargetStatus`,
         options: this.data.addedStatuses,
         labelProp: 'name',
         valueProp: 'id',
@@ -118,6 +117,7 @@ export class UpsertTransitionDialogComponent implements OnInit {
   ];
 
   constructor(
+    @Inject(TRANSLOCO_SCOPE) private readonly translocoScope: ProviderScope,
     private readonly fb: FormBuilder,
     @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<Transition, UpsertTransitionData>,
     private readonly translocoService: TranslocoService,

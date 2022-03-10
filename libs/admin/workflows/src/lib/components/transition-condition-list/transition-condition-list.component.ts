@@ -3,13 +3,13 @@ import {
   ChangeDetectorRef,
   Component,
   EventEmitter,
+  Inject,
   Injector,
   Input,
   Output,
   ViewChild,
 } from '@angular/core';
-import { Actions } from '@datorama/akita-ng-effects';
-import { TranslocoService } from '@ngneat/transloco';
+import { ProviderScope, TRANSLOCO_SCOPE, TranslocoService } from '@ngneat/transloco';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
@@ -19,7 +19,7 @@ import { takeUntil } from 'rxjs/operators';
 
 import { AbstractTransitionOptionListComponent } from '../../abstract-components/abstract-transition-option-list.component';
 import { TransitionCondition } from '../../models';
-import { loadConditionTypes } from '../../state';
+import { AdminWorkflowsService } from '../../services/admin-workflows.service';
 import { AddConditionToTransitionDialogComponent } from '../add-condition-to-transition-dialog/add-condition-to-transition-dialog.component';
 
 @Component({
@@ -35,15 +35,16 @@ export class TransitionConditionListComponent extends AbstractTransitionOptionLi
   @Output() dataChange = new EventEmitter<TransitionCondition[]>();
 
   constructor(
-    readonly translocoService: TranslocoService,
-    readonly changeDetectorRef: ChangeDetectorRef,
+    @Inject(TRANSLOCO_SCOPE) override readonly translocoScope: ProviderScope,
+    override readonly translocoService: TranslocoService,
+    override readonly changeDetectorRef: ChangeDetectorRef,
     private readonly dialogService: TuiDialogService,
     private readonly injector: Injector,
     private readonly destroy$: TuiDestroyService,
-    actions: Actions
+    adminWorkflowsService: AdminWorkflowsService
   ) {
-    super(translocoService, changeDetectorRef);
-    actions.dispatch(loadConditionTypes());
+    super(translocoScope, translocoService, changeDetectorRef);
+    adminWorkflowsService.doLoadConditionTypes();
   }
 
   openAddOptionToTransitionDialog(item?: TransitionCondition): Observable<TransitionCondition> {

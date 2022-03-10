@@ -1,15 +1,15 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Actions } from '@datorama/akita-ng-effects';
-import { loadWorkflows, PromptService } from '@nexthcm/cdk';
-import { FormBuilder } from '@ngneat/reactive-forms';
-import { RxState, toDictionary } from '@rx-angular/state';
+import { FormBuilder } from '@angular/forms';
+import { PromptService } from '@nexthcm/cdk';
+import { toDictionary } from '@rx-angular/cdk/transformations';
+import { RxState } from '@rx-angular/state';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
-import { of } from 'rxjs';
-import { catchError, filter, map, shareReplay, startWith } from 'rxjs/operators';
+import { of, share } from 'rxjs';
+import { catchError, filter, map, startWith } from 'rxjs/operators';
 
 import { AdminRequestsConfigurationService } from './admin-requests-configuration.service';
 import { RequestType } from './enums/request-type';
-import { RequestConfig } from './request-config';
+import { RequestConfig } from './models/request-config';
 
 type ComponentState = {
   [p in RequestType]: RequestConfig;
@@ -28,19 +28,21 @@ export class AdminRequestsConfigurationComponent {
   private request$ = this.adminRequestsConfigurationService.getRequestsConfig().pipe(
     map((configs) => toDictionary(configs, 'type')),
     startWith(null),
-    shareReplay(1)
+    share()
   );
-  readonly loading$ = this.request$.pipe(map((value) => !value), catchError(() => of(false)));
+  readonly loading$ = this.request$.pipe(
+    map((value) => !value),
+    startWith(true),
+    catchError(() => of(false))
+  );
 
   constructor(
-    private readonly actions: Actions,
     private readonly fb: FormBuilder,
     private readonly adminRequestsConfigurationService: AdminRequestsConfigurationService,
     private readonly destroy$: TuiDestroyService,
     private readonly promptService: PromptService,
     private readonly state: RxState<ComponentState>
   ) {
-    this.actions.dispatch(loadWorkflows());
     this.state.connect(this.request$.pipe(filter(isPresent)));
   }
 }

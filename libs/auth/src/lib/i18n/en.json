@@ -1,7 +1,0 @@
-{
-  "username": "Username",
-  "password": "Password",
-  "rememberMeLabel": "Remember my login on this computer",
-  "cantLoginInform": "Can't access your account? Please contact your <a class='font-semibold' href='{{url}}'>administrators</a>.",
-  "login": "Login"
-}

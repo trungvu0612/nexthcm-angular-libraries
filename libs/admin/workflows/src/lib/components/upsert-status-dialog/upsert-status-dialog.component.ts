@@ -1,8 +1,7 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit, ViewChild } from '@angular/core';
-import { Actions } from '@datorama/akita-ng-effects';
+import { FormBuilder, FormControl } from '@angular/forms';
 import { BaseUser, PromptService, WorkflowStatusType } from '@nexthcm/cdk';
-import { FormBuilder, FormControl } from '@ngneat/reactive-forms';
-import { TranslocoService } from '@ngneat/transloco';
+import { ProviderScope, TRANSLOCO_SCOPE, TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
@@ -13,8 +12,6 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { Status } from '../../models';
 import { AdminWorkflowsService } from '../../services/admin-workflows.service';
-import { loadStatusTypes, StatusTypesQuery } from '../../state';
-import { TRANSLATION_SCOPE } from '../../translation-scope';
 
 @Component({
   selector: 'hcm-upsert-status-dialog',
@@ -29,20 +26,19 @@ export class UpsertStatusDialogComponent implements OnInit {
   readonly statusTypeContext!: { $implicit: WorkflowStatusType };
   fields!: FormlyFieldConfig[];
   editMode = false;
-  form = this.fb.group<Status>({} as Status);
+  form = this.fb.group({} as Status);
   model = {} as Status;
 
   constructor(
+    @Inject(TRANSLOCO_SCOPE) private readonly translocoScope: ProviderScope,
     @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<Status, Status>,
     private readonly fb: FormBuilder,
     private readonly adminWorkflowsService: AdminWorkflowsService,
     private readonly promptService: PromptService,
     private readonly destroy$: TuiDestroyService,
-    private readonly translocoService: TranslocoService,
-    private readonly statusTypesQuery: StatusTypesQuery,
-    actions: Actions
+    private readonly translocoService: TranslocoService
   ) {
-    actions.dispatch(loadStatusTypes());
+    adminWorkflowsService.doLoadStatusTypes();
   }
 
   get data(): Status {
@@ -66,7 +62,7 @@ export class UpsertStatusDialogComponent implements OnInit {
         },
         asyncValidators: {
           name: {
-            expression: (control: FormControl<string>) =>
+            expression: (control: FormControl) =>
               !control.valueChanges || control.pristine
                 ? of(true)
                 : control.valueChanges.pipe(
@@ -100,11 +96,11 @@ export class UpsertStatusDialogComponent implements OnInit {
         templateOptions: {
           translate: true,
           required: true,
-          options: this.statusTypesQuery.selectAll(),
-          label: `${TRANSLATION_SCOPE}.statusType`,
+          options: this.adminWorkflowsService.statusTypes$,
+          label: `${this.translocoScope.scope}.statusType`,
           labelClassName: 'font-semibold',
           labelProp: 'name',
-          placeholder: `${TRANSLATION_SCOPE}.chooseStatusType`,
+          placeholder: `${this.translocoScope.scope}.chooseStatusType`,
           customContent: this.statusTypeContent,
         },
       },

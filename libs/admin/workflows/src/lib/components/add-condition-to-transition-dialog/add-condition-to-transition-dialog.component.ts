@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
-import { Actions } from '@datorama/akita-ng-effects';
-import { EmployeesService, JobTitlesQuery, loadJobTitles } from '@nexthcm/cdk';
-import { FormBuilder } from '@ngneat/reactive-forms';
+import { FormBuilder } from '@angular/forms';
+import { EmployeesService, JobTitlesService } from '@nexthcm/cdk';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TUI_DEFAULT_STRINGIFY } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
@@ -13,7 +12,6 @@ import { AbstractAddOptionToTransitionComponent } from '../../abstract-component
 import { ConditionType } from '../../enums';
 import { TransitionCondition, TransitionOptionsDialogData } from '../../models';
 import { AdminWorkflowsService } from '../../services/admin-workflows.service';
-import { ConditionTypesQuery } from '../../state';
 
 @Component({
   selector: 'hcm-add-condition-to-transition-dialog',
@@ -22,15 +20,13 @@ import { ConditionTypesQuery } from '../../state';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AddConditionToTransitionDialogComponent extends AbstractAddOptionToTransitionComponent<TransitionCondition> {
-  readonly conditionTypes$ = this.conditionTypesQuery
-    .selectAll()
-    .pipe(
-      map((types) =>
-        types
-          .filter((type) => this.context.data.items.every((item) => item.conditionType.id !== type.id))
-          .concat(this.context.data.item ? [this.context.data.item.conditionType] : [])
-      )
-    );
+  readonly conditionTypes$ = this.adminWorkflowsService.conditionTypes$.pipe(
+    map((types) =>
+      types
+        .filter((type) => this.context.data.items.every((item) => item.conditionType.id !== type.id))
+        .concat(this.context.data.item ? [this.context.data.item.conditionType] : [])
+    )
+  );
   fields: FormlyFieldConfig[] = [
     {
       key: 'conditionType',
@@ -74,7 +70,7 @@ export class AddConditionToTransitionDialogComponent extends AbstractAddOptionTo
         textfieldLabelOutside: true,
         placeholder: 'searchJobTitles',
         required: true,
-        serverRequest: (searchQuery: string) => this.jobTitlesQuery.searchJobTitles(searchQuery),
+        serverRequest: (searchQuery: string) => this.jobTitlesService.searchJobTitles(searchQuery),
       },
       hideExpression: (model: TransitionCondition) => model.conditionType?.code !== ConditionType.UserInTitles,
     },
@@ -96,16 +92,14 @@ export class AddConditionToTransitionDialogComponent extends AbstractAddOptionTo
   ];
 
   constructor(
-    readonly fb: FormBuilder,
+    override readonly fb: FormBuilder,
     @Inject(POLYMORPHEUS_CONTEXT)
-    readonly context: TuiDialogContext<TransitionCondition, TransitionOptionsDialogData<TransitionCondition>>,
-    readonly adminWorkflowsService: AdminWorkflowsService,
-    private readonly conditionTypesQuery: ConditionTypesQuery,
-    private readonly jobTitlesQuery: JobTitlesQuery,
-    private readonly employeesService: EmployeesService,
-    private readonly actions: Actions
+    override readonly context: TuiDialogContext<TransitionCondition, TransitionOptionsDialogData<TransitionCondition>>,
+    override readonly adminWorkflowsService: AdminWorkflowsService,
+    private readonly jobTitlesService: JobTitlesService,
+    private readonly employeesService: EmployeesService
   ) {
     super(fb, context, adminWorkflowsService);
-    this.actions.dispatch(loadJobTitles());
+    jobTitlesService.doLoadJobTitles();
   }
 }

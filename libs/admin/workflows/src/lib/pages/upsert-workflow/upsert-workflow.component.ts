@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, Injector, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, Injector, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PromptService } from '@nexthcm/cdk';
 import {
@@ -8,8 +9,7 @@ import {
   WorkflowEventType,
   WorkflowStatus,
 } from '@nexthcm/workflow-designer';
-import { FormBuilder } from '@ngneat/reactive-forms';
-import { TranslocoService } from '@ngneat/transloco';
+import { ProviderScope, TRANSLOCO_SCOPE, TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { deleteProp, dictionaryToArray, patch, setProp, slice, toDictionary } from '@rx-angular/cdk/transformations';
 import { RxState } from '@rx-angular/state';
@@ -36,7 +36,6 @@ import {
 } from '../../models';
 import { AddStatusData } from '../../models/add-status-data';
 import { AdminWorkflowsService } from '../../services/admin-workflows.service';
-import { TRANSLATION_SCOPE } from '../../translation-scope';
 import { AdminWorkflowsUtils } from '../../utils/admin-workflows-utils';
 
 interface WorkflowState {
@@ -54,10 +53,10 @@ interface WorkflowState {
 export class UpsertWorkflowComponent implements OnInit {
   @ViewChild('workflowDesigner', { static: true }) workflowDesigner!: WorkflowAPIDefinition;
 
-  readonly workflowId = this.activatedRoute.snapshot.params.workflowId as string;
-  readonly editMode = this.activatedRoute.snapshot.data.edit as boolean;
+  readonly workflowId = this.activatedRoute.snapshot.params['workflowId'] as string;
+  readonly editMode = !!this.activatedRoute.snapshot.data['edit'];
   readonly TransitionOptionIndex = TransitionOptionIndex;
-  form = this.fb.group<Workflow>({} as Workflow);
+  form = this.fb.group({} as Workflow);
   model = {} as Workflow;
   fields: FormlyFieldConfig[] = [
     {
@@ -70,7 +69,7 @@ export class UpsertWorkflowComponent implements OnInit {
         disabled: !this.editMode,
       },
       expressionProperties: {
-        'templateOptions.iconTitle': this.translocoService.selectTranslate('editName', {}, TRANSLATION_SCOPE),
+        'templateOptions.iconTitle': this.translocoService.selectTranslate('editName', {}, this.translocoScope.scope),
       },
     },
     {
@@ -114,6 +113,7 @@ export class UpsertWorkflowComponent implements OnInit {
   );
 
   constructor(
+    @Inject(TRANSLOCO_SCOPE) readonly translocoScope: ProviderScope,
     private readonly fb: FormBuilder,
     private readonly dialogService: TuiDialogService,
     private readonly injector: Injector,

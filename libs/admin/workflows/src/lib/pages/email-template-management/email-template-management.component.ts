@@ -1,19 +1,19 @@
-import { ChangeDetectionStrategy, Component, Injector, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { AbstractServerSortPaginationTableComponent, CommonStatus, Pagination, PromptService } from '@nexthcm/cdk';
-import { HashMap, TranslocoService } from '@ngneat/transloco';
+import { Location } from '@angular/common';
+import { ChangeDetectionStrategy, Component, Inject, Injector } from '@angular/core';
+import { ActivatedRoute, UrlSerializer } from '@angular/router';
+import { CommonStatus, NewAbstractServerSortPaginationTableComponent, Pagination, PromptService } from '@nexthcm/cdk';
+import { ProviderScope, TRANSLOCO_SCOPE, TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
-import { BaseComponent, Columns } from 'ngx-easy-table';
+import { Columns } from 'ngx-easy-table';
 import { Observable, of } from 'rxjs';
-import { catchError, filter, map, shareReplay, startWith, switchMap, takeUntil } from 'rxjs/operators';
+import { catchError, filter, map, share, startWith, switchMap, takeUntil } from 'rxjs/operators';
 
 import { UpsertEmailTemplateDialogComponent } from '../../components/upsert-email-template-dialog/upsert-email-template-dialog.component';
 import { EmailTemplate } from '../../models';
 import { AdminWorkflowsService } from '../../services/admin-workflows.service';
-import { TRANSLATION_SCOPE } from '../../translation-scope';
 
 @Component({
   selector: 'hcm-email-template-management',
@@ -22,11 +22,9 @@ import { TRANSLATION_SCOPE } from '../../translation-scope';
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [RxState, TuiDestroyService],
 })
-export class EmailTemplateManagementComponent extends AbstractServerSortPaginationTableComponent<EmailTemplate> {
-  @ViewChild('table') table!: BaseComponent;
-
+export class EmailTemplateManagementComponent extends NewAbstractServerSortPaginationTableComponent<EmailTemplate> {
   columns$: Observable<Columns[]> = this.translocoService
-    .selectTranslateObject<HashMap<string>>('ADMIN_WORKFLOW_TABLE_COLUMNS', {}, TRANSLATION_SCOPE)
+    .selectTranslateObject('ADMIN_WORKFLOW_TABLE_COLUMNS', {}, this.translocoScope.scope)
     .pipe(
       map((result) => [
         { key: 'name', title: result.name },
@@ -35,19 +33,22 @@ export class EmailTemplateManagementComponent extends AbstractServerSortPaginati
       ])
     );
   readonly CommonStatus = CommonStatus;
-  private readonly request$ = this.queryParams$.pipe(
-    switchMap(() => this.adminWorkflowService.getEmailTemplates(this.queryParams$.value).pipe(startWith(null))),
-    shareReplay(1)
+  private readonly request$ = this.fetch$.pipe(
+    switchMap(() => this.adminWorkflowService.getEmailTemplates(this.queryParams).pipe(startWith(null))),
+    share()
   );
   readonly loading$ = this.request$.pipe(
     map((value) => !value),
+    startWith(true),
     catchError(() => of(false))
   );
 
   constructor(
-    readonly state: RxState<Pagination<EmailTemplate>>,
-    readonly router: Router,
-    readonly activatedRoute: ActivatedRoute,
+    @Inject(TRANSLOCO_SCOPE) readonly translocoScope: ProviderScope,
+    override readonly state: RxState<Pagination<EmailTemplate>>,
+    override readonly activatedRoute: ActivatedRoute,
+    readonly locationRef: Location,
+    readonly urlSerializer: UrlSerializer,
     private readonly dialogService: TuiDialogService,
     private readonly injector: Injector,
     private readonly adminWorkflowService: AdminWorkflowsService,
@@ -55,14 +56,16 @@ export class EmailTemplateManagementComponent extends AbstractServerSortPaginati
     private readonly translocoService: TranslocoService,
     private readonly promptService: PromptService
   ) {
-    super(state, router, activatedRoute);
+    super(state, activatedRoute);
     state.connect(this.request$.pipe(filter(isPresent)));
   }
 
   onUpsertEmailTemplate(data?: EmailTemplate): void {
     this.dialogService
       .open(new PolymorpheusComponent(UpsertEmailTemplateDialogComponent, this.injector), {
-        label: this.translocoService.translate(data ? 'WORKFLOW.editEmailTemplate' : 'WORKFLOW.createEmailTemplate'),
+        label: this.translocoService.translate(
+          `${this.translocoScope.scope}.${data ? 'editEmailTemplate' : 'createEmailTemplate'}`
+        ),
         data,
         size: 'l',
       })
@@ -71,10 +74,10 @@ export class EmailTemplateManagementComponent extends AbstractServerSortPaginati
         this.promptService.open({
           icon: 'success',
           html: this.translocoService.translate(
-            data ? 'WORKFLOW.editEmailTemplateSuccessfully' : 'WORKFLOW.createEmailTemplateSuccessfully'
+            `${this.translocoScope.scope}.${data ? 'editEmailTemplateSuccessfully' : 'createEmailTemplateSuccessfully'}`
           ),
         });
-        this.queryParams$.next(this.queryParams$.value);
+        this.fetch$.next();
       });
   }
 
@@ -83,8 +86,8 @@ export class EmailTemplateManagementComponent extends AbstractServerSortPaginati
       .deleteEmailTemplate(id)
       .pipe(takeUntil(this.destroy$))
       .subscribe(
-        this.promptService.handleResponse('WORKFLOW.removeEmailTemplateSuccessfully', () =>
-          this.queryParams$.next(this.queryParams$.value)
+        this.promptService.handleResponse(`${this.translocoScope.scope}.removeEmailTemplateSuccessfully`, () =>
+          this.fetch$.next()
         )
       );
   }

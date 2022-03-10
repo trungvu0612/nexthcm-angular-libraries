@@ -1,24 +1,27 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
-import { PromptService, WorkflowsQuery } from '@nexthcm/cdk';
-import { FormBuilder } from '@ngneat/reactive-forms';
+import { ChangeDetectionStrategy, Component, EventEmitter, Inject, Input, Output } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
+import { PromptService, WorkflowsService } from '@nexthcm/cdk';
+import { ProviderScope, TRANSLOCO_SCOPE } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import { of, Subject } from 'rxjs';
+import { TuiDestroyService } from '@taiga-ui/cdk';
+import { of, Subject, takeUntil } from 'rxjs';
 import { catchError, map, startWith, switchMap, tap } from 'rxjs/operators';
 
 import { AdminRequestsConfigurationService } from '../../admin-requests-configuration.service';
-import { RequestConfig } from '../../request-config';
+import { RequestConfig } from '../../models/request-config';
 
 @Component({
   selector: 'hcm-request-config-form',
   templateUrl: './request-config-form.component.html',
   styleUrls: ['./request-config-form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [TuiDestroyService],
 })
 export class RequestConfigFormComponent {
   @Output() cancel = new EventEmitter();
 
   model = {} as RequestConfig;
-  form = this.fb.group<RequestConfig>(this.model);
+  form = this.fb.group(this.model);
   fields: FormlyFieldConfig[] = [
     {
       fieldGroupClassName: 'flex space-x-2 items-end',
@@ -32,7 +35,7 @@ export class RequestConfigFormComponent {
             label: 'workflow',
             labelClassName: 'font-semibold',
             placeholder: 'chooseWorkflow',
-            options: this.workflowsQuery.selectAll(),
+            options: this.workflowsService.workflows$,
             labelProp: 'name',
             required: true,
           },
@@ -49,7 +52,7 @@ export class RequestConfigFormComponent {
   readonly submitHandler$ = this.submit$.pipe(
     switchMap((payload) =>
       this.adminRequestsConfigurationService.updateRequestConfig(payload).pipe(
-        tap(this.promptService.handleResponse('requestsConfig.configureSuccessfully')),
+        tap(this.promptService.handleResponse(`${this.translocoScope.scope}.configureSuccessfully`)),
         catchError(() => of({})),
         startWith(null)
       )
@@ -58,16 +61,24 @@ export class RequestConfigFormComponent {
   readonly loading$ = this.submitHandler$.pipe(map((value) => !value));
 
   constructor(
+    @Inject(TRANSLOCO_SCOPE) private readonly translocoScope: ProviderScope,
     private readonly fb: FormBuilder,
-    private readonly workflowsQuery: WorkflowsQuery,
+    private readonly workflowsService: WorkflowsService,
     private readonly adminRequestsConfigurationService: AdminRequestsConfigurationService,
-    private readonly promptService: PromptService
-  ) {}
+    private readonly promptService: PromptService,
+    private readonly destroy$: TuiDestroyService
+  ) {
+    workflowsService.doLoadWorkflows();
+  }
 
   @Input() set data(data: RequestConfig) {
-    const workflow = this.workflowsQuery.getAll().find((workflow) => workflow.id === data.processId);
+    this.workflowsService.workflows$.pipe(takeUntil(this.destroy$)).subscribe((workflows) => {
+      const workflow = workflows.find((workflow) => workflow.id === data.processId);
 
-    this.model = { ...this.model, ...data, workflow };
+      if (workflow) {
+        this.model = { ...this.model, ...data, workflow };
+      }
+    });
   }
 
   onSubmit(): void {

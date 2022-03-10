@@ -12,15 +12,13 @@
       "dependencies": "*",
       "devDependencies": "*"
     },
-    ".eslintrc.json": "*",
-    ".stylelintrc.json": "*"
+    ".eslintrc.json": "*"
   },
   "tasksRunnerOptions": {
     "default": {
       "runner": "@nrwl/workspace/tasks-runners/default",
       "options": {
-        "cacheableOperations": ["build", "lint", "test", "e2e", "stylelint"],
-        "parallel": 3
+        "cacheableOperations": ["build", "lint", "test", "e2e"]
       }
     }
   },
@@ -37,35 +35,16 @@
       "style": "scss",
       "linter": "eslint",
       "unitTestRunner": "jest",
-      "e2eTestRunner": "cypress",
-      "prefix": "hcm"
+      "e2eTestRunner": "cypress"
     },
     "@nrwl/angular:library": {
+      "style": "scss",
       "linter": "eslint",
-      "unitTestRunner": "jest",
-      "buildable": true,
-      "publishable": true,
-      "prefix": "hcm"
+      "unitTestRunner": "jest"
     },
     "@nrwl/angular:component": {
-      "style": "scss",
-      "displayBlock": true,
-      "changeDetection": "OnPush"
-    },
-    "@nrwl/angular:storybook-configuration": {
-      "linter": "eslint"
-    },
-    "@schematics/angular:component": {
-      "style": "scss",
-      "displayBlock": true,
-      "changeDetection": "OnPush"
-    },
-    "@ngneat/aim:component": {
-      "style": "scss",
-      "displayBlock": true,
-      "changeDetection": "OnPush",
-      "prefix": "hcm"
+      "style": "scss"
     }
   },
-  "defaultProject": "hcm-web"
+  "defaultProject": "demo-web"
 }

@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit, ViewChild } from '@angular/core';
-import { Actions } from '@datorama/akita-ng-effects';
+import { FormBuilder } from '@angular/forms';
 import { BaseUser, PromptService, WorkflowStatusType } from '@nexthcm/cdk';
-import { FormBuilder } from '@ngneat/reactive-forms';
+import { ProviderScope, TRANSLOCO_SCOPE } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
@@ -10,8 +10,6 @@ import { takeUntil, tap } from 'rxjs/operators';
 
 import { InitWorkflow } from '../../models';
 import { AdminWorkflowsService } from '../../services/admin-workflows.service';
-import { loadStatuses, loadStatusTypes, StatusTypesQuery } from '../../state';
-import { TRANSLATION_SCOPE } from '../../translation-scope';
 
 @Component({
   selector: 'hcm-create-workflow-dialog',
@@ -24,21 +22,20 @@ export class CreateWorkflowDialogComponent implements OnInit {
   @ViewChild('statusTypeContent', { static: true }) statusTypeContent!: PolymorpheusTemplate<BaseUser>;
 
   readonly statusTypeContext!: { $implicit: WorkflowStatusType };
-  form = this.fb.group<InitWorkflow>({} as InitWorkflow);
+  form = this.fb.group({} as InitWorkflow);
   model = {} as InitWorkflow;
   fields!: FormlyFieldConfig[];
 
   constructor(
+    @Inject(TRANSLOCO_SCOPE) private readonly translocoScope: ProviderScope,
     private readonly fb: FormBuilder,
     @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<string, InitWorkflow>,
     private readonly workflowService: AdminWorkflowsService,
-    private readonly statusTypesQuery: StatusTypesQuery,
     private readonly destroy$: TuiDestroyService,
-    private readonly promptService: PromptService,
-    action: Actions
+    private readonly promptService: PromptService
   ) {
-    action.dispatch(loadStatuses());
-    action.dispatch(loadStatusTypes());
+    workflowService.doLoadStatusTypes();
+    workflowService.doLoadStatuses();
   }
 
   ngOnInit(): void {
@@ -75,10 +72,10 @@ export class CreateWorkflowDialogComponent implements OnInit {
         templateOptions: {
           translate: true,
           required: true,
-          label: `${TRANSLATION_SCOPE}.initStatus`,
+          label: `${this.translocoScope.scope}.initStatus`,
           labelClassName: 'font-semibold',
           textfieldLabelOutside: true,
-          placeholder: `${TRANSLATION_SCOPE}.searchStatusOrNameNewOne`,
+          placeholder: `${this.translocoScope.scope}.searchStatusOrNameNewOne`,
         },
       },
       {
@@ -87,9 +84,9 @@ export class CreateWorkflowDialogComponent implements OnInit {
         type: 'input',
         templateOptions: {
           translate: true,
-          label: `${TRANSLATION_SCOPE}.initStatusDescription`,
+          label: `${this.translocoScope.scope}.initStatusDescription`,
           labelClassName: 'font-semibold',
-          placeholder: `${TRANSLATION_SCOPE}.enterStatusDescription`,
+          placeholder: `${this.translocoScope.scope}.enterStatusDescription`,
           textfieldLabelOutside: true,
         },
         hideExpression: '!model.initStatus || model.initStatus?.id',
@@ -101,11 +98,11 @@ export class CreateWorkflowDialogComponent implements OnInit {
         templateOptions: {
           translate: true,
           required: true,
-          options: this.statusTypesQuery.selectAll(),
-          label: `${TRANSLATION_SCOPE}.statusType`,
+          options: this.workflowService.statusTypes$,
+          label: `${this.translocoScope.scope}.statusType`,
           labelClassName: 'font-semibold',
           labelProp: 'name',
-          placeholder: `${TRANSLATION_SCOPE}.chooseStatusType`,
+          placeholder: `${this.translocoScope.scope}.chooseStatusType`,
           customContent: this.statusTypeContent,
         },
         hideExpression: '!model.initStatus || model.initStatus?.id',

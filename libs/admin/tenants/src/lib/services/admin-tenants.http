@@ -1,7 +1,0 @@
-###
-GET https://dev-nexthcm-api.banvien.com.vn/accountapp/v1.0/orgs/get-org-structure-chart/7c3560ef-977d-4f51-9de3-defdff5f05ed
-Authorization: Bearer {{auth_token}}
-
-###
-GET https://dev-nexthcm-api.banvien.com.vn/accountapp/v1.0/tenants-status
-Authorization: Bearer {{auth_token}}

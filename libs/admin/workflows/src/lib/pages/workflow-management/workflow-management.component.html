@@ -1,7 +1,13 @@
 <hcm-page title="{{ 'workflowManagement' | transloco }}">
   <ng-container ngProjectAs="pageHeader">
-    <button (click)="onCreateWorkflow()" *ngxPermissionsOnly="'CREATE_WORKFLOW'" size="m" tuiButton>
-      {{ 'WORKFLOW.createNewWorkflow' | transloco }}
+    <button
+      (click)="onCreateWorkflow()"
+      *ngxPermissionsOnly="'CREATE_WORKFLOW'"
+      icon="tuiIconPlusLarge"
+      size="m"
+      tuiButton
+    >
+      {{ translocoScope.scope + '.createNewWorkflow' | transloco }}
     </button>
   </ng-container>
   <tui-loader [overlay]="true" [showLoader]="(loading$ | async) === true">
@@ -29,8 +35,8 @@
                 type="button"
               ></button>
               <button
-                *ngxPermissionsOnly="'DELETE_WORKFLOW'"
                 (click)="onRemoveWorkflow(item.id)"
+                *ngxPermissionsOnly="'DELETE_WORKFLOW'"
                 appearance="flat"
                 icon="tuiIconTrashLarge"
                 size="m"

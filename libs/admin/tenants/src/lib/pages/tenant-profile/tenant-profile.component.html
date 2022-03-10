@@ -1,8 +1,0 @@
-<tui-loader [overlay]="true" [showLoader]="(loading$ | async) === true">
-  <hcm-upsert-tenant-form
-    (cancel)="onCancel()"
-    (submitted)="onSubmit($event)"
-    *rxLet="profile$; let profile"
-    [data]="profile"
-  ></hcm-upsert-tenant-form>
-</tui-loader>

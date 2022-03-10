@@ -1,5 +1,5 @@
 import { Directive, Inject, OnInit } from '@angular/core';
-import { FormBuilder } from '@ngneat/reactive-forms';
+import { FormBuilder } from '@angular/forms';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 
@@ -8,7 +8,7 @@ import { AdminWorkflowsService } from '../services/admin-workflows.service';
 
 @Directive()
 export abstract class AbstractAddOptionToTransitionComponent<T extends TransitionOptions> implements OnInit {
-  readonly form = this.fb.group<T>({} as T);
+  readonly form = this.fb.group({} as T);
   model = {} as T;
 
   protected constructor(

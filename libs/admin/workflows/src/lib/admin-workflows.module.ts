@@ -2,8 +2,6 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
-import { AkitaNgEffectsModule } from '@datorama/akita-ng-effects';
-import { JobTitlesEffects, WorkflowsEffects } from '@nexthcm/cdk';
 import {
   BaseFormComponentModule,
   FormlyFieldArraySingleItemComponentModule,
@@ -67,30 +65,6 @@ import { EmailTemplateManagementComponent } from './pages/email-template-managem
 import { UpsertWorkflowComponent } from './pages/upsert-workflow/upsert-workflow.component';
 import { WorkflowManagementComponent } from './pages/workflow-management/workflow-management.component';
 import { AdminWorkflowsService } from './services/admin-workflows.service';
-import {
-  ConditionTypesEffects,
-  ConditionTypesQuery,
-  ConditionTypesStore,
-  EmailTemplatesEffects,
-  EmailTemplatesQuery,
-  EmailTemplatesStore,
-  PostFunctionsTypesStore,
-  PostFunctionTypesEffects,
-  PostFunctionTypesQuery,
-  StatusesEffects,
-  StatusesQuery,
-  StatusesStore,
-  StatusTypesEffects,
-  StatusTypesQuery,
-  StatusTypesStore,
-  TemplateVariablesEffects,
-  TemplateVariablesQuery,
-  TemplateVariablesStore,
-  ValidatorTypesEffects,
-  ValidatorTypesQuery,
-  ValidatorTypesStore,
-} from './state';
-import { TRANSLATION_SCOPE } from './translation-scope';
 
 export const ADMIN_WORKFLOWS_ROUTES: Routes = [
   {
@@ -175,17 +149,6 @@ const TABS: MenuItem[] = [
     PolymorpheusModule,
     TuiToggleModule,
     TuiCheckboxLabeledModule,
-    AkitaNgEffectsModule.forFeature([
-      EmailTemplatesEffects,
-      JobTitlesEffects,
-      ConditionTypesEffects,
-      PostFunctionTypesEffects,
-      ValidatorTypesEffects,
-      StatusesEffects,
-      StatusTypesEffects,
-      TemplateVariablesEffects,
-      WorkflowsEffects,
-    ]),
     FormlyFieldArraySingleItemComponentModule,
     FormlyStatusToggleComponentModule,
     NgxPermissionsModule,
@@ -216,26 +179,12 @@ const TABS: MenuItem[] = [
     {
       provide: TRANSLOCO_SCOPE,
       useValue: {
-        scope: TRANSLATION_SCOPE,
-        alias: TRANSLATION_SCOPE,
+        scope: 'WORKFLOW',
+        alias: 'WORKFLOW',
         loader: { en: () => Promise.resolve(en), vi: () => Promise.resolve(vi) },
       },
     },
     AdminWorkflowsService,
-    EmailTemplatesStore,
-    EmailTemplatesQuery,
-    ConditionTypesStore,
-    ConditionTypesQuery,
-    ValidatorTypesStore,
-    ValidatorTypesQuery,
-    PostFunctionsTypesStore,
-    PostFunctionTypesQuery,
-    StatusTypesStore,
-    StatusTypesQuery,
-    StatusesStore,
-    StatusesQuery,
-    TemplateVariablesStore,
-    TemplateVariablesQuery,
   ],
 })
 export class AdminWorkflowsModule {}

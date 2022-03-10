@@ -1,20 +1,20 @@
-import { ChangeDetectionStrategy, Component, Injector, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { AbstractServerSortPaginationTableComponent, Pagination, PromptService } from '@nexthcm/cdk';
-import { HashMap, TranslocoService } from '@ngneat/transloco';
+import { Location } from '@angular/common';
+import { ChangeDetectionStrategy, Component, Inject, Injector } from '@angular/core';
+import { ActivatedRoute, Router, UrlSerializer } from '@angular/router';
+import { NewAbstractServerSortPaginationTableComponent, Pagination, PromptService } from '@nexthcm/cdk';
+import { ProviderScope, TRANSLOCO_SCOPE, TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
-import { BaseComponent, Columns } from 'ngx-easy-table';
+import { Columns } from 'ngx-easy-table';
 import { EMPTY, from, iif, Observable, of } from 'rxjs';
-import { catchError, filter, map, shareReplay, startWith, switchMap, takeUntil } from 'rxjs/operators';
+import { catchError, filter, map, share, startWith, switchMap, takeUntil } from 'rxjs/operators';
 import { SweetAlertResult } from 'sweetalert2';
 
 import { CreateWorkflowDialogComponent } from '../../components/create-workflow-dialog/create-workflow-dialog.component';
 import { Workflow } from '../../models';
 import { AdminWorkflowsService } from '../../services/admin-workflows.service';
-import { TRANSLATION_SCOPE } from '../../translation-scope';
 
 @Component({
   selector: 'hcm-workflow-management',
@@ -23,11 +23,9 @@ import { TRANSLATION_SCOPE } from '../../translation-scope';
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [RxState, TuiDestroyService],
 })
-export class WorkflowManagementComponent extends AbstractServerSortPaginationTableComponent<Workflow> {
-  @ViewChild('table') table!: BaseComponent;
-
+export class WorkflowManagementComponent extends NewAbstractServerSortPaginationTableComponent<Workflow> {
   columns$: Observable<Columns[]> = this.translocoService
-    .selectTranslateObject<HashMap<string>>('ADMIN_WORKFLOW_TABLE_COLUMNS', {}, TRANSLATION_SCOPE)
+    .selectTranslateObject('ADMIN_WORKFLOW_TABLE_COLUMNS', {}, this.translocoScope.scope)
     .pipe(
       map((result) => [
         { key: 'name', title: result.name },
@@ -35,19 +33,23 @@ export class WorkflowManagementComponent extends AbstractServerSortPaginationTab
         { key: 'functions', title: result.functions, orderEnabled: false },
       ])
     );
-  private readonly request$ = this.queryParams$.pipe(
-    switchMap(() => this.workflowService.getWorkflows(this.queryParams$.value).pipe(startWith(null))),
-    shareReplay(1)
+  private readonly request$ = this.fetch$.pipe(
+    switchMap(() => this.workflowService.getWorkflows(this.queryParams).pipe(startWith(null))),
+    share()
   );
   readonly loading$ = this.request$.pipe(
     map((value) => !value),
+    startWith(true),
     catchError(() => of(false))
   );
 
   constructor(
-    readonly state: RxState<Pagination<Workflow>>,
-    readonly router: Router,
-    readonly activatedRoute: ActivatedRoute,
+    override readonly state: RxState<Pagination<Workflow>>,
+    override readonly activatedRoute: ActivatedRoute,
+    readonly locationRef: Location,
+    readonly urlSerializer: UrlSerializer,
+    private readonly router: Router,
+    @Inject(TRANSLOCO_SCOPE) readonly translocoScope: ProviderScope,
     private readonly dialogService: TuiDialogService,
     private readonly injector: Injector,
     private readonly workflowService: AdminWorkflowsService,
@@ -55,14 +57,14 @@ export class WorkflowManagementComponent extends AbstractServerSortPaginationTab
     private readonly translocoService: TranslocoService,
     private readonly promptService: PromptService
   ) {
-    super(state, router, activatedRoute);
+    super(state, activatedRoute);
     state.connect(this.request$.pipe(filter(isPresent)));
   }
 
   onCreateWorkflow(): void {
     this.dialogService
       .open<string>(new PolymorpheusComponent(CreateWorkflowDialogComponent, this.injector), {
-        label: this.translocoService.translate('WORKFLOW.createNewWorkflow'),
+        label: this.translocoService.translate(`${this.translocoScope.scope}.createNewWorkflow`),
       })
       .pipe(takeUntil(this.destroy$))
       .subscribe((res) => this.router.navigate(['..', res, 'edit'], { relativeTo: this.activatedRoute }));
@@ -76,7 +78,9 @@ export class WorkflowManagementComponent extends AbstractServerSortPaginationTab
           from(
             this.promptService.open({
               icon: used ? 'warning' : 'question',
-              html: this.translocoService.translate(used ? 'WORKFLOW.deleteUsedWorkflow' : 'WORKFLOW.deleteWorkflow'),
+              html: this.translocoService.translate(
+                `${this.translocoScope.scope}.${used ? 'deleteUsedWorkflow' : 'deleteWorkflow'}`
+              ),
               showCancelButton: true,
             })
           )
@@ -87,8 +91,8 @@ export class WorkflowManagementComponent extends AbstractServerSortPaginationTab
         takeUntil(this.destroy$)
       )
       .subscribe(
-        this.promptService.handleResponse('WORKFLOW.removeWorkflowSuccessfully', () =>
-          this.queryParams$.next(this.queryParams$.value)
+        this.promptService.handleResponse(`${this.translocoScope.scope}.removeWorkflowSuccessfully`, () =>
+          this.fetch$.next()
         )
       );
   }

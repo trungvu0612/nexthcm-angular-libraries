@@ -1,8 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AkitaNgEffectsModule } from '@datorama/akita-ng-effects';
-import { WorkflowsEffects } from '@nexthcm/cdk';
 import { BaseFormComponentModule, LayoutComponent, LayoutModule } from '@nexthcm/ui';
 import { WorkflowDesignerModule } from '@nexthcm/workflow-designer';
 import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
@@ -19,7 +17,6 @@ import { RequestConfigFormComponent } from './components/request-config-form/req
 import { ViewWorkflowDialogComponent } from './components/view-workflow-dialog/view-workflow-dialog.component';
 import en from './i18n/en.json';
 import vi from './i18n/vi.json';
-import { TRANSLATION_SCOPE } from './translation-scope';
 
 export const adminRequestsConfigurationRoutes: Routes = [
   {
@@ -36,7 +33,6 @@ export const adminRequestsConfigurationRoutes: Routes = [
     CommonModule,
     RouterModule.forChild(adminRequestsConfigurationRoutes),
     LayoutModule,
-    AkitaNgEffectsModule.forFeature([WorkflowsEffects]),
     TranslocoModule,
     TuiAccordionModule,
     BaseFormComponentModule,
@@ -59,7 +55,7 @@ export const adminRequestsConfigurationRoutes: Routes = [
     AdminRequestsConfigurationService,
     {
       provide: TRANSLOCO_SCOPE,
-      useValue: { scope: TRANSLATION_SCOPE, loader: { en: () => Promise.resolve(en), vi: () => Promise.resolve(vi) } },
+      useValue: { scope: 'requestsConfig', loader: { en: () => Promise.resolve(en), vi: () => Promise.resolve(vi) } },
     },
   ],
 })
