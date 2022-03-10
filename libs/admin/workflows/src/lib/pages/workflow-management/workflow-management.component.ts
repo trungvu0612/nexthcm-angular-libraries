@@ -1,7 +1,7 @@
 import { Location } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Inject, Injector } from '@angular/core';
 import { ActivatedRoute, Router, UrlSerializer } from '@angular/router';
-import { NewAbstractServerSortPaginationTableComponent, Pagination, PromptService } from '@nexthcm/cdk';
+import { AbstractServerSortPaginationTableComponent, Pagination, PromptService } from '@nexthcm/cdk';
 import { ProviderScope, TRANSLOCO_SCOPE, TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
@@ -23,7 +23,7 @@ import { AdminWorkflowsService } from '../../services/admin-workflows.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [RxState, TuiDestroyService],
 })
-export class WorkflowManagementComponent extends NewAbstractServerSortPaginationTableComponent<Workflow> {
+export class WorkflowManagementComponent extends AbstractServerSortPaginationTableComponent<Workflow> {
   columns$: Observable<Columns[]> = this.translocoService
     .selectTranslateObject('ADMIN_WORKFLOW_TABLE_COLUMNS', {}, this.translocoScope.scope)
     .pipe(

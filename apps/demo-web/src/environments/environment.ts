@@ -7,7 +7,7 @@ import { AppConfig } from '@nexthcm/core';
 export const environment: AppConfig = {
   production: false,
   language: 'en',
-  baseUrl: 'http://localhost:4200',
+  baseUrl: 'http://localhost:4201',
   apiUrl: 'https://qa-nexthcm-api.banvien.com.vn',
   orgUrl: 'https://qa-nexthcm-api.banvien.com.vn',
 };
