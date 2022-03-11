@@ -85,7 +85,7 @@ export class AddConditionToTransitionDialogComponent extends AbstractAddOptionTo
         textfieldLabelOutside: true,
         placeholder: 'chooseSupervisorTypes',
         required: true,
-        options: this.employeesService.getSupervisorTypes(),
+        options: this.employeesService.supervisorTypes$,
       },
       hideExpression: (model: TransitionCondition) => model.conditionType?.code !== ConditionType.ReportingMethods,
     },
@@ -101,5 +101,6 @@ export class AddConditionToTransitionDialogComponent extends AbstractAddOptionTo
   ) {
     super(fb, context, adminWorkflowsService);
     jobTitlesService.doLoadJobTitles();
+    employeesService.doLoadSupervisorTypes();
   }
 }
