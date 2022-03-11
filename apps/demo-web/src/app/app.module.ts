@@ -1,6 +1,3 @@
-import { registerLocaleData } from '@angular/common';
-import localeEn from '@angular/common/locales/en';
-import localeVi from '@angular/common/locales/vi';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -12,9 +9,6 @@ import { TuiRootModule } from '@taiga-ui/core';
 
 import { environment } from '../environments/environment';
 import { AppComponent } from './app.component';
-
-registerLocaleData(localeVi);
-registerLocaleData(localeEn);
 
 @NgModule({
   declarations: [AppComponent],
