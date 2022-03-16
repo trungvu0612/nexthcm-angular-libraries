@@ -29,7 +29,6 @@ registerLocaleData(localeEn);
           children: [
             { path: '', loadChildren: () => import('@nexthcm/home').then((m) => m.HomeModule) },
             { path: 'my-time', loadChildren: () => import('@nexthcm/my-time').then((m) => m.MyTimeModule) },
-            { path: 'calendar', loadChildren: () => import('@nexthcm/calendar').then((m) => m.CalendarModule) },
             { path: 'seat-maps', loadChildren: () => import('@nexthcm/seat-maps').then((m) => m.SeatMapsModule) },
             {
               path: 'human-resource',
