@@ -1739,162 +1739,162 @@
 
 "@nexthcm/admin-employees@^1.1.0":
   version "1.1.0"
-  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/admin-employees/-/admin-employees-1.1.0.tgz#71a292fa848172b6b7c1520d5fc7b9342abd4d0f"
-  integrity sha512-yeHpWp52kyigEasAhiRNHiUWBtYwVBjyCRCs5Zj0L6DgOWnbImz6PxernyAlVaewKJ0yNz64wSKbg217IDS7JA==
+  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/admin-employees/-/admin-employees-1.1.0.tgz#a1a9ead272a05c31f59e1c787bba70d2f18d2e4a"
+  integrity sha512-dNSJTrA+iY5QW1tV75eqlfiV0gjX6S817YGV9WjJOpK4apTu17nuJdxbJiWscWwkUvU9bK7phJyWVj1o8wbcfw==
   dependencies:
     tslib "^2.3.0"
 
 "@nexthcm/admin-job-levels@^1.1.0":
   version "1.1.0"
-  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/admin-job-levels/-/admin-job-levels-1.1.0.tgz#ff425bc6935fc112e75749828750fbbb09938069"
-  integrity sha512-ENlkowfosN1shMet28ZU7NTyaBx2NKrzFMUwiwBxkifGXarhwWsxUVjN/HqTAAMpYCnutXUcXuCX8ty3GxseFw==
+  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/admin-job-levels/-/admin-job-levels-1.1.0.tgz#681ef3819414b37d547d1221e57cd69f6d172a7b"
+  integrity sha512-vFQJE2TyHzhHW82PpFNMV35rtvEWncLmrlh74A+PfM55sCpO5+Uy44VFtM18j6Bs/KHMNALZtHKCojvm8O3hbA==
   dependencies:
     tslib "^2.3.0"
 
 "@nexthcm/admin-job-titles@^1.1.0":
   version "1.1.0"
-  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/admin-job-titles/-/admin-job-titles-1.1.0.tgz#313cda5ff30adb6e7a9db58a91e7cd6430114220"
-  integrity sha512-t9RWE6M1vgzmyFAOUMpfSjaB2xNqztXAh+fXFljbILOJ9I4gou98LHUeLLiWOTIU7Z/XADVOsDGCODI/5sk8sA==
+  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/admin-job-titles/-/admin-job-titles-1.1.0.tgz#51ffc581566ef8c4d74598a4124fcfeac174555b"
+  integrity sha512-2hOcZYf7kTXrABERWV5HJIbdHuyn0BML2bQ+iz3N2NHQdMYaM+AV8/4xQ8GQWDQsC2RQJY1wIX8h5b1ADfF0Dg==
   dependencies:
     tslib "^2.3.0"
 
 "@nexthcm/admin-knowledge-base@^1.1.0":
   version "1.1.0"
-  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/admin-knowledge-base/-/admin-knowledge-base-1.1.0.tgz#b0959ec37ed002b7fcd60390f7cca1fa2bbfe783"
-  integrity sha512-vbLJOefsxX+77KLyQ16Uao0DCu9Gu1dbONx1Q8vDH6GpOZ+66cFr0UdCIzSF33z3wsE1KzdzZpb/8qNAU9oYxA==
+  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/admin-knowledge-base/-/admin-knowledge-base-1.1.0.tgz#ef7d81be47fa637aa1f0f83cf9d6738c8f113622"
+  integrity sha512-cLsAadLjwV4y5MC8dT5bqeRJ1UppDqfzInnj92JwqQQox7tOmPgqr13aRLn7swXGqP5bNxHQ1BiXHxVYZLn61A==
   dependencies:
     tslib "^2.3.0"
 
 "@nexthcm/admin-leave-configs@^1.0.1":
   version "1.1.0"
-  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/admin-leave-configs/-/admin-leave-configs-1.1.0.tgz#bdb931e079387e13e7cd0f3dc1ef305cefba16fa"
-  integrity sha512-klQ4svEqxnpkvkN+PCVpeky6SrSLlLZCoxO+qMRViEK7LT8ykLE7lsfnlpE52t1c1xtg6X91u0KffIPQC2jmTg==
+  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/admin-leave-configs/-/admin-leave-configs-1.1.0.tgz#b29de6c08075c824e718318109f7ba0902a7716d"
+  integrity sha512-66SZpy4YiFpBGaZzEIaPzGVZWoIGbZIyjv9W8cWjeN1tob4QzQ7+faaI/VgVHUuGJ+kC/JLaVYIbCJfjBRTw3w==
   dependencies:
     tslib "^2.3.0"
 
 "@nexthcm/admin-notifications@^1.1.0":
   version "1.1.0"
-  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/admin-notifications/-/admin-notifications-1.1.0.tgz#774e2d0ec5c23a6e02d1f5d525e80945af4f6200"
-  integrity sha512-FTFoZNdgumX8c9bztS/hmqOn0PqMQAyK8Onu0wznX9Nwu0z+HHB3baVUVzeL6CSBXf/T5Z2toUpFDDtZDONg2g==
+  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/admin-notifications/-/admin-notifications-1.1.0.tgz#df558cf415d3cc75d75a84ad5bc20e7bb09f7138"
+  integrity sha512-3nGoYRwPSmHudXp5lI176DluZp1IbHm9+w2GkT//LAdamIjzVUcfwMLSE9pqil/VdAR+Qd3hEFvSVN/0znvCWA==
   dependencies:
     tslib "^2.3.0"
 
 "@nexthcm/admin-offices@^1.1.0":
   version "1.1.0"
-  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/admin-offices/-/admin-offices-1.1.0.tgz#2184ce9428be074501436dfffc55e681fbb84009"
-  integrity sha512-mn15zitFbzX3w+Ncdv8c4ZVrIlc/mfgQrbitJIeQiG/x6ZEq9/BPIAO7OdqEQM2DYAWjtjUPyR2zDvxAbPDe0A==
+  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/admin-offices/-/admin-offices-1.1.0.tgz#ff27368bca134c3f4401d49702e11d9feb7e5da2"
+  integrity sha512-h3QTiK+UBjfUbdW0IVlkiRYuM0EZyKLMILsR7WArGgAPjQErm0F40AQOMwWX8J0MxAKF+udXh9YOdcNNH/j6lA==
   dependencies:
     tslib "^2.3.0"
 
 "@nexthcm/admin-permissions@^1.1.0":
   version "1.1.0"
-  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/admin-permissions/-/admin-permissions-1.1.0.tgz#0e83277f479e77a1b997952e1d884512bc90ba3c"
-  integrity sha512-3djAOK6JDWvFOJbzMVF6mhw6/eeUd1cyZL9fdWDs+2xTAJUx1DSdBUqwMIZsmCKjp8aJedfGg2JdtnfL2NcSZg==
+  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/admin-permissions/-/admin-permissions-1.1.0.tgz#18ec14918ee854009b7b5f589754409fac0f9ad1"
+  integrity sha512-zVKIjnQ6aAWo092gSOM3mLkKGCaLHvFXjvJyRaeJkXsZR2FI+JZkvrbHtFkvSNWOK/Y40jdCaRhKRefdAV20Uw==
   dependencies:
     tslib "^2.3.0"
 
 "@nexthcm/admin-seat-maps@^1.1.0":
   version "1.1.0"
-  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/admin-seat-maps/-/admin-seat-maps-1.1.0.tgz#88e0bd3a2df99d73bb2df462acd985384cca04f7"
-  integrity sha512-qP1rvVebnXO+DAbBSvMyFn53pIEi6r3ZfxmBOjNY0fD+I1vwxonqMfp1vjhn2+BNhJHl5uhexuw5gxc7aulycA==
+  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/admin-seat-maps/-/admin-seat-maps-1.1.0.tgz#baf4bb3c02db5b8877eba0f478b1aa3c6fc952cd"
+  integrity sha512-iGCds5NyxWSBP9olDZHgsUk+RywvcgKXxZ8ORcUosn/5aWx1euoRE65ZAlBmofOYzWQ3bMz0Jr1sIiWn329xbw==
   dependencies:
     tslib "^2.3.0"
 
 "@nexthcm/admin-task-scheduler@^1.1.0":
   version "1.1.0"
-  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/admin-task-scheduler/-/admin-task-scheduler-1.1.0.tgz#863a830f512a28dc7d9aa7f188bc5757399056cd"
-  integrity sha512-mEcqSiPSbyOk18UBdaxRf5+28xiWIfYNsD4MQ5tOXcHFxZhaasYI3DgOPHuy3LQvpnEjVEbURrN3w1rSLHgOrA==
+  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/admin-task-scheduler/-/admin-task-scheduler-1.1.0.tgz#9ed864a9d4edb1562ff160f14048c2f3364aa64a"
+  integrity sha512-iI6wKwd9/TAVtSJSp1awyCrdpxt6s5/mEsa4vChWRyF/pm5WSQZKzUKkcbzHQ51LlQh1WthYoKmWiVHrhIRQTQ==
   dependencies:
     tslib "^2.3.0"
 
 "@nexthcm/admin-tenants@^1.1.0":
   version "1.1.0"
-  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/admin-tenants/-/admin-tenants-1.1.0.tgz#26461cd61d5ca7533c94e4c608b06db53ebb45d9"
-  integrity sha512-+WOG700/k1Gi6MPHAI1qiFrhi8jvXHI9PZAiL1HllwTu2a/bk0YiNDGz/6p9/4EPwGgZfFHFO65Kit8VeH3e/g==
+  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/admin-tenants/-/admin-tenants-1.1.0.tgz#ba6d694449285b7a058980df279ed44956390be1"
+  integrity sha512-QDA0Sgd6e/illj7ZXpNhuChoJ6LgV0DcUvQOfruJVoVp+gPqYPAXNfO8Ol8JQtqNxLNf56dUaOw3q7FMdPxrwA==
   dependencies:
     tslib "^2.3.0"
 
 "@nexthcm/admin-user-roles@^1.1.0":
   version "1.1.0"
-  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/admin-user-roles/-/admin-user-roles-1.1.0.tgz#ebeceae84b7f6cfcaad75ceaa7390fbb580de0a8"
-  integrity sha512-V+8xlWQJCb1Zz8sF8DHRwxIQskQXvbISElbAU2kGgsnbbAhbBbD0pbDFR3Kb5oZ6qGBr+bRbD48sqZmPhVuC+A==
+  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/admin-user-roles/-/admin-user-roles-1.1.0.tgz#43bb1d7566b370084f257302acb366bd0d648500"
+  integrity sha512-GAgDxGn08Td0i+ZK5Gb40FWJ7fBQgpT6QkV9c+hUEFji10VKjzA3VPeL6DaG2zam0RXVSItNd0qsdWCiiihLrw==
   dependencies:
     tslib "^2.3.0"
 
 "@nexthcm/admin-working-times@^1.1.0":
   version "1.1.0"
-  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/admin-working-times/-/admin-working-times-1.1.0.tgz#62c8891274fbaf7b0817a6ce913d8c8f4cd12db9"
-  integrity sha512-NsIGhBKtE8Qt5I3YwC47u0qi1uZqc0sTxAhagMzM6QU7m31e8q3fW4tVP1fIk9tKJrVNY2uWDtqXu2DvQgyElw==
+  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/admin-working-times/-/admin-working-times-1.1.0.tgz#c52b4377657be5d311b1ca9045c08a93df358840"
+  integrity sha512-150dlyecamG2hNG8gXafdsfekAAw37q8jHReN/df6pEo+Kdgin0llSQHTHBCOMXCO8HsAhbpvVn20PZiRuVUPw==
   dependencies:
     tslib "^2.3.0"
 
 "@nexthcm/auth@^1.1.0":
   version "1.1.0"
-  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/auth/-/auth-1.1.0.tgz#48497a6816c844af21b63e556264ce6df83c8f80"
-  integrity sha512-44VeK/VepwSxwfWBstIOjrDxhz1c4XijNhop8CUzk23iDHrcEeECapwjZRw7HBx8FZcmGZ0svm2dkAKexGvr5g==
+  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/auth/-/auth-1.1.0.tgz#052cd48bbfd178b82ecdfa861cc65d4c1cfab5fc"
+  integrity sha512-Sr2Xqnw2oGOmD5t+7EuV6siA1DTQH2QgeV6QqosdviXb5QFsU7MBLDh2iJ4wxmhjYW0TreZZmUqMTj1BqtRe5A==
   dependencies:
     tslib "^2.3.0"
 
 "@nexthcm/cdk@^1.1.0":
   version "1.1.0"
-  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/cdk/-/cdk-1.1.0.tgz#904113ffe9f44560c0c52df70368649b94a1c059"
-  integrity sha512-+nufQc3hkeCfyeeEbWV7dYOBpl5ZGRwSia1noHYnSgnCp1R3DNVezvWABHgcNM0I8Vm0nM5W8A5EqJHq2EqjjA==
+  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/cdk/-/cdk-1.1.0.tgz#cb648f8ee230beba4ec96b67d0ee33c41a527014"
+  integrity sha512-qoT7OJittoj6TfKokXLn2DnmKZOz2hdKeTpbERs0OxZu4mD90D+4LyF1FvWyZ2AZtfYDLrdszt8H8shbLZt9eg==
   dependencies:
     tslib "^2.3.0"
 
 "@nexthcm/core@^1.1.0":
   version "1.1.0"
-  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/core/-/core-1.1.0.tgz#0f4788dcbe7cf39f47bf107e5fb89fead1e0ab30"
-  integrity sha512-o68MClvWSKsPnBGvPKaurOWeeDfKtz5miaoCRvoAJpHu1/kEaPPWThXmFZFWgohiabq7SKiQo+vB/JEbscYitQ==
+  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/core/-/core-1.1.0.tgz#fb2496facbfa35711cb8cea1300c72c76221079b"
+  integrity sha512-0ys7Dd/X7raFxamhnkQ+kRnipMlaQuWBE4QcXtQfOzTmihgphpIqqaUuZf1RtF7KiqCyCXepuSkIP8Dz6Pi08g==
   dependencies:
     tslib "^2.3.0"
 
 "@nexthcm/crontab@^1.1.0":
   version "1.1.0"
-  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/crontab/-/crontab-1.1.0.tgz#b42f5240742989df1f0b65cc2a5a3fd821c65d29"
-  integrity sha512-o6mhyrtybLusFMXAUP65DE7qmQlwwQC4X5DsNgH2sSRQhj+gbQz0qOAAnbiz/Kk3RBxpICQwUwvN0QLWwrhDfQ==
+  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/crontab/-/crontab-1.1.0.tgz#cfa31aa89610bbf03359997aebe88cded287838d"
+  integrity sha512-xyx9RnnXo4+vPahk2bCsS5Dmv9djkwZHCpHqU9bfYoERc2Qr+vV5weWkLj9ljh/ptZ4GvY2N9Db4fwN0NzpV1Q==
   dependencies:
     tslib "^2.3.0"
 
 "@nexthcm/home@^1.1.0":
   version "1.1.0"
-  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/home/-/home-1.1.0.tgz#2fb5c270ce715739767b2c0e788a463b037f012e"
-  integrity sha512-4H2K9r0FJkIO+7soxgzirni2jQDb0iaRhDkLQvm5yVwjTqcb62JTFktmVIjx07eyRcbwBbQvntViSHRYpgmDzw==
+  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/home/-/home-1.1.0.tgz#75d99972040f59ad5a14998c324ea32f02c702d1"
+  integrity sha512-CLDygIu3hvI7S0Icq8CtSyhN2FSogOCnap6TgtZ48pjNbm9fWDSt+A8IrOanc7ClSWUFKsiB659iJHyI+E/B1w==
   dependencies:
     tslib "^2.3.0"
 
 "@nexthcm/human-resource@^1.1.0":
   version "1.1.0"
-  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/human-resource/-/human-resource-1.1.0.tgz#98534f45a6ba3211d9c7e5ee28219d7d533cd998"
-  integrity sha512-ArdD4f/nNjBNq6w79kjoZqjibpWiASa+LZu3BtriYlR71uEozzIFBBB4Lw1wZbQMjujzVC+fx92M4ASaN7rABg==
+  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/human-resource/-/human-resource-1.1.0.tgz#d2932722ead74b52c7fecdb3143007552fb07699"
+  integrity sha512-+2HLL1nmnANvQtVPbfq6P0mcSNiTL+8fgueI8b+Peg2v4zzQF69IffR0D6C6tai9Xj6/M1zlKraLLUPxEr/aOA==
   dependencies:
     tslib "^2.3.0"
 
 "@nexthcm/knowledge-base@^1.1.0":
   version "1.1.0"
-  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/knowledge-base/-/knowledge-base-1.1.0.tgz#8b83b4d357ec8b629aa662026954170f4d4362a4"
-  integrity sha512-pAi+yB+95i+QDEFRX5+9AlGrrKxRUHjYSbkT3wZQOSqa8tPPdDyBG6kyEJUOF+qtmWhSAGovkb9BM2tSzNEk3w==
+  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/knowledge-base/-/knowledge-base-1.1.0.tgz#1545971d9de2f8fa581afd449737ce606438faf4"
+  integrity sha512-+bJz7ZUwD9+8ss3KJB1b8hiMQ2ON1r11OoDxCq4B7NEOlcb//9ZIsDwEKKuIxkEKZ2sbpcTfeQ6oT9Wnk777DQ==
   dependencies:
     tslib "^2.3.0"
 
 "@nexthcm/my-time@^1.1.0":
   version "1.1.0"
-  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/my-time/-/my-time-1.1.0.tgz#0da97fb6716a017af12d11c4dee1eed6317fad9f"
-  integrity sha512-M1irVzWs5GkavEQR4PacVRoE+brvGdBtWzu7te1r1eqYlt04X+4NZ5/QlByDUv8tqlvXQl9meETMcUW1OpN7/Q==
+  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/my-time/-/my-time-1.1.0.tgz#687273832be6510a2f2386bbf3e6e969d06c76a8"
+  integrity sha512-lZ/5eFzrJtW85lgyGEngVwZDorw+rI82eFiOkaRGJTBl6ckJgmJsegmrPJJN9ONmYaoJBwzlpofY9adDoLJFjA==
   dependencies:
     tslib "^2.3.0"
 
 "@nexthcm/seat-maps@^1.1.0":
   version "1.1.0"
-  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/seat-maps/-/seat-maps-1.1.0.tgz#af8f6715221f02e04857876be2eb398851fa0d54"
-  integrity sha512-lnx/PLMDGyyKtNmA1+zTtg47aEB/HQVgrr2HOaqew4bk20cKc8rI0N3xCgzv3URqNn6cK55P131ykYL1g0VkAA==
+  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/seat-maps/-/seat-maps-1.1.0.tgz#d781e1066509f27a7cd2b9b26cb0a0ea9a1ee041"
+  integrity sha512-TTeBMwUlK0Fl9Fup4NYoIXTFXU3XN6zL6DwMn+joVTQG0W477bnZSe448Wbw04y65TbOdNU7+1shHE+UDLnc+Q==
   dependencies:
     tslib "^2.3.0"
 
 "@nexthcm/ui@^1.1.0":
   version "1.1.0"
-  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/ui/-/ui-1.1.0.tgz#584c1df3b14b694f3ed12487e430b2d5f495b42c"
-  integrity sha512-LPMCaOlg/rZfQIDlaB7wTsC/18Ta2AsYGtwDulieP3wt0S4U4Y4yxs2VaN6IDHKiHmk5XtyAsNLg8LunUJAPeQ==
+  resolved "https://maven.banvien.com.vn/repository/npm-hosted/@nexthcm/ui/-/ui-1.1.0.tgz#5f97bf0ace04023a8f17274693311aae73ad69c2"
+  integrity sha512-zqglDGJb+109Uax9/t+GWmyFUTFOMaQyC+Px6HJY1jHh5sTXq/t/JNjWp3dKzATPWPK8ZPLVTNYW9a2JOK+vHw==
   dependencies:
     tslib "^2.3.0"
 
@@ -2446,89 +2446,89 @@
   dependencies:
     source-map-support "^0.5.21"
 
-"@swc/core-android-arm-eabi@1.2.157":
-  version "1.2.157"
-  resolved "https://registry.yarnpkg.com/@swc/core-android-arm-eabi/-/core-android-arm-eabi-1.2.157.tgz#3f9417326a110d02847379b4f380d038cadf02f3"
-  integrity sha512-n0AlbqYA0Ti7pSiKlCohy1GYjL5JpKUkDQW6vrBZoU8bdkoOaHWMlem4IdnaLtPpgWuxJdSnWcyR8osK9XgppA==
+"@swc/core-android-arm-eabi@1.2.158":
+  version "1.2.158"
+  resolved "https://registry.yarnpkg.com/@swc/core-android-arm-eabi/-/core-android-arm-eabi-1.2.158.tgz#c850b614854da8e58e27cf51390bee656f093cc7"
+  integrity sha512-8RHlMo9+N8V5EE/2VOCF9H9DU3s3rj6SIRpTnQbIaJlZNwqCHp+q8xQGfKEFTrY2GShhFa/vN+w279gl2NXA+g==
 
-"@swc/core-android-arm64@1.2.157":
-  version "1.2.157"
-  resolved "https://registry.yarnpkg.com/@swc/core-android-arm64/-/core-android-arm64-1.2.157.tgz#d16d560b729fe7d769821dca933d678b88dcadf9"
-  integrity sha512-pRmiFBXx2vMC4oXYGtf+ttwreJMK61Ikbaq99nyaRYzuhQpUa/M06v+tqwdskmehhMMGZHjL2ZylEU95iJWz0w==
+"@swc/core-android-arm64@1.2.158":
+  version "1.2.158"
+  resolved "https://registry.yarnpkg.com/@swc/core-android-arm64/-/core-android-arm64-1.2.158.tgz#62764c3f509df24c6f504827d2cb7adad8a2f634"
+  integrity sha512-lfSUGzIjIvyj9sMtvnL6VPuC0XryfVCs3Fsvzbk4H0bi3nSDYFmVbpBvXZFhd60lcw1bcOFepBfi70LFmnhHTQ==
 
-"@swc/core-darwin-arm64@1.2.157":
-  version "1.2.157"
-  resolved "https://registry.yarnpkg.com/@swc/core-darwin-arm64/-/core-darwin-arm64-1.2.157.tgz#ab437a9ffc1e36cf7e14bc1744fb45f1e40b9d26"
-  integrity sha512-2KiufwT79hsXOb1eToZBRER/nmKEVs5Ap5kwiUN5jmD23PVmxAqLFPO8Bj1R787XMSn0wg0r75IvYD7M/PCpTA==
+"@swc/core-darwin-arm64@1.2.158":
+  version "1.2.158"
+  resolved "https://registry.yarnpkg.com/@swc/core-darwin-arm64/-/core-darwin-arm64-1.2.158.tgz#64ef42f32b06c64c61d2648a5bbca8766338197c"
+  integrity sha512-vrdITsJjbx7lVN43Aq//gT+NRSdxS1+KxC6EiOct3qLcQA+P7w1nehZnlR+4qRLCgbBmQZQeeNnInaKpm9G7+g==
 
-"@swc/core-darwin-x64@1.2.157":
-  version "1.2.157"
-  resolved "https://registry.yarnpkg.com/@swc/core-darwin-x64/-/core-darwin-x64-1.2.157.tgz#618eb13c2983b9510d3b5a894e55d8ac739b7b44"
-  integrity sha512-HooyX9OgnB7bCr1M5OxidC1ynbrGIMVYwiUBqIGLcUMDZT0JNnPOwI+sjOClEAPEDgipZJY+foe22k2Jz37CRw==
+"@swc/core-darwin-x64@1.2.158":
+  version "1.2.158"
+  resolved "https://registry.yarnpkg.com/@swc/core-darwin-x64/-/core-darwin-x64-1.2.158.tgz#0ca64b3d244771e4d99a1555c4e9052dbe63d00f"
+  integrity sha512-+SIZgX01YEbTTClVdbc4aNR4dDsIVP+JiXxH1Zq5JYSsGxXzunRBMYcmTxnxRK2RHY1wOsLMD8AT5lZqQK6jsg==
 
-"@swc/core-freebsd-x64@1.2.157":
-  version "1.2.157"
-  resolved "https://registry.yarnpkg.com/@swc/core-freebsd-x64/-/core-freebsd-x64-1.2.157.tgz#185907771eb5a827c4b93326dde6d101f08e6a9b"
-  integrity sha512-Y1HotTdblrRr2fN/oJzP2FhSWemBBzEriVYvi+29C5GekvbpnR6hZLPI+dllaHgpNk4X+METdqb2MudR9aV/Hw==
+"@swc/core-freebsd-x64@1.2.158":
+  version "1.2.158"
+  resolved "https://registry.yarnpkg.com/@swc/core-freebsd-x64/-/core-freebsd-x64-1.2.158.tgz#f0609f2f4c9d5bde24f6ab4b061ee42fbaec85f5"
+  integrity sha512-a+dF5T+Wi95E5IrMlHdGVETUgFkeL2roFT7cfjfWokR8UudD40kYkr8dxOBFizeIvgoeQdQ0hnJJl1dASL/ydA==
 
-"@swc/core-linux-arm-gnueabihf@1.2.157":
-  version "1.2.157"
-  resolved "https://registry.yarnpkg.com/@swc/core-linux-arm-gnueabihf/-/core-linux-arm-gnueabihf-1.2.157.tgz#02d6c8b6afb1f30a5a104dd1885aedacd4e6c04f"
-  integrity sha512-nDnIsyWDoGsroWY+whtopv/+GhZv8wSz6D/pnpCYYO+k5Blctr1zlpRQubPyi+i+yiJICdW/I40X/Ck9bH2ZNA==
+"@swc/core-linux-arm-gnueabihf@1.2.158":
+  version "1.2.158"
+  resolved "https://registry.yarnpkg.com/@swc/core-linux-arm-gnueabihf/-/core-linux-arm-gnueabihf-1.2.158.tgz#c166c42e6c07b1f1c273b4034d40ce486a23ef00"
+  integrity sha512-+B/WYr8RRe6YcCUAfD8r/p2rGrxEEDud2MXxbAS3OMYuSYrFzfOxqKzCd6rQ7/OTXpTpapg0yctvhzOyArtAZw==
 
-"@swc/core-linux-arm64-gnu@1.2.157":
-  version "1.2.157"
-  resolved "https://registry.yarnpkg.com/@swc/core-linux-arm64-gnu/-/core-linux-arm64-gnu-1.2.157.tgz#78f3e46d5cfec788fa4786e7b2c8327984aa7393"
-  integrity sha512-BZ78UbVwEHmSc7P5h4oNYh21vw/zNtMdyanYWMfCAahJ/Yu6EU4S3AdtTnJPraKzG2U3GaChI2//LtpTrBomAg==
+"@swc/core-linux-arm64-gnu@1.2.158":
+  version "1.2.158"
+  resolved "https://registry.yarnpkg.com/@swc/core-linux-arm64-gnu/-/core-linux-arm64-gnu-1.2.158.tgz#597577dda702400f5f5d4cf49b32bb3fa6017835"
+  integrity sha512-QNTs6g9VYMF4UxRnSCMe7TRAPgCdsaUbHeWhaRtRE2nfKN4fd0YYPOzODEi7P3mvLW5p75FlHtRWokaME/J1HA==
 
-"@swc/core-linux-arm64-musl@1.2.157":
-  version "1.2.157"
-  resolved "https://registry.yarnpkg.com/@swc/core-linux-arm64-musl/-/core-linux-arm64-musl-1.2.157.tgz#793c603ce3be56b6ba9e91e661a5d1b3a6be8729"
-  integrity sha512-e6PY+LfDRzuaqs1tUBVgAbeFQpeX+qO0+anmMQ9hjF/y0zp6zjVdCOG5LLbcLIheduhSxmEWrKYbqEP0PYoraQ==
+"@swc/core-linux-arm64-musl@1.2.158":
+  version "1.2.158"
+  resolved "https://registry.yarnpkg.com/@swc/core-linux-arm64-musl/-/core-linux-arm64-musl-1.2.158.tgz#fb8e9aadace980eaa408596edb78090b20f4d982"
+  integrity sha512-dylgrtZQJIZ6JfRDL87sPdXlOew/hl5VQaIjjhN6hu+tuRmAHzyN50DJIioErMxqFFaxnqJCxMZUFX0AlPwEKg==
 
-"@swc/core-linux-x64-gnu@1.2.157":
-  version "1.2.157"
-  resolved "https://registry.yarnpkg.com/@swc/core-linux-x64-gnu/-/core-linux-x64-gnu-1.2.157.tgz#f068d490f44b6bff71cfbdb7aafc6c0be4e616b0"
-  integrity sha512-PErxgvgVXxy7n37276/FncxLAncY7xu/bubGutkhTZBfGarKBHW6pc3lZZURoXNREgYfxM0gTtj5nNh+Qzt/TQ==
+"@swc/core-linux-x64-gnu@1.2.158":
+  version "1.2.158"
+  resolved "https://registry.yarnpkg.com/@swc/core-linux-x64-gnu/-/core-linux-x64-gnu-1.2.158.tgz#190113e5afa441e20db60d67ea1926ed1f9e1ae6"
+  integrity sha512-f+l13OggHhdlk3va4tol7KxHm3kt1QPusLZJpVh00OENqXV6Wuv3Xh1BMgv5XMy6oXfOUdrXcPi3GWWi8079XA==
 
-"@swc/core-linux-x64-musl@1.2.157":
-  version "1.2.157"
-  resolved "https://registry.yarnpkg.com/@swc/core-linux-x64-musl/-/core-linux-x64-musl-1.2.157.tgz#02404afed9c533fc054cfb017792e28536a365a8"
-  integrity sha512-vRUAE9LWBsNLt/BQ+LoKj5Wfau/Wbc6yaLn5mw+saXfZ0uYAJELcnYvs/aVuhjB9MKrNnY3LZgqMHXSgRIZqlw==
+"@swc/core-linux-x64-musl@1.2.158":
+  version "1.2.158"
+  resolved "https://registry.yarnpkg.com/@swc/core-linux-x64-musl/-/core-linux-x64-musl-1.2.158.tgz#72894115ea3af335be0ec530c00aea88ce4fa298"
+  integrity sha512-+TuNuzCBkDfoZKaaeqUrDdEANc3iVS8TYQgutHokSu6FCcNd9OGCm81SXknmYuDMtqYGs1LwVNMwCV7YOWEsiA==
 
-"@swc/core-win32-arm64-msvc@1.2.157":
-  version "1.2.157"
-  resolved "https://registry.yarnpkg.com/@swc/core-win32-arm64-msvc/-/core-win32-arm64-msvc-1.2.157.tgz#24c93c1302165454d6304d6ce46748a3254e8cd1"
-  integrity sha512-PGjCYSM/3hO1L5TcnKFqw46nEAF95NAEjC3hQcyQzFg7gCzWpqMn73PdfYS2AD6EosUF75qK0f2gnYB53t5NRg==
+"@swc/core-win32-arm64-msvc@1.2.158":
+  version "1.2.158"
+  resolved "https://registry.yarnpkg.com/@swc/core-win32-arm64-msvc/-/core-win32-arm64-msvc-1.2.158.tgz#5569523a0b2758d62e65319433e2228ace4cc64e"
+  integrity sha512-GXfOgEgqWdrol6dpseLXQL9RkRy6TSBMULtwpxwH5uf1jwAAZaMBsd+JemvhW0OjbIX0P9M19hdvQYtxuYxvrg==
 
-"@swc/core-win32-ia32-msvc@1.2.157":
-  version "1.2.157"
-  resolved "https://registry.yarnpkg.com/@swc/core-win32-ia32-msvc/-/core-win32-ia32-msvc-1.2.157.tgz#f63295c7ec8733704cee706d8d7e5f1584f80039"
-  integrity sha512-NfmXuY52ZLZo4/JzUlS1w3eSXOwY8/rQZjRenoahoeNckPNwyRKtVbIRk0nVbHa8QrIikApN01dZT5xEU8/A2g==
+"@swc/core-win32-ia32-msvc@1.2.158":
+  version "1.2.158"
+  resolved "https://registry.yarnpkg.com/@swc/core-win32-ia32-msvc/-/core-win32-ia32-msvc-1.2.158.tgz#18f0b6cb1b6343a127b9da24904b3d1b1283db82"
+  integrity sha512-Z/KIIgJrI2lXm+S/vRmYLcanOTvvxWq929ggjgY93m3zWrHjsWGVFoelbn2xLRUOtI/u0qna6DovLHhC4KcuBw==
 
-"@swc/core-win32-x64-msvc@1.2.157":
-  version "1.2.157"
-  resolved "https://registry.yarnpkg.com/@swc/core-win32-x64-msvc/-/core-win32-x64-msvc-1.2.157.tgz#933c401044b002483750db7e62923cf152b844b0"
-  integrity sha512-+6eYjMpnXsbNQb3JW5Uz8mcjqV77mwovZ4ccqZGiT1QbEBh0oR+81fVjAMwEpgU0qfPCQzKKv5o1TbakhU4GZA==
+"@swc/core-win32-x64-msvc@1.2.158":
+  version "1.2.158"
+  resolved "https://registry.yarnpkg.com/@swc/core-win32-x64-msvc/-/core-win32-x64-msvc-1.2.158.tgz#1f52b172617f62892afab6bfa8d624e99fa26964"
+  integrity sha512-h0jGYJmcNFhOinLT9vNE95DZfGtxROv9eDD+b5vMz03rvli5EUEUSkQ2MPDMuezHmL/P+cpKfVc/WGWWWXpfuQ==
 
 "@swc/core@^1.2.119", "@swc/core@^1.2.146":
-  version "1.2.157"
-  resolved "https://registry.yarnpkg.com/@swc/core/-/core-1.2.157.tgz#a08a21d1d2f8e9e9585deabb4b4d208494607946"
-  integrity sha512-l2m/KTDJnb6614jI9e2bJkjComiiZfgzx3vAPgm0kBfw4pP3sukL/y9yxJujkZYMv+CLqLwX7N0RkR7BHfayYA==
+  version "1.2.158"
+  resolved "https://registry.yarnpkg.com/@swc/core/-/core-1.2.158.tgz#aba1421d16fc9cdda8e09872776957dcdae70917"
+  integrity sha512-EBTuqLC2CRd4HN2CSbe+z0QoYdMCGZV2GqUvco0s2pqcNSssrWAZj6xozcJOQ5VeUsYRVdKro2muMAWdNe7qug==
   optionalDependencies:
-    "@swc/core-android-arm-eabi" "1.2.157"
-    "@swc/core-android-arm64" "1.2.157"
-    "@swc/core-darwin-arm64" "1.2.157"
-    "@swc/core-darwin-x64" "1.2.157"
-    "@swc/core-freebsd-x64" "1.2.157"
-    "@swc/core-linux-arm-gnueabihf" "1.2.157"
-    "@swc/core-linux-arm64-gnu" "1.2.157"
-    "@swc/core-linux-arm64-musl" "1.2.157"
-    "@swc/core-linux-x64-gnu" "1.2.157"
-    "@swc/core-linux-x64-musl" "1.2.157"
-    "@swc/core-win32-arm64-msvc" "1.2.157"
-    "@swc/core-win32-ia32-msvc" "1.2.157"
-    "@swc/core-win32-x64-msvc" "1.2.157"
+    "@swc/core-android-arm-eabi" "1.2.158"
+    "@swc/core-android-arm64" "1.2.158"
+    "@swc/core-darwin-arm64" "1.2.158"
+    "@swc/core-darwin-x64" "1.2.158"
+    "@swc/core-freebsd-x64" "1.2.158"
+    "@swc/core-linux-arm-gnueabihf" "1.2.158"
+    "@swc/core-linux-arm64-gnu" "1.2.158"
+    "@swc/core-linux-arm64-musl" "1.2.158"
+    "@swc/core-linux-x64-gnu" "1.2.158"
+    "@swc/core-linux-x64-musl" "1.2.158"
+    "@swc/core-win32-arm64-msvc" "1.2.158"
+    "@swc/core-win32-ia32-msvc" "1.2.158"
+    "@swc/core-win32-x64-msvc" "1.2.158"
 
 "@sweetalert2/ngx-sweetalert2@^11.0.0":
   version "11.0.0"
@@ -2783,6 +2783,15 @@
   resolved "https://registry.yarnpkg.com/@tiptap/extension-list-item/-/extension-list-item-2.0.0-beta.20.tgz#7169528b226dee4590e013bdf6e5fc6d83729b0f"
   integrity sha512-5IPEspJt38t9ROj4xLUesOVEYlTT/R9Skd9meHRxJQZX1qrzBICs5PC/WRIsnexrvTBhdxpYgCYjpvpsJBlKuQ==
 
+"@tiptap/extension-mention@^2.0.0-beta.95":
+  version "2.0.0-beta.95"
+  resolved "https://registry.yarnpkg.com/@tiptap/extension-mention/-/extension-mention-2.0.0-beta.95.tgz#b9e2302afa5ddd0d643bb76b93fba0c391dd3ae6"
+  integrity sha512-AiikYJa33APtMI7c6a4EpPhqAYxHHnub5b9hd62zM1peBp2D2aO1dEIL7cB7O2P8EBZ2pu2QN2mFcCbVlSi0Xw==
+  dependencies:
+    "@tiptap/suggestion" "^2.0.0-beta.90"
+    prosemirror-model "^1.16.1"
+    prosemirror-state "^1.3.4"
+
 "@tiptap/extension-ordered-list@^2.0.0-beta.25":
   version "2.0.0-beta.27"
   resolved "https://registry.yarnpkg.com/@tiptap/extension-ordered-list/-/extension-ordered-list-2.0.0-beta.27.tgz#ed48a53a9b012d578613b68375db31e8664bfdc9"
@@ -2875,6 +2884,15 @@
     "@tiptap/extension-paragraph" "^2.0.0-beta.23"
     "@tiptap/extension-strike" "^2.0.0-beta.27"
     "@tiptap/extension-text" "^2.0.0-beta.15"
+
+"@tiptap/suggestion@^2.0.0-beta.90":
+  version "2.0.0-beta.90"
+  resolved "https://registry.yarnpkg.com/@tiptap/suggestion/-/suggestion-2.0.0-beta.90.tgz#16b0cf8732c08ac57d5e7f6cc98b70b0a581bdc6"
+  integrity sha512-L5PPYRatY/75uJJRQx2o/Ce+gzcOkmd81TwLjio9sADV3bRf4DO4WYcQy0AtGe6uNSz78DTL0SUVw4204VjoBw==
+  dependencies:
+    prosemirror-model "^1.16.1"
+    prosemirror-state "^1.3.4"
+    prosemirror-view "^1.23.6"
 
 "@tootallnate/once@1":
   version "1.1.2"
@@ -3137,9 +3155,9 @@
     "@types/prosemirror-view" "*"
 
 "@types/prosemirror-transform@*", "@types/prosemirror-transform@^1.1.4", "@types/prosemirror-transform@^1.1.5":
-  version "1.1.5"
-  resolved "https://registry.yarnpkg.com/@types/prosemirror-transform/-/prosemirror-transform-1.1.5.tgz#e6949398c64a5d3ca53e6081352751aa9e9ce76e"
-  integrity sha512-Wr2HXaEF4JPklWpC17RTxE6PxyU54Taqk5FMhK1ojgcN93J+GpkYW8s0mD3rl7KfTmlhVwZPCHE9o0cYf2Go5A==
+  version "1.1.6"
+  resolved "https://registry.yarnpkg.com/@types/prosemirror-transform/-/prosemirror-transform-1.1.6.tgz#4a06979f656331c46c2725039a57360cc35853af"
+  integrity sha512-7HwXOWc5vZQqIfEUUVAz13lPgBqAWJTv89qEpzAtBFB6hOszFmhsvQ02Jqe2LvKauAoJDa3Qpv/dbJAmgyiTuQ==
   dependencies:
     "@types/prosemirror-model" "*"
 
@@ -5685,9 +5703,9 @@ ejs@^3.1.5:
     jake "^10.6.1"
 
 electron-to-chromium@^1.4.84:
-  version "1.4.86"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.86.tgz#90fe4a9787f48d6522957213408e08a8126b2ebc"
-  integrity sha512-EVTZ+igi8x63pK4bPuA95PXIs2b2Cowi3WQwI9f9qManLiZJOD1Lash1J3W4TvvcUCcIR4o/rgi9o8UicXSO+w==
+  version "1.4.87"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.87.tgz#1aeacfa50b2fbf3ecf50a78fbebd8f259d4fe208"
+  integrity sha512-EXXTtDHFUKdFVkCnhauU7Xp8wmFC1ZG6GK9a1BeI2vvNhy61IwfNPo/CRexhf7mh4ajxAHJPind62BzpzVUeuQ==
 
 emittery@^0.8.1:
   version "0.8.1"
@@ -8618,9 +8636,9 @@ linkifyjs@^3.0.4:
   integrity sha512-1Y9XQH65eQKA9p2xtk+zxvnTeQBG7rdAXSkUG97DmuI/Xhji9uaUzaWxRj6rf9YC0v8KKHkxav7tnLX82Sz5Fg==
 
 lint-staged@^12.3.5:
-  version "12.3.6"
-  resolved "https://registry.yarnpkg.com/lint-staged/-/lint-staged-12.3.6.tgz#7b999ebe041c07f241537a17c49969027b4d26f0"
-  integrity sha512-tVNyl/HsAnplKh4oaoRNzyZLm0PE/6VaBUXvd/gA9zhYCC/+ivZwiwpoT6jOxcLzuIOjP19wW+mfOi7/Bw4c1A==
+  version "12.3.7"
+  resolved "https://registry.yarnpkg.com/lint-staged/-/lint-staged-12.3.7.tgz#ad0e2014302f704f9cf2c0ebdb97ac63d0f17be0"
+  integrity sha512-/S4D726e2GIsDVWIk1XGvheCaDm1SJRQp8efamZFWJxQMVEbOwSysp7xb49Oo73KYCdy97mIWinhlxcoNqIfIQ==
   dependencies:
     cli-truncate "^3.1.0"
     colorette "^2.0.16"
