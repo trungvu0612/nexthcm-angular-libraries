@@ -37,6 +37,12 @@
           "libs/admin/requests-configuration/src/**/*.html"
         ]
       }
+    },
+    "publish": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "yarn publish dist/libs/admin/requests-configuration"
+      }
     }
   },
   "tags": []

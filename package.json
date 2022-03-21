@@ -12,7 +12,7 @@
     "prepare": "husky install",
     "generate-icons": "svg-generator",
     "transloco-optimize": "transloco-optimize dist/libs/core/assets/i18n",
-    "build:all": "node ./i18n-cache-busting.js && nx run-many --target=build --all --exclude demo-web,chat && yarn transloco-optimize",
+    "build:all": "node ./i18n-cache-busting.js && nx run-many --target=build --all --exclude demo-web,dev-web && yarn transloco-optimize",
     "publish:all": "nx run-many --target=publish --all",
     "build-publish:all": "yarn build:all && yarn publish:all"
   },

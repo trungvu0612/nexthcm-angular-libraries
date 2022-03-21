@@ -34,6 +34,12 @@
       "options": {
         "lintFilePatterns": ["libs/workflow-designer/src/**/*.ts", "libs/workflow-designer/src/**/*.html"]
       }
+    },
+    "publish": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "yarn publish dist/libs/workflow-designer"
+      }
     }
   },
   "tags": []
