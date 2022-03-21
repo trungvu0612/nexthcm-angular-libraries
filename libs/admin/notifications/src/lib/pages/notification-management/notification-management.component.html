@@ -1,0 +1,127 @@
+<hcm-page [title]="'notificationManagement' | transloco">
+  <ng-container ngProjectAs="pageHeader">
+    <button *ngxPermissionsOnly="'CREATE_NOTIFICATION'" icon="tuiIconPlusLarge" routerLink="add" size="m" tuiButton>
+      {{ translocoScope.scope + '.createNotification' | transloco }}
+    </button>
+  </ng-container>
+
+  <div *transloco="let t" class="grid grid-cols-4 gap-4 mb-5">
+    <hcm-input-filter
+      (valueChange)="search$.next($event)"
+      class="col-span-3"
+      icon="tuiIconSearchLarge"
+      label="{{ t('searchByTitleDescription') }}"
+      propertyName="search"
+    ></hcm-input-filter>
+    <hcm-select-filter
+      (valueChange)="typeFilter$.next($event)"
+      *tuiLet="types$ | push as types"
+      [label]="t('type')"
+      [valueContent]="typeStringify(types || [])"
+      propertyName="type"
+    >
+      <tui-data-list>
+        <button *ngFor="let type of types" [value]="type.value" tuiOption>
+          {{ type.label }}
+        </button>
+      </tui-data-list>
+    </hcm-select-filter>
+    <hcm-multi-select-filter
+      (filterChange)="onRolesFilterChange($event)"
+      *tuiLet="rolesList$ | push as roles"
+      [filterValue]="rolesFilter"
+      [label]="t('roles')"
+      [placeholder]="t('chooseRoles')"
+      [stringify]="rolesStringify$ | push"
+      class="col-span-3"
+    >
+      <tui-data-list>
+        <button *ngFor="let role of roles" [value]="role.id" tuiOption>
+          {{ role.name }}
+        </button>
+      </tui-data-list>
+    </hcm-multi-select-filter>
+    <hcm-select-filter
+      (valueChange)="statusFilter$.next($event)"
+      *tuiLet="statusList$ | push as statuses"
+      [label]="t('status')"
+      [valueContent]="statusStringify(statuses || [])"
+      propertyName="status"
+    >
+      <tui-data-list>
+        <button *ngFor="let status of statuses" [value]="status.value" tuiOption>
+          {{ status.label }}
+        </button>
+      </tui-data-list>
+    </hcm-select-filter>
+  </div>
+
+  <tui-loader [overlay]="true" [showLoader]="(loading$ | push) === true">
+    <ngx-table
+      #table
+      (event)="eventEmitted($event)"
+      [columns]="(columns$ | push) || []"
+      [configuration]="configuration"
+      [data]="(data$ | push) || []"
+    >
+      <ng-template let-row>
+        <ng-container *tuiLet="item(row) as item">
+          <td>{{ item.title }}</td>
+          <td>{{ item.description }}</td>
+          <td>
+            <tui-primitive-checkbox [value]="!!item.isAllRole" class="mx-auto" size="l"></tui-primitive-checkbox>
+          </td>
+          <td>{{ item.roles | joinByKey: 'name' }}</td>
+          <td>
+            {{
+              translocoScope.scope +
+                '.NOTIFICATION_TYPES.' +
+                (item.type === NotificationType.Common ? 'common' : 'birthday') | transloco
+            }}
+          </td>
+          <td>
+            <div class="flex items-center justify-center">
+              <tui-marker-icon *ngIf="item.top" mode="warning" size="xs" src="tuiIconStarFilledLarge"></tui-marker-icon>
+            </div>
+          </td>
+          <td>
+            <tui-tag
+              [value]="CommonStatus[item.status] | transloco"
+              class="{{ CommonStatus[item.status] }}-tag"
+              status="custom"
+            ></tui-tag>
+          </td>
+          <td>
+            <div class="flex items-center">
+              <button
+                *ngxPermissionsOnly="'UPDATE_NOTIFICATION'"
+                [routerLink]="[item.notifyId, 'edit']"
+                appearance="flat"
+                icon="tuiIconEditLarge"
+                size="m"
+                tuiIconButton
+                type="button"
+              ></button>
+              <button
+                (click)="onDelete(item.notifyId)"
+                *ngxPermissionsOnly="'DELETE_NOTIFICATION'"
+                appearance="flat"
+                icon="tuiIconTrashLarge"
+                size="m"
+                tuiIconButton
+                type="button"
+              ></button>
+            </div>
+          </td>
+        </ng-container>
+      </ng-template>
+    </ngx-table>
+  </tui-loader>
+  <tui-table-pagination
+    (pageChange)="onPage($event)"
+    (sizeChange)="onSize($event)"
+    [page]="(page$ | push) || 0"
+    [size]="(size$ | push) || 10"
+    [total]="(total$ | push) || 0"
+  ></tui-table-pagination>
+</hcm-page>

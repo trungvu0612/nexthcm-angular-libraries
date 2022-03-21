@@ -1,0 +1,29 @@
+{
+  "ADMIN_NOTIFICATION_COLUMNS": {
+    "title": "Tiêu đề",
+    "description": "Mô tả",
+    "allRole": "Tất cả vai trò",
+    "roles": "Vai trò",
+    "type": "Loại",
+    "featured": "Nổi bật",
+    "status": "Trạng thái",
+    "functions": "Chức năng"
+  },
+  "createNotification": "Tạo mới thông báo",
+  "editNotification": "Chỉnh sửa thông báo",
+  "updateNotificationSuccessfully": "<b>Cập nhật thông báo thành công!</b>",
+  "createNotificationSuccessfully": "<b>Tạo mới thông báo thành công!</b>",
+  "deleteNotification": "<b>Bạn có muốn xóa thông báo này không?</b>",
+  "deleteNotificationSuccessfully": "<b>Xóa thông báo thành công!</b>",
+  "NOTIFICATION_TYPES": {
+    "common": "Thông báo thường",
+    "birthday": "Chúc mừng sinh nhật"
+  },
+  "application": "Ứng dụng",
+  "shortContent": "Nội dung ngắn (cho di động)",
+  "enterShortContent": "Nhập nội dung ngắn...",
+  "featured": "Thông báo nổi bật",
+  "pushMobile": "Bật thông báo đẩy cho di động",
+  "repeat": "Lặp lại thông báo",
+  "allRoles": "Thông báo cho tất cả vai trò"
+}

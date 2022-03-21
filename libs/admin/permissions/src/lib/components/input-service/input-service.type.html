@@ -1,0 +1,29 @@
+<fieldset class="shadow-inner bg-white border rounded mb-4">
+  <legend (click)="toggleExpanded()" class="cursor-pointer text-base font-semibold">
+    Services
+    <tui-svg [class.rotate-90]="expanded" class="transition" src="tuiIconChevronRightLarge"></tui-svg>
+  </legend>
+  <tui-expand [expanded]="expanded">
+    <ng-template tuiExpandContent>
+      <tui-filter
+        (toggledItem)="selectService($event)"
+        [content]="service"
+        [formControl]="filterControl"
+        [identityMatcher]="matcher"
+        [items]="($any(to.options) | push) || []"
+        class="grid-cols-3 gap-4 p-4 pt-2"
+      ></tui-filter>
+    </ng-template>
+  </tui-expand>
+</fieldset>
+<ng-template #service let-item>
+  <div class="flex justify-between w-full">
+    {{ item.name }}
+    <tui-hosted-dropdown [content]="description" [tuiDropdownSided]="true" tuiDropdownHover>
+      <tui-svg class="text-gray-300" src="tuiIconTooltip"></tui-svg>
+    </tui-hosted-dropdown>
+  </div>
+  <ng-template #description>
+    <p class="max-w-xs px-3 py-2">{{ item.description }}</p>
+  </ng-template>
+</ng-template>

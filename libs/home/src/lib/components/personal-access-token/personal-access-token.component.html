@@ -1,0 +1,29 @@
+<ng-container *transloco="let t">
+  <label [label]="label" tuiLabel>
+    <tui-input-copy
+      [ngModel]="token$ | push"
+      [readOnly]="true"
+      [successMessage]="t('copied')"
+      [tuiTextfieldLabelOutside]="true"
+      messageMode="error"
+      tuiTextfieldSize="m"
+    ></tui-input-copy>
+  </label>
+  <div class="flex justify-end mt-4">
+    <button
+      (click)="generateToken$.next(undefined)"
+      [showLoader]="(isLoading$ | push) === true"
+      size="m"
+      tuiButton
+      type="button"
+    >
+      {{ t('generate') }}
+    </button>
+  </div>
+
+  <ng-template #label>
+    <p class="font-semibold mb-1">
+      {{ t('accessToken') }}
+    </p>
+  </ng-template>
+</ng-container>

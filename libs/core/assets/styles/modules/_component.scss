@@ -1,0 +1,29 @@
+.table .table-row {
+  .table-label {
+    display: table-cell;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    font-weight: 600;
+    vertical-align: middle;
+    white-space: nowrap;
+  }
+
+  .table-value {
+    display: table-cell;
+    padding-left: 2rem;
+    vertical-align: middle;
+  }
+}
+
+.dot {
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
+}
+
+tui-tabs {
+  [tuitab]._active {
+    font-weight: 500;
+  }
+}

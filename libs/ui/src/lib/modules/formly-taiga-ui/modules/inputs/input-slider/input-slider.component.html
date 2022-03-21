@@ -1,0 +1,12 @@
+<tui-input-slider
+  [formControl]="$any(formControl)"
+  [maxLabel]="to['maxLabel']"
+  [max]="to.max || 999999"
+  [minLabel]="to['minLabel']"
+  [min]="to.min || 0"
+  [quantum]="to['quantum']"
+  [secondary]="to['secondary']"
+  [size]="to['size']"
+>
+  {{ to.label }}
+</tui-input-slider>

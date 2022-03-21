@@ -1,0 +1,17 @@
+:host {
+  display: block;
+
+  ::ng-deep {
+    tui-stepper {
+      button {
+        font-size: 1rem;
+        font-weight: 500;
+
+        .marker {
+          width: 3rem;
+          height: 3rem;
+        }
+      }
+    }
+  }
+}

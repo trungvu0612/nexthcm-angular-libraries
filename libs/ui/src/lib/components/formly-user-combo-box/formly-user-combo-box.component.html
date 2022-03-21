@@ -1,0 +1,28 @@
+<tui-combo-box
+  (searchChange)="search$.next($event)"
+  [formControl]="$any(formControl)"
+  [formlyAttributes]="field"
+  [identityMatcher]="identityMatcher"
+  [strictMatcher]="strictMatcher"
+  [stringify]="stringify"
+  [style.maxWidth]="to['maxWidth']"
+  [tuiTextfieldCleaner]="to['textfieldCleaner']"
+  [tuiTextfieldLabelOutside]="to['textfieldLabelOutside']"
+  [tuiTextfieldSize]="to['textfieldSize']"
+>
+  {{ to['textfieldLabelOutside'] ? to.placeholder : to.label }}
+  <span *ngIf="to.required && !to['textfieldLabelOutside']" class="tui-required"></span>
+  <ng-template tuiDataList>
+    <tui-data-list *ngIf="users$ | push as users; else loading">
+      <button *ngFor="let user of users" [value]="user" tuiOption>
+        <span class="flex items-center gap-2">
+          <hcm-avatar [image]="user.avatar" [text]="user.name" rounded size="s"></hcm-avatar>
+          <b>{{ user.name }}</b> ({{ user.username }})
+        </span>
+      </button>
+    </tui-data-list>
+  </ng-template>
+  <ng-template #loading>
+    <tui-loader class="tui-space_vertical-4"></tui-loader>
+  </ng-template>
+</tui-combo-box>

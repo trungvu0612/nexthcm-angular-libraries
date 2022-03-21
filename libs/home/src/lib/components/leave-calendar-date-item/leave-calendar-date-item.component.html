@@ -1,0 +1,77 @@
+<tui-hosted-dropdown
+  [(open)]="openDropdown"
+  [content]="content"
+  [tuiDropdownMaxHeight]="999"
+  [tuiDropdownSided]="true"
+  class="w-full h-full"
+  tuiDropdownHover
+>
+  <div *ngIf="leaveItem.holidayName; else leave" class="flex items-center h-full">
+    <tui-marker-icon mode="link" size="xs" src="tuiIconStarFilledLarge"></tui-marker-icon>
+  </div>
+  <ng-template #leave>
+    <div
+      [style.backgroundColor]="leaveItem.currentState?.stateType?.color"
+      class="flex justify-center items-center px-1 h-6 text-xs font-bold text-white rounded cursor-pointer"
+    >
+      {{ leaveItem.shortNameLT }}
+    </div>
+  </ng-template>
+</tui-hosted-dropdown>
+
+<ng-template #content>
+  <section *transloco="let t" class="p-4">
+    <div class="table w-full">
+      <div *ngIf="leaveItem.holidayName; else normalLeaveDetail" class="table-row">
+        <div class="table-label">{{ t('holiday') }}:</div>
+        <div class="table-value">{{ leaveItem.holidayName }}</div>
+      </div>
+      <ng-template #normalLeaveDetail>
+        <div class="table-row">
+          <div class="table-label">{{ t('leaveType') }}:</div>
+          <div class="table-value">{{ leaveItem.leaveType?.name }}</div>
+        </div>
+        <div class="table-row">
+          <div class="table-label">{{ t('dateRange') }}:</div>
+          <div class="table-value">
+            <hcm-leave-request-date-range [data]="leaveItem"></hcm-leave-request-date-range>
+          </div>
+        </div>
+        <div class="table-row">
+          <div class="table-label">{{ t('days') }}:</div>
+          <div class="table-value">
+            {{ leaveItem.durationInDay ? leaveItem.durationInDay : '-' }}
+          </div>
+        </div>
+        <div class="table-row">
+          <div class="table-label">{{ t('status') }}:</div>
+          <div class="table-value">
+            <tui-tag
+              *ngIf="leaveItem.currentState as status"
+              [style.backgroundColor]="status.stateType.color"
+              [value]="status.name"
+              class="text-white"
+            ></tui-tag>
+          </div>
+        </div>
+        <div *ngIf="leaveItem.nextStates.length" class="table-row">
+          <div class="table-label">{{ t('actions') }}:</div>
+          <div class="table-value">
+            <div class="flex gap-x-1">
+              <button
+                (click)="changeStatus.emit(item.state)"
+                *ngFor="let item of leaveItem.nextStates"
+                appearance="secondary"
+                size="s"
+                tuiButton
+                type="button"
+              >
+                {{ item.transition.name }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </div>
+  </section>
+</ng-template>

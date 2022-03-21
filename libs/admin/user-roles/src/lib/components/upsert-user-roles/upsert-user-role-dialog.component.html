@@ -1,0 +1,21 @@
+<hcm-base-form
+  (cancel)="onCancel()"
+  (submitForm)="onSubmit()"
+  [fields]="fields"
+  [form]="form"
+  [model]="model"
+  [submitLoading]="(loading$ | push) === true"
+  class="mt-5"
+>
+  <div *ngxPermissionsOnly="'VIEW_EMPLOYEE'" class="mt-5">
+    <a
+      *ngIf="model.id"
+      [queryParams]="{ roleId: model.id }"
+      icon="tuiIconViewListLarge"
+      routerLink="/admin/employees"
+      tuiLink
+    >
+      {{ 'userRoles.viewListEmployeeWithRole' | transloco }}
+    </a>
+  </div>
+</hcm-base-form>

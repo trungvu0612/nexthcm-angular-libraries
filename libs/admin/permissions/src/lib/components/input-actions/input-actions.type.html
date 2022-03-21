@@ -1,0 +1,13 @@
+<fieldset *tuiLet="expanded$ | push as expanded" class="shadow-inner bg-white border rounded">
+  <legend (click)="toggleExpanded()" class="cursor-pointer text-base font-semibold">
+    Actions
+    <tui-svg [class.rotate-90]="expanded" class="transition" src="tuiIconChevronRightLarge"></tui-svg>
+  </legend>
+  <tui-expand [expanded]="!!expanded">
+    <ng-template tuiExpandContent>
+      <div *ngIf="permissionsForm?.controls as controls" class="grid grid-cols-2 gap-4 p-4 pt-2">
+        <hcm-select-resources *ngFor="let control of controls" [control]="$any(control)"></hcm-select-resources>
+      </div>
+    </ng-template>
+  </tui-expand>
+</fieldset>

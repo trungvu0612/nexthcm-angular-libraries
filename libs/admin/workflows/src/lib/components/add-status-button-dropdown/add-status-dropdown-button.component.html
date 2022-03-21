@@ -9,9 +9,9 @@
     <p>{{ t('WORKFLOW.searchStatusOrNameNewOne') }}</p>
     <hcm-status-combobox
       (valueChange)="onSelectStatus($event)"
-      class="tui-form__row"
       [activeZone]="activeZone"
       [addedStatuses]="addedStatus"
+      class="tui-form__row"
     ></hcm-status-combobox>
     <tui-checkbox-labeled [(ngModel)]="data.allowAll" class="tui-form__row">
       {{ t('WORKFLOW.allowAllStatus') }}

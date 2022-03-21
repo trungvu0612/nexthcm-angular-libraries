@@ -1,0 +1,12 @@
+{
+  "PERMISSION_TABLE": {
+    "name": "Tên",
+    "code": "Mã",
+    "description": "Mô tả",
+    "action": "Thao tác",
+    "MESSAGES": {
+      "deletePermission": "Bạn có chắc chắn muốn xóa phân quyền này không?",
+      "deletePermissionSuccessfully": "Đã xóa quyền thành công!"
+    }
+  }
+}

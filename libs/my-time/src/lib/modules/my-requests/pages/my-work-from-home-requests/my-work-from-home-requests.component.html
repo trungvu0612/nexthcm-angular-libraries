@@ -1,0 +1,51 @@
+<hcm-request-filters (filter)="onFilter($event)" [httpParams]="queryParams" class="mb-5"></hcm-request-filters>
+<tui-loader [overlay]="true" [showLoader]="(loading$ | push) === true">
+  <ngx-table
+    #table
+    (event)="eventEmitted($event)"
+    [columns]="(columns$ | push) || []"
+    [configuration]="configuration"
+    [data]="(data$ | push) || []"
+  >
+    <ng-template let-row>
+      <ng-container *tuiLet="item(row) as item">
+        <td>{{ item.fromDate | translocoDate }} - {{ item.toDate | translocoDate }}</td>
+        <td class="text-center">
+          {{ item.totalDay ? (item.totalDay | translocoDecimal) : '-' }}
+        </td>
+        <td>
+          <tui-tag
+            *ngIf="item.currentState as status"
+            [style.backgroundColor]="status.stateType.color"
+            [value]="status.name"
+            class="text-white"
+          ></tui-tag>
+        </td>
+        <td>{{ item.comment }}</td>
+        <td>
+          <div class="flex items-center">
+            <button
+              (click)="onViewEmployeeRequestDetail(item.id, userId)"
+              appearance="flat"
+              icon="tuiIconShowLarge"
+              size="m"
+              tuiIconButton
+            ></button>
+            <hcm-workflow-actions-button-dropdown
+              (selectAction)="changeStatus$.next([item.id, $event])"
+              *ngIf="item.nextStates.length"
+              [items]="item.nextStates"
+            ></hcm-workflow-actions-button-dropdown>
+          </div>
+        </td>
+      </ng-container>
+    </ng-template>
+  </ngx-table>
+</tui-loader>
+<tui-table-pagination
+  (pageChange)="onPage($event)"
+  (sizeChange)="onSize($event)"
+  [page]="(page$ | push) || 0"
+  [size]="(size$ | push) || 10"
+  [total]="(total$ | push) || 0"
+></tui-table-pagination>

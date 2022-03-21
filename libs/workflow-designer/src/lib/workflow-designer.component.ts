@@ -60,12 +60,16 @@ export class WorkflowDesignerComponent implements OnInit {
     this.editor.graph.center();
     this.editor.graph.setPanning(true);
     this.editor.graph.panningHandler.useLeftButtonForPanning = true;
-    this.graphSelectionModel.addListener(mx.mxEvent.CHANGE, (sender) => this.handleSelectCell(sender));
+    this.graphSelectionModel.addListener(mx.mxEvent.CHANGE, (sender: { cells: mxCell[] }) =>
+      this.handleSelectCell(sender)
+    );
     if (this.editMode) {
       this.editor.graph.setEnabled(true);
       this.editor.graph.setConnectable(true);
-      this.editor.graph.connectionHandler.addListener(mx.mxEvent.CONNECT, (_, evt) => this.handleConnectEvent(evt));
-      this.editor.graph.addListener(mx.mxEvent.CONNECT_CELL, (_, evt: mxEventObject) =>
+      this.editor.graph.connectionHandler.addListener(mx.mxEvent.CONNECT, (_: unknown, evt: mxEventObject) =>
+        this.handleConnectEvent(evt)
+      );
+      this.editor.graph.addListener(mx.mxEvent.CONNECT_CELL, (_: unknown, evt: mxEventObject) =>
         this.handleConnectCellEvent(evt)
       );
       this.editor.graph.addListener(mx.mxEvent.DOUBLE_CLICK, () => this.handleEditCell());
@@ -85,7 +89,7 @@ export class WorkflowDesignerComponent implements OnInit {
     mx.mxGraph.prototype.isWrapping = () => true;
     mx.mxConstants.DEFAULT_HOTSPOT = 1;
     mx.mxGraphHandler.prototype.guidesEnabled = true;
-    mx.mxGuide.prototype.isEnabledForEvent = (evt) => !mx.mxEvent.isAltDown(evt as MouseEvent);
+    mx.mxGuide.prototype.isEnabledForEvent = (evt: MouseEvent) => !mx.mxEvent.isAltDown(evt);
     mx.mxEdgeHandler.prototype.snapToTerminals = true;
     mx.mxGraph.prototype.disconnectOnMove = false;
     mx.mxGraph.prototype.allowDanglingEdges = false;
@@ -209,7 +213,10 @@ export class WorkflowDesignerComponent implements OnInit {
   }
 
   private handleConnectCellEvent(event: mxEventObject): void {
-    if ((event.getProperty('previous') as mxCell).mxObjectId === (event.getProperty('terminal') as mxCell).mxObjectId) {
+    if (
+      (event.getProperty('previous') as mxCell)['mxObjectId'] ===
+      (event.getProperty('terminal') as mxCell)['mxObjectId']
+    ) {
       return;
     }
     const edge: mxCell = event.getProperty('edge');
@@ -225,9 +232,9 @@ export class WorkflowDesignerComponent implements OnInit {
     });
   }
 
-  private handleSelectCell(sender: any): void {
-    if (sender.cells.length === 1) {
-      const selectedCell: mxCell = sender.cells[0];
+  private handleSelectCell({ cells }: { cells: mxCell[] }): void {
+    if (cells.length === 1) {
+      const selectedCell: mxCell = cells[0];
       if (selectedCell) {
         if (selectedCell.isEdge()) {
           this.event.emit({

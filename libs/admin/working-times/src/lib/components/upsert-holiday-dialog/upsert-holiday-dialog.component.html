@@ -1,0 +1,9 @@
+<hcm-base-form
+  (cancel)="onCancel()"
+  (submitForm)="onSubmit()"
+  [fields]="fields"
+  [form]="$any(form)"
+  [model]="model"
+  [submitLoading]="(submitLoading$ | push) === true"
+  class="mt-5"
+></hcm-base-form>

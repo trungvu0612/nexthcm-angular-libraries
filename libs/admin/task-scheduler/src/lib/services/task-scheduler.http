@@ -1,0 +1,2 @@
+https://dev-nexthcm-api.banvien.com.vn/accountapp/v1.0/schedulers
+Authorization: Bearer {{auth_token}}

@@ -1,0 +1,5 @@
+<ng-container *transloco="let t">
+  <tui-input-date-range (ngModelChange)="onDatesChange($event)" [ngModel]="dateRange" [tuiTextfieldCleaner]="true">
+    {{ t(title) }}
+  </tui-input-date-range>
+</ng-container>

@@ -1,0 +1,43 @@
+{
+  "projectType": "library",
+  "root": "libs/admin/requests-configuration",
+  "sourceRoot": "libs/admin/requests-configuration/src",
+  "prefix": "hcm",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/angular:package",
+      "outputs": ["dist/libs/admin/requests-configuration"],
+      "options": {
+        "project": "libs/admin/requests-configuration/ng-package.json",
+        "tailwindConfig": "libs/admin/requests-configuration/tailwind.config.js"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "libs/admin/requests-configuration/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "libs/admin/requests-configuration/tsconfig.lib.json"
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/admin/requests-configuration"],
+      "options": {
+        "jestConfig": "libs/admin/requests-configuration/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/admin/requests-configuration/src/**/*.ts",
+          "libs/admin/requests-configuration/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": []
+}

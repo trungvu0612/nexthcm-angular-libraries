@@ -1,0 +1,14 @@
+{
+  "ADMIN_JOB_TITLE_COLUMNS": {
+    "name": "Tên",
+    "description": "Mô tả",
+    "status": "Trạng thái",
+    "functions": "Chức năng"
+  },
+  "createJobTitle": "Tạo mới chức vụ",
+  "editJobTitle": "Chỉnh sửa chức vụ",
+  "updateJobTitleSuccessfully": "<b>Cập nhật chức vụ thành công!</b>",
+  "createJobTitleSuccessfully": "<b>Tạo mới chức vụ thành công!</b>",
+  "deleteJobTitle": "<b>Bạn có muốn xóa chức vụ này không?</b>",
+  "deleteJobTitleSuccessfully": "<b>Xóa chức vụ thành công!</b>"
+}

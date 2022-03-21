@@ -1,0 +1,12 @@
+<hcm-cron-container [activeTabIndex]="activeTabIndex" [hideTabs]="hideTabs" [tabs]="tabs">
+  <ng-template #content let-activeTabIndex>
+    <ng-container [ngSwitch]="activeTabIndex">
+      <hcm-quartz-cron-second (changed)="applyChanges()" *ngSwitchCase="0"></hcm-quartz-cron-second>
+      <hcm-quartz-cron-minute (changed)="applyChanges()" *ngSwitchCase="1"></hcm-quartz-cron-minute>
+      <hcm-quartz-cron-hour (changed)="applyChanges()" *ngSwitchCase="2"></hcm-quartz-cron-hour>
+      <hcm-quartz-cron-day (changed)="applyChanges()" *ngSwitchCase="3"></hcm-quartz-cron-day>
+      <hcm-quartz-cron-month (changed)="applyChanges()" *ngSwitchCase="4"></hcm-quartz-cron-month>
+      <hcm-quartz-cron-year (changed)="applyChanges()" *ngSwitchCase="5"></hcm-quartz-cron-year>
+    </ng-container>
+  </ng-template>
+</hcm-cron-container>

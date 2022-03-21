@@ -1,0 +1,55 @@
+{
+  "projectType": "library",
+  "root": "libs/crontab",
+  "sourceRoot": "libs/crontab/src",
+  "prefix": "hcm",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/angular:package",
+      "outputs": ["dist/libs/crontab"],
+      "options": {
+        "project": "libs/crontab/ng-package.json",
+        "tailwindConfig": "libs/crontab/tailwind.config.js"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "libs/crontab/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "libs/crontab/tsconfig.lib.json"
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/crontab"],
+      "options": {
+        "jestConfig": "libs/crontab/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/crontab/src/**/*.ts",
+          "libs/crontab/src/**/*.html",
+          "libs/crontab/builder/**/*.ts",
+          "libs/crontab/builder/**/*.html",
+          "libs/crontab/cronstrue/**/*.ts",
+          "libs/crontab/cronstrue/**/*.html",
+          "libs/crontab/formly/**/*.ts",
+          "libs/crontab/formly/**/*.html"
+        ]
+      }
+    },
+    "publish": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "yarn publish dist/libs/crontab"
+      }
+    }
+  },
+  "tags": []
+}

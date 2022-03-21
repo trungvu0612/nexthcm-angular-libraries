@@ -1,0 +1,40 @@
+<div class="flex justify-end mb-4">
+  <button (click)="onUpsertHoliday()" icon="tuiIconPlusLarge" size="m" tuiButton type="button">
+    {{ translocoScope.scope + '.addHoliday' | transloco }}
+  </button>
+</div>
+<tui-loader [overlay]="true" [showLoader]="(loading$ | push) === true">
+  <ngx-table #table [columns]="(columns$ | push) || []" [configuration]="configuration" [data]="(data$ | push) || []">
+    <ng-template let-row>
+      <ng-container *tuiLet="item(row) as item">
+        <td>{{ item.holidayDate | date: 'dd/MM/yyyy' }}</td>
+        <td>{{ item.name }}</td>
+        <td>{{ translocoScope.scope + '.RECURRING_TYPE.' + item.recurringType | transloco }}</td>
+        <td>
+          <tui-primitive-checkbox [value]="!!item.paidHoliday" class="mx-auto" size="l"></tui-primitive-checkbox>
+        </td>
+        <td>
+          <button
+            (click)="onUpsertHoliday(item)"
+            appearance="flat"
+            icon="tuiIconEditLarge"
+            size="m"
+            tuiIconButton
+          ></button>
+          <button
+            (click)="onRemoveHoliday(item.id)"
+            appearance="flat"
+            icon="tuiIconTrashLarge"
+            size="m"
+            tuiIconButton
+          ></button>
+        </td>
+      </ng-container>
+    </ng-template>
+  </ngx-table>
+</tui-loader>
+<tui-table-pagination
+  (pageChange)="onPage($event)"
+  (sizeChange)="onSize($event)"
+  [total]="(total$ | push) || 0"
+></tui-table-pagination>

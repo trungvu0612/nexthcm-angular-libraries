@@ -1,0 +1,34 @@
+<tui-select
+  *rxLet="orgTree$; let organizations"
+  [formControl]="$any(formControl)"
+  [formlyAttributes]="field"
+  [identityMatcher]="identityMatcher"
+  [tuiTextfieldCleaner]="to['textfieldCleaner']"
+  [tuiTextfieldLabelOutside]="to['textfieldLabelOutside']"
+  [valueContent]="valueContent"
+>
+  {{ to['textfieldLabelOutside'] ? to.placeholder : to.label }}
+  <tui-data-list *tuiDataList>
+    <ng-container *ngTemplateOutlet="orgTpl; context: { $implicit: organizations }"></ng-container>
+    <ng-template #orgTpl let-organizations>
+      <ng-container *ngFor="let org of organizations; trackBy: trackByOrgId">
+        <button [value]="org" tuiOption>
+          <span class="inline-flex items-center">
+            <button
+              *ngFor="let _ of [].constructor(org.depth || 0)"
+              [disabled]="true"
+              appearance="flat"
+              size="xs"
+              tuiIconButton
+            ></button>
+            <ng-container *ngTemplateOutlet="valueContent; context: { $implicit: org }"></ng-container>
+          </span>
+        </button>
+        <ng-container *ngIf="org.descendants?.length">
+          <ng-container *ngTemplateOutlet="orgTpl; context: { $implicit: org.descendants }"></ng-container>
+        </ng-container>
+      </ng-container>
+    </ng-template>
+  </tui-data-list>
+  <ng-template #valueContent let-item>{{ item.orgName }}</ng-template>
+</tui-select>

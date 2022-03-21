@@ -1,0 +1,51 @@
+<hcm-page title="{{ 'workingTimeConfiguration' | transloco }}">
+  <label [label]="label" tuiLabel>
+    <tui-select
+      *rxLet="orgTree$; let orgs"
+      [formControl]="$any(orgControl)"
+      [tuiTextfieldLabelOutside]="true"
+      [valueContent]="valueContent"
+    >
+      <tui-data-list *tuiDataList>
+        <ng-container *ngTemplateOutlet="orgTpl; context: { $implicit: orgs }"></ng-container>
+        <ng-template #orgTpl let-orgs>
+          <ng-container *ngFor="let org of orgs; trackBy: trackByOrgId">
+            <button [value]="org" tuiOption>
+              <span class="inline-flex items-center">
+                <button
+                  *ngFor="let _ of [].constructor(org.depth || 0)"
+                  [disabled]="true"
+                  appearance="flat"
+                  size="xs"
+                  tuiIconButton
+                ></button>
+                <ng-container *ngTemplateOutlet="valueContent; context: { $implicit: org }"></ng-container>
+              </span>
+            </button>
+            <ng-container *ngIf="org.descendants?.length">
+              <ng-container *ngTemplateOutlet="orgTpl; context: { $implicit: org.descendants }"></ng-container>
+            </ng-container>
+          </ng-container>
+        </ng-template>
+      </tui-data-list>
+      <ng-template #valueContent let-item>{{ item.orgName }}</ng-template>
+    </tui-select>
+  </label>
+  <ng-template #label>
+    <div class="mb-1 text-base font-semibold">{{ 'organization' | transloco }}</div>
+  </ng-template>
+
+  <form [formGroup]="$any(form)" class="mb-8">
+    <formly-form [fields]="fields" [form]="form" [model]="model" class="mt-5"></formly-form>
+  </form>
+
+  <div class="mt-5 pt-5 border-t">
+    <div class="mb-5 text-xl font-bold">{{ 'holidays' | transloco }}</div>
+    <hcm-holiday-list></hcm-holiday-list>
+  </div>
+  <div *transloco="let t" class="tui-form__buttons">
+    <button (click)="saveSettings()" class="tui-form__button" size="l" tuiButton>
+      {{ t('save') }}
+    </button>
+  </div>
+</hcm-page>

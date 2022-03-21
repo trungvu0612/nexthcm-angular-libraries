@@ -1,0 +1,40 @@
+{
+  "projectType": "library",
+  "root": "libs/admin/workflows",
+  "sourceRoot": "libs/admin/workflows/src",
+  "prefix": "hcm",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/angular:package",
+      "outputs": ["dist/libs/admin/workflows"],
+      "options": {
+        "project": "libs/admin/workflows/ng-package.json",
+        "tailwindConfig": "libs/admin/workflows/tailwind.config.js"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "libs/admin/workflows/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "libs/admin/workflows/tsconfig.lib.json"
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/admin/workflows"],
+      "options": {
+        "jestConfig": "libs/admin/workflows/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["libs/admin/workflows/src/**/*.ts", "libs/admin/workflows/src/**/*.html"]
+      }
+    }
+  },
+  "tags": []
+}

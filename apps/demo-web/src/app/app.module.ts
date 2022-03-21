@@ -20,6 +20,8 @@ registerLocaleData(localeEn);
   declarations: [AppComponent],
   imports: [
     BrowserModule,
+    TuiRootModule,
+    BrowserAnimationsModule,
     RouterModule.forRoot(
       [
         { path: 'login', component: LoginComponent },
@@ -109,14 +111,11 @@ registerLocaleData(localeEn);
       ],
       ROUTER_CONFIG
     ),
-    BrowserAnimationsModule,
-    TuiRootModule,
-    CoreModule.forRoot(environment),
     FormlyTaigaUiModule,
+    CoreModule.forRoot(environment),
     AuthModule,
     PortalLayoutModule,
   ],
-  providers: [],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

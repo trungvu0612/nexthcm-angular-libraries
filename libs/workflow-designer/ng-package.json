@@ -3,7 +3,5 @@
   "dest": "../../dist/libs/workflow-designer",
   "lib": {
     "entryFile": "src/index.ts"
-  },
-  "assets": ["assets"],
-  "allowedNonPeerDependencies": ["."]
+  }
 }

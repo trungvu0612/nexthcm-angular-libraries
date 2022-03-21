@@ -1,0 +1,13 @@
+:host {
+  display: block;
+
+  ::ng-deep tui-editor {
+    .t-toolbar-wrapper {
+      display: none;
+    }
+
+    .t-scrollbar {
+      border-top: none;
+    }
+  }
+}

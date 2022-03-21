@@ -1,0 +1,46 @@
+{
+  "RECURRING_TYPE": {
+    "NONE": "None",
+    "MONTHLY": "Monthly",
+    "YEARLY": "Yearly"
+  },
+  "HOLIDAY_COLUMNS": {
+    "date": "Date",
+    "name": "Name",
+    "repeat": "Repeat",
+    "payable": "Payable",
+    "actions": "Actions"
+  },
+  "CONVERT_OT_OPTIONS": {
+    "none": "None",
+    "payroll": "Convert to payroll",
+    "paidLeave": "Convert to paid leave"
+  },
+  "addHoliday": "Add holiday",
+  "editHoliday": "Edit holiday",
+  "deleteHoliday": "<b>Are you sure you want to delete this holiday?</b>",
+  "addHolidaySuccessfully": "<b>Add new holiday successfully!</b>",
+  "editHolidaySuccessfully": "<b>Edit the holiday successfully!</b>",
+  "deleteHolidaySuccessfully": "<b>Delete the holiday successfully!</b>",
+  "saveWorkingTimeConfigSuccessfully": "<b>Save the working time configuration successfully!</b>",
+  "morningCheckInBefore": "Morning check-in before",
+  "afternoonCheckOutAfter": "Afternoon check-out before",
+  "startLunch": "Lunch start",
+  "endLunch": "Lunch end",
+  "minimumWorkingHours": "Minimum working hours",
+  "maximumWorkingHours": "Maximum working hours",
+  "startTime": "Start time",
+  "endTime": "End time",
+  "maxPaidLeaveToCash": "Maximum paid leave to cash",
+  "useTimekeeper": "Use Timekeeper",
+  "convertOT": "Convert overtime",
+  "maximumPeriodTimeCheckOutInApp": "Maximum time between 2 check-out (for app)",
+  "cicoException": "CICO Exception",
+  "checkInCheckOutException": "Check-in, Check-out Exception",
+  "ADMIN_EXCLUSION_COLUMNS": {
+    "name": "Name",
+    "fullName": "Full Name",
+    "status": "Status",
+    "excepted": "Excepted"
+  }
+}

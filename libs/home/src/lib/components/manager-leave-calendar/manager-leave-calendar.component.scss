@@ -1,0 +1,7 @@
+:host {
+  display: block;
+
+  .leave-calendar {
+    width: calc(100vw - 272px - 48px);
+  }
+}

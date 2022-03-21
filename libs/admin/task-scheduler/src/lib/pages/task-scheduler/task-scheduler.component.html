@@ -1,0 +1,47 @@
+<hcm-page [title]="'taskScheduler' | transloco">
+  <tui-loader [overlay]="true" [showLoader]="(loading$ | push) === true">
+    <ngx-table #table [columns]="(columns$ | push) || []" [configuration]="configuration" [data]="(data$ | push) || []">
+      <ng-template let-row>
+        <ng-container *tuiLet="item(row) as item">
+          <ng-container *transloco="let t">
+            <td>{{ t(item.name) }}</td>
+            <td>
+              <div [innerHTML]="t(item.description)"></div>
+            </td>
+            <td>{{ item.type }}</td>
+            <td class="whitespace-nowrap">
+              <span>{{ item.value }}</span
+              ><span *ngIf="item.type === ScheduleType.interval">{{ t('SCHEDULER.seconds') }}</span>
+            </td>
+            <td>
+              <tui-tag
+                [value]="t(CommonStatus[item.status])"
+                class="{{ CommonStatus[item.status] }}-tag"
+                status="custom"
+              ></tui-tag>
+            </td>
+            <td>
+              <div *ngxPermissionsOnly="'UPDATE_SYNC_DATA_MANAGEMENT'" class="flex items-center">
+                <button
+                  (click)="onEditScheduledTask(item)"
+                  appearance="flat"
+                  class="tui-space_right-3"
+                  icon="tuiIconEditLarge"
+                  size="m"
+                  tuiIconButton
+                ></button>
+                <button
+                  (click)="onExecute(item.id)"
+                  appearance="flat"
+                  icon="tuiIconPlayLarge"
+                  size="m"
+                  tuiIconButton
+                ></button>
+              </div>
+            </td>
+          </ng-container>
+        </ng-container>
+      </ng-template>
+    </ngx-table>
+  </tui-loader>
+</hcm-page>

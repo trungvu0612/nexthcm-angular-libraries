@@ -1,0 +1,11 @@
+:host {
+  display: block;
+
+  .thumbnail {
+    ::ng-deep {
+      tui-avatar {
+        box-shadow: 6px 6px 0 1px #dcdcdc;
+      }
+    }
+  }
+}

@@ -1,0 +1,16 @@
+<div *tuiLet="items$ | push as items">
+  <div
+    *ngIf="items.length"
+    class="flex flex-col bg-white border border-[color:var(--tui-base-03)] rounded-xl shadow-lg py-2"
+  >
+    <button
+      (click)="selectItem(index)"
+      *ngFor="let item of items; index as index"
+      [class]="index === (selectedIndex$ | push) ? 'bg-[color:var(--tui-base-02)]' : ''"
+      class="hover:bg-[color:var(--tui-base-02)] focus:bg-[color:var(--tui-base-02)] text-left px-4 py-2"
+    >
+      <span class="font-semibold">{{ item.name }}</span>
+      ({{ item.username }})
+    </button>
+  </div>
+</div>

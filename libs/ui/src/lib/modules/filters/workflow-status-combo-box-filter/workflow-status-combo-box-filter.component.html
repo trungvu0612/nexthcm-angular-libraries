@@ -1,0 +1,21 @@
+<tui-multi-select
+  (ngModelChange)="onSelectStatus($event)"
+  (searchChange)="search$.next($event)"
+  *tuiLet="statuses$ | push as items"
+  [identityMatcher]="identityMatcher"
+  [ngModel]="statuses"
+  [stringify]="stringify"
+  [tuiTextfieldCleaner]="true"
+  tuiTextfieldExampleText="{{ 'findStatuses' | transloco }}"
+>
+  {{ 'status' | transloco }}
+  <tui-data-list-wrapper
+    *tuiDataList
+    [itemContent]="itemContent"
+    [items]="items | tuiHideSelected"
+  ></tui-data-list-wrapper>
+</tui-multi-select>
+
+<ng-template #itemContent let-status>
+  <tui-tag [style.backgroundColor]="status.stateType?.color" [value]="status.name" class="text-white"></tui-tag>
+</ng-template>

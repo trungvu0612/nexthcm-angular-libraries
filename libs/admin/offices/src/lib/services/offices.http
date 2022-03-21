@@ -1,0 +1,18 @@
+POST https://qa-nexthcm-api.banvien.com.vn/accountapp/v1.0/networks
+Authorization: Bearer {{auth_token}}
+Content-Type: application/json
+
+{
+  "wifiSSID": "BanVien",
+  "macAddress": "00-01-02-03-05",
+  "description": "Van Phuc City",
+  "officeId":"819d6a9d-b60a-4b6f-bafb-49079843170b"
+}
+
+###
+https://qa-nexthcm-api.banvien.com.vn/accountapp/v1.0/networks/offices/statistics
+Authorization: Bearer {{auth_token}}
+
+###
+https://qa-nexthcm-api.banvien.com.vn/accountapp/v1.0/offices/819d6a9d-b60a-4b6f-bafb-49079843170b/networks
+Authorization: Bearer {{auth_token}}

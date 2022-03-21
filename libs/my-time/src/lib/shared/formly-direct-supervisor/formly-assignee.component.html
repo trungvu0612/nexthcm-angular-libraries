@@ -1,0 +1,6 @@
+<ng-container *ngIf="formControl?.valueChanges | push as user">
+  <div *tuiLet="userInfo(user) as userInfo" class="flex items-center">
+    <hcm-avatar [image]="userInfo.avatar" [text]="userInfo.name" class="mr-2" rounded size="s"></hcm-avatar>
+    {{ userInfo.name }}
+  </div>
+</ng-container>

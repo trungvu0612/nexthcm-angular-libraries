@@ -1,0 +1,46 @@
+{
+  "projectType": "library",
+  "root": "libs/admin/task-scheduler",
+  "sourceRoot": "libs/admin/task-scheduler/src",
+  "prefix": "hcm",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/angular:package",
+      "outputs": ["dist/libs/admin/task-scheduler"],
+      "options": {
+        "project": "libs/admin/task-scheduler/ng-package.json",
+        "tailwindConfig": "libs/admin/task-scheduler/tailwind.config.js"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "libs/admin/task-scheduler/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "libs/admin/task-scheduler/tsconfig.lib.json"
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/admin/task-scheduler"],
+      "options": {
+        "jestConfig": "libs/admin/task-scheduler/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["libs/admin/task-scheduler/src/**/*.ts", "libs/admin/task-scheduler/src/**/*.html"]
+      }
+    },
+    "publish": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "yarn publish dist/libs/admin/task-scheduler"
+      }
+    }
+  },
+  "tags": []
+}

@@ -1,0 +1,46 @@
+{
+  "projectType": "library",
+  "root": "libs/seat-maps",
+  "sourceRoot": "libs/seat-maps/src",
+  "prefix": "hcm",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/angular:package",
+      "outputs": ["dist/libs/seat-maps"],
+      "options": {
+        "project": "libs/seat-maps/ng-package.json",
+        "tailwindConfig": "libs/seat-maps/tailwind.config.js"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "libs/seat-maps/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "libs/seat-maps/tsconfig.lib.json"
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/seat-maps"],
+      "options": {
+        "jestConfig": "libs/seat-maps/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["libs/seat-maps/src/**/*.ts", "libs/seat-maps/src/**/*.html"]
+      }
+    },
+    "publish": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "yarn publish dist/libs/seat-maps"
+      }
+    }
+  },
+  "tags": []
+}

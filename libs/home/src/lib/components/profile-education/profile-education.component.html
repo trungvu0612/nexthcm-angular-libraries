@@ -1,0 +1,20 @@
+<ng-container *rxLet="profile$; let profile">
+  <table *transloco="let t" class="tui-table">
+    <tbody>
+      <tr class="tui-table__tr">
+        <th class="tui-table__th">{{ t('university') }}</th>
+        <th class="tui-table__th">{{ t('major') }}</th>
+        <th class="tui-table__th">{{ t('highestCertificate') }}</th>
+        <th class="tui-table__th">{{ t('graduationYear') }}</th>
+        <th class="tui-table__th">{{ t('score') }}</th>
+      </tr>
+      <tr *ngFor="let row of profile.certificates" class="tui-table__tr">
+        <td class="tui-table__td">{{ row.university }}</td>
+        <td class="tui-table__td">{{ row.major }}</td>
+        <td class="tui-table__td">{{ t('HIGHEST_CERTIFICATE_OPTIONS.' + row.highestCertificate) }}</td>
+        <td class="tui-table__td">{{ row.graduationYear }}</td>
+        <td class="tui-table__td">{{ row.score }}</td>
+      </tr>
+    </tbody>
+  </table>
+</ng-container>

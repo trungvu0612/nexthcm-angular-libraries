@@ -1,0 +1,11 @@
+:host {
+  display: block;
+
+  .bg-gradient {
+    width: 75%;
+    max-width: 56rem;
+    padding: 0.5rem;
+    background-image: linear-gradient(to right, #f9a8d4, #fca5a5, #fcd34d);
+    border-radius: 0.75rem;
+  }
+}

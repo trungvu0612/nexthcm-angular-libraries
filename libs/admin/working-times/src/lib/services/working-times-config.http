@@ -1,0 +1,11 @@
+###
+https://qa-nexthcm-api.banvien.com.vn/accountapp/v1.0/offices
+Authorization: Bearer {{auth_token}}
+
+###
+https://qa-nexthcm-api.banvien.com.vn/accountapp/v1.0/users/time-checking-exclusion
+Authorization: Bearer {{auth_token}}
+
+###
+https://qa-nexthcm-api.banvien.com.vn/accountapp/v1.0/titles
+Authorization: Bearer {{auth_token}}

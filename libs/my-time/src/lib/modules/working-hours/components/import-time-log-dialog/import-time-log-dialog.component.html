@@ -1,0 +1,114 @@
+<div class="flex items-center gap-4">
+  <div class="flex-1">
+    <tui-input-files
+      (reject)="rejectedFile = $any($event)"
+      *ngIf="!fileControl.value"
+      [formControl]="fileControl"
+      accept=".xlsx,.xls,.csv"
+    ></tui-input-files>
+
+    <tui-files class="tui-space_top-1">
+      <tui-file (removed)="fileControl.setValue(null)" *ngIf="fileControl.value" [file]="fileControl.value"></tui-file>
+      <tui-file (removed)="rejectedFile = null" *ngIf="rejectedFile" [file]="rejectedFile" state="error"></tui-file>
+    </tui-files>
+  </div>
+  <a download href="/assets/files/import-time-log-template.xlsx" icon="tuiIconDownloadLarge" size="m" tuiButton>
+    {{ 'downloadSampleFile' | transloco }}
+  </a>
+</div>
+
+<tui-loader [overlay]="true" [showLoader]="loading" class="my-4">
+  <ngx-table #table [columns]="(columns$ | push) || []" [configuration]="configuration" [data]="data$ | push">
+    <ng-template let-index="index" let-row>
+      <ng-container *tuiLet="item(row) as item">
+        <td
+          [class]="
+            item.isEdited
+              ? 'highlight edit'
+              : item.isDuplicateRecord
+              ? 'highlight duplicate'
+              : item.isWrongFormat
+              ? 'highlight format'
+              : item.isConflictData
+              ? 'highlight conflict'
+              : item.isDataNotFound
+              ? 'highlight data'
+              : ''
+          "
+        >
+          {{ item.cif }}
+        </td>
+        <td>
+          <div class="font-bold text-blue-500 uppercase">{{ item.fullName }}</div>
+        </td>
+        <td>{{ item.office }}</td>
+        <td>{{ item.dateTracking }}</td>
+        <td>{{ item.timeIn }}</td>
+        <td>{{ item.timeOut }}</td>
+        <td>
+          <div class="flex">
+            <button
+              (click)="onEdit(item, index)"
+              appearance="flat"
+              class="tui-space_right-3"
+              icon="tuiIconEditLarge"
+              size="m"
+              tuiIconButton
+            ></button>
+            <button
+              (click)="onRemove(index)"
+              appearance="flat"
+              icon="tuiIconTrashLarge"
+              size="m"
+              tuiIconButton
+            ></button>
+          </div>
+        </td>
+      </ng-container>
+    </ng-template>
+  </ngx-table>
+</tui-loader>
+
+<div *transloco="let t; read: translocoScope.scope">
+  <p class="flex items-center gap-2">
+    <span class="w-4 h-4 rounded-full bg-red-400"></span>{{ t('IMPORT_STATUS.CONFLICT') }}
+  </p>
+  <p class="flex items-center gap-2">
+    <span class="w-4 h-4 rounded-full bg-yellow-400"></span>{{ t('IMPORT_STATUS.DUPLICATE') }}
+  </p>
+  <p class="flex items-center gap-2">
+    <span class="w-4 h-4 rounded-full bg-orange-400"></span>{{ t('IMPORT_STATUS.FORMAT') }}
+  </p>
+  <p class="flex items-center gap-2">
+    <span class="w-4 h-4 rounded-full bg-gray-400"></span>{{ t('IMPORT_STATUS.NOT_FOUND') }}
+  </p>
+  <p class="flex items-center gap-2">
+    <span class="w-4 h-4 rounded-full bg-green-400"></span>{{ t('IMPORT_STATUS.EDIT') }}
+  </p>
+</div>
+
+<div *transloco="let t" class="tui-form__buttons">
+  <button
+    (click)="onSubmit()"
+    [disabled]="!(canSubmit$ | push)"
+    [showLoader]="submitting"
+    class="tui-form__button"
+    size="l"
+    tuiButton
+  >
+    {{ t('save') }}
+  </button>
+  <button (click)="onCancel()" appearance="outline" class="tui-form__button" size="l" tuiButton type="button">
+    {{ t('cancel') }}
+  </button>
+</div>
+
+<ng-template [(tuiDialog)]="openDialog" let-observer>
+  <hcm-base-form
+    (cancel)="observer.complete()"
+    (submitForm)="onSave()"
+    [fields]="fields"
+    [form]="$any(form)"
+    [model]="model"
+  ></hcm-base-form>
+</ng-template>

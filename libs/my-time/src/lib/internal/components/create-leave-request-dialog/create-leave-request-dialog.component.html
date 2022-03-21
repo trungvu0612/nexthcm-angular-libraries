@@ -1,0 +1,18 @@
+<hcm-base-form
+  (cancel)="onCancel()"
+  (submitForm)="onSubmit()"
+  [fields]="fields"
+  [form]="$any(form)"
+  [model]="model"
+  [options]="options"
+  [submitLoading]="(submitLoading$ | push) === true"
+  class="mt-5"
+></hcm-base-form>
+
+<ng-template #partialDaysContent="polymorpheus" [polymorpheus]="partialDaysTypeContext" let-type>
+  {{ 'myTime.PARTIAL_DAYS.' + type.name | transloco }}
+</ng-template>
+
+<ng-template #statusContent="polymorpheus" [polymorpheus]="statusContext" let-status>
+  <tui-tag [style.backgroundColor]="status.stateType?.color" [value]="status.name" class="text-white"></tui-tag>
+</ng-template>

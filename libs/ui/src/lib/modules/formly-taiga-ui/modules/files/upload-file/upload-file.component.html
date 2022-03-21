@@ -1,0 +1,28 @@
+<p class="mb-1 text-sm font-semibold">
+  <span>{{ to.label }}</span> <span *ngIf="to.required" class="tui-required"></span>
+</p>
+
+<tui-input-files
+  (reject)="onReject($any($event))"
+  *ngIf="!control.value && !to.disabled"
+  [accept]="to['accept']"
+  [formControl]="control"
+  [readOnly]="!!to.readonly"
+></tui-input-files>
+
+<tui-files class="tui-space_top-1">
+  <tui-file (removed)="removeFile()" *ngIf="control.value && !loadingFile" [file]="control.value"></tui-file>
+
+  <tui-file (removed)="removeLoading()" *ngIf="loadingFile" [file]="loadingFile" state="loading"></tui-file>
+
+  <tui-file (removed)="removeRejected()" *ngIf="rejectedFile" [file]="rejectedFile" state="error"></tui-file>
+</tui-files>
+
+<ng-container *tuiLet="request$ | push">
+  <img
+    *ngIf="formControl && formControl.value && to['previewImage']"
+    [src]="formControl.value | getFile | push"
+    alt=""
+    class="object-contain w-full h-36 mx-auto mt-4"
+  />
+</ng-container>

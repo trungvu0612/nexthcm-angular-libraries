@@ -1,0 +1,46 @@
+{
+  "projectType": "library",
+  "root": "libs/knowledge-base",
+  "sourceRoot": "libs/knowledge-base/src",
+  "prefix": "hcm",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/angular:package",
+      "outputs": ["dist/libs/knowledge-base"],
+      "options": {
+        "project": "libs/knowledge-base/ng-package.json",
+        "tailwindConfig": "libs/knowledge-base/tailwind.config.js"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "libs/knowledge-base/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "libs/knowledge-base/tsconfig.lib.json"
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/knowledge-base"],
+      "options": {
+        "jestConfig": "libs/knowledge-base/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["libs/knowledge-base/src/**/*.ts", "libs/knowledge-base/src/**/*.html"]
+      }
+    },
+    "publish": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "yarn publish dist/libs/knowledge-base"
+      }
+    }
+  },
+  "tags": []
+}

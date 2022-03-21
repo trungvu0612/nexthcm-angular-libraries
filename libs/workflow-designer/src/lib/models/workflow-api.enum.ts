@@ -30,7 +30,7 @@ export type WorkflowAPIType =
   | { type: WorkflowAPI.setInitial }
   | { type: WorkflowAPI.selectCell; value: string }
   | { type: WorkflowAPI.zoomIn }
-  | { type: WorkflowAPI.zoomOut }
+  | { type: WorkflowAPI.zoomOut };
 
 export interface WorkflowAPIDefinition {
   apiEvent<T extends WorkflowAPIType>(api: T): WorkflowAPIReturn<T>;

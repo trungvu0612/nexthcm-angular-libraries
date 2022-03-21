@@ -1,0 +1,46 @@
+{
+  "projectType": "library",
+  "root": "libs/my-time",
+  "sourceRoot": "libs/my-time/src",
+  "prefix": "hcm",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/angular:package",
+      "outputs": ["dist/libs/my-time"],
+      "options": {
+        "project": "libs/my-time/ng-package.json",
+        "tailwindConfig": "libs/my-time/tailwind.config.js"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "libs/my-time/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "libs/my-time/tsconfig.lib.json"
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/my-time"],
+      "options": {
+        "jestConfig": "libs/my-time/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["libs/my-time/src/**/*.ts", "libs/my-time/src/**/*.html"]
+      }
+    },
+    "publish": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "yarn publish dist/libs/my-time"
+      }
+    }
+  },
+  "tags": []
+}

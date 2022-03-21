@@ -1,0 +1,15 @@
+<hcm-page *ngIf="category$ | push as category">
+  <ng-container ngProjectAs="breadcrumbs">
+    <tui-breadcrumbs size="l">
+      <a *tuiBreadcrumb routerLink=".." tuiLink>{{ 'knowledgeBaseCategories' | transloco }}</a>
+      <a *tuiBreadcrumb routerLink="." tuiLink>
+        <span class="font-semibold">{{ category.name }}</span>
+      </a>
+    </tui-breadcrumbs>
+  </ng-container>
+  <tui-loader [overlay]="true" [showLoader]="(loading$ | push) === true">
+    <section>
+      <hcm-knowledge-base-article-list [queryParams]="queryParams"></hcm-knowledge-base-article-list>
+    </section>
+  </tui-loader>
+</hcm-page>

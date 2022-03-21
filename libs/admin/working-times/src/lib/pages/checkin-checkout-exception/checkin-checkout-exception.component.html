@@ -1,0 +1,12 @@
+<ng-container *transloco="let t">
+  <hcm-page [title]="t(translocoScope.scope + '.checkInCheckOutException')">
+    <tui-tabs [(activeItemIndex)]="activeItemIndex">
+      <button routerLink="./job-titles" routerLinkActive tuiTab>{{ t('jobTitles') }}</button>
+      <button routerLink="./offices" routerLinkActive tuiTab>{{ t('offices') }}</button>
+      <button routerLink="./employees" routerLinkActive tuiTab>{{ t('employees') }}</button>
+    </tui-tabs>
+    <section class="mt-5">
+      <router-outlet></router-outlet>
+    </section>
+  </hcm-page>
+</ng-container>

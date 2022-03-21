@@ -1,0 +1,28 @@
+<div class="flex items-center">
+  <tui-input-inline
+    (focusedChange)="onFocusedChange($event)"
+    (keydown.enter.prevent)="toggle()"
+    (keydown.esc.prevent)="toggle()"
+    *ngIf="editing; else text"
+    [formControl]="$any(formControl)"
+    [maxlength]="to['maxlength']"
+    tuiAutoFocus
+  >
+    {{ to.placeholder }}
+  </tui-input-inline>
+</div>
+
+<ng-template #text>
+  <span>{{ formControl?.value }}</span>
+  <button
+    (click)="toggle()"
+    *ngIf="to['icon']"
+    [icon]="to['icon']"
+    [title]="to['iconTitle']"
+    appearance="icon"
+    class="tui-space_left-1"
+    size="xs"
+    tuiIconButton
+    type="button"
+  ></button>
+</ng-template>

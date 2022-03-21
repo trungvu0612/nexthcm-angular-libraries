@@ -1,0 +1,10 @@
+:host {
+  display: flex;
+  height: 100vh;
+  flex-direction: column;
+  position: relative;
+
+  tui-scrollbar {
+    background-color: #fafafb;
+  }
+}

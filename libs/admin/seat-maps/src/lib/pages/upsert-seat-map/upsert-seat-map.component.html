@@ -1,0 +1,62 @@
+<ng-container *ngIf="sign$ | push">
+  <hcm-page [title]="(seatMap.id ? 'adminSeatMaps.editSeatMap' : 'adminSeatMaps.addSeatMap') | transloco">
+    <form (ngSubmit)="submitSeatMap()" [formGroup]="$any(form)">
+      <formly-form [fields]="fields" [form]="$any(form)" [model]="model"></formly-form>
+      <article #zone *ngIf="model.imageUrl" class="relative ring-4 ring-purple-700 my-4">
+        <button
+          (cdkDragEnded)="moveSeat(index, $event.distance, $event)"
+          (click)="focusSeat(index)"
+          *ngFor="let seat of seats; index as index"
+          [style]="{
+            top: seat.positionY + '%',
+            left: seat.positionX + '%',
+            width: (seat.width || dimension.width) + '%',
+            height: (seat.height || dimension.height) + '%',
+            'border-radius': getRounded(seat.rounded) + '%',
+            opacity: current === index ? 1 : 0.6
+          }"
+          cdkDrag
+          cdkDragBoundary="article"
+          class="absolute bg-blue-400"
+          type="button"
+        >
+          <img alt="" class="object-contain w-full h-full" src="/assets/icons/marker.svg" />
+        </button>
+        <img (load)="onImageLoad($event)" [src]="model.imageUrl | getFile | push" alt="" class="w-full" />
+      </article>
+      <div *ngIf="current !== -1" class="bg-gradient flex items-center gap-4 sticky bottom-3">
+        <formly-form [fields]="seatFields" [form]="seatForm" [model]="seatModel" class="flex-auto"></formly-form>
+        <button
+          (click)="resetSeat()"
+          [disabled]="seats[current].width === undefined"
+          appearance="flat"
+          icon="tuiIconRefreshLarge"
+          size="m"
+          tuiIconButton
+          type="button"
+        ></button>
+        <button
+          (click)="deleteSeat()"
+          appearance="flat"
+          icon="tuiIconTrashLarge"
+          size="m"
+          tuiIconButton
+          type="button"
+        ></button>
+      </div>
+      <div *transloco="let t" class="tui-form__buttons">
+        <button class="tui-form__button" size="l" tuiButton>{{ t('save') }}</button>
+        <button
+          appearance="outline"
+          class="tui-form__button"
+          routerLink="/admin/seat-maps"
+          size="l"
+          tuiButton
+          type="button"
+        >
+          {{ t('cancel') }}
+        </button>
+      </div>
+    </form>
+  </hcm-page>
+</ng-container>

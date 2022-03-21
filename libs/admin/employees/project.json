@@ -1,0 +1,46 @@
+{
+  "projectType": "library",
+  "root": "libs/admin/employees",
+  "sourceRoot": "libs/admin/employees/src",
+  "prefix": "hcm",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/angular:package",
+      "outputs": ["dist/libs/admin/employees"],
+      "options": {
+        "project": "libs/admin/employees/ng-package.json",
+        "tailwindConfig": "libs/admin/employees/tailwind.config.js"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "libs/admin/employees/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "libs/admin/employees/tsconfig.lib.json"
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/admin/employees"],
+      "options": {
+        "jestConfig": "libs/admin/employees/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["libs/admin/employees/src/**/*.ts", "libs/admin/employees/src/**/*.html"]
+      }
+    },
+    "publish": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "yarn publish dist/libs/admin/employees"
+      }
+    }
+  },
+  "tags": []
+}

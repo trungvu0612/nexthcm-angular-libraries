@@ -1,0 +1,16 @@
+<div class="flex items-center mb-2 space-x-2">
+  <tui-checkbox [formControl]="andControl" [nativeId]="segmentId" size="l"></tui-checkbox>
+  <label [attr.for]="segmentId" class="text-sm">
+    {{ label }}
+  </label>
+</div>
+<div class="grid {{ gridSize }} gap-2 pl-3">
+  <hcm-cron-and-option
+    (selected)="changeValue(item.value)"
+    *ngFor="let item of options"
+    [checked]="isValueSelected(item.value)"
+    [disabled]="disabledControls"
+    [label]="item.label"
+    [nativeId]="segmentId + '_' + item.value"
+  ></hcm-cron-and-option>
+</div>

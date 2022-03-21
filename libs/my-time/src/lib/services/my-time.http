@@ -1,0 +1,3 @@
+###
+https://qa-nexthcm-api.banvien.com.vn/mytimeapp/v1.0/calendars/leaves?month=1&year=2022
+Authorization: Bearer {{auth_token}}

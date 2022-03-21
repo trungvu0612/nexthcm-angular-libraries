@@ -1,0 +1,46 @@
+{
+  "projectType": "library",
+  "root": "libs/admin/leave-configs",
+  "sourceRoot": "libs/admin/leave-configs/src",
+  "prefix": "hcm",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/angular:package",
+      "outputs": ["dist/libs/admin/leave-configs"],
+      "options": {
+        "project": "libs/admin/leave-configs/ng-package.json",
+        "tailwindConfig": "libs/admin/leave-configs/tailwind.config.js"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "libs/admin/leave-configs/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "libs/admin/leave-configs/tsconfig.lib.json"
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/admin/leave-configs"],
+      "options": {
+        "jestConfig": "libs/admin/leave-configs/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["libs/admin/leave-configs/src/**/*.ts", "libs/admin/leave-configs/src/**/*.html"]
+      }
+    },
+    "publish": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "yarn publish dist/libs/admin/leave-configs"
+      }
+    }
+  },
+  "tags": []
+}

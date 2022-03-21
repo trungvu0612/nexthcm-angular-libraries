@@ -1,0 +1,42 @@
+<tui-loader [overlay]="true" [showLoader]="(loading$ | push) === true">
+  <ngx-table #table [columns]="(columns$ | push) || []" [configuration]="configuration" [data]="(data$ | push) || []">
+    <ng-template let-row>
+      <ng-container *tuiLet="item(row) as item">
+        <td>
+          <button class="invisible" tuiIconButton></button>
+        </td>
+        <td>{{ item.userInfo?.cif }}</td>
+        <td>{{ item.userInfo?.fullName }}</td>
+        <td>{{ item.trackingDate | translocoDate }}</td>
+        <td class="text-center">
+          {{
+            item.totalWorkingTime
+              ? (item.totalWorkingTime / 3600 | translocoDecimal: { maximumFractionDigits: 1 })
+              : '-'
+          }}
+        </td>
+        <td class="text-center">
+          {{ item.workingDay ? (item.workingDay | translocoDecimal: { maximumFractionDigits: 1 }) : '-' }}
+        </td>
+        <td class="text-center">{{ item.ot ? (item.ot | translocoDecimal) : '-' }}</td>
+        <td class="text-center">{{ item.leaveType }}</td>
+        <td>
+          <div *ngxPermissionsOnly="'VIEW_ALL_REQUEST_TENANT'" class="flex items-center">
+            <button
+              (click)="requestUpdateTime(item)"
+              appearance="flat"
+              icon="tuiIconEditLarge"
+              size="m"
+              tuiIconButton
+            ></button>
+          </div>
+        </td>
+      </ng-container>
+    </ng-template>
+  </ngx-table>
+</tui-loader>
+<tui-table-pagination
+  (pageChange)="onPage($event)"
+  (sizeChange)="onSize($event)"
+  [total]="(total$ | push) || 0"
+></tui-table-pagination>

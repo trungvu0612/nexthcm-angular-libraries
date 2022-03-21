@@ -1,0 +1,21 @@
+<tui-loader [overlay]="true" [showLoader]="(loading$ | push) === true">
+  <section *ngIf="items$ | push as items" class="space-y-8">
+    <article *ngFor="let item of items" class="flex gap-x-6">
+      <a [routerLink]="['/knowledge-base/articles', item.id]">
+        <hcm-avatar [image]="item.thumbnail" [text]="item.topic" class="thumbnail" size="xl"></hcm-avatar>
+      </a>
+      <div>
+        <a [routerLink]="['/knowledge-base/articles', item.id]">
+          <h2 class="tui-text_h5">{{ item.topic }}</h2>
+        </a>
+        <p class="text-base">{{ item.shortDescription }}</p>
+      </div>
+    </article>
+  </section>
+</tui-loader>
+<tui-pagination
+  (indexChange)="goToPage($event)"
+  [index]="index"
+  [length]="(totalPages$ | push) || 1"
+  class="mt-5"
+></tui-pagination>

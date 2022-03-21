@@ -1,0 +1,46 @@
+{
+  "projectType": "library",
+  "root": "libs/human-resource",
+  "sourceRoot": "libs/human-resource/src",
+  "prefix": "hcm",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/angular:package",
+      "outputs": ["dist/libs/human-resource"],
+      "options": {
+        "project": "libs/human-resource/ng-package.json",
+        "tailwindConfig": "libs/human-resource/tailwind.config.js"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "libs/human-resource/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "libs/human-resource/tsconfig.lib.json"
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/human-resource"],
+      "options": {
+        "jestConfig": "libs/human-resource/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["libs/human-resource/src/**/*.ts", "libs/human-resource/src/**/*.html"]
+      }
+    },
+    "publish": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "yarn publish dist/libs/human-resource"
+      }
+    }
+  },
+  "tags": []
+}

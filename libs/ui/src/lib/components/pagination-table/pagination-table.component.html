@@ -1,0 +1,10 @@
+<tui-loader [overlay]="true" [showLoader]="loading">
+  <ngx-table #table [columns]="columns" [configuration]="configuration" [data]="data || []"></ngx-table>
+</tui-loader>
+<tui-table-pagination
+  (pageChange)="pageChange.emit($event)"
+  (sizeChange)="onSizeChange($event)"
+  [page]="page ?? 0"
+  [size]="size ?? 0"
+  [total]="total ?? 0"
+></tui-table-pagination>

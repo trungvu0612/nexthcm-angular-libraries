@@ -1,0 +1,46 @@
+{
+  "projectType": "library",
+  "root": "libs/admin/permissions",
+  "sourceRoot": "libs/admin/permissions/src",
+  "prefix": "hcm",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/angular:package",
+      "outputs": ["dist/libs/admin/permissions"],
+      "options": {
+        "project": "libs/admin/permissions/ng-package.json",
+        "tailwindConfig": "libs/admin/permissions/tailwind.config.js"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "libs/admin/permissions/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "libs/admin/permissions/tsconfig.lib.json"
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/admin/permissions"],
+      "options": {
+        "jestConfig": "libs/admin/permissions/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["libs/admin/permissions/src/**/*.ts", "libs/admin/permissions/src/**/*.html"]
+      }
+    },
+    "publish": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "yarn publish dist/libs/admin/permissions"
+      }
+    }
+  },
+  "tags": []
+}

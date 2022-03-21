@@ -1,0 +1,10 @@
+<tui-avatar
+  [autoColor]="autoColor"
+  [avatarUrl]="image ? (image | getFile | push) || null : null"
+  [rounded]="rounded"
+  [size]="size"
+  [style.border-radius]="borderRadius"
+  [style.height]="height"
+  [style.width]="width"
+  [text]="computedText"
+></tui-avatar>

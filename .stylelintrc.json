@@ -1,0 +1,22 @@
+{
+  "ignoreFiles": ["**/*"],
+  "overrides": [
+    {
+      "files": ["**/*.css"],
+      "extends": ["stylelint-config-standard", "stylelint-config-prettier", "stylelint-config-tailwindcss"],
+      "rules": {}
+    },
+    {
+      "files": ["**/*.less"],
+      "customSyntax": "postcss-less",
+      "extends": ["stylelint-config-standard", "stylelint-config-prettier", "stylelint-config-tailwindcss"],
+      "rules": {}
+    },
+    {
+      "files": ["**/*.scss"],
+      "extends": ["stylelint-config-standard-scss", "stylelint-config-prettier", "stylelint-config-tailwindcss"],
+      "rules": {}
+    }
+  ],
+  "rules": {}
+}

@@ -1,0 +1,46 @@
+{
+  "projectType": "library",
+  "root": "libs/admin/working-times",
+  "sourceRoot": "libs/admin/working-times/src",
+  "prefix": "hcm",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/angular:package",
+      "outputs": ["dist/libs/admin/working-times"],
+      "options": {
+        "project": "libs/admin/working-times/ng-package.json",
+        "tailwindConfig": "libs/admin/working-times/tailwind.config.js"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "libs/admin/working-times/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "libs/admin/working-times/tsconfig.lib.json"
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/admin/working-times"],
+      "options": {
+        "jestConfig": "libs/admin/working-times/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["libs/admin/working-times/src/**/*.ts", "libs/admin/working-times/src/**/*.html"]
+      }
+    },
+    "publish": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "yarn publish dist/libs/admin/working-times"
+      }
+    }
+  },
+  "tags": []
+}

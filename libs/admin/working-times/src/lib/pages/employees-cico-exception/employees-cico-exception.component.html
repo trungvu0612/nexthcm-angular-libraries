@@ -1,0 +1,41 @@
+<hcm-input-filter
+  (valueChange)="search$.next($event)"
+  [label]="'searchByCifFullNameOffice' | transloco"
+  class="mb-5"
+  icon="tuiIconSearchLarge"
+  propertyName="search"
+></hcm-input-filter>
+
+<tui-loader [overlay]="true" [showLoader]="(loading$ | push) === true">
+  <ngx-table #table [columns]="(columns$ | push) || []" [configuration]="configuration" [data]="(data$ | push) || []">
+    <ng-template let-row>
+      <ng-container *tuiLet="item(row) as item">
+        <td>{{ item.cif }}</td>
+        <td>
+          <div class="font-bold text-blue-500 uppercase">{{ item.fullName }}</div>
+        </td>
+        <td>
+          <tui-tag
+            [value]="CommonStatus[item.status] | transloco"
+            class="{{ CommonStatus[item.status] }}-tag"
+            status="custom"
+          ></tui-tag>
+        </td>
+        <td>
+          <div class="flex justify-center">
+            <tui-checkbox
+              (ngModelChange)="onChangeExclusion(item.id, $event)"
+              [ngModel]="item.isSkipCheckInOutNormal"
+              size="l"
+            ></tui-checkbox>
+          </div>
+        </td>
+      </ng-container>
+    </ng-template>
+  </ngx-table>
+</tui-loader>
+<tui-table-pagination
+  (pageChange)="onPage($event)"
+  (sizeChange)="onSize($event)"
+  [total]="(total$ | push) || 0"
+></tui-table-pagination>

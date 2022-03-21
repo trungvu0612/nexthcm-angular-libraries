@@ -1,0 +1,30 @@
+{
+  "ADMIN_OFFICES_COLUMNS": {
+    "name": "Tên",
+    "address": "Địa chỉ",
+    "description": "Mô tả",
+    "functions": "Chức năng",
+    "status": "Trạng thái",
+    "numberOfDevices": "Số lượng thiết bị",
+    "MACAddress": "Địa chỉ MAC"
+  },
+  "createOffice": "Tạo văn phòng",
+  "editOffice": "Sửa văn phòng",
+  "deleteOffice": "<b>Bạn chắc chắn muốn xoá văn phòng này?</b>",
+  "createOfficeSuccessfully": "<b>Tạo văn phòng thành công!</b>",
+  "editOfficeSuccessfully": "<b>Sửa văn phòng thành công!</b>",
+  "deleteOfficeSuccessfully": "<b>Xoá văn phòng thành công!</b>",
+  "network": "Mạng",
+  "wifiDeviceManagement": "Quản lý thiết bị WiFi",
+  "addWifiDevice": "Thêm thiết bị WiFi",
+  "SSID": "SSID",
+  "enterSSID": "Nhập SSID...",
+  "MACAddress": "Địa chỉ MAC",
+  "enterMACAddress": "Nhập địa chỉ MAC...",
+  "editWifiDevice": "Sửa thiết bị Wifi",
+  "addWifiDeviceSuccessfully": "<b>Tạo thiết bị Wifi thành công!</b>",
+  "editWifiDeviceSuccessfully": "<b>Sửa thiết bị Wifi thành công!</b>",
+  "deleteWifiDevice": "<b>Bạn chắc chắn muốn xoá thiết bị này?</b>",
+  "deleteWifiDeviceSuccessfully": "<b>Xoá thiết bị thành công!</b>",
+  "invalidMACAddress": "{{value}} không phải là địa chỉ MAC hợp lệ."
+}

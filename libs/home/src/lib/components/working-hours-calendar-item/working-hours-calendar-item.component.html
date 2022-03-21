@@ -1,0 +1,16 @@
+<tui-hosted-dropdown
+  *ngIf="monthViewDate"
+  [(open)]="openDropdown"
+  [content]="content"
+  [tuiDropdownMaxHeight]="999"
+  [tuiDropdownSided]="true"
+  tuiDropdownHover
+>
+  <div class="cal-cell-top">
+    <span class="cal-day-number">{{ monthViewDate.date | calendarDate: 'monthViewDayNumber':locale }}</span>
+
+    <div *ngIf="monthViewDate.events.length" class="cal-events"></div>
+  </div>
+</tui-hosted-dropdown>
+
+<ng-template #content> Event </ng-template>

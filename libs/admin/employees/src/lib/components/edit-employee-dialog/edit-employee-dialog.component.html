@@ -1,0 +1,36 @@
+<main>
+  <tui-tabs *transloco="let t" [(activeItemIndex)]="activeItemIndex">
+    <button tuiTab>
+      <i class="bx bx-info-circle bx-sm tui-space_right-2"></i>
+      {{ t('generalInformation') }}
+    </button>
+    <button tuiTab>
+      <i class="bx bxs-user-detail bx-sm tui-space_right-2"></i>
+      {{ t('individual') }}
+    </button>
+    <button tuiTab>
+      <tui-svg class="w-6 h-6 tui-space_right-2" src="tuiIconCompanyLarge"></tui-svg>
+      {{ t('employeeDuration') }}
+    </button>
+    <button tuiTab>
+      <i class="bx bxs-graduation bx-sm mr-2"></i>
+      {{ t('education') }}
+    </button>
+    <button tuiTab>
+      <tui-svg class="w-6 h-6 tui-space_right-2" src="tuiIconStarLarge"></tui-svg>
+      SHUI
+    </button>
+    <button tuiTab>
+      <tui-svg class="w-6 h-6 tui-space_right-2" src="tuiIconAttachLarge"></tui-svg>
+      {{ t('employees.attachments') }}
+    </button>
+  </tui-tabs>
+  <div [ngSwitch]="activeItemIndex" class="mt-5">
+    <hcm-general-information *ngSwitchCase="0"></hcm-general-information>
+    <hcm-individual-form *ngSwitchCase="1"></hcm-individual-form>
+    <hcm-duration-form *ngSwitchCase="2"></hcm-duration-form>
+    <hcm-education-form *ngSwitchCase="3"></hcm-education-form>
+    <hcm-shui-form *ngSwitchCase="4"></hcm-shui-form>
+    <hcm-attachment-form *ngSwitchCase="5"></hcm-attachment-form>
+  </div>
+</main>

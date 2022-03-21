@@ -1,0 +1,46 @@
+{
+  "projectType": "library",
+  "root": "libs/admin/job-levels",
+  "sourceRoot": "libs/admin/job-levels/src",
+  "prefix": "hcm",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/angular:package",
+      "outputs": ["dist/libs/admin/job-levels"],
+      "options": {
+        "project": "libs/admin/job-levels/ng-package.json",
+        "tailwindConfig": "libs/admin/job-levels/tailwind.config.js"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "libs/admin/job-levels/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "libs/admin/job-levels/tsconfig.lib.json"
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/admin/job-levels"],
+      "options": {
+        "jestConfig": "libs/admin/job-levels/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["libs/admin/job-levels/src/**/*.ts", "libs/admin/job-levels/src/**/*.html"]
+      }
+    },
+    "publish": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "yarn publish dist/libs/admin/job-levels"
+      }
+    }
+  },
+  "tags": []
+}

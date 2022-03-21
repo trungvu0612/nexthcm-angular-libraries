@@ -1,0 +1,124 @@
+{
+  "projectType": "application",
+  "root": "apps/dev-web",
+  "sourceRoot": "apps/dev-web/src",
+  "prefix": "hcm",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:browser",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/dev-web",
+        "index": "apps/dev-web/src/index.html",
+        "main": "apps/dev-web/src/main.ts",
+        "polyfills": "apps/dev-web/src/polyfills.ts",
+        "tsConfig": "apps/dev-web/tsconfig.app.json",
+        "inlineStyleLanguage": "scss",
+        "assets": [
+          "apps/dev-web/src/favicon.ico",
+          "apps/dev-web/src/assets",
+          {
+            "glob": "**/*",
+            "input": "node_modules/@taiga-ui/icons/src",
+            "output": "assets/taiga-ui/icons"
+          },
+          {
+            "glob": "**/*",
+            "input": "node_modules/leaflet/dist/images",
+            "output": "assets"
+          },
+          {
+            "glob": "**/*",
+            "input": "libs/core/assets",
+            "output": "assets"
+          }
+        ],
+        "styles": [
+          "node_modules/@taiga-ui/core/styles/taiga-ui-global.less",
+          "libs/core/assets/styles/theme.less",
+          "libs/core/assets/styles/main.scss",
+          "apps/dev-web/src/styles.scss"
+        ],
+        "scripts": [],
+        "allowedCommonJsDependencies": [
+          "angular2-text-mask",
+          "quill-delta-to-html",
+          "quill-auto-detect-url",
+          "cron-expression-validator"
+        ]
+      },
+      "configurations": {
+        "production": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "500kb",
+              "maximumError": "1mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "2kb",
+              "maximumError": "4kb"
+            }
+          ],
+          "fileReplacements": [
+            {
+              "replace": "apps/dev-web/src/environments/environment.ts",
+              "with": "apps/dev-web/src/environments/environment.prod.ts"
+            }
+          ],
+          "outputHashing": "all"
+        },
+        "development": {
+          "buildOptimizer": false,
+          "optimization": false,
+          "vendorChunk": true,
+          "extractLicenses": false,
+          "sourceMap": true,
+          "namedChunks": true
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "executor": "@angular-devkit/build-angular:dev-server",
+      "configurations": {
+        "production": {
+          "browserTarget": "dev-web:build:production"
+        },
+        "development": {
+          "browserTarget": "dev-web:build:development"
+        }
+      },
+      "defaultConfiguration": "development"
+    },
+    "extract-i18n": {
+      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "options": {
+        "browserTarget": "dev-web:build"
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["apps/dev-web/src/**/*.ts", "apps/dev-web/src/**/*.html"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/apps/dev-web"],
+      "options": {
+        "jestConfig": "apps/dev-web/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "stylelint": {
+      "executor": "nx-stylelint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/dev-web/**/*.css", "apps/dev-web/**/*.scss"]
+      }
+    }
+  },
+  "tags": []
+}

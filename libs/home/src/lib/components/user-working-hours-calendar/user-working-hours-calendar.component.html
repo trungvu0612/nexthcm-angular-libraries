@@ -1,0 +1,149 @@
+<ng-container *tuiLet="locale$ | push as locale">
+  <ng-container *transloco="let t">
+    <div class="px-3 py-1 mb-2 w-full text-base font-bold text-white bg-indigo-700 rounded-md">
+      {{ t('workingHoursCalendar') }}
+    </div>
+    <div class="flex justify-between items-center mb-4">
+      <form (ngSubmit)="onFilters()" [formGroup]="filterForm" class="flex gap-x-2 items-center">
+        <tui-input-number
+          [min]="0"
+          [precision]="0"
+          [tuiTextfieldCleaner]="true"
+          class="w-40"
+          decimal="never"
+          formControlName="year"
+        >
+          {{ t('year') }}
+        </tui-input-number>
+        <tui-select
+          *tuiLet="monthList$ | push as months"
+          [tuiTextfieldCleaner]="true"
+          [valueContent]="monthStringify(months || [])"
+          class="w-40"
+          formControlName="month"
+        >
+          {{ t('month') }}
+          <ng-template tuiDataList>
+            <tui-data-list>
+              <button *ngFor="let month of months" [value]="month.value" tuiOption>
+                {{ month.label }}
+              </button>
+            </tui-data-list>
+          </ng-template>
+        </tui-select>
+        <button [disabled]="filterForm.invalid" appearance="secondary" icon="tuiIconShowLarge" size="m" tuiButton>
+          {{ t('view') }}
+        </button>
+      </form>
+      <div class="flex flex-col gap-x-4 lg:flex-row">
+        <p class="flex gap-2 items-center">
+          <span class="w-4 h-4 rounded-full bg-[color:var(--tui-primary)]"></span>{{ t('workingDays') }}
+        </p>
+        <p class="flex gap-2 items-center">
+          <span class="w-4 h-4 rounded-full bg-[color:var(--tui-accent-active)]"></span>{{ t('holiday') }}
+        </p>
+      </div>
+    </div>
+  </ng-container>
+
+  <tui-primitive-spin-button
+    (leftClick)="onPrevMonthClick()"
+    (rightClick)="onNextMonthClick()"
+    [focusable]="false"
+    class="mb-4"
+  >
+    {{ viewMonth | calendarDate: 'monthViewTitle':locale }}
+  </tui-primitive-spin-button>
+  <tui-loader [overlay]="true" [showLoader]="(loading$ | push) === true">
+    <mwl-calendar-month-view
+      *tuiLet="events$ | push as events"
+      [activeDayIsOpen]="false"
+      [cellTemplate]="customCellTemplate"
+      [events]="events || []"
+      [locale]="locale"
+      [viewDate]="viewMonth"
+    ></mwl-calendar-month-view>
+  </tui-loader>
+</ng-container>
+
+<ng-template #customCellTemplate let-day="day" let-locale="locale">
+  <div *ngIf="!day.events.length">
+    <div class="cal-cell-top">
+      <span class="cal-day-number">{{ day.date | calendarDate: 'monthViewDayNumber':locale }}</span>
+    </div>
+  </div>
+
+  <ng-container *ngIf="day.events.length">
+    <div
+      [tuiHintId]="day.date.getTime()"
+      [tuiHint]="tooltip"
+      class="cal-cell-top"
+      tuiHintDirection="right"
+      tuiHintMode="onDark"
+    >
+      <span class="cal-day-number">{{ day.date | calendarDate: 'monthViewDayNumber':locale }}</span>
+    </div>
+    <ng-container *ngIf="workingHours(day.events[0].meta.workingHours) as workingHours">
+      <div *ngIf="workingHours.leaveType" class="m-1">
+        <div class="p-1 text-[color:var(--tui-text-02)] font-bold rounded-lg border border-[color:var(--tui-text-02)]">
+          {{ workingHours.leaveType }}
+        </div>
+      </div>
+      <div *ngIf="workingHours.holidayName" class="m-1">
+        <div
+          class="p-1 text-[color:var(--tui-accent-active)] font-bold rounded-lg border border-[color:var(--tui-accent-active)]"
+        >
+          <i class="bx bx-star bx-xs"></i> {{ workingHours.holidayName }}
+        </div>
+      </div>
+      <progress
+        *ngIf="workingHours.holidayName; else normalDate"
+        [max]="1"
+        [value]="1"
+        class="progress"
+        color="var(--tui-accent-active)"
+        size="s"
+        tuiProgressBar
+      ></progress>
+      <ng-template #normalDate>
+        <progress
+          *ngIf="!workingHours.isWeekend || workingHours.ot"
+          [max]="1"
+          [value]="workingHours.workingDay || 0"
+          class="progress"
+          size="s"
+          tuiProgressBar
+        ></progress>
+      </ng-template>
+    </ng-container>
+  </ng-container>
+
+  <ng-template #tooltip>
+    <ng-container *transloco="let t">
+      <ul *ngIf="day.events[0].meta?.workingHours as data" class="tui-list tui-list_small">
+        <li class="tui-list__item">
+          <span class="font-bold">{{ t('inTime') }}: </span>
+          {{ data.inTime ? (data.inTime * 1000 | date: 'HH:mm':'UTC') : '' }}
+        </li>
+        <li class="tui-list__item">
+          <span class="font-bold">{{ t('outTime') }}: </span>
+          {{ data.outTime ? (data.outTime * 1000 | date: 'HH:mm':'UTC') : '' }}
+        </li>
+        <li class="tui-list__item">
+          <span class="font-bold">{{ t('totalWorkingTimeH') }}: </span>
+          {{
+            data.totalWorkingTime ? (data.totalWorkingTime / 3600 | translocoDecimal: { maximumFractionDigits: 1 }) : ''
+          }}
+        </li>
+        <li class="tui-list__item">
+          <span class="font-bold">{{ t('overtime') }}: </span>
+          {{ data.ot || '' }}
+        </li>
+        <li class="tui-list__item">
+          <span class="font-bold">{{ t('workingOnsite') }}: </span>
+          {{ data.onsiteDay || '' }}
+        </li>
+      </ul>
+    </ng-container>
+  </ng-template>
+</ng-template>

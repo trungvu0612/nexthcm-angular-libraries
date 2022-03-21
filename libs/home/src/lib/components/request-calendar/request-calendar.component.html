@@ -1,0 +1,14 @@
+<tui-tabs *transloco="let t" [(activeItemIndex)]="activeItemIndex" class="mb-5">
+  <button routerLink="./me" routerLinkActive tuiTab>
+    {{ t('onlyMe') }}
+  </button>
+  <button
+    *ngxPermissionsOnly="['VIEW_REQUEST_MANAGEMENT', 'VIEW_SUBORDINATE_REQUEST']"
+    routerLink="./everyone"
+    routerLinkActive
+    tuiTab
+  >
+    {{ t('everyone') }}
+  </button>
+</tui-tabs>
+<router-outlet></router-outlet>

@@ -1,0 +1,11 @@
+<tui-loader [overlay]="true" [showLoader]="(loading$ | push) === true">
+  <hcm-base-form
+    (submitForm)="onSubmit()"
+    [fields]="fields"
+    [form]="form"
+    [model]="model"
+    class="mt-5"
+    hideCancelButton
+    submitPermission="UPDATE_EMPLOYEE"
+  ></hcm-base-form>
+</tui-loader>

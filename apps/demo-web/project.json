@@ -1,0 +1,190 @@
+{
+  "projectType": "application",
+  "root": "apps/demo-web",
+  "sourceRoot": "apps/demo-web/src",
+  "prefix": "hcm",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:browser",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/demo-web",
+        "index": "apps/demo-web/src/index.html",
+        "main": "apps/demo-web/src/main.ts",
+        "polyfills": "apps/demo-web/src/polyfills.ts",
+        "tsConfig": "apps/demo-web/tsconfig.app.json",
+        "inlineStyleLanguage": "scss",
+        "assets": [
+          "apps/demo-web/src/favicon.ico",
+          "apps/demo-web/src/assets",
+          {
+            "glob": "**/*",
+            "input": "node_modules/@taiga-ui/icons/src",
+            "output": "assets/taiga-ui/icons"
+          },
+          {
+            "glob": "**/*",
+            "input": "node_modules/leaflet/dist/images",
+            "output": "assets"
+          },
+          {
+            "glob": "**/*",
+            "input": "node_modules/mxgraph/javascript/src",
+            "output": "."
+          },
+          {
+            "glob": "**/*",
+            "input": "libs/core/assets",
+            "output": "assets"
+          },
+          {
+            "glob": "**/*",
+            "input": "libs/workflow-designer/assets/mxgraph",
+            "output": "."
+          }
+        ],
+        "styles": [
+          "node_modules/@taiga-ui/core/styles/taiga-ui-global.less",
+          "libs/core/assets/styles/theme.less",
+          "libs/core/assets/styles/main.scss",
+          "apps/demo-web/src/styles.scss"
+        ],
+        "scripts": ["node_modules/mxgraph/javascript/mxClient.min.js"],
+        "allowedCommonJsDependencies": [
+          "angular2-text-mask",
+          "quill-delta-to-html",
+          "quill-auto-detect-url",
+          "cron-expression-validator"
+        ]
+      },
+      "configurations": {
+        "production": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "500kb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "2kb"
+            }
+          ],
+          "fileReplacements": [
+            {
+              "replace": "apps/demo-web/src/environments/environment.ts",
+              "with": "apps/demo-web/src/environments/environment.prod.ts"
+            }
+          ],
+          "outputHashing": "all"
+        },
+        "uat": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "500kb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "2kb"
+            }
+          ],
+          "fileReplacements": [
+            {
+              "replace": "apps/demo-web/src/environments/environment.ts",
+              "with": "apps/demo-web/src/environments/environment.uat.ts"
+            }
+          ],
+          "outputHashing": "all"
+        },
+        "qa": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "500kb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "2kb"
+            }
+          ],
+          "fileReplacements": [
+            {
+              "replace": "apps/demo-web/src/environments/environment.ts",
+              "with": "apps/demo-web/src/environments/environment.qa.ts"
+            }
+          ],
+          "optimization": false,
+          "outputHashing": "all"
+        },
+        "dev": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "500kb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "2kb"
+            }
+          ],
+          "fileReplacements": [
+            {
+              "replace": "apps/demo-web/src/environments/environment.ts",
+              "with": "apps/demo-web/src/environments/environment.dev.ts"
+            }
+          ],
+          "outputHashing": "all"
+        },
+        "development": {
+          "buildOptimizer": false,
+          "optimization": false,
+          "vendorChunk": true,
+          "extractLicenses": false,
+          "sourceMap": true,
+          "namedChunks": true
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "executor": "@angular-devkit/build-angular:dev-server",
+      "configurations": {
+        "production": {
+          "browserTarget": "demo-web:build:production"
+        },
+        "development": {
+          "browserTarget": "demo-web:build:development"
+        }
+      },
+      "defaultConfiguration": "development"
+    },
+    "extract-i18n": {
+      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "options": {
+        "browserTarget": "demo-web:build"
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["apps/demo-web/src/**/*.ts", "apps/demo-web/src/**/*.html"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/apps/demo-web"],
+      "options": {
+        "jestConfig": "apps/demo-web/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "stylelint": {
+      "executor": "nx-stylelint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/demo-web/**/*.css", "apps/demo-web/**/*.scss"]
+      }
+    }
+  },
+  "tags": []
+}

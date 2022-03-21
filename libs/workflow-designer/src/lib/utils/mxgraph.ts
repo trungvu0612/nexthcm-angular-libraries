@@ -1,3 +1,3 @@
-import factory from 'mxgraph';
+import { mxGraphExportObject } from 'mxgraph';
 
-export default factory({});
+export default window as unknown as mxGraphExportObject;

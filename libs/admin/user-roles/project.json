@@ -1,0 +1,46 @@
+{
+  "projectType": "library",
+  "root": "libs/admin/user-roles",
+  "sourceRoot": "libs/admin/user-roles/src",
+  "prefix": "hcm",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/angular:package",
+      "outputs": ["dist/libs/admin/user-roles"],
+      "options": {
+        "project": "libs/admin/user-roles/ng-package.json",
+        "tailwindConfig": "libs/admin/user-roles/tailwind.config.js"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "libs/admin/user-roles/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "libs/admin/user-roles/tsconfig.lib.json"
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/admin/user-roles"],
+      "options": {
+        "jestConfig": "libs/admin/user-roles/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["libs/admin/user-roles/src/**/*.ts", "libs/admin/user-roles/src/**/*.html"]
+      }
+    },
+    "publish": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "yarn publish dist/libs/admin/user-roles"
+      }
+    }
+  },
+  "tags": []
+}

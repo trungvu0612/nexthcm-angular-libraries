@@ -1,0 +1,48 @@
+:host {
+  display: block;
+
+  ::ng-deep {
+    formly-field {
+      [tuiLabel] {
+        flex-direction: row;
+        justify-content: flex-start;
+        margin-bottom: 1rem;
+
+        span.label {
+          width: 6rem;
+          margin-right: 1rem;
+          font-size: 1rem;
+          font-weight: 600;
+        }
+
+        span.content {
+          flex: auto;
+        }
+      }
+
+      &:first-child {
+        [tuiLabel] {
+          width: 50%;
+        }
+      }
+    }
+
+    ngx-table {
+      th,
+      td {
+        &:first-child {
+          width: 30% !important;
+        }
+      }
+
+      th {
+        padding-top: 0;
+      }
+
+      .ngx-table__header-search {
+        padding: 20px 12px;
+        border-radius: 0.75rem;
+      }
+    }
+  }
+}

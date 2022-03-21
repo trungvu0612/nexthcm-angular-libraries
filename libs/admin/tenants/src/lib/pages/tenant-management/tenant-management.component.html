@@ -1,0 +1,88 @@
+<hcm-page title="{{ 'tenantManagement' | transloco }}">
+  <ng-container ngProjectAs="pageHeader">
+    <button (click)="createTenant()" *ngxPermissionsOnly="'CREATE_TENANT'" icon="tuiIconPlusLarge" size="m" tuiButton>
+      {{ translocoScope.scope + '.createTenant' | transloco }}
+    </button>
+  </ng-container>
+  <div *ngxPermissionsOnly="'VIEW_STATISTICAL_TENANT'">
+    <div *ngIf="statistic$ | push as statistic" class="flex gap-8 mb-8">
+      <ng-container *transloco="let t">
+        <tui-island [hoverable]="true" size="l">
+          <h3 class="tui-island__title">{{ t('active') }}</h3>
+          <p class="tui-island__paragraph text-approved text-4xl font-semibold">{{ statistic.active }}</p>
+        </tui-island>
+        <!--<tui-island [hoverable]="true" size="l">
+          <h3 class="tui-island__title">{{ t('pending') }}</h3>
+          <p class="tui-island__paragraph text-waiting text-4xl font-semibold">{{ statistic.pending }}</p>
+        </tui-island>-->
+        <tui-island [hoverable]="true" size="l">
+          <h3 class="tui-island__title">{{ t('inactive') }}</h3>
+          <p class="tui-island__paragraph text-rejected text-4xl font-semibold">{{ statistic.inactive }}</p>
+        </tui-island>
+      </ng-container>
+    </div>
+  </div>
+  <hcm-input-filter
+    (valueChange)="search$.next($event)"
+    *ngxPermissionsOnly="'VIEW_SEARCH_TENANT'"
+    class="mb-5"
+    icon="tuiIconSearchLarge"
+    label="{{ translocoScope.scope + '.searchTenant' | transloco }}"
+    propertyName="search"
+  ></hcm-input-filter>
+  <tui-loader [overlay]="true" [showLoader]="(loading$ | push) === true">
+    <ngx-table
+      #table
+      (event)="eventEmitted($event)"
+      [columns]="(columns$ | push) || []"
+      [configuration]="configuration"
+      [data]="(data$ | push) || []"
+    >
+      <ng-template let-row>
+        <ng-container *tuiLet="item(row) as item">
+          <td>{{ item.shortname }}</td>
+          <td>{{ item.tenantName }}</td>
+          <td>
+            <a href="mailto:{{ item.email }}" tuiLink>{{ item.email }}</a>
+          </td>
+          <td>
+            <a href="tel:{{ item.phone }}" tuiLink>{{ item.phone }}</a>
+          </td>
+          <td>{{ item.website }}</td>
+          <td>
+            <tui-tag
+              [value]="CommonStatus[item.state] | transloco"
+              class="{{ CommonStatus[item.state] }}-tag"
+              status="custom"
+            ></tui-tag>
+          </td>
+          <td>
+            <div class="flex items-center space-x-2">
+              <button
+                *ngxPermissionsOnly="'UPDATE_TENANT'"
+                [routerLink]="[item.id, 'profile']"
+                appearance="flat"
+                icon="tuiIconEditLarge"
+                size="m"
+                tuiIconButton
+              ></button>
+              <button
+                (click)="onRemoveTenant(item.id)"
+                *ngxPermissionsOnly="'DELETE_TENANT'"
+                appearance="flat"
+                icon="tuiIconTrashLarge"
+                size="m"
+                tuiIconButton
+              ></button>
+            </div>
+          </td>
+        </ng-container>
+      </ng-template>
+    </ngx-table>
+  </tui-loader>
+  <tui-table-pagination
+    (pageChange)="onPage($event)"
+    (sizeChange)="onSize($event)"
+    [total]="(total$ | push) || 0"
+  ></tui-table-pagination>
+</hcm-page>

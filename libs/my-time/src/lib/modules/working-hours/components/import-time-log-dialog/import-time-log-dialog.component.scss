@@ -1,0 +1,51 @@
+:host {
+  display: block;
+
+  ::ng-deep .highlight {
+    color: white;
+
+    & ~ td {
+      color: white;
+    }
+
+    &.conflict {
+      @apply bg-red-400;
+
+      & ~ td {
+        @apply bg-red-400;
+      }
+    }
+
+    &.duplicate {
+      @apply bg-yellow-400;
+
+      & ~ td {
+        @apply bg-yellow-400;
+      }
+    }
+
+    &.format {
+      @apply bg-orange-400;
+
+      & ~ td {
+        @apply bg-orange-400;
+      }
+    }
+
+    &.data {
+      @apply bg-gray-400;
+
+      & ~ td {
+        @apply bg-gray-400;
+      }
+    }
+
+    &.edit {
+      @apply bg-green-400;
+
+      & ~ td {
+        @apply bg-green-400;
+      }
+    }
+  }
+}

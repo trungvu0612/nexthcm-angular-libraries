@@ -1,0 +1,13 @@
+<tui-filter
+  (toggledItem)="onToggledItem()"
+  *ngIf="to.options | selectOptions | push as items"
+  [badgeHandler]="to['badgeHandler']"
+  [content]="content"
+  [disabledItemHandler]="to['disabledItemHandler']"
+  [formControl]="$any(formControl)"
+  [identityMatcher]="to['identityMatcher']"
+  [items]="items"
+  [size]="to['size']"
+></tui-filter>
+
+<ng-template #content let-item>{{ item[to['labelProp']] }}</ng-template>

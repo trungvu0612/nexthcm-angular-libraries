@@ -1,0 +1,326 @@
+<ng-container *transloco="let t">
+  <div class="px-3 py-1 mb-2 w-full text-base font-bold text-white bg-indigo-700 rounded-md">
+    {{ t('leaveCalendar') }}
+  </div>
+  <section class="grid grid-cols-2 gap-x-2 mb-2">
+    <form (ngSubmit)="onFilters()" [formGroup]="filterForm" class="p-4 rounded-md border grid grid-cols-2 gap-x-2">
+      <tui-input-number
+        [min]="0"
+        [precision]="0"
+        [tuiTextfieldCleaner]="true"
+        class="mb-4"
+        decimal="never"
+        formControlName="year"
+      >
+        {{ t('year') }}
+      </tui-input-number>
+      <tui-select
+        *tuiLet="monthList$ | push as months"
+        [tuiTextfieldCleaner]="true"
+        [valueContent]="monthStringify(months || [])"
+        class="mb-4"
+        formControlName="month"
+      >
+        {{ t('month') }}
+        <ng-template tuiDataList>
+          <tui-data-list>
+            <button *ngFor="let month of months" [value]="month.value" tuiOption>
+              {{ month.label }}
+            </button>
+          </tui-data-list>
+        </ng-template>
+      </tui-select>
+      <tui-input
+        [tuiTextfieldCleaner]="true"
+        class="col-span-2 mb-4"
+        formControlName="search"
+        icon="tuiIconSearchLarge"
+      >
+        {{ t('searchByCifFullName') }}
+      </tui-input>
+      <div class="flex col-span-2">
+        <button [disabled]="filterForm.invalid" class="ml-auto" icon="tuiIconEyeOpen" size="s" tuiButton>
+          {{ t('view') }}
+        </button>
+      </div>
+    </form>
+    <div *tuiLet="leaveTypeShortNames$ | push as leaveTypeShortNames" class="p-4 rounded-md border">
+      <div class="font-bold text-base mb-2">{{ t('leaveTypes') }}</div>
+      <div class="flex flex-wrap gap-x-6 gap-y-2">
+        <div *ngFor="let leaveTypeShortName of leaveTypeShortNames">
+          <span class="font-bold mr-1">{{ leaveTypeShortName.shortName }}</span>
+          <span>{{ leaveTypeShortName.name }}</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <tui-primitive-spin-button
+    (leftClick)="onPrevMonthClick()"
+    (rightClick)="onNextMonthClick()"
+    *tuiLet="locale$ | push as locale"
+    [focusable]="false"
+    class="mb-4"
+  >
+    {{ viewMonth | calendarDate: 'monthViewTitle':locale }}
+  </tui-primitive-spin-button>
+  <section class="p-4 bg-white rounded-xl shadow-xl leave-calendar">
+    <tui-scrollbar class="w-full">
+      <tui-loader [overlay]="true" [showLoader]="(loading$ | async) === true" class="mb-4">
+        <table *tuiLet="data$ | push as data" [columns]="columns" tuiTable>
+          <thead>
+            <tr tuiThGroup>
+              <th *tuiHead="'cif'" [sorter]="null" class="!sticky !z-50 flex items-center left-0 w-24" tuiTh>CIF</th>
+              <th *tuiHead="'fullName'" [sorter]="null" class="!sticky !z-50 left-24" tuiTh>{{ t('name') }}</th>
+              <th *tuiHead="'1'" [sorter]="null" class="!text-center" tuiTh>1</th>
+              <th *tuiHead="'2'" [sorter]="null" class="!text-center" tuiTh>2</th>
+              <th *tuiHead="'3'" [sorter]="null" class="!text-center" tuiTh>3</th>
+              <th *tuiHead="'4'" [sorter]="null" class="!text-center" tuiTh>4</th>
+              <th *tuiHead="'5'" [sorter]="null" class="!text-center" tuiTh>5</th>
+              <th *tuiHead="'6'" [sorter]="null" class="!text-center" tuiTh>6</th>
+              <th *tuiHead="'7'" [sorter]="null" class="!text-center" tuiTh>7</th>
+              <th *tuiHead="'8'" [sorter]="null" class="!text-center" tuiTh>8</th>
+              <th *tuiHead="'9'" [sorter]="null" class="!text-center" tuiTh>9</th>
+              <th *tuiHead="'10'" [sorter]="null" class="!text-center" tuiTh>10</th>
+              <th *tuiHead="'11'" [sorter]="null" class="!text-center" tuiTh>11</th>
+              <th *tuiHead="'12'" [sorter]="null" class="!text-center" tuiTh>12</th>
+              <th *tuiHead="'13'" [sorter]="null" class="!text-center" tuiTh>13</th>
+              <th *tuiHead="'14'" [sorter]="null" class="!text-center" tuiTh>14</th>
+              <th *tuiHead="'15'" [sorter]="null" class="!text-center" tuiTh>15</th>
+              <th *tuiHead="'16'" [sorter]="null" class="!text-center" tuiTh>16</th>
+              <th *tuiHead="'17'" [sorter]="null" class="!text-center" tuiTh>17</th>
+              <th *tuiHead="'18'" [sorter]="null" class="!text-center" tuiTh>18</th>
+              <th *tuiHead="'19'" [sorter]="null" class="!text-center" tuiTh>19</th>
+              <th *tuiHead="'20'" [sorter]="null" class="!text-center" tuiTh>20</th>
+              <th *tuiHead="'21'" [sorter]="null" class="!text-center" tuiTh>21</th>
+              <th *tuiHead="'22'" [sorter]="null" class="!text-center" tuiTh>22</th>
+              <th *tuiHead="'23'" [sorter]="null" class="!text-center" tuiTh>23</th>
+              <th *tuiHead="'24'" [sorter]="null" class="!text-center" tuiTh>24</th>
+              <th *tuiHead="'25'" [sorter]="null" class="!text-center" tuiTh>25</th>
+              <th *tuiHead="'26'" [sorter]="null" class="!text-center" tuiTh>26</th>
+              <th *tuiHead="'27'" [sorter]="null" class="!text-center" tuiTh>27</th>
+              <th *tuiHead="'28'" [sorter]="null" class="!text-center" tuiTh>28</th>
+              <th *tuiHead="'29'" [sorter]="null" class="!text-center" tuiTh>29</th>
+              <th *tuiHead="'30'" [sorter]="null" class="!text-center" tuiTh>30</th>
+              <th *tuiHead="'31'" [sorter]="null" class="!text-center" tuiTh>31</th>
+            </tr>
+          </thead>
+          <tbody [data]="data" tuiTbody>
+            <tr *tuiRow="let item of data" tuiTr>
+              <td *tuiCell="'cif'" class="!sticky !z-50 left-0 w-24" tuiTd>{{ item.user.cif }}</td>
+              <td *tuiCell="'fullName'" class="!sticky !z-50 left-24 whitespace-nowrap" tuiTd>
+                <div class="font-bold text-blue-500 uppercase">{{ item.user.fullName }}</div>
+              </td>
+              <td *tuiCell="'1'" tuiTd>
+                <ng-container
+                  [ngTemplateOutletContext]="{ $implicit: item.leaves['1'] }"
+                  [ngTemplateOutlet]="leaveItemDetail"
+                ></ng-container>
+              </td>
+              <td *tuiCell="'2'" tuiTd>
+                <ng-container
+                  [ngTemplateOutletContext]="{ $implicit: item.leaves['2'] }"
+                  [ngTemplateOutlet]="leaveItemDetail"
+                ></ng-container>
+              </td>
+              <td *tuiCell="'3'" tuiTd>
+                <ng-container
+                  [ngTemplateOutletContext]="{ $implicit: item.leaves['3'] }"
+                  [ngTemplateOutlet]="leaveItemDetail"
+                ></ng-container>
+              </td>
+              <td *tuiCell="'4'" tuiTd>
+                <ng-container
+                  [ngTemplateOutletContext]="{ $implicit: item.leaves['4'] }"
+                  [ngTemplateOutlet]="leaveItemDetail"
+                ></ng-container>
+              </td>
+              <td *tuiCell="'5'" tuiTd>
+                <ng-container
+                  [ngTemplateOutletContext]="{ $implicit: item.leaves['5'] }"
+                  [ngTemplateOutlet]="leaveItemDetail"
+                ></ng-container>
+              </td>
+              <td *tuiCell="'6'" tuiTd>
+                <ng-container
+                  [ngTemplateOutletContext]="{ $implicit: item.leaves['6'] }"
+                  [ngTemplateOutlet]="leaveItemDetail"
+                ></ng-container>
+              </td>
+              <td *tuiCell="'7'" tuiTd>
+                <ng-container
+                  [ngTemplateOutletContext]="{ $implicit: item.leaves['7'] }"
+                  [ngTemplateOutlet]="leaveItemDetail"
+                ></ng-container>
+              </td>
+              <td *tuiCell="'8'" tuiTd>
+                <ng-container
+                  [ngTemplateOutletContext]="{ $implicit: item.leaves['8'] }"
+                  [ngTemplateOutlet]="leaveItemDetail"
+                ></ng-container>
+              </td>
+              <td *tuiCell="'9'" tuiTd>
+                <ng-container
+                  [ngTemplateOutletContext]="{ $implicit: item.leaves['9'] }"
+                  [ngTemplateOutlet]="leaveItemDetail"
+                ></ng-container>
+              </td>
+              <td *tuiCell="'10'" tuiTd>
+                <ng-container
+                  [ngTemplateOutletContext]="{ $implicit: item.leaves['10'] }"
+                  [ngTemplateOutlet]="leaveItemDetail"
+                ></ng-container>
+              </td>
+              <td *tuiCell="'11'" tuiTd>
+                <ng-container
+                  [ngTemplateOutletContext]="{ $implicit: item.leaves['11'] }"
+                  [ngTemplateOutlet]="leaveItemDetail"
+                ></ng-container>
+              </td>
+              <td *tuiCell="'12'" tuiTd>
+                <ng-container
+                  [ngTemplateOutletContext]="{ $implicit: item.leaves['12'] }"
+                  [ngTemplateOutlet]="leaveItemDetail"
+                ></ng-container>
+              </td>
+              <td *tuiCell="'13'" tuiTd>
+                <ng-container
+                  [ngTemplateOutletContext]="{ $implicit: item.leaves['13'] }"
+                  [ngTemplateOutlet]="leaveItemDetail"
+                ></ng-container>
+              </td>
+              <td *tuiCell="'14'" tuiTd>
+                <ng-container
+                  [ngTemplateOutletContext]="{ $implicit: item.leaves['14'] }"
+                  [ngTemplateOutlet]="leaveItemDetail"
+                ></ng-container>
+              </td>
+              <td *tuiCell="'15'" tuiTd>
+                <ng-container
+                  [ngTemplateOutletContext]="{ $implicit: item.leaves['15'] }"
+                  [ngTemplateOutlet]="leaveItemDetail"
+                ></ng-container>
+              </td>
+              <td *tuiCell="'16'" tuiTd>
+                <ng-container
+                  [ngTemplateOutletContext]="{ $implicit: item.leaves['16'] }"
+                  [ngTemplateOutlet]="leaveItemDetail"
+                ></ng-container>
+              </td>
+              <td *tuiCell="'17'" tuiTd>
+                <ng-container
+                  [ngTemplateOutletContext]="{ $implicit: item.leaves['17'] }"
+                  [ngTemplateOutlet]="leaveItemDetail"
+                ></ng-container>
+              </td>
+              <td *tuiCell="'18'" tuiTd>
+                <ng-container
+                  [ngTemplateOutletContext]="{ $implicit: item.leaves['18'] }"
+                  [ngTemplateOutlet]="leaveItemDetail"
+                ></ng-container>
+              </td>
+              <td *tuiCell="'19'" tuiTd>
+                <ng-container
+                  [ngTemplateOutletContext]="{ $implicit: item.leaves['19'] }"
+                  [ngTemplateOutlet]="leaveItemDetail"
+                ></ng-container>
+              </td>
+              <td *tuiCell="'20'" tuiTd>
+                <ng-container
+                  [ngTemplateOutletContext]="{ $implicit: item.leaves['20'] }"
+                  [ngTemplateOutlet]="leaveItemDetail"
+                ></ng-container>
+              </td>
+              <td *tuiCell="'21'" tuiTd>
+                <ng-container
+                  [ngTemplateOutletContext]="{ $implicit: item.leaves['21'] }"
+                  [ngTemplateOutlet]="leaveItemDetail"
+                ></ng-container>
+              </td>
+              <td *tuiCell="'22'" tuiTd>
+                <ng-container
+                  [ngTemplateOutletContext]="{ $implicit: item.leaves['22'] }"
+                  [ngTemplateOutlet]="leaveItemDetail"
+                ></ng-container>
+              </td>
+              <td *tuiCell="'23'" tuiTd>
+                <ng-container
+                  [ngTemplateOutletContext]="{ $implicit: item.leaves['23'] }"
+                  [ngTemplateOutlet]="leaveItemDetail"
+                ></ng-container>
+              </td>
+              <td *tuiCell="'24'" tuiTd>
+                <ng-container
+                  [ngTemplateOutletContext]="{ $implicit: item.leaves['24'] }"
+                  [ngTemplateOutlet]="leaveItemDetail"
+                ></ng-container>
+              </td>
+              <td *tuiCell="'25'" tuiTd>
+                <ng-container
+                  [ngTemplateOutletContext]="{ $implicit: item.leaves['25'] }"
+                  [ngTemplateOutlet]="leaveItemDetail"
+                ></ng-container>
+              </td>
+              <td *tuiCell="'26'" tuiTd>
+                <ng-container
+                  [ngTemplateOutletContext]="{ $implicit: item.leaves['26'] }"
+                  [ngTemplateOutlet]="leaveItemDetail"
+                ></ng-container>
+              </td>
+              <td *tuiCell="'27'" tuiTd>
+                <ng-container
+                  [ngTemplateOutletContext]="{ $implicit: item.leaves['27'] }"
+                  [ngTemplateOutlet]="leaveItemDetail"
+                ></ng-container>
+              </td>
+              <td *tuiCell="'28'" tuiTd>
+                <ng-container
+                  [ngTemplateOutletContext]="{ $implicit: item.leaves['28'] }"
+                  [ngTemplateOutlet]="leaveItemDetail"
+                ></ng-container>
+              </td>
+              <td *tuiCell="'29'" tuiTd>
+                <ng-container
+                  [ngTemplateOutletContext]="{ $implicit: item.leaves['29'] }"
+                  [ngTemplateOutlet]="leaveItemDetail"
+                ></ng-container>
+              </td>
+              <td *tuiCell="'30'" tuiTd>
+                <ng-container
+                  [ngTemplateOutletContext]="{ $implicit: item.leaves['30'] }"
+                  [ngTemplateOutlet]="leaveItemDetail"
+                ></ng-container>
+              </td>
+              <td *tuiCell="'31'" tuiTd>
+                <ng-container
+                  [ngTemplateOutletContext]="{ $implicit: item.leaves['31'] }"
+                  [ngTemplateOutlet]="leaveItemDetail"
+                ></ng-container>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </tui-loader>
+    </tui-scrollbar>
+    <tui-table-pagination
+      (pageChange)="onPage($event)"
+      (sizeChange)="onSize($event)"
+      [page]="(page$ | push) || 0"
+      [size]="(size$ | push) || 10"
+      [total]="(total$ | push) || 0"
+      class="mt-2"
+    ></tui-table-pagination>
+  </section>
+</ng-container>
+
+<ng-template #leaveItemDetail let-requests>
+  <div class="flex gap-x-1">
+    <ng-container *ngFor="let request of requests">
+      <hcm-leave-calendar-date-item
+        (changeStatus)="changeRequestStatus$.next([request.id, $event])"
+        *ngIf="request"
+        [leaveItem]="request"
+      ></hcm-leave-calendar-date-item>
+    </ng-container>
+  </div>
+</ng-template>

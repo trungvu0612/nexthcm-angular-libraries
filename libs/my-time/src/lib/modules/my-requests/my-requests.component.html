@@ -1,0 +1,37 @@
+<ng-container *transloco="let t">
+  <hcm-page [title]="t('myTime.myRequest')">
+    <ng-container ngProjectAs="pageHeader">
+      <div class="flex space-x-4">
+        <button (click)="onCreateRequest('workFromHome')" icon="tuiIconPlusLarge" size="m" tuiButton>
+          {{ t('myTime.workFromHomeRequest') }}
+        </button>
+        <button (click)="onCreateRequest('workingAfterHours')" icon="tuiIconPlusLarge" size="m" tuiButton>
+          {{ t('myTime.overtimeRequest') }}
+        </button>
+        <button (click)="onCreateRequest('workingOnsite')" icon="tuiIconPlusLarge" size="m" tuiButton>
+          {{ t('myTime.workingOnsiteRequest') }}
+        </button>
+      </div>
+    </ng-container>
+    <tui-tabs [(activeItemIndex)]="activeItemIndex">
+      <button routerLink="/my-time/my-requests/working-after-hours" routerLinkActive tuiTab>
+        {{ t('workingAfterHours') }}
+      </button>
+      <button routerLink="/my-time/my-requests/update-timesheet" routerLinkActive tuiTab>
+        {{ t('updateTimesheet') }}
+      </button>
+      <button routerLink="/my-time/my-requests/working-onsite" routerLinkActive tuiTab>
+        {{ t('workingOnsite') }}
+      </button>
+      <button routerLink="/my-time/my-requests/work-from-home" routerLinkActive tuiTab>
+        {{ t('workFromHome') }}
+      </button>
+      <!--<button routerLink="/my-time/my-requests/transfer-leave-entitlements" routerLinkActive tuiTab>
+        {{ t('transferLeaveEntitlements') }}
+      </button>-->
+    </tui-tabs>
+    <div class="mt-5">
+      <router-outlet></router-outlet>
+    </div>
+  </hcm-page>
+</ng-container>

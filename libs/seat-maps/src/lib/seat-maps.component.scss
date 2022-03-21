@@ -1,0 +1,11 @@
+@import '~@taiga-ui/core/styles/taiga-ui-local';
+
+:host {
+  display: block;
+
+  footer {
+    @include shadow(1);
+
+    width: calc(100% - 17rem);
+  }
+}

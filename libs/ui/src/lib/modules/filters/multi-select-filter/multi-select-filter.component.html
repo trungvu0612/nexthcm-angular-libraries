@@ -1,0 +1,16 @@
+<tui-multi-select
+  (ngModelChange)="onValueChange($event)"
+  [editable]="false"
+  [ngModel]="filterValue"
+  [stringify]="stringify"
+  [tuiTextfieldCleaner]="true"
+  [tuiTextfieldExampleText]="placeholder"
+>
+  {{ label }}
+  <ng-template tuiDataList>
+    <ng-container *ngTemplateOutlet="content"></ng-container>
+    <ng-template #content>
+      <ng-content></ng-content>
+    </ng-template>
+  </ng-template>
+</tui-multi-select>
