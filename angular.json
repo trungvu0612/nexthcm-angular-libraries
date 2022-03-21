@@ -170,6 +170,7 @@
                   "with": "apps/demo-web/src/environments/environment.prod.ts"
                 }
               ],
+              "optimization": false,
               "outputHashing": "all"
             },
             "dev": {
