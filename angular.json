@@ -209,6 +209,7 @@
                   "with": "apps/demo-web/src/environments/environment.qa.ts"
                 }
               ],
+              "optimization": false,
               "outputHashing": "all"
             },
             "uat": {
