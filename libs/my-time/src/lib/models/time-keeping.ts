@@ -7,5 +7,4 @@ export interface CheckInOutPayload {
   typeCheckInOut: 'web-app';
   latitude: number;
   longitude: number;
-  address: string;
 }

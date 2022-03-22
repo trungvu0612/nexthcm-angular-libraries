@@ -34,21 +34,22 @@ export class GroupWorkingHoursTableComponent
     ...DefaultConfig,
     paginationEnabled: false,
     paginationRangeEnabled: false,
-    detailsTemplate: true,
   };
   readonly columns$: Observable<Columns[]> = this.translocoService
     .selectTranslateObject<HashMap<string>>('WORKING_HOURS_TABLE_COLUMNS', {}, this.translocoScope.scope)
     .pipe(
       map((result) => [
-        { key: '', title: '', width: '7%' },
-        { key: 'cif', title: result['cif'], width: '11%' },
+        { key: '', title: '', width: '3%' },
+        { key: 'cif', title: result['cif'], width: '10%' },
         { key: 'fullName', title: result['fullName'], width: '11%' },
-        { key: 'dateRange', title: result['dateRanges'], width: '16%' },
-        { key: 'totalWorkingTime', title: result['totalWorkingTimeH'], width: '11%' },
-        { key: 'workingDay', title: result['workingDay'], width: '11%' },
-        { key: 'ot', title: result['ot'], width: '11%' },
-        { key: 'countLeave', title: result['countLeave'], width: '11%' },
-        { key: '', title: result['functions'], width: '11%' },
+        { key: 'dateRange', title: result['dateRanges'], width: '12%' },
+        { key: '', title: result['inTime'], width: '14%' },
+        { key: '', title: result['outTime'], width: '14%' },
+        { key: 'totalWorkingTime', title: result['totalWorkingTimeH'], width: '8%' },
+        { key: 'workingDay', title: result['workingDay'], width: '8%' },
+        { key: 'ot', title: result['ot'], width: '8%' },
+        { key: 'countLeave', title: result['countLeave'], width: '10%' },
+        { key: '', title: '', width: '2%' },
       ])
     );
   private readonly request$ = this.fetch$.pipe(

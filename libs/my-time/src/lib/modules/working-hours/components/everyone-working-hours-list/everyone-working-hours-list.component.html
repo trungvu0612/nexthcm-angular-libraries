@@ -28,12 +28,13 @@
   >
     <ng-template let-index="index" let-row>
       <ng-container *tuiLet="item(row) as item">
-        <td>
+        <td class="text-center">
           <button
             (click)="onRowClickEvent($event, index)"
             [icon]="icon"
             appearance="flat"
             id="expandButton-{{ index }}"
+            style="width: 1.5rem; height: 1.5rem"
             tuiIconButton
           ></button>
           <ng-template #icon>
@@ -47,6 +48,8 @@
         <td class="font-semibold">{{ item.userInfo?.cif }}</td>
         <td class="font-semibold">{{ item.userInfo?.fullName }}</td>
         <td class="font-semibold">{{ fromDateForGroupBy | translocoDate }} - {{ toDateForGroupBy | translocoDate }}</td>
+        <td></td>
+        <td></td>
         <td class="font-semibold text-center">
           {{
             item.totalWorkingTime

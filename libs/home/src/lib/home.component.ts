@@ -5,24 +5,16 @@ import { PromptService, UserProfileService } from '@nexthcm/cdk';
 import { MyTimeService, WorkingHours } from '@nexthcm/my-time';
 import { GeolocationService } from '@ng-web-apis/geolocation';
 import { TranslocoService } from '@ngneat/transloco';
-import { RxState } from '@rx-angular/state';
 import { isPresent, tuiPure } from '@taiga-ui/cdk';
 import { endOfToday, startOfYesterday } from 'date-fns';
-import { CRS } from 'leaflet';
-import { geocoder } from 'leaflet-control-geocoder';
-import { BehaviorSubject, from, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, from, Observable, of, Subject } from 'rxjs';
 import { catchError, filter, map, share, startWith, switchMap, take, tap } from 'rxjs/operators';
-
-interface HomeState {
-  checkingId: string;
-}
 
 @Component({
   selector: 'hcm-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [RxState],
 })
 export class HomeComponent {
   readonly queryParams$ = new BehaviorSubject(
@@ -34,7 +26,6 @@ export class HomeComponent {
   readonly fullName$ = this.userProfileService.select('general', 'fullName');
   readonly monthWorkingTime$ = this.workingHoursService.getWorkingTimeCurrentMonth();
   readonly shouldCheckedOut$ = new BehaviorSubject<boolean | null>(false);
-  readonly checkInOutRequest$ = new Subject<GeolocationCoordinates>();
   readonly checkedId$ = this.workingHoursService.getTimekeepingLog().pipe(
     tap((item) => this.shouldCheckedOut$.next(item.id ? !!item.inTime : null)),
     map((item) => item.id),
@@ -45,13 +36,45 @@ export class HomeComponent {
     switchMap(() =>
       this.geolocation$.pipe(
         take(1),
-        tap((geolocationPosition: GeolocationPosition) => this.checkInOutRequest$.next(geolocationPosition.coords)),
+        switchMap(({ coords: { latitude, longitude } }) =>
+          this.checkedId$.pipe(
+            switchMap(() =>
+              this.promptService.open({
+                icon: 'question',
+                html: this.translocoService.translate(
+                  this.shouldCheckedOut$.value ? 'checkOutConfirm' : 'checkInConfirm'
+                ),
+                showCancelButton: true,
+              })
+            ),
+            switchMap(({ isConfirmed }) =>
+              isConfirmed
+                ? this.workingHoursService.checkInOut({ typeCheckInOut: 'web-app', latitude, longitude }).pipe(
+                    tap(
+                      this.promptService.handleResponse(
+                        this.shouldCheckedOut$.value ? 'checkOutSuccessfully' : 'checkInSuccessfully',
+                        () => {
+                          this.shouldCheckedOut$.next(true);
+                          this.queryParams$.next(this.queryParams$.value);
+                        }
+                      )
+                    )
+                  )
+                : of(true)
+            ),
+            catchError(() => of(true))
+          )
+        ),
         catchError((err: GeolocationPositionError) => this.showGeolocationError(err)),
         startWith(null)
       )
     )
   );
-  readonly checkInOutLoading$ = this.checkInOutHandler$.pipe(map((value) => !value));
+  readonly checkInOutLoading$ = this.checkInOutHandler$.pipe(
+    startWith('init'),
+    switchMap((value) => (value === 'init' ? this.checkedId$.pipe(startWith(null)) : of(value))),
+    map((value) => !value)
+  );
   private readonly myWorkingDaysRequest$ = this.queryParams$.pipe(
     switchMap((params) =>
       this.workingHoursService.getWorkingHoursOfOnlyMe(params).pipe(
@@ -63,31 +86,15 @@ export class HomeComponent {
   );
   readonly loading$ = this.myWorkingDaysRequest$.pipe(map((value) => !value));
   readonly myWorkingDays$: Observable<WorkingHours[]> = this.myWorkingDaysRequest$.pipe(filter(isPresent));
-  private readonly geoCoder = geocoder();
 
   constructor(
     private readonly workingHoursService: MyTimeService,
     private readonly authService: AuthService,
     private readonly promptService: PromptService,
-    private readonly state: RxState<HomeState>,
     private readonly translocoService: TranslocoService,
     private readonly userProfileService: UserProfileService,
     private readonly geolocation$: GeolocationService
-  ) {
-    this.state.connect('checkingId', this.checkedId$);
-    this.state.hold(
-      this.checkInOutRequest$.pipe(
-        switchMap((coords) =>
-          this.checkedId$.pipe(
-            switchMap(() =>
-              this.shouldCheckedOut$.value ? this.checkInOut(coords, true) : this.checkInOut(coords, false)
-            )
-          )
-        ),
-        tap(() => this.queryParams$.next(this.queryParams$.value))
-      )
-    );
-  }
+  ) {}
 
   @tuiPure
   get greeting(): string {
@@ -125,47 +132,6 @@ export class HomeComponent {
         icon: 'error',
         html: `<b>${this.translocoService.translate(message)}</b>`,
       })
-    );
-  }
-
-  private checkInOut({ latitude, longitude }: GeolocationCoordinates, isCheckOut: boolean): Observable<unknown> {
-    const address$ = new Observable<string | null>((observer) => {
-      if (this.geoCoder.options.geocoder?.reverse) {
-        this.geoCoder.options.geocoder.reverse({ lat: latitude, lng: longitude }, CRS.EPSG3857.scale(20), (result) => {
-          if (result.length) {
-            observer.next(result[0].name);
-          } else {
-            observer.next(null);
-          }
-          observer.complete();
-        });
-      } else {
-        observer.next(null);
-        observer.complete();
-      }
-    });
-
-    return address$.pipe(
-      filter(isPresent),
-      switchMap((address) =>
-        from(
-          this.promptService.open({
-            icon: 'question',
-            html: this.translocoService.translate(isCheckOut ? 'checkOutConfirm' : 'checkInConfirm'),
-            showCancelButton: true,
-          })
-        ).pipe(
-          filter((result) => result.isConfirmed),
-          switchMap(() =>
-            this.workingHoursService.checkInOut({ typeCheckInOut: 'web-app', latitude, longitude, address })
-          ),
-          tap(
-            this.promptService.handleResponse(isCheckOut ? 'checkOutSuccessfully' : 'checkInSuccessfully', () =>
-              this.shouldCheckedOut$.next(true)
-            )
-          )
-        )
-      )
     );
   }
 }

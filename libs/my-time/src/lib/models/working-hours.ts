@@ -14,6 +14,8 @@ export interface WorkingHours extends BaseWorkingHours {
   holidayName: string;
   isWeekend: boolean;
   leaveDuration: number;
+  addressCheckOut: string;
+  addressCheckIn: string;
 }
 
 export interface WorkingHoursLeave {

@@ -2,12 +2,24 @@
   <ngx-table #table [columns]="(columns$ | push) || []" [configuration]="configuration" [data]="(data$ | push) || []">
     <ng-template let-row>
       <ng-container *tuiLet="item(row) as item">
-        <td>
-          <button class="invisible" tuiIconButton></button>
-        </td>
+        <td></td>
         <td>{{ item.userInfo?.cif }}</td>
         <td>{{ item.userInfo?.fullName }}</td>
         <td>{{ item.trackingDate | translocoDate }}</td>
+        <td class="text-center">
+          {{ item.inTime * 1000 | date: 'HH:mm':'UTC' }}
+          <ng-container *ngIf="item.addressCheckIn">
+            <br />
+            ({{ item.addressCheckIn }})
+          </ng-container>
+        </td>
+        <td class="text-center">
+          {{ item.outTime * 1000 | date: 'HH:mm':'UTC' }}
+          <ng-container *ngIf="item.addressCheckOut">
+            <br />
+            ({{ item.addressCheckOut }})
+          </ng-container>
+        </td>
         <td class="text-center">
           {{
             item.totalWorkingTime
@@ -21,7 +33,7 @@
         <td class="text-center">{{ item.ot ? (item.ot | translocoDecimal) : '-' }}</td>
         <td class="text-center">{{ item.leaveType }}</td>
         <td>
-          <div *ngxPermissionsOnly="'VIEW_ALL_REQUEST_TENANT'" class="flex items-center">
+          <div *ngxPermissionsOnly="'VIEW_ALL_REQUEST_TENANT'" class="flex">
             <button
               (click)="requestUpdateTime(item)"
               appearance="flat"
