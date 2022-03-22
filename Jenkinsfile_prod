@@ -13,7 +13,7 @@ pipeline {
         sh 'yarn'
         sh 'yarn upgrade'
         sh 'yarn'
-        sh 'yarn build'
+        sh 'yarn transloco-cache && yarn build'
       }
     }
     stage('Docker push') {

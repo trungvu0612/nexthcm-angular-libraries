@@ -15,7 +15,7 @@ pipeline {
         sh 'yarn'
         sh 'yarn upgrade'
         sh 'yarn'
-        sh 'yarn build -c ${ENVIRONMENT}'
+        sh 'yarn transloco-cache && yarn build -c ${ENVIRONMENT}'
       }
     }
     stage('Docker push') {
