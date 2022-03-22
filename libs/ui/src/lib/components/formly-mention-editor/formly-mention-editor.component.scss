@@ -8,6 +8,11 @@
 
     .t-scrollbar {
       border-top: none;
+
+      &,
+      * {
+        min-height: inherit !important;
+      }
     }
   }
 }

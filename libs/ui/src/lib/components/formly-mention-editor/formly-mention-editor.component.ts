@@ -46,7 +46,7 @@ import { MentionListComponent } from '../mention-list/mention-list.component';
                     return renderer.instance.onKeyDown(props.event);
                   },
                   onExit() {
-                    popup[0].destroy();
+                    popup[0].state.isDestroyed || popup[0].destroy();
                     renderer.destroy();
                   },
                 };
