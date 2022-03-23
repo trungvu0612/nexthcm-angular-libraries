@@ -151,9 +151,37 @@ export class IndividualFormComponent {
                         },
                       },
                     },
+                  ],
+                },
+                {
+                  key: 'street1',
+                  className: 'tui-form__row block',
+                  type: 'input',
+                  templateOptions: {
+                    translate: true,
+                    label: `${this.translocoScope.scope}.street`,
+                    labelClassName: 'font-semibold',
+                    placeholder: `${this.translocoScope.scope}.enterStreet`,
+                    textfieldLabelOutside: true,
+                  },
+                },
+                {
+                  className: 'tui-form__row block',
+                  fieldGroupClassName: 'grid grid-cols-2 gap-x-4',
+                  fieldGroup: [
+                    {
+                      key: 'number1',
+                      type: 'input',
+                      templateOptions: {
+                        translate: true,
+                        label: `${this.translocoScope.scope}.streetNumber`,
+                        labelClassName: 'font-semibold',
+                        placeholder: `${this.translocoScope.scope}.enterStreetNumber`,
+                        textfieldLabelOutside: true,
+                      },
+                    },
                     {
                       key: 'postalCode',
-                      className: 'tui-form__row block',
                       type: 'input',
                       templateOptions: {
                         translate: true,
@@ -281,9 +309,37 @@ export class IndividualFormComponent {
                         },
                       },
                     },
+                  ],
+                },
+                {
+                  key: 'street1',
+                  className: 'tui-form__row block',
+                  type: 'input',
+                  templateOptions: {
+                    translate: true,
+                    label: `${this.translocoScope.scope}.street`,
+                    labelClassName: 'font-semibold',
+                    placeholder: `${this.translocoScope.scope}.enterStreet`,
+                    textfieldLabelOutside: true,
+                  },
+                },
+                {
+                  className: 'tui-form__row block',
+                  fieldGroupClassName: 'grid grid-cols-2 gap-x-4',
+                  fieldGroup: [
+                    {
+                      key: 'number1',
+                      type: 'input',
+                      templateOptions: {
+                        translate: true,
+                        label: `${this.translocoScope.scope}.streetNumber`,
+                        labelClassName: 'font-semibold',
+                        placeholder: `${this.translocoScope.scope}.enterStreetNumber`,
+                        textfieldLabelOutside: true,
+                      },
+                    },
                     {
                       key: 'postalCode',
-                      className: 'tui-form__row block',
                       type: 'input',
                       templateOptions: {
                         translate: true,
