@@ -35,17 +35,17 @@
     <div class="mb-1 text-base font-semibold">{{ 'organization' | transloco }}</div>
   </ng-template>
 
-  <form [formGroup]="$any(form)" class="mb-8">
-    <formly-form [fields]="fields" [form]="form" [model]="model" class="mt-5"></formly-form>
-  </form>
+  <hcm-base-form
+    (submitForm)="saveSettings()"
+    [fields]="fields"
+    [form]="form"
+    [model]="model"
+    [submitLoading]="submitting"
+    hideCancelButton
+  ></hcm-base-form>
 
   <div class="mt-5 pt-5 border-t">
     <div class="mb-5 text-xl font-bold">{{ 'holidays' | transloco }}</div>
     <hcm-holiday-list></hcm-holiday-list>
-  </div>
-  <div *transloco="let t" class="tui-form__buttons">
-    <button (click)="saveSettings()" class="tui-form__button" size="l" tuiButton>
-      {{ t('save') }}
-    </button>
   </div>
 </hcm-page>

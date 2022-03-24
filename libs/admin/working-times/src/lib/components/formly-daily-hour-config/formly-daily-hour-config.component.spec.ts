@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { OvertimeWorkingComponent } from './overtime-working.component';
+import { FormlyDailyHourConfig } from './formly-daily-hour-config.component';
 
-describe('OvertimeWorkingComponent', () => {
-  let component: OvertimeWorkingComponent;
-  let fixture: ComponentFixture<OvertimeWorkingComponent>;
+describe('FormlyDailyHourConfig', () => {
+  let component: FormlyDailyHourConfig;
+  let fixture: ComponentFixture<FormlyDailyHourConfig>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [OvertimeWorkingComponent],
+      declarations: [FormlyDailyHourConfig],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(OvertimeWorkingComponent);
+    fixture = TestBed.createComponent(FormlyDailyHourConfig);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

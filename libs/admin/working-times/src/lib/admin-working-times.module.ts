@@ -34,8 +34,8 @@ import {
 import { TableModule } from 'ngx-easy-table';
 import { NgxPermissionsGuard } from 'ngx-permissions';
 
+import { FormlyDailyHourConfigComponent } from './components/formly-daily-hour-config/formly-daily-hour-config.component';
 import { HolidayListComponent } from './components/holiday-list/holiday-list.component';
-import { OvertimeWorkingComponent } from './components/overtime-working/overtime-working.component';
 import { RepeatSectionComponent } from './components/repeat-section/repeat-section.component';
 import { UpsertHolidayDialogComponent } from './components/upsert-holiday-dialog/upsert-holiday-dialog.component';
 import en from './i18n/en.json';
@@ -45,6 +45,7 @@ import { EmployeesCICOExceptionComponent } from './pages/employees-cico-exceptio
 import { JobTitlesCICOExceptionComponent } from './pages/job-titles-cico-exception/job-titles-cico-exception.component';
 import { OfficesCICOExceptionComponent } from './pages/offices-cico-exception/offices-cico-exception.component';
 import { WorkingTimeConfigurationComponent } from './pages/working-time-configuration/working-time-configuration.component';
+import { WorkingTimesService } from './services/working-times.service';
 
 export const adminWorkingTimesRoutes: Routes = [
   {
@@ -70,11 +71,25 @@ export const adminWorkingTimesRoutes: Routes = [
 ];
 
 @NgModule({
+  declarations: [
+    WorkingTimeConfigurationComponent,
+    RepeatSectionComponent,
+    HolidayListComponent,
+    UpsertHolidayDialogComponent,
+    CheckinCheckoutExceptionComponent,
+    JobTitlesCICOExceptionComponent,
+    OfficesCICOExceptionComponent,
+    EmployeesCICOExceptionComponent,
+    FormlyDailyHourConfigComponent,
+  ],
   imports: [
     CommonModule,
     RouterModule.forChild(adminWorkingTimesRoutes),
     FormlyModule.forChild({
-      types: [{ name: 'repeat', component: RepeatSectionComponent }],
+      types: [
+        { name: 'repeat', component: RepeatSectionComponent },
+        { name: 'daily-hour-config', component: FormlyDailyHourConfigComponent },
+      ],
     }),
     ReactiveFormsModule,
     TuiLabelModule,
@@ -101,17 +116,6 @@ export const adminWorkingTimesRoutes: Routes = [
     InputFilterComponentModule,
     PushModule,
   ],
-  declarations: [
-    WorkingTimeConfigurationComponent,
-    RepeatSectionComponent,
-    OvertimeWorkingComponent,
-    HolidayListComponent,
-    UpsertHolidayDialogComponent,
-    CheckinCheckoutExceptionComponent,
-    JobTitlesCICOExceptionComponent,
-    OfficesCICOExceptionComponent,
-    EmployeesCICOExceptionComponent,
-  ],
   providers: [
     {
       provide: TRANSLOCO_SCOPE,
@@ -131,6 +135,7 @@ export const adminWorkingTimesRoutes: Routes = [
         },
       ] as MenuItem[],
     },
+    WorkingTimesService,
   ],
 })
 export class AdminWorkingTimesModule {}

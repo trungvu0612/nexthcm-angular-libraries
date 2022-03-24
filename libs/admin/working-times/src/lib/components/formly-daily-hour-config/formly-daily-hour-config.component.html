@@ -1,0 +1,4 @@
+<div *ngFor="let field of field.fieldGroup; index as index" class="flex items-center my-4">
+  <div class="text-base font-semibold w-32">{{ getDay(index) | transloco }}</div>
+  <formly-field [field]="field"></formly-field>
+</div>

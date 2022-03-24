@@ -13,6 +13,7 @@ export class InputTimeComponent extends FieldType {
       mode: 'HH:MM',
       strict: false,
       itemSize: 'm',
+      textfieldLabelOutside: true,
     },
   };
 }
