@@ -11,7 +11,7 @@ import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { Columns } from 'ngx-easy-table';
 import { Observable, of } from 'rxjs';
-import { catchError, filter, map, share, startWith, switchMap, takeUntil } from 'rxjs/operators';
+import { catchError, filter, map, share, skip, startWith, switchMap, takeUntil } from 'rxjs/operators';
 
 import { WorkingHours } from '../../../../models';
 import { MyTimeService } from '../../../../services';
@@ -51,6 +51,7 @@ export class OnlyMeWorkingHoursListComponent extends AbstractServerSortPaginatio
     .set('size', 10)
     .set('userId', this.authService.get('userInfo', 'userId'));
   private readonly request$ = this.fetch$.pipe(
+    skip(1),
     switchMap(() => this.myTimeService.getWorkingHoursOfOnlyMe(this.queryParams).pipe(startWith(null))),
     share()
   );

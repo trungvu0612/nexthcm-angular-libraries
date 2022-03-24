@@ -21,8 +21,8 @@ import {
   startOfYear,
 } from 'date-fns';
 import omit from 'just-omit';
-import { BehaviorSubject, combineLatest, Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, merge, Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map, skip } from 'rxjs/operators';
 
 const getLabel: Record<string, string> = {
   MY_TEAM: 'myTeam',
@@ -41,6 +41,7 @@ export class WorkingHoursFiltersComponent implements OnInit {
   @Input() @tuiDefaultProp() httpParams = new HttpParams();
   @Output() filter = new EventEmitter<HttpParams>();
 
+  readonly inputYear$ = new Subject<number | null>();
   readonly year$ = new BehaviorSubject<number | null>(null);
   readonly month$ = new BehaviorSubject<number | null>(null);
   readonly week$ = new Subject<number | null>();
@@ -58,15 +59,7 @@ export class WorkingHoursFiltersComponent implements OnInit {
     private readonly activatedRoute: ActivatedRoute,
     private readonly locationRef: Location,
     private readonly urlSerializer: UrlSerializer
-  ) {
-    this.state.hold(this.year$.pipe(debounceTime(1000), distinctUntilChanged()), () => this.generateDateRange());
-    this.state.hold(this.month$, () => this.generateDateRange());
-    this.state.hold(this.week$, (week) => this.generateDateRange(week));
-    this.state.hold(this.search$.pipe(debounceTime(1000), distinctUntilChanged()), (search) =>
-      this.onFilter('search', search ? search : null)
-    );
-    this.state.hold(this.filterType$, (value) => this.onFilter('filterType', value));
-  }
+  ) {}
 
   private _initYear?: number;
 
@@ -108,6 +101,13 @@ export class WorkingHoursFiltersComponent implements OnInit {
   readonly getFilterLabel: TuiStringHandler<string> = (filter: string): string => `${getLabel[filter]}`;
 
   ngOnInit(): void {
+    this.state.hold(this.inputYear$.pipe(debounceTime(1000), distinctUntilChanged()), (year) => this.year$.next(year));
+    this.state.hold(merge(this.year$, this.month$).pipe(skip(1)), () => this.generateDateRange());
+    this.state.hold(this.week$, (week) => this.generateDateRange(week));
+    this.state.hold(this.search$.pipe(debounceTime(1000), distinctUntilChanged()), (search) =>
+      this.onFilter('search', search ? search : null)
+    );
+    this.state.hold(this.filterType$, (value) => this.onFilter('filterType', value));
     this.parseParams(this.activatedRoute.snapshot.queryParams);
   }
 
@@ -134,9 +134,11 @@ export class WorkingHoursFiltersComponent implements OnInit {
   }
 
   private parseParams(params: Params): void {
-    if (params['year']) {
-      if (!isNaN(Number(params['year']))) {
-        this.year$.next(params['year']);
+    const year = +params['year'];
+    if (year) {
+      if (!isNaN(year)) {
+        this.year$.next(year);
+        this._initYear = year;
         if (params['month'] && !isNaN(Number(params['month']))) {
           this.month$.next(params['month']);
           if (params['week'] && !isNaN(Number(params['week']))) {

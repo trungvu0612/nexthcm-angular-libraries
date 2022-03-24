@@ -1,6 +1,6 @@
 <section *transloco="let t" class="grid grid-cols-7 gap-4 mb-5 items-center">
   <hcm-input-number-filter
-    (valueChange)="year$.next($event)"
+    (valueChange)="inputYear$.next($event)"
     [initValue]="initYear"
     [label]="t('year')"
     propertyName="year"
