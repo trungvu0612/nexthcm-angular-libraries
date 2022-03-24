@@ -264,7 +264,7 @@ export class DurationFormComponent {
       this.adminEmployeeService
         .updateEmployeeInformation<EmployeeDuration>(formModel)
         .pipe(takeUntil(this.destroy$))
-        .subscribe(this.promptService.handleResponse('updateSuccessful'));
+        .subscribe(this.promptService.handleResponse('updateSuccessfully'));
     }
   }
 }

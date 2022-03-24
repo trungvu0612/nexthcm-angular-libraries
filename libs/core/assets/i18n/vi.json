@@ -182,7 +182,7 @@
   "departmentManagement": "Quản lý phòng ban",
   "periodManagement": "Quản lý khoảng thời gian",
   "workingTimeConfiguration": "Cấu hình thời gian làm việc",
-  "updateSuccessful": "<b>Cập nhật thành công!</b>",
+  "updateSuccessfully": "<b>Cập nhật thành công!</b>",
   "contractManagement": "Quản lý hợp đồng",
   "HTTP_RESPONSE_ERROR_MESSAGES": {
     "400": "400 - Có lỗi cú pháp trong yêu cầu.",

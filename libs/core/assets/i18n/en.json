@@ -182,7 +182,7 @@
   "departmentManagement": "Department Management",
   "periodManagement": "Period Management",
   "workingTimeConfiguration": "Working Time Configuration",
-  "updateSuccessful": "<b>Update successfully!</b>",
+  "updateSuccessfully": "<b>Update successfully!</b>",
   "contractManagement": "Contract Management",
   "HTTP_RESPONSE_ERROR_MESSAGES": {
     "400": "400 - Bad Request.",

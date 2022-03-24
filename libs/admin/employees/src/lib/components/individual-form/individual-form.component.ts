@@ -659,7 +659,7 @@ export class IndividualFormComponent {
       this.adminEmployeeService
         .updateEmployeeInformation<EmployeeIndividual>(parseDateFields(this.form.value, ['birthDate', 'issueOn']))
         .pipe(takeUntil(this.destroy$))
-        .subscribe(this.promptService.handleResponse('updateSuccessful'));
+        .subscribe(this.promptService.handleResponse('updateSuccessfully'));
     }
   }
 }

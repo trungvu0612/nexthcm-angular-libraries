@@ -21,6 +21,6 @@ export class GeneralInformationComponent {
   onSubmitGeneralInformationForm(payload: EmployeeGeneralInformation): void {
     this.adminEmployeeService
       .updateEmployeeGeneralInformation(payload)
-      .subscribe(this.promptService.handleResponse('updateSuccessful'));
+      .subscribe(this.promptService.handleResponse('updateSuccessfully'));
   }
 }

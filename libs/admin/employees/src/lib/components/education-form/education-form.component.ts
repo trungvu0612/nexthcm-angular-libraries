@@ -143,7 +143,7 @@ export class EducationFormComponent {
       this.adminEmployeeService
         .updateEmployeeInformation<EmployeeEducation>(this.form.value)
         .pipe(takeUntil(this.destroy$))
-        .subscribe(this.promptService.handleResponse('updateSuccessful'));
+        .subscribe(this.promptService.handleResponse('updateSuccessfully'));
     }
   }
 }
