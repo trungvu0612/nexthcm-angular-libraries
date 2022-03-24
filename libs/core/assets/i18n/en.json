@@ -711,5 +711,6 @@
   "enterCif": "Enter cif",
   "enterInTime": "Enter in-time",
   "enterOutTime": "Enter out-time",
-  "workingAfterHours": "Working after-hours"
+  "workingAfterHours": "Working after-hours",
+  "leaveDays": "Leave days"
 }

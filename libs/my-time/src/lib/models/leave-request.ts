@@ -18,6 +18,7 @@ export interface LeaveRequest extends BaseRequest {
   dateRange?: string;
   shortNameLT: string;
   holidayName: string;
+  isWeekend?: boolean;
 }
 
 export interface LeaveRequestLeaveType {

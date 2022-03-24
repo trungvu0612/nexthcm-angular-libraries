@@ -1,4 +1,5 @@
 <tui-hosted-dropdown
+  *ngIf="leaveItem.holidayName || leaveItem.id; else empty"
   [(open)]="openDropdown"
   [content]="content"
   [tuiDropdownMaxHeight]="999"
@@ -19,14 +20,16 @@
   </ng-template>
 </tui-hosted-dropdown>
 
+<ng-template #empty></ng-template>
+
 <ng-template #content>
   <section *transloco="let t" class="p-4">
     <div class="table w-full">
-      <div *ngIf="leaveItem.holidayName; else normalLeaveDetail" class="table-row">
+      <div *ngIf="leaveItem.holidayName" class="table-row">
         <div class="table-label">{{ t('holiday') }}:</div>
         <div class="table-value">{{ leaveItem.holidayName }}</div>
       </div>
-      <ng-template #normalLeaveDetail>
+      <ng-container *ngIf="leaveItem.id">
         <div class="table-row">
           <div class="table-label">{{ t('leaveType') }}:</div>
           <div class="table-value">{{ leaveItem.leaveType?.name }}</div>
@@ -54,7 +57,7 @@
             ></tui-tag>
           </div>
         </div>
-        <div *ngIf="leaveItem.nextStates.length" class="table-row">
+        <div *ngIf="leaveItem.nextStates?.length" class="table-row">
           <div class="table-label">{{ t('actions') }}:</div>
           <div class="table-value">
             <div class="flex gap-x-1">
@@ -71,7 +74,7 @@
             </div>
           </div>
         </div>
-      </ng-template>
+      </ng-container>
     </div>
   </section>
 </ng-template>

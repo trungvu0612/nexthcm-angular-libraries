@@ -21,6 +21,7 @@ import { catchError, filter, map, share, startWith, switchMap, tap } from 'rxjs/
 })
 export class ManagerLeaveCalendarComponent implements OnInit {
   columns: string[] = [];
+  readonly monthDateList = Array.from({ length: 31 }, (_, i) => `${i + 1}`);
   dateColumns: string[] = [];
   viewMonth = new Date();
   filterForm = this.fb.group({
@@ -136,7 +137,7 @@ export class ManagerLeaveCalendarComponent implements OnInit {
 
   private fetchData(): void {
     this.dateColumns = Array.from({ length: getDaysInMonth(this.viewMonth) }, (_, i) => `${i + 1}`);
-    this.columns = ['cif', 'fullName'].concat(this.dateColumns);
+    this.columns = ['cif', 'fullName', 'leaveDays', 'workingDays'].concat(this.dateColumns);
     this.fetchLeaveTypeShortNames$.next(this.params);
     this.fetch$.next();
   }

@@ -9,4 +9,10 @@ export interface LeaveCalendarEmployee {
   leaves: {
     [d: string]: LeaveRequest[];
   };
+  workingInfoCurrentMonth: {
+    workingDay: number;
+    totalWorkingDay: number;
+    totalLeave: number;
+    currentWorkingDay: number;
+  };
 }

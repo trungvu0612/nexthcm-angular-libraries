@@ -711,5 +711,6 @@
   "enterCif": "Nhập mã nhân viên",
   "enterInTime": "Nhập giờ vào",
   "enterOutTime": "Nhập giờ ra",
-  "workingAfterHours": "Làm việc ngoài giờ"
+  "workingAfterHours": "Làm việc ngoài giờ",
+  "leaveDays": "Ngày nghỉ"
 }
