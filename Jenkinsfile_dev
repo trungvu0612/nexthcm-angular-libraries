@@ -13,7 +13,7 @@ pipeline {
     stage('Build web') {
       steps {
         sh 'yarn'
-        sh 'yarn transloco-cache && yarn build -c ${ENVIRONMENT}'
+        sh 'yarn transloco-cache && yarn build -c ${ENVIRONMENT} && yarn transloco-optimize'
       }
     }
     stage('Docker push') {

@@ -11,7 +11,7 @@ pipeline {
     stage('Build web') {
       steps {
         sh 'yarn'
-        sh 'yarn transloco-cache && yarn build'
+        sh 'yarn transloco-cache && yarn build && yarn transloco-optimize'
       }
     }
     stage('Docker push') {

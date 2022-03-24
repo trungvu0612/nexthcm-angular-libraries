@@ -11,7 +11,7 @@
     "test": "nx test",
     "prepare": "husky install",
     "generate-icons": "svg-generator",
-    "transloco-optimize": "transloco-optimize dist/libs/core/assets/i18n",
+    "transloco-optimize": "transloco-optimize dist/apps/demo-web/assets/i18n",
     "transloco-cache": "node ./i18n-cache-busting.js",
     "build:all": "yarn transloco-cache && nx run-many --target=build --all --exclude demo-web,dev-web && yarn transloco-optimize",
     "publish:all": "nx run-many --target=publish --all",
