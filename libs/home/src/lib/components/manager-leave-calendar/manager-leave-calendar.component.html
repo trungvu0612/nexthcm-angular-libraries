@@ -3,22 +3,18 @@
     {{ t('leaveCalendar') }}
   </div>
   <section class="grid grid-cols-2 gap-x-2 mb-2">
-    <form (ngSubmit)="onFilters()" [formGroup]="filterForm" class="grid grid-cols-2 gap-x-2 p-4 rounded-md border">
-      <tui-input-number
-        [min]="0"
-        [precision]="0"
-        [tuiTextfieldCleaner]="true"
-        class="mb-4"
-        decimal="never"
-        formControlName="year"
-      >
+    <form
+      (ngSubmit)="onFilters()"
+      [formGroup]="filterForm"
+      class="grid grid-cols-2 items-center gap-x-2 gap-y-4 p-4 rounded-md border"
+    >
+      <tui-input-number [min]="0" [precision]="0" [tuiTextfieldCleaner]="true" decimal="never" formControlName="year">
         {{ t('year') }}
       </tui-input-number>
       <tui-select
         *tuiLet="monthList$ | push as months"
         [tuiTextfieldCleaner]="true"
         [valueContent]="monthStringify(months || [])"
-        class="mb-4"
         formControlName="month"
       >
         {{ t('month') }}
@@ -30,19 +26,13 @@
           </tui-data-list>
         </ng-template>
       </tui-select>
-      <tui-input
-        [tuiTextfieldCleaner]="true"
-        class="col-span-2 mb-4"
-        formControlName="search"
-        icon="tuiIconSearchLarge"
-      >
+      <tui-input [tuiTextfieldCleaner]="true" class="col-span-2" formControlName="search" icon="tuiIconSearchLarge">
         {{ t('searchByCifFullName') }}
       </tui-input>
-      <div class="flex col-span-2">
-        <button [disabled]="filterForm.invalid" class="ml-auto" icon="tuiIconEyeOpen" size="s" tuiButton>
-          {{ t('view') }}
-        </button>
-      </div>
+      <hcm-basic-filter (filterChange)="onFilterMyTeam($event)" label="myTeam" value="MY_TEAM"></hcm-basic-filter>
+      <button [disabled]="filterForm.invalid" class="ml-auto" icon="tuiIconEyeOpen" size="s" tuiButton>
+        {{ t('view') }}
+      </button>
     </form>
     <div *tuiLet="leaveTypeShortNames$ | push as leaveTypeShortNames" class="p-4 rounded-md border">
       <div class="mb-2 text-base font-bold">{{ t('leaveTypes') }}</div>
@@ -93,7 +83,7 @@
               <td *tuiCell="'workingDays'" class="!text-right" tuiTd>
                 {{ item.workingInfoCurrentMonth.workingDay }}
                 <span class="text-base">
-                  <sup>{{ item.workingInfoCurrentMonth.currentWorkingDay }}</sup
+                  <sup>{{ item.workingInfoCurrentMonth.currentTotalWorkingDay }}</sup
                   >&frasl;<sub>{{ item.workingInfoCurrentMonth.totalWorkingDay }}</sub>
                 </span>
               </td>

@@ -113,6 +113,10 @@ export class ManagerLeaveCalendarComponent implements OnInit {
     this.fetchData();
   }
 
+  onFilterMyTeam(value: string | null): void {
+    this.params = value ? this.params.set('filterType', value) : this.params.delete('filterType');
+  }
+
   onSize(size: number): void {
     this.params = this.params.set('size', size);
     this.fetch$.next();

@@ -22,6 +22,10 @@ export class BasicFilterComponent {
 
   private _key = '';
 
+  get key() {
+    return this._key;
+  }
+
   @Input() set key(key: string) {
     this._key = key;
     this.active = !!this.urlSerializer.parse(this.location.path()).queryParams[key];
@@ -31,11 +35,14 @@ export class BasicFilterComponent {
     this.active = active;
     const filterValue = this.active ? this.value : null;
     this.filterChange.emit(filterValue);
-    const tree = this.urlSerializer.parse(this.location.path());
-    tree.queryParams = filterValue
-      ? { ...tree.queryParams, [this._key]: filterValue }
-      : omit(tree.queryParams, this._key);
-    this.location.go(tree.toString());
+
+    if (this.key) {
+      const tree = this.urlSerializer.parse(this.location.path());
+      tree.queryParams = filterValue
+        ? { ...tree.queryParams, [this.key]: filterValue }
+        : omit(tree.queryParams, this.key);
+      this.location.go(tree.toString());
+    }
   }
 }
 

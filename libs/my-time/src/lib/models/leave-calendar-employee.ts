@@ -13,6 +13,6 @@ export interface LeaveCalendarEmployee {
     workingDay: number;
     totalWorkingDay: number;
     totalLeave: number;
-    currentWorkingDay: number;
+    currentTotalWorkingDay: number;
   };
 }
