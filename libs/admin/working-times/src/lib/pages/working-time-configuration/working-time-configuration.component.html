@@ -35,14 +35,16 @@
     <div class="mb-1 text-base font-semibold">{{ 'organization' | transloco }}</div>
   </ng-template>
 
-  <hcm-base-form
-    (submitForm)="saveSettings()"
-    [fields]="fields"
-    [form]="form"
-    [model]="model"
-    [submitLoading]="submitting"
-    hideCancelButton
-  ></hcm-base-form>
+  <tui-loader [overlay]="true" [showLoader]="(loading$ | push) === true">
+    <hcm-base-form
+      (submitForm)="saveSettings()"
+      [fields]="fields"
+      [form]="form"
+      [model]="model"
+      [submitLoading]="submitting"
+      hideCancelButton
+    ></hcm-base-form>
+  </tui-loader>
 
   <div class="mt-5 pt-5 border-t">
     <div class="mb-5 text-xl font-bold">{{ 'holidays' | transloco }}</div>

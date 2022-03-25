@@ -1,12 +1,12 @@
-import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { AuthService } from '@nexthcm/auth';
 import { PromptService } from '@nexthcm/cdk';
 import { ProviderScope, TRANSLOCO_SCOPE, TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import { TuiDestroyService, TuiTime } from '@taiga-ui/cdk';
+import { isPresent, TuiDestroyService, TuiTime } from '@taiga-ui/cdk';
 import { of } from 'rxjs';
-import { catchError, map, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { catchError, filter, map, share, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
 
 import { WorkingTimesService } from '../../services/working-times.service';
 
@@ -35,202 +35,23 @@ const TIME_KEYS = [
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [TuiDestroyService],
 })
-export class WorkingTimeConfigurationComponent implements OnInit {
+export class WorkingTimeConfigurationComponent implements AfterViewInit {
   readonly orgControl = new FormControl();
   readonly form = new FormGroup({});
   model = {
     items: Array.from({ length: 7 }, (_, index) => ({ weekDayId: index + 1, configType: 0, values: [{}] })),
   };
-  fields: FormlyFieldConfig[] = [
-    { key: 'id' },
-    { key: 'orgId' },
-    {
-      key: 'items',
-      type: 'daily-hour-config',
-      fieldArray: {
-        fieldGroup: [
-          { key: 'weekDayId' },
-          { key: 'configType' },
-          {
-            key: 'values',
-            type: 'repeat',
-            fieldArray: {
-              fieldGroupClassName: 'flex gap-4',
-              fieldGroup: [
-                {
-                  className: 'block w-32',
-                  key: 'from',
-                  type: 'input-time',
-                  templateOptions: {
-                    translate: true,
-                    label: 'from',
-                    textfieldLabelOutside: false,
-                  },
-                },
-                {
-                  className: 'block w-32',
-                  key: 'to',
-                  type: 'input-time',
-                  templateOptions: {
-                    translate: true,
-                    label: 'to',
-                    textfieldLabelOutside: false,
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-    {
-      fieldGroupClassName: 'grid grid-cols-4 gap-4 items-center',
-      fieldGroup: [
-        {
-          key: 'checkInAfter',
-          type: 'input-time',
-          templateOptions: {
-            translate: true,
-            textfieldLabelOutside: true,
-            required: true,
-            label: `${this.translocoScope.scope}.morningCheckInBefore`,
-            labelClassName: 'font-semibold',
-          },
-        },
-        {
-          key: 'checkOutBefore',
-          type: 'input-time',
-          templateOptions: {
-            translate: true,
-            textfieldLabelOutside: true,
-            required: true,
-            label: `${this.translocoScope.scope}.afternoonCheckOutAfter`,
-            labelClassName: 'font-semibold',
-          },
-        },
-        {
-          key: 'startLunch',
-          type: 'input-time',
-          templateOptions: {
-            translate: true,
-            label: `${this.translocoScope.scope}.startLunch`,
-            labelClassName: 'font-semibold',
-            textfieldLabelOutside: true,
-            required: true,
-          },
-        },
-        {
-          key: 'endLunch',
-          type: 'input-time',
-          templateOptions: {
-            translate: true,
-            label: `${this.translocoScope.scope}.endLunch`,
-            labelClassName: 'font-semibold',
-            textfieldLabelOutside: true,
-            required: true,
-          },
-        },
-        {
-          key: 'workingHour',
-          type: 'input-time',
-          templateOptions: {
-            translate: true,
-            label: `${this.translocoScope.scope}.minimumWorkingHours`,
-            labelClassName: 'font-semibold',
-            textfieldLabelOutside: true,
-            required: true,
-          },
-        },
-        {
-          key: 'totalWorkingHour',
-          type: 'input-time',
-          templateOptions: {
-            translate: true,
-            label: `${this.translocoScope.scope}.maximumWorkingHours`,
-            labelClassName: 'font-semibold',
-            textfieldLabelOutside: true,
-            required: true,
-          },
-        },
-        {
-          key: 'startTimeInWorkingDay',
-          type: 'input-time',
-          templateOptions: {
-            translate: true,
-            label: `${this.translocoScope.scope}.startTime`,
-            labelClassName: 'font-semibold',
-            textfieldLabelOutside: true,
-            required: true,
-          },
-        },
-        {
-          key: 'endTimeInWorkingDay',
-          type: 'input-time',
-          templateOptions: {
-            translate: true,
-            label: `${this.translocoScope.scope}.endTime`,
-            labelClassName: 'font-semibold',
-            textfieldLabelOutside: true,
-            required: true,
-          },
-        },
-        {
-          key: 'maxPaidLeaveToCash',
-          type: 'input-count',
-          templateOptions: {
-            textfieldLabelOutside: true,
-            translate: true,
-            label: `${this.translocoScope.scope}.maxPaidLeaveToCash`,
-            labelClassName: 'font-semibold',
-          },
-        },
-        {
-          key: 'fingerPrint',
-          type: 'checkbox-labeled',
-          defaultValue: true,
-          templateOptions: {
-            labelClassName: 'font-semibold',
-            translate: true,
-            label: `${this.translocoScope.scope}.useTimekeeper`,
-          },
-        },
-        {
-          key: 'convertOT',
-          className: 'col-span-2',
-          type: 'select',
-          defaultValue: Overtime.none,
-          templateOptions: {
-            translate: true,
-            label: `${this.translocoScope.scope}.convertOT`,
-            labelClassName: 'font-semibold',
-            valueProp: 'value',
-            options: this.translocoService
-              .selectTranslateObject('CONVERT_OT_OPTIONS', {}, this.translocoScope.scope)
-              .pipe(
-                map((result) => [
-                  { label: result.none, value: Overtime.none },
-                  { label: result.payroll, value: Overtime.payroll },
-                  { label: result.paidLeave, value: Overtime.paidLeave },
-                ])
-              ),
-          },
-        },
-        {
-          key: 'maximumPeriodTimeCheckOutInApp',
-          type: 'input-time',
-          templateOptions: {
-            translate: true,
-            label: `${this.translocoScope.scope}.maximumPeriodTimeCheckOutInApp`,
-            labelClassName: 'font-semibold',
-            textfieldLabelOutside: true,
-            required: true,
-          },
-        },
-      ],
-    },
-  ];
+  fields!: FormlyFieldConfig[];
 
   readonly orgTree$ = this.workingTimesService.getOrganizationChart(this.authService.get('userInfo', 'tenantId') || '');
+  readonly request$ = this.orgControl.valueChanges.pipe(
+    switchMap(({ id }) => this.workingTimesService.getWorkingHourConfigByOrg(id).pipe(startWith(null))),
+    share()
+  );
+  readonly loading$ = this.request$.pipe(
+    map((v) => !v),
+    catchError(() => of(false))
+  );
   submitting = false;
 
   constructor(
@@ -246,7 +67,196 @@ export class WorkingTimeConfigurationComponent implements OnInit {
     return id;
   }
 
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
+    this.fields = [
+      { key: 'id' },
+      { key: 'orgId' },
+      {
+        key: 'items',
+        type: 'daily-hour-config',
+        fieldArray: {
+          fieldGroup: [
+            { key: 'weekDayId' },
+            { key: 'configType' },
+            {
+              key: 'values',
+              type: 'repeat',
+              fieldArray: {
+                fieldGroupClassName: 'flex gap-4',
+                fieldGroup: [
+                  {
+                    className: 'block w-32',
+                    key: 'from',
+                    type: 'input-time',
+                    templateOptions: {
+                      translate: true,
+                      label: 'from',
+                      textfieldLabelOutside: false,
+                    },
+                  },
+                  {
+                    className: 'block w-32',
+                    key: 'to',
+                    type: 'input-time',
+                    templateOptions: {
+                      translate: true,
+                      label: 'to',
+                      textfieldLabelOutside: false,
+                    },
+                  },
+                ],
+              },
+            },
+          ],
+        },
+      },
+      {
+        fieldGroupClassName: 'grid grid-cols-4 gap-4 items-center',
+        fieldGroup: [
+          {
+            key: 'checkInAfter',
+            type: 'input-time',
+            templateOptions: {
+              translate: true,
+              textfieldLabelOutside: true,
+              required: true,
+              label: `${this.translocoScope.scope}.morningCheckInBefore`,
+              labelClassName: 'font-semibold',
+            },
+          },
+          {
+            key: 'checkOutBefore',
+            type: 'input-time',
+            templateOptions: {
+              translate: true,
+              textfieldLabelOutside: true,
+              required: true,
+              label: `${this.translocoScope.scope}.afternoonCheckOutAfter`,
+              labelClassName: 'font-semibold',
+            },
+          },
+          {
+            key: 'startLunch',
+            type: 'input-time',
+            templateOptions: {
+              translate: true,
+              label: `${this.translocoScope.scope}.startLunch`,
+              labelClassName: 'font-semibold',
+              textfieldLabelOutside: true,
+              required: true,
+            },
+          },
+          {
+            key: 'endLunch',
+            type: 'input-time',
+            templateOptions: {
+              translate: true,
+              label: `${this.translocoScope.scope}.endLunch`,
+              labelClassName: 'font-semibold',
+              textfieldLabelOutside: true,
+              required: true,
+            },
+          },
+          {
+            key: 'workingHour',
+            type: 'input-time',
+            templateOptions: {
+              translate: true,
+              label: `${this.translocoScope.scope}.minimumWorkingHours`,
+              labelClassName: 'font-semibold',
+              textfieldLabelOutside: true,
+              required: true,
+            },
+          },
+          {
+            key: 'totalWorkingHour',
+            type: 'input-time',
+            templateOptions: {
+              translate: true,
+              label: `${this.translocoScope.scope}.maximumWorkingHours`,
+              labelClassName: 'font-semibold',
+              textfieldLabelOutside: true,
+              required: true,
+            },
+          },
+          {
+            key: 'startTimeInWorkingDay',
+            type: 'input-time',
+            templateOptions: {
+              translate: true,
+              label: `${this.translocoScope.scope}.startTime`,
+              labelClassName: 'font-semibold',
+              textfieldLabelOutside: true,
+              required: true,
+            },
+          },
+          {
+            key: 'endTimeInWorkingDay',
+            type: 'input-time',
+            templateOptions: {
+              translate: true,
+              label: `${this.translocoScope.scope}.endTime`,
+              labelClassName: 'font-semibold',
+              textfieldLabelOutside: true,
+              required: true,
+            },
+          },
+          {
+            key: 'maxPaidLeaveToCash',
+            type: 'input-count',
+            templateOptions: {
+              textfieldLabelOutside: true,
+              translate: true,
+              label: `${this.translocoScope.scope}.maxPaidLeaveToCash`,
+              labelClassName: 'font-semibold',
+            },
+          },
+          {
+            key: 'fingerPrint',
+            type: 'checkbox-labeled',
+            defaultValue: true,
+            templateOptions: {
+              labelClassName: 'font-semibold',
+              translate: true,
+              label: `${this.translocoScope.scope}.useTimekeeper`,
+            },
+          },
+          {
+            key: 'convertOT',
+            className: 'col-span-2',
+            type: 'select',
+            defaultValue: Overtime.none,
+            templateOptions: {
+              translate: true,
+              label: `${this.translocoScope.scope}.convertOT`,
+              labelClassName: 'font-semibold',
+              valueProp: 'value',
+              options: this.translocoService
+                .selectTranslateObject('CONVERT_OT_OPTIONS', {}, this.translocoScope.scope)
+                .pipe(
+                  map((result) => [
+                    { label: result.none, value: Overtime.none },
+                    { label: result.payroll, value: Overtime.payroll },
+                    { label: result.paidLeave, value: Overtime.paidLeave },
+                  ])
+                ),
+            },
+          },
+          {
+            key: 'maximumPeriodTimeCheckOutInApp',
+            type: 'input-time',
+            templateOptions: {
+              translate: true,
+              label: `${this.translocoScope.scope}.maximumPeriodTimeCheckOutInApp`,
+              labelClassName: 'font-semibold',
+              textfieldLabelOutside: true,
+              required: true,
+            },
+          },
+        ],
+      },
+    ];
+
     this.workingTimesService
       .getOrgs()
       .pipe(
@@ -255,9 +265,9 @@ export class WorkingTimeConfigurationComponent implements OnInit {
       )
       .subscribe((org) => this.orgControl.setValue(org));
 
-    this.orgControl.valueChanges
+    this.request$
       .pipe(
-        switchMap(({ id }) => this.workingTimesService.getWorkingHourConfigByOrg(id)),
+        filter(isPresent),
         tap(({ data }) => {
           const { timePayroll, timePaidLeave, ...model } = data;
 
@@ -315,10 +325,9 @@ export class WorkingTimeConfigurationComponent implements OnInit {
         .pipe(
           tap(this.promptService.handleResponse('updateSuccessfully')),
           catchError(() => of(null)),
-          tap(() => (this.submitting = false)),
           takeUntil(this.destroy$)
         )
-        .subscribe();
+        .subscribe(() => (this.submitting = false));
     }
   }
 }
