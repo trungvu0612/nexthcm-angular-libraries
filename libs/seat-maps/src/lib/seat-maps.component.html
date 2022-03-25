@@ -1,12 +1,6 @@
 <div *rxLet="seatMap$; let seatMap" class="relative">
   <hcm-page [title]="'seatMaps' | transloco" class="mb-16">
     <ng-container ngProjectAs="pageHeader">
-      <!--<div class="flex gap-6 items-center text-base">
-        <button (click)="findMySeat()" class="flex justify-between items-center text-[color:var(--tui-primary)]">
-          <tui-svg src="assets/icons/current-location.svg"></tui-svg>
-          {{ t('mySeat') }}
-        </button>
-      </div>-->
       <div class="flex space-x-2">
         <tui-combo-box
           (searchChange)="searchAssignedUser$.next($event)"
@@ -106,7 +100,7 @@
           [seat]="seat"
           cdkDrag
         ></hcm-seat>
-        <img (load)="onImageLoad()" [src]="seatMap.imageUrl || '' | getFile | push" class="w-full" />
+        <img (load)="onImageLoad()" [src]="seatMap.imageUrl || '' | getFile | push" alt="" class="w-full" />
       </article>
       <ng-template #noData>
         <p class="py-4 text-lg text-center opacity-50">{{ 'notAssignedSeat' | transloco }}</p>
