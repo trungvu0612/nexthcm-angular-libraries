@@ -24,10 +24,6 @@ import omit from 'just-omit';
 import { BehaviorSubject, combineLatest, merge, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, skip } from 'rxjs/operators';
 
-const getLabel: Record<string, string> = {
-  MY_TEAM: 'myTeam',
-};
-
 @Component({
   selector: 'hcm-working-hours-filters',
   templateUrl: './working-hours-filters.component.html',
@@ -97,8 +93,6 @@ export class WorkingHoursFiltersComponent implements OnInit {
       value: startWeek.valueOf(),
     }));
   }
-
-  readonly getFilterLabel: TuiStringHandler<string> = (filter: string): string => `${getLabel[filter]}`;
 
   ngOnInit(): void {
     this.state.hold(this.inputYear$.pipe(debounceTime(1000), distinctUntilChanged()), (year) => this.year$.next(year));

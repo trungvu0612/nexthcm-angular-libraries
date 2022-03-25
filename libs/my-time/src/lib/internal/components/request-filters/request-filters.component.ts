@@ -14,15 +14,10 @@ import {
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
 import { TuiDayRange, tuiDefaultProp } from '@taiga-ui/cdk';
-import { TuiStringHandler } from '@taiga-ui/cdk/types';
 import { endOfDay, startOfDay } from 'date-fns';
 import omit from 'just-omit';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
-
-const getLabel: Record<string, string> = {
-  MY_TEAM: 'myTeam',
-};
 
 @Component({
   selector: 'hcm-request-filters',
@@ -95,11 +90,9 @@ export class RequestFiltersComponent implements OnInit {
     this.statusIds$.next(statuses || null);
   }
 
-  onFilterChange(filterType: string): void {
-    this.filterType$.next(filterType || null);
+  onFilterChange(filterType: string | null): void {
+    this.filterType$.next(filterType);
   }
-
-  readonly getFilterLabel: TuiStringHandler<string> = (filter: string): string => `${getLabel[filter]}`;
 
   private filterByDates(): void {
     this.httpParams = this.dates$.value

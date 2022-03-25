@@ -32,10 +32,10 @@
   ></hcm-input-filter>
 
   <hcm-basic-filter
-    (filtersChange)="filterType$.next($event)"
+    (filterChange)="filterType$.next($event)"
     *ngIf="includeSearch"
-    [items]="['MY_TEAM']"
-    [stringify]="getFilterLabel"
     key="filterType"
+    label="myTeam"
+    value="MY_TEAM"
   ></hcm-basic-filter>
 </section>

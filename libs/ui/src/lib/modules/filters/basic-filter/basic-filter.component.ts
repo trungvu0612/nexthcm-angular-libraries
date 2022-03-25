@@ -1,10 +1,10 @@
+import { Location } from '@angular/common';
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, NgModule, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { UrlSerializer } from '@angular/router';
 import { TranslocoModule } from '@ngneat/transloco';
-import { TUI_DEFAULT_STRINGIFY, tuiDefaultProp } from '@taiga-ui/cdk';
-import { TuiStringHandler } from '@taiga-ui/cdk/types';
-import { TuiFilterModule } from '@taiga-ui/kit';
+import { TuiCheckboxLabeledModule } from '@taiga-ui/kit';
+import omit from 'just-omit';
 
 @Component({
   selector: 'hcm-basic-filter',
@@ -12,42 +12,36 @@ import { TuiFilterModule } from '@taiga-ui/kit';
   styleUrls: ['./basic-filter.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BasicFilterComponent<T> {
-  @Input() @tuiDefaultProp() stringify: TuiStringHandler<T> = TUI_DEFAULT_STRINGIFY;
-  @Input() @tuiDefaultProp() getValue: TuiStringHandler<T> = TUI_DEFAULT_STRINGIFY;
-  @Input() @tuiDefaultProp() items: T[] = [];
-  @Output() filtersChange = new EventEmitter<string>();
-  filters: T[] = [];
+export class BasicFilterComponent {
+  @Input() label!: string;
+  @Input() value!: string;
+  @Output() filterChange = new EventEmitter<string | null>();
+  active = false;
 
-  constructor(private readonly router: Router, private readonly activatedRoute: ActivatedRoute) {}
+  constructor(private readonly location: Location, private readonly urlSerializer: UrlSerializer) {}
 
   private _key = '';
 
-  @Input() set key(value: string) {
-    const filtersString = this.activatedRoute.snapshot.queryParams[value];
-
-    this._key = value;
-    if (filtersString) {
-      this.filters = filtersString.split(',');
-    }
+  @Input() set key(key: string) {
+    this._key = key;
+    this.active = !!this.urlSerializer.parse(this.location.path()).queryParams[key];
   }
 
-  onChangeValue(filters: T[]): void {
-    const filtersString = filters.map((filter) => this.getValue(filter)).join(',');
-
-    this.filters = filters;
-    this.filtersChange.emit(filtersString);
-    this.router.navigate([], {
-      queryParams: { [this._key]: filtersString || null },
-      queryParamsHandling: 'merge',
-      replaceUrl: true,
-    });
+  onChangeValue(active: boolean): void {
+    this.active = active;
+    const filterValue = this.active ? this.value : null;
+    this.filterChange.emit(filterValue);
+    const tree = this.urlSerializer.parse(this.location.path());
+    tree.queryParams = filterValue
+      ? { ...tree.queryParams, [this._key]: filterValue }
+      : omit(tree.queryParams, this._key);
+    this.location.go(tree.toString());
   }
 }
 
 @NgModule({
   declarations: [BasicFilterComponent],
-  imports: [TuiFilterModule, FormsModule, TranslocoModule],
+  imports: [FormsModule, TranslocoModule, TuiCheckboxLabeledModule],
   exports: [BasicFilterComponent],
 })
 export class BasicFilterComponentModule {}

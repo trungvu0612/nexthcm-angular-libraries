@@ -7,11 +7,11 @@
   ></hcm-workflow-status-combo-box-filter>
 
   <hcm-basic-filter
-    (filtersChange)="onFilterChange($event)"
+    (filterChange)="onFilterChange($event)"
     *ngIf="includeMyTeam"
-    [items]="['MY_TEAM']"
-    [stringify]="getFilterLabel"
     key="filterType"
+    label="myTeam"
+    value="MY_TEAM"
   ></hcm-basic-filter>
 
   <hcm-input-filter

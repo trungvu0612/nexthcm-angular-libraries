@@ -69,10 +69,10 @@
         </div>
       </ng-template>
       <hcm-basic-filter
-        (filtersChange)="filterType$.next($event)"
-        [items]="['MY_TEAM']"
-        [stringify]="getFilterLabel"
+        (filterChange)="filterType$.next($event)"
         key="filterType"
+        label="myTeam"
+        value="MY_TEAM"
       ></hcm-basic-filter>
     </section>
 

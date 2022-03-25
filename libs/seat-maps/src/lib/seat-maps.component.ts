@@ -11,10 +11,6 @@ import { debounceTime, filter, map, share, startWith, switchMap, take, takeUntil
 
 import { SeatComponent } from './components/seat/seat.component';
 
-const getLabel: Record<string, string> = {
-  MY_TEAM: 'myTeam',
-};
-
 interface ComponentState {
   seatMapData: SeatMap;
   loading: boolean;
@@ -148,7 +144,7 @@ export class SeatMapsComponent implements OnInit, AfterViewInit {
     state.hold(this.seatMapIdChanges$);
   }
 
-  readonly stringify: TuiStringHandler<any> = (item: BaseUser) => item.name;
+  readonly stringify: TuiStringHandler<BaseUser> = ({ name }) => name;
 
   ngOnInit(): void {
     combineLatest([this.allSeatMaps$, this.seatMapIdChanges$])
@@ -183,9 +179,7 @@ export class SeatMapsComponent implements OnInit, AfterViewInit {
 
   readonly identityMatcher: TuiIdentityMatcher<SeatMap | string> = (item1, item2) =>
     (item1 as SeatMap).id === (item2 as SeatMap).id;
-  readonly statusIdentityMatcher: TuiIdentityMatcher<any> = (item1: StatusOption, item2: StatusOption) =>
-    item1.value === item2.value;
-  readonly getFilterLabel: TuiStringHandler<string> = (filter: string): string => `${getLabel[filter]}`;
+  readonly statusIdentityMatcher: TuiIdentityMatcher<StatusOption> = (item1, item2) => item1.value === item2.value;
 
   onFilter(key: 'filterType' | 'status', value: number | string | null): void {
     this.httpParams = value ? this.httpParams.set(key, value) : this.httpParams.delete(key);
