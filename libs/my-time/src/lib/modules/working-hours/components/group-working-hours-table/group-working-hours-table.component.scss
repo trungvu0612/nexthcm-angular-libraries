@@ -2,19 +2,4 @@
   display: block;
   margin-right: -6px;
   margin-left: -6px;
-
-  ::ng-deep {
-    .ngx-table {
-      &__header-title {
-        display: none;
-      }
-
-      &__table--normal > {
-        thead > tr > th {
-          padding: 0;
-          border-width: 0;
-        }
-      }
-    }
-  }
 }

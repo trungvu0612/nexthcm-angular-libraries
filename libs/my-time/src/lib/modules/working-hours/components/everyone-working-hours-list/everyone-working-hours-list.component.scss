@@ -1,3 +1,17 @@
 :host {
   display: block;
+
+  ::ng-deep .ngx-table {
+    thead {
+      position: relative;
+      z-index: 0;
+    }
+
+    button[tuiiconbutton] {
+      &,
+      > .t-wrapper {
+        position: static;
+      }
+    }
+  }
 }

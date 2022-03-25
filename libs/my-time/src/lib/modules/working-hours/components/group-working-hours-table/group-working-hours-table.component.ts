@@ -2,9 +2,9 @@ import { Location } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Inject, Injector, Input, OnChanges } from '@angular/core';
 import { ActivatedRoute, UrlSerializer } from '@angular/router';
 import { AbstractServerPaginationTableComponent, Pagination } from '@nexthcm/cdk';
-import { HashMap, ProviderScope, TRANSLOCO_SCOPE, TranslocoService } from '@ngneat/transloco';
+import { ProviderScope, TRANSLOCO_SCOPE, TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
-import { isPresent, tuiDefaultProp, TuiDestroyService } from '@taiga-ui/cdk';
+import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { API, Columns, Config, DefaultConfig } from 'ngx-easy-table';
@@ -26,30 +26,52 @@ export class GroupWorkingHoursTableComponent
   extends AbstractServerPaginationTableComponent<WorkingHours>
   implements OnChanges
 {
-  @Input() @tuiDefaultProp() userId!: string;
-  @Input() @tuiDefaultProp() fromDate!: number;
-  @Input() @tuiDefaultProp() toDate!: number;
+  @Input() userId!: string;
+  @Input() fromDate!: number;
+  @Input() toDate!: number;
 
   override configuration: Config = {
     ...DefaultConfig,
     paginationEnabled: false,
     paginationRangeEnabled: false,
+    fixedColumnWidth: false,
   };
   readonly columns$: Observable<Columns[]> = this.translocoService
-    .selectTranslateObject<HashMap<string>>('WORKING_HOURS_TABLE_COLUMNS', {}, this.translocoScope.scope)
+    .selectTranslateObject(this.translocoScope.scope + '.WORKING_HOURS_TABLE_COLUMNS')
     .pipe(
       map((result) => [
-        { key: '', title: '', width: '3%' },
-        { key: 'cif', title: result['cif'], width: '10%' },
-        { key: 'fullName', title: result['fullName'], width: '11%' },
-        { key: 'dateRange', title: result['dateRanges'], width: '12%' },
-        { key: '', title: result['inTime'], width: '14%' },
-        { key: '', title: result['outTime'], width: '14%' },
-        { key: 'totalWorkingTime', title: result['totalWorkingTimeH'], width: '8%' },
-        { key: 'workingDay', title: result['workingDay'], width: '8%' },
-        { key: 'ot', title: result['ot'], width: '8%' },
-        { key: 'countLeave', title: result['countLeave'], width: '10%' },
-        { key: '', title: '', width: '2%' },
+        { key: 'trackingDate', title: result['date'] },
+        {
+          key: 'inTime',
+          title: result['inTime'],
+          cssClass: { name: 'text-center', includeHeader: true },
+        },
+        {
+          key: 'outTime',
+          title: result['outTime'],
+          cssClass: { name: 'text-center', includeHeader: true },
+        },
+        {
+          key: 'totalWorkingTime',
+          title: result['totalWorkingTimeH'],
+          cssClass: { name: 'text-center', includeHeader: true },
+        },
+        {
+          key: 'workingDay',
+          title: result['workingDays'],
+          cssClass: { name: 'text-center', includeHeader: true },
+        },
+        {
+          key: 'ot',
+          title: result['ot'],
+          cssClass: { name: 'text-center', includeHeader: true },
+        },
+        {
+          key: 'countLeave',
+          title: result['countLeave'],
+          cssClass: { name: 'text-center', includeHeader: true },
+        },
+        { key: '', title: result['functions'] },
       ])
     );
   private readonly request$ = this.fetch$.pipe(

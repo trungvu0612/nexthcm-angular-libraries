@@ -109,11 +109,9 @@ tui-dialog[data-size='page'] {
   }
 }
 
-.ngx-table {
-  thead {
-    z-index: 1;
-    @apply sticky top-0 bg-white;
-  }
+.ngx-table .ngx-table__header {
+  z-index: 1;
+  @apply sticky top-0 bg-white;
 }
 
 .t-native {

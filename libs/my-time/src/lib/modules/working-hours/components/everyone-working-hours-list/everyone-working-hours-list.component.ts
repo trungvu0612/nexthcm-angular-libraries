@@ -34,53 +34,37 @@ export class EveryoneWorkingHoursListComponent
     paginationEnabled: false,
     paginationRangeEnabled: false,
     detailsTemplate: true,
+    fixedColumnWidth: false,
   };
   readonly toggledRows = new Set<number>();
   readonly columns$: Observable<Columns[]> = this.translocoService
     .selectTranslateObject<HashMap<string>>('WORKING_HOURS_TABLE_COLUMNS', {}, this.translocoScope.scope)
     .pipe(
       map((result) => [
-        { key: '', title: '', width: '3%' },
-        { key: 'cif', title: result['cif'], width: '10%' },
-        { key: 'fullName', title: result['fullName'], width: '11%' },
-        { key: 'dateRange', title: result['dateRange'], width: '12%' },
-        {
-          key: '',
-          title: result['inTime'],
-          width: '14%',
-          cssClass: { name: 'text-center', includeHeader: true },
-        },
-        {
-          key: '',
-          title: result['outTime'],
-          width: '14%',
-          cssClass: { name: 'text-center', includeHeader: true },
-        },
+        { key: '', title: '' },
+        { key: 'cif', title: result['cif'] },
+        { key: 'fullName', title: result['fullName'] },
+        { key: 'dateRange', title: result['dateRange'] },
         {
           key: 'totalWorkingTime',
           title: result['totalWorkingTimeH'],
-          width: '8%',
           cssClass: { name: 'text-center', includeHeader: true },
         },
         {
           key: 'workingDay',
           title: result['workingDays'],
-          width: '8%',
           cssClass: { name: 'text-center', includeHeader: true },
         },
         {
           key: 'ot',
           title: result['ot'],
-          width: '8%',
           cssClass: { name: 'text-center', includeHeader: true },
         },
         {
           key: 'countLeave',
           title: result['countLeave'],
-          width: '10%',
           cssClass: { name: 'text-center', includeHeader: true },
         },
-        { key: '', title: '', width: '2%' },
       ])
     );
   private readonly request$ = this.fetch$.pipe(
