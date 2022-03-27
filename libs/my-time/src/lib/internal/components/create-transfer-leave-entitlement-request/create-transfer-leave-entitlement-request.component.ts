@@ -148,6 +148,7 @@ export class CreateTransferLeaveEntitlementRequestComponent {
         label: 'emailCC',
         subLabelProp: 'username',
         textfieldLabelOutside: true,
+        matcherBy: 'id',
         serverRequest: (searchQuery: string) => this.employeesService.searchEmployees(searchQuery),
       },
     },

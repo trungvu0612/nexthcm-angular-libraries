@@ -185,6 +185,7 @@ export class CreateWorkingAfterHoursRequestDialogComponent implements OnInit {
           placeholder: 'searchUsers',
           subLabelProp: 'username',
           textfieldLabelOutside: true,
+          matcherBy: 'id',
           serverRequest: (searchQuery: string) => this.employeesService.searchEmployees(searchQuery),
         },
       },

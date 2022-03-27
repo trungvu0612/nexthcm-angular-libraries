@@ -2,7 +2,7 @@
   (searchChange)="search$.next($event)"
   [formControl]="$any(formControl)"
   [formlyAttributes]="field"
-  [identityMatcher]="to['identityMatcher']"
+  [identityMatcher]="identityMatcher"
   [stringify]="to['valueProp'] ? (stringify$ | push) : to['stringify']"
   [style.maxWidth]="to['maxWidth']"
   [tuiTextfieldCleaner]="to['textfieldCleaner']"

@@ -1,6 +1,13 @@
 import { ChangeDetectionStrategy, Component, ElementRef } from '@angular/core';
 import { FieldType } from '@ngx-formly/core';
-import { isNativeFocused, isPresent, TUI_DEFAULT_IDENTITY_MATCHER, TuiContextWithImplicit } from '@taiga-ui/cdk';
+import {
+  isNativeFocused,
+  isPresent,
+  TUI_DEFAULT_IDENTITY_MATCHER,
+  TuiContextWithImplicit,
+  TuiIdentityMatcher,
+  tuiPure,
+} from '@taiga-ui/cdk';
 import { TuiStringHandler } from '@taiga-ui/cdk/types';
 import { TuiValueContentContext } from '@taiga-ui/core';
 import { Observable, of, Subject } from 'rxjs';
@@ -16,7 +23,6 @@ export class MultiSelectSearchComponent extends FieldType {
     templateOptions: {
       textfieldSize: 'l',
       labelProp: 'name',
-      identityMatcher: TUI_DEFAULT_IDENTITY_MATCHER,
       stringify: (item: any) => item.name,
       objectValue: true,
     },
@@ -39,6 +45,12 @@ export class MultiSelectSearchComponent extends FieldType {
           map.get($implicit) || ''
     )
   );
+
+  @tuiPure
+  get identityMatcher(): TuiIdentityMatcher<any> {
+    const key = this.to['matcherBy'];
+    return key ? (item1, item2) => item1[key] === item2[key] : TUI_DEFAULT_IDENTITY_MATCHER;
+  }
 
   getContext($implicit: any, { nativeElement }: ElementRef<HTMLElement>): TuiValueContentContext<any> {
     return { $implicit, active: isNativeFocused(nativeElement) };
