@@ -20,6 +20,7 @@ export abstract class AbstractRequestListComponent<T>
   abstract requestDetailDialogService: RequestDetailDialogService;
   abstract promptService: PromptService;
   abstract translocoService: TranslocoService;
+  override sizeItems = [10, 20];
 
   // EVENTS
   readonly viewRequestDetail$ = new Subject<[string, string | undefined]>();

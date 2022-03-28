@@ -25,6 +25,7 @@ export abstract class AbstractServerPaginationTableComponent<T> implements After
     fixedColumnWidth: false,
     orderEnabled: false,
   };
+  readonly sizeItems!: number[];
   queryParams = new HttpParams().set('page', 0).set('size', 10);
   readonly fetch$ = new Subject<void>();
   readonly data$ = this.state.select('items');
@@ -65,9 +66,18 @@ export abstract class AbstractServerPaginationTableComponent<T> implements After
 
   protected parseParams(params: Params): void {
     this.queryParams = params['page'] ? this.queryParams.set('page', params['page']) : this.queryParams.delete('page');
+
     if (params['size']) {
-      this.table.apiEvent({ type: API.setPaginationDisplayLimit, value: params['size'] });
-      this.queryParams = this.queryParams.set('size', params['size']);
+      const maxSize = this.sizeItems && this.sizeItems.slice().pop();
+      let size = params['size'];
+
+      if (maxSize && size > maxSize) {
+        size = maxSize;
+        this.setQueryParams('size', size);
+      }
+
+      this.table.apiEvent({ type: API.setPaginationDisplayLimit, value: size });
+      this.queryParams = this.queryParams.set('size', size);
     } else {
       this.queryParams = this.queryParams.delete('size');
     }
