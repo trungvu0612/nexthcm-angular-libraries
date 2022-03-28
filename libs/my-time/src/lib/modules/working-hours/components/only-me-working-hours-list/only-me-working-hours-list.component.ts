@@ -32,17 +32,41 @@ export class OnlyMeWorkingHoursListComponent extends AbstractServerSortPaginatio
       map((result) => [
         { key: 'office', title: result['office'] },
         { key: 'date', title: result['date'] },
-        { key: 'inTime', title: result['inTime'] },
-        { key: 'outTime', title: result['outTime'] },
+        {
+          key: 'inTime',
+          title: result['inTime'],
+          cssClass: { name: 'text-center', includeHeader: true },
+        },
+        {
+          key: 'outTime',
+          title: result['outTime'],
+          cssClass: { name: 'text-center', includeHeader: true },
+        },
         {
           key: 'totalWorkingTime',
           title: result['totalWorkingTimeH'],
           cssClass: { name: 'text-center', includeHeader: true },
         },
-        { key: 'workingDay', title: result['workingDays'], cssClass: { name: 'text-center', includeHeader: true } },
-        { key: 'ot', title: result['ot'] },
-        { key: 'onsiteDay', title: result['onsiteDay'], cssClass: { name: 'text-center', includeHeader: true } },
-        { key: 'leave', title: result['leave'] },
+        {
+          key: 'workingDay',
+          title: result['workingDays'],
+          cssClass: { name: 'text-center', includeHeader: true },
+        },
+        {
+          key: 'ot',
+          title: result['ot'],
+          cssClass: { name: 'text-center', includeHeader: true },
+        },
+        {
+          key: 'onsiteDay',
+          title: result['onsiteDay'],
+          cssClass: { name: 'text-center', includeHeader: true },
+        },
+        {
+          key: 'leave',
+          title: result['leave'],
+          cssClass: { name: 'text-center', includeHeader: true },
+        },
         { key: '', title: result['functions'], orderEnabled: false },
       ])
     );
