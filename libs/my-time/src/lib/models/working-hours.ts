@@ -40,5 +40,6 @@ export interface WorkingHourLeaveLeaveType {
 
 export interface WorkingInfoCurrentMonth {
   workingDay: number;
+  currentTotalWorkingDay: number;
   totalWorkingDay: number;
 }

@@ -62,14 +62,17 @@
     <tui-island *rxLet="shouldCheckedOut$; let shouldCheckedOut" [hoverable]="true" class="right-column" size="l">
       <ng-container *ngIf="shouldCheckedOut === null">
         <div class="font-semibold tui-island__title">{{ t('yourWorkingDaysThisMonth') }}</div>
-        <div *rxLet="monthWorkingTime$; let monthWorkingTime">
-          <span class="text-8xl font-bold text-blue-500">{{
-            monthWorkingTime?.workingDay || 0 | translocoDecimal: { maximumFractionDigits: 1 }
-          }}</span
-          ><span class="text-4xl font-bold text-gray-400"
-            >/{{ monthWorkingTime?.totalWorkingDay ? monthWorkingTime.totalWorkingDay : '-' }}</span
-          >
-        </div>
+        <ng-container *rxLet="monthWorkingTime$; let monthWorkingTime">
+          <div>
+            <span class="text-8xl font-bold text-blue-500">{{
+              monthWorkingTime.workingDay | translocoDecimal: { maximumFractionDigits: 1 }
+            }}</span
+            ><span class="text-4xl font-bold text-gray-400">/{{ monthWorkingTime.currentTotalWorkingDay }}</span>
+          </div>
+          <div class="tui-island__paragraph">
+            {{ t('totalWorkingDays') }}: <strong>{{ monthWorkingTime.totalWorkingDay }}</strong>
+          </div>
+        </ng-container>
       </ng-container>
       <ng-container *ngIf="shouldCheckedOut !== null">
         <div class="absolute top-0 right-0">
