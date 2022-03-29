@@ -136,6 +136,8 @@
     "CheckoutSuccess": "Check Out Successfully!"
   },
   "workingDay": "Working days",
+  "totalCurrentWorkingDays": "Total current working days",
+  "totalWorkingDays": "Total working days",
   "applyFor": "Apply for",
   "morning": "Morning",
   "afternoon": "Afternoon",

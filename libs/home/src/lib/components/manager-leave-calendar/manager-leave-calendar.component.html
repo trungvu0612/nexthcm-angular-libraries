@@ -81,11 +81,25 @@
               </td>
               <td *tuiCell="'leaveDays'" class="!text-center" tuiTd>{{ item.workingInfoCurrentMonth.totalLeave }}</td>
               <td *tuiCell="'workingDays'" class="!text-right" tuiTd>
-                {{ item.workingInfoCurrentMonth.workingDay }}
-                <span class="text-base">
-                  <sup>{{ item.workingInfoCurrentMonth.currentTotalWorkingDay }}</sup
-                  >&frasl;<sub>{{ item.workingInfoCurrentMonth.totalWorkingDay }}</sub>
+                <span [tuiHint]="tooltip" tuiHintMode="onDark">
+                  {{ item.workingInfoCurrentMonth.workingDay }}
+                  <span class="text-base">
+                    <sup>{{ item.workingInfoCurrentMonth.currentTotalWorkingDay }}</sup
+                    >&frasl;<sub>{{ item.workingInfoCurrentMonth.totalWorkingDay }}</sub>
+                  </span>
                 </span>
+                <ng-template #tooltip>
+                  <div>
+                    {{ t('workingDay') }}: <strong>{{ item.workingInfoCurrentMonth.workingDay }}</strong>
+                  </div>
+                  <div>
+                    {{ t('totalCurrentWorkingDays') }}:
+                    <strong>{{ item.workingInfoCurrentMonth.currentTotalWorkingDay }}</strong>
+                  </div>
+                  <div>
+                    {{ t('totalWorkingDays') }}: <strong>{{ item.workingInfoCurrentMonth.totalWorkingDay }}</strong>
+                  </div>
+                </ng-template>
               </td>
               <ng-container *ngFor="let date of monthDateList">
                 <td

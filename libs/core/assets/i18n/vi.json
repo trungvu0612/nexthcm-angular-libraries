@@ -136,6 +136,8 @@
     "CheckoutSuccess": "Chấm Công Ra Thành Công!"
   },
   "workingDay": "Số ngày làm việc",
+  "totalCurrentWorkingDays": "Tổng số ngày làm việc hiện tại",
+  "totalWorkingDays": "Tổng số ngày làm việc",
   "applyFor": "Tùy chọn",
   "morning": "Buổi sáng",
   "afternoon": "Buổi chiều",
