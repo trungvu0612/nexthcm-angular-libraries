@@ -7,7 +7,6 @@ import { GetFilePipeModule } from '@nexthcm/cdk';
 import { LeaveRequestDateRangeComponentModule, MyTimeService } from '@nexthcm/my-time';
 import {
   AvatarComponentModule,
-  BasicFilterComponentModule,
   InputFilterComponentModule,
   InputNumberFilterComponentModule,
   LayoutComponent,
@@ -37,6 +36,7 @@ import {
   TuiTextfieldControllerModule,
 } from '@taiga-ui/core';
 import {
+  TuiCheckboxLabeledModule,
   TuiDropdownHoverModule,
   TuiInputCopyModule,
   TuiInputModule,
@@ -166,7 +166,7 @@ export const HOME_ROUTES: Routes = [
     TuiInputModule,
     TuiMarkerIconModule,
     TuiProgressModule,
-    BasicFilterComponentModule,
+    TuiCheckboxLabeledModule,
   ],
   providers: [
     MyTimeService,

@@ -28,6 +28,7 @@ export class ManagerLeaveCalendarComponent implements OnInit {
     year: [getYear(this.viewMonth), [Validators.required]],
     month: [getMonth(this.viewMonth), [Validators.required]],
     search: '',
+    filterType: true,
   });
   params = new HttpParams().set('size', 10);
   readonly locale$ = this.translocoService.langChanges$;
@@ -106,15 +107,12 @@ export class ManagerLeaveCalendarComponent implements OnInit {
   }
 
   onFilters(): void {
-    const { year, month, search } = this.filterForm.value;
+    const { year, month, search, filterType } = this.filterForm.value;
 
     this.viewMonth = setYear(setMonth(this.viewMonth, month), year);
     this.params = this.params.delete('page').set('year', year).set('month', month).set('search', search);
+    this.params = filterType ? this.params.set('filterType', 'MY_TEAM') : this.params.delete('filterType');
     this.fetchData();
-  }
-
-  onFilterMyTeam(value: string | null): void {
-    this.params = value ? this.params.set('filterType', value) : this.params.delete('filterType');
   }
 
   onSize(size: number): void {

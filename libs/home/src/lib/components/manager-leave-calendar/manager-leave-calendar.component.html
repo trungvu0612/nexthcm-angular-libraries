@@ -29,7 +29,7 @@
       <tui-input [tuiTextfieldCleaner]="true" class="col-span-2" formControlName="search" icon="tuiIconSearchLarge">
         {{ t('searchByCifFullName') }}
       </tui-input>
-      <hcm-basic-filter (filterChange)="onFilterMyTeam($event)" label="myTeam" value="MY_TEAM"></hcm-basic-filter>
+      <tui-checkbox-labeled formControlName="filterType" size="l">{{ t('myTeam') }}</tui-checkbox-labeled>
       <button [disabled]="filterForm.invalid" class="ml-auto" icon="tuiIconEyeOpen" size="s" tuiButton>
         {{ t('view') }}
       </button>
