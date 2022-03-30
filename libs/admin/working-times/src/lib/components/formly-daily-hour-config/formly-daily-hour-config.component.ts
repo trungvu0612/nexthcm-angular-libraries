@@ -20,4 +20,10 @@ export class FormlyDailyHourConfigComponent extends FieldArrayType {
   getDay(index: number): string {
     return `${this.translocoScope.scope}.${DAYS[this.formControl.value[index]['weekDayId'] - 1]}`;
   }
+
+  applyToAll(index: number): void {
+    const oldValues = this.formControl.value;
+    const values = this.formControl.at(index).value.values;
+    this.formControl.setValue(oldValues.map((value: any, i: number) => (i === index ? value : { ...value, values })));
+  }
 }

@@ -23,6 +23,8 @@
   "friday": "Thứ sáu",
   "saturday": "Thứ bảy",
   "sunday": "Chủ nhật",
+  "weeklyWorkingTime": "Giờ làm việc hằng tuần",
+  "workingTimeDetail": "Chi tiết giờ làm việc",
   "addHoliday": "Thêm ngày lễ",
   "editHoliday": "Sửa ngày lễ",
   "deleteHoliday": "<b>Bạn chắc chắn muốn xoá ngày lễ này?</b>",

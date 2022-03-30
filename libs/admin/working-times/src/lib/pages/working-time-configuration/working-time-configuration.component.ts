@@ -72,6 +72,13 @@ export class WorkingTimeConfigurationComponent implements AfterViewInit {
       { key: 'id' },
       { key: 'orgId' },
       {
+        expressionProperties: {
+          template: this.translocoService
+            .selectTranslate(this.translocoScope.scope + '.weeklyWorkingTime')
+            .pipe(map((title) => `<h2 class="border-b text-lg font-semibold my-6">${title}</h2>`)),
+        },
+      },
+      {
         key: 'items',
         type: 'daily-hour-config',
         fieldArray: {
@@ -92,6 +99,7 @@ export class WorkingTimeConfigurationComponent implements AfterViewInit {
                       translate: true,
                       label: 'from',
                       textfieldLabelOutside: false,
+                      textfieldCleaner: true,
                     },
                   },
                   {
@@ -102,12 +110,20 @@ export class WorkingTimeConfigurationComponent implements AfterViewInit {
                       translate: true,
                       label: 'to',
                       textfieldLabelOutside: false,
+                      textfieldCleaner: true,
                     },
                   },
                 ],
               },
             },
           ],
+        },
+      },
+      {
+        expressionProperties: {
+          template: this.translocoService
+            .selectTranslate(this.translocoScope.scope + '.workingTimeDetail')
+            .pipe(map((title) => `<h2 class="border-b text-lg font-semibold my-6">${title}</h2>`)),
         },
       },
       {
