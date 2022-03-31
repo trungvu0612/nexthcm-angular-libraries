@@ -7,4 +7,5 @@ export interface HistoryItem {
   from: string;
   to: string;
   time: number;
+  type: 'Change Status' | 'Change Escalate';
 }

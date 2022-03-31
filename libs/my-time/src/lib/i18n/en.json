@@ -79,6 +79,7 @@
   "spentTime": "Spent time",
   "changedStatusTo": "changed the status to",
   "submittedRequest": "submitted the request",
+  "changedEscalationTo": "changed the escalation to",
   "ERRORS": {
     "DUPLICATED_LEAVE": "<div class='font-bold'><p class='mb-4'>This request has duplicated duration with another.</p>{{metadata}}</div>",
     "EXCEED_LEAVE_ENTITLEMENT": "<div class='font-bold'>This request has exceeded the leave entitlement by {{exceedEntitlement}} days. The remaining of your {{leaveTypeName}} is {{remainingEntitlement}} days.</div>"

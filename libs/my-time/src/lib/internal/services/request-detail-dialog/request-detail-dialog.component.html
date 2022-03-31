@@ -205,8 +205,10 @@
           <hcm-avatar [image]="item.author.avatar" [text]="item.author.fullName" rounded size="xs"></hcm-avatar>
           <span>
             <span class="text-blue-500">&nbsp;{{ item.author.fullName }}</span>
-            <span *ngIf="item.from; else created">
-              {{ t('myTime.changedStatusTo') }} <b>{{ item.to }}</b>
+            <span *ngIf="item.type === 'Change Status'; else escalate">
+              <ng-container *ngIf="item.from; else created">
+                {{ t('myTime.changedStatusTo') }} <b>{{ item.to }}</b>
+              </ng-container>
             </span>
             -
             <span class="text-gray-300">
@@ -214,7 +216,12 @@
             </span>
 
             <ng-template #created>
-              <span>&nbsp;{{ t('myTime.submittedRequest') }}</span>
+              {{ t('myTime.submittedRequest') }}
+            </ng-template>
+
+            <ng-template #escalate>
+              <span>&nbsp;{{ t('myTime.changedEscalationTo') }}</span>
+              <span class="text-blue-500"> {{ $any(item.to).fullName }}</span>
             </ng-template>
           </span>
         </p>

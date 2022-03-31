@@ -79,6 +79,7 @@
   "spentTime": "Thời gian",
   "changedStatusTo": "đã đổi trạng thái sang",
   "submittedRequest": "đã gửi yêu cầu",
+  "changedEscalationTo": "đã chuyển người uỷ quyền thành",
   "ERRORS": {
     "DUPLICATED_LEAVE": "<div class='font-bold'><p class='mb-4'>Yêu cầu này trùng thời gian với yêu cầu khác.</p>{{metadata}}</div>",
     "EXCEED_LEAVE_ENTITLEMENT": "<div class='font-bold'>Yêu cầu này đã vượt quá quyền lợi nghỉ phép {{exceedEntitlement}} ngày. Quyền lợi {{leaveTypeName}} của bạn còn lại {{remainingEntitlement}} ngày.</div>"
