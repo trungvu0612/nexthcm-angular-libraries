@@ -1,10 +1,10 @@
 import { Location } from '@angular/common';
 import { HttpParams } from '@angular/common/http';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { ActivatedRoute, UrlSerializer } from '@angular/router';
 import { AuthService } from '@nexthcm/auth';
 import { Pagination, PromptService } from '@nexthcm/cdk';
-import { TranslocoService } from '@ngneat/transloco';
+import { ProviderScope, TRANSLOCO_SCOPE, TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
 import { isPresent } from '@taiga-ui/cdk';
 import { Columns } from 'ngx-easy-table';
@@ -55,6 +55,7 @@ export class MyTransferLeaveEntitlementsRequestsComponent extends AbstractMyRequ
   );
 
   constructor(
+    @Inject(TRANSLOCO_SCOPE) readonly translocoScope: ProviderScope,
     readonly myRequestsService: MyRequestsService,
     override readonly state: RxState<Pagination<TransferLeaveEntitlementsRequest>>,
     override readonly activatedRoute: ActivatedRoute,

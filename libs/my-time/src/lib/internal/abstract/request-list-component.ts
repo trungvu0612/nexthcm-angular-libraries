@@ -1,12 +1,17 @@
 import { HttpParams } from '@angular/common/http';
-import { Directive, OnInit } from '@angular/core';
+import { Directive, Injector, OnInit, TemplateRef } from '@angular/core';
+import { FormArray, FormBuilder, FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { AbstractServerSortPaginationTableComponent, Pagination, PromptService, WorkflowStatus } from '@nexthcm/cdk';
-import { TranslocoService } from '@ngneat/transloco';
+import { ProviderScope, TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
-import { EMPTY, from, iif, Subject } from 'rxjs';
-import { startWith, switchMap, tap } from 'rxjs/operators';
+import { TuiDialogService } from '@taiga-ui/core';
+import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
+import { Columns } from 'ngx-easy-table';
+import { BehaviorSubject, EMPTY, from, iif, Observable, Subject } from 'rxjs';
+import { filter, startWith, switchMap, tap } from 'rxjs/operators';
 
+import { BulkChangeComponent } from '../components';
 import { RequestTypeUrlPaths } from '../models';
 import { MyRequestsService, RequestDetailDialogService } from '../services';
 
@@ -20,6 +25,15 @@ export abstract class AbstractRequestListComponent<T>
   abstract requestDetailDialogService: RequestDetailDialogService;
   abstract promptService: PromptService;
   abstract translocoService: TranslocoService;
+  abstract translocoScope: ProviderScope;
+  abstract columns$: Observable<Columns[]>;
+
+  readonly dialogService!: TuiDialogService;
+  readonly injector!: Injector;
+  readonly fb!: FormBuilder;
+  selectAllControl!: FormControl;
+  selectedArray!: FormArray;
+
   override sizeItems = [10, 20];
 
   // EVENTS
@@ -60,12 +74,69 @@ export abstract class AbstractRequestListComponent<T>
     tap(() => this.setQueryParams('id', null))
   );
 
+  bulkChangeLoading = false;
+  readonly bulkChange$ = new BehaviorSubject<TemplateRef<unknown> | null>(null);
+  readonly bulkChangeHandler$ = this.bulkChange$.pipe(
+    filter((v) => v !== null),
+    tap(() => (this.bulkChangeLoading = true)),
+    switchMap(() =>
+      this.myRequestsService.getStatusTransitions(
+        this.requestTypeUrlPath,
+        this.state
+          .get('items')
+          .map(({ id }, index) => this.selectedArray.value[index] && id)
+          .filter((v) => v)
+          .join(', ')
+      )
+    ),
+    tap(({ length }) => {
+      setTimeout(() => (this.bulkChangeLoading = false), 100);
+      if (!length) {
+        this.promptService.open({
+          icon: 'warning',
+          text: this.translocoService.translate(this.translocoScope.scope + '.noSelected'),
+        });
+      }
+    }),
+    filter((data) => !!data?.length),
+    switchMap((data) =>
+      this.dialogService.open(new PolymorpheusComponent(BulkChangeComponent, this.injector), {
+        label: this.translocoService.translate(this.translocoScope.scope + '.bulkChange'),
+        size: 'page',
+        data: { data, columns$: this.columns$, template: this.bulkChange$.value },
+      })
+    ),
+    tap(() => this.fetch$.next())
+  );
+
   protected constructor(
-    override readonly state: RxState<Pagination<T>>,
+    override readonly state: RxState<Pagination>,
     override readonly activatedRoute: ActivatedRoute
   ) {
     super(state, activatedRoute);
     state.hold(this.viewRequestDetailHandler$);
+    state.hold(this.bulkChangeHandler$);
+
+    this.configuration.checkboxes = true;
+    state.hold(state.select('items'), (items) => {
+      if (this.fb) {
+        this.selectAllControl = this.fb.control(false);
+        this.selectedArray = this.fb.array(items.map(() => false));
+
+        state.hold(this.selectAllControl.valueChanges, (value) => {
+          this.selectedArray.setValue(
+            this.selectedArray.value.map(() => value),
+            { emitEvent: false }
+          );
+        });
+
+        state.hold(this.selectedArray.valueChanges, (value: boolean[]) => {
+          value.every((v) => v)
+            ? this.selectAllControl.setValue(true, { emitEvent: false })
+            : this.selectAllControl.value && this.selectAllControl.setValue(false, { emitEvent: false });
+        });
+      }
+    });
   }
 
   get requestId(): string | null {

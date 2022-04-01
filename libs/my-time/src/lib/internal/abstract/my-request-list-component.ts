@@ -14,6 +14,7 @@ export abstract class AbstractMyRequestListComponent<T> extends AbstractRequestL
     readonly authService: AuthService
   ) {
     super(state, activatedRoute);
+    this.configuration.checkboxes = false;
   }
 
   get userId(): string {

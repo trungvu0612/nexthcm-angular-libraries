@@ -133,5 +133,6 @@
     "FORMAT": "Dữ liệu được thêm vào không đúng định dạng",
     "NOT_FOUND": "Dữ liệu được thêm vào không tồn tại",
     "EDIT": "Dữ liệu được thêm vào đã được chỉnh sửa"
-  }
+  },
+  "bulkChange": "Thay đổi hàng loạt"
 }

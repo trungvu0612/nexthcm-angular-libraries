@@ -17,7 +17,7 @@ import {
   TuiLoaderModule,
   TuiSvgModule,
 } from '@taiga-ui/core';
-import { TuiDataListWrapperModule, TuiTabsModule, TuiTagModule } from '@taiga-ui/kit';
+import { TuiCheckboxModule, TuiDataListWrapperModule, TuiTabsModule, TuiTagModule } from '@taiga-ui/kit';
 import { TableModule } from 'ngx-easy-table';
 import { NgxPermissionsModule } from 'ngx-permissions';
 
@@ -70,6 +70,7 @@ import { RequestManagementComponent } from './request-management.component';
     TuiSvgModule,
     TuiDataListModule,
     CreateRequestFormsModule,
+    TuiCheckboxModule,
   ],
 })
 export class RequestManagementModule {}

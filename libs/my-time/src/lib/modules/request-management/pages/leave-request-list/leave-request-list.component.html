@@ -1,10 +1,23 @@
 <hcm-request-filters
   (filter)="onFilter($event)"
   [httpParams]="queryParams"
-  class="mb-5"
   includeMyTeam
   includeSearch
 ></hcm-request-filters>
+
+<div class="flex justify-end my-4">
+  <button
+    (click)="bulkChange$.next(tableRow)"
+    [disabled]="!selectedArray?.value.includes(true)"
+    [showLoader]="bulkChangeLoading"
+    appearance="secondary"
+    size="m"
+    tuiButton
+  >
+    {{ translocoScope.scope + '.bulkChange' | transloco }}
+  </button>
+</div>
+
 <tui-loader [overlay]="true" [showLoader]="(loading$ | push) === true">
   <ngx-table
     #table
@@ -12,27 +25,14 @@
     [columns]="(columns$ | push) || []"
     [configuration]="configuration"
     [data]="(data$ | push) || []"
+    [selectAllTemplate]="selectAll"
   >
-    <ng-template let-row>
+    <ng-template let-index="index" let-row>
       <ng-container *tuiLet="item(row) as item">
-        <td>{{ item.employeeDTO.cif }}</td>
-        <td class="font-bold uppercase">{{ item.employeeDTO.fullName }}</td>
-        <td *tuiLet="item.items as type">
-          <hcm-leave-request-date-range [data]="item"></hcm-leave-request-date-range>
-        </td>
-        <td>{{ item.leaveType.name }}</td>
         <td>
-          {{ item.durationInDay ? (item.durationInDay | translocoDecimal: { maximumFractionDigits: 1 }) : '-' }}
+          <tui-checkbox [formControl]="$any(selectedArray.at(index))"></tui-checkbox>
         </td>
-        <td>
-          <tui-tag
-            *ngIf="item.currentState as status"
-            [style.backgroundColor]="status.stateType.color"
-            [value]="status.name"
-            class="text-white"
-          ></tui-tag>
-        </td>
-        <td>{{ item.comment }}</td>
+        <ng-container *ngTemplateOutlet="tableRow; context: { $implicit: row }"></ng-container>
         <td>
           <div class="flex items-center">
             <button
@@ -52,7 +52,35 @@
       </ng-container>
     </ng-template>
   </ngx-table>
+
+  <ng-template #selectAll>
+    <tui-checkbox *ngIf="selectAllControl" [formControl]="selectAllControl"></tui-checkbox>
+  </ng-template>
 </tui-loader>
+
+<ng-template #tableRow let-row>
+  <ng-container *tuiLet="item(row) as item">
+    <td>{{ item.employeeDTO.cif }}</td>
+    <td class="font-bold uppercase">{{ item.employeeDTO.fullName }}</td>
+    <td>
+      <hcm-leave-request-date-range [data]="item"></hcm-leave-request-date-range>
+    </td>
+    <td>{{ item.leaveType.name }}</td>
+    <td>
+      {{ item.durationInDay ? (item.durationInDay | translocoDecimal: { maximumFractionDigits: 1 }) : '-' }}
+    </td>
+    <td>
+      <tui-tag
+        *ngIf="item.currentState as status"
+        [style.backgroundColor]="status.stateType.color"
+        [value]="status.name"
+        class="text-white"
+      ></tui-tag>
+    </td>
+    <td>{{ item.comment }}</td>
+  </ng-container>
+</ng-template>
+
 <tui-table-pagination
   (pageChange)="onPage($event)"
   (sizeChange)="onSize($event)"

@@ -15,7 +15,7 @@ import { NgxPermissionsModule } from 'ngx-permissions';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BaseFormComponent<T> {
-  @Input() @tuiDefaultProp() form!: FormGroup;
+  @Input() @tuiDefaultProp() form = new FormGroup({});
   @Input() model: T = {} as T;
   @Input() fields: FormlyFieldConfig[] = [];
   @Input() options: FormlyFormOptions = {};

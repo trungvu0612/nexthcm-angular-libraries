@@ -5,7 +5,7 @@ import { TranslocoLocaleModule } from '@ngneat/transloco-locale';
 import { tuiDefaultProp, TuiLetModule } from '@taiga-ui/cdk';
 
 import { PartialDays } from '../../internal/enums';
-import { LeaveRequest } from '../../models/leave-request';
+import { LeaveRequest } from '../../models';
 
 @Component({
   selector: 'hcm-leave-request-date-range',

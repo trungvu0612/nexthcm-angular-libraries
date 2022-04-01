@@ -133,5 +133,6 @@
     "FORMAT": "Data being added is incorrect format",
     "NOT_FOUND": "Data being added is not found",
     "EDIT": "Data being added have been edited"
-  }
+  },
+  "bulkChange": "Bulk change"
 }

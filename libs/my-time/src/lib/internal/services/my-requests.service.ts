@@ -19,8 +19,10 @@ import {
   CombineRequestTypeUrlPaths,
   GeneralRequest,
   HistoryItem,
+  RequestChange,
   RequestComment,
   RequestTypeUrlPaths,
+  StatusTransition,
 } from '../models';
 import { ChangeEscalateUserPayload } from '../models/requests/change-escalate-user-payload';
 import {
@@ -38,6 +40,7 @@ const REQUEST_HISTORY_URL_PATHS: Readonly<RequestTypeUrlPaths> = Object.freeze({
 
 @Injectable()
 export class MyRequestsService {
+  type!: keyof RequestTypeUrlPaths;
   private refreshSubject = new Subject<keyof RequestTypeUrlPaths>();
   refresh$ = this.refreshSubject.asObservable();
 
@@ -162,5 +165,21 @@ export class MyRequestsService {
           )
           .pipe(map((res) => res.data))
       : of(null);
+  }
+
+  getStatusTransitions(type: keyof RequestTypeUrlPaths, ids: string): Observable<StatusTransition[]> {
+    this.type = type;
+    return this.http
+      .get<BaseResponse<StatusTransition[]>>(
+        `${MY_TIME_API_PATH}/${REQUEST_DETAIL_URL_PATHS[type]}/operation-transactions`,
+        {
+          params: new HttpParams().set(type === 'leave' ? 'leaveIds' : 'reqIds', ids),
+        }
+      )
+      .pipe(map(({ data }) => data));
+  }
+
+  bulkChange(body: RequestChange[]): Observable<unknown> {
+    return this.http.put<unknown>(`${MY_TIME_API_PATH}/${REQUEST_DETAIL_URL_PATHS[this.type]}/bulk-approve`, body);
   }
 }

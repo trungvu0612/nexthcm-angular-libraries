@@ -1,4 +1,5 @@
 export * from './base-working-hours';
+export * from './bulk-change';
 export * from './create-request-payloads';
 export * from './export-time-log';
 export * from './history-item';

@@ -1,9 +1,9 @@
 import { Location } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Injector } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, Injector } from '@angular/core';
 import { ActivatedRoute, UrlSerializer } from '@angular/router';
 import { AuthService } from '@nexthcm/auth';
 import { Pagination, PromptService } from '@nexthcm/cdk';
-import { TranslocoService } from '@ngneat/transloco';
+import { ProviderScope, TRANSLOCO_SCOPE, TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
 import { isPresent } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
@@ -85,6 +85,7 @@ export class MyLeaveComponent extends AbstractMyRequestListComponent<LeaveReques
   );
 
   constructor(
+    @Inject(TRANSLOCO_SCOPE) readonly translocoScope: ProviderScope,
     readonly myRequestsService: MyRequestsService,
     override readonly state: RxState<Pagination<LeaveRequest>>,
     override readonly activatedRoute: ActivatedRoute,
@@ -94,8 +95,8 @@ export class MyLeaveComponent extends AbstractMyRequestListComponent<LeaveReques
     readonly translocoService: TranslocoService,
     readonly promptService: PromptService,
     override readonly authService: AuthService,
-    private readonly injector: Injector,
-    private readonly dialogService: TuiDialogService,
+    override readonly injector: Injector,
+    override readonly dialogService: TuiDialogService,
     private readonly myLeaveService: MyLeaveService
   ) {
     super(state, activatedRoute, authService);
