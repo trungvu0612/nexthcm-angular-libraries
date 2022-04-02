@@ -30,9 +30,7 @@ interface ContextData {
 export class BulkChangeComponent {
   readonly statusControl = new FormControl(0);
   readonly configuration = { ...DefaultConfig, paginationEnabled: false, orderEnabled: false, fixedColumnWidth: false };
-  readonly columns$ = this.context.data.columns$.pipe(
-    map((columns) => columns.slice(0, -1).map(({ title, key }) => ({ title, key })))
-  );
+  readonly columns$ = this.context.data.columns$.pipe(map((columns) => columns.slice(0, -1)));
 
   readonly submit$ = new Subject<void>();
   readonly submitLoading$ = this.submit$.pipe(

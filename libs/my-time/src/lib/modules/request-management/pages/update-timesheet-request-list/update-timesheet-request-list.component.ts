@@ -1,10 +1,12 @@
 import { Location } from '@angular/common';
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, Injector } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute, UrlSerializer } from '@angular/router';
 import { Pagination, PromptService } from '@nexthcm/cdk';
 import { ProviderScope, TRANSLOCO_SCOPE, TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
 import { isPresent } from '@taiga-ui/cdk';
+import { TuiDialogService } from '@taiga-ui/core';
 import { Columns } from 'ngx-easy-table';
 import { combineLatest, Observable, of } from 'rxjs';
 import { catchError, filter, map, share, startWith, switchMap } from 'rxjs/operators';
@@ -69,7 +71,10 @@ export class UpdateTimesheetRequestListComponent extends AbstractRequestListComp
     readonly urlSerializer: UrlSerializer,
     readonly requestDetailDialogService: RequestDetailDialogService,
     readonly translocoService: TranslocoService,
-    readonly promptService: PromptService
+    readonly promptService: PromptService,
+    override readonly dialogService: TuiDialogService,
+    override readonly injector: Injector,
+    override readonly fb: FormBuilder
   ) {
     super(state, activatedRoute);
     state.connect(this.request$.pipe(filter(isPresent)));
