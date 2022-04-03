@@ -134,5 +134,6 @@
     "NOT_FOUND": "Data being added is not found",
     "EDIT": "Data being added have been edited"
   },
-  "bulkChange": "Bulk change"
+  "bulkChange": "Bulk change",
+  "cannotBeTransitioned": "Selected requests cannot be transitioned. Please check again."
 }

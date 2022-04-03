@@ -89,24 +89,21 @@ export abstract class AbstractRequestListComponent<T>
           .join(', ')
       )
     ),
-    tap(({ length }) => {
+    switchMap((data) => {
       setTimeout(() => (this.bulkChangeLoading = false), 100);
-      if (!length) {
-        this.promptService.open({
-          icon: 'warning',
-          text: this.translocoService.translate(this.translocoScope.scope + '.noSelected'),
-        });
-      }
-    }),
-    filter((data) => !!data?.length),
-    switchMap((data) =>
-      this.dialogService.open(new PolymorpheusComponent(BulkChangeComponent, this.injector), {
-        label: this.translocoService.translate(this.translocoScope.scope + '.bulkChange'),
-        size: 'page',
-        data: { data, columns$: this.columns$, template: this.bulkChange$.value },
-      })
-    ),
-    tap(() => this.fetch$.next())
+      return data.length
+        ? this.dialogService
+            .open(new PolymorpheusComponent(BulkChangeComponent, this.injector), {
+              label: this.translocoService.translate(this.translocoScope.scope + '.bulkChange'),
+              size: 'page',
+              data: { data, columns$: this.columns$, template: this.bulkChange$.value },
+            })
+            .pipe(tap(() => this.fetch$.next()))
+        : this.promptService.open({
+            icon: 'warning',
+            text: this.translocoService.translate(this.translocoScope.scope + '.cannotBeTransitioned'),
+          });
+    })
   );
 
   protected constructor(

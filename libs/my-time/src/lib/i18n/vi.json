@@ -134,5 +134,6 @@
     "NOT_FOUND": "Dữ liệu được thêm vào không tồn tại",
     "EDIT": "Dữ liệu được thêm vào đã được chỉnh sửa"
   },
-  "bulkChange": "Thay đổi hàng loạt"
+  "bulkChange": "Thay đổi hàng loạt",
+  "cannotBeTransitioned": "Yêu cầu được chọn không thể chuyển trạng thái. Vui lòng kiểm tra lại."
 }
