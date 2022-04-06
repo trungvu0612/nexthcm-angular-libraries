@@ -9,13 +9,15 @@
   <button
     (click)="bulkChange$.next(tableRow)"
     [disabled]="!selectedArray?.value.includes(true)"
+    [icon]="select"
     [showLoader]="bulkChangeLoading"
-    appearance="secondary"
     size="m"
     tuiButton
   >
     {{ translocoScope.scope + '.bulkChange' | transloco }}
   </button>
+
+  <ng-template #select><i class="bx bx-select-multiple text-2xl"></i></ng-template>
 </div>
 
 <tui-loader [overlay]="true" [showLoader]="(loading$ | push) === true">

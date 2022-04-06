@@ -8,8 +8,9 @@ import { RxState } from '@rx-angular/state';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { Columns } from 'ngx-easy-table';
+import { FileSaverService } from 'ngx-filesaver';
 import { BehaviorSubject, EMPTY, from, iif, Observable, Subject } from 'rxjs';
-import { filter, startWith, switchMap, tap } from 'rxjs/operators';
+import { catchError, filter, map, startWith, switchMap, tap } from 'rxjs/operators';
 
 import { BulkChangeComponent } from '../components';
 import { RequestTypeUrlPaths } from '../models';
@@ -27,6 +28,8 @@ export abstract class AbstractRequestListComponent<T>
   abstract translocoService: TranslocoService;
   abstract translocoScope: ProviderScope;
   abstract columns$: Observable<Columns[]>;
+
+  readonly fileSaverService!: FileSaverService;
 
   readonly dialogService!: TuiDialogService;
   readonly injector!: Injector;
@@ -104,6 +107,20 @@ export abstract class AbstractRequestListComponent<T>
             text: this.translocoService.translate(this.translocoScope.scope + '.cannotBeTransitioned'),
           });
     })
+  );
+
+  readonly export$ = new Subject<void>();
+  readonly exportLoading$ = this.export$.pipe(
+    switchMap(() =>
+      this.myRequestsService.exportRequests(this.requestTypeUrlPath, this.queryParams).pipe(
+        tap((blob) => this.fileSaverService.save(blob)),
+        catchError((err) =>
+          from(this.promptService.open({ icon: 'error', html: this.promptService.generateErrorMessage(err) }))
+        ),
+        startWith(null)
+      )
+    ),
+    map((value) => !value)
   );
 
   protected constructor(

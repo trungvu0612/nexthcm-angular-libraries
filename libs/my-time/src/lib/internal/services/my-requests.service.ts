@@ -37,6 +37,10 @@ const REQUEST_HISTORY_URL_PATHS: Readonly<RequestTypeUrlPaths> = Object.freeze({
   workFromHome: '4',
   leave: '5',
 });
+const EXPORT_REQUEST_PATHS: Readonly<Partial<RequestTypeUrlPaths>> = Object.freeze({
+  workingAfterHours: 'export-ot-requests',
+  workingOnsite: 'export-outside',
+});
 
 @Injectable()
 export class MyRequestsService {
@@ -55,6 +59,10 @@ export class MyRequestsService {
     return this.http
       .get<PagingResponse<T>>(`${MY_TIME_API_PATH}/${REQUEST_DETAIL_URL_PATHS[type]}`, { params })
       .pipe(map((res) => res.data));
+  }
+
+  exportRequests(type: keyof RequestTypeUrlPaths, params: HttpParams): Observable<Blob> {
+    return this.http.get(`${MY_TIME_API_PATH}/${EXPORT_REQUEST_PATHS[type]}`, { params, responseType: 'blob' });
   }
 
   submitRequest<T>(type: keyof RequestTypeUrlPaths, payload: T): Observable<unknown> {
