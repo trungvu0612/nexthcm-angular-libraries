@@ -194,13 +194,10 @@ export class GeneralInformationFormComponent implements OnInit {
               key: 'syncLDAPDirectReport',
               className: 'tui-form__row block',
               type: 'toggle',
-              templateOptions: { textfieldLabelOutside: true, size: 'l' },
-              expressionProperties: {
-                'templateOptions.description': this.translocoService.selectTranslate(
-                  'syncLDAPDirectReport',
-                  {},
-                  this.translocoScope.scope
-                ),
+              templateOptions: {
+                translate: true,
+                description: this.translocoScope.scope + '.syncLDAPDirectReport',
+                textfieldLabelOutside: true,
               },
               hideExpression: 'model.registerType !== "LDAP"',
             },

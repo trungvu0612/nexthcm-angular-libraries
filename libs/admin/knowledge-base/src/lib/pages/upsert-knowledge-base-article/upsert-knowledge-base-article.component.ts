@@ -95,6 +95,18 @@ export class UpsertKnowledgeBaseArticleComponent {
       },
     },
     {
+      key: 'topBanner',
+      className: 'tui-form__row block',
+      type: 'toggle',
+      defaultValue: true,
+      templateOptions: {
+        translate: true,
+        label: this.translocoScope.scope + '.topBanner',
+        textfieldLabelOutside: true,
+        labelClassName: 'font-semibold',
+      },
+    },
+    {
       key: 'shortDescription',
       className: 'tui-form__row block',
       type: 'text-area',
