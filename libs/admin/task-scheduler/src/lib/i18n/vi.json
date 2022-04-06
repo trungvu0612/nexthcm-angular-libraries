@@ -7,6 +7,8 @@
     "status": "Trạng thái",
     "functions": "Chức năng"
   },
+  "processDataCrossCheck": "Xử lý kiểm tra dữ liệu chéo",
+  "processDataCrossCheckDescription": "Xử lý kiểm tra dữ liệu chéo trong danh sách người dùng ngoại lệ",
   "syncKeycloakUser": "Đồng bộ người dùng LDAP",
   "syncKeycloakUserDescription": "<p>Tên: \"cron.account-keycloak-sync.enabled\".</p><p>Đồng bộ tất cả người dùng LDAP chưa tồn tại trong hệ thống.</p>",
   "syncKeycloakUpdateUser": "Đồng bộ quản lý của người dùng LDAP",
