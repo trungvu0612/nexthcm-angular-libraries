@@ -30,6 +30,7 @@ import { AttachmentFormComponent } from './components/attachment-form/attachment
 import { DurationFormComponent } from './components/duration-form/duration-form.component';
 import { EditEmployeeDialogComponent } from './components/edit-employee-dialog/edit-employee-dialog.component';
 import { EducationFormComponent } from './components/education-form/education-form.component';
+import { ExperienceFormComponent } from './components/experience-form/experience-form.component';
 import { ExportEmployeesDialogComponent } from './components/export-employees-dialog/export-employees-dialog.component';
 import { FormlyDownloadButtonComponent } from './components/formly-download-button/formly-download-button.component';
 import { FormlyRepeatSectionComponent } from './components/formly-repeat-section/formly-repeat-section.component';
@@ -105,6 +106,7 @@ export const ADMIN_EMPLOYEE_ROUTES: Routes = [
     AttachmentFormComponent,
     FormlyDownloadButtonComponent,
     ExportEmployeesDialogComponent,
+    ExperienceFormComponent,
   ],
   providers: [
     AdminEmployeesService,

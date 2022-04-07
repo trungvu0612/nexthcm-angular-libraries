@@ -17,6 +17,10 @@
       {{ t('education') }}
     </button>
     <button tuiTab>
+      <i class="bx bxs-medal bx-sm mr-2"></i>
+      {{ t('experience') }}
+    </button>
+    <button tuiTab>
       <tui-svg class="w-6 h-6 tui-space_right-2" src="tuiIconStarLarge"></tui-svg>
       SHUI
     </button>
@@ -30,7 +34,8 @@
     <hcm-individual-form *ngSwitchCase="1"></hcm-individual-form>
     <hcm-duration-form *ngSwitchCase="2"></hcm-duration-form>
     <hcm-education-form *ngSwitchCase="3"></hcm-education-form>
-    <hcm-shui-form *ngSwitchCase="4"></hcm-shui-form>
-    <hcm-attachment-form *ngSwitchCase="5"></hcm-attachment-form>
+    <hcm-experience-form *ngSwitchCase="4"></hcm-experience-form>
+    <hcm-shui-form *ngSwitchCase="5"></hcm-shui-form>
+    <hcm-attachment-form *ngSwitchCase="6"></hcm-attachment-form>
   </div>
 </main>

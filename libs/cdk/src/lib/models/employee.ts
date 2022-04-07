@@ -5,11 +5,18 @@ import { CommonStatus, EmployeeCurrentStatus } from '../enums';
 import { BaseObject, BaseUser } from './base-object';
 import { DateRange } from './date-range';
 
-export type EmployeeInformationAPIType = 'INDIVIDUAL' | 'DURATION' | 'EDUCATION' | 'SHUI' | 'ATTACHMENT';
+export type EmployeeInformationAPIType =
+  | 'INDIVIDUAL'
+  | 'DURATION'
+  | 'EDUCATION'
+  | 'WORK_EXPERIENCE'
+  | 'SHUI'
+  | 'ATTACHMENT';
 export type EmployeeInformationType =
   | EmployeeIndividual
   | EmployeeDuration
   | EmployeeEducation
+  | EmployeeExperience
   | EmployeeSHUI
   | EmployeeAttachment;
 
@@ -99,6 +106,10 @@ export interface EmployeeEducation extends EmployeeBaseForm {
   certificates?: Certificate[];
 }
 
+export interface EmployeeExperience extends EmployeeBaseForm {
+  experience?: Experience[];
+}
+
 export interface Certificate {
   university?: string;
   major?: string;
@@ -107,6 +118,14 @@ export interface Certificate {
   score?: string;
   startDate?: string | TuiDay | Date;
   endDate?: string | TuiDay | Date;
+}
+
+export interface Experience {
+  company?: string;
+  jobTitle?: string;
+  fromDate?: string;
+  toDate?: string;
+  description?: string;
 }
 
 export interface HealthCare {

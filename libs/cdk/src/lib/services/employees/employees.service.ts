@@ -12,6 +12,7 @@ import {
   EmployeeAttachment,
   EmployeeDuration,
   EmployeeEducation,
+  EmployeeExperience,
   EmployeeGeneralInformation,
   EmployeeIndividual,
   EmployeeInformationAPIType,
@@ -57,6 +58,7 @@ export class EmployeesService extends RxState<EmployeesState> {
   getEmployeeInformation(employeeId: string, type: 'INDIVIDUAL'): Observable<EmployeeIndividual>;
   getEmployeeInformation(employeeId: string, type: 'DURATION'): Observable<EmployeeDuration>;
   getEmployeeInformation(employeeId: string, type: 'EDUCATION'): Observable<EmployeeEducation>;
+  getEmployeeInformation(employeeId: string, type: 'WORK_EXPERIENCE'): Observable<EmployeeExperience>;
   getEmployeeInformation(employeeId: string, type: 'SHUI'): Observable<EmployeeSHUI>;
   getEmployeeInformation(employeeId: string, type: 'ATTACHMENT'): Observable<EmployeeAttachment>;
   getEmployeeInformation<T extends EmployeeInformationType>(
@@ -78,6 +80,7 @@ export class EmployeesService extends RxState<EmployeesState> {
             'attachmentFiles',
             'dependenceMembers',
             'certificates',
+            'experience',
           ])
         ),
         catchError(() => of({} as T)),
