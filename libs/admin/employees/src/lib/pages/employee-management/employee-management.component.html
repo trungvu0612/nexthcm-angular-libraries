@@ -1,14 +1,20 @@
 <hcm-page [title]="'employeeManagement' | transloco">
   <ng-container *transloco="let t" ngProjectAs="pageHeader">
-    <button
-      (click)="onAddEmployee()"
-      *ngxPermissionsOnly="'CREATE_EMPLOYEE'"
-      icon="tuiIconPlusLarge"
-      size="m"
-      tuiButton
-    >
-      {{ t(translocoScope.scope + '.addNewEmployee') }}
-    </button>
+    <div class="flex gap-4">
+      <button
+        (click)="onAddEmployee()"
+        *ngxPermissionsOnly="'CREATE_EMPLOYEE'"
+        icon="tuiIconPlusLarge"
+        size="m"
+        tuiButton
+      >
+        {{ t(translocoScope.scope + '.addNewEmployee') }}
+      </button>
+
+      <button (click)="openExportEmployeeDialog()" icon="tuiIconDownloadLarge" size="m" tuiButton>
+        {{ t(translocoScope.scope + '.exportEmployees') }}
+      </button>
+    </div>
   </ng-container>
   <div *transloco="let t" class="grid grid-cols-4 gap-4 mb-5">
     <hcm-input-filter

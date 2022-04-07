@@ -40,6 +40,7 @@ import {
 } from 'rxjs/operators';
 
 import { EditEmployeeDialogComponent } from '../../components/edit-employee-dialog/edit-employee-dialog.component';
+import { ExportEmployeesDialogComponent } from '../../components/export-employees-dialog/export-employees-dialog.component';
 import { InitEmployeeDialogComponent } from '../../components/init-employee-dialog/init-employee-dialog.component';
 import { AdminEmployeesService } from '../../services/admin-employees.service';
 
@@ -223,6 +224,16 @@ export class EmployeeManagementComponent
   onEditEmployee(id: string): void {
     this.router.navigate([], { relativeTo: this.activatedRoute, queryParams: { id }, queryParamsHandling: 'merge' });
     this.openEditEmployeeDialog(id);
+  }
+
+  openExportEmployeeDialog(): void {
+    this.dialogService
+      .open(new PolymorpheusComponent(ExportEmployeesDialogComponent, this.injector), {
+        label: this.translocoService.translate(this.translocoScope.scope + '.exportEmployees'),
+        size: 'page',
+      })
+      .pipe(takeUntil(this.destroy$))
+      .subscribe();
   }
 
   private openEditEmployeeDialog(id: string): void {

@@ -10,6 +10,7 @@
     "functions": "Chức năng"
   },
   "addNewEmployee": "Thêm nhân viên mới",
+  "exportEmployees": "Xuất nhân viên",
   "deleteEmployee": "<b>Bạn thật sự muốn xoá nhân viên này?</b>",
   "addEmployeeSuccessfully": "<b>Thêm nhân viên thành công!</b>",
   "removeEmployeeSuccessfully": "<b>Xoá nhân viên thành công!</b>",

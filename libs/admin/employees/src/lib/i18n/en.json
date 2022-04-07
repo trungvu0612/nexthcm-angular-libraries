@@ -10,6 +10,7 @@
     "functions": "Functions"
   },
   "addNewEmployee": "Add new employee",
+  "exportEmployees": "Export employees",
   "deleteEmployee": "<b>Are you sure you want to remove this employee?</b>",
   "addEmployeeSuccessfully": "<b>Add new employee successfully!</b>",
   "removeEmployeeSuccessfully": "<b>Remove this employee successfully!</b>",
