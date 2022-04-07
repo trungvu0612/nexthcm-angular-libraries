@@ -126,3 +126,7 @@ tui-input-files .t-native {
   color: var(--tui-link);
   font-weight: 600;
 }
+
+tui-scrollbar > .content {
+  min-width: fit-content;
+}

@@ -2,7 +2,7 @@
   <header class="flex justify-between items-center mb-6">
     <h1 class="m-0 text-3xl font-semibold">{{ t('profile') }}</h1>
   </header>
-  <main *rxLet="profile$; let profile" class="grid grid-cols-3 space-x-8 text-base">
+  <main *rxLet="profile$; let profile" class="flex gap-x-8 text-base">
     <section class="p-6 bg-white rounded-xl shadow-xl">
       <div class="flex justify-center mb-6">
         <hcm-avatar [image]="profile.image" [text]="profile.username" size="xxl"></hcm-avatar>
@@ -32,7 +32,7 @@
         </div>
       </div>
     </section>
-    <section class="col-span-2 p-6 bg-white rounded-xl shadow-xl">
+    <section class="p-6 bg-white rounded-xl shadow-xl">
       <tui-tabs [(activeItemIndex)]="activeItemIndex">
         <button routerLink="/profile/individual" routerLinkActive tuiTab>
           <i class="bx bxs-user-detail bx-sm mr-2"></i>
