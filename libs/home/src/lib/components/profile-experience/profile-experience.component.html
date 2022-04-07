@@ -1,0 +1,20 @@
+<ng-container *rxLet="profile$; let profile">
+  <table *transloco="let t" class="tui-table">
+    <tbody>
+      <tr class="tui-table__tr">
+        <th class="tui-table__th">{{ t('company') }}</th>
+        <th class="tui-table__th">{{ t('jobTitle') }}</th>
+        <th class="tui-table__th">{{ t('startDate') }}</th>
+        <th class="tui-table__th">{{ t('endDate') }}</th>
+        <th class="tui-table__th">{{ t('description') }}</th>
+      </tr>
+      <tr *ngFor="let row of profile.experience" class="tui-table__tr">
+        <td class="tui-table__td">{{ row.company }}</td>
+        <td class="tui-table__td">{{ row.jobTitle }}</td>
+        <td class="tui-table__td">{{ row.fromDate }}</td>
+        <td class="tui-table__td">{{ row.toDate }}</td>
+        <td class="tui-table__td">{{ row.description }}</td>
+      </tr>
+    </tbody>
+  </table>
+</ng-container>

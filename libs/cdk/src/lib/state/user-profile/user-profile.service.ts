@@ -8,6 +8,7 @@ import { map, switchMap } from 'rxjs/operators';
 import {
   EmployeeDuration,
   EmployeeEducation,
+  EmployeeExperience,
   EmployeeGeneralInformation,
   EmployeeIndividual,
   EmployeeSHUI,
@@ -19,6 +20,7 @@ interface UserProfileState {
   individual: EmployeeIndividual;
   duration: EmployeeDuration;
   education: EmployeeEducation;
+  experience: EmployeeExperience;
   shui: EmployeeSHUI;
 }
 
@@ -30,6 +32,7 @@ export class UserProfileService extends RxState<UserProfileState> {
   readonly individual$ = this.select('individual');
   readonly duration$ = this.select('duration');
   readonly education$ = this.select('education');
+  readonly experience$ = this.select('experience');
   readonly shui$ = this.select('shui');
   readonly isBirthday$ = this.select('individual', 'birthDate').pipe(
     map((dateOfBirth) => {
@@ -42,6 +45,7 @@ export class UserProfileService extends RxState<UserProfileState> {
   private readonly loadIndividualInformation$ = new Subject<void>();
   private readonly loadDurationInformation$ = new Subject<void>();
   private readonly loadEducationInformation$ = new Subject<void>();
+  private readonly loadExperienceInformation$ = new Subject<void>();
   private readonly loadSHUIInformation$ = new Subject<void>();
 
   constructor(private readonly authService: AuthService, private readonly employeesService: EmployeesService) {
@@ -71,6 +75,12 @@ export class UserProfileService extends RxState<UserProfileState> {
       )
     );
     this.connect(
+      'experience',
+      this.loadExperienceInformation$.pipe(
+        switchMap(() => this.employeesService.getEmployeeInformation(this.authService.userId(), 'WORK_EXPERIENCE'))
+      )
+    );
+    this.connect(
       'shui',
       this.loadSHUIInformation$.pipe(
         switchMap(() => this.employeesService.getEmployeeInformation(this.authService.userId(), 'SHUI'))
@@ -83,6 +93,7 @@ export class UserProfileService extends RxState<UserProfileState> {
           this.doRefreshIndividualInformation();
           this.doRefreshDurationInformation();
           this.doRefreshEducationInformation();
+          this.doRefreshExperienceInformation();
           this.doRefreshSHUIInformation();
         })
       )
@@ -113,6 +124,12 @@ export class UserProfileService extends RxState<UserProfileState> {
     }
   }
 
+  doLoadExperienceInformation(): void {
+    if (!this.get('education')) {
+      this.loadExperienceInformation$.next();
+    }
+  }
+
   doLoadSHUIInformation(): void {
     if (!this.get('shui')) {
       this.loadSHUIInformation$.next();
@@ -140,6 +157,12 @@ export class UserProfileService extends RxState<UserProfileState> {
   doRefreshEducationInformation(): void {
     if (this.get('education')) {
       this.loadEducationInformation$.next();
+    }
+  }
+
+  doRefreshExperienceInformation(): void {
+    if (this.get('education')) {
+      this.loadExperienceInformation$.next();
     }
   }
 

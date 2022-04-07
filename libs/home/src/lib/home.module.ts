@@ -56,6 +56,7 @@ import { ManagerLeaveCalendarComponent } from './components/manager-leave-calend
 import { PersonalAccessTokenComponent } from './components/personal-access-token/personal-access-token.component';
 import { ProfileDurationComponent } from './components/profile-duration/profile-duration.component';
 import { ProfileEducationComponent } from './components/profile-education/profile-education.component';
+import { ProfileExperienceComponent } from './components/profile-experience/profile-experience.component';
 import { ProfileIndividualComponent } from './components/profile-individual/profile-individual.component';
 import { ProfileShuiComponent } from './components/profile-shui/profile-shui.component';
 import { RequestCalendarComponent } from './components/request-calendar/request-calendar.component';
@@ -95,6 +96,7 @@ export const HOME_ROUTES: Routes = [
           { path: 'individual', component: ProfileIndividualComponent },
           { path: 'duration', component: ProfileDurationComponent },
           { path: 'education', component: ProfileEducationComponent },
+          { path: 'experience', component: ProfileExperienceComponent },
           { path: 'shui', component: ProfileShuiComponent },
           { path: 'access-token', component: PersonalAccessTokenComponent },
         ],
@@ -117,6 +119,7 @@ export const HOME_ROUTES: Routes = [
     RequestCalendarComponent,
     LeaveCalendarDateItemComponent,
     WorkingHoursCalendarItemComponent,
+    ProfileExperienceComponent,
   ],
   imports: [
     CommonModule,
