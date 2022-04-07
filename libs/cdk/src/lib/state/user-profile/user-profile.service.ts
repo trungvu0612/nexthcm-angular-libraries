@@ -24,6 +24,15 @@ interface UserProfileState {
   shui: EmployeeSHUI;
 }
 
+const initialState: Partial<UserProfileState> = {
+  general: undefined,
+  individual: undefined,
+  duration: undefined,
+  education: undefined,
+  experience: undefined,
+  shui: undefined,
+};
+
 @Injectable({
   providedIn: 'root',
 })
@@ -86,18 +95,7 @@ export class UserProfileService extends RxState<UserProfileState> {
         switchMap(() => this.employeesService.getEmployeeInformation(this.authService.userId(), 'SHUI'))
       )
     );
-    this.hold(
-      this.authService.newLogin$.pipe(
-        tap(() => {
-          this.doRefreshGeneralInformation();
-          this.doRefreshIndividualInformation();
-          this.doRefreshDurationInformation();
-          this.doRefreshEducationInformation();
-          this.doRefreshExperienceInformation();
-          this.doRefreshSHUIInformation();
-        })
-      )
-    );
+    this.hold(this.authService.newLogin$.pipe(tap(() => this.set(initialState))));
   }
 
   doLoadGeneralInformation(): void {
@@ -132,42 +130,6 @@ export class UserProfileService extends RxState<UserProfileState> {
 
   doLoadSHUIInformation(): void {
     if (!this.get('shui')) {
-      this.loadSHUIInformation$.next();
-    }
-  }
-
-  doRefreshGeneralInformation(): void {
-    if (this.get('general')) {
-      this.loadGeneralInformation$.next();
-    }
-  }
-
-  doRefreshIndividualInformation(): void {
-    if (this.get('individual')) {
-      this.loadIndividualInformation$.next();
-    }
-  }
-
-  doRefreshDurationInformation(): void {
-    if (this.get('duration')) {
-      this.loadDurationInformation$.next();
-    }
-  }
-
-  doRefreshEducationInformation(): void {
-    if (this.get('education')) {
-      this.loadEducationInformation$.next();
-    }
-  }
-
-  doRefreshExperienceInformation(): void {
-    if (this.get('education')) {
-      this.loadExperienceInformation$.next();
-    }
-  }
-
-  doRefreshSHUIInformation(): void {
-    if (this.get('shui')) {
       this.loadSHUIInformation$.next();
     }
   }
