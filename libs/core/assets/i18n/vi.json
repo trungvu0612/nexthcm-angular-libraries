@@ -410,6 +410,7 @@
   "enterDate": "Nhập ngày...",
   "chooseDateRange": "Chọn khoảng thời gian...",
   "chooseADate": "Chọn một ngày",
+  "pleaseSelectADateRange": "Vui lòng chọn khoảng thời gian",
   "PAIDLEAVE_STATUS": {
     "notPaidLeave": "Không phép",
     "isPaidLeave": "Có phép"

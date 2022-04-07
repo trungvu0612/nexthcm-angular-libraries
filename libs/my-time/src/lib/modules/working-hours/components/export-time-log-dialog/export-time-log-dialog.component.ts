@@ -1,6 +1,5 @@
-import { formatDate } from '@angular/common';
 import { HttpParams } from '@angular/common/http';
-import { ChangeDetectionStrategy, Component, Inject, LOCALE_ID } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { PromptService } from '@nexthcm/cdk';
 import { ProviderScope, TRANSLOCO_SCOPE, TranslocoService } from '@ngneat/transloco';
@@ -91,15 +90,10 @@ export class ExportTimeLogDialogComponent {
       if (filterType) {
         params = params.set('filterType', filterType);
       }
-      const fileName = `${formatDate(fromDate, 'mediumDate', this.locale)}_${formatDate(
-        toDate,
-        'mediumDate',
-        this.locale
-      )}_${exportType}.xlsx`;
 
       return this.workingHoursService.exportTimeLog(params).pipe(
-        tap((blob) => {
-          this.fileSaverService.save(blob, fileName);
+        tap(({ blob, filename }) => {
+          this.fileSaverService.save(blob, filename);
           this.context.completeWith();
         }),
         catchError((err) =>
@@ -120,8 +114,7 @@ export class ExportTimeLogDialogComponent {
     private readonly state: RxState<Record<string, unknown>>,
     @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext,
     private readonly promptService: PromptService,
-    private readonly fileSaverService: FileSaverService,
-    @Inject(LOCALE_ID) private readonly locale: string
+    private readonly fileSaverService: FileSaverService
   ) {}
 
   onSubmit(): void {

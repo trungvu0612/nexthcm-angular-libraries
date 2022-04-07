@@ -17,8 +17,19 @@ export class WorkingHoursService {
       .pipe(map((res) => res.data));
   }
 
-  exportTimeLog(params: HttpParams): Observable<Blob> {
-    return this.http.get(`${MY_TIME_API_PATH}/working-hours-everyone/export`, { params, responseType: 'blob' });
+  exportTimeLog(params: HttpParams): Observable<{ blob: Blob; filename?: string }> {
+    return this.http
+      .get(`${MY_TIME_API_PATH}/working-hours-everyone/export`, {
+        params,
+        responseType: 'blob',
+        observe: 'response',
+      })
+      .pipe(
+        map(({ body, headers }) => ({
+          blob: body as Blob,
+          filename: headers.get('Content-Disposition')?.split('filename=')[1],
+        }))
+      );
   }
 
   importTimeLog(file: File): Observable<UserTimeLog[]> {

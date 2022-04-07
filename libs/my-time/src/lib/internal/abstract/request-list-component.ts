@@ -13,7 +13,7 @@ import { BehaviorSubject, EMPTY, from, iif, Observable, Subject } from 'rxjs';
 import { catchError, filter, map, startWith, switchMap, tap } from 'rxjs/operators';
 
 import { BulkChangeComponent } from '../components';
-import { RequestTypeUrlPaths } from '../models';
+import { BaseRequest, RequestTypeUrlPaths } from '../models';
 import { MyRequestsService, RequestDetailDialogService } from '../services';
 
 @Directive()
@@ -111,9 +111,16 @@ export abstract class AbstractRequestListComponent<T>
 
   readonly export$ = new Subject<void>();
   readonly exportLoading$ = this.export$.pipe(
+    filter(() => {
+      const hasFromDate = this.queryParams.has('fromDate');
+      if (!hasFromDate) {
+        this.promptService.open({ icon: 'warning', html: this.translocoService.translate('pleaseSelectADateRange') });
+      }
+      return hasFromDate;
+    }),
     switchMap(() =>
       this.myRequestsService.exportRequests(this.requestTypeUrlPath, this.queryParams).pipe(
-        tap((blob) => this.fileSaverService.save(blob)),
+        tap(({ blob, filename }) => this.fileSaverService.save(blob, filename)),
         catchError((err) =>
           from(this.promptService.open({ icon: 'error', html: this.promptService.generateErrorMessage(err) }))
         ),
@@ -132,20 +139,26 @@ export abstract class AbstractRequestListComponent<T>
     state.hold(this.bulkChangeHandler$);
 
     this.configuration.checkboxes = true;
-    state.hold(state.select('items'), (items) => {
+    state.hold(this.data$, (items) => {
+      const changeableItems = (items as unknown as BaseRequest[])
+        .map(({ nextStates: { length } }, index) => (length ? index : null))
+        .filter((v): v is number => v !== null);
+
       if (this.fb) {
         this.selectAllControl = this.fb.control(false);
         this.selectedArray = this.fb.array(items.map(() => false));
 
         state.hold(this.selectAllControl.valueChanges, (value) => {
           this.selectedArray.setValue(
-            this.selectedArray.value.map(() => value),
+            this.selectedArray.value.map((oldValue: boolean, index: number) =>
+              changeableItems.includes(index) ? value : oldValue
+            ),
             { emitEvent: false }
           );
         });
 
         state.hold(this.selectedArray.valueChanges, (value: boolean[]) => {
-          value.every((v) => v)
+          changeableItems.every((index) => value[index])
             ? this.selectAllControl.setValue(true, { emitEvent: false })
             : this.selectAllControl.value && this.selectAllControl.setValue(false, { emitEvent: false });
         });

@@ -42,7 +42,7 @@
     <ng-template let-index="index" let-row>
       <ng-container *tuiLet="item(row) as item">
         <td>
-          <tui-checkbox [formControl]="$any(selectedArray.at(index))"></tui-checkbox>
+          <tui-checkbox *ngIf="item.nextStates.length" [formControl]="$any(selectedArray.at(index))"></tui-checkbox>
         </td>
         <ng-container *ngTemplateOutlet="tableRow; context: { $implicit: row }"></ng-container>
         <td>

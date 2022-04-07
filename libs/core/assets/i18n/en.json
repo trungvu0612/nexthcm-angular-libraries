@@ -410,6 +410,7 @@
   "enterDate": "Enter date...",
   "chooseDateRange": "Choose date range...",
   "chooseADate": "Choose a date",
+  "pleaseSelectADateRange": "Please select a date range",
   "PAIDLEAVE_STATUS": {
     "notPaidLeave": "Not paid leave",
     "isPaidLeave": "Is paid leave"

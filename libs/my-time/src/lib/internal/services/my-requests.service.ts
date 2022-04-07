@@ -61,8 +61,19 @@ export class MyRequestsService {
       .pipe(map((res) => res.data));
   }
 
-  exportRequests(type: keyof RequestTypeUrlPaths, params: HttpParams): Observable<Blob> {
-    return this.http.get(`${MY_TIME_API_PATH}/${EXPORT_REQUEST_PATHS[type]}`, { params, responseType: 'blob' });
+  exportRequests(type: keyof RequestTypeUrlPaths, params: HttpParams): Observable<{ blob: Blob; filename?: string }> {
+    return this.http
+      .get(`${MY_TIME_API_PATH}/${EXPORT_REQUEST_PATHS[type]}`, {
+        params,
+        responseType: 'blob',
+        observe: 'response',
+      })
+      .pipe(
+        map(({ body, headers }) => ({
+          blob: body as Blob,
+          filename: headers.get('Content-Disposition')?.split('filename=')[1],
+        }))
+      );
   }
 
   submitRequest<T>(type: keyof RequestTypeUrlPaths, payload: T): Observable<unknown> {
