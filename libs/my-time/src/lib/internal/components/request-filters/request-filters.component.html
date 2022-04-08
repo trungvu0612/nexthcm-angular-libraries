@@ -1,5 +1,9 @@
 <section *transloco="let t" class="grid grid-cols-6 gap-4 items-center">
-  <hcm-input-date-range-filter (datesChange)="dates$.next($event)" class="col-span-2"></hcm-input-date-range-filter>
+  <hcm-input-date-range-filter
+    (datesChange)="dates$.next($event)"
+    class="col-span-2"
+    defaultValue
+  ></hcm-input-date-range-filter>
 
   <hcm-workflow-status-combo-box-filter
     (valueChange)="onFilterByWorkflowStatuses($event)"
@@ -9,6 +13,7 @@
   <hcm-basic-filter
     (filterChange)="onFilterChange($event)"
     *ngIf="includeMyTeam"
+    defaultValue
     key="filterType"
     label="myTeam"
     value="MY_TEAM"

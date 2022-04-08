@@ -40,9 +40,7 @@ export class SelectMonthFilterComponent implements AfterViewInit {
   constructor(private readonly commonService: CommonService) {}
 
   ngAfterViewInit(): void {
-    if (typeof this.initMonth === 'number') {
-      this.connector.onValueChange(this.initMonth);
-    }
+    if (typeof this.initMonth === 'number') this.onValueChange(this.initMonth);
   }
 
   @tuiPure

@@ -12,6 +12,7 @@ import {
   endOfMonth,
   endOfWeek,
   endOfYear,
+  getMonth,
   getYear,
   isAfter,
   setMonth,
@@ -23,6 +24,19 @@ import {
 import omit from 'just-omit';
 import { BehaviorSubject, combineLatest, merge, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, skip } from 'rxjs/operators';
+
+const generateWeekList = (year: number | null, month: number | null): BaseOption<number>[] => {
+  if (!year || month === null) return [];
+
+  const thatMonth = setYear(setMonth(new Date(), month), year);
+  const startOfThatMonth = startOfMonth(thatMonth);
+  const endOfThatMonth = endOfMonth(thatMonth);
+
+  return eachWeekOfInterval({ start: startOfThatMonth, end: endOfThatMonth }).map((startWeek, index) => ({
+    label: index + 1 + '',
+    value: startWeek.valueOf(),
+  }));
+};
 
 @Component({
   selector: 'hcm-working-hours-filters',
@@ -37,16 +51,18 @@ export class WorkingHoursFiltersComponent implements OnInit {
   @Input() @tuiDefaultProp() httpParams = new HttpParams();
   @Output() filter = new EventEmitter<HttpParams>();
 
+  initYear = getYear(new Date());
+  initMonth = getMonth(new Date());
+  initWeek = startOfWeek(new Date()).valueOf();
+
   readonly inputYear$ = new Subject<number | null>();
   readonly year$ = new BehaviorSubject<number | null>(null);
   readonly month$ = new BehaviorSubject<number | null>(null);
   readonly week$ = new Subject<number | null>();
   readonly search$ = new Subject<string | null>();
-  readonly weekList$ = combineLatest([
-    this.translocoService.selectTranslate<string>('week'),
-    this.year$,
-    this.month$,
-  ]).pipe(map(([key, year, month]) => WorkingHoursFiltersComponent.generateWeekList(key, year, month)));
+  readonly weekList$ = combineLatest([this.year$, this.month$]).pipe(
+    map(([year, month]) => generateWeekList(year, month))
+  );
   readonly filterType$ = new Subject<string | null>();
 
   constructor(
@@ -57,17 +73,6 @@ export class WorkingHoursFiltersComponent implements OnInit {
     private readonly urlSerializer: UrlSerializer
   ) {}
 
-  private _initYear?: number;
-
-  get initYear(): number | undefined {
-    return this._initYear;
-  }
-
-  @Input()
-  set initYear(_: unknown) {
-    this._initYear = getYear(new Date());
-  }
-
   private _includeSearch = false;
 
   get includeSearch(): boolean {
@@ -77,21 +82,6 @@ export class WorkingHoursFiltersComponent implements OnInit {
   @Input()
   set includeSearch(value: unknown) {
     this._includeSearch = coerceBooleanProperty(value);
-  }
-
-  private static generateWeekList(key: string, year: number | null, month: number | null): BaseOption<number>[] {
-    if (!year || month === null) {
-      return [];
-    }
-
-    const thatMonth = setYear(setMonth(new Date(), month), year);
-    const startOfThatMonth = startOfMonth(thatMonth);
-    const endOfThatMonth = endOfMonth(thatMonth);
-
-    return eachWeekOfInterval({ start: startOfThatMonth, end: endOfThatMonth }).map((startWeek, index) => ({
-      label: `${key} ${index + 1}`,
-      value: startWeek.valueOf(),
-    }));
   }
 
   ngOnInit(): void {
@@ -132,7 +122,7 @@ export class WorkingHoursFiltersComponent implements OnInit {
     if (year) {
       if (!isNaN(year)) {
         this.year$.next(year);
-        this._initYear = year;
+        this.initYear = year;
         if (params['month'] && !isNaN(Number(params['month']))) {
           this.month$.next(params['month']);
           if (params['week'] && !isNaN(Number(params['week']))) {
@@ -140,8 +130,8 @@ export class WorkingHoursFiltersComponent implements OnInit {
           }
         }
       }
-    } else if (this._initYear) {
-      this.year$.next(this._initYear);
+    } else if (this.initYear) {
+      this.year$.next(this.initYear);
     }
     if (this.includeSearch) {
       if (params['search']) {

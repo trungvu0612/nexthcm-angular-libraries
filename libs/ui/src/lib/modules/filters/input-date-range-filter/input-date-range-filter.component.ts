@@ -1,9 +1,10 @@
+import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { Location } from '@angular/common';
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, NgModule, OnInit, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, UrlSerializer } from '@angular/router';
 import { TranslocoModule } from '@ngneat/transloco';
-import { TuiDayRange } from '@taiga-ui/cdk';
+import { TuiDay, TuiDayRange } from '@taiga-ui/cdk';
 import { TuiTextfieldControllerModule } from '@taiga-ui/core';
 import { TuiInputDateRangeModule } from '@taiga-ui/kit';
 import omit from 'just-omit';
@@ -19,6 +20,7 @@ export class InputDateRangeFilterComponent implements OnInit {
   @Output() datesChange = new EventEmitter<TuiDayRange>();
 
   dateRange: TuiDayRange | null = null;
+  private _defaultValue?: TuiDayRange;
 
   constructor(
     private readonly locationRef: Location,
@@ -26,12 +28,20 @@ export class InputDateRangeFilterComponent implements OnInit {
     private readonly activatedRoute: ActivatedRoute
   ) {}
 
+  @Input()
+  set defaultValue(value: unknown) {
+    if (coerceBooleanProperty(value)) {
+      const today = TuiDay.currentLocal();
+      this._defaultValue = new TuiDayRange(today.append({ day: today.day - 1 }, true), today);
+    }
+  }
+
   ngOnInit(): void {
     const dateRangeString: string = this.activatedRoute.snapshot.queryParams['dates'];
 
     if (dateRangeString) {
       this.dateRange = TuiDayRange.normalizeParse(dateRangeString);
-    }
+    } else if (this._defaultValue) this.onDatesChange(this._defaultValue);
   }
 
   onDatesChange(value: TuiDayRange): void {

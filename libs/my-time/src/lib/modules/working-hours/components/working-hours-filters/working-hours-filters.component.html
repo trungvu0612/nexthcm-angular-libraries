@@ -6,11 +6,16 @@
     propertyName="year"
   ></hcm-input-number-filter>
 
-  <hcm-select-month-filter (monthChange)="month$.next($event)" class="col-span-2"></hcm-select-month-filter>
+  <hcm-select-month-filter
+    (monthChange)="month$.next($event)"
+    [initMonth]="initMonth"
+    class="col-span-2"
+  ></hcm-select-month-filter>
 
   <hcm-select-filter
     (valueChange)="week$.next($event)"
     *tuiLet="weekList$ | push as weeks"
+    [initValue]="initWeek"
     [label]="t('week')"
     [valueContent]="weeksStringify(weeks || [])"
     propertyName="week"
@@ -34,6 +39,7 @@
   <hcm-basic-filter
     (filterChange)="filterType$.next($event)"
     *ngIf="includeSearch"
+    defaultValue
     key="filterType"
     label="myTeam"
     value="MY_TEAM"

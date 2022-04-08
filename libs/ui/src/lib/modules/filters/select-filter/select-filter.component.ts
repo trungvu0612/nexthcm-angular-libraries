@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   ContentChild,
@@ -36,8 +37,10 @@ import { PolymorpheusContent } from '@tinkoff/ng-polymorpheus';
     },
   ],
 })
-export class SelectFilterComponent<T, G> implements TuiDataListHost<T> {
+export class SelectFilterComponent<T, G> implements TuiDataListHost<T>, AfterViewInit {
+  @ViewChild('connector', { static: true }) connector!: PropertyRouteConnectorDirective<G>;
   @ViewChild(TuiSelectComponent) selectComponent!: TuiSelectComponent<T>;
+  @ContentChild(TemplateRef, { static: true }) readonly content: PolymorpheusContent = '';
 
   @Input()
   @tuiDefaultProp()
@@ -45,13 +48,16 @@ export class SelectFilterComponent<T, G> implements TuiDataListHost<T> {
 
   @Input() propertyName = '';
   @Input() label = '';
+  @Input() initValue!: G;
 
   @Output() valueChange = new EventEmitter<G | null>();
 
-  @ContentChild(TemplateRef, { static: true }) readonly content: PolymorpheusContent = '';
+  ngAfterViewInit(): void {
+    if (this.initValue) this.onValueChange(this.initValue);
+  }
 
-  onValueChange(connector: PropertyRouteConnectorDirective<G>, value: G | null): void {
-    connector.onValueChange(value);
+  onValueChange(value: G | null): void {
+    this.connector.onValueChange(value);
     this.valueChange.emit(value);
   }
 

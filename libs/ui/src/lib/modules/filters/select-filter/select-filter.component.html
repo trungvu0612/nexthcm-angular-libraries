@@ -1,6 +1,6 @@
 <tui-select
   #connector="hcmPropertyRouteName"
-  (ngModelChange)="onValueChange(connector, $event)"
+  (ngModelChange)="onValueChange($event)"
   [hcmPropertyRouteName]="propertyName"
   [ngModel]="connector.propertyValue"
   [tuiTextfieldCleaner]="true"

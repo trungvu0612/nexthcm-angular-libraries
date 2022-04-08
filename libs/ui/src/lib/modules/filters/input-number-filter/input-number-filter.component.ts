@@ -32,15 +32,12 @@ export class InputNumberFilterComponent implements AfterViewInit {
   @Output() valueChange = new EventEmitter<number | null>();
 
   ngAfterViewInit(): void {
-    if (typeof this.initValue === 'number') {
-      this.connector.onValueChange(this.initValue);
-    }
+    if (typeof this.initValue === 'number') this.onChangeValue(this.initValue);
   }
 
-  onChangeValue(connector: PropertyRouteConnectorDirective<number>, value: number | null): void {
-    connector.propertyValue = value;
-    connector.setQueryParam(connector.propertyValue);
-    this.valueChange.emit(connector.propertyValue);
+  onChangeValue(value: number | null): void {
+    this.connector.onValueChange(value);
+    this.valueChange.emit(value);
   }
 }
 
