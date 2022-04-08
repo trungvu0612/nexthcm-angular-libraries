@@ -1,3 +1,7 @@
 :host {
   display: block;
+
+  ::ng-deep tui-checkbox-labeled .wrapper {
+    align-items: center;
+  }
 }

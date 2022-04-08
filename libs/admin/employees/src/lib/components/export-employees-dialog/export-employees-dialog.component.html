@@ -1,1 +1,25 @@
-<p>export-employees-dialog works!</p>
+<hcm-base-form
+  (cancel)="onCancel()"
+  (submitForm)="onSubmit()"
+  *transloco="let t"
+  [form]="form"
+  [submitLoading]="(submitLoading$ | push) === true"
+>
+  <ng-container *ngFor="let group of schema | keyvalue">
+    <div class="border-b mt-8 pb-2">
+      <tui-checkbox-labeled [formControl]="$any(groupForm.get(group.key))" size="l">
+        <div class="font-semibold text-xl">{{ t(group.key) }}</div>
+      </tui-checkbox-labeled>
+    </div>
+
+    <div class="flex flex-wrap gap-6 mt-4">
+      <tui-checkbox-labeled
+        *ngFor="let field of group.value | keyvalue"
+        [formControl]="$any($any(form.get(group.key)).get(field.key))"
+        class="w-40"
+      >
+        <div class="text-base">{{ t(field.value.label) }}</div>
+      </tui-checkbox-labeled>
+    </div>
+  </ng-container>
+</hcm-base-form>

@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { AddressService, JoinByKeyPipeModule, PromptComponentModule } from '@nexthcm/cdk';
 import {
@@ -21,7 +21,7 @@ import { PushModule } from '@rx-angular/template';
 import { TuiTablePaginationModule } from '@taiga-ui/addon-table';
 import { TuiLetModule } from '@taiga-ui/cdk';
 import { TuiButtonModule, TuiDataListModule, TuiLabelModule, TuiLoaderModule, TuiSvgModule } from '@taiga-ui/core';
-import { TuiCheckboxModule, TuiTabsModule, TuiTagModule } from '@taiga-ui/kit';
+import { TuiCheckboxLabeledModule, TuiCheckboxModule, TuiTabsModule, TuiTagModule } from '@taiga-ui/kit';
 import { PolymorpheusModule } from '@tinkoff/ng-polymorpheus';
 import { TableModule } from 'ngx-easy-table';
 import { NgxPermissionsGuard, NgxPermissionsModule } from 'ngx-permissions';
@@ -91,6 +91,8 @@ export const ADMIN_EMPLOYEE_ROUTES: Routes = [
     SelectMonthFilterComponentModule,
     InputDateRangeFilterComponentModule,
     TuiTagModule,
+    TuiCheckboxLabeledModule,
+    ReactiveFormsModule,
   ],
   declarations: [
     EditEmployeeDialogComponent,
