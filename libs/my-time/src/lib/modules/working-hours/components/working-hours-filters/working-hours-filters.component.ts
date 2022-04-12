@@ -149,7 +149,7 @@ export class WorkingHoursFiltersComponent implements OnInit {
         const startMonth = startOfMonth(month).valueOf();
         const endMonth = endOfMonth(month).valueOf();
 
-        if (this.week$.value !== null) {
+        if (this.week$.value !== null && this.weekValues.length >= this.week$.value) {
           const week = this.weekValues[this.week$.value - 1];
           const startWeek = startOfWeek(week).valueOf();
           const endWeek = endOfWeek(week).valueOf();
