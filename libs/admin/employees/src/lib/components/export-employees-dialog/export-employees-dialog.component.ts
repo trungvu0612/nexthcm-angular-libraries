@@ -1,32 +1,34 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { ProviderScope, TRANSLOCO_SCOPE } from '@ngneat/transloco';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-const SCHEMA: Record<string, Record<string, { label: string; value?: boolean }>> = {
-  general: {
+type Schema = Record<string, Record<string, { label: string; value?: boolean }>>;
+
+const getSchema = (scope: string): Schema => ({
+  generalInformation: {
     cif: {
       label: 'cif',
       value: true,
     },
     firstName: {
       label: 'firstName',
-    },
-  },
-  test: {
-    test1: {
-      label: 'test11111111111111111111111',
       value: true,
     },
-    test2: {
-      label: 'test11111111111111111111111',
-      value: true,
+    lastName: {
+      label: 'lastName',
     },
   },
-};
+  individual: {
+    permanentAddress: {
+      label: scope + '.permanentAddress',
+    },
+  },
+});
 
 @Component({
   selector: 'hcm-export-employees-dialog',
@@ -36,13 +38,14 @@ const SCHEMA: Record<string, Record<string, { label: string; value?: boolean }>>
   providers: [TuiDestroyService],
 })
 export class ExportEmployeesDialogComponent {
-  readonly schema = SCHEMA;
+  readonly schema = getSchema(this.translocoScope.scope);
   readonly form!: FormGroup;
   readonly groupForm!: FormGroup;
   readonly submitLoading$ = new Subject<boolean>();
 
   constructor(
     @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext,
+    @Inject(TRANSLOCO_SCOPE) readonly translocoScope: ProviderScope,
     fb: FormBuilder,
     destroy$: TuiDestroyService
   ) {
