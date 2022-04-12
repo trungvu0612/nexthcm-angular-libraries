@@ -17,13 +17,10 @@
     *tuiLet="weekList$ | push as weeks"
     [initValue]="initWeek"
     [label]="t('week')"
-    [valueContent]="weeksStringify(weeks || [])"
     propertyName="week"
   >
     <tui-data-list>
-      <button *ngFor="let week of weeks" [value]="week.value" tuiOption>
-        {{ week.label }}
-      </button>
+      <button *ngFor="let week of weeks" [value]="week" tuiOption>{{ week }}</button>
     </tui-data-list>
   </hcm-select-filter>
 

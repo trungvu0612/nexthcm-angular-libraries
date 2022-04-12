@@ -3,10 +3,9 @@ import { Location } from '@angular/common';
 import { HttpParams } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, Params, UrlSerializer } from '@angular/router';
-import { BaseOption, PropertyRouteConnectorDirective } from '@nexthcm/cdk';
 import { TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
-import { TuiContextWithImplicit, tuiDefaultProp, tuiPure, TuiStringHandler } from '@taiga-ui/cdk';
+import { tuiDefaultProp, tuiPure } from '@taiga-ui/cdk';
 import {
   eachWeekOfInterval,
   endOfMonth,
@@ -14,7 +13,6 @@ import {
   endOfYear,
   getMonth,
   getYear,
-  isAfter,
   setMonth,
   setYear,
   startOfMonth,
@@ -23,19 +21,16 @@ import {
 } from 'date-fns';
 import omit from 'just-omit';
 import { BehaviorSubject, combineLatest, merge, Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, map, skip } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 
-const generateWeekList = (year: number | null, month: number | null): BaseOption<number>[] => {
+const generateWeekList = (year: number | null, month: number | null): number[] => {
   if (!year || month === null) return [];
 
   const thatMonth = setYear(setMonth(new Date(), month), year);
-  const startOfThatMonth = startOfMonth(thatMonth);
-  const endOfThatMonth = endOfMonth(thatMonth);
 
-  return eachWeekOfInterval({ start: startOfThatMonth, end: endOfThatMonth }).map((startWeek, index) => ({
-    label: index + 1 + '',
-    value: startWeek.valueOf(),
-  }));
+  return eachWeekOfInterval({ start: startOfMonth(thatMonth), end: endOfMonth(thatMonth) }).map((date) =>
+    date.valueOf()
+  );
 };
 
 @Component({
@@ -51,17 +46,21 @@ export class WorkingHoursFiltersComponent implements OnInit {
   @Input() @tuiDefaultProp() httpParams = new HttpParams();
   @Output() filter = new EventEmitter<HttpParams>();
 
-  initYear = getYear(new Date());
-  initMonth = getMonth(new Date());
-  initWeek = startOfWeek(new Date()).valueOf();
+  initYear = getYear(this.now);
+  initMonth = getMonth(this.now);
+
+  weekValues: number[] = [];
 
   readonly inputYear$ = new Subject<number | null>();
   readonly year$ = new BehaviorSubject<number | null>(null);
   readonly month$ = new BehaviorSubject<number | null>(null);
-  readonly week$ = new Subject<number | null>();
+  readonly week$ = new BehaviorSubject<number | null>(null);
   readonly search$ = new Subject<string | null>();
   readonly weekList$ = combineLatest([this.year$, this.month$]).pipe(
-    map(([year, month]) => generateWeekList(year, month))
+    map(([year, month]) => {
+      this.weekValues = generateWeekList(year, month);
+      return this.weekValues.map((_, index) => index + 1);
+    })
   );
   readonly filterType$ = new Subject<string | null>();
 
@@ -84,31 +83,26 @@ export class WorkingHoursFiltersComponent implements OnInit {
     this._includeSearch = coerceBooleanProperty(value);
   }
 
+  @tuiPure
+  get now(): Date {
+    return new Date();
+  }
+
+  @tuiPure
+  get initWeek(): number {
+    const listWeek = generateWeekList(this.initYear, this.initMonth);
+    const startWeek = startOfWeek(this.now).valueOf();
+    return listWeek.indexOf(startWeek) + 1;
+  }
+
   ngOnInit(): void {
     this.state.hold(this.inputYear$.pipe(debounceTime(1000), distinctUntilChanged()), (year) => this.year$.next(year));
-    this.state.hold(merge(this.year$, this.month$).pipe(skip(1)), () => this.generateDateRange());
-    this.state.hold(this.week$, (week) => this.generateDateRange(week));
+    this.state.hold(merge(this.weekList$, this.week$).pipe(debounceTime(100)), () => this.generateDateRange());
     this.state.hold(this.search$.pipe(debounceTime(1000), distinctUntilChanged()), (search) =>
       this.onFilter('search', search ? search : null)
     );
     this.state.hold(this.filterType$, (value) => this.onFilter('filterType', value));
     this.parseParams(this.activatedRoute.snapshot.queryParams);
-  }
-
-  @tuiPure
-  weeksStringify(items: ReadonlyArray<BaseOption<number>>): TuiStringHandler<TuiContextWithImplicit<number>> {
-    const map = new Map(items.map(({ value, label }) => [value, label]));
-
-    return ({ $implicit }: TuiContextWithImplicit<number>) => map.get($implicit) || '';
-  }
-
-  onChangeYear(yearConnector: PropertyRouteConnectorDirective<number>): void {
-    if (isNaN(Number(yearConnector.propertyValue))) {
-      yearConnector.onValueChange(null);
-    } else {
-      yearConnector.setQueryParam(yearConnector.propertyValue);
-    }
-    this.year$.next(yearConnector.propertyValue);
   }
 
   onFilter(key: string, value: string | number | null): void {
@@ -143,41 +137,43 @@ export class WorkingHoursFiltersComponent implements OnInit {
     }
   }
 
-  private generateDateRange(week?: number | null): void {
-    if (!this.year$.value) {
-      this.resetPage();
-      this.httpParams = this.httpParams.delete(this.fromKey).delete(this.toKey);
-      this.filter.emit(this.httpParams);
-      return;
-    }
-    if (week) {
-      this.resetPage();
-      this.httpParams = this.httpParams
-        .set(this.fromKey, startOfWeek(week).valueOf())
-        .set(
-          this.toKey,
-          isAfter(endOfWeek(week, { weekStartsOn: 1 }), endOfMonth(week))
-            ? endOfMonth(week).valueOf()
-            : endOfWeek(week).valueOf()
-        );
-      this.filter.emit(this.httpParams);
-      return;
+  private generateDateRange(): void {
+    let fromDate: number | null = null;
+    let toDate: number | null = null;
+
+    if (this.year$.value !== null) {
+      const year = setYear(this.now, this.year$.value);
+
+      if (this.month$.value !== null) {
+        const month = setMonth(year, this.month$.value);
+        const startMonth = startOfMonth(month).valueOf();
+        const endMonth = endOfMonth(month).valueOf();
+
+        if (this.week$.value !== null) {
+          const week = this.weekValues[this.week$.value - 1];
+          const startWeek = startOfWeek(week).valueOf();
+          const endWeek = endOfWeek(week).valueOf();
+
+          fromDate = startMonth > startWeek ? startMonth : startWeek;
+          toDate = endMonth < endWeek ? endMonth : endWeek;
+        } else {
+          fromDate = startMonth;
+          toDate = endMonth;
+        }
+      } else {
+        fromDate = startOfYear(year).valueOf();
+        toDate = endOfYear(year).valueOf();
+      }
     }
 
-    const NOW = new Date();
-
-    if (this.month$.value !== null) {
-      this.httpParams = this.httpParams
-        .set(this.fromKey, startOfMonth(setMonth(setYear(NOW, Number(this.year$.value)), this.month$.value)).valueOf())
-        .set(this.toKey, endOfMonth(setMonth(setYear(NOW, Number(this.year$.value)), this.month$.value)).valueOf());
+    if (fromDate !== null && toDate !== null) {
+      this.httpParams = this.httpParams.set(this.fromKey, fromDate).set(this.toKey, toDate);
     } else {
-      this.httpParams = this.httpParams
-        .set(this.fromKey, startOfYear(setYear(NOW, Number(this.year$.value))).valueOf())
-        .set(this.toKey, endOfYear(setYear(NOW, Number(this.year$.value))).valueOf());
+      this.httpParams = this.httpParams.delete(this.fromKey).delete(this.toKey);
     }
+
     this.resetPage();
     this.filter.emit(this.httpParams);
-    return;
   }
 
   private resetPage(): void {
