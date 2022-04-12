@@ -5,6 +5,11 @@ export interface StatusTransition {
   requests: { id: string }[];
 }
 
+export interface WorkflowStatusTransition {
+  name: string | string[];
+  data: StatusTransition[];
+}
+
 export interface RequestChange {
   id: string;
   request: {

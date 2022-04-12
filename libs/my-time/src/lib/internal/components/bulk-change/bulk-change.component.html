@@ -1,26 +1,41 @@
 <hcm-base-form (cancel)="onCancel()" (submitForm)="submit$.next()" [submitLoading]="(submitLoading$ | push) === true">
-  <div [collapsed]="true" class="justify-center mt-8 mb-4" tuiGroup>
-    <tui-radio-block
-      *ngFor="let item of context.data.data; index as index"
-      [formControl]="statusControl"
-      [hideRadio]="true"
-      [item]="index"
-      size="m"
-      style="max-width: max-content"
-    >
-      <tui-tag
-        *ngIf="item.targetStatus as status"
-        [hoverable]="true"
-        [style.backgroundColor]="status.stateType.color"
-        [value]="status.name"
-        class="text-white"
-      ></tui-tag>
-    </tui-radio-block>
-  </div>
+  <div *ngFor="let workflow of context.data.data; index as workflowIndex" class="mt-8">
+    <div *ngIf="getWorkflowName(workflow.name) as workflowName" class="text-base mb-2">
+      <span class="font-semibold">{{ 'leaveType' | transloco }}</span
+      >: <span>{{ workflowName }}</span>
+    </div>
 
-  <ngx-table [columns]="(columns$ | push) || []" [configuration]="configuration" [data]="data.requests">
-    <ng-template let-row>
-      <ng-container *ngTemplateOutlet="context.data.template; context: { $implicit: row }"></ng-container>
-    </ng-template>
-  </ngx-table>
+    <div class="flex items-center gap-4 mb-4">
+      <div class="text-base font-semibold">{{ 'status' | transloco }}:</div>
+      <div [collapsed]="true" tuiGroup>
+        <tui-radio-block
+          *ngFor="let status of workflow.data; index as statusIndex"
+          [formControl]="statusControl"
+          [hideRadio]="true"
+          [item]="workflowIndex + ',' + statusIndex"
+          size="m"
+          style="max-width: max-content"
+        >
+          <tui-tag
+            *ngIf="status.targetStatus as status"
+            [hoverable]="true"
+            [style.backgroundColor]="status.stateType.color"
+            [value]="status.name"
+            class="text-white"
+          ></tui-tag>
+        </tui-radio-block>
+      </div>
+    </div>
+
+    <ngx-table
+      *ngIf="currentWorkflowIndex === workflowIndex"
+      [columns]="(columns$ | push) || []"
+      [configuration]="configuration"
+      [data]="currentData.requests"
+    >
+      <ng-template let-row>
+        <ng-container *ngTemplateOutlet="context.data.template; context: { $implicit: row }"></ng-container>
+      </ng-template>
+    </ngx-table>
+  </div>
 </hcm-base-form>

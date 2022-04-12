@@ -99,7 +99,12 @@ export abstract class AbstractRequestListComponent<T>
             .open(new PolymorpheusComponent(BulkChangeComponent, this.injector), {
               label: this.translocoService.translate(this.translocoScope.scope + '.bulkChange'),
               size: 'page',
-              data: { data, columns$: this.columns$, template: this.bulkChange$.value },
+              data: {
+                data,
+                columns$: this.columns$,
+                template: this.bulkChange$.value,
+                size: +(this.queryParams.get('size') || 10),
+              },
             })
             .pipe(tap(() => this.fetch$.next()))
         : this.promptService.open({
