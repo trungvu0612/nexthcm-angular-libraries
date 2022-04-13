@@ -46,8 +46,9 @@ export class WorkingHoursFiltersComponent implements OnInit {
   @Input() @tuiDefaultProp() httpParams = new HttpParams();
   @Output() filter = new EventEmitter<HttpParams>();
 
-  initYear = getYear(this.now);
-  initMonth = getMonth(this.now);
+  initYear!: number;
+  initMonth!: number;
+  initWeek!: number;
 
   weekValues: number[] = [];
 
@@ -88,13 +89,6 @@ export class WorkingHoursFiltersComponent implements OnInit {
     return new Date();
   }
 
-  @tuiPure
-  get initWeek(): number {
-    const listWeek = generateWeekList(this.initYear, this.initMonth);
-    const startWeek = startOfWeek(this.now).valueOf();
-    return listWeek.indexOf(startWeek) + 1;
-  }
-
   ngOnInit(): void {
     this.state.hold(this.inputYear$.pipe(debounceTime(1000), distinctUntilChanged()), (year) => this.year$.next(year));
     this.state.hold(merge(this.weekList$, this.week$).pipe(debounceTime(100)), () => this.generateDateRange());
@@ -113,20 +107,26 @@ export class WorkingHoursFiltersComponent implements OnInit {
 
   private parseParams(params: Params): void {
     const year = +params['year'];
-    if (year) {
-      if (!isNaN(year)) {
-        this.year$.next(year);
-        this.initYear = year;
-        if (params['month'] && !isNaN(Number(params['month']))) {
-          this.month$.next(params['month']);
-          if (params['week'] && !isNaN(Number(params['week']))) {
-            this.week$.next(Number(params['week']));
-          }
-        }
+    if (Number.isInteger(year)) {
+      this.year$.next(year);
+      this.initYear = year;
+
+      const month = +params['month'];
+      if (Number.isInteger(month)) {
+        this.initMonth = month;
+
+        const week = +params['week'];
+        if (Number.isInteger(week)) this.initWeek = week;
       }
-    } else if (this.initYear) {
-      this.year$.next(this.initYear);
+    } else {
+      this.initYear = getYear(this.now);
+      this.initMonth = getMonth(this.now);
+
+      const listWeek = generateWeekList(this.initYear, this.initMonth);
+      const startWeek = startOfWeek(this.now).valueOf();
+      this.initWeek = listWeek.indexOf(startWeek) + 1;
     }
+
     if (this.includeSearch) {
       if (params['search']) {
         this.search$.next(params['search']);
