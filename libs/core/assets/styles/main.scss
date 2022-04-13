@@ -114,14 +114,6 @@ tui-dialog[data-size='page'] {
   @apply sticky top-0 bg-white;
 }
 
-.t-native {
-  opacity: unset !important;
-}
-
-tui-input-files .t-native {
-  opacity: 0 !important;
-}
-
 .hcm-mention {
   color: var(--tui-link);
   font-weight: 600;
