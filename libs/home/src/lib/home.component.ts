@@ -24,9 +24,9 @@ export class HomeComponent {
       .set('toDate', endOfToday().getTime())
   );
   readonly fullName$ = this.userProfileService.select('general', 'fullName');
-  readonly monthWorkingTime$ = this.workingHoursService.getWorkingTimeCurrentMonth();
+  readonly monthWorkingTime$ = this.myTimeService.getWorkingTimeCurrentMonth();
   readonly shouldCheckedOut$ = new BehaviorSubject<boolean | null>(false);
-  readonly checkedId$ = this.workingHoursService.getTimekeepingLog().pipe(
+  readonly checkedId$ = this.myTimeService.getTimekeepingLog().pipe(
     tap((item) => this.shouldCheckedOut$.next(item.id ? !!item.inTime : null)),
     map((item) => item.id),
     filter(isPresent)
@@ -49,7 +49,7 @@ export class HomeComponent {
             ),
             switchMap(({ isConfirmed }) =>
               isConfirmed
-                ? this.workingHoursService.checkInOut({ typeCheckInOut: 'web-app', latitude, longitude }).pipe(
+                ? this.myTimeService.checkInOut({ typeCheckInOut: 'web-app', latitude, longitude }).pipe(
                     tap(
                       this.promptService.handleResponse(
                         this.shouldCheckedOut$.value ? 'checkOutSuccessfully' : 'checkInSuccessfully',
@@ -77,7 +77,7 @@ export class HomeComponent {
   );
   private readonly myWorkingDaysRequest$ = this.queryParams$.pipe(
     switchMap((params) =>
-      this.workingHoursService.getWorkingHoursOfOnlyMe(params).pipe(
+      this.myTimeService.getWorkingHoursOfOnlyMe(params).pipe(
         map((res) => res.items),
         startWith(null)
       )
@@ -88,7 +88,7 @@ export class HomeComponent {
   readonly myWorkingDays$: Observable<WorkingHours[]> = this.myWorkingDaysRequest$.pipe(filter(isPresent));
 
   constructor(
-    private readonly workingHoursService: MyTimeService,
+    private readonly myTimeService: MyTimeService,
     private readonly authService: AuthService,
     private readonly promptService: PromptService,
     private readonly translocoService: TranslocoService,
