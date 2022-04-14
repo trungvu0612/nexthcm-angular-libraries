@@ -115,7 +115,6 @@ export class UpsertNotificationComponent {
       className: 'tui-form__row block',
       type: 'upload-file',
       templateOptions: {
-        required: true,
         translate: true,
         label: 'image',
         accept: 'image/*',
