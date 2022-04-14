@@ -36,8 +36,8 @@ export class QuartzCronIncrementComponent implements OnInit, OnChanges {
   @Input() primaryOptions: CronJobsSelectOption[] = [];
   @Input() secondaryValue = '';
   @Input() secondaryOptions: CronJobsSelectOption[] = [];
-  @Input() select1WidthClass = 'w-16';
-  @Input() select2WidthClass = 'w-16';
+  @Input() select1WidthClass = '';
+  @Input() select2WidthClass = '';
   mode = Mode.INCREMENT;
 
   constructor(private readonly destroy$: TuiDestroyService) {}

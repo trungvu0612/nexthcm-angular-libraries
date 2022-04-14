@@ -8,11 +8,12 @@
   <tui-select
     (ngModelChange)="primaryValueChanged.emit($event)"
     *ngIf="primaryOptions.length"
+    [class]="select1WidthClass"
     [disabled]="disabledControls"
     [ngModel]="primaryValue"
     [tuiTextfieldLabelOutside]="true"
     [valueContent]="stringify(primaryOptions)"
-    class="{{ select1WidthClass }}"
+    style="min-width: 5rem"
     tuiTextfieldSize="s"
   >
     <ng-template tuiDataList>
@@ -31,11 +32,12 @@
   <tui-select
     (ngModelChange)="secondaryValueChanged.emit($event)"
     *ngIf="secondaryOptions.length"
+    [class]="select2WidthClass"
     [disabled]="disabledControls"
     [ngModel]="secondaryValue"
     [tuiTextfieldLabelOutside]="true"
     [valueContent]="stringify(secondaryOptions)"
-    class="{{ select2WidthClass }}"
+    style="min-width: 5rem"
     tuiTextfieldSize="s"
   >
     <ng-template tuiDataList>
