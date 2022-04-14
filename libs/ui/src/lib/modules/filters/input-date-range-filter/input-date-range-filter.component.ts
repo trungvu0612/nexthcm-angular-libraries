@@ -7,6 +7,7 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { TuiDay, TuiDayRange } from '@taiga-ui/cdk';
 import { TuiTextfieldControllerModule } from '@taiga-ui/core';
 import { TuiInputDateRangeModule } from '@taiga-ui/kit';
+import { endOfMonth, startOfMonth } from 'date-fns';
 import omit from 'just-omit';
 
 @Component({
@@ -20,7 +21,6 @@ export class InputDateRangeFilterComponent implements OnInit {
   @Output() datesChange = new EventEmitter<TuiDayRange>();
 
   dateRange: TuiDayRange | null = null;
-  private _defaultValue?: TuiDayRange;
 
   constructor(
     private readonly locationRef: Location,
@@ -28,11 +28,16 @@ export class InputDateRangeFilterComponent implements OnInit {
     private readonly activatedRoute: ActivatedRoute
   ) {}
 
+  private _defaultValue?: TuiDayRange;
+
   @Input()
   set defaultValue(value: unknown) {
     if (coerceBooleanProperty(value)) {
-      const today = TuiDay.currentLocal();
-      this._defaultValue = new TuiDayRange(today.append({ day: today.day - 1 }, true), today);
+      const now = new Date();
+      this._defaultValue = new TuiDayRange(
+        TuiDay.fromLocalNativeDate(startOfMonth(now)),
+        TuiDay.fromLocalNativeDate(endOfMonth(now))
+      );
     }
   }
 
