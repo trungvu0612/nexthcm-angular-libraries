@@ -8586,13 +8586,6 @@ ng-packagr@^13.0.0:
   optionalDependencies:
     esbuild "^0.14.0"
 
-ngx-cookie@^5.0.2:
-  version "5.0.2"
-  resolved "https://registry.yarnpkg.com/ngx-cookie/-/ngx-cookie-5.0.2.tgz#cb658180b786d511d0ef163cfe195061d0a0e0e1"
-  integrity sha512-auivWhAhC5bW1HssvtQild1TREHWb1JtcKO0e+VGe9T7LHrfi5w2qcP8C58ly64PT+brZHQBvT1Azb7a6goHZA==
-  dependencies:
-    tslib "^2.0.0"
-
 ngx-easy-table@^15.2.0:
   version "15.2.0"
   resolved "https://registry.yarnpkg.com/ngx-easy-table/-/ngx-easy-table-15.2.0.tgz#426ace6748e6974f780c98fed665a9fc941df001"

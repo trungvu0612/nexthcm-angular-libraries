@@ -10,8 +10,7 @@ import {
 } from '@angular/common/http';
 import { Injectable, Provider } from '@angular/core';
 import { Router } from '@angular/router';
-import { CookieService } from 'ngx-cookie';
-import { Observable, throwError } from 'rxjs';
+import { Observable, switchMap, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 import { AuthService } from '../services/auth.service';
@@ -19,14 +18,13 @@ import { AuthService } from '../services/auth.service';
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
   constructor(
-    private readonly cookieService: CookieService,
     private readonly authService: AuthService,
     private readonly router: Router,
     private readonly location: Location
   ) {}
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    const accessToken = this.cookieService.get('access_token');
+    const accessToken = localStorage.getItem('access_token');
 
     if (accessToken) {
       request = request.clone({ setHeaders: { Authorization: `Bearer ${accessToken}` } });
@@ -35,10 +33,20 @@ export class TokenInterceptor implements HttpInterceptor {
     return next.handle(request).pipe(
       catchError((httpErrorResponse: HttpErrorResponse) => {
         if (httpErrorResponse.status === HttpStatusCode.Unauthorized) {
-          const returnUrl = this.location.path();
-          this.authService.logout();
-          this.router.navigate(['/login'], { queryParams: !returnUrl.startsWith('/login') ? { returnUrl } : null });
+          return this.authService.refreshToken().pipe(
+            catchError(() => {
+              const returnUrl = this.location.path();
+              this.authService.logout();
+              this.router.navigate(['/login'], {
+                queryParams: !returnUrl.startsWith('/login') ? { returnUrl } : null,
+              });
+
+              return throwError(httpErrorResponse);
+            }),
+            switchMap(() => this.intercept(request, next))
+          );
         }
+
         return throwError(httpErrorResponse);
       })
     );

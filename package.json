@@ -70,7 +70,6 @@
     "leaflet-control-geocoder": "^2.4.0",
     "leaflet-geosearch": "^3.6.0",
     "mxgraph": "^4.2.2",
-    "ngx-cookie": "^5.0.2",
     "ngx-easy-table": "^15.2.0",
     "ngx-filesaver": "^13.0.0",
     "ngx-permissions": "^13.0.1",
