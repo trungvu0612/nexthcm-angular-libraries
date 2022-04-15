@@ -1,6 +1,7 @@
 <button
   (click)="download$.next()"
-  [disabled]="!(formControl?.valueChanges | push)"
+  *tuiLet="formControl?.valueChanges | push"
+  [disabled]="!formControl?.value"
   [showLoader]="(loading$ | push) === true"
   appearance="outline"
   icon="tuiIconDownloadLarge"

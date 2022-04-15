@@ -52,6 +52,7 @@ export class SharingFileComponent extends FieldType {
 
   removeFile(): void {
     this.formControl?.setValue(null);
+    this.to['onUploadedFile'] && this.to['onUploadedFile'](null);
   }
 
   removeLoading(): void {

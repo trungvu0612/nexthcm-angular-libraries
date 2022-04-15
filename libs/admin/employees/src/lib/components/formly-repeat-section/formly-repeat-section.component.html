@@ -1,26 +1,22 @@
-<div>
-  <p class="mb-1 font-semibold">{{ to.label }}</p>
-  <div *ngFor="let fields of field.fieldGroup; index as index" class="flex items-end mb-2">
-    <div class="flex-1">
-      <formly-field [field]="fields"></formly-field>
-    </div>
-    <button
-      (click)="remove(index)"
-      *ngIf="!to['hideRemoveButton']"
-      class="ml-4"
-      icon="tuiIconRemoveLarge"
-      size="s"
-      tuiIconButton
-      type="button"
-    ></button>
-  </div>
+<p class="mb-1 font-semibold">{{ to.label }}</p>
+<div *ngFor="let fields of field.fieldGroup; index as index" class="hcm-repeated-field flex items-end mb-2">
+  <formly-field [field]="fields" class="flex-1"></formly-field>
   <button
-    (click)="add()"
-    *ngIf="!to['hideAddButton']"
-    class="mt-2"
-    icon="tuiIconPlusLarge"
+    (click)="remove(index)"
+    *ngIf="!to['hideRemoveButton']"
+    class="ml-4"
+    icon="tuiIconRemoveLarge"
     size="s"
     tuiIconButton
     type="button"
   ></button>
 </div>
+<button
+  (click)="add()"
+  *ngIf="!to['hideAddButton']"
+  class="mt-2"
+  icon="tuiIconPlusLarge"
+  size="s"
+  tuiIconButton
+  type="button"
+></button>
