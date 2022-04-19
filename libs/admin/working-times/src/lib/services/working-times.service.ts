@@ -6,6 +6,7 @@ import {
   DEFAULT_PAGINATION_DATA,
   EmployeeInfo,
   Holiday,
+  HolidayForm,
   MY_TIME_API_PATH,
   Pagination,
   PagingResponse,
@@ -45,7 +46,7 @@ export class WorkingTimesService {
       .pipe(map(({ data }) => data));
   }
 
-  upsertHoliday(payload: Holiday): Observable<unknown> {
+  upsertHoliday(payload: HolidayForm): Observable<unknown> {
     return payload.id
       ? this.http.put<unknown>(`${MY_TIME_API_PATH}/holidays/${payload.id}`, payload)
       : this.http.post<unknown>(`${MY_TIME_API_PATH}/holidays`, payload);

@@ -1,20 +1,15 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { Holiday, PromptService } from '@nexthcm/cdk';
+import { Holiday, HolidayForm, PromptService } from '@nexthcm/cdk';
 import { ProviderScope, TRANSLOCO_SCOPE, TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDay, TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
-import omit from 'just-omit';
 import { of, Subject } from 'rxjs';
 import { catchError, map, share, startWith, switchMap, tap } from 'rxjs/operators';
 
 import { WorkingTimesService } from '../../services/working-times.service';
-
-interface HolidayForm extends Holiday {
-  date: TuiDay;
-}
 
 @Component({
   selector: 'hcm-upsert-holiday-dialog',
@@ -28,7 +23,7 @@ export class UpsertHolidayDialogComponent implements OnInit {
   model = {} as HolidayForm;
   fields: FormlyFieldConfig[] = [
     {
-      key: 'date',
+      key: 'holidayDate',
       className: 'tui-form__row block',
       type: 'input-date',
       templateOptions: {
@@ -85,7 +80,7 @@ export class UpsertHolidayDialogComponent implements OnInit {
     },
     { key: 'id' },
   ];
-  readonly submit$ = new Subject<Holiday>();
+  readonly submit$ = new Subject<HolidayForm>();
   readonly submitHandler$ = this.submit$.pipe(
     switchMap((payload) =>
       this.workingTimesService.upsertHoliday(payload).pipe(
@@ -120,7 +115,7 @@ export class UpsertHolidayDialogComponent implements OnInit {
       this.model = {
         ...this.model,
         ...this.context.data,
-        date: TuiDay.fromLocalNativeDate(new Date(this.context.data.holidayDate as number)),
+        holidayDate: TuiDay.fromLocalNativeDate(new Date(this.context.data.holidayDate as number)),
       };
     }
   }
@@ -129,8 +124,8 @@ export class UpsertHolidayDialogComponent implements OnInit {
     if (this.form.valid) {
       const formModel: HolidayForm = { ...this.form.value };
 
-      formModel.holidayDate = formModel.date.getFormattedDay('YMD', '-');
-      this.submit$.next(omit(formModel, 'date'));
+      formModel.holidayDate = (formModel.holidayDate as TuiDay).toLocalNativeDate().valueOf();
+      this.submit$.next(formModel);
     }
   }
 

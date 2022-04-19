@@ -1,3 +1,5 @@
+import { TuiDay } from '@taiga-ui/cdk';
+
 export type RecurringType = 'NONE' | 'MONTHLY' | 'YEARLY';
 
 export interface Holiday {
@@ -7,4 +9,8 @@ export interface Holiday {
   recurringType: RecurringType;
   paidHoliday: boolean;
   orgId: string;
+}
+
+export interface HolidayForm extends Omit<Holiday, 'holidayDate'> {
+  holidayDate: number | TuiDay;
 }
