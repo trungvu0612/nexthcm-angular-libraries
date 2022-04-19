@@ -22,11 +22,21 @@ const createState = (token: string): UserInfo => {
   }
 };
 
+const setToken = (access_token: string, refresh_token: string): void => {
+  localStorage.setItem('access_token', access_token);
+  localStorage.setItem('refresh_token', refresh_token);
+};
+
+const removeToken = (): void => {
+  localStorage.removeItem('access_token');
+  localStorage.removeItem('refresh_token');
+};
+
 @Injectable({
   providedIn: 'root',
 })
-export class AuthService extends RxState<{ userInfo: UserInfo }> {
-  readonly newLogin$ = new Subject<UserInfo>();
+export class AuthService extends RxState<{ userInfo: UserInfo; access_token: string }> {
+  readonly newLogin$ = new Subject<void>();
   readonly http = new HttpClient(this.httpBackend);
 
   constructor(
@@ -35,25 +45,25 @@ export class AuthService extends RxState<{ userInfo: UserInfo }> {
     private readonly permissionsService: PermissionsService
   ) {
     super();
-    this.set('userInfo', () => createState(localStorage.getItem('access_token') || ''));
-    this.connect('userInfo', this.newLogin$);
+    const access_token = localStorage.getItem('access_token');
+    if (access_token) this.setState(access_token);
   }
 
   readonly userId = () => this.get('userInfo', 'userId');
 
   logout(): void {
-    localStorage.removeItem('access_token');
-    localStorage.removeItem('refresh_token');
-    this.set({ userInfo: undefined });
+    removeToken();
+    this.set({ userInfo: undefined, access_token: undefined });
     this.permissionsService.flushPermissions();
   }
 
   login({ rememberMe, ...payload }: LoginPayload): Observable<PermissionsResponse> {
     return this.http.post<AuthInfo>(`${this.env.apiUrl}/accountapp/v1.0/auth`, payload).pipe(
       tap(({ access_token, refresh_token }) => {
-        if (rememberMe) localStorage.setItem('refresh_token', refresh_token);
-        localStorage.setItem('access_token', access_token);
-        this.newLogin$.next(createState(access_token));
+        if (rememberMe) setToken(access_token, refresh_token);
+        else removeToken();
+        this.setState(access_token);
+        this.newLogin$.next();
       }),
       switchMap(() => this.permissionsService.getPermissions())
     );
@@ -64,10 +74,17 @@ export class AuthService extends RxState<{ userInfo: UserInfo }> {
     return refreshToken
       ? this.http.post<AuthInfo>(`${this.env.apiUrl}/accountapp/v1.0/auth/refresh`, { refreshToken }).pipe(
           tap(({ access_token, refresh_token }) => {
-            localStorage.setItem('access_token', access_token);
-            localStorage.setItem('refresh_token', refresh_token);
+            this.setState(access_token);
+            setToken(access_token, refresh_token);
           })
         )
       : throwError(null);
+  }
+
+  private setState(access_token: string): void {
+    this.set({
+      access_token,
+      userInfo: createState(access_token),
+    });
   }
 }
