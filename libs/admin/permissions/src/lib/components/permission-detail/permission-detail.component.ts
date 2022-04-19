@@ -77,7 +77,12 @@ export class PermissionDetailComponent implements OnInit {
       },
     },
   ];
-  readonly configuration = { ...DefaultConfig, paginationEnabled: false, searchEnabled: true };
+  readonly configuration = {
+    ...DefaultConfig,
+    paginationEnabled: false,
+    fixedColumnWidth: false,
+    orderEnabled: false,
+  };
   readonly columns: Columns[] = [
     { key: 'service', title: 'Service' },
     { key: 'detail', title: 'Actions & Resources' },
