@@ -4,7 +4,7 @@
     {{ label }}
   </label>
 </div>
-<div class="grid {{ gridSize }} gap-2 pl-3">
+<div class="grid grid-cols-6 gap-2 pl-3">
   <hcm-cron-and-option
     (selected)="changeValue(item.value)"
     *ngFor="let item of options"
