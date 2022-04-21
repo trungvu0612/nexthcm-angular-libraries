@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { EmployeeExperience, EmployeesService, parseTuiDayFields, PromptService } from '@nexthcm/cdk';
@@ -13,6 +13,7 @@ import { AdminEmployeesService } from '../../services/admin-employees.service';
   selector: 'hcm-experience-form',
   templateUrl: './experience-form.component.html',
   styleUrls: ['./experience-form.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ExperienceFormComponent {
   readonly form = this.fb.group({});
