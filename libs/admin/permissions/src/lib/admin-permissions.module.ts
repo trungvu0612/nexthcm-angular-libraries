@@ -2,43 +2,23 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
-import { LayoutComponent, LayoutModule } from '@nexthcm/ui';
+import { MapPipeModule } from '@nexthcm/cdk';
+import { BaseFormComponentModule, LayoutComponent, LayoutModule } from '@nexthcm/ui';
 import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
 import { FormlyModule } from '@ngx-formly/core';
 import { PushModule } from '@rx-angular/template';
 import { TuiTablePaginationModule } from '@taiga-ui/addon-table';
-import { TuiLetModule } from '@taiga-ui/cdk';
-import {
-  TuiButtonModule,
-  TuiDataListModule,
-  TuiDropdownControllerModule,
-  TuiExpandModule,
-  TuiHostedDropdownModule,
-  TuiLoaderModule,
-  TuiSvgModule,
-  TuiTextfieldControllerModule,
-} from '@taiga-ui/core';
-import {
-  TuiDataListWrapperModule,
-  TuiDropdownHoverModule,
-  TuiFilterModule,
-  TuiInputModule,
-  TuiMultiSelectModule,
-  TuiStepperModule,
-} from '@taiga-ui/kit';
+import { TuiButtonModule, TuiExpandModule, TuiLoaderModule } from '@taiga-ui/core';
+import { TuiCheckboxModule } from '@taiga-ui/kit';
 import { TableModule } from 'ngx-easy-table';
 import { NgxPermissionsGuard, NgxPermissionsModule } from 'ngx-permissions';
 
-import { InputActionsComponent } from './components/input-actions/input-actions.type';
-import { InputServiceComponent } from './components/input-service/input-service.type';
-import { PermissionDetailComponent } from './components/permission-detail/permission-detail.component';
-import { RepeatServiceComponent } from './components/repeat-service/repeat-service.type';
-import { SelectResourcesComponent } from './components/select-resources/select-resources.component';
+import { FormlyPermissionsComponent } from './components/formly-permissions/formly-permissions.component';
+import { FormlyServicesComponent } from './components/formly-services/formly-services.component';
 import en from './i18n/en.json';
 import vi from './i18n/vi.json';
-import { CreatePermissionComponent } from './pages/create-permission/create-permission.component';
 import { PermissionListComponent } from './pages/permission-list/permission-list.component';
-import { UpdatePermissionComponent } from './pages/update-permission/update-permission.component';
+import { UpsertPermissionComponent } from './pages/upsert-permission/upsert-permission.component';
 import { AdminPermissionsService } from './services/admin-permissions.service';
 
 export const adminPermissionsRoutes: Routes = [
@@ -50,14 +30,14 @@ export const adminPermissionsRoutes: Routes = [
     children: [
       { path: '', component: PermissionListComponent },
       {
-        path: 'create',
-        component: CreatePermissionComponent,
+        path: 'add',
+        component: UpsertPermissionComponent,
         canActivate: [NgxPermissionsGuard],
         data: { permissions: { only: 'CREATE_PERMISSION', redirectTo: '/' } },
       },
       {
-        path: 'update/:id',
-        component: UpdatePermissionComponent,
+        path: ':id/edit',
+        component: UpsertPermissionComponent,
         canActivate: [NgxPermissionsGuard],
         data: { permissions: { only: 'UPDATE_PERMISSION', redirectTo: '/' } },
       },
@@ -68,13 +48,9 @@ export const adminPermissionsRoutes: Routes = [
 @NgModule({
   declarations: [
     PermissionListComponent,
-    CreatePermissionComponent,
-    RepeatServiceComponent,
-    InputServiceComponent,
-    InputActionsComponent,
-    UpdatePermissionComponent,
-    SelectResourcesComponent,
-    PermissionDetailComponent,
+    UpsertPermissionComponent,
+    FormlyServicesComponent,
+    FormlyPermissionsComponent,
   ],
   imports: [
     CommonModule,
@@ -82,25 +58,12 @@ export const adminPermissionsRoutes: Routes = [
     ReactiveFormsModule,
     FormlyModule.forChild({
       types: [
-        { name: 'repeat-service', component: RepeatServiceComponent },
-        { name: 'input-service', component: InputServiceComponent },
-        { name: 'input-actions', component: InputActionsComponent },
+        { name: 'services', component: FormlyServicesComponent },
+        { name: 'permissions', component: FormlyPermissionsComponent },
       ],
     }),
     TranslocoModule,
-    TuiSvgModule,
-    TuiStepperModule,
     TuiExpandModule,
-    TuiInputModule,
-    TuiTextfieldControllerModule,
-    TuiHostedDropdownModule,
-    TuiDropdownControllerModule,
-    TuiDropdownHoverModule,
-    TuiMultiSelectModule,
-    TuiDataListWrapperModule,
-    TuiDataListModule,
-    TuiFilterModule,
-    TuiLetModule,
     TableModule,
     TuiTablePaginationModule,
     TuiButtonModule,
@@ -108,6 +71,9 @@ export const adminPermissionsRoutes: Routes = [
     TuiLoaderModule,
     NgxPermissionsModule,
     PushModule,
+    BaseFormComponentModule,
+    TuiCheckboxModule,
+    MapPipeModule,
   ],
   providers: [
     AdminPermissionsService,

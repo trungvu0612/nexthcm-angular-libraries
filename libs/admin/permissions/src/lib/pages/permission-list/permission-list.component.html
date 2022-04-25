@@ -1,7 +1,7 @@
 <hcm-page [title]="'permissionManagement' | transloco">
   <ng-container ngProjectAs="pageHeader">
-    <button *ngxPermissionsOnly="'CREATE_PERMISSION'" icon="tuiIconPlusLarge" routerLink="./create" size="m" tuiButton>
-      {{ 'addPermission' | transloco }}
+    <button *ngxPermissionsOnly="'CREATE_PERMISSION'" icon="tuiIconPlusLarge" routerLink="./add" size="m" tuiButton>
+      {{ translocoScope.scope + '.addPermission' | transloco }}
     </button>
   </ng-container>
   <tui-loader [overlay]="true" [showLoader]="(loading$ | push) === true">
@@ -20,7 +20,7 @@
           <td class="flex gap-2">
             <button
               *ngxPermissionsOnly="'UPDATE_PERMISSION'"
-              [routerLink]="'./update/' + item.id"
+              [routerLink]="'./' + item.id + '/edit'"
               appearance="flat"
               icon="tuiIconEditLarge"
               size="m"

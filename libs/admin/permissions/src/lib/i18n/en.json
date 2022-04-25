@@ -1,4 +1,9 @@
 {
+  "addPermission": "Add permission",
+  "updatePermission": "Update permission",
+  "addPermissionSuccessfully": "<b>Add permission successfully!</b>",
+  "updatePermissionSuccessfully": "<b>Update permission successfully!</b>",
+  "pleaseSelectAtLeastOnePermission": "Please select at least one permission!",
   "PERMISSION_TABLE": {
     "name": "Name",
     "code": "Code",

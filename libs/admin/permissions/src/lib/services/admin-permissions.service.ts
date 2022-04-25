@@ -2,33 +2,68 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ACCOUNT_API_PATH, Pagination, PagingResponse } from '@nexthcm/cdk';
 import { RxState } from '@rx-angular/state';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { combineLatest, exhaustMap, Observable, Subject, take } from 'rxjs';
+import { filter, map, share, shareReplay, startWith, switchMap } from 'rxjs/operators';
 
-import { Action, Policy, Resource, Service } from '../models/policy';
+import { Item, Policy } from '../models/policy';
 
-interface StatePermissions {
-  services: Partial<Service>[];
-  actions: Partial<Action>[];
+interface State {
+  services: Item[];
+  actions: Item[];
+  resources: Record<string, Item[]>;
 }
 
 @Injectable()
-export class AdminPermissionsService extends RxState<StatePermissions> {
+export class AdminPermissionsService extends RxState<State> {
+  readonly init$ = new Subject<void>();
+  readonly request$ = this.select().pipe(
+    startWith(null),
+    filter((value): value is State => {
+      if (value === null) this.init$.next();
+      return value !== null;
+    }),
+    share()
+  );
+
+  readonly services$ = this.request$.pipe(
+    map(({ services }) => services),
+    shareReplay(1)
+  );
+  readonly actions$ = this.request$.pipe(
+    map(({ actions }) => actions),
+    shareReplay(1)
+  );
+  readonly resources$ = this.request$.pipe(
+    map(({ resources }) => resources),
+    shareReplay(1)
+  );
+
   constructor(private http: HttpClient) {
     super();
-    this.connect('services', this.getServicesOrActions('services'));
-    this.connect('actions', this.getServicesOrActions('actions'));
+    this.connect(
+      this.init$.pipe(
+        exhaustMap(() => combineLatest([this.getServicesOrActions('services'), this.getServicesOrActions('actions')])),
+        take(1),
+        switchMap(([services, actions]) => {
+          // TODO spelling mistake
+          actions.forEach((action) => {
+            if (action.code === 'APPRROVE') action.code = 'APPROVE';
+          });
+          return combineLatest(actions.map(({ id }) => this.getResourcesByAction(id))).pipe(
+            map((resources) => {
+              const result: Record<string, Item[]> = {};
+              actions.forEach(({ code }, index) => (result[code] = resources[index]));
+              return { services, actions, resources: result };
+            })
+          );
+        })
+      )
+    );
   }
 
-  getServicesOrActions(type: 'services' | 'actions'): Observable<Partial<Service | Action>[]> {
+  getResourcesByAction(actionId: string): Observable<Item[]> {
     return this.http
-      .get<PagingResponse<Service | Action>>(`${ACCOUNT_API_PATH}/` + type, { params: { size: 999 } })
-      .pipe(map((response) => response.data.items));
-  }
-
-  getResourcesByAction(actionId: string): Observable<Partial<Resource>[]> {
-    return this.http
-      .get<PagingResponse<Resource>>(`${ACCOUNT_API_PATH}/resources`, { params: { actionId, size: 999 } })
+      .get<PagingResponse<Item>>(`${ACCOUNT_API_PATH}/resources`, { params: { actionId, size: 999 } })
       .pipe(map((response) => response.data.items));
   }
 
@@ -38,15 +73,21 @@ export class AdminPermissionsService extends RxState<StatePermissions> {
       .pipe(map((response) => response.data));
   }
 
-  getPermission(policyId: string): Observable<Partial<Policy>> {
-    return this.http.get<Partial<Policy>>(`${ACCOUNT_API_PATH}/permissions/` + policyId);
+  getPermission(policyId: string): Observable<Policy> {
+    return this.http.get<Policy>(`${ACCOUNT_API_PATH}/permissions/` + policyId);
   }
 
-  upsertPermission(body: Partial<Policy>): Observable<Partial<Policy>> {
-    return this.http.post<Partial<Policy>>(`${ACCOUNT_API_PATH}/permissions`, body);
+  upsertPermission(body: Policy): Observable<unknown> {
+    return this.http.post(`${ACCOUNT_API_PATH}/permissions`, body);
   }
 
   deletePermission(id: string): Observable<unknown> {
     return this.http.delete(`${ACCOUNT_API_PATH}/permissions/${id}`, {});
+  }
+
+  private getServicesOrActions(type: 'services' | 'actions'): Observable<Item[]> {
+    return this.http
+      .get<PagingResponse<Item>>(`${ACCOUNT_API_PATH}/` + type, { params: { size: 999 } })
+      .pipe(map((response) => response.data.items));
   }
 }

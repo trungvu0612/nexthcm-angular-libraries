@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CreatePermissionComponent } from './create-permission.component';
+import { UpsertPermissionComponent } from './upsert-permission.component';
 
-describe('CreatePermissionComponent', () => {
-  let component: CreatePermissionComponent;
-  let fixture: ComponentFixture<CreatePermissionComponent>;
+describe('UpsertPermissionComponent', () => {
+  let component: UpsertPermissionComponent;
+  let fixture: ComponentFixture<UpsertPermissionComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [CreatePermissionComponent],
+      declarations: [UpsertPermissionComponent],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CreatePermissionComponent);
+    fixture = TestBed.createComponent(UpsertPermissionComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

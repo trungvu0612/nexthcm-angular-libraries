@@ -1,4 +1,9 @@
 {
+  "addPermission": "Thêm phân quyền",
+  "updatePermission": "Cập nhật phân quyền",
+  "addPermissionSuccessfully": "<b>Thêm phân quyền thành công!</b>",
+  "updatePermissionSuccessfully": "<b>Cập nhật phân quyền thành công!</b>",
+  "pleaseSelectAtLeastOnePermission": "Vui lòng chọn ít nhất một phân quyền",
   "PERMISSION_TABLE": {
     "name": "Tên",
     "code": "Mã",

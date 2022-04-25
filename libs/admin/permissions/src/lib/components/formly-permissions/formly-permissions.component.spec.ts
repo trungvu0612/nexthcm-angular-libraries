@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { UpdatePermissionComponent } from './update-permission.component';
+import { FormlyPermissionsComponent } from './formly-permissions.component';
 
-describe('UpdatePermissionComponent', () => {
-  let component: UpdatePermissionComponent;
-  let fixture: ComponentFixture<UpdatePermissionComponent>;
+describe('FormlyPermissionsComponent', () => {
+  let component: FormlyPermissionsComponent;
+  let fixture: ComponentFixture<FormlyPermissionsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [UpdatePermissionComponent],
+      declarations: [FormlyPermissionsComponent],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(UpdatePermissionComponent);
+    fixture = TestBed.createComponent(FormlyPermissionsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

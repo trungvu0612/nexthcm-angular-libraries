@@ -1,5 +1,3 @@
-import { AbstractControl } from '@angular/forms';
-
 export interface Item {
   id: string;
   code: string;
@@ -7,38 +5,17 @@ export interface Item {
   description: string;
 }
 
-export interface Resource extends Item {
-  resourceId: string;
-}
-
-export interface Action extends Item {
-  resources: Resource[];
-}
-
 export interface Permission {
-  id: string;
-  resource: Resource | Resource[];
-  action: Action;
-}
-
-export interface Service extends Item {
-  serviceId: string;
+  resource: Item;
+  action: Item;
 }
 
 export interface PolicyItem {
-  id: string;
-  service: Service;
+  service: Item;
   permissions: Permission[];
   permissionRemoves: Permission[];
 }
 
 export interface Policy extends Item {
-  code: string;
   policyItems: PolicyItem[];
-}
-
-export interface PermissionForm {
-  action: Partial<Action>;
-  resource: Partial<Resource>[];
-  resourcesForm?: AbstractControl;
 }

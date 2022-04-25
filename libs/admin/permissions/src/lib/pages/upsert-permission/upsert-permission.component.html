@@ -1,0 +1,16 @@
+<hcm-page
+  *transloco="let t; read: translocoScope.scope"
+  [title]="t(permissionId ? 'updatePermission' : 'addPermission')"
+>
+  <tui-loader [overlay]="true" [showLoader]="(loading$ | push) === true">
+    <hcm-base-form
+      (cancel)="onCancel()"
+      (submitForm)="onSubmit()"
+      [fields]="fields"
+      [form]="form"
+      [model]="model"
+      [options]="options"
+      [submitLoading]="(submitLoading$ | push) === true"
+    ></hcm-base-form>
+  </tui-loader>
+</hcm-page>

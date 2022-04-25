@@ -1,0 +1,42 @@
+<button
+  (click)="expanded = !expanded"
+  [icon]="expanded ? collapse : expand"
+  appearance="flat"
+  class="!absolute top-4 right-4"
+  size="m"
+  tuiIconButton
+  type="button"
+></button>
+
+<ng-template #expand><i class="bx bxs-plus-circle text-3xl"></i></ng-template>
+<ng-template #collapse><i class="bx bxs-minus-circle text-3xl"></i></ng-template>
+
+<tui-expand [expanded]="expanded">
+  <ng-template tuiExpandContent>
+    <tui-loader [overlay]="true" [showLoader]="(loading$ | push) === true" class="mt-6">
+      <table class="!border-separate text-base w-full">
+        <tr class="sticky -top-1 z-10 bg-white">
+          <th></th>
+          <th *ngFor="let action of actions">
+            {{ action | titlecase }}
+            <tui-checkbox [formControl]="$any(controls.get(action))" class="!mt-2" size="l"></tui-checkbox>
+          </th>
+        </tr>
+        <tr *ngFor="let resource of resources">
+          <td>{{ resource | map: convertResourceName }}</td>
+          <td *ngFor="let action of actions">
+            <tui-checkbox
+              *ngIf="{action,resource,group} | map: getControl as control; else none"
+              [formControl]="control"
+              size="l"
+            ></tui-checkbox>
+
+            <ng-template #none>
+              <div class="bg-gray-200 rounded-lg w-6 h-6 mx-auto"></div>
+            </ng-template>
+          </td>
+        </tr>
+      </table>
+    </tui-loader>
+  </ng-template>
+</tui-expand>

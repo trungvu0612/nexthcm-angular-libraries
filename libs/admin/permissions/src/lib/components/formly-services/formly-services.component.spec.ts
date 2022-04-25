@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SelectResourcesComponent } from './select-resources.component';
+import { FormlyServicesComponent } from './formly-services.component';
 
-describe('SelectResourcesComponent', () => {
-  let component: SelectResourcesComponent;
-  let fixture: ComponentFixture<SelectResourcesComponent>;
+describe('FormlyServicesComponent', () => {
+  let component: FormlyServicesComponent;
+  let fixture: ComponentFixture<FormlyServicesComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [SelectResourcesComponent],
+      declarations: [FormlyServicesComponent],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SelectResourcesComponent);
+    fixture = TestBed.createComponent(FormlyServicesComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

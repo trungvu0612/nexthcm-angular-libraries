@@ -1,0 +1,26 @@
+<div *ngFor="let field of field.fieldGroup; index as index" class="relative border rounded-lg shadow-lg p-4 mt-6">
+  <formly-field [field]="field"></formly-field>
+  <button
+    (click)="remove(index)"
+    [disabled]="formControl.value.length === 1"
+    appearance="flat"
+    class="!absolute top-4 right-16"
+    icon="tuiIconTrashLarge"
+    size="m"
+    tuiIconButton
+    type="button"
+  ></button>
+</div>
+
+<button
+  (click)="add()"
+  *ngIf="(options.formState.services$ | push)?.length"
+  appearance="flat"
+  class="mt-4"
+  icon="tuiIconPlusCircleLarge"
+  size="m"
+  tuiButton
+  type="button"
+>
+  Add additional service
+</button>
