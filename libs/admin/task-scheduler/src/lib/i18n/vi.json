@@ -7,6 +7,8 @@
     "status": "Trạng thái",
     "functions": "Chức năng"
   },
+  "syncUserMyTime": "Đồng bộ hóa người dùng với thời gian",
+  "syncUserMyTimeDescription": "Đồng bộ hóa dữ liệu người dùng từ tài khoản sang thời gian",
   "processDataCrossCheck": "Xử lý kiểm tra dữ liệu chéo",
   "processDataCrossCheckDescription": "Xử lý kiểm tra dữ liệu chéo trong danh sách người dùng ngoại lệ",
   "syncKeycloakUser": "Đồng bộ người dùng LDAP",
