@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { ProviderScope, TRANSLOCO_SCOPE } from '@ngneat/transloco';
 import { FieldType } from '@ngx-formly/core';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { combineLatest, Subject, take } from 'rxjs';
@@ -80,6 +81,7 @@ export class FormlyPermissionsComponent extends FieldType implements OnInit {
   );
 
   constructor(
+    @Inject(TRANSLOCO_SCOPE) readonly translocoScope: ProviderScope,
     private readonly adminPermissions: AdminPermissionsService,
     private readonly fb: FormBuilder,
     private readonly destroy$: TuiDestroyService
@@ -97,14 +99,6 @@ export class FormlyPermissionsComponent extends FieldType implements OnInit {
           }
         }
       });
-  }
-
-  convertResourceName(name: string): string {
-    return name
-      .replace(/_/g, ' ')
-      .trim()
-      .toLowerCase()
-      .replace(/^\w/, (match) => match.toUpperCase());
   }
 
   getControl({ action, resource, group }: { action: string; resource: string; group: FormGroup }): FormControl | null {

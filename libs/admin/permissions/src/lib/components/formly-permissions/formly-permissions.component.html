@@ -14,16 +14,16 @@
 <tui-expand [expanded]="expanded">
   <ng-template tuiExpandContent>
     <tui-loader [overlay]="true" [showLoader]="(loading$ | push) === true" class="mt-6">
-      <table class="!border-separate text-base w-full">
+      <table *transloco="let t; read: translocoScope.scope" class="!border-separate text-base w-full">
         <tr class="sticky -top-1 z-10 bg-white">
           <th></th>
           <th *ngFor="let action of actions">
-            {{ action | titlecase }}
+            {{ t('ACTIONS.' + action) }}
             <tui-checkbox [formControl]="$any(controls.get(action))" class="!mt-2" size="l"></tui-checkbox>
           </th>
         </tr>
         <tr *ngFor="let resource of resources">
-          <td>{{ resource | map: convertResourceName }}</td>
+          <td>{{ t('RESOURCES.' + resource) }}</td>
           <td *ngFor="let action of actions">
             <tui-checkbox
               *ngIf="{action,resource,group} | map: getControl as control; else none"
