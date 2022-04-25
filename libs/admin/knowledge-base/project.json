@@ -25,7 +25,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/libs/admin/knowledge-base"],
       "options": {
-        "jestConfig": "libs/admin/knowledge-base/jest.config.js",
+        "jestConfig": "libs/admin/knowledge-base/jest.config.ts",
         "passWithNoTests": true
       }
     },

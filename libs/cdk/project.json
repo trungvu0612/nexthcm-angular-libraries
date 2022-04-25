@@ -24,7 +24,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/libs/cdk"],
       "options": {
-        "jestConfig": "libs/cdk/jest.config.js",
+        "jestConfig": "libs/cdk/jest.config.ts",
         "passWithNoTests": true
       }
     },

@@ -25,7 +25,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/libs/human-resource"],
       "options": {
-        "jestConfig": "libs/human-resource/jest.config.js",
+        "jestConfig": "libs/human-resource/jest.config.ts",
         "passWithNoTests": true
       }
     },

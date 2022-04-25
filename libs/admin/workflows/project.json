@@ -25,7 +25,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/libs/admin/workflows"],
       "options": {
-        "jestConfig": "libs/admin/workflows/jest.config.js",
+        "jestConfig": "libs/admin/workflows/jest.config.ts",
         "passWithNoTests": true
       }
     },

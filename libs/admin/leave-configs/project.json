@@ -25,7 +25,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/libs/admin/leave-configs"],
       "options": {
-        "jestConfig": "libs/admin/leave-configs/jest.config.js",
+        "jestConfig": "libs/admin/leave-configs/jest.config.ts",
         "passWithNoTests": true
       }
     },

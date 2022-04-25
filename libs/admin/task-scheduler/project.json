@@ -25,7 +25,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/libs/admin/task-scheduler"],
       "options": {
-        "jestConfig": "libs/admin/task-scheduler/jest.config.js",
+        "jestConfig": "libs/admin/task-scheduler/jest.config.ts",
         "passWithNoTests": true
       }
     },

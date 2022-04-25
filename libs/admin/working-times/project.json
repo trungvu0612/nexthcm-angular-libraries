@@ -25,7 +25,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/libs/admin/working-times"],
       "options": {
-        "jestConfig": "libs/admin/working-times/jest.config.js",
+        "jestConfig": "libs/admin/working-times/jest.config.ts",
         "passWithNoTests": true
       }
     },

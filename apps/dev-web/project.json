@@ -108,7 +108,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/apps/dev-web"],
       "options": {
-        "jestConfig": "apps/dev-web/jest.config.js",
+        "jestConfig": "apps/dev-web/jest.config.ts",
         "passWithNoTests": true
       }
     },

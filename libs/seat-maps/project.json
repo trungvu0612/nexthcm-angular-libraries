@@ -25,7 +25,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/libs/seat-maps"],
       "options": {
-        "jestConfig": "libs/seat-maps/jest.config.js",
+        "jestConfig": "libs/seat-maps/jest.config.ts",
         "passWithNoTests": true
       }
     },

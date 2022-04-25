@@ -25,7 +25,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/libs/my-time"],
       "options": {
-        "jestConfig": "libs/my-time/jest.config.js",
+        "jestConfig": "libs/my-time/jest.config.ts",
         "passWithNoTests": true
       }
     },

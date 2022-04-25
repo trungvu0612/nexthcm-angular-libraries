@@ -1,6 +1,6 @@
 module.exports = {
-  displayName: 'admin-seat-maps',
-  preset: '../../../jest.preset.js',
+  displayName: 'admin-employees',
+
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   globals: {
     'ts-jest': {
@@ -8,7 +8,7 @@ module.exports = {
       stringifyContentPathRegex: '\\.(html|svg)$',
     },
   },
-  coverageDirectory: '../../../coverage/libs/admin/seat-maps',
+  coverageDirectory: '../../../coverage/libs/admin/employees',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': 'jest-preset-angular',
   },
@@ -18,4 +18,5 @@ module.exports = {
     'jest-preset-angular/build/serializers/ng-snapshot',
     'jest-preset-angular/build/serializers/html-comment',
   ],
+  preset: '../../../jest.preset.ts',
 };

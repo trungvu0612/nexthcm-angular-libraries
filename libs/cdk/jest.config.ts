@@ -1,6 +1,6 @@
 module.exports = {
-  displayName: 'admin-leave-configs',
-  preset: '../../../jest.preset.js',
+  displayName: 'cdk',
+
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   globals: {
     'ts-jest': {
@@ -8,7 +8,7 @@ module.exports = {
       stringifyContentPathRegex: '\\.(html|svg)$',
     },
   },
-  coverageDirectory: '../../../coverage/libs/admin/leave-configs',
+  coverageDirectory: '../../coverage/libs/cdk',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': 'jest-preset-angular',
   },
@@ -18,4 +18,5 @@ module.exports = {
     'jest-preset-angular/build/serializers/ng-snapshot',
     'jest-preset-angular/build/serializers/html-comment',
   ],
+  preset: '../../jest.preset.ts',
 };

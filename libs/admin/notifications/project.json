@@ -25,7 +25,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/libs/admin/notifications"],
       "options": {
-        "jestConfig": "libs/admin/notifications/jest.config.js",
+        "jestConfig": "libs/admin/notifications/jest.config.ts",
         "passWithNoTests": true
       }
     },
