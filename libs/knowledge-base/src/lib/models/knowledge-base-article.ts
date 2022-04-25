@@ -12,7 +12,7 @@ export interface KnowledgeBaseArticle {
   topic: string;
   longDescription: string;
   shortDescription: string;
-  policyCategory: KnowledgeBaseCategory;
+  policyCategory?: KnowledgeBaseCategory;
   statusBoolean?: boolean;
   userCreatedBy?: EmployeeInfo;
   createdDate?: number;

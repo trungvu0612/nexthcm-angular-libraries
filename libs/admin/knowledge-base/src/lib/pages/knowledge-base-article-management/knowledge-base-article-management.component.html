@@ -29,7 +29,7 @@
         <ng-container *ngIf="item(row) as item">
           <td>{{ item.topic }}</td>
           <td>{{ item.shortDescription }}</td>
-          <td>{{ item.policyCategory.name }}</td>
+          <td>{{ item.policyCategory?.name }}</td>
           <td>{{ item.userCreatedBy?.fullName }}</td>
           <td>
             <tui-tag
