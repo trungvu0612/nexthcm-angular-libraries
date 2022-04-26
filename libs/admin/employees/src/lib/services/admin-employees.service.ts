@@ -31,12 +31,6 @@ export class AdminEmployeesService {
     return this.http.delete(`${ACCOUNT_API_PATH}/employees/${id}`);
   }
 
-  updateEmployeeGeneralInformation(
-    payload: EmployeeGeneralInformation
-  ): Observable<BaseResponse<EmployeeGeneralInformation>> {
-    return this.http.post<BaseResponse<EmployeeGeneralInformation>>(`${ACCOUNT_API_PATH}/employees`, payload);
-  }
-
   updateEmployeeInformation<T>(payload: T): Observable<BaseResponse<T>> {
     return this.http.post<BaseResponse<T>>(`${ACCOUNT_API_PATH}/info/employees`, payload);
   }

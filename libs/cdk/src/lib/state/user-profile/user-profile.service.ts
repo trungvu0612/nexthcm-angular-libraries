@@ -104,6 +104,11 @@ export class UserProfileService extends RxState<UserProfileState> {
     }
   }
 
+  refreshGeneralInformation(): void {
+    this.set({ general: undefined });
+    this.loadGeneralInformation$.next();
+  }
+
   doLoadIndividualInformation(): void {
     if (!this.get('individual')) {
       this.loadIndividualInformation$.next();

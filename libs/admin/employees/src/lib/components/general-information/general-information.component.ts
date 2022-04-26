@@ -1,8 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { EmployeeGeneralInformation, PromptService } from '@nexthcm/cdk';
-
-import { AdminEmployeesService } from '../../services/admin-employees.service';
+import { EmployeeGeneralInformation, EmployeesService, PromptService } from '@nexthcm/cdk';
 
 @Component({
   selector: 'hcm-general-information',
@@ -12,14 +10,14 @@ import { AdminEmployeesService } from '../../services/admin-employees.service';
 })
 export class GeneralInformationComponent {
   constructor(
-    private readonly adminEmployeeService: AdminEmployeesService,
+    private readonly employeesService: EmployeesService,
     private readonly router: Router,
     private readonly activatedRoute: ActivatedRoute,
     private readonly promptService: PromptService
   ) {}
 
   onSubmitGeneralInformationForm(payload: EmployeeGeneralInformation): void {
-    this.adminEmployeeService
+    this.employeesService
       .updateEmployeeGeneralInformation(payload)
       .subscribe(this.promptService.handleResponse('updateSuccessfully'));
   }

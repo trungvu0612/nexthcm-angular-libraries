@@ -5,7 +5,20 @@
   <main *rxLet="profile$; let profile" class="flex gap-x-8 text-base">
     <section class="p-6 bg-white rounded-xl shadow-xl">
       <div class="flex justify-center mb-6">
-        <hcm-avatar [image]="profile.image" [text]="profile.username" size="xxl"></hcm-avatar>
+        <tui-loader [overlay]="true" [showLoader]="(uploading$ | push) === true" class="avatar relative">
+          <hcm-avatar
+            [image]="profile.image"
+            [text]="profile.username"
+            class="!block transition-opacity opacity-100"
+            size="xxl"
+          ></hcm-avatar>
+          <div (click)="fileInput.click()" class="absolute inset-0 cursor-pointer transition-opacity opacity-0">
+            <tui-svg
+              class="absolute inset-0 m-auto text-[color:var(--tui-primary)] !text-2xl !w-8 !h-8"
+              src="tuiIconEditLarge"
+            ></tui-svg>
+          </div>
+        </tui-loader>
       </div>
       <div class="text-2xl font-bold text-center">{{ profile.fullName }}</div>
       <div class="text-center">{{ profile.cif }}</div>

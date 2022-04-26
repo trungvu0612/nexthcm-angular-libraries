@@ -111,4 +111,10 @@ export class EmployeesService extends RxState<EmployeesState> {
       catchError(() => EMPTY)
     );
   }
+
+  updateEmployeeGeneralInformation(
+    payload: EmployeeGeneralInformation
+  ): Observable<BaseResponse<EmployeeGeneralInformation>> {
+    return this.http.post<BaseResponse<EmployeeGeneralInformation>>(`${ACCOUNT_API_PATH}/employees`, payload);
+  }
 }
