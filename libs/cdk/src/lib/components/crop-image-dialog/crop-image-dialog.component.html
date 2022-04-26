@@ -1,0 +1,13 @@
+<div class="relative w-max max-w-full mx-auto">
+  <img [src]="imageURLTrusted" alt="" class="min-w-[300px] opacity-0" />
+  <div class="absolute top-0 w-full" id="cropImage"></div>
+</div>
+
+<div *transloco="let t" class="tui-form__buttons">
+  <button (click)="save()" class="tui-form__button" size="l" tuiButton type="button">
+    {{ t('save') }}
+  </button>
+  <button (click)="cancel()" appearance="outline" class="tui-form__button" size="l" tuiButton type="button">
+    {{ t('cancel') }}
+  </button>
+</div>
