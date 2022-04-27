@@ -1,19 +1,16 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { GetFilePipeModule, SkipNavigationDirectiveModule } from '@nexthcm/cdk';
-import { SvgIconsModule } from '@ngneat/svg-icon';
 import { TranslocoModule } from '@ngneat/transloco';
 import { LetModule } from '@rx-angular/template';
 import {
   TuiButtonModule,
   TuiDataListModule,
-  TuiDropdownModule,
   TuiHostedDropdownModule,
   TuiScrollbarModule,
   TuiSvgModule,
 } from '@taiga-ui/core';
-import { TuiAvatarModule, TuiTabsModule } from '@taiga-ui/kit';
+import { TuiTabsModule } from '@taiga-ui/kit';
 import { NgxPermissionsModule } from 'ngx-permissions';
 
 import { AvatarComponentModule } from '../../components';
@@ -26,21 +23,16 @@ import { PageComponent } from './page/page.component';
   imports: [
     CommonModule,
     RouterModule,
-    TuiDataListModule,
-    TuiDropdownModule,
-    TuiTabsModule,
-    TuiAvatarModule,
-    TuiSvgModule,
+    AvatarComponentModule,
     TranslocoModule,
-    TuiHostedDropdownModule,
-    TuiButtonModule,
-    SvgIconsModule,
-    TuiScrollbarModule,
-    SkipNavigationDirectiveModule,
     NgxPermissionsModule,
     LetModule,
-    GetFilePipeModule,
-    AvatarComponentModule,
+    TuiTabsModule,
+    TuiDataListModule,
+    TuiSvgModule,
+    TuiHostedDropdownModule,
+    TuiButtonModule,
+    TuiScrollbarModule,
   ],
   exports: [LayoutComponent, PageComponent],
 })
