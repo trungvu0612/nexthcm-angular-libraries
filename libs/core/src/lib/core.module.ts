@@ -4,13 +4,7 @@ import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core
 import { SvgIconsModule } from '@ngneat/svg-icon';
 import { FormlyModule } from '@ngx-formly/core';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
-import {
-  iconsPathFactory,
-  TUI_ICONS_PATH,
-  TUI_SANITIZER,
-  TuiDialogModule,
-  TuiNotificationsModule,
-} from '@taiga-ui/core';
+import { iconsPathFactory, TUI_ICONS_PATH, TUI_SANITIZER, TuiAlertModule, TuiDialogModule } from '@taiga-ui/core';
 import { NgDompurifySanitizer } from '@tinkoff/ng-dompurify';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
@@ -32,12 +26,12 @@ import { TranslocoRootModule } from './transloco/transloco-root.module';
     HttpClientModule,
     TranslocoRootModule,
     FormlyModule.forRoot({ extras: { lazyRender: true, resetFieldOnHide: true } }),
+    TuiAlertModule,
     TuiDialogModule,
     SweetAlert2Module.forRoot(),
     NgxPermissionsModule.forRoot(),
     SvgIconsModule.forRoot({ defaultSize: 'lg' }),
     QuicklinkModule,
-    TuiNotificationsModule,
     FileSaverModule,
     CalendarModule.forRoot({
       provide: DateAdapter,

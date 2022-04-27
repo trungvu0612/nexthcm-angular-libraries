@@ -155,8 +155,6 @@ export const HOME_ROUTES: Routes = [
     TuiHostedDropdownModule,
     TuiTagModule,
     LeaveRequestDateRangeComponentModule,
-    LeaveRequestDateRangeComponentModule,
-    LeaveRequestDateRangeComponentModule,
     TuiDataListModule,
     NgxPermissionsModule,
     InputFilterComponentModule,

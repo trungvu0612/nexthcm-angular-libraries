@@ -3,7 +3,7 @@ import { CommonStatus, PromptService } from '@nexthcm/cdk';
 import { ProviderScope, TRANSLOCO_SCOPE, TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
-import { TuiDialogService, TuiNotificationsService } from '@taiga-ui/core';
+import { TuiAlertService, TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { API, BaseComponent, Columns, Config, DefaultConfig } from 'ngx-easy-table';
 import { Observable, of, Subject } from 'rxjs';
@@ -68,7 +68,7 @@ export class TaskSchedulerComponent implements OnInit {
     private readonly injector: Injector,
     private readonly destroy$: TuiDestroyService,
     private readonly promptService: PromptService,
-    private readonly notificationsService: TuiNotificationsService,
+    private readonly alertService: TuiAlertService,
     private readonly state: RxState<CommonState>
   ) {
     state.connect(
@@ -104,7 +104,7 @@ export class TaskSchedulerComponent implements OnInit {
       .pipe(
         tap(this.promptService.handleResponse('')),
         switchMap(() =>
-          this.notificationsService.show('', { label: this.translocoService.translate('SCHEDULER.executeTask') })
+          this.alertService.open('', { label: this.translocoService.translate('SCHEDULER.executeTask') })
         ),
         takeUntil(this.destroy$)
       )
