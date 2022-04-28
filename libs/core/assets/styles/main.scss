@@ -113,11 +113,14 @@ tui-dialog[data-size='page'] {
   @apply sticky top-0 bg-white;
 }
 
-.hcm-mention {
-  color: var(--tui-link);
-  font-weight: 600;
-}
-
 tui-scrollbar > .content {
   min-width: fit-content;
+}
+
+tui-tabs [tuitab] {
+  font-weight: 600;
+
+  &._active {
+    color: var(--tui-primary) !important;
+  }
 }

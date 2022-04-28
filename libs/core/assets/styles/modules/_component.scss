@@ -22,8 +22,7 @@
   border-radius: 50%;
 }
 
-tui-tabs {
-  [tuitab]._active {
-    font-weight: 500;
-  }
+.hcm-mention {
+  color: var(--tui-link);
+  font-weight: 600;
 }

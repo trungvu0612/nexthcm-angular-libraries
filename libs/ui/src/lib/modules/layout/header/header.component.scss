@@ -1,32 +1,7 @@
-@import '~@taiga-ui/core/styles/taiga-ui-local';
-
 :host {
-  @include shadow(6);
-
   display: block;
-  width: 100%;
-  border-bottom: 1px solid var(--tui-base-03);
-  background: var(--tui-base-01);
 
-  ::ng-deep {
-    tui-tabs {
-      a {
-        padding: 0 0.75rem;
-        margin: 0 !important;
-        font-weight: 600;
-
-        &._active .highlight {
-          color: var(--tui-primary);
-        }
-      }
-    }
-
-    button tui-wrapper {
-      padding: 0 12px !important;
-    }
-  }
-
-  .badge {
+  /*.badge {
     position: absolute;
     top: 0;
     right: 0;
@@ -41,5 +16,5 @@
     font-size: 0.75rem;
     font-weight: 600;
     line-height: 1rem;
-  }
+  }*/
 }
