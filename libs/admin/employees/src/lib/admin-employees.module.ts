@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
-import { AddressService, JoinByKeyPipeModule, PromptComponentModule } from '@nexthcm/cdk';
+import { AddressService, JoinByKeyPipeModule } from '@nexthcm/cdk';
 import {
   BaseFormComponentModule,
   FormlySelectOrgTreeComponentModule,
@@ -72,7 +72,6 @@ export const ADMIN_EMPLOYEE_ROUTES: Routes = [
     TuiLoaderModule,
     TableModule,
     TuiCheckboxModule,
-    PromptComponentModule,
     FormsModule,
     TuiTablePaginationModule,
     LayoutModule,

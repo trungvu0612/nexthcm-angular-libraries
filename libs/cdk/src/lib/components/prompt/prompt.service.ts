@@ -4,22 +4,18 @@ import { TranslocoService } from '@ngneat/transloco';
 import { PartialObserver } from 'rxjs';
 import { SweetAlertOptions, SweetAlertResult } from 'sweetalert2';
 
-import { PromptComponent } from './prompt.component';
+type OpenMethod = (options: SweetAlertOptions) => Promise<SweetAlertResult>;
 
 @Injectable({
   providedIn: 'root',
 })
 export class PromptService {
-  component!: PromptComponent;
+  open!: OpenMethod;
 
   constructor(private translocoService: TranslocoService) {}
 
-  registerComponent(component: PromptComponent) {
-    this.component = component;
-  }
-
-  open(options?: SweetAlertOptions): Promise<SweetAlertResult> {
-    return this.component.open(options);
+  register(open: OpenMethod): void {
+    this.open = open;
   }
 
   generateErrorMessage(err: HttpErrorResponse): string {

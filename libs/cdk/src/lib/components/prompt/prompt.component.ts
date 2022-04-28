@@ -5,6 +5,8 @@ import { SwalComponent, SwalPortalTargets, SweetAlert2Module } from '@sweetalert
 import { TuiButtonModule } from '@taiga-ui/core';
 import { SweetAlertOptions, SweetAlertResult } from 'sweetalert2';
 
+import { PromptService } from './prompt.service';
+
 const DEFAULT_OPTIONS: SweetAlertOptions = {
   showCancelButton: false,
   showConfirmButton: true,
@@ -21,7 +23,13 @@ export class PromptComponent {
   @ViewChild('swal') swal!: SwalComponent;
   swalOptions = DEFAULT_OPTIONS;
 
-  constructor(public readonly targets: SwalPortalTargets, private cdr: ChangeDetectorRef) {}
+  constructor(
+    readonly targets: SwalPortalTargets,
+    private readonly promptService: PromptService,
+    private readonly cdr: ChangeDetectorRef
+  ) {
+    this.promptService.register(this.open.bind(this));
+  }
 
   open(options?: SweetAlertOptions): Promise<SweetAlertResult> {
     this.swalOptions = { ...DEFAULT_OPTIONS, ...options };
