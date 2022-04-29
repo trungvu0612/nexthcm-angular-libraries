@@ -22,8 +22,6 @@
     "crontab": "libs/crontab",
     "demo-web": "apps/demo-web",
     "demo-web-e2e": "apps/demo-web-e2e",
-    "dev-web": "apps/dev-web",
-    "dev-web-e2e": "apps/dev-web-e2e",
     "home": "libs/home",
     "human-resource": "libs/human-resource",
     "knowledge-base": "libs/knowledge-base",
