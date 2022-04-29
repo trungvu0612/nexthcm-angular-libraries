@@ -31,7 +31,6 @@
   "sendNotificationDescription": "Gửi thông báo cho nguời dùng.",
   "editScheduledTask": "Sửa cài đặt lịch trình",
   "editScheduledTaskSuccessfully": "<b>Sửa cài đặt lịch trình thành công!</b>",
-  "cronExpression": "Biểu thức cron",
   "value": "Giá trị (giây)",
   "enterSeconds": "Điền số giây...",
   "executeTask": "Thực thi tác vụ!",

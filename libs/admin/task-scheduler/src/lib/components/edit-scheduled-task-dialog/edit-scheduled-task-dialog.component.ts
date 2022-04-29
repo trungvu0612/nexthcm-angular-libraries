@@ -53,9 +53,9 @@ export class EditScheduledTaskDialogComponent implements OnInit {
       type: 'input-number',
       templateOptions: {
         translate: true,
-        label: `${this.translocoScope.scope}.value`,
+        label: `${this.translocoScope.alias}.value`,
         labelClassName: 'font-semibold',
-        placeholder: `${this.translocoScope.scope}.enterSeconds`,
+        placeholder: `${this.translocoScope.alias}.enterSeconds`,
         min: 300,
         required: true,
         textfieldLabelOutside: true,
@@ -104,7 +104,7 @@ export class EditScheduledTaskDialogComponent implements OnInit {
       this.TaskSchedulerService.editScheduledTask(formModel)
         .pipe(takeUntil(this.destroy$))
         .subscribe(
-          this.promptService.handleResponse('SCHEDULER.editScheduledTaskSuccessfully', () =>
+          this.promptService.handleResponse(this.translocoScope.alias + '.editScheduledTaskSuccessfully', () =>
             this.context.completeWith(true)
           )
         );

@@ -11,7 +11,7 @@
             <td>{{ item.type }}</td>
             <td class="whitespace-nowrap">
               <span>{{ item.value }}</span
-              ><span *ngIf="item.type === ScheduleType.interval">{{ t('SCHEDULER.seconds') }}</span>
+              ><span *ngIf="item.type === ScheduleType.interval">{{ t(this.translocoScope.alias + '.seconds') }}</span>
             </td>
             <td>
               <tui-tag

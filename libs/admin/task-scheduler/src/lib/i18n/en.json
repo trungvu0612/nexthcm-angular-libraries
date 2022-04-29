@@ -31,7 +31,6 @@
   "sendNotificationDescription": "Send predefined notifications to users.",
   "editScheduledTask": "Edit scheduled task",
   "editScheduledTaskSuccessfully": "<b>Edit scheduled task successfully!</b>",
-  "cronExpression": "Cron expression",
   "value": "Value (s)",
   "enterSeconds": "Enter seconds...",
   "executeTask": "Execute task...",
