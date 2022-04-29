@@ -14,7 +14,7 @@
 <tui-expand [expanded]="expanded">
   <ng-template tuiExpandContent>
     <tui-loader [overlay]="true" [showLoader]="(loading$ | push) === true" class="mt-6">
-      <table *transloco="let t; read: translocoScope.scope" class="!border-separate text-base w-full">
+      <table *transloco="let t; read: translocoScope.scope" class="hcm-table">
         <tr class="sticky -top-1 z-10 bg-white">
           <th></th>
           <th *ngFor="let action of actions">
