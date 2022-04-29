@@ -1,13 +1,20 @@
-<label *ngIf="to['textfieldLabelOutside']" [label]="label" tuiLabel>
-  <ng-container #fieldComponent></ng-container>
-  <ng-container *ngTemplateOutlet="errorTpl"></ng-container>
-</label>
-<ng-container *ngIf="!to['textfieldLabelOutside']">
-  <ng-container #fieldComponent></ng-container>
-  <ng-container *ngTemplateOutlet="errorTpl"></ng-container>
+<ng-container *ngIf="to['labelOutside']; else labelInside">
+  <label *ngIf="to.label" [label]="label" style="min-height: unset" tuiLabel></label>
+  <ng-container *ngTemplateOutlet="content"></ng-container>
 </ng-container>
 
-<ng-template #errorTpl>
+<ng-template #labelInside>
+  <label *ngIf="to['textfieldLabelOutside']" [label]="label" tuiLabel>
+    <ng-container *ngTemplateOutlet="content"></ng-container>
+  </label>
+
+  <ng-container *ngIf="!to['textfieldLabelOutside']">
+    <ng-container *ngTemplateOutlet="content"></ng-container>
+  </ng-container>
+</ng-template>
+
+<ng-template #content>
+  <ng-container #fieldComponent></ng-container>
   <tui-error *ngIf="showError" [error]="error"></tui-error>
 </ng-template>
 

@@ -33,25 +33,24 @@ import {
   TuiTextAreaModule,
 } from '@taiga-ui/kit';
 import { TextMaskModule } from 'angular2-text-mask';
-import { FormFieldLabelOutsideComponentModule } from '../form-field-label-outside/form-field-label-outside.component';
 
 import { FormFieldModule } from '../form-field/form-field.module';
 import { EditorComponent } from './editor/editor.component';
+import { InputComponent } from './input/input.component';
 import { InputCountComponent } from './input-count/input-count.component';
+import { InputDateComponent } from './input-date/input-date.component';
 import { InputDateRangeComponent } from './input-date-range/input-date-range.component';
 import { InputDateTimeComponent } from './input-date-time/input-date-time.component';
-import { InputDateComponent } from './input-date/input-date.component';
 import { InputInlineComponent } from './input-inline/input-inline.component';
-import { InputMonthRangeComponent } from './input-month-range/input-month-range.component';
 import { InputMonthComponent } from './input-month/input-month.component';
+import { InputMonthRangeComponent } from './input-month-range/input-month-range.component';
 import { InputNumberComponent } from './input-number/input-number.component';
 import { InputPasswordComponent } from './input-password/input-password.component';
-import { InputPhoneInternationalComponent } from './input-phone-international/input-phone-international.component';
 import { InputPhoneComponent } from './input-phone/input-phone.component';
+import { InputPhoneInternationalComponent } from './input-phone-international/input-phone-international.component';
 import { InputSliderComponent } from './input-slider/input-slider.component';
 import { InputTagComponent } from './input-tag/input-tag.component';
 import { InputTimeComponent } from './input-time/input-time.component';
-import { InputComponent } from './input/input.component';
 import { TextAreaComponent } from './text-area/text-area.component';
 
 @NgModule({
@@ -95,7 +94,7 @@ import { TextAreaComponent } from './text-area/text-area.component';
         { name: 'input-time', component: InputTimeComponent, wrappers: ['form-field'] },
         { name: 'input-phone-international', component: InputPhoneInternationalComponent, wrappers: ['form-field'] },
         { name: 'text-area', component: TextAreaComponent, wrappers: ['form-field'] },
-        { name: 'editor', component: EditorComponent, wrappers: ['form-field-label-outside'] },
+        { name: 'editor', component: EditorComponent, wrappers: ['form-field'] },
         { name: 'input-inline', component: InputInlineComponent },
       ],
     }),
@@ -126,7 +125,6 @@ import { TextAreaComponent } from './text-area/text-area.component';
     TuiInputSliderModule,
     TextMaskModule,
     TuiInputPhoneInternationalModule,
-    FormFieldLabelOutsideComponentModule,
   ],
 })
 export class InputsModule {}

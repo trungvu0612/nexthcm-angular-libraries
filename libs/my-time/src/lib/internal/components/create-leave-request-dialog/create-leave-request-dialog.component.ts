@@ -188,6 +188,9 @@ export class CreateLeaveRequestDialogComponent implements OnInit {
         type: 'filter',
         templateOptions: {
           required: true,
+          translate: true,
+          label: 'leaveType',
+          labelClassName: 'font-semibold',
           options: [],
           labelProp: 'leaveTypeName',
           single: true,
@@ -203,20 +206,23 @@ export class CreateLeaveRequestDialogComponent implements OnInit {
         },
         hooks: {
           onInit: (field) => {
-            if (field?.templateOptions && this.form.controls['employee'] && this.form.controls['fromTo']) {
+            if (field?.templateOptions && field.form?.controls['employee'] && field.form.controls['fromTo']) {
               field.templateOptions.options = combineLatest([
-                this.form.controls['employee'].valueChanges.pipe(
+                field.form.controls['employee'].valueChanges.pipe(
                   map((employee) => employee?.id),
                   startWith(this.currentUserId)
                 ),
-                this.form.controls['fromTo'].valueChanges,
+                field.form.controls['fromTo'].valueChanges.pipe(startWith(field.form.controls['fromTo'].value)),
               ]).pipe(
-                switchMap(([employeeId, fromTo]) => {
+                switchMap(([employeeId]) => {
+                  const fromTo = field.model.fromTo;
                   if (employeeId && fromTo && isDateRangeSameYear(fromTo)) {
                     const fromDate = (fromTo.from as TuiDay).toLocalNativeDate().getTime();
                     const toDate = endOfDay((fromTo.to as TuiDay).toLocalNativeDate()).getTime();
 
-                    return this.myLeaveService.getEmployeeLeaveEntitlements(employeeId, fromDate, toDate);
+                    return this.myLeaveService
+                      .getEmployeeLeaveEntitlements(employeeId, fromDate, toDate)
+                      .pipe(startWith(null as any));
                   } else {
                     return of([]);
                   }
@@ -225,6 +231,7 @@ export class CreateLeaveRequestDialogComponent implements OnInit {
             }
           },
         },
+        hideExpression: '!model.fromTo',
       },
       {
         key: 'partialDays',

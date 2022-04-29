@@ -1,13 +1,17 @@
-<tui-filter
-  (toggledItem)="onToggledItem()"
-  *ngIf="to.options | selectOptions | push as items"
-  [badgeHandler]="to['badgeHandler']"
-  [content]="content"
-  [disabledItemHandler]="to['disabledItemHandler']"
-  [formControl]="$any(formControl)"
-  [identityMatcher]="to['identityMatcher']"
-  [items]="items"
-  [size]="to['size']"
-></tui-filter>
+<ng-container *tuiLet="to.options | selectOptions | push as items">
+  <tui-loader [overlay]="true" [showLoader]="items === null">
+    <tui-filter
+      (toggledItem)="onToggledItem()"
+      *ngIf="items"
+      [badgeHandler]="to['badgeHandler']"
+      [content]="content"
+      [disabledItemHandler]="to['disabledItemHandler']"
+      [formControl]="$any(formControl)"
+      [identityMatcher]="to['identityMatcher']"
+      [items]="items"
+      [size]="to['size']"
+    ></tui-filter>
+  </tui-loader>
 
-<ng-template #content let-item>{{ item[to['labelProp']] }}</ng-template>
+  <ng-template #content let-item>{{ item[to['labelProp']] }}</ng-template>
+</ng-container>

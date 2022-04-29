@@ -16,6 +16,7 @@ export class FilterComponent extends FieldType {
       size: 'm',
       single: false,
       options: [],
+      labelOutside: true,
     },
   };
 

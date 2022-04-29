@@ -4,9 +4,11 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { SelectOptionsModule } from '@nexthcm/cdk';
 import { FormlyModule } from '@ngx-formly/core';
 import { PushModule } from '@rx-angular/template';
+import { TuiLetModule } from '@taiga-ui/cdk';
+import { TuiLoaderModule } from '@taiga-ui/core';
 import { TuiFilterModule } from '@taiga-ui/kit';
 
-import { FormFieldLabelOutsideComponentModule } from '../form-field-label-outside/form-field-label-outside.component';
+import { FormFieldModule } from '../form-field/form-field.module';
 import { FilterComponent } from './filter.component';
 
 @NgModule({
@@ -16,11 +18,13 @@ import { FilterComponent } from './filter.component';
     TuiFilterModule,
     ReactiveFormsModule,
     SelectOptionsModule,
-    FormFieldLabelOutsideComponentModule,
+    FormFieldModule,
     FormlyModule.forChild({
-      types: [{ name: 'filter', component: FilterComponent, wrappers: ['form-field-label-outside'] }],
+      types: [{ name: 'filter', component: FilterComponent, wrappers: ['form-field'] }],
     }),
     PushModule,
+    TuiLoaderModule,
+    TuiLetModule,
   ],
 })
 export class FilterModule {}

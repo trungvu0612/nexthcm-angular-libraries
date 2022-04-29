@@ -22,6 +22,7 @@ export class EditorComponent extends FieldType {
     templateOptions: {
       textfieldSize: 'l',
       tools: defaultEditorTools,
+      labelOutside: true,
     },
   };
 }
