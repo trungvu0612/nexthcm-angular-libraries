@@ -1,3 +1,10 @@
-import { mxGraphExportObject } from 'mxgraph';
-
-export default window as unknown as mxGraphExportObject;
+export {
+  mxCell,
+  mxEditor,
+  mxEffects,
+  mxEventObject,
+  mxGraphExportObject,
+  mxGraphModel,
+  mxGraphSelectionModel, // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+} from // @ts-ignore
+'mxgraph';

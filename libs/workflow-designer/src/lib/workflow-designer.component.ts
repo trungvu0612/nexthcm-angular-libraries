@@ -9,7 +9,6 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import { mxCell, mxEditor, mxEventObject, mxGraphModel, mxGraphSelectionModel } from 'mxgraph';
 
 import {
   WorkflowAPI,
@@ -19,8 +18,8 @@ import {
   WorkflowStatus,
   WorkflowTransition,
 } from './models';
-import mx from './utils/mxgraph';
-import { WorkflowUtils } from './utils/workflow-utils';
+import { mxCell, mxEditor, mxEventObject, mxGraphModel, mxGraphSelectionModel } from './utils/mxgraph';
+import { mx, WorkflowUtils } from './utils/workflow-utils';
 
 @Component({
   selector: 'hcm-workflow-designer',

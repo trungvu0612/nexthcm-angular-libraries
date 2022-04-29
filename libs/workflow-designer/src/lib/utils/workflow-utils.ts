@@ -1,7 +1,7 @@
-import { mxCell, mxEditor, mxEffects } from 'mxgraph';
-
 import { WorkflowStatus } from '../models';
-import mx from './mxgraph';
+import { mxCell, mxEditor, mxEffects, mxGraphExportObject } from './mxgraph';
+
+export const mx = window as unknown as mxGraphExportObject;
 
 export class WorkflowUtils {
   /**

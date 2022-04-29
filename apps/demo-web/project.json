@@ -54,7 +54,8 @@
           "angular2-text-mask",
           "quill-delta-to-html",
           "quill-auto-detect-url",
-          "cron-expression-validator"
+          "cron-expression-validator",
+          "tinycrop"
         ]
       },
       "configurations": {
