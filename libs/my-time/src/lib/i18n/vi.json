@@ -135,5 +135,7 @@
     "EDIT": "Dữ liệu được thêm vào đã được chỉnh sửa"
   },
   "bulkChange": "Thay đổi hàng loạt",
-  "cannotBeTransitioned": "Yêu cầu được chọn không thể chuyển trạng thái. Vui lòng kiểm tra lại."
+  "cannotBeTransitioned": "Yêu cầu được chọn không thể chuyển trạng thái. Vui lòng kiểm tra lại.",
+  "startTimeMustBeEarlierThanEndTime": "Thời gian bắt đầu phải sớm hơn thời gian kết thúc!",
+  "endTimeMustBeLaterThanEndTime": "Thời gian kết thúc phải muộn hơn thời gian bắt đầu!"
 }

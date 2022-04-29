@@ -135,5 +135,7 @@
     "EDIT": "Data being added have been edited"
   },
   "bulkChange": "Bulk change",
-  "cannotBeTransitioned": "Selected requests cannot be transitioned. Please check again."
+  "cannotBeTransitioned": "Selected requests cannot be transitioned. Please check again.",
+  "startTimeMustBeEarlierThanEndTime": "Start time must be earlier than end time!",
+  "endTimeMustBeLaterThanEndTime": "End time must be later than start time!"
 }

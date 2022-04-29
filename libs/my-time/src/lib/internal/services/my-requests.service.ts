@@ -117,22 +117,29 @@ export class MyRequestsService {
   }
 
   generateSubmittingLeaveRequestErrorMessage(error: SubmitLeaveRequestHttpErrorResponse): string {
-    if (error.message === 'LEAVE_IS_DUPLICATED_DURATION_WITH_ANOTHER_LEAVE') {
-      let metadata = '';
+    let metadata = '';
 
-      if (error.errorMetadata.leaveDuplicatedList.length) {
-        metadata = `<ul class="tui-list text-left">${error.errorMetadata.leaveDuplicatedList.map(
-          (item: LeaveDuplicated) =>
-            `<li class="tui-list__item">${this.translocoDatePipe.transform(
-              item.fromDate
-            )} - ${this.translocoDatePipe.transform(item.toDate)}: <b>${item.leaveTypeName}</b></li>`
-        )}</ul>`;
-      }
-      return this.translocoService.translate('myTime.ERRORS.DUPLICATED_LEAVE', { metadata });
-    } else if (error.message === 'LEAVE_SUBMIT_LEAVE_DURATION_EXCEED_LEAVE_ENTITLEMENT') {
-      return this.translocoService.translate('myTime.ERRORS.EXCEED_LEAVE_ENTITLEMENT', error.errorMetadata);
+    switch (error.message) {
+      case 'LEAVE_IS_DUPLICATED_DURATION_WITH_ANOTHER_LEAVE':
+        if (error.errorMetadata.leaveDuplicatedList.length) {
+          metadata = `<ul class="tui-list text-left">${error.errorMetadata.leaveDuplicatedList.map(
+            (item: LeaveDuplicated) =>
+              `<li class="tui-list__item">${this.translocoDatePipe.transform(
+                item.fromDate
+              )} - ${this.translocoDatePipe.transform(item.toDate)}: <b>${item.leaveTypeName}</b></li>`
+          )}</ul>`;
+        }
+        return this.translocoService.translate('myTime.ERRORS.DUPLICATED_LEAVE', { metadata });
+
+      case 'LEAVE_SUBMIT_LEAVE_DURATION_EXCEED_LEAVE_ENTITLEMENT':
+        return this.translocoService.translate('myTime.ERRORS.EXCEED_LEAVE_ENTITLEMENT', error.errorMetadata);
+
+      default:
+        return error.message
+          .replace(/_/g, ' ')
+          .toLowerCase()
+          .replace(/^\w/, (m) => m.toUpperCase());
     }
-    return error.message;
   }
 
   changeEscalateUser(type: keyof RequestTypeUrlPaths, payload: ChangeEscalateUserPayload): Observable<unknown> {

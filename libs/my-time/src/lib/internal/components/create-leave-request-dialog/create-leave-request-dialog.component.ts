@@ -5,8 +5,9 @@ import { BaseUser, EmployeesService, isDateRangeSameYear, PromptService, Workflo
 import { BaseFormComponentModule } from '@nexthcm/ui';
 import { ProviderScope, TRANSLOCO_SCOPE, TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
+import { FormlyHookFn } from '@ngx-formly/core/lib/components/formly.field.config';
 import { PushModule } from '@rx-angular/template';
-import { TuiDay, TuiDayRange, TuiDestroyService } from '@taiga-ui/cdk';
+import { TuiDay, TuiDayRange, TuiDestroyService, TuiTime } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { TuiTagModule } from '@taiga-ui/kit';
 import { POLYMORPHEUS_CONTEXT, PolymorpheusModule, PolymorpheusTemplate } from '@tinkoff/ng-polymorpheus';
@@ -105,6 +106,46 @@ export class CreateLeaveRequestDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    const valueOnInit: FormlyHookFn = (field) => {
+      if (field?.templateOptions && field.formControl) {
+        field.templateOptions.options = this.translocoService
+          .selectTranslateObject('DAY_PART_OPTIONS', {}, this.translocoScope.scope)
+          .pipe(
+            map((result) => [
+              { label: result.morning, value: { morning: true } },
+              { label: result.afternoon, value: { afternoon: true } },
+            ]),
+            tap((items) => field.formControl?.value || field.formControl?.setValue(items[0].value))
+          );
+      }
+    };
+
+    const fromTimeOnInit: FormlyHookFn = (field) => {
+      const fromControl = field?.form?.get('from');
+      const toControl = field?.form?.get('to');
+
+      fromControl?.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((from: TuiTime | null) => {
+        const to = toControl?.value as TuiTime | null;
+        if (from && to) {
+          if (from.toAbsoluteMilliseconds() > to.toAbsoluteMilliseconds()) fromControl.setErrors({ startTime: true });
+          else if (toControl?.errors) toControl.setErrors(null);
+        }
+      });
+
+      toControl?.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((to: TuiTime | null) => {
+        const from = fromControl?.value as TuiTime | null;
+        if (from && to) {
+          if (from.toAbsoluteMilliseconds() > to.toAbsoluteMilliseconds()) toControl.setErrors({ endTime: true });
+          else if (fromControl?.errors) fromControl.setErrors(null);
+        }
+      });
+    };
+
+    const startTimeMessage = () =>
+      this.translocoService.selectTranslate(this.translocoScope.scope + '.startTimeMustBeEarlierThanEndTime');
+    const endTimeMessage = () =>
+      this.translocoService.selectTranslate(this.translocoScope.scope + '.endTimeMustBeLaterThanEndTime');
+
     this.fields = [
       {
         key: 'employee',
@@ -193,16 +234,22 @@ export class CreateLeaveRequestDialogComponent implements OnInit {
           translate: true,
           label: 'myTime.partialDays',
           labelClassName: 'font-semibold',
-          options: this.myLeaveService.select('partialDayTypes'),
+          options: [],
           labelProp: 'name',
           required: true,
           customContent: this.partialDaysContent,
         },
         hooks: {
           onInit: (field) => {
-            field?.formControl?.valueChanges
-              .pipe(takeUntil(this.destroy$))
-              .subscribe((partialDays: PartialDaysType) => (this.options.formState.partialDays = partialDays.type));
+            if (field?.templateOptions && field.formControl) {
+              field.formControl.valueChanges
+                .pipe(takeUntil(this.destroy$))
+                .subscribe((partialDays: PartialDaysType) => (this.options.formState.partialDays = partialDays?.type));
+
+              field.templateOptions.options = this.myLeaveService
+                .select('partialDayTypes')
+                .pipe(tap((items) => field.formControl?.value || field.formControl?.setValue(items[0])));
+            }
           },
         },
         hideExpression: (model: LeaveRequestForm) => !model.fromTo || model.fromTo.isSingleDay,
@@ -210,7 +257,7 @@ export class CreateLeaveRequestDialogComponent implements OnInit {
       {
         key: 'startDay',
         className: 'tui-form__row block',
-        fieldGroupClassName: 'grid grid-cols-3 gap-x-4',
+        fieldGroupClassName: 'grid grid-cols-3 gap-4',
         fieldGroup: [
           {
             key: 'type',
@@ -265,25 +312,18 @@ export class CreateLeaveRequestDialogComponent implements OnInit {
           {
             key: 'value',
             type: 'select',
+            className: 'block mt-6',
             templateOptions: {
               required: true,
               valueProp: 'value',
-              options: this.translocoService
-                .selectTranslateObject('DAY_PART_OPTIONS', {}, this.translocoScope.scope)
-                .pipe(
-                  map((result) => [
-                    { label: result.morning, value: { morning: true } },
-                    { label: result.afternoon, value: { afternoon: true } },
-                  ])
-                ),
+              options: [],
             },
+            hooks: { onInit: valueOnInit },
             hideExpression: (model) => model?.type !== DurationType.HalfDay,
-            expressionProperties: {
-              className: (model) => (model?.type !== DurationType.HalfDay ? 'hidden' : 'mt-6 block'),
-            },
           },
           {
             key: 'time',
+            className: 'col-span-2',
             fieldGroupClassName: 'grid grid-cols-2 gap-x-4',
             fieldGroup: [
               {
@@ -292,10 +332,11 @@ export class CreateLeaveRequestDialogComponent implements OnInit {
                 templateOptions: {
                   translate: true,
                   label: 'from',
-                  labelClassName: 'font-semibold',
                   required: true,
-                  textfieldLabelOutside: true,
+                  textfieldLabelOutside: false,
                 },
+                hooks: { onInit: fromTimeOnInit },
+                validation: { messages: { startTime: startTimeMessage } },
               },
               {
                 key: 'to',
@@ -303,20 +344,16 @@ export class CreateLeaveRequestDialogComponent implements OnInit {
                 templateOptions: {
                   translate: true,
                   label: 'to',
-                  labelClassName: 'font-semibold',
                   required: true,
-                  textfieldLabelOutside: true,
+                  textfieldLabelOutside: false,
                 },
+                validation: { messages: { endTime: endTimeMessage } },
               },
             ],
-            hideExpression: (model, formState, field) => field?.form?.value.type !== DurationType.SpecifyTime,
-            expressionProperties: {
-              className: (model, formState, field) =>
-                field?.form?.value.type !== DurationType.SpecifyTime ? 'hidden' : 'col-span-2',
-            },
+            hideExpression: (_, __, field) => field?.form?.value.type !== DurationType.SpecifyTime,
           },
         ],
-        hideExpression: (model, formState, field) =>
+        hideExpression: (_, formState, field) =>
           !field?.parent?.formControl?.value?.fromTo ||
           !(
             field.parent.formControl.value.fromTo.isSingleDay ||
@@ -326,7 +363,7 @@ export class CreateLeaveRequestDialogComponent implements OnInit {
       {
         key: 'endDay',
         className: 'tui-form__row block',
-        fieldGroupClassName: 'grid grid-cols-3 gap-x-4',
+        fieldGroupClassName: 'grid grid-cols-3 gap-4',
         fieldGroup: [
           {
             key: 'type',
@@ -358,25 +395,18 @@ export class CreateLeaveRequestDialogComponent implements OnInit {
           {
             key: 'value',
             type: 'select',
+            className: 'block mt-6',
             templateOptions: {
               required: true,
               valueProp: 'value',
-              options: this.translocoService
-                .selectTranslateObject('DAY_PART_OPTIONS', {}, this.translocoScope.scope)
-                .pipe(
-                  map((result) => [
-                    { label: result.morning, value: { morning: true } },
-                    { label: result.afternoon, value: { afternoon: true } },
-                  ])
-                ),
+              options: [],
             },
+            hooks: { onInit: valueOnInit },
             hideExpression: (model) => model?.type !== DurationType.HalfDay,
-            expressionProperties: {
-              className: (model) => (model?.type !== DurationType.HalfDay ? 'hidden' : 'mt-6 block'),
-            },
           },
           {
             key: 'time',
+            className: 'col-span-2',
             fieldGroupClassName: 'grid grid-cols-2 gap-x-4',
             fieldGroup: [
               {
@@ -385,10 +415,11 @@ export class CreateLeaveRequestDialogComponent implements OnInit {
                 templateOptions: {
                   translate: true,
                   label: 'from',
-                  labelClassName: 'font-semibold',
                   required: true,
-                  textfieldLabelOutside: true,
+                  textfieldLabelOutside: false,
                 },
+                hooks: { onInit: fromTimeOnInit },
+                validation: { messages: { startTime: startTimeMessage } },
               },
               {
                 key: 'to',
@@ -396,21 +427,17 @@ export class CreateLeaveRequestDialogComponent implements OnInit {
                 templateOptions: {
                   translate: true,
                   label: 'to',
-                  labelClassName: 'font-semibold',
                   required: true,
-                  textfieldLabelOutside: true,
+                  textfieldLabelOutside: false,
                 },
+                validation: { messages: { endTime: endTimeMessage } },
               },
             ],
-            hideExpression: (model, formState, field) => field?.form?.value.type !== DurationType.SpecifyTime,
-            expressionProperties: {
-              className: (model, formState, field) =>
-                field?.form?.value.type !== DurationType.SpecifyTime ? 'hidden' : 'col-span-2',
-            },
+            hideExpression: (_, __, field) => field?.form?.value.type !== DurationType.SpecifyTime,
           },
         ],
-        hideExpression: (model, formState) =>
-          ![PartialDays.EndDayOnly, PartialDays.StartEndDay].includes(formState.partialDays),
+        hideExpression: (_, formState) =>
+          !formState.partialDays || ![PartialDays.EndDayOnly, PartialDays.StartEndDay].includes(formState.partialDays),
       },
       {
         key: 'stateId',
