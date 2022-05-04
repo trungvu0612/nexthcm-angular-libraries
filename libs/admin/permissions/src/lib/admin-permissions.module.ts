@@ -2,12 +2,12 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
-import { MapPipeModule } from '@nexthcm/cdk';
 import { BaseFormComponentModule, LayoutComponent, LayoutModule } from '@nexthcm/ui';
 import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
 import { FormlyModule } from '@ngx-formly/core';
 import { PushModule } from '@rx-angular/template';
 import { TuiTablePaginationModule } from '@taiga-ui/addon-table';
+import { TuiMapperPipeModule } from '@taiga-ui/cdk';
 import { TuiButtonModule, TuiExpandModule, TuiLoaderModule } from '@taiga-ui/core';
 import { TuiCheckboxModule } from '@taiga-ui/kit';
 import { TableModule } from 'ngx-easy-table';
@@ -73,7 +73,7 @@ export const adminPermissionsRoutes: Routes = [
     PushModule,
     BaseFormComponentModule,
     TuiCheckboxModule,
-    MapPipeModule,
+    TuiMapperPipeModule,
   ],
   providers: [
     AdminPermissionsService,

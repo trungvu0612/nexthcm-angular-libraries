@@ -26,7 +26,7 @@
           <td>{{ t('RESOURCES.' + resource) }}</td>
           <td *ngFor="let action of actions">
             <tui-checkbox
-              *ngIf="{action,resource,group} | map: getControl as control; else none"
+              *ngIf="{action,resource,group} | tuiMapper : getControl as control; else none"
               [formControl]="control"
               size="l"
             ></tui-checkbox>
