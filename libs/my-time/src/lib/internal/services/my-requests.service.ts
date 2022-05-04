@@ -40,6 +40,7 @@ const REQUEST_HISTORY_URL_PATHS: Readonly<RequestTypeUrlPaths> = Object.freeze({
 const EXPORT_REQUEST_PATHS: Readonly<Partial<RequestTypeUrlPaths>> = Object.freeze({
   workingAfterHours: 'export-ot-requests',
   workingOnsite: 'export-outside',
+  leave: 'leaves/export-leave',
 });
 
 @Injectable()
