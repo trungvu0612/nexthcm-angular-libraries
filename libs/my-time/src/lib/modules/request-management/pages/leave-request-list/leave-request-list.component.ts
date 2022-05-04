@@ -8,6 +8,7 @@ import { RxState } from '@rx-angular/state';
 import { isPresent } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
 import { Columns } from 'ngx-easy-table';
+import { FileSaverService } from 'ngx-filesaver';
 import { combineLatest, Observable, of } from 'rxjs';
 import { catchError, filter, map, share, startWith, switchMap } from 'rxjs/operators';
 
@@ -67,6 +68,7 @@ export class LeaveRequestListComponent extends AbstractRequestListComponent<Leav
     readonly translocoService: TranslocoService,
     readonly promptService: PromptService,
     private readonly myLeaveService: MyLeaveService,
+    override readonly fileSaverService: FileSaverService,
     override readonly dialogService: TuiDialogService,
     override readonly injector: Injector,
     override readonly fb: FormBuilder
