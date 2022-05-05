@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { GetFilePipeModule } from '@nexthcm/cdk';
-import { FormlyTaigaUiModule, LayoutModule, WorkflowActionsButtonDropdownComponentModule } from '@nexthcm/ui';
+import { LayoutModule, WorkflowActionsButtonDropdownComponentModule } from '@nexthcm/ui';
 import { TranslocoModule } from '@ngneat/transloco';
 import { TranslocoLocaleModule } from '@ngneat/transloco-locale';
 import { FormlyModule } from '@ngx-formly/core';
@@ -61,7 +61,6 @@ import { MyWorkingOnsiteRequestsComponent } from './pages/my-working-onsite-requ
     TuiMarkerIconModule,
     TuiTagModule,
     FormlyModule,
-    FormlyTaigaUiModule,
     TuiGroupModule,
     TuiTabsModule,
     TuiColorModule,

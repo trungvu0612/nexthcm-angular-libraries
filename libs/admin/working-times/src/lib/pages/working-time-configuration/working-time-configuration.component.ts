@@ -88,6 +88,10 @@ export class WorkingTimeConfigurationComponent implements AfterViewInit {
             {
               key: 'values',
               type: 'repeat',
+              templateOptions: {
+                hideAddButton: true,
+                hideRemoveButton: true,
+              },
               fieldArray: {
                 fieldGroupClassName: 'flex gap-4',
                 fieldGroup: [

@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RepeatSectionComponent } from './repeat-section.component';
+import { RepeatComponent } from './repeat.component';
 
-describe('RepeatSectionComponent', () => {
-  let component: RepeatSectionComponent;
-  let fixture: ComponentFixture<RepeatSectionComponent>;
+describe('RepeatComponent', () => {
+  let component: RepeatComponent;
+  let fixture: ComponentFixture<RepeatComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [RepeatSectionComponent],
+      declarations: [RepeatComponent],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(RepeatSectionComponent);
+    fixture = TestBed.createComponent(RepeatComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

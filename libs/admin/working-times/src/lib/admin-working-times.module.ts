@@ -36,7 +36,6 @@ import { NgxPermissionsGuard } from 'ngx-permissions';
 
 import { FormlyDailyHourConfigComponent } from './components/formly-daily-hour-config/formly-daily-hour-config.component';
 import { HolidayListComponent } from './components/holiday-list/holiday-list.component';
-import { RepeatSectionComponent } from './components/repeat-section/repeat-section.component';
 import { UpsertHolidayDialogComponent } from './components/upsert-holiday-dialog/upsert-holiday-dialog.component';
 import en from './i18n/en.json';
 import vi from './i18n/vi.json';
@@ -73,7 +72,6 @@ export const adminWorkingTimesRoutes: Routes = [
 @NgModule({
   declarations: [
     WorkingTimeConfigurationComponent,
-    RepeatSectionComponent,
     HolidayListComponent,
     UpsertHolidayDialogComponent,
     CheckinCheckoutExceptionComponent,
@@ -86,10 +84,7 @@ export const adminWorkingTimesRoutes: Routes = [
     CommonModule,
     RouterModule.forChild(adminWorkingTimesRoutes),
     FormlyModule.forChild({
-      types: [
-        { name: 'repeat', component: RepeatSectionComponent },
-        { name: 'daily-hour-config', component: FormlyDailyHourConfigComponent },
-      ],
+      types: [{ name: 'daily-hour-config', component: FormlyDailyHourConfigComponent }],
     }),
     ReactiveFormsModule,
     TuiLabelModule,

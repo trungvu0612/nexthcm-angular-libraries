@@ -20,7 +20,7 @@ import { FormlyModule } from '@ngx-formly/core';
 import { PushModule } from '@rx-angular/template';
 import { TuiTablePaginationModule } from '@taiga-ui/addon-table';
 import { TuiLetModule } from '@taiga-ui/cdk';
-import { TuiButtonModule, TuiDataListModule, TuiLabelModule, TuiLoaderModule, TuiSvgModule } from '@taiga-ui/core';
+import { TuiButtonModule, TuiDataListModule, TuiLoaderModule, TuiSvgModule } from '@taiga-ui/core';
 import { TuiCheckboxLabeledModule, TuiCheckboxModule, TuiTabsModule, TuiTagModule } from '@taiga-ui/kit';
 import { PolymorpheusModule } from '@tinkoff/ng-polymorpheus';
 import { TableModule } from 'ngx-easy-table';
@@ -33,7 +33,6 @@ import { EducationFormComponent } from './components/education-form/education-fo
 import { ExperienceFormComponent } from './components/experience-form/experience-form.component';
 import { ExportEmployeesDialogComponent } from './components/export-employees-dialog/export-employees-dialog.component';
 import { FormlyDownloadButtonComponent } from './components/formly-download-button/formly-download-button.component';
-import { FormlyRepeatSectionComponent } from './components/formly-repeat-section/formly-repeat-section.component';
 import { GeneralInformationComponent } from './components/general-information/general-information.component';
 import { GeneralInformationFormComponent } from './components/general-information-form/general-information-form.component';
 import { IndividualFormComponent } from './components/individual-form/individual-form.component';
@@ -59,15 +58,11 @@ export const ADMIN_EMPLOYEE_ROUTES: Routes = [
     CommonModule,
     RouterModule.forChild(ADMIN_EMPLOYEE_ROUTES),
     FormlyModule.forChild({
-      types: [
-        { name: 'repeat', component: FormlyRepeatSectionComponent },
-        { name: 'download-button', component: FormlyDownloadButtonComponent },
-      ],
+      types: [{ name: 'download-button', component: FormlyDownloadButtonComponent }],
     }),
     TuiTabsModule,
     TranslocoModule,
     TuiButtonModule,
-    TuiLabelModule,
     TuiSvgModule,
     TuiLoaderModule,
     TableModule,
@@ -100,7 +95,6 @@ export const ADMIN_EMPLOYEE_ROUTES: Routes = [
     DurationFormComponent,
     EducationFormComponent,
     ShuiFormComponent,
-    FormlyRepeatSectionComponent,
     EmployeeManagementComponent,
     InitEmployeeDialogComponent,
     GeneralInformationComponent,

@@ -7,6 +7,7 @@ import { FilesModule } from './modules/files/files.module';
 import { FilterModule } from './modules/filter/filter.module';
 import { FormFieldModule } from './modules/form-field/form-field.module';
 import { InputsModule } from './modules/inputs/inputs.module';
+import { RepeatModule } from './modules/repeat/repeat.component';
 import { SelectsModule } from './modules/selects/selects.module';
 import { StepperComponentModule } from './modules/stepper/stepper.component';
 import { ToggleModule } from './modules/toggle/toggle.module';
@@ -23,6 +24,7 @@ import { ToggleModule } from './modules/toggle/toggle.module';
     FilterModule,
     CheckboxLabeledComponentModule,
     StepperComponentModule,
+    RepeatModule,
   ],
 })
 export class FormlyTaigaUiModule {}
