@@ -5,7 +5,7 @@
   [form]="form"
   [submitLoading]="(submitLoading$ | push) === true"
 >
-  <ng-container *ngFor="let group of schema | keyvalue">
+  <ng-container *ngFor="let group of schema | keyvalue: originalOrder">
     <div class="border-b mt-8 pb-2">
       <tui-checkbox-labeled [formControl]="$any(groupForm.get(group.key))" size="l">
         <div class="font-semibold text-xl">{{ t(group.key) }}</div>
@@ -14,9 +14,9 @@
 
     <div class="flex flex-wrap gap-6 mt-4">
       <tui-checkbox-labeled
-        *ngFor="let field of group.value | keyvalue"
+        *ngFor="let field of group.value | keyvalue: originalOrder"
         [formControl]="$any($any(form.get(group.key)).get(field.key))"
-        class="w-40"
+        class="w-60"
       >
         <div class="text-base">{{ t(field.value.label) }}</div>
       </tui-checkbox-labeled>

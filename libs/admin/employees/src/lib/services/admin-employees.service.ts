@@ -42,4 +42,19 @@ export class AdminEmployeesService {
       )
       .pipe(map((res) => res.data));
   }
+
+  exportEmployees(params: Record<string, true>): Observable<{ blob: Blob; filename?: string }> {
+    return this.http
+      .get(`${ACCOUNT_API_PATH}/file-path-stored/export-employee-customize`, {
+        params,
+        responseType: 'blob',
+        observe: 'response',
+      })
+      .pipe(
+        map(({ body, headers }) => ({
+          blob: body as Blob,
+          filename: headers.get('Content-Disposition')?.split('filename=')[1],
+        }))
+      );
+  }
 }

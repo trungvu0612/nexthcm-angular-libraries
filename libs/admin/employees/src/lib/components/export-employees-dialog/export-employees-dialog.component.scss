@@ -1,7 +1,13 @@
 :host {
   display: block;
 
-  ::ng-deep tui-checkbox-labeled .wrapper {
-    align-items: center;
+  ::ng-deep tui-checkbox-labeled {
+    &[data-size='m'] tui-checkbox {
+      margin-top: 4px;
+    }
+
+    &[data-size='l'] tui-checkbox {
+      margin-top: 2px;
+    }
   }
 }
