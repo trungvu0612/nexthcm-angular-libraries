@@ -414,6 +414,18 @@ export class IndividualFormComponent {
               },
             },
             {
+              key: 'projectName',
+              type: 'input',
+              className: 'tui-form__row block',
+              templateOptions: {
+                translate: true,
+                label: `${this.translocoScope.scope}.projectName`,
+                labelClassName: 'font-semibold',
+                textfieldLabelOutside: true,
+                placeholder: `${this.translocoScope.scope}.enterProjectName`,
+              },
+            },
+            {
               key: 'section',
               type: 'input',
               className: 'tui-form__row block',

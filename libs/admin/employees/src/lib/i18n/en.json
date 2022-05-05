@@ -126,6 +126,7 @@
   "ordinalNumbers": "Ordinal numbers",
   "fullName": "Full name",
   "vietnameseFullName": "Vietnamese full name",
+  "enterVietnameseFullName": "Enter Vietnamese full name",
   "temporaryWard": "Ward (T.A)",
   "temporaryDistrict": "District (T.A)",
   "temporaryProvince": "Province (T.A)",
@@ -138,9 +139,14 @@
   "bvTime": "BV time",
   "seniority": "Seniority",
   "typeOfPersonnel": "Type of personnel",
+  "enterTypeOfPersonnel": "Enter type of personnel",
   "projectName": "Project name",
+  "enterProjectName": "Enter project name",
   "fromDate": "Start day",
   "toDate": "End day",
   "healthInsurancePlace": "Health insurance place",
-  "pviHealthCareNumber": "PVI health care number"
+  "enterHealthInsurancePlace": "Enter Health insurance place",
+  "pviHealthCareNumber": "PVI health care number",
+  "labourContractEndDate": "Labour contract end date",
+  "selectLabourContractEndDate": "Select labour contract end date"
 }

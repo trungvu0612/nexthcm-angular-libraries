@@ -126,6 +126,7 @@
   "ordinalNumbers": "Số thứ tự",
   "fullName": "Tên đầy đủ",
   "vietnameseFullName": "Tên đầy đủ tiếng Việt",
+  "enterVietnameseFullName": "Nhập tên đầy đủ tiếng Việt",
   "temporaryWard": "Phường/xã (tạm trú)",
   "temporaryDistrict": "Quận/huyện (tạm trú)",
   "temporaryProvince": "Tỉnh/thành phố (tạm trú)",
@@ -138,9 +139,14 @@
   "bvTime": "Thời gian BV",
   "seniority": "Thâm niên",
   "typeOfPersonnel": "Loại nhân sự",
+  "enterTypeOfPersonnel": "Nhập loại nhân sự",
   "projectName": "Tên dự án",
+  "enterProjectName": "Nhập tên dự án",
   "fromDate": "Ngày bắt đầu",
   "toDate": "Ngày kết thúc",
   "healthInsurancePlace": "Nơi đăng ký khám chữa bệnh bảo hiểm y tế",
-  "pviHealthCareNumber": "Mã số bảo hiểm chăm sóc sức khoẻ PVI"
+  "enterHealthInsurancePlace": "Nhập nơi đăng ký khám chữa bệnh bảo hiểm y tế",
+  "pviHealthCareNumber": "Mã số bảo hiểm chăm sóc sức khoẻ PVI",
+  "labourContractEndDate": "Ngày kết thúc hợp đồng lao động",
+  "selectLabourContractEndDate": "Chọn ngày kết thúc hợp đồng lao động"
 }

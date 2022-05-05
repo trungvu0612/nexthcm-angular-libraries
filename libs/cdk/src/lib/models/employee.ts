@@ -96,6 +96,7 @@ export interface EmployeeDuration extends EmployeeBaseForm {
   probationNumber?: number;
   labourContractNumber?: string;
   labourContractDate?: string | TuiDay | Date;
+  employmentContractTerminationDate?: string;
   indefiniteTermContract?: string;
   indefiniteTermContractDate?: string | TuiDay | Date;
   resignationAgreement?: string;

@@ -130,6 +130,18 @@ export class DurationFormComponent {
         {
           fieldGroup: [
             {
+              key: 'typeOfPersonnel',
+              className: 'tui-form__row block',
+              type: 'input',
+              templateOptions: {
+                translate: true,
+                label: `${this.translocoScope.scope}.typeOfPersonnel`,
+                labelClassName: 'font-semibold',
+                placeholder: `${this.translocoScope.scope}.enterTypeOfPersonnel`,
+                textfieldLabelOutside: true,
+              },
+            },
+            {
               key: 'labourContractNumber',
               className: 'tui-form__row block',
               type: 'input',
@@ -150,6 +162,18 @@ export class DurationFormComponent {
                 label: `${this.translocoScope.scope}.labourContractDate`,
                 labelClassName: 'font-semibold',
                 placeholder: `${this.translocoScope.scope}.enterLabourContractDate`,
+                textfieldLabelOutside: true,
+              },
+            },
+            {
+              key: 'employmentContractTerminationDate',
+              className: 'tui-form__row block',
+              type: 'input-date',
+              templateOptions: {
+                translate: true,
+                label: `${this.translocoScope.scope}.labourContractEndDate`,
+                labelClassName: 'font-semibold',
+                placeholder: `${this.translocoScope.scope}.selectLabourContractEndDate`,
                 textfieldLabelOutside: true,
               },
             },
@@ -217,6 +241,7 @@ export class DurationFormComponent {
           'officialStartDate',
           'terminationDate',
           'labourContractDate',
+          'employmentContractTerminationDate',
           'indefiniteTermContractDate',
           'resignationAgreementDate',
         ]);
@@ -254,6 +279,7 @@ export class DurationFormComponent {
         'officialStartDate',
         'terminationDate',
         'labourContractDate',
+        'employmentContractTerminationDate',
         'indefiniteTermContractDate',
         'resignationAgreementDate',
       ]);

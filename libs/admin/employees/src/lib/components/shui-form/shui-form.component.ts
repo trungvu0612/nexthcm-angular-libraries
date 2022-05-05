@@ -124,6 +124,18 @@ export class ShuiFormComponent {
                 textfieldLabelOutside: true,
               },
             },
+            {
+              key: 'healthInsurancePlace',
+              className: 'tui-form__row block',
+              type: 'input',
+              templateOptions: {
+                translate: true,
+                label: `${this.translocoScope.scope}.healthInsurancePlace`,
+                labelClassName: 'font-semibold',
+                placeholder: `${this.translocoScope.scope}.enterHealthInsurancePlace`,
+                textfieldLabelOutside: true,
+              },
+            },
           ],
         },
       ],

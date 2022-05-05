@@ -106,6 +106,18 @@ export class GeneralInformationFormComponent implements OnInit {
               },
             },
             {
+              key: 'fullNameInVietnamese',
+              className: 'tui-form__row block',
+              type: 'input',
+              templateOptions: {
+                translate: true,
+                label: this.translocoScope.scope + '.vietnameseFullName',
+                placeholder: this.translocoScope.scope + '.enterVietnameseFullName',
+                textfieldLabelOutside: true,
+                labelClassName: 'font-semibold',
+              },
+            },
+            {
               key: 'image',
               className: 'tui-form__row block',
               type: 'upload-file',
