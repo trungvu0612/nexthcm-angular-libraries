@@ -7,6 +7,8 @@
     "status": "Trạng thái",
     "functions": "Chức năng"
   },
+  "processExportEmployeeInformationCustomize": "Xử lý xuất thông tin nhân viên tùy chỉnh",
+  "processExportEmployeeInformationCustomizeDescription": "Xử lý xuất thông tin nhân viên với tuỳ chọn thông tin",
   "syncUserMyTime": "Đồng bộ hóa người dùng với thời gian",
   "syncUserMyTimeDescription": "Đồng bộ hóa dữ liệu người dùng từ tài khoản sang thời gian",
   "processDataCrossCheck": "Xử lý kiểm tra dữ liệu chéo",

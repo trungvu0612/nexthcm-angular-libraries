@@ -7,6 +7,8 @@
     "status": "Status",
     "functions": "Functions"
   },
+  "processExportEmployeeInformationCustomize": "Process export of custom employee information",
+  "processExportEmployeeInformationCustomizeDescription": "Process export of employee information with custom fields",
   "syncUserMyTime": "Sync user data with My time",
   "syncUserMyTimeDescription": "Sync user data from account to My time",
   "processDataCrossCheck": "Process data cross check",
