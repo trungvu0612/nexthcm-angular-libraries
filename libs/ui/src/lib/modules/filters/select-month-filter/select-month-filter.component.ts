@@ -30,7 +30,7 @@ import { TuiSelectModule } from '@taiga-ui/kit';
 })
 export class SelectMonthFilterComponent implements AfterViewInit {
   @ViewChild('connector', { static: true }) connector!: PropertyRouteConnectorDirective<number>;
-  @Input() title = 'month';
+  @Input() label = 'month';
   @Input() propertyName = 'month';
   @Input() initMonth?: number;
   @Output() monthChange = new EventEmitter<number | null>();

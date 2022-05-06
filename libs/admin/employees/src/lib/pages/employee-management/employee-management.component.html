@@ -42,13 +42,13 @@
     <hcm-select-month-filter
       (monthChange)="birthMonth$.next($event)"
       propertyName="birthDate"
-      title="employees.monthOfBirth"
+      label="employees.monthOfBirth"
     ></hcm-select-month-filter>
 
     <hcm-input-date-range-filter
       (datesChange)="onboardDates$.next($event)"
       class="col-span-2"
-      title="employees.onboardDates"
+      label="employees.onboardDates"
     ></hcm-input-date-range-filter>
 
     <hcm-select-filter

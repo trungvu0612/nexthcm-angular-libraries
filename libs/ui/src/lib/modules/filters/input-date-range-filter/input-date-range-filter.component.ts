@@ -17,7 +17,7 @@ import omit from 'just-omit';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InputDateRangeFilterComponent implements OnInit {
-  @Input() title = 'dateRange';
+  @Input() label = 'dateRange';
   @Input() paramName = 'dates';
   @Output() datesChange = new EventEmitter<TuiDayRange>();
 

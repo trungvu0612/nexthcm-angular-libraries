@@ -7,7 +7,7 @@
   [tuiTextfieldCleaner]="true"
   [valueContent]="monthStringify(months || [])"
 >
-  {{ title | transloco }}
+  {{ label | transloco }}
   <ng-template tuiDataList>
     <tui-data-list>
       <button *ngFor="let month of months" [value]="month.value" tuiOption>
