@@ -105,6 +105,8 @@ export class UpsertPermissionComponent {
           const policyItems = policy.policyItems.map((policy) => {
             const permissions = policy.permissions.reduce<Record<string, Record<string, boolean>>>(
               (acc, { action, resource }) => {
+                // TODO spelling mistake
+                if (action.code === 'APPRROVE') action.code = 'APPROVE';
                 if (!acc[action.code]) acc[action.code] = {};
                 acc[action.code][resource.code] = true;
                 return acc;
@@ -167,6 +169,8 @@ export class UpsertPermissionComponent {
 
         policy.permissions.forEach((permission) => {
           const { action, resource } = permission;
+          // TODO spelling mistake
+          if (action.code === 'APPRROVE') action.code = 'APPROVE';
           if (!policyItem.permissions[action.code][resource.code]) policy.permissionRemoves.push(permission);
         });
 
