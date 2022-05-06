@@ -8,7 +8,7 @@ import { RxState } from '@rx-angular/state';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
-import { EMPTY, from, iif, of, Subject } from 'rxjs';
+import { from, of, Subject } from 'rxjs';
 import {
   catchError,
   debounceTime,
@@ -92,7 +92,7 @@ export class KnowledgeBaseCategoryManagementComponent extends AbstractServerSort
   upsertKnowledgeBaseCategory(data?: KnowledgeBaseCategory): void {
     this.dialogService
       .open<boolean>(new PolymorpheusComponent(UpsertKnowledgeBaseCategoryDialogComponent, this.injector), {
-        label: this.translocoService.translate(data ? 'editCategory' : 'addCategory'),
+        label: this.translocoService.translate(this.translocoScope.scope + (data ? '.editCategory' : '.addCategory')),
         size: 'l',
         data,
       })
@@ -104,16 +104,19 @@ export class KnowledgeBaseCategoryManagementComponent extends AbstractServerSort
     from(
       this.promptService.open({
         icon: 'question',
-        html: this.translocoService.translate('deleteCategory'),
+        html: this.translocoService.translate(this.translocoScope.scope + '.deleteCategory'),
         showCancelButton: true,
       })
     )
       .pipe(
-        switchMap((result) =>
-          iif(() => result.isConfirmed, this.adminKnowledgeBaseService.deleteKnowledgeBaseCategory(id), EMPTY)
-        ),
+        filter(({ isConfirmed }) => isConfirmed),
+        switchMap(() => this.adminKnowledgeBaseService.deleteKnowledgeBaseCategory(id)),
         takeUntil(this.destroy$)
       )
-      .subscribe(this.promptService.handleResponse('deleteCategorySuccessfully', () => this.fetch$.next()));
+      .subscribe(
+        this.promptService.handleResponse(this.translocoScope.scope + '.deleteCategorySuccessfully', () =>
+          this.fetch$.next()
+        )
+      );
   }
 }

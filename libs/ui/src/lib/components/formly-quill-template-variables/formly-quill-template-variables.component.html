@@ -7,7 +7,7 @@
     <button
       (click)="onAddTemplateVariable(variable)"
       *ngFor="let variable of templateVariables"
-      [tuiHint]="variable.description ? (variable.description | transloco) : null"
+      [tuiHint]="variable.description ? ('QUILL_VARIABLES.' + variable.description | transloco) : null"
       appearance="secondary"
       class="mb-1"
       size="xs"

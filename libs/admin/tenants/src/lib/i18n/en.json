@@ -20,6 +20,9 @@
     "website": "Website",
     "domain": "Domain"
   },
+  "chooseManager": "Choose a manager",
+  "taxCode": "Tax code",
+  "enterTaxCode": "Enter tax code",
   "tenantName": "Tenant name",
   "tenantLogo": "Tenant logo",
   "enterTenantName": "Enter tenant name...",

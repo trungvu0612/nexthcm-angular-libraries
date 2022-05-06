@@ -6,7 +6,7 @@ import { ProviderScope, TRANSLOCO_SCOPE, TranslocoService } from '@ngneat/transl
 import { RxState } from '@rx-angular/state';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { from, of } from 'rxjs';
-import { catchError, filter, map, share, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { catchError, filter, map, share, startWith, switchMap, takeUntil } from 'rxjs/operators';
 
 import { Policy } from '../../models/policy';
 import { AdminPermissionsService } from '../../services/admin-permissions.service';
@@ -39,11 +39,11 @@ export class PermissionListComponent extends AbstractServerSortPaginationTableCo
   );
 
   constructor(
+    @Inject(TRANSLOCO_SCOPE) readonly translocoScope: ProviderScope,
     override readonly state: RxState<Pagination<Policy>>,
     override readonly activatedRoute: ActivatedRoute,
     readonly locationRef: Location,
     readonly urlSerializer: UrlSerializer,
-    @Inject(TRANSLOCO_SCOPE) readonly translocoScope: ProviderScope,
     private adminPermissionsService: AdminPermissionsService,
     private promptService: PromptService,
     private destroy$: TuiDestroyService,
@@ -57,23 +57,17 @@ export class PermissionListComponent extends AbstractServerSortPaginationTableCo
     from(
       this.promptService.open({
         icon: 'question',
-        html: this.translocoService.translate('PERMISSION_TABLE.MESSAGES.deletePermission'),
+        html: this.translocoService.translate(this.translocoScope.scope + '.deletePermission'),
         showCancelButton: true,
       })
     )
       .pipe(
         filter((result) => result.isConfirmed),
-        switchMap(() => this.adminPermissionsService.deletePermission(id).pipe(tap(() => this.fetch$.next()))),
-        catchError((err) =>
-          this.promptService.open({
-            icon: 'error',
-            html: this.translocoService.translate(`ERRORS.${err.error.message}`),
-          })
-        ),
+        switchMap(() => this.adminPermissionsService.deletePermission(id)),
         takeUntil(this.destroy$)
       )
       .subscribe(
-        this.promptService.handleResponse('PERMISSION_TABLE.MESSAGES.deletePermissionSuccessfully', () =>
+        this.promptService.handleResponse(this.translocoScope.scope + '.deletePermissionSuccessfully', () =>
           this.fetch$.next()
         )
       );

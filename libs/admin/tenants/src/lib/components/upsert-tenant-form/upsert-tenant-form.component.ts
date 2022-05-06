@@ -128,9 +128,9 @@ export class UpsertTenantFormComponent {
           templateOptions: {
             required: true,
             translate: true,
-            label: 'taxCode',
+            label: this.translocoScope.scope + '.taxCode',
             labelClassName: 'font-semibold',
-            placeholder: 'enterTaxCode',
+            placeholder: this.translocoScope.scope + '.enterTaxCode',
             textfieldLabelOutside: true,
           },
           validators: { validation: [RxwebValidators.numeric({ acceptValue: NumericValueType.PositiveNumber })] },

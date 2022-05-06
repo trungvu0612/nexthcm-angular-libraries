@@ -114,13 +114,13 @@ export class HomeComponent {
 
     switch (error.code) {
       case error.PERMISSION_DENIED:
-        message = 'GEOLOCATION.ERROR.PERMISSION_DENIED';
+        message = 'GEOLOCATION.PERMISSION_DENIED';
         break;
       case error.POSITION_UNAVAILABLE:
-        message = 'GEOLOCATION.ERROR.POSITION_UNAVAILABLE';
+        message = 'GEOLOCATION.POSITION_UNAVAILABLE';
         break;
       case error.TIMEOUT:
-        message = 'GEOLOCATION.ERROR.TIMEOUT';
+        message = 'GEOLOCATION.TIMEOUT';
         break;
       default:
         message = 'errorOccurred';

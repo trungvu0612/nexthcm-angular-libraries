@@ -8,12 +8,10 @@
     "name": "Tên",
     "code": "Mã",
     "description": "Mô tả",
-    "action": "Thao tác",
-    "MESSAGES": {
-      "deletePermission": "Bạn có chắc chắn muốn xóa phân quyền này không?",
-      "deletePermissionSuccessfully": "Đã xóa quyền thành công!"
-    }
+    "action": "Thao tác"
   },
+  "deletePermission": "Bạn có chắc chắn muốn xóa phân quyền này không?",
+  "deletePermissionSuccessfully": "Đã xóa quyền thành công!",
   "ACTIONS": {
     "VIEW": "Xem",
     "CREATE": "Tạo",

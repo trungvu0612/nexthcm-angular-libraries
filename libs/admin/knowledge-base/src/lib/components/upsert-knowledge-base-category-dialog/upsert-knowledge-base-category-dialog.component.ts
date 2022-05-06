@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/cor
 import { AbstractControl, FormBuilder } from '@angular/forms';
 import { CommonStatus, PromptService } from '@nexthcm/cdk';
 import { KnowledgeBaseCategory } from '@nexthcm/knowledge-base';
-import { TranslocoService } from '@ngneat/transloco';
+import { ProviderScope, TRANSLOCO_SCOPE, TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogContext } from '@taiga-ui/core';
@@ -83,6 +83,7 @@ export class UpsertKnowledgeBaseCategoryDialogComponent implements OnInit {
   ];
 
   constructor(
+    @Inject(TRANSLOCO_SCOPE) readonly translocoScope: ProviderScope,
     private readonly translocoService: TranslocoService,
     @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<boolean, KnowledgeBaseCategory>,
     private readonly fb: FormBuilder,
@@ -111,7 +112,7 @@ export class UpsertKnowledgeBaseCategoryDialogComponent implements OnInit {
         .pipe(takeUntil(this.destroy$))
         .subscribe(
           this.promptService.handleResponse(
-            formModel.id ? 'updateCategorySuccessfully' : 'createCategorySuccessfully',
+            this.translocoScope.scope + (formModel.id ? 'updateCategorySuccessfully' : 'createCategorySuccessfully'),
             () => this.context.completeWith(true)
           )
         );

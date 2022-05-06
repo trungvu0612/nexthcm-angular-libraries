@@ -20,6 +20,9 @@
     "website": "Website",
     "domain": "Tên miền"
   },
+  "chooseManager": "Chọn người quản lí",
+  "taxCode": "Mã số thuế",
+  "enterTaxCode": "Nhập mã số thuế",
   "tenantName": "Tên tenant",
   "tenantLogo": "Logo tenant",
   "enterTenantName": "Nhập tên tenant...",

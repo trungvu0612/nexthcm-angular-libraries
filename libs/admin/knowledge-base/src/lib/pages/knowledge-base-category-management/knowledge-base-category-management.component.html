@@ -1,4 +1,4 @@
-<hcm-page [title]="'adminKnowledgeBase.categoryManagement' | transloco">
+<hcm-page [title]="translocoScope.scope + '.categoryManagement' | transloco">
   <ng-container ngProjectAs="pageHeader">
     <button
       (click)="upsertKnowledgeBaseCategory()"
@@ -7,12 +7,12 @@
       size="m"
       tuiButton
     >
-      {{ 'addCategory' | transloco }}
+      {{ translocoScope.scope + '.addCategory' | transloco }}
     </button>
   </ng-container>
   <hcm-input-filter
     (valueChange)="search$.next($event)"
-    [label]="'searchCategories' | transloco"
+    [label]="translocoScope.scope + '.searchCategories' | transloco"
     class="mb-5"
     icon="tuiIconSearchLarge"
     propertyName="search"
