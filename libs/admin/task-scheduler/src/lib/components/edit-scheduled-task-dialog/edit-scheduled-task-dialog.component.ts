@@ -53,9 +53,9 @@ export class EditScheduledTaskDialogComponent implements OnInit {
       type: 'input-number',
       templateOptions: {
         translate: true,
-        label: `${this.translocoScope.alias}.value`,
+        label: `${this.translocoScope.scope}.value`,
         labelClassName: 'font-semibold',
-        placeholder: `${this.translocoScope.alias}.enterSeconds`,
+        placeholder: `${this.translocoScope.scope}.enterSeconds`,
         min: 300,
         required: true,
         textfieldLabelOutside: true,
@@ -78,7 +78,7 @@ export class EditScheduledTaskDialogComponent implements OnInit {
   ];
 
   constructor(
-    @Inject(TRANSLOCO_SCOPE) private readonly translocoScope: ProviderScope,
+    @Inject(TRANSLOCO_SCOPE) readonly translocoScope: ProviderScope,
     private readonly fb: FormBuilder,
     @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<boolean, ScheduledTask>,
     private readonly TaskSchedulerService: TaskSchedulerService,
@@ -104,7 +104,7 @@ export class EditScheduledTaskDialogComponent implements OnInit {
       this.TaskSchedulerService.editScheduledTask(formModel)
         .pipe(takeUntil(this.destroy$))
         .subscribe(
-          this.promptService.handleResponse(this.translocoScope.alias + '.editScheduledTaskSuccessfully', () =>
+          this.promptService.handleResponse(this.translocoScope.scope + '.editScheduledTaskSuccessfully', () =>
             this.context.completeWith(true)
           )
         );

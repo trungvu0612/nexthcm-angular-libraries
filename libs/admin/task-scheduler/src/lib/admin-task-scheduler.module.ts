@@ -52,7 +52,6 @@ export const adminTaskSchedulerRoutes: Route[] = [
       provide: TRANSLOCO_SCOPE,
       useValue: {
         scope: 'taskScheduler',
-        alias: 'SCHEDULER',
         loader: { en: () => Promise.resolve(en), vi: () => Promise.resolve(vi) },
       },
     },

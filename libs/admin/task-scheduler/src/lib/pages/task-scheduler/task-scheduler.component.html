@@ -4,14 +4,12 @@
       <ng-template let-row>
         <ng-container *tuiLet="item(row) as item">
           <ng-container *transloco="let t">
-            <td>{{ t(item.name) }}</td>
-            <td>
-              <div [innerHTML]="t(item.description)"></div>
-            </td>
+            <td>{{ t(this.translocoScope.scope + '.TASK_SCHEDULER.' + item.name) }}</td>
+            <td [innerHTML]="t(this.translocoScope.scope + '.TASK_SCHEDULER.' + item.description)"></td>
             <td>{{ item.type }}</td>
             <td class="whitespace-nowrap">
               <span>{{ item.value }}</span
-              ><span *ngIf="item.type === ScheduleType.interval">{{ t(this.translocoScope.alias + '.seconds') }}</span>
+              ><span *ngIf="item.type === ScheduleType.interval">{{ t(this.translocoScope.scope + '.seconds') }}</span>
             </td>
             <td>
               <tui-tag

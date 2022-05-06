@@ -38,7 +38,7 @@ export class TaskSchedulerComponent implements OnInit {
   readonly CommonStatus = CommonStatus;
   readonly ScheduleType = ScheduleType;
   readonly columns$: Observable<Columns[]> = this.translocoService
-    .selectTranslateObject(this.translocoScope.alias + '.ADMIN_TASK_SCHEDULER_COLUMNS')
+    .selectTranslateObject(this.translocoScope.scope + '.ADMIN_TASK_SCHEDULER_COLUMNS')
     .pipe(
       map((result) => [
         { key: 'name', title: result.name },
@@ -91,7 +91,7 @@ export class TaskSchedulerComponent implements OnInit {
   onEditScheduledTask(data: ScheduledTask): void {
     this.dialogService
       .open<boolean>(new PolymorpheusComponent(EditScheduledTaskDialogComponent, this.injector), {
-        label: this.translocoService.translate(this.translocoScope.alias + '.editScheduledTask'),
+        label: this.translocoService.translate(this.translocoScope.scope + '.editScheduledTask'),
         size: 'l',
         data,
       })
@@ -105,7 +105,7 @@ export class TaskSchedulerComponent implements OnInit {
         tap(this.promptService.handleResponse('')),
         switchMap(() =>
           this.alertService.open('', {
-            label: this.translocoService.translate(this.translocoScope.alias + '.executeTask'),
+            label: this.translocoService.translate(this.translocoScope.scope + '.executeTask'),
           })
         ),
         takeUntil(this.destroy$)

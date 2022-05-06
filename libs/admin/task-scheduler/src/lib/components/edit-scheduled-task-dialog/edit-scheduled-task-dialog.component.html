@@ -1,6 +1,6 @@
 <ng-container *transloco="let t">
   <label [context]="{ $implicit: t('name') }" [label]="labelContent" class="tui-form__row" tuiLabel>
-    {{ t(model.name) }}
+    {{ t(translocoScope.scope + '.TASK_SCHEDULER.' + model.name) }}
   </label>
   <hcm-base-form
     (cancel)="onCancel()"
