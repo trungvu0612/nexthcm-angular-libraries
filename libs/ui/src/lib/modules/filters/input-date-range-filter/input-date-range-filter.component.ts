@@ -18,6 +18,7 @@ import omit from 'just-omit';
 })
 export class InputDateRangeFilterComponent implements OnInit {
   @Input() title = 'dateRange';
+  @Input() paramName = 'dates';
   @Output() datesChange = new EventEmitter<TuiDayRange>();
 
   dateRange: TuiDayRange | null = null;
@@ -42,7 +43,7 @@ export class InputDateRangeFilterComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const dateRangeString: string = this.activatedRoute.snapshot.queryParams['dates'];
+    const dateRangeString: string = this.activatedRoute.snapshot.queryParams[this.paramName];
 
     if (dateRangeString) {
       this.dateRange = TuiDayRange.normalizeParse(dateRangeString);
@@ -57,8 +58,8 @@ export class InputDateRangeFilterComponent implements OnInit {
 
     tree.queryParams =
       value === null
-        ? omit(tree.queryParams, 'dates')
-        : { ...tree.queryParams, dates: value.getFormattedDayRange('DMY', '.') };
+        ? omit(tree.queryParams, this.paramName)
+        : { ...tree.queryParams, [this.paramName]: value.getFormattedDayRange('DMY', '.') };
     this.locationRef.go(String(tree));
   }
 }

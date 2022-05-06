@@ -316,6 +316,8 @@
   "assignee": "Assignee",
   "leaveType": "Leave type",
   "dateRange": "Date Range",
+  "createDateRange": "Create Date Range",
+  "changeDateRange": "Change Date Range",
   "days": "Days",
   "Comment": "Comment",
   "reject": "Reject",

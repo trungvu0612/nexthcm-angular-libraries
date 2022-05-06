@@ -2,7 +2,7 @@ import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { CommonModule, Location } from '@angular/common';
 import { HttpParams } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, NgModule, OnInit, Output } from '@angular/core';
-import { ActivatedRoute, convertToParamMap, Params, UrlSerializer } from '@angular/router';
+import { ActivatedRoute, UrlSerializer } from '@angular/router';
 import {
   BasicFilterComponentModule,
   InputDateRangeFilterComponentModule,
@@ -13,10 +13,10 @@ import {
 } from '@nexthcm/ui';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
-import { TuiDayRange, tuiDefaultProp } from '@taiga-ui/cdk';
+import { TuiDayRange } from '@taiga-ui/cdk';
 import { endOfDay, startOfDay } from 'date-fns';
 import omit from 'just-omit';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
@@ -27,12 +27,12 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
   providers: [RxState],
 })
 export class RequestFiltersComponent implements OnInit {
-  @Input() statusFilter = true;
-  @Input() @tuiDefaultProp() httpParams = new HttpParams();
+  @Input() httpParams!: HttpParams;
   @Output() filter = new EventEmitter<HttpParams>();
-  @Output() resetParam = new EventEmitter<string>();
 
-  readonly dates$ = new BehaviorSubject<TuiDayRange | null>(null);
+  readonly dates$ = new Subject<TuiDayRange | null>();
+  readonly createDates$ = new Subject<TuiDayRange | null>();
+  readonly changeDates$ = new Subject<TuiDayRange | null>();
   readonly search$ = new Subject<string | null>();
   readonly statusIds$ = new Subject<string | null>();
   readonly filterType$ = new Subject<string | null>();
@@ -44,7 +44,10 @@ export class RequestFiltersComponent implements OnInit {
     private readonly locationRef: Location,
     private readonly urlSerializer: UrlSerializer
   ) {
-    state.hold(this.dates$, () => this.filterByDates());
+    state.hold(this.dates$, (dates) => this.filterByDates(dates, 'fromDate', 'toDate'));
+    state.hold(this.createDates$, (dates) => this.filterByDates(dates, 'createFrom', 'createTo'));
+    state.hold(this.changeDates$, (dates) => this.filterByDates(dates, 'changeFrom', 'changeTo'));
+    state.hold(this.dates$, (dates) => this.filterByDates(dates, 'fromDate', 'toDate'));
     state.hold(this.search$.pipe(debounceTime(1000), distinctUntilChanged()), (search) =>
       this.onFilter('search', search ? search : null)
     );
@@ -52,74 +55,49 @@ export class RequestFiltersComponent implements OnInit {
     state.hold(this.filterType$, (filterType) => this.onFilter('filterType', filterType));
   }
 
-  private _includeSearch = false;
+  private _everyone = false;
 
-  get includeSearch(): boolean {
-    return this._includeSearch;
+  get everyone(): boolean {
+    return this._everyone;
   }
 
   @Input()
-  set includeSearch(value: unknown) {
-    this._includeSearch = coerceBooleanProperty(value);
+  set everyone(value: unknown) {
+    this._everyone = coerceBooleanProperty(value);
   }
 
-  private _includeMyTeam = false;
+  private _includeDateFilter = false;
 
-  get includeMyTeam(): boolean {
-    return this._includeMyTeam;
+  get includeDateFilter(): boolean {
+    return this._includeDateFilter;
   }
 
   @Input()
-  set includeMyTeam(value: unknown) {
-    this._includeMyTeam = coerceBooleanProperty(value);
+  set includeDateFilter(value: unknown) {
+    this._includeDateFilter = coerceBooleanProperty(value);
   }
 
   ngOnInit(): void {
-    if (convertToParamMap(this.activatedRoute.snapshot.queryParams).keys.length) {
-      this.parseParams(this.activatedRoute.snapshot.queryParams);
-    }
+    const params = this.activatedRoute.snapshot.queryParams;
+    if (params['dates']) this.dates$.next(TuiDayRange.normalizeParse(params['dates']));
+    if (params['createDates']) this.createDates$.next(TuiDayRange.normalizeParse(params['createDates']));
+    if (params['changeDates']) this.changeDates$.next(TuiDayRange.normalizeParse(params['changeDates']));
+    if (params['search']) this.search$.next(params['search']);
+    if (params['filterType']) this.filterType$.next(params['filterType']);
   }
 
-  onFilter(key: string, value: string | number | null): void {
+  private onFilter(key: string, value: string | number | null): void {
     this.resetPage();
     this.httpParams = value !== null ? this.httpParams.set(key, value) : this.httpParams.delete(key);
     this.filter.emit(this.httpParams);
   }
 
-  onFilterByWorkflowStatuses(statuses: string): void {
-    this.statusIds$.next(statuses || null);
-  }
-
-  onFilterChange(filterType: string | null): void {
-    this.filterType$.next(filterType);
-  }
-
-  private filterByDates(): void {
-    this.httpParams = this.dates$.value
+  private filterByDates(dates: TuiDayRange | null, fromDate: string, toDate: string): void {
+    this.httpParams = dates
       ? this.httpParams
-          .set('fromDate', startOfDay(this.dates$.value.from.toLocalNativeDate()).getTime())
-          .set('toDate', endOfDay(this.dates$.value.to.toLocalNativeDate()).getTime())
-      : this.httpParams.delete('fromDate').delete('toDate');
-    this.filter.emit(this.httpParams);
-  }
-
-  private parseParams(params: Params): void {
-    const primitiveKeys = ['employeeId', 'leaveTypeId', 'operation', 'isHistory'];
-
-    if (params['dates']) {
-      this.dates$.next(TuiDayRange.normalizeParse(params['dates']));
-    }
-    if (params['search']) {
-      this.search$.next(params['search']);
-    }
-    if (params['filterType']) {
-      this.filterType$.next(params['filterType']);
-    }
-    for (const key of primitiveKeys) {
-      if (params[key]) {
-        this.httpParams = this.httpParams.set(key, params[key]);
-      }
-    }
+          .set(fromDate, startOfDay(dates.from.toLocalNativeDate()).getTime())
+          .set(toDate, endOfDay(dates.to.toLocalNativeDate()).getTime())
+      : this.httpParams.delete(fromDate).delete(toDate);
     this.filter.emit(this.httpParams);
   }
 

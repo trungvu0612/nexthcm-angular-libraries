@@ -316,6 +316,8 @@
   "assignee": "Người được uỷ quyền",
   "leaveType": "Loại nghỉ phép",
   "dateRange": "Khoảng thời gian",
+  "createDateRange": "Khoảng thời gian tạo",
+  "changeDateRange": "Khoảng thời gian thay đổi",
   "days": "Số ngày",
   "Comment": "Bình luận",
   "reject": "Từ chối",

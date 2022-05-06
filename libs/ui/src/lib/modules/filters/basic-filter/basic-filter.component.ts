@@ -18,16 +18,16 @@ export class BasicFilterComponent implements OnInit {
   @Input() value!: string;
   @Output() filterChange = new EventEmitter<string | null>();
   active!: boolean;
-  private _defaultValue = false;
+
   constructor(private readonly location: Location, private readonly urlSerializer: UrlSerializer) {}
 
-  private _key = '';
-
+  private _defaultValue = false;
   @Input()
   set defaultValue(value: unknown) {
     this._defaultValue = coerceBooleanProperty(value);
   }
 
+  private _key = '';
   @Input() set key(key: string) {
     this._key = key;
     this.active = !!this.urlSerializer.parse(this.location.path()).queryParams[key];

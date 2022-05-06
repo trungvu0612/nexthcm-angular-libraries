@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, NgModule, Output, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, NgModule, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { PropertyRouteConnectorDirective, PropertyRouteConnectorDirectiveModule } from '@nexthcm/cdk';
 import { TuiHorizontalDirection, TuiTextfieldControllerModule } from '@taiga-ui/core';
@@ -12,7 +12,6 @@ import { TuiInputModule } from '@taiga-ui/kit';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InputFilterComponent {
-  @ViewChild('connector') connector!: PropertyRouteConnectorDirective<string>;
   @Input() label = '';
   @Input() icon: string | null = null;
   @Input() iconAlign: TuiHorizontalDirection = 'left';

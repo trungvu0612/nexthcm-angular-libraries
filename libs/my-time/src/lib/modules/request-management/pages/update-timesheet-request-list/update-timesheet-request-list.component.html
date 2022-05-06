@@ -1,9 +1,4 @@
-<hcm-request-filters
-  (filter)="onFilter($event)"
-  [httpParams]="queryParams"
-  includeMyTeam
-  includeSearch
-></hcm-request-filters>
+<hcm-request-filters (filter)="onFilter($event)" [httpParams]="queryParams" everyone></hcm-request-filters>
 
 <div class="flex justify-end my-4">
   <button
