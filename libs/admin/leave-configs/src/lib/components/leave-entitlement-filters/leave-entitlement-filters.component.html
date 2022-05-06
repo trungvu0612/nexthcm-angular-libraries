@@ -1,7 +1,7 @@
 <form (ngSubmit)="onExport()" [formGroup]="form">
   <formly-form [fields]="fields" [form]="form" [model]="model"></formly-form>
   <div *transloco="let t" class="flex mt-4 space-x-4 justify-end">
-    <button [showLoader]="(exportLoading$ | push) === true" icon="tuiIconUploadLarge" size="m" tuiButton>
+    <button [showLoader]="(exportLoading$ | push) === true" icon="tuiIconDownloadLarge" size="m" tuiButton>
       {{ t('export') }}
     </button>
     <button (click)="onFilters()" icon="tuiIconFilterLarge" size="m" tuiButton type="button">
