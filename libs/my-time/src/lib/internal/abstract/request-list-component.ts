@@ -116,13 +116,6 @@ export abstract class AbstractRequestListComponent<T>
 
   readonly export$ = new Subject<void>();
   readonly exportLoading$ = this.export$.pipe(
-    filter(() => {
-      const hasFromDate = this.queryParams.has('fromDate');
-      if (!hasFromDate) {
-        this.promptService.open({ icon: 'warning', html: this.translocoService.translate('pleaseSelectADateRange') });
-      }
-      return hasFromDate;
-    }),
     switchMap(() =>
       this.myRequestsService.exportRequests(this.requestTypeUrlPath, this.queryParams).pipe(
         tap(({ blob, filename }) => this.fileSaverService.save(blob, filename)),
