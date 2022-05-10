@@ -13,7 +13,7 @@ import { TuiTagModule } from '@taiga-ui/kit';
 import { POLYMORPHEUS_CONTEXT, PolymorpheusModule, PolymorpheusTemplate } from '@tinkoff/ng-polymorpheus';
 import { endOfDay } from 'date-fns';
 import omit from 'just-omit';
-import { combineLatest, from, iif, of, Subject } from 'rxjs';
+import { combineLatest, from, iif, merge, of, Subject } from 'rxjs';
 import { catchError, map, share, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
 
 import { PartialDaysType } from '../../../models';
@@ -150,15 +150,14 @@ export class CreateLeaveRequestDialogComponent implements OnInit {
       {
         key: 'employee',
         type: 'user-combo-box',
+        className: 'tui-form__row block',
         templateOptions: {
           translate: true,
           label: 'employee',
           labelClassName: 'font-semibold',
           placeholder: 'searchEmployees',
         },
-        expressionProperties: {
-          className: () => (this.currentUserId ? 'hidden' : 'tui-form__row block'),
-        },
+        hideExpression: () => !!this.currentUserId,
       },
       {
         key: 'fromTo',
@@ -206,16 +205,15 @@ export class CreateLeaveRequestDialogComponent implements OnInit {
         },
         hooks: {
           onInit: (field) => {
-            if (field?.templateOptions && field.form?.controls['employee'] && field.form.controls['fromTo']) {
-              field.templateOptions.options = combineLatest([
-                field.form.controls['employee'].valueChanges.pipe(
-                  map((employee) => employee?.id),
-                  startWith(this.currentUserId)
-                ),
-                field.form.controls['fromTo'].valueChanges.pipe(startWith(field.form.controls['fromTo'].value)),
-              ]).pipe(
-                switchMap(([employeeId]) => {
+            if (field?.templateOptions && field.form?.controls['fromTo']) {
+              field.templateOptions.options = merge(
+                field.form.controls['employee']?.valueChanges.pipe(map((employee) => employee?.id)) || of(null),
+                field.form.controls['fromTo'].valueChanges.pipe(startWith(field.form.controls['fromTo'].value))
+              ).pipe(
+                switchMap(() => {
+                  const employeeId = field.model.employee?.id || this.currentUserId;
                   const fromTo = field.model.fromTo;
+
                   if (employeeId && fromTo && isDateRangeSameYear(fromTo)) {
                     const fromDate = (fromTo.from as TuiDay).toLocalNativeDate().getTime();
                     const toDate = endOfDay((fromTo.to as TuiDay).toLocalNativeDate()).getTime();
@@ -223,9 +221,7 @@ export class CreateLeaveRequestDialogComponent implements OnInit {
                     return this.myLeaveService
                       .getEmployeeLeaveEntitlements(employeeId, fromDate, toDate)
                       .pipe(startWith(null as any));
-                  } else {
-                    return of([]);
-                  }
+                  } else return of([]);
                 })
               );
             }
