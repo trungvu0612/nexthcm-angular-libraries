@@ -1,9 +1,4 @@
-<hcm-request-filters
-  (filter)="onFilter($event)"
-  [httpParams]="queryParams"
-  everyone
-  includeDateFilter
-></hcm-request-filters>
+<hcm-request-filters (filter)="onFilter($event)" [httpParams]="queryParams" everyone></hcm-request-filters>
 
 <div *transloco="let t" class="flex justify-end gap-4 my-4">
   <button

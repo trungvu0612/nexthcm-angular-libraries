@@ -5,30 +5,29 @@
     defaultValue
   ></hcm-input-date-range-filter>
 
-  <div *ngIf="everyone" class="col-span-4 grid grid-cols-2 gap-4">
-    <ng-container *ngIf="includeDateFilter">
-      <hcm-input-date-range-filter
-        (datesChange)="createDates$.next($event)"
-        paramName="createDates"
-        label="createDateRange"
-      ></hcm-input-date-range-filter>
+  <ng-container *ngIf="everyone">
+    <hcm-input-date-range-filter
+      (datesChange)="createDates$.next($event)"
+      class="col-span-2"
+      label="createDateRange"
+      paramName="createDates"
+    ></hcm-input-date-range-filter>
 
-      <hcm-input-date-range-filter
-        (datesChange)="changeDates$.next($event)"
-        paramName="changeDates"
-        label="changeDateRange"
-      ></hcm-input-date-range-filter>
-    </ng-container>
-  </div>
+    <hcm-input-date-range-filter
+      (datesChange)="changeDates$.next($event)"
+      class="col-span-2"
+      label="changeDateRange"
+      paramName="changeDates"
+    ></hcm-input-date-range-filter>
 
-  <hcm-input-filter
-    (valueChange)="search$.next($event)"
-    *ngIf="everyone"
-    [label]="t('searchByCifFullNameOffice')"
-    class="col-span-3"
-    icon="tuiIconSearchLarge"
-    propertyName="search"
-  ></hcm-input-filter>
+    <hcm-input-filter
+      (valueChange)="search$.next($event)"
+      [label]="t('searchByCifFullNameOffice')"
+      class="col-span-3"
+      icon="tuiIconSearchLarge"
+      propertyName="search"
+    ></hcm-input-filter>
+  </ng-container>
 
   <hcm-workflow-status-combo-box-filter
     (valueChange)="statusIds$.next($event)"

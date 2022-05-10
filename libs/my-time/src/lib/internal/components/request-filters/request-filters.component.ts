@@ -66,17 +66,6 @@ export class RequestFiltersComponent implements OnInit {
     this._everyone = coerceBooleanProperty(value);
   }
 
-  private _includeDateFilter = false;
-
-  get includeDateFilter(): boolean {
-    return this._includeDateFilter;
-  }
-
-  @Input()
-  set includeDateFilter(value: unknown) {
-    this._includeDateFilter = coerceBooleanProperty(value);
-  }
-
   ngOnInit(): void {
     const params = this.activatedRoute.snapshot.queryParams;
     if (params['dates']) this.dates$.next(TuiDayRange.normalizeParse(params['dates']));
