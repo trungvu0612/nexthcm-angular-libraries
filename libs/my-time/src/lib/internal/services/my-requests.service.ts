@@ -41,6 +41,8 @@ const EXPORT_REQUEST_PATHS: Readonly<Partial<RequestTypeUrlPaths>> = Object.free
   workingAfterHours: 'export-ot-requests',
   workingOnsite: 'export-outside',
   leave: 'leaves/export-leave',
+  updateTimesheet: 'export-update-timesheet',
+  workFromHome: 'export-wfh',
 });
 
 @Injectable()

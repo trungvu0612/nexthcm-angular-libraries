@@ -1,6 +1,6 @@
 <hcm-request-filters (filter)="onFilter($event)" [httpParams]="queryParams" everyone></hcm-request-filters>
 
-<div class="flex justify-end my-4">
+<div *transloco="let t" class="flex justify-end gap-4 my-4">
   <button
     (click)="bulkChange$.next(tableRow)"
     [disabled]="!selectedArray?.value.includes(true)"
@@ -9,7 +9,17 @@
     size="m"
     tuiButton
   >
-    {{ translocoScope.scope + '.bulkChange' | transloco }}
+    {{ t(translocoScope.scope + '.bulkChange') }}
+  </button>
+
+  <button
+    (click)="export$.next()"
+    [showLoader]="(exportLoading$ | push) === true"
+    icon="tuiIconDownloadLarge"
+    size="m"
+    tuiButton
+  >
+    {{ t('export') }}
   </button>
 
   <ng-template #select><i class="bx bx-select-multiple text-2xl"></i></ng-template>
