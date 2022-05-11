@@ -13,23 +13,11 @@ interface AuthInfo {
   refresh_token: string;
 }
 
-const createState = (token: string): UserInfo => {
-  const helper = new JwtHelperService();
-  try {
-    return helper.decodeToken(token) || { userId: '' };
-  } catch {
-    return { userId: '' };
-  }
-};
+const jwtHelperService = new JwtHelperService();
 
-const setToken = (access_token: string, refresh_token: string): void => {
+const saveToken = (access_token: string, refresh_token: string, rememberMe: boolean = true): void => {
   localStorage.setItem('access_token', access_token);
-  localStorage.setItem('refresh_token', refresh_token);
-};
-
-const removeToken = (): void => {
-  localStorage.removeItem('access_token');
-  localStorage.removeItem('refresh_token');
+  rememberMe && localStorage.setItem('refresh_token', refresh_token);
 };
 
 @Injectable({
@@ -52,7 +40,8 @@ export class AuthService extends RxState<{ userInfo: UserInfo; access_token: str
   readonly userId = () => this.get('userInfo', 'userId');
 
   logout(): void {
-    removeToken();
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('refresh_token');
     this.set({ userInfo: undefined, access_token: undefined });
     this.permissionsService.flushPermissions();
   }
@@ -60,8 +49,7 @@ export class AuthService extends RxState<{ userInfo: UserInfo; access_token: str
   login({ rememberMe, ...payload }: LoginPayload): Observable<PermissionsResponse> {
     return this.http.post<AuthInfo>(`${this.env.apiUrl}/accountapp/v1.0/auth`, payload).pipe(
       tap(({ access_token, refresh_token }) => {
-        if (rememberMe) setToken(access_token, refresh_token);
-        else removeToken();
+        saveToken(access_token, refresh_token, rememberMe);
         this.setState(access_token);
         this.newLogin$.next();
       }),
@@ -75,16 +63,19 @@ export class AuthService extends RxState<{ userInfo: UserInfo; access_token: str
       ? this.http.post<AuthInfo>(`${this.env.apiUrl}/accountapp/v1.0/auth/refresh`, { refreshToken }).pipe(
           tap(({ access_token, refresh_token }) => {
             this.setState(access_token);
-            setToken(access_token, refresh_token);
+            saveToken(access_token, refresh_token);
           })
         )
       : throwError(null);
   }
 
   private setState(access_token: string): void {
-    this.set({
-      access_token,
-      userInfo: createState(access_token),
-    });
+    let userInfo: UserInfo;
+    try {
+      userInfo = jwtHelperService.decodeToken(access_token) || { userId: '' };
+    } catch {
+      userInfo = { userId: '' };
+    }
+    this.set({ access_token, userInfo });
   }
 }
