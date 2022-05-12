@@ -11,8 +11,8 @@ import {
 } from '@nexthcm/cdk';
 import { TranslocoService } from '@ngneat/transloco';
 import { TranslocoDatePipe } from '@ngneat/transloco-locale';
-import { from, Observable, of, Subject } from 'rxjs';
-import { catchError, map, mapTo, tap } from 'rxjs/operators';
+import { from, Observable, of, Subject, timer } from 'rxjs';
+import { catchError, map, mapTo, switchMap, tap } from 'rxjs/operators';
 
 import { REQUEST_COMMENT_URL_PATHS, REQUEST_DETAIL_URL_PATHS } from '../constants';
 import {
@@ -59,9 +59,12 @@ export class MyRequestsService {
   ) {}
 
   getRequests<T>(type: keyof CombineRequestTypeUrlPaths, params: HttpParams): Observable<Pagination<T>> {
-    return this.http
-      .get<PagingResponse<T>>(`${MY_TIME_API_PATH}/${REQUEST_DETAIL_URL_PATHS[type]}`, { params })
-      .pipe(map((res) => res.data));
+    return timer(100).pipe(
+      switchMap(() =>
+        this.http.get<PagingResponse<T>>(`${MY_TIME_API_PATH}/${REQUEST_DETAIL_URL_PATHS[type]}`, { params })
+      ),
+      map(({ data }) => data)
+    );
   }
 
   exportRequests(type: keyof RequestTypeUrlPaths, params: HttpParams): Observable<{ blob: Blob; filename?: string }> {
