@@ -460,12 +460,12 @@ export class CreateLeaveRequestDialogComponent implements OnInit {
         hooks: {
           onInit: (field) => {
             if (field?.templateOptions && !this.currentUserId) {
-              field.templateOptions.options = merge(
+              field.templateOptions.options = combineLatest([
                 this.form.controls['employee'].valueChanges,
-                this.form.controls['fromTo'].valueChanges
-              ).pipe(
-                delay(100),
-                filter(() => !!this.form.controls['leaveType']),
+                this.form.controls['fromTo'].valueChanges,
+              ]).pipe(
+                // assure leaveType control created
+                delay(0),
                 switchMap(() => this.form.controls['leaveType'].valueChanges),
                 tap(() => field.formControl?.setValue(null)),
                 filter((leaveType) => leaveType?.length),
