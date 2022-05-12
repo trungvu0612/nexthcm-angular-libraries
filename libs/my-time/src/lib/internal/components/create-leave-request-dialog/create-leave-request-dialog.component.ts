@@ -13,8 +13,8 @@ import { TuiTagModule } from '@taiga-ui/kit';
 import { POLYMORPHEUS_CONTEXT, PolymorpheusModule, PolymorpheusTemplate } from '@tinkoff/ng-polymorpheus';
 import { endOfDay } from 'date-fns';
 import omit from 'just-omit';
-import { combineLatest, from, iif, merge, of, Subject } from 'rxjs';
-import { catchError, map, share, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { combineLatest, delay, from, iif, merge, of, Subject } from 'rxjs';
+import { catchError, filter, map, share, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
 
 import { PartialDaysType } from '../../../models';
 import { MyTimeService } from '../../../services';
@@ -152,12 +152,13 @@ export class CreateLeaveRequestDialogComponent implements OnInit {
         type: 'user-combo-box',
         className: 'tui-form__row block',
         templateOptions: {
+          required: true,
           translate: true,
           label: 'employee',
           labelClassName: 'font-semibold',
           placeholder: 'searchEmployees',
         },
-        hideExpression: () => !!this.currentUserId,
+        hide: !!this.currentUserId,
       },
       {
         key: 'fromTo',
@@ -227,7 +228,7 @@ export class CreateLeaveRequestDialogComponent implements OnInit {
             }
           },
         },
-        hideExpression: '!model.fromTo',
+        hideExpression: (model) => !model.fromTo || (!model.employee && !this.currentUserId),
       },
       {
         key: 'partialDays',
@@ -453,23 +454,27 @@ export class CreateLeaveRequestDialogComponent implements OnInit {
           placeholder: 'chooseStatus',
           valueProp: 'id',
           labelProp: 'name',
-          options: [],
           customContent: this.statusContent,
           textfieldCleaner: true,
         },
         hooks: {
           onInit: (field) => {
-            if (field?.templateOptions && this.form.controls['leaveType']) {
-              field.templateOptions.options = this.form.controls['leaveType'].valueChanges.pipe(
-                switchMap((leaveType) => {
-                  if (leaveType?.length) {
-                    return this.myTimeService
-                      .getSecondWorkflowStatus(RequestType.Leave, leaveType[0].leaveTypeId)
-                      .pipe(catchError(() => of([])));
-                  } else {
-                    return of([]);
-                  }
-                }),
+            if (field?.templateOptions && !this.currentUserId) {
+              field.templateOptions.options = merge(
+                this.form.controls['employee'].valueChanges,
+                this.form.controls['fromTo'].valueChanges
+              ).pipe(
+                delay(100),
+                filter(() => !!this.form.controls['leaveType']),
+                switchMap(() => this.form.controls['leaveType'].valueChanges),
+                tap(() => field.formControl?.setValue(null)),
+                filter((leaveType) => leaveType?.length),
+                switchMap((leaveType) =>
+                  this.myTimeService.getSecondWorkflowStatus(RequestType.Leave, leaveType[0].leaveTypeId).pipe(
+                    startWith(null as any),
+                    catchError(() => of([]))
+                  )
+                ),
                 startWith([])
               );
             }
