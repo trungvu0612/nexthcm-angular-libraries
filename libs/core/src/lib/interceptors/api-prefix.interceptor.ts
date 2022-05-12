@@ -1,6 +1,6 @@
 import { HTTP_INTERCEPTORS, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Inject, Injectable, Provider } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, switchMapTo, timer } from 'rxjs';
 
 import { APP_CONFIG } from '../app-config.token';
 import { AppConfig } from '../models';
@@ -19,7 +19,8 @@ export class ApiPrefixInterceptor implements HttpInterceptor {
     ) {
       request = request.clone({ url: this.config.apiUrl + request.url });
     }
-    return next.handle(request);
+    // Prevent call api multiple times
+    return timer(0).pipe(switchMapTo(next.handle(request)));
   }
 }
 
