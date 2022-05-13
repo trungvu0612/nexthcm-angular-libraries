@@ -1,22 +1,19 @@
-import { ChangeDetectionStrategy, Component, Inject, Injector, OnInit, ViewChild } from '@angular/core';
-import { CommonStatus, PromptService } from '@nexthcm/cdk';
+import { Location } from '@angular/common';
+import { ChangeDetectionStrategy, Component, Inject, Injector } from '@angular/core';
+import { ActivatedRoute, UrlSerializer } from '@angular/router';
+import { AbstractServerPaginationTableComponent, CommonStatus, Pagination, PromptService } from '@nexthcm/cdk';
 import { ProviderScope, TRANSLOCO_SCOPE, TranslocoService } from '@ngneat/transloco';
 import { RxState } from '@rx-angular/state';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiAlertService, TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
-import { API, BaseComponent, Columns, Config, DefaultConfig } from 'ngx-easy-table';
-import { Observable, of, Subject } from 'rxjs';
+import { of } from 'rxjs';
 import { catchError, filter, map, share, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
 
 import { EditScheduledTaskDialogComponent } from '../../components/edit-scheduled-task-dialog/edit-scheduled-task-dialog.component';
 import { ScheduleType } from '../../enums';
 import { ScheduledTask } from '../../models/scheduled-task';
 import { TaskSchedulerService } from '../../services/task-scheduler.service';
-
-interface CommonState {
-  data: ScheduledTask[];
-}
 
 @Component({
   selector: 'hcm-task-scheduler',
@@ -25,20 +22,11 @@ interface CommonState {
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [TuiDestroyService, RxState],
 })
-export class TaskSchedulerComponent implements OnInit {
-  @ViewChild('table', { static: true }) table!: BaseComponent;
-
-  configuration: Config = {
-    ...DefaultConfig,
-    paginationEnabled: false,
-    paginationRangeEnabled: false,
-    fixedColumnWidth: false,
-    orderEnabled: false,
-  };
+export class TaskSchedulerComponent extends AbstractServerPaginationTableComponent<ScheduledTask> {
   readonly CommonStatus = CommonStatus;
   readonly ScheduleType = ScheduleType;
-  readonly columns$: Observable<Columns[]> = this.translocoService
-    .selectTranslateObject(this.translocoScope.scope + '.ADMIN_TASK_SCHEDULER_COLUMNS')
+  readonly columns$ = this.translocoService
+    .selectTranslateObject('ADMIN_TASK_SCHEDULER_COLUMNS', {}, this.translocoScope.scope)
     .pipe(
       map((result) => [
         { key: 'name', title: result.name },
@@ -49,10 +37,8 @@ export class TaskSchedulerComponent implements OnInit {
         { key: '', title: result.functions },
       ])
     );
-  readonly data$ = this.state.select('data');
-  private readonly refresh$ = new Subject<void>();
-  private readonly request$ = this.refresh$.pipe(
-    switchMap(() => this.TaskSchedulerService.getScheduledTasks().pipe(startWith(null))),
+  private readonly request$ = this.fetch$.pipe(
+    switchMap(() => this.taskSchedulerService.getScheduledTasks(this.queryParams).pipe(startWith(null))),
     share()
   );
   readonly loading$ = this.request$.pipe(
@@ -63,29 +49,19 @@ export class TaskSchedulerComponent implements OnInit {
   constructor(
     @Inject(TRANSLOCO_SCOPE) readonly translocoScope: ProviderScope,
     private readonly translocoService: TranslocoService,
-    private readonly TaskSchedulerService: TaskSchedulerService,
+    private readonly taskSchedulerService: TaskSchedulerService,
     private readonly dialogService: TuiDialogService,
     private readonly injector: Injector,
     private readonly destroy$: TuiDestroyService,
     private readonly promptService: PromptService,
     private readonly alertService: TuiAlertService,
-    private readonly state: RxState<CommonState>
+    readonly activatedRoute: ActivatedRoute,
+    readonly locationRef: Location,
+    readonly urlSerializer: UrlSerializer,
+    state: RxState<Pagination<ScheduledTask>>
   ) {
-    state.connect(
-      'data',
-      this.request$.pipe(
-        filter(isPresent),
-        tap((data) => {
-          this.table.apiEvent({ type: API.setPaginationDisplayLimit, value: data.length });
-        })
-      )
-    );
-  }
-
-  readonly item = (item: ScheduledTask) => item;
-
-  ngOnInit(): void {
-    this.refresh$.next();
+    super(state);
+    state.connect(this.request$.pipe(filter(isPresent)));
   }
 
   onEditScheduledTask(data: ScheduledTask): void {
@@ -96,13 +72,14 @@ export class TaskSchedulerComponent implements OnInit {
         data,
       })
       .pipe(takeUntil(this.destroy$))
-      .subscribe(() => this.refresh$.next());
+      .subscribe(() => this.fetch$.next());
   }
 
   onExecute(id: string): void {
-    this.TaskSchedulerService.executeManually(id)
+    this.taskSchedulerService
+      .executeManually(id)
       .pipe(
-        tap(this.promptService.handleResponse('')),
+        tap(this.promptService.handleResponse()),
         switchMap(() =>
           this.alertService.open('', {
             label: this.translocoService.translate(this.translocoScope.scope + '.executeTask'),

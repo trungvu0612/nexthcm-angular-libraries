@@ -1,6 +1,6 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ACCOUNT_API_PATH, BaseResponse } from '@nexthcm/cdk';
+import { ACCOUNT_API_PATH, Pagination, PagingResponse } from '@nexthcm/cdk';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -10,8 +10,10 @@ import { ScheduledTask } from '../models/scheduled-task';
 export class TaskSchedulerService {
   constructor(private readonly http: HttpClient) {}
 
-  getScheduledTasks(): Observable<ScheduledTask[]> {
-    return this.http.get<BaseResponse<ScheduledTask[]>>(`${ACCOUNT_API_PATH}/schedulers`).pipe(map((res) => res.data));
+  getScheduledTasks(params: HttpParams): Observable<Pagination<ScheduledTask>> {
+    return this.http
+      .get<PagingResponse<ScheduledTask>>(`${ACCOUNT_API_PATH}/schedulers`, { params })
+      .pipe(map((res) => res.data));
   }
 
   editScheduledTask(payload: ScheduledTask): Observable<unknown> {

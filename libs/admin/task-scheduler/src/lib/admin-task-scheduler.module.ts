@@ -5,6 +5,7 @@ import { FormlyQuartzCronComponentModule } from '@nexthcm/crontab/formly';
 import { BaseFormComponentModule, FormlyStatusToggleComponentModule, LayoutComponent, LayoutModule } from '@nexthcm/ui';
 import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
 import { PushModule } from '@rx-angular/template';
+import { TuiTablePaginationModule } from '@taiga-ui/addon-table';
 import { TuiLetModule } from '@taiga-ui/cdk';
 import { TuiButtonModule, TuiLabelModule, TuiLoaderModule } from '@taiga-ui/core';
 import { TuiTagModule } from '@taiga-ui/kit';
@@ -44,6 +45,7 @@ export const adminTaskSchedulerRoutes: Route[] = [
     TuiLabelModule,
     FormlyQuartzCronComponentModule,
     PushModule,
+    TuiTablePaginationModule,
   ],
   declarations: [EditScheduledTaskDialogComponent, TaskSchedulerComponent],
   providers: [

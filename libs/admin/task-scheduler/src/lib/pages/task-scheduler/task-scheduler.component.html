@@ -42,4 +42,10 @@
       </ng-template>
     </ngx-table>
   </tui-loader>
+
+  <tui-table-pagination
+    (pageChange)="onPage($event)"
+    (sizeChange)="onSize($event)"
+    [total]="(total$ | push) || 0"
+  ></tui-table-pagination>
 </hcm-page>
