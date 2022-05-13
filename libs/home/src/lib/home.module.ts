@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
-import { EmojiModule } from '@ctrl/ngx-emoji-mart/ngx-emoji';
 import { GetFilePipeModule } from '@nexthcm/cdk';
 import { LeaveRequestDateRangeComponentModule, MyTimeService } from '@nexthcm/my-time';
 import {
@@ -127,7 +126,6 @@ export const HOME_ROUTES: Routes = [
     LayoutModule,
     TranslocoLocaleModule,
     TranslocoModule,
-    EmojiModule,
     LetModule,
     TuiLoaderModule,
     TuiLinkModule,

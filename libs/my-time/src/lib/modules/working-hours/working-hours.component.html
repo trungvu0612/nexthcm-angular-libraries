@@ -5,11 +5,9 @@
         *tuiLet="myTodayWorkingHours$ | push as myTodayWorkingHours"
         class="relative px-5 py-8 text-base text-center text-white bg-indigo-700 rounded-xl"
       >
-        <div class="shadow-tmp"></div>
+        <div class="bg-indigo-500 rounded-b-xl absolute left-3 right-3 -bottom-5 h-5"></div>
         <div class="grid mb-10 md:grid-cols-2">
-          <div>
-            <img class="mx-auto" src="assets/images/finger-white.png" />
-          </div>
+          <img alt="finger" class="mx-auto" src="assets/images/finger-white.png" />
           <div class="flex flex-col justify-center items-center space-y-5">
             <div class="text-xl font-semibold">{{ t('myTime.workedTimeToday') }}</div>
             <div class="text-4xl font-bold">
@@ -44,7 +42,7 @@
         <ng-template #emptyHours>-:-</ng-template>
       </div>
 
-      <tui-island [hoverable]="true" class="right-column" size="l">
+      <tui-island [hoverable]="true" class="!flex flex-col justify-center items-center text-center" size="l">
         <div class="font-semibold tui-island__title">{{ t('yourWorkingDaysThisMonth') }}</div>
         <ng-container *ngIf="monthWorkingTime$ | push as monthWorkingTime">
           <div>
