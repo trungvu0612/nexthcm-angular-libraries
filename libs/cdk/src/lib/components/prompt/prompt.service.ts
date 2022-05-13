@@ -41,10 +41,8 @@ export class PromptService {
           this.open({
             icon: 'success',
             html: this.translocoService.translate(successfulText),
-          }).then(() => (callback ? callback() : null));
-        } else {
-          callback ? callback() : null;
-        }
+          }).then(() => callback?.());
+        } else callback?.();
       },
       error: (err: HttpErrorResponse) => this.open({ icon: 'error', html: this.generateErrorMessage(err) }),
     };

@@ -1,25 +1,26 @@
 <ng-container *transloco="let t">
-  <header class="flex justify-between items-center mb-6">
-    <h1 class="m-0 text-3xl font-semibold">{{ t('profile') }}</h1>
-  </header>
-  <main *rxLet="profile$; let profile" class="flex gap-x-8 text-base">
-    <section class="p-6 bg-white rounded-xl shadow-xl">
-      <div class="flex justify-center mb-6">
-        <tui-loader [overlay]="true" [showLoader]="(uploading$ | push) === true" class="avatar relative">
-          <hcm-avatar
-            [image]="profile.image"
-            [text]="profile.username"
-            class="!block transition-opacity opacity-100"
-            size="xxl"
-          ></hcm-avatar>
-          <div (click)="fileInput.click()" class="absolute inset-0 cursor-pointer transition-opacity opacity-0">
-            <tui-svg
-              class="absolute inset-0 m-auto text-[color:var(--tui-primary)] !text-2xl !w-8 !h-8"
-              src="tuiIconEditLarge"
-            ></tui-svg>
-          </div>
-        </tui-loader>
-      </div>
+  <h1 class="text-3xl font-semibold mb-6">{{ t('profile') }}</h1>
+
+  <div *rxLet="profile$; let profile" class="flex gap-x-8 text-base">
+    <div class="p-6 bg-white rounded-xl shadow-xl">
+      <tui-loader
+        [overlay]="true"
+        [showLoader]="(uploading$ | push) === true"
+        class="avatar relative w-max mx-auto mb-6"
+      >
+        <hcm-avatar
+          [image]="profile.image"
+          [text]="profile.username"
+          class="!block transition-opacity opacity-100"
+          size="xxl"
+        ></hcm-avatar>
+        <div (click)="fileInput.click()" class="absolute inset-0 cursor-pointer transition-opacity opacity-0">
+          <tui-svg
+            class="absolute inset-0 m-auto text-[color:var(--tui-primary)] !text-2xl !w-8 !h-8"
+            src="tuiIconEditLarge"
+          ></tui-svg>
+        </div>
+      </tui-loader>
       <div class="text-2xl font-bold text-center">{{ profile.fullName }}</div>
       <div class="text-center">{{ profile.cif }}</div>
       <div *ngIf="isBirthday$ | push" class="flex justify-between items-center border-b">
@@ -44,8 +45,9 @@
           <div class="table-value">{{ profile.directReport?.name }}</div>
         </div>
       </div>
-    </section>
-    <section class="p-6 bg-white rounded-xl shadow-xl">
+    </div>
+
+    <div class="flex-1 p-6 bg-white rounded-xl shadow-xl">
       <tui-tabs [(activeItemIndex)]="activeItemIndex">
         <button routerLink="/profile/individual" routerLinkActive tuiTab>
           <i class="bx bxs-user-detail bx-sm mr-2"></i>
@@ -72,9 +74,10 @@
           {{ t('accessToken') }}
         </button>
       </tui-tabs>
+
       <div class="mt-5">
         <router-outlet></router-outlet>
       </div>
-    </section>
-  </main>
+    </div>
+  </div>
 </ng-container>

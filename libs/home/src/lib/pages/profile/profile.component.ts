@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { EmployeesService, UploadFileService, UserProfileService } from '@nexthcm/cdk';
-import { Subject, switchMap, tap } from 'rxjs';
-import { map, share, startWith } from 'rxjs/operators';
+import { EmployeesService, PromptService, UploadFileService, UserProfileService } from '@nexthcm/cdk';
+import { of, Subject, switchMap, tap } from 'rxjs';
+import { catchError, map, share, startWith } from 'rxjs/operators';
 
 @Component({
   selector: 'hcm-profile',
@@ -26,8 +26,9 @@ export class ProfileComponent {
             image: filePath,
           })
         ),
-        tap(() => this.userProfileService.refreshGeneralInformation()),
+        tap(this.promptService.handleResponse(undefined, () => this.userProfileService.refreshGeneralInformation())),
         switchMap(() => this.profile$),
+        catchError(() => of(true)),
         startWith(false)
       )
     ),
@@ -37,6 +38,7 @@ export class ProfileComponent {
   constructor(
     private readonly userProfileService: UserProfileService,
     private readonly employeesService: EmployeesService,
+    private readonly promptService: PromptService,
     private readonly uploadFileService: UploadFileService
   ) {
     userProfileService.doLoadGeneralInformation();
