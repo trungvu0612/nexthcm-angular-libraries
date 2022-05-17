@@ -357,7 +357,6 @@
   "checkOutConfirm": "<b>Bạn đang muốn ghi giờ ra?</b>",
   "checkInSuccessfully": "<b>Ghi giờ vào thành công!</b>",
   "checkOutSuccessfully": "<b>Ghi giờ ra thành công!</b>",
-  "invalidCredential": "Tên đăng nhập hoặc mật khẩu không đúng.",
   "leaveConfigurations": "Cấu hình nghỉ phép",
   "template": "Bản mẫu",
   "requestsConfig": "Cấu hình các yêu cầu",

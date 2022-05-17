@@ -1,19 +1,16 @@
-<main class="bg-login relative">
-  <section class="login-modal bg-white p-10">
-    <header class="mb-10">
-      <img alt="logo" class="mx-auto" src="assets/logo.png" />
-    </header>
-
-    <form (ngSubmit)="onSubmit()" *transloco="let t" [formGroup]="$any(loginForm)" class="b-form">
-      <formly-form [fields]="fields" [form]="$any(loginForm)" [model]="model"></formly-form>
-
-      <div [innerHTML]="t('auth.cantLoginInform', { url: '' })" class="mt-2"></div>
-
-      <div class="text-center mt-6">
-        <button [showLoader]="(loading$ | push) === true" tuiButton>
-          <span class="px-16">{{ t('auth.login') }}</span>
-        </button>
-      </div>
-    </form>
-  </section>
-</main>
+<form
+  (ngSubmit)="submit()"
+  *transloco="let t; read: translocoScope.scope"
+  [formGroup]="form"
+  class="absolute inset-0 bg-white w-[450px] rounded-xl h-fit m-auto p-10"
+>
+  <img alt="logo" class="mx-auto mb-10" src="assets/logo.png" />
+  <formly-form [fields]="fields" [form]="form" [model]="model"></formly-form>
+  <p
+    [innerHTML]="t('cannotLogin', { url: 'https://jira.banvien.com.vn/servicedesk/customer/portal/9' })"
+    class="mt-2"
+  ></p>
+  <button [showLoader]="(loading$ | push) === true" class="!block mx-auto mt-6" tuiButton>
+    <span class="px-16">{{ t('login') }}</span>
+  </button>
+</form>
