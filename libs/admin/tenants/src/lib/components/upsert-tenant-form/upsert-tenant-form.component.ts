@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Inject, Input, Output } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl } from '@angular/forms';
-import { AddressService, CommonStatus, UploadFileService } from '@nexthcm/cdk';
+import { AddressService, CommonStatus, FilesService } from '@nexthcm/cdk';
 import { ProviderScope, TRANSLOCO_SCOPE, TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { NumericValueType, RxwebValidators } from '@rxweb/reactive-form-validators';
@@ -102,7 +102,7 @@ export class UpsertTenantFormComponent {
         accept: 'image/*',
         required: true,
         previewImage: true,
-        serverRequest: (file: File) => this.uploadFileService.uploadFile('admin-tenant', file),
+        serverRequest: (file: File) => this.filesService.uploadFile('admin-tenant', file),
       },
     },
     {
@@ -321,7 +321,7 @@ export class UpsertTenantFormComponent {
     private readonly fb: FormBuilder,
     private readonly adminTenantsService: AdminTenantsService,
     private readonly addressService: AddressService,
-    private readonly uploadFileService: UploadFileService,
+    private readonly filesService: FilesService,
     private readonly translocoService: TranslocoService
   ) {}
 

@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { EmployeeAttachment, EmployeesService, PromptService, UploadFileService } from '@nexthcm/cdk';
+import { EmployeeAttachment, EmployeesService, FilesService, PromptService } from '@nexthcm/cdk';
 import { ProviderScope, TRANSLOCO_SCOPE, TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
@@ -38,7 +38,7 @@ export class AttachmentFormComponent {
             type: 'sharing-file',
             templateOptions: {
               labelClassName: 'font-semibold',
-              serverRequest: (file: File) => this.uploadFileService.uploadFile('employee', file, false, true),
+              serverRequest: (file: File) => this.filesService.uploadFile('employee', file, false, true),
             },
             expressionProperties: {
               'templateOptions.onUploadedFile': (_, __, field) => (value: string) =>
@@ -73,7 +73,7 @@ export class AttachmentFormComponent {
     private readonly activatedRoute: ActivatedRoute,
     private readonly adminEmployeeService: AdminEmployeesService,
     private readonly employeesService: EmployeesService,
-    private readonly uploadFileService: UploadFileService,
+    private readonly filesService: FilesService,
     private readonly translocoService: TranslocoService,
     private readonly destroy$: TuiDestroyService,
     private readonly promptService: PromptService

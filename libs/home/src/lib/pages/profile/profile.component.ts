@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { EmployeesService, PromptService, UploadFileService, UserProfileService } from '@nexthcm/cdk';
+import { EmployeesService, FilesService, PromptService, UserProfileService } from '@nexthcm/cdk';
 import { of, Subject, switchMap, tap } from 'rxjs';
 import { catchError, map, share, startWith } from 'rxjs/operators';
 
@@ -17,9 +17,9 @@ export class ProfileComponent {
   readonly fileInput = document.createElement('input');
   private readonly file$ = new Subject<File>();
   readonly uploading$ = this.file$.pipe(
-    switchMap((file) => this.uploadFileService.cropImage(file)),
+    switchMap((file) => this.filesService.cropImage(file)),
     switchMap((file) =>
-      this.uploadFileService.uploadFile('employee', file).pipe(
+      this.filesService.uploadFile('employee', file).pipe(
         switchMap((filePath) =>
           this.employeesService.updateEmployeeGeneralInformation({
             ...this.userProfileService.get('general'),
@@ -39,7 +39,7 @@ export class ProfileComponent {
     private readonly userProfileService: UserProfileService,
     private readonly employeesService: EmployeesService,
     private readonly promptService: PromptService,
-    private readonly uploadFileService: UploadFileService
+    private readonly filesService: FilesService
   ) {
     userProfileService.doLoadGeneralInformation();
     userProfileService.doLoadIndividualInformation();

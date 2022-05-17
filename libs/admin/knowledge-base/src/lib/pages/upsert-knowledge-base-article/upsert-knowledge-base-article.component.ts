@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { AbstractControl, FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CommonStatus, PromptService, UploadFileService } from '@nexthcm/cdk';
+import { CommonStatus, FilesService, PromptService } from '@nexthcm/cdk';
 import { KnowledgeBaseArticle, KnowledgeBaseService } from '@nexthcm/knowledge-base';
 import { ProviderScope, TRANSLOCO_SCOPE, TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
@@ -65,7 +65,7 @@ export class UpsertKnowledgeBaseArticleComponent {
         label: this.translocoScope.scope + '.thumbnail',
         labelClassName: 'font-semibold',
         previewImage: true,
-        serverRequest: this.uploadFileService.uploadFile.bind(this.uploadFileService, 'policy'),
+        serverRequest: this.filesService.uploadFile.bind(this.filesService, 'policy'),
       },
     },
     {
@@ -158,7 +158,7 @@ export class UpsertKnowledgeBaseArticleComponent {
     private readonly promptService: PromptService,
     private readonly activatedRoute: ActivatedRoute,
     private readonly router: Router,
-    private readonly uploadFileService: UploadFileService
+    private readonly filesService: FilesService
   ) {
     adminKnowledgeBaseService.doLoadCategories();
   }

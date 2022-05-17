@@ -12,13 +12,13 @@ import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   Dimension,
+  FilesService,
   OfficesService,
   PromptService,
   Seat,
   SeatMap,
   SeatMapsService,
   StyleSeat,
-  UploadFileService,
 } from '@nexthcm/cdk';
 import { ProviderScope, TRANSLOCO_SCOPE } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
@@ -168,7 +168,7 @@ export class UpsertSeatMapComponent implements AfterViewInit {
         label: 'image',
         labelClassName: 'font-semibold',
         accept: 'image/*',
-        serverRequest: (file: File) => this.uploadFileService.uploadFile('admin-tenant/domain', file, true),
+        serverRequest: (file: File) => this.filesService.uploadFile('admin-tenant/domain', file, true),
       },
     },
     { key: 'type', defaultValue: 'UNSET' },
@@ -226,7 +226,7 @@ export class UpsertSeatMapComponent implements AfterViewInit {
     private readonly seatMapsService: SeatMapsService,
     private readonly officesService: OfficesService,
     private readonly adminSeatMapsService: AdminSeatMapsService,
-    private readonly uploadFileService: UploadFileService,
+    private readonly filesService: FilesService,
     private readonly router: Router,
     private readonly destroy$: TuiDestroyService,
     private readonly promptService: PromptService,

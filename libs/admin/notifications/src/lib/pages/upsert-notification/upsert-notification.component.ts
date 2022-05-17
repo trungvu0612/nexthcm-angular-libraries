@@ -5,10 +5,10 @@ import {
   BaseOption,
   CommonStatus,
   convertTuiDateTimeToLocalDate,
+  FilesService,
   parseTuiDateTime,
   PromptService,
   RolesService,
-  UploadFileService,
 } from '@nexthcm/cdk';
 import { TRANSLOCO_SCOPE, TranslocoService } from '@ngneat/transloco';
 import { ProviderScope } from '@ngneat/transloco/lib/types';
@@ -120,7 +120,7 @@ export class UpsertNotificationComponent {
         accept: 'image/*',
         labelClassName: 'font-semibold',
         previewImage: true,
-        serverRequest: (file: File) => this.uploadFileService.uploadFile('notifications', file),
+        serverRequest: (file: File) => this.filesService.uploadFile('notifications', file),
       },
     },
     {
@@ -317,7 +317,7 @@ export class UpsertNotificationComponent {
     private readonly fb: FormBuilder,
     private readonly activatedRoute: ActivatedRoute,
     private readonly router: Router,
-    private readonly uploadFileService: UploadFileService,
+    private readonly filesService: FilesService,
     private readonly adminNotificationsService: AdminNotificationsService,
     private readonly promptService: PromptService,
     private readonly state: RxState<Record<string, unknown>>,

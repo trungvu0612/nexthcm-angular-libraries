@@ -8,11 +8,11 @@ import {
   CommonStatus,
   EmployeeGeneralInformation,
   EmployeesService,
+  FilesService,
   JobLevelsService,
   JobTitlesService,
   RolesService,
   Supervisor,
-  UploadFileService,
 } from '@nexthcm/cdk';
 import { ProviderScope, TRANSLOCO_SCOPE, TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
@@ -127,7 +127,7 @@ export class GeneralInformationFormComponent implements OnInit {
                 label: 'image',
                 labelClassName: 'font-semibold',
                 previewImage: true,
-                serverRequest: this.uploadFileService.uploadFile.bind(this.uploadFileService, 'employee'),
+                serverRequest: this.filesService.uploadFile.bind(this.filesService, 'employee'),
               },
             },
             {
@@ -338,7 +338,7 @@ export class GeneralInformationFormComponent implements OnInit {
     @Inject(TRANSLOCO_SCOPE) private readonly translocoScope: ProviderScope,
     private readonly state: RxState<EmployeeGeneralInformation>,
     private readonly fb: FormBuilder,
-    private readonly uploadFileService: UploadFileService,
+    private readonly filesService: FilesService,
     private readonly translocoService: TranslocoService,
     private readonly employeesService: EmployeesService,
     private readonly adminEmployeesService: AdminEmployeesService,
