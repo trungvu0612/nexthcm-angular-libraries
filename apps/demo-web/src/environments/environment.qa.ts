@@ -5,5 +5,4 @@ export const environment: AppConfig = {
   language: 'en',
   baseUrl: 'https://qa-nexthcm.banvien.com.vn',
   apiUrl: 'https://qa-nexthcm-api.banvien.com.vn',
-  orgUrl: 'https://qa-nexthcm-api.banvien.com.vn',
 };

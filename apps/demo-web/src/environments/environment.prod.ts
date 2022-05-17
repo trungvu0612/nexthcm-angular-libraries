@@ -5,5 +5,4 @@ export const environment: AppConfig = {
   language: 'en',
   baseUrl: 'https://hcm.banvien.com.vn',
   apiUrl: 'https://api-hcm.banvien.com.vn',
-  orgUrl: 'https://api-hcm.banvien.com.vn',
 };

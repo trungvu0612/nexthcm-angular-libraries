@@ -9,7 +9,6 @@ export const environment: AppConfig = {
   language: 'en',
   baseUrl: 'http://localhost:4200',
   apiUrl: 'https://qa-nexthcm-api.banvien.com.vn',
-  orgUrl: 'https://qa-nexthcm-api.banvien.com.vn',
 };
 
 /*
