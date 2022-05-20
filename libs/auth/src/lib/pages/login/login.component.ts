@@ -45,6 +45,8 @@ export class LoginComponent {
       validation: {
         messages: {
           invalidCredential: () => this.translocoService.translate(this.translocoScope.scope + '.invalidCredential'),
+          serverNotResponding: () =>
+            this.translocoService.translate(this.translocoScope.scope + '.serverNotResponding'),
         },
       },
     },
@@ -65,8 +67,10 @@ export class LoginComponent {
     switchMap(() =>
       this.authService.login(this.form.value).pipe(
         tap(() => this.router.navigateByUrl(this.returnUrl)),
-        catchError(() => {
-          this.form.controls['password'].setErrors({ invalidCredential: true });
+        catchError(({ status }) => {
+          this.form.controls['password'].setErrors(
+            status === 401 ? { invalidCredential: true } : { serverNotResponding: true }
+          );
           return of(true);
         }),
         startWith(false)

@@ -3,6 +3,7 @@
   "enterPassword": "Enter password",
   "rememberMe": "Remember my login on this computer",
   "invalidCredential": "The username or password is incorrect.",
-  "cannotLogin": "Can't access your account? Please contact your <a class='font-semibold' href='{{url}}'>administrators</a>.",
+  "serverNotResponding": "The server is not responding.",
+  "cannotLogin": "Can't access your account? Please contact your <a class='font-semibold' href='{{url}}' target='_blank'>administrators</a>.",
   "login": "Login"
 }
