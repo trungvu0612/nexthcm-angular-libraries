@@ -129,12 +129,35 @@
     rxjs "6.6.7"
     source-map "0.7.3"
 
+"@angular-devkit/core@13.3.6":
+  version "13.3.6"
+  resolved "https://registry.yarnpkg.com/@angular-devkit/core/-/core-13.3.6.tgz#656284327d6f84a866a8d3cc8625895fe740602d"
+  integrity sha512-ZmD586B+RnM2CG5+jbXh2NVfIydTc/yKSjppYDDOv4I530YBm6vpfZMwClpiNk6XLbMv7KqX4Tlr4wfxlPYYbA==
+  dependencies:
+    ajv "8.9.0"
+    ajv-formats "2.1.1"
+    fast-json-stable-stringify "2.1.0"
+    magic-string "0.25.7"
+    rxjs "6.6.7"
+    source-map "0.7.3"
+
 "@angular-devkit/schematics@13.3.3", "@angular-devkit/schematics@~13.3.0":
   version "13.3.3"
   resolved "https://registry.yarnpkg.com/@angular-devkit/schematics/-/schematics-13.3.3.tgz#d574897c20a8ede51a4a469250b84421df632929"
   integrity sha512-S8UNlw6IoR/kxBYbiwesuA7oJGSnFkD6bJwVLhpHdT6Sqrz2/IrjHcNgTJRAvhsOKIbfDtMtXRzl/PUdWEfgyw==
   dependencies:
     "@angular-devkit/core" "13.3.3"
+    jsonc-parser "3.0.0"
+    magic-string "0.25.7"
+    ora "5.4.1"
+    rxjs "6.6.7"
+
+"@angular-devkit/schematics@13.3.6":
+  version "13.3.6"
+  resolved "https://registry.yarnpkg.com/@angular-devkit/schematics/-/schematics-13.3.6.tgz#b02e1eff714c2cf44a54de92410d07cc8cefbb0e"
+  integrity sha512-yLh5xc92C/FiaAp27coPiKWpSUmwoXF7vMxbJYJTyOXlt0mUITAEAwtrZQNr4yAxW/yvgTdyg7PhXaveQNTUuQ==
+  dependencies:
+    "@angular-devkit/core" "13.3.6"
     jsonc-parser "3.0.0"
     magic-string "0.25.7"
     ora "5.4.1"
@@ -294,10 +317,26 @@
   dependencies:
     tslib "^2.3.0"
 
+"@angular/pwa@^13.3.6":
+  version "13.3.6"
+  resolved "https://registry.yarnpkg.com/@angular/pwa/-/pwa-13.3.6.tgz#5119f0139714a5aaac507a6bca8d6d1af3f4b808"
+  integrity sha512-fGEEFHXCpyQhTbmK4GaPQJo0But6YIs/vOG9LuBI6+BprNbkyjmzDM/L3XfAU/BcaL6w3K7/Rvt58Zf3SVnDsQ==
+  dependencies:
+    "@angular-devkit/schematics" "13.3.6"
+    "@schematics/angular" "13.3.6"
+    parse5-html-rewriting-stream "6.0.1"
+
 "@angular/router@13.3.4":
   version "13.3.4"
   resolved "https://registry.yarnpkg.com/@angular/router/-/router-13.3.4.tgz#0f05f8a5bec94e8315f1d4223aed8717504b22f2"
   integrity sha512-UuMAjWHoFKF8b9gFOiqL7fpVXjIr89BtxVES3yXReVq/IZJz9gWup6lYK3KMja+F8HZB8LBUMYgtqjS9iyLV/Q==
+  dependencies:
+    tslib "^2.3.0"
+
+"@angular/service-worker@13.3.4":
+  version "13.3.4"
+  resolved "https://registry.yarnpkg.com/@angular/service-worker/-/service-worker-13.3.4.tgz#66c85b91a976a7a6c377797e87b89b2584ac0627"
+  integrity sha512-YzViEDq5UbrIpme6Y7EpZpf9YDbwqT4gjFWLFaZ416XSTXmkKE9sEVoddt+7ds+ziwsmix85OhLH7fmVhhXqwQ==
   dependencies:
     tslib "^2.3.0"
 
@@ -2159,6 +2198,15 @@
     "@angular-devkit/schematics" "13.3.3"
     jsonc-parser "3.0.0"
 
+"@schematics/angular@13.3.6":
+  version "13.3.6"
+  resolved "https://registry.yarnpkg.com/@schematics/angular/-/angular-13.3.6.tgz#65c68b1856e32321b5223ec0d484f16f95a6f87f"
+  integrity sha512-BGBmIasjipBxQhV+UdN8B5P73SBXgBPkc7rcOK3Py+xpqMcoTWn290nqxIxLxRVmSeHLabE7+n1m3WnCumlm9Q==
+  dependencies:
+    "@angular-devkit/core" "13.3.6"
+    "@angular-devkit/schematics" "13.3.6"
+    jsonc-parser "3.0.0"
+
 "@sinonjs/commons@^1.7.0":
   version "1.8.3"
   resolved "https://registry.yarnpkg.com/@sinonjs/commons/-/commons-1.8.3.tgz#3802ddd21a50a949b6721ddd72da36e67e7f1b2d"
@@ -2388,17 +2436,17 @@
   dependencies:
     tslib "^2.0.0"
 
-"@taiga-ui/addon-commerce@2.47.0":
-  version "2.47.0"
-  resolved "https://registry.yarnpkg.com/@taiga-ui/addon-commerce/-/addon-commerce-2.47.0.tgz#ae4df0f4c19fb36e47cfd5248df735a6ae43d21a"
-  integrity sha512-bUrVPc3BtTM9eIWgOZy5fH3u9V+CXXI7JMignOBYLo7HEi5Mys0bwWcuYON9ZxIQWwIYdDpc+uahL3snhrRKBQ==
+"@taiga-ui/addon-commerce@^2.47.0":
+  version "2.48.0"
+  resolved "https://registry.yarnpkg.com/@taiga-ui/addon-commerce/-/addon-commerce-2.48.0.tgz#cde6d990bb4774b56d203754e0449fea04d30510"
+  integrity sha512-DwqaFz5STn5IeUzzqETAUKAHRVanMPuyvUyvPqwWZu5GtiImo0MA76QGUg96PVO4uMtz9G4VqDTDIW6LUJCepQ==
   dependencies:
     tslib "^1.10.0"
 
-"@taiga-ui/addon-editor@2.47.0":
-  version "2.47.0"
-  resolved "https://registry.yarnpkg.com/@taiga-ui/addon-editor/-/addon-editor-2.47.0.tgz#3da99e7085d044c52af30e54f4c895cb9816f70f"
-  integrity sha512-eyzozpBwxrzW1mGsjfiW8f+ThnZqp+duJB0tEJ4ffxj7W8PxNMV9i/h2ib2QBEJ+qcOy+27ycxW4KLOxt3qzRQ==
+"@taiga-ui/addon-editor@^2.47.0":
+  version "2.48.0"
+  resolved "https://registry.yarnpkg.com/@taiga-ui/addon-editor/-/addon-editor-2.48.0.tgz#7d2372601e0f8c50475362576b229b6d18f73d10"
+  integrity sha512-TgH8KBe3eMx5PgQp4j9mukWrLGS5WcwZDMtvjvuWyeRgfc10IIlMVxZzBI4N5N7F1VNkP7j58ZoiRHB0JQWjnA==
   dependencies:
     "@tiptap/core" "2.0.0-beta.151"
     "@tiptap/extension-bubble-menu" "2.0.0-beta.51"
@@ -2416,17 +2464,17 @@
     "@tiptap/starter-kit" "2.0.0-beta.154"
     tslib "^1.10.0"
 
-"@taiga-ui/addon-table@2.47.0":
-  version "2.47.0"
-  resolved "https://registry.yarnpkg.com/@taiga-ui/addon-table/-/addon-table-2.47.0.tgz#a12db817acf5109f9f59152c8feb46d0978535cd"
-  integrity sha512-gPh+X6SoxEeU3Nn+WZi5nywMAZnw4MMTs6rQh70Y4/yHUbG54h/C9lCtXG1c2T6OVwjqoi9G8IbmHMRED8ZjJQ==
+"@taiga-ui/addon-table@^2.47.0":
+  version "2.48.0"
+  resolved "https://registry.yarnpkg.com/@taiga-ui/addon-table/-/addon-table-2.48.0.tgz#4cca76aa5d09cb91a66214ba84a3a89d7fcb9f59"
+  integrity sha512-j2LNH3/i1HLg/8wj3mSTdXHB2WJa4915Juwps0V+qVHusHq0yaA4SivPqaFIkrsOWPJyldnhvAJkKVrCHJUSDw==
   dependencies:
     tslib "^1.10.0"
 
-"@taiga-ui/cdk@2.47.0":
-  version "2.47.0"
-  resolved "https://registry.yarnpkg.com/@taiga-ui/cdk/-/cdk-2.47.0.tgz#11ff7047a4eea16a4857cf6c0b13c1e0a604fe87"
-  integrity sha512-WcpCJg7c707rkor1Fdziz4HubSSjn8J2QgbJLF1QW2u0tuDYintn825aju1Y65dGnfS5IX/gAZKnFStqBIIhiA==
+"@taiga-ui/cdk@^2.47.0":
+  version "2.48.0"
+  resolved "https://registry.yarnpkg.com/@taiga-ui/cdk/-/cdk-2.48.0.tgz#635ab819229b58c9887d6b2107bd0bf687d2e286"
+  integrity sha512-LFS3sfkjRc4wGodouOpgEGYdrgPOvGEUCQtia7o5IDUzsOtz9RsqCbGbAjQsOxmI03P9Isp9vn1OKoG3L5mFZg==
   dependencies:
     "@ng-web-apis/common" "^1.12.1"
     "@ng-web-apis/mutation-observer" "^1.1.0"
@@ -2436,32 +2484,39 @@
     "@types/resize-observer-browser" "^0.1.7"
     tslib "^1.10.0"
 
-"@taiga-ui/core@2.47.0":
-  version "2.47.0"
-  resolved "https://registry.yarnpkg.com/@taiga-ui/core/-/core-2.47.0.tgz#3e0b85caf46000d5adf16ca8fe79bcacd98d74b0"
-  integrity sha512-kTCIkQoeRsUFIb2uvOk1Z+lAQvEjvk2y5XmcJr/hkBm61T1lN4L4PSXV8A4mpUmQUTnH2U4PfmnPMnVBndq1zA==
+"@taiga-ui/core@^2.47.0":
+  version "2.48.0"
+  resolved "https://registry.yarnpkg.com/@taiga-ui/core/-/core-2.48.0.tgz#25df34bd2c757d7a46d76c933eee8f457bf0eee1"
+  integrity sha512-tiI2tWuapod98Eu1DflftyzO8g5mx3qm9mlM/GM5HD05he6TpZJckjzzEJZSD+D/38xfcUAM+cBm5rklGdQJBg==
   dependencies:
-    "@taiga-ui/i18n" "^2.47.0"
+    "@taiga-ui/i18n" "^2.48.0"
     tslib "^1.10.0"
 
-"@taiga-ui/i18n@2.47.0", "@taiga-ui/i18n@^2.47.0":
+"@taiga-ui/i18n@^2.47.0":
   version "2.47.0"
   resolved "https://registry.yarnpkg.com/@taiga-ui/i18n/-/i18n-2.47.0.tgz#401e74d84cc8885903b84693f7810ef2664080e9"
   integrity sha512-vuyk/J7ZGUpo21PkzLoYQKPnOKTn3pI73PZMYKFMYkEByiWQMinP52/nIKfX93fAXTfrqN1lsZMEj2VSxxR++g==
   dependencies:
     tslib "^1.10.0"
 
-"@taiga-ui/icons@2.47.0":
-  version "2.47.0"
-  resolved "https://registry.yarnpkg.com/@taiga-ui/icons/-/icons-2.47.0.tgz#0eee4bde52fcf2893bb4e27756f7143c39372ad9"
-  integrity sha512-5q5//HdmAHpC8hCmaudY/bywQraRKwBxhqiND+Za9i03kOa2wq4QLmoU5P88brHcgbRJrkBLGlIEJJWuUlPWkw==
+"@taiga-ui/i18n@^2.48.0":
+  version "2.48.0"
+  resolved "https://registry.yarnpkg.com/@taiga-ui/i18n/-/i18n-2.48.0.tgz#cc8eda9453684365728f5e5489a6514ae2d22820"
+  integrity sha512-mv5V5cQ8nUhPfLAXe8EwzuM7oAzeg4BWZbqDQdN3R/cF7dKp/82amEeCgBxlICBVN++b9oyvhpzlYhvhKid1/w==
   dependencies:
     tslib "^1.10.0"
 
-"@taiga-ui/kit@2.47.0":
-  version "2.47.0"
-  resolved "https://registry.yarnpkg.com/@taiga-ui/kit/-/kit-2.47.0.tgz#bccfcd4ce67c041891bc678e80862bafccf77200"
-  integrity sha512-j0cNJ2Od3PGeVFaOviexUKMeavJt3gllP6Vbjr+dA8T6TETXFqsTkOlH+FRxxj1Tu6M331PtI/xMOCrW073VQw==
+"@taiga-ui/icons@^2.47.0":
+  version "2.48.0"
+  resolved "https://registry.yarnpkg.com/@taiga-ui/icons/-/icons-2.48.0.tgz#be2519f48b428f48f08fc232e3bb48699fb977b1"
+  integrity sha512-VKpjIVgkRbFcw7HzHT6L15XnK3Yd9vYGBfdsL++RMBIv+JYcXXnGCUzPp6sL8cRfWc+cRp5YhjdlcJwg3g1WOw==
+  dependencies:
+    tslib "^1.10.0"
+
+"@taiga-ui/kit@^2.47.0":
+  version "2.48.0"
+  resolved "https://registry.yarnpkg.com/@taiga-ui/kit/-/kit-2.48.0.tgz#645fe0b4bd8a50e2dc897b2e411fc5aa59dfcb9f"
+  integrity sha512-a7urUQorF1x1ZuKZkJvC2LiUv31kgTQfEmuauQb4oJeB4M5ViyW2QRePx1WNcsBOkQeKkOKyGeKDjhGXyFeXiA==
   dependencies:
     "@ng-web-apis/intersection-observer" "^2.1.0"
     angular2-text-mask "^9.0.0"

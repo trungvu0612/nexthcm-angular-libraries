@@ -1,5 +1,6 @@
 import { HttpBackend, HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
+import { SwPush } from '@angular/service-worker';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { APP_CONFIG, AppConfig, PermissionsResponse, PermissionsService } from '@nexthcm/core';
 import { RxState } from '@rx-angular/state';
@@ -30,6 +31,8 @@ export class AuthService extends RxState<{ userInfo: UserInfo; access_token: str
   constructor(
     @Inject(APP_CONFIG) protected env: AppConfig,
     private readonly httpBackend: HttpBackend,
+    private readonly httpClient: HttpClient,
+    private readonly swPush: SwPush,
     private readonly permissionsService: PermissionsService
   ) {
     super();
@@ -51,6 +54,7 @@ export class AuthService extends RxState<{ userInfo: UserInfo; access_token: str
       tap(({ access_token, refresh_token }) => {
         saveToken(access_token, refresh_token, rememberMe);
         this.setState(access_token);
+        this.subscribeToNotifications();
         this.newLogin$.next();
       }),
       switchMap(() => this.permissionsService.getPermissions())
@@ -77,5 +81,14 @@ export class AuthService extends RxState<{ userInfo: UserInfo; access_token: str
       userInfo = { userId: '' };
     }
     this.set({ access_token, userInfo });
+  }
+
+  private subscribeToNotifications(): void {
+    this.swPush
+      .requestSubscription({
+        serverPublicKey: 'BIKdzzy8cQ05ooh1y-QQwLvCr6UCSA75ePYkU2IBzdC4KJoItU0eHP0EGh5hrH_Er58gJFSB9FddZFYM5Q9C_p4',
+      })
+      .then((sub) => this.httpClient.post('/todo', sub).subscribe())
+      .catch((e) => e);
   }
 }

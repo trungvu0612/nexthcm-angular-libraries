@@ -16,6 +16,7 @@
         "inlineStyleLanguage": "scss",
         "assets": [
           "apps/demo-web/src/favicon.ico",
+          "apps/demo-web/src/manifest.webmanifest",
           "apps/demo-web/src/assets",
           {
             "glob": "**/*",
@@ -56,7 +57,9 @@
           "quill-auto-detect-url",
           "cron-expression-validator",
           "tinycrop"
-        ]
+        ],
+        "serviceWorker": true,
+        "ngswConfigPath": "apps/demo-web/ngsw-config.json"
       },
       "configurations": {
         "production": {

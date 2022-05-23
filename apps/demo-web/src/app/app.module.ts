@@ -5,6 +5,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
+import { ServiceWorkerModule } from '@angular/service-worker';
 import { AuthModule, LoginComponent } from '@nexthcm/auth';
 import { CoreModule, ROUTER_CONFIG } from '@nexthcm/core';
 import { FormlyTaigaUiModule, PortalLayoutComponent, PortalLayoutModule } from '@nexthcm/ui';
@@ -115,6 +116,12 @@ registerLocaleData(localeEn);
     CoreModule.forRoot(environment),
     AuthModule,
     PortalLayoutModule,
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production,
+      // Register the ServiceWorker as soon as the application is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerWhenStable:30000',
+    }),
   ],
   bootstrap: [AppComponent],
 })
