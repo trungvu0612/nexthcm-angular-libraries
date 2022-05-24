@@ -1,126 +1,123 @@
-<ng-container *ngIf="seat.assignedUser as user; else icon">
-  <tui-hosted-dropdown
-    (click)="addSeatOrDropdown('dropdown')"
-    [(open)]="openDropdown"
-    [canOpen]="(dragging$ | push) !== true"
-    [class.selected]="openDropdown"
-    [content]="content"
-    [tuiDropdownMaxHeight]="999"
-    [tuiDropdownSided]="true"
-    class="w-full h-full"
-    tuiDropdownHover
-  >
-    <div class="relative w-full h-full flex justify-center items-center">
-      <hcm-avatar
-        [autoColor]="true"
-        [borderRadius]="borderRadius"
-        [class.avatar-active]="active"
-        [image]="user.image"
-        [text]="user.fullName || user.username"
-        class="w-full h-full"
-        height="100%"
-        size="m"
-        width="100%"
-      ></hcm-avatar>
-      <div
-        *ngIf="seat.statusCheckInOutOfUser?.statusOfUser?.length"
-        class="absolute top-full inset-x-0 py-0.5 border-t flex space-x-0.5"
-      >
-        <span
-          *ngFor="let seatStatus of seat.statusCheckInOutOfUser?.statusOfUser"
-          class="dot seat-status {{ seatStatus | seatUserState }}"
-        ></span>
-      </div>
+<tui-hosted-dropdown
+  *ngIf="seat.assignedUser as user; else icon"
+  [(open)]="open"
+  [class.selected]="open"
+  [content]="content"
+  [tuiDropdownMaxHeight]="999"
+  [tuiDropdownSided]="true"
+  class="w-full h-full"
+  tuiDropdownHover
+>
+  <div class="relative w-full h-full flex justify-center items-center">
+    <hcm-avatar
+      [autoColor]="true"
+      [borderRadius]="borderRadius"
+      [class.avatar-active]="active"
+      [image]="user.image"
+      [text]="user.fullName || user.username"
+      class="w-full h-full"
+      height="100%"
+      size="m"
+      width="100%"
+    ></hcm-avatar>
+    <div
+      *ngIf="seat.statusCheckInOutOfUser?.statusOfUser?.length"
+      class="absolute top-full inset-x-0 py-0.5 border-t flex space-x-0.5"
+    >
+      <span
+        *ngFor="let seatStatus of seat.statusCheckInOutOfUser?.statusOfUser"
+        class="dot w-3 h-3 {{ seatStatus | tuiMapper: getStatus }}"
+      ></span>
     </div>
+  </div>
 
-    <ng-template #content>
-      <article *transloco="let t" class="p-4">
-        <div class="text-center">
-          <hcm-avatar
-            [image]="user.image"
-            [rounded]="true"
-            [text]="user.fullName || user.username"
-            class="m-auto"
-            size="xl"
-          ></hcm-avatar>
+  <ng-template #content>
+    <div *transloco="let t" class="p-4">
+      <div class="text-center">
+        <hcm-avatar
+          [image]="user.image"
+          [rounded]="true"
+          [text]="user.fullName || user.username"
+          class="m-auto"
+          size="xl"
+        ></hcm-avatar>
+      </div>
+      <div class="pb-3 border-b border-gray-300">
+        <div class="flex-auto px-4 font-semibold text-center">
+          <h1 class="mt-3 mb-2 text-2xl">{{ user.fullName }}</h1>
+          <p class="text-lg text-gray-400">{{ user.birthDay ? (user.birthDay | translocoDate) : '' }}</p>
         </div>
-        <div class="pb-3 border-b border-gray-300">
-          <div class="flex-auto px-4 font-semibold text-center">
-            <h1 class="mt-3 mb-2 text-2xl">{{ user.fullName }}</h1>
-            <p class="text-lg text-gray-400">{{ user.birthDay ? (user.birthDay | translocoDate) : '' }}</p>
-          </div>
-        </div>
-        <table class="seat-detail text-left mt-3">
+      </div>
+      <table class="seat-detail text-left mt-3">
+        <tr>
+          <th>{{ t('status') }}:</th>
+          <td>
+            <div class="flex items-center space-x-1">
+              <span
+                *ngFor="let status of seat.statusCheckInOutOfUser?.statusOfUser"
+                class="dot {{ status | tuiMapper: getStatus }}"
+              ></span>
+            </div>
+          </td>
+        </tr>
+        <ng-container *ngIf="seat.statusCheckInOutOfUser">
           <tr>
-            <th>{{ t('status') }}:</th>
-            <td>
-              <div class="flex items-center space-x-1">
-                <span
-                  *ngFor="let status of seat.statusCheckInOutOfUser?.statusOfUser"
-                  class="dot {{ status | seatUserState }}"
-                ></span>
-              </div>
+            <th>{{ t('inTime') }}:</th>
+            <td *tuiLet="seat.statusCheckInOutOfUser.inTime as inTime">
+              {{ (inTime || 0) * 1000 | date: 'HH:mm':'UTC' }}
             </td>
           </tr>
-          <ng-container *ngIf="seat.statusCheckInOutOfUser">
-            <tr>
-              <th>{{ t('inTime') }}:</th>
-              <td *tuiLet="seat.statusCheckInOutOfUser.inTime as inTime">
-                {{ (inTime || 0) * 1000 | date: 'HH:mm':'UTC' }}
-              </td>
-            </tr>
-            <tr>
-              <th>{{ t('outTime') }}:</th>
-              <td *tuiLet="seat.statusCheckInOutOfUser.outTime as outTime">
-                {{ (outTime || 0) * 1000 | date: 'HH:mm':'UTC' }}
-              </td>
-            </tr>
-          </ng-container>
           <tr>
-            <th>{{ t('organization') }}:</th>
-            <td>{{ user.organization?.name }}</td>
+            <th>{{ t('outTime') }}:</th>
+            <td *tuiLet="seat.statusCheckInOutOfUser.outTime as outTime">
+              {{ (outTime || 0) * 1000 | date: 'HH:mm':'UTC' }}
+            </td>
           </tr>
-          <tr>
-            <th>{{ t('directReport') }}:</th>
-            <td>{{ user.directReport?.name }}</td>
-          </tr>
-          <tr>
-            <th>Email:</th>
-            <td>{{ user.companyEmail }}</td>
-          </tr>
-          <tr>
-            <th>{{ t('phone') }}:</th>
-            <td>{{ user.phone }}</td>
-          </tr>
-          <tr>
-            <th>{{ t('jobTitle') }}:</th>
-            <td>{{ user.jobTitle?.name }}</td>
-          </tr>
-        </table>
-        <div class="flex justify-center gap-4 mt-3">
-          <button (click)="deleteSeat()" *ngxPermissionsOnly="'UPDATE_SEAT'" appearance="secondary" size="m" tuiButton>
-            {{ t('unAssignSeat') }}
-          </button>
-          <button
-            *ngxPermissionsOnly="'UPDATE_EMPLOYEE'"
-            [queryParams]="{ id: user.id }"
-            routerLink="/admin/employees"
-            size="m"
-            tuiButton
-          >
-            {{ t('detail') }}
-          </button>
-        </div>
-      </article>
-    </ng-template>
-  </tui-hosted-dropdown>
-</ng-container>
+        </ng-container>
+        <tr>
+          <th>{{ t('organization') }}:</th>
+          <td>{{ user.organization?.name }}</td>
+        </tr>
+        <tr>
+          <th>{{ t('directReport') }}:</th>
+          <td>{{ user.directReport?.name }}</td>
+        </tr>
+        <tr>
+          <th>Email:</th>
+          <td>{{ user.companyEmail }}</td>
+        </tr>
+        <tr>
+          <th>{{ t('phone') }}:</th>
+          <td>{{ user.phone }}</td>
+        </tr>
+        <tr>
+          <th>{{ t('jobTitle') }}:</th>
+          <td>{{ user.jobTitle?.name }}</td>
+        </tr>
+      </table>
+      <div class="flex justify-center gap-4 mt-3">
+        <button (click)="deleteSeat()" *ngxPermissionsOnly="'UPDATE_SEAT'" appearance="secondary" size="m" tuiButton>
+          {{ t('unAssignSeat') }}
+        </button>
+        <button
+          *ngxPermissionsOnly="'UPDATE_EMPLOYEE'"
+          [queryParams]="{ id: user.id }"
+          routerLink="/admin/employees"
+          size="m"
+          tuiButton
+        >
+          {{ t('detail') }}
+        </button>
+      </div>
+    </div>
+  </ng-template>
+</tui-hosted-dropdown>
 
 <ng-template #icon>
   <img
-    (click)="addSeatOrDropdown('add', formContent)"
+    (click)="addSeat(formContent)"
     alt=""
-    class="object-contain w-full h-full"
+    class="object-contain w-full h-full cursor-pointer"
     src="assets/icons/marker.svg"
   />
 </ng-template>
@@ -133,6 +130,5 @@
     [form]="form"
     [model]="model"
     [submitDisabled]="!form.valid"
-    class="mt-5"
   ></hcm-base-form>
 </ng-template>

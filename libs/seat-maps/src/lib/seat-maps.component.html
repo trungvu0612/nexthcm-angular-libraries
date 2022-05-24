@@ -1,7 +1,7 @@
-<div *rxLet="seatMap$; let seatMap" class="relative">
-  <hcm-page [title]="'seatMaps' | transloco" class="mb-16">
+<ng-container *transloco="let t">
+  <hcm-page [title]="t('seatMaps')" class="mb-16">
     <ng-container ngProjectAs="pageHeader">
-      <div class="flex space-x-2">
+      <div class="flex gap-4 max-w-[60%] w-[40rem]">
         <tui-combo-box
           (searchChange)="searchAssignedUser$.next($event)"
           *tuiLet="assignedUsers$ | push as users"
@@ -9,12 +9,13 @@
           [stringify]="stringify"
           [tuiTextfieldCleaner]="true"
           [valueContent]="userContent"
-          class="w-80"
+          class="w-1/2"
         >
-          <b>{{ 'employee' | transloco }}</b>
+          {{ t('employee') }}
           <input (input)="searchAssignedUser$.next($any($event.target).value)" tuiTextfield />
           <tui-data-list-wrapper *tuiDataList [itemContent]="userContent" [items]="users"></tui-data-list-wrapper>
         </tui-combo-box>
+
         <ng-template #userContent let-user>
           <span>
             <b>{{ user.name }}</b> ({{ user.username }})
@@ -27,9 +28,9 @@
           [identityMatcher]="identityMatcher"
           [tuiTextfieldLabelOutside]="true"
           [valueContent]="seatMapContent"
-          class="w-80"
+          class="w-1/2"
         >
-          {{ 'chooseSeatMap' | transloco }}
+          {{ t('chooseSeatMap') }}
           <tui-data-list *tuiDataList>
             <ng-container>
               <button *ngFor="let item of items" [value]="item" tuiOption>
@@ -41,6 +42,7 @@
             </ng-container>
           </tui-data-list>
         </tui-select>
+
         <ng-template #seatMapContent let-data>
           <span>
             <b>{{ data.name }}</b>
@@ -50,7 +52,7 @@
       </div>
     </ng-container>
 
-    <section *transloco="let t" class="flex items-center space-x-4 mb-4">
+    <section class="flex items-center space-x-4 mb-4">
       <tui-select
         (ngModelChange)="onSelectStatus($event)"
         [identityMatcher]="statusIdentityMatcher"
@@ -76,10 +78,10 @@
       ></hcm-basic-filter>
     </section>
 
-    <tui-loader *rxLet="loading$; let hidden" [overlay]="true" [showLoader]="hidden">
+    <tui-loader *ngIf="seatMap$ | push as seatMap" [overlay]="true" [showLoader]="loading$ | push">
       <div *ngIf="seatMap.id" class="flex mb-5">
         <tui-island size="l">
-          <ul *transloco="let t" class="tui-list">
+          <ul class="tui-list">
             <li class="tui-list__item">{{ t('numberOfAssignedSeats') }}: {{ seatMap.totalAssignedUser ?? 0 }}</li>
             <li class="tui-list__item">{{ t('numberOfUnassignedSeats') }}: {{ seatMap.totalNotAssigned ?? 0 }}</li>
             <li class="tui-list__item">
@@ -88,27 +90,23 @@
           </ul>
         </tui-island>
       </div>
-      <article *ngIf="seatMap.id; else noData" class="relative">
+      <div *ngIf="seatMap.id; else noData" class="relative">
         <hcm-seat
           (assignUser)="onAssignUserToSeat($event)"
-          (cdkDragEnded)="$event.source._dragRef.reset()"
-          (cdkDragStarted)="moveSeat($event, index)"
           (unAssignUser)="onUnAssignUserToSeat($event)"
           *ngFor="let seat of seatMap.seats; index as index"
           [active]="userControl.value?.id === seat.assignedUser?.id"
-          [dragging]="dragging$"
           [seat]="seat"
-          cdkDrag
         ></hcm-seat>
         <img (load)="onImageLoad()" [src]="seatMap.imageUrl || '' | getFile | push" alt="" class="w-full" />
-      </article>
+      </div>
       <ng-template #noData>
-        <p class="py-4 text-lg text-center opacity-50">{{ 'notAssignedSeat' | transloco }}</p>
+        <p class="py-4 text-lg text-center opacity-50">{{ t('notAssignedSeat') }}</p>
       </ng-template>
     </tui-loader>
   </hcm-page>
 
-  <footer *transloco="let t" class="flex fixed bottom-0 justify-evenly items-center h-16 bg-white">
+  <footer *ngIf="seatMap$ | push as seatMap" class="flex fixed bottom-0 justify-evenly items-center h-16 bg-white">
     <div *ngFor="let status of statusesAnnotate" class="flex items-center space-x-2">
       <tui-badge
         [class]="status.className"
@@ -119,4 +117,4 @@
       <span>{{ t(status.label) }}</span>
     </div>
   </footer>
-</div>
+</ng-container>

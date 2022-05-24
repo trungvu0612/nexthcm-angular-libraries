@@ -1,4 +1,3 @@
-import { DragDropModule } from '@angular/cdk/drag-drop';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -17,7 +16,7 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { TranslocoLocaleModule } from '@ngneat/transloco-locale';
 import { FormlyModule } from '@ngx-formly/core';
 import { LetModule, PushModule } from '@rx-angular/template';
-import { TuiLetModule } from '@taiga-ui/cdk';
+import { TuiLetModule, TuiMapperPipeModule } from '@taiga-ui/cdk';
 import {
   TuiButtonModule,
   TuiDataListModule,
@@ -39,7 +38,6 @@ import {
 import { NgxPermissionsGuard, NgxPermissionsModule } from 'ngx-permissions';
 
 import { SeatComponent } from './components/seat/seat.component';
-import { SeatUserStatePipe } from './pipes/seat-user-state.pipe';
 import { SeatMapsComponent } from './seat-maps.component';
 
 export const SEAT_MAPS_ROUTES: Routes = [
@@ -59,7 +57,6 @@ export const SEAT_MAPS_ROUTES: Routes = [
   imports: [
     CommonModule,
     RouterModule.forChild(SEAT_MAPS_ROUTES),
-    DragDropModule,
     GetFilePipeModule,
     LayoutModule,
     ReactiveFormsModule,
@@ -90,7 +87,8 @@ export const SEAT_MAPS_ROUTES: Routes = [
     TuiDataListWrapperModule,
     TuiDropdownHoverModule,
     PushModule,
+    TuiMapperPipeModule,
   ],
-  declarations: [SeatMapsComponent, SeatComponent, SeatUserStatePipe],
+  declarations: [SeatMapsComponent, SeatComponent],
 })
 export class SeatMapsModule {}

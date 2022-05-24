@@ -1,16 +1,10 @@
 :host {
   position: absolute;
   display: block;
-  cursor: pointer;
 
   > *:hover,
   .selected {
     z-index: 1000;
-  }
-
-  .seat-status {
-    width: 0.75rem;
-    height: 0.75rem;
   }
 
   .avatar-active {
@@ -28,16 +22,16 @@
       background-position: 100% 0, 0 100%, 0 0, 100% 100%;
     }
   }
+}
 
-  ::ng-deep .seat-detail {
-    th {
-      padding-right: 1rem;
-    }
+::ng-deep .seat-detail {
+  th {
+    padding-right: 0.5rem;
+  }
 
-    th,
-    td {
-      padding-top: 0.5rem;
-      padding-bottom: 0.5rem;
-    }
+  th,
+  td {
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
   }
 }
