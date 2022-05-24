@@ -15,11 +15,10 @@ import {
   TuiLoaderModule,
   TuiSvgModule,
 } from '@taiga-ui/core';
-import { TuiIslandModule } from '@taiga-ui/kit';
+import { TuiDropdownHoverModule, TuiIslandModule } from '@taiga-ui/kit';
 import { NgxPermissionsGuard } from 'ngx-permissions';
 
 import { OrganizationalChartNodeComponent } from './components/organizational-chart-node/organizational-chart-node.component';
-import { ChartNodeHoverDirective } from './directives/chart-node-hover/chart-node-hover.directive';
 import { OrganizationalChartComponent } from './pages/organizational-chart/organizational-chart.component';
 import { HumanResourceService } from './services/human-resource.service';
 
@@ -37,7 +36,7 @@ export const humanResourceRoutes: Routes = [
 ];
 
 @NgModule({
-  declarations: [OrganizationalChartComponent, OrganizationalChartNodeComponent, ChartNodeHoverDirective],
+  declarations: [OrganizationalChartComponent, OrganizationalChartNodeComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(humanResourceRoutes),
@@ -56,6 +55,7 @@ export const humanResourceRoutes: Routes = [
     ScrollIntoViewDirectiveModule,
     PushModule,
     ReactiveFormsModule,
+    TuiDropdownHoverModule,
   ],
   providers: [HumanResourceService],
 })

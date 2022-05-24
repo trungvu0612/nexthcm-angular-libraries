@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ElementRef, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, Output } from '@angular/core';
 
 import { EmployeeNode } from '../../models/employee-node';
 
@@ -11,6 +11,7 @@ import { EmployeeNode } from '../../models/employee-node';
 export class OrganizationalChartNodeComponent {
   @Input() node!: EmployeeNode;
   @Input() isActive = false;
+  @Output() clickNode = new EventEmitter();
 
   open = false;
 
