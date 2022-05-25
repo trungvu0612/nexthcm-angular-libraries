@@ -7,7 +7,9 @@ import { GeolocationService } from '@ng-web-apis/geolocation';
 import { TranslocoService } from '@ngneat/transloco';
 import { isPresent, tuiPure } from '@taiga-ui/cdk';
 import { endOfToday, startOfYesterday } from 'date-fns';
-import { BehaviorSubject, from, Observable, of, Subject } from 'rxjs';
+import { CRS } from 'leaflet';
+import { geocoder } from 'leaflet-control-geocoder';
+import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { catchError, filter, map, startWith, switchMap, take, tap } from 'rxjs/operators';
 
 @Component({
@@ -30,45 +32,19 @@ export class HomeComponent {
     filter(isPresent)
   );
   readonly checkInOutLoading$ = this.checkInOut$.pipe(
+    switchMap(() => this.checkedId$),
     switchMap(() =>
-      this.geolocation$.pipe(
-        take(1),
-        switchMap(({ coords: { latitude, longitude } }) =>
-          this.checkedId$.pipe(
-            switchMap(() =>
-              this.promptService.open({
-                icon: 'question',
-                html: this.translocoService.translate(
-                  this.shouldCheckedOut$.value ? 'checkOutConfirm' : 'checkInConfirm'
-                ),
-                showCancelButton: true,
-              })
-            ),
-            switchMap(({ isConfirmed }) =>
-              isConfirmed
-                ? this.myTimeService.checkInOut({ typeCheckInOut: 'web-app', latitude, longitude }).pipe(
-                    tap(
-                      this.promptService.handleResponse(
-                        this.shouldCheckedOut$.value ? 'checkOutSuccessfully' : 'checkInSuccessfully'
-                      )
-                    ),
-                    tap(() => {
-                      this.shouldCheckedOut$.next(true);
-                      this.fetch$.next();
-                    }),
-                    startWith(null)
-                  )
-                : of(true)
-            ),
-            catchError(() => of(true))
-          )
-        ),
-        catchError((err: GeolocationPositionError) => this.showGeolocationError(err))
-      )
+      this.promptService.open({
+        icon: 'question',
+        html: this.translocoService.translate(this.shouldCheckedOut$.value ? 'checkOutConfirm' : 'checkInConfirm'),
+        showCancelButton: true,
+      })
     ),
+    switchMap(({ isConfirmed }) => (isConfirmed ? this.checkInOut() : of(true))),
     startWith('init'),
     switchMap((value) => (value === 'init' ? this.checkedId$.pipe(startWith(null)) : of(value))),
-    map((value) => !value)
+    map((value) => !value),
+    catchError(() => of(false))
   );
 
   private readonly params = new HttpParams()
@@ -84,6 +60,7 @@ export class HomeComponent {
       )
     )
   );
+  private readonly geoCoder = geocoder().options.geocoder;
 
   constructor(
     private readonly myTimeService: MyTimeService,
@@ -107,7 +84,7 @@ export class HomeComponent {
       : 'goodNight';
   }
 
-  private showGeolocationError(error: GeolocationPositionError): Observable<unknown> {
+  private showGeolocationError(error: GeolocationPositionError): void {
     let message: string;
 
     switch (error.code) {
@@ -125,11 +102,48 @@ export class HomeComponent {
         break;
     }
 
-    return from(
-      this.promptService.open({
-        icon: 'error',
-        html: `<b>${this.translocoService.translate(message)}</b>`,
-      })
+    this.promptService.open({
+      icon: 'error',
+      html: `<b>${this.translocoService.translate(message)}</b>`,
+    });
+  }
+
+  private getAddress(latitude: number, longitude: number): Observable<string> {
+    return new Observable((observer) => {
+      if (this.geoCoder?.reverse) {
+        this.geoCoder.reverse({ lat: latitude, lng: longitude }, CRS.EPSG3857.scale(20), (result) => {
+          if (result.length) observer.next(result[0].name);
+          else observer.next('');
+          observer.complete();
+        });
+      } else {
+        observer.next('');
+        observer.complete();
+      }
+    });
+  }
+
+  private checkInOut(): Observable<unknown> {
+    return this.geolocation$.pipe(
+      take(1),
+      tap({ error: (err: GeolocationPositionError) => this.showGeolocationError(err) }),
+      switchMap(({ coords: { latitude, longitude } }) =>
+        this.getAddress(latitude, longitude).pipe(
+          switchMap((address) =>
+            this.myTimeService.checkInOut({ typeCheckInOut: 'web-app', latitude, longitude, address })
+          ),
+          tap(
+            this.promptService.handleResponse(
+              this.shouldCheckedOut$.value ? 'checkOutSuccessfully' : 'checkInSuccessfully'
+            )
+          ),
+          tap(() => {
+            this.shouldCheckedOut$.next(true);
+            this.fetch$.next();
+          }),
+          startWith(null)
+        )
+      )
     );
   }
 }
