@@ -1,5 +1,7 @@
 <tui-combo-box
   (searchChange)="search$.next($event)"
+  *tuiLet="users$ | push as users"
+  [autoFocus]="to['autoFocus']"
   [formControl]="$any(formControl)"
   [formlyAttributes]="field"
   [identityMatcher]="identityMatcher"
@@ -9,11 +11,12 @@
   [tuiTextfieldCleaner]="to['textfieldCleaner']"
   [tuiTextfieldLabelOutside]="to['textfieldLabelOutside']"
   [tuiTextfieldSize]="to['textfieldSize']"
+  tuiAutoFocus
 >
   {{ to['textfieldLabelOutside'] ? to.placeholder : to.label }}
   <span *ngIf="to.required && !to['textfieldLabelOutside']" class="tui-required"></span>
   <ng-template tuiDataList>
-    <tui-data-list *ngIf="users$ | push as users; else loading">
+    <tui-data-list *ngIf="users; else loading">
       <button *ngFor="let user of users" [value]="user" tuiOption>
         <span class="flex items-center gap-2">
           <hcm-avatar [image]="user.avatar" [text]="user.name" rounded size="s"></hcm-avatar>

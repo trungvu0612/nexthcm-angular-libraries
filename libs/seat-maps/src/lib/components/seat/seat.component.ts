@@ -13,8 +13,8 @@ import { TranslocoService } from '@ngneat/transloco';
 import { TuiDialogContext, TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusContent } from '@tinkoff/ng-polymorpheus';
 import { NgxPermissionsService } from 'ngx-permissions';
-import { of, Subscriber } from 'rxjs';
-import { debounceTime, switchMap, take, tap } from 'rxjs/operators';
+import { of, Subject, Subscriber } from 'rxjs';
+import { switchMap, take, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'hcm-seat',
@@ -23,13 +23,13 @@ import { debounceTime, switchMap, take, tap } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SeatComponent {
-  @Input() seat = {} as Seat;
+  @Input() seat!: Seat;
   @Input() active = false;
   @Output() assignUser = new EventEmitter<Seat>();
-  @Output() unAssignUser = new EventEmitter<string>();
   open = false;
+  readonly loading$ = new Subject<boolean>();
   readonly form = this.fb.group({});
-  model = { label: '', seatStatus: 1 } as Seat;
+  readonly model = {};
   readonly fields = [
     {
       key: 'assignedUser',
@@ -40,6 +40,7 @@ export class SeatComponent {
         translate: true,
         label: 'chooseUser',
         placeholder: 'searchUsers',
+        autoFocus: true,
       },
       asyncValidators: {
         name: {
@@ -47,18 +48,18 @@ export class SeatComponent {
             !control.valueChanges || control.pristine
               ? of(true)
               : control.valueChanges.pipe(
-                  debounceTime(1000),
                   take(1),
-                  switchMap((user: BaseUser) => this.seatMapsService.checkUserAlreadyHasASeat(user.id)),
-                  tap(() => control.markAsTouched())
+                  tap(() => this.loading$.next(true)),
+                  switchMap(({ id }: BaseUser) => this.seatMapsService.checkUserAlreadyHasASeat(id)),
+                  tap(() => {
+                    this.loading$.next(false);
+                    control.markAsTouched();
+                  })
                 ),
           message: () => this.translocoService.selectTranslate('VALIDATION.userAlreadyHasASeat'),
         },
       },
     },
-    { key: 'label' },
-    { key: 'seatStatus' },
-    { key: 'id' },
   ];
 
   constructor(
@@ -92,13 +93,12 @@ export class SeatComponent {
 
   submitSeat(observer: Subscriber<unknown>): void {
     observer.complete();
-    this.model.id = this.seat.id;
-    this.assignUser.emit(this.model);
+    this.assignUser.emit({ ...this.model, id: this.seat.id, seatStatus: 1 } as Seat);
   }
 
   deleteSeat(): void {
     this.open = false;
-    this.unAssignUser.emit(this.seat.id);
+    this.assignUser.emit({ id: this.seat.id, seatStatus: 0 } as Seat);
   }
 
   getStatus(status: UserState): string {

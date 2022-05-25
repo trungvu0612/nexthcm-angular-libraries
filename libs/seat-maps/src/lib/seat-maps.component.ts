@@ -82,14 +82,17 @@ export class SeatMapsComponent implements OnInit, AfterViewInit {
     distinctUntilChanged()
   );
   // READS
-  readonly loading$ = new BehaviorSubject(true);
+  readonly loading$ = new BehaviorSubject<{ imageUrl: string; loading: boolean }>({ imageUrl: '', loading: true });
   readonly seatMap$ = combineLatest([this.seatMapIdChanges$, this.allSeatMaps$, this.fetch$]).pipe(
     switchMap(([seatMapId]) => {
-      this.loading$.next(true);
+      this.loading$.next({ ...this.loading$.value, loading: true });
       return this.seatMapsService.getSeatMap(seatMapId, this.httpParams);
     }),
     tap((seatMap) => {
       if (seatMap.id && !this.seatMapControl.value) this.seatMapControl.setValue(seatMap, { emitEvent: false });
+      if (this.loading$.value.imageUrl === seatMap.imageUrl) {
+        this.loading$.next({ ...this.loading$.value, loading: false });
+      }
     })
   );
 
@@ -166,9 +169,5 @@ export class SeatMapsComponent implements OnInit, AfterViewInit {
 
   onAssignUserToSeat(seat: Seat): void {
     this.assignUserToSeat$.next(seat);
-  }
-
-  onUnAssignUserToSeat(id: string): void {
-    this.assignUserToSeat$.next({ id, seatStatus: 0 } as Seat);
   }
 }

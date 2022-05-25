@@ -81,7 +81,7 @@
         ></hcm-basic-filter>
       </section>
 
-      <tui-loader *tuiLet="loading$ | push as loading" [overlay]="true" [showLoader]="loading">
+      <tui-loader *tuiLet="loading$ | push as loading" [overlay]="true" [showLoader]="loading.loading">
         <ng-container *ngIf="seatMap?.id; else noData">
           <div class="flex mb-5">
             <tui-island size="l">
@@ -97,17 +97,21 @@
           <div class="relative">
             <hcm-seat
               (assignUser)="onAssignUserToSeat($event)"
-              (unAssignUser)="onUnAssignUserToSeat($event)"
               *ngFor="let seat of seatMap.seats; index as index"
               [active]="userControl.value?.id === seat.assignedUser?.id"
               [seat]="seat"
             ></hcm-seat>
-            <img (load)="loading$.next(false)" [src]="seatMap.imageUrl || '' | getFile | push" alt="" class="w-full" />
+            <img
+              (load)="loading$.next({ imageUrl: seatMap.imageUrl, loading: false })"
+              [src]="seatMap.imageUrl || '' | getFile | push"
+              alt=""
+              class="w-full"
+            />
           </div>
         </ng-container>
 
         <ng-template #noData>
-          <p *ngIf="!loading" class="py-4 text-lg text-center opacity-50">{{ t('notAssignedSeat') }}</p>
+          <p *ngIf="!loading.loading" class="py-4 text-lg text-center opacity-50">{{ t('notAssignedSeat') }}</p>
         </ng-template>
       </tui-loader>
     </hcm-page>

@@ -4,12 +4,12 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { BaseUser, EmployeesService } from '@nexthcm/cdk';
 import { FieldType, FormlyModule } from '@ngx-formly/core';
 import { PushModule } from '@rx-angular/template';
-import { isPresent, TuiIdentityMatcher, TuiLetModule, TuiStringMatcher } from '@taiga-ui/cdk';
+import { isPresent, TuiAutoFocusModule, TuiIdentityMatcher, TuiLetModule, TuiStringMatcher } from '@taiga-ui/cdk';
 import { TuiStringHandler } from '@taiga-ui/cdk/types';
 import { TuiDataListModule, TuiLoaderModule, TuiTextfieldControllerModule } from '@taiga-ui/core';
 import { TuiComboBoxModule } from '@taiga-ui/kit';
 import { Observable, Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, filter, shareReplay, startWith, switchMap } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, filter, startWith, switchMap } from 'rxjs/operators';
 
 import { FormFieldModule } from '../../modules/formly-taiga-ui';
 import { AvatarComponentModule } from '../avatar/avatar.component';
@@ -33,19 +33,16 @@ export class FormlyUserComboBoxComponent extends FieldType {
     debounceTime(500),
     distinctUntilChanged(),
     switchMap((search) => this.employeesService.searchEmployees(search, this.to['tenantId']).pipe(startWith(null))),
-    startWith([]),
-    shareReplay(1)
+    startWith([])
   );
 
   constructor(private employeesService: EmployeesService) {
     super();
   }
 
-  readonly identityMatcher: TuiIdentityMatcher<any> = (item1: BaseUser, item2: BaseUser) => item1.id === item2.id;
+  readonly identityMatcher: TuiIdentityMatcher<BaseUser> = (item1, item2) => item1.id === item2.id;
 
-  readonly stringify: TuiStringHandler<any> = (item: BaseUser) => item.name;
-
-  readonly keyofUser = (index: string) => index as keyof BaseUser;
+  readonly stringify: TuiStringHandler<BaseUser> = (item) => item.name;
 
   readonly strictMatcher: TuiStringMatcher<BaseUser> = (
     item: BaseUser,
@@ -76,6 +73,7 @@ export class FormlyUserComboBoxComponent extends FieldType {
     TuiLetModule,
     AvatarComponentModule,
     PushModule,
+    TuiAutoFocusModule,
   ],
   exports: [FormlyUserComboBoxComponent],
 })

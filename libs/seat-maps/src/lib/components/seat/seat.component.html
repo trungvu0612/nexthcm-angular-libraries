@@ -130,5 +130,6 @@
     [form]="form"
     [model]="model"
     [submitDisabled]="!form.valid"
+    [submitLoading]="!!(loading$ | push)"
   ></hcm-base-form>
 </ng-template>
