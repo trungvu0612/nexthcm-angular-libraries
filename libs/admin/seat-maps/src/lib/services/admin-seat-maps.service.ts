@@ -14,10 +14,6 @@ export class AdminSeatMapsService {
       .pipe(map((res) => res.data));
   }
 
-  getSeatMap(id: string): Observable<SeatMap> {
-    return this.http.get<SeatMap>(`${MY_TIME_API_PATH}/seats-map/${id}`);
-  }
-
   upsertSeatMap(payload: SeatMap): Observable<unknown> {
     return (payload.id ? this.editSeatMap(payload) : this.createSeatMap(payload)).pipe(
       tap(() => this.seatMapsService.doRefreshSeatMaps())

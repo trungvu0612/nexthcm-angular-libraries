@@ -5,8 +5,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { BaseUser, Seat, SeatMap, SeatMapsService, UserState } from '@nexthcm/cdk';
 import { RxState } from '@rx-angular/state';
 import { isPresent, TuiDestroyService, TuiIdentityMatcher, TuiStringHandler } from '@taiga-ui/cdk';
-import { combineLatest, distinctUntilChanged, of, Subject } from 'rxjs';
-import { debounceTime, filter, map, share, startWith, switchMap, take, takeUntil, tap } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, distinctUntilChanged, of, Subject } from 'rxjs';
+import { debounceTime, filter, map, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
 
 import { SeatComponent } from './components/seat/seat.component';
 
@@ -55,12 +55,8 @@ export class SeatMapsComponent implements OnInit, AfterViewInit {
     debounceTime(500),
     distinctUntilChanged(),
     switchMap((search) => (search ? this.seatMapsService.getSeatAssignedUsers(search) : of([]))),
-    startWith([]),
-    share()
+    startWith([])
   );
-  // READS
-  readonly loading$ = this.state.select('loading');
-  readonly seatMap$ = this.state.select('seatMapData');
   // EVENTS
   readonly assignUserToSeat$ = new Subject<Seat>();
   readonly filterType$ = new Subject<string | null>();
@@ -85,38 +81,26 @@ export class SeatMapsComponent implements OnInit, AfterViewInit {
     map((params) => params['seatMapId']),
     distinctUntilChanged()
   );
-  private readonly request$ = combineLatest([this.seatMapIdChanges$, this.fetch$]).pipe(
-    switchMap(([seatMapId]) =>
-      this.seatMapsService.getSeatMap(seatMapId, this.httpParams).pipe(
-        tap((seatMap) =>
-          this.state.set('loading', () => seatMap && seatMap?.imageUrl !== this.state.get('seatMapData', 'imageUrl'))
-        ),
-        startWith(null)
-      )
-    ),
-    share()
+  // READS
+  readonly loading$ = new BehaviorSubject(true);
+  readonly seatMap$ = combineLatest([this.seatMapIdChanges$, this.allSeatMaps$, this.fetch$]).pipe(
+    switchMap(([seatMapId]) => {
+      this.loading$.next(true);
+      return this.seatMapsService.getSeatMap(seatMapId, this.httpParams);
+    }),
+    tap((seatMap) => {
+      if (seatMap.id && !this.seatMapControl.value) this.seatMapControl.setValue(seatMap, { emitEvent: false });
+    })
   );
 
   constructor(
     private readonly seatMapsService: SeatMapsService,
-    private readonly state: RxState<{ seatMapData: SeatMap; loading: boolean }>,
     private readonly router: Router,
     private readonly destroy$: TuiDestroyService,
-    private readonly activatedRoute: ActivatedRoute
+    private readonly activatedRoute: ActivatedRoute,
+    state: RxState<Record<string, never>>
   ) {
     seatMapsService.doLoadSeatMaps();
-    state.connect('seatMapData', this.request$.pipe(filter(isPresent)));
-    state.hold(
-      this.request$.pipe(
-        filter(isPresent),
-        take(1),
-        tap((seatMap) => {
-          if (seatMap.id) {
-            this.seatMapControl.setValue(seatMap, { emitEvent: false });
-          }
-        })
-      )
-    );
     state.hold(this.assignUserToSeatHandler$);
     state.hold(this.filterType$, (filterType) => {
       this.onFilter('filterType', filterType);
@@ -128,7 +112,6 @@ export class SeatMapsComponent implements OnInit, AfterViewInit {
     });
     state.hold(this.changeSeatMapSideEffect$);
     state.hold(this.selectAssignedUsers$);
-    state.hold(this.seatMapIdChanges$);
   }
 
   readonly stringify: TuiStringHandler<BaseUser> = ({ name }) => name;
@@ -138,7 +121,6 @@ export class SeatMapsComponent implements OnInit, AfterViewInit {
       .pipe(takeUntil(this.destroy$))
       .subscribe(([seatMaps, seatMapId]) => {
         const currentSeatMap = seatMaps.find((seatMap) => seatMap.id === seatMapId);
-
         this.seatMapControl.setValue(currentSeatMap || null, { emitEvent: false });
       });
 
@@ -188,9 +170,5 @@ export class SeatMapsComponent implements OnInit, AfterViewInit {
 
   onUnAssignUserToSeat(id: string): void {
     this.assignUserToSeat$.next({ id, seatStatus: 0 } as Seat);
-  }
-
-  onImageLoad(): void {
-    this.state.set('loading', () => false);
   }
 }
