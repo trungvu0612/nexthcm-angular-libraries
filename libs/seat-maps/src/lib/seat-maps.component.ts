@@ -89,10 +89,12 @@ export class SeatMapsComponent implements OnInit, AfterViewInit {
       return this.seatMapsService.getSeatMap(seatMapId, this.httpParams);
     }),
     tap((seatMap) => {
-      if (seatMap.id && !this.seatMapControl.value) this.seatMapControl.setValue(seatMap, { emitEvent: false });
-      if (this.loading$.value.imageUrl === seatMap.imageUrl) {
-        this.loading$.next({ ...this.loading$.value, loading: false });
-      }
+      if (seatMap.id) {
+        if (!this.seatMapControl.value) this.seatMapControl.setValue(seatMap, { emitEvent: false });
+        if (this.loading$.value.imageUrl === seatMap.imageUrl) {
+          this.loading$.next({ ...this.loading$.value, loading: false });
+        }
+      } else this.loading$.next({ imageUrl: '', loading: false });
     })
   );
 

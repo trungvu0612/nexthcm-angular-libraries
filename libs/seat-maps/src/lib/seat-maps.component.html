@@ -1,5 +1,5 @@
 <ng-container *transloco="let t">
-  <ng-container *tuiLet="seatMap$ | push as seatMap">
+  <ng-container *tuiLet="seatMap$ | async as seatMap">
     <hcm-page [title]="t('seatMaps')" class="mb-16">
       <ng-container ngProjectAs="pageHeader">
         <div class="flex gap-4 max-w-[60%] w-[40rem]">
@@ -82,7 +82,7 @@
       </section>
 
       <tui-loader *tuiLet="loading$ | push as loading" [overlay]="true" [showLoader]="loading.loading">
-        <ng-container *ngIf="seatMap?.id; else noData">
+        <ng-container *ngIf="seatMap && seatMap.id; else noData">
           <div class="flex mb-5">
             <tui-island size="l">
               <ul class="tui-list">
@@ -116,7 +116,7 @@
       </tui-loader>
     </hcm-page>
 
-    <footer *ngIf="seatMap" class="flex fixed bottom-0 justify-evenly items-center h-16 bg-white">
+    <footer *ngIf="seatMap && seatMap.id" class="flex fixed bottom-0 justify-evenly items-center h-16 bg-white">
       <div *ngFor="let status of statusesAnnotate" class="flex items-center space-x-2">
         <tui-badge
           [class]="status.className"
