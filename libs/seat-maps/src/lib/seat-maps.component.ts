@@ -4,9 +4,9 @@ import { FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BaseUser, Seat, SeatMap, SeatMapsService, UserState } from '@nexthcm/cdk';
 import { RxState } from '@rx-angular/state';
-import { isPresent, TuiDestroyService, TuiIdentityMatcher, TuiStringHandler } from '@taiga-ui/cdk';
+import { isPresent, TuiIdentityMatcher, TuiStringHandler } from '@taiga-ui/cdk';
 import { BehaviorSubject, combineLatest, distinctUntilChanged, of, Subject } from 'rxjs';
-import { debounceTime, filter, map, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { debounceTime, filter, map, startWith, switchMap, tap } from 'rxjs/operators';
 
 import { SeatComponent } from './components/seat/seat.component';
 
@@ -21,7 +21,7 @@ interface StatusOption {
   templateUrl: './seat-maps.component.html',
   styleUrls: ['./seat-maps.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [RxState, TuiDestroyService],
+  providers: [RxState],
 })
 export class SeatMapsComponent implements OnInit, AfterViewInit {
   @ViewChildren(SeatComponent) seatRefs!: QueryList<SeatComponent>;
@@ -57,34 +57,20 @@ export class SeatMapsComponent implements OnInit, AfterViewInit {
     switchMap((search) => (search ? this.seatMapsService.getSeatAssignedUsers(search) : of([]))),
     startWith([])
   );
-  // EVENTS
+
   readonly assignUserToSeat$ = new Subject<Seat>();
   readonly filterType$ = new Subject<string | null>();
   readonly status$ = new Subject<void>();
   readonly fetch$ = new Subject<void>();
-  // HANDLERS
-  readonly assignUserToSeatHandler$ = this.assignUserToSeat$.pipe(
-    switchMap((payload) => this.seatMapsService.assignUserForSeat(payload.id, payload)),
-    tap(() => this.fetch$.next())
-  );
-  // SIDE EFFECTS
-  readonly changeSeatMapSideEffect$ = this.seatMapControl.valueChanges.pipe(
-    filter(isPresent),
-    tap((seatMap) => this.router.navigate(['/seat-maps', seatMap.id]))
-  );
-  readonly selectAssignedUsers$ = this.userControl.valueChanges.pipe(
-    filter(isPresent),
-    switchMap((user: BaseUser) => this.seatMapsService.getSeatByUserId(user.id)),
-    tap((seatMapId) => this.router.navigate(['/seat-maps', seatMapId]))
-  );
-  readonly seatMapIdChanges$ = this.activatedRoute.params.pipe(
-    map((params) => params['seatMapId']),
-    distinctUntilChanged()
-  );
-  // READS
+
   readonly loading$ = new BehaviorSubject<{ imageUrl: string; loading: boolean }>({ imageUrl: '', loading: true });
-  readonly seatMap$ = combineLatest([this.seatMapIdChanges$, this.allSeatMaps$, this.fetch$]).pipe(
-    switchMap(([seatMapId]) => {
+  readonly seatMap$ = combineLatest([
+    this.activatedRoute.params.pipe(map((params) => params['seatMapId'])),
+    this.allSeatMaps$,
+    this.fetch$.pipe(startWith(null)),
+  ]).pipe(
+    switchMap(([seatMapId, seatMaps]) => {
+      this.seatMapControl.setValue(seatMaps.find((seatMap) => seatMap.id === seatMapId) || null, { emitEvent: false });
       this.loading$.next({ ...this.loading$.value, loading: true });
       return this.seatMapsService.getSeatMap(seatMapId, this.httpParams);
     }),
@@ -101,12 +87,10 @@ export class SeatMapsComponent implements OnInit, AfterViewInit {
   constructor(
     private readonly seatMapsService: SeatMapsService,
     private readonly router: Router,
-    private readonly destroy$: TuiDestroyService,
     private readonly activatedRoute: ActivatedRoute,
-    state: RxState<Record<string, never>>
+    private readonly state: RxState<Record<string, never>>
   ) {
     seatMapsService.doLoadSeatMaps();
-    state.hold(this.assignUserToSeatHandler$);
     state.hold(this.filterType$, (filterType) => {
       this.onFilter('filterType', filterType);
       this.fetch$.next();
@@ -115,20 +99,23 @@ export class SeatMapsComponent implements OnInit, AfterViewInit {
       this.onFilter('status', this.status?.value || null);
       this.fetch$.next();
     });
-    state.hold(this.changeSeatMapSideEffect$);
-    state.hold(this.selectAssignedUsers$);
+    state.hold(
+      this.assignUserToSeat$.pipe(switchMap((payload) => this.seatMapsService.assignUserForSeat(payload.id, payload))),
+      () => this.fetch$.next()
+    );
+    state.hold(this.seatMapControl.valueChanges.pipe(filter(isPresent)), (seatMap) =>
+      this.router.navigate(['/seat-maps', seatMap.id])
+    );
+    state.hold(
+      this.userControl.valueChanges.pipe(
+        filter(isPresent),
+        switchMap((user: BaseUser) => this.seatMapsService.getSeatByUserId(user.id))
+      ),
+      (seatMapId) => this.router.navigate(['/seat-maps', seatMapId])
+    );
   }
 
-  readonly stringify: TuiStringHandler<BaseUser> = ({ name }) => name;
-
   ngOnInit(): void {
-    combineLatest([this.allSeatMaps$, this.seatMapIdChanges$])
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(([seatMaps, seatMapId]) => {
-        const currentSeatMap = seatMaps.find((seatMap) => seatMap.id === seatMapId);
-        this.seatMapControl.setValue(currentSeatMap || null, { emitEvent: false });
-      });
-
     const status = this.activatedRoute.snapshot.queryParams['status'];
     const filterType = this.activatedRoute.snapshot.queryParams['filterType'];
 
@@ -141,16 +128,17 @@ export class SeatMapsComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    combineLatest([this.seatRefs.changes, this.userControl.valueChanges.pipe(filter(isPresent))])
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(([seatRefs, user]: [QueryList<SeatComponent>, BaseUser]) => {
-        const node: Element | undefined = seatRefs.find((seatRef) => seatRef.seat.assignedUser?.id === user?.id)
-          ?.elementRef?.nativeElement;
-
-        node?.scrollIntoView({ block: 'center', inline: 'center' });
-      });
+    this.state.hold(
+      combineLatest([this.seatRefs.changes, this.userControl.valueChanges.pipe(filter(isPresent))]),
+      ([seatRefs, user]: [QueryList<SeatComponent>, BaseUser]) => {
+        seatRefs
+          .find((seatRef) => seatRef.seat.assignedUser?.id === user?.id)
+          ?.elementRef?.nativeElement?.scrollIntoView({ block: 'center', inline: 'center' });
+      }
+    );
   }
 
+  readonly stringify: TuiStringHandler<BaseUser> = ({ name }) => name;
   readonly identityMatcher: TuiIdentityMatcher<SeatMap | string> = (item1, item2) =>
     (item1 as SeatMap).id === (item2 as SeatMap).id;
   readonly statusIdentityMatcher: TuiIdentityMatcher<StatusOption> = (item1, item2) => item1.value === item2.value;
