@@ -1,4 +1,4 @@
-import { HttpParams } from '@angular/common/http';
+import { HttpBackend, HttpClient, HttpParams } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { AuthService } from '@nexthcm/auth';
 import { PromptService, UserProfileService } from '@nexthcm/cdk';
@@ -7,8 +7,6 @@ import { GeolocationService } from '@ng-web-apis/geolocation';
 import { TranslocoService } from '@ngneat/transloco';
 import { isPresent, tuiPure } from '@taiga-ui/cdk';
 import { endOfToday, startOfYesterday } from 'date-fns';
-import { CRS } from 'leaflet';
-import { geocoder } from 'leaflet-control-geocoder';
 import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { catchError, filter, map, startWith, switchMap, take, tap } from 'rxjs/operators';
 
@@ -43,8 +41,7 @@ export class HomeComponent {
     switchMap(({ isConfirmed }) => (isConfirmed ? this.checkInOut() : of(true))),
     startWith('init'),
     switchMap((value) => (value === 'init' ? this.checkedId$.pipe(startWith(null)) : of(value))),
-    map((value) => !value),
-    catchError(() => of(false))
+    map((value) => !value)
   );
 
   private readonly params = new HttpParams()
@@ -60,7 +57,7 @@ export class HomeComponent {
       )
     )
   );
-  private readonly geoCoder = geocoder().options.geocoder;
+  private httpBackend!: HttpClient;
 
   constructor(
     private readonly myTimeService: MyTimeService,
@@ -68,8 +65,11 @@ export class HomeComponent {
     private readonly promptService: PromptService,
     private readonly translocoService: TranslocoService,
     private readonly userProfileService: UserProfileService,
-    private readonly geolocation$: GeolocationService
-  ) {}
+    private readonly geolocation$: GeolocationService,
+    httpBackend: HttpBackend
+  ) {
+    this.httpBackend = new HttpClient(httpBackend);
+  }
 
   @tuiPure
   get greeting(): string {
@@ -108,42 +108,32 @@ export class HomeComponent {
     });
   }
 
-  private getAddress(latitude: number, longitude: number): Observable<string> {
-    return new Observable((observer) => {
-      if (this.geoCoder?.reverse) {
-        this.geoCoder.reverse({ lat: latitude, lng: longitude }, CRS.EPSG3857.scale(20), (result) => {
-          if (result.length) observer.next(result[0].name);
-          else observer.next('');
-          observer.complete();
-        });
-      } else {
-        observer.next('');
-        observer.complete();
-      }
-    });
-  }
-
   private checkInOut(): Observable<unknown> {
     return this.geolocation$.pipe(
       take(1),
       tap({ error: (err: GeolocationPositionError) => this.showGeolocationError(err) }),
       switchMap(({ coords: { latitude, longitude } }) =>
-        this.getAddress(latitude, longitude).pipe(
-          switchMap((address) =>
-            this.myTimeService.checkInOut({ typeCheckInOut: 'web-app', latitude, longitude, address })
-          ),
-          tap(
-            this.promptService.handleResponse(
-              this.shouldCheckedOut$.value ? 'checkOutSuccessfully' : 'checkInSuccessfully'
-            )
-          ),
-          tap(() => {
-            this.shouldCheckedOut$.next(true);
-            this.fetch$.next();
-          }),
-          startWith(null)
-        )
-      )
+        this.httpBackend
+          .get<{ display_name: string }>('https://nominatim.openstreetmap.org/reverse', {
+            params: { lat: latitude, lon: longitude, format: 'json' },
+          })
+          .pipe(
+            switchMap(({ display_name }) =>
+              this.myTimeService.checkInOut({ typeCheckInOut: 'web-app', latitude, longitude, address: display_name })
+            ),
+            tap(
+              this.promptService.handleResponse(
+                this.shouldCheckedOut$.value ? 'checkOutSuccessfully' : 'checkInSuccessfully'
+              )
+            ),
+            tap(() => {
+              this.shouldCheckedOut$.next(true);
+              this.fetch$.next();
+            }),
+            startWith(null)
+          )
+      ),
+      catchError(() => of(true))
     );
   }
 }

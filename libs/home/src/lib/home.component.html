@@ -71,7 +71,7 @@
       >
         <ng-container *ngIf="shouldCheckedOut === null">
           <tui-loader
-            *tuiLet="monthWorkingTime$ | async as monthWorkingTime"
+            *tuiLet="monthWorkingTime$ | push as monthWorkingTime"
             [overlay]="true"
             [showLoader]="!monthWorkingTime"
             class="w-full"
@@ -100,17 +100,16 @@
             tuiIconButton
             type="button"
           ></button>
-          <div class="flex flex-col items-center space-y-6">
-            <svg-icon fontSize="130px" key="fingerprint"></svg-icon>
-            <button
-              (click)="checkInOut$.next()"
-              [showLoader]="(checkInOutLoading$ | push) === true"
-              tuiButton
-              type="button"
-            >
-              {{ t(shouldCheckedOut ? 'checkOut' : 'checkIn') }}
-            </button>
-          </div>
+          <svg-icon fontSize="130px" key="fingerprint"></svg-icon>
+          <button
+            (click)="checkInOut$.next()"
+            [showLoader]="(checkInOutLoading$ | push) === true"
+            class="mt-6"
+            tuiButton
+            type="button"
+          >
+            {{ t(shouldCheckedOut ? 'checkOut' : 'checkIn') }}
+          </button>
         </ng-container>
       </tui-island>
     </div>
