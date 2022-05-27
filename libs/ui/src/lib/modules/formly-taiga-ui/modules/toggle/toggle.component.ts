@@ -12,6 +12,7 @@ export class ToggleComponent extends FieldType {
     templateOptions: {
       size: 'l',
       showIcons: true,
+      widthMaxContent: true,
     },
   };
 }

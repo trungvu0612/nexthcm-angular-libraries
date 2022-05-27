@@ -1,10 +1,16 @@
 <ng-container *ngIf="to['labelOutside']; else labelInside">
-  <label *ngIf="to.label" [label]="label" style="min-height: unset" tuiLabel></label>
+  <label
+    *ngIf="to.label"
+    [class.max-w-max]="to['widthMaxContent']"
+    [label]="label"
+    style="min-height: unset"
+    tuiLabel
+  ></label>
   <ng-container *ngTemplateOutlet="content"></ng-container>
 </ng-container>
 
 <ng-template #labelInside>
-  <label *ngIf="to['textfieldLabelOutside']" [label]="label" tuiLabel>
+  <label *ngIf="to['textfieldLabelOutside']" [class.max-w-max]="to['widthMaxContent']" [label]="label" tuiLabel>
     <ng-container *ngTemplateOutlet="content"></ng-container>
   </label>
 

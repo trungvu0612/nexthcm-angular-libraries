@@ -17,6 +17,7 @@ export class FormlyStatusToggleComponent extends FieldType {
   override defaultOptions: FormlyFieldConfig = {
     templateOptions: {
       size: 'l',
+      widthMaxContent: true,
     },
   };
 }
