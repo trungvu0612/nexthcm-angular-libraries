@@ -38,7 +38,7 @@ export class TokenInterceptor implements HttpInterceptor {
               const returnUrl = this.location.path();
               this.authService.logout();
               this.router.navigate(['/login'], {
-                queryParams: !returnUrl.startsWith('/login') ? { returnUrl } : null,
+                queryParams: returnUrl && !returnUrl.startsWith('/login') ? { returnUrl } : null,
               });
 
               return throwError(httpErrorResponse);

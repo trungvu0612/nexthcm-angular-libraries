@@ -583,5 +583,6 @@
   "enterInTime": "Nhập giờ vào",
   "enterOutTime": "Nhập giờ ra",
   "workingAfterHours": "Làm việc ngoài giờ",
-  "leaveDays": "Ngày nghỉ"
+  "leaveDays": "Ngày nghỉ",
+  "requestManagement": "Quản lý yêu cầu"
 }

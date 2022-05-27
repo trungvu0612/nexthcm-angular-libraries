@@ -583,5 +583,6 @@
   "enterInTime": "Enter in-time",
   "enterOutTime": "Enter out-time",
   "workingAfterHours": "Working after-hours",
-  "leaveDays": "Leave days"
+  "leaveDays": "Leave days",
+  "requestManagement": "Request management"
 }

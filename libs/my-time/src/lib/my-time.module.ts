@@ -99,7 +99,7 @@ const TABS: MenuItem[] = [
   { title: 'myTime.workingHours', route: '/my-time/working-hours', permissions: [] },
   { title: 'myTime.myRequest', route: '/my-time/my-requests', permissions: [] },
   {
-    title: 'myTime.requestManagement',
+    title: 'requestManagement',
     route: '/my-time/requests',
     permissions: ['VIEW_REQUEST_MANAGEMENT', 'VIEW_SUBORDINATE_REQUEST'],
   },
