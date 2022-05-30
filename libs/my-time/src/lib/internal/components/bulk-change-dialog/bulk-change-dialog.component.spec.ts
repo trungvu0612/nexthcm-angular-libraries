@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BulkChangeComponent } from './bulk-change.component';
+import { BulkChangeDialogComponent } from './bulk-change-dialog.component';
 
-describe('BulkChangeComponent', () => {
-  let component: BulkChangeComponent;
-  let fixture: ComponentFixture<BulkChangeComponent>;
+describe('BulkChangeDialogComponent', () => {
+  let component: BulkChangeDialogComponent;
+  let fixture: ComponentFixture<BulkChangeDialogComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [BulkChangeComponent],
+      declarations: [BulkChangeDialogComponent],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(BulkChangeComponent);
+    fixture = TestBed.createComponent(BulkChangeDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

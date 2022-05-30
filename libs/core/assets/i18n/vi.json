@@ -584,5 +584,6 @@
   "enterOutTime": "Nhập giờ ra",
   "workingAfterHours": "Làm việc ngoài giờ",
   "leaveDays": "Ngày nghỉ",
+  "actionConfirm": "<b>Bạn có chắc chắn muốn thực hiện hành động này không?</b>",
   "requestManagement": "Quản lý yêu cầu"
 }

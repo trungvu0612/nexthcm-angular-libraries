@@ -584,5 +584,6 @@
   "enterOutTime": "Enter out-time",
   "workingAfterHours": "Working after-hours",
   "leaveDays": "Leave days",
+  "actionConfirm": "<b>Are you sure that you want to perform this action?</b>",
   "requestManagement": "Request management"
 }

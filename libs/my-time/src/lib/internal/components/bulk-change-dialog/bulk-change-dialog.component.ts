@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, Inject, NgModule, TemplateRef } fro
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { PromptService } from '@nexthcm/cdk';
 import { BaseFormComponentModule } from '@nexthcm/ui';
-import { ProviderScope, TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
+import { ProviderScope, TRANSLOCO_SCOPE, TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { PushModule } from '@rx-angular/template';
 import { tuiPure } from '@taiga-ui/cdk';
 import { TuiButtonModule, TuiDialogContext, TuiGroupModule } from '@taiga-ui/core';
@@ -11,7 +11,7 @@ import { TuiRadioBlockModule, TuiTagModule } from '@taiga-ui/kit';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { Columns, DefaultConfig, TableModule } from 'ngx-easy-table';
 import { Observable, of, Subject, switchMap } from 'rxjs';
-import { catchError, map, startWith, tap } from 'rxjs/operators';
+import { catchError, filter, map, startWith, tap } from 'rxjs/operators';
 
 import { StatusTransition, WorkflowStatusTransition } from '../../models';
 import { MyRequestsService } from '../../services';
@@ -24,12 +24,12 @@ interface ContextData {
 }
 
 @Component({
-  selector: 'hcm-bulk-change',
-  templateUrl: './bulk-change.component.html',
-  styleUrls: ['./bulk-change.component.scss'],
+  selector: 'hcm-bulk-change-dialog',
+  templateUrl: './bulk-change-dialog.component.html',
+  styleUrls: ['./bulk-change-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BulkChangeComponent {
+export class BulkChangeDialogComponent {
   readonly statusControl = new FormControl('0,0');
   readonly configuration = {
     ...DefaultConfig,
@@ -42,6 +42,14 @@ export class BulkChangeComponent {
 
   readonly submit$ = new Subject<void>();
   readonly submitLoading$ = this.submit$.pipe(
+    switchMap(() =>
+      this.promptService.open({
+        icon: 'question',
+        html: this.translocoService.translate('actionConfirm'),
+        showCancelButton: true,
+      })
+    ),
+    filter(({ isConfirmed }) => isConfirmed),
     switchMap(() => {
       const { requests, targetStatus } = this.currentData;
 
@@ -60,7 +68,8 @@ export class BulkChangeComponent {
     @Inject(POLYMORPHEUS_CONTEXT) readonly context: TuiDialogContext<void, ContextData>,
     @Inject(TRANSLOCO_SCOPE) readonly translocoScope: ProviderScope,
     private readonly myRequestsService: MyRequestsService,
-    private readonly promptService: PromptService
+    private readonly promptService: PromptService,
+    private readonly translocoService: TranslocoService
   ) {}
 
   get currentWorkflowIndex(): number {
@@ -83,7 +92,7 @@ export class BulkChangeComponent {
 }
 
 @NgModule({
-  declarations: [BulkChangeComponent],
+  declarations: [BulkChangeDialogComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,

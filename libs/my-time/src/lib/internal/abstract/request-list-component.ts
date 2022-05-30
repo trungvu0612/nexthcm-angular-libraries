@@ -12,7 +12,7 @@ import { FileSaverService } from 'ngx-filesaver';
 import { BehaviorSubject, EMPTY, from, iif, Observable, Subject } from 'rxjs';
 import { catchError, filter, map, startWith, switchMap, tap } from 'rxjs/operators';
 
-import { BulkChangeComponent } from '../components';
+import { BulkChangeDialogComponent } from '../components';
 import { BaseRequest, RequestTypeUrlPaths } from '../models';
 import { MyRequestsService, RequestDetailDialogService } from '../services';
 
@@ -96,7 +96,7 @@ export abstract class AbstractRequestListComponent<T>
       setTimeout(() => (this.bulkChangeLoading = false), 100);
       return data.length
         ? this.dialogService
-            .open(new PolymorpheusComponent(BulkChangeComponent, this.injector), {
+            .open(new PolymorpheusComponent(BulkChangeDialogComponent, this.injector), {
               label: this.translocoService.translate(this.translocoScope.scope + '.bulkChange'),
               size: 'page',
               data: {
