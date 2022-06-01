@@ -1,5 +1,4 @@
-import { ChangeDetectionStrategy, Component, Inject, Input } from '@angular/core';
-import { ProviderScope, TRANSLOCO_SCOPE } from '@ngneat/transloco';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { TuiActiveZoneDirective, TuiDestroyService } from '@taiga-ui/cdk';
 import { takeUntil } from 'rxjs/operators';
 
@@ -19,7 +18,6 @@ export class NotificationItemComponent {
   open = false;
 
   constructor(
-    @Inject(TRANSLOCO_SCOPE) readonly translocoScope: ProviderScope,
     private readonly notificationsService: NotificationsService,
     private readonly destroy$: TuiDestroyService
   ) {}

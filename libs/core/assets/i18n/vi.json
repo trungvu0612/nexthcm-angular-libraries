@@ -585,5 +585,19 @@
   "workingAfterHours": "Làm việc ngoài giờ",
   "leaveDays": "Ngày nghỉ",
   "actionConfirm": "<b>Bạn có chắc chắn muốn thực hiện hành động này không?</b>",
-  "requestManagement": "Quản lý yêu cầu"
+  "requestManagement": "Quản lý yêu cầu",
+  "notification": "Thông báo",
+  "new": "Mới",
+  "requestSubmission": "Yêu cầu đã gửi",
+  "onlyShowUnread": "Chỉ hiển thị chưa đọc",
+  "markAllAsRead": "Đánh dấu tất cả đã đọc",
+  "markAsRead": "Đánh dấu đã đọc",
+  "removeTheNotification": "Xóa thông báo",
+  "turnOffNotifications": "Tắt thông báo",
+  "TIME_DURATION": {
+    "for15Minutes": "Trong 15 phút",
+    "for30Minutes": "Trong 30 phút",
+    "for1Hour": "Trong 1 giờ",
+    "for4Hours": "Trong 4 giờ"
+  }
 }

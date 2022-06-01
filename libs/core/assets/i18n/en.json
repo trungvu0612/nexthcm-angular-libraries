@@ -585,5 +585,19 @@
   "workingAfterHours": "Working after-hours",
   "leaveDays": "Leave days",
   "actionConfirm": "<b>Are you sure that you want to perform this action?</b>",
-  "requestManagement": "Request management"
+  "requestManagement": "Request management",
+  "notification": "Notification",
+  "new": "New",
+  "requestSubmission": "Request submission",
+  "onlyShowUnread": "Only show unread",
+  "markAllAsRead": "Mark all as read",
+  "markAsRead": "Mark as read",
+  "removeTheNotification": "Remove the notification",
+  "turnOffNotifications": "Turn off notifications",
+  "TIME_DURATION": {
+    "for15Minutes": "For 15 minutes",
+    "for30Minutes": "For 30 minutes",
+    "for1Hour": "For 1 hour",
+    "for4Hours": "For 4 hours"
+  }
 }

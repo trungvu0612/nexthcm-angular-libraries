@@ -1,4 +1,4 @@
-<ng-container *transloco="let t; read: translocoScope.scope">
+<ng-container *transloco="let t">
   <ng-container *ngIf="notifications$ | push as notifications">
     <tui-hosted-dropdown
       (openChange)="onOpenChange($event)"
@@ -64,7 +64,7 @@
             tuiButton
             type="button"
           >
-            {{ 'requestManagement' | transloco }}
+            {{ t('requestManagement') }}
           </button>
         </footer>
       </section>

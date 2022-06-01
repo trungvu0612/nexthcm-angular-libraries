@@ -12,7 +12,7 @@ import { Notifications } from './notifications';
   providedIn: 'root',
 })
 export class NotificationsService extends RxStomp {
-  sound = true;
+  sound = 0;
   readonly audio = new Audio('/assets/sounds/notification.mp3');
   readonly loading$ = new BehaviorSubject(false);
   readonly notifications$ = this.authService.select('userInfo').pipe(
@@ -20,8 +20,8 @@ export class NotificationsService extends RxStomp {
     map(({ body }): Notifications => JSON.parse(body)),
     tap(() => {
       this.loading$.next(false);
-      if (this.sound) this.audio.play();
-      else this.sound = true;
+      if (!this.sound) this.audio.play();
+      else --this.sound;
     })
   );
   private params: { requestType: '0' | '1'; pageSize: number; statusRead?: boolean } = {
@@ -94,7 +94,7 @@ export class NotificationsService extends RxStomp {
   }
 
   private send(): void {
-    this.sound = false;
+    ++this.sound;
     this.publish({
       destination: '/ws/get-notify-websocket',
       body: JSON.stringify({

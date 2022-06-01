@@ -1,7 +1,7 @@
-import { ChangeDetectionStrategy, Component, Inject, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ProviderScope, TRANSLOCO_SCOPE, TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@ngneat/transloco';
 import { setTimeout } from '@rx-angular/cdk/zone-less/browser';
 import { RxState } from '@rx-angular/state';
 import { TuiScrollbarComponent } from '@taiga-ui/core';
@@ -48,7 +48,6 @@ export class NotificationsComponent {
   readonly markAllAsRead$ = new Subject<void>();
 
   constructor(
-    @Inject(TRANSLOCO_SCOPE) readonly translocoScope: ProviderScope,
     private readonly notificationsService: NotificationsService,
     private readonly permissionsService: NgxPermissionsService,
     private readonly router: Router,
