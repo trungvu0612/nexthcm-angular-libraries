@@ -1,0 +1,7 @@
+:host {
+  display: block;
+
+  ::ng-deep tui-badged-content[data-tui-host-top='0'] > div:nth-child(2) {
+    display: none;
+  }
+}

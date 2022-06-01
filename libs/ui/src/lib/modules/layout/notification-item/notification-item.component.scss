@@ -1,0 +1,21 @@
+:host {
+  display: block;
+
+  .notification {
+    button {
+      opacity: 0;
+    }
+
+    &:hover {
+      background-color: #d3e9ff;
+
+      button {
+        opacity: 1;
+      }
+    }
+  }
+
+  .unread {
+    background-color: #f0f8ff;
+  }
+}

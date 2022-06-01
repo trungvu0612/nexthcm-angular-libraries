@@ -1,0 +1,91 @@
+<ng-container *transloco="let t; read: translocoScope.scope">
+  <ng-container *ngIf="notifications$ | push as notifications">
+    <tui-hosted-dropdown
+      (openChange)="onOpenChange($event)"
+      [content]="content"
+      [open]="open"
+      [tuiDropdownMaxHeight]="600"
+    >
+      <tui-badged-content [contentTop]="notifications.unReadCount" [rounded]="true" colorTop="red" size="s">
+        <button [icon]="bellIcon" appearance="flat" size="m" tuiIconButton type="button"></button>
+        <ng-template #bellIcon><i class="bx bx-bell text-3xl"></i></ng-template>
+      </tui-badged-content>
+    </tui-hosted-dropdown>
+
+    <ng-template #content let-activeZone>
+      <section class="w-[500px] bg-[#f6f7f8] p-5">
+        <header class="flex justify-between items-center mb-4">
+          <h2 class="text-2xl font-semibold">{{ t('notification') }}</h2>
+          <!--<div class="flex gap-2">
+            <button
+              (click)="dialog = true"
+              appearance="icon"
+              icon="tuiIconBellLarge"
+              size="s"
+              tuiIconButton
+              type="button"
+            ></button>
+            <button appearance="icon" icon="tuiIconSettingsLarge" size="s" tuiIconButton type="button"></button>
+          </div>-->
+        </header>
+
+        <div class="rounded-2xl border bg-white">
+          <div class="relative flex justify-between items-center mx-4">
+            <tui-tabs (activeItemIndexChange)="onTypeChange($event)" [activeItemIndex]="activeItemIndex" class="flex-1">
+              <button tuiTab type="button">{{ t('new') }}</button>
+              <button tuiTab type="button">{{ t('requestSubmission') }}</button>
+            </tui-tabs>
+
+            <label class="absolute right-0 flex items-center gap-2">
+              {{ t('onlyShowUnread') }}
+              <tui-toggle [formControl]="unreadControl" [showIcons]="true"></tui-toggle>
+            </label>
+          </div>
+
+          <tui-scrollbar class="max-h-[400px]">
+            <hcm-notification-item
+              *ngFor="let item of notifications.data.data.items"
+              [activeZone]="activeZone"
+              [item]="item"
+            ></hcm-notification-item>
+          </tui-scrollbar>
+        </div>
+
+        <footer class="flex gap-4 mt-2">
+          <button (click)="markAllAsRead$.next()" appearance="flat" class="flex-1" size="m" tuiButton type="button">
+            {{ t('markAllAsRead') }}
+          </button>
+          <button
+            (click)="navigateToRequests()"
+            *ngIf="activeItemIndex === 1"
+            appearance="flat"
+            class="flex-1"
+            size="m"
+            tuiButton
+            type="button"
+          >
+            {{ 'requestManagement' | transloco }}
+          </button>
+        </footer>
+      </section>
+    </ng-template>
+
+    <ng-template
+      [(tuiDialog)]="dialog"
+      [tuiDialogOptions]="$any({ label: t('turnOffNotifications'), size: 's' })"
+      let-observer
+    >
+      <hcm-base-form (cancel)="observer.complete()" (submitForm)="turnOffNotifications()" [form]="form" class="mt-8">
+        <tui-radio-labeled
+          *ngFor="let option of options; last as last"
+          [class.mb-4]="!last"
+          [formControl]="bellControl"
+          [item]="option.value"
+          size="l"
+        >
+          {{ t('TIME_DURATION.' + option.label) }}
+        </tui-radio-labeled>
+      </hcm-base-form>
+    </ng-template>
+  </ng-container>
+</ng-container>

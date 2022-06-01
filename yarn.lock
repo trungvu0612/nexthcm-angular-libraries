@@ -2173,6 +2173,19 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
+"@stomp/rx-stomp@^1.1.4":
+  version "1.1.4"
+  resolved "https://registry.yarnpkg.com/@stomp/rx-stomp/-/rx-stomp-1.1.4.tgz#58137b6e113ec9f096768f3275ef94ea4ae59e14"
+  integrity sha512-qSwuySHGumFanzLdXCLnwxZ+ZPjyT1Bt1Gs99jRa/Li8Z0rsjJvUsGsOjNOb0LJUY/wNpytFNhPDKfuELlk4GQ==
+  dependencies:
+    "@stomp/stompjs" "^6.0.0 >=6.1.1"
+    angular2-uuid "^1.1.1"
+
+"@stomp/stompjs@^6.0.0 >=6.1.1":
+  version "6.1.2"
+  resolved "https://registry.yarnpkg.com/@stomp/stompjs/-/stompjs-6.1.2.tgz#4ac3c380e8d1de1da94a3623d404e67de69dd01e"
+  integrity sha512-FHDTrIFM5Ospi4L3Xhj6v2+NzCVAeNDcBe95YjUWhWiRMrBF6uN3I7AUOlRgT6jU/2WQvvYK8ZaIxFfxFp+uHQ==
+
 "@swc-node/core@^1.8.2":
   version "1.8.2"
   resolved "https://registry.yarnpkg.com/@swc-node/core/-/core-1.8.2.tgz#950ad394a8e8385658e6a951ec554bbf61a1693e"
@@ -3636,6 +3649,11 @@ angular2-text-mask@^9.0.0:
   integrity sha512-iALcnhJPS1zvX48d86rgUgDe/crX6XfhZrXC4Gdlo2/YwZW7u7KJZY6/b3ieSCIWVq/E6p+wDCzeo3E6leRjDA==
   dependencies:
     text-mask-core "^5.0.0"
+
+angular2-uuid@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/angular2-uuid/-/angular2-uuid-1.1.1.tgz#72f03cd532b7f40032eb1ecfb9f8457384be956e"
+  integrity sha512-6AXPyii9q8KBFGagybLNVmdGJLPcVZAhmv3odNGSJIA18LuJ3xOe6uN9GvjlQsGfdmYeuxlsGnFEUu7gPhkc+g==
 
 ansi-colors@4.1.1, ansi-colors@^4.1.1:
   version "4.1.1"
@@ -8948,6 +8966,13 @@ ngx-quill@^16.1.2:
   integrity sha512-rUPhmJUz1OBOjf2Zv5n87Z1CRWg3JsSDkBUMLuKP1Ae44Lyq13VhZO692rp1PYbUdImYw9lbIf87tbmNpUy7fw==
   dependencies:
     tslib "^2.3.0"
+
+ngx-timeago@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/ngx-timeago/-/ngx-timeago-2.0.0.tgz#b28634b0c2d24549f8f090fd1989efa1ee4f632a"
+  integrity sha512-5kQZeTPCkegEcSooUu3W0BSOwvxEt1q6zjodwEOYoW/FxETC8Bk1zQF1QOPZLS+Nu3GLA+g1oPXMVBonM+CYQQ==
+  dependencies:
+    tslib "^2.0.0"
 
 nice-napi@^1.0.2:
   version "1.0.2"

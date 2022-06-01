@@ -1,0 +1,30 @@
+<div
+  *transloco="let t; read: translocoScope.scope"
+  [class.unread]="!item.isRead"
+  class="notification relative flex justify-center items-center gap-4 p-5"
+>
+  <div *ngIf="!item.isRead" class="bg-red-500 absolute top-3 left-3 w-3 h-3 rounded-full"></div>
+  <hcm-avatar [image]="item.image" [text]="item.fullName" rounded size="m"></hcm-avatar>
+  <div class="flex-1">
+    <p class="text-base mb-2">
+      <span class="text-[color:var(--tui-primary)] font-semibold">{{ item.fullName }}</span> {{ item.shortContent }}
+    </p>
+    <p class="text-[color:var(--tui-link)] text-xs">{{ item.sendDate | timeago }}</p>
+  </div>
+  <tui-hosted-dropdown [(open)]="open" [content]="actionTpl">
+    <button appearance="flat" icon="tuiIconMoreHorLarge" size="s" tuiIconButton type="button"></button>
+  </tui-hosted-dropdown>
+
+  <ng-template #actionTpl>
+    <tui-data-list [tuiActiveZoneParent]="activeZone">
+      <button (click)="action('read')" *ngIf="!item.isRead" class="!justify-start gap-2" tuiOption>
+        <tui-svg src="tuiIconCheckLarge"></tui-svg>
+        {{ t('markAsRead') }}
+      </button>
+      <button (click)="action('remove')" class="!justify-start gap-2" tuiOption>
+        <tui-svg src="tuiIconRemoveLarge"></tui-svg>
+        {{ t('removeTheNotification') }}
+      </button>
+    </tui-data-list>
+  </ng-template>
+</div>

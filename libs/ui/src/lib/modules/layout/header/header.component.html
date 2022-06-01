@@ -7,10 +7,10 @@
     </ng-container>
   </tui-tabs>
 
-  <div class="flex items-center gap-4 border-l px-4">
+  <div class="flex items-center gap-2 border-l px-4">
     <tui-hosted-dropdown [(open)]="open" [content]="langsDropdown">
-      <button [icon]="icon" appearance="flat" size="m" tuiIconButton type="button"></button>
-      <ng-template #icon><i class="bx bx-globe text-3xl"></i></ng-template>
+      <button [icon]="globeIcon" appearance="flat" size="m" tuiIconButton type="button"></button>
+      <ng-template #globeIcon><i class="bx bx-globe text-3xl"></i></ng-template>
     </tui-hosted-dropdown>
 
     <ng-template #langsDropdown>
@@ -21,15 +21,20 @@
       </tui-data-list>
     </ng-template>
 
-    <!--<div class="relative w-8 h-8 cursor-pointer">
-      <tui-svg class="absolute bottom-0 left-0" src="tuiIconBellLarge"></tui-svg>
-      <div *ngIf="notification" class="badge">{{ notification }}</div>
-    </div>-->
+    <hcm-notifications></hcm-notifications>
 
-    <tui-hosted-dropdown *rxLet="userProfile$; let userProfile" [content]="avatarDropdown" class="mr-2">
-      <button>
-        <hcm-avatar [image]="userProfile.image" [text]="userProfile.username || ''" rounded size="s"></hcm-avatar>
-      </button>
+    <tui-hosted-dropdown [content]="avatarDropdown">
+      <button [icon]="avatar" appearance="icon" size="m" tuiIconButton type="button"></button>
+
+      <ng-template #avatar>
+        <hcm-avatar
+          *ngIf="userProfile$ | push as userProfile"
+          [image]="userProfile.image"
+          [text]="userProfile.username || ''"
+          rounded
+          size="s"
+        ></hcm-avatar>
+      </ng-template>
     </tui-hosted-dropdown>
 
     <ng-template #avatarDropdown>
