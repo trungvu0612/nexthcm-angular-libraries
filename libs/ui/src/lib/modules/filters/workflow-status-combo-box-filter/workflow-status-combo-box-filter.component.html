@@ -12,7 +12,7 @@
   <tui-data-list-wrapper
     *tuiDataList
     [itemContent]="itemContent"
-    [items]="items | tuiHideSelected"
+    [items]="$any(items | tuiHideSelected)"
   ></tui-data-list-wrapper>
 </tui-multi-select>
 

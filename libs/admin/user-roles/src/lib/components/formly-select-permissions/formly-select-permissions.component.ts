@@ -53,9 +53,9 @@ export class FormlySelectPermissionsComponent extends FieldType implements After
     startWith([])
   );
   disabledItemHandler = ALWAYS_TRUE_HANDLER;
-  @ViewChild('errorContent', { static: true }) errorContent?: PolymorpheusTemplate<Record<string, never>>;
+  @ViewChild('errorContent', { static: true }) errorContent?: PolymorpheusTemplate<Record<string, unknown>>;
   error: TuiValidationError | null = null;
-  readonly context!: { $implicit: any };
+  readonly context!: { $implicit: unknown };
 
   constructor(
     @Inject(TRANSLOCO_SCOPE) private readonly translocoScope: ProviderScope,
@@ -67,8 +67,7 @@ export class FormlySelectPermissionsComponent extends FieldType implements After
 
   readonly stringify = (item: BasePermission) => item.name;
 
-  readonly identityMatcher: TuiIdentityMatcher<any> = (item1: BasePermission, item2: BasePermission) =>
-    item1.id === item2.id;
+  readonly identityMatcher: TuiIdentityMatcher<BasePermission> = (item1, item2) => item1.id === item2.id;
 
   readonly item = (item: BasePermission) => item;
 
@@ -82,7 +81,7 @@ export class FormlySelectPermissionsComponent extends FieldType implements After
       : of([]);
   }
 
-  getContext($implicit: any, { nativeElement }: ElementRef<HTMLElement>): TuiValueContentContext<any> {
+  getContext($implicit: unknown, { nativeElement }: ElementRef<HTMLElement>): TuiValueContentContext<unknown> {
     return { $implicit, active: isNativeFocused(nativeElement) };
   }
 

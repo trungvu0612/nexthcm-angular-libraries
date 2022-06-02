@@ -1,6 +1,6 @@
 import { CommonModule, DOCUMENT } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Inject, NgModule, OnInit, ViewChild } from '@angular/core';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { EmailVariable, SelectOptionsModule, TemplateVariable } from '@nexthcm/cdk';
 import { TranslocoModule } from '@ngneat/transloco';
 import { FieldType, FormlyFieldConfig, FormlyModule } from '@ngx-formly/core';
@@ -23,7 +23,7 @@ Quill.register({ 'formats/TemplateVariable': TemplateVariable });
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FormlyQuillTemplateVariablesComponent extends FieldType implements OnInit {
-  @ViewChild('errorContent', { static: true }) errorContent?: PolymorpheusTemplate<Record<string, never>>;
+  @ViewChild('errorContent', { static: true }) errorContent?: PolymorpheusTemplate<Record<string, unknown>>;
   @ViewChild('editor', { static: true }) editor!: QuillEditorComponent;
 
   override defaultOptions: FormlyFieldConfig = {
@@ -43,7 +43,6 @@ export class FormlyQuillTemplateVariablesComponent extends FieldType implements 
   };
   focused = false;
   error: TuiValidationError | null = null;
-  readonly templateVariableCtrl = new FormControl();
   readonly context!: { $implicit: unknown };
 
   constructor(@Inject(DOCUMENT) private document: Document) {

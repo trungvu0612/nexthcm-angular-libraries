@@ -14,10 +14,10 @@ export class FormFieldComponent extends FieldWrapper implements OnInit {
       labelClassName: 'font-semibold',
     },
   };
-  @ViewChild('errorContent', { static: true }) errorContent?: PolymorpheusTemplate<Record<string, never>>;
+  @ViewChild('errorContent', { static: true }) errorContent?: PolymorpheusTemplate<Record<string, unknown>>;
 
   error: TuiValidationError | null = null;
-  readonly context!: { $implicit: any };
+  readonly context!: { $implicit: unknown };
 
   ngOnInit(): void {
     this.error = new TuiValidationError(this.errorContent || '');
