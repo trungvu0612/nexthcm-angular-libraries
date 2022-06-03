@@ -10,7 +10,7 @@ export interface Notifications {
 
 export interface NotificationItem {
   notificationId: string;
-  fullName: string;
+  fullName: string | null;
   image: string;
   isRead: boolean;
   sendDate: string;
