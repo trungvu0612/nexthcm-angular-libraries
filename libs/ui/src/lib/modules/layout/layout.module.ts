@@ -22,12 +22,20 @@ import { TimeagoCustomFormatter, TimeagoFormatter, TimeagoIntl, TimeagoModule } 
 import { AvatarComponentModule, BaseFormComponentModule } from '../../components';
 import { HeaderComponent } from './header/header.component';
 import { LayoutComponent } from './layout.component';
-import { NotificationItemComponent } from './notification-item/notification-item.component';
+import { NotificationItemComponent } from './notifications/components/notification-item/notification-item.component';
+import { NotificationSettingDialogComponent } from './notifications/components/notification-setting-dialog/notification-setting-dialog.component';
 import { NotificationsComponent } from './notifications/notifications.component';
 import { PageComponent } from './page/page.component';
 
 @NgModule({
-  declarations: [LayoutComponent, HeaderComponent, PageComponent, NotificationsComponent, NotificationItemComponent],
+  declarations: [
+    LayoutComponent,
+    HeaderComponent,
+    PageComponent,
+    NotificationsComponent,
+    NotificationItemComponent,
+    NotificationSettingDialogComponent,
+  ],
   imports: [
     CommonModule,
     RouterModule,

@@ -11,10 +11,10 @@ import { strings as enStrings } from 'ngx-timeago/language-strings/en';
 import { strings as viStrings } from 'ngx-timeago/language-strings/vi';
 import { IL10nsStrings } from 'ngx-timeago/timeago.intl';
 import { startWith, Subject, switchMap, tap } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import { distinctUntilChanged, filter } from 'rxjs/operators';
 
-import { Notifications } from './notifications';
-import { NotificationsService } from './notifications.service';
+import { Notifications } from './models/notifications';
+import { NotificationsService } from './services/notifications.service';
 
 const TIMEAGO_STRINGS: Record<string, IL10nsStrings> = { en: enStrings, vi: viStrings };
 
@@ -37,13 +37,14 @@ export class NotificationsComponent {
 
   dialog = false;
   readonly options = [
-    { value: 1, label: 'for15Minutes' },
-    { value: 2, label: 'for30Minutes' },
-    { value: 3, label: 'for1Hour' },
-    { value: 4, label: 'for4Hours' },
+    { value: 'MINUTES_15', label: 'for15Minutes' },
+    { value: 'MINUTES_30', label: 'for30Minutes' },
+    { value: 'HOURS_1', label: 'for1Hour' },
+    { value: 'HOURS_4', label: 'for4Hours' },
   ];
   readonly bellControl = this.fb.control(this.options[0].value);
   readonly form = this.fb.group({ bell: this.bellControl });
+  readonly mute$ = this.notificationsService.mute$.pipe(distinctUntilChanged());
 
   readonly markAllAsRead$ = new Subject<void>();
 
@@ -114,6 +115,10 @@ export class NotificationsComponent {
 
   turnOffNotifications(): void {
     this.dialog = false;
-    console.log(this.form.value.bell);
+    this.notificationsService.turnOffNotifications(this.form.value.bell);
+  }
+
+  turnOnNotifications(): void {
+    this.notificationsService.turnOnNotifications();
   }
 }

@@ -1,5 +1,6 @@
 export interface Notifications {
   unReadCount: number;
+  turnOff: boolean;
   data: {
     data: {
       hasNext: boolean;

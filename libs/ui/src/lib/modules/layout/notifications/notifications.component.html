@@ -16,17 +16,30 @@
       <section class="w-[500px] bg-[#f6f7f8] p-5">
         <header class="flex justify-between items-center mb-4">
           <h2 class="text-2xl font-semibold">{{ t('notification') }}</h2>
-          <!--<div class="flex gap-2">
+          <div class="flex gap-2">
             <button
-              (click)="dialog = true"
+              (click)="turnOnNotifications()"
+              *ngIf="mute$ | push as mute; else unMute"
               appearance="icon"
-              icon="tuiIconBellLarge"
+              icon="tuiIconBellOffLarge"
               size="s"
               tuiIconButton
               type="button"
             ></button>
-            <button appearance="icon" icon="tuiIconSettingsLarge" size="s" tuiIconButton type="button"></button>
-          </div>-->
+
+            <ng-template #unMute>
+              <button
+                (click)="dialog = true"
+                appearance="icon"
+                icon="tuiIconBellLarge"
+                size="s"
+                tuiIconButton
+                type="button"
+              ></button>
+            </ng-template>
+
+            <!--<button appearance="icon" icon="tuiIconSettingsLarge" size="s" tuiIconButton type="button"></button>-->
+          </div>
         </header>
 
         <div class="rounded-2xl border bg-white">

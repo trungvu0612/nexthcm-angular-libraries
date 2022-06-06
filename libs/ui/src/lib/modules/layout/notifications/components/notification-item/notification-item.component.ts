@@ -2,8 +2,8 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { TuiActiveZoneDirective, TuiDestroyService } from '@taiga-ui/cdk';
 import { takeUntil } from 'rxjs/operators';
 
-import { NotificationItem } from '../notifications/notifications';
-import { NotificationsService } from '../notifications/notifications.service';
+import { NotificationItem } from '../../models/notifications';
+import { NotificationsService } from '../../services/notifications.service';
 
 @Component({
   selector: 'hcm-notification-item',

@@ -6,7 +6,7 @@ import { RxStomp } from '@stomp/rx-stomp';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
 
-import { Notifications } from './notifications';
+import { Notifications } from '../models/notifications';
 
 @Injectable({
   providedIn: 'root',
@@ -14,13 +14,15 @@ import { Notifications } from './notifications';
 export class NotificationsService extends RxStomp {
   sound = 0;
   readonly audio = new Audio('/assets/sounds/notification.mp3');
+  readonly mute$ = new BehaviorSubject(false);
   readonly loading$ = new BehaviorSubject(false);
   readonly notifications$ = this.authService.select('userInfo').pipe(
     switchMap(({ userId }) => this.watch(`/user/${userId}/queue/private-notifications`)),
     map(({ body }): Notifications => JSON.parse(body)),
-    tap(() => {
+    tap(({ turnOff }) => {
       this.loading$.next(false);
-      if (!this.sound) this.audio.play();
+      this.mute$.next(turnOff);
+      if (!this.sound && !turnOff) this.audio.play();
       else --this.sound;
     })
   );
@@ -91,6 +93,16 @@ export class NotificationsService extends RxStomp {
         this.authService.get('userInfo').userId,
       ])
       .pipe(tap(() => this.send()));
+  }
+
+  turnOffNotifications(value: string): void {
+    this.http
+      .post('/scheduleapp/v1.0/notification-mobile/turn-off?turnOffTypeDTO=' + value, {})
+      .subscribe(() => this.mute$.next(true));
+  }
+
+  turnOnNotifications(): void {
+    this.http.post('/scheduleapp/v1.0/notification-mobile/turn-on', {}).subscribe(() => this.mute$.next(false));
   }
 
   private send(): void {
