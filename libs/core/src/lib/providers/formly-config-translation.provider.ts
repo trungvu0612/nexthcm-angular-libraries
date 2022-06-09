@@ -16,6 +16,7 @@ export class TranslateExtension {
       ...(field.expressionProperties || {}),
       'templateOptions.label': this.translate.selectTranslate(to.label || '', to['labelParams']),
       'templateOptions.placeholder': this.translate.selectTranslate(to.placeholder || '', to['placeholderParams']),
+      'templateOptions.exampleText': this.translate.selectTranslate(to['exampleText'] || '', to['exampleTextParams']),
       'templateOptions.description': this.translate.selectTranslate(to.description || '', to['descriptionParams']),
       'templateOptions.labelText': this.translate.selectTranslate(to['labelText'] || '', to['labelTextParams']),
       'templateOptions.linkText': this.translate.selectTranslate(to['linkText'] || '', to['linkTextParams']),

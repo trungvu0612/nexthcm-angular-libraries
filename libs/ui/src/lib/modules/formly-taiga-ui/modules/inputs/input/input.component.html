@@ -1,6 +1,5 @@
 <tui-input
   [formControl]="$any(formControl)"
-  [formlyAttributes]="field"
   [icon]="to['icon'] || null"
   [readOnly]="!!to.readonly"
   [style.maxWidth]="to['maxWidth']"
@@ -8,7 +7,7 @@
   [tuiHintContent]="to.description || null"
   [tuiTextfieldCleaner]="to['textfieldCleaner']"
   [tuiTextfieldCustomContent]="to['checkMark'] && formControl?.valid ? success : ''"
-  [tuiTextfieldExampleText]="to.placeholder || ''"
+  [tuiTextfieldExampleText]="to.placeholder || to['exampleText'] || ''"
   [tuiTextfieldLabelOutside]="to['textfieldLabelOutside']"
   [tuiTextfieldSize]="to['textfieldSize']"
 >
