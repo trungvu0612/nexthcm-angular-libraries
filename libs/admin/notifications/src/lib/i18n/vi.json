@@ -9,6 +9,39 @@
     "status": "Trạng thái",
     "functions": "Chức năng"
   },
+  "formatSettingForAllUser": "Cài đặt định dạng cho tất cả người dùng",
+  "userUnableToChangeThisNotification": "Người dùng không thể thay đổi thông báo này",
+  "NOTIFICATION_CONFIGURATION_COLUMNS": {
+    "sendToMail": "Gửi đến email",
+    "notifyOnHCM": "Cho phép thông báo trên HCM",
+    "notifyOnMobile": "Thông báo đẩy trên thiết bị di động",
+    "notifyOnDesktop": "Thông báo đẩy trên máy tính để bàn",
+    "modifieldNotify": "Người dùng không thể thay đổi thông báo này"
+  },
+  "NOTIFICATION_CONFIGURATION_ROWS": {
+    "checkInCheckout": "ĐĂNG NHẬP/ THOÁT RA",
+    "missingCICO": "Thiếu CICO",
+    "anOcassionIsAdded": "Một lý do được thêm vào.",
+    "myTime": "THỜI GIAN CỦA TÔI",
+    "aLeaveRequestIsSubmitted": "Đơn xin nghỉ / Yêu cầu được gửi",
+    "aLeaveRequestHasChanged": "Yêu cầu / Nghỉ phép đã thay đổi",
+    "seatMap": "BẢN ĐỒ GHẾ NGỒI",
+    "userSeatPositionHasChanged": "Vị trí chỗ ngồi của người dùng đã thay đổi",
+    "knowledgeBase": "KIẾN THỨC CƠ BẢN",
+    "newArticleReleases": "New Article releases",
+    "newCategoryIsCreated": "Bài báo mới phát hành",
+    "tenantManagement": "QUẢN LÝ TENANT",
+    "anAdminCreateANewTenant": "Quản trị viên tạo đối tượng thuê mới",
+    "anAdminUpdateANewTenant": "Quản trị viên cập nhật người thuê mới"
+  },
+  "NOTIFICATION_SETTINGS_ROWS": {
+    "checkInCheckout": "ĐĂNG NHẬP/ THOÁT RA",
+    "soundOn": "Bật âm thanh",
+    "myTime": "THỜI GIAN CỦA TÔI",
+    "seatMap": "BẢN ĐỒ GHẾ NGỒI",
+    "knowledgeBase": "KIẾN THỨC CƠ BẢN",
+    "tenantManagement": "QUẢN LÝ TENANT"
+  },
   "createNotification": "Tạo mới thông báo",
   "editNotification": "Chỉnh sửa thông báo",
   "updateNotificationSuccessfully": "<b>Cập nhật thông báo thành công!</b>",
@@ -25,5 +58,8 @@
   "featured": "Thông báo nổi bật",
   "pushMobile": "Bật thông báo đẩy cho di động",
   "repeat": "Lặp lại thông báo",
-  "allRoles": "Thông báo cho tất cả vai trò"
+  "allRoles": "Thông báo cho tất cả vai trò",
+  "adHoc": "Ad-hoc",
+  "configuration": "Cấu hình",
+  "notificationSettings": "Cài đặt thông báo"
 }
