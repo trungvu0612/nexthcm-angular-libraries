@@ -118,6 +118,7 @@ export class HomeComponent {
             params: { lat: latitude, lon: longitude, format: 'json' },
           })
           .pipe(
+            catchError(() => of({ display_name: '' })),
             switchMap(({ display_name }) =>
               this.myTimeService.checkInOut({ typeCheckInOut: 'web-app', latitude, longitude, address: display_name })
             ),
