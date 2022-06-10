@@ -1,0 +1,52 @@
+<hcm-page title="{{ translocoScope.scope + '.notificationConfiguration' | transloco }}">
+  <ng-container>
+    <tui-loader [overlay]="true" [showLoader]="(loading$ | push) === true" class="mt-6">
+      <hcm-base-form
+        [submitLoading]="(submitLoading$ | push) === true"
+        (submitForm)="onSubmit()"
+        hideCancelButton
+        class="mt-5"
+      >
+        <table *transloco="let t; read: translocoScope.scope" class="hcm-table">
+          <thead class="sticky -top-1 z-10 bg-white">
+            <tr>
+              <th rowspan="2"></th>
+              <th colspan="4">{{ t('formatSettingForAllUser') }}</th>
+              <th rowspan="2">{{ t('userUnableToChangeThisNotification') }}</th>
+            </tr>
+
+            <tr>
+              <ng-container *ngFor="let column of typeNotifications">
+                <td *ngIf="column.label === ''">
+                  {{ t('NOTIFICATION_CONFIGURATION_COLUMNS.' + column.value) }}
+                </td>
+              </ng-container>
+            </tr>
+          </thead>
+          <ng-container *ngFor="let activeNotification of listActiveNotification">
+            <tr>
+              <td
+                [attr.colspan]="activeNotification.isTitle ? '100%' : '1'"
+                [class]="activeNotification.isTitle ? 'bg-neutral-200 font-bold' : ''"
+              >
+                {{ t('NOTIFICATION_CONFIGURATION_ROWS.' + activeNotification.value) }}
+              </td>
+            </tr>
+            <tr *ngFor="let array of activeNotification.listConfig">
+              <td>{{ array.title }}</td>
+              <ng-container *ngFor="let column of typeNotifications">
+                <td class="content-center">
+                  <tui-checkbox
+                    size="l"
+                    ngDefaultControl
+                    [formControl]="$any({column,array,group} | tuiMapper : getControl)"
+                  ></tui-checkbox>
+                </td>
+              </ng-container>
+            </tr>
+          </ng-container>
+        </table>
+      </hcm-base-form>
+    </tui-loader>
+  </ng-container>
+</hcm-page>

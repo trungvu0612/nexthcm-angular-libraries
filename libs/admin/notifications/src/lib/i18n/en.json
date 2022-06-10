@@ -9,6 +9,45 @@
     "status": "Status",
     "functions": "Functions"
   },
+  "formatSettingForAllUser": "Format setting for all users",
+  "userUnableToChangeThisNotification": "User unable to change this notification",
+  "NOTIFICATION_CONFIGURATION_COLUMNS": {
+    "sendToMail": "Send to email",
+    "notifyOnHCM": "Allow Notification on HCM",
+    "notifyOnMobile": "Push Notification on Mobile",
+    "notifyOnDesktop": "Push Notification on Desktop",
+    "modifieldNotify": "User unable to change this notification"
+  },
+  "NOTIFICATION_CONFIGURATION_ROWS": {
+    "checkInCheckout": "CHECK-IN/ CHECK-OUT",
+    "missingCICO": "Missing CICO",
+    "anOcassionIsAdded": "An ocassion is added",
+    "myTime": "MY TIME",
+    "aLeaveRequestIsSubmitted": "A Leave/Request is submitted",
+    "aLeaveRequestHasChanged": "A Leave/Request has changed",
+    "seatMap": "SEAT MAP",
+    "userSeatPositionHasChanged": "User's seat position has changed",
+    "knowledgeBase": "KNOWLEDGE BASE",
+    "newArticleReleases": "New Article releases",
+    "newCategoryIsCreated": "New Category is created",
+    "tenantManagement": "TENANT MANAGEMENT",
+    "anAdminCreateANewTenant": "An admin create a new tenant",
+    "anAdminUpdateANewTenant": "An admin update a new tenant"
+  },
+  "NOTIFICATION_SETTINGS_ROWS": {
+    "checkInCheckout": "CHECK-IN/ CHECK-OUT",
+    "missCheckInCheckout": "When you miss Check-in/Check-out",
+    "soundOn": "Sound on",
+    "addOccsionCalendar": "When new occasion is added on calendar",
+    "myTime": "MY TIME",
+    "aLeaveRequestIsSubmitted": "When a Leave/Request is submitted",
+    "aLeaveRequestHasChanged": "When a Leave/Request has changed Status",
+    "seatMap": "SEAT MAP",
+    "yourSeatChanged": "When your seat is changed",
+    "knowledgeBase": "KNOWLEDGE BASE",
+    "newArticleReleases": "When new article releases",
+    "tenantManagement": "TENANT MANAGEMENT"
+  },
   "createNotification": "Create new notification",
   "editNotification": "Edit notification",
   "updateNotificationSuccessfully": "<b>Update this notification successfully!</b>",
@@ -25,5 +64,9 @@
   "featured": "Featured notification",
   "pushMobile": "Enable Push Notification for mobile",
   "repeat": "Repeat",
-  "allRoles": "Notify for all roles"
+  "allRoles": "Notify for all roles",
+  "notificationConfiguration": "Notification Configuration",
+  "adHoc": "Ad-hoc",
+  "configuration": "Configuration",
+  "notificationSettings": "Notification Settings"
 }
