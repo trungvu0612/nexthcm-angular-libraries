@@ -4,14 +4,27 @@
   class="notification relative flex justify-center items-center gap-4 p-5"
 >
   <div *ngIf="!item.isRead" class="bg-red-500 absolute top-3 left-3 w-3 h-3 rounded-full"></div>
-  <hcm-avatar [image]="item.image" [text]="item.fullName || 'Admin'" rounded size="m"></hcm-avatar>
+
+  <hcm-avatar
+    *ngIf="item.fullName; else logo"
+    [image]="item.image"
+    [text]="item.fullName"
+    rounded
+    size="m"
+  ></hcm-avatar>
+
+  <ng-template #logo>
+    <img alt="logo" class="w-12 h-12 object-contain" src="assets/logo.png" />
+  </ng-template>
+
   <div class="flex-1">
     <p class="text-base mb-2">
-      <span class="text-[color:var(--tui-primary)] font-semibold">{{ item.fullName || 'Admin' }}</span>
+      <span class="text-[color:var(--tui-primary)] font-semibold">{{ item.fullName }}</span>
       {{ item.shortContent }}
     </p>
     <p class="text-[color:var(--tui-link)] text-xs">{{ item.sendDate | timeago }}</p>
   </div>
+
   <tui-hosted-dropdown [(open)]="open" [content]="actionTpl">
     <button appearance="flat" icon="tuiIconMoreHorLarge" size="s" tuiIconButton type="button"></button>
   </tui-hosted-dropdown>
