@@ -16,7 +16,7 @@ import { AdminNotificationsService } from '../../services/admin-notifications.se
 export class NotificationConfigurationDialogComponent {
   controls!: FormGroup;
   group!: FormGroup;
-  modelSetting = { listNotifiSetting: [], userId: '' } as NotificationSettingResponse;
+  modelSetting: NotificationSettingResponse[] = [];
   readonly group$ = new Subject<FormGroup>();
   readonly typeNotifications = [
     { value: 'sendToMail', label: '' },
@@ -41,7 +41,7 @@ export class NotificationConfigurationDialogComponent {
 
   columnTitles!: string[];
   listActiveNotification!: any[];
-  readonly submit$ = new Subject<NotificationSettingResponse>();
+  readonly submit$ = new Subject<NotificationSettingResponse[]>();
   readonly submitLoading$ = this.submit$.pipe(
     switchMap((body) =>
       this.adminNotificationsService.updateSettingNotifications(body).pipe(
@@ -51,48 +51,35 @@ export class NotificationConfigurationDialogComponent {
       )
     )
   );
-  readonly loading$ = combineLatest([
-    this.adminNotificationsService.settingNotifications$,
-    this.adminNotificationsService.configNotifications$,
-  ]).pipe(
-    map(([settingNotifications, configNotifications]) => {
-      const notificationSettingItem = settingNotifications.listNotifiSetting;
-      const listEnableNotifications = configNotifications.filter((value) => value.modifieldNotify);
-      // handle add test data for the fields modulename
-      // notificationSettingItem = notificationSettingItem.map((value) => {
-      //   return { ...value, moduleName: 'checkInCheckout'
-      // };
-      // });
-      //// end test data
-      this.listActiveNotification = this.typeActives.map((item) => {
-        const listSetting = notificationSettingItem.filter((element) => element.moduleName === item.value);
-        return {
-          ...item,
-          listSetting,
-        };
-      });
+  readonly loading$ = this.adminNotificationsService.settingNotifications$.pipe(
+    map((settingNotifications) => {
+      this.listActiveNotification = settingNotifications;
       this.columnTitles = this.typeNotifications.map(({ value }) => value);
       const groupConfig: Record<string, FormGroup> = {};
       const controlsConfig: Record<string, FormControl> = {};
 
       this.columnTitles.forEach((column) => {
         const childConfig: Record<string, boolean> = {};
-        notificationSettingItem.forEach((item) => {
-          const controlName = item['notifyId'] + '_' + column;
-          childConfig[controlName] = item[column as never];
-          const columnTitle = column.charAt(0).toUpperCase() + column.substring(1);
-          const nameSoundColumn = 'sound' + columnTitle;
-          const controlNameSound = item['notifyId'] + '_' + nameSoundColumn;
-          childConfig[controlNameSound] = item[nameSoundColumn as never];
+        settingNotifications.forEach((value) => {
+          value.listNotifiSetting.forEach((item) => {
+            const controlName = item['notifyId'] + '_' + column;
+            childConfig[controlName] = item[column as never];
+            const columnTitle = column.charAt(0).toUpperCase() + column.substring(1);
+            const nameSoundColumn = 'sound' + columnTitle;
+            const controlNameSound = item['notifyId'] + '_' + nameSoundColumn;
+            childConfig[controlNameSound] = item[nameSoundColumn as never];
+          });
         });
         groupConfig[column] = this.fb.group(childConfig);
         controlsConfig[column] = this.fb.control(false);
         const controlsConfigColumnNoti = groupConfig[column].controls;
         for (const key in controlsConfigColumnNoti) {
-          listEnableNotifications.forEach((enableNoti) => {
-            if (key.includes(enableNoti.notifyID as string)) {
-              controlsConfigColumnNoti[key].disable({ onlySelf: true });
-            }
+          settingNotifications.forEach((value) => {
+            value.listNotifiSetting.forEach((item) => {
+              if (key.includes(item['notifyId'] as string) && !item['active']) {
+                controlsConfigColumnNoti[key].disable({ onlySelf: true });
+              }
+            });
           });
         }
       });
@@ -110,7 +97,6 @@ export class NotificationConfigurationDialogComponent {
     private readonly adminNotificationsService: AdminNotificationsService
   ) {
     adminNotificationsService.doSettingNotifications();
-    adminNotificationsService.doConfigNotifications();
   }
   getControl({ column, array, group }: { column: any; array: any; group: FormGroup }): FormControl | null {
     const controls = (group.get(column.value) as FormGroup).controls;
@@ -141,26 +127,29 @@ export class NotificationConfigurationDialogComponent {
   }
   onSubmit(): void {
     this.adminNotificationsService.settingNotifications$.pipe().subscribe((settingNotifications) => {
-      let notificationSettingItem = settingNotifications.listNotifiSetting;
-      for (const column of this.typeNotifications) {
-        const controls = (this.group.get(column.value) as FormGroup).controls;
-        notificationSettingItem = notificationSettingItem.map((value) => {
-          const controlName = value['notifyId'] + '_' + column.value;
-          const valueCheckbox = controls[controlName].value;
-          const title = column.value as string;
-          return { ...value, [title as keyof NotificationSettingItem]: valueCheckbox };
-        });
-        notificationSettingItem = notificationSettingItem.map((value) => {
-          const columnTitle = column.value.charAt(0).toUpperCase() + column.value.substring(1);
-          const nameSoundColumn = 'sound' + columnTitle;
-          const controlNameSound = value['notifyId'] + '_' + nameSoundColumn;
-          const valueCheckbox = controls[controlNameSound].value;
-          const title = nameSoundColumn as string;
-          return { ...value, [title as keyof NotificationSettingItem]: valueCheckbox };
-        });
-      }
-      this.modelSetting.listNotifiSetting = notificationSettingItem;
-      this.modelSetting.userId = settingNotifications.userId;
+      const settingNotificationsUpdate = settingNotifications.map((settingNoti) => {
+        let notificationSettingItem = settingNoti.listNotifiSetting;
+        for (const column of this.typeNotifications) {
+          const controls = (this.group.get(column.value) as FormGroup).controls;
+          notificationSettingItem = notificationSettingItem.map((value) => {
+            const controlName = value['notifyId'] + '_' + column.value;
+            const valueCheckbox = controls[controlName].value;
+            const title = column.value as string;
+            return { ...value, [title as keyof NotificationSettingItem]: valueCheckbox };
+          });
+          notificationSettingItem = notificationSettingItem.map((value) => {
+            const columnTitle = column.value.charAt(0).toUpperCase() + column.value.substring(1);
+            const nameSoundColumn = 'sound' + columnTitle;
+            const controlNameSound = value['notifyId'] + '_' + nameSoundColumn;
+            const valueCheckbox = controls[controlNameSound].value;
+            const title = nameSoundColumn as string;
+            return { ...value, [title as keyof NotificationSettingItem]: valueCheckbox };
+          });
+        }
+        return { ...settingNoti, listNotifiSetting: notificationSettingItem };
+      });
+
+      this.modelSetting = settingNotificationsUpdate;
       this.submit$.next(this.modelSetting);
     });
   }

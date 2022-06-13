@@ -1,6 +1,5 @@
 export interface NotificationConfigItem {
   notifyID?: string;
-  moduleName?: string;
   title?: string;
   sendToMail?: boolean;
   notifyOnHCM?: boolean;
@@ -11,4 +10,5 @@ export interface NotificationConfigItem {
 
 export interface NotificationConfigResponse<T> {
   listNotifiConfig: T[];
+  moduleName?: string;
 }
