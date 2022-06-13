@@ -17,3 +17,23 @@ export interface NotificationItem {
   sendDate: string;
   shortContent: string;
 }
+
+export interface NotificationSetting {
+  notifyId?: string;
+  title?: string;
+  sendToMail?: boolean;
+  notifyOnHCM?: boolean;
+  notifyOnDesktop?: boolean;
+  notifyOnMobile?: boolean;
+  soundSendToMail?: boolean;
+  soundNotifyOnHCM?: boolean;
+  soundNotifyOnDesktop?: boolean;
+  soundNotifyOnMobile?: boolean;
+  active?: number;
+}
+
+export interface NotificationSettings {
+  userId?: string;
+  moduleName?: string;
+  listNotifiSetting: NotificationSetting[];
+}

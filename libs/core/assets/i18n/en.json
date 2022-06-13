@@ -592,11 +592,20 @@
   "markAllAsRead": "Mark all as read",
   "markAsRead": "Mark as read",
   "removeTheNotification": "Remove the notification",
+  "notificationSettings": "Notification Settings",
   "turnOffNotifications": "Turn off notifications",
   "TIME_DURATION": {
     "for15Minutes": "For 15 minutes",
     "for30Minutes": "For 30 minutes",
     "for1Hour": "For 1 hour",
     "for4Hours": "For 4 hours"
-  }
+  },
+  "NOTIFICATION_CONFIGURATION_COLUMNS": {
+    "sendToMail": "Send to email",
+    "notifyOnHCM": "Allow Notification on HCM",
+    "notifyOnMobile": "Push Notification on Mobile",
+    "notifyOnDesktop": "Push Notification on Desktop",
+    "modifieldNotify": "User unable to change this notification"
+  },
+  "soundOn": "Sound on"
 }

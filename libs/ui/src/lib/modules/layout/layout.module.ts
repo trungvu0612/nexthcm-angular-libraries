@@ -4,7 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { TranslocoModule } from '@ngneat/transloco';
 import { PushModule } from '@rx-angular/template';
-import { TuiActiveZoneModule } from '@taiga-ui/cdk';
+import { TuiActiveZoneModule, TuiMapperPipeModule } from '@taiga-ui/cdk';
 import {
   TuiButtonModule,
   TuiDataListModule,
@@ -15,7 +15,13 @@ import {
   TuiScrollbarModule,
   TuiSvgModule,
 } from '@taiga-ui/core';
-import { TuiBadgedContentModule, TuiRadioLabeledModule, TuiTabsModule, TuiToggleModule } from '@taiga-ui/kit';
+import {
+  TuiBadgedContentModule,
+  TuiCheckboxModule,
+  TuiRadioLabeledModule,
+  TuiTabsModule,
+  TuiToggleModule,
+} from '@taiga-ui/kit';
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { TimeagoCustomFormatter, TimeagoFormatter, TimeagoIntl, TimeagoModule } from 'ngx-timeago';
 
@@ -54,6 +60,8 @@ import { PageComponent } from './page/page.component';
     TuiToggleModule,
     ReactiveFormsModule,
     TuiActiveZoneModule,
+    TuiMapperPipeModule,
+    TuiCheckboxModule,
     TimeagoModule.forRoot({
       intl: { provide: TimeagoIntl, useClass: TimeagoIntl },
       formatter: { provide: TimeagoFormatter, useClass: TimeagoCustomFormatter },

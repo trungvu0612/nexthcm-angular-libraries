@@ -34,14 +34,6 @@
     "anAdminCreateANewTenant": "Quản trị viên tạo đối tượng thuê mới",
     "anAdminUpdateANewTenant": "Quản trị viên cập nhật người thuê mới"
   },
-  "NOTIFICATION_SETTINGS_ROWS": {
-    "checkInCheckout": "ĐĂNG NHẬP/ THOÁT RA",
-    "soundOn": "Bật âm thanh",
-    "myTime": "THỜI GIAN CỦA TÔI",
-    "seatMap": "BẢN ĐỒ GHẾ NGỒI",
-    "knowledgeBase": "KIẾN THỨC CƠ BẢN",
-    "tenantManagement": "QUẢN LÝ TENANT"
-  },
   "createNotification": "Tạo mới thông báo",
   "editNotification": "Chỉnh sửa thông báo",
   "updateNotificationSuccessfully": "<b>Cập nhật thông báo thành công!</b>",

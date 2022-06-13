@@ -6,7 +6,7 @@ import { RxStomp } from '@stomp/rx-stomp';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
 
-import { Notifications } from '../models/notifications';
+import { Notifications, NotificationSettings } from '../models/notifications';
 
 @Injectable({
   providedIn: 'root',
@@ -103,6 +103,14 @@ export class NotificationsService extends RxStomp {
 
   turnOnNotifications(): void {
     this.http.post('/scheduleapp/v1.0/notification-mobile/turn-on', {}).subscribe(() => this.mute$.next(false));
+  }
+
+  getSettings(): Observable<NotificationSettings[]> {
+    return this.http.get<NotificationSettings[]>('/scheduleapp/v1.0/notify/list-setting');
+  }
+
+  updateSettingNotifications(payload: NotificationSettings[]): Observable<unknown> {
+    return this.http.post('/scheduleapp/v1.0/notify/setting', payload);
   }
 
   private send(): void {
