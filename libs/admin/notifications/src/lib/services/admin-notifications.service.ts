@@ -27,10 +27,8 @@ interface AdminNotificationsState {
 export class AdminNotificationsService extends RxState<AdminNotificationsState> {
   readonly emailVariables$ = this.select('emailVariables');
   readonly configNotifications$ = this.select('configNotifications');
-  readonly settingNotifications$ = this.select('settingNotifications');
   private readonly loadEmailVariables$ = new Subject<void>();
   private readonly loadConfigNotifications$ = new Subject<void>();
-  private readonly loadSettingNotifications$ = new Subject<void>();
   constructor(private readonly http: HttpClient) {
     super();
     this.connect(
@@ -40,10 +38,6 @@ export class AdminNotificationsService extends RxState<AdminNotificationsState> 
     this.connect(
       'configNotifications',
       this.loadConfigNotifications$.pipe(switchMap(() => this.getConfigNotifications()))
-    );
-    this.connect(
-      'settingNotifications',
-      this.loadSettingNotifications$.pipe(switchMap(() => this.getSettingNotifications()))
     );
   }
 
@@ -58,10 +52,6 @@ export class AdminNotificationsService extends RxState<AdminNotificationsState> 
     return this.http.get<NotificationConfigResponse<NotificationConfigItem>[]>(
       `${SCHEDULER_API_PATH}/notify/list-config`
     );
-  }
-
-  getSettingNotifications(): Observable<NotificationSettingResponse[]> {
-    return this.http.get<NotificationSettingResponse[]>(`${SCHEDULER_API_PATH}/notify/list-setting`);
   }
 
   getNotification(notificationId: string): Observable<NotificationItem> {
@@ -80,10 +70,6 @@ export class AdminNotificationsService extends RxState<AdminNotificationsState> 
 
   updateConfigNotifications(payload: NotificationConfigResponse<NotificationConfigItem>[]): Observable<unknown> {
     return this.http.post(`${SCHEDULER_API_PATH}/notify/configuration`, payload);
-  }
-
-  updateSettingNotifications(payload: NotificationSettingResponse[]): Observable<unknown> {
-    return this.http.post(`${SCHEDULER_API_PATH}/notify/setting`, payload);
   }
 
   upsertNotification(payload: NotificationItem): Observable<unknown> {
@@ -114,11 +100,6 @@ export class AdminNotificationsService extends RxState<AdminNotificationsState> 
   doConfigNotifications(): void {
     if (!this.get('configNotifications')) {
       this.loadConfigNotifications$.next();
-    }
-  }
-  doSettingNotifications(): void {
-    if (!this.get('settingNotifications')) {
-      this.loadSettingNotifications$.next();
     }
   }
 }

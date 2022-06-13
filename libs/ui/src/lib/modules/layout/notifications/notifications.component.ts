@@ -1,10 +1,11 @@
-import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Injector, ViewChild } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TranslocoService } from '@ngneat/transloco';
 import { setTimeout } from '@rx-angular/cdk/zone-less/browser';
 import { RxState } from '@rx-angular/state';
-import { TuiScrollbarComponent } from '@taiga-ui/core';
+import { TuiDialogService, TuiScrollbarComponent } from '@taiga-ui/core';
+import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { NgxPermissionsService } from 'ngx-permissions';
 import { TimeagoIntl } from 'ngx-timeago';
 import { strings as enStrings } from 'ngx-timeago/language-strings/en';
@@ -13,6 +14,7 @@ import { IL10nsStrings } from 'ngx-timeago/timeago.intl';
 import { startWith, Subject, switchMap, tap } from 'rxjs';
 import { distinctUntilChanged, filter } from 'rxjs/operators';
 
+import { NotificationSettingDialogComponent } from './components/notification-setting-dialog/notification-setting-dialog.component';
 import { Notifications } from './models/notifications';
 import { NotificationsService } from './services/notifications.service';
 
@@ -47,14 +49,17 @@ export class NotificationsComponent {
   readonly mute$ = this.notificationsService.mute$.pipe(distinctUntilChanged());
 
   readonly markAllAsRead$ = new Subject<void>();
+  readonly setting$ = new Subject<void>();
 
   constructor(
     private readonly notificationsService: NotificationsService,
     private readonly permissionsService: NgxPermissionsService,
     private readonly router: Router,
+    private readonly dialogService: TuiDialogService,
+    private readonly injector: Injector,
     private readonly state: RxState<Notifications>,
     private readonly fb: FormBuilder,
-    translocoService: TranslocoService,
+    private readonly translocoService: TranslocoService,
     timeagoIntl: TimeagoIntl
   ) {
     state.hold(translocoService.langChanges$, (lang) => {
@@ -63,6 +68,16 @@ export class NotificationsComponent {
     });
     state.hold(this.unreadControl.valueChanges, () => this.notificationsService.sendMessage('status'));
     state.hold(this.markAllAsRead$.pipe(switchMap(() => this.notificationsService.markAllAsRead())));
+    state.hold(
+      this.setting$.pipe(
+        switchMap(() =>
+          this.dialogService.open(new PolymorpheusComponent(NotificationSettingDialogComponent, this.injector), {
+            label: this.translocoService.translate('notificationSettings'),
+            size: 'l',
+          })
+        )
+      )
+    );
     state.connect(
       this.notificationsService.notifications$.pipe(
         startWith(null),

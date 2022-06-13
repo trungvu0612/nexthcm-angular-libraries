@@ -592,11 +592,20 @@
   "markAllAsRead": "Đánh dấu tất cả đã đọc",
   "markAsRead": "Đánh dấu đã đọc",
   "removeTheNotification": "Xóa thông báo",
+  "notificationSettings": "Cài đặt thông báo",
   "turnOffNotifications": "Tắt thông báo",
   "TIME_DURATION": {
     "for15Minutes": "Trong 15 phút",
     "for30Minutes": "Trong 30 phút",
     "for1Hour": "Trong 1 giờ",
     "for4Hours": "Trong 4 giờ"
-  }
+  },
+  "NOTIFICATION_CONFIGURATION_COLUMNS": {
+    "sendToMail": "Gửi đến email",
+    "notifyOnHCM": "Cho phép thông báo trên HCM",
+    "notifyOnMobile": "Thông báo đẩy trên thiết bị di động",
+    "notifyOnDesktop": "Thông báo đẩy trên máy tính để bàn",
+    "modifieldNotify": "Người dùng không thể thay đổi thông báo này"
+  },
+  "soundOn": "Bật âm thanh"
 }

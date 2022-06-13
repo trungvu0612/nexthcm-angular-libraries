@@ -27,7 +27,6 @@ import { TuiCheckboxModule } from '@taiga-ui/kit';
 import { TableModule } from 'ngx-easy-table';
 import { NgxPermissionsGuard, NgxPermissionsModule } from 'ngx-permissions';
 
-import { NotificationConfigurationDialogComponent } from './components/notification-configuration-dialog/notification-configuration-dialog.component';
 import en from './i18n/en.json';
 import vi from './i18n/vi.json';
 import { NotificationConfigurationComponent } from './pages/notification-configuration/notification-configuration.component';
@@ -58,11 +57,6 @@ export const adminNotificationsRoutes: Routes = [
       {
         path: 'configuration',
         component: NotificationConfigurationComponent,
-        canActivate: [NgxPermissionsGuard],
-      },
-      {
-        path: 'dialog',
-        component: NotificationConfigurationDialogComponent,
         canActivate: [NgxPermissionsGuard],
       },
     ],
@@ -102,12 +96,7 @@ const TABSHEADER: MenuItem[] = [
     TuiCheckboxModule,
     FormsModule,
   ],
-  declarations: [
-    NotificationManagementComponent,
-    UpsertNotificationComponent,
-    NotificationConfigurationComponent,
-    NotificationConfigurationDialogComponent,
-  ],
+  declarations: [NotificationManagementComponent, UpsertNotificationComponent, NotificationConfigurationComponent],
   providers: [
     {
       provide: TRANSLOCO_SCOPE,
