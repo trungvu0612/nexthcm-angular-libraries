@@ -10,17 +10,17 @@ import {
 } from '@nexthcm/cdk';
 import { RxState } from '@rx-angular/state';
 import { Observable, of, Subject } from 'rxjs';
-import { catchError, map, switchMap } from 'rxjs/operators';
+import { catchError, map, switchMap, tap } from 'rxjs/operators';
 
 import { Application } from '../models/application';
 import { NotificationConfigItem, NotificationConfigResponse } from '../models/notification-config';
 import { NotificationItem } from '../models/notification-item';
-import { NotificationSettingItem, NotificationSettingResponse } from '../models/notification-setting';
+import { NotificationSettingResponse } from '../models/notification-setting';
 
 interface AdminNotificationsState {
   emailVariables: EmailVariable[];
-  configNotifications: NotificationConfigItem[];
-  settingNotifications: NotificationSettingResponse;
+  configNotifications: NotificationConfigResponse<NotificationConfigItem>[];
+  settingNotifications: NotificationSettingResponse[];
 }
 
 @Injectable()
@@ -54,16 +54,14 @@ export class AdminNotificationsService extends RxState<AdminNotificationsState> 
     );
   }
 
-  getConfigNotifications(): Observable<NotificationConfigItem[]> {
-    return this.http
-      .get<NotificationConfigResponse<NotificationConfigItem>>(`${SCHEDULER_API_PATH}/notify/list-config`)
-      .pipe(map((res) => res.listNotifiConfig));
+  getConfigNotifications(): Observable<NotificationConfigResponse<NotificationConfigItem>[]> {
+    return this.http.get<NotificationConfigResponse<NotificationConfigItem>[]>(
+      `${SCHEDULER_API_PATH}/notify/list-config`
+    );
   }
 
-  getSettingNotifications(): Observable<NotificationSettingResponse> {
-    return this.http
-      .get<NotificationSettingResponse>(`${SCHEDULER_API_PATH}/notify/list-setting`)
-      .pipe(map((res) => res));
+  getSettingNotifications(): Observable<NotificationSettingResponse[]> {
+    return this.http.get<NotificationSettingResponse[]>(`${SCHEDULER_API_PATH}/notify/list-setting`);
   }
 
   getNotification(notificationId: string): Observable<NotificationItem> {
@@ -80,11 +78,11 @@ export class AdminNotificationsService extends RxState<AdminNotificationsState> 
     return this.http.put(`${SCHEDULER_API_PATH}/notification/edit`, payload);
   }
 
-  updateConfigNotifications(payload: NotificationConfigResponse<NotificationConfigItem>): Observable<unknown> {
+  updateConfigNotifications(payload: NotificationConfigResponse<NotificationConfigItem>[]): Observable<unknown> {
     return this.http.post(`${SCHEDULER_API_PATH}/notify/configuration`, payload);
   }
 
-  updateSettingNotifications(payload: NotificationSettingResponse): Observable<unknown> {
+  updateSettingNotifications(payload: NotificationSettingResponse[]): Observable<unknown> {
     return this.http.post(`${SCHEDULER_API_PATH}/notify/setting`, payload);
   }
 

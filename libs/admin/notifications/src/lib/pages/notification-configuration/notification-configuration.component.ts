@@ -17,7 +17,7 @@ import { AdminNotificationsService } from '../../services/admin-notifications.se
 export class NotificationConfigurationComponent {
   controls!: FormGroup;
   group!: FormGroup;
-  modelConfig = { listNotifiConfig: [{}] } as NotificationConfigResponse<NotificationConfigItem>;
+  modelConfig: NotificationConfigResponse<NotificationConfigItem>[] = [];
   readonly group$ = new Subject<FormGroup>();
   readonly typeNotifications = [
     { value: 'sendToMail', label: '' },
@@ -42,7 +42,7 @@ export class NotificationConfigurationComponent {
   ];
   columnTitles!: string[];
   listActiveNotification!: any[];
-  readonly submit$ = new Subject<NotificationConfigResponse<NotificationConfigItem>>();
+  readonly submit$ = new Subject<NotificationConfigResponse<NotificationConfigItem>[]>();
   readonly submitLoading$ = this.submit$.pipe(
     switchMap((body) =>
       this.adminNotificationsService.updateConfigNotifications(body).pipe(
@@ -52,20 +52,9 @@ export class NotificationConfigurationComponent {
       )
     )
   );
-  readonly loading$ = combineLatest([this.adminNotificationsService.configNotifications$]).pipe(
-    map(([configNotifications]) => {
-      // handle add test data for the fields modulename
-      // configNotifications = configNotifications.map((value) => {
-      //   return { ...value, moduleName: 'checkInCheckout' };
-      // });
-
-      this.listActiveNotification = this.typeActives.map((item) => {
-        const listConfig = configNotifications.filter((element) => element.moduleName === item.value);
-        return {
-          ...item,
-          listConfig,
-        };
-      });
+  readonly loading$ = this.adminNotificationsService.configNotifications$.pipe(
+    map((configNotifications) => {
+      this.listActiveNotification = configNotifications;
       this.columnTitles = this.typeNotifications.map(({ value }) => value);
       const groupConfig: Record<string, FormGroup> = {};
       const controlsConfig: Record<string, FormControl> = {};
@@ -73,8 +62,10 @@ export class NotificationConfigurationComponent {
       this.columnTitles.forEach((column) => {
         const childConfig: Record<string, boolean> = {};
         configNotifications.forEach((item) => {
-          const controlName = item['notifyID'] + '_' + column;
-          childConfig[controlName] = item[column as never];
+          item.listNotifiConfig.forEach((config) => {
+            const controlName = config['notifyID'] + '_' + column;
+            childConfig[controlName] = config[column as never];
+          });
         });
         groupConfig[column] = this.fb.group(childConfig);
         controlsConfig[column] = this.fb.control(false);
@@ -100,14 +91,18 @@ export class NotificationConfigurationComponent {
     this.adminNotificationsService.configNotifications$.pipe().subscribe((configNotifications) => {
       for (const column of this.typeNotifications) {
         const controls = (this.group.get(column.value) as FormGroup).controls;
-        configNotifications = configNotifications.map((value) => {
-          const controlName = value['notifyID'] + '_' + column.value;
-          const valueCheckbox = controls[controlName].value;
-          const title = column.value as string;
-          return { ...value, [title as keyof NotificationConfigItem]: valueCheckbox };
+        const configNotificationsUpdate = configNotifications.map((item) => {
+          const listNotifiConfig = item.listNotifiConfig.map((config) => {
+            const controlName = config['notifyID'] + '_' + column.value;
+            const valueCheckbox = controls[controlName].value;
+            const title = column.value as string;
+            return { ...config, [title as keyof NotificationConfigItem]: valueCheckbox };
+          });
+          return { ...item, listNotifiConfig: listNotifiConfig };
         });
+        configNotifications = configNotificationsUpdate;
       }
-      this.modelConfig.listNotifiConfig = configNotifications;
+      this.modelConfig = configNotifications;
       this.submit$.next(this.modelConfig);
     });
   }

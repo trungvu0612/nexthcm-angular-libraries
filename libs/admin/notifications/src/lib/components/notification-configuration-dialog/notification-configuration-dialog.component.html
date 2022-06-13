@@ -18,14 +18,11 @@
           </tr>
           <ng-container *ngFor="let row of listActiveNotification">
             <tr>
-              <td
-                [attr.colspan]="row.isTitle ? '100%' : '1'"
-                [class]="row.isTitle ? 'bg-neutral-200 font-bold' : 'font-bold'"
-              >
-                {{ t('NOTIFICATION_SETTINGS_ROWS.' + row.value) }}
+              <td colspan="100%" class="bg-neutral-200 font-bold">
+                {{ row.moduleName }}
               </td>
             </tr>
-            <ng-container *ngFor="let array of row.listSetting">
+            <ng-container *ngFor="let array of row.listNotifiSetting">
               <tr>
                 <td class="font-bold">{{ array.title }}</td>
                 <ng-container *ngFor="let column of typeNotifications">
