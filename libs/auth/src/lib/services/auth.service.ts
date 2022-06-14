@@ -86,7 +86,7 @@ export class AuthService extends RxState<{ userInfo: UserInfo; access_token: str
   private subscribeToNotifications(): void {
     this.swPush
       .requestSubscription({
-        serverPublicKey: 'BIKdzzy8cQ05ooh1y-QQwLvCr6UCSA75ePYkU2IBzdC4KJoItU0eHP0EGh5hrH_Er58gJFSB9FddZFYM5Q9C_p4',
+        serverPublicKey: this.env.serverPublicKey,
       })
       .then((sub) => this.httpClient.post('/scheduleapp/v1.0/notification/subscribe', sub).subscribe())
       .catch((e) => e);
