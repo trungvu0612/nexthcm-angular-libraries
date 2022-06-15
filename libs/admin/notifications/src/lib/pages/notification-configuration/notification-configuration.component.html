@@ -18,7 +18,7 @@
             <tr>
               <ng-container *ngFor="let column of typeNotifications">
                 <td *ngIf="column.label === ''">
-                  {{ t('NOTIFICATION_CONFIGURATION_COLUMNS.' + column.value) }}
+                  {{ 'NOTIFICATION_CONFIGURATION_COLUMNS.' + column.value | transloco }}
                 </td>
               </ng-container>
             </tr>
@@ -26,13 +26,13 @@
           <ng-container *ngFor="let activeNotification of listActiveNotification">
             <tr>
               <td colspan="100%" class="bg-neutral-200 font-bold">
-                {{ activeNotification.moduleName }}
+                {{ 'NOTIFICATION_MODULE.' + activeNotification.moduleName | transloco }}
               </td>
             </tr>
             <tr *ngFor="let array of activeNotification.listNotifiConfig">
-              <td>{{ array.title }}</td>
+              <td *ngIf="array.title">{{ 'NOTIFICATION_MODULE_SETTING.' + array.title | transloco }}</td>
               <ng-container *ngFor="let column of typeNotifications">
-                <td class="content-center">
+                <td class="content-center" *ngIf="array.title">
                   <tui-checkbox
                     size="l"
                     ngDefaultControl
