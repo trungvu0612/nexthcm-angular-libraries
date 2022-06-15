@@ -1,3 +1,5 @@
+import { NotificationItemType } from '../enums/notification-item-type';
+
 export interface Notifications {
   unReadCount: number;
   turnOff: boolean;
@@ -16,6 +18,9 @@ export interface NotificationItem {
   read: boolean;
   sendDate: string;
   shortContent: string;
+  targetId: string;
+  title: string;
+  type: NotificationItemType;
 }
 
 export interface NotificationSetting {
