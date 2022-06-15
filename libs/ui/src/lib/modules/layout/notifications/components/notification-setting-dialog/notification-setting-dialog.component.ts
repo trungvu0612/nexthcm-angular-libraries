@@ -59,17 +59,17 @@ export class NotificationSettingDialogComponent {
       this.columnTitles = this.typeNotifications.map(({ value }) => value);
       const groupConfig: Record<string, FormGroup> = {};
       const controlsConfig: Record<string, FormControl> = {};
-
       this.columnTitles.forEach((column) => {
         const childConfig: Record<string, boolean> = {};
         settingNotifications.forEach((value) => {
           value.listNotifiSetting.forEach((item) => {
             const controlName = item['notifyId'] + '_' + column;
-            childConfig[controlName] = item[column as never];
+            childConfig[controlName] = item[column as never] === null ? false : item[column as never];
             const columnTitle = column.charAt(0).toUpperCase() + column.substring(1);
             const nameSoundColumn = 'sound' + columnTitle;
             const controlNameSound = item['notifyId'] + '_' + nameSoundColumn;
-            childConfig[controlNameSound] = item[nameSoundColumn as never];
+            childConfig[controlNameSound] =
+              item[nameSoundColumn as never] === null ? false : item[nameSoundColumn as never];
           });
         });
         groupConfig[column] = this.fb.group(childConfig);
