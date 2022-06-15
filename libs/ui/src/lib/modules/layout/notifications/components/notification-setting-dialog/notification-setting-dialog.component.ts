@@ -1,6 +1,6 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { TranslocoService } from '@ngneat/transloco';
+import { ProviderScope, TRANSLOCO_SCOPE, TranslocoService } from '@ngneat/transloco';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { of, Subject, takeUntil } from 'rxjs';
 import { catchError, map, mapTo, startWith, switchMap } from 'rxjs/operators';
@@ -122,6 +122,7 @@ export class NotificationSettingDialogComponent {
   }
 
   constructor(
+    @Inject(TRANSLOCO_SCOPE) readonly translocoScope: ProviderScope,
     private readonly notificationsService: NotificationsService,
     private readonly destroy$: TuiDestroyService,
     private readonly fb: FormBuilder,

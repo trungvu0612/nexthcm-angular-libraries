@@ -1,10 +1,10 @@
 <div
   *transloco="let t"
-  [class]="!item.isRead ? 'bg-[#f0f8ff]' : ''"
+  [class]="!item.read ? 'bg-[#f0f8ff]' : ''"
   class="notification relative flex justify-center items-center gap-4 p-5 cursor-pointer"
   (click)="toPageNotification(item)"
 >
-  <div *ngIf="!item.isRead" class="bg-red-500 absolute top-3 left-3 w-3 h-3 rounded-full"></div>
+  <div *ngIf="!item.read" class="bg-red-500 absolute top-3 left-3 w-3 h-3 rounded-full"></div>
 
   <hcm-avatar
     *ngIf="item.fullName; else logo"
@@ -31,7 +31,7 @@
 
   <ng-template #actionTpl>
     <tui-data-list [tuiActiveZoneParent]="activeZone">
-      <button (click)="action('read')" *ngIf="!item.isRead" class="!justify-start gap-2" tuiOption>
+      <button (click)="action('read')" *ngIf="!item.read" class="!justify-start gap-2" tuiOption>
         <tui-svg src="tuiIconCheckLarge"></tui-svg>
         {{ t('markAsRead') }}
       </button>

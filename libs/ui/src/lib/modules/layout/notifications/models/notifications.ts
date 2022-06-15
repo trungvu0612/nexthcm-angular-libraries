@@ -13,7 +13,7 @@ export interface NotificationItem {
   notificationId: string;
   fullName: string | null;
   image: string;
-  isRead: boolean;
+  read: boolean;
   sendDate: string;
   shortContent: string;
 }
