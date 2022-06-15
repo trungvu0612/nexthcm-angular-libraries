@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
+import { TranslocoModule } from '@ngneat/transloco';
 import { PushModule } from '@rx-angular/template';
 import { TuiActiveZoneModule, TuiMapperPipeModule } from '@taiga-ui/cdk';
 import {
@@ -26,8 +26,6 @@ import { NgxPermissionsModule } from 'ngx-permissions';
 import { TimeagoCustomFormatter, TimeagoFormatter, TimeagoIntl, TimeagoModule } from 'ngx-timeago';
 
 import { AvatarComponentModule, BaseFormComponentModule } from '../../components';
-import en from '../../i18n/en.json';
-import vi from '../../i18n/vi.json';
 import { HeaderComponent } from './header/header.component';
 import { LayoutComponent } from './layout.component';
 import { NotificationItemComponent } from './notifications/components/notification-item/notification-item.component';
@@ -72,12 +70,6 @@ import { PageComponent } from './page/page.component';
     TuiDialogModule,
     BaseFormComponentModule,
     TuiRadioLabeledModule,
-  ],
-  providers: [
-    {
-      provide: TRANSLOCO_SCOPE,
-      useValue: { scope: 'layout', loader: { en: () => Promise.resolve(en), vi: () => Promise.resolve(vi) } },
-    },
   ],
 
   exports: [LayoutComponent, PageComponent],
