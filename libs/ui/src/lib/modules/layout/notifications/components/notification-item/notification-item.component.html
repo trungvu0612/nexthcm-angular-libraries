@@ -25,7 +25,7 @@
     <p class="text-[color:var(--tui-link)] text-xs">{{ item.sendDate | timeago }}</p>
   </div>
 
-  <tui-hosted-dropdown [(open)]="open" [content]="actionTpl">
+  <tui-hosted-dropdown [(open)]="open" [content]="actionTpl" (click)="stopPropagation($event)" >
     <button appearance="flat" icon="tuiIconMoreHorLarge" size="s" tuiIconButton type="button"></button>
   </tui-hosted-dropdown>
 

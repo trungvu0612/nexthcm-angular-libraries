@@ -30,7 +30,13 @@ export class NotificationItemComponent {
       .pipe(takeUntil(this.destroy$))
       .subscribe();
   }
+
+  stopPropagation(event: any) {
+    event.stopPropagation();
+  }
+
   toPageNotification(item: any): void {
+    this.action('read');
     switch (item.type) {
       case 2:
         this.router.navigateByUrl('/overview/me');
