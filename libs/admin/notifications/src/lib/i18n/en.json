@@ -18,22 +18,6 @@
     "notifyOnDesktop": "Push Notification on Desktop",
     "modifieldNotify": "User unable to change this notification"
   },
-  "NOTIFICATION_CONFIGURATION_ROWS": {
-    "checkInCheckout": "CHECK-IN/ CHECK-OUT",
-    "missingCICO": "Missing CICO",
-    "anOcassionIsAdded": "An ocassion is added",
-    "myTime": "MY TIME",
-    "aLeaveRequestIsSubmitted": "A Leave/Request is submitted",
-    "aLeaveRequestHasChanged": "A Leave/Request has changed",
-    "seatMap": "SEAT MAP",
-    "userSeatPositionHasChanged": "User's seat position has changed",
-    "knowledgeBase": "KNOWLEDGE BASE",
-    "newArticleReleases": "New Article releases",
-    "newCategoryIsCreated": "New Category is created",
-    "tenantManagement": "TENANT MANAGEMENT",
-    "anAdminCreateANewTenant": "An admin create a new tenant",
-    "anAdminUpdateANewTenant": "An admin update a new tenant"
-  },
   "createNotification": "Create new notification",
   "editNotification": "Edit notification",
   "updateNotificationSuccessfully": "<b>Update this notification successfully!</b>",
