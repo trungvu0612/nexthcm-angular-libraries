@@ -19,9 +19,9 @@
   </ng-template>
 
   <div class="flex-1">
-    <p class="text-base mb-2">
-      {{ item.shortContent }}
-    </p>
+    <div class="notificationItem text-base mb-2" [innerHTML]="item.shortContent">
+      <!-- {{ item.shortContent }} -->
+    </div>
     <p class="text-[color:var(--tui-link)] text-xs">{{ item.sendDate | timeago }}</p>
   </div>
 

@@ -18,6 +18,7 @@ export interface NotificationItem {
   read: boolean;
   sendDate: string;
   shortContent: string;
+  notifySetting?: NotificationSetting;
   targetId: string;
   title: string;
   type: NotificationItemType;
