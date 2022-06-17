@@ -3,5 +3,4 @@ export interface AppConfig {
   language: string;
   apiUrl: string;
   baseUrl: string;
-  serverPublicKey: string;
 }

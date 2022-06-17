@@ -4,8 +4,8 @@ import { SwPush } from '@angular/service-worker';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { APP_CONFIG, AppConfig, PermissionsResponse, PermissionsService } from '@nexthcm/core';
 import { RxState } from '@rx-angular/state';
-import { Observable, Subject, throwError } from 'rxjs';
-import { switchMap, tap } from 'rxjs/operators';
+import { from, Observable, of, Subject, throwError } from 'rxjs';
+import { catchError, switchMap, tap } from 'rxjs/operators';
 
 import { LoginPayload, UserInfo } from '../models';
 
@@ -84,11 +84,13 @@ export class AuthService extends RxState<{ userInfo: UserInfo; access_token: str
   }
 
   private subscribeToNotifications(): void {
-    this.swPush
-      .requestSubscription({
-        serverPublicKey: this.env.serverPublicKey,
-      })
-      .then((sub) => this.httpClient.post('/scheduleapp/v1.0/notification/subscribe', sub).subscribe())
-      .catch((e) => e);
+    this.httpClient
+      .get(`${this.env.apiUrl}/scheduleapp/v1.0/notification/publicSigningKeyBase64`, { responseType: 'text' })
+      .pipe(
+        switchMap((serverPublicKey) => from(this.swPush.requestSubscription({ serverPublicKey }))),
+        switchMap((subscription) => this.httpClient.post('/scheduleapp/v1.0/notification/subscribe', subscription)),
+        catchError(() => of(null))
+      )
+      .subscribe();
   }
 }
