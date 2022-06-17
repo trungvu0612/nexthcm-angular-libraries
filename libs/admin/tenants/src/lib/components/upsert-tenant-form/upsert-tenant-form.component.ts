@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Inject, Input, Output } from '@angular/core';
-import { AbstractControl, UntypedFormBuilder, UntypedFormControl } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl } from '@angular/forms';
 import { AddressService, CommonStatus, FilesService } from '@nexthcm/cdk';
 import { ProviderScope, TRANSLOCO_SCOPE, TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
@@ -189,7 +189,7 @@ export class UpsertTenantFormComponent {
               },
               hooks: {
                 onInit: (field) => {
-                  const countryControl = this.form.get('addresses.countryId') as UntypedFormControl;
+                  const countryControl = this.form.get('addresses.countryId') as FormControl;
                   if (field?.templateOptions && countryControl) {
                     field.templateOptions.options = countryControl.valueChanges.pipe(
                       tap(() => field.formControl?.setValue(null)),
@@ -233,7 +233,7 @@ export class UpsertTenantFormComponent {
               },
               hooks: {
                 onInit: (field) => {
-                  const cityControl = this.form.get('addresses.cityId') as UntypedFormControl;
+                  const cityControl = this.form.get('addresses.cityId') as FormControl;
                   if (field?.templateOptions && cityControl)
                     field.templateOptions.options = cityControl.valueChanges.pipe(
                       tap(() => field.formControl?.setValue(null)),
@@ -257,7 +257,7 @@ export class UpsertTenantFormComponent {
               },
               hooks: {
                 onInit: (field) => {
-                  const districtCtrl = this.form.get('addresses.districtId') as UntypedFormControl;
+                  const districtCtrl = this.form.get('addresses.districtId') as FormControl;
                   if (field?.templateOptions && districtCtrl)
                     field.templateOptions.options = districtCtrl.valueChanges.pipe(
                       tap(() => field.formControl?.setValue(null)),
@@ -318,7 +318,7 @@ export class UpsertTenantFormComponent {
 
   constructor(
     @Inject(TRANSLOCO_SCOPE) private readonly translocoScope: ProviderScope,
-    private readonly fb: UntypedFormBuilder,
+    private readonly fb: FormBuilder,
     private readonly adminTenantsService: AdminTenantsService,
     private readonly addressService: AddressService,
     private readonly filesService: FilesService,

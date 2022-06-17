@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
-import { UntypedFormBuilder } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDialogContext } from '@taiga-ui/core';
@@ -39,7 +39,7 @@ export class SelectLeaveEntitlementsExportTypeDialogComponent {
   ];
 
   constructor(
-    private readonly fb: UntypedFormBuilder,
+    private readonly fb: FormBuilder,
     private readonly translocoService: TranslocoService,
     @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<LeaveEntitlementsExportType>
   ) {}

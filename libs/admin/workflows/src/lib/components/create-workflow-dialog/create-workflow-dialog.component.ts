@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit, ViewChild } from '@angular/core';
-import { UntypedFormBuilder } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { BaseUser, PromptService, WorkflowStatusType } from '@nexthcm/cdk';
 import { ProviderScope, TRANSLOCO_SCOPE } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
@@ -28,7 +28,7 @@ export class CreateWorkflowDialogComponent implements OnInit {
 
   constructor(
     @Inject(TRANSLOCO_SCOPE) private readonly translocoScope: ProviderScope,
-    private readonly fb: UntypedFormBuilder,
+    private readonly fb: FormBuilder,
     @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<string, InitWorkflow>,
     private readonly workflowService: AdminWorkflowsService,
     private readonly destroy$: TuiDestroyService,

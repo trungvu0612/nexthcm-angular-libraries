@@ -8,7 +8,7 @@ import {
   Output,
   SimpleChanges,
 } from '@angular/core';
-import { UntypedFormControl } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 import { CronJobsSelectOption, Mode } from '@sbzen/cron-core';
 import { TuiContextWithImplicit, TuiDestroyService, tuiPure } from '@taiga-ui/cdk';
 import { TuiHandler } from '@taiga-ui/cdk/types/handler';
@@ -22,7 +22,7 @@ import { takeUntil } from 'rxjs/operators';
   providers: [TuiDestroyService],
 })
 export class QuartzCronIncrementComponent implements OnInit, OnChanges {
-  incrementControl = new UntypedFormControl(false);
+  incrementControl = new FormControl(false);
   @Output() selected = new EventEmitter<void>();
   @Output() primaryValueChanged = new EventEmitter<string>();
   @Output() secondaryValueChanged = new EventEmitter<string>();

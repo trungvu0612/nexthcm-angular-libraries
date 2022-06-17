@@ -1,5 +1,5 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, QueryList, ViewChildren } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { BehaviorSubject, of } from 'rxjs';
 import { catchError, distinctUntilChanged, filter, map, share, startWith, switchMap, takeUntil } from 'rxjs/operators';
@@ -16,7 +16,7 @@ import { HumanResourceService } from '../../services/human-resource.service';
 })
 export class OrganizationalChartComponent implements AfterViewInit {
   @ViewChildren(OrganizationalChartNodeComponent) nodes!: QueryList<OrganizationalChartNodeComponent>;
-  readonly form = new UntypedFormGroup({});
+  readonly form = new FormGroup({});
   readonly model = {};
   readonly fields = [
     {

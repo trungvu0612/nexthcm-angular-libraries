@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit, ViewChild } from '@angular/core';
-import { AbstractControl, UntypedFormBuilder } from '@angular/forms';
+import { AbstractControl, FormBuilder } from '@angular/forms';
 import { BaseUser, EmployeesService, OfficesService, PromptService, WorkflowStatus } from '@nexthcm/cdk';
 import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
@@ -64,7 +64,7 @@ export class CreateWorkingOnsiteRequestComponent implements OnInit {
   );
 
   constructor(
-    private readonly fb: UntypedFormBuilder,
+    private readonly fb: FormBuilder,
     @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<boolean, boolean>,
     private readonly myRequestsService: MyRequestsService,
     private readonly translocoService: TranslocoService,

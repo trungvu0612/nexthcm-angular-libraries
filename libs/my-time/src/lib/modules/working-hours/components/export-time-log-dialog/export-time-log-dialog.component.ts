@@ -1,6 +1,6 @@
 import { HttpParams } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
-import { UntypedFormBuilder } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { PromptService } from '@nexthcm/cdk';
 import { ProviderScope, TRANSLOCO_SCOPE, TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
@@ -108,7 +108,7 @@ export class ExportTimeLogDialogComponent {
 
   constructor(
     @Inject(TRANSLOCO_SCOPE) private readonly translocoScope: ProviderScope,
-    private readonly fb: UntypedFormBuilder,
+    private readonly fb: FormBuilder,
     private readonly workingHoursService: WorkingHoursService,
     private readonly translocoService: TranslocoService,
     private readonly state: RxState<Record<string, unknown>>,

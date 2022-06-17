@@ -1,11 +1,10 @@
 import { ChangeDetectionStrategy, Component, Injector, ViewChild } from '@angular/core';
-import { UntypedFormBuilder } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TranslocoService } from '@ngneat/transloco';
 import { setTimeout } from '@rx-angular/cdk/zone-less/browser';
 import { RxState } from '@rx-angular/state';
 import { TuiDialogService, TuiScrollbarComponent } from '@taiga-ui/core';
-import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { NgxPermissionsService } from 'ngx-permissions';
 import { TimeagoIntl } from 'ngx-timeago';
 import { strings as enStrings } from 'ngx-timeago/language-strings/en';
@@ -57,7 +56,7 @@ export class NotificationsComponent {
     private readonly dialogService: TuiDialogService,
     private readonly injector: Injector,
     private readonly state: RxState<Notifications>,
-    private readonly fb: UntypedFormBuilder,
+    private readonly fb: FormBuilder,
     private readonly translocoService: TranslocoService,
     timeagoIntl: TimeagoIntl
   ) {

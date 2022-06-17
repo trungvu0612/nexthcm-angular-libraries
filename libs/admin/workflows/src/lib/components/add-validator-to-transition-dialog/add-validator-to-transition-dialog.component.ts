@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit, ViewChild } from '@angular/core';
-import { UntypedFormBuilder } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { BaseUser } from '@nexthcm/cdk';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { TUI_DEFAULT_STRINGIFY, TuiDestroyService } from '@taiga-ui/cdk';
@@ -35,7 +35,7 @@ export class AddValidatorToTransitionDialogComponent
   };
 
   constructor(
-    override readonly fb: UntypedFormBuilder,
+    override readonly fb: FormBuilder,
     @Inject(POLYMORPHEUS_CONTEXT)
     override readonly context: TuiDialogContext<TransitionValidator, TransitionOptionsDialogData<TransitionValidator>>,
     override readonly adminWorkflowsService: AdminWorkflowsService,

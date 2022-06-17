@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ProviderScope, TRANSLOCO_SCOPE, TranslocoService } from '@ngneat/transloco';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { of, Subject } from 'rxjs';
@@ -16,10 +16,10 @@ import { NotificationsService } from '../../services/notifications.service';
   providers: [TuiDestroyService],
 })
 export class NotificationSettingsComponent {
-  controls!: UntypedFormGroup;
-  group!: UntypedFormGroup;
+  controls!: FormGroup;
+  group!: FormGroup;
   modelSetting: NotificationSettings[] = [];
-  readonly group$ = new Subject<UntypedFormGroup>();
+  readonly group$ = new Subject<FormGroup>();
   readonly typeNotifications = [
     { value: 'notifyOnHCM', label: '' },
     { value: 'notifyOnDesktop', label: '' },
@@ -40,7 +40,7 @@ export class NotificationSettingsComponent {
     { value: 'tenantManagement', isTitle: true },
   ];
   columnTitles!: string[];
-  listActiveNotification: NotificationSettings[] = [];
+  listActiveNotification!: any[];
   readonly submit$ = new Subject<NotificationSettings[]>();
   readonly submitLoading$ = this.submit$.pipe(
     switchMap((body) =>
@@ -56,8 +56,8 @@ export class NotificationSettingsComponent {
     map((settingNotifications) => {
       this.listActiveNotification = settingNotifications.filter((item) => item.moduleName != 'PROFILE');
       this.columnTitles = this.typeNotifications.map(({ value }) => value);
-      const groupConfig: Record<string, UntypedFormGroup> = {};
-      const controlsConfig: Record<string, UntypedFormControl> = {};
+      const groupConfig: Record<string, FormGroup> = {};
+      const controlsConfig: Record<string, FormControl> = {};
       this.columnTitles.forEach((column) => {
         const childConfig: Record<string, boolean> = {};
         settingNotifications.forEach((value) => {
@@ -96,49 +96,33 @@ export class NotificationSettingsComponent {
     @Inject(TRANSLOCO_SCOPE) readonly translocoScope: ProviderScope,
     private readonly notificationsService: NotificationsService,
     private readonly destroy$: TuiDestroyService,
-    private readonly fb: UntypedFormBuilder,
+    private readonly fb: FormBuilder,
     private readonly translocoService: TranslocoService
   ) {}
 
-  getControl({
-    column,
-    array,
-    group,
-  }: {
-    column: any;
-    array: any;
-    group: UntypedFormGroup;
-  }): UntypedFormControl | null {
-    const controls = (group.get(column.value) as UntypedFormGroup).controls;
+  getControl({ column, array, group }: { column: any; array: any; group: FormGroup }): FormControl | null {
+    const controls = (group.get(column.value) as FormGroup).controls;
     for (const key in controls) {
       if (
         !key.includes('sound') &&
         key.includes(array.notifyId) &&
         key.length - 1 === column.value.length + array.notifyId.length
       ) {
-        return controls[key] as UntypedFormControl;
+        return controls[key] as FormControl;
       }
     }
     return null;
   }
 
-  getControlSound({
-    column,
-    array,
-    group,
-  }: {
-    column: any;
-    array: any;
-    group: UntypedFormGroup;
-  }): UntypedFormControl | null {
-    const controls = (group.get(column.value) as UntypedFormGroup).controls;
+  getControlSound({ column, array, group }: { column: any; array: any; group: FormGroup }): FormControl | null {
+    const controls = (group.get(column.value) as FormGroup).controls;
     for (const key in controls) {
       if (
         key.includes('sound') &&
         key.includes(array.notifyId) &&
         key.length - 1 === column.value.length + array.notifyId.length + 'sound'.length
       ) {
-        return controls[key] as UntypedFormControl;
+        return controls[key] as FormControl;
       }
     }
     return null;
@@ -152,7 +136,7 @@ export class NotificationSettingsComponent {
         const settingNotificationsUpdate = settingNotifications.map((settingNoti) => {
           let notificationSettingItem = settingNoti.listNotifiSetting;
           for (const column of this.typeNotifications) {
-            const controls = (this.group.get(column.value) as UntypedFormGroup).controls;
+            const controls = (this.group.get(column.value) as FormGroup).controls;
             notificationSettingItem = notificationSettingItem.map((value) => {
               const controlName = value['notifyId'] + '_' + column.value;
               const valueCheckbox = controls[controlName].value;

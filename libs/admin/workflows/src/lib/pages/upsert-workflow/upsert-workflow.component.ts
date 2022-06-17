@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Inject, Injector, OnInit, ViewChild } from '@angular/core';
-import { UntypedFormBuilder } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PromptService } from '@nexthcm/cdk';
 import {
@@ -114,7 +114,7 @@ export class UpsertWorkflowComponent implements OnInit {
 
   constructor(
     @Inject(TRANSLOCO_SCOPE) readonly translocoScope: ProviderScope,
-    private readonly fb: UntypedFormBuilder,
+    private readonly fb: FormBuilder,
     private readonly dialogService: TuiDialogService,
     private readonly injector: Injector,
     private readonly activatedRoute: ActivatedRoute,

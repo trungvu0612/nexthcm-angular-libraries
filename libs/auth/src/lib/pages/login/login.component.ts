@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProviderScope, TRANSLOCO_SCOPE, TranslocoService } from '@ngneat/transloco';
 import { of, Subject } from 'rxjs';
@@ -15,7 +15,7 @@ import { AuthService } from '../../services/auth.service';
 })
 export class LoginComponent {
   readonly returnUrl = this.activatedRoute.snapshot.queryParams['returnUrl'] || '/';
-  readonly form = new UntypedFormGroup({});
+  readonly form = new FormGroup({});
   readonly model = {};
   readonly fields = [
     {

@@ -1,6 +1,6 @@
 {
-  "$schema": "..\\..\\..\\node_modules\\nx\\schemas\\project-schema.json",
   "projectType": "library",
+  "root": "libs/admin/leave-configs",
   "sourceRoot": "libs/admin/leave-configs/src",
   "prefix": "hcm",
   "targets": {

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { UntypedFormBuilder } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { PromptService } from '@nexthcm/cdk';
 import { toDictionary } from '@rx-angular/cdk/transformations';
 import { RxState } from '@rx-angular/state';
@@ -37,7 +37,7 @@ export class AdminRequestsConfigurationComponent {
   );
 
   constructor(
-    private readonly fb: UntypedFormBuilder,
+    private readonly fb: FormBuilder,
     private readonly adminRequestsConfigurationService: AdminRequestsConfigurationService,
     private readonly destroy$: TuiDestroyService,
     private readonly promptService: PromptService,

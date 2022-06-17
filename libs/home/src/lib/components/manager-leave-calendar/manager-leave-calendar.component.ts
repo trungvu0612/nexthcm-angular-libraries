@@ -1,6 +1,6 @@
 import { HttpParams } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { UntypedFormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { BaseOption, CommonService, NUMBER_FORMAT, Pagination, PromptService, WorkflowStatus } from '@nexthcm/cdk';
 import { LeaveCalendarEmployee, LeaveTypeShortName, MyTimeService } from '@nexthcm/my-time';
@@ -84,7 +84,7 @@ export class ManagerLeaveCalendarComponent implements OnInit {
   );
 
   constructor(
-    private readonly fb: UntypedFormBuilder,
+    private readonly fb: FormBuilder,
     private readonly state: RxState<Pagination<LeaveCalendarEmployee>>,
     private readonly commonService: CommonService,
     private readonly activatedRoute: ActivatedRoute,

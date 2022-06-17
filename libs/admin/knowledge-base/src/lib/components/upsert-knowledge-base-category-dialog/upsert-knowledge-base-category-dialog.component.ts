@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
-import { AbstractControl, UntypedFormBuilder } from '@angular/forms';
+import { AbstractControl, FormBuilder } from '@angular/forms';
 import { CommonStatus, PromptService } from '@nexthcm/cdk';
 import { KnowledgeBaseCategory } from '@nexthcm/knowledge-base';
 import { ProviderScope, TRANSLOCO_SCOPE, TranslocoService } from '@ngneat/transloco';
@@ -86,7 +86,7 @@ export class UpsertKnowledgeBaseCategoryDialogComponent implements OnInit {
     @Inject(TRANSLOCO_SCOPE) readonly translocoScope: ProviderScope,
     private readonly translocoService: TranslocoService,
     @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<boolean, KnowledgeBaseCategory>,
-    private readonly fb: UntypedFormBuilder,
+    private readonly fb: FormBuilder,
     private readonly adminKnowledgeBaseService: AdminKnowledgeBaseService,
     private readonly destroy$: TuiDestroyService,
     private readonly promptService: PromptService

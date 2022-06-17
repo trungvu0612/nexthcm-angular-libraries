@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
-import { AbstractControl, UntypedFormBuilder } from '@angular/forms';
+import { AbstractControl, FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { CommonStatus, PromptService } from '@nexthcm/cdk';
 import { ProviderScope, TRANSLOCO_SCOPE, TranslocoService } from '@ngneat/transloco';
@@ -110,7 +110,7 @@ export class UpsertTenantDomainDialogComponent implements OnInit {
 
   constructor(
     @Inject(TRANSLOCO_SCOPE) private readonly translocoScope: ProviderScope,
-    private readonly fb: UntypedFormBuilder,
+    private readonly fb: FormBuilder,
     @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<boolean, TenantDomain>,
     private readonly translocoService: TranslocoService,
     private readonly adminTenantsService: AdminTenantsService,

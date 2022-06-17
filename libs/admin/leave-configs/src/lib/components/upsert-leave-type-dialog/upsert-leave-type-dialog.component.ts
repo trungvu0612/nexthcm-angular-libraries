@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
-import { AbstractControl, UntypedFormBuilder } from '@angular/forms';
+import { AbstractControl, FormBuilder } from '@angular/forms';
 import { AuthService } from '@nexthcm/auth';
 import { CommonStatus, PromptService, WorkflowsService } from '@nexthcm/cdk';
 import { LeaveType } from '@nexthcm/my-time';
@@ -145,7 +145,7 @@ export class UpsertLeaveTypeDialogComponent implements OnInit {
   constructor(
     @Inject(TRANSLOCO_SCOPE) private readonly translocoScope: ProviderScope,
     @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<boolean, LeaveType>,
-    private readonly fb: UntypedFormBuilder,
+    private readonly fb: FormBuilder,
     private readonly authService: AuthService,
     private readonly leaveConfigsService: AdminLeaveConfigsService,
     private readonly translocoService: TranslocoService,

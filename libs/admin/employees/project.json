@@ -1,6 +1,6 @@
 {
-  "$schema": "..\\..\\..\\node_modules\\nx\\schemas\\project-schema.json",
   "projectType": "library",
+  "root": "libs/admin/employees",
   "sourceRoot": "libs/admin/employees/src",
   "prefix": "hcm",
   "targets": {

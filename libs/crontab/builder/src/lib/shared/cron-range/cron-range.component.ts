@@ -10,7 +10,7 @@ import {
   Output,
   SimpleChanges,
 } from '@angular/core';
-import { FormsModule, ReactiveFormsModule, UntypedFormControl } from '@angular/forms';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CronJobsSelectOption, Mode } from '@sbzen/cron-core';
 import { TuiContextWithImplicit, TuiDestroyService, TuiHandler, tuiPure } from '@taiga-ui/cdk';
 import { TuiDataListModule, TuiTextfieldControllerModule } from '@taiga-ui/core';
@@ -25,7 +25,7 @@ import { takeUntil } from 'rxjs/operators';
   providers: [TuiDestroyService],
 })
 export class CronRangeComponent implements OnInit, OnChanges {
-  rangeControl = new UntypedFormControl(false);
+  rangeControl = new FormControl(false);
   @Output() selected = new EventEmitter<void>();
   @Output() primaryValueChanged = new EventEmitter<string>();
   @Output() secondaryValueChanged = new EventEmitter<string>();

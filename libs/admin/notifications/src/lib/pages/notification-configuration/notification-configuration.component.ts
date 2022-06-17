@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ProviderScope, TRANSLOCO_SCOPE } from '@ngneat/transloco';
 import { catchError, of, Subject } from 'rxjs';
@@ -15,10 +15,10 @@ import { AdminNotificationsService } from '../../services/admin-notifications.se
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NotificationConfigurationComponent {
-  controls!: UntypedFormGroup;
-  group!: UntypedFormGroup;
+  controls!: FormGroup;
+  group!: FormGroup;
   modelConfig: NotificationConfigResponse<NotificationConfigItem>[] = [];
-  readonly group$ = new Subject<UntypedFormGroup>();
+  readonly group$ = new Subject<FormGroup>();
   readonly typeNotifications = [
     { value: 'notifyOnHCM', label: '' },
     { value: 'notifyOnDesktop', label: '' },
@@ -55,8 +55,8 @@ export class NotificationConfigurationComponent {
     map((configNotifications) => {
       this.listActiveNotification = configNotifications.filter((item) => item.moduleName != 'PROFILE');
       this.columnTitles = this.typeNotifications.map(({ value }) => value);
-      const groupConfig: Record<string, UntypedFormGroup> = {};
-      const controlsConfig: Record<string, UntypedFormControl> = {};
+      const groupConfig: Record<string, FormGroup> = {};
+      const controlsConfig: Record<string, FormControl> = {};
 
       this.columnTitles.forEach((column) => {
         const childConfig: Record<string, boolean> = {};
@@ -80,7 +80,7 @@ export class NotificationConfigurationComponent {
 
   constructor(
     @Inject(TRANSLOCO_SCOPE) readonly translocoScope: ProviderScope,
-    private readonly fb: UntypedFormBuilder,
+    private readonly fb: FormBuilder,
     private readonly router: Router,
     private readonly adminNotificationsService: AdminNotificationsService
   ) {
@@ -89,7 +89,7 @@ export class NotificationConfigurationComponent {
   onSubmit(): void {
     this.adminNotificationsService.configNotifications$.pipe().subscribe((configNotifications) => {
       for (const column of this.typeNotifications) {
-        const controls = (this.group.get(column.value) as UntypedFormGroup).controls;
+        const controls = (this.group.get(column.value) as FormGroup).controls;
         const configNotificationsUpdate = configNotifications.map((item) => {
           const listNotifiConfig = item.listNotifiConfig.map((config) => {
             const controlName = config['notifyID'] + '_' + column.value;
@@ -105,19 +105,11 @@ export class NotificationConfigurationComponent {
       this.submit$.next(this.modelConfig);
     });
   }
-  getControl({
-    column,
-    array,
-    group,
-  }: {
-    column: any;
-    array: any;
-    group: UntypedFormGroup;
-  }): UntypedFormControl | null {
-    const controls = (group.get(column.value) as UntypedFormGroup).controls;
+  getControl({ column, array, group }: { column: any; array: any; group: FormGroup }): FormControl | null {
+    const controls = (group.get(column.value) as FormGroup).controls;
     for (const key in controls) {
       if (key.includes(array.notifyID) && key.length - 1 === column.value.length + array.notifyID.length) {
-        return controls[key] as UntypedFormControl;
+        return controls[key] as FormControl;
       }
     }
     return null;
