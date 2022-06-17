@@ -29,7 +29,9 @@ interface AdminWorkflowsState {
   emailVariables: EmailVariable[];
 }
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class AdminWorkflowsService extends RxState<AdminWorkflowsState> {
   readonly statusTypes$ = this.select('statusTypes');
   readonly statuses$ = this.select('statuses');

@@ -4,7 +4,9 @@ import { ACCOUNT_API_PATH, JobTitle, JobTitlesService } from '@nexthcm/cdk';
 import { Observable, of } from 'rxjs';
 import { catchError, mapTo, tap } from 'rxjs/operators';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class AdminJobTitlesService {
   constructor(private readonly http: HttpClient, private readonly jobTitlesService: JobTitlesService) {}
 

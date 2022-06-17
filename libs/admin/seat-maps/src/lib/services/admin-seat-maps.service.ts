@@ -4,7 +4,9 @@ import { MY_TIME_API_PATH, Pagination, PagingResponse, SeatMap, SeatMapsService 
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class AdminSeatMapsService {
   constructor(private readonly http: HttpClient, private readonly seatMapsService: SeatMapsService) {}
 
