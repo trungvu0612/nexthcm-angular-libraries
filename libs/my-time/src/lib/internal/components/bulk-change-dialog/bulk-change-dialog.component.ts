@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Inject, NgModule, TemplateRef } from '@angular/core';
-import { ReactiveFormsModule, UntypedFormControl } from '@angular/forms';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { PromptService } from '@nexthcm/cdk';
 import { BaseFormComponentModule } from '@nexthcm/ui';
 import { ProviderScope, TRANSLOCO_SCOPE, TranslocoModule, TranslocoService } from '@ngneat/transloco';
@@ -30,7 +30,7 @@ interface ContextData {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BulkChangeDialogComponent {
-  readonly statusControl = new UntypedFormControl('0,0');
+  readonly statusControl = new FormControl('0,0');
   readonly configuration = {
     ...DefaultConfig,
     paginationEnabled: false,

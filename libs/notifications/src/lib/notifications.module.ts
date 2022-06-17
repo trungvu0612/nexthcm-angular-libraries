@@ -16,9 +16,7 @@ import {
   TuiScrollbarModule,
   TuiSvgModule,
 } from '@taiga-ui/core';
-import { TuiMarkerIconModule, TuiTagModule } from '@taiga-ui/kit';
-import { TuiCheckboxModule } from '@taiga-ui/kit';
-import { NgxPermissionsGuard } from 'ngx-permissions';
+import { TuiCheckboxModule, TuiMarkerIconModule, TuiTagModule } from '@taiga-ui/kit';
 
 import { NotificationSettingsComponent } from './pages/notification-settings/notification-settings.component';
 

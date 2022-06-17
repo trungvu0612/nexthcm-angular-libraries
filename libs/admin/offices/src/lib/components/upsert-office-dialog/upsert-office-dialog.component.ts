@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
-import { UntypedFormBuilder } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { Office, PromptService } from '@nexthcm/cdk';
 import { ProviderScope, TRANSLOCO_SCOPE } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
@@ -94,7 +94,7 @@ export class UpsertOfficeDialogComponent implements OnInit {
   constructor(
     @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<boolean, Office>,
     @Inject(TRANSLOCO_SCOPE) private readonly translocoScope: ProviderScope,
-    private readonly fb: UntypedFormBuilder,
+    private readonly fb: FormBuilder,
     private readonly adminOfficesService: AdminOfficesService,
     private readonly destroy$: TuiDestroyService,
     private readonly promptService: PromptService,

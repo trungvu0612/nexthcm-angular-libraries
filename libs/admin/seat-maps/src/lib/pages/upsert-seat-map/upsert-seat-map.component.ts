@@ -8,7 +8,7 @@ import {
   Inject,
   ViewChild,
 } from '@angular/core';
-import { UntypedFormBuilder } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   Dimension,
@@ -230,7 +230,7 @@ export class UpsertSeatMapComponent implements AfterViewInit {
     private readonly router: Router,
     private readonly destroy$: TuiDestroyService,
     private readonly promptService: PromptService,
-    private readonly fb: UntypedFormBuilder,
+    private readonly fb: FormBuilder,
     route: ActivatedRoute
   ) {
     officesService.doLoadOffices();

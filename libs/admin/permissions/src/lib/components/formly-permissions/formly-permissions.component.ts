@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ProviderScope, TRANSLOCO_SCOPE } from '@ngneat/transloco';
 import { FieldType } from '@ngx-formly/core';
 import { TuiDestroyService } from '@taiga-ui/cdk';
@@ -26,9 +26,9 @@ const compareResourceName = (a: string, b: string) => {
 export class FormlyPermissionsComponent extends FieldType implements OnInit {
   expanded = true;
 
-  controls!: UntypedFormGroup;
-  group!: UntypedFormGroup;
-  readonly group$ = new Subject<UntypedFormGroup>();
+  controls!: FormGroup;
+  group!: FormGroup;
+  readonly group$ = new Subject<FormGroup>();
 
   actions!: string[];
   resources!: Set<string>;
@@ -46,8 +46,8 @@ export class FormlyPermissionsComponent extends FieldType implements OnInit {
         ).sort(compareResourceName)
       );
 
-      const groupConfig: Record<string, UntypedFormGroup> = {};
-      const controlsConfig: Record<string, UntypedFormControl> = {};
+      const groupConfig: Record<string, FormGroup> = {};
+      const controlsConfig: Record<string, FormControl> = {};
 
       this.actions.forEach((action) => {
         const resourceCodes = resources[action].map(({ code }) => code);
@@ -83,7 +83,7 @@ export class FormlyPermissionsComponent extends FieldType implements OnInit {
   constructor(
     @Inject(TRANSLOCO_SCOPE) readonly translocoScope: ProviderScope,
     private readonly adminPermissions: AdminPermissionsService,
-    private readonly fb: UntypedFormBuilder,
+    private readonly fb: FormBuilder,
     private readonly destroy$: TuiDestroyService
   ) {
     super();
@@ -101,19 +101,11 @@ export class FormlyPermissionsComponent extends FieldType implements OnInit {
       });
   }
 
-  getControl({
-    action,
-    resource,
-    group,
-  }: {
-    action: string;
-    resource: string;
-    group: UntypedFormGroup;
-  }): UntypedFormControl | null {
-    const controls = (group.get(action) as UntypedFormGroup).controls;
+  getControl({ action, resource, group }: { action: string; resource: string; group: FormGroup }): FormControl | null {
+    const controls = (group.get(action) as FormGroup).controls;
     for (const key in controls) {
       if (key.includes(resource) && key.length - 1 === action.length + resource.length) {
-        return controls[key] as UntypedFormControl;
+        return controls[key] as FormControl;
       }
     }
     return null;

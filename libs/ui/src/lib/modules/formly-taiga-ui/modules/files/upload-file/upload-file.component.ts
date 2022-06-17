@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { UntypedFormControl } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 import { FieldType, FormlyFieldConfig } from '@ngx-formly/core';
 import { isPresent } from '@taiga-ui/cdk';
 import { TuiFileLike } from '@taiga-ui/kit';
@@ -21,7 +21,7 @@ export class UploadFileComponent extends FieldType {
   };
   loadingFile: TuiFileLike | null = null;
   rejectedFile: TuiFileLike | null = null;
-  readonly control = new UntypedFormControl();
+  readonly control = new FormControl();
   readonly request$ = this.control.valueChanges.pipe(
     filter(isPresent),
     tap((file) => {

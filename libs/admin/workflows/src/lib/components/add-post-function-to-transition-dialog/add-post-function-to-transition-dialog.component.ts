@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
-import { UntypedFormBuilder } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { JobTitlesService } from '@nexthcm/cdk';
 import { ProviderScope, TRANSLOCO_SCOPE } from '@ngneat/transloco';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
@@ -110,7 +110,7 @@ export class AddPostFunctionToTransitionDialogComponent
   ];
 
   constructor(
-    override readonly fb: UntypedFormBuilder,
+    override readonly fb: FormBuilder,
     @Inject(POLYMORPHEUS_CONTEXT)
     override readonly context: TuiDialogContext<
       TransitionPostFunction,

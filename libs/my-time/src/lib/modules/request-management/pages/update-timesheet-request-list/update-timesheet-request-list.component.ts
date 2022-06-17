@@ -1,6 +1,6 @@
 import { Location } from '@angular/common';
 import { Component, Inject, Injector } from '@angular/core';
-import { UntypedFormBuilder } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute, UrlSerializer } from '@angular/router';
 import { Pagination, PromptService } from '@nexthcm/cdk';
 import { ProviderScope, TRANSLOCO_SCOPE, TranslocoService } from '@ngneat/transloco';
@@ -76,7 +76,7 @@ export class UpdateTimesheetRequestListComponent extends AbstractRequestListComp
     override readonly fileSaverService: FileSaverService,
     override readonly dialogService: TuiDialogService,
     override readonly injector: Injector,
-    override readonly fb: UntypedFormBuilder
+    override readonly fb: FormBuilder
   ) {
     super(state, activatedRoute);
     state.connect(this.request$.pipe(filter(isPresent)));
