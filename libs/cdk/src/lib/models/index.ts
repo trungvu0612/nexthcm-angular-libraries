@@ -6,6 +6,7 @@ export * from './employee';
 export * from './employee-info';
 export * from './holiday';
 export * from './job-title';
+export * from './notifications';
 export * from './office';
 export * from './organization';
 export * from './paging-response';

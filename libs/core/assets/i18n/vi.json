@@ -645,5 +645,7 @@
     "CREATE_LEAVE_LEVEL_APPROVAL": "TẠO PHÊ DUYỆT NGHỈ PHÉP",
     "REQUEST_WORK_FROM_HOME": "YÊU CẦU CÔNG VIỆC TỪ NHÀ"
   },
-  "soundOn": "Bật âm thanh"
+  "soundOn": "Bật âm thanh",
+  "updateNotificationConfigurationSuccessfully": "Cập nhật cấu hình thông báo thành công",
+  "updateNotificationSettingSuccessfully": "Cập nhật cài đặt thông báo thành công"
 }
