@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl } from '@angular/forms';
 import { BaseUser, PromptService, WorkflowStatusType } from '@nexthcm/cdk';
 import { ProviderScope, TRANSLOCO_SCOPE, TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
@@ -32,7 +32,7 @@ export class UpsertStatusDialogComponent implements OnInit {
   constructor(
     @Inject(TRANSLOCO_SCOPE) private readonly translocoScope: ProviderScope,
     @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<Status, Status>,
-    private readonly fb: FormBuilder,
+    private readonly fb: UntypedFormBuilder,
     private readonly adminWorkflowsService: AdminWorkflowsService,
     private readonly promptService: PromptService,
     private readonly destroy$: TuiDestroyService,
@@ -62,7 +62,7 @@ export class UpsertStatusDialogComponent implements OnInit {
         },
         asyncValidators: {
           name: {
-            expression: (control: FormControl) =>
+            expression: (control: UntypedFormControl) =>
               !control.valueChanges || control.pristine
                 ? of(true)
                 : control.valueChanges.pipe(

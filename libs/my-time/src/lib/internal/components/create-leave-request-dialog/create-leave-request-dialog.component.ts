@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Inject, NgModule, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, ValidationErrors } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, ValidationErrors } from '@angular/forms';
 import { BaseUser, EmployeesService, isDateRangeSameYear, PromptService, WorkflowStatus } from '@nexthcm/cdk';
 import { BaseFormComponentModule } from '@nexthcm/ui';
 import { ProviderScope, TRANSLOCO_SCOPE, TranslocoModule, TranslocoService } from '@ngneat/transloco';
@@ -34,7 +34,7 @@ interface LeaveRequestForm extends LeaveRequestPayload {
   sendToUser?: BaseUser[];
 }
 
-function FromToValidator(control: FormControl): ValidationErrors | null {
+function FromToValidator(control: UntypedFormControl): ValidationErrors | null {
   return !control.value || isDateRangeSameYear(control.value) ? null : { sameYear: true };
 }
 
@@ -90,7 +90,7 @@ export class CreateLeaveRequestDialogComponent implements OnInit {
 
   constructor(
     @Inject(TRANSLOCO_SCOPE) readonly translocoScope: ProviderScope,
-    private readonly fb: FormBuilder,
+    private readonly fb: UntypedFormBuilder,
     private readonly myLeaveService: MyLeaveService,
     private readonly myRequestsService: MyRequestsService,
     private readonly myTimeService: MyTimeService,
@@ -275,7 +275,9 @@ export class CreateLeaveRequestDialogComponent implements OnInit {
             defaultValue: DurationType.HalfDay,
             hooks: {
               onInit: (field) => {
-                const fromToControl = (field?.parent?.form as FormGroup)?.controls?.['fromTo'] as FormControl;
+                const fromToControl = (field?.parent?.form as UntypedFormGroup)?.controls?.[
+                  'fromTo'
+                ] as UntypedFormControl;
 
                 if (fromToControl && field?.templateOptions) {
                   field.templateOptions.options = combineLatest([

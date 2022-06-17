@@ -1,6 +1,6 @@
 import { HttpParams } from '@angular/common/http';
 import { AfterViewInit, ChangeDetectionStrategy, Component, OnInit, QueryList, ViewChildren } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BaseUser, Seat, SeatMap, SeatMapsService, UserState } from '@nexthcm/cdk';
 import { RxState } from '@rx-angular/state';
@@ -25,7 +25,7 @@ interface StatusOption {
 })
 export class SeatMapsComponent implements OnInit, AfterViewInit {
   @ViewChildren(SeatComponent) seatRefs!: QueryList<SeatComponent>;
-  readonly seatMapControl = new FormControl();
+  readonly seatMapControl = new UntypedFormControl();
   readonly allSeatMaps$ = this.seatMapsService.seatMaps$;
   readonly statusesAnnotate: { key: keyof SeatMap; className: string; label: string }[] = [
     { key: 'countCheckedIn', className: 'checked-in', label: 'checkedIn' },
@@ -49,7 +49,7 @@ export class SeatMapsComponent implements OnInit, AfterViewInit {
   ];
   httpParams = new HttpParams();
   status: StatusOption | null = null;
-  userControl = new FormControl();
+  userControl = new UntypedFormControl();
   readonly searchAssignedUser$ = new Subject<string | null>();
   readonly assignedUsers$ = this.searchAssignedUser$.pipe(
     debounceTime(500),

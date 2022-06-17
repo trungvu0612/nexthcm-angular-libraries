@@ -32,61 +32,62 @@ export class NotificationItemComponent {
       .subscribe();
   }
 
-  stopPropagation(event: Event) {
+  stopPropagation(event: Event): void {
     event.stopPropagation();
   }
 
-  toPageNotification(item: NotificationItem): void {
+  toPageNotification({ type, targetId }: NotificationItem): void {
     this.action('read');
-    switch (item.type) {
+    switch (type) {
       case NotificationItemType.OverviewMe:
-        this.router.navigateByUrl('/overview/me');
+        void this.router.navigateByUrl('/overview/me');
         break;
       case NotificationItemType.SeatMap:
-        if (item.targetId) {
-          this.router.navigateByUrl(`/seat-maps/${item.targetId}`);
-        } else {
-          this.router.navigateByUrl('/seat-maps');
-        }
+        this.router.navigateByUrl(`/seat-maps${targetId ? `/${targetId}` : ''}`);
         break;
       case NotificationItemType.KnowledgeBaseArticles:
-        if (item.targetId) {
-          this.router.navigateByUrl(`admin/knowledge-base/articles/${item.targetId}`);
+        if (targetId) {
+          this.router.navigateByUrl(`/admin/knowledge-base/articles/${targetId}/edit`);
         } else {
-          this.router.navigateByUrl('admin/knowledge-base/articles');
+          this.router.navigateByUrl('/profile/individual');
         }
-        break;
-      case NotificationItemType.ProfileIndividual:
-        this.router.navigateByUrl('/profile/individual');
         break;
       case NotificationItemType.Tenants:
-        if (item.targetId) {
-          this.router.navigateByUrl(`/admin/tenants/${item.targetId}/profile`);
-        } else {
-          this.router.navigateByUrl('/admin/tenants');
-        }
+        this.router.navigateByUrl(`/admin/tenants${targetId ? `/${targetId}/profile` : ''}`);
         break;
       case NotificationItemType.OfficesList:
-        this.router.navigateByUrl('admin/offices/list');
+        this.router.navigateByUrl('/admin/offices/list');
         break;
       case NotificationItemType.SeatMapEdit:
-        if (item.targetId) {
-          this.router.navigateByUrl(`/admin/seat-maps/${item.targetId}/edit`);
-        } else {
-          this.router.navigateByUrl('/admin/seat-maps');
-        }
+        this.router.navigateByUrl(`/admin/seat-maps${targetId ? `/${targetId}/edit` : ''}`);
         break;
       case NotificationItemType.LeaveConfigLevelsApproval:
-        this.router.navigateByUrl('admin/leave-configs/levels-approval');
+        if (targetId) {
+          this.router.navigate(['/admin/leave-configs/levels-approval'], {
+            queryParams: { leaveLevelApprovalId: targetId },
+          });
+        } else {
+          this.router.navigateByUrl('/admin/leave-configs/levels-approval');
+        }
         break;
       case NotificationItemType.LeaveConfigType:
-        this.router.navigateByUrl('admin/leave-configs/types');
+        if (targetId) {
+          this.router.navigate(['/admin/leave-configs/types'], { queryParams: { leaveTypeId: targetId } });
+        } else {
+          this.router.navigateByUrl('/admin/leave-configs/types');
+        }
         break;
       case NotificationItemType.LeaveConfigEntitlements:
-        this.router.navigateByUrl('admin/leave-configs/entitlements');
+        if (targetId) {
+          this.router.navigate(['/admin/leave-configs/entitlements'], {
+            queryParams: { leaveEntitlementId: targetId },
+          });
+        } else {
+          this.router.navigateByUrl('/admin/leave-configs/entitlements');
+        }
         break;
-      case NotificationItemType.WorkingTimesConfiguration:
-        this.router.navigateByUrl('/admin/working-times/configuration');
+      case NotificationItemType.Permission:
+        this.router.navigateByUrl(`/admin/permissions${targetId ? `/${targetId}` : ''}`);
         break;
       default:
         throw new Error('Type Notification Invalid');

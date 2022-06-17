@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { Holiday, HolidayForm, PromptService } from '@nexthcm/cdk';
 import { ProviderScope, TRANSLOCO_SCOPE, TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
@@ -19,7 +19,7 @@ import { WorkingTimesService } from '../../services/working-times.service';
   providers: [TuiDestroyService],
 })
 export class UpsertHolidayDialogComponent implements OnInit {
-  form = new FormGroup({});
+  form = new UntypedFormGroup({});
   model = {} as HolidayForm;
   fields: FormlyFieldConfig[] = [
     {

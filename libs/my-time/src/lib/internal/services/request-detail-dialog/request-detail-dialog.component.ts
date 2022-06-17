@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Inject, NgModule, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormBuilder } from '@angular/forms';
 import { AuthService } from '@nexthcm/auth';
 import { EmployeeInfo, PromptService, WorkflowStatus } from '@nexthcm/cdk';
 import { AvatarComponentModule } from '@nexthcm/ui';
@@ -156,7 +156,7 @@ export class RequestDetailDialogComponent implements OnInit {
     private readonly authService: AuthService,
     private readonly destroy$: TuiDestroyService,
     private readonly state: RxState<ComponentState>,
-    private readonly fb: FormBuilder,
+    private readonly fb: UntypedFormBuilder,
     private readonly promptService: PromptService,
     private readonly translocoService: TranslocoService
   ) {

@@ -7,7 +7,7 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import { AbstractControl, FormBuilder } from '@angular/forms';
+import { AbstractControl, UntypedFormBuilder } from '@angular/forms';
 import { BaseUser, Seat, SeatMapsService, StyleSeat, UserState } from '@nexthcm/cdk';
 import { TranslocoService } from '@ngneat/transloco';
 import { TuiDialogContext, TuiDialogService } from '@taiga-ui/core';
@@ -64,7 +64,7 @@ export class SeatComponent {
 
   constructor(
     readonly elementRef: ElementRef,
-    private readonly fb: FormBuilder,
+    private readonly fb: UntypedFormBuilder,
     private readonly dialogService: TuiDialogService,
     private readonly seatMapsService: SeatMapsService,
     private readonly translocoService: TranslocoService,

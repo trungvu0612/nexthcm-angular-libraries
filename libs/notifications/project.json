@@ -1,0 +1,40 @@
+{
+  "$schema": "..\\..\\node_modules\\nx\\schemas\\project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/notifications/src",
+  "prefix": "hcm",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/angular:package",
+      "outputs": ["dist/libs/notifications"],
+      "options": {
+        "project": "libs/notifications/ng-package.json",
+        "tailwindConfig": "libs/notifications/tailwind.config.js"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "libs/notifications/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "libs/notifications/tsconfig.lib.json"
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "main": "libs/notifications/src/test.ts",
+        "tsConfig": "libs/notifications/tsconfig.spec.json",
+        "karmaConfig": "libs/notifications/karma.conf.js"
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["libs/notifications/**/*.ts", "libs/notifications/**/*.html"]
+      }
+    }
+  },
+  "tags": []
+}

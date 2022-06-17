@@ -1,6 +1,6 @@
 {
+  "$schema": "..\\..\\node_modules\\nx\\schemas\\project-schema.json",
   "projectType": "application",
-  "root": "apps/demo-web",
   "sourceRoot": "apps/demo-web/src",
   "prefix": "hcm",
   "targets": {

@@ -34,6 +34,10 @@ registerLocaleData(localeEn);
             { path: 'my-time', loadChildren: () => import('@nexthcm/my-time').then((m) => m.MyTimeModule) },
             { path: 'seat-maps', loadChildren: () => import('@nexthcm/seat-maps').then((m) => m.SeatMapsModule) },
             {
+              path: 'notifications',
+              loadChildren: () => import('@nexthcm/notifications').then((m) => m.NotificationsModule),
+            },
+            {
               path: 'human-resource',
               loadChildren: () => import('@nexthcm/human-resource').then((m) => m.HumanResourceModule),
             },

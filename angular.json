@@ -26,6 +26,7 @@
     "human-resource": "libs/human-resource",
     "knowledge-base": "libs/knowledge-base",
     "my-time": "libs/my-time",
+    "notifications": "libs/notifications",
     "seat-maps": "libs/seat-maps",
     "ui": "libs/ui",
     "workflow-designer": "libs/workflow-designer"

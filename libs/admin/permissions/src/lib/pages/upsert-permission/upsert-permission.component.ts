@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PromptService } from '@nexthcm/cdk';
 import { ProviderScope, TRANSLOCO_SCOPE, TranslocoService } from '@ngneat/transloco';
@@ -27,7 +27,7 @@ interface PolicyForm extends Omit<Policy, 'policyItems'> {
 export class UpsertPermissionComponent {
   data = { policyItems: [] as PolicyItem[] } as Policy;
   readonly permissionId = this.activatedRoute.snapshot.params['id'];
-  readonly form = new FormGroup({});
+  readonly form = new UntypedFormGroup({});
   readonly services$ = combineLatest([
     this.adminPermissions.services$,
     this.form.valueChanges.pipe(startWith(this.form.value)),

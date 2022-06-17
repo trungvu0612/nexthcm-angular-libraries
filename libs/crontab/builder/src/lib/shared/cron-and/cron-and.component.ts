@@ -9,7 +9,7 @@ import {
   Output,
   SimpleChanges,
 } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { CronJobsSelectOption, Mode } from '@sbzen/cron-core';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { takeUntil } from 'rxjs/operators';
@@ -23,7 +23,7 @@ import { takeUntil } from 'rxjs/operators';
 })
 export class CronAndComponent implements OnInit, OnChanges {
   mode = Mode.AND;
-  andControl = new FormControl(false);
+  andControl = new UntypedFormControl(false);
   @Output() selected = new EventEmitter<void>();
   @Input() checked = false;
   @Input() disabledControls = false;

@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ProviderScope, TRANSLOCO_SCOPE } from '@ngneat/transloco';
-import { catchError, combineLatest, of, Subject } from 'rxjs';
+import { catchError, of, Subject } from 'rxjs';
 import { map, mapTo, startWith, switchMap } from 'rxjs/operators';
 
 import { NotificationConfigItem, NotificationConfigResponse } from '../../models/notification-config';
@@ -15,12 +15,11 @@ import { AdminNotificationsService } from '../../services/admin-notifications.se
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NotificationConfigurationComponent {
-  controls!: FormGroup;
-  group!: FormGroup;
+  controls!: UntypedFormGroup;
+  group!: UntypedFormGroup;
   modelConfig: NotificationConfigResponse<NotificationConfigItem>[] = [];
-  readonly group$ = new Subject<FormGroup>();
+  readonly group$ = new Subject<UntypedFormGroup>();
   readonly typeNotifications = [
-    { value: 'sendToMail', label: '' },
     { value: 'notifyOnHCM', label: '' },
     {
       value: 'notifyOnMobile',
@@ -56,8 +55,8 @@ export class NotificationConfigurationComponent {
     map((configNotifications) => {
       this.listActiveNotification = configNotifications;
       this.columnTitles = this.typeNotifications.map(({ value }) => value);
-      const groupConfig: Record<string, FormGroup> = {};
-      const controlsConfig: Record<string, FormControl> = {};
+      const groupConfig: Record<string, UntypedFormGroup> = {};
+      const controlsConfig: Record<string, UntypedFormControl> = {};
 
       this.columnTitles.forEach((column) => {
         const childConfig: Record<string, boolean> = {};
@@ -81,7 +80,7 @@ export class NotificationConfigurationComponent {
 
   constructor(
     @Inject(TRANSLOCO_SCOPE) readonly translocoScope: ProviderScope,
-    private readonly fb: FormBuilder,
+    private readonly fb: UntypedFormBuilder,
     private readonly router: Router,
     private readonly adminNotificationsService: AdminNotificationsService
   ) {
@@ -90,7 +89,7 @@ export class NotificationConfigurationComponent {
   onSubmit(): void {
     this.adminNotificationsService.configNotifications$.pipe().subscribe((configNotifications) => {
       for (const column of this.typeNotifications) {
-        const controls = (this.group.get(column.value) as FormGroup).controls;
+        const controls = (this.group.get(column.value) as UntypedFormGroup).controls;
         const configNotificationsUpdate = configNotifications.map((item) => {
           const listNotifiConfig = item.listNotifiConfig.map((config) => {
             const controlName = config['notifyID'] + '_' + column.value;
@@ -106,11 +105,19 @@ export class NotificationConfigurationComponent {
       this.submit$.next(this.modelConfig);
     });
   }
-  getControl({ column, array, group }: { column: any; array: any; group: FormGroup }): FormControl | null {
-    const controls = (group.get(column.value) as FormGroup).controls;
+  getControl({
+    column,
+    array,
+    group,
+  }: {
+    column: any;
+    array: any;
+    group: UntypedFormGroup;
+  }): UntypedFormControl | null {
+    const controls = (group.get(column.value) as UntypedFormGroup).controls;
     for (const key in controls) {
       if (key.includes(array.notifyID) && key.length - 1 === column.value.length + array.notifyID.length) {
-        return controls[key] as FormControl;
+        return controls[key] as UntypedFormControl;
       }
     }
     return null;

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
-import { AbstractControl, FormBuilder } from '@angular/forms';
+import { AbstractControl, UntypedFormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonStatus, FilesService, PromptService } from '@nexthcm/cdk';
 import { KnowledgeBaseArticle, KnowledgeBaseService } from '@nexthcm/knowledge-base';
@@ -151,7 +151,7 @@ export class UpsertKnowledgeBaseArticleComponent {
   constructor(
     @Inject(TRANSLOCO_SCOPE) readonly translocoScope: ProviderScope,
     private readonly translocoService: TranslocoService,
-    private readonly fb: FormBuilder,
+    private readonly fb: UntypedFormBuilder,
     private readonly knowledgeBaseService: KnowledgeBaseService,
     private readonly adminKnowledgeBaseService: AdminKnowledgeBaseService,
     private readonly destroy$: TuiDestroyService,

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { UntypedFormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { EmployeeExperience, EmployeesService, parseTuiDayFields, PromptService } from '@nexthcm/cdk';
 import { FormlyFieldConfig } from '@ngx-formly/core';
@@ -92,7 +92,7 @@ export class ExperienceFormComponent {
   );
 
   constructor(
-    private readonly fb: FormBuilder,
+    private readonly fb: UntypedFormBuilder,
     private readonly activatedRoute: ActivatedRoute,
     private readonly adminEmployeeService: AdminEmployeesService,
     private readonly employeesService: EmployeesService,

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { UntypedFormBuilder } from '@angular/forms';
 import { EmployeesService, JobTitlesService } from '@nexthcm/cdk';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TUI_DEFAULT_STRINGIFY } from '@taiga-ui/cdk';
@@ -92,7 +92,7 @@ export class AddConditionToTransitionDialogComponent extends AbstractAddOptionTo
   ];
 
   constructor(
-    override readonly fb: FormBuilder,
+    override readonly fb: UntypedFormBuilder,
     @Inject(POLYMORPHEUS_CONTEXT)
     override readonly context: TuiDialogContext<TransitionCondition, TransitionOptionsDialogData<TransitionCondition>>,
     override readonly adminWorkflowsService: AdminWorkflowsService,

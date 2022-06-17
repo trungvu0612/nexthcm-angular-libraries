@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { UntypedFormBuilder } from '@angular/forms';
 import { AuthService } from '@nexthcm/auth';
 import {
   BaseUser,
@@ -73,7 +73,7 @@ export class CreateUpdateTimesheetRequestDialogComponent implements OnInit {
   );
 
   constructor(
-    private readonly fb: FormBuilder,
+    private readonly fb: UntypedFormBuilder,
     @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<boolean, WorkingHours>,
     private readonly myRequestsService: MyRequestsService,
     private readonly promptService: PromptService,

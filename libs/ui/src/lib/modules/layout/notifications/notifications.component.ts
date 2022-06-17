@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Injector, ViewChild } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { UntypedFormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TranslocoService } from '@ngneat/transloco';
 import { setTimeout } from '@rx-angular/cdk/zone-less/browser';
@@ -58,7 +58,7 @@ export class NotificationsComponent {
     private readonly dialogService: TuiDialogService,
     private readonly injector: Injector,
     private readonly state: RxState<Notifications>,
-    private readonly fb: FormBuilder,
+    private readonly fb: UntypedFormBuilder,
     private readonly translocoService: TranslocoService,
     timeagoIntl: TimeagoIntl
   ) {
@@ -81,7 +81,10 @@ export class NotificationsComponent {
     state.connect(
       this.notificationsService.notifications$.pipe(
         startWith(null),
-        tap((value) => value === null && this.notificationsService.sendMessage('init')),
+        tap((value) => {
+          value === null && this.notificationsService.sendMessage('init');
+          console.log('*************value', value);
+        }),
         filter((value): value is Notifications => value !== null),
         tap(() => (this.isLoadMore = false))
       )

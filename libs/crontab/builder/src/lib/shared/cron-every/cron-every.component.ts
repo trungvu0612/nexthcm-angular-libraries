@@ -9,7 +9,7 @@ import {
   Output,
   SimpleChanges,
 } from '@angular/core';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, UntypedFormControl } from '@angular/forms';
 import { Mode } from '@sbzen/cron-core';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiCheckboxModule } from '@taiga-ui/kit';
@@ -23,7 +23,7 @@ import { takeUntil } from 'rxjs/operators';
   providers: [TuiDestroyService],
 })
 export class CronEveryComponent implements OnInit, OnChanges {
-  everyControl = new FormControl(false);
+  everyControl = new UntypedFormControl(false);
   @Output() selected = new EventEmitter<void>();
   @Input() checked = false;
   @Input() label? = '';

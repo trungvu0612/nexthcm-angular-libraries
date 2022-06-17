@@ -1,6 +1,6 @@
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { ChangeDetectionStrategy, Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
-import { AbstractControl, FormBuilder } from '@angular/forms';
+import { AbstractControl, UntypedFormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import {
   BaseObject,
@@ -337,7 +337,7 @@ export class GeneralInformationFormComponent implements OnInit {
   constructor(
     @Inject(TRANSLOCO_SCOPE) private readonly translocoScope: ProviderScope,
     private readonly state: RxState<EmployeeGeneralInformation>,
-    private readonly fb: FormBuilder,
+    private readonly fb: UntypedFormBuilder,
     private readonly filesService: FilesService,
     private readonly translocoService: TranslocoService,
     private readonly employeesService: EmployeesService,

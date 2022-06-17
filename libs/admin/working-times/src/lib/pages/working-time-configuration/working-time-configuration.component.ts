@@ -1,5 +1,5 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, Inject } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { AuthService } from '@nexthcm/auth';
 import { PromptService } from '@nexthcm/cdk';
 import { ProviderScope, TRANSLOCO_SCOPE, TranslocoService } from '@ngneat/transloco';
@@ -36,8 +36,8 @@ const TIME_KEYS = [
   providers: [TuiDestroyService],
 })
 export class WorkingTimeConfigurationComponent implements AfterViewInit {
-  readonly orgControl = new FormControl();
-  readonly form = new FormGroup({});
+  readonly orgControl = new UntypedFormControl();
+  readonly form = new UntypedFormGroup({});
   model = {
     items: Array.from({ length: 7 }, (_, index) => ({ weekDayId: index + 1, configType: 0, values: [{}] })),
   };
