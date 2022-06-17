@@ -19,11 +19,18 @@ export class NotificationsService extends RxStomp {
   readonly notifications$ = this.authService.select('userInfo').pipe(
     switchMap(({ userId }) => this.watch(`/user/${userId}/queue/private-notifications`)),
     map(({ body }): Notifications => JSON.parse(body)),
-    tap(({ turnOff }) => {
+    tap(({ turnOff, data }) => {
       this.loading$.next(false);
       this.mute$.next(turnOff);
-      if (!this.sound && !turnOff) this.audio.play();
-      else --this.sound;
+
+      if (!this.sound && !turnOff) {
+        data.data.items.forEach((notification) => {
+          if (notification.notifySetting?.soundNotifyOnHCM === true) {
+            this.audio.play();
+            return;
+          }
+        });
+      } else --this.sound;
     })
   );
   private params: { requestType: '0' | '1'; pageSize: number; statusRead?: boolean } = {
