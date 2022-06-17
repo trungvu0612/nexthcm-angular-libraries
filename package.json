@@ -172,7 +172,7 @@
   },
   "volta": {
     "node": "16.14.0",
-    "yarn": "1.22.18"
+    "yarn": "1.22.19"
   },
   "scarfSettings": {
     "enabled": false

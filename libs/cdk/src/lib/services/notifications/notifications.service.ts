@@ -1,12 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { AuthService } from '@nexthcm/auth';
+import { Notifications, NotificationSettings } from '@nexthcm/cdk';
 import { APP_CONFIG, AppConfig } from '@nexthcm/core';
 import { RxStomp } from '@stomp/rx-stomp';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
-
-import { Notifications, NotificationSettings } from '../models/notifications';
 
 @Injectable({
   providedIn: 'root',

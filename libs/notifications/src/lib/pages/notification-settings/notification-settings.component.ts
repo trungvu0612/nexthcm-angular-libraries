@@ -1,12 +1,11 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
+import { NotificationSetting, NotificationSettings, NotificationsService, PromptService } from '@nexthcm/cdk';
 import { ProviderScope, TRANSLOCO_SCOPE, TranslocoService } from '@ngneat/transloco';
 import { TuiDestroyService } from '@taiga-ui/cdk';
-import { of, Subject } from 'rxjs';
-import { catchError, map, mapTo, startWith, switchMap } from 'rxjs/operators';
-
-import { NotificationSetting, NotificationSettings } from '../../models/notifications';
-import { NotificationsService } from '../../services/notifications.service';
+import { of, Subject, takeUntil } from 'rxjs';
+import { catchError, map, mapTo, startWith, switchMap, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'hcm-notification-settings',
@@ -21,7 +20,6 @@ export class NotificationSettingsComponent {
   modelSetting: NotificationSettings[] = [];
   readonly group$ = new Subject<FormGroup>();
   readonly typeNotifications = [
-    { value: 'notifyOnHCM', label: '' },
     { value: 'notifyOnDesktop', label: '' },
     {
       value: 'notifyOnMobile',
@@ -40,12 +38,13 @@ export class NotificationSettingsComponent {
     { value: 'tenantManagement', isTitle: true },
   ];
   columnTitles!: string[];
-  listActiveNotification!: any[];
+  listActiveNotification!: NotificationSettings[];
   readonly submit$ = new Subject<NotificationSettings[]>();
   readonly submitLoading$ = this.submit$.pipe(
     switchMap((body) =>
       this.notificationsService.updateSettingNotifications(body).pipe(
         mapTo(false),
+        tap(this.promptService.handleResponse('updateNotificationSettingSuccessfully', () => this.onCancel())),
         catchError(() => of(false)),
         startWith(true)
       )
@@ -97,8 +96,14 @@ export class NotificationSettingsComponent {
     private readonly notificationsService: NotificationsService,
     private readonly destroy$: TuiDestroyService,
     private readonly fb: FormBuilder,
-    private readonly translocoService: TranslocoService
+    private readonly router: Router,
+    private readonly translocoService: TranslocoService,
+    private readonly promptService: PromptService
   ) {}
+
+  onCancel(): void {
+    this.router.navigateByUrl('/notifications/settings');
+  }
 
   getControl({ column, array, group }: { column: any; array: any; group: FormGroup }): FormControl | null {
     const controls = (group.get(column.value) as FormGroup).controls;
@@ -131,9 +136,9 @@ export class NotificationSettingsComponent {
   onSubmit(): void {
     this.notificationsService
       .getSettings()
-      .pipe()
+      .pipe(takeUntil(this.destroy$))
       .subscribe((settingNotifications) => {
-        const settingNotificationsUpdate = settingNotifications.map((settingNoti) => {
+        this.modelSetting = settingNotifications.map((settingNoti) => {
           let notificationSettingItem = settingNoti.listNotifiSetting;
           for (const column of this.typeNotifications) {
             const controls = (this.group.get(column.value) as FormGroup).controls;
@@ -154,8 +159,6 @@ export class NotificationSettingsComponent {
           }
           return { ...settingNoti, listNotifiSetting: notificationSettingItem };
         });
-
-        this.modelSetting = settingNotificationsUpdate;
         this.submit$.next(this.modelSetting);
       });
   }

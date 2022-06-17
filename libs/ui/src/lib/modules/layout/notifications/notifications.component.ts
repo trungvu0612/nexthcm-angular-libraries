@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, Injector, ViewChild } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Notifications, NotificationsService } from '@nexthcm/cdk';
 import { TranslocoService } from '@ngneat/transloco';
 import { setTimeout } from '@rx-angular/cdk/zone-less/browser';
 import { RxState } from '@rx-angular/state';
@@ -12,9 +13,6 @@ import { strings as viStrings } from 'ngx-timeago/language-strings/vi';
 import { IL10nsStrings } from 'ngx-timeago/timeago.intl';
 import { startWith, Subject, switchMap, tap } from 'rxjs';
 import { distinctUntilChanged, filter } from 'rxjs/operators';
-
-import { Notifications } from './models/notifications';
-import { NotificationsService } from './services/notifications.service';
 
 const TIMEAGO_STRINGS: Record<string, IL10nsStrings> = { en: enStrings, vi: viStrings };
 

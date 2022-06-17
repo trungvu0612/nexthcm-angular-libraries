@@ -1,9 +1,10 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { PromptService } from '@nexthcm/cdk';
 import { ProviderScope, TRANSLOCO_SCOPE } from '@ngneat/transloco';
 import { catchError, of, Subject } from 'rxjs';
-import { map, mapTo, startWith, switchMap } from 'rxjs/operators';
+import { map, mapTo, startWith, switchMap, tap } from 'rxjs/operators';
 
 import { NotificationConfigItem, NotificationConfigResponse } from '../../models/notification-config';
 import { AdminNotificationsService } from '../../services/admin-notifications.service';
@@ -20,7 +21,6 @@ export class NotificationConfigurationComponent {
   modelConfig: NotificationConfigResponse<NotificationConfigItem>[] = [];
   readonly group$ = new Subject<FormGroup>();
   readonly typeNotifications = [
-    { value: 'notifyOnHCM', label: '' },
     { value: 'notifyOnDesktop', label: '' },
     {
       value: 'notifyOnMobile',
@@ -46,6 +46,7 @@ export class NotificationConfigurationComponent {
     switchMap((body) =>
       this.adminNotificationsService.updateConfigNotifications(body).pipe(
         mapTo(false),
+        tap(this.promptService.handleResponse('updateNotificationConfigurationSuccessfully', () => this.onCancel())),
         catchError(() => of(false)),
         startWith(true)
       )
@@ -82,9 +83,14 @@ export class NotificationConfigurationComponent {
     @Inject(TRANSLOCO_SCOPE) readonly translocoScope: ProviderScope,
     private readonly fb: FormBuilder,
     private readonly router: Router,
-    private readonly adminNotificationsService: AdminNotificationsService
+    private readonly adminNotificationsService: AdminNotificationsService,
+    private readonly promptService: PromptService
   ) {
     adminNotificationsService.doConfigNotifications();
+  }
+
+  onCancel(): void {
+    this.router.navigateByUrl('/admin/notifications/configuration');
   }
   onSubmit(): void {
     this.adminNotificationsService.configNotifications$.pipe().subscribe((configNotifications) => {
