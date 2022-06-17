@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder } from '@angular/forms';
+import { AbstractControl, UntypedFormBuilder } from '@angular/forms';
 import { CommonStatus, JobTitle, PromptService } from '@nexthcm/cdk';
 import { ProviderScope, TRANSLOCO_SCOPE, TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
@@ -100,7 +100,7 @@ export class UpsertJobTitleDialogComponent implements OnInit {
     @Inject(TRANSLOCO_SCOPE) readonly translocoScope: ProviderScope,
     private readonly translocoService: TranslocoService,
     @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<boolean, JobTitle>,
-    private readonly fb: FormBuilder,
+    private readonly fb: UntypedFormBuilder,
     private readonly adminJobTitlesService: AdminJobTitlesService,
     private readonly destroy$: TuiDestroyService,
     private readonly promptService: PromptService

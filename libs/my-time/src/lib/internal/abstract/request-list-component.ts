@@ -1,6 +1,6 @@
 import { HttpParams } from '@angular/common/http';
 import { Directive, Injector, OnInit, TemplateRef } from '@angular/core';
-import { FormArray, FormBuilder, FormControl } from '@angular/forms';
+import { UntypedFormArray, UntypedFormBuilder, UntypedFormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { AbstractServerSortPaginationTableComponent, Pagination, PromptService, WorkflowStatus } from '@nexthcm/cdk';
 import { ProviderScope, TranslocoService } from '@ngneat/transloco';
@@ -33,9 +33,9 @@ export abstract class AbstractRequestListComponent<T>
 
   readonly dialogService!: TuiDialogService;
   readonly injector!: Injector;
-  readonly fb!: FormBuilder;
-  selectAllControl!: FormControl;
-  selectedArray!: FormArray;
+  readonly fb!: UntypedFormBuilder;
+  selectAllControl!: UntypedFormControl;
+  selectedArray!: UntypedFormArray;
 
   override sizeItems = [10, 20];
 

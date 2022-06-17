@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Inject, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { PromptService } from '@nexthcm/cdk';
 import { ProviderScope, TRANSLOCO_SCOPE, TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
@@ -39,7 +39,7 @@ export class ImportTimeLogDialogComponent {
   openDialog = false;
   activeRowIndex!: number;
   model!: UserTimeLogForm;
-  form!: FormGroup;
+  form!: UntypedFormGroup;
   fields: FormlyFieldConfig[] = [
     {
       key: 'cif',
@@ -214,7 +214,7 @@ export class ImportTimeLogDialogComponent {
     @Inject(TRANSLOCO_SCOPE) readonly translocoScope: ProviderScope,
     private readonly workingHoursService: WorkingHoursService,
     private readonly promptService: PromptService,
-    private readonly fb: FormBuilder,
+    private readonly fb: UntypedFormBuilder,
     private readonly translocoService: TranslocoService,
     private readonly state: RxState<{ data: UserTimeLog[] }>
   ) {

@@ -1,5 +1,5 @@
 import { Directive, Inject, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { UntypedFormBuilder } from '@angular/forms';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 
@@ -12,7 +12,7 @@ export abstract class AbstractAddOptionToTransitionComponent<T extends Transitio
   model = {} as T;
 
   protected constructor(
-    readonly fb: FormBuilder,
+    readonly fb: UntypedFormBuilder,
     @Inject(POLYMORPHEUS_CONTEXT) readonly context: TuiDialogContext<T, TransitionOptionsDialogData<T>>,
     readonly adminWorkflowsService: AdminWorkflowsService
   ) {}

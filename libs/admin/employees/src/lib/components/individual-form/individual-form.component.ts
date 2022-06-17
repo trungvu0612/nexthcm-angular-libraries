@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
-import { FormBuilder, FormControl } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import {
   AddressService,
@@ -83,7 +83,7 @@ export class IndividualFormComponent {
                       },
                       hooks: {
                         onInit: (field) => {
-                          const countryControl = this.form.get('permanentAddress.countryId') as FormControl;
+                          const countryControl = this.form.get('permanentAddress.countryId') as UntypedFormControl;
                           if (field?.templateOptions && countryControl) {
                             field.templateOptions.options = countryControl.valueChanges.pipe(
                               tap(() => field.formControl?.setValue(null)),
@@ -114,7 +114,7 @@ export class IndividualFormComponent {
                       },
                       hooks: {
                         onInit: (field) => {
-                          const cityControl = this.form.get('permanentAddress.cityId') as FormControl;
+                          const cityControl = this.form.get('permanentAddress.cityId') as UntypedFormControl;
                           if (field?.templateOptions && cityControl)
                             field.templateOptions.options = cityControl.valueChanges.pipe(
                               tap(() => field.formControl?.setValue(null)),
@@ -138,7 +138,7 @@ export class IndividualFormComponent {
                       },
                       hooks: {
                         onInit: (field) => {
-                          const districtCtrl = this.form.get('permanentAddress.districtId') as FormControl;
+                          const districtCtrl = this.form.get('permanentAddress.districtId') as UntypedFormControl;
                           if (field?.templateOptions && districtCtrl)
                             field.templateOptions.options = districtCtrl.valueChanges.pipe(
                               tap(() => field.formControl?.setValue(null)),
@@ -241,7 +241,7 @@ export class IndividualFormComponent {
                       },
                       hooks: {
                         onInit: (field) => {
-                          const countryControl = this.form.get('temporaryAddress.countryId') as FormControl;
+                          const countryControl = this.form.get('temporaryAddress.countryId') as UntypedFormControl;
                           if (field?.templateOptions && countryControl) {
                             field.templateOptions.options = countryControl.valueChanges.pipe(
                               tap(() => field.formControl?.setValue(null)),
@@ -272,7 +272,7 @@ export class IndividualFormComponent {
                       },
                       hooks: {
                         onInit: (field) => {
-                          const cityControl = this.form.get('temporaryAddress.cityId') as FormControl;
+                          const cityControl = this.form.get('temporaryAddress.cityId') as UntypedFormControl;
                           if (field?.templateOptions && cityControl)
                             field.templateOptions.options = cityControl.valueChanges.pipe(
                               tap(() => field.formControl?.setValue(null)),
@@ -296,7 +296,7 @@ export class IndividualFormComponent {
                       },
                       hooks: {
                         onInit: (field) => {
-                          const districtCtrl = this.form.get('temporaryAddress.districtId') as FormControl;
+                          const districtCtrl = this.form.get('temporaryAddress.districtId') as UntypedFormControl;
                           if (field?.templateOptions && districtCtrl)
                             field.templateOptions.options = districtCtrl.valueChanges.pipe(
                               tap(() => field.formControl?.setValue(null)),
@@ -653,7 +653,7 @@ export class IndividualFormComponent {
 
   constructor(
     @Inject(TRANSLOCO_SCOPE) private readonly translocoScope: ProviderScope,
-    private readonly fb: FormBuilder,
+    private readonly fb: UntypedFormBuilder,
     private readonly translocoService: TranslocoService,
     private readonly activatedRoute: ActivatedRoute,
     private readonly adminEmployeeService: AdminEmployeesService,

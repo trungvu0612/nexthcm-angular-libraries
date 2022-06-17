@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormControl } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl } from '@angular/forms';
 import { PromptService } from '@nexthcm/cdk';
 import { TranslocoService } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
@@ -47,7 +47,7 @@ export class UpsertUserRoleDialogComponent implements OnInit {
       },
       asyncValidators: {
         name: {
-          expression: (control: FormControl) =>
+          expression: (control: UntypedFormControl) =>
             !control.valueChanges || control.pristine
               ? of(true)
               : control.valueChanges.pipe(
@@ -114,7 +114,7 @@ export class UpsertUserRoleDialogComponent implements OnInit {
 
   constructor(
     @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<boolean, UserRole>,
-    private readonly fb: FormBuilder,
+    private readonly fb: UntypedFormBuilder,
     private readonly adminUserRolesService: AdminUserRolesService,
     private readonly translocoService: TranslocoService,
     private readonly state: RxState<ComponentState>,

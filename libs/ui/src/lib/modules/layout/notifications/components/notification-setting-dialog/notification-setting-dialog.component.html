@@ -9,7 +9,7 @@
       >
         <table *transloco="let t" class="hcm-table">
           <tr class="sticky -top-1 z-10 bg-white">
-            <td></td>
+            <td class="max-w-[18rem]"></td>
             <ng-container *ngFor="let column of typeNotifications">
               <td *ngIf="column.label === ''">
                 {{ t('NOTIFICATION_CONFIGURATION_COLUMNS.' + column.value) }}
@@ -24,7 +24,9 @@
             </tr>
             <ng-container *ngFor="let array of row.listNotifiSetting">
               <tr>
-                <td class="font-bold">{{ t('NOTIFICATION_MODULE_SETTING.' + array.title) }}</td>
+                <td class="font-bold max-w-[18rem] truncate">
+                  {{ t('NOTIFICATION_MODULE_SETTING.' + array.title) }}wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
+                </td>
                 <ng-container *ngFor="let column of typeNotifications">
                   <td class="content-center">
                     <tui-checkbox

@@ -43,6 +43,7 @@
       "@nexthcm/human-resource": ["libs/human-resource/src/index.ts"],
       "@nexthcm/knowledge-base": ["libs/knowledge-base/src/index.ts"],
       "@nexthcm/my-time": ["libs/my-time/src/index.ts"],
+      "@nexthcm/notifications": ["libs/notifications/src/index.ts"],
       "@nexthcm/seat-maps": ["libs/seat-maps/src/index.ts"],
       "@nexthcm/ui": ["libs/ui/src/index.ts"],
       "@nexthcm/workflow-designer": ["libs/workflow-designer/src/index.ts"]

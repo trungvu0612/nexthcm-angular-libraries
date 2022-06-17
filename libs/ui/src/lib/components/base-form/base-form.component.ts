@@ -1,7 +1,7 @@
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, NgModule, Output } from '@angular/core';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { TranslocoModule } from '@ngneat/transloco';
 import { FormlyFieldConfig, FormlyFormOptions, FormlyModule } from '@ngx-formly/core';
 import { tuiDefaultProp } from '@taiga-ui/cdk';
@@ -15,7 +15,7 @@ import { NgxPermissionsModule } from 'ngx-permissions';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BaseFormComponent<T> {
-  @Input() @tuiDefaultProp() form = new FormGroup({});
+  @Input() @tuiDefaultProp() form = new UntypedFormGroup({});
   @Input() model: T = {} as T;
   @Input() fields: FormlyFieldConfig[] = [];
   @Input() options: FormlyFormOptions = {};

@@ -602,9 +602,9 @@
   },
   "NOTIFICATION_CONFIGURATION_COLUMNS": {
     "sendToMail": "Send to email",
-    "notifyOnHCM": "Allow Notification on HCM",
+    "notifyOnHCM": "Allow Notification on Browser",
     "notifyOnMobile": "Push Notification on Mobile",
-    "notifyOnDesktop": "Push Notification on Desktop",
+    "notifyOnDesktop": "Window Pop up Notification",
     "modifieldNotify": "User unable to change this notification"
   },
   "NOTIFICATION_MODULE": {
@@ -621,7 +621,9 @@
     "LEAVE_LEVEL_APPROVAL": "LEAVE LEVEL APPROVAL",
     "BIRTHDAY": "BIRTHDAY",
     "MY_LEAVE": "MY LEAVE",
-    "MR_UPDATE_TIMESHEET": "MR UPDATE TIMESHEET"
+    "MR_UPDATE_TIMESHEET": "MR UPDATE TIMESHEET",
+    "MR_WORK_FROM_HOME": "MR WORK FROM HOME",
+    "GENERAL": "GENERAL"
   },
   "NOTIFICATION_MODULE_SETTING": {
     "MISSING_CO": "MISSING CO",
@@ -640,7 +642,8 @@
     "EDIT_SEAT_MAP_MANAGEMENT": "EDIT SEAT MAP MANAGEMENT",
     "CREATE_LEAVE_TYPE": "CREATE LEAVE TYPE",
     "CREATE_LEAVE_ENTITLEMENT": "CREATE LEAVE ENTITLEMENT",
-    "CREATE_LEAVE_LEVEL_APPROVAL": "CREATE LEAVE LEVEL APPROVAL"
+    "CREATE_LEAVE_LEVEL_APPROVAL": "CREATE LEAVE LEVEL APPROVAL",
+    "REQUEST_WORK_FROM_HOME": "REQUEST WORK FROM HOME"
   },
   "soundOn": "Sound on"
 }

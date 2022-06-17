@@ -1,5 +1,5 @@
 import { Location } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Inject, Injector } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, Inject, Injector } from '@angular/core';
 import { ActivatedRoute, UrlSerializer } from '@angular/router';
 import { AbstractServerSortPaginationTableComponent, Pagination, PromptService } from '@nexthcm/cdk';
 import { LeaveType } from '@nexthcm/my-time';
@@ -9,12 +9,24 @@ import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { Columns } from 'ngx-easy-table';
-import { EMPTY, from, iif, Observable, of } from 'rxjs';
-import { catchError, filter, map, share, startWith, switchMap, takeUntil } from 'rxjs/operators';
+import {
+  catchError,
+  EMPTY,
+  filter,
+  from,
+  iif,
+  map,
+  Observable,
+  of,
+  share,
+  startWith,
+  switchMap,
+  takeUntil,
+  tap,
+} from 'rxjs';
 
 import { AdminLeaveConfigsService } from '../../admin-leave-configs.service';
 import { UpsertLeaveTypeDialogComponent } from '../../components/upsert-leave-type-dialog/upsert-leave-type-dialog.component';
-import { PaidLeaveStatus } from '../../enums';
 import { LeaveConfigUrlPaths } from '../../models';
 
 @Component({
@@ -24,9 +36,11 @@ import { LeaveConfigUrlPaths } from '../../models';
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [TuiDestroyService, RxState],
 })
-export class LeaveTypeManagementComponent extends AbstractServerSortPaginationTableComponent<LeaveType> {
+export class LeaveTypeManagementComponent
+  extends AbstractServerSortPaginationTableComponent<LeaveType>
+  implements AfterViewInit
+{
   readonly leaveConfigAPIUrlPath: keyof LeaveConfigUrlPaths = 'leaveType';
-  readonly PaidLeaveStatus = PaidLeaveStatus;
   readonly columns$: Observable<Columns[]> = this.translocoService
     .selectTranslateObject('LEAVE_TYPES_MANAGEMENT_COLUMNS', {}, this.translocoScope.scope)
     .pipe(
@@ -53,7 +67,6 @@ export class LeaveTypeManagementComponent extends AbstractServerSortPaginationTa
     startWith(true),
     catchError(() => of(false))
   );
-
   constructor(
     @Inject(TRANSLOCO_SCOPE) readonly translocoScope: ProviderScope,
     override readonly state: RxState<Pagination<LeaveType>>,
@@ -61,7 +74,6 @@ export class LeaveTypeManagementComponent extends AbstractServerSortPaginationTa
     readonly locationRef: Location,
     readonly urlSerializer: UrlSerializer,
     private readonly leaveConfigsService: AdminLeaveConfigsService,
-    private readonly leaveTypeService: AdminLeaveConfigsService,
     private readonly destroy$: TuiDestroyService,
     private readonly dialogService: TuiDialogService,
     private readonly injector: Injector,
@@ -70,6 +82,23 @@ export class LeaveTypeManagementComponent extends AbstractServerSortPaginationTa
   ) {
     super(state, activatedRoute);
     state.connect(this.request$.pipe(filter(isPresent)));
+  }
+
+  override ngAfterViewInit(): void {
+    super.ngAfterViewInit();
+
+    this.activatedRoute.queryParamMap
+      .pipe(
+        map((queryParamMap) => queryParamMap.get('leaveTypeId')),
+        filter(isPresent),
+        switchMap((leaveTypeId) => this.leaveConfigsService.getLeaveType(leaveTypeId)),
+        filter(isPresent),
+        tap((leaveType) => {
+          this.onUpsertLeaveType(leaveType);
+        }),
+        takeUntil(this.destroy$)
+      )
+      .subscribe();
   }
 
   onUpsertLeaveType(data?: LeaveType): void {

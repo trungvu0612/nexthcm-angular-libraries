@@ -15,6 +15,7 @@ import {
   TuiScrollbarModule,
   TuiSvgModule,
 } from '@taiga-ui/core';
+import { TuiHintModule, TuiTooltipModule } from '@taiga-ui/core';
 import {
   TuiBadgedContentModule,
   TuiCheckboxModule,
@@ -62,6 +63,8 @@ import { PageComponent } from './page/page.component';
     TuiActiveZoneModule,
     TuiMapperPipeModule,
     TuiCheckboxModule,
+    TuiTooltipModule,
+    TuiHintModule,
     TimeagoModule.forRoot({
       intl: { provide: TimeagoIntl, useClass: TimeagoIntl },
       formatter: { provide: TimeagoFormatter, useClass: TimeagoCustomFormatter },

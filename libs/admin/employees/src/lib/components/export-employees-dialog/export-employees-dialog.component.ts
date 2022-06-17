@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { PromptService } from '@nexthcm/cdk';
 import { ProviderScope, TRANSLOCO_SCOPE } from '@ngneat/transloco';
 import { TuiDestroyService } from '@taiga-ui/cdk';
@@ -89,8 +89,8 @@ const getSchema = (scope: string): Schema => ({
 })
 export class ExportEmployeesDialogComponent {
   readonly schema = getSchema(this.translocoScope.scope);
-  readonly form!: FormGroup;
-  readonly groupForm!: FormGroup;
+  readonly form!: UntypedFormGroup;
+  readonly groupForm!: UntypedFormGroup;
   readonly submit$ = new Subject<Record<string, true>>();
   readonly submitLoading$ = this.submit$.pipe(
     switchMap((params) =>
@@ -114,15 +114,15 @@ export class ExportEmployeesDialogComponent {
     private readonly adminEmployeesService: AdminEmployeesService,
     private readonly promptService: PromptService,
     private readonly fileSaverService: FileSaverService,
-    fb: FormBuilder,
+    fb: UntypedFormBuilder,
     destroy$: TuiDestroyService
   ) {
-    const formConfig: Record<string, FormGroup> = {};
-    const groupFormConfig: Record<string, FormControl> = {};
+    const formConfig: Record<string, UntypedFormGroup> = {};
+    const groupFormConfig: Record<string, UntypedFormControl> = {};
 
     for (const groupKey in this.schema) {
       const group = this.schema[groupKey];
-      const config: Record<string, FormControl> = {};
+      const config: Record<string, UntypedFormControl> = {};
       let groupValue = true;
 
       for (const key in group) {

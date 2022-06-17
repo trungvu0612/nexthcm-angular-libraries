@@ -1,6 +1,6 @@
 import { HttpParams } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '@nexthcm/auth';
 import { BaseOption, CommonService, NUMBER_FORMAT } from '@nexthcm/cdk';
 import { MyTimeService, WorkingHours } from '@nexthcm/my-time';
@@ -58,7 +58,7 @@ export class UserWorkingHoursCalendarComponent implements OnInit {
   );
 
   constructor(
-    private readonly formBuilder: FormBuilder,
+    private readonly formBuilder: UntypedFormBuilder,
     private readonly commonService: CommonService,
     private readonly authService: AuthService,
     private readonly myTimeService: MyTimeService,

@@ -1,6 +1,6 @@
 import { HttpParams } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, EventEmitter, Inject, Injector, LOCALE_ID, Output } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { UntypedFormBuilder } from '@angular/forms';
 import { BaseObject, BaseUser, JobTitlesService, OfficesService, PromptService } from '@nexthcm/cdk';
 import { TRANSLOCO_SCOPE, TranslocoService } from '@ngneat/transloco';
 import { ProviderScope } from '@ngneat/transloco/lib/types';
@@ -186,7 +186,7 @@ export class LeaveEntitlementFiltersComponent {
 
   constructor(
     @Inject(TRANSLOCO_SCOPE) private readonly translocoScope: ProviderScope,
-    private readonly fb: FormBuilder,
+    private readonly fb: UntypedFormBuilder,
     private readonly translocoService: TranslocoService,
     private readonly leaveConfigsService: AdminLeaveConfigsService,
     private readonly jobTitlesService: JobTitlesService,
