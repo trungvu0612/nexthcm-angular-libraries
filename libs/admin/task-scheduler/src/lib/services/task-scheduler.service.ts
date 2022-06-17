@@ -6,7 +6,9 @@ import { map } from 'rxjs/operators';
 
 import { ScheduledTask } from '../models/scheduled-task';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class TaskSchedulerService {
   constructor(private readonly http: HttpClient) {}
 

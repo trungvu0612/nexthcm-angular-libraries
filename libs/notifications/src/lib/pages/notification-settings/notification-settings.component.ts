@@ -22,11 +22,11 @@ export class NotificationSettingsComponent {
   readonly group$ = new Subject<UntypedFormGroup>();
   readonly typeNotifications = [
     { value: 'notifyOnHCM', label: '' },
+    { value: 'notifyOnDesktop', label: '' },
     {
       value: 'notifyOnMobile',
       label: '',
     },
-    { value: 'notifyOnDesktop', label: '' },
   ];
   readonly typeActives = [
     { value: 'checkInCheckout', isTitle: true },
@@ -54,7 +54,7 @@ export class NotificationSettingsComponent {
 
   readonly loading$ = this.notificationsService.getSettings().pipe(
     map((settingNotifications) => {
-      this.listActiveNotification = settingNotifications;
+      this.listActiveNotification = settingNotifications.filter((item) => item.moduleName != 'PROFILE');
       this.columnTitles = this.typeNotifications.map(({ value }) => value);
       const groupConfig: Record<string, UntypedFormGroup> = {};
       const controlsConfig: Record<string, UntypedFormControl> = {};

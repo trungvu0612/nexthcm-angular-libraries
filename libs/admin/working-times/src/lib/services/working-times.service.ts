@@ -16,7 +16,9 @@ import { catchError, map } from 'rxjs/operators';
 
 import { Organization, WorkingTimes } from '../models';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class WorkingTimesService {
   constructor(private http: HttpClient) {}
 

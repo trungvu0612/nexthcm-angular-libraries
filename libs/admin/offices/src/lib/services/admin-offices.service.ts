@@ -14,7 +14,9 @@ import { catchError, map, tap } from 'rxjs/operators';
 import { OfficeWifiDevicesInfo } from '../models/office-wifi-devices-info';
 import { WifiDevice } from '../models/wifi-device';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class AdminOfficesService {
   constructor(private readonly http: HttpClient, private readonly officesService: OfficesService) {}
 

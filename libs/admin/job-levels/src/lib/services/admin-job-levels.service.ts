@@ -6,7 +6,9 @@ import { catchError, map, mapTo, tap } from 'rxjs/operators';
 
 import { JobLevel } from '../models/job-level';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class AdminJobLevelsService {
   constructor(private readonly http: HttpClient, private readonly jobLevelsService: JobLevelsService) {}
 

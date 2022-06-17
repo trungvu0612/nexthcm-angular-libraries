@@ -14,7 +14,9 @@ export const LEAVE_CONFIGS_URL_PATHS: Readonly<LeaveConfigUrlPaths> = Object.fre
   leaveLevelApproval: 'leave-level-approve',
 });
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class AdminLeaveConfigsService {
   constructor(private http: HttpClient) {}
 
