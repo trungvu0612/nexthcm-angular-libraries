@@ -7,7 +7,9 @@ import { catchError, map, mapTo } from 'rxjs/operators';
 import { BasePermission } from '../models/base-permission';
 import { UserRole } from '../models/user-role';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class AdminUserRolesService {
   constructor(private http: HttpClient) {}
 

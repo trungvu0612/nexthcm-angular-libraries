@@ -21,11 +21,11 @@ export class NotificationConfigurationComponent {
   readonly group$ = new Subject<UntypedFormGroup>();
   readonly typeNotifications = [
     { value: 'notifyOnHCM', label: '' },
+    { value: 'notifyOnDesktop', label: '' },
     {
       value: 'notifyOnMobile',
       label: '',
     },
-    { value: 'notifyOnDesktop', label: '' },
     { value: 'modifieldNotify', label: 'lastTitle' },
   ];
   readonly typeActives = [
@@ -53,7 +53,7 @@ export class NotificationConfigurationComponent {
   );
   readonly loading$ = this.adminNotificationsService.configNotifications$.pipe(
     map((configNotifications) => {
-      this.listActiveNotification = configNotifications;
+      this.listActiveNotification = configNotifications.filter((item) => item.moduleName != 'PROFILE');
       this.columnTitles = this.typeNotifications.map(({ value }) => value);
       const groupConfig: Record<string, UntypedFormGroup> = {};
       const controlsConfig: Record<string, UntypedFormControl> = {};

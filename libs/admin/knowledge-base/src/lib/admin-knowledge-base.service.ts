@@ -10,7 +10,9 @@ interface AdminKnowledgeBaseState {
   categories: KnowledgeBaseCategory[];
 }
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class AdminKnowledgeBaseService extends RxState<AdminKnowledgeBaseState> {
   readonly categories$ = this.select('categories');
   private readonly loadCategories$ = new Subject<void>();

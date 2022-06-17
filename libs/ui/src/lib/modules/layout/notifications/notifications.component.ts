@@ -14,7 +14,6 @@ import { IL10nsStrings } from 'ngx-timeago/timeago.intl';
 import { startWith, Subject, switchMap, tap } from 'rxjs';
 import { distinctUntilChanged, filter } from 'rxjs/operators';
 
-import { NotificationSettingDialogComponent } from './components/notification-setting-dialog/notification-setting-dialog.component';
 import { Notifications } from './models/notifications';
 import { NotificationsService } from './services/notifications.service';
 
@@ -68,22 +67,11 @@ export class NotificationsComponent {
     });
     state.hold(this.unreadControl.valueChanges, () => this.notificationsService.sendMessage('status'));
     state.hold(this.markAllAsRead$.pipe(switchMap(() => this.notificationsService.markAllAsRead())));
-    state.hold(
-      this.setting$.pipe(
-        switchMap(() =>
-          this.dialogService.open(new PolymorpheusComponent(NotificationSettingDialogComponent, this.injector), {
-            label: this.translocoService.translate('notificationSettings'),
-            size: 'l',
-          })
-        )
-      )
-    );
     state.connect(
       this.notificationsService.notifications$.pipe(
         startWith(null),
         tap((value) => {
           value === null && this.notificationsService.sendMessage('init');
-          console.log('*************value', value);
         }),
         filter((value): value is Notifications => value !== null),
         tap(() => (this.isLoadMore = false))

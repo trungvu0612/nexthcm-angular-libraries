@@ -23,7 +23,9 @@ interface AdminNotificationsState {
   settingNotifications: NotificationSettingResponse[];
 }
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class AdminNotificationsService extends RxState<AdminNotificationsState> {
   readonly emailVariables$ = this.select('emailVariables');
   readonly configNotifications$ = this.select('configNotifications');

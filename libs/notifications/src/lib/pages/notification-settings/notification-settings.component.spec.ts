@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { NotificationSettingsComponent } from './notification-settings.component';
 
-describe('NotificationSettingDialogComponent', () => {
+describe('NotificationSettingsComponent', () => {
   let component: NotificationSettingsComponent;
   let fixture: ComponentFixture<NotificationSettingsComponent>;
 

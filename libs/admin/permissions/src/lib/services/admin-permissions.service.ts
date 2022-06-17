@@ -13,7 +13,9 @@ interface State {
   resources: Record<string, Item[]>;
 }
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class AdminPermissionsService extends RxState<State> {
   readonly init$ = new Subject<void>();
   readonly request$ = this.select().pipe(

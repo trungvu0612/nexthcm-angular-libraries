@@ -12,7 +12,9 @@ import {
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class AdminEmployeesService {
   constructor(private readonly http: HttpClient) {}
 
