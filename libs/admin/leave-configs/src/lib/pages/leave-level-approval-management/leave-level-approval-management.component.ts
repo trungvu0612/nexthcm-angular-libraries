@@ -1,5 +1,5 @@
 import { Location } from '@angular/common';
-import { AfterViewInit, ChangeDetectionStrategy, Component, Inject, Injector } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, Injector } from '@angular/core';
 import { ActivatedRoute, UrlSerializer } from '@angular/router';
 import { AbstractServerSortPaginationTableComponent, Pagination, PromptService } from '@nexthcm/cdk';
 import { ProviderScope, TRANSLOCO_SCOPE, TranslocoService } from '@ngneat/transloco';
@@ -8,7 +8,7 @@ import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { Columns } from 'ngx-easy-table';
-import { EMPTY, from, iif, Observable, of, tap } from 'rxjs';
+import { EMPTY, from, iif, Observable, of } from 'rxjs';
 import { catchError, filter, map, share, startWith, switchMap, takeUntil } from 'rxjs/operators';
 
 import { AdminLeaveConfigsService } from '../../admin-leave-configs.service';
@@ -22,10 +22,7 @@ import { LeaveConfigUrlPaths, LeaveLevelApproval } from '../../models';
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [TuiDestroyService, RxState],
 })
-export class LeaveLevelApprovalManagementComponent
-  extends AbstractServerSortPaginationTableComponent<LeaveLevelApproval>
-  implements AfterViewInit
-{
+export class LeaveLevelApprovalManagementComponent extends AbstractServerSortPaginationTableComponent<LeaveLevelApproval> {
   readonly leaveConfigAPIUrlPath: keyof LeaveConfigUrlPaths = 'leaveLevelApproval';
   readonly columns$: Observable<Columns[]> = this.translocoService
     .selectTranslateObject('LEAVE_LEVEL_APPROVAL_MANAGEMENT_COLUMNS', {}, this.translocoScope.scope)
@@ -79,23 +76,6 @@ export class LeaveLevelApprovalManagementComponent
       })
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => this.fetch$.next());
-  }
-
-  override ngAfterViewInit(): void {
-    super.ngAfterViewInit();
-
-    this.activatedRoute.queryParamMap
-      .pipe(
-        map((queryParamMap) => queryParamMap.get('leaveLevelApprovalId')),
-        filter(isPresent),
-        switchMap((leaveLevelApprovalId) => this.leaveConfigsService.getLeaveLevelApproval(leaveLevelApprovalId)),
-        filter(isPresent),
-        tap((leaveLevelApproval) => {
-          this.onUpsertLeaveType(leaveLevelApproval);
-        }),
-        takeUntil(this.destroy$)
-      )
-      .subscribe();
   }
 
   onRemoveLeaveLevelApproval(id: string): void {

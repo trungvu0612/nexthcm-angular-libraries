@@ -1,5 +1,5 @@
 import { Location } from '@angular/common';
-import { AfterViewInit, ChangeDetectionStrategy, Component, Inject, Injector } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, Injector } from '@angular/core';
 import { ActivatedRoute, UrlSerializer } from '@angular/router';
 import { AbstractServerSortPaginationTableComponent, Pagination, PromptService } from '@nexthcm/cdk';
 import { ProviderScope, TRANSLOCO_SCOPE, TranslocoService } from '@ngneat/transloco';
@@ -9,7 +9,7 @@ import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { Columns } from 'ngx-easy-table';
 import { EMPTY, from, iif, Observable, of } from 'rxjs';
-import { catchError, filter, map, share, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { catchError, filter, map, share, startWith, switchMap, takeUntil } from 'rxjs/operators';
 
 import { AdminLeaveConfigsService } from '../../admin-leave-configs.service';
 import { UpsertLeaveEntitlementDialogComponent } from '../../components/upsert-leave-entitlement/upsert-leave-entitlement-dialog.component';
@@ -22,10 +22,7 @@ import { LeaveConfigUrlPaths, LeaveEntitlement } from '../../models';
   providers: [TuiDestroyService, RxState],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LeaveEntitlementManagementComponent
-  extends AbstractServerSortPaginationTableComponent<LeaveEntitlement>
-  implements AfterViewInit
-{
+export class LeaveEntitlementManagementComponent extends AbstractServerSortPaginationTableComponent<LeaveEntitlement> {
   readonly leaveConfigAPIUrlPath: keyof LeaveConfigUrlPaths = 'leaveEntitlement';
   readonly columns$: Observable<Columns[]> = this.translocoService
     .selectTranslateObject('LEAVE_ENTITLEMENT_MANAGEMENT_COLUMNS', {}, this.translocoScope.scope)
@@ -83,23 +80,6 @@ export class LeaveEntitlementManagementComponent
       })
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => this.fetch$.next());
-  }
-
-  override ngAfterViewInit(): void {
-    super.ngAfterViewInit();
-
-    this.activatedRoute.queryParamMap
-      .pipe(
-        map((queryParamMap) => queryParamMap.get('leaveEntitlementId')),
-        filter(isPresent),
-        switchMap((leaveEntitlementId) => this.leaveConfigsService.getLeaveEntitlements(leaveEntitlementId)),
-        filter(isPresent),
-        tap((leaveEntitlements) => {
-          this.onUpsertLeaveType(leaveEntitlements);
-        }),
-        takeUntil(this.destroy$)
-      )
-      .subscribe();
   }
 
   onRemoveLeaveEntitlement(id: string): void {

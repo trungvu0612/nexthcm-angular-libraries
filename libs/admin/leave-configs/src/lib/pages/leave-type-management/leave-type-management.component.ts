@@ -1,5 +1,5 @@
 import { Location } from '@angular/common';
-import { AfterViewInit, ChangeDetectionStrategy, Component, Inject, Injector } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, Injector } from '@angular/core';
 import { ActivatedRoute, UrlSerializer } from '@angular/router';
 import { AbstractServerSortPaginationTableComponent, Pagination, PromptService } from '@nexthcm/cdk';
 import { LeaveType } from '@nexthcm/my-time';
@@ -22,7 +22,6 @@ import {
   startWith,
   switchMap,
   takeUntil,
-  tap,
 } from 'rxjs';
 
 import { AdminLeaveConfigsService } from '../../admin-leave-configs.service';
@@ -36,10 +35,7 @@ import { LeaveConfigUrlPaths } from '../../models';
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [TuiDestroyService, RxState],
 })
-export class LeaveTypeManagementComponent
-  extends AbstractServerSortPaginationTableComponent<LeaveType>
-  implements AfterViewInit
-{
+export class LeaveTypeManagementComponent extends AbstractServerSortPaginationTableComponent<LeaveType> {
   readonly leaveConfigAPIUrlPath: keyof LeaveConfigUrlPaths = 'leaveType';
   readonly columns$: Observable<Columns[]> = this.translocoService
     .selectTranslateObject('LEAVE_TYPES_MANAGEMENT_COLUMNS', {}, this.translocoScope.scope)
@@ -82,23 +78,6 @@ export class LeaveTypeManagementComponent
   ) {
     super(state, activatedRoute);
     state.connect(this.request$.pipe(filter(isPresent)));
-  }
-
-  override ngAfterViewInit(): void {
-    super.ngAfterViewInit();
-
-    this.activatedRoute.queryParamMap
-      .pipe(
-        map((queryParamMap) => queryParamMap.get('leaveTypeId')),
-        filter(isPresent),
-        switchMap((leaveTypeId) => this.leaveConfigsService.getLeaveType(leaveTypeId)),
-        filter(isPresent),
-        tap((leaveType) => {
-          this.onUpsertLeaveType(leaveType);
-        }),
-        takeUntil(this.destroy$)
-      )
-      .subscribe();
   }
 
   onUpsertLeaveType(data?: LeaveType): void {
