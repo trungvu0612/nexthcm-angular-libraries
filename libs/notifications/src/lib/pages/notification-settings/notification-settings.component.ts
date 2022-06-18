@@ -74,6 +74,17 @@ export class NotificationSettingsComponent {
         controlsConfig[column] = this.fb.control(false);
         const controlsConfigColumnNoti = groupConfig[column].controls;
         for (const key in controlsConfigColumnNoti) {
+          controlsConfigColumnNoti[key].valueChanges.pipe(takeUntil(this.destroy$)).subscribe((value) => {
+            this.columnTitles.forEach((title) => {
+              if (key.includes(title)) {
+                const notifyId_ = key.replace(title, '');
+                const columnTitle = title.charAt(0).toUpperCase() + title.substring(1);
+                const nameSoundColumn = 'sound' + columnTitle;
+                const newKey = notifyId_ + nameSoundColumn;
+                controlsConfigColumnNoti[newKey].setValue(value);
+              }
+            });
+          });
           settingNotifications.forEach((value) => {
             value.listNotifiSetting.forEach((item) => {
               if (key.includes(item['notifyId'] as string) && !item['active']) {
