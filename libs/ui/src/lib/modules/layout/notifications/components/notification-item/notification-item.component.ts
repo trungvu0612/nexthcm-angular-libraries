@@ -43,78 +43,61 @@ export class NotificationItemComponent {
         this.router.navigateByUrl(`/seat-maps${targetId ? `/${targetId}` : ''}`);
         break;
       case NotificationType.KnowledgeBaseArticles:
-        if (targetId) {
-          this.router.navigateByUrl(`/admin/knowledge-base/articles/${targetId}/edit`);
-        } else {
-          this.router.navigateByUrl('/profile/individual');
-        }
+        this.router.navigateByUrl(`/knowledge-base/articles${targetId ? `/${targetId}` : ''}`);
         break;
       case NotificationType.Tenants:
-        this.router.navigateByUrl(`/admin/tenants${targetId ? `/${targetId}/profile` : ''}`);
+        this.router.navigateByUrl(`/admin/tenants`);
         break;
       case NotificationType.OfficesList:
         this.router.navigateByUrl('/admin/offices/list');
         break;
       case NotificationType.SeatMapEdit:
-        this.router.navigateByUrl(`/admin/seat-maps${targetId ? `/${targetId}/edit` : ''}`);
+        this.router.navigateByUrl(`/admin/seat-maps`);
         break;
       case NotificationType.LeaveConfigLevelsApproval:
-        if (targetId) {
-          this.router.navigate(['/admin/leave-configs/levels-approval'], {
-            queryParams: { leaveLevelApprovalId: targetId },
-          });
-        } else {
-          this.router.navigateByUrl('/admin/leave-configs/levels-approval');
-        }
+        this.router.navigateByUrl('/admin/leave-configs/levels-approval');
         break;
       case NotificationType.LeaveConfigType:
-        if (targetId) {
-          this.router.navigate(['/admin/leave-configs/types'], { queryParams: { leaveTypeId: targetId } });
-        } else {
-          this.router.navigateByUrl('/admin/leave-configs/types');
-        }
+        this.router.navigateByUrl('/admin/leave-configs/types');
         break;
       case NotificationType.LeaveConfigEntitlements:
-        if (targetId) {
-          this.router.navigate(['/admin/leave-configs/entitlements'], {
-            queryParams: { leaveEntitlementId: targetId },
-          });
-        } else {
-          this.router.navigateByUrl('/admin/leave-configs/entitlements');
-        }
+        this.router.navigateByUrl('/admin/leave-configs/entitlements');
         break;
       case NotificationType.Permission:
-        this.router.navigateByUrl(`/admin/permissions${targetId ? `/${targetId}` : ''}`);
+        this.router.navigateByUrl(`/admin/permissions`);
         break;
       case NotificationType.AdminWorkFromHome:
-        this.router.navigateByUrl(`/my-time/requests/work-from-home${targetId ? `?id=/${targetId}` : ''}`);
+        this.router.navigateByUrl(`/my-time/requests/work-from-home${targetId ? `?id=${targetId}` : ''}`);
         break;
       case NotificationType.AdminLeave:
-        this.router.navigateByUrl(`/my-time/requests/leave${targetId ? `?id=/${targetId}` : ''}`);
+        this.router.navigateByUrl(`/my-time/requests/leave${targetId ? `?id=${targetId}` : ''}`);
         break;
       case NotificationType.AdminWorkingAfterHouse:
-        this.router.navigateByUrl(`/my-time/requests/working-after-hours${targetId ? `?id=/${targetId}` : ''}`);
+        this.router.navigateByUrl(`/my-time/requests/working-after-hours${targetId ? `?id=${targetId}` : ''}`);
         break;
       case NotificationType.AdminUpdateTimesheet:
-        this.router.navigateByUrl(`/my-time/requests/update-timesheet${targetId ? `?id=/${targetId}` : ''}`);
+        this.router.navigateByUrl(`/my-time/requests/update-timesheet${targetId ? `?id=${targetId}` : ''}`);
         break;
       case NotificationType.AdminWorkingOnsite:
-        this.router.navigateByUrl(`/my-time/requests/working-onsite${targetId ? `?id=/${targetId}` : ''}`);
+        this.router.navigateByUrl(`/my-time/requests/working-onsite${targetId ? `?id=${targetId}` : ''}`);
         break;
       case NotificationType.EmployeeWorkFromHome:
-        this.router.navigateByUrl(`/my-time/my-requests/work-from-home${targetId ? `?id=/${targetId}` : ''}`);
+        this.router.navigateByUrl(`/my-time/my-requests/work-from-home${targetId ? `?id=${targetId}` : ''}`);
         break;
       case NotificationType.EmployeeLeave:
-        this.router.navigateByUrl(`/my-time/my-leave${targetId ? `?id=/${targetId}` : ''}`);
+        this.router.navigateByUrl(`/my-time/my-leave${targetId ? `?id=${targetId}` : ''}`);
         break;
       case NotificationType.EmployeeWorkingAfterHouse:
-        this.router.navigateByUrl(`/my-time/my-requests/working-after-hours${targetId ? `?id=/${targetId}` : ''}`);
+        this.router.navigateByUrl(`/my-time/my-requests/working-after-hours${targetId ? `?id=${targetId}` : ''}`);
         break;
       case NotificationType.EmployeeUpdateTimesheet:
-        this.router.navigateByUrl(`/my-time/my-requests/update-timesheet${targetId ? `?id=/${targetId}` : ''}`);
+        this.router.navigateByUrl(`/my-time/my-requests/update-timesheet${targetId ? `?id=${targetId}` : ''}`);
         break;
       case NotificationType.EmployeeWorkingOnsite:
-        this.router.navigateByUrl(`/my-time/my-requests/working-onsite${targetId ? `?id=/${targetId}` : ''}`);
+        this.router.navigateByUrl(`/my-time/my-requests/working-onsite${targetId ? `?id=${targetId}` : ''}`);
+        break;
+      case NotificationType.WorkingTimesConfiguration:
+        this.router.navigateByUrl(`overview/me`);
         break;
       default:
         throw new Error('Type Notification Invalid');
