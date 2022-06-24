@@ -43,7 +43,7 @@ export const adminNotificationsRoutes: Routes = [
       { path: '', redirectTo: 'management', pathMatch: 'full' },
       { path: 'management', component: NotificationManagementComponent },
       {
-        path: 'add',
+        path: 'management/add',
         component: UpsertNotificationComponent,
         canActivate: [NgxPermissionsGuard],
         data: { permissions: { only: 'CREATE_NOTIFICATION', redirectTo: '/' } },
