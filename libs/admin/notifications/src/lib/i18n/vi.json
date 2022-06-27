@@ -26,7 +26,8 @@
   "deleteNotificationSuccessfully": "<b>Xóa thông báo thành công!</b>",
   "NOTIFICATION_TYPES": {
     "common": "Thông báo thường",
-    "birthday": "Chúc mừng sinh nhật"
+    "birthday": "Chúc mừng sinh nhật",
+    "report": "Báo cáo"
   },
   "application": "Ứng dụng",
   "shortContent": "Nội dung ngắn (cho di động)",

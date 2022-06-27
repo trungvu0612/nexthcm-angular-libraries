@@ -26,7 +26,8 @@
   "deleteNotificationSuccessfully": "<b>Remove the notification successfully!</b>",
   "NOTIFICATION_TYPES": {
     "common": "Common",
-    "birthday": "Happy Birthday"
+    "birthday": "Happy Birthday",
+    "report": "Report"
   },
   "application": "Application",
   "shortContent": "Short content (for mobile)",
