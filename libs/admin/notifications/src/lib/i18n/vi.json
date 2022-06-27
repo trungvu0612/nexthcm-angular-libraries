@@ -27,7 +27,7 @@
   "NOTIFICATION_TYPES": {
     "common": "Thông báo thường",
     "birthday": "Chúc mừng sinh nhật",
-    "report": "Báo cáo"
+    "report": "Báo cáo giờ làm việc"
   },
   "application": "Ứng dụng",
   "shortContent": "Nội dung ngắn (cho di động)",
