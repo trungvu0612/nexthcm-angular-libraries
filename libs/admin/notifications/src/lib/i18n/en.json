@@ -27,7 +27,7 @@
   "NOTIFICATION_TYPES": {
     "common": "Common",
     "birthday": "Happy Birthday",
-    "report": "Report"
+    "report": "Working Hours Report"
   },
   "application": "Application",
   "shortContent": "Short content (for mobile)",
