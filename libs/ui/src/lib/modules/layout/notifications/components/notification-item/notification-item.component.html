@@ -31,11 +31,11 @@
 
   <ng-template #actionTpl>
     <tui-data-list [tuiActiveZoneParent]="activeZone">
-      <button (click)="action('read')" *ngIf="!item.read" class="!justify-start gap-2" tuiOption>
+      <button (click)="action('read').subscribe()" *ngIf="!item.read" class="!justify-start gap-2" tuiOption>
         <tui-svg src="tuiIconCheckLarge"></tui-svg>
         {{ t('markAsRead') }}
       </button>
-      <button (click)="action('remove')" class="!justify-start gap-2" tuiOption>
+      <button (click)="action('remove').subscribe()" class="!justify-start gap-2" tuiOption>
         <tui-svg src="tuiIconRemoveLarge"></tui-svg>
         {{ t('removeTheNotification') }}
       </button>
