@@ -35,6 +35,7 @@ export class NotificationItemComponent {
 
   toPageNotification({ type, targetId }: NotificationItem): void {
     this.action('read');
+    console.log('**************type', type);
     switch (type) {
       case NotificationType.OverviewMe:
         void this.router.navigateByUrl('/overview/me');
@@ -98,6 +99,9 @@ export class NotificationItemComponent {
         break;
       case NotificationType.WorkingTimesConfiguration:
         this.router.navigateByUrl(`overview/me`);
+        break;
+      case NotificationType.NotificationAdHoc:
+        this.router.navigateByUrl(`admin/notifications/management`);
         break;
       default:
         throw new Error('Type Notification Invalid');
