@@ -58,6 +58,7 @@ export class NotificationManagementComponent
       map((result) => [
         { value: NotificationType.Common, label: result.common },
         { value: NotificationType.Birthday, label: result.birthday },
+        { value: NotificationType.Report, label: result.report },
       ])
     );
   readonly statusList$: Observable<BaseOption<CommonStatus>[]> = this.translocoService
