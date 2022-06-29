@@ -24,7 +24,7 @@
         <td>
           <div class="flex justify-center">
             <tui-checkbox
-              (ngModelChange)="onChangeExclusion(item.id, $event)"
+              (ngModelChange)="confirmationDialog(item.id, $event)"
               [ngModel]="item.isSkipCheckInOutNormal"
               size="l"
             ></tui-checkbox>

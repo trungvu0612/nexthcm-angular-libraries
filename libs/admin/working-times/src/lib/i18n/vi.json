@@ -51,5 +51,7 @@
     "fullName": "Tên đầy đủ",
     "status": "Trạng thái",
     "excepted": "Ngoại lệ"
-  }
+  },
+  "contentConfirmation": "<b>Việc sửa đổi này sẽ thông báo cho tất cả người dùng có liên quan.<br> Bạn có muốn gửi nó không?</b>",
+  "submitRequestSuccessfully": "<b>Gửi yêu cầu thành công!</b>"
 }

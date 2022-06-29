@@ -13,7 +13,7 @@ import { ProviderScope, TRANSLOCO_SCOPE, TranslocoService } from '@ngneat/transl
 import { RxState } from '@rx-angular/state';
 import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { Columns } from 'ngx-easy-table';
-import { Observable, of, Subject } from 'rxjs';
+import { from, Observable, of, Subject } from 'rxjs';
 import {
   catchError,
   debounceTime,
@@ -92,18 +92,34 @@ export class OfficesCICOExceptionComponent extends AbstractServerPaginationTable
     );
   }
 
-  onChangeExclusion(office: Office, isSkipCheckInOutNormal: boolean): void {
+  confirmationDialog(office: Office, isSkipCheckInOutNormal: boolean): void {
     const payload = { ...office, isSkipCheckInOutNormal };
-
-    this.officesService
-      .editOffice(payload)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        error: (err) => {
-          this.promptService
-            .open({ icon: 'error', html: this.promptService.generateErrorMessage(err) })
-            .then(() => this.fetch$.next());
-        },
-      });
+    from(
+      this.promptService.open({
+        icon: 'info',
+        html: this.translocoService.translate(`${this.translocoScope.scope}.contentConfirmation`),
+        showCancelButton: true,
+      })
+    )
+      .pipe(
+        tap((result) => {
+          if (!result.isConfirmed) this.fetch$.next();
+        }),
+        filter((result) => result.isConfirmed),
+        switchMap(() => this.officesService.editOffice(payload)),
+        catchError((err) =>
+          from(
+            this.promptService
+              .open({ icon: 'error', html: this.promptService.generateErrorMessage(err) })
+              .then(() => this.fetch$.next())
+          )
+        ),
+        takeUntil(this.destroy$)
+      )
+      .subscribe(
+        this.promptService.handleResponse(`${this.translocoScope.scope}.submitRequestSuccessfully`, () =>
+          this.fetch$.next()
+        )
+      );
   }
 }

@@ -51,5 +51,7 @@
     "fullName": "Full Name",
     "status": "Status",
     "excepted": "Excepted"
-  }
+  },
+  "contentConfirmation": "<b>This modification will notify all relevant users.<br> Do you want to submit it?</b>",
+  "submitRequestSuccessfully": "<b>Request has been successfully submitted!</b>"
 }
