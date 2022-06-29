@@ -116,10 +116,6 @@ export class JobTitlesCICOExceptionComponent extends AbstractServerPaginationTab
         ),
         takeUntil(this.destroy$)
       )
-      .subscribe(
-        this.promptService.handleResponse(`${this.translocoScope.scope}.submitRequestSuccessfully`, () =>
-          this.fetch$.next()
-        )
-      );
+      .subscribe();
   }
 }
