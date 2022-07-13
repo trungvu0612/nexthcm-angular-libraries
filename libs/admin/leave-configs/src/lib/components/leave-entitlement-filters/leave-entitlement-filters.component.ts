@@ -1,5 +1,14 @@
 import { HttpParams } from '@angular/common/http';
-import { ChangeDetectionStrategy, Component, EventEmitter, Inject, Injector, LOCALE_ID, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Inject,
+  Injector,
+  Input,
+  LOCALE_ID,
+  Output,
+} from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { BaseObject, BaseUser, JobTitlesService, OfficesService, PromptService } from '@nexthcm/cdk';
 import { TRANSLOCO_SCOPE, TranslocoService } from '@ngneat/transloco';
@@ -37,6 +46,7 @@ interface LeaveEntitlementFiltersForm extends LeaveEntitlementFilters {
 })
 export class LeaveEntitlementFiltersComponent {
   @Output() view = new EventEmitter<LeaveEntitlementFilters>();
+  @Input() isExport?: boolean;
 
   model = {} as LeaveEntitlementFiltersForm;
   form = this.fb.group(this.model);

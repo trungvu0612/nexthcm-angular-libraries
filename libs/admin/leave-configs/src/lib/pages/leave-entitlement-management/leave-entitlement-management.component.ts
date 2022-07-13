@@ -14,6 +14,7 @@ import { catchError, filter, map, share, startWith, switchMap, takeUntil } from 
 import { AdminLeaveConfigsService } from '../../admin-leave-configs.service';
 import { UpsertLeaveEntitlementDialogComponent } from '../../components/upsert-leave-entitlement/upsert-leave-entitlement-dialog.component';
 import { LeaveConfigUrlPaths, LeaveEntitlement } from '../../models';
+import { LeaveEntitlementFilters } from '../../models';
 
 @Component({
   selector: 'hcm-leave-entitlement-management',
@@ -101,5 +102,15 @@ export class LeaveEntitlementManagementComponent extends AbstractServerSortPagin
           this.fetch$.next()
         )
       );
+  }
+
+  onView(filters: LeaveEntitlementFilters): void {
+    for (const key of Object.keys(filters) as Array<keyof LeaveEntitlementFilters>) {
+      const value = filters[key];
+
+      this.queryParams = value ? this.queryParams.set(key, value) : this.queryParams.delete(key);
+    }
+    this.queryParams = this.queryParams.delete('page');
+    this.fetch$.next();
   }
 }

@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { EmployeeSHUI, EmployeesService, PromptService } from '@nexthcm/cdk';
+import { EmployeeSHUI, EmployeesService, FilesService, PromptService } from '@nexthcm/cdk';
 import { ProviderScope, TRANSLOCO_SCOPE } from '@ngneat/transloco';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TuiDestroyService } from '@taiga-ui/cdk';
@@ -19,183 +19,72 @@ import { AdminEmployeesService } from '../../services/admin-employees.service';
 })
 export class ShuiFormComponent {
   form = this.fb.group({} as EmployeeSHUI);
-  model = { healthCares: [{}], dependenceMembers: [{}] } as EmployeeSHUI;
+  model = { attachments: [{}] } as EmployeeSHUI;
   fields: FormlyFieldConfig[] = [
     {
-      fieldGroupClassName: 'grid grid-cols-2 gap-4',
+      className: 'tui-form__row block',
+      fieldGroupClassName: 'grid grid-cols-3 gap-4',
       fieldGroup: [
         {
-          fieldGroup: [
-            {
-              key: 'socialInsuranceNumber',
-              className: 'tui-form__row block',
-              type: 'input',
-              templateOptions: {
-                translate: true,
-                label: `${this.translocoScope.scope}.socialInsuranceNumber`,
-                labelClassName: 'font-semibold',
-                placeholder: `${this.translocoScope.scope}.enterSocialInsuranceNumber`,
-                textfieldLabelOutside: true,
-              },
-            },
-            {
-              key: 'socialInsurancePlace',
-              className: 'tui-form__row block',
-              type: 'input',
-              templateOptions: {
-                translate: true,
-                label: `${this.translocoScope.scope}.socialInsurancePlace`,
-                labelClassName: 'font-semibold',
-                placeholder: `${this.translocoScope.scope}.enterSocialInsurancePlace`,
-                textfieldLabelOutside: true,
-              },
-            },
-            {
-              key: 'healthCares',
-              className: 'tui-form__row block',
-              type: 'repeat',
-              templateOptions: {
-                translate: true,
-                label: `${this.translocoScope.scope}.healthCareInsuranceList`,
-              },
-              fieldArray: {
-                fieldGroupClassName: 'grid grid-cols-2 gap-4',
-                fieldGroup: [
-                  {
-                    key: 'healthcare',
-                    type: 'select',
-                    templateOptions: {
-                      translate: true,
-                      label: `${this.translocoScope.scope}.healthCareCompany`,
-                      placeholder: `${this.translocoScope.scope}.chooseHealthCareCompany`,
-                      options: ['PVI'],
-                      textfieldLabelOutside: false,
-                    },
-                  },
-                  {
-                    key: 'number',
-                    type: 'input',
-                    templateOptions: {
-                      translate: true,
-                      label: `${this.translocoScope.scope}.healthCareNumber`,
-                      placeholder: `${this.translocoScope.scope}.enterHealthCareNumber`,
-                    },
-                  },
-                ],
-              },
-            },
-          ],
+          key: 'siNumber',
+          type: 'input',
+          templateOptions: {
+            translate: true,
+            label: `${this.translocoScope.scope}.siNumber`,
+            labelClassName: 'font-semibold',
+            placeholder: `${this.translocoScope.scope}.enterSiNumber`,
+            textfieldLabelOutside: true,
+          },
         },
         {
-          fieldGroup: [
-            {
-              key: 'taxIDNumber',
-              className: 'tui-form__row block',
-              type: 'input',
-              templateOptions: {
-                translate: true,
-                label: `${this.translocoScope.scope}.taxIDNumber`,
-                labelClassName: 'font-semibold',
-                placeholder: `${this.translocoScope.scope}.enterTaxIDNumber`,
-                textfieldLabelOutside: true,
-              },
-            },
-            {
-              key: 'familyHealthyCareNumber',
-              className: 'tui-form__row block',
-              type: 'input',
-              templateOptions: {
-                translate: true,
-                label: `${this.translocoScope.scope}.familyHealthCarePackageNumber`,
-                labelClassName: 'font-semibold',
-                placeholder: `${this.translocoScope.scope}.enterFamilyHealthCarePackageNumber`,
-                textfieldLabelOutside: true,
-              },
-            },
-            {
-              key: 'healthInsuranceNumber',
-              className: 'tui-form__row block',
-              type: 'input',
-              templateOptions: {
-                translate: true,
-                label: `${this.translocoScope.scope}.healthInsuranceNumber`,
-                labelClassName: 'font-semibold',
-                placeholder: `${this.translocoScope.scope}.enterHealthInsuranceNumber`,
-                textfieldLabelOutside: true,
-              },
-            },
-            {
-              key: 'healthInsurancePlace',
-              className: 'tui-form__row block',
-              type: 'input',
-              templateOptions: {
-                translate: true,
-                label: `${this.translocoScope.scope}.healthInsurancePlace`,
-                labelClassName: 'font-semibold',
-                placeholder: `${this.translocoScope.scope}.enterHealthInsurancePlace`,
-                textfieldLabelOutside: true,
-              },
-            },
-          ],
+          key: 'hospitalCode',
+          type: 'input',
+          templateOptions: {
+            translate: true,
+            label: `${this.translocoScope.scope}.hospitalCode`,
+            labelClassName: 'font-semibold',
+            textfieldLabelOutside: true,
+            placeholder: `${this.translocoScope.scope}.enterHospitalCode`,
+          },
+        },
+        {
+          key: 'hospitalName',
+          type: 'input',
+          templateOptions: {
+            translate: true,
+            label: `${this.translocoScope.scope}.hospitalName`,
+            labelClassName: 'font-semibold',
+            placeholder: `${this.translocoScope.scope}.enterHospitalName`,
+            textfieldLabelOutside: true,
+          },
         },
       ],
     },
     {
-      key: 'dependenceMembers',
-      className: 'tui-form__row block',
+      key: 'attachments',
       type: 'repeat',
+      className: 'tui-form__row block',
       templateOptions: {
         translate: true,
-        label: `${this.translocoScope.scope}.dependentMembers`,
+        label: `${this.translocoScope.scope}.attachmentFiles`,
       },
       fieldArray: {
-        fieldGroupClassName: 'grid grid-cols-5 gap-4',
+        fieldGroupClassName: 'flex space-x-2 items-center',
         fieldGroup: [
           {
-            key: 'nameDependenceMember',
-            type: 'input',
+            key: 'file',
+            className: 'flex-1',
+            type: 'sharing-file',
             templateOptions: {
-              translate: true,
-              label: 'name',
-              placeholder: 'enterName',
+              labelClassName: 'font-semibold',
+              serverRequest: (file: File) => this.filesService.uploadFile('employee', file, false, true),
+            },
+            expressionProperties: {
+              'templateOptions.onUploadedFile': (_, __, field) => (value: string) =>
+                field?.form?.controls?.['path']?.setValue(value),
             },
           },
-          {
-            key: 'birthDateDependenceMember',
-            type: 'input-date',
-            templateOptions: {
-              translate: true,
-              label: `${this.translocoScope.scope}.DOB`,
-              placeholder: `${this.translocoScope.scope}.enterDOB`,
-            },
-          },
-          {
-            key: 'idNumberDependenceMember',
-            type: 'input',
-            templateOptions: {
-              translate: true,
-              label: `${this.translocoScope.scope}.idNumber`,
-              placeholder: `${this.translocoScope.scope}.enterIDNumber`,
-            },
-          },
-          {
-            key: 'issueOnDependenceMember',
-            type: 'input-date',
-            templateOptions: {
-              translate: true,
-              label: `${this.translocoScope.scope}.issueOn`,
-              placeholder: `${this.translocoScope.scope}.enterIssueOn`,
-            },
-          },
-          {
-            key: 'issueAtDependenceMember',
-            type: 'input',
-            templateOptions: {
-              translate: true,
-              label: `${this.translocoScope.scope}.issueAt`,
-              placeholder: `${this.translocoScope.scope}.enterIssueAt`,
-            },
-          },
+          { key: 'path', type: 'download-button' },
         ],
       },
     },
@@ -218,7 +107,8 @@ export class ShuiFormComponent {
     private readonly adminEmployeeService: AdminEmployeesService,
     private readonly employeesService: EmployeesService,
     private readonly destroy$: TuiDestroyService,
-    private readonly promptService: PromptService
+    private readonly promptService: PromptService,
+    private readonly filesService: FilesService
   ) {}
 
   onSubmit(): void {

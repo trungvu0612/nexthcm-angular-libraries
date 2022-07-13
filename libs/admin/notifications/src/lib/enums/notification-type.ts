@@ -1,5 +1,5 @@
 export enum NotificationType {
   Common,
   Birthday,
-  Report,
+  Report = 29,
 }

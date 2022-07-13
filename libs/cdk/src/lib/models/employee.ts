@@ -10,14 +10,24 @@ export type EmployeeInformationAPIType =
   | 'DURATION'
   | 'EDUCATION'
   | 'WORK_EXPERIENCE'
+  | 'PIT'
   | 'SHUI'
+  | 'FAMILY_BOOK'
+  | 'LABOR_CONTRACT'
+  | 'RESIGNATION_LEAVE'
+  | 'HEALTH_CARE'
   | 'ATTACHMENT';
 export type EmployeeInformationType =
   | EmployeeIndividual
   | EmployeeDuration
   | EmployeeEducation
   | EmployeeExperience
+  | EmployeePIT
   | EmployeeSHUI
+  | EmployeeFamilyBook
+  | EmployeeLaborContract
+  | EmployeeResignationLeave
+  | EmployeeHealthCare
   | EmployeeAttachment;
 
 export interface Supervisor {
@@ -48,6 +58,22 @@ export interface EmployeeGeneralInformation {
   syncLDAPDirectReport: boolean;
   statusBoolean?: boolean;
   userMultipleReportMethod: Supervisor[];
+  vCode: string;
+  site: string;
+  teamSection: string;
+  sector: string;
+  costCenter: string;
+  vnJobTitle: string;
+  workingPlace: string;
+  accountCustomer: string;
+  RCS: string;
+  staffCategory: string;
+  seniorityDate: string | TuiDay | Date;
+  BVTime: string;
+  startWorkingDay: string | TuiDay | Date;
+  lastWorkingDay: string | TuiDay | Date;
+  attachmentFiles: string[];
+  attachments?: Attachment[];
 }
 
 export interface BankAccount {
@@ -143,13 +169,81 @@ export interface DependentMember {
 }
 
 export interface EmployeeSHUI extends EmployeeBaseForm {
-  taxIDNumber: string;
-  socialInsuranceNumber: string;
-  socialInsurancePlace: string;
-  familyHealthyCareNumber: string;
-  healthInsuranceNumber: string;
-  healthCares: HealthCare[] | string;
-  dependenceMembers: DependentMember[] | string;
+  siNumber: string;
+  hospitalCode: string;
+  hospitalName: string;
+  attachmentFiles: string[];
+  attachments?: Attachment[];
+}
+
+export interface EmployeePIT extends EmployeeBaseForm {
+  taxCode: string;
+  noOfDependant: number;
+  attachmentFiles: string[];
+  attachments?: Attachment[];
+}
+
+export interface EmployeePersonal extends EmployeeBaseForm {
+  taxCode: string;
+  noOfDependant: number;
+  attachmentFiles: string[];
+  attachments?: Attachment[];
+}
+
+export interface EmployeeHealthCare extends EmployeeBaseForm {
+  healthCareNumber: string;
+  startDate: string | TuiDay | Date;
+  noOfDependantPaidByEmployer: string;
+  healthCareLevel: string;
+  noOfDependantPaidByEmployee: string;
+  attachmentFiles: string[];
+  attachments?: Attachment[];
+}
+
+export interface EmployeeResignationLeave extends EmployeeBaseForm {
+  resignationReasons: string;
+  startDateOfUnpaidLeave: string | TuiDay | Date;
+  typeOfUnpaidLeave: string;
+  remarkOfUnpaidLeave: string;
+  noOfTerminationDecision: string;
+  backdatedAfterUnpaidLeave: string | TuiDay | Date;
+  attachmentFiles: string[];
+  attachments?: Attachment[];
+}
+
+export interface EmployeeLaborContract extends EmployeeBaseForm {
+  probationStartDate: string | TuiDay | Date;
+  probationEndDate: string | TuiDay | Date;
+  firstLaborContractStartDate: string | TuiDay | Date;
+  firstLaborContractEndDate: string | TuiDay | Date;
+  secondLaborContractStartDate: string | TuiDay | Date;
+  secondLaborContractEndDate: string | TuiDay | Date;
+  probationStindefiniteTermLaborContractStartDateartDate: string | TuiDay | Date;
+  currentTypeOfContract: string;
+  attachmentFiles: string[];
+  attachments?: Attachment[];
+}
+
+export interface EmployeeFamilyBook extends EmployeeBaseForm {
+  familyBookNumber: string;
+  familyBookOwnerName: string;
+  familyBookOwnerBirthday: string | TuiDay | Date;
+  familyBookOwnerId: string;
+  ownerGender: string;
+  relationshipOwnerEmployee: string;
+  attachmentFiles: string[];
+  attachments?: Attachment[];
+}
+
+export interface EmployeeManagement extends EmployeeBaseForm {
+  subLeader: string;
+  directManager: string;
+  upperManager: string | TuiDay | Date;
+  hod: string;
+  hrbp: string;
+  pjc: string;
+  attachmentFiles: string[];
+  attachments?: Attachment[];
 }
 
 export interface EmployeeAddress {
