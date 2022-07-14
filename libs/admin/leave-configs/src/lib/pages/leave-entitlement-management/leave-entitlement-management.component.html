@@ -10,6 +10,7 @@
       {{ translocoScope.scope + '.createLeaveEntitlement' | transloco }}
     </button>
   </ng-container>
+  <hcm-leave-entitlement-filters (view)="onView($event)" class="mb-5"></hcm-leave-entitlement-filters>
   <tui-loader [overlay]="true" [showLoader]="(loading$ | push) === true">
     <ngx-table
       #table

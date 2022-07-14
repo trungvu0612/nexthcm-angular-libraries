@@ -1,10 +1,46 @@
 <main>
   <tui-tabs *transloco="let t" [(activeItemIndex)]="activeItemIndex">
     <button tuiTab>
-      <i class="bx bx-info-circle bx-sm tui-space_right-2"></i>
+      <!-- <i class="bx bx-info-circle bx-sm tui-space_right-2"></i> -->
       {{ t('generalInformation') }}
     </button>
     <button tuiTab>
+      <!-- <tui-svg class="w-6 h-6 tui-space_right-2" src="tuiIconCompanyLarge"></tui-svg> -->
+      {{ t('management') }}
+    </button>
+    <button tuiTab>
+      <!-- <tui-svg class="w-6 h-6 tui-space_right-2" src="tuiIconFrameLarge"></tui-svg> -->
+      {{ t('pit') }}
+    </button>
+    <button tuiTab>
+      <!-- <tui-svg class="w-6 h-6 tui-space_right-2" src="tuiIconHiliteLarge"></tui-svg> -->
+      {{ t('shui') }}
+    </button>
+    <button tuiTab>
+      <!-- <tui-svg class="w-6 h-6 tui-space_right-2" src="tuiIconFolderLarge"></tui-svg> -->
+      {{ t('laborContract') }}
+    </button>
+    <button tuiTab>
+      <!-- <tui-svg class="w-6 h-6 tui-space_right-2" src="tuiIconStarLarge"></tui-svg> -->
+      {{ t('personalInformation') }}
+    </button>
+    <button tuiTab>
+      <!-- <tui-svg class="w-6 h-6 tui-space_right-2" src="tuiIconFileLarge"></tui-svg> -->
+      {{ t('informationFamilyBook') }}
+    </button>
+    <button tuiTab>
+      <!-- <tui-svg class="w-6 h-6 tui-space_right-2" src="tuiIconCardsLarge"></tui-svg> -->
+      {{ t('bankAccountInformation') }}
+    </button>
+    <button tuiTab>
+      <!-- <tui-svg class="w-6 h-6 tui-space_right-2" src="tuiIconPiechartLarge"></tui-svg> -->
+      {{ t('resignationLeaveInformation') }}
+    </button>
+    <button tuiTab>
+      <!-- <tui-svg class="w-6 h-6 tui-space_right-2" src="tuiIconHeartLarge"></tui-svg> -->
+      {{ t('healthCare') }}
+    </button>
+    <!-- <button tuiTab>
       <i class="bx bxs-user-detail bx-sm tui-space_right-2"></i>
       {{ t('individual') }}
     </button>
@@ -21,21 +57,25 @@
       {{ t('experience') }}
     </button>
     <button tuiTab>
-      <tui-svg class="w-6 h-6 tui-space_right-2" src="tuiIconStarLarge"></tui-svg>
-      SHUI
-    </button>
-    <button tuiTab>
       <tui-svg class="w-6 h-6 tui-space_right-2" src="tuiIconAttachLarge"></tui-svg>
       {{ t('employees.attachments') }}
-    </button>
+    </button> -->
   </tui-tabs>
   <div [ngSwitch]="activeItemIndex" class="mt-5">
     <hcm-general-information *ngSwitchCase="0"></hcm-general-information>
-    <hcm-individual-form *ngSwitchCase="1"></hcm-individual-form>
-    <hcm-duration-form *ngSwitchCase="2"></hcm-duration-form>
-    <hcm-education-form *ngSwitchCase="3"></hcm-education-form>
-    <hcm-experience-form *ngSwitchCase="4"></hcm-experience-form>
-    <hcm-shui-form *ngSwitchCase="5"></hcm-shui-form>
-    <hcm-attachment-form *ngSwitchCase="6"></hcm-attachment-form>
+    <hcm-management-form *ngSwitchCase="1"></hcm-management-form>
+    <hcm-pit-form *ngSwitchCase="2"></hcm-pit-form>
+    <hcm-shui-form *ngSwitchCase="3"></hcm-shui-form>
+    <hcm-labor-contract-form *ngSwitchCase="4"></hcm-labor-contract-form>
+    <hcm-personal-information-form *ngSwitchCase="5"></hcm-personal-information-form>
+    <hcm-family-book-form *ngSwitchCase="6"></hcm-family-book-form>
+    <hcm-bank-account-form *ngSwitchCase="7"></hcm-bank-account-form>
+    <hcm-resignation-leave-form *ngSwitchCase="8"></hcm-resignation-leave-form>
+    <hcm-health-care-form *ngSwitchCase="9"></hcm-health-care-form>
+    <!-- <hcm-individual-form *ngSwitchCase="9"></hcm-individual-form>
+    <hcm-duration-form *ngSwitchCase="10"></hcm-duration-form>
+    <hcm-education-form *ngSwitchCase="11"></hcm-education-form>
+    <hcm-experience-form *ngSwitchCase="12"></hcm-experience-form>
+    <hcm-attachment-form *ngSwitchCase="13"></hcm-attachment-form> -->
   </div>
 </main>

@@ -1,5 +1,5 @@
 <hcm-page title="{{ translocoScope.scope + '.employeeLeaveEntitlements' | transloco }}">
-  <hcm-leave-entitlement-filters (view)="onView($event)" class="mb-5"></hcm-leave-entitlement-filters>
+  <hcm-leave-entitlement-filters [isExport]="true" (view)="onView($event)" class="mb-5"></hcm-leave-entitlement-filters>
   <tui-loader [overlay]="true" [showLoader]="(loading$ | push) === true">
     <ngx-table #table [columns]="(columns$ | push) || []" [configuration]="configuration" [data]="(data$ | push) || []">
       <ng-template let-row>

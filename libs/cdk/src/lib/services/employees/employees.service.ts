@@ -13,10 +13,15 @@ import {
   EmployeeDuration,
   EmployeeEducation,
   EmployeeExperience,
+  EmployeeFamilyBook,
   EmployeeGeneralInformation,
+  EmployeeHealthCare,
   EmployeeIndividual,
   EmployeeInformationAPIType,
   EmployeeInformationType,
+  EmployeeLaborContract,
+  EmployeePIT,
+  EmployeeResignationLeave,
   EmployeeSHUI,
 } from '../../models';
 import { parseJsonStringFields } from '../../utils';
@@ -59,7 +64,12 @@ export class EmployeesService extends RxState<EmployeesState> {
   getEmployeeInformation(employeeId: string, type: 'DURATION'): Observable<EmployeeDuration>;
   getEmployeeInformation(employeeId: string, type: 'EDUCATION'): Observable<EmployeeEducation>;
   getEmployeeInformation(employeeId: string, type: 'WORK_EXPERIENCE'): Observable<EmployeeExperience>;
+  getEmployeeInformation(employeeId: string, type: 'PIT'): Observable<EmployeePIT>;
   getEmployeeInformation(employeeId: string, type: 'SHUI'): Observable<EmployeeSHUI>;
+  getEmployeeInformation(employeeId: string, type: 'LABOR_CONTRACT'): Observable<EmployeeLaborContract>;
+  getEmployeeInformation(employeeId: string, type: 'FAMILY_BOOK'): Observable<EmployeeFamilyBook>;
+  getEmployeeInformation(employeeId: string, type: 'HEALTH_CARE'): Observable<EmployeeHealthCare>;
+  getEmployeeInformation(employeeId: string, type: 'RESIGNATION_LEAVE'): Observable<EmployeeResignationLeave>;
   getEmployeeInformation(employeeId: string, type: 'ATTACHMENT'): Observable<EmployeeAttachment>;
   getEmployeeInformation<T extends EmployeeInformationType>(
     employeeId: string,
