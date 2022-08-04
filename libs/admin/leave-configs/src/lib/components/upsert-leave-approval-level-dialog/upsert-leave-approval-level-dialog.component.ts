@@ -108,9 +108,9 @@ export class UpsertLeaveApprovalLevelDialogComponent implements OnInit {
       this.leaveConfigsService.upsert(this.leaveConfigAPIUrlPath, payload).pipe(
         tap(
           this.promptService.handleResponse(
-            `${this.translocoScope.scope}.${payload.id}`
-              ? 'editLeaveLevelApprovalSuccessfully'
-              : 'createLeaveLevelApprovalSuccessfully',
+            `${this.translocoScope.scope}.${
+              payload.id ? 'editLeaveLevelApprovalSuccessfully' : 'createLeaveLevelApprovalSuccessfully'
+            }`,
             () => this.context.completeWith(true)
           )
         ),
