@@ -112,7 +112,7 @@ export class UpsertKnowledgeBaseCategoryDialogComponent implements OnInit {
         .pipe(takeUntil(this.destroy$))
         .subscribe(
           this.promptService.handleResponse(
-            this.translocoScope.scope + (formModel.id ? 'updateCategorySuccessfully' : 'createCategorySuccessfully'),
+            this.translocoScope.scope + (formModel.id ? '.updateCategorySuccessfully' : '.createCategorySuccessfully'),
             () => this.context.completeWith(true)
           )
         );
