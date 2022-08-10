@@ -75,9 +75,7 @@ export class RequestConfigFormComponent {
     this.workflowsService.workflows$.pipe(takeUntil(this.destroy$)).subscribe((workflows) => {
       const workflow = workflows.find((workflow) => workflow.id === data.processId);
 
-      if (workflow) {
-        this.model = { ...this.model, ...data, workflow };
-      }
+      this.model = { ...this.model, ...data, workflow };
     });
   }
 
