@@ -60,7 +60,7 @@ export class UpsertOrganizationalUnitComponent {
         label: `${this.translocoScope.scope}.parentLevel`,
         labelClassName: 'font-semibold',
         placeholder: this.translocoScope.scope + '.chooseParentLevel',
-        labelProp: `${this.translocoScope.scope}.orgName`,
+        labelProp: 'orgName',
         subLabelProp: `${this.translocoScope.scope}.orgType`,
         matcherBy: 'id',
       },
