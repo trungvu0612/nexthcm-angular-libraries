@@ -13,6 +13,14 @@
     padding-left: 2rem;
     vertical-align: middle;
   }
+
+  .comment-request {
+    word-break: break-word;
+    a {
+      color: blue;
+      cursor: pointer;
+    }
+  }
 }
 
 .dot {

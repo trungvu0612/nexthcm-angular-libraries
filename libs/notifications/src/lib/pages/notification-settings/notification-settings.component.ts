@@ -53,7 +53,7 @@ export class NotificationSettingsComponent {
 
   readonly loading$ = this.notificationsService.getSettings().pipe(
     map((settingNotifications) => {
-      this.listActiveNotification = settingNotifications.filter((item) => item.moduleName != 'PROFILE');
+      this.listActiveNotification = settingNotifications.filter((item) => item.moduleName !== 'PROFILE');
       this.columnTitles = this.typeNotifications.map(({ value }) => value);
       const groupConfig: Record<string, FormGroup> = {};
       const controlsConfig: Record<string, FormControl> = {};

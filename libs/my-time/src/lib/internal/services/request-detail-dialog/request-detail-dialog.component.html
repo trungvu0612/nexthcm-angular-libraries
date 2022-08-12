@@ -171,7 +171,14 @@
 
           <div class="table-row">
             <div class="table-label">{{ t('Comment') }}:</div>
-            <div class="table-value">{{ data.comment }}</div>
+            <div *ngIf="data.comment.length <= wordLimit" class="table-value comment-request">{{ data.comment }}</div>
+            <div *ngIf="data.comment.length > wordLimit && !showMore" class="table-value comment-request">
+              {{ data.comment | slice: 0:wordLimit }}... <a (click)="showMore = true">Show more</a>
+            </div>
+            <div *ngIf="data.comment.length > wordLimit && showMore" class="table-value comment-request">
+              {{ data.comment }}
+              <a (click)="showMore = false">Show less</a>
+            </div>
           </div>
         </div>
       </section>
