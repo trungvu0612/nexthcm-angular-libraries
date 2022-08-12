@@ -146,6 +146,9 @@ export class RequestDetailDialogComponent implements OnInit {
     catchError(() => of(false))
   );
 
+  wordLimit = 80;
+  showMore = false;
+
   constructor(
     @Inject(POLYMORPHEUS_CONTEXT)
     private readonly context: TuiDialogContext<

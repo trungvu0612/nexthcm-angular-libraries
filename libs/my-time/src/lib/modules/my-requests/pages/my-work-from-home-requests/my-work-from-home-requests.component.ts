@@ -23,6 +23,9 @@ import { MyRequestsService, RequestDetailDialogService } from '../../../../inter
   providers: [RxState],
 })
 export class MyWorkFromHomeRequestsComponent extends AbstractMyRequestListComponent<WorkFromHomeRequest> {
+  showMoreList: string[] = [];
+  wordLimit = 243;
+
   readonly requestTypeUrlPath = 'workFromHome';
   readonly columns$: Observable<Columns[]> = this.translocoService
     .selectTranslateObject('MY_TIME_REQUEST_LIST_COLUMNS', {}, this.translocoScope.scope)
@@ -67,5 +70,23 @@ export class MyWorkFromHomeRequestsComponent extends AbstractMyRequestListCompon
   ) {
     super(state, activatedRoute, authService);
     state.connect(this.request$.pipe(filter(isPresent)));
+  }
+
+  checkListShowMore(id: string): boolean {
+    return this.showMoreList.includes(id);
+  }
+
+  showMore(id: string): void {
+    if (this.showMoreList.includes(id)) {
+      this.showMoreList.filter((item) => item !== id);
+    } else {
+      this.showMoreList.push(id);
+    }
+  }
+
+  showLess(id: string): void {
+    if (this.showMoreList.includes(id)) {
+      this.showMoreList.splice(this.showMoreList.indexOf(id));
+    }
   }
 }

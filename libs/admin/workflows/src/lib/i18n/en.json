@@ -72,6 +72,7 @@
   "createEmailTemplateSuccessfully": "<b>Create new email template successfully!</b>",
   "editEmailTemplate": "Edit email template",
   "createEmailTemplate": "Create email template",
+  "deleteEmailTemplate": "Are you want to remove this email template?",
   "createNewWorkflow": "Create new workflow",
   "emailTemplates": "Email templates",
   "emailTemplateManagement": "Email template management",

@@ -8,7 +8,7 @@ import { isPresent, TuiDestroyService } from '@taiga-ui/cdk';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { Columns } from 'ngx-easy-table';
-import { Observable, of } from 'rxjs';
+import { from, Observable, of } from 'rxjs';
 import { catchError, filter, map, share, startWith, switchMap, takeUntil } from 'rxjs/operators';
 
 import { UpsertEmailTemplateDialogComponent } from '../../components/upsert-email-template-dialog/upsert-email-template-dialog.component';
@@ -82,9 +82,18 @@ export class EmailTemplateManagementComponent extends AbstractServerSortPaginati
   }
 
   onRemoveEmailTemplate(id: string): void {
-    this.adminWorkflowService
-      .deleteEmailTemplate(id)
-      .pipe(takeUntil(this.destroy$))
+    from(
+      this.promptService.open({
+        icon: 'question',
+        html: this.translocoService.translate(`${this.translocoScope.scope}.${id ? 'deleteEmailTemplate' : null}`),
+        showCancelButton: true,
+      })
+    )
+      .pipe(
+        filter((result) => result.isConfirmed),
+        switchMap(() => this.adminWorkflowService.deleteEmailTemplate(id)),
+        takeUntil(this.destroy$)
+      )
       .subscribe(
         this.promptService.handleResponse(`${this.translocoScope.scope}.removeEmailTemplateSuccessfully`, () =>
           this.fetch$.next()

@@ -1,0 +1,8 @@
+<div class="comment-content">
+  <ng-container *ngIf="comment.length <= wordLimit; else longHiddenContent">{{ comment }}</ng-container>
+</div>
+
+<ng-template #longHiddenContent>
+  {{ isShowMore ? comment : (comment | slice: 0:wordLimit)
+  }}<a (click)="toggleShowMore()"> {{ isShowMore ? 'Show less' : '...Show more' }}</a>
+</ng-template>

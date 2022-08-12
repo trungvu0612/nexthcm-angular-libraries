@@ -20,7 +20,9 @@
             class="text-white"
           ></tui-tag>
         </td>
-        <td>{{ item.comment }}</td>
+        <td>
+          <hcm-request-comment [comment]="item.comment" [id]="item.id"></hcm-request-comment>
+        </td>
         <td>
           <div class="flex items-center">
             <button
