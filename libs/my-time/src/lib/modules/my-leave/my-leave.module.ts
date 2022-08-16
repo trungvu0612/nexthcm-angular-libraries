@@ -13,6 +13,7 @@ import { TableModule } from 'ngx-easy-table';
 import { RequestFiltersComponentModule } from '../../internal/components';
 import { MyLeaveService } from '../../internal/services';
 import { LeaveRequestDateRangeComponentModule } from '../../shared';
+import { RequestCommentComponentModule } from '../../shared/request-comment/request-comment.component';
 import { MyLeaveComponent } from './my-leave.component';
 
 @NgModule({
@@ -32,6 +33,7 @@ import { MyLeaveComponent } from './my-leave.component';
     LeaveRequestDateRangeComponentModule,
     RequestFiltersComponentModule,
     PushModule,
+    RequestCommentComponentModule,
   ],
   providers: [MyLeaveService],
 })
