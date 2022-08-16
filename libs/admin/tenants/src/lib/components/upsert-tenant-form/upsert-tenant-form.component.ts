@@ -71,7 +71,6 @@ export class UpsertTenantFormComponent {
               message: () => this.translocoService.selectTranslate('VALIDATION.valueExisting'),
             },
           },
-          expressionProperties: { 'templateOptions.readonly': 'model.id' },
         },
         {
           key: 'username',
